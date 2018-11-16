@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["EntryType",""]],"fn":[["test_entry_type","dummy entry type"],["test_entry_type_a","dummy entry type, same as test_type()"],["test_entry_type_b","dummy entry type, differs from test_type()"],["test_sys_entry_type",""],["test_unpublishable_entry_type",""]]});

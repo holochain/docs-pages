@@ -1,0 +1,15 @@
+/Users/connor/code/holochain/docs-pages/api/debug/deps/serde-6224dabc7dab3c24.rmeta: /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/lib.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/macros.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/bytes.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/mod.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/impls.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/value.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/from_primitive.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/iter.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/ser/mod.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/ser/impls.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/utils.rs
+
+/Users/connor/code/holochain/docs-pages/api/debug/deps/serde-6224dabc7dab3c24.d: /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/lib.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/macros.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/bytes.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/mod.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/impls.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/value.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/from_primitive.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/iter.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/ser/mod.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/ser/impls.rs /Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/utils.rs
+
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/lib.rs:
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/macros.rs:
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/bytes.rs:
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/mod.rs:
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/impls.rs:
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/value.rs:
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/de/from_primitive.rs:
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/iter.rs:
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/ser/mod.rs:
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/ser/impls.rs:
+/Users/connor/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-0.8.23/src/utils.rs:

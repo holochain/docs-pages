@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["DnaError",""],["RibosomeErrorCode","Enum of all possible ERROR codes that a Zome API Function could return."],["RibosomeReturnCode","Enum of all possible RETURN codes that a Zome API Function could return. Represents an encoded allocation of zero length with the return code as offset. @see SinglePageAllocation"]],"mod":[["error",""]]});

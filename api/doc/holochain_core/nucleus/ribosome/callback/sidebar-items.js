@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Callback","Enumeration of all Zome Callbacks known and used by Holochain Enumeration can convert to str"],["CallbackParams",""],["CallbackResult",""]],"fn":[["call",""],["get_dna",""],["get_wasm",""]],"mod":[["genesis",""],["receive",""],["validate_entry",""],["validation_package",""]]});

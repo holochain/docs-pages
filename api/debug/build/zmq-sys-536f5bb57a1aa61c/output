@@ -1,0 +1,2 @@
+cargo:rustc-link-search=native=/usr/local/lib
+cargo:rustc-link-lib=zmq

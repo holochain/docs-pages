@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Protocol","riker protocol for all our actors currently this is flat but may be nested/namespaced in the future or multi-protocol riker @see https://github.com/riker-rs/riker/issues/17"]],"struct":[["SYS",""]],"trait":[["AskSelf","convenience trait to build fake synchronous facades for actors"]]});
