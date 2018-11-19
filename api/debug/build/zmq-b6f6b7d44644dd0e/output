@@ -1,2 +1,0 @@
-cargo:rustc-cfg=ZMQ_HAS_IPC="1"
-cargo:rustc-cfg=ZMQ_HAS_CURVE="1"

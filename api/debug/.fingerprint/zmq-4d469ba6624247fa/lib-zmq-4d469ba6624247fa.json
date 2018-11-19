@@ -1,1 +1,0 @@
-{"rustc":1919004625207031245,"features":"[\"default\", \"zmq_has\"]","target":17549651127296096254,"profile":14245719688690734572,"path":15088241537743509031,"deps":[["libc v0.2.43","libc",15498985655181885073],["log v0.3.9","log",7005879134607975810],["zmq-sys v0.8.2","zmq_sys",16456278961523926693]],"local":[{"Precalculated":"0.8.2"}],"rustflags":[],"edition":"Edition2015"}
