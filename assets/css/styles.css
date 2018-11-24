@@ -42,6 +42,17 @@ html, body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#6600ff", endColorstr="#00ffce", GradientType=0 );
 }
 
+.holochain-green-blue-gradient {
+  background: #00ffce;
+  background: -moz-linear-gradient(top, #00ffce 0%, #6600ff 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, #00ffce), color-stop(100%, #6600ff));
+  background: -webkit-linear-gradient(top, #00ffce 0%, #6600ff 100%);
+  background: -o-linear-gradient(top, #00ffce 0%, #6600ff 100%);
+  background: -ms-linear-gradient(top, #00ffce 0%, #6600ff 100%);
+  background: linear-gradient(to bottom, #00ffce 0%, #6600ff 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#00ffce", endColorstr="#6600ff", GradientType=0 );
+}
+
 .holochain-purple-blue-gradient {
   background: #9900ff;
   background: -moz-linear-gradient(top, #9900ff 0%, #6600ff 100%);
@@ -325,12 +336,18 @@ select {
 /* ====== Footer ====== */
 .footer {
   color: rgba(255, 255, 255, 0.6);
-  padding: 15px 0;
+  padding: 3rem 0;
+}
+.footer a {
+  color: #FFF;
 }
 .footer .row {
   max-width: 860px;
   margin-left: auto;
   margin-right: auto;
+}
+.footer .list-unstyled {
+  margin-bottom: 0;
 }
 
 /* ======= Doc Styling ======= */
