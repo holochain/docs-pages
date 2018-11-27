@@ -342,7 +342,10 @@ select {
   color: rgba(255, 255, 255, 0.6);
   padding: 3rem 0;
 }
-.footer a {
+.footer li a {
+  color: #FFF;
+}
+.footer li a:hover {
   color: #FFF;
 }
 .footer .row {

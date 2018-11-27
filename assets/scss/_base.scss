@@ -311,8 +311,11 @@ select {
 .footer {
     color: rgba(256, 256, 256, 0.6);
     padding: 3rem 0;
-    a {
+    li a {
         color: #FFF;
+        &:hover {
+            color: #FFF;
+        }
     }
     .row {
         max-width: 860px;
