@@ -114,15 +114,63 @@
                                     <h4 class="block-title">Step Four</h4>
                                     <p>
                                         The last thing to install is the Holochain command line tools.
-                                        In the terminal, run:
+                                        <br />
+                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/holochain-cmd-v0.0.2">Go to GitHub and download the appropriate release for your system.</a>
+                                    </p>
+                                    <p>
+                                        Once you've downloaded it, unpack it, RENAME it "hc" and move the resulting folder to a directory on your computer where you'd like to keep these files long term.
+                                        As a default, lets assume that it can be this folder called "hc", right under your $HOME or %HOME% (your user) directory.
+                                        Now we will have to add this directory to your PATH variable, so that the binary becomes available within your command line. The instructions for this differ, depending on your platform.
+                                    </p>
+                                    <h5>Mac and Linux</h5>
+                                    <p>
+                                        If you DO NOT have a shell profile file, follow ALL these instructions in your terminal. If you know about shell profiles, and have one, just do steps 4 and 5
                                         <div class="code-block">
-                                            <p><code>cargo install hc --git https://github.com/holochain/holochain-rust.git --branch develop</code></p>
+                                            1. This changes directories to your $HOME directory.
+                                            <p><code>cd ~</code></p>
                                         </div><!--//code-block-->
-                                        Wait for the installation to complete.
-                                        Once its complete, to confirm that you have these installed, try running the following command:
+                                        <div class="code-block">
+                                            2. This creates a file called ".bash_profile" in your $HOME directory, if it didn't exist.
+                                            <p><code>touch .bash_profile</code></p>
+                                        </div><!--//code-block-->
+                                        <div class="code-block">
+                                            3. This opens that file in some text editor on your computer.
+                                            <p><code>open .bash_profile</code></p>
+                                        </div><!--//code-block-->
+                                        4. In your editor, add the following to .bash_profile, and save it. If you used a different path than $HOME/hc for your folder, use that instead of $HOME/hc in the line that follows. 
+                                    </p>
+                                    <p>
+                                        export PATH="$HOME/hc:$PATH"
+                                    </p>
+                                    <div class="code-block">
+                                        5. This refreshes your terminal so that it can access the binary in the folder that you just added to your $PATH variable.
+                                        <p><code>source .bash_profile</code></p>
+                                    </div><!--//code-block-->
+                                    <h5>Windows</h5>
+                                    <p>
+                                        In your Control Panel, select System>Advanced system settings>Environment Variables... and under System Variables do the following:
+                                    </p>
+                                    <p>
+                                        If you used a different path than %HOME%/hc for your folder, use that instead of %HOME%/hc in the instruction that follows.     
+                                    </p>
+                                    <p>
+                                        Double-click "Path", and in the window that pops up add the following entry:
+                                    </p>
+                                    <p>
+                                        %HOME%/hc
+                                    </p>
+                                    <p>
+                                        Once you've done this, be sure to open up a new command line window, before proceeding.
+                                    </p>
+                                </div>
+                                <div id="step5" class="section-block">
+                                    <h4 class="block-title">Step Five</h4>
+                                    <p>
+                                        Once the steps for your platform are complete, to confirm that you have the Holochain command line tools installed, try running the following command:
                                         <div class="code-block">
                                             <p><code>hc --version</code></p>
                                         </div><!--//code-block-->
+                                        To read about the commands, and how to get started using them, check out the <a href="https://github.com/holochain/holochain-rust/tree/holochain-cmd-v0.0.2/cmd#usage">README for the "hc" command line tools.</a>
                                     </p>
                                 </div>
                             </section><!--//doc-section-->
@@ -141,6 +189,7 @@
                                         <a class="nav-link scrollto" href="#step2">Step Two</a>
                                         <a class="nav-link scrollto" href="#step3">Step Three</a>
                                         <a class="nav-link scrollto" href="#step4">Step Four</a>
+                                        <a class="nav-link scrollto" href="#step5">Step Five</a>
                                     </nav><!--//nav-->
 	                            </nav><!--//doc-menu-->
 	                        
