@@ -55,11 +55,6 @@ html, body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9900ff', endColorstr='#6600ff', GradientType=0 );
 }
 
-
-.footer {
-    
-}
-
 p {
     line-height: 1.5;
 }
@@ -215,8 +210,14 @@ select {
     color: rgba(256, 256, 256, 0.85);
     border-top: 5px solid $color-primary;
     padding: 30px 0;
-    a {
-        color: #fff;
+    .branding {
+        a {
+            color: #fff;
+            text-decoration: none;
+            &:hover {
+                color: #fff;
+            }
+        }
     }
 }
 .branding {
