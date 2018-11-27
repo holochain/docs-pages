@@ -60,6 +60,20 @@
 <span id="60">60</span>
 <span id="61">61</span>
 <span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
 </pre><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 <span class="kw">use</span> <span class="ident">chain_header</span>::<span class="ident">ChainHeader</span>;
@@ -96,11 +110,25 @@
     <span class="ident">Custom</span>(<span class="ident">String</span>), <span class="comment">//sending something custom</span>
 }
 
+<span class="doccomment">/// This structs carries information contextual for the process</span>
+<span class="doccomment">/// of validating an entry of link and is passed in to the according</span>
+<span class="doccomment">/// callbacks.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValidationData</span> {
+    <span class="doccomment">/// The validation package is data from the entry&#39;s/link&#39;s</span>
+    <span class="doccomment">/// source agent that is needed to determine the validity</span>
+    <span class="doccomment">/// of a given entry.</span>
+    <span class="doccomment">/// What specific data gets put into the validation package</span>
+    <span class="doccomment">/// has to be defined throught the validation_package</span>
+    <span class="doccomment">/// callbacks in the [entry!](macro.entry.html) and</span>
+    <span class="doccomment">/// [link!](macro.link.html) macros.</span>
     <span class="kw">pub</span> <span class="ident">package</span>: <span class="ident">ValidationPackage</span>,
+    <span class="doccomment">/// The list of authors that have signed this entry.</span>
     <span class="kw">pub</span> <span class="ident">sources</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">HashString</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// In which lifecycle of the entry creation are we running</span>
+    <span class="doccomment">/// this validation callback?</span>
     <span class="kw">pub</span> <span class="ident">lifecycle</span>: <span class="ident">EntryLifecycle</span>,
+    <span class="doccomment">/// Does the entry get committed, modified or deleted?</span>
     <span class="kw">pub</span> <span class="ident">action</span>: <span class="ident">EntryAction</span>,
 }
 

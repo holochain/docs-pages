@@ -421,6 +421,73 @@
 <span id="421">421</span>
 <span id="422">422</span>
 <span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
 </pre><pre class="rust ">
 <span class="doccomment">/// Container Configuration</span>
 <span class="doccomment">/// This module provides structs that represent the different aspects of how</span>
@@ -453,27 +520,26 @@
 <span class="doccomment">/// via string IDs.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Configuration</span> {
-    <span class="doccomment">/// List of Agents, this mainly means identities and their keys</span>
-    <span class="kw">pub</span> <span class="ident">agents</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">AgentConfiguration</span><span class="op">&gt;&gt;</span>,
-    <span class="doccomment">/// List of DNAs, for each a path to the DNA file</span>
-    <span class="kw">pub</span> <span class="ident">dnas</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">DNAConfiguration</span><span class="op">&gt;&gt;</span>,
-    <span class="doccomment">/// List of instances, includes references to an agent and a DNA</span>
-    <span class="kw">pub</span> <span class="ident">instances</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">InstanceConfiguration</span><span class="op">&gt;&gt;</span>,
-    <span class="doccomment">/// List of interfaces any UI can use to access zome functions</span>
-    <span class="kw">pub</span> <span class="ident">interfaces</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">InterfaceConfiguration</span><span class="op">&gt;&gt;</span>,
-    <span class="doccomment">/// List of bridges between instances</span>
-    <span class="kw">pub</span> <span class="ident">bridges</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Bridge</span><span class="op">&gt;&gt;</span>,
+    <span class="doccomment">/// List of Agents, this mainly means identities and their keys. Required.</span>
+    <span class="kw">pub</span> <span class="ident">agents</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">AgentConfiguration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of DNAs, for each a path to the DNA file. Required.</span>
+    <span class="kw">pub</span> <span class="ident">dnas</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">DNAConfiguration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of instances, includes references to an agent and a DNA. Required.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instances</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">InstanceConfiguration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of interfaces any UI can use to access zome functions. Optional.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">interfaces</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">InterfaceConfiguration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of bridges between instances. Optional.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">bridges</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Bridge</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Configuration</span> {
     <span class="doccomment">/// This function basically checks if self is a semantically valid configuration.</span>
     <span class="doccomment">/// This mainly means checking for consistency between config structs that reference others.</span>
-    <span class="doccomment">/// Will return an error string if a reference can not be resolved or if no instance is given.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check_consistency</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">instances</span>.<span class="ident">is_none</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;No instance found&quot;</span>.<span class="ident">to_string</span>());
-        }
-        <span class="kw">for</span> <span class="kw-2">ref</span> <span class="ident">instance</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">instances</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>().<span class="ident">iter</span>() {
+        <span class="kw">for</span> <span class="kw-2">ref</span> <span class="ident">instance</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">instances</span>.<span class="ident">iter</span>() {
             <span class="self">self</span>.<span class="ident">agent_by_id</span>(<span class="kw-2">&amp;</span><span class="ident">instance</span>.<span class="ident">agent</span>).<span class="ident">is_some</span>().<span class="ident">ok_or_else</span>(<span class="op">||</span> {
                 <span class="macro">format</span><span class="macro">!</span>(
                     <span class="string">&quot;Agent configuration {} not found, mentioned in instance {}&quot;</span>,
@@ -487,16 +553,14 @@
                 )
             })<span class="question-mark">?</span>;
         }
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">interfaces</span>.<span class="ident">is_some</span>() {
-            <span class="kw">for</span> <span class="kw-2">ref</span> <span class="ident">interface</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">interfaces</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>().<span class="ident">iter</span>() {
-                <span class="kw">for</span> <span class="kw-2">ref</span> <span class="ident">instance</span> <span class="kw">in</span> <span class="ident">interface</span>.<span class="ident">instances</span>.<span class="ident">iter</span>() {
-                    <span class="self">self</span>.<span class="ident">instance_by_id</span>(<span class="kw-2">&amp;</span><span class="ident">instance</span>.<span class="ident">id</span>).<span class="ident">is_some</span>().<span class="ident">ok_or_else</span>(<span class="op">||</span> {
-                        <span class="macro">format</span><span class="macro">!</span>(
-                            <span class="string">&quot;Instance configuration \&quot;{}\&quot; not found, mentioned in interface&quot;</span>,
-                            <span class="ident">instance</span>.<span class="ident">id</span>
-                        )
-                    })<span class="question-mark">?</span>;
-                }
+        <span class="kw">for</span> <span class="kw-2">ref</span> <span class="ident">interface</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">interfaces</span>.<span class="ident">iter</span>() {
+            <span class="kw">for</span> <span class="kw-2">ref</span> <span class="ident">instance</span> <span class="kw">in</span> <span class="ident">interface</span>.<span class="ident">instances</span>.<span class="ident">iter</span>() {
+                <span class="self">self</span>.<span class="ident">instance_by_id</span>(<span class="kw-2">&amp;</span><span class="ident">instance</span>.<span class="ident">id</span>).<span class="ident">is_some</span>().<span class="ident">ok_or_else</span>(<span class="op">||</span> {
+                    <span class="macro">format</span><span class="macro">!</span>(
+                        <span class="string">&quot;Instance configuration \&quot;{}\&quot; not found, mentioned in interface&quot;</span>,
+                        <span class="ident">instance</span>.<span class="ident">id</span>
+                    )
+                })<span class="question-mark">?</span>;
             }
         }
 
@@ -505,35 +569,31 @@
 
     <span class="doccomment">/// Returns the agent configuration with the given ID if present</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">agent_by_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AgentConfiguration</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">agents</span>.<span class="ident">as_ref</span>().<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">agents</span><span class="op">|</span> {
-            <span class="ident">agents</span>
-                .<span class="ident">iter</span>()
-                .<span class="ident">find</span>(<span class="op">|</span><span class="ident">ac</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">ac</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">id</span>)
-                .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">agent_config</span><span class="op">|</span> <span class="prelude-val">Some</span>(<span class="ident">agent_config</span>.<span class="ident">clone</span>()))
-        })
+        <span class="self">self</span>.<span class="ident">agents</span>
+            .<span class="ident">iter</span>()
+            .<span class="ident">find</span>(<span class="op">|</span><span class="ident">ac</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">ac</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">id</span>)
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">agent_config</span><span class="op">|</span> <span class="prelude-val">Some</span>(<span class="ident">agent_config</span>.<span class="ident">clone</span>()))
     }
 
     <span class="doccomment">/// Returns the DNA configuration with the given ID if present</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dna_by_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DNAConfiguration</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">dnas</span>
-            .<span class="ident">as_ref</span>()
-            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">dnas</span><span class="op">|</span> <span class="ident">dnas</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="ident">dc</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">dc</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">id</span>))
+            .<span class="ident">iter</span>()
+            .<span class="ident">find</span>(<span class="op">|</span><span class="ident">dc</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">dc</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">id</span>)
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">dna_config</span><span class="op">|</span> <span class="prelude-val">Some</span>(<span class="ident">dna_config</span>.<span class="ident">clone</span>()))
     }
 
     <span class="doccomment">/// Returns the instance configuration with the given ID if present</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">instance_by_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InstanceConfiguration</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">instances</span>
-            .<span class="ident">as_ref</span>()
-            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">instances</span><span class="op">|</span> <span class="ident">instances</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="ident">ic</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">ic</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">id</span>))
+            .<span class="ident">iter</span>()
+            .<span class="ident">find</span>(<span class="op">|</span><span class="ident">ic</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">ic</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">id</span>)
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">instance_config</span><span class="op">|</span> <span class="prelude-val">Some</span>(<span class="ident">instance_config</span>.<span class="ident">clone</span>()))
     }
 
     <span class="doccomment">/// Returns all defined instance IDs</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">instance_ids</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">instances</span>
-            .<span class="ident">as_ref</span>()
-            .<span class="ident">unwrap</span>()
             .<span class="ident">iter</span>()
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">instance</span><span class="op">|</span> <span class="ident">instance</span>.<span class="ident">id</span>.<span class="ident">clone</span>())
             .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>()
@@ -544,7 +604,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AgentConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">key_file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">key_file</span>: <span class="ident">String</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">AgentConfiguration</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Agent</span> {
@@ -586,6 +646,7 @@
 
 <span class="doccomment">/// There might be different kinds of loggers in the future.</span>
 <span class="doccomment">/// Currently there is no logger at all.</span>
+<span class="doccomment">/// TODO: make this an enum when it&#39;s actually in use</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LoggerConfiguration</span> {
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
@@ -601,13 +662,12 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Projected are various DB adapters.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StorageConfiguration</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">storage_type</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">username</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">password</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">path</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">StorageConfiguration</span> {
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;memory&quot;</span>)]</span>
+    <span class="ident">Memory</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;file&quot;</span>)]</span>
+    <span class="ident">File</span> { <span class="ident">path</span>: <span class="ident">String</span> },
 }
 
 <span class="doccomment">/// Here, interfaces are user facing and make available zome functions to</span>
@@ -623,12 +683,20 @@
 <span class="doccomment">/// (i.e. installing apps)</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InterfaceConfiguration</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">interface_type</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">port</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">admin</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">protocol</span>: <span class="ident">InterfaceProtocol</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">admin</span>: <span class="ident">bool</span>,
     <span class="kw">pub</span> <span class="ident">instances</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">InstanceReferenceConfiguration</span><span class="op">&gt;</span>,
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InterfaceProtocol</span> {
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
+    <span class="ident">Websocket</span> { <span class="ident">port</span>: <span class="ident">u16</span> },
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;domainsocket&quot;</span>)]</span>
+    <span class="ident">DomainSocket</span> { <span class="ident">file</span>: <span class="ident">String</span> },
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
@@ -649,14 +717,15 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 {
-    <span class="ident">toml</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">toml</span>)
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">IoError</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Could not serialize toml&quot;</span>)))
+    <span class="ident">toml</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+        <span class="ident">HolochainError</span>::<span class="ident">IoError</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Could not serialize toml: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">to_string</span>()))
+    })
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
 
-    <span class="kw">use</span> <span class="ident">config</span>::{<span class="ident">load_configuration</span>, <span class="ident">Configuration</span>};
+    <span class="kw">use</span> <span class="ident">config</span>::{<span class="ident">load_configuration</span>, <span class="ident">Configuration</span>, <span class="ident">InterfaceProtocol</span>, <span class="ident">StorageConfiguration</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_agent_load</span>() {
@@ -667,19 +736,21 @@
 
     [[agents]]
     id=&quot;alex&quot;
+    key_file=&quot;another/file&quot;
+
+    [[dnas]]
+    id=&quot;dna&quot;
+    file=&quot;file.dna.json&quot;
+    hash=&quot;QmDontCare&quot;
     &quot;#</span>;
-        <span class="kw">let</span> <span class="ident">agents</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>)
-            .<span class="ident">unwrap</span>()
-            .<span class="ident">agents</span>
-            .<span class="ident">expect</span>(<span class="string">&quot;expected agents returned&quot;</span>);
+        <span class="kw">let</span> <span class="ident">agents</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>().<span class="ident">agents</span>;
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">agents</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 2 agents&quot;</span>).<span class="ident">id</span>, <span class="string">&quot;bob&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">agents</span>
                 .<span class="ident">get</span>(<span class="number">0</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;expected at least 2 agents&quot;</span>)
                 .<span class="ident">clone</span>()
-                .<span class="ident">key_file</span>
-                .<span class="ident">unwrap</span>(),
+                .<span class="ident">key_file</span>,
             <span class="string">&quot;file/to/serialize&quot;</span>
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
@@ -691,18 +762,19 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_dna_load</span>() {
         <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
+    [[agents]]
+    id=&quot;agent&quot;
+    key_file=&quot;whatever&quot;
+
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app-spec-rust.hcpkg&quot;
+    file = &quot;app_spec.hcpkg&quot;
     hash = &quot;Qm328wyq38924y&quot;
     &quot;#</span>;
-        <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>)
-            .<span class="ident">unwrap</span>()
-            .<span class="ident">dnas</span>
-            .<span class="ident">expect</span>(<span class="string">&quot;expected agents returned&quot;</span>);
+        <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>().<span class="ident">dnas</span>;
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app-spec-rust.hcpkg&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="string">&quot;Qm328wyq38924y&quot;</span>);
     }
 
@@ -716,7 +788,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app-spec-rust.hcpkg&quot;
+    file = &quot;app_spec.hcpkg&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -731,8 +803,18 @@
     path = &quot;app_spec_storage&quot;
 
     [[interfaces]]
+    id = &quot;app spec websocket interface&quot;
+    [interfaces.protocol]
     type = &quot;websocket&quot;
     port = 8888
+    [[interfaces.instances]]
+    id = &quot;app spec instance&quot;
+
+    [[interfaces]]
+    id = &quot;app spec domainsocket interface&quot;
+    [interfaces.protocol]
+    type = &quot;domainsocket&quot;
+    file = &quot;/tmp/holochain.sock&quot;
     [[interfaces.instances]]
     id = &quot;app spec instance&quot;
 
@@ -740,13 +822,13 @@
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">check_consistency</span>(), <span class="prelude-val">Ok</span>(()));
-        <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">dnas</span>.<span class="ident">expect</span>(<span class="string">&quot;expected agents returned&quot;</span>);
+        <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">dnas</span>;
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app-spec-rust.hcpkg&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="string">&quot;Qm328wyq38924y&quot;</span>);
 
-        <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">instances</span>.<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">instances</span>;
         <span class="kw">let</span> <span class="ident">instance_config</span> <span class="op">=</span> <span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec instance&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">dna</span>, <span class="string">&quot;app spec rust&quot;</span>);
@@ -754,23 +836,30 @@
         <span class="kw">let</span> <span class="ident">logger_config</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">instance_config</span>.<span class="ident">logger</span>;
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">logger_config</span>.<span class="ident">logger_type</span>, <span class="string">&quot;simple&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">logger_config</span>.<span class="ident">file</span>, <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app_spec.log&quot;</span>)));
-        <span class="kw">let</span> <span class="ident">storage_config</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">instance_config</span>.<span class="ident">storage</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">storage_config</span>.<span class="ident">storage_type</span>, <span class="string">&quot;file&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">storage_config</span>.<span class="ident">path</span>, <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app_spec_storage&quot;</span>)));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">storage_config</span>.<span class="ident">username</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">storage_config</span>.<span class="ident">password</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">storage_config</span>.<span class="ident">url</span>, <span class="prelude-val">None</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> { <span class="ident">path</span> } <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">instance_config</span>.<span class="ident">storage</span> {
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">path</span>, <span class="string">&quot;app_spec_storage&quot;</span>);
+        } <span class="kw">else</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Wrong enum type&quot;</span>);
+        }
 
-        <span class="kw">let</span> <span class="ident">interfaces</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">interfaces</span>.<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">interface_config</span> <span class="op">=</span> <span class="ident">interfaces</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">interface_config</span>.<span class="ident">interface_type</span>, <span class="string">&quot;websocket&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">interface_config</span>.<span class="ident">port</span>, <span class="prelude-val">Some</span>(<span class="number">8888</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">interface_config</span>.<span class="ident">file</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">interface_config</span>.<span class="ident">admin</span>, <span class="prelude-val">None</span>);
-        <span class="kw">let</span> <span class="ident">instance_ref</span> <span class="op">=</span> <span class="ident">interface_config</span>.<span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">interfaces</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">interfaces</span>;
+        <span class="kw">let</span> <span class="ident">interface_config_0</span> <span class="op">=</span> <span class="ident">interfaces</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">interface_config_1</span> <span class="op">=</span> <span class="ident">interfaces</span>.<span class="ident">get</span>(<span class="number">1</span>).<span class="ident">unwrap</span>();
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">InterfaceProtocol</span>::<span class="ident">Websocket</span> { <span class="ident">port</span> } <span class="op">=</span> <span class="ident">interface_config_0</span>.<span class="ident">protocol</span> {
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">port</span>, <span class="number">8888</span>);
+        } <span class="kw">else</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Wrong enum type&quot;</span>);
+        }
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">InterfaceProtocol</span>::<span class="ident">DomainSocket</span> { <span class="kw-2">ref</span> <span class="ident">file</span> } <span class="op">=</span> <span class="ident">interface_config_1</span>.<span class="ident">protocol</span> {
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">file</span>, <span class="string">&quot;/tmp/holochain.sock&quot;</span>);
+        } <span class="kw">else</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Wrong enum type&quot;</span>);
+        }
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">interface_config_0</span>.<span class="ident">admin</span>, <span class="bool-val">false</span>);
+        <span class="kw">let</span> <span class="ident">instance_ref</span> <span class="op">=</span> <span class="ident">interface_config_0</span>.<span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_ref</span>.<span class="ident">id</span>, <span class="string">&quot;app spec instance&quot;</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">bridges</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">bridges</span>, <span class="macro">vec</span><span class="macro">!</span>[]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -783,7 +872,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app-spec-rust.hcpkg&quot;
+    file = &quot;app_spec.hcpkg&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -804,7 +893,51 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_inconsistent_config_interface</span>() {
+    <span class="kw">fn</span> <span class="ident">test_inconsistent_config_interface_1</span>() {
+        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
+    [[agents]]
+    id = &quot;test agent&quot;
+    name = &quot;Holo Tester&quot;
+    key_file = &quot;holo_tester.key&quot;
+
+    [[dnas]]
+    id = &quot;app spec rust&quot;
+    file = &quot;app_spec.hcpkg&quot;
+    hash = &quot;Qm328wyq38924y&quot;
+
+    [[instances]]
+    id = &quot;app spec instance&quot;
+    dna = &quot;app spec rust&quot;
+    agent = &quot;test agent&quot;
+    [instances.logger]
+    type = &quot;simple&quot;
+    file = &quot;app_spec.log&quot;
+    [instances.storage]
+    type = &quot;file&quot;
+    path = &quot;app_spec_storage&quot;
+
+    [[interfaces]]
+    id = &quot;app spec interface&quot;
+    [interfaces.protocol]
+    type = &quot;websocket&quot;
+    port = 8888
+    [[interfaces.instances]]
+    id = &quot;WRONG INSTANCE ID&quot;
+
+    &quot;#</span>;
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">config</span>.<span class="ident">check_consistency</span>(),
+            <span class="prelude-val">Err</span>(
+                <span class="string">&quot;Instance configuration \&quot;WRONG INSTANCE ID\&quot; not found, mentioned in interface&quot;</span>
+                    .<span class="ident">to_string</span>()
+            )
+        );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_invalid_toml_1</span>() {
         <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
     [[agents]]
     id = &quot;test agent&quot;
@@ -828,21 +961,22 @@
     path = &quot;app_spec_storage&quot;
 
     [[interfaces]]
-    type = &quot;websocket&quot;
+    id = &quot;app spec interface&quot;
+    [interfaces.protocol]
+    type = &quot;invalid type&quot;
     port = 8888
     [[interfaces.instances]]
-    id = &quot;WRONG INSTANCE ID&quot;
+    id = &quot;app spec instance&quot;
 
     &quot;#</span>;
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
-
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">config</span>.<span class="ident">check_consistency</span>(),
-            <span class="prelude-val">Err</span>(
-                <span class="string">&quot;Instance configuration \&quot;WRONG INSTANCE ID\&quot; not found, mentioned in interface&quot;</span>
-                    .<span class="ident">to_string</span>()
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>) {
+            <span class="macro">assert</span><span class="macro">!</span>(
+                <span class="bool-val">true</span>,
+                <span class="ident">e</span>.<span class="ident">to_string</span>().<span class="ident">contains</span>(<span class="string">&quot;unknown variant `invalid type`&quot;</span>)
             )
-        );
+        } <span class="kw">else</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Should have failed!&quot;</span>)
+        }
     }
 }
 </pre>

@@ -25,6 +25,7 @@
 <span id="25">25</span>
 <span id="26">26</span>
 <span id="27">27</span>
+<span id="28">28</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Holds the internal/private zome API function `init_globals`</span>
 <span class="doccomment">//! which initializes the Zome API Globals with the values it receives from the Ribosome.</span>
@@ -35,6 +36,7 @@
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::{<span class="ident">api_serialization</span>::<span class="ident">ZomeApiGlobals</span>, <span class="ident">memory_serialization</span>::<span class="ident">load_json</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryInto</span>;
 
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">fn</span> <span class="ident">hc_init_globals</span>(<span class="ident">encoded_allocation_of_input</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">u32</span>;
 }

@@ -447,6 +447,31 @@
 <span id="447">447</span>
 <span id="448">448</span>
 <span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Module for ZomeApiFunctions</span>
 <span class="doccomment">//! ZomeApiFunctions are the functions provided by the ribosome that are callable by Zomes.</span>
@@ -713,9 +738,34 @@
         (i32.const 0)
     )
 
+    (func
+        (export &quot;__hdk_validate_link&quot;)
+        (param $allocation i32)
+        (result i32)
+
+        (i32.const 0)
+    )
+
 
     (func
         (export &quot;__hdk_get_validation_package_for_entry_type&quot;)
+        (param $allocation i32)
+        (result i32)
+
+        ;; This writes &quot;Entry&quot; into memory
+        (i32.store (i32.const 0) (i32.const 34))
+        (i32.store (i32.const 1) (i32.const 69))
+        (i32.store (i32.const 2) (i32.const 110))
+        (i32.store (i32.const 3) (i32.const 116))
+        (i32.store (i32.const 4) (i32.const 114))
+        (i32.store (i32.const 5) (i32.const 121))
+        (i32.store (i32.const 6) (i32.const 34))
+
+        (i32.const 7)
+    )
+
+    (func
+        (export &quot;__hdk_get_validation_package_for_link&quot;)
         (param $allocation i32)
         (result i32)
 

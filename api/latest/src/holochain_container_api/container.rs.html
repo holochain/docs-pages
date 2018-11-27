@@ -284,11 +284,8 @@
 <span id="284">284</span>
 <span id="285">285</span>
 <span id="286">286</span>
-<span id="287">287</span>
-<span id="288">288</span>
-<span id="289">289</span>
 </pre><pre class="rust ">
-<span class="kw">use</span> <span class="ident">config</span>::<span class="ident">Configuration</span>;
+<span class="kw">use</span> <span class="ident">config</span>::{<span class="ident">Configuration</span>, <span class="ident">StorageConfiguration</span>};
 <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::{
     <span class="ident">cas</span>::<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">eav</span>::<span class="ident">file</span>::<span class="ident">EavFileStorage</span>, <span class="ident">path</span>::<span class="ident">create_path_if_not_exists</span>,
 };
@@ -307,8 +304,6 @@
 };
 
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_network</span>::<span class="ident">P2pNetwork</span>;
-
-<span class="kw">use</span> <span class="ident">boolinator</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Main representation of the container.</span>
 <span class="doccomment">/// Holds a `HashMap` of Holochain instances referenced by ID.</span>
@@ -446,12 +441,11 @@
                 ))
             })<span class="question-mark">?</span>;
 
-            (<span class="ident">instance_config</span>.<span class="ident">storage</span>.<span class="ident">storage_type</span> <span class="op">==</span> <span class="string">&quot;file&quot;</span>
-                <span class="op">&amp;&amp;</span> <span class="ident">instance_config</span>.<span class="ident">storage</span>.<span class="ident">path</span>.<span class="ident">is_some</span>())
-                .<span class="ident">ok_or</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Only file storage supported currently&quot;</span>))<span class="question-mark">?</span>;
-
-            <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">create_context</span>(<span class="kw-2">&amp;</span><span class="ident">agent_config</span>.<span class="ident">id</span>, <span class="kw-2">&amp;</span><span class="ident">instance_config</span>.<span class="ident">storage</span>.<span class="ident">path</span>.<span class="ident">unwrap</span>())
-                .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error creating context: {}&quot;</span>, <span class="ident">hc_err</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">context</span>: <span class="ident">Context</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">instance_config</span>.<span class="ident">storage</span> {
+                <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> { <span class="ident">path</span> } <span class="op">=&gt;</span> <span class="ident">create_context</span>(<span class="kw-2">&amp;</span><span class="ident">agent_config</span>.<span class="ident">id</span>, <span class="kw-2">&amp;</span><span class="ident">path</span>)
+                    .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error creating context: {}&quot;</span>, <span class="ident">hc_err</span>.<span class="ident">to_string</span>())),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Only file storage supported currently&quot;</span>.<span class="ident">to_string</span>()),
+            }<span class="question-mark">?</span>;
 
             <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>, <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">context</span>)).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="ident">hc_err</span>.<span class="ident">to_string</span>())
         })
@@ -510,7 +504,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app-spec-rust.hcpkg&quot;
+    file = &quot;app_spec.hcpkg&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -572,7 +566,7 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">maybe_container</span>.<span class="ident">err</span>().<span class="ident">unwrap</span>(),
             <span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(
-                <span class="string">&quot;Error while trying to create instance \&quot;app spec instance\&quot;: Could not load DNA file \&quot;app-spec-rust.hcpkg\&quot;&quot;</span>.<span class="ident">to_string</span>()
+                <span class="string">&quot;Error while trying to create instance \&quot;app spec instance\&quot;: Could not load DNA file \&quot;app_spec.hcpkg\&quot;&quot;</span>.<span class="ident">to_string</span>()
             )
         );
     }

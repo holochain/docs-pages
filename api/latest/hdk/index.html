@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `hdk` crate."><meta name="keywords" content="rust, rustlang, rust-lang, hdk"><title>hdk - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Crate hdk</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all hdk's items</p></a><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'hdk', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/hdk/lib.rs.html#1-39' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>hdk</a></span></h1><div class='docblock'><p>Holochain Development Kit (HDK)</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `hdk` crate."><meta name="keywords" content="rust, rustlang, rust-lang, hdk"><title>hdk - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Crate hdk</p><a id='all-types' href='all.html'><p>See all hdk's items</p></a><div class="sidebar-elems"><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'hdk', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/hdk/lib.rs.html#1-39' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>hdk</a></span></h1><div class='docblock'><p>Holochain Development Kit (HDK)</p>
 <p>The HDK helps in writing Holochain applications.
 Holochain DNAs need to be written in WebAssembly, or a language that compiles to Wasm,
 such as Rust. The HDK handles some of the low-level details of Wasm execution like
@@ -88,7 +88,39 @@ The <code>define_zome</code> macro has 3 component parts:</p>
                            <td class='docblock-short'>
                                 <p>The <code>entry</code> macro is a helper for creating <code>ValidatingEntryType</code> definitions
 for use within the <a href="macro.define_zome.html">define_zome</a> macro.
-It has 6 component parts:</p>
+It has 7 component parts:</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.from.html"
+                                  title='macro hdk::from'>from</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>from</code> macro is a helper for creating <code>ValidatingEntryType</code> definitions
+for use within the <a href="macro.entry.html">entry</a> macro.
+It is a convenience wrapper around <a href="macro.link.html">link!</a> that has all the
+same properties except for the direction which gets set to <code>LinkDirection::From</code>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.link.html"
+                                  title='macro hdk::link'>link</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>link</code> macro is a helper for creating <code>ValidatingEntryType</code> definitions
+for use within the <a href="macro.entry.html">entry</a> macro.
+It has 5 component parts:</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.to.html"
+                                  title='macro hdk::to'>to</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>to</code> macro is a helper for creating <code>ValidatingEntryType</code> definitions
+for use within the <a href="macro.entry.html">entry</a> macro.
+It is a convenience wrapper around <a href="macro.link.html">link!</a> that has all the
+same properties except for the direction which gets set to <code>LinkDirection::To</code>.</p>
 
                            </td>
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
@@ -101,10 +133,27 @@ It has 6 component parts:</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="struct" href="struct.LinkValidationArgs.html"
+                                  title='struct hdk::LinkValidationArgs'>LinkValidationArgs</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.LinkValidationPackageArgs.html"
+                                  title='struct hdk::LinkValidationPackageArgs'>LinkValidationPackageArgs</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="struct" href="struct.ValidationData.html"
                                   title='struct hdk::ValidationData'>ValidationData</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>This structs carries information contextual for the process
+of validating an entry of link and is passed in to the according
+callbacks.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -132,6 +181,13 @@ It has 6 component parts:</p>
                        <tr class=' module-item'>
                            <td><a class="enum" href="enum.LinkAction.html"
                                   title='enum hdk::LinkAction'>LinkAction</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.LinkDirection.html"
+                                  title='enum hdk::LinkDirection'>LinkDirection</a></td>
                            <td class='docblock-short'>
                                 
                            </td>

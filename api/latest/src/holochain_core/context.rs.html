@@ -186,10 +186,58 @@
 <span id="186">186</span>
 <span id="187">187</span>
 <span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">action</span>::<span class="ident">ActionWrapper</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">agent</span>::<span class="ident">Agent</span>, <span class="ident">cas</span>::<span class="ident">storage</span>::<span class="ident">ContentAddressableStorage</span>, <span class="ident">eav</span>::<span class="ident">EntityAttributeValueStorage</span>,
+    <span class="ident">agent</span>::<span class="ident">Agent</span>,
+    <span class="ident">cas</span>::<span class="ident">storage</span>::<span class="ident">ContentAddressableStorage</span>,
+    <span class="ident">dna</span>::{<span class="ident">wasm</span>::<span class="ident">DnaWasm</span>, <span class="ident">Dna</span>},
+    <span class="ident">eav</span>::<span class="ident">EntityAttributeValueStorage</span>,
     <span class="ident">error</span>::<span class="ident">HolochainError</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_network</span>::<span class="ident">P2pNetwork</span>;
@@ -197,9 +245,13 @@
 <span class="kw">use</span> <span class="ident">logger</span>::<span class="ident">Logger</span>;
 <span class="kw">use</span> <span class="ident">persister</span>::<span class="ident">Persister</span>;
 <span class="kw">use</span> <span class="ident">state</span>::<span class="ident">State</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{
-    <span class="ident">mpsc</span>::{<span class="ident">sync_channel</span>, <span class="ident">SyncSender</span>},
-    <span class="ident">Arc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>, <span class="ident">RwLockReadGuard</span>,
+<span class="kw">use</span> <span class="ident">std</span>::{
+    <span class="ident">sync</span>::{
+        <span class="ident">mpsc</span>::{<span class="ident">sync_channel</span>, <span class="ident">SyncSender</span>},
+        <span class="ident">Arc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>, <span class="ident">RwLockReadGuard</span>,
+    },
+    <span class="ident">thread</span>::<span class="ident">sleep</span>,
+    <span class="ident">time</span>::<span class="ident">Duration</span>,
 };
 
 <span class="doccomment">/// Context holds the components that parts of a Holochain instance need in order to operate.</span>
@@ -286,6 +338,55 @@
             <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">s</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">s</span>.<span class="ident">read</span>().<span class="ident">unwrap</span>()),
         }
     }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_dna</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Dna</span><span class="op">&gt;</span> {
+        <span class="comment">// In the case of genesis we encounter race conditions with regards to setting the DNA.</span>
+        <span class="comment">// Genesis gets called asynchronously right after dispatching an action that sets the DNA in</span>
+        <span class="comment">// the state, which can result in this code being executed first.</span>
+        <span class="comment">// But we can&#39;t run anything if there is no DNA which holds the WASM, so we have to wait here.</span>
+        <span class="comment">// TODO: use a future here</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">done</span> <span class="op">=</span> <span class="bool-val">false</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tries</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">while</span> <span class="op">!</span><span class="ident">done</span> {
+            {
+                <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>
+                    .<span class="ident">state</span>()
+                    .<span class="ident">expect</span>(<span class="string">&quot;Callback called without application state!&quot;</span>);
+                <span class="ident">dna</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">nucleus</span>().<span class="ident">dna</span>();
+            }
+            <span class="kw">match</span> <span class="ident">dna</span> {
+                <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">done</span> <span class="op">=</span> <span class="bool-val">true</span>,
+                <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
+                    <span class="kw">if</span> <span class="ident">tries</span> <span class="op">&gt;</span> <span class="number">10</span> {
+                        <span class="ident">done</span> <span class="op">=</span> <span class="bool-val">true</span>;
+                    } <span class="kw">else</span> {
+                        <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="number">10</span>));
+                        <span class="ident">tries</span> <span class="op">+=</span> <span class="number">1</span>;
+                    }
+                }
+            }
+        }
+        <span class="ident">dna</span>
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_wasm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">zome</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DnaWasm</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_dna</span>().<span class="ident">expect</span>(<span class="string">&quot;Callback called without DNA set!&quot;</span>);
+        <span class="ident">dna</span>.<span class="ident">get_wasm_from_zome_name</span>(<span class="ident">zome</span>)
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">wasm</span><span class="op">|</span> <span class="prelude-val">Some</span>(<span class="ident">wasm</span>.<span class="ident">clone</span>()).<span class="ident">filter</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="op">!</span><span class="ident">wasm</span>.<span class="ident">code</span>.<span class="ident">is_empty</span>()))
+    }
+}
+
+<span class="doccomment">/// create a test network</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">make_mock_net</span>() <span class="op">-&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">P2pNetwork</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">P2pNetwork</span>::<span class="ident">new</span>(
+        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">_r</span><span class="op">|</span> <span class="prelude-val">Ok</span>(())),
+        <span class="kw-2">&amp;</span><span class="macro">json</span><span class="macro">!</span>({
+            <span class="string">&quot;backend&quot;</span>: <span class="string">&quot;mock&quot;</span>
+        }).<span class="ident">into</span>(),
+    ).<span class="ident">unwrap</span>();
+    <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">res</span>))
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -294,24 +395,13 @@
     <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test_utils</span>;
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident">context</span>::<span class="ident">make_mock_net</span>;
     <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::{<span class="ident">cas</span>::<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">eav</span>::<span class="ident">file</span>::<span class="ident">EavFileStorage</span>};
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">agent</span>::<span class="ident">Agent</span>;
     <span class="kw">use</span> <span class="ident">instance</span>::<span class="ident">tests</span>::<span class="ident">test_logger</span>;
     <span class="kw">use</span> <span class="ident">persister</span>::<span class="ident">SimplePersister</span>;
     <span class="kw">use</span> <span class="ident">state</span>::<span class="ident">State</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>};
-
-    <span class="doccomment">/// create a test network</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">make_mock_net</span>() <span class="op">-&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">P2pNetwork</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">P2pNetwork</span>::<span class="ident">new</span>(
-            <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">_r</span><span class="op">|</span> <span class="prelude-val">Ok</span>(())),
-            <span class="kw-2">&amp;</span><span class="macro">json</span><span class="macro">!</span>({
-                <span class="string">&quot;backend&quot;</span>: <span class="string">&quot;mock&quot;</span>
-            }).<span class="ident">into</span>(),
-        ).<span class="ident">unwrap</span>();
-        <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">res</span>))
-    }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">default_buffer_size_test</span>() {

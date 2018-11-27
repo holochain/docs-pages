@@ -1,4 +1,5 @@
 var ALIASES = {};
+ALIASES['hc'] = {};
 ALIASES['hdk'] = {};
 ALIASES['holochain_cas_implementations'] = {};
 ALIASES['holochain_container'] = {};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `protocol_wrapper` mod in crate `holochain_net_connection`."><meta name="keywords" content="rust, rustlang, rust-lang, protocol_wrapper"><title>holochain_net_connection::protocol_wrapper - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Module protocol_wrapper</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li></ul></div><p class='location'><a href='../index.html'>holochain_net_connection</a></p><script>window.sidebarCurrent = {name: 'protocol_wrapper', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../src/holochain_net_connection/protocol_wrapper.rs.html#1-285' title='goto source code'>[src]</a></span><span class='in-band'>Module <a href='../index.html'>holochain_net_connection</a>::<wbr><a class="mod" href=''>protocol_wrapper</a></span></h1><div class='docblock'><p>This module provides a higher level interface to p2p / network messaging
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `protocol_wrapper` mod in crate `holochain_net_connection`."><meta name="keywords" content="rust, rustlang, rust-lang, protocol_wrapper"><title>holochain_net_connection::protocol_wrapper - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Module protocol_wrapper</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li></ul></div><p class='location'><a href='../index.html'>holochain_net_connection</a></p><script>window.sidebarCurrent = {name: 'protocol_wrapper', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../src/holochain_net_connection/protocol_wrapper.rs.html#1-421' title='goto source code'>[src]</a></span><span class='in-band'>Module <a href='../index.html'>holochain_net_connection</a>::<wbr><a class="mod" href=''>protocol_wrapper</a></span></h1><div class='docblock'><p>This module provides a higher level interface to p2p / network messaging
 basically handles serialization / deserialization from / to the core
 protocol message types (NamedBinary and Json).</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
@@ -13,6 +13,41 @@ protocol message types (NamedBinary and Json).</p>
                        <tr class=' module-item'>
                            <td><a class="struct" href="struct.ConnectData.html"
                                   title='struct holochain_net_connection::protocol_wrapper::ConnectData'>ConnectData</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.DhtData.html"
+                                  title='struct holochain_net_connection::protocol_wrapper::DhtData'>DhtData</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.DhtMetaData.html"
+                                  title='struct holochain_net_connection::protocol_wrapper::DhtMetaData'>DhtMetaData</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.FailureResultData.html"
+                                  title='struct holochain_net_connection::protocol_wrapper::FailureResultData'>FailureResultData</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.GetDhtData.html"
+                                  title='struct holochain_net_connection::protocol_wrapper::GetDhtData'>GetDhtData</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.GetDhtMetaData.html"
+                                  title='struct holochain_net_connection::protocol_wrapper::GetDhtMetaData'>GetDhtMetaData</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
@@ -34,6 +69,13 @@ protocol message types (NamedBinary and Json).</p>
                        <tr class=' module-item'>
                            <td><a class="struct" href="struct.StateData.html"
                                   title='struct holochain_net_connection::protocol_wrapper::StateData'>StateData</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.SuccessResultData.html"
+                                  title='struct holochain_net_connection::protocol_wrapper::SuccessResultData'>SuccessResultData</a></td>
                            <td class='docblock-short'>
                                 
                            </td>

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["GetLinksArgs",""]]});
+initSidebarItems({"struct":[["GetLinksArgs",""],["GetLinksResult",""]]});

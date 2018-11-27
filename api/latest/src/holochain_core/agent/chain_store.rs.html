@@ -337,6 +337,11 @@
 <span id="337">337</span>
 <span id="338">338</span>
 <span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">cas</span>::{
@@ -447,8 +452,10 @@
                     .<span class="ident">unwrap</span>()
                     .<span class="ident">fetch</span>(<span class="ident">linked_chain_header_address</span>)
                     .<span class="ident">expect</span>(<span class="string">&quot;failed to fetch from CAS&quot;</span>)
-                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">content</span><span class="op">|</span> <span class="ident">ChainHeader</span>::<span class="ident">try_from_content</span>(<span class="kw-2">&amp;</span><span class="ident">content</span>)
-                    .<span class="ident">expect</span>(<span class="string">&quot;failed to load ChainHeader from Content&quot;</span>))
+                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">content</span><span class="op">|</span> {
+                        <span class="ident">ChainHeader</span>::<span class="ident">try_from_content</span>(<span class="kw-2">&amp;</span><span class="ident">content</span>)
+                            .<span class="ident">expect</span>(<span class="string">&quot;failed to load ChainHeader from Content&quot;</span>)
+                    })
             });
         <span class="ident">previous</span>
     }
@@ -490,7 +497,10 @@
                 (<span class="kw-2">*</span><span class="ident">storage</span>.<span class="ident">read</span>().<span class="ident">unwrap</span>())
                     .<span class="ident">fetch</span>(<span class="ident">linked_chain_header_address</span>)
                     .<span class="ident">expect</span>(<span class="string">&quot;failed to fetch from CAS&quot;</span>)
-                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">content</span><span class="op">|</span> <span class="ident">ChainHeader</span>::<span class="ident">try_from_content</span>(<span class="kw-2">&amp;</span><span class="ident">content</span>).<span class="ident">expect</span>(<span class="string">&quot;failed to load ChainHeader from Content&quot;</span>))
+                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">content</span><span class="op">|</span> {
+                        <span class="ident">ChainHeader</span>::<span class="ident">try_from_content</span>(<span class="kw-2">&amp;</span><span class="ident">content</span>)
+                            .<span class="ident">expect</span>(<span class="string">&quot;failed to load ChainHeader from Content&quot;</span>)
+                    })
             });
         <span class="ident">previous</span>
     }

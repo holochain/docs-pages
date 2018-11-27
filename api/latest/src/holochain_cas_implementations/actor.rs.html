@@ -63,6 +63,12 @@
 <span id="63">63</span>
 <span id="64">64</span>
 <span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">executor</span>::<span class="ident">block_on</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
@@ -110,7 +116,13 @@
 <span class="macro">lazy_static</span><span class="macro">!</span> {
     <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">SYS</span>: <span class="ident">ActorSystem</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span> <span class="op">=</span> {
         <span class="kw">let</span> <span class="ident">model</span>: <span class="ident">DefaultModel</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">DefaultModel</span>::<span class="ident">new</span>();
-        <span class="ident">ActorSystem</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">model</span>).<span class="ident">unwrap</span>()
+        <span class="kw">match</span> <span class="ident">ActorSystem</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">model</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">system</span>) <span class="op">=&gt;</span> <span class="ident">system</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;Failed to create ActorSystem with error: {:?}&quot;</span>, <span class="ident">e</span>);
+                <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Failed to create ActorSystem&quot;</span>);
+            }
+        }
     };
 }
 
