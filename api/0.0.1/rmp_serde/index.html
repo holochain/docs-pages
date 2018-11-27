@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `rmp_serde` crate."><meta name="keywords" content="rust, rustlang, rust-lang, rmp_serde"><title>rmp_serde - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Crate rmp_serde</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all rmp_serde's items</p></a><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'rmp_serde', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/rmp_serde/lib.rs.html#1-341' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>rmp_serde</a></span></h1><div class='docblock'><h1 id="type-based-serialization-and-deserialization" class="section-header"><a href="#type-based-serialization-and-deserialization">Type-based Serialization and Deserialization</a></h1>
+<p>Serde provides a mechanism for low boilerplate serialization &amp; deserialization of values to and
+from MessagePack via the serialization API. To be able to serialize a piece of data, it must
+implement the <code>serde::Serialize</code> trait. To be able to deserialize a piece of data, it must
+implement the <code>serde::Deserialize</code> trait. Serde provides provides an annotation to
+automatically generate the code for these traits: <code>#[derive(Serialize, Deserialize)]</code>.</p>
+<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
+<p>Let's try to encode and decode some built-in types.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rmp_serde</span> <span class="kw">as</span> <span class="ident">rmps</span>;
+
+<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
+<span class="kw">use</span> <span class="ident">rmps</span>::{<span class="ident">Deserializer</span>, <span class="ident">Serializer</span>};
+
+<span class="kw">fn</span> <span class="ident">main</span>() {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+    <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> (<span class="number">42u8</span>, <span class="string">&quot;the Answer&quot;</span>);
+    <span class="ident">val</span>.<span class="ident">serialize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)).<span class="ident">unwrap</span>();
+
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">0x92</span>, <span class="number">0x2a</span>, <span class="number">0xaa</span>, <span class="number">0x74</span>, <span class="number">0x68</span>, <span class="number">0x65</span>, <span class="number">0x20</span>, <span class="number">0x41</span>, <span class="number">0x6e</span>, <span class="number">0x73</span>, <span class="number">0x77</span>, <span class="number">0x65</span>, <span class="number">0x72</span>], <span class="ident">buf</span>);
+
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">de</span> <span class="op">=</span> <span class="ident">Deserializer</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..]);
+    <span class="macro">assert_eq</span><span class="macro">!</span>((<span class="number">42</span>, <span class="string">&quot;the Answer&quot;</span>.<span class="ident">to_owned</span>()), <span class="ident">Deserialize</span>::<span class="ident">deserialize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">de</span>).<span class="ident">unwrap</span>());
+}</pre>
+<p>No one gonna hurt if we add some reflection magic.</p>
+
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_derive</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rmp_serde</span> <span class="kw">as</span> <span class="ident">rmps</span>;
+
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
+<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
+<span class="kw">use</span> <span class="ident">rmps</span>::{<span class="ident">Deserializer</span>, <span class="ident">Serializer</span>};
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>)]</span>
+<span class="kw">struct</span> <span class="ident">Human</span> {
+    <span class="ident">age</span>: <span class="ident">u32</span>,
+    <span class="ident">name</span>: <span class="ident">String</span>,
+}
+
+<span class="kw">fn</span> <span class="ident">main</span>() {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+    <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">Human</span> {
+        <span class="ident">age</span>: <span class="number">42</span>,
+        <span class="ident">name</span>: <span class="string">&quot;John&quot;</span>.<span class="ident">into</span>(),
+    };
+
+    <span class="ident">val</span>.<span class="ident">serialize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Serializer</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)).<span class="ident">unwrap</span>();
+}</pre>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Re-exports</a></h2>
+<table><tr><td><code>pub use decode::<a class="struct" href="../rmp_serde/decode/struct.Deserializer.html" title="struct rmp_serde::decode::Deserializer">Deserializer</a>;</code></td></tr><tr><td><code>pub use decode::<a class="fn" href="../rmp_serde/decode/fn.from_slice.html" title="fn rmp_serde::decode::from_slice">from_slice</a>;</code></td></tr><tr><td><code>pub use decode::<a class="fn" href="../rmp_serde/decode/fn.from_read.html" title="fn rmp_serde::decode::from_read">from_read</a>;</code></td></tr><tr><td><code>pub use encode::<a class="struct" href="../rmp_serde/encode/struct.Serializer.html" title="struct rmp_serde::encode::Serializer">Serializer</a>;</code></td></tr><tr><td><code>pub use encode::<a class="fn" href="../rmp_serde/encode/fn.to_vec.html" title="fn rmp_serde::encode::to_vec">to_vec</a>;</code></td></tr><tr><td><code>pub use encode::<a class="fn" href="../rmp_serde/encode/fn.to_vec_named.html" title="fn rmp_serde::encode::to_vec_named">to_vec_named</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="decode/index.html"
+                                  title='mod rmp_serde::decode'>decode</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="encode/index.html"
+                                  title='mod rmp_serde::encode'>encode</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Raw.html"
+                                  title='struct rmp_serde::Raw'>Raw</a></td>
+                           <td class='docblock-short'>
+                                <p>Helper that allows both to encode and decode strings no matter whether they contain valid or
+invalid UTF-8.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.RawRef.html"
+                                  title='struct rmp_serde::RawRef'>RawRef</a></td>
+                           <td class='docblock-short'>
+                                <p>Helper that allows both to encode and decode strings no matter whether they contain valid or
+invalid UTF-8.</p>
+
+                           </td>
+                       </tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "rmp_serde";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

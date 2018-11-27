@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["deserialize","Serde `deserialize_with` function to deserialize bytes efficiently."],["serialize","Serde `serialize_with` function to serialize bytes efficiently."]],"struct":[["ByteBuf","Wrapper around `Vec<u8>` to serialize and deserialize efficiently."],["Bytes","Wrapper around `&[u8]` to serialize and deserialize efficiently."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["spawn","Spawn a task onto the default executor."]],"struct":[["DispatchHandle",""],["MySender",""],["Spawn","A future representing the completion of task spawning."]]});

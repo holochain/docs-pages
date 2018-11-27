@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["wasm","holochain_dna::wasm is a module for managing webassembly code - within the in-memory dna struct - and serialized to json"],["zome","holochain_dna::zome is a set of structs for working with holochain dna."]],"struct":[["Dna","Represents the top-level holochain dna object."]]});

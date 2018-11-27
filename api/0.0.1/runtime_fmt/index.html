@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `runtime_fmt` crate."><meta name="keywords" content="rust, rustlang, rust-lang, runtime_fmt"><title>runtime_fmt - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Crate runtime_fmt</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all runtime_fmt's items</p></a><div class="block items"><ul><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'runtime_fmt', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/runtime_fmt/lib.rs.html#1-563' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>runtime_fmt</a></span></h1><div class='docblock'><p>A crate for string formatting using runtime format strings.</p>
+<p>This crate provides much the same facilities as <code>std::fmt</code>, with the
+additional allowance for format strings which are not known until runtime.
+Possible applications include internationalization, scripting, or other
+customization.</p>
+<p>Each of the standard formatting macros <code>format_args!</code>, <code>format!</code>,
+<code>print!</code>, <code>println!</code>, <code>write!</code>, and <code>writeln!</code> have corresponding <code>rt_</code>
+variants. Calls which previously succeeded unconditionally now return
+<code>Result</code>, which may indicate a bad format string or arguments.</p>
+<p>The syntax for format strings and for macro invocations is equivalent to
+that used by <code>std::fmt</code>, including support for positional and named
+arguments. This crate shells out to the standard library implementations
+for as much as possible to ensure feature parity.</p>
+</div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.rt_format.html"
+                                  title='macro runtime_fmt::rt_format'>rt_format</a></td>
+                           <td class='docblock-short'>
+                                <p>Format a value of type <code>String</code> with a runtime format string.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.rt_format_args.html"
+                                  title='macro runtime_fmt::rt_format_args'>rt_format_args</a></td>
+                           <td class='docblock-short'>
+                                <p>The core macro for runtime formatting.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.rt_print.html"
+                                  title='macro runtime_fmt::rt_print'>rt_print</a></td>
+                           <td class='docblock-short'>
+                                <p>Print to standard output with a runtime format string.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.rt_println.html"
+                                  title='macro runtime_fmt::rt_println'>rt_println</a></td>
+                           <td class='docblock-short'>
+                                <p>Print to standard output with a runtime format string and trailing newline.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.rt_write.html"
+                                  title='macro runtime_fmt::rt_write'>rt_write</a></td>
+                           <td class='docblock-short'>
+                                <p>Write runtime-formatted data into a buffer.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.rt_writeln.html"
+                                  title='macro runtime_fmt::rt_writeln'>rt_writeln</a></td>
+                           <td class='docblock-short'>
+                                <p>Write runtime-formatted data into a buffer with a trailing newline.</p>
+
+                           </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.FormatBuf.html"
+                                  title='struct runtime_fmt::FormatBuf'>FormatBuf</a></td>
+                           <td class='docblock-short'>
+                                <p>A buffer representing a parsed format string and arguments.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Param.html"
+                                  title='struct runtime_fmt::Param'>Param</a></td>
+                           <td class='docblock-short'>
+                                <p>A type-erased parameter, with an optional name.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PreparedFormat.html"
+                                  title='struct runtime_fmt::PreparedFormat'>PreparedFormat</a></td>
+                           <td class='docblock-short'>
+                                <p>A pre-checked format string, ready for values of a specific type to be
+formatted against it.</p>
+
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.Error.html"
+                                  title='enum runtime_fmt::Error'>Error</a></td>
+                           <td class='docblock-short'>
+                                <p>An error during parsing or formatting.</p>
+
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.FormatArgs.html"
+                                  title='trait runtime_fmt::FormatArgs'>FormatArgs</a></td>
+                           <td class='docblock-short'>
+                                <p>A trait for types against which formatting specifiers may be pre-checked.</p>
+
+                           </td>
+                       </tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "runtime_fmt";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
