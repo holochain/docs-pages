@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Building for Different Platforms - holochain_101</title>
+        <title>Building for Different Platforms - The Holochain Guidebook</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -105,7 +105,7 @@
                             </button>
                         </div>
 
-                        <h1 class="menu-title">holochain_101</h1> 
+                        <h1 class="menu-title">The Holochain Guidebook</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -140,11 +140,10 @@
                 <div id="content" class="content">
                     <main>
                         <a class="header" href="#building-for-different-platforms" id="building-for-different-platforms"><h1>Building for Different Platforms</h1></a>
-<p>Holochain apps aren't limited to just running on laptop and desktop computers, they can be configured to run on mostly any device with a CPU, from Raspberry Pis to Android smartphones.</p>
-<p>While the tools to support building for these various platforms haven't been fully developed yet, it is still important for developers to note that being written in Rust, Holochain has this affordance.</p>
+<p>Holochain apps aren't limited to running only on laptop and desktop computers. Because Holochain is written in Rust, Holochain apps will be able to run on platforms ranging from Raspberry Pis to Android smartphones once the tools have been fully developed.</p>
 <p>So far, by utilizing bindings for the C language with Holochain, a cross-platform tool for starting and stopping app instances has been developed, called <a href="https://github.com/holochain/holosqape">HoloSqape</a>. This particular implementation targets Ubuntu (and Linux), MacOS, and Windows. Note that if you are looking for a good language to develop a cross-platform GUI in, <a href="https://doc.qt.io/qt-5.11/qtqml-index.html">Qt and Qml</a> which is utilized by HoloSqape is a good option.</p>
-<p>Such a tool, that can load, start, and stop a Holochain app instance (or apps), is called a &quot;Container&quot; in Holochain terminology.</p>
-<p>Another approach to running Holochain apps on different platforms,would be to include Holochain itself in your native application, whether it be an Electron app, or an Android app.</p>
+<p>A tool such as HoloSqape, which can load, start, and stop a Holochain app instance (or apps), is called a &quot;Container&quot; in Holochain terminology.</p>
+<p>Another approach to running Holochain apps on different platforms would be to include Holochain itself in your native application, whether it be an Electron app, or an Android app.</p>
 <p>There has been some work done to explore building Holochain for Android. If the technical details of this interest you, see <a href="./building_for_android.html">this article</a></p>
 <p>Now that you know what's possible in terms of platform options, carry on with getting to know Holochain app development!</p>
 

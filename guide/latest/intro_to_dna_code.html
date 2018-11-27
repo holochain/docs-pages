@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Intro to DNA: Code - holochain_101</title>
+        <title>Intro to DNA: Code - The Holochain Guidebook</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -105,7 +105,7 @@
                             </button>
                         </div>
 
-                        <h1 class="menu-title">holochain_101</h1> 
+                        <h1 class="menu-title">The Holochain Guidebook</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -140,16 +140,14 @@
                 <div id="content" class="content">
                     <main>
                         <a class="header" href="#intro-to-dna-code" id="intro-to-dna-code"><h1>Intro to DNA: Code</h1></a>
-<p>Obviously, the logic and functionality of your application will be written in code. Here is a quick overview of how that works.</p>
-<p>Holochain allows you to break down the functionality of your application into smaller, logical modules, called &quot;Zomes&quot;.</p>
-<p>There should be a folder called <code>zomes</code> and each Zome should have its own sub-folder within that, in which the configuration and code for that particular Zome should be placed.</p>
+<p>The functionality of Holochain applications is written as a collection of logical modules called &quot;Zomes&quot;.</p>
+<p>Zomes are created inside a folder called <code>zomes</code>, and each Zome should have its own sub-folder within that, in which the configuration and code for that particular Zome should be placed.</p>
 <p>These Zomes can call and access the functionality of the others, but they are written independently.</p>
 <p>When the DNA file is being packaged, the code for these Zomes is encoded using Base64 encoding and combined with the configuration file associated with the Zome.</p>
 <p>The configuration file should be a JSON file, stored in the Zome folder. The file can be named anything, but the default is <code>zome.json</code>.</p>
 <p>This zome file is extremely simplistic at this point, and contains only a <code>description</code> property, which is a human readable property that describes what the Zome is for.</p>
-<p>The only coding language that Holochain knows how to execute is WebAssembly. However, it is unlikely to write WebAssembly code by hand, more likely is to write code in a language that can compile to WebAssembly, such as Rust, or Assemblyscript. There is already a large, and growing, number of languages that compile to WebAssembly.</p>
-<p>So it is likely within each Zome to store code written in another language, and to define a build step in which it is compiled to WebAssembly, and then included in your DNA.</p>
-<p>If this is sounding complex, don't worry, you won't have to confront a lot of this complexity yourself, there are tools supplied to make this easy, and you'll be writing in a language that's familiar, or easy to learn.</p>
+<p>The only coding language that Holochain knows how to execute is WebAssembly. However, it is unlikely that you'll want to write WebAssembly code by hand. Instead, most people will write their Zomes' code in a language that can compile to WebAssembly, such as Rust or Assemblyscript, and then define a build step in which it is compiled to WebAssembly. There is already a large, and growing, number of languages that compile to WebAssembly.</p>
+<p>If this is sounding complex, don't worry. There are tools supplied to make this easy, and you'll be writing in a language that's familiar, or easy to learn.</p>
 <p>With this overview in mind, the details of app development can be explored.</p>
 
                         <hr />

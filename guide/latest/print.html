@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>holochain_101</title>
+        <title>The Holochain Guidebook</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -105,7 +105,7 @@
                             </button>
                         </div>
 
-                        <h1 class="menu-title">holochain_101</h1> 
+                        <h1 class="menu-title">The Holochain Guidebook</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -377,15 +377,14 @@ Much like the private network, any one user-participant losing a key can become 
 <p>The key takeaway from this is that if you change the DNA (the configuration, validation rules, and application logic), and a user runs it, they are basically running a different app. If this brings up questions for you about updating your application to different versions, good catch. This concern will be addressed later in this section.</p>
 <p>Before exploring the details of Holochain DNA, take a minute to explore the different platforms that you can target with Holochain.</p>
 <a class="header" href="#building-for-different-platforms" id="building-for-different-platforms"><h1>Building for Different Platforms</h1></a>
-<p>Holochain apps aren't limited to just running on laptop and desktop computers, they can be configured to run on mostly any device with a CPU, from Raspberry Pis to Android smartphones.</p>
-<p>While the tools to support building for these various platforms haven't been fully developed yet, it is still important for developers to note that being written in Rust, Holochain has this affordance.</p>
+<p>Holochain apps aren't limited to running only on laptop and desktop computers. Because Holochain is written in Rust, Holochain apps will be able to run on platforms ranging from Raspberry Pis to Android smartphones once the tools have been fully developed.</p>
 <p>So far, by utilizing bindings for the C language with Holochain, a cross-platform tool for starting and stopping app instances has been developed, called <a href="https://github.com/holochain/holosqape">HoloSqape</a>. This particular implementation targets Ubuntu (and Linux), MacOS, and Windows. Note that if you are looking for a good language to develop a cross-platform GUI in, <a href="https://doc.qt.io/qt-5.11/qtqml-index.html">Qt and Qml</a> which is utilized by HoloSqape is a good option.</p>
-<p>Such a tool, that can load, start, and stop a Holochain app instance (or apps), is called a &quot;Container&quot; in Holochain terminology.</p>
-<p>Another approach to running Holochain apps on different platforms,would be to include Holochain itself in your native application, whether it be an Electron app, or an Android app.</p>
+<p>A tool such as HoloSqape, which can load, start, and stop a Holochain app instance (or apps), is called a &quot;Container&quot; in Holochain terminology.</p>
+<p>Another approach to running Holochain apps on different platforms would be to include Holochain itself in your native application, whether it be an Electron app, or an Android app.</p>
 <p>There has been some work done to explore building Holochain for Android. If the technical details of this interest you, see <a href="./building_for_android.html">this article</a></p>
 <p>Now that you know what's possible in terms of platform options, carry on with getting to know Holochain app development!</p>
 <a class="header" href="#introduction-to-dna-configuration" id="introduction-to-dna-configuration"><h1>Introduction to DNA: Configuration</h1></a>
-<p>As a developer, though you will not have to interact directly with the contents of a DNA file that often, it is quite important to grasp its' role and structure.</p>
+<p>As a developer, you won't have to interact directly with the contents of a DNA file that often. However, it is quite important to grasp its role and structure.</p>
 <p>Holochain DNA files are written in a data format known as JSON. It stores sets of key-value pairs, and allows a nested tree structure. It looks like this:</p>
 <pre><code class="language-json">{
   &quot;property_name&quot;: &quot;property_value&quot;,
@@ -398,7 +397,7 @@ Much like the private network, any one user-participant losing a key can become 
 <p>As previously mentioned, you do not need to edit this &quot;master&quot; DNA file directly. Holochain command line tools can be used to build it from your raw files.</p>
 <p><a href="https://github.com/holochain/holochain-rust/tree/develop/cmd#usage">Learn more about the package command which fulfills this function</a></p>
 <a class="header" href="#configuration" id="configuration"><h2>Configuration</h2></a>
-<p>For the configuration related parts of your DNA, they will come from actual JSON files stored in your application folder. There will be multiple JSON files nested in the folder structure. An application folder should have a file in its' root called <code>app.json</code>.</p>
+<p>For the configuration-related parts of your DNA, they will come from actual JSON files stored in your application folder. There will be multiple JSON files nested in the folder structure. An application folder should have a file in its root called <code>app.json</code>.</p>
 <p>This file should define various properties of your application. Some of these properties Holochain fully expects and will not work without, others can be customised to your application.</p>
 <a class="header" href="#appjson-properties" id="appjson-properties"><h3>app.json Properties</h3></a>
 <p>A default <code>app.json</code> file looks roughly like this:</p>
@@ -418,16 +417,14 @@ Much like the private network, any one user-participant losing a key can become 
 }
 </code></pre>
 <a class="header" href="#intro-to-dna-code" id="intro-to-dna-code"><h1>Intro to DNA: Code</h1></a>
-<p>Obviously, the logic and functionality of your application will be written in code. Here is a quick overview of how that works.</p>
-<p>Holochain allows you to break down the functionality of your application into smaller, logical modules, called &quot;Zomes&quot;.</p>
-<p>There should be a folder called <code>zomes</code> and each Zome should have its own sub-folder within that, in which the configuration and code for that particular Zome should be placed.</p>
+<p>The functionality of Holochain applications is written as a collection of logical modules called &quot;Zomes&quot;.</p>
+<p>Zomes are created inside a folder called <code>zomes</code>, and each Zome should have its own sub-folder within that, in which the configuration and code for that particular Zome should be placed.</p>
 <p>These Zomes can call and access the functionality of the others, but they are written independently.</p>
 <p>When the DNA file is being packaged, the code for these Zomes is encoded using Base64 encoding and combined with the configuration file associated with the Zome.</p>
 <p>The configuration file should be a JSON file, stored in the Zome folder. The file can be named anything, but the default is <code>zome.json</code>.</p>
 <p>This zome file is extremely simplistic at this point, and contains only a <code>description</code> property, which is a human readable property that describes what the Zome is for.</p>
-<p>The only coding language that Holochain knows how to execute is WebAssembly. However, it is unlikely to write WebAssembly code by hand, more likely is to write code in a language that can compile to WebAssembly, such as Rust, or Assemblyscript. There is already a large, and growing, number of languages that compile to WebAssembly.</p>
-<p>So it is likely within each Zome to store code written in another language, and to define a build step in which it is compiled to WebAssembly, and then included in your DNA.</p>
-<p>If this is sounding complex, don't worry, you won't have to confront a lot of this complexity yourself, there are tools supplied to make this easy, and you'll be writing in a language that's familiar, or easy to learn.</p>
+<p>The only coding language that Holochain knows how to execute is WebAssembly. However, it is unlikely that you'll want to write WebAssembly code by hand. Instead, most people will write their Zomes' code in a language that can compile to WebAssembly, such as Rust or Assemblyscript, and then define a build step in which it is compiled to WebAssembly. There is already a large, and growing, number of languages that compile to WebAssembly.</p>
+<p>If this is sounding complex, don't worry. There are tools supplied to make this easy, and you'll be writing in a language that's familiar, or easy to learn.</p>
 <p>With this overview in mind, the details of app development can be explored.</p>
 <a class="header" href="#intro-to-command-line-tools" id="intro-to-command-line-tools"><h1>Intro to Command Line Tools</h1></a>
 <p>It will likely not come as much of a surprise that to develop a Holochain app requires the use of the command line, or terminal, of your computer.</p>
