@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["ContainerApiDispatcher","ContainerApiDispatcher exposes some subset of the Container API, including zome function calls as well as admin functionality. Each interface has their own dispatcher, and each may be configured differently."]],"trait":[["DispatchRpc",""],["Interface",""]],"type":[["InstanceMap",""],["InterfaceError",""]]});
