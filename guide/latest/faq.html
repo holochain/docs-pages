@@ -266,12 +266,7 @@
 <p><strong>TODO: Update with reference to Rust project.</strong></p>
 <p>Please see the <a href="https://github.com/Holochain/holochain-proto/wiki/Comparisons">Comparisons page</a>.</p>
 <a class="header" href="#what-language-is-holochain-written-in-what-languages-can-i-use-to-make-holochain-apps" id="what-language-is-holochain-written-in-what-languages-can-i-use-to-make-holochain-apps"><h2>What language is Holochain written in? What languages can I use to make Holochain apps?</h2></a>
-<p><strong>TODO: Update re Rust and Wasm.</strong></p>
-<blockquote>
-<p>Holochain core is written in Go; Holochain apps can be written in JavaScript or Lisp.</p>
-</blockquote>
-<p>Holochain core is written in Go. We picked Go because it's similar to C but has tons of more modern features like syntactic sugar, and lots of packages. It's also much less complicated than C++. Go is relatively simple, easy to learn, modern, and powerful.</p>
-<p>Holochain apps can currently be developed in JavaScript or Lisp, with front-end/UI built using CSS, HTML, and JavaScript. It's relatively easy to add more to the list of languages with which apps can be built. So for most of the development people will be doing on Holochain, a choice of languages can be used.</p>
+<p>Holochain is written in the Rust programming language. At a low level, Holochain runs WebAssembly code, but for all practical purposes developers will write applications in a language that compiles to WebAssembly such as Rust, C, C++, Go, etc. For now, only Rust has tier 1 support for writing apps, because it has a <a href="https://github.com/holochain/holochain-rust/tree/develop/hdk-rust">&quot;Holochain Development Kit&quot; library</a> which makes writing WebAssembly apps easy.</p>
 <a class="header" href="#is-holochain-open-source" id="is-holochain-open-source"><h2>Is Holochain open source?</h2></a>
 <p>Yes, it has an open source <a href="https://github.com/Holochain/holochain-rust/#license">license</a>.</p>
 <a class="header" href="#can-you-run-a-cryptocurrency-on-holochain" id="can-you-run-a-cryptocurrency-on-holochain"><h2>Can you run a cryptocurrency on Holochain?</h2></a>
