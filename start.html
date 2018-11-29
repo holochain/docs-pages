@@ -44,7 +44,7 @@
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start</h1>
-                    <div class="meta"><i class="far fa-clock"></i> Last updated: November 26, 2018</div>
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: November 29, 2018</div>
                 </div><!--//doc-header-->
                 <div class="doc-body row">
                     <div class="doc-content col-md-9 col-12 order-1">
@@ -110,8 +110,29 @@
                                     </p>
                                 </div><!--//section-block-->
 
-                                <div id="step4" class="section-block">
-                                    <h4 class="block-title">Step Four</h4>
+                                <div id="step4"  class="section-block">
+                                    <h3 class="block-title">Step Four</h3>
+                                    <p>
+                                        Being a P2P networking framework, Holochain utilizes a "distributed messaging" library internally called ZeroMQ.
+                                        For the time being (it is hoped to change this in the future), this must be installed on your computer as well
+                                        before Holochain can run.
+
+                                        The version number that you install must be 4.1 or higher.
+                                    </p>
+                                    <p>
+                                        The most update and useful installation instructions for ZMQ are maintained <a target="_blank" href="http://zeromq.org/intro:get-the-software">here</a>.
+                                    </p>
+                                    <p>
+                                        Please note that for the time being, because ZeroMQ has not released a Windows installer for 4.1 system, those installing via Windows will need to build ZeroMQ from the source code. We realize that this is a pain and will work to address it
+                                        as soon as possible. Look for the <a href="http://zeromq.org/intro:get-the-software#toc10" target="_blank">To build on Windows</a> heading for instructions.
+                                    </p>
+                                    <p>
+                                        If you encounter issues with this, please discuss <a target="_blank" href="https://github.com/holochain/holochain-rust/issues/701">here</a>.
+                                    </p>
+                                </div><!--//section-block-->
+
+                                <div id="step5" class="section-block">
+                                    <h4 class="block-title">Step Five</h4>
                                     <p>
                                         The last thing to install is the Holochain command line tools.
                                         <br />
@@ -163,8 +184,8 @@
                                         Once you've done this, be sure to open up a new command line window, before proceeding.
                                     </p>
                                 </div>
-                                <div id="step5" class="section-block">
-                                    <h4 class="block-title">Step Five</h4>
+                                <div id="step6" class="section-block">
+                                    <h4 class="block-title">Step Six</h4>
                                     <p>
                                         Once the steps for your platform are complete, to confirm that you have the Holochain command line tools installed, try running the following command:
                                         <div class="code-block">
@@ -190,6 +211,7 @@
                                         <a class="nav-link scrollto" href="#step3">Step Three</a>
                                         <a class="nav-link scrollto" href="#step4">Step Four</a>
                                         <a class="nav-link scrollto" href="#step5">Step Five</a>
+                                        <a class="nav-link scrollto" href="#step6">Step Six</a>
                                     </nav><!--//nav-->
 	                            </nav><!--//doc-menu-->
 	                        
