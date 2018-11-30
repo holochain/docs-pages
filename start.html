@@ -120,12 +120,14 @@
 
                                         The version number that you install must be 4.1 or higher.
                                     </p>
+				    <h5>Mac and Linux</h5>
                                     <p>
                                         The most update and useful installation instructions for ZMQ are maintained <a target="_blank" href="http://zeromq.org/intro:get-the-software">here</a>.
                                     </p>
+				    <h5>Windows</h5>
                                     <p>
-                                        Please note that for the time being, because ZeroMQ has not released a Windows installer for 4.1 system, those installing via Windows will need to build ZeroMQ from the source code. We realize that this is a pain and will work to address it
-                                        as soon as possible. Look for the <a href="http://zeromq.org/intro:get-the-software#toc10" target="_blank">To build on Windows</a> heading for instructions.
+					If you are on Windows (only 64 bit machines supported), for now, just download
+					    <a target="_blank" href="https://github.com/holochain/holochain-rust/raw/develop/vendor/zmq/bin/libzmq-v140-mt-4_2_0.dll">this file</a>, which is a prebuilt ZMQ library.
                                     </p>
                                     <p>
                                         If you encounter issues with this, please discuss <a target="_blank" href="https://github.com/holochain/holochain-rust/issues/701">here</a>.
@@ -169,6 +171,9 @@
                                         <p><code>source .bash_profile</code></p>
                                     </div><!--//code-block-->
                                     <h5>Windows</h5>
+                                    <p>
+					To complete the ZMQ process, first of all, please move the file "libzmq-v140-mt-4_2_0.dll" that you downloaded into the same "hc" folder as the other files.
+                                    </p>
                                     <p>
                                         In your Control Panel, select System>Advanced system settings>Environment Variables... and under System Variables do the following:
                                     </p>
