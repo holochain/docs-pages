@@ -84,7 +84,6 @@
 <span id="84">84</span>
 <span id="85">85</span>
 <span id="86">86</span>
-<span id="87">87</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
@@ -103,7 +102,7 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">globals</span> <span class="op">=</span> <span class="ident">ZomeApiGlobals</span> {
         <span class="ident">dna_name</span>: <span class="ident">runtime</span>.<span class="ident">dna_name</span>.<span class="ident">to_string</span>(),
         <span class="ident">dna_hash</span>: <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="string">&quot;&quot;</span>),
-        <span class="ident">agent_id_str</span>: <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">runtime</span>.<span class="ident">context</span>.<span class="ident">agent</span>.<span class="ident">clone</span>()).<span class="ident">to_string</span>(),
+        <span class="ident">agent_id_str</span>: <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">runtime</span>.<span class="ident">context</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>()).<span class="ident">to_string</span>(),
         <span class="comment">// TODO #233 - Implement agent pub key hash</span>
         <span class="ident">agent_address</span>: <span class="ident">Address</span>::<span class="ident">encode_from_str</span>(<span class="string">&quot;FIXME-agent_address&quot;</span>, <span class="ident">Multihash</span>::<span class="ident">SHA2256</span>),
         <span class="ident">agent_initial_hash</span>: <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="string">&quot;&quot;</span>),
@@ -155,7 +154,6 @@
     <span class="kw">fn</span> <span class="ident">test_init_globals</span>() {
         <span class="kw">let</span> <span class="ident">input</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
         <span class="kw">let</span> (<span class="ident">call_result</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_zome_api_function</span>(<span class="ident">ZomeApiFunction</span>::<span class="ident">InitGlobals</span>.<span class="ident">as_str</span>(), <span class="ident">input</span>);
-        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">call_result</span>);
 
         <span class="kw">let</span> <span class="ident">zome_api_internal_result</span> <span class="op">=</span> <span class="ident">ZomeApiInternalResult</span>::<span class="ident">try_from</span>(<span class="ident">call_result</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">globals</span> <span class="op">=</span>
@@ -165,10 +163,10 @@
         <span class="comment">// TODO #233 - Implement agent address</span>
         <span class="comment">// assert_eq!(obj.agent_address, &quot;QmScgMGDzP3d9kmePsXP7ZQ2MXis38BNRpCZBJEBveqLjD&quot;);</span>
         <span class="comment">// TODO (david.b) this should work:</span>
-        <span class="comment">//assert_eq!(globals.agent_id_str, String::from(Agent::generate_fake(&quot;jane&quot;)));</span>
+        <span class="comment">//assert_eq!(globals.agent_id_str, String::from(AgentId::generate_fake(&quot;jane&quot;)));</span>
         <span class="comment">// assert_eq!(</span>
         <span class="comment">//     globals.agent_initial_hash,</span>
-        <span class="comment">//     Agent::generate_fake(&quot;jane&quot;).address()</span>
+        <span class="comment">//     AgentId::generate_fake(&quot;jane&quot;).address()</span>
         <span class="comment">// );</span>
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">globals</span>.<span class="ident">agent_initial_hash</span>, <span class="ident">globals</span>.<span class="ident">agent_latest_hash</span>);
     }

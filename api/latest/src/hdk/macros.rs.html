@@ -292,7 +292,7 @@
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate holochain_core_types_derive;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::Entry;</span>
-<span class="doccomment">/// # use holochain_core_types::entry::entry_type::EntryType;</span>
+<span class="doccomment">/// # use holochain_core_types::entry::entry_type::AppEntryType;</span>
 <span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
 <span class="doccomment">/// # use holochain_core_types::error::HolochainError;</span>
 <span class="doccomment">/// # use holochain_core_types::dna::zome::entry_types::Sharing;</span>
@@ -319,10 +319,10 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// fn handle_post_address(content: String) -&gt; JsonString {</span>
-<span class="doccomment">///     let post_entry = Entry::new(EntryType::App(&quot;post&quot;.into()), Post {</span>
+<span class="doccomment">///     let post_entry = Entry::App(AppEntryType::from(&quot;post&quot;), Post {</span>
 <span class="doccomment">///         content,</span>
 <span class="doccomment">///         date_created: &quot;now&quot;.into(),</span>
-<span class="doccomment">///     });</span>
+<span class="doccomment">///     }.into());</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///     match hdk::entry_address(&amp;post_entry) {</span>
 <span class="doccomment">///         Ok(address) =&gt; address.into(),</span>
@@ -425,13 +425,13 @@
 
         <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">__list_capabilities</span>() <span class="op">-&gt;</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Capability</span><span class="op">&gt;</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">__list_capabilities</span>() <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">ZomeCapabilities</span> {
 
             <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">capabilities</span>::{<span class="ident">Capability</span>, <span class="ident">Membrane</span>, <span class="ident">CapabilityType</span>, <span class="ident">FnParameter</span>, <span class="ident">FnDeclaration</span>};
-            <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
+            <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 
-            <span class="kw">let</span> <span class="ident">return_value</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Capability</span><span class="op">&gt;</span> <span class="op">=</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cap_map</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">new</span>();
+            <span class="kw">let</span> <span class="ident">return_value</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">ZomeCapabilities</span> <span class="op">=</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cap_map</span> <span class="op">=</span> <span class="ident">BTreeMap</span>::<span class="ident">new</span>();
 
                 $(
                     {

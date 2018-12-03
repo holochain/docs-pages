@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["LinkListEntry",""]]});
+initSidebarItems({"struct":[["LinkList",""]]});

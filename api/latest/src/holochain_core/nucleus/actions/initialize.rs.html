@@ -157,24 +157,6 @@
 <span id="157">157</span>
 <span id="158">158</span>
 <span id="159">159</span>
-<span id="160">160</span>
-<span id="161">161</span>
-<span id="162">162</span>
-<span id="163">163</span>
-<span id="164">164</span>
-<span id="165">165</span>
-<span id="166">166</span>
-<span id="167">167</span>
-<span id="168">168</span>
-<span id="169">169</span>
-<span id="170">170</span>
-<span id="171">171</span>
-<span id="172">172</span>
-<span id="173">173</span>
-<span id="174">174</span>
-<span id="175">175</span>
-<span id="176">176</span>
-<span id="177">177</span>
 </pre><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -188,15 +170,13 @@
     },
 };
 <span class="kw">use</span> <span class="ident">futures</span>::{
-    <span class="ident">executor</span>::<span class="ident">block_on</span>,
     <span class="ident">future</span>::<span class="ident">Future</span>,
     <span class="ident">task</span>::{<span class="ident">LocalWaker</span>, <span class="ident">Poll</span>},
 };
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">dna</span>::<span class="ident">Dna</span>, <span class="ident">entry</span>::<span class="ident">ToEntry</span>};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">dna</span>::<span class="ident">Dna</span>, <span class="ident">entry</span>::<span class="ident">Entry</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">pin</span>::{<span class="ident">Pin</span>, <span class="ident">Unpin</span>},
     <span class="ident">sync</span>::<span class="ident">Arc</span>,
-    <span class="ident">thread</span>,
     <span class="ident">time</span>::<span class="kw-2">*</span>,
 };
 
@@ -212,105 +192,89 @@
 <span class="doccomment">/// the Dna error or errors from the genesis callback.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Use futures::executor::block_on to wait for an initialized instance.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">initialize_application</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">dna</span>: <span class="ident">Dna</span>, <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">InitializationFuture</span> {
+<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">initialize_application</span>(
+    <span class="ident">dna</span>: <span class="ident">Dna</span>,
+    <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NucleusStatus</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">context</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">nucleus</span>().<span class="ident">status</span> <span class="op">!=</span> <span class="ident">NucleusStatus</span>::<span class="ident">New</span> {
-        <span class="kw">return</span> <span class="ident">InitializationFuture</span> {
-            <span class="ident">context</span>: <span class="ident">context</span>.<span class="ident">clone</span>(),
-            <span class="ident">created_at</span>: <span class="ident">Instant</span>::<span class="ident">now</span>(),
-            <span class="ident">error</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;Can&#39;t trigger initialization: Nucleus status is not New&quot;</span>.<span class="ident">to_string</span>()),
-        };
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">new</span>(
+            <span class="string">&quot;Can&#39;t trigger initialization: Nucleus status is not New&quot;</span>,
+        ));
     }
 
     <span class="kw">let</span> <span class="ident">context_clone</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">clone</span>();
 
-    <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
-        <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">InitApplication</span>(<span class="ident">dna</span>.<span class="ident">clone</span>()));
-        <span class="ident">dispatch_action_and_wait</span>(
-            <span class="kw-2">&amp;</span><span class="ident">context_clone</span>.<span class="ident">action_channel</span>,
-            <span class="kw-2">&amp;</span><span class="ident">context_clone</span>.<span class="ident">observer_channel</span>,
-            <span class="ident">action_wrapper</span>.<span class="ident">clone</span>(),
-        );
+    <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">InitApplication</span>(<span class="ident">dna</span>.<span class="ident">clone</span>()));
+    <span class="ident">dispatch_action_and_wait</span>(
+        <span class="kw-2">&amp;</span><span class="ident">context_clone</span>.<span class="ident">action_channel</span>,
+        <span class="kw-2">&amp;</span><span class="ident">context_clone</span>.<span class="ident">observer_channel</span>,
+        <span class="ident">action_wrapper</span>.<span class="ident">clone</span>(),
+    );
 
-        <span class="comment">// Commit DNA to chain</span>
-        <span class="kw">let</span> <span class="ident">dna_entry</span> <span class="op">=</span> <span class="ident">dna</span>.<span class="ident">to_entry</span>();
-        <span class="kw">let</span> <span class="ident">dna_commit</span> <span class="op">=</span> <span class="ident">block_on</span>(<span class="ident">commit_entry</span>(
-            <span class="ident">dna_entry</span>,
-            <span class="kw-2">&amp;</span><span class="ident">context_clone</span>.<span class="ident">action_channel</span>.<span class="ident">clone</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">context_clone</span>,
-        ));
-
+    <span class="comment">// Commit DNA to chain</span>
+    <span class="kw">let</span> <span class="ident">dna_entry</span> <span class="op">=</span> <span class="ident">Entry</span>::<span class="ident">Dna</span>(<span class="ident">dna</span>.<span class="ident">clone</span>());
+    <span class="kw">let</span> <span class="ident">dna_commit</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">commit_entry</span>(<span class="ident">dna_entry</span>, <span class="kw-2">&amp;</span><span class="ident">context_clone</span>));
+    <span class="kw">if</span> <span class="ident">dna_commit</span>.<span class="ident">is_err</span>() {
         <span class="comment">// Let initialization fail if DNA could not be committed.</span>
         <span class="comment">// Currently this cannot happen since ToEntry for Dna always creates</span>
         <span class="comment">// an entry from a Dna object. So I can&#39;t create a test for the code below.</span>
         <span class="comment">// Hence skipping it for codecov for now but leaving it in for resilience.</span>
-        <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
-        {
-            <span class="kw">if</span> <span class="ident">dna_commit</span>.<span class="ident">is_err</span>() {
-                <span class="ident">context_clone</span>
-                    .<span class="ident">action_channel</span>
-                    .<span class="ident">send</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">ReturnInitializationResult</span>(
-                        <span class="prelude-val">Some</span>(<span class="ident">dna_commit</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">to_string</span>()).<span class="ident">err</span>().<span class="ident">unwrap</span>()),
-                    )))
-                    .<span class="ident">expect</span>(<span class="string">&quot;Action channel not usable in initialize_application()&quot;</span>);
-                <span class="kw">return</span>;
-            };
-        }
-
-        <span class="comment">// Commit AgentId to chain</span>
-        <span class="kw">let</span> <span class="ident">agent_id_entry</span> <span class="op">=</span> <span class="ident">context_clone</span>.<span class="ident">agent</span>.<span class="ident">to_entry</span>();
-        <span class="kw">let</span> <span class="ident">agent_id_commit</span> <span class="op">=</span> <span class="ident">block_on</span>(<span class="ident">commit_entry</span>(
-            <span class="ident">agent_id_entry</span>,
-            <span class="kw-2">&amp;</span><span class="ident">context_clone</span>.<span class="ident">action_channel</span>.<span class="ident">clone</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">context_clone</span>,
-        ));
-
-        <span class="comment">// Let initialization fail if AgentId could not be committed.</span>
-        <span class="comment">// Currently this cannot happen since ToEntry for Agent always creates</span>
-        <span class="comment">// an entry from an Agent object. So I can&#39;t create a test for the code below.</span>
-        <span class="comment">// Hence skipping it for codecov for now but leaving it in for resilience.</span>
-        <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
-        {
-            <span class="kw">if</span> <span class="ident">agent_id_commit</span>.<span class="ident">is_err</span>() {
-                <span class="ident">context_clone</span>
-                    .<span class="ident">action_channel</span>
-                    .<span class="ident">send</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">ReturnInitializationResult</span>(
-                        <span class="prelude-val">Some</span>(<span class="ident">agent_id_commit</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">to_string</span>()).<span class="ident">err</span>().<span class="ident">unwrap</span>()),
-                    )))
-                    .<span class="ident">expect</span>(<span class="string">&quot;Action channel not usable in initialize_application()&quot;</span>);
-                <span class="kw">return</span>;
-            };
-        }
-
-        <span class="comment">// map genesis across every zome</span>
-        <span class="kw">let</span> <span class="ident">results</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">dna</span>
-            .<span class="ident">zomes</span>
-            .<span class="ident">keys</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">zome_name</span><span class="op">|</span> <span class="ident">genesis</span>(<span class="ident">context_clone</span>.<span class="ident">clone</span>(), <span class="ident">zome_name</span>, <span class="kw-2">&amp;</span><span class="ident">CallbackParams</span>::<span class="ident">Genesis</span>))
-            .<span class="ident">collect</span>();
-
-        <span class="kw">let</span> <span class="ident">fail_result</span> <span class="op">=</span> <span class="ident">results</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">r</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">r</span> {
-            <span class="ident">CallbackResult</span>::<span class="ident">Fail</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
-        });
-
-        <span class="kw">let</span> <span class="ident">maybe_error</span> <span class="op">=</span> <span class="ident">fail_result</span>.<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">result</span> {
-            <span class="ident">CallbackResult</span>::<span class="ident">Fail</span>(<span class="ident">error_string</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">error_string</span>.<span class="ident">clone</span>()),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-        });
-
         <span class="ident">context_clone</span>
             .<span class="ident">action_channel</span>
             .<span class="ident">send</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">ReturnInitializationResult</span>(
-                <span class="ident">maybe_error</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">dna_commit</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">to_string</span>()).<span class="ident">err</span>().<span class="ident">unwrap</span>()),
             )))
             .<span class="ident">expect</span>(<span class="string">&quot;Action channel not usable in initialize_application()&quot;</span>);
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">new</span>(<span class="string">&quot;error committing DNA&quot;</span>));
+    }
+
+    <span class="comment">// Commit AgentId to chain</span>
+    <span class="kw">let</span> <span class="ident">agent_id_entry</span> <span class="op">=</span> <span class="ident">Entry</span>::<span class="ident">AgentId</span>(<span class="ident">context_clone</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>());
+    <span class="kw">let</span> <span class="ident">agent_id_commit</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">commit_entry</span>(<span class="ident">agent_id_entry</span>, <span class="kw-2">&amp;</span><span class="ident">context_clone</span>,));
+
+    <span class="comment">// Let initialization fail if AgentId could not be committed.</span>
+    <span class="comment">// Currently this cannot happen since ToEntry for Agent always creates</span>
+    <span class="comment">// an entry from an Agent object. So I can&#39;t create a test for the code below.</span>
+    <span class="comment">// Hence skipping it for codecov for now but leaving it in for resilience.</span>
+
+    <span class="kw">if</span> <span class="ident">agent_id_commit</span>.<span class="ident">is_err</span>() {
+        <span class="ident">context_clone</span>
+            .<span class="ident">action_channel</span>
+            .<span class="ident">send</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">ReturnInitializationResult</span>(
+                <span class="prelude-val">Some</span>(<span class="ident">agent_id_commit</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">to_string</span>()).<span class="ident">err</span>().<span class="ident">unwrap</span>()),
+            )))
+            .<span class="ident">expect</span>(<span class="string">&quot;Action channel not usable in initialize_application()&quot;</span>);
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">new</span>(<span class="string">&quot;error committing Agent&quot;</span>));
+    }
+
+    <span class="comment">// map genesis across every zome</span>
+    <span class="kw">let</span> <span class="ident">results</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">dna</span>
+        .<span class="ident">zomes</span>
+        .<span class="ident">keys</span>()
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">zome_name</span><span class="op">|</span> <span class="ident">genesis</span>(<span class="ident">context_clone</span>.<span class="ident">clone</span>(), <span class="ident">zome_name</span>, <span class="kw-2">&amp;</span><span class="ident">CallbackParams</span>::<span class="ident">Genesis</span>))
+        .<span class="ident">collect</span>();
+
+    <span class="kw">let</span> <span class="ident">fail_result</span> <span class="op">=</span> <span class="ident">results</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">r</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">r</span> {
+        <span class="ident">CallbackResult</span>::<span class="ident">Fail</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
     });
 
-    <span class="ident">InitializationFuture</span> {
+    <span class="kw">let</span> <span class="ident">maybe_error</span> <span class="op">=</span> <span class="ident">fail_result</span>.<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">result</span> {
+        <span class="ident">CallbackResult</span>::<span class="ident">Fail</span>(<span class="ident">error_string</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">error_string</span>.<span class="ident">clone</span>()),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+    });
+
+    <span class="ident">context_clone</span>
+        .<span class="ident">action_channel</span>
+        .<span class="ident">send</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">ReturnInitializationResult</span>(
+            <span class="ident">maybe_error</span>,
+        )))
+        .<span class="ident">expect</span>(<span class="string">&quot;Action channel not usable in initialize_application()&quot;</span>);
+
+    <span class="macro">await</span><span class="macro">!</span>(<span class="ident">InitializationFuture</span> {
         <span class="ident">context</span>: <span class="ident">context</span>.<span class="ident">clone</span>(),
         <span class="ident">created_at</span>: <span class="ident">Instant</span>::<span class="ident">now</span>(),
-        <span class="ident">error</span>: <span class="prelude-val">None</span>,
-    }
+    })
 }
 
 <span class="doccomment">/// InitializationFuture resolves to an Ok(NucleusStatus) or an Err(String).</span>
@@ -318,18 +282,14 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InitializationFuture</span> {
     <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="ident">created_at</span>: <span class="ident">Instant</span>,
-    <span class="ident">error</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Unpin</span> <span class="kw">for</span> <span class="ident">InitializationFuture</span> {}
 
 <span class="kw">impl</span> <span class="ident">Future</span> <span class="kw">for</span> <span class="ident">InitializationFuture</span> {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NucleusStatus</span>, <span class="ident">String</span><span class="op">&gt;</span>;
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NucleusStatus</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">lw</span>: <span class="kw-2">&amp;</span><span class="ident">LocalWaker</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">error</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">error</span> {
-            <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">error</span>.<span class="ident">clone</span>()));
-        }
         <span class="comment">//</span>
         <span class="comment">// TODO: connect the waker to state updates for performance reasons</span>
         <span class="comment">// See: https://github.com/holochain/holochain-rust/issues/314</span>
@@ -339,14 +299,18 @@
         <span class="kw">if</span> <span class="ident">Instant</span>::<span class="ident">now</span>().<span class="ident">duration_since</span>(<span class="self">self</span>.<span class="ident">created_at</span>)
             <span class="op">&gt;</span> <span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="ident">INITIALIZATION_TIMEOUT</span>)
         {
-            <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="string">&quot;Timeout while initializing&quot;</span>.<span class="ident">to_string</span>()));
+            <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
+                <span class="string">&quot;Timeout while initializing&quot;</span>.<span class="ident">to_string</span>(),
+            )));
         }
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">state</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">context</span>.<span class="ident">state</span>() {
             <span class="kw">match</span> <span class="ident">state</span>.<span class="ident">nucleus</span>().<span class="ident">status</span> {
                 <span class="ident">NucleusStatus</span>::<span class="ident">New</span> <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Pending</span>,
                 <span class="ident">NucleusStatus</span>::<span class="ident">Initializing</span> <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Pending</span>,
                 <span class="ident">NucleusStatus</span>::<span class="ident">Initialized</span> <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">NucleusStatus</span>::<span class="ident">Initialized</span>)),
-                <span class="ident">NucleusStatus</span>::<span class="ident">InitializationFailed</span>(<span class="kw-2">ref</span> <span class="ident">error</span>) <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">error</span>.<span class="ident">clone</span>())),
+                <span class="ident">NucleusStatus</span>::<span class="ident">InitializationFailed</span>(<span class="kw-2">ref</span> <span class="ident">error</span>) <span class="op">=&gt;</span> {
+                    <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="ident">error</span>.<span class="ident">clone</span>())))
+                }
             }
         } <span class="kw">else</span> {
             <span class="ident">Poll</span>::<span class="ident">Pending</span>

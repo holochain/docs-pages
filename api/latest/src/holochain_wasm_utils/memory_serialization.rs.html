@@ -140,6 +140,7 @@
 <span id="140">140</span>
 <span id="141">141</span>
 <span id="142">142</span>
+<span id="143">143</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">memory_allocation</span>::{
     <span class="ident">decode_encoded_allocation</span>, <span class="ident">SinglePageAllocation</span>, <span class="ident">SinglePageStack</span>, <span class="ident">U16_MAX</span>,
@@ -193,7 +194,8 @@
     <span class="kw">if</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="ident">U16_MAX</span> {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RibosomeErrorCode</span>::<span class="ident">OutOfMemory</span>);
     }
-    <span class="kw">return</span> <span class="ident">write_in_wasm_memory</span>(<span class="ident">stack</span>, <span class="ident">bytes</span>, <span class="ident">len</span> <span class="kw">as</span> <span class="ident">u16</span>);
+
+    <span class="ident">write_in_wasm_memory</span>(<span class="ident">stack</span>, <span class="ident">bytes</span>, <span class="ident">len</span> <span class="kw">as</span> <span class="ident">u16</span>)
 }
 
 <span class="comment">// Sugar</span>

@@ -350,10 +350,6 @@
 <span id="350">350</span>
 <span id="351">351</span>
 <span id="352">352</span>
-<span id="353">353</span>
-<span id="354">354</span>
-<span id="355">355</span>
-<span id="356">356</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::{<span class="ident">RibosomeErrorCode</span>, <span class="ident">RibosomeReturnCode</span>};
 
@@ -460,12 +456,10 @@
     <span class="ident">top</span>: <span class="ident">u16</span>,
 }
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unknown_lints</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">cast_lossless</span>)]</span>
 <span class="kw">impl</span> <span class="ident">SinglePageStack</span> {
     <span class="comment">// A stack can be initialized by giving the last know allocation on this stack</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">last_allocation</span>: <span class="ident">SinglePageAllocation</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">last_allocation</span>.<span class="ident">offset</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="ident">last_allocation</span>.<span class="ident">length</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">&lt;=</span> <span class="ident">U16_MAX</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">last_allocation</span>.<span class="ident">offset</span>) <span class="op">+</span> <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">last_allocation</span>.<span class="ident">length</span>) <span class="op">&lt;=</span> <span class="ident">U16_MAX</span>);
         <span class="ident">SinglePageStack</span> {
             <span class="ident">top</span>: <span class="ident">last_allocation</span>.<span class="ident">offset</span> <span class="op">+</span> <span class="ident">last_allocation</span>.<span class="ident">length</span>,
         }
@@ -475,11 +469,9 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_encoded_allocation</span>(
         <span class="ident">encoded_last_allocation</span>: <span class="ident">u32</span>,
     ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">RibosomeErrorCode</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">maybe_allocation</span> <span class="op">=</span> <span class="ident">decode_encoded_allocation</span>(<span class="ident">encoded_last_allocation</span> <span class="kw">as</span> <span class="ident">u32</span>);
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">maybe_allocation</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RibosomeErrorCode</span>::<span class="ident">NotAnAllocation</span>);
-        }
-        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">SinglePageStack</span>::<span class="ident">new</span>(<span class="ident">maybe_allocation</span>.<span class="ident">unwrap</span>()));
+        <span class="ident">decode_encoded_allocation</span>(<span class="ident">encoded_last_allocation</span> <span class="kw">as</span> <span class="ident">u32</span>)
+            .<span class="ident">map</span>(<span class="ident">SinglePageStack</span>::<span class="ident">new</span>)
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">NotAnAllocation</span>)
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">allocate</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">size</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="ident">u16</span> {

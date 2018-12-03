@@ -176,6 +176,7 @@
 <span id="176">176</span>
 <span id="177">177</span>
 <span id="178">178</span>
+<span id="179">179</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
@@ -206,7 +207,8 @@
     <span class="ident">parameters</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>,
 ) <span class="op">-&gt;</span> <span class="ident">ZomeFnResult</span> {
     <span class="comment">// Create wasm module from wasm binary</span>
-    <span class="kw">let</span> <span class="ident">module</span> <span class="op">=</span> <span class="ident">wasmi</span>::<span class="ident">Module</span>::<span class="ident">from_buffer</span>(<span class="ident">wasm</span>).<span class="ident">expect</span>(<span class="string">&quot;wasm binary should be valid&quot;</span>);
+    <span class="kw">let</span> <span class="ident">module</span> <span class="op">=</span>
+        <span class="ident">wasmi</span>::<span class="ident">Module</span>::<span class="ident">from_buffer</span>(<span class="ident">wasm</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="ident">e</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
 
     <span class="comment">// invoke_index and resolve_func work together to enable callable host functions</span>
     <span class="comment">// within WASM modules, which is how the core API functions</span>

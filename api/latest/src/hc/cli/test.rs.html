@@ -127,6 +127,8 @@
 <span id="127">127</span>
 <span id="128">128</span>
 <span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">cli</span>::<span class="ident">package</span>, <span class="ident">error</span>::<span class="ident">DefaultResult</span>, <span class="ident">util</span>};
@@ -170,6 +172,7 @@
     <span class="comment">// npm install, if no node_modules yet</span>
     <span class="kw">let</span> <span class="ident">node_modules_path</span> <span class="op">=</span> <span class="ident">tests_path</span>.<span class="ident">join</span>(<span class="string">&quot;node_modules&quot;</span>);
     <span class="kw">if</span> <span class="op">!</span><span class="ident">node_modules_path</span>.<span class="ident">exists</span>() {
+        <span class="comment">// CLI feedback</span>
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Installing node_modules&quot;</span>.<span class="ident">green</span>().<span class="ident">bold</span>());
         <span class="ident">util</span>::<span class="ident">run_cmd</span>(
             <span class="ident">tests_path</span>.<span class="ident">clone</span>(),
@@ -179,6 +182,7 @@
     }
 
     <span class="comment">// execute the built test file using node</span>
+    <span class="comment">// CLI feedback</span>
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{} tests in {}&quot;</span>, <span class="string">&quot;Running&quot;</span>.<span class="ident">green</span>().<span class="ident">bold</span>(), <span class="ident">testfile</span>,);
     <span class="ident">util</span>::<span class="ident">run_cmd</span>(
         <span class="ident">path</span>.<span class="ident">to_path_buf</span>(),

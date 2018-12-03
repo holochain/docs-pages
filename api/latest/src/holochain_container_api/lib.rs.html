@@ -114,11 +114,15 @@
 <span id="114">114</span>
 <span id="115">115</span>
 <span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! let file_system = Arc::new(RwLock::new(FilesystemStorage::new(tempdir().unwrap().path().to_str().unwrap()).unwrap()));</span>
 <span class="doccomment">//!     Arc::new(Mutex::new(SimplePersister::new(file_system.clone()))),</span>
 <span class="doccomment">//!     file_system.clone(),</span>
-<span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
+
+<span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>, <span class="ident">async_await</span>, <span class="ident">await_macro</span>)]</span>
+
 <span class="doccomment">/// Holochain Container API</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This crate is a library that provides types and functions that help with building</span>

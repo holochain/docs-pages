@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["initialize_network","InitNetwork Action Creator"]],"struct":[["InitNetworkFuture",""]]});

@@ -393,6 +393,19 @@
 <span id="393">393</span>
 <span id="394">394</span>
 <span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">config</span>::{<span class="ident">Configuration</span>, <span class="ident">InterfaceConfiguration</span>, <span class="ident">InterfaceDriver</span>, <span class="ident">StorageConfiguration</span>},
@@ -400,14 +413,16 @@
     <span class="ident">Holochain</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::{
-    <span class="ident">cas</span>::<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">eav</span>::<span class="ident">file</span>::<span class="ident">EavFileStorage</span>, <span class="ident">path</span>::<span class="ident">create_path_if_not_exists</span>,
+    <span class="ident">cas</span>::{<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">memory</span>::<span class="ident">MemoryStorage</span>},
+    <span class="ident">eav</span>::{<span class="ident">file</span>::<span class="ident">EavFileStorage</span>, <span class="ident">memory</span>::<span class="ident">EavMemoryStorage</span>},
+    <span class="ident">path</span>::<span class="ident">create_path_if_not_exists</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">context</span>::<span class="ident">Context</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">dna</span>::<span class="ident">Dna</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+<span class="kw">use</span> <span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
 
 <span class="kw">use</span> <span class="ident">holochain_core</span>::{<span class="ident">logger</span>::<span class="ident">Logger</span>, <span class="ident">persister</span>::<span class="ident">SimplePersister</span>};
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">agent</span>::<span class="ident">Agent</span>;
-<span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_network</span>::<span class="ident">P2pNetwork</span>;
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">agent</span>::<span class="ident">AgentId</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">clone</span>::<span class="ident">Clone</span>,
     <span class="ident">collections</span>::<span class="ident">HashMap</span>,
@@ -505,7 +520,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_config</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">Configuration</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">check_consistency</span>()<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">shutdown</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">id_instance_pairs</span> <span class="op">=</span> <span class="ident">config</span>
+        <span class="kw">let</span> <span class="ident">id_instance_pairs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">config</span>
             .<span class="ident">instance_ids</span>()
             .<span class="ident">clone</span>()
             .<span class="ident">into_iter</span>()
@@ -515,9 +530,9 @@
                     <span class="ident">instantiate_from_config</span>(<span class="kw-2">&amp;</span><span class="ident">id</span>, <span class="ident">config</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">dna_loader</span>),
                 )
             })
-            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
+            .<span class="ident">collect</span>();
 
-        <span class="kw">let</span> <span class="ident">errors</span> <span class="op">=</span> <span class="ident">id_instance_pairs</span>
+        <span class="kw">let</span> <span class="ident">errors</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">id_instance_pairs</span>
             .<span class="ident">into_iter</span>()
             .<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="ident">maybe_holochain</span>)<span class="op">|</span> <span class="kw">match</span> <span class="ident">maybe_holochain</span> {
                 <span class="prelude-val">Ok</span>(<span class="ident">holochain</span>) <span class="op">=&gt;</span> {
@@ -530,7 +545,7 @@
                     <span class="ident">id</span>, <span class="ident">error</span>
                 )),
             })
-            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
+            .<span class="ident">collect</span>();
 
         <span class="kw">if</span> <span class="ident">errors</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span> {
             <span class="prelude-val">Ok</span>(())
@@ -558,13 +573,11 @@
     }
 
     <span class="kw">fn</span> <span class="ident">make_dispatcher</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interface_config</span>: <span class="kw-2">&amp;</span><span class="ident">InterfaceConfiguration</span>) <span class="op">-&gt;</span> <span class="ident">ContainerApiDispatcher</span> {
-        <span class="kw">let</span> <span class="ident">InterfaceConfiguration</span> {
-            <span class="ident">id</span>: <span class="kw">_</span>,
-            <span class="ident">driver</span>: <span class="kw">_</span>,
-            <span class="ident">admin</span>: <span class="kw">_</span>,
-            <span class="ident">instances</span>,
-        } <span class="op">=</span> <span class="ident">interface_config</span>;
-        <span class="kw">let</span> <span class="ident">instance_ids</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">instances</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">i</span>.<span class="ident">id</span>.<span class="ident">clone</span>()).<span class="ident">collect</span>();
+        <span class="kw">let</span> <span class="ident">instance_ids</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">interface_config</span>
+            .<span class="ident">instances</span>
+            .<span class="ident">iter</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">i</span>.<span class="ident">id</span>.<span class="ident">clone</span>())
+            .<span class="ident">collect</span>();
         <span class="kw">let</span> <span class="ident">instance_subset</span>: <span class="ident">InstanceMap</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">instances</span>
             .<span class="ident">iter</span>()
@@ -631,10 +644,15 @@
                 ))
             })<span class="question-mark">?</span>;
 
+            <span class="kw">let</span> <span class="ident">network</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({<span class="string">&quot;backend&quot;</span>: <span class="string">&quot;mock&quot;</span>}).<span class="ident">into</span>();
+
             <span class="kw">let</span> <span class="ident">context</span>: <span class="ident">Context</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">instance_config</span>.<span class="ident">storage</span> {
-                <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> { <span class="ident">path</span> } <span class="op">=&gt;</span> <span class="ident">create_context</span>(<span class="kw-2">&amp;</span><span class="ident">agent_config</span>.<span class="ident">id</span>, <span class="kw-2">&amp;</span><span class="ident">path</span>)
+                <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> { <span class="ident">path</span> } <span class="op">=&gt;</span> {
+                    <span class="ident">create_file_context</span>(<span class="kw-2">&amp;</span><span class="ident">agent_config</span>.<span class="ident">id</span>, <span class="kw-2">&amp;</span><span class="ident">path</span>, <span class="ident">network</span>)
+                        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error creating context: {}&quot;</span>, <span class="ident">hc_err</span>.<span class="ident">to_string</span>()))
+                }
+                <span class="ident">StorageConfiguration</span>::<span class="ident">Memory</span> <span class="op">=&gt;</span> <span class="ident">create_memory_context</span>(<span class="kw-2">&amp;</span><span class="ident">agent_config</span>.<span class="ident">id</span>, <span class="ident">network</span>)
                     .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error creating context: {}&quot;</span>, <span class="ident">hc_err</span>.<span class="ident">to_string</span>())),
-                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Only file storage supported currently&quot;</span>.<span class="ident">to_string</span>()),
             }<span class="question-mark">?</span>;
 
             <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>, <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">context</span>)).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="ident">hc_err</span>.<span class="ident">to_string</span>())
@@ -648,21 +666,36 @@
     <span class="kw">fn</span> <span class="ident">log</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_msg</span>: <span class="ident">String</span>) {}
 }
 
-<span class="kw">fn</span> <span class="ident">create_context</span>(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Context</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="ident">Agent</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;c+bob&quot;</span>);
+<span class="kw">fn</span> <span class="ident">create_memory_context</span>(
+    <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
+    <span class="ident">network_config</span>: <span class="ident">JsonString</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Context</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;c+bob&quot;</span>);
+    <span class="kw">let</span> <span class="ident">tempdir</span> <span class="op">=</span> <span class="ident">tempdir</span>().<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">file_storage</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(
+        <span class="ident">FilesystemStorage</span>::<span class="ident">new</span>(<span class="ident">tempdir</span>.<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>()).<span class="ident">unwrap</span>(),
+    ));
+
+    <span class="ident">Context</span>::<span class="ident">new</span>(
+        <span class="ident">agent</span>,
+        <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">NullLogger</span> {})),
+        <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>()))),
+        <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">MemoryStorage</span>::<span class="ident">new</span>())),
+        <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">EavMemoryStorage</span>::<span class="ident">new</span>())),
+        <span class="ident">network_config</span>,
+    )
+}
+
+<span class="kw">fn</span> <span class="ident">create_file_context</span>(
+    <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
+    <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
+    <span class="ident">network_config</span>: <span class="ident">JsonString</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Context</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;c+bob&quot;</span>);
     <span class="kw">let</span> <span class="ident">cas_path</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}/cas&quot;</span>, <span class="ident">path</span>);
     <span class="kw">let</span> <span class="ident">eav_path</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}/eav&quot;</span>, <span class="ident">path</span>);
     <span class="ident">create_path_if_not_exists</span>(<span class="kw-2">&amp;</span><span class="ident">cas_path</span>)<span class="question-mark">?</span>;
     <span class="ident">create_path_if_not_exists</span>(<span class="kw-2">&amp;</span><span class="ident">eav_path</span>)<span class="question-mark">?</span>;
-
-    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">P2pNetwork</span>::<span class="ident">new</span>(
-        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">_r</span><span class="op">|</span> <span class="prelude-val">Ok</span>(())),
-        <span class="kw-2">&amp;</span><span class="macro">json</span><span class="macro">!</span>({
-            <span class="string">&quot;backend&quot;</span>: <span class="string">&quot;mock&quot;</span>
-        })
-        .<span class="ident">into</span>(),
-    )
-    .<span class="ident">unwrap</span>();
 
     <span class="kw">let</span> <span class="ident">file_storage</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">FilesystemStorage</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">cas_path</span>)<span class="question-mark">?</span>));
 
@@ -672,7 +705,7 @@
         <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>()))),
         <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
         <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">EavFileStorage</span>::<span class="ident">new</span>(<span class="ident">eav_path</span>)<span class="question-mark">?</span>)),
-        <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">res</span>)),
+        <span class="ident">network_config</span>,
     )
 }
 
@@ -707,8 +740,7 @@
     type = &quot;simple&quot;
     file = &quot;app_spec.log&quot;
     [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;tmp-storage&quot;
+    type = &quot;memory&quot;
 
     [[interfaces]]
     id = &quot;app spec interface&quot;
@@ -720,24 +752,18 @@
     &quot;#</span>
     }
 
-    <span class="comment">//#[test]</span>
-    <span class="comment">// TODO</span>
-    <span class="comment">// Deactivating this test because tests running in parallel creating Holochain instances</span>
-    <span class="comment">// currently fail with:</span>
-    <span class="comment">// &quot;Error creating context: Failed to create actor in system: Failed to create actor.</span>
-    <span class="comment">// Cause: An actor at the same path already exists&quot;</span>
-    <span class="comment">// This needs to be fixed in another PR.</span>
-    <span class="comment">// #[cfg_attr(tarpaulin, skip)]</span>
-    <span class="comment">// fn test_instantiate_from_config() {</span>
-    <span class="comment">//     let config = load_configuration::&lt;Configuration&gt;(test_toml()).unwrap();</span>
-    <span class="comment">//     let maybe_holochain = instantiate_from_config(</span>
-    <span class="comment">//         &amp;&quot;app spec instance&quot;.to_string(),</span>
-    <span class="comment">//         &amp;config,</span>
-    <span class="comment">//         &amp;mut test_dna_loader(),</span>
-    <span class="comment">//     );</span>
-    <span class="comment">//</span>
-    <span class="comment">//     assert_eq!(maybe_holochain.err(), None);</span>
-    <span class="comment">// }</span>
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">test_instantiate_from_config</span>() {
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">test_toml</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">maybe_holochain</span> <span class="op">=</span> <span class="ident">instantiate_from_config</span>(
+            <span class="kw-2">&amp;</span><span class="string">&quot;app spec instance&quot;</span>.<span class="ident">to_string</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">config</span>,
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>(),
+        );
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">maybe_holochain</span>.<span class="ident">err</span>(), <span class="prelude-val">None</span>);
+    }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_container_load_config</span>() {
@@ -784,7 +810,7 @@
         <span class="kw">let</span> <span class="ident">io</span> <span class="op">=</span> <span class="ident">dispatcher</span>.<span class="ident">io</span>;
 
         <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="string">r#&quot;{&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;info/instances&quot;, &quot;params&quot;: null, &quot;id&quot;: 1}&quot;#</span>;
-        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="string">r#&quot;{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;result&quot;:&quot;{\&quot;app spec instance\&quot;:{\&quot;id\&quot;:\&quot;app spec instance\&quot;,\&quot;dna\&quot;:\&quot;app spec rust\&quot;,\&quot;agent\&quot;:\&quot;test agent\&quot;,\&quot;logger\&quot;:{\&quot;type\&quot;:\&quot;simple\&quot;,\&quot;file\&quot;:\&quot;app_spec.log\&quot;},\&quot;storage\&quot;:{\&quot;type\&quot;:\&quot;file\&quot;,\&quot;path\&quot;:\&quot;tmp-storage\&quot;}}}&quot;,&quot;id&quot;:1}&quot;#</span>;
+        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="string">r#&quot;{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;result&quot;:&quot;{\&quot;app spec instance\&quot;:{\&quot;id\&quot;:\&quot;app spec instance\&quot;,\&quot;dna\&quot;:\&quot;app spec rust\&quot;,\&quot;agent\&quot;:\&quot;test agent\&quot;,\&quot;logger\&quot;:{\&quot;type\&quot;:\&quot;simple\&quot;,\&quot;file\&quot;:\&quot;app_spec.log\&quot;},\&quot;storage\&quot;:{\&quot;type\&quot;:\&quot;memory\&quot;}}}&quot;,&quot;id&quot;:1}&quot;#</span>;
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">io</span>.<span class="ident">handle_request_sync</span>(<span class="ident">request</span>), <span class="prelude-val">Some</span>(<span class="ident">response</span>.<span class="ident">to_owned</span>()));
     }

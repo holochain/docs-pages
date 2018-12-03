@@ -320,21 +320,6 @@
 <span id="320">320</span>
 <span id="321">321</span>
 <span id="322">322</span>
-<span id="323">323</span>
-<span id="324">324</span>
-<span id="325">325</span>
-<span id="326">326</span>
-<span id="327">327</span>
-<span id="328">328</span>
-<span id="329">329</span>
-<span id="330">330</span>
-<span id="331">331</span>
-<span id="332">332</span>
-<span id="333">333</span>
-<span id="334">334</span>
-<span id="335">335</span>
-<span id="336">336</span>
-<span id="337">337</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -502,7 +487,7 @@
 
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{
-        <span class="ident">context</span>::<span class="ident">Context</span>,
+        <span class="ident">context</span>::{<span class="ident">mock_network_config</span>, <span class="ident">Context</span>},
         <span class="ident">instance</span>::{
             <span class="ident">tests</span>::{<span class="ident">test_instance</span>, <span class="ident">TestLogger</span>},
             <span class="ident">Observer</span>, <span class="ident">RECV_DEFAULT_TIMEOUT_MS</span>,
@@ -522,12 +507,11 @@
     };
     <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::{<span class="ident">cas</span>::<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">eav</span>::<span class="ident">file</span>::<span class="ident">EavFileStorage</span>};
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-        <span class="ident">agent</span>::<span class="ident">Agent</span>,
+        <span class="ident">agent</span>::<span class="ident">AgentId</span>,
         <span class="ident">dna</span>::{<span class="ident">zome</span>::<span class="ident">capabilities</span>::<span class="ident">Capability</span>, <span class="ident">Dna</span>},
         <span class="ident">error</span>::{<span class="ident">DnaError</span>, <span class="ident">HolochainError</span>},
         <span class="ident">json</span>::<span class="ident">JsonString</span>,
     };
-    <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_network</span>::<span class="ident">P2pNetwork</span>;
     <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">ZomeFnCallArgs</span>;
     <span class="kw">use</span> <span class="ident">serde_json</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{
@@ -563,20 +547,6 @@
             .<span class="ident">into_bytes</span>()
     }
 
-    <span class="doccomment">/// create a test network</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">make_mock_net</span>() <span class="op">-&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">P2pNetwork</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">P2pNetwork</span>::<span class="ident">new</span>(
-            <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">_r</span><span class="op">|</span> <span class="prelude-val">Ok</span>(())),
-            <span class="kw-2">&amp;</span><span class="macro">json</span><span class="macro">!</span>({
-                <span class="string">&quot;backend&quot;</span>: <span class="string">&quot;mock&quot;</span>
-            })
-            .<span class="ident">into</span>(),
-        )
-        .<span class="ident">unwrap</span>();
-        <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">res</span>))
-    }
-
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
     <span class="kw">fn</span> <span class="ident">create_context</span>() <span class="op">-&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">file_storage</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(
@@ -584,7 +554,7 @@
         ));
         <span class="ident">Arc</span>::<span class="ident">new</span>(
             <span class="ident">Context</span>::<span class="ident">new</span>(
-                <span class="ident">Agent</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;alex&quot;</span>),
+                <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;alex&quot;</span>),
                 <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">TestLogger</span> { <span class="ident">log</span>: <span class="ident">Vec</span>::<span class="ident">new</span>() })),
                 <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>()))),
                 <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
@@ -592,7 +562,7 @@
                     <span class="ident">EavFileStorage</span>::<span class="ident">new</span>(<span class="ident">tempdir</span>().<span class="ident">unwrap</span>().<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>())
                         .<span class="ident">unwrap</span>(),
                 )),
-                <span class="ident">make_mock_net</span>(),
+                <span class="ident">mock_network_config</span>(),
             )
             .<span class="ident">unwrap</span>(),
         )
