@@ -28,8 +28,8 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_signature</span>() <span class="op">-&gt;</span> <span class="ident">Signature</span> {
-    <span class="ident">Signature</span>::<span class="ident">from</span>(<span class="string">&quot;fake-signature&quot;</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_signatures</span>() <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Signature</span><span class="op">&gt;</span> {
+    <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Signature</span>::<span class="ident">from</span>(<span class="string">&quot;fake-signature&quot;</span>)]
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_signature_b</span>() <span class="op">-&gt;</span> <span class="ident">Signature</span> {

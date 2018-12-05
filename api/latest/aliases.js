@@ -12,6 +12,7 @@ ALIASES['holochain_dna_c_binding'] = {};
 ALIASES['holochain_net'] = {};
 ALIASES['holochain_net_connection'] = {};
 ALIASES['holochain_net_ipc'] = {};
+ALIASES['holochain_sodium'] = {};
 ALIASES['holochain_test_bin'] = {};
 ALIASES['holochain_wasm_utils'] = {};
 ALIASES['test_bin_ipc'] = {};
