@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["reduce",""]],"mod":[["init",""],["publish",""]]});
+initSidebarItems({"fn":[["reduce",""]],"mod":[["get_entry",""],["handle_get_result",""],["init",""],["publish",""],["respond_get",""]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["author_entry",""]]});
+initSidebarItems({"mod":[["author_entry",""],["get_entry",""]]});
