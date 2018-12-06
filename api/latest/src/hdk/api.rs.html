@@ -1100,9 +1100,8 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// fn handle_sum(num1: u32, num2: u32) -&gt; JsonString {</span>
-<span class="doccomment">///     let sum = num1 + num2;</span>
-<span class="doccomment">///     return json!({&quot;sum&quot;: format!(&quot;{}&quot;,sum)}).into();</span>
+<span class="doccomment">/// fn handle_sum(num1: u32, num2: u32) -&gt; u32 {</span>
+<span class="doccomment">///     num1 + num2</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// define_zome! {</span>
@@ -1116,7 +1115,7 @@
 <span class="doccomment">///         main (Public) {</span>
 <span class="doccomment">///             sum: {</span>
 <span class="doccomment">///                 inputs: |num1: u32, num2: u32|,</span>
-<span class="doccomment">///                 outputs: |sum: JsonString|,</span>
+<span class="doccomment">///                 outputs: |sum: u32|,</span>
 <span class="doccomment">///                 handler: handle_sum</span>
 <span class="doccomment">///             }</span>
 <span class="doccomment">///         }</span>
@@ -1142,6 +1141,8 @@
 <span class="doccomment">/// # use hdk::holochain_core_types::hash::HashString;</span>
 <span class="doccomment">/// # use hdk::holochain_core_types::json::JsonString;</span>
 <span class="doccomment">/// # use hdk::holochain_core_types::error::HolochainError;</span>
+<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
+<span class="doccomment">/// # use std::convert::TryInto;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # // Adding empty functions so that the cfg(test) build can link.</span>
 <span class="doccomment">/// # #[no_mangle]</span>
@@ -1159,7 +1160,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// fn handle_check_sum(num1: u32, num2: u32) -&gt; JsonString {</span>
+<span class="doccomment">/// fn handle_check_sum(num1: u32, num2: u32) -&gt; ZomeApiResult&lt;u32&gt; {</span>
 <span class="doccomment">///     #[derive(Serialize, Deserialize, Debug, DefaultJson)]</span>
 <span class="doccomment">///     struct SumInput {</span>
 <span class="doccomment">///         num1: u32,</span>
@@ -1169,15 +1170,14 @@
 <span class="doccomment">///         num1: num1,</span>
 <span class="doccomment">///         num2: num2,</span>
 <span class="doccomment">///     };</span>
-<span class="doccomment">///     let maybe_result = hdk::call(</span>
+<span class="doccomment">///     match hdk::call(</span>
 <span class="doccomment">///         &quot;summer&quot;,</span>
 <span class="doccomment">///         &quot;main&quot;,</span>
 <span class="doccomment">///         &quot;sum&quot;,</span>
 <span class="doccomment">///         call_input.into()</span>
-<span class="doccomment">///     );</span>
-<span class="doccomment">///     match maybe_result {</span>
-<span class="doccomment">///         Ok(result) =&gt; result.into(),</span>
-<span class="doccomment">///         Err(hdk_error) =&gt; hdk_error.into(),</span>
+<span class="doccomment">///     ) {</span>
+<span class="doccomment">///         Ok(json) =&gt; Ok(json.try_into()?),</span>
+<span class="doccomment">///         Err(e) =&gt; Err(e),</span>
 <span class="doccomment">///     }</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -1192,7 +1192,7 @@
 <span class="doccomment">///         main (Public) {</span>
 <span class="doccomment">///             check_sum: {</span>
 <span class="doccomment">///                 inputs: |num1: u32, num2: u32|,</span>
-<span class="doccomment">///                 outputs: |sum: JsonString|,</span>
+<span class="doccomment">///                 outputs: |maybe_sum: ZomeApiResult&lt;u32&gt;|,</span>
 <span class="doccomment">///                 handler: handle_check_sum</span>
 <span class="doccomment">///             }</span>
 <span class="doccomment">///         }</span>

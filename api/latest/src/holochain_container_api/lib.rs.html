@@ -115,7 +115,6 @@
 <span id="115">115</span>
 <span id="116">116</span>
 <span id="117">117</span>
-<span id="118">118</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! let file_system = Arc::new(RwLock::new(FilesystemStorage::new(tempdir().unwrap().path().to_str().unwrap()).unwrap()));</span>
 <span class="doccomment">//!     Arc::new(Mutex::new(SimplePersister::new(file_system.clone()))),</span>
@@ -218,10 +217,9 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tempfile</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_derive</span>;
-<span class="attribute">#[<span class="ident">macro_use</span>]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">boolinator</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">jsonrpc_ws_server</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test_utils</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tiny_http</span>;

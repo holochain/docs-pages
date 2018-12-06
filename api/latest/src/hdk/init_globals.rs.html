@@ -31,7 +31,7 @@
 <span class="doccomment">//! which initializes the Zome API Globals with the values it receives from the Ribosome.</span>
 <span class="doccomment">//! It is automatically called at startup of each Zome function call.</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">ZomeApiError</span>, <span class="ident">ZomeApiResult</span>};
+<span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">ZomeApiError</span>, <span class="ident">ZomeApiResult</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">error</span>::<span class="ident">ZomeApiInternalResult</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::{<span class="ident">api_serialization</span>::<span class="ident">ZomeApiGlobals</span>, <span class="ident">memory_serialization</span>::<span class="ident">load_json</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryInto</span>;

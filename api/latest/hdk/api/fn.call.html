@@ -10,9 +10,8 @@ Here are two Zome examples, where one performs a <code>call</code> into the othe
 
 
 
-<span class="kw">fn</span> <span class="ident">handle_sum</span>(<span class="ident">num1</span>: <span class="ident">u32</span>, <span class="ident">num2</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">JsonString</span> {
-    <span class="kw">let</span> <span class="ident">sum</span> <span class="op">=</span> <span class="ident">num1</span> <span class="op">+</span> <span class="ident">num2</span>;
-    <span class="kw">return</span> <span class="macro">json</span><span class="macro">!</span>({<span class="string">&quot;sum&quot;</span>: <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>,<span class="ident">sum</span>)}).<span class="ident">into</span>();
+<span class="kw">fn</span> <span class="ident">handle_sum</span>(<span class="ident">num1</span>: <span class="ident">u32</span>, <span class="ident">num2</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+    <span class="ident">num1</span> <span class="op">+</span> <span class="ident">num2</span>
 }
 
 <span class="macro">define_zome</span><span class="macro">!</span> {
@@ -26,7 +25,7 @@ Here are two Zome examples, where one performs a <code>call</code> into the othe
         <span class="ident">main</span> (<span class="ident">Public</span>) {
             <span class="ident">sum</span>: {
                 <span class="ident">inputs</span>: <span class="op">|</span><span class="ident">num1</span>: <span class="ident">u32</span>, <span class="ident">num2</span>: <span class="ident">u32</span><span class="op">|</span>,
-                <span class="ident">outputs</span>: <span class="op">|</span><span class="ident">sum</span>: <span class="ident">JsonString</span><span class="op">|</span>,
+                <span class="ident">outputs</span>: <span class="op">|</span><span class="ident">sum</span>: <span class="ident">u32</span><span class="op">|</span>,
                 <span class="ident">handler</span>: <span class="ident">handle_sum</span>
             }
         }
@@ -40,7 +39,7 @@ Here are two Zome examples, where one performs a <code>call</code> into the othe
 
 
 
-<span class="kw">fn</span> <span class="ident">handle_check_sum</span>(<span class="ident">num1</span>: <span class="ident">u32</span>, <span class="ident">num2</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">JsonString</span> {
+<span class="kw">fn</span> <span class="ident">handle_check_sum</span>(<span class="ident">num1</span>: <span class="ident">u32</span>, <span class="ident">num2</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">DefaultJson</span>)]</span>
     <span class="kw">struct</span> <span class="ident">SumInput</span> {
         <span class="ident">num1</span>: <span class="ident">u32</span>,
@@ -50,15 +49,14 @@ Here are two Zome examples, where one performs a <code>call</code> into the othe
         <span class="ident">num1</span>: <span class="ident">num1</span>,
         <span class="ident">num2</span>: <span class="ident">num2</span>,
     };
-    <span class="kw">let</span> <span class="ident">maybe_result</span> <span class="op">=</span> <span class="ident">hdk</span>::<span class="ident">call</span>(
+    <span class="kw">match</span> <span class="ident">hdk</span>::<span class="ident">call</span>(
         <span class="string">&quot;summer&quot;</span>,
         <span class="string">&quot;main&quot;</span>,
         <span class="string">&quot;sum&quot;</span>,
         <span class="ident">call_input</span>.<span class="ident">into</span>()
-    );
-    <span class="kw">match</span> <span class="ident">maybe_result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">into</span>(),
-        <span class="prelude-val">Err</span>(<span class="ident">hdk_error</span>) <span class="op">=&gt;</span> <span class="ident">hdk_error</span>.<span class="ident">into</span>(),
+    ) {
+        <span class="prelude-val">Ok</span>(<span class="ident">json</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">json</span>.<span class="ident">try_into</span>()<span class="question-mark">?</span>),
+        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
     }
 }
 
@@ -73,7 +71,7 @@ Here are two Zome examples, where one performs a <code>call</code> into the othe
         <span class="ident">main</span> (<span class="ident">Public</span>) {
             <span class="ident">check_sum</span>: {
                 <span class="ident">inputs</span>: <span class="op">|</span><span class="ident">num1</span>: <span class="ident">u32</span>, <span class="ident">num2</span>: <span class="ident">u32</span><span class="op">|</span>,
-                <span class="ident">outputs</span>: <span class="op">|</span><span class="ident">sum</span>: <span class="ident">JsonString</span><span class="op">|</span>,
+                <span class="ident">outputs</span>: <span class="op">|</span><span class="ident">maybe_sum</span>: <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span><span class="op">|</span>,
                 <span class="ident">handler</span>: <span class="ident">handle_check_sum</span>
             }
         }

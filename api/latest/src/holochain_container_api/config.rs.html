@@ -484,6 +484,55 @@
 <span id="484">484</span>
 <span id="485">485</span>
 <span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
 </pre><pre class="rust ">
 <span class="doccomment">/// Container Configuration</span>
 <span class="doccomment">/// This module provides structs that represent the different aspects of how</span>
@@ -626,7 +675,7 @@
 }
 
 <span class="doccomment">/// An instance combines a DNA with an agent.</span>
-<span class="doccomment">/// Each instance has its own storage and logger configuration.</span>
+<span class="doccomment">/// Each instance has its own network, storage and logger configuration.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
@@ -634,6 +683,7 @@
     <span class="kw">pub</span> <span class="ident">agent</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">logger</span>: <span class="ident">LoggerConfiguration</span>,
     <span class="kw">pub</span> <span class="ident">storage</span>: <span class="ident">StorageConfiguration</span>,
+    <span class="kw">pub</span> <span class="ident">network</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// There might be different kinds of loggers in the future.</span>
@@ -716,8 +766,11 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">config</span>::{<span class="ident">load_configuration</span>, <span class="ident">Configuration</span>};
 
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">config</span>::{<span class="ident">load_configuration</span>, <span class="ident">Configuration</span>, <span class="ident">InterfaceDriver</span>, <span class="ident">StorageConfiguration</span>};
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">example_serialized_network_config</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;{\\\&quot;backend\\\&quot;:\\\&quot;mock\\\&quot;}&quot;</span>)
+    }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_agent_load</span>() {
@@ -772,6 +825,68 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_load_complete_config</span>() {
+        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">r#&quot;
+    [[agents]]
+    id = &quot;test agent&quot;
+    name = &quot;Holo Tester&quot;
+    key_file = &quot;holo_tester.key&quot;
+
+    [[dnas]]
+    id = &quot;app spec rust&quot;
+    file = &quot;app_spec.hcpkg&quot;
+    hash = &quot;Qm328wyq38924y&quot;
+
+    [[instances]]
+    id = &quot;app spec instance&quot;
+    dna = &quot;app spec rust&quot;
+    agent = &quot;test agent&quot;
+    network = &quot;{}&quot;
+    [instances.logger]
+    type = &quot;simple&quot;
+    file = &quot;app_spec.log&quot;
+    [instances.storage]
+    type = &quot;file&quot;
+    path = &quot;app_spec_storage&quot;
+
+    [[interfaces]]
+    id = &quot;app spec websocket interface&quot;
+    [interfaces.driver]
+    type = &quot;websocket&quot;
+    port = 8888
+    [[interfaces.instances]]
+    id = &quot;app spec instance&quot;
+
+    [[interfaces]]
+    id = &quot;app spec domainsocket interface&quot;
+    [interfaces.driver]
+    type = &quot;domainsocket&quot;
+    file = &quot;/tmp/holochain.sock&quot;
+    [[interfaces.instances]]
+    id = &quot;app spec instance&quot;
+    &quot;#</span>,
+            <span class="string">&quot;{\\\&quot;backend\\\&quot;:\\\&quot;special\\\&quot;}&quot;</span>
+        );
+
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">check_consistency</span>(), <span class="prelude-val">Ok</span>(()));
+        <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">dnas</span>;
+        <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="string">&quot;Qm328wyq38924y&quot;</span>);
+
+        <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">instances</span>;
+        <span class="kw">let</span> <span class="ident">instance_config</span> <span class="op">=</span> <span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">instance_config</span>.<span class="ident">network</span>,
+            <span class="prelude-val">Some</span>(<span class="string">&quot;{\&quot;backend\&quot;:\&quot;special\&quot;}&quot;</span>.<span class="ident">to_string</span>())
+        );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_load_complete_config_default_network</span>() {
         <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
     [[agents]]
     id = &quot;test agent&quot;
@@ -809,8 +924,8 @@
     file = &quot;/tmp/holochain.sock&quot;
     [[interfaces.instances]]
     id = &quot;app spec instance&quot;
-
     &quot;#</span>;
+
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">check_consistency</span>(), <span class="prelude-val">Ok</span>(()));
@@ -825,38 +940,13 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec instance&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">dna</span>, <span class="string">&quot;app spec rust&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">agent</span>, <span class="string">&quot;test agent&quot;</span>);
-        <span class="kw">let</span> <span class="ident">logger_config</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">instance_config</span>.<span class="ident">logger</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">logger_config</span>.<span class="ident">logger_type</span>, <span class="string">&quot;simple&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">logger_config</span>.<span class="ident">file</span>, <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app_spec.log&quot;</span>)));
-        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> { <span class="ident">path</span> } <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">instance_config</span>.<span class="ident">storage</span> {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">path</span>, <span class="string">&quot;app_spec_storage&quot;</span>);
-        } <span class="kw">else</span> {
-            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Wrong enum type&quot;</span>);
-        }
-
-        <span class="kw">let</span> <span class="ident">interfaces</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">interfaces</span>;
-        <span class="kw">let</span> <span class="ident">interface_config_0</span> <span class="op">=</span> <span class="ident">interfaces</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">interface_config_1</span> <span class="op">=</span> <span class="ident">interfaces</span>.<span class="ident">get</span>(<span class="number">1</span>).<span class="ident">unwrap</span>();
-        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">InterfaceDriver</span>::<span class="ident">Websocket</span> { <span class="ident">port</span> } <span class="op">=</span> <span class="ident">interface_config_0</span>.<span class="ident">driver</span> {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">port</span>, <span class="number">8888</span>);
-        } <span class="kw">else</span> {
-            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Wrong enum type&quot;</span>);
-        }
-        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">InterfaceDriver</span>::<span class="ident">DomainSocket</span> { <span class="kw-2">ref</span> <span class="ident">file</span> } <span class="op">=</span> <span class="ident">interface_config_1</span>.<span class="ident">driver</span> {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">file</span>, <span class="string">&quot;/tmp/holochain.sock&quot;</span>);
-        } <span class="kw">else</span> {
-            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Wrong enum type&quot;</span>);
-        }
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">interface_config_0</span>.<span class="ident">admin</span>, <span class="bool-val">false</span>);
-        <span class="kw">let</span> <span class="ident">instance_ref</span> <span class="op">=</span> <span class="ident">interface_config_0</span>.<span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_ref</span>.<span class="ident">id</span>, <span class="string">&quot;app spec instance&quot;</span>);
-
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">bridges</span>, <span class="macro">vec</span><span class="macro">!</span>[]);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">network</span>, <span class="prelude-val">None</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_inconsistent_config</span>() {
-        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
+        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">r#&quot;
     [[agents]]
     id = &quot;test agent&quot;
     name = &quot;Holo Tester&quot;
@@ -871,14 +961,16 @@
     id = &quot;app spec instance&quot;
     dna = &quot;WRONG DNA ID&quot;
     agent = &quot;test agent&quot;
+    network = &quot;{}&quot;
     [instances.logger]
     type = &quot;simple&quot;
     file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;file&quot;
     path = &quot;app_spec_storage&quot;
-
-    &quot;#</span>;
+    &quot;#</span>,
+            <span class="ident">example_serialized_network_config</span>()
+        );
         <span class="kw">let</span> <span class="ident">config</span>: <span class="ident">Configuration</span> <span class="op">=</span> <span class="ident">load_configuration</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">check_consistency</span>(), <span class="prelude-val">Err</span>(<span class="string">&quot;DNA configuration \&quot;WRONG DNA ID\&quot; not found, mentioned in instance \&quot;app spec instance\&quot;&quot;</span>.<span class="ident">to_string</span>()));
@@ -886,7 +978,8 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_inconsistent_config_interface_1</span>() {
-        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
+        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">r#&quot;
     [[agents]]
     id = &quot;test agent&quot;
     name = &quot;Holo Tester&quot;
@@ -901,6 +994,7 @@
     id = &quot;app spec instance&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
+    network = &quot;{}&quot;
     [instances.logger]
     type = &quot;simple&quot;
     file = &quot;app_spec.log&quot;
@@ -915,8 +1009,9 @@
     port = 8888
     [[interfaces.instances]]
     id = &quot;WRONG INSTANCE ID&quot;
-
-    &quot;#</span>;
+    &quot;#</span>,
+            <span class="ident">example_serialized_network_config</span>()
+        );
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
@@ -930,7 +1025,8 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_invalid_toml_1</span>() {
-        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
+        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">r#&quot;
     [[agents]]
     id = &quot;test agent&quot;
     name = &quot;Holo Tester&quot;
@@ -945,6 +1041,7 @@
     id = &quot;app spec instance&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
+    network = &quot;{}&quot;
     [instances.logger]
     type = &quot;simple&quot;
     file = &quot;app_spec.log&quot;
@@ -959,8 +1056,9 @@
     port = 8888
     [[interfaces.instances]]
     id = &quot;app spec instance&quot;
-
-    &quot;#</span>;
+    &quot;#</span>,
+            <span class="ident">example_serialized_network_config</span>()
+        );
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>) {
             <span class="macro">assert</span><span class="macro">!</span>(
                 <span class="bool-val">true</span>,

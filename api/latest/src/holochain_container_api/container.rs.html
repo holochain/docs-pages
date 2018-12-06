@@ -406,6 +406,54 @@
 <span id="406">406</span>
 <span id="407">407</span>
 <span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">config</span>::{<span class="ident">Configuration</span>, <span class="ident">InterfaceConfiguration</span>, <span class="ident">InterfaceDriver</span>, <span class="ident">StorageConfiguration</span>},
@@ -444,9 +492,8 @@
 <span class="doccomment">/// which takes a `config::Configuration` struct and tries to instantiate all configured instances.</span>
 <span class="doccomment">/// While doing so it has to load DNA files referenced in the configuration.</span>
 <span class="doccomment">/// In order to not bind this code to the assumption that there is a filesystem</span>
-<span class="doccomment">/// and also enable easier testing,</span>
-<span class="doccomment">/// a DnaLoader has to be injected on creation.</span>
-<span class="doccomment">/// This is a closure that returns a Dna object for a given path string.</span>
+<span class="doccomment">/// and also enable easier testing, a DnaLoader ()which is a closure that returns a</span>
+<span class="doccomment">/// Dna object for a given path string) has to be injected on creation.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Container</span> {
     <span class="kw">pub</span> <span class="ident">instances</span>: <span class="ident">InstanceMap</span>,
     <span class="ident">config</span>: <span class="ident">Configuration</span>,
@@ -456,6 +503,8 @@
 
 <span class="kw">type</span> <span class="ident">InterfaceThreadHandle</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">JoinHandle</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;&gt;</span>;
 <span class="kw">type</span> <span class="ident">DnaLoader</span> <span class="op">=</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;&gt;</span>;
+
+<span class="kw">static</span> <span class="ident">DEFAULT_NETWORK_CONFIG</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;{\&quot;backend\&quot;:\&quot;mock\&quot;}&quot;</span>;
 
 <span class="kw">impl</span> <span class="ident">Container</span> {
     <span class="doccomment">/// Creates a new instance with the default DnaLoader that actually loads files.</span>
@@ -520,6 +569,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_config</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">Configuration</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">check_consistency</span>()<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">shutdown</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">default_network</span> <span class="op">=</span> <span class="ident">DEFAULT_NETWORK_CONFIG</span>.<span class="ident">to_string</span>();
         <span class="kw">let</span> <span class="ident">id_instance_pairs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">config</span>
             .<span class="ident">instance_ids</span>()
             .<span class="ident">clone</span>()
@@ -527,7 +577,7 @@
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">id</span><span class="op">|</span> {
                 (
                     <span class="ident">id</span>.<span class="ident">clone</span>(),
-                    <span class="ident">instantiate_from_config</span>(<span class="kw-2">&amp;</span><span class="ident">id</span>, <span class="ident">config</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">dna_loader</span>),
+                    <span class="ident">instantiate_from_config</span>(<span class="kw-2">&amp;</span><span class="ident">id</span>, <span class="ident">config</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">dna_loader</span>, <span class="kw-2">&amp;</span><span class="ident">default_network</span>),
                 )
             })
             .<span class="ident">collect</span>();
@@ -564,7 +614,6 @@
     }
 
     <span class="doccomment">/// Default DnaLoader that actually reads files from the filesystem</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span> <span class="comment">// This function is mocked in tests</span>
     <span class="kw">fn</span> <span class="ident">load_dna</span>(<span class="ident">file</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="ident">file</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
@@ -628,6 +677,7 @@
     <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
     <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">Configuration</span>,
     <span class="ident">dna_loader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DnaLoader</span>,
+    <span class="ident">default_network_config</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
 ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Holochain</span>, <span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">check_consistency</span>()<span class="question-mark">?</span>;
 
@@ -644,15 +694,20 @@
                 ))
             })<span class="question-mark">?</span>;
 
-            <span class="kw">let</span> <span class="ident">network</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({<span class="string">&quot;backend&quot;</span>: <span class="string">&quot;mock&quot;</span>}).<span class="ident">into</span>();
+            <span class="kw">let</span> <span class="ident">network_config</span> <span class="op">=</span> <span class="ident">instance_config</span>
+                .<span class="ident">network</span>
+                .<span class="ident">unwrap_or</span>(<span class="ident">default_network_config</span>.<span class="ident">to_owned</span>())
+                .<span class="ident">into</span>();
 
             <span class="kw">let</span> <span class="ident">context</span>: <span class="ident">Context</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">instance_config</span>.<span class="ident">storage</span> {
                 <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> { <span class="ident">path</span> } <span class="op">=&gt;</span> {
-                    <span class="ident">create_file_context</span>(<span class="kw-2">&amp;</span><span class="ident">agent_config</span>.<span class="ident">id</span>, <span class="kw-2">&amp;</span><span class="ident">path</span>, <span class="ident">network</span>)
+                    <span class="ident">create_file_context</span>(<span class="kw-2">&amp;</span><span class="ident">agent_config</span>.<span class="ident">id</span>, <span class="kw-2">&amp;</span><span class="ident">path</span>, <span class="ident">network_config</span>)
                         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error creating context: {}&quot;</span>, <span class="ident">hc_err</span>.<span class="ident">to_string</span>()))
                 }
-                <span class="ident">StorageConfiguration</span>::<span class="ident">Memory</span> <span class="op">=&gt;</span> <span class="ident">create_memory_context</span>(<span class="kw-2">&amp;</span><span class="ident">agent_config</span>.<span class="ident">id</span>, <span class="ident">network</span>)
-                    .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error creating context: {}&quot;</span>, <span class="ident">hc_err</span>.<span class="ident">to_string</span>())),
+                <span class="ident">StorageConfiguration</span>::<span class="ident">Memory</span> <span class="op">=&gt;</span> {
+                    <span class="ident">create_memory_context</span>(<span class="kw-2">&amp;</span><span class="ident">agent_config</span>.<span class="ident">id</span>, <span class="ident">network_config</span>)
+                        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error creating context: {}&quot;</span>, <span class="ident">hc_err</span>.<span class="ident">to_string</span>()))
+                }
             }<span class="question-mark">?</span>;
 
             <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>, <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">context</span>)).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="ident">hc_err</span>.<span class="ident">to_string</span>())
@@ -713,6 +768,8 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">config</span>::<span class="ident">load_configuration</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>::<span class="ident">File</span>, <span class="ident">io</span>::<span class="ident">Write</span>};
+    <span class="kw">use</span> <span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_dna_loader</span>() <span class="op">-&gt;</span> <span class="ident">DnaLoader</span> {
         <span class="kw">let</span> <span class="ident">loader</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">_path</span>: <span class="kw-2">&amp;</span><span class="ident">String</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Dna</span>::<span class="ident">new</span>()))
@@ -720,7 +777,7 @@
         <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">loader</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">test_toml</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>() <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {
+    <span class="kw">fn</span> <span class="ident">test_toml</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="string">r#&quot;
     [[agents]]
     id = &quot;test agent&quot;
@@ -750,24 +807,63 @@
     [[interfaces.instances]]
     id = &quot;app spec instance&quot;
     &quot;#</span>
+        .<span class="ident">to_string</span>()
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_instantiate_from_config</span>() {
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">test_toml</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">test_toml</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">default_network</span> <span class="op">=</span> <span class="ident">DEFAULT_NETWORK_CONFIG</span>.<span class="ident">to_string</span>();
         <span class="kw">let</span> <span class="ident">maybe_holochain</span> <span class="op">=</span> <span class="ident">instantiate_from_config</span>(
             <span class="kw-2">&amp;</span><span class="string">&quot;app spec instance&quot;</span>.<span class="ident">to_string</span>(),
             <span class="kw-2">&amp;</span><span class="ident">config</span>,
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">default_network</span>,
         );
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">maybe_holochain</span>.<span class="ident">err</span>(), <span class="prelude-val">None</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_default_dna_loader</span>() {
+        <span class="kw">let</span> <span class="ident">tempdir</span> <span class="op">=</span> <span class="ident">tempdir</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">fixture</span> <span class="op">=</span> <span class="string">r#&quot;{
+                &quot;name&quot;: &quot;my dna&quot;,
+                &quot;description&quot;: &quot;&quot;,
+                &quot;version&quot;: &quot;&quot;,
+                &quot;uuid&quot;: &quot;00000000-0000-0000-0000-000000000001&quot;,
+                &quot;dna_spec_version&quot;: &quot;2.0&quot;,
+                &quot;properties&quot;: {},
+                &quot;zomes&quot;: {
+                    &quot;&quot;: {
+                        &quot;description&quot;: &quot;&quot;,
+                        &quot;config&quot;: {
+                            &quot;error_handling&quot;: &quot;throw-errors&quot;
+                        },
+                        &quot;entry_types&quot;: {
+                            &quot;&quot;: {
+                                &quot;description&quot;: &quot;&quot;,
+                                &quot;sharing&quot;: &quot;public&quot;
+                            }
+                        }
+                    }
+                }
+            }&quot;#</span>;
+        <span class="kw">let</span> <span class="ident">file_path</span> <span class="op">=</span> <span class="ident">tempdir</span>.<span class="ident">path</span>().<span class="ident">join</span>(<span class="string">&quot;test.dna.json&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp_file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">create</span>(<span class="ident">file_path</span>.<span class="ident">clone</span>()).<span class="ident">unwrap</span>();
+        <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">tmp_file</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">fixture</span>).<span class="ident">unwrap</span>();
+        <span class="kw">match</span> <span class="ident">Container</span>::<span class="ident">load_dna</span>(<span class="kw-2">&amp;</span><span class="ident">file_path</span>.<span class="ident">into_os_string</span>().<span class="ident">into_string</span>().<span class="ident">unwrap</span>()) {
+            <span class="prelude-val">Ok</span>(<span class="ident">dna</span>) <span class="op">=&gt;</span> {
+                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna</span>.<span class="ident">name</span>, <span class="string">&quot;my dna&quot;</span>);
+            }
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="bool-val">false</span>),
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_container_load_config</span>() {
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">test_toml</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">test_toml</span>()).<span class="ident">unwrap</span>();
 
         <span class="comment">// TODO: redundant, see https://github.com/holochain/holochain-rust/issues/674</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">Container</span>::<span class="ident">with_config</span>(<span class="ident">config</span>.<span class="ident">clone</span>());
@@ -783,7 +879,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_container_try_from_configuration</span>() {
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">test_toml</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">test_toml</span>()).<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="ident">maybe_container</span> <span class="op">=</span> <span class="ident">Container</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>);
 
@@ -798,7 +894,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_rpc_info_instances</span>() {
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">test_toml</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">test_toml</span>()).<span class="ident">unwrap</span>();
 
         <span class="comment">// TODO: redundant, see https://github.com/holochain/holochain-rust/issues/674</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">Container</span>::<span class="ident">with_config</span>(<span class="ident">config</span>.<span class="ident">clone</span>());
@@ -810,7 +906,7 @@
         <span class="kw">let</span> <span class="ident">io</span> <span class="op">=</span> <span class="ident">dispatcher</span>.<span class="ident">io</span>;
 
         <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="string">r#&quot;{&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;info/instances&quot;, &quot;params&quot;: null, &quot;id&quot;: 1}&quot;#</span>;
-        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="string">r#&quot;{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;result&quot;:&quot;{\&quot;app spec instance\&quot;:{\&quot;id\&quot;:\&quot;app spec instance\&quot;,\&quot;dna\&quot;:\&quot;app spec rust\&quot;,\&quot;agent\&quot;:\&quot;test agent\&quot;,\&quot;logger\&quot;:{\&quot;type\&quot;:\&quot;simple\&quot;,\&quot;file\&quot;:\&quot;app_spec.log\&quot;},\&quot;storage\&quot;:{\&quot;type\&quot;:\&quot;memory\&quot;}}}&quot;,&quot;id&quot;:1}&quot;#</span>;
+        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="string">r#&quot;{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;result&quot;:&quot;{\&quot;app spec instance\&quot;:{\&quot;id\&quot;:\&quot;app spec instance\&quot;,\&quot;dna\&quot;:\&quot;app spec rust\&quot;,\&quot;agent\&quot;:\&quot;test agent\&quot;,\&quot;logger\&quot;:{\&quot;type\&quot;:\&quot;simple\&quot;,\&quot;file\&quot;:\&quot;app_spec.log\&quot;},\&quot;storage\&quot;:{\&quot;type\&quot;:\&quot;memory\&quot;},\&quot;network\&quot;:null}}&quot;,&quot;id&quot;:1}&quot;#</span>;
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">io</span>.<span class="ident">handle_request_sync</span>(<span class="ident">request</span>), <span class="prelude-val">Some</span>(<span class="ident">response</span>.<span class="ident">to_owned</span>()));
     }
