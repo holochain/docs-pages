@@ -213,7 +213,7 @@
 
     <span class="comment">// Commit DNA to chain</span>
     <span class="kw">let</span> <span class="ident">dna_entry</span> <span class="op">=</span> <span class="ident">Entry</span>::<span class="ident">Dna</span>(<span class="ident">dna</span>.<span class="ident">clone</span>());
-    <span class="kw">let</span> <span class="ident">dna_commit</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">commit_entry</span>(<span class="ident">dna_entry</span>, <span class="kw-2">&amp;</span><span class="ident">context_clone</span>));
+    <span class="kw">let</span> <span class="ident">dna_commit</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">commit_entry</span>(<span class="ident">dna_entry</span>, <span class="prelude-val">None</span>, <span class="kw-2">&amp;</span><span class="ident">context_clone</span>));
     <span class="kw">if</span> <span class="ident">dna_commit</span>.<span class="ident">is_err</span>() {
         <span class="comment">// Let initialization fail if DNA could not be committed.</span>
         <span class="comment">// Currently this cannot happen since ToEntry for Dna always creates</span>
@@ -230,7 +230,7 @@
 
     <span class="comment">// Commit AgentId to chain</span>
     <span class="kw">let</span> <span class="ident">agent_id_entry</span> <span class="op">=</span> <span class="ident">Entry</span>::<span class="ident">AgentId</span>(<span class="ident">context_clone</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>());
-    <span class="kw">let</span> <span class="ident">agent_id_commit</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">commit_entry</span>(<span class="ident">agent_id_entry</span>, <span class="kw-2">&amp;</span><span class="ident">context_clone</span>,));
+    <span class="kw">let</span> <span class="ident">agent_id_commit</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">commit_entry</span>(<span class="ident">agent_id_entry</span>, <span class="prelude-val">None</span>, <span class="kw-2">&amp;</span><span class="ident">context_clone</span>,));
 
     <span class="comment">// Let initialization fail if AgentId could not be committed.</span>
     <span class="comment">// Currently this cannot happen since ToEntry for Agent always creates</span>

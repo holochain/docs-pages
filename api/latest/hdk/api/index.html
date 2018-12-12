@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `api` mod in crate `hdk`."><meta name="keywords" content="rust, rustlang, rust-lang, api"><title>hdk::api - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Module api</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>hdk</a></p><script>window.sidebarCurrent = {name: 'api', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../src/hdk/api.rs.html#1-846' title='goto source code'>[src]</a></span><span class='in-band'>Module <a href='../index.html'>hdk</a>::<wbr><a class="mod" href=''>api</a></span></h1><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `api` mod in crate `hdk`."><meta name="keywords" content="rust, rustlang, rust-lang, api"><title>hdk::api - Rust</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Module api</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>hdk</a></p><script>window.sidebarCurrent = {name: 'api', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../src/hdk/api.rs.html#1-944' title='goto source code'>[src]</a></span><span class='in-band'>Module <a href='../index.html'>hdk</a>::<wbr><a class="mod" href=''>api</a></span></h1><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class="struct" href="struct.AGENT_ADDRESS.html"
@@ -43,13 +43,6 @@ participants running the DNA.</p>
                            <td class='docblock-short'>
                                 <p>The <code>name</code> property as taken from the DNA.</p>
 
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="struct" href="struct.EntryStatus.html"
-                                  title='struct hdk::api::EntryStatus'>EntryStatus</a></td>
-                           <td class='docblock-short'>
-                                
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -156,8 +149,29 @@ This is often used to reconstruct an address of a <code>base</code> argument whe
                            <td><a class="fn" href="fn.get_entry.html"
                                   title='fn hdk::api::get_entry'>get_entry</a></td>
                            <td class='docblock-short'>
-                                <p>Retrieves an entry from the local chain or the DHT, by looking it up using
-its address.</p>
+                                <p>Retrieves latest version of an entry from the local chain or the DHT, by looking it up using
+the specified address.
+Returns None if no entry exists at the specified address or
+if the entry's crud-status is not LIVE.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.get_entry_history.html"
+                                  title='fn hdk::api::get_entry_history'>get_entry_history</a></td>
+                           <td class='docblock-short'>
+                                <p>Return a GetEntryHistory filled with all the versions of the entry from the version at
+the specified address to the latest.
+Returns None if no entry exists at the specified address.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.get_entry_initial.html"
+                                  title='fn hdk::api::get_entry_initial'>get_entry_initial</a></td>
+                           <td class='docblock-short'>
+                                <p>Returns the Entry at the exact address specified, whatever its crud-status.
+Returns None if no entry exists at the specified address.</p>
 
                            </td>
                        </tr>
@@ -165,8 +179,9 @@ its address.</p>
                            <td><a class="fn" href="fn.get_entry_result.html"
                                   title='fn hdk::api::get_entry_result'>get_entry_result</a></td>
                            <td class='docblock-short'>
-                                <p>Retrieves an entry and meta data from the local chain or the DHT, by looking it up using
-its address, and a the full options to specify exactly what data to return</p>
+                                <p>Retrieves an entry and its metadata from the local chain or the DHT, by looking it up using
+the specified address.
+The data returned is configurable with the GetEntryOptions argument.</p>
 
                            </td>
                        </tr>
@@ -213,7 +228,9 @@ limit: Max number of entries to retrieve</p>
                            <td><a class="fn" href="fn.remove_entry.html"
                                   title='fn hdk::api::remove_entry'>remove_entry</a></td>
                            <td class='docblock-short'>
-                                <p>Not Yet Available</p>
+                                <p>Commit a DeletionEntry to your local source chain that marks an entry as 'deleted' by setting
+its status metadata to <code>Deleted</code> and adding the DeleteEntry's address in the deleted entry's
+metadata, which will be used by validation routes.</p>
 
                            </td>
                        </tr>
@@ -253,7 +270,12 @@ limit: Max number of entries to retrieve</p>
                            <td><a class="fn" href="fn.update_entry.html"
                                   title='fn hdk::api::update_entry'>update_entry</a></td>
                            <td class='docblock-short'>
-                                <p>Not Yet Available</p>
+                                <p>Commit an entry to your local source chain that &quot;updates&quot; a previous entry, meaning when getting
+the previous entry, the updated entry will be returned.
+<code>update_entry</code> sets the previous entry's status metadata to <code>Modified</code> and adds the updated
+entry's address in the previous entry's metadata.
+The updated entry will hold the previous entry's address in its header,
+which will be used by validation routes.</p>
 
                            </td>
                        </tr>

@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["commit",""]]});
+initSidebarItems({"mod":[["commit",""],["update_entry",""]]});

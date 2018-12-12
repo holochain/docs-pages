@@ -844,6 +844,104 @@
 <span id="844">844</span>
 <span id="845">845</span>
 <span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">error</span>::{<span class="ident">ZomeApiError</span>, <span class="ident">ZomeApiResult</span>},
@@ -851,16 +949,17 @@
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
+    <span class="ident">crud_status</span>::<span class="ident">CrudStatus</span>,
     <span class="ident">entry</span>::<span class="ident">Entry</span>,
     <span class="ident">error</span>::{<span class="ident">CoreError</span>, <span class="ident">HolochainError</span>, <span class="ident">RibosomeReturnCode</span>, <span class="ident">ZomeApiInternalResult</span>},
 };
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">validation</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::{
     <span class="ident">api_serialization</span>::{
-        <span class="ident">get_entry</span>::<span class="ident">GetEntryOptions</span>,
+        <span class="ident">get_entry</span>::{<span class="ident">EntryHistory</span>, <span class="ident">GetEntryArgs</span>, <span class="ident">GetEntryOptions</span>, <span class="ident">StatusRequestKind</span>},
         <span class="ident">get_links</span>::{<span class="ident">GetLinksArgs</span>, <span class="ident">GetLinksResult</span>},
         <span class="ident">link_entries</span>::<span class="ident">LinkEntriesArgs</span>,
-        <span class="ident">QueryArgs</span>, <span class="ident">QueryResult</span>, <span class="ident">ZomeFnCallArgs</span>,
+        <span class="ident">QueryArgs</span>, <span class="ident">QueryResult</span>, <span class="ident">UpdateEntryArgs</span>, <span class="ident">ZomeFnCallArgs</span>,
     },
     <span class="ident">holochain_core_types</span>::{
         <span class="ident">hash</span>::<span class="ident">HashString</span>,
@@ -944,17 +1043,6 @@
 <span class="comment">// SYSTEM CONSTS</span>
 <span class="comment">//--------------------------------------------------------------------------------------------------</span>
 
-<span class="comment">// HC.Status</span>
-<span class="comment">// WARNING keep in sync with CRUDStatus</span>
-<span class="macro">bitflags</span><span class="macro">!</span> {
-  <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntryStatus</span>: <span class="ident">u8</span> {
-    <span class="kw">const</span> <span class="ident">LIVE</span>     <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">0</span>;
-    <span class="kw">const</span> <span class="ident">REJECTED</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">1</span>;
-    <span class="kw">const</span> <span class="ident">DELETED</span>  <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">2</span>;
-    <span class="kw">const</span> <span class="ident">MODIFIED</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">3</span>;
-  }
-}
-
 <span class="comment">// HC.GetMask</span>
 <span class="macro">bitflags</span><span class="macro">!</span> {
   <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetEntryMask</span>: <span class="ident">u8</span> {
@@ -1037,15 +1125,14 @@
 <span class="doccomment">/// ```rust</span>
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate hdk;</span>
-<span class="doccomment">/// # extern crate holochain_core_types;</span>
-<span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
+<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
-<span class="doccomment">/// pub fn handle_some_function(content: String) -&gt; JsonString {</span>
+<span class="doccomment">/// pub fn handle_some_function(content: String) -&gt; ZomeApiResult&lt;()&gt; {</span>
 <span class="doccomment">///     // ...</span>
 <span class="doccomment">///     hdk::debug(&quot;write a message to the logs&quot;);</span>
 <span class="doccomment">///     // ...</span>
-<span class="doccomment">///     &quot;whatever&quot;.into()</span>
+<span class="doccomment">///     Ok(())</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # }</span>
@@ -1097,11 +1184,16 @@
 <span class="doccomment">/// # pub fn hc_query(_: u32) -&gt; u32 { 0 }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_call(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_update_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_remove_entry(_: u32) -&gt; u32 { 0 }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// fn handle_sum(num1: u32, num2: u32) -&gt; u32 {</span>
-<span class="doccomment">///     num1 + num2</span>
+<span class="doccomment">/// fn handle_sum(num1: u32, num2: u32) -&gt; JsonString {</span>
+<span class="doccomment">///     let sum = num1 + num2;</span>
+<span class="doccomment">///     json!({&quot;sum&quot;: format!(&quot;{}&quot;,sum)}).into()</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// define_zome! {</span>
@@ -1115,7 +1207,7 @@
 <span class="doccomment">///         main (Public) {</span>
 <span class="doccomment">///             sum: {</span>
 <span class="doccomment">///                 inputs: |num1: u32, num2: u32|,</span>
-<span class="doccomment">///                 outputs: |sum: u32|,</span>
+<span class="doccomment">///                 outputs: |sum: JsonString|,</span>
 <span class="doccomment">///                 handler: handle_sum</span>
 <span class="doccomment">///             }</span>
 <span class="doccomment">///         }</span>
@@ -1157,10 +1249,14 @@
 <span class="doccomment">/// # pub fn hc_query(_: u32) -&gt; u32 { 0 }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_call(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_update_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_remove_entry(_: u32) -&gt; u32 { 0 }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// fn handle_check_sum(num1: u32, num2: u32) -&gt; ZomeApiResult&lt;u32&gt; {</span>
+<span class="doccomment">/// fn handle_check_sum(num1: u32, num2: u32) -&gt; ZomeApiResult&lt;JsonString&gt; {</span>
 <span class="doccomment">///     #[derive(Serialize, Deserialize, Debug, DefaultJson)]</span>
 <span class="doccomment">///     struct SumInput {</span>
 <span class="doccomment">///         num1: u32,</span>
@@ -1170,15 +1266,7 @@
 <span class="doccomment">///         num1: num1,</span>
 <span class="doccomment">///         num2: num2,</span>
 <span class="doccomment">///     };</span>
-<span class="doccomment">///     match hdk::call(</span>
-<span class="doccomment">///         &quot;summer&quot;,</span>
-<span class="doccomment">///         &quot;main&quot;,</span>
-<span class="doccomment">///         &quot;sum&quot;,</span>
-<span class="doccomment">///         call_input.into()</span>
-<span class="doccomment">///     ) {</span>
-<span class="doccomment">///         Ok(json) =&gt; Ok(json.try_into()?),</span>
-<span class="doccomment">///         Err(e) =&gt; Err(e),</span>
-<span class="doccomment">///     }</span>
+<span class="doccomment">///     hdk::call(&quot;summer&quot;, &quot;main&quot;, &quot;sum&quot;, call_input.into())</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// define_zome! {</span>
@@ -1192,7 +1280,7 @@
 <span class="doccomment">///         main (Public) {</span>
 <span class="doccomment">///             check_sum: {</span>
 <span class="doccomment">///                 inputs: |num1: u32, num2: u32|,</span>
-<span class="doccomment">///                 outputs: |maybe_sum: ZomeApiResult&lt;u32&gt;|,</span>
+<span class="doccomment">///                 outputs: |sum: ZomeApiResult&lt;JsonString&gt;|,</span>
 <span class="doccomment">///                 handler: handle_check_sum</span>
 <span class="doccomment">///             }</span>
 <span class="doccomment">///         }</span>
@@ -1254,10 +1342,12 @@
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate holochain_core_types_derive;</span>
+<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
 <span class="doccomment">/// # use holochain_core_types::error::HolochainError;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::entry_type::AppEntryType;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::Entry;</span>
+<span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_commit_entry(_: u32) -&gt; u32 { 0 }</span>
@@ -1270,17 +1360,18 @@
 <span class="doccomment">///     date_created: String,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// pub fn handle_create_post(content: String) -&gt; JsonString {</span>
+<span class="doccomment">/// pub fn handle_create_post(content: String) -&gt; ZomeApiResult&lt;Address&gt; {</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     let post_entry = Entry::App(AppEntryType::from(&quot;post&quot;), Post{</span>
-<span class="doccomment">///         content,</span>
-<span class="doccomment">///         date_created: &quot;now&quot;.into(),</span>
-<span class="doccomment">///     }.into());</span>
+<span class="doccomment">///    let post_entry = Entry::App(AppEntryType::from(&quot;post&quot;),</span>
+<span class="doccomment">///        Post {</span>
+<span class="doccomment">///            content: content,</span>
+<span class="doccomment">///            date_created: &quot;now&quot;.to_string(),</span>
+<span class="doccomment">///        }.into()</span>
+<span class="doccomment">///    );</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     match hdk::commit_entry(&amp;post_entry) {</span>
-<span class="doccomment">///         Ok(address) =&gt; address.into(),</span>
-<span class="doccomment">///         Err(e) =&gt; e.into(),</span>
-<span class="doccomment">///     }</span>
+<span class="doccomment">///    let address = hdk::commit_entry(&amp;post_entry)?;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///    Ok(address)</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -1314,43 +1405,77 @@
     }
 }
 
-<span class="doccomment">/// Retrieves an entry from the local chain or the DHT, by looking it up using</span>
-<span class="doccomment">/// its address.</span>
+<span class="doccomment">/// Retrieves latest version of an entry from the local chain or the DHT, by looking it up using</span>
+<span class="doccomment">/// the specified address.</span>
+<span class="doccomment">/// Returns None if no entry exists at the specified address or</span>
+<span class="doccomment">/// if the entry&#39;s crud-status is not LIVE.</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">/// ```rust</span>
 <span class="doccomment">/// # extern crate hdk;</span>
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
+<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
+<span class="doccomment">/// # use holochain_core_types::entry::Entry;</span>
 <span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
 <span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
 <span class="doccomment">/// # fn main() {</span>
-<span class="doccomment">/// pub fn handle_get_post(post_address: Address) -&gt; JsonString {</span>
+<span class="doccomment">/// pub fn handle_get_post(post_address: Address) -&gt; ZomeApiResult&lt;Option&lt;Entry&gt;&gt; {</span>
 <span class="doccomment">///     // get_entry returns a Result&lt;Option&lt;T&gt;, ZomeApiError&gt;</span>
 <span class="doccomment">///     // where T is the type that you used to commit the entry, in this case a Blog</span>
 <span class="doccomment">///     // It&#39;s a ZomeApiError if something went wrong (i.e. wrong type in deserialization)</span>
 <span class="doccomment">///     // Otherwise its a Some(T) or a None</span>
-<span class="doccomment">///     match hdk::get_entry(post_address) {</span>
-<span class="doccomment">///         Ok(maybe_post) =&gt; maybe_post.into(),</span>
-<span class="doccomment">///         Err(e) =&gt; e.into(),</span>
-<span class="doccomment">///     }</span>
+<span class="doccomment">///     hdk::get_entry(post_address)</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_entry</span>(<span class="ident">address</span>: <span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Entry</span><span class="op">&gt;&gt;</span> {
-    <span class="prelude-val">Ok</span>(<span class="ident">get_entry_result</span>(<span class="ident">address</span>, <span class="ident">GetEntryOptions</span> {})<span class="question-mark">?</span>)
+    <span class="kw">let</span> <span class="ident">entry_result</span> <span class="op">=</span> <span class="ident">get_entry_result</span>(<span class="ident">address</span>, <span class="ident">GetEntryOptions</span>::<span class="ident">default</span>())<span class="question-mark">?</span>;
+    <span class="kw">if</span> <span class="ident">entry_result</span>.<span class="ident">entries</span>.<span class="ident">is_empty</span>() {
+        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
+    }
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">entry_result</span>.<span class="ident">entries</span>.<span class="ident">len</span>(), <span class="number">1</span>);
+    <span class="kw">if</span> <span class="ident">entry_result</span>.<span class="ident">crud_status</span>.<span class="ident">iter</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>() <span class="op">!=</span> <span class="kw-2">&amp;</span><span class="ident">CrudStatus</span>::<span class="ident">LIVE</span> {
+        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
+    }
+    <span class="kw">let</span> <span class="ident">entry</span> <span class="op">=</span> <span class="ident">entry_result</span>.<span class="ident">entries</span>.<span class="ident">iter</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>();
+    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">entry</span>.<span class="ident">clone</span>()))
 }
 
-<span class="doccomment">/// Retrieves an entry and meta data from the local chain or the DHT, by looking it up using</span>
-<span class="doccomment">/// its address, and a the full options to specify exactly what data to return</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_entry_result</span>(
-    <span class="ident">address</span>: <span class="ident">Address</span>,
-    <span class="ident">_options</span>: <span class="ident">GetEntryOptions</span>,
-) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Entry</span><span class="op">&gt;&gt;</span> {
+<span class="doccomment">/// Returns the Entry at the exact address specified, whatever its crud-status.</span>
+<span class="doccomment">/// Returns None if no entry exists at the specified address.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_entry_initial</span>(<span class="ident">address</span>: <span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Entry</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">let</span> <span class="ident">entry_result</span> <span class="op">=</span> <span class="ident">get_entry_result</span>(<span class="ident">address</span>, <span class="ident">GetEntryOptions</span>::<span class="ident">new</span>(<span class="ident">StatusRequestKind</span>::<span class="ident">Initial</span>))<span class="question-mark">?</span>;
+    <span class="kw">if</span> <span class="ident">entry_result</span>.<span class="ident">entries</span>.<span class="ident">is_empty</span>() {
+        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
+    }
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">entry_result</span>.<span class="ident">entries</span>.<span class="ident">len</span>(), <span class="number">1</span>);
+    <span class="kw">let</span> <span class="ident">entry</span> <span class="op">=</span> <span class="ident">entry_result</span>.<span class="ident">entries</span>.<span class="ident">iter</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>();
+    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">entry</span>.<span class="ident">clone</span>()))
+}
+
+<span class="doccomment">/// Return a GetEntryHistory filled with all the versions of the entry from the version at</span>
+<span class="doccomment">/// the specified address to the latest.</span>
+<span class="doccomment">/// Returns None if no entry exists at the specified address.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_entry_history</span>(<span class="ident">address</span>: <span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryHistory</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">let</span> <span class="ident">entry_result</span> <span class="op">=</span> <span class="ident">get_entry_result</span>(<span class="ident">address</span>, <span class="ident">GetEntryOptions</span>::<span class="ident">new</span>(<span class="ident">StatusRequestKind</span>::<span class="ident">All</span>))<span class="question-mark">?</span>;
+    <span class="kw">if</span> <span class="ident">entry_result</span>.<span class="ident">entries</span>.<span class="ident">is_empty</span>() {
+        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
+    }
+    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">entry_result</span>))
+}
+
+<span class="doccomment">/// Retrieves an entry and its metadata from the local chain or the DHT, by looking it up using</span>
+<span class="doccomment">/// the specified address.</span>
+<span class="doccomment">/// The data returned is configurable with the GetEntryOptions argument.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_entry_result</span>(<span class="ident">address</span>: <span class="ident">Address</span>, <span class="ident">options</span>: <span class="ident">GetEntryOptions</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">EntryHistory</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span>;
     <span class="kw">unsafe</span> {
         <span class="ident">mem_stack</span> <span class="op">=</span> <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>();
     }
+
+    <span class="kw">let</span> <span class="ident">entry_args</span> <span class="op">=</span> <span class="ident">GetEntryArgs</span> { <span class="ident">address</span>, <span class="ident">options</span> };
+
     <span class="comment">// Put args in struct and serialize into memory</span>
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">address</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">entry_args</span>)<span class="question-mark">?</span>;
 
     <span class="comment">// Call WASMI-able get_entry</span>
     <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span>;
@@ -1390,6 +1515,9 @@
 <span class="doccomment">/// # use holochain_core_types::entry::Entry;</span>
 <span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
 <span class="doccomment">/// # use hdk::AGENT_ADDRESS;</span>
+<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
+<span class="doccomment">/// # use hdk::holochain_wasm_utils::api_serialization::get_entry::GetEntryOptions;</span>
+<span class="doccomment">/// # use hdk::holochain_wasm_utils::api_serialization::get_entry::StatusRequestKind;</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// #[derive(Serialize, Deserialize, Debug, DefaultJson)]</span>
@@ -1398,25 +1526,31 @@
 <span class="doccomment">///     date_created: String,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// pub fn handle_link_entries(content: String) -&gt; JsonString {</span>
-<span class="doccomment">///     let post_entry = Entry::App(AppEntryType::from(&quot;post&quot;), Post{</span>
-<span class="doccomment">///         content,</span>
-<span class="doccomment">///         date_created: &quot;now&quot;.into(),</span>
-<span class="doccomment">///     }.into());</span>
+<span class="doccomment">/// pub fn handle_link_entries(content: String, in_reply_to: Option&lt;Address&gt;) -&gt; ZomeApiResult&lt;Address&gt; {</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     match hdk::commit_entry(&amp;post_entry) {</span>
-<span class="doccomment">///         Ok(post_address) =&gt; {</span>
-<span class="doccomment">///              match hdk::link_entries(</span>
-<span class="doccomment">///                 &amp;AGENT_ADDRESS,</span>
-<span class="doccomment">///                 &amp;post_address,</span>
-<span class="doccomment">///                 &quot;authored_posts&quot;</span>
-<span class="doccomment">///             ) {</span>
-<span class="doccomment">///                 Ok(link_address) =&gt; post_address.into(),</span>
-<span class="doccomment">///                 Err(e) =&gt; e.into(),</span>
-<span class="doccomment">///             }</span>
-<span class="doccomment">///         }</span>
-<span class="doccomment">///         Err(hdk_error) =&gt; hdk_error.into(),</span>
+<span class="doccomment">///     let post_entry = Entry::App(AppEntryType::from(&quot;post&quot;),</span>
+<span class="doccomment">///         Post {</span>
+<span class="doccomment">///             content: content,</span>
+<span class="doccomment">///             date_created: &quot;now&quot;.to_string(),</span>
+<span class="doccomment">///         }.into()</span>
+<span class="doccomment">///     );</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     let address = hdk::commit_entry(&amp;post_entry)?;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     hdk::link_entries(</span>
+<span class="doccomment">///         &amp;AGENT_ADDRESS,</span>
+<span class="doccomment">///         &amp;address,</span>
+<span class="doccomment">///         &quot;authored_posts&quot;,</span>
+<span class="doccomment">///     )?;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     if let Some(in_reply_to_address) = in_reply_to {</span>
+<span class="doccomment">///         // return with Err if in_reply_to_address points to missing entry</span>
+<span class="doccomment">///         hdk::get_entry_result(in_reply_to_address.clone(), GetEntryOptions { status_request: StatusRequestKind::All })?;</span>
+<span class="doccomment">///         hdk::link_entries(&amp;in_reply_to_address, &amp;address, &quot;comments&quot;)?;</span>
 <span class="doccomment">///     }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     Ok(address)</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
@@ -1477,10 +1611,13 @@
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate holochain_core_types_derive;</span>
+<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
 <span class="doccomment">/// # use holochain_core_types::error::HolochainError;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::entry_type::AppEntryType;</span>
+<span class="doccomment">/// # use holochain_core_types::entry::AppEntryValue;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::Entry;</span>
+<span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// #[derive(Serialize, Deserialize, Debug, DefaultJson)]</span>
@@ -1489,18 +1626,18 @@
 <span class="doccomment">///     date_created: String,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// fn handle_post_address(content: String) -&gt; JsonString {</span>
+<span class="doccomment">/// pub fn handle_post_address(content: String) -&gt; ZomeApiResult&lt;Address&gt; {</span>
+<span class="doccomment">///     let post_entry = Entry::App(</span>
+<span class="doccomment">///         AppEntryType::from(&quot;post&quot;),</span>
+<span class="doccomment">///         AppEntryValue::from(</span>
+<span class="doccomment">///             Post {</span>
+<span class="doccomment">///                 content: content,</span>
+<span class="doccomment">///                 date_created: &quot;now&quot;.to_string(),</span>
+<span class="doccomment">///             },</span>
+<span class="doccomment">///         )</span>
+<span class="doccomment">///     );</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     let post_entry = Entry::App(AppEntryType::from(&quot;post&quot;), Post {</span>
-<span class="doccomment">///         content,</span>
-<span class="doccomment">///         date_created: &quot;now&quot;.into(),</span>
-<span class="doccomment">///     }.into());</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///     match hdk::entry_address(&amp;post_entry) {</span>
-<span class="doccomment">///         Ok(address) =&gt; address.into(),</span>
-<span class="doccomment">///         Err(hdk_error) =&gt; hdk_error.into(),</span>
-<span class="doccomment">///     }</span>
-<span class="doccomment">///</span>
+<span class="doccomment">///     hdk::entry_address(&amp;post_entry)</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # }</span>
@@ -1546,14 +1683,39 @@
     <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">FunctionNotImplemented</span>)
 }
 
-<span class="doccomment">/// Not Yet Available</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_entry</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(
-    <span class="ident">_entry_type</span>: <span class="ident">S</span>,
-    <span class="ident">_entry</span>: <span class="ident">Entry</span>,
-    <span class="ident">_replaces</span>: <span class="ident">Address</span>,
-) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span> {
-    <span class="comment">// FIXME</span>
-    <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">FunctionNotImplemented</span>)
+<span class="doccomment">/// Commit an entry to your local source chain that &quot;updates&quot; a previous entry, meaning when getting</span>
+<span class="doccomment">/// the previous entry, the updated entry will be returned.</span>
+<span class="doccomment">/// `update_entry` sets the previous entry&#39;s status metadata to `Modified` and adds the updated</span>
+<span class="doccomment">/// entry&#39;s address in the previous entry&#39;s metadata.</span>
+<span class="doccomment">/// The updated entry will hold the previous entry&#39;s address in its header,</span>
+<span class="doccomment">/// which will be used by validation routes.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_entry</span>(<span class="ident">new_entry</span>: <span class="ident">Entry</span>, <span class="ident">address</span>: <span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span>;
+    <span class="kw">unsafe</span> {
+        <span class="ident">mem_stack</span> <span class="op">=</span> <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>();
+    }
+
+    <span class="kw">let</span> <span class="ident">update_args</span> <span class="op">=</span> <span class="ident">UpdateEntryArgs</span> { <span class="ident">new_entry</span>, <span class="ident">address</span> };
+
+    <span class="comment">// Put args in struct and serialize into memory</span>
+    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">update_args</span>)<span class="question-mark">?</span>;
+
+    <span class="comment">// Call Ribosome</span>
+    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span>;
+    <span class="kw">unsafe</span> {
+        <span class="ident">encoded_allocation_of_result</span> <span class="op">=</span> <span class="ident">hc_update_entry</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>);
+    }
+    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="ident">load_json</span>(<span class="ident">encoded_allocation_of_result</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
+    <span class="comment">// Free result &amp; input allocations</span>
+    <span class="ident">mem_stack</span>
+        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
+        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
+    <span class="comment">// Done</span>
+    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>).<span class="ident">try_into</span>()<span class="question-mark">?</span>)
+    } <span class="kw">else</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
+    }
 }
 
 <span class="doccomment">/// Not Yet Available</span>
@@ -1561,9 +1723,29 @@
     <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">FunctionNotImplemented</span>)
 }
 
-<span class="doccomment">/// Not Yet Available</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_entry</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="ident">_entry</span>: <span class="ident">Address</span>, <span class="ident">_message</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span> {
-    <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">FunctionNotImplemented</span>)
+<span class="doccomment">/// Commit a DeletionEntry to your local source chain that marks an entry as &#39;deleted&#39; by setting</span>
+<span class="doccomment">/// its status metadata to `Deleted` and adding the DeleteEntry&#39;s address in the deleted entry&#39;s</span>
+<span class="doccomment">/// metadata, which will be used by validation routes.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_entry</span>(<span class="ident">address</span>: <span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span>;
+    <span class="kw">unsafe</span> {
+        <span class="ident">mem_stack</span> <span class="op">=</span> <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>();
+    }
+    <span class="comment">// Put args in struct and serialize into memory</span>
+    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">address</span>)<span class="question-mark">?</span>;
+
+    <span class="comment">// Call WASMI-able get_entry</span>
+    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span>;
+    <span class="kw">unsafe</span> {
+        <span class="ident">encoded_allocation_of_result</span> <span class="op">=</span> <span class="ident">hc_remove_entry</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>);
+    }
+    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">check_for_ribosome_error</span>(<span class="ident">encoded_allocation_of_result</span>);
+    <span class="comment">// Free result &amp; input allocations</span>
+    <span class="ident">mem_stack</span>
+        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
+        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
+    <span class="comment">// Done</span>
+    <span class="ident">res</span>
 }
 
 <span class="doccomment">/// Consumes two values, the first of which is the address of an entry, `base`, and the second of which is a string, `tag`,</span>
@@ -1574,15 +1756,15 @@
 <span class="doccomment">/// ```rust</span>
 <span class="doccomment">/// # extern crate hdk;</span>
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
+<span class="doccomment">/// # extern crate holochain_wasm_utils;</span>
 <span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
 <span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
+<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
+<span class="doccomment">/// # use holochain_wasm_utils::api_serialization::get_links::GetLinksResult;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
-<span class="doccomment">/// pub fn handle_posts_by_agent(agent: Address) -&gt; JsonString {</span>
-<span class="doccomment">///     match hdk::get_links(&amp;agent, &quot;authored_posts&quot;) {</span>
-<span class="doccomment">///         Ok(result) =&gt; result.into(),</span>
-<span class="doccomment">///         Err(hdk_error) =&gt; hdk_error.into(),</span>
-<span class="doccomment">///     }</span>
+<span class="doccomment">/// pub fn handle_posts_by_agent(agent: Address) -&gt; ZomeApiResult&lt;GetLinksResult&gt; {</span>
+<span class="doccomment">///     hdk::get_links(&amp;agent, &quot;authored_posts&quot;)</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
@@ -1620,6 +1802,20 @@
 <span class="doccomment">/// Returns a list of entries from your local source chain, that match a given type.</span>
 <span class="doccomment">/// entry_type_name: Specify type of entry to retrieve</span>
 <span class="doccomment">/// limit: Max number of entries to retrieve</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// # extern crate hdk;</span>
+<span class="doccomment">/// # extern crate holochain_core_types;</span>
+<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
+<span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
+<span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # fn main() {</span>
+<span class="doccomment">/// pub fn handle_my_posts_as_commited() -&gt; ZomeApiResult&lt;Vec&lt;Address&gt;&gt; {</span>
+<span class="doccomment">///     hdk::query(&quot;post&quot;, 0, 0)</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// # }</span>
+<span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">query</span>(<span class="ident">entry_type_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">limit</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">QueryResult</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>() };
 
@@ -1669,7 +1865,7 @@
 <span class="comment">// Helpers</span>
 <span class="comment">//--------------------------------------------------------------------------------------------------</span>
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check_for_ribosome_error</span>(<span class="ident">encoded_allocation</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ZomeApiError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check_for_ribosome_error</span>(<span class="ident">encoded_allocation</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Check for error from Ribosome</span>
     <span class="kw">let</span> <span class="ident">rib_result</span> <span class="op">=</span> <span class="ident">decode_encoded_allocation</span>(<span class="ident">encoded_allocation</span>);
     <span class="kw">match</span> <span class="ident">rib_result</span> {

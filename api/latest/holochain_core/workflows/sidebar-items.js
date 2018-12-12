@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["author_entry",""],["get_entry",""]]});
+initSidebarItems({"mod":[["author_entry",""],["get_entry_history",""],["hold_entry",""],["respond_validation_package_request",""]]});

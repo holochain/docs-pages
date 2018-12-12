@@ -159,8 +159,8 @@
         <span class="comment">//</span>
         <span class="ident">lw</span>.<span class="ident">wake</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">state</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">context</span>.<span class="ident">state</span>() {
-            <span class="kw">match</span> <span class="ident">state</span>.<span class="ident">dht</span>().<span class="ident">add_link_actions</span>().<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">action</span>) {
-                <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(())) <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(())),
+            <span class="kw">match</span> <span class="ident">state</span>.<span class="ident">dht</span>().<span class="ident">actions</span>().<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">action</span>) {
+                <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(())),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)) <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">clone</span>())),
                 <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Pending</span>,
             }

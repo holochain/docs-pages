@@ -73,6 +73,18 @@
 <span id="73">73</span>
 <span id="74">74</span>
 <span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
 </pre><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -80,7 +92,7 @@
     <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>, <span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValidationPackage</span> {
     <span class="kw">pub</span> <span class="ident">chain_header</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChainHeader</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">source_chain_entries</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Entry</span><span class="op">&gt;&gt;</span>,
@@ -111,7 +123,7 @@
 <span class="doccomment">/// This structs carries information contextual for the process</span>
 <span class="doccomment">/// of validating an entry of link and is passed in to the according</span>
 <span class="doccomment">/// callbacks.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValidationData</span> {
     <span class="doccomment">/// The validation package is data from the entry&#39;s/link&#39;s</span>
     <span class="doccomment">/// source agent that is needed to determine the validity</span>
@@ -137,16 +149,28 @@
     <span class="ident">Meta</span>,
 }
 
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">EntryLifecycle</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">EntryLifecycle</span>::<span class="ident">Chain</span>
+    }
+}
+
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EntryAction</span> {
-    <span class="ident">Commit</span>,
+    <span class="ident">Create</span>,
     <span class="ident">Modify</span>,
     <span class="ident">Delete</span>,
 }
 
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">EntryAction</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">EntryAction</span>::<span class="ident">Create</span>
+    }
+}
+
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LinkAction</span> {
-    <span class="ident">Commit</span>,
+    <span class="ident">Create</span>,
     <span class="ident">Delete</span>,
 }
 </pre>

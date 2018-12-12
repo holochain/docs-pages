@@ -107,6 +107,8 @@
 <span id="107">107</span>
 <span id="108">108</span>
 <span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
 </pre><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -122,6 +124,7 @@
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">entry</span>::{<span class="ident">entry_type</span>::<span class="ident">EntryType</span>, <span class="ident">Entry</span>},
     <span class="ident">error</span>::<span class="ident">HolochainError</span>,
+    <span class="ident">json</span>::<span class="ident">JsonString</span>,
     <span class="ident">validation</span>::<span class="ident">ValidationPackageDefinition</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">validation</span>::<span class="ident">LinkValidationPackageArgs</span>;
@@ -201,6 +204,7 @@
                 <span class="prelude-val">Some</span>(<span class="ident">call</span>.<span class="ident">parameters</span>.<span class="ident">into_bytes</span>()),
             )<span class="question-mark">?</span>
         }
+        <span class="ident">EntryType</span>::<span class="ident">Deletion</span> <span class="op">=&gt;</span> <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">ValidationPackageDefinition</span>::<span class="ident">ChainFull</span>),
         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">NotImplemented</span>)<span class="question-mark">?</span>,
     };
 

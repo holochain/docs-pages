@@ -174,9 +174,6 @@
 <span id="174">174</span>
 <span id="175">175</span>
 <span id="176">176</span>
-<span id="177">177</span>
-<span id="178">178</span>
-<span id="179">179</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
@@ -348,13 +345,10 @@
         }
     };
     <span class="comment">// Log &amp; done</span>
-    <span class="ident">runtime</span>
-        .<span class="ident">context</span>
-        .<span class="ident">log</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;Zome Function &#39;{}&#39; returned: {}&quot;</span>,
-            <span class="ident">zome_call</span>.<span class="ident">fn_name</span>, <span class="ident">return_log_msg</span>,
-        ))
-        .<span class="ident">expect</span>(<span class="string">&quot;Logger should work&quot;</span>);
+    <span class="ident">runtime</span>.<span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
+        <span class="string">&quot;Zome Function &#39;{}&#39; returned: {}&quot;</span>,
+        <span class="ident">zome_call</span>.<span class="ident">fn_name</span>, <span class="ident">return_log_msg</span>,
+    ));
     <span class="kw">return</span> <span class="ident">return_result</span>;
 }
 </pre>

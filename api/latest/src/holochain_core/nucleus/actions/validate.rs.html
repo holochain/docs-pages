@@ -140,6 +140,10 @@
 <span id="140">140</span>
 <span id="141">141</span>
 <span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
 </pre><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
@@ -200,7 +204,11 @@
         }
 
         <span class="ident">EntryType</span>::<span class="ident">LinkAdd</span> <span class="op">=&gt;</span> {
-            <span class="comment">// LinkAdd can always be valiated</span>
+            <span class="comment">// LinkAdd can always be validated</span>
+        }
+
+        <span class="ident">EntryType</span>::<span class="ident">Deletion</span> <span class="op">=&gt;</span> {
+            <span class="comment">// FIXME</span>
         }
 
         <span class="kw">_</span> <span class="op">=&gt;</span> {

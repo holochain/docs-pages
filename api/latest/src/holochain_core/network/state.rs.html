@@ -45,9 +45,59 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
 </pre><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">action</span>::<span class="ident">ActionWrapper</span>, <span class="ident">network</span>::<span class="ident">actions</span>::<span class="ident">ActionResponse</span>};
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">entry</span>::<span class="ident">Entry</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>};
+<span class="kw">use</span> <span class="ident">boolinator</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">action</span>::<span class="ident">ActionWrapper</span>,
+    <span class="ident">network</span>::{<span class="ident">actions</span>::<span class="ident">ActionResponse</span>, <span class="ident">direct_message</span>::<span class="ident">DirectMessage</span>},
+};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
+    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">entry</span>::<span class="ident">EntryWithMeta</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>,
+    <span class="ident">validation</span>::<span class="ident">ValidationPackage</span>,
+};
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_network</span>::<span class="ident">P2pNetwork</span>;
 <span class="kw">use</span> <span class="ident">snowflake</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -56,7 +106,21 @@
 };
 
 <span class="kw">type</span> <span class="ident">Actions</span> <span class="op">=</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span>, <span class="ident">ActionResponse</span><span class="op">&gt;</span>;
-<span class="kw">type</span> <span class="ident">GetEntryResult</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Entry</span><span class="op">&gt;</span>, <span class="ident">HolochainError</span><span class="op">&gt;&gt;</span>;
+
+<span class="doccomment">/// This represents the state of a get_entry network process:</span>
+<span class="doccomment">/// None: process started, but no response yet from the network</span>
+<span class="doccomment">/// Some(Err(_)): there was a problem at some point</span>
+<span class="doccomment">/// Some(Ok(None)): no problem but also no entry -&gt; it does not exist</span>
+<span class="doccomment">/// Some(Ok(Some(entry_with_meta))): we have it</span>
+<span class="kw">type</span> <span class="ident">GetEntryWithMetaResult</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryWithMeta</span><span class="op">&gt;</span>, <span class="ident">HolochainError</span><span class="op">&gt;&gt;</span>;
+
+<span class="doccomment">/// This represents the state of a get_validation_package network process:</span>
+<span class="doccomment">/// None: process started, but no response yet from the network</span>
+<span class="doccomment">/// Some(Err(_)): there was a problem at some point</span>
+<span class="doccomment">/// Some(Ok(None)): no error but also no validation package -&gt; we seem to have asked the wrong</span>
+<span class="doccomment">///   agent which actually should not happen. Something weird is going on.</span>
+<span class="doccomment">/// Some(Ok(Some(entry))): we have it</span>
+<span class="kw">type</span> <span class="ident">GetValidationPackageResult</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ValidationPackage</span><span class="op">&gt;</span>, <span class="ident">HolochainError</span><span class="op">&gt;&gt;</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NetworkState</span> {
@@ -67,7 +131,19 @@
     <span class="kw">pub</span> <span class="ident">network</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">P2pNetwork</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">dna_hash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">agent_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">get_entry_results</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">GetEntryResult</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Here we store the results of GET entry processes.</span>
+    <span class="doccomment">/// None means that we are still waiting for a result from the network.</span>
+    <span class="kw">pub</span> <span class="ident">get_entry_with_meta_results</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">GetEntryWithMetaResult</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Here we store the results of get validation package processes.</span>
+    <span class="doccomment">/// None means that we are still waiting for a result from the network.</span>
+    <span class="kw">pub</span> <span class="ident">get_validation_package_results</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">GetValidationPackageResult</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// This stores every open (= waiting for response) node-to-node messages.</span>
+    <span class="doccomment">/// Entries get removed when we receive an answer through Action::ResolveDirectConnection.</span>
+    <span class="kw">pub</span> <span class="ident">direct_message_connections</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">DirectMessage</span><span class="op">&gt;</span>,
+
     <span class="ident">id</span>: <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>,
 }
 
@@ -84,13 +160,23 @@
             <span class="ident">network</span>: <span class="prelude-val">None</span>,
             <span class="ident">dna_hash</span>: <span class="prelude-val">None</span>,
             <span class="ident">agent_id</span>: <span class="prelude-val">None</span>,
-            <span class="ident">get_entry_results</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
+
+            <span class="ident">get_entry_with_meta_results</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
+            <span class="ident">get_validation_package_results</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
+            <span class="ident">direct_message_connections</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
+
             <span class="ident">id</span>: <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>(),
         }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">actions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Actions</span> {
         <span class="self">self</span>.<span class="ident">actions</span>.<span class="ident">clone</span>()
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">initialized</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+        (<span class="self">self</span>.<span class="ident">network</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">dna_hash</span>.<span class="ident">is_some</span>() <span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">is_some</span>()).<span class="ident">ok_or</span>(
+            <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="string">&quot;Network not initialized&quot;</span>.<span class="ident">to_string</span>()),
+        )
     }
 }
 </pre>

@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["ActionResponse",""]],"mod":[["get_entry",""],["initialize_network",""],["publish",""]]});
+initSidebarItems({"enum":[["ActionResponse",""]],"mod":[["get_entry",""],["get_validation_package",""],["initialize_network",""],["publish",""]]});

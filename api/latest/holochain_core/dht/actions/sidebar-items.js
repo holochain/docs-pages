@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["add_link",""],["hold",""]]});
+initSidebarItems({"mod":[["add_link",""],["hold",""],["remove_entry",""]]});

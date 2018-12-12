@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["DirectMessage","These are the different kinds of (low-level, i.e. non-app) node-to-node messages that can be send between Holochain nodes."]]});

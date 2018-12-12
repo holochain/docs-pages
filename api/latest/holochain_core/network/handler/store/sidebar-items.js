@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["handle_store_dht","The network requests us to store (i.e. hold) the given entry."],["handle_store_dht_meta","The network requests us to store meta information (links/CRUD/etc) for an entry that we hold."]]});
