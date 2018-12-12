@@ -255,7 +255,7 @@ instance.state().nucleus().dna()
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-let entry = Entry::new( ... );
+let entry = Entry::App( ... );
 let action_wrapper = ActionWrapper::new(&amp;Action::Commit(entry));
 instance.dispatch(action_wrapper);
 #}</code></pre></pre>
