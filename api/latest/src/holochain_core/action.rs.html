@@ -312,6 +312,15 @@
 <span id="312">312</span>
 <span id="313">313</span>
 <span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">agent</span>::<span class="ident">state</span>::<span class="ident">AgentState</span>,
@@ -449,6 +458,10 @@
     <span class="doccomment">/// to the address given in [DirectMessageData](struct.DirectMessageData.html)</span>
     <span class="ident">SendDirectMessage</span>(<span class="ident">DirectMessageData</span>),
 
+    <span class="doccomment">/// Makes the direct message connection with the given ID timeout by adding an</span>
+    <span class="doccomment">/// Err(HolochainError::Timeout) to NetworkState::custom_direct_message_replys.</span>
+    <span class="ident">SendDirectMessageTimeout</span>(<span class="ident">String</span>),
+
     <span class="doccomment">/// Makes the network module forget about the direct message</span>
     <span class="doccomment">/// connection with the given ID.</span>
     <span class="doccomment">/// Triggered when we got an answer to our initial DM.</span>
@@ -460,8 +473,13 @@
 
     <span class="doccomment">/// Updates the state to hold the response that we got for</span>
     <span class="doccomment">/// our previous request for a validation package.</span>
-    <span class="doccomment">/// Triggered from the network handler when we got the response.</span>
+    <span class="doccomment">/// Triggered from the network handler when we get the response.</span>
     <span class="ident">HandleGetValidationPackage</span>((<span class="ident">Address</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ValidationPackage</span><span class="op">&gt;</span>)),
+
+    <span class="doccomment">/// Updates the state to hold the response that we got for</span>
+    <span class="doccomment">/// our previous custom direct message.</span>
+    <span class="doccomment">/// /// Triggered from the network handler when we get the response.</span>
+    <span class="ident">HandleCustomSendResponse</span>((<span class="ident">String</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span>)),
 
     <span class="comment">// ----------------</span>
     <span class="comment">// Nucleus actions:</span>

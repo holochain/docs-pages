@@ -32,11 +32,11 @@
 <span id="32">32</span>
 <span id="33">33</span>
 </pre><pre class="rust ">
-<span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">DefaultResult</span>;
+<span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">path</span>::<span class="ident">PathBuf</span>, <span class="ident">process</span>::<span class="ident">Command</span>};
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run_cmd</span>(<span class="ident">base_path</span>: <span class="ident">PathBuf</span>, <span class="ident">bin</span>: <span class="ident">String</span>, <span class="ident">args</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">DefaultResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run_cmd</span>(<span class="ident">base_path</span>: <span class="ident">PathBuf</span>, <span class="ident">bin</span>: <span class="ident">String</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">str</span>]) <span class="op">-&gt;</span> <span class="ident">DefaultResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">pretty_command</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{} {}&quot;</span>, <span class="ident">bin</span>.<span class="ident">green</span>(), <span class="ident">args</span>.<span class="ident">join</span>(<span class="string">&quot; &quot;</span>).<span class="ident">cyan</span>());
 
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;&gt; {}&quot;</span>, <span class="ident">pretty_command</span>);

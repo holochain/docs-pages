@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["author_entry",""],["get_entry_history",""],["hold_entry",""],["respond_validation_package_request",""]]});
+initSidebarItems({"mod":[["application",""],["author_entry",""],["get_entry_result",""],["handle_custom_direct_message",""],["hold_entry",""],["hold_link",""],["respond_validation_package_request",""]]});

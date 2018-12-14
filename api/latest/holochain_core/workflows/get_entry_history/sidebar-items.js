@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["get_entry_history_workflow","Get EntryHistory workflow"],["get_entry_with_meta_workflow","Get Entry workflow"]]});

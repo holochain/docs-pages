@@ -296,9 +296,9 @@
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">entry_definition</span>::<span class="ident">ValidatingEntryType</span>, <span class="ident">globals</span>::<span class="ident">G_MEM_STACK</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">dna</span>::<span class="ident">zome</span>::{
+    <span class="ident">dna</span>::{
         <span class="ident">entry_types</span>::{<span class="ident">deserialize_entry_types</span>, <span class="ident">serialize_entry_types</span>},
-        <span class="ident">ZomeCapabilities</span>, <span class="ident">ZomeEntryTypes</span>,
+        <span class="ident">zome</span>::{<span class="ident">ZomeCapabilities</span>, <span class="ident">ZomeEntryTypes</span>},
     },
     <span class="ident">entry</span>::<span class="ident">entry_type</span>::{<span class="ident">AppEntryType</span>, <span class="ident">EntryType</span>},
     <span class="ident">error</span>::<span class="ident">HolochainError</span>,
@@ -533,7 +533,7 @@
     <span class="kw">use</span> <span class="kw">crate</span> <span class="kw">as</span> <span class="ident">hdk</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ValidationPackageDefinition</span>;
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-        <span class="ident">dna</span>::<span class="ident">zome</span>::{<span class="ident">entry_types</span>::<span class="ident">Sharing</span>, <span class="ident">ZomeCapabilities</span>},
+        <span class="ident">dna</span>::{<span class="ident">entry_types</span>::<span class="ident">Sharing</span>, <span class="ident">zome</span>::<span class="ident">ZomeCapabilities</span>},
         <span class="ident">error</span>::<span class="ident">HolochainError</span>,
         <span class="ident">json</span>::<span class="ident">JsonString</span>,
     };

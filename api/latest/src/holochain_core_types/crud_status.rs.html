@@ -149,66 +149,6 @@
 <span id="149">149</span>
 <span id="150">150</span>
 <span id="151">151</span>
-<span id="152">152</span>
-<span id="153">153</span>
-<span id="154">154</span>
-<span id="155">155</span>
-<span id="156">156</span>
-<span id="157">157</span>
-<span id="158">158</span>
-<span id="159">159</span>
-<span id="160">160</span>
-<span id="161">161</span>
-<span id="162">162</span>
-<span id="163">163</span>
-<span id="164">164</span>
-<span id="165">165</span>
-<span id="166">166</span>
-<span id="167">167</span>
-<span id="168">168</span>
-<span id="169">169</span>
-<span id="170">170</span>
-<span id="171">171</span>
-<span id="172">172</span>
-<span id="173">173</span>
-<span id="174">174</span>
-<span id="175">175</span>
-<span id="176">176</span>
-<span id="177">177</span>
-<span id="178">178</span>
-<span id="179">179</span>
-<span id="180">180</span>
-<span id="181">181</span>
-<span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>, <span class="ident">Content</span>},
@@ -217,7 +157,7 @@
     <span class="ident">hash</span>::<span class="ident">HashString</span>,
     <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryInto</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryInto</span>, <span class="ident">str</span>::<span class="ident">FromStr</span>};
 
 <span class="comment">// @TODO are these the correct key names?</span>
 <span class="comment">// @see https://github.com/holochain/holochain-rust/issues/143</span>
@@ -236,52 +176,42 @@
     <span class="ident">EntityAttributeValue</span>::<span class="ident">new</span>(<span class="ident">from</span>, <span class="kw-2">&amp;</span><span class="ident">LINK_NAME</span>.<span class="ident">to_string</span>(), <span class="ident">to</span>)
 }
 
-<span class="macro">bitflags</span><span class="macro">!</span> {
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">DefaultJson</span>)]</span>
-    <span class="doccomment">/// the CRUD status of a Pair is stored as EntryMeta in the hash table, NOT in the entry itself</span>
-    <span class="doccomment">/// statuses are represented as bitflags so we can easily build masks for filtering lookups</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CrudStatus</span>: <span class="ident">u8</span> {
-        <span class="kw">const</span> <span class="ident">LIVE</span> <span class="op">=</span> <span class="number">0x01</span>;
-        <span class="kw">const</span> <span class="ident">REJECTED</span> <span class="op">=</span> <span class="number">0x02</span>;
-        <span class="kw">const</span> <span class="ident">DELETED</span> <span class="op">=</span> <span class="number">0x04</span>;
-        <span class="kw">const</span> <span class="ident">MODIFIED</span> <span class="op">=</span> <span class="number">0x08</span>;
-        <span class="doccomment">/// CRDT resolution in progress</span>
-        <span class="kw">const</span> <span class="ident">LOCKED</span> <span class="op">=</span> <span class="number">0x10</span>;
+<span class="doccomment">/// the CRUD status of a Pair is stored as EntryMeta in the hash table, NOT in the entry itself</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CrudStatus</span> {
+    <span class="ident">Live</span>,
+    <span class="ident">Rejected</span>,
+    <span class="ident">Deleted</span>,
+    <span class="ident">Modified</span>,
+    <span class="doccomment">/// CRDT resolution in progress</span>
+    <span class="ident">Locked</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">CrudStatus</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">CrudStatus</span> {
+        <span class="ident">CrudStatus</span>::<span class="ident">Live</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">CrudStatus</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">String</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">crud_status</span>: <span class="ident">CrudStatus</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="comment">// don&#39;t do self.bits().to_string() because that spits out values for default() and all()</span>
-        <span class="comment">// only explicit statuses are safe as strings</span>
-        <span class="comment">// the expectation is that strings will be stored, referenced and parsed</span>
-        <span class="ident">String</span>::<span class="ident">from</span>(<span class="kw">match</span> <span class="ident">crud_status</span> {
-            <span class="ident">CrudStatus</span>::<span class="ident">LIVE</span> <span class="op">=&gt;</span> <span class="string">&quot;1&quot;</span>,
-            <span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span> <span class="op">=&gt;</span> <span class="string">&quot;2&quot;</span>,
-            <span class="ident">CrudStatus</span>::<span class="ident">DELETED</span> <span class="op">=&gt;</span> <span class="string">&quot;4&quot;</span>,
-            <span class="ident">CrudStatus</span>::<span class="ident">MODIFIED</span> <span class="op">=&gt;</span> <span class="string">&quot;8&quot;</span>,
-            <span class="ident">CrudStatus</span>::<span class="ident">LOCKED</span> <span class="op">=&gt;</span> <span class="string">&quot;16&quot;</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
-        })
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">status</span>: <span class="ident">CrudStatus</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="kw">let</span> <span class="ident">res_str</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">status</span>).<span class="ident">expect</span>(<span class="string">&quot;failed to serialize CrudStatus enum&quot;</span>);
+
+        <span class="ident">res_str</span>.<span class="ident">chars</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">kar</span><span class="op">|</span> <span class="ident">kar</span>.<span class="ident">is_alphabetic</span>()).<span class="ident">collect</span>()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CrudStatus</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">CrudStatus</span> {
-        <span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">s</span>))
-    }
-}
+<span class="kw">impl</span> <span class="ident">FromStr</span> <span class="kw">for</span> <span class="ident">CrudStatus</span> {
+    <span class="kw">type</span> <span class="prelude-val">Err</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CrudStatus</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">CrudStatus</span> {
-        <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">as_ref</span>() {
-            <span class="string">&quot;1&quot;</span> <span class="op">=&gt;</span> <span class="ident">CrudStatus</span>::<span class="ident">LIVE</span>,
-            <span class="string">&quot;2&quot;</span> <span class="op">=&gt;</span> <span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span>,
-            <span class="string">&quot;4&quot;</span> <span class="op">=&gt;</span> <span class="ident">CrudStatus</span>::<span class="ident">DELETED</span>,
-            <span class="string">&quot;8&quot;</span> <span class="op">=&gt;</span> <span class="ident">CrudStatus</span>::<span class="ident">MODIFIED</span>,
-            <span class="string">&quot;16&quot;</span> <span class="op">=&gt;</span> <span class="ident">CrudStatus</span>::<span class="ident">LOCKED</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
-        }
+    <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span>::<span class="prelude-val">Err</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">quoted_string</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">s</span>);
+
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="ident">quoted_string</span>.<span class="ident">as_ref</span>())
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="string">&quot;failed to deserialize CrudStatus enum&quot;</span>)<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="ident">res</span>)
     }
 }
 
@@ -311,30 +241,6 @@
     };
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="doccomment">/// test the CrudStatus bit flags as ints</span>
-    <span class="kw">fn</span> <span class="ident">status_bits</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">default</span>().<span class="ident">bits</span>(), <span class="number">0</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">all</span>().<span class="ident">bits</span>(), <span class="number">31</span>);
-
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">LIVE</span>.<span class="ident">bits</span>(), <span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span>.<span class="ident">bits</span>(), <span class="number">2</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">DELETED</span>.<span class="ident">bits</span>(), <span class="number">4</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">MODIFIED</span>.<span class="ident">bits</span>(), <span class="number">8</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">LOCKED</span>.<span class="ident">bits</span>(), <span class="number">16</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="doccomment">/// test that we can build status masks from the CrudStatus bit flags</span>
-    <span class="kw">fn</span> <span class="ident">bitwise</span>() {
-        <span class="kw">let</span> <span class="ident">example_mask</span> <span class="op">=</span> <span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span> <span class="op">|</span> <span class="ident">CrudStatus</span>::<span class="ident">DELETED</span>;
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">example_mask</span>.<span class="ident">contains</span>(<span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">example_mask</span>.<span class="ident">contains</span>(<span class="ident">CrudStatus</span>::<span class="ident">DELETED</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">example_mask</span>.<span class="ident">contains</span>(<span class="ident">CrudStatus</span>::<span class="ident">LIVE</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">example_mask</span>.<span class="ident">contains</span>(<span class="ident">CrudStatus</span>::<span class="ident">MODIFIED</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">example_mask</span>.<span class="ident">contains</span>(<span class="ident">CrudStatus</span>::<span class="ident">LOCKED</span>));
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">crud_status_example_eav</span>() {
         <span class="kw">let</span> <span class="ident">entity_content</span> <span class="op">=</span> <span class="ident">ExampleAddressableContent</span>::<span class="ident">try_from_content</span>(<span class="kw-2">&amp;</span><span class="ident">JsonString</span>::<span class="ident">from</span>(
             <span class="ident">RawString</span>::<span class="ident">from</span>(<span class="string">&quot;example&quot;</span>),
@@ -342,36 +248,10 @@
         .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">attribute</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;favourite-badge&quot;</span>);
         <span class="kw">let</span> <span class="ident">value_content</span>: <span class="ident">Content</span> <span class="op">=</span>
-            <span class="ident">CrudStatus</span>::<span class="ident">try_from_content</span>(<span class="kw-2">&amp;</span><span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span>))
+            <span class="ident">CrudStatus</span>::<span class="ident">try_from_content</span>(<span class="kw-2">&amp;</span><span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">Rejected</span>))
                 .<span class="ident">unwrap</span>()
                 .<span class="ident">content</span>();
         <span class="ident">eav_round_trip_test_runner</span>(<span class="ident">entity_content</span>, <span class="ident">attribute</span>, <span class="ident">value_content</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="doccomment">/// show From&lt;CrudStatus&gt; implementation for String</span>
-    <span class="kw">fn</span> <span class="ident">to_string_test</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;1&quot;</span>), <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">LIVE</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;2&quot;</span>), <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;4&quot;</span>), <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">DELETED</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;8&quot;</span>), <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">MODIFIED</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;16&quot;</span>), <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">LOCKED</span>));
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="doccomment">/// show From&lt;String&gt; and From&lt;&amp;&#39;static str&gt; implementation for CrudStatus</span>
-    <span class="kw">fn</span> <span class="ident">from_string_test</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="string">&quot;1&quot;</span>), <span class="ident">CrudStatus</span>::<span class="ident">LIVE</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="string">&quot;2&quot;</span>), <span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="string">&quot;4&quot;</span>), <span class="ident">CrudStatus</span>::<span class="ident">DELETED</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="string">&quot;8&quot;</span>), <span class="ident">CrudStatus</span>::<span class="ident">MODIFIED</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="string">&quot;16&quot;</span>), <span class="ident">CrudStatus</span>::<span class="ident">LOCKED</span>);
-
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;1&quot;</span>)), <span class="ident">CrudStatus</span>::<span class="ident">LIVE</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;2&quot;</span>)), <span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;4&quot;</span>)), <span class="ident">CrudStatus</span>::<span class="ident">DELETED</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;8&quot;</span>)), <span class="ident">CrudStatus</span>::<span class="ident">MODIFIED</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">CrudStatus</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;16&quot;</span>)), <span class="ident">CrudStatus</span>::<span class="ident">LOCKED</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -379,29 +259,29 @@
     <span class="kw">fn</span> <span class="ident">addressable_content_test</span>() {
         <span class="comment">// from_content()</span>
         <span class="ident">AddressableContentTestSuite</span>::<span class="ident">addressable_content_trait_test</span>::<span class="op">&lt;</span><span class="ident">CrudStatus</span><span class="op">&gt;</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">LIVE</span>),
-            <span class="ident">CrudStatus</span>::<span class="ident">LIVE</span>,
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;QmWZ1VcQ7MzQfbevGGkpZXidjmcwwzq3Ssx2bZCkrnaY8z&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">Live</span>),
+            <span class="ident">CrudStatus</span>::<span class="ident">Live</span>,
+            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;QmXEyo1EepSNCmZjPzGATr8BF3GMYAKKSXbWJN9QS95jLx&quot;</span>),
         );
         <span class="ident">AddressableContentTestSuite</span>::<span class="ident">addressable_content_trait_test</span>::<span class="op">&lt;</span><span class="ident">CrudStatus</span><span class="op">&gt;</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span>),
-            <span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span>,
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;QmNsbuCbwifcJ8T4MBJmPi2U3MRmSwbizU471R7djP3W4B&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">Rejected</span>),
+            <span class="ident">CrudStatus</span>::<span class="ident">Rejected</span>,
+            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;QmcifaUPPN6BBmpjakau1DGx9nFb9YhoS7fZjPHwFLoRuw&quot;</span>),
         );
         <span class="ident">AddressableContentTestSuite</span>::<span class="ident">addressable_content_trait_test</span>::<span class="op">&lt;</span><span class="ident">CrudStatus</span><span class="op">&gt;</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">DELETED</span>),
-            <span class="ident">CrudStatus</span>::<span class="ident">DELETED</span>,
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;QmX6xSz9Tvubevsp1EDBa796TipmhoVTUgs3NgX4bPFrab&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">Deleted</span>),
+            <span class="ident">CrudStatus</span>::<span class="ident">Deleted</span>,
+            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;QmVKAvoNaU3jrKEvPK9tc6ovJWozxS9CVuNfWB4sbbYwR9&quot;</span>),
         );
         <span class="ident">AddressableContentTestSuite</span>::<span class="ident">addressable_content_trait_test</span>::<span class="op">&lt;</span><span class="ident">CrudStatus</span><span class="op">&gt;</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">MODIFIED</span>),
-            <span class="ident">CrudStatus</span>::<span class="ident">MODIFIED</span>,
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;Qmc26xWbNbTxmq49kK2CooB63MSQyRSxn2LqGdURYhVnsm&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">Modified</span>),
+            <span class="ident">CrudStatus</span>::<span class="ident">Modified</span>,
+            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;QmbJmMc19gp8jNAoHSk5qY5H6LUF9qp9LTSKWFZojToAEz&quot;</span>),
         );
         <span class="ident">AddressableContentTestSuite</span>::<span class="ident">addressable_content_trait_test</span>::<span class="op">&lt;</span><span class="ident">CrudStatus</span><span class="op">&gt;</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">LOCKED</span>),
-            <span class="ident">CrudStatus</span>::<span class="ident">LOCKED</span>,
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;QmPFzUQmR1ST3ZqSifvKueSN4NRPxMeA1JzsZCav6Uv8BT&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">Locked</span>),
+            <span class="ident">CrudStatus</span>::<span class="ident">Locked</span>,
+            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;QmUjxgPiP7wxpowjWD9t7FLrGgnNmNA1FUGHVY3BrEnKe3&quot;</span>),
         );
     }
 
@@ -409,11 +289,11 @@
     <span class="doccomment">/// show CAS round trip</span>
     <span class="kw">fn</span> <span class="ident">cas_round_trip_test</span>() {
         <span class="kw">let</span> <span class="ident">crud_statuses</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="ident">CrudStatus</span>::<span class="ident">LIVE</span>,
-            <span class="ident">CrudStatus</span>::<span class="ident">REJECTED</span>,
-            <span class="ident">CrudStatus</span>::<span class="ident">DELETED</span>,
-            <span class="ident">CrudStatus</span>::<span class="ident">MODIFIED</span>,
-            <span class="ident">CrudStatus</span>::<span class="ident">LOCKED</span>,
+            <span class="ident">CrudStatus</span>::<span class="ident">Live</span>,
+            <span class="ident">CrudStatus</span>::<span class="ident">Rejected</span>,
+            <span class="ident">CrudStatus</span>::<span class="ident">Deleted</span>,
+            <span class="ident">CrudStatus</span>::<span class="ident">Modified</span>,
+            <span class="ident">CrudStatus</span>::<span class="ident">Locked</span>,
         ];
         <span class="ident">AddressableContentTestSuite</span>::<span class="ident">addressable_content_round_trip</span>::<span class="op">&lt;</span>
             <span class="ident">CrudStatus</span>,

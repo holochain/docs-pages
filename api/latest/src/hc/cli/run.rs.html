@@ -77,43 +77,83 @@
 <span id="77">77</span>
 <span id="78">78</span>
 <span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">cli</span>::{<span class="self">self</span>, <span class="ident">package</span>};
+<span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">DefaultResult</span>;
 <span class="kw">use</span> <span class="ident">holochain_container_api</span>::{<span class="ident">config</span>::<span class="kw-2">*</span>, <span class="ident">container</span>::<span class="ident">Container</span>};
+<span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>;
+
+<span class="kw">const</span> <span class="ident">LOCAL_STORAGE_PATH</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;.hc&quot;</span>;
+
+<span class="kw">const</span> <span class="ident">AGENT_CONFIG_ID</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;hc-run-agent&quot;</span>;
+<span class="kw">const</span> <span class="ident">DNA_CONFIG_ID</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;hc-run-dna&quot;</span>;
+<span class="kw">const</span> <span class="ident">INSTANCE_CONFIG_ID</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;test-instance&quot;</span>;
+<span class="kw">const</span> <span class="ident">INTERFACE_CONFIG_ID</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;websocket-interface&quot;</span>;
 
 <span class="doccomment">/// Starts a small container with the current application running</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="ident">package</span>: <span class="ident">bool</span>, <span class="ident">port</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="ident">DefaultResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="ident">package</span>: <span class="ident">bool</span>, <span class="ident">port</span>: <span class="ident">u16</span>, <span class="ident">persist</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">DefaultResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">package</span> {
         <span class="ident">cli</span>::<span class="ident">package</span>(<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="ident">package</span>::<span class="ident">DEFAULT_BUNDLE_FILE_NAME</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
     }
 
     <span class="kw">let</span> <span class="ident">agent_config</span> <span class="op">=</span> <span class="ident">AgentConfiguration</span> {
-        <span class="ident">id</span>: <span class="string">&quot;hc-run-agent&quot;</span>.<span class="ident">into</span>(),
+        <span class="ident">id</span>: <span class="ident">AGENT_CONFIG_ID</span>.<span class="ident">into</span>(),
         <span class="ident">key_file</span>: <span class="string">&quot;hc_run.key&quot;</span>.<span class="ident">into</span>(),
     };
 
     <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">DNAConfiguration</span> {
-        <span class="ident">id</span>: <span class="string">&quot;hc-run-dna&quot;</span>.<span class="ident">into</span>(),
+        <span class="ident">id</span>: <span class="ident">DNA_CONFIG_ID</span>.<span class="ident">into</span>(),
         <span class="ident">file</span>: <span class="ident">package</span>::<span class="ident">DEFAULT_BUNDLE_FILE_NAME</span>.<span class="ident">into</span>(),
         <span class="ident">hash</span>: <span class="string">&quot;Qm328wyq38924ybogus&quot;</span>.<span class="ident">into</span>(),
     };
 
+    <span class="kw">let</span> <span class="ident">storage</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">persist</span> {
+        <span class="ident">fs</span>::<span class="ident">create_dir_all</span>(<span class="ident">LOCAL_STORAGE_PATH</span>)<span class="question-mark">?</span>;
+
+        <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> {
+            <span class="ident">path</span>: <span class="ident">LOCAL_STORAGE_PATH</span>.<span class="ident">into</span>(),
+        }
+    } <span class="kw">else</span> {
+        <span class="ident">StorageConfiguration</span>::<span class="ident">Memory</span>
+    };
+
     <span class="kw">let</span> <span class="ident">instance_config</span> <span class="op">=</span> <span class="ident">InstanceConfiguration</span> {
-        <span class="ident">id</span>: <span class="string">&quot;test-instance&quot;</span>.<span class="ident">into</span>(),
-        <span class="ident">dna</span>: <span class="string">&quot;hc-run-dna&quot;</span>.<span class="ident">into</span>(),
-        <span class="ident">agent</span>: <span class="string">&quot;hc-run-agent&quot;</span>.<span class="ident">into</span>(),
+        <span class="ident">id</span>: <span class="ident">INSTANCE_CONFIG_ID</span>.<span class="ident">into</span>(),
+        <span class="ident">dna</span>: <span class="ident">DNA_CONFIG_ID</span>.<span class="ident">into</span>(),
+        <span class="ident">agent</span>: <span class="ident">AGENT_CONFIG_ID</span>.<span class="ident">into</span>(),
         <span class="ident">logger</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
-        <span class="ident">storage</span>: <span class="ident">StorageConfiguration</span>::<span class="ident">Memory</span>,
-        <span class="ident">network</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;{\&quot;backend\&quot;: \&quot;mock\&quot;}&quot;</span>.<span class="ident">to_string</span>()),
+        <span class="ident">storage</span>,
+        <span class="ident">network</span>: <span class="prelude-val">Some</span>(<span class="ident">P2pConfig</span>::<span class="ident">default_mock</span>().<span class="ident">as_str</span>()),
     };
 
     <span class="kw">let</span> <span class="ident">interface_config</span> <span class="op">=</span> <span class="ident">InterfaceConfiguration</span> {
-        <span class="ident">id</span>: <span class="string">&quot;websocket-interface&quot;</span>.<span class="ident">into</span>(),
-        <span class="ident">driver</span>: <span class="ident">InterfaceDriver</span>::<span class="ident">Websocket</span> { <span class="ident">port</span>: <span class="ident">port</span> },
+        <span class="ident">id</span>: <span class="ident">INTERFACE_CONFIG_ID</span>.<span class="ident">into</span>(),
+        <span class="ident">driver</span>: <span class="ident">InterfaceDriver</span>::<span class="ident">Websocket</span> { <span class="ident">port</span> },
         <span class="ident">admin</span>: <span class="bool-val">true</span>,
         <span class="ident">instances</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">InstanceReferenceConfiguration</span> {
-            <span class="ident">id</span>: <span class="string">&quot;test-instance&quot;</span>.<span class="ident">into</span>(),
+            <span class="ident">id</span>: <span class="ident">INSTANCE_CONFIG_ID</span>.<span class="ident">into</span>(),
         }],
     };
 
@@ -145,11 +185,11 @@
     <span class="kw">loop</span> {
         <span class="kw">let</span> <span class="ident">readline</span> <span class="op">=</span> <span class="ident">rl</span>.<span class="ident">readline</span>(<span class="string">&quot;hc&gt; &quot;</span>)<span class="question-mark">?</span>;
 
-        <span class="kw">match</span> <span class="ident">readline</span>.<span class="ident">as_str</span>() {
+        <span class="kw">match</span> <span class="ident">readline</span>.<span class="ident">as_str</span>().<span class="ident">trim</span>() {
             <span class="string">&quot;exit&quot;</span> <span class="op">=&gt;</span> <span class="kw">break</span>,
             <span class="ident">other</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">other</span>.<span class="ident">is_empty</span>() <span class="op">=&gt;</span> <span class="macro">eprintln</span><span class="macro">!</span>(
-                <span class="string">&quot;command {:?} not recognized. Available commands are: exit&quot;</span>,
-                <span class="ident">other</span>
+                <span class="string">&quot;command {} not recognized. Available commands are: exit&quot;</span>,
+                <span class="ident">other</span>.<span class="ident">red</span>().<span class="ident">bold</span>()
             ),
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">continue</span>,
         }

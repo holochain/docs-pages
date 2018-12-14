@@ -373,7 +373,6 @@
 <span id="373">373</span>
 <span id="374">374</span>
 <span id="375">375</span>
-<span id="376">376</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Module for ZomeCallbacks</span>
 <span class="doccomment">//! ZomeCallbacks are functions in a Zome that are callable by the ribosome.</span>
@@ -396,7 +395,7 @@
     },
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">dna</span>::{<span class="ident">wasm</span>::<span class="ident">DnaWasm</span>, <span class="ident">zome</span>::<span class="ident">capabilities</span>::<span class="ident">ReservedCapabilityNames</span>},
+    <span class="ident">dna</span>::{<span class="ident">capabilities</span>::<span class="ident">ReservedCapabilityNames</span>, <span class="ident">wasm</span>::<span class="ident">DnaWasm</span>},
     <span class="ident">entry</span>::<span class="ident">Entry</span>,
     <span class="ident">error</span>::{<span class="ident">HolochainError</span>, <span class="ident">RibosomeReturnCode</span>},
     <span class="ident">json</span>::{<span class="ident">default_to_json</span>, <span class="ident">JsonString</span>},
@@ -435,7 +434,7 @@
         <span class="kw">match</span> <span class="ident">s</span> {
             <span class="string">&quot;genesis&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Callback</span>::<span class="ident">Genesis</span>),
             <span class="string">&quot;receive&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Callback</span>::<span class="ident">Receive</span>),
-            <span class="string">&quot;&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Callback</span>::<span class="ident">MissingNo</span>),
+            <span class="ident">other</span> <span class="kw">if</span> <span class="ident">other</span>.<span class="ident">is_empty</span>() <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Callback</span>::<span class="ident">MissingNo</span>),
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Cannot convert string to Callback&quot;</span>),
         }
     }
@@ -499,9 +498,7 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CallbackParams</span> {
     <span class="ident">Genesis</span>,
     <span class="ident">ValidateCommit</span>(<span class="ident">Entry</span>),
-    <span class="comment">// @TODO call this from somewhere</span>
-    <span class="comment">// @see https://github.com/holochain/holochain-rust/issues/201</span>
-    <span class="ident">Receive</span>,
+    <span class="ident">Receive</span>(<span class="ident">String</span>),
 }
 
 <span class="kw">impl</span> <span class="ident">ToString</span> <span class="kw">for</span> <span class="ident">CallbackParams</span> {
@@ -511,7 +508,7 @@
             <span class="ident">CallbackParams</span>::<span class="ident">ValidateCommit</span>(<span class="ident">serialized_entry</span>) <span class="op">=&gt;</span> {
                 <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">serialized_entry</span>.<span class="ident">to_owned</span>()))
             }
-            <span class="ident">CallbackParams</span>::<span class="ident">Receive</span> <span class="op">=&gt;</span> <span class="ident">String</span>::<span class="ident">new</span>(),
+            <span class="ident">CallbackParams</span>::<span class="ident">Receive</span>(<span class="ident">payload</span>) <span class="op">=&gt;</span> <span class="ident">payload</span>.<span class="ident">clone</span>(),
         }
     }
 }
@@ -522,6 +519,7 @@
     <span class="ident">Fail</span>(<span class="ident">String</span>),
     <span class="ident">NotImplemented</span>,
     <span class="ident">ValidationPackageDefinition</span>(<span class="ident">ValidationPackageDefinition</span>),
+    <span class="ident">ReceiveResult</span>(<span class="ident">String</span>),
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">CallbackResult</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">JsonString</span> {

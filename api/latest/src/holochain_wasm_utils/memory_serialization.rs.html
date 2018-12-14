@@ -141,7 +141,6 @@
 <span id="141">141</span>
 <span id="142">142</span>
 <span id="143">143</span>
-<span id="144">144</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">memory_allocation</span>::{
     <span class="ident">decode_encoded_allocation</span>, <span class="ident">SinglePageAllocation</span>, <span class="ident">SinglePageStack</span>, <span class="ident">U16_MAX</span>,
@@ -265,7 +264,6 @@
 <span class="doccomment">/// If json deserialization of custom struct failed, tries to deserialize a CoreError struct.</span>
 <span class="doccomment">/// If that also failed, tries to load a string directly, since we are expecting an error string at this stage.</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unknown_lints</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">not_unsafe_ptr_arg_deref</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_json_from_raw</span><span class="op">&lt;</span><span class="lifetime">&#39;s</span>, <span class="ident">T</span>: <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;s</span><span class="op">&gt;&gt;</span>(
     <span class="ident">ptr_data</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>,
 ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {

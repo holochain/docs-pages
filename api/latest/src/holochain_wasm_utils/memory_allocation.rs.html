@@ -349,7 +349,6 @@
 <span id="349">349</span>
 <span id="350">350</span>
 <span id="351">351</span>
-<span id="352">352</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::{<span class="ident">RibosomeErrorCode</span>, <span class="ident">RibosomeReturnCode</span>};
 
@@ -406,7 +405,6 @@
 }
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unknown_lints</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">cast_lossless</span>)]</span>
 <span class="kw">impl</span> <span class="ident">SinglePageAllocation</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">offset</span>: <span class="ident">u16</span>, <span class="ident">length</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">RibosomeErrorCode</span><span class="op">&gt;</span> {
         <span class="kw">if</span> (<span class="ident">offset</span> <span class="kw">as</span> <span class="ident">u32</span> <span class="op">+</span> <span class="ident">length</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&gt;</span> <span class="ident">U16_MAX</span> {

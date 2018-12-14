@@ -147,12 +147,30 @@
 <span id="147">147</span>
 <span id="148">148</span>
 <span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">NetResult</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">protocol</span>::<span class="ident">Protocol</span>;
 
 <span class="doccomment">/// closure for getting Protocol messages from the p2p abstraction system</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">NetHandler</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="ident">NetResult</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>;
+
+<span class="doccomment">/// closure for signaling shutdown incase of required cleanup</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">NetShutdown</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span>::<span class="ident">std</span>::<span class="ident">boxed</span>::<span class="ident">FnBox</span>() <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;&gt;</span>;
 
 <span class="doccomment">/// net connection - a worker manager can send Protocol messages</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">NetConnection</span> {
@@ -185,6 +203,7 @@
 <span class="doccomment">/// this struct can be use to compose one type of NetWorker into another</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NetConnectionRelay</span> {
     <span class="ident">worker</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>,
+    <span class="ident">done</span>: <span class="ident">NetShutdown</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">NetConnection</span> <span class="kw">for</span> <span class="ident">NetConnectionRelay</span> {
@@ -199,6 +218,9 @@
     <span class="doccomment">/// stop this NetConnectionRelay instance</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">stop</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">worker</span>.<span class="ident">stop</span>()<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">done</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">done</span> {
+            <span class="ident">done</span>();
+        }
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -208,9 +230,14 @@
     }
 
     <span class="doccomment">/// create a new NetConnectionRelay instance with give handler / factory</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">handler</span>: <span class="ident">NetHandler</span>, <span class="ident">worker_factory</span>: <span class="ident">NetWorkerFactory</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
+        <span class="ident">handler</span>: <span class="ident">NetHandler</span>,
+        <span class="ident">worker_factory</span>: <span class="ident">NetWorkerFactory</span>,
+        <span class="ident">done</span>: <span class="ident">NetShutdown</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">NetConnectionRelay</span> {
             <span class="ident">worker</span>: <span class="ident">worker_factory</span>(<span class="ident">handler</span>)<span class="question-mark">?</span>,
+            <span class="ident">done</span>,
         })
     }
 }
@@ -230,6 +257,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">con</span> <span class="op">=</span> <span class="ident">NetConnectionRelay</span>::<span class="ident">new</span>(
             <span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">_r</span><span class="op">|</span> <span class="prelude-val">Ok</span>(())),
             <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">_h</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">DefWorker</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>)),
+            <span class="prelude-val">None</span>,
         )
         .<span class="ident">unwrap</span>();
 
@@ -263,6 +291,7 @@
                 <span class="prelude-val">Ok</span>(())
             }),
             <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">h</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Worker</span> { <span class="ident">handler</span>: <span class="ident">h</span> }) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>)),
+            <span class="prelude-val">None</span>,
         )
         .<span class="ident">unwrap</span>();
 
@@ -285,6 +314,7 @@
                 <span class="prelude-val">Ok</span>(())
             }),
             <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">h</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Worker</span> { <span class="ident">handler</span>: <span class="ident">h</span> }) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>)),
+            <span class="prelude-val">None</span>,
         )
         .<span class="ident">unwrap</span>();
 

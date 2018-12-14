@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["reduce_send_direct_message",""]]});
+initSidebarItems({"fn":[["reduce_send_direct_message",""],["reduce_send_direct_message_timeout",""]]});

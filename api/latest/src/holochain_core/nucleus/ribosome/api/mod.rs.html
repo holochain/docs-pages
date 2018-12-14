@@ -495,6 +495,16 @@
 <span id="495">495</span>
 <span id="496">496</span>
 <span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Module for ZomeApiFunctions</span>
 <span class="doccomment">//! ZomeApiFunctions are the functions provided by the ribosome that are callable by Zomes.</span>
@@ -509,6 +519,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">link_entries</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">query</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">remove_entry</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">send</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">update_entry</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{
@@ -517,12 +528,12 @@
         <span class="ident">entry_address</span>::<span class="ident">invoke_entry_address</span>, <span class="ident">get_entry</span>::<span class="ident">invoke_get_entry</span>,
         <span class="ident">get_links</span>::<span class="ident">invoke_get_links</span>, <span class="ident">init_globals</span>::<span class="ident">invoke_init_globals</span>,
         <span class="ident">link_entries</span>::<span class="ident">invoke_link_entries</span>, <span class="ident">query</span>::<span class="ident">invoke_query</span>, <span class="ident">remove_entry</span>::<span class="ident">invoke_remove_entry</span>,
-        <span class="ident">update_entry</span>::<span class="ident">invoke_update_entry</span>,
+        <span class="ident">send</span>::<span class="ident">invoke_send</span>, <span class="ident">update_entry</span>::<span class="ident">invoke_update_entry</span>,
     },
     <span class="ident">runtime</span>::<span class="ident">Runtime</span>,
     <span class="ident">Defn</span>,
 };
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">capabilities</span>::<span class="ident">ReservedCapabilityNames</span>;
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">capabilities</span>::<span class="ident">ReservedCapabilityNames</span>;
 <span class="kw">use</span> <span class="ident">num_traits</span>::<span class="ident">FromPrimitive</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
 
@@ -583,6 +594,8 @@
     <span class="doccomment">/// the address algorithm is specific to the entry, typically sha256 but can differ</span>
     <span class="doccomment">/// entry_address(entry: Entry) -&gt; Address</span>
     <span class="ident">EntryAddress</span>,
+
+    <span class="ident">Send</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Defn</span> <span class="kw">for</span> <span class="ident">ZomeApiFunction</span> {
@@ -601,6 +614,7 @@
             <span class="ident">ZomeApiFunction</span>::<span class="ident">GetLinks</span> <span class="op">=&gt;</span> <span class="string">&quot;hc_get_links&quot;</span>,
             <span class="ident">ZomeApiFunction</span>::<span class="ident">Query</span> <span class="op">=&gt;</span> <span class="string">&quot;hc_query&quot;</span>,
             <span class="ident">ZomeApiFunction</span>::<span class="ident">EntryAddress</span> <span class="op">=&gt;</span> <span class="string">&quot;hc_entry_address&quot;</span>,
+            <span class="ident">ZomeApiFunction</span>::<span class="ident">Send</span> <span class="op">=&gt;</span> <span class="string">&quot;hc_send&quot;</span>,
         }
     }
 
@@ -638,6 +652,7 @@
             <span class="string">&quot;hc_get_links&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ZomeApiFunction</span>::<span class="ident">GetLinks</span>),
             <span class="string">&quot;hc_query&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ZomeApiFunction</span>::<span class="ident">Query</span>),
             <span class="string">&quot;hc_entry_address&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ZomeApiFunction</span>::<span class="ident">EntryAddress</span>),
+            <span class="string">&quot;hc_send&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ZomeApiFunction</span>::<span class="ident">Send</span>),
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Cannot convert string to ZomeApiFunction&quot;</span>),
         }
     }
@@ -669,6 +684,7 @@
             <span class="ident">ZomeApiFunction</span>::<span class="ident">GetLinks</span> <span class="op">=&gt;</span> <span class="ident">invoke_get_links</span>,
             <span class="ident">ZomeApiFunction</span>::<span class="ident">Query</span> <span class="op">=&gt;</span> <span class="ident">invoke_query</span>,
             <span class="ident">ZomeApiFunction</span>::<span class="ident">EntryAddress</span> <span class="op">=&gt;</span> <span class="ident">invoke_entry_address</span>,
+            <span class="ident">ZomeApiFunction</span>::<span class="ident">Send</span> <span class="op">=&gt;</span> <span class="ident">invoke_send</span>,
         }
     }
 }
@@ -690,7 +706,7 @@
     };
     <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">str</span>::<span class="ident">FromStr</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
 
-    <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">capabilities</span>::<span class="ident">ReservedCapabilityNames</span>;
+    <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">capabilities</span>::<span class="ident">ReservedCapabilityNames</span>;
 
     <span class="doccomment">/// generates the wasm to dispatch any zome API function with a single memomry managed runtime</span>
     <span class="doccomment">/// and bytes argument</span>
@@ -921,6 +937,7 @@
             (<span class="string">&quot;hc_get_links&quot;</span>, <span class="ident">ZomeApiFunction</span>::<span class="ident">GetLinks</span>),
             (<span class="string">&quot;hc_query&quot;</span>, <span class="ident">ZomeApiFunction</span>::<span class="ident">Query</span>),
             (<span class="string">&quot;hc_entry_address&quot;</span>, <span class="ident">ZomeApiFunction</span>::<span class="ident">EntryAddress</span>),
+            (<span class="string">&quot;hc_send&quot;</span>, <span class="ident">ZomeApiFunction</span>::<span class="ident">Send</span>),
         ] {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ZomeApiFunction</span>::<span class="ident">from_str</span>(<span class="ident">input</span>).<span class="ident">unwrap</span>(), <span class="ident">output</span>);
         }
@@ -949,6 +966,7 @@
             (<span class="ident">ZomeApiFunction</span>::<span class="ident">GetLinks</span>, <span class="string">&quot;hc_get_links&quot;</span>),
             (<span class="ident">ZomeApiFunction</span>::<span class="ident">Query</span>, <span class="string">&quot;hc_query&quot;</span>),
             (<span class="ident">ZomeApiFunction</span>::<span class="ident">EntryAddress</span>, <span class="string">&quot;hc_entry_address&quot;</span>),
+            (<span class="ident">ZomeApiFunction</span>::<span class="ident">Send</span>, <span class="string">&quot;hc_send&quot;</span>),
         ] {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">output</span>, <span class="ident">input</span>.<span class="ident">as_str</span>());
         }
@@ -968,6 +986,7 @@
             (<span class="string">&quot;hc_get_links&quot;</span>, <span class="number">10</span>),
             (<span class="string">&quot;hc_query&quot;</span>, <span class="number">11</span>),
             (<span class="string">&quot;hc_entry_address&quot;</span>, <span class="number">12</span>),
+            (<span class="string">&quot;hc_send&quot;</span>, <span class="number">13</span>),
         ] {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">output</span>, <span class="ident">ZomeApiFunction</span>::<span class="ident">str_to_index</span>(<span class="ident">input</span>));
         }
@@ -987,6 +1006,7 @@
             (<span class="number">10</span>, <span class="ident">ZomeApiFunction</span>::<span class="ident">GetLinks</span>),
             (<span class="number">11</span>, <span class="ident">ZomeApiFunction</span>::<span class="ident">Query</span>),
             (<span class="number">12</span>, <span class="ident">ZomeApiFunction</span>::<span class="ident">EntryAddress</span>),
+            (<span class="number">13</span>, <span class="ident">ZomeApiFunction</span>::<span class="ident">Send</span>),
         ] {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">output</span>, <span class="ident">ZomeApiFunction</span>::<span class="ident">from_index</span>(<span class="ident">input</span>));
         }

@@ -530,9 +530,6 @@
 <span id="530">530</span>
 <span id="531">531</span>
 <span id="532">532</span>
-<span id="533">533</span>
-<span id="534">534</span>
-<span id="535">535</span>
 </pre><pre class="rust ">
 <span class="doccomment">/// Container Configuration</span>
 <span class="doccomment">/// This module provides structs that represent the different aspects of how</span>
@@ -767,9 +764,10 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">config</span>::{<span class="ident">load_configuration</span>, <span class="ident">Configuration</span>};
+    <span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">context</span>::<span class="ident">mock_network_config</span>;
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">example_serialized_network_config</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;{\\\&quot;backend\\\&quot;:\\\&quot;mock\\\&quot;}&quot;</span>)
+        <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">mock_network_config</span>())
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -865,7 +863,7 @@
     [[interfaces.instances]]
     id = &quot;app spec instance&quot;
     &quot;#</span>,
-            <span class="string">&quot;{\\\&quot;backend\\\&quot;:\\\&quot;special\\\&quot;}&quot;</span>
+            <span class="string">&quot;{\\\&quot;backend_kind\\\&quot;:\\\&quot;special\\\&quot;}&quot;</span>
         );
 
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
@@ -881,7 +879,7 @@
         <span class="kw">let</span> <span class="ident">instance_config</span> <span class="op">=</span> <span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">instance_config</span>.<span class="ident">network</span>,
-            <span class="prelude-val">Some</span>(<span class="string">&quot;{\&quot;backend\&quot;:\&quot;special\&quot;}&quot;</span>.<span class="ident">to_string</span>())
+            <span class="prelude-val">Some</span>(<span class="string">&quot;{\&quot;backend_kind\&quot;:\&quot;special\&quot;}&quot;</span>.<span class="ident">to_string</span>())
         );
     }
 
@@ -945,8 +943,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_inconsistent_config</span>() {
-        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">r#&quot;
+        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
     [[agents]]
     id = &quot;test agent&quot;
     name = &quot;Holo Tester&quot;
@@ -961,25 +958,24 @@
     id = &quot;app spec instance&quot;
     dna = &quot;WRONG DNA ID&quot;
     agent = &quot;test agent&quot;
-    network = &quot;{}&quot;
     [instances.logger]
     type = &quot;simple&quot;
     file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;file&quot;
     path = &quot;app_spec_storage&quot;
-    &quot;#</span>,
-            <span class="ident">example_serialized_network_config</span>()
-        );
-        <span class="kw">let</span> <span class="ident">config</span>: <span class="ident">Configuration</span> <span class="op">=</span> <span class="ident">load_configuration</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
+
+    &quot;#</span>;
+
+        <span class="kw">let</span> <span class="ident">config</span>: <span class="ident">Configuration</span> <span class="op">=</span>
+            <span class="ident">load_configuration</span>(<span class="ident">toml</span>).<span class="ident">expect</span>(<span class="string">&quot;Failed to load config from toml string&quot;</span>);
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">check_consistency</span>(), <span class="prelude-val">Err</span>(<span class="string">&quot;DNA configuration \&quot;WRONG DNA ID\&quot; not found, mentioned in instance \&quot;app spec instance\&quot;&quot;</span>.<span class="ident">to_string</span>()));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_inconsistent_config_interface_1</span>() {
-        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">r#&quot;
+        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
     [[agents]]
     id = &quot;test agent&quot;
     name = &quot;Holo Tester&quot;
@@ -994,7 +990,6 @@
     id = &quot;app spec instance&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    network = &quot;{}&quot;
     [instances.logger]
     type = &quot;simple&quot;
     file = &quot;app_spec.log&quot;
@@ -1009,9 +1004,8 @@
     port = 8888
     [[interfaces.instances]]
     id = &quot;WRONG INSTANCE ID&quot;
-    &quot;#</span>,
-            <span class="ident">example_serialized_network_config</span>()
-        );
+    &quot;#</span>;
+
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
