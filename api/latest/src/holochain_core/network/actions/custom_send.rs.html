@@ -114,12 +114,12 @@
         <span class="ident">is_response</span>: <span class="bool-val">false</span>,
     };
     <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">SendDirectMessage</span>(<span class="ident">direct_message_data</span>));
-    <span class="ident">dispatch_action</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">action_channel</span>, <span class="ident">action_wrapper</span>);
+    <span class="ident">dispatch_action</span>(<span class="ident">context</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>);
 
     <span class="kw">async</span> {
         <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">60</span>));
         <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">SendDirectMessageTimeout</span>(<span class="ident">id</span>.<span class="ident">clone</span>()));
-        <span class="ident">dispatch_action</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">action_channel</span>, <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
+        <span class="ident">dispatch_action</span>(<span class="ident">context</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
     };
 
     <span class="macro">await</span><span class="macro">!</span>(<span class="ident">SendResponseFuture</span> {

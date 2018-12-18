@@ -206,8 +206,8 @@
 
     <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">InitApplication</span>(<span class="ident">dna</span>.<span class="ident">clone</span>()));
     <span class="ident">dispatch_action_and_wait</span>(
-        <span class="kw-2">&amp;</span><span class="ident">context_clone</span>.<span class="ident">action_channel</span>,
-        <span class="kw-2">&amp;</span><span class="ident">context_clone</span>.<span class="ident">observer_channel</span>,
+        <span class="kw-2">&amp;</span><span class="ident">context_clone</span>.<span class="ident">action_channel</span>(),
+        <span class="kw-2">&amp;</span><span class="ident">context_clone</span>.<span class="ident">observer_channel</span>(),
         <span class="ident">action_wrapper</span>.<span class="ident">clone</span>(),
     );
 
@@ -220,7 +220,7 @@
         <span class="comment">// an entry from a Dna object. So I can&#39;t create a test for the code below.</span>
         <span class="comment">// Hence skipping it for codecov for now but leaving it in for resilience.</span>
         <span class="ident">context_clone</span>
-            .<span class="ident">action_channel</span>
+            .<span class="ident">action_channel</span>()
             .<span class="ident">send</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">ReturnInitializationResult</span>(
                 <span class="prelude-val">Some</span>(<span class="ident">dna_commit</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">to_string</span>()).<span class="ident">err</span>().<span class="ident">unwrap</span>()),
             )))
@@ -239,7 +239,7 @@
 
     <span class="kw">if</span> <span class="ident">agent_id_commit</span>.<span class="ident">is_err</span>() {
         <span class="ident">context_clone</span>
-            .<span class="ident">action_channel</span>
+            .<span class="ident">action_channel</span>()
             .<span class="ident">send</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">ReturnInitializationResult</span>(
                 <span class="prelude-val">Some</span>(<span class="ident">agent_id_commit</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">to_string</span>()).<span class="ident">err</span>().<span class="ident">unwrap</span>()),
             )))
@@ -265,7 +265,7 @@
     });
 
     <span class="ident">context_clone</span>
-        .<span class="ident">action_channel</span>
+        .<span class="ident">action_channel</span>()
         .<span class="ident">send</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">ReturnInitializationResult</span>(
             <span class="ident">maybe_error</span>,
         )))

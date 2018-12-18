@@ -720,6 +720,7 @@
 <span id="720">720</span>
 <span id="721">721</span>
 <span id="722">722</span>
+<span id="723">723</span>
 </pre><pre class="rust ">
 <span class="doccomment">/// Nucleus is the module that handles DNA, including the Ribosome.</span>
 <span class="doccomment">///</span>
@@ -833,7 +834,7 @@
 }
 
 <span class="doccomment">/// Dispatch ExecuteZoneFunction to Instance and block until call has finished.</span>
-<span class="doccomment">/// for test only??</span>
+<span class="doccomment">/// for test only?? &lt;-- (apparently not, since it&#39;s used in Holochain::call)</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">call_and_wait_for_result</span>(
     <span class="ident">call</span>: <span class="ident">ZomeFnCall</span>,
     <span class="ident">instance</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">super</span>::<span class="ident">instance</span>::<span class="ident">Instance</span>,
@@ -849,6 +850,7 @@
                 .<span class="ident">expect</span>(<span class="string">&quot;local channel to be open&quot;</span>);
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
+            <span class="comment">// @TODO: Use futures for this, and in case this should probably have a timeout</span>
             <span class="bool-val">false</span>
         }
     });
@@ -956,7 +958,7 @@
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">ExecuteZomeFnResponse</span>::<span class="ident">new</span>(<span class="ident">zome_call</span>.<span class="ident">clone</span>(), <span class="ident">call_result</span>);
         <span class="comment">// Send ReturnZomeFunctionResult Action</span>
         <span class="ident">context</span>
-            .<span class="ident">action_channel</span>
+            .<span class="ident">action_channel</span>()
             .<span class="ident">send</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">ReturnZomeFunctionResult</span>(
                 <span class="ident">response</span>,
             )))
@@ -965,7 +967,7 @@
 }
 
 <span class="doccomment">/// Reduce ExecuteZomeFunction Action</span>
-<span class="doccomment">/// Execute an exposed Zome function in a seperate thread and send the result in</span>
+<span class="doccomment">/// Execute an exposed Zome function in a separate thread and send the result in</span>
 <span class="doccomment">/// a ReturnZomeFunctionResult Action on success or failure</span>
 <span class="kw">fn</span> <span class="ident">reduce_execute_zome_function</span>(
     <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
@@ -996,7 +998,7 @@
     <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">state</span>.<span class="ident">dna</span> {
         <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
             <span class="ident">dispatch_error_result</span>(
-                <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">action_channel</span>,
+                <span class="ident">context</span>.<span class="ident">action_channel</span>(),
                 <span class="kw-2">&amp;</span><span class="ident">fn_call</span>,
                 <span class="ident">HolochainError</span>::<span class="ident">DnaMissing</span>,
             );
@@ -1009,7 +1011,7 @@
     <span class="kw">let</span> <span class="ident">zome</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">dna</span>.<span class="ident">zomes</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">fn_call</span>.<span class="ident">zome_name</span>) {
         <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
             <span class="ident">dispatch_error_result</span>(
-                <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">action_channel</span>,
+                <span class="ident">context</span>.<span class="ident">action_channel</span>(),
                 <span class="kw-2">&amp;</span><span class="ident">fn_call</span>,
                 <span class="ident">HolochainError</span>::<span class="ident">Dna</span>(<span class="ident">DnaError</span>::<span class="ident">ZomeNotFound</span>(<span class="macro">format</span><span class="macro">!</span>(
                     <span class="string">&quot;Zome &#39;{}&#39; not found&quot;</span>,
@@ -1025,7 +1027,7 @@
     <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">zome</span>.<span class="ident">capabilities</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">fn_call</span>.<span class="ident">cap_name</span>) {
         <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
             <span class="ident">dispatch_error_result</span>(
-                <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">action_channel</span>,
+                <span class="ident">context</span>.<span class="ident">action_channel</span>(),
                 <span class="kw-2">&amp;</span><span class="ident">fn_call</span>,
                 <span class="ident">HolochainError</span>::<span class="ident">Dna</span>(<span class="ident">DnaError</span>::<span class="ident">CapabilityNotFound</span>(<span class="macro">format</span><span class="macro">!</span>(
                     <span class="string">&quot;Capability &#39;{}&#39; not found in Zome &#39;{}&#39;&quot;</span>,
@@ -1044,7 +1046,7 @@
         .<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">fn_declaration</span><span class="op">|</span> <span class="ident">fn_declaration</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">fn_call</span>.<span class="ident">fn_name</span>);
     <span class="kw">if</span> <span class="ident">maybe_fn</span>.<span class="ident">is_none</span>() {
         <span class="ident">dispatch_error_result</span>(
-            <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">action_channel</span>,
+            <span class="ident">context</span>.<span class="ident">action_channel</span>(),
             <span class="kw-2">&amp;</span><span class="ident">fn_call</span>,
             <span class="ident">HolochainError</span>::<span class="ident">Dna</span>(<span class="ident">DnaError</span>::<span class="ident">ZomeFunctionNotFound</span>(<span class="macro">format</span><span class="macro">!</span>(
                 <span class="string">&quot;Zome function &#39;{}&#39; not found&quot;</span>,

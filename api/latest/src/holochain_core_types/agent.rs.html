@@ -189,6 +189,29 @@
 <span id="189">189</span>
 <span id="190">190</span>
 <span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Represents an agent entry in the cas</span>
 
@@ -199,53 +222,56 @@
     <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">str</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>;
 <span class="kw">use</span> <span class="ident">reed_solomon</span>::{<span class="ident">Decoder</span>, <span class="ident">Encoder</span>};
-
-<span class="kw">const</span> <span class="ident">PARITY_LEN</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span>;
 
 <span class="doccomment">/// A raw public key buffer</span>
 <span class="doccomment">/// Can extract the signature and encryption portions</span>
 <span class="doccomment">/// Can parse a base64url encoded user representation</span>
 <span class="doccomment">/// Can render a base64url encoded user representation</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeyBuffer</span>([<span class="ident">u8</span>; <span class="number">64</span>]);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">KeyBuffer</span>([<span class="ident">u8</span>; <span class="ident">KeyBuffer</span>::<span class="ident">KEY_LEN</span>]);
 
 <span class="kw">impl</span> <span class="ident">KeyBuffer</span> {
+    <span class="doccomment">/// Constants specific to KeyBuffer</span>
+    <span class="kw">const</span> <span class="ident">PARITY_LEN</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">5</span>;
+    <span class="kw">const</span> <span class="ident">KEY_LEN</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">64</span>;
+    <span class="kw">const</span> <span class="ident">HALF_KEY_LEN</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">KeyBuffer</span>::<span class="ident">KEY_LEN</span> <span class="op">/</span> <span class="number">2</span>;
+
     <span class="doccomment">/// take a potentially user-entered base64url encoded user representation</span>
     <span class="doccomment">/// of an public key identity</span>
     <span class="doccomment">/// apply reed-solomon parity correction</span>
     <span class="doccomment">/// returns a raw byte buffer</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_corrected</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyBuffer</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">replace</span>(<span class="string">&quot;-&quot;</span>, <span class="string">&quot;+&quot;</span>).<span class="ident">replace</span>(<span class="string">&quot;_&quot;</span>, <span class="string">&quot;/&quot;</span>);
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">base64</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">dec</span> <span class="op">=</span> <span class="ident">Decoder</span>::<span class="ident">new</span>(<span class="ident">PARITY_LEN</span>);
-        <span class="kw">let</span> <span class="ident">dec</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">dec</span>.<span class="ident">correct</span>(<span class="ident">s</span>.<span class="ident">as_slice</span>(), <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="ident">KeyBuffer</span>::<span class="ident">with_raw</span>(<span class="macro">array_ref</span><span class="macro">!</span>[<span class="ident">dec</span>, <span class="number">0</span>, <span class="number">64</span>]))
+        <span class="kw">let</span> <span class="ident">base64</span> <span class="op">=</span> <span class="ident">base64</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">dec</span> <span class="op">=</span> <span class="ident">Decoder</span>::<span class="ident">new</span>(<span class="ident">KeyBuffer</span>::<span class="ident">PARITY_LEN</span>);
+        <span class="kw">let</span> <span class="ident">dec</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">dec</span>.<span class="ident">correct</span>(<span class="ident">base64</span>.<span class="ident">as_slice</span>(), <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">KeyBuffer</span>::<span class="ident">with_raw</span>(<span class="macro">array_ref</span><span class="macro">!</span>[<span class="ident">dec</span>, <span class="number">0</span>, <span class="ident">KeyBuffer</span>::<span class="ident">KEY_LEN</span>]))
     }
 
     <span class="doccomment">/// generate a key buffer from raw bytes (no correction)</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_raw</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>; <span class="number">64</span>]) <span class="op">-&gt;</span> <span class="ident">KeyBuffer</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_raw</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>; <span class="ident">KeyBuffer</span>::<span class="ident">KEY_LEN</span>]) <span class="op">-&gt;</span> <span class="ident">KeyBuffer</span> {
         <span class="ident">KeyBuffer</span>(<span class="ident">b</span>.<span class="ident">clone</span>())
     }
 
     <span class="doccomment">/// render a base64url encoded user identity with reed-solomon parity bytes</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">render</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="kw">let</span> <span class="ident">enc</span> <span class="op">=</span> <span class="ident">Encoder</span>::<span class="ident">new</span>(<span class="ident">PARITY_LEN</span>);
+        <span class="kw">let</span> <span class="ident">enc</span> <span class="op">=</span> <span class="ident">Encoder</span>::<span class="ident">new</span>(<span class="ident">KeyBuffer</span>::<span class="ident">PARITY_LEN</span>);
         <span class="kw">let</span> <span class="ident">enc</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">enc</span>.<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>);
         <span class="ident">base64</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">enc</span>[..]).<span class="ident">replace</span>(<span class="string">&quot;+&quot;</span>, <span class="string">&quot;-&quot;</span>).<span class="ident">replace</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;_&quot;</span>)
     }
 
     <span class="doccomment">/// get the signature public key portion of this buffer</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sig</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>; <span class="number">32</span>] {
-        <span class="macro">array_ref</span><span class="macro">!</span>[<span class="self">self</span>.<span class="number">0</span>, <span class="number">0</span>, <span class="number">32</span>]
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_sig</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>; <span class="ident">KeyBuffer</span>::<span class="ident">HALF_KEY_LEN</span>] {
+        <span class="macro">array_ref</span><span class="macro">!</span>[<span class="self">self</span>.<span class="number">0</span>, <span class="number">0</span>, <span class="ident">KeyBuffer</span>::<span class="ident">HALF_KEY_LEN</span>]
     }
 
     <span class="doccomment">/// get the encryption public key portion of this buffer</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_enc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>; <span class="number">32</span>] {
-        <span class="macro">array_ref</span><span class="macro">!</span>[<span class="self">self</span>.<span class="number">0</span>, <span class="number">32</span>, <span class="number">32</span>]
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_enc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>; <span class="ident">KeyBuffer</span>::<span class="ident">HALF_KEY_LEN</span>] {
+        <span class="macro">array_ref</span><span class="macro">!</span>[<span class="self">self</span>.<span class="number">0</span>, <span class="ident">KeyBuffer</span>::<span class="ident">HALF_KEY_LEN</span>, <span class="ident">KeyBuffer</span>::<span class="ident">HALF_KEY_LEN</span>]
     }
 }
 
@@ -265,16 +291,17 @@
     <span class="doccomment">/// `s` will be used for the `nick` and included in the key string as well</span>
     <span class="doccomment">/// this agent is not cryptographically generated...</span>
     <span class="doccomment">/// it will not be able to sign / encrypt anything</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">generate_fake</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
-        <span class="kw">while</span> <span class="ident">buf</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="number">84</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">generate_fake</span>(<span class="ident">nick</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">nick</span>.<span class="ident">to_string</span>();
+        <span class="comment">// Make sure base64 string must is big enough to decode into 64 bytes key</span>
+        <span class="kw">while</span> <span class="ident">buf</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="number">82</span> {
             <span class="ident">buf</span>.<span class="ident">push_str</span>(<span class="string">&quot;+&quot;</span>);
         }
         <span class="ident">buf</span>.<span class="ident">push_str</span>(<span class="string">&quot;AAAA&quot;</span>);
         <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">base64</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;could not decode the generated fake base64 string - use the base64 alphabet&quot;</span>);
-        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">KeyBuffer</span>::<span class="ident">with_raw</span>(<span class="macro">array_ref</span><span class="macro">!</span>[<span class="ident">buf</span>, <span class="number">0</span>, <span class="number">64</span>]);
-        <span class="ident">AgentId</span>::<span class="ident">new</span>(<span class="ident">s</span>, <span class="kw-2">&amp;</span><span class="ident">buf</span>)
+        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">KeyBuffer</span>::<span class="ident">with_raw</span>(<span class="macro">array_ref</span><span class="macro">!</span>[<span class="ident">buf</span>, <span class="number">0</span>, <span class="ident">KeyBuffer</span>::<span class="ident">KEY_LEN</span>]);
+        <span class="ident">AgentId</span>::<span class="ident">new</span>(<span class="ident">nick</span>, <span class="kw-2">&amp;</span><span class="ident">buf</span>)
     }
 
     <span class="doccomment">/// initialize an Agent struct with `nick` and `key`</span>
@@ -287,8 +314,9 @@
 
     <span class="doccomment">/// get a key buffer based on this agent&#39;s key (no correction)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">KeyBuffer</span> {
-        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">base64</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">key</span>).<span class="ident">expect</span>(<span class="string">&quot;corrupt identity key&quot;</span>);
-        <span class="ident">KeyBuffer</span>::<span class="ident">with_raw</span>(<span class="macro">array_ref</span><span class="macro">!</span>[<span class="ident">key</span>, <span class="number">0</span>, <span class="number">64</span>])
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">key</span>.<span class="ident">replace</span>(<span class="string">&quot;-&quot;</span>, <span class="string">&quot;+&quot;</span>).<span class="ident">replace</span>(<span class="string">&quot;_&quot;</span>, <span class="string">&quot;/&quot;</span>);
+        <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">base64</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>).<span class="ident">expect</span>(<span class="string">&quot;corrupt identity key&quot;</span>);
+        <span class="ident">KeyBuffer</span>::<span class="ident">with_raw</span>(<span class="macro">array_ref</span><span class="macro">!</span>[<span class="ident">key</span>, <span class="number">0</span>, <span class="ident">KeyBuffer</span>::<span class="ident">KEY_LEN</span>])
     }
 }
 
@@ -315,12 +343,19 @@
 }
 
 <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">GOOD_ID</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span>
-    <span class="string">&quot;MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNBkd&quot;</span>;
+    <span class="string">&quot;sandwich--------------------------------------------------------------------------AAAEqzh28L&quot;</span>;
 <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">BAD_ID</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span>
-    <span class="string">&quot;ATIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNBkd&quot;</span>;
+    <span class="string">&quot;asndwich--------------------------------------------------------------------------AAAEqzh28L&quot;</span>;
+<span class="kw">pub</span> <span class="kw">static</span> <span class="ident">TOO_BAD_ID</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span>
+    <span class="string">&quot;asadwich--------------------------------------------------------------------------AAAEqzh28L&quot;</span>;
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_base64_to_agent_id</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">AgentId</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">KeyBuffer</span>::<span class="ident">with_corrected</span>(<span class="ident">s</span>)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(<span class="ident">AgentId</span>::<span class="ident">new</span>(<span class="string">&quot;bob&quot;</span>, <span class="ident">key</span>))
+}
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_agent_id</span>() <span class="op">-&gt;</span> <span class="ident">AgentId</span> {
-    <span class="ident">AgentId</span>::<span class="ident">new</span>(<span class="string">&quot;bob&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">KeyBuffer</span>::<span class="ident">with_corrected</span>(<span class="ident">BAD_ID</span>).<span class="ident">unwrap</span>())
+    <span class="ident">test_base64_to_agent_id</span>(<span class="ident">BAD_ID</span>).<span class="ident">unwrap</span>()
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -333,18 +368,19 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_should_allow_buffer_access</span>() {
-        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">test_agent_id</span>().<span class="ident">to_buffer</span>();
+        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">test_base64_to_agent_id</span>(<span class="ident">GOOD_ID</span>).<span class="ident">unwrap</span>().<span class="ident">to_buffer</span>();
+
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="kw-2">&amp;</span>[
-                <span class="number">49</span>, <span class="number">50</span>, <span class="number">51</span>, <span class="number">52</span>, <span class="number">53</span>, <span class="number">54</span>, <span class="number">55</span>, <span class="number">56</span>, <span class="number">57</span>, <span class="number">48</span>, <span class="number">49</span>, <span class="number">50</span>, <span class="number">51</span>, <span class="number">52</span>, <span class="number">53</span>, <span class="number">54</span>, <span class="number">55</span>, <span class="number">56</span>, <span class="number">57</span>, <span class="number">48</span>, <span class="number">49</span>,
-                <span class="number">50</span>, <span class="number">51</span>, <span class="number">52</span>, <span class="number">53</span>, <span class="number">54</span>, <span class="number">55</span>, <span class="number">56</span>, <span class="number">57</span>, <span class="number">48</span>, <span class="number">49</span>, <span class="number">50</span>
+                <span class="number">177</span>, <span class="number">169</span>, <span class="number">221</span>, <span class="number">194</span>, <span class="number">39</span>, <span class="number">33</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>,
+                <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>
             ],
             <span class="ident">buf</span>.<span class="ident">get_sig</span>()
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="kw-2">&amp;</span>[
-                <span class="number">51</span>, <span class="number">52</span>, <span class="number">53</span>, <span class="number">54</span>, <span class="number">55</span>, <span class="number">56</span>, <span class="number">57</span>, <span class="number">48</span>, <span class="number">49</span>, <span class="number">50</span>, <span class="number">51</span>, <span class="number">52</span>, <span class="number">53</span>, <span class="number">54</span>, <span class="number">55</span>, <span class="number">56</span>, <span class="number">57</span>, <span class="number">48</span>, <span class="number">49</span>, <span class="number">50</span>, <span class="number">51</span>,
-                <span class="number">52</span>, <span class="number">53</span>, <span class="number">54</span>, <span class="number">55</span>, <span class="number">56</span>, <span class="number">57</span>, <span class="number">48</span>, <span class="number">49</span>, <span class="number">50</span>, <span class="number">51</span>, <span class="number">52</span>
+                <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>,
+                <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">239</span>, <span class="number">190</span>, <span class="number">251</span>, <span class="number">224</span>, <span class="number">0</span>, <span class="number">0</span>
             ],
             <span class="ident">buf</span>.<span class="ident">get_enc</span>()
         );
@@ -352,12 +388,22 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_can_generate_fake</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;sandwich----------------------------------------------------------------------------AA-k&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;sandwich&quot;</span>).<span class="ident">address</span>().<span class="ident">to_string</span>());
+        <span class="kw">let</span> <span class="ident">agent_id</span> <span class="op">=</span> <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;sandwich&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="string">&quot;sandwich--------------------------------------------------------------------------AAAEqzh28L&quot;</span>.<span class="ident">to_string</span>(),
+            <span class="ident">agent_id</span>.<span class="ident">address</span>().<span class="ident">to_string</span>(),
+        );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_should_correct_errors</span>() {
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">GOOD_ID</span>.<span class="ident">to_string</span>(), <span class="ident">test_agent_id</span>().<span class="ident">address</span>().<span class="ident">to_string</span>());
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">it_fails_if_too_many_errors</span>() {
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">test_base64_to_agent_id</span>(<span class="ident">TOO_BAD_ID</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">is_err</span>())
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -370,7 +416,7 @@
     <span class="doccomment">/// show AddressableContent implementation for Agent</span>
     <span class="kw">fn</span> <span class="ident">agent_addressable_content_test</span>() {
         <span class="kw">let</span> <span class="ident">expected_content</span> <span class="op">=</span>
-            <span class="ident">Content</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;AgentId\&quot;:{\&quot;nick\&quot;:\&quot;bob\&quot;,\&quot;key\&quot;:\&quot;MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNBkd\&quot;}}&quot;</span>);
+            <span class="ident">Content</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;AgentId\&quot;:{\&quot;nick\&quot;:\&quot;bob\&quot;,\&quot;key\&quot;:\&quot;sandwich--------------------------------------------------------------------------AAAEqzh28L\&quot;}}&quot;</span>);
         <span class="comment">// content()</span>
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">expected_content</span>, <span class="ident">test_agent_id</span>().<span class="ident">content</span>(),);
 

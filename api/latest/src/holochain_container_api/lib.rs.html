@@ -115,6 +115,8 @@
 <span id="115">115</span>
 <span id="116">116</span>
 <span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! let file_system = Arc::new(RwLock::new(FilesystemStorage::new(tempdir().unwrap().path().to_str().unwrap()).unwrap()));</span>
 <span class="doccomment">//!     Arc::new(Mutex::new(SimplePersister::new(file_system.clone()))),</span>
@@ -219,6 +221,7 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_derive</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">boolinator</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">jsonrpc_ws_server</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">petgraph</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test_utils</span>;
@@ -227,6 +230,7 @@
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">config</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">container</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">context_builder</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">error</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">holochain</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">interface</span>;

@@ -158,6 +158,7 @@
 <span id="158">158</span>
 <span id="159">159</span>
 <span id="160">160</span>
+<span id="161">161</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::<span class="ident">ActionWrapper</span>,
@@ -201,12 +202,13 @@
         <span class="comment">// @TODO file table</span>
         <span class="comment">// @see https://github.com/holochain/holochain-rust/pull/246</span>
 
-        <span class="kw">let</span> <span class="ident">cas</span> <span class="op">=</span> <span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="ident">context</span>).<span class="ident">file_storage</span>;
+        <span class="kw">let</span> <span class="ident">chain_cas</span> <span class="op">=</span> <span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="ident">context</span>).<span class="ident">chain_storage</span>;
+        <span class="kw">let</span> <span class="ident">dht_cas</span> <span class="op">=</span> <span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="ident">context</span>).<span class="ident">dht_storage</span>;
         <span class="kw">let</span> <span class="ident">eav</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">eav_storage</span>.<span class="ident">clone</span>();
         <span class="ident">State</span> {
             <span class="ident">nucleus</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">NucleusState</span>::<span class="ident">new</span>()),
-            <span class="ident">agent</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">AgentState</span>::<span class="ident">new</span>(<span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">cas</span>.<span class="ident">clone</span>()))),
-            <span class="ident">dht</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">DhtStore</span>::<span class="ident">new</span>(<span class="ident">cas</span>.<span class="ident">clone</span>(), <span class="ident">eav</span>)),
+            <span class="ident">agent</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">AgentState</span>::<span class="ident">new</span>(<span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">chain_cas</span>.<span class="ident">clone</span>()))),
+            <span class="ident">dht</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">DhtStore</span>::<span class="ident">new</span>(<span class="ident">dht_cas</span>.<span class="ident">clone</span>(), <span class="ident">eav</span>)),
             <span class="ident">network</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">NetworkState</span>::<span class="ident">new</span>()),
             <span class="ident">history</span>: <span class="ident">HashSet</span>::<span class="ident">new</span>(),
         }
@@ -216,7 +218,7 @@
         <span class="comment">// @TODO file table</span>
         <span class="comment">// @see https://github.com/holochain/holochain-rust/pull/246</span>
 
-        <span class="kw">let</span> <span class="ident">cas</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">file_storage</span>.<span class="ident">clone</span>();
+        <span class="kw">let</span> <span class="ident">cas</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">dht_storage</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="ident">eav</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">eav_storage</span>.<span class="ident">clone</span>();
 
         <span class="kw">fn</span> <span class="ident">get_dna</span>(
@@ -306,7 +308,7 @@
         <span class="ident">snapshot</span>: <span class="ident">AgentStateSnapshot</span>,
     ) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">agent_state</span> <span class="op">=</span> <span class="ident">AgentState</span>::<span class="ident">new_with_top_chain_header</span>(
-            <span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">file_storage</span>.<span class="ident">clone</span>()),
+            <span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">dht_storage</span>.<span class="ident">clone</span>()),
             <span class="ident">snapshot</span>.<span class="ident">top_chain_header</span>().<span class="ident">clone</span>(),
         );
         <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">new_with_agent</span>(

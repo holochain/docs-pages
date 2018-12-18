@@ -815,8 +815,57 @@
 <span id="815">815</span>
 <span id="816">816</span>
 <span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
 </pre><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">action</span>::<span class="ident">ActionWrapper</span>, <span class="ident">context</span>::<span class="ident">Context</span>, <span class="ident">state</span>::<span class="ident">State</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
+    <span class="ident">context</span>::<span class="ident">Context</span>,
+    <span class="ident">signal</span>::{<span class="ident">Signal</span>, <span class="ident">SignalSender</span>},
+    <span class="ident">state</span>::<span class="ident">State</span>,
+};
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">sync</span>::{
         <span class="ident">mpsc</span>::{<span class="ident">sync_channel</span>, <span class="ident">Receiver</span>, <span class="ident">SyncSender</span>},
@@ -834,8 +883,10 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Instance</span> {
     <span class="doccomment">/// The object holding the state. Actions go through the store sequentially.</span>
     <span class="ident">state</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;&gt;</span>,
-    <span class="ident">action_channel</span>: <span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span>,
-    <span class="ident">observer_channel</span>: <span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span>,
+    <span class="ident">action_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">signal_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">observer_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">signal_filter</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">Action</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="kw">type</span> <span class="ident">ClosureType</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">State</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>;
@@ -852,14 +903,27 @@
         <span class="number">100</span>
     }
 
-    <span class="doccomment">/// get a clone of the action channel</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">action_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">action_channel</span>.<span class="ident">clone</span>()
+    <span class="comment">// @NB: these three getters smell bad because previously Instance and Context had SyncSenders</span>
+    <span class="comment">// rather than Option&lt;SyncSenders&gt;, but these would be initialized by default to broken channels</span>
+    <span class="comment">// which would panic if `send` was called upon them. These `expect`s just bring more visibility to</span>
+    <span class="comment">// that potential failure mode.</span>
+    <span class="comment">// @see https://github.com/holochain/holochain-rust/issues/739</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">action_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">action_channel</span>
+            .<span class="ident">as_ref</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Action channel not initialized&quot;</span>)
     }
 
-    <span class="doccomment">/// get a clone of the observer channel</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">observer_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">observer_channel</span>.<span class="ident">clone</span>()
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">signal_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">signal_channel</span>
+            .<span class="ident">as_ref</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Signal channel not initialized&quot;</span>)
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">observer_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">observer_channel</span>
+            .<span class="ident">as_ref</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Observer channel not initialized&quot;</span>)
     }
 
     <span class="doccomment">/// Stack an Action in the Event Queue</span>
@@ -868,7 +932,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics if called before `start_action_loop`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">action_wrapper</span>: <span class="ident">ActionWrapper</span>) {
-        <span class="ident">dispatch_action</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">action_channel</span>, <span class="ident">action_wrapper</span>)
+        <span class="ident">dispatch_action</span>(<span class="self">self</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>)
     }
 
     <span class="doccomment">/// Stack an Action in the Event Queue and block until is has been processed.</span>
@@ -877,7 +941,11 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics if called before `start_action_loop`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_and_wait</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">action_wrapper</span>: <span class="ident">ActionWrapper</span>) {
-        <span class="ident">dispatch_action_and_wait</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">action_channel</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">observer_channel</span>, <span class="ident">action_wrapper</span>);
+        <span class="ident">dispatch_action_and_wait</span>(
+            <span class="self">self</span>.<span class="ident">action_channel</span>(),
+            <span class="self">self</span>.<span class="ident">observer_channel</span>(),
+            <span class="ident">action_wrapper</span>,
+        );
     }
 
     <span class="doccomment">/// Stack an action in the Event Queue and create an Observer on it with the specified closure</span>
@@ -890,8 +958,8 @@
         <span class="ident">F</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">State</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Send</span>,
     {
         <span class="ident">dispatch_action_with_observer</span>(
-            <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">action_channel</span>,
-            <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">observer_channel</span>,
+            <span class="self">self</span>.<span class="ident">action_channel</span>(),
+            <span class="self">self</span>.<span class="ident">observer_channel</span>(),
             <span class="ident">action_wrapper</span>,
             <span class="ident">closure</span>,
         )
@@ -903,8 +971,8 @@
             <span class="ident">sync_channel</span>::<span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span>(<span class="self">Self</span>::<span class="ident">default_channel_buffer_size</span>());
         <span class="kw">let</span> (<span class="ident">tx_observer</span>, <span class="ident">rx_observer</span>) <span class="op">=</span>
             <span class="ident">sync_channel</span>::<span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span>(<span class="self">Self</span>::<span class="ident">default_channel_buffer_size</span>());
-        <span class="self">self</span>.<span class="ident">action_channel</span> <span class="op">=</span> <span class="ident">tx_action</span>.<span class="ident">clone</span>();
-        <span class="self">self</span>.<span class="ident">observer_channel</span> <span class="op">=</span> <span class="ident">tx_observer</span>.<span class="ident">clone</span>();
+        <span class="self">self</span>.<span class="ident">action_channel</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">tx_action</span>.<span class="ident">clone</span>());
+        <span class="self">self</span>.<span class="ident">observer_channel</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">tx_observer</span>.<span class="ident">clone</span>());
 
         (<span class="ident">rx_action</span>, <span class="ident">rx_observer</span>)
     }
@@ -917,7 +985,7 @@
         <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">sub_context</span>)
     }
 
-    <span class="doccomment">/// Start the Event Loop on a seperate thread</span>
+    <span class="doccomment">/// Start the Event Loop on a separate thread</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start_action_loop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) {
         <span class="kw">let</span> (<span class="ident">rx_action</span>, <span class="ident">rx_observer</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">initialize_channels</span>();
 
@@ -958,7 +1026,7 @@
                     .<span class="ident">expect</span>(<span class="string">&quot;owners of the state RwLock shouldn&#39;t panic&quot;</span>);
 
                 <span class="comment">// Create new state by reducing the action on old state</span>
-                <span class="ident">new_state</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">reduce</span>(<span class="ident">context</span>.<span class="ident">clone</span>(), <span class="ident">action_wrapper</span>);
+                <span class="ident">new_state</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">reduce</span>(<span class="ident">context</span>.<span class="ident">clone</span>(), <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
             }
 
             <span class="comment">// Get write lock</span>
@@ -970,6 +1038,8 @@
             <span class="comment">// Change the state</span>
             <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span> <span class="ident">new_state</span>;
         }
+
+        <span class="self">self</span>.<span class="ident">maybe_emit_action_signal</span>(<span class="ident">action_wrapper</span>.<span class="ident">action</span>().<span class="ident">clone</span>());
 
         <span class="comment">// Add new observers</span>
         <span class="ident">state_observers</span>.<span class="ident">extend</span>(<span class="ident">rx_observer</span>.<span class="ident">try_iter</span>());
@@ -992,24 +1062,46 @@
         <span class="ident">state_observers</span>
     }
 
-    <span class="doccomment">/// Creates a new Instance with disconnected channels.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">tx_action</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">sync_channel</span>(<span class="number">1</span>);
-        <span class="kw">let</span> (<span class="ident">tx_observer</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">sync_channel</span>(<span class="number">1</span>);
-        <span class="ident">Instance</span> {
-            <span class="ident">state</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">State</span>::<span class="ident">new</span>(<span class="ident">context</span>))),
-            <span class="ident">action_channel</span>: <span class="ident">tx_action</span>,
-            <span class="ident">observer_channel</span>: <span class="ident">tx_observer</span>,
+    <span class="doccomment">/// Given an `Action` that is being processed, decide whether or not it should be</span>
+    <span class="doccomment">/// emitted as a `Signal::Internal`, and if so, send it</span>
+    <span class="kw">fn</span> <span class="ident">maybe_emit_action_signal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">action</span>: <span class="ident">Action</span>) {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">tx</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">signal_channel</span> {
+            <span class="kw">if</span> (<span class="self">self</span>.<span class="ident">signal_filter</span>)(<span class="kw-2">&amp;</span><span class="ident">action</span>) {
+                <span class="kw">let</span> <span class="ident">signal</span> <span class="op">=</span> <span class="ident">Signal</span>::<span class="ident">Internal</span>(<span class="ident">action</span>);
+                <span class="ident">tx</span>.<span class="ident">send</span>(<span class="ident">signal</span>).<span class="ident">unwrap_or</span>(())
+                <span class="comment">// @TODO: once logging is implemented, kick out a warning for SendErrors</span>
+            }
         }
     }
 
+    <span class="doccomment">/// Creates a new Instance with no channels set up.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Instance</span> {
+            <span class="ident">state</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">State</span>::<span class="ident">new</span>(<span class="ident">context</span>))),
+            <span class="ident">action_channel</span>: <span class="prelude-val">None</span>,
+            <span class="ident">observer_channel</span>: <span class="prelude-val">None</span>,
+            <span class="ident">signal_channel</span>: <span class="prelude-val">None</span>,
+            <span class="ident">signal_filter</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">false</span>)),
+        }
+    }
+
+    <span class="doccomment">/// Creates a new Instance with only the signal channel set up.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_signals</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">signal_tx</span>: <span class="ident">SignalSender</span>, <span class="ident">signal_filter</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
+    <span class="kw">where</span>
+        <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">Action</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
+    {
+        <span class="self">self</span>.<span class="ident">signal_channel</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">signal_tx</span>);
+        <span class="self">self</span>.<span class="ident">signal_filter</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">signal_filter</span>));
+        <span class="self">self</span>
+    }
+
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_state</span>(<span class="ident">state</span>: <span class="ident">State</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">tx_action</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">sync_channel</span>(<span class="number">1</span>);
-        <span class="kw">let</span> (<span class="ident">tx_observer</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">sync_channel</span>(<span class="number">1</span>);
         <span class="ident">Instance</span> {
             <span class="ident">state</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">state</span>)),
-            <span class="ident">action_channel</span>: <span class="ident">tx_action</span>,
-            <span class="ident">observer_channel</span>: <span class="ident">tx_observer</span>,
+            <span class="ident">action_channel</span>: <span class="prelude-val">None</span>,
+            <span class="ident">observer_channel</span>: <span class="prelude-val">None</span>,
+            <span class="ident">signal_channel</span>: <span class="prelude-val">None</span>,
+            <span class="ident">signal_filter</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">false</span>)),
         }
     }
 
@@ -1026,7 +1118,7 @@
     }
 }*/</span>
 
-<span class="doccomment">/// Send Action to Instance&#39;s Event Queue and block until is has been processed.</span>
+<span class="doccomment">/// Send Action to Instance&#39;s Event Queue and block until it has been processed.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Panics</span>
 <span class="doccomment">///</span>
@@ -1170,22 +1262,18 @@
         ));
         <span class="kw">let</span> <span class="ident">logger</span> <span class="op">=</span> <span class="ident">test_logger</span>();
         (
-            <span class="ident">Arc</span>::<span class="ident">new</span>(
-                <span class="ident">Context</span>::<span class="ident">new</span>(
-                    <span class="ident">agent</span>,
-                    <span class="ident">logger</span>.<span class="ident">clone</span>(),
-                    <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>()))),
-                    <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
-                    <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(
-                        <span class="ident">EavFileStorage</span>::<span class="ident">new</span>(
-                            <span class="ident">tempdir</span>().<span class="ident">unwrap</span>().<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>(),
-                        )
+            <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Context</span>::<span class="ident">new</span>(
+                <span class="ident">agent</span>,
+                <span class="ident">logger</span>.<span class="ident">clone</span>(),
+                <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>()))),
+                <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
+                <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
+                <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(
+                    <span class="ident">EavFileStorage</span>::<span class="ident">new</span>(<span class="ident">tempdir</span>().<span class="ident">unwrap</span>().<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>())
                         .<span class="ident">unwrap</span>(),
-                    )),
-                    <span class="ident">mock_network_config</span>(),
-                )
-                .<span class="ident">unwrap</span>(),
-            ),
+                )),
+                <span class="ident">mock_network_config</span>(),
+            )),
             <span class="ident">logger</span>,
         )
     }
@@ -1214,8 +1302,9 @@
                 <span class="ident">agent</span>,
                 <span class="ident">logger</span>.<span class="ident">clone</span>(),
                 <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>()))),
-                <span class="ident">action_channel</span>.<span class="ident">clone</span>(),
-                <span class="ident">observer_channel</span>.<span class="ident">clone</span>(),
+                <span class="prelude-val">Some</span>(<span class="ident">action_channel</span>.<span class="ident">clone</span>()),
+                <span class="prelude-val">None</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">observer_channel</span>.<span class="ident">clone</span>()),
                 <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
                 <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(
                     <span class="ident">EavFileStorage</span>::<span class="ident">new</span>(<span class="ident">tempdir</span>().<span class="ident">unwrap</span>().<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>())
@@ -1237,13 +1326,13 @@
             <span class="ident">test_logger</span>(),
             <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>()))),
             <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
+            <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
             <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(
                 <span class="ident">EavFileStorage</span>::<span class="ident">new</span>(<span class="ident">tempdir</span>().<span class="ident">unwrap</span>().<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>())
                     .<span class="ident">unwrap</span>(),
             )),
             <span class="ident">mock_network_config</span>(),
-        )
-        .<span class="ident">unwrap</span>();
+        );
         <span class="kw">let</span> <span class="ident">global_state</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">State</span>::<span class="ident">new</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">clone</span>()))));
         <span class="ident">context</span>.<span class="ident">set_state</span>(<span class="ident">global_state</span>.<span class="ident">clone</span>());
         <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">context</span>)
@@ -1259,13 +1348,13 @@
             <span class="ident">test_logger</span>(),
             <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">cas</span>.<span class="ident">clone</span>()))),
             <span class="ident">cas</span>.<span class="ident">clone</span>(),
+            <span class="ident">cas</span>.<span class="ident">clone</span>(),
             <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(
                 <span class="ident">EavFileStorage</span>::<span class="ident">new</span>(<span class="ident">tempdir</span>().<span class="ident">unwrap</span>().<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>())
                     .<span class="ident">unwrap</span>(),
             )),
             <span class="ident">mock_network_config</span>(),
-        )
-        .<span class="ident">unwrap</span>();
+        );
         <span class="kw">let</span> <span class="ident">chain_store</span> <span class="op">=</span> <span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">cas</span>.<span class="ident">clone</span>());
         <span class="kw">let</span> <span class="ident">chain_header</span> <span class="op">=</span> <span class="ident">test_chain_header</span>();
         <span class="kw">let</span> <span class="ident">agent_state</span> <span class="op">=</span> <span class="ident">AgentState</span>::<span class="ident">new_with_top_chain_header</span>(<span class="ident">chain_store</span>, <span class="ident">chain_header</span>);
@@ -1387,7 +1476,6 @@
     <span class="doccomment">/// are sent on the passed channels.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">can_process_action</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">Instance</span>::<span class="ident">new</span>(<span class="ident">test_context</span>(<span class="string">&quot;jason&quot;</span>));
-
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize_context</span>(<span class="ident">test_context</span>(<span class="string">&quot;jane&quot;</span>));
         <span class="kw">let</span> (<span class="ident">rx_action</span>, <span class="ident">rx_observer</span>) <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize_channels</span>();
 
@@ -1581,9 +1669,9 @@
 
         <span class="comment">// Set up instance and process the action</span>
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">Instance</span>::<span class="ident">new</span>(<span class="ident">test_context</span>(<span class="string">&quot;jason&quot;</span>));
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize_context</span>(<span class="ident">context</span>);
         <span class="kw">let</span> <span class="ident">state_observers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">rx_observer</span>) <span class="op">=</span> <span class="ident">channel</span>::<span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span>();
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize_context</span>(<span class="ident">context</span>);
         <span class="ident">instance</span>.<span class="ident">process_action</span>(<span class="ident">commit_action</span>, <span class="ident">state_observers</span>, <span class="kw-2">&amp;</span><span class="ident">rx_observer</span>, <span class="kw-2">&amp;</span><span class="ident">context</span>);
 
         <span class="comment">// Check if AgentIdEntry is found</span>

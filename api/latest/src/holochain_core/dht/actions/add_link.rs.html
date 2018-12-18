@@ -134,7 +134,7 @@
 <span class="doccomment">/// Returns a future that resolves to an Ok(()) or an Err(HolochainError).</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_link</span>(<span class="ident">link</span>: <span class="kw-2">&amp;</span><span class="ident">Link</span>, <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">AddLinkFuture</span> {
     <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">AddLink</span>(<span class="ident">link</span>.<span class="ident">clone</span>()));
-    <span class="ident">dispatch_action</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">action_channel</span>, <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
+    <span class="ident">dispatch_action</span>(<span class="ident">context</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
 
     <span class="ident">AddLinkFuture</span> {
         <span class="ident">context</span>: <span class="ident">context</span>.<span class="ident">clone</span>(),
