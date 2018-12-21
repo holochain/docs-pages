@@ -101,7 +101,7 @@
                             </button>
                             
                             <button id="edit-button" class="icon-button" type="button" title="Suggest an edit" aria-label="Suggest an edit" aria-haspopup="true" aria-expanded="false">
-                                <a href="https://github.com/holochain/holochain-rust/edit/mdbook-push/doc/holochain_101/src/planning_a_dapp.md"><i class="fa fa-edit"></i></a>
+                                <a href="https://github.com/holochain/holochain-rust/edit/develop/doc/holochain_101/src/planning_a_dapp.md"><i class="fa fa-edit"></i></a>
                             </button>
                         </div>
 
@@ -160,28 +160,28 @@ Because app data storage is distributed amongst user-participants, one must expe
 <a class="header" href="#cryptography-in-holochain-dapps" id="cryptography-in-holochain-dapps"><h2>Cryptography in Holochain dApps</h2></a>
 <p>Distributed systems rely more heavily on cryptographic patterns and techniques than centralized systems. The basic concepts below explain how data integrity, ownership, and security are achieved natively with holochain's architecture. They are time-worn, relatively intuitive ideas that are critical for planning a holochain dApp.</p>
 <a class="header" href="#hashes" id="hashes"><h3>Hashes</h3></a>
-<p>Hashes ensure the reliability of information by representing any given piece of data with a unique, consistent string of random looking characters. This makes changes to data visible because one can see that a hash has changed without needing to inspect the data itself.</p>
-<p>However, it is impossible to get the original data from a hash -- its purpose is to prove that the data to which it corresponds has not been altered. The same data consistently gives the same hash, and different data always give a completely different hash.</p>
+<p>Hashes ensure the reliability of information by representing any given piece of data with a unique, consistent string of random looking characters. This makes changes to data visible because one can see that a hash has changed hash without needing to inspect the data itself.</p>
+<p>However, it is impossible to get the original data from a hash -- its purpose is to prove that the data to which it corresponds has not been altered. The same data consistently gives the same hash, and different data always gives a completely different hash.</p>
 <p>These features imply that one can use small, portable hashes to verify data. One could also use a database containing data and their hashes as a table of contents, indexing (though not reading) data associated with a given hash.</p>
 <a class="header" href="#signatures" id="signatures"><h3>Signatures</h3></a>
-<p>Signatures provide an additional type of data verification, answering the question &quot;who created this data?&quot; Signatures look like hashes. They are unique, reliable, and like hashes, cannot be used to retrieve the data to which they correspond. Signatures also come with a pair of keys. One is public, and the other private.</p>
-<p>The private key designates a unique author (or device), and the public key lets anyone verify a signature made by one specific private key. This key infrastructure addresses the problem of single points of failure associated with centralized systems by making authors responsible for securing their unique private key.</p>
+<p>Signatures provide an additional type of data verification, answering the question &quot;who created this data?&quot; Signatures looks like hashes. They are unique, reliable, and like hashes, cannot be used to retrieve the data to which they correspond. Signatures also come with a pair of keys. One is public, and the other private.</p>
+<p>The private key designates a unique author (or device), and the public key lets anyone verify a signature made by one specific private key. This key infrastructure addresses the problem of single points of failure associated with centralized systems by making each author responsible for securing their unique private key.</p>
 <a class="header" href="#encryption" id="encryption"><h3>Encryption</h3></a>
 <p>What if one needs to restrict access in addition to verifying data? Two types of encryption are possible. <em>Symmetric</em> encryption has one key for reading and writing data. <em>Asymmetric</em> encryption has two keys, where one creates messages and the other reads them.</p>
 <p>Encryption is a two way process, so the right key enables one to decrypt an encrypted message. With this added benefit come the drawbacks of the size of encrypted messages (at least as large as the original data) and broken encryption stripping the author of control of the original data.</p>
 <a class="header" href="#data-access-paradigms" id="data-access-paradigms"><h2>Data access paradigms</h2></a>
 <p>The following are five data access paradigms. Note that in real-world scenarios it is common to mix these options by combining separate dApps.
-In instances when many separate dApps are needed to share data, Holochain supports bridging between dApps.
+In instances when many separate dApps are needed to share data, Holochain supports bridging between dApps
 Bridges between two networks with different data privacy models specify who can use the bridge, what data crosses the bridge, and tasks that might run in response to the bridge (e.g. notifications)</p>
-<p>The default model for Holochain data is public data shared on a public network, and every Holochain dApp has its own network and data, and creates networks for user-participants as soon as they join a dApp.
+<p>Default model for Holochain data is public data shard on a public network, and every Holochain dApp has its own network and data, and creates networks for user-participants as soon as they join a dApp.
 The dApp code sets sharing and verification rules.</p>
 <a class="header" href="#public-shared-data-on-a-public-network" id="public-shared-data-on-a-public-network"><h3>Public, shared data on a public network</h3></a>
 <p>Public data works like Bittorrent:</p>
-<p>anybody can join a network</p>
-<p>anybody can request any data they want from the network</p>
-<p>any data is available as long as at least one person is sharing it</p>
-<p>if some data is not shared by enough people, a new random person on the network must share it</p>
-<p>there is no &quot;local only&quot; data</p>
+<p>Anybody can join a network
+anybody can request any data they want from the network
+any data is available as long as at least one person is sharing it
+if some data is not shared by enough people, a new random person on the network must share it
+there is no &quot;local only&quot; data</p>
 <p>As stated above, an additional requirement for Holochain dApps is that new data must have a digital signature.</p>
 <a class="header" href="#public-shared-data-on-a-private-network" id="public-shared-data-on-a-private-network"><h3>Public, shared data on a private network</h3></a>
 <p>The functionality is the same as a public network, but private networks use cryptography for access control to the network itself.</p>
@@ -212,7 +212,7 @@ Much like the private network, any one user-participant losing a key can become 
 </ul>
 <a class="header" href="#security---best-practices" id="security---best-practices"><h2>Security - best practices</h2></a>
 <p>A great way to begin offsetting the governance crises now typical of distributed systems (i.e. DAO hack) is to think in terms of protecting and enabling the community of user-participants in addition to cryptography.</p>
-<p>In essence, one must consider how to prevent undesired access to the DHT. If membranes are not properly built in the dApps' DNA, having access to the source code also means having access to the entire network's entries via the DHT. Developers must treat the code, or at least the DNA taken as a whole, as if it's a key to the data. Note, too, that one can easily fork a Holochain dApp without disrupting its activity, making it possible to retain the benefits of open-source code without some of the risks.</p>
+<p>In essence, one must consider how to prevent undesired access to the DHT. If membranes are not properly built in the dApps's DNA, having access to the source code also means having access to the entire network's entries via the DHT. Developers must treat the code, or at least the DNA taken as a whole, as if it's a key to the data. Note, too, that one can easily fork a Holochain dApp without disrupting its activity, making it possible to retain the benefits of open-source code without some of the risks.</p>
 <a class="header" href="#membranes" id="membranes"><h3>Membranes</h3></a>
 <p>Security efforts begin with the specification of membranes, lest the code itself become a target. Though holochains rely on the cryptography above to create trust in data's provenance and immutability, trust is a distinctly human affair at the level of creating membranes. Different applications will require different levels of security, and Holochain is uniquely suited to accommodate a high degree of flexibility. DNA could define a closed list of participants, Proof of Service, or social triangulation requirements, for example.</p>
 <p>Sybil attacks are attacks launched through the creation of many nodes explicitly for the purpose of the attack. These nodes are identifiable by having no history. Blockchains prevent Sybil Attacks with Proof of Work. PoW is an implied membrane since it constrains who can verify blocks. In that case, the clearing node must have done &quot;work&quot; to maintain the network. Holochain requires membranes to identify and filter out Sybil nodes so that an attacker cannot use them to overrun the DHT.</p>
@@ -228,7 +228,7 @@ Much like the private network, any one user-participant losing a key can become 
 </ol>
 
                         <hr />
-                        <a href="https://github.com/holochain/holochain-rust/edit/mdbook-push/doc/holochain_101/src/planning_a_dapp.md">suggest an edit</a>
+                        <a href="https://github.com/holochain/holochain-rust/edit/develop/doc/holochain_101/src/planning_a_dapp.md">suggest an edit</a>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
