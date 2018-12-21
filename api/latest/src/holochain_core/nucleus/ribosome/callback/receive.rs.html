@@ -128,7 +128,7 @@
 
     <span class="kw">let</span> <span class="ident">zome_call</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(
         <span class="ident">zome</span>,
-        <span class="string">&quot;no capability since this is a callback&quot;</span>,
+        <span class="prelude-val">None</span>,
         <span class="kw-2">&amp;</span><span class="ident">Callback</span>::<span class="ident">Receive</span>.<span class="ident">as_str</span>().<span class="ident">to_string</span>(),
         <span class="ident">params</span>.<span class="ident">clone</span>(),
     );

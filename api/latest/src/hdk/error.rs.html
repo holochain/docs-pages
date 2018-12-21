@@ -101,15 +101,19 @@
 <span id="101">101</span>
 <span id="102">102</span>
 <span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! This file contains defitions for Zome errors and also Zome Results.</span>
+
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">holochain_core_types</span>::{
     <span class="ident">error</span>::{<span class="ident">HolochainError</span>, <span class="ident">RibosomeErrorCode</span>},
     <span class="ident">json</span>::{<span class="ident">JsonError</span>, <span class="ident">JsonString</span>},
 };
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">error</span>::<span class="ident">Error</span>, <span class="ident">fmt</span>};
 
-<span class="doccomment">/// Error for DNA developers to use in their zome code.</span>
-<span class="doccomment">/// They do not have to send this error back to Ribosome unless its an InternalError.</span>
+<span class="doccomment">/// Error for DNA developers to use in their Zome code.</span>
+<span class="doccomment">/// This does not have to be sent back to Ribosome unless its an InternalError.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ZomeApiError</span> {
     <span class="ident">Internal</span>(<span class="ident">String</span>),

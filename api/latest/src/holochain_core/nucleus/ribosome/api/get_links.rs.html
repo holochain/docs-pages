@@ -152,6 +152,9 @@
 <span id="152">152</span>
 <span id="153">153</span>
 <span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
@@ -204,9 +207,12 @@
         <span class="ident">agent</span>::<span class="ident">actions</span>::<span class="ident">commit</span>::<span class="ident">commit_entry</span>,
         <span class="ident">dht</span>::<span class="ident">actions</span>::<span class="ident">add_link</span>::<span class="ident">add_link</span>,
         <span class="ident">instance</span>::<span class="ident">tests</span>::{<span class="ident">test_context_and_logger</span>, <span class="ident">test_instance</span>},
-        <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{
-            <span class="ident">api</span>::{<span class="ident">tests</span>::<span class="kw-2">*</span>, <span class="ident">ZomeApiFunction</span>},
-            <span class="ident">Defn</span>,
+        <span class="ident">nucleus</span>::{
+            <span class="ident">ribosome</span>::{
+                <span class="ident">api</span>::{<span class="ident">tests</span>::<span class="kw-2">*</span>, <span class="ident">ZomeApiFunction</span>},
+                <span class="ident">Defn</span>,
+            },
+            <span class="ident">tests</span>::<span class="kw-2">*</span>,
         },
     };
     <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">executor</span>::<span class="ident">block_on</span>;
@@ -235,7 +241,7 @@
         <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">test_zome_api_function_wasm</span>(<span class="ident">ZomeApiFunction</span>::<span class="ident">GetLinks</span>.<span class="ident">as_str</span>());
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wasm</span>(
             <span class="kw-2">&amp;</span><span class="ident">test_zome_name</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">test_capability</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">test_capability_name</span>(),
             <span class="ident">wasm</span>.<span class="ident">clone</span>(),
         );
 

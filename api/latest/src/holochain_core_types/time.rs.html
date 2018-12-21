@@ -10,7 +10,21 @@
 <span id="10">10</span>
 <span id="11">11</span>
 <span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! The Iso8601 type is defined here. It is used in particular</span>
+<span class="doccomment">//! within ChainHeader to enforce that their timestamps</span>
+<span class="doccomment">//! are defined in a useful and consistent way.</span>
+
+<span class="doccomment">/// This struct represents datetime data stored as a string</span>
+<span class="doccomment">/// in the ISO 8601 format.</span>
+<span class="doccomment">/// More info on the relevant [wikipedia article](https://en.wikipedia.org/wiki/ISO_8601).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Iso8601</span>(<span class="ident">String</span>);
 

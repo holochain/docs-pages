@@ -144,6 +144,10 @@
 <span id="144">144</span>
 <span id="145">145</span>
 <span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
 </pre><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
@@ -208,6 +212,10 @@
         }
 
         <span class="ident">EntryType</span>::<span class="ident">Deletion</span> <span class="op">=&gt;</span> {
+            <span class="comment">// FIXME</span>
+        }
+
+        <span class="ident">EntryType</span>::<span class="ident">CapTokenGrant</span> <span class="op">=&gt;</span> {
             <span class="comment">// FIXME</span>
         }
 

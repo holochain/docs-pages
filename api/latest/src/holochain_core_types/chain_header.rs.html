@@ -415,7 +415,15 @@
 <span id="415">415</span>
 <span id="416">416</span>
 <span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! This module contains definitions of the ChainHeader struct, constructor, and getters. This struct really defines a local source chain,</span>
+<span class="doccomment">//! in the sense that it implements the pointers between hashes that a hash chain relies on, which</span>
+<span class="doccomment">//! are then used to check the integrity of data using cryptographic hash functions.</span>
+
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">agent</span>::<span class="ident">test_agent_id</span>,
     <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>, <span class="ident">Content</span>},

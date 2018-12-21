@@ -330,7 +330,15 @@
 <span id="330">330</span>
 <span id="331">331</span>
 <span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! This file contains the macros used for creating validating entry type definitions,</span>
+<span class="doccomment">//! and validating links definitions within those.</span>
+
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">dna</span>::<span class="ident">entry_types</span>::<span class="ident">EntryTypeDef</span>,
     <span class="ident">entry</span>::{<span class="ident">entry_type</span>::<span class="ident">EntryType</span>, <span class="ident">Entry</span>},
@@ -340,7 +348,9 @@
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">validation</span>::<span class="ident">LinkDirection</span>;
 
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PackageCreator</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>() <span class="op">-&gt;</span> <span class="ident">ValidationPackageDefinition</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>;
+
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Validator</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="ident">Entry</span>, <span class="ident">ValidationData</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>;
+
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">LinkValidator</span> <span class="op">=</span>
     <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="ident">HashString</span>, <span class="ident">HashString</span>, <span class="ident">ValidationData</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>;
 

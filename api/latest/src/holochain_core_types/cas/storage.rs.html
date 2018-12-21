@@ -452,7 +452,17 @@
 <span id="452">452</span>
 <span id="453">453</span>
 <span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! ContentAddressableStorage (CAS) is defined here as a trait, such that there could be various implementations,</span>
+<span class="doccomment">//! such as the memory based, and file storage based implementations already in this code base.</span>
+<span class="doccomment">//! ContentAddressableStorage is a way of reading and writing AddressableContent in a persistent data store.</span>
+<span class="doccomment">//! A test suite for CAS is also implemented here.</span>
+
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>, <span class="ident">Content</span>},
     <span class="ident">eav</span>::{<span class="ident">EntityAttributeValue</span>, <span class="ident">EntityAttributeValueStorage</span>},
@@ -569,13 +579,13 @@
     }
 }
 
-<span class="comment">//A struct for our test suite that infers a type of ContentAddressableStorage</span>
+<span class="comment">// A struct for our test suite that infers a type of ContentAddressableStorage</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StorageTestSuite</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">ContentAddressableStorage</span>,
 {
     <span class="kw">pub</span> <span class="ident">cas</span>: <span class="ident">T</span>,
-    <span class="doccomment">/// it is important that every cloned copy of any CAS has a consistent view to data</span>
+    <span class="comment">// it is important that every cloned copy of any CAS has a consistent view to data</span>
     <span class="kw">pub</span> <span class="ident">cas_clone</span>: <span class="ident">T</span>,
 }
 
@@ -590,7 +600,7 @@
         }
     }
 
-    <span class="comment">//does round trip test that can infer two Addressable Content Types</span>
+    <span class="comment">// does round trip test that can infer two Addressable Content Types</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">round_trip_test</span><span class="op">&lt;</span><span class="ident">Addressable</span>, <span class="ident">OtherAddressable</span><span class="op">&gt;</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">content</span>: <span class="ident">Content</span>,

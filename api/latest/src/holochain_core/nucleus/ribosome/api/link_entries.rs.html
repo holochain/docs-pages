@@ -205,6 +205,9 @@
 <span id="205">205</span>
 <span id="206">206</span>
 <span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>},
@@ -257,9 +260,12 @@
             <span class="ident">tests</span>::{<span class="ident">test_context_and_logger</span>, <span class="ident">test_instance</span>},
             <span class="ident">Instance</span>,
         },
-        <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{
-            <span class="ident">api</span>::{<span class="ident">tests</span>::<span class="kw-2">*</span>, <span class="ident">ZomeApiFunction</span>},
-            <span class="ident">Defn</span>,
+        <span class="ident">nucleus</span>::{
+            <span class="ident">ribosome</span>::{
+                <span class="ident">api</span>::{<span class="ident">tests</span>::<span class="kw-2">*</span>, <span class="ident">ZomeApiFunction</span>},
+                <span class="ident">Defn</span>,
+            },
+            <span class="ident">tests</span>::<span class="kw-2">*</span>,
         },
     };
     <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">executor</span>::<span class="ident">block_on</span>;
@@ -314,7 +320,7 @@
         <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">test_zome_api_function_wasm</span>(<span class="ident">ZomeApiFunction</span>::<span class="ident">LinkEntries</span>.<span class="ident">as_str</span>());
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wasm</span>(
             <span class="kw-2">&amp;</span><span class="ident">test_zome_name</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">test_capability</span>(),
+            <span class="kw-2">&amp;</span><span class="ident">test_capability_name</span>(),
             <span class="ident">wasm</span>.<span class="ident">clone</span>(),
         );
 

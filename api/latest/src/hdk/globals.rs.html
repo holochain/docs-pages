@@ -40,7 +40,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">init_globals</span>::<span class="ident">init_globals</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::{<span class="ident">api_serialization</span>::<span class="ident">ZomeApiGlobals</span>, <span class="ident">memory_allocation</span>::<span class="ident">SinglePageStack</span>};
 
-<span class="comment">// Internal global for memory usage</span>
+<span class="doccomment">/// Internal global for memory usage</span>
 <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">G_MEM_STACK</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SinglePageStack</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
 
 <span class="comment">// Internal global for retrieving all Zome API globals</span>

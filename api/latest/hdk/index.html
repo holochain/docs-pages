@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `hdk` crate."><meta name="keywords" content="rust, rustlang, rust-lang, hdk"><title>hdk - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Crate hdk</p><a id='all-types' href='all.html'><p>See all hdk's items</p></a><div class="sidebar-elems"><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'hdk', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/hdk/lib.rs.html#1-41' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>hdk</a></span></h1><div class='docblock'><p>Holochain Development Kit (HDK)</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `hdk` crate."><meta name="keywords" content="rust, rustlang, rust-lang, hdk"><title>hdk - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Crate hdk</p><a id='all-types' href='all.html'><p>See all hdk's items</p></a><div class="sidebar-elems"><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'hdk', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/hdk/lib.rs.html#1-42' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>hdk</a></span></h1><div class='docblock'><p>Holochain Development Kit (HDK)</p>
 <p>The HDK helps in writing Holochain applications.
 Holochain DNAs need to be written in WebAssembly, or a language that compiles to Wasm,
 such as Rust. The HDK handles some of the low-level details of Wasm execution like
@@ -14,28 +14,36 @@ HDK, but it would be extremely tedious!</p>
                            <td><a class="mod" href="api/index.html"
                                   title='mod hdk::api'>api</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>This file contains many of the structs, enums, and functions relevant for Zome
+developers! Detailed references and examples can be found here for how to use the
+HDK exposed functions to access powerful Holochain functions.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="mod" href="entry_definition/index.html"
                                   title='mod hdk::entry_definition'>entry_definition</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>This file contains the macros used for creating validating entry type definitions,
+and validating links definitions within those.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="mod" href="error/index.html"
                                   title='mod hdk::error'>error</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>This file contains defitions for Zome errors and also Zome Results.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="mod" href="global_fns/index.html"
                                   title='mod hdk::global_fns'>global_fns</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>This file contains small helper functions relating to WASM memory management
+and serialization used throughout the HDK.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -61,14 +69,19 @@ It is automatically called at startup of each Zome function call.</p>
                            <td><a class="mod" href="macros/index.html"
                                   title='mod hdk::macros'>macros</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>This file contains the define_zome! macro, and smaller helper macros.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="mod" href="meta/index.html"
                                   title='mod hdk::meta'>meta</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>This file contains the &quot;secret&quot; functions that get added to Zomes, by the HDK.
+These functions match expectations that Holochain has... every Zome technically needs these functions,
+but not every developer should have to write them. A notable function defined here is
+__hdk_get_json_definition which allows Holochain to retrieve JSON defining the Zome.</p>
+
                            </td>
                        </tr></table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
@@ -111,13 +124,6 @@ same properties except for the direction which gets set to <code>LinkDirection::
 for use within the <a href="macro.entry.html">entry</a> macro.
 It has 5 component parts:</p>
 
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="macro" href="macro.load_string.html"
-                                  title='macro hdk::load_string'>load_string</a></td>
-                           <td class='docblock-short'>
-                                
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -202,6 +208,14 @@ callbacks.</p>
                        <tr class=' module-item'>
                            <td><a class="enum" href="enum.ValidationPackageDefinition.html"
                                   title='enum hdk::ValidationPackageDefinition'>ValidationPackageDefinition</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="constant" href="constant.THIS_INSTANCE.html"
+                                  title='constant hdk::THIS_INSTANCE'>THIS_INSTANCE</a></td>
                            <td class='docblock-short'>
                                 
                            </td>

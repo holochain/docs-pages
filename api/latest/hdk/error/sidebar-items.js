@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["ZomeApiError","Error for DNA developers to use in their zome code. They do not have to send this error back to Ribosome unless its an InternalError."]],"type":[["ZomeApiResult",""]]});
+initSidebarItems({"enum":[["ZomeApiError","Error for DNA developers to use in their Zome code. This does not have to be sent back to Ribosome unless its an InternalError."]],"type":[["ZomeApiResult",""]]});

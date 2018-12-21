@@ -281,7 +281,11 @@
 <span id="281">281</span>
 <span id="282">282</span>
 <span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! This file contains the define_zome! macro, and smaller helper macros.</span>
+
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">load_json</span> {
@@ -295,6 +299,7 @@
         <span class="ident">maybe_input</span>
     }};
 }
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">load_string</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">encoded_allocation_of_input</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {{
@@ -337,11 +342,12 @@
 <span class="doccomment">/// # use holochain_core_types::entry::entry_type::AppEntryType;</span>
 <span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
 <span class="doccomment">/// # use holochain_core_types::error::HolochainError;</span>
-<span class="doccomment">/// # use holochain_core_types::dna::entry_types::Sharing;</span>
 <span class="doccomment">/// # use boolinator::Boolinator;</span>
-<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
-<span class="doccomment">/// use holochain_core_types::cas::content::Address;</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// use hdk::error::ZomeApiResult;</span>
+<span class="doccomment">/// use holochain_core_types::{</span>
+<span class="doccomment">///     cas::content::Address,</span>
+<span class="doccomment">///     dna::entry_types::Sharing,</span>
+<span class="doccomment">/// };</span>
 <span class="doccomment">/// # // Adding empty functions so that the cfg(test) build can link.</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_init_globals(_: u32) -&gt; u32 { 0 }</span>
@@ -359,7 +365,6 @@
 <span class="doccomment">/// # pub fn hc_remove_entry(_: u32) -&gt; u32 { 0 }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_send(_: u32) -&gt; u32 { 0 }</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// #[derive(Serialize, Deserialize, Debug, DefaultJson)]</span>
@@ -497,7 +502,7 @@
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">__list_capabilities</span>() <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">ZomeCapabilities</span> {
 
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">capabilities</span>::{<span class="ident">Capability</span>, <span class="ident">Membrane</span>, <span class="ident">CapabilityType</span>, <span class="ident">FnParameter</span>, <span class="ident">FnDeclaration</span>};
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">capabilities</span>::{<span class="ident">Capability</span>, <span class="ident">CapabilityType</span>, <span class="ident">FnParameter</span>, <span class="ident">FnDeclaration</span>};
             <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 
             <span class="kw">let</span> <span class="ident">return_value</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">ZomeCapabilities</span> <span class="op">=</span> {
@@ -505,8 +510,7 @@
 
                 $(
                     {
-                        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">Capability</span>::<span class="ident">new</span>();
-                        <span class="ident">capability</span>.<span class="ident">cap_type</span> <span class="op">=</span> <span class="ident">CapabilityType</span> { <span class="ident">membrane</span>: <span class="ident">Membrane</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vis</span> };
+                        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">Capability</span>::<span class="ident">new</span>(<span class="ident">CapabilityType</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vis</span>);
                         <span class="ident">capability</span>.<span class="ident">functions</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
                             $(
                                 <span class="ident">FnDeclaration</span> {

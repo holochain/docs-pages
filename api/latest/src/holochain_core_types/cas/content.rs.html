@@ -207,7 +207,17 @@
 <span id="207">207</span>
 <span id="208">208</span>
 <span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! Implements a definition of what AddressableContent is by defining Content,</span>
+<span class="doccomment">//! defining Address, and defining the relationship between them. AddressableContent is a trait,</span>
+<span class="doccomment">//! meaning that it can be implemented for other structs.</span>
+<span class="doccomment">//! A test suite for AddressableContent is also implemented here.</span>
+
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">cas</span>::<span class="ident">storage</span>::<span class="ident">ContentAddressableStorage</span>, <span class="ident">error</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">hash</span>::<span class="ident">HashString</span>,
     <span class="ident">json</span>::<span class="ident">JsonString</span>,

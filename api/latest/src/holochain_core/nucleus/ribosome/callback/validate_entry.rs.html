@@ -189,6 +189,9 @@
 <span id="189">189</span>
 <span id="190">190</span>
 <span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
 </pre><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -250,6 +253,9 @@
         <span class="comment">// TODO: Specify how Deletion can be commited to chain.</span>
         <span class="ident">EntryType</span>::<span class="ident">Deletion</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">CallbackResult</span>::<span class="ident">Pass</span>),
 
+        <span class="comment">// a grant should always be private, so it should always pass</span>
+        <span class="ident">EntryType</span>::<span class="ident">CapTokenGrant</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">CallbackResult</span>::<span class="ident">Pass</span>),
+
         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">CallbackResult</span>::<span class="ident">NotImplemented</span>),
     }
 }
@@ -289,7 +295,7 @@
     };
     <span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(
         <span class="kw-2">&amp;</span><span class="ident">link_definition_path</span>.<span class="ident">zome_name</span>,
-        <span class="string">&quot;no capability, since this is an entry validation call&quot;</span>,
+        <span class="prelude-val">None</span>,
         <span class="string">&quot;__hdk_validate_link&quot;</span>,
         <span class="ident">params</span>,
     );
@@ -347,7 +353,7 @@
 
     <span class="prelude-val">Ok</span>(<span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(
         <span class="kw-2">&amp;</span><span class="ident">zome_name</span>,
-        <span class="string">&quot;no capability, since this is an entry validation call&quot;</span>,
+        <span class="prelude-val">None</span>,
         <span class="string">&quot;__hdk_validate_app_entry&quot;</span>,
         <span class="ident">params</span>,
     ))

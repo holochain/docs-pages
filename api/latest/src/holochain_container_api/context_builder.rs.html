@@ -163,18 +163,44 @@
 <span id="163">163</span>
 <span id="164">164</span>
 <span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::{
     <span class="ident">cas</span>::{<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">memory</span>::<span class="ident">MemoryStorage</span>},
     <span class="ident">eav</span>::{<span class="ident">file</span>::<span class="ident">EavFileStorage</span>, <span class="ident">memory</span>::<span class="ident">EavMemoryStorage</span>},
     <span class="ident">path</span>::<span class="ident">create_path_if_not_exists</span>,
 };
-<span class="kw">use</span> <span class="ident">holochain_core</span>::{<span class="ident">context</span>::<span class="ident">Context</span>, <span class="ident">logger</span>::<span class="ident">SimpleLogger</span>, <span class="ident">persister</span>::<span class="ident">SimplePersister</span>};
+
+<span class="kw">use</span> <span class="ident">holochain_core</span>::{
+    <span class="ident">context</span>::<span class="ident">Context</span>,
+    <span class="ident">logger</span>::{<span class="ident">Logger</span>, <span class="ident">SimpleLogger</span>},
+    <span class="ident">persister</span>::<span class="ident">SimplePersister</span>,
+    <span class="ident">signal</span>::<span class="ident">SignalSender</span>,
+};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">agent</span>::<span class="ident">AgentId</span>, <span class="ident">cas</span>::<span class="ident">storage</span>::<span class="ident">ContentAddressableStorage</span>, <span class="ident">eav</span>::<span class="ident">EntityAttributeValueStorage</span>,
     <span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>;
+<span class="kw">use</span> <span class="ident">jsonrpc_ws_server</span>::<span class="ident">jsonrpc_core</span>::<span class="ident">IoHandler</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>};
 
 <span class="doccomment">/// This type helps building [context objects](struct.Context.html) that need to be</span>
@@ -187,36 +213,41 @@
 <span class="doccomment">/// `spawn()` to retrieve the context.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ContextBuilder</span> {
     <span class="ident">agent_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AgentId</span><span class="op">&gt;</span>,
-    <span class="comment">// Logger and persister are currently set to a reasonable default in spawn().</span>
-    <span class="comment">// TODO: add with_logger() and with_persister() functions to ContextBuilder.</span>
-    <span class="comment">//logger: Option&lt;Arc&lt;Mutex&lt;Logger&gt;&gt;&gt;,</span>
+    <span class="ident">logger</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Logger</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
+    <span class="comment">// Persister is currently set to a reasonable default in spawn().</span>
+    <span class="comment">// TODO: add with_persister() function to ContextBuilder.</span>
     <span class="comment">//persister: Option&lt;Arc&lt;Mutex&lt;Persister&gt;&gt;&gt;,</span>
     <span class="ident">chain_storage</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">ContentAddressableStorage</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="ident">dht_storage</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">ContentAddressableStorage</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="ident">eav_storage</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueStorage</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="ident">network_config</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span>,
+    <span class="ident">container_api</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">IoHandler</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SignalSender</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">ContextBuilder</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">ContextBuilder</span> {
             <span class="ident">agent_id</span>: <span class="prelude-val">None</span>,
+            <span class="ident">logger</span>: <span class="prelude-val">None</span>,
             <span class="ident">chain_storage</span>: <span class="prelude-val">None</span>,
             <span class="ident">dht_storage</span>: <span class="prelude-val">None</span>,
             <span class="ident">eav_storage</span>: <span class="prelude-val">None</span>,
             <span class="ident">network_config</span>: <span class="prelude-val">None</span>,
+            <span class="ident">container_api</span>: <span class="prelude-val">None</span>,
+            <span class="ident">signal_tx</span>: <span class="prelude-val">None</span>,
         }
     }
 
     <span class="doccomment">/// Sets the agent of the context that gets built.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_agent</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">agent_id</span>: <span class="ident">AgentId</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_agent</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">agent_id</span>: <span class="ident">AgentId</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">agent_id</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">agent_id</span>);
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Sets all three storages, chain, DHT and EAV storage, to transient memory implementations.</span>
     <span class="doccomment">/// Chain and DHT storages get set to the same memory CAS.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_memory_storage</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_memory_storage</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">cas</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">MemoryStorage</span>::<span class="ident">new</span>()));
         <span class="kw">let</span> <span class="ident">eav</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">EavMemoryStorage</span>::<span class="ident">new</span>()));
         <span class="self">self</span>.<span class="ident">chain_storage</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">cas</span>.<span class="ident">clone</span>());
@@ -228,10 +259,7 @@
     <span class="doccomment">/// Sets all three storages, chain, DHT and EAV storage, to persistent file based implementations.</span>
     <span class="doccomment">/// Chain and DHT storages get set to the same file CAS.</span>
     <span class="doccomment">/// Returns an error if no file storage could be spawned on the given path.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_file_storage</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">path</span>: <span class="ident">T</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_file_storage</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">path</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">into</span>();
         <span class="kw">let</span> <span class="ident">cas_path</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}/cas&quot;</span>, <span class="ident">path</span>);
         <span class="kw">let</span> <span class="ident">eav_path</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}/eav&quot;</span>, <span class="ident">path</span>);
@@ -247,8 +275,23 @@
     }
 
     <span class="doccomment">/// Sets the network config.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_network_config</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">network_config</span>: <span class="ident">JsonString</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_network_config</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">network_config</span>: <span class="ident">JsonString</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">network_config</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">network_config</span>);
+        <span class="self">self</span>
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_container_api</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">api_handler</span>: <span class="ident">IoHandler</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">container_api</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">api_handler</span>)));
+        <span class="self">self</span>
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_logger</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">logger</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Logger</span><span class="op">&gt;&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">logger</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">logger</span>);
+        <span class="self">self</span>
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_signals</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">signal_tx</span>: <span class="ident">SignalSender</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">signal_tx</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">signal_tx</span>);
         <span class="self">self</span>
     }
 
@@ -256,33 +299,28 @@
     <span class="doccomment">/// Defaults to memory storages, a mock network config and a fake agent called &quot;alice&quot;.</span>
     <span class="doccomment">/// The logger gets set to SimpleLogger.</span>
     <span class="doccomment">/// The persister gets set to SimplePersister based on the chain storage.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">spawn</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Context</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">spawn</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Context</span> {
         <span class="kw">let</span> <span class="ident">chain_storage</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">chain_storage</span>
-            .<span class="ident">clone</span>()
             .<span class="ident">unwrap_or</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">MemoryStorage</span>::<span class="ident">new</span>())));
         <span class="kw">let</span> <span class="ident">dht_storage</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">dht_storage</span>
-            .<span class="ident">clone</span>()
             .<span class="ident">unwrap_or</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">MemoryStorage</span>::<span class="ident">new</span>())));
         <span class="kw">let</span> <span class="ident">eav_storage</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">eav_storage</span>
-            .<span class="ident">clone</span>()
             .<span class="ident">unwrap_or</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">EavMemoryStorage</span>::<span class="ident">new</span>())));
         <span class="ident">Context</span>::<span class="ident">new</span>(
-            <span class="self">self</span>.<span class="ident">agent_id</span>
-                .<span class="ident">clone</span>()
-                .<span class="ident">unwrap_or</span>(<span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;alice&quot;</span>)),
-            <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimpleLogger</span> {})),
+            <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">unwrap_or</span>(<span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;alice&quot;</span>)),
+            <span class="self">self</span>.<span class="ident">logger</span>.<span class="ident">unwrap_or</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimpleLogger</span> {}))),
             <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">chain_storage</span>.<span class="ident">clone</span>()))),
             <span class="ident">chain_storage</span>,
             <span class="ident">dht_storage</span>,
             <span class="ident">eav_storage</span>,
-            <span class="self">self</span>.<span class="ident">network_config</span>
-                .<span class="ident">clone</span>()
-                .<span class="ident">unwrap_or</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(
-                    <span class="ident">P2pConfig</span>::<span class="ident">DEFAULT_MOCK_CONFIG</span>,
-                ))),
+            <span class="self">self</span>.<span class="ident">network_config</span>.<span class="ident">unwrap_or</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(
+                <span class="ident">P2pConfig</span>::<span class="ident">DEFAULT_MOCK_CONFIG</span>,
+            ))),
+            <span class="self">self</span>.<span class="ident">container_api</span>,
+            <span class="self">self</span>.<span class="ident">signal_tx</span>,
         )
     }
 }

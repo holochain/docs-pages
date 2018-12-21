@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["test_iso_8601",""]],"struct":[["Iso8601",""]]});
+initSidebarItems({"fn":[["test_iso_8601",""]],"struct":[["Iso8601","This struct represents datetime data stored as a string in the ISO 8601 format. More info on the relevant wikipedia article."]]});

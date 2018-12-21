@@ -325,6 +325,10 @@
 <span id="325">325</span>
 <span id="326">326</span>
 <span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
 </pre><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
@@ -382,10 +386,14 @@
         <span class="ident">EntryType</span>::<span class="ident">LinkAdd</span> <span class="op">=&gt;</span> {
             <span class="comment">// LinkAdd can always be validated</span>
         }
+
         <span class="ident">EntryType</span>::<span class="ident">Deletion</span> <span class="op">=&gt;</span> {
             <span class="comment">// FIXME</span>
         }
 
+        <span class="ident">EntryType</span>::<span class="ident">CapTokenGrant</span> <span class="op">=&gt;</span> {
+            <span class="comment">// FIXME</span>
+        }
         <span class="kw">_</span> <span class="op">=&gt;</span> {
             <span class="kw">return</span> <span class="ident">ValidationPackageFuture</span> {
                 <span class="ident">context</span>: <span class="ident">context</span>.<span class="ident">clone</span>(),

@@ -18,7 +18,21 @@
 <span id="18">18</span>
 <span id="19">19</span>
 <span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! The Signature type is defined here. They are used in ChainHeaders as</span>
+<span class="doccomment">//! a way of providing cryptographically verifiable proof of a given agent</span>
+<span class="doccomment">//! as having been the author of a given data entry.</span>
+
+<span class="doccomment">/// Signature is meant in the classic cryptographic sense,</span>
+<span class="doccomment">/// as a string which can be validated as having been signed</span>
+<span class="doccomment">/// by the private key associated with a given public key</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Signature</span>(<span class="ident">String</span>);
 

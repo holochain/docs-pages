@@ -293,7 +293,17 @@
 <span id="293">293</span>
 <span id="294">294</span>
 <span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
 </pre><pre class="rust ">
+<span class="doccomment">//! This file contains the &quot;secret&quot; functions that get added to Zomes, by the HDK.</span>
+<span class="doccomment">//! These functions match expectations that Holochain has... every Zome technically needs these functions,</span>
+<span class="doccomment">//! but not every developer should have to write them. A notable function defined here is</span>
+<span class="doccomment">//! __hdk_get_json_definition which allows Holochain to retrieve JSON defining the Zome.</span>
+
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">entry_definition</span>::<span class="ident">ValidatingEntryType</span>, <span class="ident">globals</span>::<span class="ident">G_MEM_STACK</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">dna</span>::{

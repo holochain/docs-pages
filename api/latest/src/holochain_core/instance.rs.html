@@ -843,27 +843,11 @@
 <span id="843">843</span>
 <span id="844">844</span>
 <span id="845">845</span>
-<span id="846">846</span>
-<span id="847">847</span>
-<span id="848">848</span>
-<span id="849">849</span>
-<span id="850">850</span>
-<span id="851">851</span>
-<span id="852">852</span>
-<span id="853">853</span>
-<span id="854">854</span>
-<span id="855">855</span>
-<span id="856">856</span>
-<span id="857">857</span>
-<span id="858">858</span>
-<span id="859">859</span>
-<span id="860">860</span>
-<span id="861">861</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
     <span class="ident">context</span>::<span class="ident">Context</span>,
-    <span class="ident">signal</span>::{<span class="ident">Signal</span>, <span class="ident">SignalSender</span>},
+    <span class="ident">signal</span>::<span class="ident">Signal</span>,
     <span class="ident">state</span>::<span class="ident">State</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -884,9 +868,7 @@
     <span class="doccomment">/// The object holding the state. Actions go through the store sequentially.</span>
     <span class="ident">state</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;&gt;</span>,
     <span class="ident">action_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;&gt;</span>,
-    <span class="ident">signal_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;&gt;</span>,
     <span class="ident">observer_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;&gt;</span>,
-    <span class="ident">signal_filter</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">Action</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="kw">type</span> <span class="ident">ClosureType</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">State</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>;
@@ -912,12 +894,6 @@
         <span class="self">self</span>.<span class="ident">action_channel</span>
             .<span class="ident">as_ref</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;Action channel not initialized&quot;</span>)
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">signal_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">signal_channel</span>
-            .<span class="ident">as_ref</span>()
-            .<span class="ident">expect</span>(<span class="string">&quot;Signal channel not initialized&quot;</span>)
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">observer_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span> {
@@ -1039,7 +1015,7 @@
             <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span> <span class="ident">new_state</span>;
         }
 
-        <span class="self">self</span>.<span class="ident">maybe_emit_action_signal</span>(<span class="ident">action_wrapper</span>.<span class="ident">action</span>().<span class="ident">clone</span>());
+        <span class="self">self</span>.<span class="ident">maybe_emit_action_signal</span>(<span class="ident">context</span>, <span class="ident">action_wrapper</span>.<span class="ident">action</span>().<span class="ident">clone</span>());
 
         <span class="comment">// Add new observers</span>
         <span class="ident">state_observers</span>.<span class="ident">extend</span>(<span class="ident">rx_observer</span>.<span class="ident">try_iter</span>());
@@ -1064,13 +1040,13 @@
 
     <span class="doccomment">/// Given an `Action` that is being processed, decide whether or not it should be</span>
     <span class="doccomment">/// emitted as a `Signal::Internal`, and if so, send it</span>
-    <span class="kw">fn</span> <span class="ident">maybe_emit_action_signal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">action</span>: <span class="ident">Action</span>) {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">tx</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">signal_channel</span> {
-            <span class="kw">if</span> (<span class="self">self</span>.<span class="ident">signal_filter</span>)(<span class="kw-2">&amp;</span><span class="ident">action</span>) {
-                <span class="kw">let</span> <span class="ident">signal</span> <span class="op">=</span> <span class="ident">Signal</span>::<span class="ident">Internal</span>(<span class="ident">action</span>);
-                <span class="ident">tx</span>.<span class="ident">send</span>(<span class="ident">signal</span>).<span class="ident">unwrap_or</span>(())
-                <span class="comment">// @TODO: once logging is implemented, kick out a warning for SendErrors</span>
-            }
+    <span class="kw">fn</span> <span class="ident">maybe_emit_action_signal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>, <span class="ident">action</span>: <span class="ident">Action</span>) {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">tx</span>) <span class="op">=</span> <span class="ident">context</span>.<span class="ident">signal_tx</span> {
+            <span class="comment">// @TODO: if needed for performance, could add a filter predicate here</span>
+            <span class="comment">// to prevent emitting too many unneeded signals</span>
+            <span class="kw">let</span> <span class="ident">signal</span> <span class="op">=</span> <span class="ident">Signal</span>::<span class="ident">Internal</span>(<span class="ident">action</span>);
+            <span class="ident">tx</span>.<span class="ident">send</span>(<span class="ident">signal</span>).<span class="ident">unwrap_or</span>(())
+            <span class="comment">// @TODO: once logging is implemented, kick out a warning for SendErrors</span>
         }
     }
 
@@ -1080,19 +1056,7 @@
             <span class="ident">state</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">State</span>::<span class="ident">new</span>(<span class="ident">context</span>))),
             <span class="ident">action_channel</span>: <span class="prelude-val">None</span>,
             <span class="ident">observer_channel</span>: <span class="prelude-val">None</span>,
-            <span class="ident">signal_channel</span>: <span class="prelude-val">None</span>,
-            <span class="ident">signal_filter</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">false</span>)),
         }
-    }
-
-    <span class="doccomment">/// Creates a new Instance with only the signal channel set up.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_signals</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">signal_tx</span>: <span class="ident">SignalSender</span>, <span class="ident">signal_filter</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">Action</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-    {
-        <span class="self">self</span>.<span class="ident">signal_channel</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">signal_tx</span>);
-        <span class="self">self</span>.<span class="ident">signal_filter</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">signal_filter</span>));
-        <span class="self">self</span>
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_state</span>(<span class="ident">state</span>: <span class="ident">State</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
@@ -1100,8 +1064,6 @@
             <span class="ident">state</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">state</span>)),
             <span class="ident">action_channel</span>: <span class="prelude-val">None</span>,
             <span class="ident">observer_channel</span>: <span class="prelude-val">None</span>,
-            <span class="ident">signal_channel</span>: <span class="prelude-val">None</span>,
-            <span class="ident">signal_filter</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">false</span>)),
         }
     }
 
@@ -1273,6 +1235,8 @@
                         .<span class="ident">unwrap</span>(),
                 )),
                 <span class="ident">mock_network_config</span>(),
+                <span class="prelude-val">None</span>,
+                <span class="prelude-val">None</span>,
             )),
             <span class="ident">logger</span>,
         )
@@ -1332,6 +1296,8 @@
                     .<span class="ident">unwrap</span>(),
             )),
             <span class="ident">mock_network_config</span>(),
+            <span class="prelude-val">None</span>,
+            <span class="prelude-val">None</span>,
         );
         <span class="kw">let</span> <span class="ident">global_state</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">State</span>::<span class="ident">new</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">clone</span>()))));
         <span class="ident">context</span>.<span class="ident">set_state</span>(<span class="ident">global_state</span>.<span class="ident">clone</span>());
@@ -1354,6 +1320,8 @@
                     .<span class="ident">unwrap</span>(),
             )),
             <span class="ident">mock_network_config</span>(),
+            <span class="prelude-val">None</span>,
+            <span class="prelude-val">None</span>,
         );
         <span class="kw">let</span> <span class="ident">chain_store</span> <span class="op">=</span> <span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">cas</span>.<span class="ident">clone</span>());
         <span class="kw">let</span> <span class="ident">chain_header</span> <span class="op">=</span> <span class="ident">test_chain_header</span>();
