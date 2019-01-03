@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["IpcClient","NetWorker for messaging with an ipc p2p node"]]});

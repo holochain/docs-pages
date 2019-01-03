@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["SimpleLogger",""]],"trait":[["Logger","trait that defines the logging functionality that holochain_core requires"]]});
