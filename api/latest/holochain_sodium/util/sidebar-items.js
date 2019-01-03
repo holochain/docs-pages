@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["zero","zero all memory within the provided SecBuf"]]});

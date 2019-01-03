@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["get_entry_type",""],["invoke_entry_address","ZomeApiFunction::entry_address function code args: [0] encoded MemoryAllocation as u32 Expected complex argument: entry_type_name and entry_value as JsonString Returns an HcApiReturnCode as I32"]]});

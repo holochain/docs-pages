@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["SendArgs","Struct for input data received when Zome API function send() is invoked"]]});

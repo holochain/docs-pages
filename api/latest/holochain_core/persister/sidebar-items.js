@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["SimplePersister",""]],"trait":[["Persister","trait that defines the persistence functionality that holochain_core requires"]]});

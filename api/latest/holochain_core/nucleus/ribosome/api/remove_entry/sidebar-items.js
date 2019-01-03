@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["invoke_remove_entry","ZomeApiFunction::RemoveEntry function code args: [0] encoded MemoryAllocation as u32 Expected Address argument Returns only a RibosomeReturnCode as I32"]]});

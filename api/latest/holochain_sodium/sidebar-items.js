@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["check_init","make sure sodium_init is called"]],"mod":[["random","This module provides access to libsodium randomization functions"],["secbuf","This module provides an abstraction for memory for use with libsodium"],["util","This module provides access to libsodium utility and memory functions"]]});
