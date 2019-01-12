@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Holochain Installation Instructions</title>
     <!-- Meta -->
@@ -7,20 +8,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="">    
+    <meta name="author" content="">
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+        rel='stylesheet' type='text/css'>
     <!-- FontAwesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a"
+        crossorigin="anonymous"></script>
     <!-- Global CSS -->
-    <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">   
-    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Plugins CSS -->
     <link rel="stylesheet" href="/assets/plugins/prism/prism.css">
-    <link rel="stylesheet" href="/assets/plugins/elegant_font/css/style.css">  
-      
+    <link rel="stylesheet" href="/assets/plugins/elegant_font/css/style.css">
+
     <!-- Theme CSS -->
     <link id="theme-style" rel="stylesheet" href="/assets/css/styles.css">
-    
+
 </head>
 
 <body class="body-green">
@@ -33,237 +36,427 @@
                         <img src="/assets/images/holochain/holochain-word-logo.png" alt="holochain logo" />
                         <h4>Developer Resource Portal</h4>
                     </a>
-                </div><!--//branding-->
+                </div>
+                <!--//branding-->
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                     <li class="breadcrumb-item active">Quick Start</li>
                 </ol>
-            </div><!--//container-->
-        </header><!--//header-->
+            </div>
+            <!--//container-->
+        </header>
+        <!--//header-->
         <div class="doc-wrapper">
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start</h1>
-                    <div class="meta"><i class="far fa-clock"></i> Last updated: December 6, 2018</div>
-                </div><!--//doc-header-->
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: January 12, 2019</div>
+                </div>
+                <!--//doc-header-->
                 <div class="doc-body row">
                     <div class="doc-content col-md-9 col-12 order-1">
                         <div class="content-inner">
                             <section id="overview-section" class="doc-section">
                                 <h2 class="section-title">Overview</h2>
-                                <div class="section-block">    
-                                    <p>   
-                                        Welcome to the Quick Start guide for getting started with Holochain development.
-                                        It will guide you through installation, and also point you to a great tutorial for
+                                <div class="section-block">
+                                    <p>
+                                        Welcome to the Quick Start guide for getting started with Holochain
+                                        development.
+                                        It will guide you through installation, and also point you to a great tutorial
+                                        for
                                         getting started coding.
                                     </p>
-                                </div><!--//section-block-->
+                                </div>
+                                <!--//section-block-->
                             </section>
 
-                            <section id="installation-section" class="doc-section">
-                                <h2 class="section-title">Installation</h2>
-                                
-                                <div id="step1"  class="section-block">
-                                    <h3 class="block-title">Step One</h3>
+                            <section id="prereq-section" class="doc-section">
+                                <h2 class="section-title">Prerequisites</h2>
+
+                                <div id="prereq-step1" class="section-block">
+                                    <h3 class="block-title">Step One - Nodejs</h3>
                                     <p>
 
-                                            Testing of Holochain apps is done in Javascript, executed by Nodejs. To run tests, you'll need Nodejs installed.
-                                            
-                                            Nodejs must be version 8 or higher to work.
-                                            
-                                            If you don't have it installed already, you can find great installation instructions here: <a href="https://nodejs.org">https://nodejs.org</a>
+                                        Testing of Holochain apps is done in Javascript, executed by Nodejs. To run
+                                        tests, you'll need Nodejs installed.
+
+                                        Nodejs must be version 8 or higher to work.
+
+                                        If you don't have it installed already, you can find great installation
+                                        instructions here: <a href="https://nodejs.org">https://nodejs.org</a>
                                     </p>
-                                </div><!--//section-block-->
-                                <div id="step2"  class="section-block">
-                                    <h3 class="block-title">Step Two</h3>
+                                </div>
+                                <!--//section-block-->
+                                <div id="prereq-step2" class="section-block">
+                                    <h3 class="block-title">Step Two - Rust</h3>
                                     <p>
-                                        In the future, you will be able to use a variety of languages to write Holochain applications.
-                                        While the WebAssembly API is still being defined the only "HDK" library available,
-                                        which simplifies Holochain development, is for Rust. Rust must be installed to your computer
-                                        to develop with Holochain, and it must be the "nightly" toolchain. Platform specific instructions for
+                                        In the future, you will be able to use a variety of languages to write
+                                        Holochain applications.
+                                        While the WebAssembly API is still being defined the only "HDK" library
+                                        available,
+                                        which simplifies Holochain development, is for Rust. Rust must be installed to
+                                        your computer
+                                        to develop with Holochain, and it must be the "nightly" toolchain. Platform
+                                        specific instructions for
                                         installation follow:
 
-                                        <h5>For Mac and Linux</h5>
-                                        In a terminal, run:
-                                        <div class="code-block">
-                                            <p><code>curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly</code></p>
-                                        </div><!--//code-block-->
-                                        
-                                        <h5>For Windows</h5>
-                                        Go to <a href="https://rustup.rs">https://rustup.rs</a> and follow installation instructions.
-                                        
-                                        Once you have rust successfully installed, you need to install the "nightly" toolchain of rust.
-                                        This means having the latest version of the tools, which are required for working with Holochain.
-                                        In a terminal, run:
-                                        <div class="code-block">
-                                            <p><code>rustup toolchain install nightly</code></p>
-                                            <p><code>rustup default nightly</code></p>
-                                        </div><!--//code-block-->
-                                    </p>
-                                </div><!--//section-block-->
-                                <div id="step3"  class="section-block">
-                                    <h3 class="block-title">Step Three</h3>
-                                    <p>
-                                            Since Holochain code needs to be in WebAssembly, the Rust compilation "target" for WebAssembly is required.
-                                            This just means that the Rust toolchain knows how to compile Rust code to WebAssembly.
-                                            You will likely need to restart your terminal, or open a new one, before being able to run the following command.
-                                            In a terminal, run:
-                                            <div class="code-block">
-                                                <p><code>rustup target add wasm32-unknown-unknown</code></p>
-                                            </div><!--//code-block-->
-                                    </p>
-                                </div><!--//section-block-->
+                                        <nav>
+                                            <div class="nav nav-tabs nav-fill" role="tablist">
+                                                <a class="nav-item nav-link active" data-toggle="tab" href="#rust-mac-linux"
+                                                    role="tab" aria-controls="rust-mac-linux" aria-selected="true">Mac
+                                                    & Linux</a>
+                                                <a class="nav-item nav-link" data-toggle="tab" href="#rust-windows"
+                                                    role="tab" aria-controls="rust-windows" aria-selected="false">Windows</a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="rust-mac-linux" role="tabpanel"
+                                                aria-labelledby="rust-mac-linux">
+                                                In a terminal, run:
+                                                <br />
+                                                <br />
+                                                <code>curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly</code>
+                                                <!--//code-block-->
+                                            </div>
+                                            <div class="tab-pane fade" id="rust-windows" role="tabpanel"
+                                                aria-labelledby="rust-windows">
+                                                <p>Go to <a href="https://rustup.rs">https://rustup.rs</a> and follow
+                                                    installation instructions.</p>
 
-                                <div id="step4"  class="section-block">
-                                    <h3 class="block-title">Step Four</h3>
+                                                Once you have rust successfully installed, you need to install the
+                                                "nightly" toolchain of rust. This means having the latest version of
+                                                the tools, which are required for working with Holochain. In a
+                                                terminal, run:
+                                                <div class="code-block">
+                                                    <p><code>rustup toolchain install nightly</code></p>
+                                                    <p><code>rustup default nightly</code></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </p>
+                                </div>
+                                <!--//section-block-->
+                                <div id="prereq-step3" class="section-block">
+                                    <h3 class="block-title">Step Three - WebAssembly</h3>
                                     <p>
-                                        Being a P2P networking framework, Holochain utilizes a "distributed messaging" library internally called ZeroMQ.
-                                        For the time being (it is hoped to change this in the future), this must be installed on your computer as well
+                                        Since Holochain code needs to be in WebAssembly, the Rust compilation "target"
+                                        for WebAssembly is required.
+                                        This just means that the Rust toolchain knows how to compile Rust code to
+                                        WebAssembly.
+                                        You will likely need to restart your terminal, or open a new one, before being
+                                        able to run the following command.
+                                        In a terminal, run:
+                                        <div class="code-block">
+                                            <p><code>rustup target add wasm32-unknown-unknown</code></p>
+                                        </div>
+                                        <!--//code-block-->
+                                    </p>
+                                </div>
+                                <!--//section-block-->
+
+                                <div id="prereq-step4" class="section-block">
+                                    <h3 class="block-title">Step Four - ZeroMQ</h3>
+                                    <p>
+                                        Being a P2P networking framework, Holochain utilizes a "distributed messaging"
+                                        library internally called ZeroMQ.
+                                        For the time being (it is hoped to change this in the future), this must be
+                                        installed on your computer as well
                                         before Holochain can run.
 
                                         The version number that you install must be 4.1 or higher.
                                     </p>
-				    <h5>Mac and Linux</h5>
+                                    <h5>Mac and Linux</h5>
                                     <p>
-                                        The most update and useful installation instructions for ZMQ are maintained <a target="_blank" href="http://zeromq.org/intro:get-the-software">here</a>.
+                                        The most update and useful installation instructions for ZMQ are maintained <a
+                                            target="_blank" href="http://zeromq.org/intro:get-the-software">here</a>.
                                     </p>
-				    <h5>Windows</h5>
+                                    <h5>Windows</h5>
                                     <p>
-					If you are on Windows (only 64 bit machines supported), for now, just download
-					    <a target="_blank" href="https://github.com/holochain/holochain-rust/raw/develop/vendor/zmq/bin/libzmq-v140-mt-4_2_0.dll">this file</a>, which is a prebuilt ZMQ library.
+                                        If you are on Windows (only 64 bit machines supported), for now, just download
+                                        <a target="_blank" href="https://github.com/holochain/holochain-rust/raw/develop/vendor/zmq/bin/libzmq-v140-mt-4_2_0.dll">this
+                                            file</a>, which is a prebuilt ZMQ library.
+                                        TODO FIX THIS Move the file "libzmq-v140-mt-4_2_0.dll" that you downloaded into
+                                        the same "hc" folder as the other files.
                                     </p>
                                     <p>
                                         If you encounter issues with this, please discuss <a target="_blank" href="https://github.com/holochain/holochain-rust/issues/701">here</a>.
                                     </p>
-                                </div><!--//section-block-->
+                                </div>
+                                <!--//section-block-->
+                            </section>
+                            <!--//doc-section-->
 
-                                <div id="step5" class="section-block">
-                                    <h4 class="block-title">Step Five</h4>
+                            <section id="networking-section" class="doc-section">
+                                <h2 class="section-title">Networking Tools</h2>
+                                <div class="section-block">
                                     <p>
-                                        The last thing to install is the Holochain command line tools.
-                                        <br />
-                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/holochain-cmd-v0.0.2" target="_blank">Go to GitHub and download the appropriate release for your system.</a>
+                                        The networking capabilities for Holochain have been developed as a library
+                                        decoupled
+                                        from the Rust core. At this time they are written in nodejs (another reason
+                                        nodejs is a dependency above) and communicate with Holochain
+                                        via IPC (inter process communication).
+                                        There is a mock networking implementation in Holochain meaning that technically
+                                        development
+                                        of apps can happen without this library, but if you wish to use actual
+                                        networking this library
+                                        will be required.
                                     </p>
                                     <p>
-                                        Once you've downloaded it, unpack it, RENAME it "hc" and move the resulting folder to a directory on your computer where you'd like to keep these files long term.
-                                        As a default, lets assume that it can be this folder called "hc", right under your $HOME or %USERPROFILE% (your user) directory.
-                                        Now we will have to add this directory to your PATH variable, so that the binary becomes available within your command line. The instructions for this differ, depending on your platform.
+                                        The networking library is called "n3h".
                                     </p>
-                                    <h5>Mac and Linux</h5>
                                     <p>
-                                        If you DO NOT have a shell profile file, follow ALL these instructions in your terminal. If you know about shell profiles, and have one, just do steps 4 and 5
+                                        To install it, download or clone it from GitHub: <a href="https://github.com/holochain/n3h"
+                                            target="_blank">https://github.com/holochain/n3h</a>
+                                    </p>
+                                    <p>
+                                        In a terminal, change directories to the downloaded repository. Run:
                                         <div class="code-block">
-                                            1. This changes directories to your $HOME directory.
-                                            <p><code>cd ~</code></p>
-                                        </div><!--//code-block-->
+                                            <p><code>npm install</code></p>
+                                        </div>
                                         <div class="code-block">
-                                            2. This creates a file called ".bash_profile" in your $HOME directory, if it didn't exist.
-                                            <p><code>touch .bash_profile</code></p>
-                                        </div><!--//code-block-->
-                                        <div class="code-block">
-                                            3. This opens that file in some text editor on your computer.
-                                            <p><code>open .bash_profile</code></p>
-                                        </div><!--//code-block-->
-                                        4. In your editor, add the following to .bash_profile, and save it. If you used a different path than $HOME/hc for your folder, use that instead of $HOME/hc in the line that follows. 
+                                            <p><code>npm run bootstrap</code></p>
+                                        </div>
                                     </p>
                                     <p>
-                                        export PATH="$HOME/hc:$PATH"
-                                    </p>
-                                    <div class="code-block">
-                                        5. This refreshes your terminal so that it can access the binary in the folder that you just added to your $PATH variable.
-                                        <p><code>source .bash_profile</code></p>
-                                    </div><!--//code-block-->
-                                    <h5>Windows</h5>
-                                    <p>
-					To complete the ZMQ process, first of all, please move the file "libzmq-v140-mt-4_2_0.dll" that you downloaded into the same "hc" folder as the other files.
-                                    </p>
-                                    <p>
-                                        In your Control Panel, select System>Advanced system settings>Environment Variables... and under System Variables do the following:
-                                    </p>
-                                    <p>
-                                        If you used a different path than %USERPROFILE%/hc for your folder, use that instead of %USERPROFILE%/hc in the instruction that follows.     
-                                    </p>
-                                    <p>
-                                        Double-click "Path", and in the window that pops up add the following entry:
-                                    </p>
-                                    <p>
-                                        %USERPROFILE%\hc
-                                    </p>
-                                    <p>
-                                        Once you've done this, be sure to open up a new command line window, before proceeding.
+                                        This means all the dependencies are installed. Finally, for now, just take note
+                                        of the full path to the n3h folder on your computer, because you will be
+                                        needing it later.
                                     </p>
                                 </div>
-                                <div id="step6" class="section-block">
-                                    <h4 class="block-title">Step Six</h4>
+                                <!--//section-block-->
+                            </section>
+
+                            <section id="development-section" class="doc-section">
+                                <h2 class="section-title">Development Tools Installation</h2>
+
+                                <div id="development-step1" class="section-block">
+                                    <p>If you wish to develop Holochain apps, you will want to install the Holochain
+                                        developer command line tools.</p>
+                                    <h4 class="block-title">Step One</h4>
                                     <p>
-                                        Once the steps for your platform are complete, to confirm that you have the Holochain command line tools installed, try running the following command:
+                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/holochain-cmd-v0.0.2"
+                                            target="_blank">Go to GitHub and download the appropriate release for your
+                                            system.</a>
+                                    </p>
+                                    <p>
+                                        Once you've downloaded it, unpack it, RENAME it "hc" and move the resulting
+                                        folder to a directory on your computer where you'd like to keep these files
+                                        long term.
+                                        As a default, lets assume that it can be this folder called "hc", right under
+                                        your $HOME or %USERPROFILE% (your user) directory.
+                                        Now we will have to add this directory to your PATH variable, so that the
+                                        binary becomes available within your command line. The instructions for this
+                                        differ, depending on your platform.
+                                    </p>
+
+                                </div>
+                                <div id="development-step2" class="section-block">
+                                    <h4 class="block-title">Step Two</h4>
+                                    <p>
+                                        Once the steps for your platform are complete, to confirm that you have the
+                                        Holochain developer command line tools installed, try running the following
+                                        command:
                                         <div class="code-block">
                                             <p><code>hc --version</code></p>
-                                        </div><!--//code-block-->
-                                        To read about the commands, and how to get started using them, check out the <a href="https://github.com/holochain/holochain-rust/tree/holochain-cmd-v0.0.2/cmd#usage">README for the "hc" command line tools.</a>
+                                        </div>
+                                        <!--//code-block-->
+                                        To read about the commands, and how to get started using them, check out the <a
+                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/develop/cmd#usage">README
+                                            for the "hc" command line tools.</a>
                                     </p>
                                 </div>
-                            </section><!--//doc-section-->
-                            
-                            <section id="tutorial-section" class="doc-section">
-                                <h2 class="section-title">Tutorial</h2>
-                                <div class="section-block">    
-                                    <p>   
-                                        A tutorial for getting started coding with the 0.0.2 version of Holochain is
-                                        available, and is a great place to learn how to build with Holochain
-                                        now that it's installed!
-
-                                        <a href="https://medium.com/holochain/first-steps-writing-holochain-happs-with-rust-80ae111960e">Check it out here</a>
-                                    </p>
-                                </div><!--//section-block-->
                             </section>
-                            
-                        </div><!--//content-inner-->
-                    </div><!--//doc-content-->
+                            <!--//doc-section-->
+
+                            <section id="production-section" class="doc-section">
+                                <h2 class="section-title">Production Tools Installation</h2>
+                                <div id="production-step1" class="section-block">
+                                    <p>If you wish to have a way to run Holochain apps, beyond the simple way available
+                                        in the development tools, you can do that with the
+                                        holochain_container, which is capable of mounting configuration files that
+                                        start up
+                                        Holochain app instances.</p>
+                                    <h4 class="block-title">Step One</h4>
+                                    <p>
+                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/holochain-cmd-v0.0.2"
+                                            target="_blank">Go to GitHub and download the appropriate release for your
+                                            system.</a>
+                                    </p>
+                                    <p>
+                                        Once you've downloaded it, unpack it, RENAME it "holochain_container" and move
+                                        the resulting
+                                        folder to a directory on your computer where you'd like to keep these files
+                                        long term.
+                                        As a default, lets assume that it can be this folder called
+                                        "holochain_container", right under
+                                        your $HOME or %USERPROFILE% (your user) directory.
+                                        Now we will have to add this directory to your PATH variable, so that the
+                                        binary becomes available within your command line. The instructions for this
+                                        differ, depending on your platform.
+                                    </p>
+
+                                </div>
+                                <div id="production-step2" class="section-block">
+                                    <h4 class="block-title">Step Two</h4>
+                                    <p>
+                                        To confirm that you have the Holochain container installed, try running the
+                                        following command:
+                                        <div class="code-block">
+                                            <p><code>holochain_container --version</code></p>
+                                        </div>
+                                        <!--//code-block-->
+                                        To read about the container, and how to get started using it, check out the <a
+                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/develop/container#usage">README
+                                            for the holochain_container.</a>
+                                    </p>
+                                </div>
+                            </section>
+                            <!--//doc-section-->
+
+                            <section id="paths-help-section" class="doc-section">
+                                <h2 class="section-title">Help With PATHs</h2>
+                                <div class="section-block">
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+                                                href="#paths-mac-linux" role="tab" aria-controls="paths-mac-linux"
+                                                aria-selected="true">Mac & Linux</a>
+                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#paths-windows"
+                                                role="tab" aria-controls="paths-windows" aria-selected="false">Windows</a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="paths-mac-linux" role="tabpanel"
+                                            aria-labelledby="nav-home-tab">
+                                            <p>
+                                                If you DO NOT have a shell profile file, follow ALL these instructions
+                                                in your terminal. If you know about shell profiles, and have one, just
+                                                do steps 4 and 5
+                                                <div class="code-block">
+                                                    1. This changes directories to your $HOME directory.
+                                                    <p><code>cd ~</code></p>
+                                                </div>
+                                                <!--//code-block-->
+                                                <div class="code-block">
+                                                    2. This creates a file called ".bash_profile" in your $HOME
+                                                    directory, if it didn't exist.
+                                                    <p><code>touch .bash_profile</code></p>
+                                                </div>
+                                                <!--//code-block-->
+                                                <div class="code-block">
+                                                    3. This opens that file in some text editor on your computer.
+                                                    <p><code>open .bash_profile</code></p>
+                                                </div>
+                                                <!--//code-block-->
+                                                4. In your editor, add the following to .bash_profile, and save it. If
+                                                you used a different path than $HOME/hc for your folder, use that
+                                                instead of $HOME/hc in the line that follows.
+                                            </p>
+                                            <p>
+                                                export PATH="$HOME/hc:$PATH"
+                                            </p>
+                                            <div class="code-block">
+                                                5. This refreshes your terminal so that it can access the binary in the
+                                                folder that you just added to your $PATH variable.
+                                                <p><code>source .bash_profile</code></p>
+                                            </div>
+                                            <!--//code-block-->
+                                        </div>
+                                        <div class="tab-pane fade" id="paths-windows" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                            <p>
+                                                In your Control Panel, select System>Advanced system
+                                                settings>Environment Variables... and under System Variables do the
+                                                following:
+                                            </p>
+                                            <p>
+                                                (If you used a different path than %USERPROFILE%\hc for your folder,
+                                                use
+                                                that instead of %USERPROFILE%\hc in the instruction that follows)
+                                            </p>
+                                            <p>
+                                                Double-click "Path", and in the window that pops up add the following
+                                                entry:
+                                            </p>
+                                            <p>
+                                                %USERPROFILE%\hc
+                                            </p>
+                                            <p>
+                                                Once you've done this, be sure to open up a new command line window,
+                                                before proceeding.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--//section-block-->
+                            </section>
+
+                        </div>
+                        <!--//content-inner-->
+                    </div>
+                    <!--//doc-content-->
                     <div class="doc-sidebar col-md-3 col-12 order-0 d-none d-md-flex">
                         <div id="doc-nav" class="doc-nav">
-	                        
-	                            <nav id="doc-menu" class="nav doc-menu flex-column sticky">
-                                    <a class="nav-link scrollto" href="#overview-section">Overview</a>
-	                                <a class="nav-link scrollto" href="#installation-section">Installation</a>
-                                    <nav class="doc-sub-menu nav flex-column">
-                                        <a class="nav-link scrollto" href="#step1">Step One</a>
-                                        <a class="nav-link scrollto" href="#step2">Step Two</a>
-                                        <a class="nav-link scrollto" href="#step3">Step Three</a>
-                                        <a class="nav-link scrollto" href="#step4">Step Four</a>
-                                        <a class="nav-link scrollto" href="#step5">Step Five</a>
-                                        <a class="nav-link scrollto" href="#step6">Step Six</a>
-                                    </nav><!--//nav-->
-                                    <a class="nav-link scrollto" href="#tutorial-section">Tutorial</a>
-	                            </nav><!--//doc-menu-->
-	                        
+
+                            <nav id="doc-menu" class="nav doc-menu flex-column sticky">
+                                <a class="nav-link scrollto" href="#overview-section">Overview</a>
+                                <a class="nav-link scrollto" href="#prereq-section">Prerequisites</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#prereq-step1">Step One</a>
+                                    <a class="nav-link scrollto" href="#prereq-step2">Step Two</a>
+                                    <a class="nav-link scrollto" href="#prereq-step3">Step Three</a>
+                                    <a class="nav-link scrollto" href="#prereq-step4">Step Four</a>
+                                </nav>
+                                <!--//nav-->
+                                <a class="nav-link scrollto" href="#networking-section">Networking Tools</a>
+                                <!--//nav-->
+                                <a class="nav-link scrollto" href="#development-section">Development Tools</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#development-step1">Step One</a>
+                                    <a class="nav-link scrollto" href="#development-step2">Step Two</a>
+                                </nav>
+                                <!--//nav-->
+                                <a class="nav-link scrollto" href="#production-section">Production Tools</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#production-step1">Step One</a>
+                                    <a class="nav-link scrollto" href="#production-step2">Step Two</a>
+                                </nav>
+                                <!--//nav-->
+                                <a class="nav-link scrollto" href="#paths-help-section">Help With PATHs</a>
+                            </nav>
+                            <!--//doc-menu-->
+
                         </div>
-                    </div><!--//doc-sidebar-->
-                </div><!--//doc-body-->              
-            </div><!--//container-->
-        </div><!--//doc-wrapper-->
-        
-    </div><!--//page-wrapper-->
-    
+                    </div>
+                    <!--//doc-sidebar-->
+                </div>
+                <!--//doc-body-->
+            </div>
+            <!--//container-->
+        </div>
+        <!--//doc-wrapper-->
+
+    </div>
+    <!--//page-wrapper-->
+
     <footer class="footer holochain-green-blue-gradient">
         <div class="container">
             <div class="row">
                 <div class="col-4">
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="https://holochain.org" title="Documentation" target="_blank" class="footer-col__link type--roman-14 theme-color--extra-light theme-color--extra-light--hover">About</a>
-                            </li>
-                            <li>
-                                <a href="/guide/latest" title="Guidebook" target="_blank">Guidebook</a>
-                            </li>
-                            <li>
-                                <a href="/api/latest/hdk" title="API Reference" target="_blank">API Reference</a>
-                            </li>
-                            <li>
-                                <a href="https://chat.holochain.net/appsup/channels/app-dev" title="Community" target="_blank">Community</a>
-                            </li>
-                            
-                        </ul>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://holochain.org" title="Documentation" target="_blank" class="footer-col__link type--roman-14 theme-color--extra-light theme-color--extra-light--hover">About</a>
+                        </li>
+                        <li>
+                            <a href="/guide/latest" title="Guidebook" target="_blank">Guidebook</a>
+                        </li>
+                        <li>
+                            <a href="/api/latest/hdk" title="API Reference" target="_blank">API Reference</a>
+                        </li>
+                        <li>
+                            <a href="https://chat.holochain.net/appsup/channels/app-dev" title="Community" target="_blank">Community</a>
+                        </li>
+
+                    </ul>
                 </div>
                 <div class="col-4">
                     <ul class="list-unstyled">
@@ -284,26 +477,29 @@
                             <a href="https://github.com/holochain" title="Github" target="_blank">Github</a>
                         </li>
                         <li>
-                            <a href="https://github.com/holochain/holochain-proto/blob/whitepaper/holochain.pdf" title="Whitepaper" target="_blank">Whitepaper</a>
+                            <a href="https://github.com/holochain/holochain-proto/blob/whitepaper/holochain.pdf" title="Whitepaper"
+                                target="_blank">Whitepaper</a>
                         </li>
                         <li>
-                            <a href="https://proto.holochain.org" title="Whitepaper" target="_blank">Holochain Proto Documentation</a>
+                            <a href="https://proto.holochain.org" title="Whitepaper" target="_blank">Holochain Proto
+                                Documentation</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-    </footer><!--//footer-->
-    
-     
-    <!-- Main Javascript -->          
+    </footer>
+    <!--//footer-->
+
+
+    <!-- Main Javascript -->
     <script type="text/javascript" src="/assets/plugins/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/assets/plugins/prism/prism.js"></script>    
-    <script type="text/javascript" src="/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>      
-    <script type="text/javascript" src="/assets/plugins/stickyfill/dist/stickyfill.min.js"></script>                                                             
+    <script type="text/javascript" src="/assets/plugins/prism/prism.js"></script>
+    <script type="text/javascript" src="/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/stickyfill/dist/stickyfill.min.js"></script>
     <script type="text/javascript" src="/assets/js/main.js"></script>
-    
-</body>
-</html> 
 
+</body>
+
+</html>
