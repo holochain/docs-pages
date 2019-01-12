@@ -425,6 +425,9 @@
 <span id="425">425</span>
 <span id="426">426</span>
 <span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides a higher level interface to p2p / network messaging</span>
 <span class="doccomment">//! basically handles serialization / deserialization from / to the core</span>
@@ -584,6 +587,9 @@
 
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;agentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">agent_id</span>: <span class="ident">String</span>,
+
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;fromAgentId&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">from_agent_id</span>: <span class="ident">String</span>,
 
     <span class="kw">pub</span> <span class="ident">address</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">attribute</span>: <span class="ident">String</span>,

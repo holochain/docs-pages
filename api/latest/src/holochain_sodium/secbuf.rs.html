@@ -307,6 +307,40 @@
 <span id="307">307</span>
 <span id="308">308</span>
 <span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides an abstraction for memory for use with libsodium</span>
 
@@ -316,10 +350,11 @@
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">check_init</span>;
 
 <span class="doccomment">/// a trait for structures that can be used as a backing store for SecBuf</span>
-<span class="kw">trait</span> <span class="ident">Bufferable</span> {
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Bufferable</span> {
     <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">s</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Bufferable</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>;
+    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>;
     <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>);
     <span class="kw">fn</span> <span class="ident">writable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>);
     <span class="kw">fn</span> <span class="ident">noaccess</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>);
@@ -337,6 +372,10 @@
     <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">s</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Bufferable</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">s</span>].<span class="ident">into_boxed_slice</span>();
         <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">RustBuf</span> { <span class="ident">b</span> })
+    }
+
+    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">len</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {}
@@ -363,7 +402,7 @@
 <span class="kw">impl</span> <span class="ident">Bufferable</span> <span class="kw">for</span> <span class="ident">SodiumBuf</span> {
     <span class="doccomment">/// warning: funky sizes may result in mis-alignment</span>
     <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">s</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Bufferable</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">s</span> <span class="op">!=</span> <span class="number">16</span> <span class="op">&amp;&amp;</span> <span class="ident">s</span> <span class="op">!=</span> <span class="number">32</span> <span class="op">&amp;&amp;</span> <span class="ident">s</span> <span class="op">!=</span> <span class="number">64</span> {
+        <span class="kw">if</span> <span class="ident">s</span> <span class="op">!=</span> <span class="number">8</span> <span class="op">&amp;&amp;</span> <span class="ident">s</span> <span class="op">!=</span> <span class="number">16</span> <span class="op">&amp;&amp;</span> <span class="ident">s</span> <span class="op">!=</span> <span class="number">32</span> <span class="op">&amp;&amp;</span> <span class="ident">s</span> <span class="op">!=</span> <span class="number">64</span> {
             <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;bad buffer size: {}, disallowing this for safety&quot;</span>, <span class="ident">s</span>);
         }
         <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="kw">unsafe</span> {
@@ -376,6 +415,10 @@
             <span class="ident">z</span>
         };
         <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">SodiumBuf</span> { <span class="ident">z</span>, <span class="ident">s</span> })
+    }
+
+    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="self">self</span>.<span class="ident">s</span>
     }
 
     <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
@@ -458,16 +501,35 @@
         <span class="self">self</span>.<span class="ident">p</span>.<span class="ident">clone</span>()
     }
 
+    <span class="doccomment">/// should be able to get size without messing with mem protection</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">len</span>()
+    }
+
     <span class="doccomment">/// make this SecBuf readable</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="self">self</span>.<span class="ident">p</span> <span class="op">=</span> <span class="ident">ProtectState</span>::<span class="ident">ReadOnly</span>;
-        <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">readable</span>();
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">p</span> <span class="op">==</span> <span class="ident">ProtectState</span>::<span class="ident">NoAccess</span> {
+            <span class="self">self</span>.<span class="ident">p</span> <span class="op">=</span> <span class="ident">ProtectState</span>::<span class="ident">ReadOnly</span>;
+            <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">readable</span>();
+        } <span class="kw">else</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(
+                <span class="string">&quot;SecBuf trying to get Double Locked, Current state : {:?}&quot;</span>,
+                <span class="self">self</span>.<span class="ident">protect_state</span>()
+            );
+        }
     }
 
     <span class="doccomment">/// make this SecBuf writable</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">writable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="self">self</span>.<span class="ident">p</span> <span class="op">=</span> <span class="ident">ProtectState</span>::<span class="ident">ReadWrite</span>;
-        <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">writable</span>();
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">p</span> <span class="op">==</span> <span class="ident">ProtectState</span>::<span class="ident">NoAccess</span> {
+            <span class="self">self</span>.<span class="ident">p</span> <span class="op">=</span> <span class="ident">ProtectState</span>::<span class="ident">ReadWrite</span>;
+            <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">writable</span>();
+        } <span class="kw">else</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(
+                <span class="string">&quot;SecBuf trying to get Double Locked, Current state : {:?}&quot;</span>,
+                <span class="self">self</span>.<span class="ident">protect_state</span>()
+            );
+        }
     }
 
     <span class="doccomment">/// secure this SecBuf against reading or writing</span>
@@ -482,7 +544,7 @@
         <span class="ident">Locker</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="bool-val">false</span>)
     }
 
-    <span class="doccomment">/// make this SecBuf writeable, and return a locker object</span>
+    <span class="doccomment">/// make this SecBuf writable, and return a locker object</span>
     <span class="doccomment">/// that will secure this SecBuf automatically when it goes out of scope.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_lock</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Locker</span> {
         <span class="ident">Locker</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="bool-val">true</span>)
@@ -526,6 +588,12 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Locker</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">noaccess</span>();
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Locker</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">ref_</span>())
     }
 }
 

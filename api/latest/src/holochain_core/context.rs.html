@@ -289,7 +289,6 @@
 <span id="289">289</span>
 <span id="290">290</span>
 <span id="291">291</span>
-<span id="292">292</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::<span class="ident">ActionWrapper</span>,
@@ -498,7 +497,7 @@
 <span class="doccomment">/// create a test network</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mock_network_config</span>() <span class="op">-&gt;</span> <span class="ident">JsonString</span> {
-    <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">P2pConfig</span>::<span class="ident">DEFAULT_MOCK_CONFIG</span>)
+    <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">P2pConfig</span>::<span class="ident">named_mock</span>(<span class="string">&quot;mock_network_config()&quot;</span>))
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -508,8 +507,7 @@
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{
-        <span class="ident">context</span>::<span class="ident">mock_network_config</span>, <span class="ident">instance</span>::<span class="ident">tests</span>::<span class="ident">test_logger</span>, <span class="ident">persister</span>::<span class="ident">SimplePersister</span>,
-        <span class="ident">state</span>::<span class="ident">State</span>,
+        <span class="ident">context</span>::<span class="ident">mock_network_config</span>, <span class="ident">logger</span>::<span class="ident">test_logger</span>, <span class="ident">persister</span>::<span class="ident">SimplePersister</span>, <span class="ident">state</span>::<span class="ident">State</span>,
     };
     <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::{<span class="ident">cas</span>::<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">eav</span>::<span class="ident">file</span>::<span class="ident">EavFileStorage</span>};
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">agent</span>::<span class="ident">AgentId</span>;

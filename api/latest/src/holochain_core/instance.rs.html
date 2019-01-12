@@ -824,26 +824,6 @@
 <span id="824">824</span>
 <span id="825">825</span>
 <span id="826">826</span>
-<span id="827">827</span>
-<span id="828">828</span>
-<span id="829">829</span>
-<span id="830">830</span>
-<span id="831">831</span>
-<span id="832">832</span>
-<span id="833">833</span>
-<span id="834">834</span>
-<span id="835">835</span>
-<span id="836">836</span>
-<span id="837">837</span>
-<span id="838">838</span>
-<span id="839">839</span>
-<span id="840">840</span>
-<span id="841">841</span>
-<span id="842">842</span>
-<span id="843">843</span>
-<span id="844">844</span>
-<span id="845">845</span>
-<span id="846">846</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -1163,6 +1143,7 @@
             <span class="ident">state</span>::{<span class="ident">ActionResponse</span>, <span class="ident">AgentState</span>},
         },
         <span class="ident">context</span>::{<span class="ident">mock_network_config</span>, <span class="ident">Context</span>},
+        <span class="ident">logger</span>::{<span class="ident">test_logger</span>, <span class="ident">TestLogger</span>},
     };
     <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">executor</span>::<span class="ident">block_on</span>;
     <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::{<span class="ident">cas</span>::<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">eav</span>::<span class="ident">file</span>::<span class="ident">EavFileStorage</span>};
@@ -1176,7 +1157,6 @@
     };
 
     <span class="kw">use</span> <span class="kw">crate</span>::{
-        <span class="ident">logger</span>::<span class="ident">Logger</span>,
         <span class="ident">network</span>::<span class="ident">actions</span>::<span class="ident">initialize_network</span>::<span class="ident">initialize_network</span>,
         <span class="ident">nucleus</span>::{
             <span class="ident">actions</span>::<span class="ident">initialize</span>::<span class="ident">initialize_application</span>,
@@ -1196,26 +1176,6 @@
     };
 
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">entry</span>::<span class="ident">Entry</span>;
-
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TestLogger</span> {
-        <span class="kw">pub</span> <span class="ident">log</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    }
-
-    <span class="kw">impl</span> <span class="ident">Logger</span> <span class="kw">for</span> <span class="ident">TestLogger</span> {
-        <span class="kw">fn</span> <span class="ident">log</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">String</span>) {
-            <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">push</span>(<span class="ident">msg</span>);
-        }
-        <span class="kw">fn</span> <span class="ident">dump</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
-            <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="self">self</span>.<span class="ident">log</span>)
-        }
-    }
-
-    <span class="doccomment">/// create a test logger</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_logger</span>() <span class="op">-&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">TestLogger</span><span class="op">&gt;&gt;</span> {
-        <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">TestLogger</span> { <span class="ident">log</span>: <span class="ident">Vec</span>::<span class="ident">new</span>() }))
-    }
 
     <span class="doccomment">/// create a test context and TestLogger pair so we can use the logger in assertions</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>

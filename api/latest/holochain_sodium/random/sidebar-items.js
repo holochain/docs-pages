@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["buf","randomize the provided SecBuf"]]});
+initSidebarItems({"fn":[["random_secbuf","randomize the provided SecBuf"]]});

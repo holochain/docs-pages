@@ -23,7 +23,6 @@
 <span id="23">23</span>
 <span id="24">24</span>
 <span id="25">25</span>
-<span id="26">26</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides access to libsodium randomization functions</span>
 
@@ -32,11 +31,11 @@
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
 
 <span class="doccomment">/// randomize the provided SecBuf</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buf</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">random_secbuf</span>(<span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>) {
     <span class="ident">check_init</span>();
     <span class="kw">unsafe</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">b</span>.<span class="ident">write_lock</span>();
-        <span class="ident">rust_sodium_sys</span>::<span class="ident">randombytes_buf</span>(<span class="macro">rptr</span><span class="macro">!</span>(<span class="ident">b</span>), <span class="ident">b</span>.<span class="ident">len</span>());
+        <span class="ident">rust_sodium_sys</span>::<span class="ident">randombytes_buf</span>(<span class="macro">raw_ptr_void</span><span class="macro">!</span>(<span class="ident">b</span>), <span class="ident">b</span>.<span class="ident">len</span>());
     }
 }
 
@@ -47,8 +46,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_should_randomize_buffer</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="number">1</span>);
-
-        <span class="ident">buf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">b</span>);
+        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">b</span>);
     }
 }
 </pre></div>

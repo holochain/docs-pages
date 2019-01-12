@@ -132,10 +132,10 @@
     <span class="kw">let</span> <span class="ident">try_address</span> <span class="op">=</span> <span class="ident">Address</span>::<span class="ident">try_from</span>(<span class="ident">args_str</span>.<span class="ident">clone</span>());
     <span class="comment">// Exit on error</span>
     <span class="kw">if</span> <span class="ident">try_address</span>.<span class="ident">is_err</span>() {
-        <span class="macro">println</span><span class="macro">!</span>(
-            <span class="string">&quot;invoke_remove_entry failed to deserialize Address: {:?}&quot;</span>,
+        <span class="ident">runtime</span>.<span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">&quot;err/zome: invoke_remove_entry failed to deserialize Address: {:?}&quot;</span>,
             <span class="ident">args_str</span>
-        );
+        ));
         <span class="kw">return</span> <span class="macro">ribosome_error_code</span><span class="macro">!</span>(<span class="ident">ArgumentDeserializationFailed</span>);
     }
     <span class="kw">let</span> <span class="ident">deleted_entry_address</span> <span class="op">=</span> <span class="ident">try_address</span>.<span class="ident">unwrap</span>();

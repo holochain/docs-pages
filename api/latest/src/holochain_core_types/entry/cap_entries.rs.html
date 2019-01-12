@@ -246,8 +246,6 @@
 <span id="246">246</span>
 <span id="247">247</span>
 <span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>},
@@ -282,9 +280,7 @@
 
 <span class="kw">impl</span> <span class="ident">CapTokenGrant</span> {
     <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">assignees</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">CapTokenGrant</span> {
-            <span class="ident">assignees</span>: <span class="ident">assignees</span>,
-        }
+        <span class="ident">CapTokenGrant</span> { <span class="ident">assignees</span> }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create</span>(

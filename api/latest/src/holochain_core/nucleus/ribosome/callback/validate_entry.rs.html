@@ -192,6 +192,14 @@
 <span id="192">192</span>
 <span id="193">193</span>
 <span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -255,6 +263,14 @@
 
         <span class="comment">// a grant should always be private, so it should always pass</span>
         <span class="ident">EntryType</span>::<span class="ident">CapTokenGrant</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">CallbackResult</span>::<span class="ident">Pass</span>),
+
+        <span class="comment">// TODO: actually check agent against app specific membrane validation rule</span>
+        <span class="comment">// like for instance: validate_agent_id(</span>
+        <span class="comment">//                      entry.clone(),</span>
+        <span class="comment">//                      validation_data,</span>
+        <span class="comment">//                      context,</span>
+        <span class="comment">//                    )?</span>
+        <span class="ident">EntryType</span>::<span class="ident">AgentId</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">CallbackResult</span>::<span class="ident">Pass</span>),
 
         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">CallbackResult</span>::<span class="ident">NotImplemented</span>),
     }

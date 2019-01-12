@@ -527,6 +527,9 @@
 <span id="527">527</span>
 <span id="528">528</span>
 <span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -576,7 +579,10 @@
         <span class="prelude-val">Ok</span>(<span class="ident">input</span>) <span class="op">=&gt;</span> <span class="ident">input</span>,
         <span class="comment">// Exit on error</span>
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;invoke_call failed to deserialize: {:?}&quot;</span>, <span class="ident">args_str</span>);
+            <span class="ident">runtime</span>.<span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
+                <span class="string">&quot;err/zome: invoke_call failed to deserialize: {:?}&quot;</span>,
+                <span class="ident">args_str</span>
+            ));
             <span class="kw">return</span> <span class="macro">ribosome_error_code</span><span class="macro">!</span>(<span class="ident">ArgumentDeserializationFailed</span>);
         }
     };

@@ -171,6 +171,13 @@
 <span id="171">171</span>
 <span id="172">172</span>
 <span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_cas_implementations</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_container_api</span>;
@@ -283,6 +290,8 @@
         <span class="ident">package</span>: <span class="ident">bool</span>,
         <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Save generated data to file system&quot;</span>)]</span>
         <span class="ident">persist</span>: <span class="ident">bool</span>,
+        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Use real networking&quot;</span>)]</span>
+        <span class="ident">networked</span>: <span class="ident">bool</span>,
     },
     <span class="attribute">#[<span class="ident">structopt</span>(
         <span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;test&quot;</span>,
@@ -334,13 +343,18 @@
             <span class="ident">package</span>,
             <span class="ident">port</span>,
             <span class="ident">persist</span>,
-        } <span class="op">=&gt;</span> <span class="ident">cli</span>::<span class="ident">run</span>(<span class="ident">package</span>, <span class="ident">port</span>, <span class="ident">persist</span>).<span class="ident">map_err</span>(<span class="ident">HolochainError</span>::<span class="ident">Default</span>)<span class="question-mark">?</span>,
+            <span class="ident">networked</span>,
+        } <span class="op">=&gt;</span> <span class="ident">cli</span>::<span class="ident">run</span>(<span class="ident">package</span>, <span class="ident">port</span>, <span class="ident">persist</span>, <span class="ident">networked</span>).<span class="ident">map_err</span>(<span class="ident">HolochainError</span>::<span class="ident">Default</span>)<span class="question-mark">?</span>,
         <span class="ident">Cli</span>::<span class="ident">Test</span> {
             <span class="ident">dir</span>,
             <span class="ident">testfile</span>,
             <span class="ident">skip_build</span>,
-        } <span class="op">=&gt;</span> <span class="ident">cli</span>::<span class="ident">test</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="string">&quot;.&quot;</span>), <span class="kw-2">&amp;</span><span class="ident">dir</span>, <span class="kw-2">&amp;</span><span class="ident">testfile</span>, <span class="ident">skip_build</span>)
-            .<span class="ident">map_err</span>(<span class="ident">HolochainError</span>::<span class="ident">Default</span>)<span class="question-mark">?</span>,
+        } <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">current_path</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">env</span>::<span class="ident">current_dir</span>()
+                .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">Default</span>(<span class="macro">format_err</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>)))<span class="question-mark">?</span>;
+            <span class="ident">cli</span>::<span class="ident">test</span>(<span class="kw-2">&amp;</span><span class="ident">current_path</span>, <span class="kw-2">&amp;</span><span class="ident">dir</span>, <span class="kw-2">&amp;</span><span class="ident">testfile</span>, <span class="ident">skip_build</span>)
+        }
+        .<span class="ident">map_err</span>(<span class="ident">HolochainError</span>::<span class="ident">Default</span>)<span class="question-mark">?</span>,
     }
 
     <span class="prelude-val">Ok</span>(())

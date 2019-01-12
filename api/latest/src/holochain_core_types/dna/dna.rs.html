@@ -226,7 +226,6 @@
 <span id="226">226</span>
 <span id="227">227</span>
 <span id="228">228</span>
-<span id="229">229</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">AddressableContent</span>, <span class="ident">Content</span>},
@@ -243,7 +242,6 @@
     <span class="ident">convert</span>::<span class="ident">TryFrom</span>,
     <span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>},
 };
-<span class="kw">use</span> <span class="ident">uuid</span>::<span class="ident">Uuid</span>;
 
 <span class="doccomment">/// serde helper, provides a default empty object</span>
 <span class="kw">fn</span> <span class="ident">empty_object</span>() <span class="op">-&gt;</span> <span class="ident">Value</span> {
@@ -251,8 +249,8 @@
 }
 
 <span class="doccomment">/// serde helper, provides a default newly generated v4 uuid</span>
-<span class="kw">fn</span> <span class="ident">new_uuid</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-    <span class="ident">Uuid</span>::<span class="ident">new_v4</span>().<span class="ident">to_string</span>()
+<span class="kw">fn</span> <span class="ident">zero_uuid</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;00000000-0000-0000-0000-000000000000&quot;</span>)
 }
 
 <span class="doccomment">/// Represents the top-level holochain dna object.</span>
@@ -271,7 +269,7 @@
     <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">String</span>,
 
     <span class="doccomment">/// A unique identifier to distinguish your holochain application.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;new_uuid&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;zero_uuid&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">uuid</span>: <span class="ident">String</span>,
 
     <span class="doccomment">/// Which version of the holochain dna spec does this represent?</span>
@@ -304,7 +302,7 @@
             <span class="ident">name</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
             <span class="ident">description</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
             <span class="ident">version</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
-            <span class="ident">uuid</span>: <span class="ident">new_uuid</span>(),
+            <span class="ident">uuid</span>: <span class="ident">zero_uuid</span>(),
             <span class="ident">dna_spec_version</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;2.0&quot;</span>),
             <span class="ident">properties</span>: <span class="ident">empty_object</span>(),
             <span class="ident">zomes</span>: <span class="ident">BTreeMap</span>::<span class="ident">new</span>(),

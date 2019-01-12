@@ -190,6 +190,33 @@
 <span id="190">190</span>
 <span id="191">191</span>
 <span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">NetResult</span>;
 
@@ -211,6 +238,7 @@
     <span class="ident">send_channel</span>: <span class="ident">mpsc</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span>,
     <span class="ident">thread</span>: <span class="ident">thread</span>::<span class="ident">JoinHandle</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
     <span class="ident">done</span>: <span class="ident">NetShutdown</span>,
+    <span class="kw">pub</span> <span class="ident">endpoint</span>: <span class="ident">String</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">NetConnection</span> <span class="kw">for</span> <span class="ident">NetConnectionThread</span> {
@@ -234,59 +262,85 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// create a new NetConnectionThread instance with given handler / worker</span>
+    <span class="doccomment">/// Create a new NetConnectionThread instance with given handler / worker</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">handler</span>: <span class="ident">NetHandler</span>,
         <span class="ident">worker_factory</span>: <span class="ident">NetWorkerFactory</span>,
         <span class="ident">done</span>: <span class="ident">NetShutdown</span>,
     ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">keep_running</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">AtomicBool</span>::<span class="ident">new</span>(<span class="bool-val">true</span>));
-        <span class="kw">let</span> <span class="ident">keep_running2</span> <span class="op">=</span> <span class="ident">keep_running</span>.<span class="ident">clone</span>();
+        <span class="comment">// Create atomic TRUE</span>
+        <span class="kw">let</span> <span class="ident">can_keep_running</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">AtomicBool</span>::<span class="ident">new</span>(<span class="bool-val">true</span>));
+        <span class="kw">let</span> <span class="ident">can_keep_running_shared</span> <span class="op">=</span> <span class="ident">can_keep_running</span>.<span class="ident">clone</span>();
+        <span class="comment">// Create channel</span>
+        <span class="kw">let</span> (<span class="ident">send_channel</span>, <span class="ident">recv_channel</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">channel</span>();
 
-        <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">channel</span>();
-        <span class="prelude-val">Ok</span>(<span class="ident">NetConnectionThread</span> {
-            <span class="ident">can_keep_running</span>: <span class="ident">keep_running</span>,
-            <span class="ident">send_channel</span>: <span class="ident">sender</span>,
-            <span class="ident">thread</span>: <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">us</span> <span class="op">=</span> <span class="number">100_u64</span>;
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">worker</span> <span class="op">=</span> <span class="ident">worker_factory</span>(<span class="ident">handler</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
+        <span class="kw">let</span> (<span class="ident">send_endpoint</span>, <span class="ident">recv_endpoint</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">channel</span>();
 
-                <span class="kw">while</span> <span class="ident">keep_running2</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) {
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">false</span>;
-                    <span class="ident">receiver</span>
-                        .<span class="ident">try_recv</span>()
-                        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">data</span><span class="op">|</span> {
+        <span class="comment">// spawn worker thread</span>
+        <span class="kw">let</span> <span class="ident">thread</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
+            <span class="comment">// Create worker</span>
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">worker</span> <span class="op">=</span> <span class="ident">worker_factory</span>(<span class="ident">handler</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
+
+            <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="ident">worker</span>.<span class="ident">endpoint</span>();
+            <span class="ident">send_endpoint</span>
+                .<span class="ident">send</span>(<span class="ident">endpoint</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;Sending endpoint address should work.&quot;</span>);
+            <span class="ident">drop</span>(<span class="ident">send_endpoint</span>);
+            <span class="comment">// Loop as long NetConnectionThread wants to</span>
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sleep_duration_us</span> <span class="op">=</span> <span class="number">100_u64</span>;
+            <span class="kw">while</span> <span class="ident">can_keep_running_shared</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) {
+                <span class="comment">// Check if we received something from the network</span>
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">false</span>;
+                <span class="ident">recv_channel</span>
+                    .<span class="ident">try_recv</span>()
+                    .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">data</span><span class="op">|</span> {
+                        <span class="comment">// Send it to the worker</span>
+                        <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">true</span>;
+                        <span class="ident">worker</span>.<span class="ident">receive</span>(<span class="ident">data</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
+                        <span class="prelude-val">Ok</span>(())
+                    })
+                    .<span class="ident">unwrap_or</span>(());
+                <span class="comment">// Tick the worker (it might do a send)</span>
+                <span class="ident">worker</span>
+                    .<span class="ident">tick</span>()
+                    .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">b</span><span class="op">|</span> {
+                        <span class="kw">if</span> <span class="ident">b</span> {
                             <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">true</span>;
-                            <span class="ident">worker</span>.<span class="ident">receive</span>(<span class="ident">data</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
-                            <span class="prelude-val">Ok</span>(())
-                        })
-                        .<span class="ident">unwrap_or</span>(());
-
-                    <span class="ident">worker</span>
-                        .<span class="ident">tick</span>()
-                        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">b</span><span class="op">|</span> {
-                            <span class="kw">if</span> <span class="ident">b</span> {
-                                <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">true</span>;
-                            }
-                            <span class="prelude-val">Ok</span>(())
-                        })
-                        .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
-
-                    <span class="kw">if</span> <span class="ident">did_something</span> {
-                        <span class="ident">us</span> <span class="op">=</span> <span class="number">100_u64</span>;
-                    } <span class="kw">else</span> {
-                        <span class="ident">us</span> <span class="op">*=</span> <span class="number">2_u64</span>;
-                        <span class="kw">if</span> <span class="ident">us</span> <span class="op">&gt;</span> <span class="number">10_000_u64</span> {
-                            <span class="ident">us</span> <span class="op">=</span> <span class="number">10_000_u64</span>;
                         }
+                        <span class="prelude-val">Ok</span>(())
+                    })
+                    .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
+
+                <span class="comment">// Increase sleep duration if nothing was received or sent</span>
+                <span class="kw">if</span> <span class="ident">did_something</span> {
+                    <span class="ident">sleep_duration_us</span> <span class="op">=</span> <span class="number">100_u64</span>;
+                } <span class="kw">else</span> {
+                    <span class="ident">sleep_duration_us</span> <span class="op">*=</span> <span class="number">2_u64</span>;
+                    <span class="kw">if</span> <span class="ident">sleep_duration_us</span> <span class="op">&gt;</span> <span class="number">10_000_u64</span> {
+                        <span class="ident">sleep_duration_us</span> <span class="op">=</span> <span class="number">10_000_u64</span>;
                     }
-
-                    <span class="ident">thread</span>::<span class="ident">sleep</span>(<span class="ident">time</span>::<span class="ident">Duration</span>::<span class="ident">from_micros</span>(<span class="ident">us</span>));
                 }
+                <span class="comment">// Sleep</span>
+                <span class="ident">thread</span>::<span class="ident">sleep</span>(<span class="ident">time</span>::<span class="ident">Duration</span>::<span class="ident">from_micros</span>(<span class="ident">sleep_duration_us</span>));
+            }
+            <span class="comment">// Stop the worker</span>
+            <span class="ident">worker</span>.<span class="ident">stop</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
+        });
 
-                <span class="ident">worker</span>.<span class="ident">stop</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
-            }),
+        <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="ident">recv_endpoint</span>
+            .<span class="ident">recv</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Failed to receive endpoint address from net worker&quot;</span>);
+        <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="ident">endpoint</span>
+            .<span class="ident">expect</span>(<span class="string">&quot;Should have an endpoint address&quot;</span>)
+            .<span class="ident">to_string</span>();
+
+        <span class="comment">// Done</span>
+        <span class="prelude-val">Ok</span>(<span class="ident">NetConnectionThread</span> {
+            <span class="ident">can_keep_running</span>,
+            <span class="ident">send_channel</span>,
+            <span class="ident">thread</span>,
             <span class="ident">done</span>,
+            <span class="ident">endpoint</span>,
         })
     }
 }

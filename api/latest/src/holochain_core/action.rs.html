@@ -321,6 +321,12 @@
 <span id="321">321</span>
 <span id="322">322</span>
 <span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">agent</span>::<span class="ident">state</span>::<span class="ident">AgentState</span>,
@@ -341,7 +347,9 @@
     <span class="ident">link</span>::<span class="ident">Link</span>,
     <span class="ident">validation</span>::<span class="ident">ValidationPackage</span>,
 };
-<span class="kw">use</span> <span class="ident">holochain_net_connection</span>::<span class="ident">protocol_wrapper</span>::{<span class="ident">DhtData</span>, <span class="ident">GetDhtData</span>};
+<span class="kw">use</span> <span class="ident">holochain_net_connection</span>::<span class="ident">protocol_wrapper</span>::{
+    <span class="ident">DhtData</span>, <span class="ident">DhtMetaData</span>, <span class="ident">GetDhtData</span>, <span class="ident">GetDhtMetaData</span>,
+};
 <span class="kw">use</span> <span class="ident">snowflake</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>},
@@ -434,6 +442,17 @@
 
     <span class="doccomment">/// GetEntry by address</span>
     <span class="ident">GetEntry</span>(<span class="ident">Address</span>),
+
+    <span class="doccomment">/// Lets the network module respond to a GET request.</span>
+    <span class="doccomment">/// Triggered from the corresponding workflow after retrieving the</span>
+    <span class="doccomment">/// requested entry from our local DHT shard.</span>
+    <span class="ident">RespondGet</span>((<span class="ident">GetDhtData</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryWithMeta</span><span class="op">&gt;</span>)),
+
+    <span class="doccomment">/// We got a response for our GET request which needs to be</span>
+    <span class="doccomment">/// added to the state.</span>
+    <span class="doccomment">/// Triggered from the network handler.</span>
+    <span class="ident">HandleGetResult</span>(<span class="ident">DhtData</span>),
+
     <span class="doccomment">///</span>
     <span class="ident">UpdateEntry</span>((<span class="ident">Address</span>, <span class="ident">Address</span>)),
     <span class="doccomment">///</span>
@@ -441,18 +460,11 @@
     <span class="doccomment">///</span>
     <span class="ident">GetEntryTimeout</span>(<span class="ident">Address</span>),
 
-    <span class="doccomment">/// Lets the network module respond to a GET request.</span>
-    <span class="doccomment">/// Triggered from the corresponding workflow after retrieving the</span>
-    <span class="doccomment">/// requested entry from our local DHT shard.</span>
-    <span class="ident">RespondGet</span>((<span class="ident">GetDhtData</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryWithMeta</span><span class="op">&gt;</span>)),
-
-    <span class="doccomment">/// get links from entry address and attribute-name</span>
-    <span class="comment">//GetLinks(GetLinksArgs),</span>
-
-    <span class="doccomment">/// We got a response for our GET request which needs to be</span>
-    <span class="doccomment">/// added to the state.</span>
-    <span class="doccomment">/// Triggered from the network handler.</span>
-    <span class="ident">HandleGetResult</span>(<span class="ident">DhtData</span>),
+    <span class="doccomment">/// get links from entry address and tag name</span>
+    <span class="ident">GetLinks</span>((<span class="ident">Address</span>, <span class="ident">String</span>)),
+    <span class="ident">GetLinksTimeout</span>((<span class="ident">Address</span>, <span class="ident">String</span>)),
+    <span class="ident">RespondGetLinks</span>((<span class="ident">GetDhtMetaData</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>)),
+    <span class="ident">HandleGetLinksResult</span>((<span class="ident">DhtMetaData</span>, <span class="ident">String</span>)),
 
     <span class="doccomment">/// Makes the network module send a direct (node-to-node) message</span>
     <span class="doccomment">/// to the address given in [DirectMessageData](struct.DirectMessageData.html)</span>

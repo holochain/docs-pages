@@ -823,7 +823,84 @@
 <span id="823">823</span>
 <span id="824">824</span>
 <span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Container Configuration</span>
 <span class="doccomment">/// This module provides structs that represent the different aspects of how</span>
 <span class="doccomment">/// a container can be configured.</span>
@@ -836,6 +913,7 @@
 <span class="doccomment">///   the container</span>
 <span class="doccomment">/// * bridges, which are</span>
 <span class="kw">use</span> <span class="ident">boolinator</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">directories</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">agent</span>::<span class="ident">AgentId</span>,
     <span class="ident">dna</span>::<span class="ident">Dna</span>,
@@ -844,7 +922,7 @@
 };
 <span class="kw">use</span> <span class="ident">petgraph</span>::{<span class="ident">algo</span>::<span class="ident">toposort</span>, <span class="ident">graph</span>::<span class="ident">DiGraph</span>, <span class="ident">prelude</span>::<span class="ident">NodeIndex</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections</span>::<span class="ident">HashMap</span>, <span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">fs</span>::<span class="ident">File</span>, <span class="ident">io</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections</span>::<span class="ident">HashMap</span>, <span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">env</span>, <span class="ident">fs</span>::<span class="ident">File</span>, <span class="ident">io</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>};
 <span class="kw">use</span> <span class="ident">toml</span>;
 
 <span class="doccomment">/// Main container configuration struct</span>
@@ -869,8 +947,25 @@
     <span class="doccomment">/// List of bridges between instances. Optional.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">bridges</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Bridge</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Configures how logging should behave</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">logger</span>: <span class="ident">LoggerConfiguration</span>,
+    <span class="doccomment">/// Configuration options for the network module n3h</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">network</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NetworkConfig</span><span class="op">&gt;</span>,
 }
 
+<span class="doccomment">/// There might be different kinds of loggers in the future.</span>
+<span class="doccomment">/// Currently there is a &quot;debug&quot; and &quot;simple&quot; logger.</span>
+<span class="doccomment">/// TODO: make this an enum</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Default</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LoggerConfiguration</span> {
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">logger_type</span>: <span class="ident">String</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">rules</span>: <span class="ident">LogRules</span>,
+    <span class="comment">//    pub file: Option&lt;String&gt;,</span>
+}
 <span class="kw">impl</span> <span class="ident">Configuration</span> {
     <span class="doccomment">/// This function basically checks if self is a semantically valid configuration.</span>
     <span class="doccomment">/// This mainly means checking for consistency between config structs that reference others.</span>
@@ -1062,25 +1157,13 @@
 }
 
 <span class="doccomment">/// An instance combines a DNA with an agent.</span>
-<span class="doccomment">/// Each instance has its own network, storage and logger configuration.</span>
+<span class="doccomment">/// Each instance has its own storage configuration.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">dna</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">agent</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">logger</span>: <span class="ident">LoggerConfiguration</span>,
     <span class="kw">pub</span> <span class="ident">storage</span>: <span class="ident">StorageConfiguration</span>,
-    <span class="kw">pub</span> <span class="ident">network</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-}
-
-<span class="doccomment">/// There might be different kinds of loggers in the future.</span>
-<span class="doccomment">/// Currently there is no logger at all.</span>
-<span class="doccomment">/// TODO: make this an enum when it&#39;s actually in use</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Default</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LoggerConfiguration</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">logger_type</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// This configures the Content Addressable Storage (CAS) that</span>
@@ -1091,11 +1174,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Projected are various DB adapters.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>)]</span>
-<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>, <span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">StorageConfiguration</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;memory&quot;</span>)]</span>
     <span class="ident">Memory</span>,
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;file&quot;</span>)]</span>
     <span class="ident">File</span> { <span class="ident">path</span>: <span class="ident">String</span> },
 }
 
@@ -1152,6 +1233,50 @@
     <span class="kw">pub</span> <span class="ident">handle</span>: <span class="ident">String</span>,
 }
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NetworkConfig</span> {
+    <span class="doccomment">/// List of URIs that point to other nodes to bootstrap p2p connections.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">bootstrap_nodes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Absolute path to the local installation/repository of n3h</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">n3h_path</span>: <span class="ident">String</span>,
+    <span class="doccomment">/// networking mode used by n3h</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;default_n3h_mode&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">n3h_mode</span>: <span class="ident">String</span>,
+    <span class="doccomment">/// Absolute path to the directory that n3h uses to store persisted data.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">n3h_persistence_path</span>: <span class="ident">String</span>,
+    <span class="doccomment">/// URI pointing a n3h process that is already running and not managed by this</span>
+    <span class="doccomment">/// container.</span>
+    <span class="doccomment">/// If this is set the container does not spawn n3h itself and ignores the path</span>
+    <span class="doccomment">/// configs above. Default is None.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">n3h_ipc_uri</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_mode</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>)
+}
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_path</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">user_dirs</span>) <span class="op">=</span> <span class="ident">directories</span>::<span class="ident">UserDirs</span>::<span class="ident">new</span>() {
+        <span class="ident">user_dirs</span>
+            .<span class="ident">home_dir</span>()
+            .<span class="ident">join</span>(<span class="string">&quot;.hc&quot;</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;net&quot;</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;n3h&quot;</span>)
+            .<span class="ident">to_string_lossy</span>()
+            .<span class="ident">to_string</span>()
+    } <span class="kw">else</span> {
+        <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;n3h&quot;</span>)
+    }
+}
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_persistence_path</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="ident">env</span>::<span class="ident">temp_dir</span>().<span class="ident">to_string_lossy</span>().<span class="ident">to_string</span>()
+}
+
 <span class="doccomment">/// Use this function to load a `Configuration` from a string.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_configuration</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">toml</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
@@ -1164,7 +1289,8 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">config</span>::{<span class="ident">load_configuration</span>, <span class="ident">Configuration</span>};
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">config</span>::{<span class="ident">load_configuration</span>, <span class="ident">Configuration</span>, <span class="ident">NetworkConfig</span>};
     <span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">context</span>::<span class="ident">mock_network_config</span>;
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">example_serialized_network_config</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
@@ -1230,8 +1356,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_load_complete_config</span>() {
-        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">r#&quot;
+        <span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
     [[agents]]
     id = &quot;test agent&quot;
     name = &quot;Holo Tester 1&quot;
@@ -1247,10 +1372,6 @@
     id = &quot;app spec instance&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    network = &quot;{}&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;file&quot;
     path = &quot;app_spec_storage&quot;
@@ -1264,15 +1385,26 @@
     id = &quot;app spec instance&quot;
 
     [[interfaces]]
+    id = &quot;app spec http interface&quot;
+    [interfaces.driver]
+    type = &quot;http&quot;
+    port = 4000
+    [[interfaces.instances]]
+    id = &quot;app spec instance&quot;
+
+    [[interfaces]]
     id = &quot;app spec domainsocket interface&quot;
     [interfaces.driver]
     type = &quot;domainsocket&quot;
     file = &quot;/tmp/holochain.sock&quot;
     [[interfaces.instances]]
     id = &quot;app spec instance&quot;
-    &quot;#</span>,
-            <span class="string">&quot;{\\\&quot;backend_kind\\\&quot;:\\\&quot;special\\\&quot;}&quot;</span>
-        );
+
+    [network]
+    bootstrap_nodes = [&quot;/ip4/127.0.0.1/tcp/45737/ipfs/QmYaEMe288imZVHnHeNby75m9V6mwjqu6W71cEuziEBC5i&quot;]
+    n3h_path = &quot;/Users/cnorris/.holochain/n3h&quot;
+    n3h_persistence_path = &quot;/Users/cnorris/.holochain/n3h_persistence&quot;
+    &quot;#</span>;
 
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
 
@@ -1285,9 +1417,21 @@
 
         <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">instances</span>;
         <span class="kw">let</span> <span class="ident">instance_config</span> <span class="op">=</span> <span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec instance&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">dna</span>, <span class="string">&quot;app spec rust&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">agent</span>, <span class="string">&quot;test agent&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">logger_type</span>, <span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">instance_config</span>.<span class="ident">network</span>,
-            <span class="prelude-val">Some</span>(<span class="string">&quot;{\&quot;backend_kind\&quot;:\&quot;special\&quot;}&quot;</span>.<span class="ident">to_string</span>())
+            <span class="ident">config</span>.<span class="ident">network</span>.<span class="ident">unwrap</span>(),
+            <span class="ident">NetworkConfig</span> {
+                <span class="ident">bootstrap_nodes</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">String</span>::<span class="ident">from</span>(
+                    <span class="string">&quot;/ip4/127.0.0.1/tcp/45737/ipfs/QmYaEMe288imZVHnHeNby75m9V6mwjqu6W71cEuziEBC5i&quot;</span>
+                )],
+                <span class="ident">n3h_path</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;/Users/cnorris/.holochain/n3h&quot;</span>),
+                <span class="ident">n3h_mode</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>),
+                <span class="ident">n3h_persistence_path</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;/Users/cnorris/.holochain/n3h_persistence&quot;</span>),
+                <span class="ident">n3h_ipc_uri</span>: <span class="prelude-val">None</span>,
+            }
         );
     }
 
@@ -1309,9 +1453,6 @@
     id = &quot;app spec instance&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;file&quot;
     path = &quot;app_spec_storage&quot;
@@ -1325,12 +1466,27 @@
     id = &quot;app spec instance&quot;
 
     [[interfaces]]
+    id = &quot;app spec http interface&quot;
+    [interfaces.driver]
+    type = &quot;http&quot;
+    port = 4000
+    [[interfaces.instances]]
+    id = &quot;app spec instance&quot;
+
+    [[interfaces]]
     id = &quot;app spec domainsocket interface&quot;
     [interfaces.driver]
     type = &quot;domainsocket&quot;
     file = &quot;/tmp/holochain.sock&quot;
     [[interfaces.instances]]
     id = &quot;app spec instance&quot;
+
+    [logger]
+    type = &quot;debug&quot;
+    [[logger.rules.rules]]
+    pattern = &quot;.*&quot;
+    color = &quot;red&quot;
+
     &quot;#</span>;
 
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
@@ -1347,7 +1503,10 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec instance&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">dna</span>, <span class="string">&quot;app spec rust&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">agent</span>, <span class="string">&quot;test agent&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">network</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">logger_type</span>, <span class="string">&quot;debug&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">rules</span>.<span class="ident">rules</span>.<span class="ident">len</span>(), <span class="number">1</span>);
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">network</span>, <span class="prelude-val">None</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1368,9 +1527,6 @@
     id = &quot;app spec instance&quot;
     dna = &quot;WRONG DNA ID&quot;
     agent = &quot;test agent&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;file&quot;
     path = &quot;app_spec_storage&quot;
@@ -1401,9 +1557,6 @@
     id = &quot;app spec instance&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;file&quot;
     path = &quot;app_spec_storage&quot;
@@ -1448,9 +1601,6 @@
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
     network = &quot;{}&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;file&quot;
     path = &quot;app_spec_storage&quot;
@@ -1493,9 +1643,6 @@
     id = &quot;app1&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;file&quot;
     path = &quot;app_spec_storage&quot;
@@ -1504,9 +1651,6 @@
     id = &quot;app2&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;file&quot;
     path = &quot;app_spec_storage&quot;
@@ -1515,9 +1659,6 @@
     id = &quot;app3&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;file&quot;
     path = &quot;app_spec_storage&quot;
@@ -1647,6 +1788,17 @@
             <span class="ident">bridged_ids</span>,
             <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app2&quot;</span>), <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app3&quot;</span>),]
         );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_n3h_defaults</span>() {
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">default_n3h_mode</span>(), <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>));
+
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">windows</span>))]</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">default_n3h_path</span>().<span class="ident">contains</span>(<span class="string">&quot;/.hc/net/n3h&quot;</span>));
+
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">windows</span>))]</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">default_n3h_persistence_path</span>(), <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;/tmp&quot;</span>));
     }
 }
 </pre></div>

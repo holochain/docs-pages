@@ -221,7 +221,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Sharing</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">rustfmt</span>, <span class="ident">rustfmt_skip</span>)]</span>
+    <span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">can_publish</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
        <span class="kw">match</span> <span class="self">self</span> {
            <span class="ident">Sharing</span>::<span class="ident">Public</span>    <span class="op">=&gt;</span> <span class="bool-val">true</span>,

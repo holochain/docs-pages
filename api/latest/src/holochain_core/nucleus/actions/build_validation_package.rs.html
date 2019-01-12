@@ -322,6 +322,10 @@
 <span id="322">322</span>
 <span id="323">323</span>
 <span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
@@ -380,6 +384,10 @@
         }
 
         <span class="ident">EntryType</span>::<span class="ident">CapTokenGrant</span> <span class="op">=&gt;</span> {
+            <span class="comment">// FIXME</span>
+        }
+
+        <span class="ident">EntryType</span>::<span class="ident">AgentId</span> <span class="op">=&gt;</span> {
             <span class="comment">// FIXME</span>
         }
         <span class="kw">_</span> <span class="op">=&gt;</span> {

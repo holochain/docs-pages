@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["zero","zero all memory within the provided SecBuf"]]});
+initSidebarItems({"fn":[["check_buf_len","Check if lenght of buffer is of approprate size"],["compare","Compares the Two SecBuf"],["increment","Increments all memory within the provided SecBuf by 1"],["zero","Zero all memory within the provided SecBuf"]]});

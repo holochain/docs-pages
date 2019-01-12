@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["websocket",""]]});
+initSidebarItems({"mod":[["http",""],["websocket",""]]});

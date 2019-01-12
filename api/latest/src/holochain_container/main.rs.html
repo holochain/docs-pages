@@ -117,7 +117,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">StructOpt</span>, <span class="ident">Debug</span>)]</span>
 <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;hcc&quot;</span>)]</span>
 <span class="kw">struct</span> <span class="ident">Opt</span> {
-    <span class="doccomment">/// Output file</span>
+    <span class="doccomment">/// Path to the toml configuration file for the container</span>
     <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">short</span> <span class="op">=</span> <span class="string">&quot;c&quot;</span>, <span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;config&quot;</span>, <span class="ident">parse</span>(<span class="ident">from_os_str</span>))]</span>
     <span class="ident">config</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span>,
 }

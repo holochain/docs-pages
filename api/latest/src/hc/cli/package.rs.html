@@ -491,7 +491,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="ident">DefaultResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">dir_obj_bundle</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bundle_recurse</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="string">&quot;.&quot;</span>))<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">dir_obj_bundle</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bundle_recurse</span>(<span class="kw-2">&amp;</span><span class="ident">std</span>::<span class="ident">env</span>::<span class="ident">current_dir</span>()<span class="question-mark">?</span>)<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">out_file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="ident">output</span>)<span class="question-mark">?</span>;
 

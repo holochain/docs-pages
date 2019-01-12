@@ -119,6 +119,18 @@
 <span id="119">119</span>
 <span id="120">120</span>
 <span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! let file_system = Arc::new(RwLock::new(FilesystemStorage::new(tempdir().unwrap().path().to_str().unwrap()).unwrap()));</span>
 <span class="doccomment">//!     Arc::new(Mutex::new(SimplePersister::new(file_system.clone()))),</span>
@@ -166,7 +178,7 @@
 <span class="doccomment">/// #[derive(StructOpt, Debug)]</span>
 <span class="doccomment">/// #[structopt(name = &quot;hcc&quot;)]</span>
 <span class="doccomment">/// struct Opt {</span>
-<span class="doccomment">///     /// Output file</span>
+<span class="doccomment">///     /// Path to the toml configuration file for the container</span>
 <span class="doccomment">///     #[structopt(short = &quot;c&quot;, long = &quot;config&quot;, parse(from_os_str))]</span>
 <span class="doccomment">///     config: Option&lt;PathBuf&gt;,</span>
 <span class="doccomment">/// }</span>
@@ -216,21 +228,32 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_net</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_net_connection</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_net_ipc</span>;
 
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">chrono</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tempfile</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_derive</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">boolinator</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">colored</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_wasm_utils</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">jsonrpc_http_server</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">jsonrpc_ws_server</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">petgraph</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">regex</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_regex</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test_utils</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tiny_http</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">toml</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">maplit</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">directories</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">config</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">container</span>;
@@ -239,6 +262,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">holochain</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">interface</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">interface_impls</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">logger</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">holochain</span>::<span class="ident">Holochain</span>;
 </pre></div>

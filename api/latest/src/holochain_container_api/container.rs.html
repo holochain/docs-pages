@@ -721,14 +721,143 @@
 <span id="721">721</span>
 <span id="722">722</span>
 <span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">config</span>::{<span class="ident">Configuration</span>, <span class="ident">InterfaceConfiguration</span>, <span class="ident">InterfaceDriver</span>, <span class="ident">StorageConfiguration</span>},
     <span class="ident">context_builder</span>::<span class="ident">ContextBuilder</span>,
     <span class="ident">error</span>::<span class="ident">HolochainInstanceError</span>,
+    <span class="ident">logger</span>::<span class="ident">DebugLogger</span>,
     <span class="ident">Holochain</span>,
 };
-<span class="kw">use</span> <span class="ident">holochain_core</span>::{<span class="ident">logger</span>::<span class="ident">Logger</span>, <span class="ident">signal</span>::<span class="ident">Signal</span>};
+<span class="kw">use</span> <span class="ident">holochain_core</span>::{
+    <span class="ident">logger</span>::{<span class="ident">ChannelLogger</span>, <span class="ident">Logger</span>},
+    <span class="ident">signal</span>::<span class="ident">Signal</span>,
+};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">agent</span>::{<span class="ident">AgentId</span>, <span class="ident">KeyBuffer</span>},
     <span class="ident">dna</span>::<span class="ident">Dna</span>,
@@ -743,11 +872,13 @@
     <span class="ident">convert</span>::<span class="ident">TryFrom</span>,
     <span class="ident">fs</span>::<span class="ident">File</span>,
     <span class="ident">io</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>,
-    <span class="ident">sync</span>::{<span class="ident">mpsc</span>::<span class="ident">SyncSender</span>, <span class="ident">Arc</span>, <span class="ident">RwLock</span>},
+    <span class="ident">sync</span>::{<span class="ident">mpsc</span>::<span class="ident">SyncSender</span>, <span class="ident">Arc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>},
     <span class="ident">thread</span>,
 };
 
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>;
+<span class="kw">use</span> <span class="ident">holochain_net_connection</span>::<span class="ident">net_connection</span>::<span class="ident">NetShutdown</span>;
+<span class="kw">use</span> <span class="ident">holochain_net_ipc</span>::<span class="ident">spawn</span>::{<span class="ident">ipc_spawn</span>, <span class="ident">SpawnResult</span>};
 <span class="kw">use</span> <span class="ident">interface</span>::{<span class="ident">ContainerApiBuilder</span>, <span class="ident">InstanceMap</span>, <span class="ident">Interface</span>};
 <span class="doccomment">/// Main representation of the container.</span>
 <span class="doccomment">/// Holds a `HashMap` of Holochain instances referenced by ID.</span>
@@ -765,23 +896,41 @@
     <span class="ident">interface_threads</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">InterfaceThreadHandle</span><span class="op">&gt;</span>,
     <span class="ident">dna_loader</span>: <span class="ident">DnaLoader</span>,
     <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SignalSender</span><span class="op">&gt;</span>,
+    <span class="ident">logger</span>: <span class="ident">DebugLogger</span>,
+    <span class="ident">p2p_config</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span>,
+    <span class="ident">network_child_process</span>: <span class="ident">NetShutdown</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Container</span> {
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">kill</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">network_child_process</span>.<span class="ident">take</span>() {
+            <span class="ident">kill</span>();
+        }
+    }
 }
 
 <span class="kw">type</span> <span class="ident">SignalSender</span> <span class="op">=</span> <span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;</span>;
 <span class="kw">type</span> <span class="ident">InterfaceThreadHandle</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">JoinHandle</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;&gt;</span>;
 <span class="kw">type</span> <span class="ident">DnaLoader</span> <span class="op">=</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;&gt;</span>;
 
-<span class="kw">pub</span> <span class="kw">static</span> <span class="ident">DEFAULT_NETWORK_CONFIG</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="ident">P2pConfig</span>::<span class="ident">DEFAULT_MOCK_CONFIG</span>;
+<span class="comment">// preparing for having container notifiers go to one of the log streams</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">notify</span>(<span class="ident">msg</span>: <span class="ident">String</span>) {
+    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>);
+}
 
 <span class="kw">impl</span> <span class="ident">Container</span> {
     <span class="doccomment">/// Creates a new instance with the default DnaLoader that actually loads files.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_config</span>(<span class="ident">config</span>: <span class="ident">Configuration</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="ident">rules</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">rules</span>.<span class="ident">clone</span>();
         <span class="ident">Container</span> {
             <span class="ident">instances</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
             <span class="ident">interface_threads</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
             <span class="ident">config</span>,
             <span class="ident">dna_loader</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">Self</span>::<span class="ident">load_dna</span>)),
             <span class="ident">signal_tx</span>: <span class="prelude-val">None</span>,
+            <span class="ident">logger</span>: <span class="ident">DebugLogger</span>::<span class="ident">new</span>(<span class="ident">rules</span>),
+            <span class="ident">p2p_config</span>: <span class="prelude-val">None</span>,
+            <span class="ident">network_child_process</span>: <span class="prelude-val">None</span>,
         }
     }
 
@@ -818,7 +967,7 @@
         <span class="self">self</span>.<span class="ident">instances</span>
             .<span class="ident">iter_mut</span>()
             .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="ident">hc</span>)<span class="op">|</span> {
-                <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Starting instance \&quot;{}\&quot;...&quot;</span>, <span class="ident">id</span>);
+                <span class="ident">notify</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Starting instance \&quot;{}\&quot;...&quot;</span>, <span class="ident">id</span>));
                 <span class="ident">hc</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>().<span class="ident">start</span>()
             })
             .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="kw">_</span><span class="op">&gt;&gt;</span>()
@@ -830,7 +979,7 @@
         <span class="self">self</span>.<span class="ident">instances</span>
             .<span class="ident">iter_mut</span>()
             .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="ident">hc</span>)<span class="op">|</span> {
-                <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Stopping instance \&quot;{}\&quot;...&quot;</span>, <span class="ident">id</span>);
+                <span class="ident">notify</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Stopping instance \&quot;{}\&quot;...&quot;</span>, <span class="ident">id</span>));
                 <span class="ident">hc</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>().<span class="ident">stop</span>()
             })
             .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="kw">_</span><span class="op">&gt;&gt;</span>()
@@ -849,13 +998,102 @@
         <span class="prelude-val">Ok</span>(())
     }
 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">spawn_network</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">network_config</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">config</span>
+            .<span class="ident">clone</span>()
+            .<span class="ident">network</span>
+            .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
+                <span class="string">&quot;attempt to spawn network when not configured&quot;</span>.<span class="ident">to_string</span>(),
+            ))<span class="question-mark">?</span>;
+
+        <span class="macro">println</span><span class="macro">!</span>(
+            <span class="string">&quot;Spawning network with working directory: {}&quot;</span>,
+            <span class="ident">network_config</span>.<span class="ident">n3h_persistence_path</span>
+        );
+        <span class="kw">let</span> <span class="ident">SpawnResult</span> {
+            <span class="ident">kill</span>,
+            <span class="ident">ipc_binding</span>,
+            <span class="ident">p2p_bindings</span>: <span class="kw">_</span>,
+        } <span class="op">=</span> <span class="ident">ipc_spawn</span>(
+            <span class="string">&quot;node&quot;</span>.<span class="ident">to_string</span>(),
+            <span class="macro">vec</span><span class="macro">!</span>[<span class="macro">format</span><span class="macro">!</span>(
+                <span class="string">&quot;{}/packages/n3h/bin/n3h&quot;</span>,
+                <span class="ident">network_config</span>.<span class="ident">n3h_path</span>.<span class="ident">clone</span>()
+            )],
+            <span class="ident">network_config</span>.<span class="ident">n3h_persistence_path</span>.<span class="ident">clone</span>(),
+            <span class="macro">hashmap</span><span class="macro">!</span> {
+                <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;N3H_MODE&quot;</span>) <span class="op">=&gt;</span> <span class="ident">network_config</span>.<span class="ident">n3h_mode</span>.<span class="ident">clone</span>(),
+                <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;N3H_WORK_DIR&quot;</span>) <span class="op">=&gt;</span> <span class="ident">network_config</span>.<span class="ident">n3h_persistence_path</span>.<span class="ident">clone</span>(),
+                <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;N3H_IPC_SOCKET&quot;</span>) <span class="op">=&gt;</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;tcp://127.0.0.1:*&quot;</span>),
+            },
+            <span class="bool-val">true</span>,
+        )
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">error</span><span class="op">|</span> {
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Error spawning network process! {:?}&quot;</span>, <span class="ident">error</span>);
+            <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="ident">error</span>.<span class="ident">to_string</span>())
+        })<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">network_child_process</span> <span class="op">=</span> <span class="ident">kill</span>;
+        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Network spawned with binding: {:?}&quot;</span>, <span class="ident">ipc_binding</span>);
+        <span class="prelude-val">Ok</span>(<span class="ident">ipc_binding</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">instance_p2p_config</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">JsonString</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">p2p_config</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or_else</span>(<span class="op">||</span> {
+            <span class="comment">// This should never happen, but we&#39;ll throw out a named mock network rather than crashing,</span>
+            <span class="comment">// just to be nice (TODO make proper logging statement)</span>
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;warn: instance_network_config called before p2p_config initialized! Using default mock network name.&quot;</span>);
+            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">P2pConfig</span>::<span class="ident">named_mock_config</span>(<span class="string">&quot;container-default-mock&quot;</span>))
+        });
+        <span class="prelude-val">Ok</span>(<span class="ident">config</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">initialize_p2p_config</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">JsonString</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">network</span>.<span class="ident">clone</span>() {
+            <span class="comment">// if there is a config then either we need to spawn a process and get the</span>
+            <span class="comment">// ipc_uri for it and save it for future calls to `load_config`</span>
+            <span class="comment">// or we use that uri value that was created from previous calls!</span>
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">net_config</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="self">self</span>
+                    .<span class="ident">config</span>
+                    .<span class="ident">clone</span>()
+                    .<span class="ident">network</span>
+                    .<span class="ident">unwrap</span>() <span class="comment">// unwrap safe because of check above</span>
+                    .<span class="ident">n3h_ipc_uri</span>
+                    .<span class="ident">clone</span>()
+                    .<span class="ident">or_else</span>(<span class="op">||</span> <span class="self">self</span>.<span class="ident">spawn_network</span>().<span class="ident">ok</span>());
+                <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="macro">json</span><span class="macro">!</span>(
+                    {
+                        <span class="string">&quot;backend_kind&quot;</span>: <span class="string">&quot;IPC&quot;</span>,
+                        <span class="string">&quot;backend_config&quot;</span>: {
+                            <span class="string">&quot;socketType&quot;</span>: <span class="string">&quot;zmq&quot;</span>,
+                            <span class="string">&quot;bootstrapNodes&quot;</span>: <span class="ident">net_config</span>.<span class="ident">bootstrap_nodes</span>,
+                            <span class="string">&quot;ipcUri&quot;</span>: <span class="ident">uri</span>
+                        }
+                    }
+                ))
+            }
+            <span class="comment">// if there&#39;s no NetworkConfig we won&#39;t spawn a network process</span>
+            <span class="comment">// and instead configure instances to use a unique mock network</span>
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">P2pConfig</span>::<span class="ident">unique_mock_config</span>()),
+        }
+    }
+
     <span class="doccomment">/// Tries to create all instances configured in the given Configuration object.</span>
     <span class="doccomment">/// Calls `Configuration::check_consistency()` first and clears `self.instances`.</span>
+    <span class="doccomment">/// The first time we call this, we also initialize the container-wide config</span>
+    <span class="doccomment">/// for use with all instances</span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// @TODO: clean up the container creation process to prevent loading config before proper setup,</span>
     <span class="doccomment">///        especially regarding the signal handler.</span>
     <span class="doccomment">///        (see https://github.com/holochain/holochain-rust/issues/739)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_config</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">check_consistency</span>()<span class="question-mark">?</span>;
+
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">p2p_config</span>.<span class="ident">is_none</span>() {
+            <span class="self">self</span>.<span class="ident">p2p_config</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">initialize_p2p_config</span>());
+        }
+
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">clone</span>();
         <span class="self">self</span>.<span class="ident">shutdown</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">instances</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">new</span>();
@@ -898,11 +1136,7 @@
                 <span class="ident">context_builder</span> <span class="op">=</span>
                     <span class="ident">context_builder</span>.<span class="ident">with_agent</span>(<span class="ident">AgentId</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">agent_config</span>.<span class="ident">name</span>, <span class="kw-2">&amp;</span><span class="ident">pub_key</span>));
 
-                <span class="comment">// Network config:</span>
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">network_config</span>) <span class="op">=</span> <span class="ident">instance_config</span>.<span class="ident">network</span> {
-                    <span class="ident">context_builder</span> <span class="op">=</span>
-                        <span class="ident">context_builder</span>.<span class="ident">with_network_config</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">network_config</span>))
-                };
+                <span class="ident">context_builder</span> <span class="op">=</span> <span class="ident">context_builder</span>.<span class="ident">with_network_config</span>(<span class="self">self</span>.<span class="ident">instance_p2p_config</span>()<span class="question-mark">?</span>);
 
                 <span class="comment">// Storage:</span>
                 <span class="kw">if</span> <span class="kw">let</span> <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> { <span class="ident">path</span> } <span class="op">=</span> <span class="ident">instance_config</span>.<span class="ident">storage</span> {
@@ -910,6 +1144,12 @@
                         <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error creating context: {}&quot;</span>, <span class="ident">hc_err</span>.<span class="ident">to_string</span>())
                     })<span class="question-mark">?</span>
                 };
+
+                <span class="kw">if</span> <span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">logger_type</span> <span class="op">==</span> <span class="string">&quot;debug&quot;</span> {
+                    <span class="ident">context_builder</span> <span class="op">=</span> <span class="ident">context_builder</span>.<span class="ident">with_logger</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(
+                        <span class="ident">ChannelLogger</span>::<span class="ident">new</span>(<span class="ident">instance_config</span>.<span class="ident">id</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">logger</span>.<span class="ident">get_sender</span>()),
+                    )));
+                }
 
                 <span class="comment">// Container API</span>
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api_builder</span> <span class="op">=</span> <span class="ident">ContainerApiBuilder</span>::<span class="ident">new</span>();
@@ -997,9 +1237,17 @@
         <span class="ident">interface_config</span>: <span class="ident">InterfaceConfiguration</span>,
     ) <span class="op">-&gt;</span> <span class="ident">InterfaceThreadHandle</span> {
         <span class="kw">let</span> <span class="ident">dispatcher</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">make_interface_handler</span>(<span class="kw-2">&amp;</span><span class="ident">interface_config</span>);
+        <span class="kw">let</span> <span class="ident">log_sender</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">logger</span>.<span class="ident">get_sender</span>();
         <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">iface</span> <span class="op">=</span> <span class="ident">make_interface</span>(<span class="kw-2">&amp;</span><span class="ident">interface_config</span>);
-            <span class="ident">iface</span>.<span class="ident">run</span>(<span class="ident">dispatcher</span>)
+            <span class="ident">iface</span>.<span class="ident">run</span>(<span class="ident">dispatcher</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">error</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
+                    <span class="string">&quot;err/container: Error running interface &#39;{}&#39;: {}&quot;</span>,
+                    <span class="ident">interface_config</span>.<span class="ident">id</span>, <span class="ident">error</span>
+                );
+                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">log_sender</span>.<span class="ident">send</span>((<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;container&quot;</span>), <span class="ident">message</span>));
+                <span class="ident">error</span>
+            })
         })
     }
 }
@@ -1017,9 +1265,10 @@
 
 <span class="doccomment">/// This can eventually be dependency injected for third party Interface definitions</span>
 <span class="kw">fn</span> <span class="ident">make_interface</span>(<span class="ident">interface_config</span>: <span class="kw-2">&amp;</span><span class="ident">InterfaceConfiguration</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Interface</span><span class="op">&gt;</span> {
-    <span class="kw">use</span> <span class="ident">interface_impls</span>::<span class="ident">websocket</span>::<span class="ident">WebsocketInterface</span>;
+    <span class="kw">use</span> <span class="ident">interface_impls</span>::{<span class="ident">http</span>::<span class="ident">HttpInterface</span>, <span class="ident">websocket</span>::<span class="ident">WebsocketInterface</span>};
     <span class="kw">match</span> <span class="ident">interface_config</span>.<span class="ident">driver</span> {
         <span class="ident">InterfaceDriver</span>::<span class="ident">Websocket</span> { <span class="ident">port</span> } <span class="op">=&gt;</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">WebsocketInterface</span>::<span class="ident">new</span>(<span class="ident">port</span>)),
+        <span class="ident">InterfaceDriver</span>::<span class="ident">Http</span> { <span class="ident">port</span> } <span class="op">=&gt;</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">HttpInterface</span>::<span class="ident">new</span>(<span class="ident">port</span>)),
         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
     }
 }
@@ -1092,9 +1341,6 @@
     id = &quot;test-instance-1&quot;
     dna = &quot;bridge-callee&quot;
     agent = &quot;test-agent-1&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;memory&quot;
 
@@ -1102,9 +1348,6 @@
     id = &quot;test-instance-2&quot;
     dna = &quot;test-dna&quot;
     agent = &quot;test-agent-2&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;memory&quot;
 
@@ -1112,9 +1355,6 @@
     id = &quot;bridge-caller&quot;
     dna = &quot;bridge-caller&quot;
     agent = &quot;test-agent-3&quot;
-    [instances.logger]
-    type = &quot;simple&quot;
-    file = &quot;app_spec.log&quot;
     [instances.storage]
     type = &quot;memory&quot;
 
@@ -1123,6 +1363,16 @@
     [interfaces.driver]
     type = &quot;websocket&quot;
     port = 8888
+    [[interfaces.instances]]
+    id = &quot;test-instance-1&quot;
+    [[interfaces.instances]]
+    id = &quot;test-instance-2&quot;
+
+    [[interfaces]]
+    id = &quot;test-interface&quot;
+    [interfaces.driver]
+    type = &quot;http&quot;
+    port = 4000
     [[interfaces.instances]]
     id = &quot;test-instance-1&quot;
     [[interfaces.instances]]

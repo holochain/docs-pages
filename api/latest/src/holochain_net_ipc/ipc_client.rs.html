@@ -239,18 +239,18 @@
 <span id="239">239</span>
 <span id="240">240</span>
 <span id="241">241</span>
+<span id="242">242</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! implements a net_connection::NetWorker for messaging with an ipc p2p node</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">socket</span>::<span class="ident">IpcSocket</span>, <span class="ident">util</span>::<span class="ident">get_millis</span>};
-
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">thread</span>, <span class="ident">time</span>};
-
 <span class="kw">use</span> <span class="ident">holochain_net_connection</span>::{
     <span class="ident">net_connection</span>::{<span class="ident">NetHandler</span>, <span class="ident">NetWorker</span>},
     <span class="ident">protocol</span>::{<span class="ident">NamedBinaryData</span>, <span class="ident">PingData</span>, <span class="ident">PongData</span>, <span class="ident">Protocol</span>},
     <span class="ident">NetResult</span>,
 };
+<span class="kw">use</span> <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">thread</span>, <span class="ident">time</span>};
 
 <span class="comment">// with two zmq &quot;ROUTER&quot; sockets, one side must have a well-known id</span>
 <span class="comment">// for the holochain ipc protocol, the server is always 4 0x24 bytes</span>
@@ -262,6 +262,7 @@
     <span class="ident">socket</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">IpcSocket</span><span class="op">&gt;</span>,
     <span class="ident">last_recv_millis</span>: <span class="ident">f64</span>,
     <span class="ident">last_send_millis</span>: <span class="ident">f64</span>,
+    <span class="ident">id</span>: <span class="ident">ProcessUniqueId</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">NetWorker</span> <span class="kw">for</span> <span class="ident">IpcClient</span> {
@@ -279,32 +280,29 @@
     <span class="doccomment">/// perform upkeep (like ping/pong messages) on the underlying ipc socket</span>
     <span class="kw">fn</span> <span class="ident">tick</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">false</span>;
-
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">msg</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_proc_message</span>()<span class="question-mark">?</span> {
             <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">true</span>;
-
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Protocol</span>::<span class="ident">Ping</span>(<span class="kw-2">ref</span> <span class="ident">p</span>) <span class="op">=</span> <span class="ident">msg</span> {
                 <span class="self">self</span>.<span class="ident">priv_send</span>(<span class="kw-2">&amp;</span><span class="ident">Protocol</span>::<span class="ident">Pong</span>(<span class="ident">PongData</span> {
                     <span class="ident">orig</span>: <span class="ident">p</span>.<span class="ident">sent</span>,
                     <span class="ident">recv</span>: <span class="ident">get_millis</span>(),
                 }))<span class="question-mark">?</span>;
             }
-
             (<span class="self">self</span>.<span class="ident">handler</span>)(<span class="prelude-val">Ok</span>(<span class="ident">msg</span>))<span class="question-mark">?</span>;
         }
-
         <span class="kw">let</span> <span class="ident">now</span> <span class="op">=</span> <span class="ident">get_millis</span>();
-
         <span class="kw">if</span> <span class="ident">now</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">last_recv_millis</span> <span class="op">&gt;</span> <span class="number">2000.0</span> {
-            <span class="macro">bail</span><span class="macro">!</span>(<span class="string">&quot;ipc connection timeout&quot;</span>);
+            <span class="macro">bail</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;[{}] ipc connection timeout&quot;</span>, <span class="self">self</span>.<span class="ident">id</span>))
         }
-
         <span class="kw">if</span> <span class="ident">now</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">last_send_millis</span> <span class="op">&gt;</span> <span class="number">500.0</span> {
             <span class="self">self</span>.<span class="ident">priv_ping</span>()<span class="question-mark">?</span>;
             <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">true</span>;
         }
-
         <span class="prelude-val">Ok</span>(<span class="ident">did_something</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">endpoint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">socket</span>.<span class="ident">endpoint</span>()
     }
 }
 
@@ -342,12 +340,12 @@
                 <span class="ident">thread</span>::<span class="ident">sleep</span>(<span class="ident">time</span>::<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="ident">backoff</span>));
             }
         }
-
         <span class="prelude-val">Ok</span>(<span class="self">Self</span> {
             <span class="ident">handler</span>,
             <span class="ident">socket</span>,
             <span class="ident">last_recv_millis</span>: <span class="ident">get_millis</span>(),
             <span class="ident">last_send_millis</span>: <span class="number">0.0</span>,
+            <span class="ident">id</span>: <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>(),
         })
     }
 
@@ -375,6 +373,8 @@
 
         <span class="kw">let</span> <span class="ident">msg</span>: <span class="ident">Protocol</span> <span class="op">=</span> <span class="ident">msg</span>.<span class="ident">into</span>();
 
+        <span class="comment">// TODO: use logger instead</span>
+        <span class="comment">// println!(&quot;[{}] priv_proc_message() msg = {:?}&quot;, self.id, msg);</span>
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">msg</span>))
     }
 
@@ -387,6 +387,8 @@
     <span class="kw">fn</span> <span class="ident">priv_send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">Protocol</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">data</span>: <span class="ident">NamedBinaryData</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">into</span>();
 
+        <span class="comment">// TODO: use logger instead</span>
+        <span class="comment">// println!(&quot;[{}] priv_send() data = {:?}&quot;, self.id, data.name);</span>
         <span class="self">self</span>.<span class="ident">socket</span>.<span class="ident">send</span>(<span class="kw-2">&amp;</span>[<span class="ident">SRV_ID</span>, <span class="kw-2">&amp;</span>[], <span class="kw-2">&amp;</span><span class="ident">data</span>.<span class="ident">name</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>.<span class="ident">data</span>])<span class="question-mark">?</span>;
 
         <span class="comment">// sent message, update our ping timer</span>

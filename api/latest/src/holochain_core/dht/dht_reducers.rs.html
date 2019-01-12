@@ -435,6 +435,12 @@
 <span id="435">435</span>
 <span id="436">436</span>
 <span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! all DHT reducers</span>
 
@@ -492,7 +498,7 @@
 
 <span class="comment">//</span>
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">reduce_hold_entry</span>(
-    <span class="ident">_context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
+    <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="ident">old_store</span>: <span class="kw-2">&amp;</span><span class="ident">DhtStore</span>,
     <span class="ident">action_wrapper</span>: <span class="kw-2">&amp;</span><span class="ident">ActionWrapper</span>,
 ) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DhtStore</span><span class="op">&gt;</span> {
@@ -516,7 +522,10 @@
                 <span class="ident">meta_res</span>
                     .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="prelude-val">Some</span>(<span class="ident">new_store</span>))
                     .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> {
-                        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;reduce_hold_entry: meta_storage write failed!: {:?}&quot;</span>, <span class="ident">err</span>);
+                        <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
+                            <span class="string">&quot;err/dht: reduce_hold_entry: meta_storage write failed!: {:?}&quot;</span>,
+                            <span class="ident">err</span>
+                        ));
                         <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">DhtStore</span><span class="op">&gt;</span>
                     })
                     .<span class="ident">ok</span>()
@@ -525,7 +534,10 @@
             .<span class="ident">ok</span>()
             .<span class="ident">unwrap_or</span>(<span class="prelude-val">None</span>)
     } <span class="kw">else</span> {
-        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;dht::reduce_hold_entry() FAILED {:?}&quot;</span>, <span class="ident">res</span>);
+        <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">&quot;err/dht: dht::reduce_hold_entry() FAILED {:?}&quot;</span>,
+            <span class="ident">res</span>
+        ));
         <span class="prelude-val">None</span>
     }
 }

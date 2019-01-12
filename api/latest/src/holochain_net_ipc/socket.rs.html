@@ -189,6 +189,26 @@
 <span id="189">189</span>
 <span id="190">190</span>
 <span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module is a thin wrapper around a ZMQ socket</span>
 <span class="doccomment">//! It allows us to easily mock it out for unit tests</span>
@@ -219,18 +239,26 @@
 
     <span class="doccomment">/// send data to the remote end of the socket</span>
     <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[<span class="ident">u8</span>]]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+
+    <span class="kw">fn</span> <span class="ident">endpoint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// this is the concrete ZMQ implementation of the IpcSocket trait</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZmqIpcSocket</span> {
     <span class="ident">socket</span>: <span class="ident">zmq</span>::<span class="ident">Socket</span>,
+    <span class="ident">maybe_endpoint</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">IpcSocket</span> <span class="kw">for</span> <span class="ident">ZmqIpcSocket</span> {
     <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">Self</span> {
             <span class="ident">socket</span>: <span class="ident">context</span>::<span class="ident">socket</span>(<span class="ident">zmq</span>::<span class="ident">ROUTER</span>)<span class="question-mark">?</span>,
+            <span class="ident">maybe_endpoint</span>: <span class="prelude-val">None</span>,
         }))
+    }
+
+    <span class="kw">fn</span> <span class="ident">endpoint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">maybe_endpoint</span>.<span class="ident">clone</span>()
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unknown_lints</span>)]</span>
@@ -241,7 +269,15 @@
     }
 
     <span class="kw">fn</span> <span class="ident">connect</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">endpoint</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// Attempt connection</span>
         <span class="self">self</span>.<span class="ident">socket</span>.<span class="ident">connect</span>(<span class="ident">endpoint</span>)<span class="question-mark">?</span>;
+        <span class="comment">// Retrieve the last endpoint this socket was bound to otherwise use the requested one</span>
+        <span class="kw">let</span> <span class="ident">maybe_last_endpoint</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">socket</span>.<span class="ident">get_last_endpoint</span>()<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">last_endpoint</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_last_endpoint</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">last_endpoint</span>) <span class="op">=&gt;</span> <span class="ident">last_endpoint</span>,
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">endpoint</span>.<span class="ident">to_string</span>(),
+        };
+        <span class="self">self</span>.<span class="ident">maybe_endpoint</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">last_endpoint</span>);
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -307,6 +343,10 @@
                 <span class="ident">control_send</span>: <span class="ident">tx</span>,
             },
         }))
+    }
+
+    <span class="kw">fn</span> <span class="ident">endpoint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+        <span class="prelude-val">None</span>
     }
 
     <span class="kw">fn</span> <span class="ident">close</span>(<span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {

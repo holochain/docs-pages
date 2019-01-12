@@ -132,6 +132,21 @@
 <span id="132">132</span>
 <span id="133">133</span>
 <span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">cli</span>::<span class="ident">package</span>, <span class="ident">error</span>::<span class="ident">DefaultResult</span>, <span class="ident">util</span>};
 <span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
@@ -202,11 +217,11 @@
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">cli</span>::<span class="ident">package</span>;
     <span class="kw">use</span> <span class="ident">assert_cmd</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">process</span>::<span class="ident">Command</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">env</span>, <span class="ident">process</span>::<span class="ident">Command</span>};
     <span class="kw">use</span> <span class="ident">tempfile</span>::{<span class="ident">Builder</span>, <span class="ident">TempDir</span>};
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;broken-tests&quot;</span>)]</span>
-    <span class="kw">const</span> <span class="ident">HOLOCHAIN_TEST_PREFIX</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;org.holochain.test&quot;</span>;
+    <span class="kw">const</span> <span class="ident">HOLOCHAIN_TEST_PREFIX</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;org_holochain_test&quot;</span>;
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;broken-tests&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gen_dir</span>() <span class="op">-&gt;</span> <span class="ident">TempDir</span> {
@@ -217,17 +232,31 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="comment">// flagged as broken for taking 60+ seconds</span>
+    <span class="comment">// flagged as broken for:</span>
+    <span class="comment">// 1. taking 60+ seconds</span>
+    <span class="comment">// 2. because `generate_cargo_toml` in cmd/src/scaffold/rust.rs sets the</span>
+    <span class="comment">//    branch to master rather than develop and currently there&#39;s no way to</span>
+    <span class="comment">//    adjust that on the fly.</span>
+    <span class="comment">// 3. the call to generate my_zome function doesn&#39;t quite work</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;broken-tests&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">test_command_basic_test</span>() {
         <span class="kw">let</span> <span class="ident">temp_space</span> <span class="op">=</span> <span class="ident">gen_dir</span>();
         <span class="kw">let</span> <span class="ident">temp_dir_path</span> <span class="op">=</span> <span class="ident">temp_space</span>.<span class="ident">path</span>();
         <span class="kw">let</span> <span class="ident">temp_dir_path_buf</span> <span class="op">=</span> <span class="ident">temp_space</span>.<span class="ident">path</span>().<span class="ident">to_path_buf</span>();
 
-        <span class="comment">// do init first, so theres a project</span>
+        <span class="comment">// do init first, so there&#39;s a project</span>
         <span class="ident">Command</span>::<span class="ident">main_binary</span>()
             .<span class="ident">unwrap</span>()
             .<span class="ident">args</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;init&quot;</span>, <span class="ident">temp_dir_path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>()])
+            .<span class="ident">assert</span>()
+            .<span class="ident">success</span>();
+
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">env</span>::<span class="ident">set_current_dir</span>(<span class="kw-2">&amp;</span><span class="ident">temp_dir_path</span>).<span class="ident">is_ok</span>());
+
+        <span class="comment">// do gen my_zome first, so there&#39;s a zome</span>
+        <span class="ident">Command</span>::<span class="ident">main_binary</span>()
+            .<span class="ident">unwrap</span>()
+            .<span class="ident">args</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;generate&quot;</span>, <span class="string">&quot;my_zome&quot;</span>])
             .<span class="ident">assert</span>()
             .<span class="ident">success</span>();
 
@@ -239,6 +268,7 @@
             .<span class="ident">join</span>(<span class="kw-2">&amp;</span><span class="ident">DIST_DIR_NAME</span>)
             .<span class="ident">join</span>(<span class="ident">package</span>::<span class="ident">DEFAULT_BUNDLE_FILE_NAME</span>)
             .<span class="ident">exists</span>());
+
         <span class="comment">// check success of npm install step</span>
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">temp_dir_path_buf</span>
             .<span class="ident">join</span>(<span class="kw-2">&amp;</span><span class="ident">TEST_DIR_NAME</span>)
@@ -254,7 +284,7 @@
         <span class="kw">let</span> <span class="ident">temp_dir_path</span> <span class="op">=</span> <span class="ident">temp_space</span>.<span class="ident">path</span>();
         <span class="kw">let</span> <span class="ident">temp_dir_path_buf</span> <span class="op">=</span> <span class="ident">temp_space</span>.<span class="ident">path</span>().<span class="ident">to_path_buf</span>();
 
-        <span class="comment">// do init first, so theres a project</span>
+        <span class="comment">// do init first, so there&#39;s a project</span>
         <span class="ident">Command</span>::<span class="ident">main_binary</span>()
             .<span class="ident">unwrap</span>()
             .<span class="ident">args</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;init&quot;</span>, <span class="ident">temp_dir_path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>()])

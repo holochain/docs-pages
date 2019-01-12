@@ -141,7 +141,7 @@
                     <span class="ident">custom_direct_message</span>,
                     <span class="ident">context</span>.<span class="ident">clone</span>(),
                 )) {
-                    <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error handling custom direct message: {:?}&quot;</span>, <span class="ident">error</span>));
+                    <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;err/net: Error handling custom direct message: {:?}&quot;</span>, <span class="ident">error</span>));
                 }
             });
         }
@@ -160,7 +160,7 @@
             });
         }
         <span class="ident">DirectMessage</span>::<span class="ident">ValidationPackage</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">context</span>.<span class="ident">log</span>(
-            <span class="string">&quot;Got DirectMessage::ValidationPackage as initial message. This should not happen.&quot;</span>,
+            <span class="string">&quot;err/net: Got DirectMessage::ValidationPackage as initial message. This should not happen.&quot;</span>,
         ),
     };
 }
@@ -183,7 +183,7 @@
     <span class="kw">match</span> <span class="ident">response</span> {
         <span class="ident">DirectMessage</span>::<span class="ident">Custom</span>(<span class="ident">custom_direct_message</span>) <span class="op">=&gt;</span> {
             <span class="kw">if</span> <span class="ident">initial_message</span>.<span class="ident">is_none</span>() {
-                <span class="ident">context</span>.<span class="ident">log</span>(<span class="string">&quot;Received a custom direct message response but could not find message ID in history. Not able to process.&quot;</span>);
+                <span class="ident">context</span>.<span class="ident">log</span>(<span class="string">&quot;err/net: Received a custom direct message response but could not find message ID in history. Not able to process.&quot;</span>);
                 <span class="kw">return</span>;
             }
 
@@ -198,11 +198,11 @@
             <span class="ident">dispatch_action</span>(<span class="ident">context</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
         }
         <span class="ident">DirectMessage</span>::<span class="ident">RequestValidationPackage</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">context</span>.<span class="ident">log</span>(
-            <span class="string">&quot;Got DirectMessage::RequestValidationPackage as a response. This should not happen.&quot;</span>,
+            <span class="string">&quot;err/net: Got DirectMessage::RequestValidationPackage as a response. This should not happen.&quot;</span>,
         ),
         <span class="ident">DirectMessage</span>::<span class="ident">ValidationPackage</span>(<span class="ident">maybe_validation_package</span>) <span class="op">=&gt;</span> {
             <span class="kw">if</span> <span class="ident">initial_message</span>.<span class="ident">is_none</span>() {
-                <span class="ident">context</span>.<span class="ident">log</span>(<span class="string">&quot;Received a validation package but could not find message ID in history. Not able to process.&quot;</span>);
+                <span class="ident">context</span>.<span class="ident">log</span>(<span class="string">&quot;err/net: Received a validation package but could not find message ID in history. Not able to process.&quot;</span>);
                 <span class="kw">return</span>;
             }
 
