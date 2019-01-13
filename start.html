@@ -50,7 +50,7 @@
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start</h1>
-                    <div class="meta"><i class="far fa-clock"></i> Last updated: January 12, 2019</div>
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: January 13, 2019</div>
                 </div>
                 <!--//doc-header-->
                 <div class="doc-body row">
@@ -62,9 +62,11 @@
                                     <p>
                                         Welcome to the Quick Start guide for getting started with Holochain
                                         development.
-                                        It will guide you through installation, and also point you to a great tutorial
-                                        for
-                                        getting started coding.
+                                        It will guide you through installation.
+
+                                        Once you've got things installed, or regardless, 
+                                        read on into the <a href="/guide/latest">Holochain guidebook</a>, and the <a href="/api/0.0.3/hdk">API Reference</a>
+                                        to get going!
                                     </p>
                                 </div>
                                 <!--//section-block-->
@@ -165,22 +167,33 @@
 
                                         The version number that you install must be 4.1 or higher.
                                     </p>
-                                    <h5>Mac and Linux</h5>
-                                    <p>
-                                        The most update and useful installation instructions for ZMQ are maintained <a
-                                            target="_blank" href="http://zeromq.org/intro:get-the-software">here</a>.
-                                    </p>
-                                    <h5>Windows</h5>
-                                    <p>
-                                        If you are on Windows (only 64 bit machines supported), for now, just download
-                                        <a target="_blank" href="https://github.com/holochain/holochain-rust/raw/develop/vendor/zmq/bin/libzmq-v140-mt-4_2_0.dll">this
-                                            file</a>, which is a prebuilt ZMQ library.
-                                        TODO FIX THIS Move the file "libzmq-v140-mt-4_2_0.dll" that you downloaded into
-                                        the same "hc" folder as the other files.
-                                    </p>
-                                    <p>
-                                        If you encounter issues with this, please discuss <a target="_blank" href="https://github.com/holochain/holochain-rust/issues/701">here</a>.
-                                    </p>
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" role="tablist">
+                                            <a class="nav-item nav-link active" data-toggle="tab" href="#zmq-mac-linux"
+                                                role="tab" aria-controls="zmq-mac-linux" aria-selected="true">Mac &
+                                                Linux</a>
+                                            <a class="nav-item nav-link" data-toggle="tab" href="#zmq-windows" role="tab"
+                                                aria-controls="zmq-windows" aria-selected="false">Windows</a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="zmq-mac-linux" role="tabpanel"
+                                            aria-labelledby="zmq-mac-linux">
+                                            <p>
+                                                The most update and useful installation instructions for ZMQ are
+                                                maintained <a target="_blank" href="http://zeromq.org/intro:get-the-software">here</a>.
+                                            </p>
+                                        </div>
+                                        <div class="tab-pane fade" id="zmq-windows" role="tabpanel" aria-labelledby="zmq-windows">
+                                            <p>
+                                                If you are on Windows (only 64 bit machines supported), for now, just
+                                                download
+                                                <a target="_blank" href="https://github.com/holochain/holochain-rust/raw/develop/zmq-sys/vendor/zmq/bin/libzmq-v140-mt-4_2_0.dll">this
+                                                    file</a>, which is a prebuilt ZMQ library. You will need this file
+                                                later.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!--//section-block-->
                             </section>
@@ -234,7 +247,8 @@
                                         developer command line tools.</p>
                                     <h4 class="block-title">Step One</h4>
                                     <p>
-                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/holochain-cmd-v0.0.2"
+                                        When you go to Github, look for one of the downloads that starts with "cmd".
+                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.3"
                                             target="_blank">Go to GitHub and download the appropriate release for your
                                             system.</a>
                                     </p>
@@ -246,9 +260,18 @@
                                         your $HOME or %USERPROFILE% (your user) directory.
                                         Now we will have to add this directory to your PATH variable, so that the
                                         binary becomes available within your command line. The instructions for this
-                                        differ, depending on your platform.
+                                        differ, depending on your platform. If you need help with this, read the
+                                        relevant <a href="#paths-help-section">Help with PATHs</a> section at the
+                                        bottom of this page.
                                     </p>
-
+                                    <h5>Windows Note</h5>
+                                    <p>
+                                        For the ZMQ dependency to work, move the file "libzmq-v140-mt-4_2_0.dll" that
+                                        you downloaded into the same "hc" folder as the other files.
+                                    </p>
+                                    <p>
+                                        If you encounter issues with this, please discuss <a target="_blank" href="https://github.com/holochain/holochain-rust/issues/701">here</a>.
+                                    </p>
                                 </div>
                                 <div id="development-step2" class="section-block">
                                     <h4 class="block-title">Step Two</h4>
@@ -261,7 +284,7 @@
                                         </div>
                                         <!--//code-block-->
                                         To read about the commands, and how to get started using them, check out the <a
-                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/develop/cmd#usage">README
+                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/v0.0.3/cmd#usage">README
                                             for the "hc" command line tools.</a>
                                     </p>
                                 </div>
@@ -278,7 +301,9 @@
                                         Holochain app instances.</p>
                                     <h4 class="block-title">Step One</h4>
                                     <p>
-                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/holochain-cmd-v0.0.2"
+                                        When you go to Github, look for one of the downloads that starts with
+                                        "container".
+                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.3"
                                             target="_blank">Go to GitHub and download the appropriate release for your
                                             system.</a>
                                     </p>
@@ -292,9 +317,18 @@
                                         your $HOME or %USERPROFILE% (your user) directory.
                                         Now we will have to add this directory to your PATH variable, so that the
                                         binary becomes available within your command line. The instructions for this
-                                        differ, depending on your platform.
+                                        differ, depending on your platform. If you need help with this, read the
+                                        relevant <a href="#paths-help-section">Help with PATHs</a> section at the
+                                        bottom of this page.
                                     </p>
-
+                                    <h5>Windows Note</h5>
+                                    <p>
+                                        For the ZMQ dependency to work, move a copy of the file "libzmq-v140-mt-4_2_0.dll" that
+                                        you downloaded into the same "holochain_container" folder as the other files.
+                                    </p>
+                                    <p>
+                                        If you encounter issues with this, please discuss <a target="_blank" href="https://github.com/holochain/holochain-rust/issues/701">here</a>.
+                                    </p>
                                 </div>
                                 <div id="production-step2" class="section-block">
                                     <h4 class="block-title">Step Two</h4>
@@ -306,7 +340,7 @@
                                         </div>
                                         <!--//code-block-->
                                         To read about the container, and how to get started using it, check out the <a
-                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/develop/container#usage">README
+                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/v0.0.3/container#usage">README
                                             for the holochain_container.</a>
                                     </p>
                                 </div>
@@ -328,6 +362,13 @@
                                     <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
                                         <div class="tab-pane fade show active" id="paths-mac-linux" role="tabpanel"
                                             aria-labelledby="nav-home-tab">
+                                            <p>In the following example, adding the folder $HOME/hc to the PATH is
+                                                discussed, but it could apply equally and additionally to
+                                                $HOME/holochain_container.
+                                                In general, follow this pattern for adding any folder to your PATH. As
+                                                a reminder, this is done so that binary executables
+                                                within that folder become available within your command line.
+                                            </p>
                                             <p>
                                                 If you DO NOT have a shell profile file, follow ALL these instructions
                                                 in your terminal. If you know about shell profiles, and have one, just
@@ -363,6 +404,14 @@
                                             <!--//code-block-->
                                         </div>
                                         <div class="tab-pane fade" id="paths-windows" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                            <p>In the following example, adding the folder %USERPROFILE%\hc to the PATH
+                                                is
+                                                discussed, but it could apply equally and additionally to
+                                                %USERPROFILE%/holochain_container.
+                                                In general, follow this pattern for adding any folder to your PATH. As
+                                                a reminder, this is done so that binary executables
+                                                within that folder become available within your command line.
+                                            </p>
                                             <p>
                                                 In your Control Panel, select System>Advanced system
                                                 settings>Environment Variables... and under System Variables do the
