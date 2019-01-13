@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["CapToken","System entry to hold a capability token for use as a caller"],["CapTokenGrant","System entry to hold a capabilities granted by the callee"]],"type":[["CapTokenValue",""]]});

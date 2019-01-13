@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["invoke_init_globals","ZomeApiFunction::InitGlobals secret function code args: [0] encoded MemoryAllocation as u32 Not expecting any complex input Returns an HcApiReturnCode as I32"]]});
