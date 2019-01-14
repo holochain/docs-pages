@@ -207,11 +207,11 @@ b. use a 16 bit integer for the pointers <code>length</code></li>
 <a class="header" href="#wasm-single-page-stack" id="wasm-single-page-stack"><h4>WASM Single Page Stack</h4></a>
 <p>TODO</p>
 <a class="header" href="#app-globals" id="app-globals"><h3>App Globals</h3></a>
-<p>When writing Zome code, it is common to need to reference aspects of the context it runs in, such as the active user/agent, or the DNA hash of the app. Holochain exposes certain values through to the Zome, though it does so natively by way of the <code>hc_init_globals</code> function mentioned. Taking care to expose these values as constants will simplify the developer experience.</p>
+<p>When writing Zome code, it is common to need to reference aspects of the context it runs in, such as the active user/agent, or the DNA address of the app. Holochain exposes certain values through to the Zome, though it does so natively by way of the <code>hc_init_globals</code> function mentioned. Taking care to expose these values as constants will simplify the developer experience.</p>
 <p>This is done by calling <code>hc_init_globals</code> with an input value of 0. The result of calling the function is a 32 bit integer which represents the memory location of a serialized JSON object containing all the app global values. Fetch the result from memory, and deserialize the result back into an object. If appropriate, set those values as exports for the Development Kit. For example, in Rust, values become accessible in Zomes using <code>hdk::APP_NAME</code>. It's recommended to use all capital letters for the export of the constants, but as they are returned as keys on an object from <code>hc_init_globals</code> they are in lower case. The object has the following values:</p>
 <ul>
 <li>dna_name</li>
-<li>dna_hash</li>
+<li>dna_address</li>
 <li>agent_id_str</li>
 <li>agent_address</li>
 <li>agent_initial_hash</li>
