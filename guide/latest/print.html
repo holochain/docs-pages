@@ -431,8 +431,8 @@ Much like the private network, any one user-participant losing a key can become 
 <p>With this overview in mind, the details of app development can be explored.</p>
 <a class="header" href="#intro-to-command-line-tools" id="intro-to-command-line-tools"><h1>Intro to Command Line Tools</h1></a>
 <p>There are a set of custom-designed tools for working with Holochain that can be installed as utilities to your command line to simplify and accelerate the process of Holochain app development. These command line tools are required if you wish to be able to attempt what you are reading about as you continue through the articles on building an app.</p>
-<p>To install the command line tools, go to the <a href="https://developer.holochain.org/start.html">quick start installation guide</a> and then follow the instructions in the README file.</p>
-<p>In addition to the installation instructions, the README will link to an overview of the different functions of the command line tools. You will also learn these organically just by proceeding through the other articles in this section.</p>
+<p>To install the command line tools, use the <a href="https://developer.holochain.org/start.html">quick start installation guide</a>.</p>
+<p>In addition to the installation instructions, <a href="https://github.com/holochain/holochain-rust/tree/v0.0.3/cmd#usage">the README</a> has an overview of the different functions of the command line tools. You will also learn these organically just by proceeding through the other articles in this chapter and the ones that follow.</p>
 <a class="header" href="#create-a-new-project" id="create-a-new-project"><h1>Create A New Project</h1></a>
 <p>The command line tools discussed in the last article can be used to easily create a new folder on your computer, that contains all the initial folders and files needed for a Holochain application.</p>
 <p>You will typically want to create a new project folder for a Holochain application this way.  This one approach will suit the creation of a new Holochain app or implementing an existing app with Holochain instead.</p>
@@ -1149,7 +1149,128 @@ define_zome! {
 <p>Containers can implement whatever interfaces to perform these function calls they wish to, opening a wealth of opportunity. Holochain provides two reference Containers, one for <a href="https://www.npmjs.com/package/@holochain/holochain-nodejs">Nodejs</a>, and the other a <a href="https://github.com/holochain/holochain-rust/tree/develop/container">Rust built binary executable</a>. With the Rust built binary Container, interfaces for making function calls already includes HTTP and WebSockets. More details about Containers can be found in <a href="../containers.html">another chapter</a>, it is simply important context for proceeding.</p>
 <p>When a call to a Zome function is being made from the Container, it first passes the arguments to Holochain. Before making the function call, Holochain will check the validity of the request, and fail if necessary. If the request is deemed valid, Holochain will mount the WASM code for a Zome using its' WASM interpreter, and then make a function call into it, giving it the arguments given to it in the request. When it receives the response from the WASM, it will then pass that return value as the response to the request. This may sound complex, but that's just what's going on internally, actually using it with an HDK and a Container is easy.</p>
 <a class="header" href="#building-in-rust-zome-functions" id="building-in-rust-zome-functions"><h2>Building in Rust: Zome Functions</h2></a>
-<p>Coming soon...</p>
+<p>So far, in <a href="./entry_type_definitions.html">entry type definitions</a> and <a href="./genesis.html">genesis</a>, the most complex example of <code>define_zome!</code> was still very simple, and didn't include any functions:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+...
+
+#[derive(Serialize, Deserialize, Debug, DefaultJson)]
+struct Post {
+    content: String,
+    date_created: String,
+}
+
+define_zome! {
+    entries: [
+        entry!(
+            name: &quot;post&quot;,
+            description: &quot;A blog post entry which has an author&quot;,
+            sharing: Sharing::Public,
+            native_type: Post,
+            validation_package: || {
+                ValidationPackageDefinition::Entry
+            },
+            validation: |_post: Post, _validation_data: ValidationData| {
+                Ok(())
+            }
+        )
+    ]
+
+    genesis: || {
+        Ok(())
+    }
+
+    functions: {}
+}
+#}</code></pre></pre>
+<p><code>functions</code> is where the Capabilities, and function declarations will be made.</p>
+<a class="header" href="#adding-a-capability" id="adding-a-capability"><h3>Adding a Capability</h3></a>
+<p>A Zome can have multiple Capabilities within it. This is what adding a Capability looks like:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+...
+
+define_zome! {
+    ...
+    functions: {
+        main (Public) {
+
+        }
+    }
+}
+#}</code></pre></pre>
+<p>In this example, of a Capability with no functions, <code>main</code> is the given name of this Capability, by which it will be referenced elsewhere. <code>Public</code> is a declaration of CapabilityType for this Capability. At the time of writing, it's recommended that you only use <code>Public</code> here, since the other options for CapabilityType are still under development. The implication of <code>Public</code> is that from your local device, any request to Holochain to make a function call to this Capability of this Zome will succeed, without needing authorization.</p>
+<a class="header" href="#adding-a-zome-function" id="adding-a-zome-function"><h3>Adding a Zome Function</h3></a>
+<p>In order to add a Zome function, there are two primary steps that are involved.</p>
+<ol>
+<li>declare your function in <code>define_zome!</code></li>
+<li>write the Rust code for the handler of that function, calling any HDK functions you need</li>
+</ol>
+<p><strong>Step 1</strong></p>
+<p>Since <code>main (Public)</code> expects key-value pairs, we add new functions using the following pattern:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+...
+
+define_zome! {
+    ...
+    functions: {
+        main (Public) {
+            send_message: {
+                inputs: |to_agent: Address, message: String|,
+                outputs: |response: ZomeApiResult&lt;String&gt;|,
+                handler: handle_send_message
+            }
+        }
+    }
+}
+#}</code></pre></pre>
+<p>In this example, <code>send_message</code> is the given name of this function, by which it will be referenced and called elsewhere. There are three properties necessary to provide <code>send_message</code>, and any function declaration: <code>inputs</code>, <code>outputs</code>, and <code>handler</code>.</p>
+<p><code>inputs</code> expects a list or argument names, and types, for the <code>send_message</code> function to be called with.</p>
+<p><code>outputs</code> expects a single declaration of a return type. The name (which in the example is <code>response</code>) is arbitrary, call it anything.</p>
+<p><code>handler</code> expects the name of a function which will handle this function call, and which matches the function signature of <code>inputs</code> and <code>outputs</code>. In this case, <code>handle_send_message</code>, which has yet to be defined.</p>
+<p><strong>Step 2</strong></p>
+<p>Here is an example of a simplistic function, for illustration purposes. It centers on the use of a function call to an HDK function.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+fn handle_send_message(to_agent: Address, message: String) -&gt; ZomeApiResult&lt;String&gt;  {
+    hdk::send(to_agent, message)
+}
+#}</code></pre></pre>
+<p>Notice right away how the arguments match perfectly with the <code>inputs: |...|</code> section of the function declaration. Any differences will cause issues. This is also true of the return type of the output. Note the pairing of <code>ZomeApiResult&lt;String&gt;</code> as the return type.</p>
+<p>The name of the function, <code>handle_send_message</code> is the same as the name given as the <code>handler</code> in the <code>define_zome!</code> function declaration.</p>
+<p>Within the function, <code>handle_send_message</code> makes use of a Holochain/HDK function that <a href="https://developer.holochain.org/api/0.0.3/hdk/api/fn.send.html">sends messages directly node-to-node</a>.</p>
+<p>The available functions, their purpose, and how to use them is fully documented elsewhere, in the <a href="https://developer.holochain.org/api/0.0.3/hdk/api/index.html#functions">API reference</a> and the <a href="./api_functions.html">List of API Functions</a>.</p>
+<p>In the example, <code>handle_send_message</code> simply forwards the result of calling <code>hdk::send</code> as its' own result.</p>
+<p>Here are the above two steps combined:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+...
+
+fn handle_send_message(to_agent: Address, message: String) -&gt; ZomeApiResult&lt;String&gt;  {
+    hdk::send(to_agent, message)
+}
+
+define_zome! {
+    ...
+    functions: {
+        main (Public) {
+            send_message: {
+                inputs: |to_agent: Address, message: String|,
+                outputs: |response: ZomeApiResult&lt;String&gt;|,
+                handler: handle_send_message
+            }
+        }
+    }
+}
+#}</code></pre></pre>
+<p>To see plenty of examples of adding functions, check out a file used for <a href="https://github.com/holochain/holochain-rust/blob/v0.0.3/hdk-rust/wasm-test/src/lib.rs">testing the many capacities of the HDK</a>.</p>
+<p>Otherwise, continue reading to learn all about the API Functions and examples of how to use them.</p>
 <a class="header" href="#read--write-data-operations" id="read--write-data-operations"><h1>Read &amp; Write Data Operations</h1></a>
 <a class="header" href="#entry-validation" id="entry-validation"><h1>Entry Validation</h1></a>
 <a class="header" href="#linking" id="linking"><h1>Linking</h1></a>
