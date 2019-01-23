@@ -756,7 +756,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">reduce_hold_entry_test</span>() {
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>, <span class="prelude-val">None</span>);
         <span class="kw">let</span> <span class="ident">store</span> <span class="op">=</span> <span class="ident">test_store</span>(<span class="ident">context</span>.<span class="ident">clone</span>());
 
         <span class="comment">// test_entry is not sys so should do nothing</span>
@@ -791,7 +791,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">can_add_links</span>() {
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>, <span class="prelude-val">None</span>);
         <span class="kw">let</span> <span class="ident">store</span> <span class="op">=</span> <span class="ident">test_store</span>(<span class="ident">context</span>.<span class="ident">clone</span>());
         <span class="kw">let</span> <span class="ident">entry</span> <span class="op">=</span> <span class="ident">test_entry</span>();
 
@@ -829,7 +829,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">does_not_add_link_for_missing_base</span>() {
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>, <span class="prelude-val">None</span>);
         <span class="kw">let</span> <span class="ident">store</span> <span class="op">=</span> <span class="ident">test_store</span>(<span class="ident">context</span>.<span class="ident">clone</span>());
         <span class="kw">let</span> <span class="ident">entry</span> <span class="op">=</span> <span class="ident">test_entry</span>();
 
@@ -865,7 +865,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reduce_hold_test</span>() {
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bill&quot;</span>);
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bill&quot;</span>, <span class="prelude-val">None</span>);
         <span class="kw">let</span> <span class="ident">store</span> <span class="op">=</span> <span class="ident">test_store</span>(<span class="ident">context</span>.<span class="ident">clone</span>());
 
         <span class="kw">let</span> <span class="ident">entry</span> <span class="op">=</span> <span class="ident">test_entry</span>();

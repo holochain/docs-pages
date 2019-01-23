@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["NetConnectionThread","a NetConnection instance that is managed on another thread"]]});
+initSidebarItems({"struct":[["NetConnectionThread","Struct for holding a network connection running on a separate thread. It is itself a NetSend, and spawns a NetWorker."]]});

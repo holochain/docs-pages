@@ -34,18 +34,16 @@
 <span id="34">34</span>
 <span id="35">35</span>
 <span id="36">36</span>
-<span id="37">37</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">action</span>::<span class="ident">ActionWrapper</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">sync</span>::<span class="ident">mpsc</span>::{<span class="ident">channel</span>, <span class="ident">sync_channel</span>, <span class="ident">Receiver</span>, <span class="ident">SyncSender</span>},
     <span class="ident">thread</span>,
 };
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">action</span>::<span class="ident">Action</span>;
-
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Signal</span> {
-    <span class="ident">Internal</span>(<span class="ident">Action</span>),
+    <span class="ident">Internal</span>(<span class="ident">ActionWrapper</span>),
     <span class="ident">User</span>,
 }
 

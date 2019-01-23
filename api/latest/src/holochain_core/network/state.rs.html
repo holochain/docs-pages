@@ -106,7 +106,7 @@
 <span id="106">106</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">action</span>::<span class="ident">ActionWrapper</span>,
+    <span class="ident">action</span>::{<span class="ident">ActionWrapper</span>, <span class="ident">GetEntryKey</span>, <span class="ident">GetLinksKey</span>},
     <span class="ident">network</span>::{<span class="ident">actions</span>::<span class="ident">ActionResponse</span>, <span class="ident">direct_message</span>::<span class="ident">DirectMessage</span>},
 };
 <span class="kw">use</span> <span class="ident">boolinator</span>::<span class="kw-2">*</span>;
@@ -156,13 +156,13 @@
 
     <span class="doccomment">/// Here we store the results of GET entry processes.</span>
     <span class="doccomment">/// None means that we are still waiting for a result from the network.</span>
-    <span class="kw">pub</span> <span class="ident">get_entry_with_meta_results</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">GetEntryWithMetaResult</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">get_entry_with_meta_results</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">GetEntryKey</span>, <span class="ident">GetEntryWithMetaResult</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Here we store the results of GET links processes.</span>
     <span class="doccomment">/// The key of this map is the base address and the tag name for which the links</span>
     <span class="doccomment">/// are requested.</span>
     <span class="doccomment">/// None means that we are still waiting for a result from the network.</span>
-    <span class="kw">pub</span> <span class="ident">get_links_results</span>: <span class="ident">HashMap</span><span class="op">&lt;</span>(<span class="ident">Address</span>, <span class="ident">String</span>), <span class="ident">GetLinksResult</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">get_links_results</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">GetLinksKey</span>, <span class="ident">GetLinksResult</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Here we store the results of get validation package processes.</span>
     <span class="doccomment">/// None means that we are still waiting for a result from the network.</span>
@@ -206,7 +206,7 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">initialized</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> {
-        (<span class="self">self</span>.<span class="ident">network</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">dna_address</span>.<span class="ident">is_some</span>() <span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">is_some</span>()).<span class="ident">ok_or</span>(
+        (<span class="self">self</span>.<span class="ident">network</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">dna_address</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">is_some</span>()).<span class="ident">ok_or</span>(
             <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="string">&quot;Network not initialized&quot;</span>.<span class="ident">to_string</span>()),
         )
     }

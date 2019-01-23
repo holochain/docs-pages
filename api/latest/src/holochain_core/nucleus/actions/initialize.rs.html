@@ -151,6 +151,9 @@
 <span id="151">151</span>
 <span id="152">152</span>
 <span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -220,7 +223,7 @@
 
     <span class="comment">// Commit AgentId to chain</span>
     <span class="kw">let</span> <span class="ident">agent_id_entry</span> <span class="op">=</span> <span class="ident">Entry</span>::<span class="ident">AgentId</span>(<span class="ident">context_clone</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>());
-    <span class="kw">let</span> <span class="ident">agent_id_commit</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">commit_entry</span>(<span class="ident">agent_id_entry</span>, <span class="prelude-val">None</span>, <span class="kw-2">&amp;</span><span class="ident">context_clone</span>,));
+    <span class="kw">let</span> <span class="ident">agent_id_commit</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">commit_entry</span>(<span class="ident">agent_id_entry</span>, <span class="prelude-val">None</span>, <span class="kw-2">&amp;</span><span class="ident">context_clone</span>));
 
     <span class="comment">// Let initialization fail if AgentId could not be committed.</span>
     <span class="comment">// Currently this cannot happen since ToEntry for Agent always creates</span>
@@ -237,6 +240,8 @@
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">new</span>(<span class="string">&quot;error committing Agent&quot;</span>));
     }
 
+    <span class="comment">// TODO: Question: genesis is called AFTER dna and agent entries committed??</span>
+
     <span class="comment">// map genesis across every zome</span>
     <span class="kw">let</span> <span class="ident">results</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">dna</span>
         .<span class="ident">zomes</span>
@@ -244,15 +249,16 @@
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">zome_name</span><span class="op">|</span> <span class="ident">genesis</span>(<span class="ident">context_clone</span>.<span class="ident">clone</span>(), <span class="ident">zome_name</span>, <span class="kw-2">&amp;</span><span class="ident">CallbackParams</span>::<span class="ident">Genesis</span>))
         .<span class="ident">collect</span>();
 
-    <span class="kw">let</span> <span class="ident">fail_result</span> <span class="op">=</span> <span class="ident">results</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">r</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">r</span> {
-        <span class="ident">CallbackResult</span>::<span class="ident">Fail</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
-    });
-
-    <span class="kw">let</span> <span class="ident">maybe_error</span> <span class="op">=</span> <span class="ident">fail_result</span>.<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="ident">CallbackResult</span>::<span class="ident">Fail</span>(<span class="ident">error_string</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">error_string</span>.<span class="ident">clone</span>()),
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-    });
+    <span class="kw">let</span> <span class="ident">maybe_error</span> <span class="op">=</span> <span class="ident">results</span>
+        .<span class="ident">iter</span>()
+        .<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">r</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">r</span> {
+            <span class="ident">CallbackResult</span>::<span class="ident">Fail</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+        })
+        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">result</span> {
+            <span class="ident">CallbackResult</span>::<span class="ident">Fail</span>(<span class="ident">error_string</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">error_string</span>.<span class="ident">clone</span>()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+        });
 
     <span class="ident">context_clone</span>
         .<span class="ident">action_channel</span>()

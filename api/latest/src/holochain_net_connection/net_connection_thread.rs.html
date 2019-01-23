@@ -217,22 +217,26 @@
 <span id="217">217</span>
 <span id="218">218</span>
 <span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">NetResult</span>;
-
 <span class="kw">use</span> <span class="kw">super</span>::{
-    <span class="ident">net_connection</span>::{<span class="ident">NetConnection</span>, <span class="ident">NetHandler</span>, <span class="ident">NetShutdown</span>, <span class="ident">NetWorkerFactory</span>},
+    <span class="ident">net_connection</span>::{<span class="ident">NetHandler</span>, <span class="ident">NetSend</span>, <span class="ident">NetShutdown</span>, <span class="ident">NetWorkerFactory</span>},
     <span class="ident">protocol</span>::<span class="ident">Protocol</span>,
+    <span class="ident">NetResult</span>,
+};
+<span class="kw">use</span> <span class="ident">std</span>::{
+    <span class="ident">sync</span>::{
+        <span class="ident">atomic</span>::{<span class="ident">AtomicBool</span>, <span class="ident">Ordering</span>},
+        <span class="ident">mpsc</span>, <span class="ident">Arc</span>,
+    },
+    <span class="ident">thread</span>, <span class="ident">time</span>,
 };
 
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">thread</span>, <span class="ident">time</span>};
-
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{
-    <span class="ident">atomic</span>::{<span class="ident">AtomicBool</span>, <span class="ident">Ordering</span>},
-    <span class="ident">mpsc</span>, <span class="ident">Arc</span>,
-};
-
-<span class="doccomment">/// a NetConnection instance that is managed on another thread</span>
+<span class="doccomment">/// Struct for holding a network connection running on a separate thread.</span>
+<span class="doccomment">/// It is itself a NetSend, and spawns a NetWorker.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NetConnectionThread</span> {
     <span class="ident">can_keep_running</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">AtomicBool</span><span class="op">&gt;</span>,
     <span class="ident">send_channel</span>: <span class="ident">mpsc</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span>,
@@ -241,8 +245,8 @@
     <span class="kw">pub</span> <span class="ident">endpoint</span>: <span class="ident">String</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">NetConnection</span> <span class="kw">for</span> <span class="ident">NetConnectionThread</span> {
-    <span class="doccomment">/// send a message to the worker within this NetConnectionThread instance</span>
+<span class="kw">impl</span> <span class="ident">NetSend</span> <span class="kw">for</span> <span class="ident">NetConnectionThread</span> {
+    <span class="doccomment">/// send a message to the worker within NetConnectionThread&#39;s child thread.</span>
     <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="ident">Protocol</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">send_channel</span>.<span class="ident">send</span>(<span class="ident">data</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
@@ -250,57 +254,48 @@
 }
 
 <span class="kw">impl</span> <span class="ident">NetConnectionThread</span> {
-    <span class="doccomment">/// stop (join) the worker thread</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">stop</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">can_keep_running</span>.<span class="ident">store</span>(<span class="bool-val">false</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">thread</span>.<span class="ident">join</span>().<span class="ident">is_err</span>() {
-            <span class="macro">bail</span><span class="macro">!</span>(<span class="string">&quot;NetConnectionThread failed to join on stop() call&quot;</span>);
-        }
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">done</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">done</span> {
-            <span class="ident">done</span>();
-        }
-        <span class="prelude-val">Ok</span>(())
-    }
-
-    <span class="doccomment">/// Create a new NetConnectionThread instance with given handler / worker</span>
+    <span class="doccomment">/// NetSendThread Constructor.</span>
+    <span class="doccomment">/// Spawns a thread that will create and run a NetWorker with the given factory, handler and</span>
+    <span class="doccomment">/// shutdown closure.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">handler</span>: <span class="ident">NetHandler</span>,
         <span class="ident">worker_factory</span>: <span class="ident">NetWorkerFactory</span>,
         <span class="ident">done</span>: <span class="ident">NetShutdown</span>,
     ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="comment">// Create atomic TRUE</span>
+        <span class="comment">// Create shared bool between self and spawned thread</span>
         <span class="kw">let</span> <span class="ident">can_keep_running</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">AtomicBool</span>::<span class="ident">new</span>(<span class="bool-val">true</span>));
-        <span class="kw">let</span> <span class="ident">can_keep_running_shared</span> <span class="op">=</span> <span class="ident">can_keep_running</span>.<span class="ident">clone</span>();
-        <span class="comment">// Create channel</span>
+        <span class="kw">let</span> <span class="ident">can_keep_running_child</span> <span class="op">=</span> <span class="ident">can_keep_running</span>.<span class="ident">clone</span>();
+        <span class="comment">// Create channels between self and spawned thread</span>
         <span class="kw">let</span> (<span class="ident">send_channel</span>, <span class="ident">recv_channel</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">channel</span>();
-
         <span class="kw">let</span> (<span class="ident">send_endpoint</span>, <span class="ident">recv_endpoint</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">channel</span>();
 
-        <span class="comment">// spawn worker thread</span>
+        <span class="comment">// Spawn worker thread</span>
         <span class="kw">let</span> <span class="ident">thread</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="comment">// Create worker</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">worker</span> <span class="op">=</span> <span class="ident">worker_factory</span>(<span class="ident">handler</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
-
+            <span class="comment">// Get endpoint and send it to owner (NetConnectionThread)</span>
             <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="ident">worker</span>.<span class="ident">endpoint</span>();
             <span class="ident">send_endpoint</span>
                 .<span class="ident">send</span>(<span class="ident">endpoint</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Sending endpoint address should work.&quot;</span>);
             <span class="ident">drop</span>(<span class="ident">send_endpoint</span>);
-            <span class="comment">// Loop as long NetConnectionThread wants to</span>
+            <span class="comment">// Loop as long owner wants to</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sleep_duration_us</span> <span class="op">=</span> <span class="number">100_u64</span>;
-            <span class="kw">while</span> <span class="ident">can_keep_running_shared</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) {
-                <span class="comment">// Check if we received something from the network</span>
+            <span class="kw">while</span> <span class="ident">can_keep_running_child</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) {
+                <span class="comment">// Check if we received something from parent (NetConnectionThread::send())</span>
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">false</span>;
                 <span class="ident">recv_channel</span>
                     .<span class="ident">try_recv</span>()
                     .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">data</span><span class="op">|</span> {
-                        <span class="comment">// Send it to the worker</span>
+                        <span class="comment">// Received data from parent</span>
+                        <span class="comment">// Have the worker handle it</span>
                         <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">true</span>;
                         <span class="ident">worker</span>.<span class="ident">receive</span>(<span class="ident">data</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
                         <span class="prelude-val">Ok</span>(())
                     })
                     .<span class="ident">unwrap_or</span>(());
-                <span class="comment">// Tick the worker (it might do a send)</span>
+                <span class="comment">// Tick the worker</span>
+                <span class="comment">// (it might call the handler if it received a message from the network)</span>
                 <span class="ident">worker</span>
                     .<span class="ident">tick</span>()
                     .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">b</span><span class="op">|</span> {
@@ -327,6 +322,7 @@
             <span class="ident">worker</span>.<span class="ident">stop</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
         });
 
+        <span class="comment">// Retrieve endpoint from spawned thread</span>
         <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="ident">recv_endpoint</span>
             .<span class="ident">recv</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;Failed to receive endpoint address from net worker&quot;</span>);
@@ -343,13 +339,25 @@
             <span class="ident">endpoint</span>,
         })
     }
+
+    <span class="doccomment">/// stop the worker thread (join)</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">stop</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// tell child thread to stop running</span>
+        <span class="self">self</span>.<span class="ident">can_keep_running</span>.<span class="ident">store</span>(<span class="bool-val">false</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">thread</span>.<span class="ident">join</span>().<span class="ident">is_err</span>() {
+            <span class="macro">bail</span><span class="macro">!</span>(<span class="string">&quot;NetConnectionThread failed to join on stop() call&quot;</span>);
+        }
+        <span class="comment">// Call shutdown closure if any</span>
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">done</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">done</span> {
+            <span class="ident">done</span>();
+        }
+        <span class="prelude-val">Ok</span>(())
+    }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::<span class="ident">net_connection</span>::<span class="ident">NetWorker</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::{<span class="kw">super</span>::<span class="ident">net_connection</span>::<span class="ident">NetWorker</span>, <span class="kw-2">*</span>};
 
     <span class="kw">struct</span> <span class="ident">DefWorker</span>;
 
@@ -368,11 +376,11 @@
         <span class="ident">con</span>.<span class="ident">stop</span>().<span class="ident">unwrap</span>();
     }
 
-    <span class="kw">struct</span> <span class="ident">Worker</span> {
+    <span class="kw">struct</span> <span class="ident">SimpleWorker</span> {
         <span class="ident">handler</span>: <span class="ident">NetHandler</span>,
     }
 
-    <span class="kw">impl</span> <span class="ident">NetWorker</span> <span class="kw">for</span> <span class="ident">Worker</span> {
+    <span class="kw">impl</span> <span class="ident">NetWorker</span> <span class="kw">for</span> <span class="ident">SimpleWorker</span> {
         <span class="kw">fn</span> <span class="ident">tick</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
             (<span class="self">self</span>.<span class="ident">handler</span>)(<span class="prelude-val">Ok</span>(<span class="string">&quot;tick&quot;</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
@@ -392,7 +400,7 @@
                 <span class="ident">sender</span>.<span class="ident">send</span>(<span class="ident">r</span><span class="question-mark">?</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }),
-            <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">h</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Worker</span> { <span class="ident">handler</span>: <span class="ident">h</span> }) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>)),
+            <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">h</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">SimpleWorker</span> { <span class="ident">handler</span>: <span class="ident">h</span> }) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>)),
             <span class="prelude-val">None</span>,
         )
         .<span class="ident">unwrap</span>();
@@ -425,7 +433,7 @@
                 <span class="ident">sender</span>.<span class="ident">send</span>(<span class="ident">r</span><span class="question-mark">?</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }),
-            <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">h</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Worker</span> { <span class="ident">handler</span>: <span class="ident">h</span> }) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>)),
+            <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">h</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">SimpleWorker</span> { <span class="ident">handler</span>: <span class="ident">h</span> }) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>)),
             <span class="prelude-val">None</span>,
         )
         .<span class="ident">unwrap</span>();

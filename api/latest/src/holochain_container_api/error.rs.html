@@ -99,17 +99,9 @@
 <span id="99"> 99</span>
 <span id="100">100</span>
 <span id="101">101</span>
-<span id="102">102</span>
-<span id="103">103</span>
-<span id="104">104</span>
-<span id="105">105</span>
-<span id="106">106</span>
-<span id="107">107</span>
-<span id="108">108</span>
-<span id="109">109</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">error</span>::<span class="ident">Error</span>, <span class="ident">fmt</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">error</span>::<span class="ident">Error</span>, <span class="ident">fmt</span>, <span class="ident">option</span>::<span class="ident">NoneError</span>};
 
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">HolochainResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">HolochainInstanceError</span><span class="op">&gt;</span>;
 
@@ -119,19 +111,10 @@
     <span class="ident">InternalFailure</span>(<span class="ident">HolochainError</span>),
     <span class="ident">InstanceNotActiveYet</span>,
     <span class="ident">InstanceAlreadyActive</span>,
+    <span class="ident">NoSuchInstance</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Error</span> <span class="kw">for</span> <span class="ident">HolochainInstanceError</span> {
-    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">HolochainInstanceError</span>::<span class="ident">InternalFailure</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="op">=&gt;</span> <span class="ident">err</span>.<span class="ident">description</span>(),
-            <span class="ident">HolochainInstanceError</span>::<span class="ident">InstanceNotActiveYet</span> <span class="op">=&gt;</span> <span class="string">&quot;Holochain instance is not active yet.&quot;</span>,
-            <span class="ident">HolochainInstanceError</span>::<span class="ident">InstanceAlreadyActive</span> <span class="op">=&gt;</span> {
-                <span class="string">&quot;Holochain instance is already active.&quot;</span>
-            }
-        }
-    }
-
     <span class="comment">// not sure how to test this because dyn reference to the Error is not implementing PartialEq</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">rustfmt</span>, <span class="ident">rustfmt_skip</span>)]</span>
     <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Error</span><span class="op">&gt;</span> {
@@ -139,13 +122,26 @@
             <span class="ident">HolochainInstanceError</span>::<span class="ident">InternalFailure</span>(<span class="kw-2">ref</span> <span class="ident">err</span>)  <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
             <span class="ident">HolochainInstanceError</span>::<span class="ident">InstanceNotActiveYet</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
             <span class="ident">HolochainInstanceError</span>::<span class="ident">InstanceAlreadyActive</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">HolochainInstanceError</span>::<span class="ident">NoSuchInstance</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">HolochainInstanceError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Holochain Instance Error: {}&quot;</span>, <span class="self">self</span>.<span class="ident">description</span>())
+        <span class="kw">let</span> <span class="ident">prefix</span> <span class="op">=</span> <span class="string">&quot;Holochain Instance Error&quot;</span>;
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">HolochainInstanceError</span>::<span class="ident">InternalFailure</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}: {}&quot;</span>, <span class="ident">prefix</span>, <span class="ident">err</span>),
+            <span class="ident">HolochainInstanceError</span>::<span class="ident">InstanceNotActiveYet</span> <span class="op">=&gt;</span> {
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}: Holochain instance is not active yet.&quot;</span>, <span class="ident">prefix</span>)
+            }
+            <span class="ident">HolochainInstanceError</span>::<span class="ident">InstanceAlreadyActive</span> <span class="op">=&gt;</span> {
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}: Holochain instance is already active.&quot;</span>, <span class="ident">prefix</span>)
+            }
+            <span class="ident">HolochainInstanceError</span>::<span class="ident">NoSuchInstance</span> <span class="op">=&gt;</span> {
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}: Instance does not exist&quot;</span>, <span class="ident">prefix</span>)
+            }
+        }
     }
 }
 
@@ -155,33 +151,17 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">NoneError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">HolochainInstanceError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">NoneError</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">HolochainInstanceError</span>::<span class="ident">NoSuchInstance</span>
+    }
+}
+
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
 
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">HolochainInstanceError</span>;
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>;
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span>;
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="doccomment">/// show ToString for HolochainInstanceError</span>
-    <span class="kw">fn</span> <span class="ident">holochain_instance_error_description_test</span>() {
-        <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">o</span>) <span class="kw">in</span> <span class="macro">vec</span><span class="macro">!</span>[
-            (
-                <span class="ident">HolochainInstanceError</span>::<span class="ident">InstanceNotActiveYet</span>,
-                <span class="string">&quot;Holochain instance is not active yet.&quot;</span>,
-            ),
-            (
-                <span class="ident">HolochainInstanceError</span>::<span class="ident">InstanceAlreadyActive</span>,
-                <span class="string">&quot;Holochain instance is already active.&quot;</span>,
-            ),
-            (
-                <span class="ident">HolochainInstanceError</span>::<span class="ident">InternalFailure</span>(<span class="ident">HolochainError</span>::<span class="ident">DnaMissing</span>),
-                <span class="string">&quot;DNA is missing&quot;</span>,
-            ),
-        ] {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">i</span>.<span class="ident">description</span>(), <span class="ident">o</span>,);
-        }
-    }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="doccomment">/// show ToString for HolochainInstanceError</span>
@@ -198,6 +178,10 @@
             (
                 <span class="ident">HolochainInstanceError</span>::<span class="ident">InternalFailure</span>(<span class="ident">HolochainError</span>::<span class="ident">DnaMissing</span>),
                 <span class="string">&quot;DNA is missing&quot;</span>,
+            ),
+            (
+                <span class="ident">HolochainInstanceError</span>::<span class="ident">NoSuchInstance</span>,
+                <span class="string">&quot;Instance does not exist&quot;</span>,
             ),
         ] {
             <span class="macro">assert_eq</span><span class="macro">!</span>(

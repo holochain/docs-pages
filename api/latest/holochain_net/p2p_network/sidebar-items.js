@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["P2pNetwork","The p2p network instance"]]});
+initSidebarItems({"struct":[["P2pNetwork","Facade handling a p2p module responsable for the network connection Holds a NetConnectionThread and implements itself the NetSend Trait `send()` is used for sending Protocol messages to the network `handler` closure provide on construction for handling Protocol messages received from the network."]]});

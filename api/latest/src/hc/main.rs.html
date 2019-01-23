@@ -178,6 +178,15 @@
 <span id="178">178</span>
 <span id="179">179</span>
 <span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_cas_implementations</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_container_api</span>;
@@ -272,7 +281,7 @@
     <span class="attribute">#[<span class="ident">structopt</span>(
         <span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;run&quot;</span>,
         <span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;r&quot;</span>,
-        <span class="ident">about</span> <span class="op">=</span> <span class="string">&quot;Starts a development container with an open websocket&quot;</span>
+        <span class="ident">about</span> <span class="op">=</span> <span class="string">&quot;Starts a development container with a websocket or http interface&quot;</span>
     )]</span>
     <span class="ident">Run</span> {
         <span class="attribute">#[<span class="ident">structopt</span>(
@@ -292,6 +301,13 @@
         <span class="ident">persist</span>: <span class="ident">bool</span>,
         <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Use real networking&quot;</span>)]</span>
         <span class="ident">networked</span>: <span class="ident">bool</span>,
+        <span class="attribute">#[<span class="ident">structopt</span>(
+            <span class="ident">long</span>,
+            <span class="ident">short</span>,
+            <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Specify interface type to use: websocket/http&quot;</span>,
+            <span class="ident">default_value</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>
+        )]</span>
+        <span class="ident">interface</span>: <span class="ident">String</span>,
     },
     <span class="attribute">#[<span class="ident">structopt</span>(
         <span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;test&quot;</span>,
@@ -344,7 +360,9 @@
             <span class="ident">port</span>,
             <span class="ident">persist</span>,
             <span class="ident">networked</span>,
-        } <span class="op">=&gt;</span> <span class="ident">cli</span>::<span class="ident">run</span>(<span class="ident">package</span>, <span class="ident">port</span>, <span class="ident">persist</span>, <span class="ident">networked</span>).<span class="ident">map_err</span>(<span class="ident">HolochainError</span>::<span class="ident">Default</span>)<span class="question-mark">?</span>,
+            <span class="ident">interface</span>,
+        } <span class="op">=&gt;</span> <span class="ident">cli</span>::<span class="ident">run</span>(<span class="ident">package</span>, <span class="ident">port</span>, <span class="ident">persist</span>, <span class="ident">networked</span>, <span class="ident">interface</span>)
+            .<span class="ident">map_err</span>(<span class="ident">HolochainError</span>::<span class="ident">Default</span>)<span class="question-mark">?</span>,
         <span class="ident">Cli</span>::<span class="ident">Test</span> {
             <span class="ident">dir</span>,
             <span class="ident">testfile</span>,

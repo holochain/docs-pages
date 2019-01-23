@@ -61,10 +61,15 @@
 <span id="61">61</span>
 <span id="62">62</span>
 <span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
+    <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>, <span class="ident">GetLinksKey</span>},
     <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">instance</span>::<span class="ident">dispatch_action</span>,
 };
@@ -73,6 +78,7 @@
     <span class="ident">task</span>::{<span class="ident">LocalWaker</span>, <span class="ident">Poll</span>},
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">error</span>::<span class="ident">HcResult</span>};
+<span class="kw">use</span> <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">pin</span>::<span class="ident">Pin</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>, <span class="ident">thread</span>::<span class="ident">sleep</span>, <span class="ident">time</span>::<span class="ident">Duration</span>};
 
 <span class="doccomment">/// GetLinks Action Creator</span>
@@ -83,19 +89,23 @@
     <span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Address</span>,
     <span class="ident">tag</span>: <span class="ident">String</span>,
 ) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;&gt;</span> {
-    <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">GetLinks</span>((<span class="ident">address</span>.<span class="ident">clone</span>(), <span class="ident">tag</span>.<span class="ident">clone</span>())));
+    <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">GetLinksKey</span> {
+        <span class="ident">base_address</span>: <span class="ident">address</span>.<span class="ident">clone</span>(),
+        <span class="ident">tag</span>: <span class="ident">tag</span>.<span class="ident">clone</span>(),
+        <span class="ident">id</span>: <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>(),
+    };
+    <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">GetLinks</span>(<span class="ident">key</span>.<span class="ident">clone</span>()));
     <span class="ident">dispatch_action</span>(<span class="ident">context</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
 
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="kw">async</span> {
         <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">60</span>));
-        <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span>
-            <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">GetLinksTimeout</span>((<span class="ident">address</span>.<span class="ident">clone</span>(), <span class="ident">tag</span>.<span class="ident">clone</span>())));
+        <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">GetLinksTimeout</span>(<span class="ident">key</span>.<span class="ident">clone</span>()));
         <span class="ident">dispatch_action</span>(<span class="ident">context</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
     };
 
     <span class="macro">await</span><span class="macro">!</span>(<span class="ident">GetLinksFuture</span> {
         <span class="ident">context</span>: <span class="ident">context</span>.<span class="ident">clone</span>(),
-        <span class="ident">key</span>: (<span class="ident">address</span>.<span class="ident">clone</span>(), <span class="ident">tag</span>.<span class="ident">clone</span>())
+        <span class="ident">key</span>
     })
 }
 
@@ -103,7 +113,7 @@
 <span class="doccomment">/// Tracks the state of the network module</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetLinksFuture</span> {
     <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
-    <span class="ident">key</span>: (<span class="ident">Address</span>, <span class="ident">String</span>),
+    <span class="ident">key</span>: <span class="ident">GetLinksKey</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Future</span> <span class="kw">for</span> <span class="ident">GetLinksFuture</span> {

@@ -330,9 +330,9 @@
 
 <span class="comment">// TODO this is actually silly and we should allocate colors to IDs so they aren&#39;t likely to collide</span>
 <span class="kw">fn</span> <span class="ident">pick_color</span>(<span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">total</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">total</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0</span>;
     <span class="kw">for</span> <span class="ident">b</span> <span class="kw">in</span> <span class="ident">text</span>.<span class="ident">to_string</span>().<span class="ident">into_bytes</span>() {
-        <span class="ident">total</span> <span class="op">+=</span> <span class="ident">b</span>;
+        <span class="ident">total</span> <span class="op">+=</span> <span class="ident">b</span> <span class="kw">as</span> <span class="ident">u16</span>;
     }
     <span class="ident">ID_COLORS</span>[(<span class="ident">total</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">%</span> <span class="ident">ID_COLORS</span>.<span class="ident">len</span>()]
 }

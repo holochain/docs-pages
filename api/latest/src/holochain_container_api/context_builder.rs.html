@@ -296,7 +296,7 @@
     }
 
     <span class="doccomment">/// Actually creates the context.</span>
-    <span class="doccomment">/// Defaults to memory storages, a mock network config and a fake agent called &quot;alice&quot;.</span>
+    <span class="doccomment">/// Defaults to memory storages, an in-memory network config and a fake agent called &quot;alice&quot;.</span>
     <span class="doccomment">/// The logger gets set to SimpleLogger.</span>
     <span class="doccomment">/// The persister gets set to SimplePersister based on the chain storage.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">spawn</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Context</span> {
@@ -316,9 +316,9 @@
             <span class="ident">chain_storage</span>,
             <span class="ident">dht_storage</span>,
             <span class="ident">eav_storage</span>,
-            <span class="self">self</span>.<span class="ident">network_config</span>.<span class="ident">unwrap_or</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(
-                <span class="ident">P2pConfig</span>::<span class="ident">unique_mock_config</span>(),
-            ))),
+            <span class="self">self</span>.<span class="ident">network_config</span>.<span class="ident">unwrap_or</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+                <span class="ident">P2pConfig</span>::<span class="ident">new_with_unique_memory_backend</span>().<span class="ident">as_str</span>(),
+            )),
             <span class="self">self</span>.<span class="ident">container_api</span>,
             <span class="self">self</span>.<span class="ident">signal_tx</span>,
         )
@@ -337,7 +337,7 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">context</span>
             .<span class="ident">network_config</span>
             .<span class="ident">to_string</span>()
-            .<span class="ident">contains</span>(<span class="string">r#&quot;&quot;backend_kind&quot;: &quot;MOCK&quot;&quot;#</span>));
+            .<span class="ident">contains</span>(<span class="string">r#&quot;&quot;backend_kind&quot;:&quot;MEMORY&quot;&quot;#</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -349,7 +349,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">with_network_config</span>() {
-        <span class="kw">let</span> <span class="ident">net</span> <span class="op">=</span> <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">P2pConfig</span>::<span class="ident">unique_mock_config</span>()));
+        <span class="kw">let</span> <span class="ident">net</span> <span class="op">=</span> <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">P2pConfig</span>::<span class="ident">new_with_unique_memory_backend</span>().<span class="ident">as_str</span>());
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">ContextBuilder</span>::<span class="ident">new</span>()
             .<span class="ident">with_network_config</span>(<span class="ident">net</span>.<span class="ident">clone</span>())
             .<span class="ident">spawn</span>();

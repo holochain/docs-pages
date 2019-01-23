@@ -47,8 +47,8 @@
 };
 <span class="kw">use</span> <span class="ident">holochain_net</span>::{<span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>, <span class="ident">p2p_network</span>::<span class="ident">P2pNetwork</span>};
 <span class="kw">use</span> <span class="ident">holochain_net_connection</span>::{
-    <span class="ident">net_connection</span>::<span class="ident">NetConnection</span>,
-    <span class="ident">protocol_wrapper</span>::{<span class="ident">ProtocolWrapper</span>, <span class="ident">TrackAppData</span>},
+    <span class="ident">json_protocol</span>::{<span class="ident">JsonProtocol</span>, <span class="ident">TrackDnaData</span>},
+    <span class="ident">net_connection</span>::<span class="ident">NetSend</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">str</span>::<span class="ident">FromStr</span>,
@@ -68,7 +68,7 @@
 
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">network</span>
         .<span class="ident">send</span>(
-            <span class="ident">ProtocolWrapper</span>::<span class="ident">TrackApp</span>(<span class="ident">TrackAppData</span> {
+            <span class="ident">JsonProtocol</span>::<span class="ident">TrackDna</span>(<span class="ident">TrackDnaData</span> {
                 <span class="ident">dna_address</span>: <span class="ident">network_settings</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
                 <span class="ident">agent_id</span>: <span class="ident">network_settings</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>(),
             })

@@ -57,7 +57,7 @@
     <span class="ident">network</span>::{<span class="ident">actions</span>::<span class="ident">ActionResponse</span>, <span class="ident">reducers</span>::<span class="ident">send</span>, <span class="ident">state</span>::<span class="ident">NetworkState</span>},
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>};
-<span class="kw">use</span> <span class="ident">holochain_net_connection</span>::<span class="ident">protocol_wrapper</span>::{<span class="ident">DhtMetaData</span>, <span class="ident">GetDhtMetaData</span>, <span class="ident">ProtocolWrapper</span>};
+<span class="kw">use</span> <span class="ident">holochain_net_connection</span>::<span class="ident">json_protocol</span>::{<span class="ident">DhtMetaData</span>, <span class="ident">GetDhtMetaData</span>, <span class="ident">JsonProtocol</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
 
 <span class="kw">fn</span> <span class="ident">reduce_respond_get_links_inner</span>(
@@ -69,7 +69,7 @@
 
     <span class="ident">send</span>(
         <span class="ident">network_state</span>,
-        <span class="ident">ProtocolWrapper</span>::<span class="ident">GetDhtMetaResult</span>(<span class="ident">DhtMetaData</span> {
+        <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetDhtMetaResult</span>(<span class="ident">DhtMetaData</span> {
             <span class="ident">msg_id</span>: <span class="ident">get_dht_meta_data</span>.<span class="ident">msg_id</span>.<span class="ident">clone</span>(),
             <span class="ident">dna_address</span>: <span class="ident">network_state</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>(),
             <span class="ident">agent_id</span>: <span class="ident">get_dht_meta_data</span>.<span class="ident">from_agent_id</span>.<span class="ident">clone</span>(),

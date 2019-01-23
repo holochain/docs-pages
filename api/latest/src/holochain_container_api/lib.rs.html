@@ -131,13 +131,18 @@
 <span id="131">131</span>
 <span id="132">132</span>
 <span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! let file_system = Arc::new(RwLock::new(FilesystemStorage::new(tempdir().unwrap().path().to_str().unwrap()).unwrap()));</span>
 <span class="doccomment">//!     Arc::new(Mutex::new(SimplePersister::new(file_system.clone()))),</span>
 <span class="doccomment">//!     file_system.clone(),</span>
 
-<span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>, <span class="ident">async_await</span>, <span class="ident">await_macro</span>)]</span>
-
+<span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>, <span class="ident">try_trait</span>, <span class="ident">async_await</span>, <span class="ident">await_macro</span>)]</span>
 <span class="doccomment">/// Holochain Container API</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This crate is a library that provides types and functions that help with building</span>
@@ -253,7 +258,13 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">toml</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">maplit</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">dirs</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">directories</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">hyper</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">hyper_staticfile</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tokio</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">config</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">container</span>;
@@ -263,6 +274,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">interface</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">interface_impls</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">logger</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">static_file_server</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">holochain</span>::<span class="ident">Holochain</span>;
 </pre></div>

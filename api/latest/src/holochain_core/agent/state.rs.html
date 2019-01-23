@@ -396,6 +396,7 @@
 <span id="396">396</span>
 <span id="397">397</span>
 <span id="398">398</span>
+<span id="399">399</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>, <span class="ident">AgentReduceFn</span>},
@@ -703,9 +704,10 @@
     <span class="doccomment">/// test for reducing commit entry</span>
     <span class="kw">fn</span> <span class="ident">test_reduce_commit_entry</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">agent_state</span> <span class="op">=</span> <span class="ident">test_agent_state</span>();
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
+        <span class="kw">let</span> <span class="ident">netname</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;test_reduce_commit_entry&quot;</span>);
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>, <span class="ident">netname</span>);
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">new_with_agent</span>(<span class="ident">context</span>, <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">agent_state</span>.<span class="ident">clone</span>()));
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>, <span class="ident">netname</span>);
         <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">context</span>)
             .<span class="ident">unwrap</span>()
             .<span class="ident">set_state</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">state</span>)));

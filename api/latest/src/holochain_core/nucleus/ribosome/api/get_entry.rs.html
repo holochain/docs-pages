@@ -294,6 +294,8 @@
 <span id="294">294</span>
 <span id="295">295</span>
 <span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>},
@@ -466,14 +468,16 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="doccomment">/// test that we can round trip bytes through a get action and it comes back from wasm</span>
     <span class="kw">fn</span> <span class="ident">test_get_round_trip</span>() {
+        <span class="kw">let</span> <span class="ident">netname</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;test_get_round_trip&quot;</span>);
         <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">test_get_round_trip_wat</span>();
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wasm</span>(
             <span class="kw-2">&amp;</span><span class="ident">test_zome_name</span>(),
             <span class="kw-2">&amp;</span><span class="ident">test_capability_name</span>(),
             <span class="ident">wasm</span>.<span class="ident">clone</span>(),
         );
-        <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">test_instance</span>(<span class="ident">dna</span>.<span class="ident">clone</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
-        <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context_and_logger</span>(<span class="string">&quot;joan&quot;</span>);
+        <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span>
+            <span class="ident">test_instance</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">netname</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
+        <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context_and_logger</span>(<span class="string">&quot;joan&quot;</span>, <span class="ident">netname</span>);
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize_context</span>(<span class="ident">context</span>);
 
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">instance</span>.<span class="ident">state</span>().<span class="ident">agent</span>().<span class="ident">top_chain_header</span>());

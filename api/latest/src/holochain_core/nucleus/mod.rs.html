@@ -873,7 +873,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">ExecuteZomeFnResponse</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">call</span>: <span class="ident">ZomeFnCall</span>, <span class="ident">result</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">JsonString</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">call</span>: <span class="ident">ZomeFnCall</span>, <span class="ident">result</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">JsonString</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">ExecuteZomeFnResponse</span> { <span class="ident">call</span>, <span class="ident">result</span> }
     }
 
@@ -1122,7 +1122,6 @@
         <span class="ident">error</span>::<span class="ident">DnaError</span>,
         <span class="ident">json</span>::{<span class="ident">JsonString</span>, <span class="ident">RawString</span>},
     };
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span>;
 
     <span class="doccomment">/// dummy zome name compatible with ZomeFnCall</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_zome</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
@@ -1212,7 +1211,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="doccomment">/// test for returning zome function result actions</span>
     <span class="kw">fn</span> <span class="ident">test_reduce_return_zome_function_result</span>() {
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;jimmy&quot;</span>);
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;jimmy&quot;</span>, <span class="prelude-val">None</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">test_nucleus_state</span>();
         <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">test_action_wrapper_rzfr</span>();
 
@@ -1234,7 +1233,7 @@
         <span class="kw">let</span> <span class="ident">nucleus</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">NucleusState</span>::<span class="ident">new</span>()); <span class="comment">// initialize to bogus value</span>
         <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">_receiver</span>) <span class="op">=</span> <span class="ident">sync_channel</span>::<span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span>(<span class="number">10</span>);
         <span class="kw">let</span> (<span class="ident">tx_observer</span>, <span class="ident">_observer</span>) <span class="op">=</span> <span class="ident">sync_channel</span>::<span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span>(<span class="number">10</span>);
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context_with_channels</span>(<span class="string">&quot;jimmy&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="ident">tx_observer</span>);
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context_with_channels</span>(<span class="string">&quot;jimmy&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="ident">tx_observer</span>, <span class="prelude-val">None</span>);
 
         <span class="comment">// Reduce Init action</span>
         <span class="kw">let</span> <span class="ident">reduced_nucleus</span> <span class="op">=</span> <span class="ident">reduce</span>(<span class="ident">context</span>.<span class="ident">clone</span>(), <span class="ident">nucleus</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">action_wrapper</span>);
@@ -1254,7 +1253,7 @@
         <span class="kw">let</span> <span class="ident">nucleus</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">NucleusState</span>::<span class="ident">new</span>()); <span class="comment">// initialize to bogus value</span>
         <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">_receiver</span>) <span class="op">=</span> <span class="ident">sync_channel</span>::<span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span>(<span class="number">10</span>);
         <span class="kw">let</span> (<span class="ident">tx_observer</span>, <span class="ident">_observer</span>) <span class="op">=</span> <span class="ident">sync_channel</span>::<span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span>(<span class="number">10</span>);
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context_with_channels</span>(<span class="string">&quot;jimmy&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="ident">tx_observer</span>).<span class="ident">clone</span>();
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context_with_channels</span>(<span class="string">&quot;jimmy&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="ident">tx_observer</span>, <span class="prelude-val">None</span>).<span class="ident">clone</span>();
 
         <span class="comment">// Reduce Init action</span>
         <span class="kw">let</span> <span class="ident">initializing_nucleus</span> <span class="op">=</span> <span class="ident">reduce</span>(<span class="ident">context</span>.<span class="ident">clone</span>(), <span class="ident">nucleus</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">action_wrapper</span>);
@@ -1302,7 +1301,7 @@
     <span class="doccomment">/// tests that calling a valid zome function returns a valid result</span>
     <span class="kw">fn</span> <span class="ident">call_zome_function</span>() {
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wat</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="prelude-val">None</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">test_instance</span>(<span class="ident">dna</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">test_instance</span>(<span class="ident">dna</span>, <span class="prelude-val">None</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
 
         <span class="comment">// Create zome function call</span>
         <span class="kw">let</span> <span class="ident">zome_call</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;main&quot;</span>, <span class="string">&quot;&quot;</span>);
@@ -1322,7 +1321,7 @@
         <span class="kw">let</span> <span class="ident">nucleus</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">NucleusState</span>::<span class="ident">new</span>()); <span class="comment">// initialize to bogus value</span>
         <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">_receiver</span>) <span class="op">=</span> <span class="ident">sync_channel</span>::<span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span>(<span class="number">10</span>);
         <span class="kw">let</span> (<span class="ident">tx_observer</span>, <span class="ident">_observer</span>) <span class="op">=</span> <span class="ident">sync_channel</span>::<span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span>(<span class="number">10</span>);
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context_with_channels</span>(<span class="string">&quot;jimmy&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="ident">tx_observer</span>);
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context_with_channels</span>(<span class="string">&quot;jimmy&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">sender</span>, <span class="kw-2">&amp;</span><span class="ident">tx_observer</span>, <span class="prelude-val">None</span>);
 
         <span class="kw">let</span> <span class="ident">reduced_nucleus</span> <span class="op">=</span> <span class="ident">reduce</span>(<span class="ident">context</span>, <span class="ident">nucleus</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">action_wrapper</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">nucleus</span>, <span class="ident">reduced_nucleus</span>);
@@ -1331,9 +1330,10 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="doccomment">/// tests that calling an invalid DNA returns the correct error</span>
     <span class="kw">fn</span> <span class="ident">call_ribosome_wrong_dna</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">Instance</span>::<span class="ident">new</span>(<span class="ident">test_context</span>(<span class="string">&quot;janet&quot;</span>));
+        <span class="kw">let</span> <span class="ident">netname</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;call_ribosome_wrong_dna&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">Instance</span>::<span class="ident">new</span>(<span class="ident">test_context</span>(<span class="string">&quot;janet&quot;</span>, <span class="ident">netname</span>));
 
-        <span class="ident">instance</span>.<span class="ident">start_action_loop</span>(<span class="ident">test_context</span>(<span class="string">&quot;jane&quot;</span>));
+        <span class="ident">instance</span>.<span class="ident">start_action_loop</span>(<span class="ident">test_context</span>(<span class="string">&quot;jane&quot;</span>, <span class="ident">netname</span>));
 
         <span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;main&quot;</span>, <span class="string">&quot;{}&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">call_and_wait_for_result</span>(<span class="ident">call</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">instance</span>);
@@ -1348,7 +1348,7 @@
     <span class="doccomment">/// tests that calling a valid zome with invalid function returns the correct error</span>
     <span class="kw">fn</span> <span class="ident">call_ribosome_wrong_function</span>() {
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wat</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="prelude-val">None</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">test_instance</span>(<span class="ident">dna</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">test_instance</span>(<span class="ident">dna</span>, <span class="prelude-val">None</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
 
         <span class="comment">// Create zome function call:</span>
         <span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;xxx&quot;</span>, <span class="string">&quot;{}&quot;</span>);
@@ -1367,7 +1367,7 @@
     <span class="doccomment">/// tests that calling the wrong zome/capability returns the correct errors</span>
     <span class="kw">fn</span> <span class="ident">call_wrong_zome_function</span>() {
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wat</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="prelude-val">None</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">test_instance</span>(<span class="ident">dna</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">test_instance</span>(<span class="ident">dna</span>, <span class="prelude-val">None</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
 
         <span class="comment">// Create bad zome function call</span>
         <span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;xxx&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;main&quot;</span>, <span class="string">&quot;{}&quot;</span>);
@@ -1375,7 +1375,7 @@
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">call_and_wait_for_result</span>(<span class="ident">call</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">instance</span>);
 
         <span class="kw">match</span> <span class="ident">result</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">Dna</span>(<span class="ident">err</span>)) <span class="op">=&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">err</span>.<span class="ident">description</span>(), <span class="string">&quot;Zome &#39;xxx&#39; not found&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">Dna</span>(<span class="ident">err</span>)) <span class="op">=&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">err</span>.<span class="ident">to_string</span>(), <span class="string">&quot;Zome &#39;xxx&#39; not found&quot;</span>),
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="bool-val">false</span>),
         }
 
@@ -1389,7 +1389,7 @@
 
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">Dna</span>(<span class="ident">err</span>)) <span class="op">=&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>(
-                <span class="ident">err</span>.<span class="ident">description</span>(),
+                <span class="ident">err</span>.<span class="ident">to_string</span>(),
                 <span class="string">&quot;Capability &#39;xxx&#39; not found in Zome &#39;test_zome&#39;&quot;</span>
             ),
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="bool-val">false</span>),
@@ -1401,12 +1401,12 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cap_call2</span> <span class="op">=</span> <span class="ident">test_capability_call</span>();
         <span class="ident">cap_call2</span>.<span class="ident">cap_name</span> <span class="op">=</span> <span class="string">&quot;xxx&quot;</span>.<span class="ident">to_string</span>();
 
-        <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;zozo&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;fufu&quot;</span>, <span class="string">&quot;papa&quot;</span>);
-        <span class="kw">let</span> <span class="ident">copy</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;zozo&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;fufu&quot;</span>, <span class="string">&quot;papa&quot;</span>);
-        <span class="kw">let</span> <span class="ident">same</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;zozo&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;fufu&quot;</span>, <span class="string">&quot;papa1&quot;</span>);
-        <span class="kw">let</span> <span class="ident">diff1</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;zozo1&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;fufu&quot;</span>, <span class="string">&quot;papa&quot;</span>);
-        <span class="kw">let</span> <span class="ident">diff2</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;zozo&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">cap_call2</span>), <span class="string">&quot;fufu&quot;</span>, <span class="string">&quot;papa&quot;</span>);
-        <span class="kw">let</span> <span class="ident">diff3</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;zozo&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;fufu3&quot;</span>, <span class="string">&quot;papa&quot;</span>);
+        <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;yoyo&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;fufu&quot;</span>, <span class="string">&quot;papa&quot;</span>);
+        <span class="kw">let</span> <span class="ident">copy</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;yoyo&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;fufu&quot;</span>, <span class="string">&quot;papa&quot;</span>);
+        <span class="kw">let</span> <span class="ident">same</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;yoyo&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;fufu&quot;</span>, <span class="string">&quot;papa1&quot;</span>);
+        <span class="kw">let</span> <span class="ident">diff1</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;yoyo1&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;fufu&quot;</span>, <span class="string">&quot;papa&quot;</span>);
+        <span class="kw">let</span> <span class="ident">diff2</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;yoyo&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">cap_call2</span>), <span class="string">&quot;fufu&quot;</span>, <span class="string">&quot;papa&quot;</span>);
+        <span class="kw">let</span> <span class="ident">diff3</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;yoyo&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">test_capability_call</span>()), <span class="string">&quot;fufu3&quot;</span>, <span class="string">&quot;papa&quot;</span>);
 
         <span class="macro">assert_ne</span><span class="macro">!</span>(<span class="ident">base</span>, <span class="ident">copy</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">base</span>.<span class="ident">same_fn_as</span>(<span class="kw-2">&amp;</span><span class="ident">copy</span>));

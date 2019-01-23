@@ -208,6 +208,7 @@
 <span id="208">208</span>
 <span id="209">209</span>
 <span id="210">210</span>
+<span id="211">211</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>},
@@ -324,9 +325,10 @@
             <span class="ident">wasm</span>.<span class="ident">clone</span>(),
         );
 
-        <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">test_instance</span>(<span class="ident">dna</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not create test instance&quot;</span>);
+        <span class="kw">let</span> <span class="ident">netname</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;create_test_instance&quot;</span>);
+        <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">test_instance</span>(<span class="ident">dna</span>, <span class="ident">netname</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not create test instance&quot;</span>);
 
-        <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context_and_logger</span>(<span class="string">&quot;joan&quot;</span>);
+        <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context_and_logger</span>(<span class="string">&quot;joan&quot;</span>, <span class="ident">netname</span>);
         <span class="kw">let</span> <span class="ident">initialized_context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize_context</span>(<span class="ident">context</span>);
         (<span class="ident">instance</span>, <span class="ident">initialized_context</span>)
     }
@@ -389,7 +391,7 @@
             .<span class="ident">expect</span>(<span class="string">&quot;valid ZomeApiInternalResult JsonString&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">core_err</span> <span class="op">=</span> <span class="ident">CoreError</span>::<span class="ident">try_from</span>(<span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;valid CoreError JsonString&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;not implemented&quot;</span>, <span class="ident">core_err</span>.<span class="ident">kind</span>.<span class="ident">to_string</span>(),);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;Unknown entry type&quot;</span>, <span class="ident">core_err</span>.<span class="ident">kind</span>.<span class="ident">to_string</span>(),);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

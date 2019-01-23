@@ -887,7 +887,7 @@
 
     <span class="kw">fn</span> <span class="ident">setup_test</span>(<span class="ident">dna</span>: <span class="ident">Dna</span>) <span class="op">-&gt;</span> <span class="ident">TestSetup</span> {
         <span class="kw">let</span> (<span class="ident">instance</span>, <span class="ident">context</span>) <span class="op">=</span>
-            <span class="ident">test_instance_and_context</span>(<span class="ident">dna</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
+            <span class="ident">test_instance_and_context</span>(<span class="ident">dna</span>, <span class="prelude-val">None</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
         <span class="ident">TestSetup</span> {
             <span class="ident">context</span>: <span class="ident">context</span>,
             <span class="ident">instance</span>: <span class="ident">instance</span>,

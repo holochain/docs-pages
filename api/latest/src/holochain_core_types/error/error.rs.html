@@ -342,9 +342,6 @@
 <span id="342">342</span>
 <span id="343">343</span>
 <span id="344">344</span>
-<span id="345">345</span>
-<span id="346">346</span>
-<span id="347">347</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="self">self</span>::<span class="ident">HolochainError</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -379,13 +376,11 @@
 
 <span class="comment">// Error trait by using the inner Error</span>
 <span class="kw">impl</span> <span class="ident">Error</span> <span class="kw">for</span> <span class="ident">CoreError</span> {
-    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="self">self</span>.<span class="ident">kind</span>.<span class="ident">description</span>()
-    }
     <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">kind</span>.<span class="ident">source</span>()
     }
 }
+
 <span class="kw">impl</span> <span class="ident">CoreError</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">hc_err</span>: <span class="ident">HolochainError</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">CoreError</span> {
@@ -419,9 +414,7 @@
         <span class="macro">write</span><span class="macro">!</span>(
             <span class="ident">f</span>,
             <span class="string">&quot;Holochain Core error: {}\n  --&gt; {}:{}\n&quot;</span>,
-            <span class="self">self</span>.<span class="ident">description</span>(),
-            <span class="self">self</span>.<span class="ident">file</span>,
-            <span class="self">self</span>.<span class="ident">line</span>,
+            <span class="self">self</span>.<span class="ident">kind</span>, <span class="self">self</span>.<span class="ident">file</span>, <span class="self">self</span>.<span class="ident">line</span>,
         )
     }
 }
@@ -435,7 +428,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">DefaultJson</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">HolochainError</span> {
     <span class="ident">ErrorGeneric</span>(<span class="ident">String</span>),
-    <span class="ident">NotImplemented</span>,
+    <span class="ident">NotImplemented</span>(<span class="ident">String</span>),
     <span class="ident">LoggingError</span>,
     <span class="ident">DnaMissing</span>,
     <span class="ident">Dna</span>(<span class="ident">DnaError</span>),
@@ -460,30 +453,28 @@
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">HolochainError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.<span class="ident">description</span>())
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">Error</span> <span class="kw">for</span> <span class="ident">HolochainError</span> {
-    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">ErrorGeneric</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">err_msg</span>,
-            <span class="ident">NotImplemented</span> <span class="op">=&gt;</span> <span class="string">&quot;not implemented&quot;</span>,
-            <span class="ident">LoggingError</span> <span class="op">=&gt;</span> <span class="string">&quot;logging failed&quot;</span>,
-            <span class="ident">DnaMissing</span> <span class="op">=&gt;</span> <span class="string">&quot;DNA is missing&quot;</span>,
-            <span class="ident">Dna</span>(<span class="ident">dna_err</span>) <span class="op">=&gt;</span> <span class="ident">dna_err</span>.<span class="ident">description</span>(),
-            <span class="ident">IoError</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">err_msg</span>,
-            <span class="ident">SerializationError</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">err_msg</span>,
-            <span class="ident">InvalidOperationOnSysEntry</span> <span class="op">=&gt;</span> <span class="string">&quot;operation cannot be done on a system entry type&quot;</span>,
-            <span class="ident">CapabilityCheckFailed</span> <span class="op">=&gt;</span> <span class="string">&quot;Caller does not have Capability to make that call&quot;</span>,
-            <span class="ident">ValidationFailed</span>(<span class="ident">fail_msg</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">fail_msg</span>,
-            <span class="ident">Ribosome</span>(<span class="ident">err_code</span>) <span class="op">=&gt;</span> <span class="ident">err_code</span>.<span class="ident">as_str</span>(),
-            <span class="ident">RibosomeFailed</span>(<span class="ident">fail_msg</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">fail_msg</span>,
-            <span class="ident">ConfigError</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">err_msg</span>,
-            <span class="ident">Timeout</span> <span class="op">=&gt;</span> <span class="string">&quot;timeout&quot;</span>,
+            <span class="ident">ErrorGeneric</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">err_msg</span>),
+            <span class="ident">NotImplemented</span>(<span class="ident">description</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;not implemented: {}&quot;</span>, <span class="ident">description</span>),
+            <span class="ident">LoggingError</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;logging failed&quot;</span>),
+            <span class="ident">DnaMissing</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;DNA is missing&quot;</span>),
+            <span class="ident">Dna</span>(<span class="ident">dna_err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">dna_err</span>),
+            <span class="ident">IoError</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">err_msg</span>),
+            <span class="ident">SerializationError</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">err_msg</span>),
+            <span class="ident">InvalidOperationOnSysEntry</span> <span class="op">=&gt;</span> {
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;operation cannot be done on a system entry type&quot;</span>)
+            }
+            <span class="ident">CapabilityCheckFailed</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Caller does not have Capability to make that call&quot;</span>),
+            <span class="ident">ValidationFailed</span>(<span class="ident">fail_msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">fail_msg</span>),
+            <span class="ident">Ribosome</span>(<span class="ident">err_code</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">err_code</span>.<span class="ident">as_str</span>()),
+            <span class="ident">RibosomeFailed</span>(<span class="ident">fail_msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">fail_msg</span>),
+            <span class="ident">ConfigError</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">err_msg</span>),
+            <span class="ident">Timeout</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;timeout&quot;</span>),
         }
     }
 }
+
+<span class="kw">impl</span> <span class="ident">Error</span> <span class="kw">for</span> <span class="ident">HolochainError</span> {}
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">String</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">holochain_error</span>: <span class="ident">HolochainError</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
@@ -636,7 +627,10 @@
     <span class="kw">fn</span> <span class="ident">error_test</span>() {
         <span class="kw">for</span> (<span class="ident">input</span>, <span class="ident">output</span>) <span class="kw">in</span> <span class="macro">vec</span><span class="macro">!</span>[
             (<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;foo&quot;</span>)), <span class="string">&quot;foo&quot;</span>),
-            (<span class="ident">HolochainError</span>::<span class="ident">NotImplemented</span>, <span class="string">&quot;not implemented&quot;</span>),
+            (
+                <span class="ident">HolochainError</span>::<span class="ident">NotImplemented</span>(<span class="string">&quot;reason&quot;</span>.<span class="ident">into</span>()),
+                <span class="string">&quot;not implemented: reason&quot;</span>,
+            ),
             (<span class="ident">HolochainError</span>::<span class="ident">LoggingError</span>, <span class="string">&quot;logging failed&quot;</span>),
             (<span class="ident">HolochainError</span>::<span class="ident">DnaMissing</span>, <span class="string">&quot;DNA is missing&quot;</span>),
             (<span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;foo&quot;</span>)), <span class="string">&quot;foo&quot;</span>),
@@ -667,7 +661,7 @@
             ),
             (<span class="ident">HolochainError</span>::<span class="ident">Timeout</span>, <span class="string">&quot;timeout&quot;</span>),
         ] {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">output</span>, <span class="ident">input</span>.<span class="ident">description</span>());
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">output</span>, <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">input</span>));
         }
     }
 

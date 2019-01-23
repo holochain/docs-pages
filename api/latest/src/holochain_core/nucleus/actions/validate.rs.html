@@ -145,6 +145,7 @@
 <span id="145">145</span>
 <span id="146">146</span>
 <span id="147">147</span>
+<span id="148">148</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
@@ -241,9 +242,10 @@
                 <span class="prelude-val">Ok</span>(<span class="ident">validation_result</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">validation_result</span> {
                     <span class="ident">CallbackResult</span>::<span class="ident">Fail</span>(<span class="ident">error_string</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">error_string</span>),
                     <span class="ident">CallbackResult</span>::<span class="ident">Pass</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
-                    <span class="ident">CallbackResult</span>::<span class="ident">NotImplemented</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="macro">format</span><span class="macro">!</span>(
-                        <span class="string">&quot;Validation callback not implemented for {:?}&quot;</span>,
-                        <span class="ident">entry</span>.<span class="ident">entry_type</span>().<span class="ident">clone</span>()
+                    <span class="ident">CallbackResult</span>::<span class="ident">NotImplemented</span>(<span class="ident">reason</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="macro">format</span><span class="macro">!</span>(
+                        <span class="string">&quot;Validation callback not implemented for {:?} ({})&quot;</span>,
+                        <span class="ident">entry</span>.<span class="ident">entry_type</span>().<span class="ident">clone</span>(),
+                        <span class="ident">reason</span>
                     )),
                     <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
                 },

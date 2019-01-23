@@ -662,6 +662,8 @@
 <span id="662">662</span>
 <span id="663">663</span>
 <span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! `holochain_container_api` is a library for instantiating and using holochain instances that</span>
 <span class="doccomment">//! each run a holochain DNA, DHT and source chain.</span>
@@ -1165,14 +1167,11 @@
         <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">example_api_wasm</span>();
         <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">create_test_cap_with_fn_name</span>(<span class="string">&quot;commit_fail_test&quot;</span>);
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_cap</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">capability</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
-        <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
+        <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="ident">signal_rx</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
 
         <span class="comment">// Run the holochain instance</span>
         <span class="ident">hc</span>.<span class="ident">start</span>().<span class="ident">expect</span>(<span class="string">&quot;couldn&#39;t start&quot;</span>);
-        <span class="comment">// @TODO don&#39;t use history length in tests</span>
-        <span class="comment">// @see https://github.com/holochain/holochain-rust/issues/195</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hc</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">history</span>.<span class="ident">len</span>(), <span class="number">5</span>);
 
         <span class="comment">// Call the exposed wasm function that calls the Commit API function</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">hc</span>.<span class="ident">call</span>(
@@ -1190,10 +1189,14 @@
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;Err\&quot;:\&quot;Argument deserialization failed\&quot;}&quot;</span>),
         );
 
-        <span class="comment">// Check in holochain instance&#39;s history that the commit event has been processed</span>
-        <span class="comment">// @TODO don&#39;t use history length in tests</span>
-        <span class="comment">// @see https://github.com/holochain/holochain-rust/issues/195</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hc</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">history</span>.<span class="ident">len</span>(), <span class="number">7</span>);
+        <span class="ident">expect_action</span>(<span class="kw-2">&amp;</span><span class="ident">signal_rx</span>, <span class="op">|</span><span class="ident">action</span><span class="op">|</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Action</span>::<span class="ident">ReturnZomeFunctionResult</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">action</span> {
+                <span class="bool-val">true</span>
+            } <span class="kw">else</span> {
+                <span class="bool-val">false</span>
+            }
+        })
+        .<span class="ident">unwrap</span>();
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1204,15 +1207,11 @@
         <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">create_test_cap_with_fn_name</span>(<span class="string">&quot;debug_hello&quot;</span>);
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_cap</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">capability</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
 
-        <span class="kw">let</span> (<span class="ident">context</span>, <span class="ident">test_logger</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
+        <span class="kw">let</span> (<span class="ident">context</span>, <span class="ident">test_logger</span>, <span class="ident">signal_rx</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
 
         <span class="comment">// Run the holochain instance</span>
         <span class="ident">hc</span>.<span class="ident">start</span>().<span class="ident">expect</span>(<span class="string">&quot;couldn&#39;t start&quot;</span>);
-
-        <span class="comment">// @TODO don&#39;t use history length in tests</span>
-        <span class="comment">// @see https://github.com/holochain/holochain-rust/issues/195</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hc</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">history</span>.<span class="ident">len</span>(), <span class="number">5</span>);
 
         <span class="comment">// Call the exposed wasm function that calls the Commit API function</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">hc</span>.<span class="ident">call</span>(
@@ -1227,10 +1226,14 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">test_logger</span>.<span class="ident">log</span>).<span class="ident">contains</span>(
             <span class="string">&quot;\&quot;debug/dna: \\\&#39;\\\&quot;Hello world!\\\&quot;\\\&#39;\&quot;, \&quot;debug/zome: Zome Function \\\&#39;debug_hello\\\&#39; returned: Success\&quot;&quot;</span>));
 
-        <span class="comment">// Check in holochain instance&#39;s history that the debug event has been processed</span>
-        <span class="comment">// @TODO don&#39;t use history length in tests</span>
-        <span class="comment">// @see https://github.com/holochain/holochain-rust/issues/195</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hc</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">history</span>.<span class="ident">len</span>(), <span class="number">7</span>);
+        <span class="ident">expect_action</span>(<span class="kw-2">&amp;</span><span class="ident">signal_rx</span>, <span class="op">|</span><span class="ident">action</span><span class="op">|</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Action</span>::<span class="ident">ReturnZomeFunctionResult</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">action</span> {
+                <span class="bool-val">true</span>
+            } <span class="kw">else</span> {
+                <span class="bool-val">false</span>
+            }
+        })
+        .<span class="ident">unwrap</span>();
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1241,14 +1244,11 @@
         <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">create_test_cap_with_fn_name</span>(<span class="string">&quot;debug_multiple&quot;</span>);
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_cap</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">capability</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
 
-        <span class="kw">let</span> (<span class="ident">context</span>, <span class="ident">test_logger</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
+        <span class="kw">let</span> (<span class="ident">context</span>, <span class="ident">test_logger</span>, <span class="ident">signal_rx</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
 
         <span class="comment">// Run the holochain instance</span>
         <span class="ident">hc</span>.<span class="ident">start</span>().<span class="ident">expect</span>(<span class="string">&quot;couldn&#39;t start&quot;</span>);
-        <span class="comment">// @TODO don&#39;t use history length in tests</span>
-        <span class="comment">// @see https://github.com/holochain/holochain-rust/issues/195</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hc</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">history</span>.<span class="ident">len</span>(), <span class="number">5</span>);
 
         <span class="comment">// Call the exposed wasm function that calls the Commit API function</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">hc</span>.<span class="ident">call</span>(
@@ -1267,10 +1267,14 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">test_logger</span>.<span class="ident">log</span>).<span class="ident">contains</span>(
             <span class="string">&quot;\&quot;debug/dna: \\\&#39;\\\&quot;Hello\\\&quot;\\\&#39;\&quot;, \&quot;debug/dna: \\\&#39;\\\&quot;world\\\&quot;\\\&#39;\&quot;, \&quot;debug/dna: \\\&#39;\\\&quot;!\\\&quot;\\\&#39;\&quot;, \&quot;debug/zome: Zome Function \\\&#39;debug_multiple\\\&#39; returned: Success\&quot;&quot;</span>));
 
-        <span class="comment">// Check in holochain instance&#39;s history that the deb event has been processed</span>
-        <span class="comment">// @TODO don&#39;t use history length in tests</span>
-        <span class="comment">// @see https://github.com/holochain/holochain-rust/issues/195</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hc</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">history</span>.<span class="ident">len</span>(), <span class="number">7</span>);
+        <span class="ident">expect_action</span>(<span class="kw-2">&amp;</span><span class="ident">signal_rx</span>, <span class="op">|</span><span class="ident">action</span><span class="op">|</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Action</span>::<span class="ident">ReturnZomeFunctionResult</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">action</span> {
+                <span class="bool-val">true</span>
+            } <span class="kw">else</span> {
+                <span class="bool-val">false</span>
+            }
+        })
+        .<span class="ident">unwrap</span>();
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
