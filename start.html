@@ -50,7 +50,7 @@
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start</h1>
-                    <div class="meta"><i class="far fa-clock"></i> Last updated: January 21, 2019</div>
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: January 23, 2019</div>
                 </div>
                 <!--//doc-header-->
                 <div class="doc-body row">
@@ -68,6 +68,10 @@
                                         read on into a <a href="https://medium.com/holochain/first-steps-writing-holochain-happs-with-rust-80ae111960e" target="_blank">tutorial</a>, the <a href="/guide/latest">Holochain guidebook</a>, and the <a href="/api/0.0.3/hdk">API Reference</a>
                                         to get going!
                                     </p>
+
+                                    <p>If you find an issue with the instructions, please <a href="https://github.com/holochain/docs-pages/issues/new" target="_blank">open an issue</a> on the GitHub repo for the documentation site.</p>
+                                    <p>If you believe you've found an issue with Holochain, please <a href="https://github.com/holochain/holochain-rust/issues/new" target="_blank">open an issue</a> on the GitHub repo.</p>
+                                    <p>If you just need some general assistance, <a href="https://stackoverflow.com/questions/tagged/holochain" target="_blank">post all the details</a> on StackOverflow that someone would need to know to help you, and then drop a link to it in the <a href="https://chat.holochain.net/appsup/channels/app-dev" target="_blank">developer community chat</a>.</p>
                                 </div>
                                 <!--//section-block-->
                             </section>
@@ -98,7 +102,7 @@
                                         available,
                                         which simplifies Holochain development, is for Rust. Rust must be installed to
                                         your computer
-                                        to develop with Holochain, and it must be the "nightly" toolchain. Platform
+                                        to develop with Holochain, and it must be a specific version of the "nightly" toolchain. Platform
                                         specific instructions for
                                         installation follow:
 
@@ -117,7 +121,7 @@
                                                 In a terminal, run:
                                                 <br />
                                                 <br />
-                                                <code>curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly</code>
+                                                <code>curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly-2018-12-26</code>
                                                 <!--//code-block-->
                                             </div>
                                             <div class="tab-pane fade" id="rust-windows" role="tabpanel"
@@ -126,12 +130,12 @@
                                                     installation instructions.</p>
 
                                                 Once you have rust successfully installed, you need to install the
-                                                "nightly" toolchain of rust. This means having the latest version of
+                                                "nightly-2018-12-26" toolchain of rust. This means having the specific version of
                                                 the tools, which are required for working with Holochain. In a
                                                 terminal, run:
                                                 <div class="code-block">
-                                                    <p><code>rustup toolchain install nightly</code></p>
-                                                    <p><code>rustup default nightly</code></p>
+                                                    <p><code>rustup toolchain install nightly-2018-12-26</code></p>
+                                                    <p><code>rustup default nightly-2018-12-26</code></p>
                                                 </div>
                                             </div>
                                         </div>
