@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `container_api/src/container/admin.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>admin.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `container_api/src/container/admin.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>admin.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../..//index.html'><img src='../../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1196,22 +1196,274 @@
 <span id="1196">1196</span>
 <span id="1197">1197</span>
 <span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
+<span id="1212">1212</span>
+<span id="1213">1213</span>
+<span id="1214">1214</span>
+<span id="1215">1215</span>
+<span id="1216">1216</span>
+<span id="1217">1217</span>
+<span id="1218">1218</span>
+<span id="1219">1219</span>
+<span id="1220">1220</span>
+<span id="1221">1221</span>
+<span id="1222">1222</span>
+<span id="1223">1223</span>
+<span id="1224">1224</span>
+<span id="1225">1225</span>
+<span id="1226">1226</span>
+<span id="1227">1227</span>
+<span id="1228">1228</span>
+<span id="1229">1229</span>
+<span id="1230">1230</span>
+<span id="1231">1231</span>
+<span id="1232">1232</span>
+<span id="1233">1233</span>
+<span id="1234">1234</span>
+<span id="1235">1235</span>
+<span id="1236">1236</span>
+<span id="1237">1237</span>
+<span id="1238">1238</span>
+<span id="1239">1239</span>
+<span id="1240">1240</span>
+<span id="1241">1241</span>
+<span id="1242">1242</span>
+<span id="1243">1243</span>
+<span id="1244">1244</span>
+<span id="1245">1245</span>
+<span id="1246">1246</span>
+<span id="1247">1247</span>
+<span id="1248">1248</span>
+<span id="1249">1249</span>
+<span id="1250">1250</span>
+<span id="1251">1251</span>
+<span id="1252">1252</span>
+<span id="1253">1253</span>
+<span id="1254">1254</span>
+<span id="1255">1255</span>
+<span id="1256">1256</span>
+<span id="1257">1257</span>
+<span id="1258">1258</span>
+<span id="1259">1259</span>
+<span id="1260">1260</span>
+<span id="1261">1261</span>
+<span id="1262">1262</span>
+<span id="1263">1263</span>
+<span id="1264">1264</span>
+<span id="1265">1265</span>
+<span id="1266">1266</span>
+<span id="1267">1267</span>
+<span id="1268">1268</span>
+<span id="1269">1269</span>
+<span id="1270">1270</span>
+<span id="1271">1271</span>
+<span id="1272">1272</span>
+<span id="1273">1273</span>
+<span id="1274">1274</span>
+<span id="1275">1275</span>
+<span id="1276">1276</span>
+<span id="1277">1277</span>
+<span id="1278">1278</span>
+<span id="1279">1279</span>
+<span id="1280">1280</span>
+<span id="1281">1281</span>
+<span id="1282">1282</span>
+<span id="1283">1283</span>
+<span id="1284">1284</span>
+<span id="1285">1285</span>
+<span id="1286">1286</span>
+<span id="1287">1287</span>
+<span id="1288">1288</span>
+<span id="1289">1289</span>
+<span id="1290">1290</span>
+<span id="1291">1291</span>
+<span id="1292">1292</span>
+<span id="1293">1293</span>
+<span id="1294">1294</span>
+<span id="1295">1295</span>
+<span id="1296">1296</span>
+<span id="1297">1297</span>
+<span id="1298">1298</span>
+<span id="1299">1299</span>
+<span id="1300">1300</span>
+<span id="1301">1301</span>
+<span id="1302">1302</span>
+<span id="1303">1303</span>
+<span id="1304">1304</span>
+<span id="1305">1305</span>
+<span id="1306">1306</span>
+<span id="1307">1307</span>
+<span id="1308">1308</span>
+<span id="1309">1309</span>
+<span id="1310">1310</span>
+<span id="1311">1311</span>
+<span id="1312">1312</span>
+<span id="1313">1313</span>
+<span id="1314">1314</span>
+<span id="1315">1315</span>
+<span id="1316">1316</span>
+<span id="1317">1317</span>
+<span id="1318">1318</span>
+<span id="1319">1319</span>
+<span id="1320">1320</span>
+<span id="1321">1321</span>
+<span id="1322">1322</span>
+<span id="1323">1323</span>
+<span id="1324">1324</span>
+<span id="1325">1325</span>
+<span id="1326">1326</span>
+<span id="1327">1327</span>
+<span id="1328">1328</span>
+<span id="1329">1329</span>
+<span id="1330">1330</span>
+<span id="1331">1331</span>
+<span id="1332">1332</span>
+<span id="1333">1333</span>
+<span id="1334">1334</span>
+<span id="1335">1335</span>
+<span id="1336">1336</span>
+<span id="1337">1337</span>
+<span id="1338">1338</span>
+<span id="1339">1339</span>
+<span id="1340">1340</span>
+<span id="1341">1341</span>
+<span id="1342">1342</span>
+<span id="1343">1343</span>
+<span id="1344">1344</span>
+<span id="1345">1345</span>
+<span id="1346">1346</span>
+<span id="1347">1347</span>
+<span id="1348">1348</span>
+<span id="1349">1349</span>
+<span id="1350">1350</span>
+<span id="1351">1351</span>
+<span id="1352">1352</span>
+<span id="1353">1353</span>
+<span id="1354">1354</span>
+<span id="1355">1355</span>
+<span id="1356">1356</span>
+<span id="1357">1357</span>
+<span id="1358">1358</span>
+<span id="1359">1359</span>
+<span id="1360">1360</span>
+<span id="1361">1361</span>
+<span id="1362">1362</span>
+<span id="1363">1363</span>
+<span id="1364">1364</span>
+<span id="1365">1365</span>
+<span id="1366">1366</span>
+<span id="1367">1367</span>
+<span id="1368">1368</span>
+<span id="1369">1369</span>
+<span id="1370">1370</span>
+<span id="1371">1371</span>
+<span id="1372">1372</span>
+<span id="1373">1373</span>
+<span id="1374">1374</span>
+<span id="1375">1375</span>
+<span id="1376">1376</span>
+<span id="1377">1377</span>
+<span id="1378">1378</span>
+<span id="1379">1379</span>
+<span id="1380">1380</span>
+<span id="1381">1381</span>
+<span id="1382">1382</span>
+<span id="1383">1383</span>
+<span id="1384">1384</span>
+<span id="1385">1385</span>
+<span id="1386">1386</span>
+<span id="1387">1387</span>
+<span id="1388">1388</span>
+<span id="1389">1389</span>
+<span id="1390">1390</span>
+<span id="1391">1391</span>
+<span id="1392">1392</span>
+<span id="1393">1393</span>
+<span id="1394">1394</span>
+<span id="1395">1395</span>
+<span id="1396">1396</span>
+<span id="1397">1397</span>
+<span id="1398">1398</span>
+<span id="1399">1399</span>
+<span id="1400">1400</span>
+<span id="1401">1401</span>
+<span id="1402">1402</span>
+<span id="1403">1403</span>
+<span id="1404">1404</span>
+<span id="1405">1405</span>
+<span id="1406">1406</span>
+<span id="1407">1407</span>
+<span id="1408">1408</span>
+<span id="1409">1409</span>
+<span id="1410">1410</span>
+<span id="1411">1411</span>
+<span id="1412">1412</span>
+<span id="1413">1413</span>
+<span id="1414">1414</span>
+<span id="1415">1415</span>
+<span id="1416">1416</span>
+<span id="1417">1417</span>
+<span id="1418">1418</span>
+<span id="1419">1419</span>
+<span id="1420">1420</span>
+<span id="1421">1421</span>
+<span id="1422">1422</span>
+<span id="1423">1423</span>
+<span id="1424">1424</span>
+<span id="1425">1425</span>
+<span id="1426">1426</span>
+<span id="1427">1427</span>
+<span id="1428">1428</span>
+<span id="1429">1429</span>
+<span id="1430">1430</span>
+<span id="1431">1431</span>
+<span id="1432">1432</span>
+<span id="1433">1433</span>
+<span id="1434">1434</span>
+<span id="1435">1435</span>
+<span id="1436">1436</span>
+<span id="1437">1437</span>
+<span id="1438">1438</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">config</span>::{
         <span class="ident">AgentConfiguration</span>, <span class="ident">Bridge</span>, <span class="ident">DnaConfiguration</span>, <span class="ident">InstanceConfiguration</span>,
-        <span class="ident">InstanceReferenceConfiguration</span>, <span class="ident">InterfaceConfiguration</span>,
+        <span class="ident">InstanceReferenceConfiguration</span>, <span class="ident">InterfaceConfiguration</span>, <span class="ident">StorageConfiguration</span>,
     },
     <span class="ident">container</span>::{<span class="ident">base</span>::<span class="ident">notify</span>, <span class="ident">Container</span>},
     <span class="ident">error</span>::<span class="ident">HolochainInstanceError</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">AddressableContent</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>};
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">path</span>::<span class="ident">PathBuf</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
+<span class="kw">use</span> <span class="ident">json_patch</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>, <span class="ident">path</span>::<span class="ident">PathBuf</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ContainerAdmin</span> {
-    <span class="kw">fn</span> <span class="ident">install_dna_from_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="ident">PathBuf</span>, <span class="ident">id</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">install_dna_from_file</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">path</span>: <span class="ident">PathBuf</span>,
+        <span class="ident">id</span>: <span class="ident">String</span>,
+        <span class="ident">copy</span>: <span class="ident">bool</span>,
+        <span class="ident">properties</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">serde_json</span>::<span class="ident">Value</span><span class="op">&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span>;
     <span class="kw">fn</span> <span class="ident">uninstall_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">add_instance</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">new_instance</span>: <span class="ident">InstanceConfiguration</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">add_instance</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
+        <span class="ident">dna_id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
+        <span class="ident">agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span>;
     <span class="kw">fn</span> <span class="ident">remove_instance</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span>;
     <span class="kw">fn</span> <span class="ident">start_instance</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainInstanceError</span><span class="op">&gt;</span>;
     <span class="kw">fn</span> <span class="ident">stop_instance</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainInstanceError</span><span class="op">&gt;</span>;
@@ -1239,11 +1491,25 @@
 }
 
 <span class="kw">impl</span> <span class="ident">ContainerAdmin</span> <span class="kw">for</span> <span class="ident">Container</span> {
-    <span class="kw">fn</span> <span class="ident">install_dna_from_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="ident">PathBuf</span>, <span class="ident">id</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Installs a DNA package from the file system to the container</span>
+    <span class="doccomment">/// If copy=true it will also copy the DNA package to the containers default</span>
+    <span class="doccomment">/// location for managing data.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function may also take an optional `properties` parameter. This can be any valid JSON</span>
+    <span class="doccomment">/// and will be injected in the dna package prior to installation. Existing properties will also be kept and</span>
+    <span class="doccomment">/// overriden by the passed properties in the case of collisions. This will change the dna hash!</span>
+    <span class="doccomment">/// (Note injecting properties requires that copy=true)</span>
+    <span class="kw">fn</span> <span class="ident">install_dna_from_file</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">path</span>: <span class="ident">PathBuf</span>,
+        <span class="ident">id</span>: <span class="ident">String</span>,
+        <span class="ident">copy</span>: <span class="ident">bool</span>,
+        <span class="ident">properties</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">serde_json</span>::<span class="ident">Value</span><span class="op">&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">path_string</span> <span class="op">=</span> <span class="ident">path</span>
             .<span class="ident">to_str</span>()
             .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="string">&quot;invalid path&quot;</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna</span> <span class="op">=</span>
             <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">dna_loader</span>).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">path_string</span>.<span class="ident">into</span>()).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="macro">format</span><span class="macro">!</span>(
                     <span class="string">&quot;Could not load DNA file \&quot;{}\&quot;, Error: {}&quot;</span>,
@@ -1252,11 +1518,29 @@
                 ))
             })<span class="question-mark">?</span>;
 
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">props</span>) <span class="op">=</span> <span class="ident">properties</span> {
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">copy</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(
+                    <span class="string">&quot;Cannot install DNA with properties unless copy flag is true&quot;</span>.<span class="ident">into</span>(),
+                ));
+            }
+            <span class="ident">json_patch</span>::<span class="ident">merge</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dna</span>.<span class="ident">properties</span>, <span class="kw-2">&amp;</span><span class="ident">props</span>);
+        }
+
+        <span class="kw">let</span> <span class="ident">config_path</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">copy</span> {
+            <span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">save_dna</span>(<span class="kw-2">&amp;</span><span class="ident">dna</span>)<span class="question-mark">?</span>,
+            <span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">path_string</span>),
+        };
+        <span class="kw">let</span> <span class="ident">config_path_str</span> <span class="op">=</span> <span class="ident">config_path</span>
+            .<span class="ident">to_str</span>()
+            .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="string">&quot;invalid path&quot;</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
+
         <span class="kw">let</span> <span class="ident">new_dna</span> <span class="op">=</span> <span class="ident">DnaConfiguration</span> {
             <span class="ident">id</span>: <span class="ident">id</span>.<span class="ident">clone</span>(),
-            <span class="ident">file</span>: <span class="ident">path_string</span>.<span class="ident">into</span>(),
+            <span class="ident">file</span>: <span class="ident">config_path_str</span>.<span class="ident">into</span>(),
             <span class="ident">hash</span>: <span class="ident">dna</span>.<span class="ident">address</span>().<span class="ident">to_string</span>(),
         };
+
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_config</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">clone</span>();
         <span class="ident">new_config</span>.<span class="ident">dnas</span>.<span class="ident">push</span>(<span class="ident">new_dna</span>.<span class="ident">clone</span>());
         <span class="ident">new_config</span>.<span class="ident">check_consistency</span>()<span class="question-mark">?</span>;
@@ -1310,9 +1594,29 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">add_instance</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">instance</span>: <span class="ident">InstanceConfiguration</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">add_instance</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
+        <span class="ident">dna_id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
+        <span class="ident">agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_config</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">clone</span>();
-        <span class="ident">new_config</span>.<span class="ident">instances</span>.<span class="ident">push</span>(<span class="ident">instance</span>.<span class="ident">clone</span>());
+        <span class="kw">let</span> <span class="ident">storage_path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">instance_storage_dir_path</span>().<span class="ident">join</span>(<span class="ident">id</span>.<span class="ident">clone</span>());
+        <span class="ident">fs</span>::<span class="ident">create_dir_all</span>(<span class="kw-2">&amp;</span><span class="ident">storage_path</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">new_instance</span> <span class="op">=</span> <span class="ident">InstanceConfiguration</span> {
+            <span class="ident">id</span>: <span class="ident">id</span>.<span class="ident">to_string</span>(),
+            <span class="ident">dna</span>: <span class="ident">dna_id</span>.<span class="ident">to_string</span>(),
+            <span class="ident">agent</span>: <span class="ident">agent_id</span>.<span class="ident">to_string</span>(),
+            <span class="ident">storage</span>: <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> {
+                <span class="ident">path</span>: <span class="ident">storage_path</span>
+                    .<span class="ident">to_str</span>()
+                    .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(
+                        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;invalid path {:?}&quot;</span>, <span class="ident">storage_path</span>).<span class="ident">into</span>(),
+                    ))<span class="question-mark">?</span>
+                    .<span class="ident">into</span>(),
+            },
+        };
+        <span class="ident">new_config</span>.<span class="ident">instances</span>.<span class="ident">push</span>(<span class="ident">new_instance</span>);
         <span class="ident">new_config</span>.<span class="ident">check_consistency</span>()<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">config</span> <span class="op">=</span> <span class="ident">new_config</span>;
         <span class="self">self</span>.<span class="ident">save_config</span>()<span class="question-mark">?</span>;
@@ -1348,6 +1652,7 @@
 
     <span class="kw">fn</span> <span class="ident">start_instance</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainInstanceError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">instances</span>.<span class="ident">get</span>(<span class="ident">id</span>)<span class="question-mark">?</span>;
+
         <span class="ident">notify</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Starting instance \&quot;{}\&quot;...&quot;</span>, <span class="ident">id</span>));
         <span class="ident">instance</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>().<span class="ident">start</span>()
     }
@@ -1647,7 +1952,7 @@
         <span class="ident">container</span>::<span class="ident">base</span>::{<span class="ident">tests</span>::<span class="ident">example_dna_string</span>, <span class="ident">DnaLoader</span>},
     };
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">agent</span>::<span class="ident">AgentId</span>, <span class="ident">dna</span>::<span class="ident">Dna</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
-    <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">fs</span>::<span class="ident">File</span>, <span class="ident">io</span>::<span class="ident">Read</span>};
+    <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">env</span>::<span class="ident">current_dir</span>, <span class="ident">fs</span>::<span class="ident">File</span>, <span class="ident">io</span>::<span class="ident">Read</span>};
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_dna_loader</span>() <span class="op">-&gt;</span> <span class="ident">DnaLoader</span> {
         <span class="kw">let</span> <span class="ident">loader</span> <span class="op">=</span>
@@ -1657,87 +1962,117 @@
         <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">loader</span>)
     }
 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty_bridges</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="string">&quot;bridges = []&quot;</span>.<span class="ident">to_string</span>()
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty_ui_bundles</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="string">&quot;ui_bundles = []&quot;</span>.<span class="ident">to_string</span>()
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty_ui_interfaces</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="string">&quot;ui_interfaces = []&quot;</span>.<span class="ident">to_string</span>()
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">persistence_dir</span>(<span class="ident">test_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="kw">let</span> <span class="ident">persist_dir</span> <span class="op">=</span> <span class="ident">current_dir</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Could not get current dir&quot;</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;tmp-test&quot;</span>)
+            .<span class="ident">join</span>(<span class="ident">test_name</span>);
+        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;persistence_dir = \&#39;{}\&#39;&quot;</span>, <span class="ident">persist_dir</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>()).<span class="ident">to_string</span>()
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">empty_bridges</span>();
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">persistence_dir</span>(<span class="ident">test_name</span>));
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">empty_ui_bundles</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">empty_ui_interfaces</span>());
+        <span class="ident">toml</span>
+    }
+
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">agent1</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="string">r#&quot;[[agents]]
-id = &quot;test-agent-1&quot;
-key_file = &quot;holo_tester.key&quot;
-name = &quot;Holo Tester 1&quot;
-public_address = &quot;HoloTester1-----------------------------------------------------------------------AAACZp4xHB&quot;&quot;#</span>
+id = &#39;test-agent-1&#39;
+key_file = &#39;holo_tester.key&#39;
+name = &#39;Holo Tester 1&#39;
+public_address = &#39;HoloTester1-----------------------------------------------------------------------AAACZp4xHB&#39;&quot;#</span>
     .<span class="ident">to_string</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">agent2</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="string">r#&quot;[[agents]]
-id = &quot;test-agent-2&quot;
-key_file = &quot;holo_tester.key&quot;
-name = &quot;Holo Tester 2&quot;
-public_address = &quot;HoloTester2-----------------------------------------------------------------------AAAGy4WW9e&quot;&quot;#</span>
+id = &#39;test-agent-2&#39;
+key_file = &#39;holo_tester.key&#39;
+name = &#39;Holo Tester 2&#39;
+public_address = &#39;HoloTester2-----------------------------------------------------------------------AAAGy4WW9e&#39;&quot;#</span>
     .<span class="ident">to_string</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dna</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="string">r#&quot;[[dnas]]
-file = &quot;app_spec.hcpkg&quot;
-hash = &quot;Qm328wyq38924y&quot;
-id = &quot;test-dna&quot;&quot;#</span>
+file = &#39;app_spec.hcpkg&#39;
+hash = &#39;Qm328wyq38924y&#39;
+id = &#39;test-dna&#39;&quot;#</span>
             .<span class="ident">to_string</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">instance1</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="string">r#&quot;[[instances]]
-agent = &quot;test-agent-1&quot;
-dna = &quot;test-dna&quot;
-id = &quot;test-instance-1&quot;
+agent = &#39;test-agent-1&#39;
+dna = &#39;test-dna&#39;
+id = &#39;test-instance-1&#39;
 
 [instances.storage]
-type = &quot;memory&quot;&quot;#</span>
+type = &#39;memory&#39;&quot;#</span>
             .<span class="ident">to_string</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">instance2</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="string">r#&quot;[[instances]]
-agent = &quot;test-agent-2&quot;
-dna = &quot;test-dna&quot;
-id = &quot;test-instance-2&quot;
+agent = &#39;test-agent-2&#39;
+dna = &#39;test-dna&#39;
+id = &#39;test-instance-2&#39;
 
 [instances.storage]
-type = &quot;memory&quot;&quot;#</span>
+type = &#39;memory&#39;&quot;#</span>
             .<span class="ident">to_string</span>()
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interface</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="string">r#&quot;[[interfaces]]
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interface</span>(<span class="ident">port</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">r#&quot;[[interfaces]]
 admin = true
-id = &quot;websocket interface&quot;
+id = &#39;websocket interface&#39;
 
 [[interfaces.instances]]
-id = &quot;test-instance-1&quot;
+id = &#39;test-instance-1&#39;
 
 [[interfaces.instances]]
-id = &quot;test-instance-2&quot;
+id = &#39;test-instance-2&#39;
 
 [interfaces.driver]
-port = 3000
-type = &quot;websocket&quot;&quot;#</span>
-            .<span class="ident">to_string</span>()
+port = {}
+type = &#39;websocket&#39;&quot;#</span>,
+            <span class="ident">port</span>
+        )
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">logger</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="string">r#&quot;[logger]
-type = &quot;&quot;
+type = &#39;&#39;
 [[logger.rules.rules]]
-color = &quot;red&quot;
+color = &#39;red&#39;
 exclude = false
-pattern = &quot;^err/&quot;
+pattern = &#39;^err/&#39;
 
 [[logger.rules.rules]]
-color = &quot;white&quot;
+color = &#39;white&#39;
 exclude = false
-pattern = &quot;^debug/dna&quot;
+pattern = &#39;^debug/dna&#39;
 
 [[logger.rules.rules]]
 exclude = false
-pattern = &quot;.*&quot;&quot;#</span>
+pattern = &#39;.*&#39;&quot;#</span>
             .<span class="ident">to_string</span>()
     }
 
@@ -1745,39 +2080,47 @@ pattern = &quot;.*&quot;&quot;#</span>
         <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n\n{}&quot;</span>, <span class="ident">base</span>, <span class="ident">new_block</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_toml</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;bridges = []&quot;</span>);
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_line</span>(<span class="ident">base</span>: <span class="ident">String</span>, <span class="ident">new_line</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n{}&quot;</span>, <span class="ident">base</span>, <span class="ident">new_line</span>)
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_toml</span>(<span class="ident">test_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">port</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">empty_bridges</span>();
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">persistence_dir</span>(<span class="ident">test_name</span>));
+
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance2</span>());
-        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>(<span class="ident">port</span>));
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
         <span class="ident">toml</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">create_test_container</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="ident">test_name</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Container</span> {
-        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">test_toml</span>()).<span class="ident">unwrap</span>();
+    <span class="kw">fn</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">port</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">Container</span> {
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">test_toml</span>(<span class="ident">test_name</span>, <span class="ident">port</span>)).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">Container</span>::<span class="ident">from_config</span>(<span class="ident">config</span>.<span class="ident">clone</span>());
         <span class="ident">container</span>.<span class="ident">dna_loader</span> <span class="op">=</span> <span class="ident">test_dna_loader</span>();
         <span class="ident">container</span>.<span class="ident">load_config</span>().<span class="ident">unwrap</span>();
-
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp_config_path</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">new</span>();
-        <span class="ident">tmp_config_path</span>.<span class="ident">push</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;./tmp-{}-container-config.toml&quot;</span>, <span class="ident">test_name</span>.<span class="ident">into</span>()));
-        <span class="ident">container</span>.<span class="ident">set_config_path</span>(<span class="ident">tmp_config_path</span>.<span class="ident">clone</span>());
         <span class="ident">container</span>
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_install_dna_from_file</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_install_dna_from_file&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_install_dna_from_file&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3000</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_dna_path</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">new</span>();
         <span class="ident">new_dna_path</span>.<span class="ident">push</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>);
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">container</span>.<span class="ident">install_dna_from_file</span>(<span class="ident">new_dna_path</span>.<span class="ident">clone</span>(), <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>)),
+            <span class="ident">container</span>.<span class="ident">install_dna_from_file</span>(
+                <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
+                <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
+                <span class="bool-val">false</span>,
+                <span class="prelude-val">None</span>
+            ),
             <span class="prelude-val">Ok</span>(()),
         );
 
@@ -1785,6 +2128,7 @@ pattern = &quot;.*&quot;&quot;#</span>
             <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>()).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>)).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">container</span>.<span class="ident">config</span>().<span class="ident">dnas</span>.<span class="ident">len</span>(), <span class="number">2</span>,);
+
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">container</span>.<span class="ident">config</span>().<span class="ident">dnas</span>,
             <span class="macro">vec</span><span class="macro">!</span>[
@@ -1802,15 +2146,12 @@ pattern = &quot;.*&quot;&quot;#</span>
         );
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>);
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
@@ -1818,49 +2159,162 @@ ui_interfaces = []&quot;#</span>,
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[dnas]]
-file = &quot;new-dna.hcpkg&quot;
-hash = &quot;QmPB7PJUjwj6zap7jB7oyk616sCRSSnNFRNouqhit6kMTr&quot;
-id = &quot;new-dna&quot;&quot;#</span>,
+file = &#39;new-dna.hcpkg&#39;
+hash = &#39;QmfLwk9WrK8ZxakduUpk5uqZqitwj6t6Rbcn6P7tbn5cWW&#39;
+id = &#39;new-dna&#39;&quot;#</span>,
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance2</span>());
-        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>(<span class="number">3000</span>));
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n&quot;</span>, <span class="ident">toml</span>);
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config_contents</span>, <span class="ident">toml</span>,);
     }
 
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">config</span>::<span class="ident">StorageConfiguration</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_install_dna_from_file_and_copy</span>() {
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_install_dna_from_file_and_copy&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3000</span>);
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_dna_path</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">new</span>();
+        <span class="ident">new_dna_path</span>.<span class="ident">push</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>);
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">container</span>.<span class="ident">install_dna_from_file</span>(
+                <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
+                <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
+                <span class="bool-val">true</span>,
+                <span class="prelude-val">None</span>
+            ),
+            <span class="prelude-val">Ok</span>(()),
+        );
+
+        <span class="kw">let</span> <span class="ident">new_dna</span> <span class="op">=</span>
+            <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>()).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>)).<span class="ident">unwrap</span>();
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">container</span>.<span class="ident">config</span>().<span class="ident">dnas</span>.<span class="ident">len</span>(), <span class="number">2</span>,);
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output_dna_file</span> <span class="op">=</span> <span class="ident">current_dir</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Could not get current dir&quot;</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;tmp-test&quot;</span>)
+            .<span class="ident">join</span>(<span class="ident">test_name</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;dna&quot;</span>);
+
+        <span class="ident">output_dna_file</span>.<span class="ident">push</span>(<span class="ident">new_dna</span>.<span class="ident">address</span>().<span class="ident">to_string</span>());
+        <span class="ident">output_dna_file</span>.<span class="ident">set_extension</span>(<span class="string">&quot;hcpkg&quot;</span>);
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">container</span>.<span class="ident">config</span>().<span class="ident">dnas</span>,
+            <span class="macro">vec</span><span class="macro">!</span>[
+                <span class="ident">DnaConfiguration</span> {
+                    <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-dna&quot;</span>),
+                    <span class="ident">file</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app_spec.hcpkg&quot;</span>),
+                    <span class="ident">hash</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>),
+                },
+                <span class="ident">DnaConfiguration</span> {
+                    <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
+                    <span class="ident">file</span>: <span class="ident">output_dna_file</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>(),
+                    <span class="ident">hash</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">new_dna</span>.<span class="ident">address</span>()),
+                },
+            ]
+        );
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">output_dna_file</span>.<span class="ident">is_file</span>())
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_install_dna_from_file_with_properties</span>() {
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_install_dna_from_file_with_properties&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3000</span>);
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_dna_path</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">new</span>();
+        <span class="ident">new_dna_path</span>.<span class="ident">push</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>);
+        <span class="kw">let</span> <span class="ident">new_props</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({<span class="string">&quot;propertyKey&quot;</span>: <span class="string">&quot;value&quot;</span>});
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">container</span>.<span class="ident">install_dna_from_file</span>(
+                <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
+                <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna-with-props&quot;</span>),
+                <span class="bool-val">false</span>,
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">new_props</span>)
+            ),
+            <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(
+                <span class="string">&quot;Cannot install DNA with properties unless copy flag is true&quot;</span>.<span class="ident">into</span>()
+            )),
+        );
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">container</span>.<span class="ident">install_dna_from_file</span>(
+                <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
+                <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna-with-props&quot;</span>),
+                <span class="bool-val">true</span>,
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">new_props</span>)
+            ),
+            <span class="prelude-val">Ok</span>(()),
+        );
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_dna</span> <span class="op">=</span>
+            <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>()).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>)).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">original_hash</span> <span class="op">=</span> <span class="ident">new_dna</span>.<span class="ident">address</span>();
+        <span class="ident">new_dna</span>.<span class="ident">properties</span> <span class="op">=</span> <span class="ident">new_props</span>;
+        <span class="kw">let</span> <span class="ident">new_hash</span> <span class="op">=</span> <span class="ident">new_dna</span>.<span class="ident">address</span>();
+        <span class="macro">assert_ne</span><span class="macro">!</span>(<span class="ident">original_hash</span>, <span class="ident">new_hash</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">container</span>.<span class="ident">config</span>().<span class="ident">dnas</span>.<span class="ident">len</span>(), <span class="number">2</span>,);
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output_dna_file</span> <span class="op">=</span> <span class="ident">current_dir</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Could not get current dir&quot;</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;tmp-test&quot;</span>)
+            .<span class="ident">join</span>(<span class="ident">test_name</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;dna&quot;</span>);
+
+        <span class="ident">output_dna_file</span>.<span class="ident">push</span>(<span class="ident">new_hash</span>.<span class="ident">to_string</span>());
+        <span class="ident">output_dna_file</span>.<span class="ident">set_extension</span>(<span class="string">&quot;hcpkg&quot;</span>);
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">container</span>.<span class="ident">config</span>().<span class="ident">dnas</span>,
+            <span class="macro">vec</span><span class="macro">!</span>[
+                <span class="ident">DnaConfiguration</span> {
+                    <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-dna&quot;</span>),
+                    <span class="ident">file</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app_spec.hcpkg&quot;</span>),
+                    <span class="ident">hash</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>),
+                },
+                <span class="ident">DnaConfiguration</span> {
+                    <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna-with-props&quot;</span>),
+                    <span class="ident">file</span>: <span class="ident">output_dna_file</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>(),
+                    <span class="ident">hash</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">new_dna</span>.<span class="ident">address</span>()),
+                },
+            ]
+        );
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">output_dna_file</span>.<span class="ident">is_file</span>())
+    }
+
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_add_instance</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_add_instance&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_add_instance&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3001</span>);
+
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_dna_path</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">new</span>();
         <span class="ident">new_dna_path</span>.<span class="ident">push</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>);
         <span class="ident">container</span>
-            .<span class="ident">install_dna_from_file</span>(<span class="ident">new_dna_path</span>.<span class="ident">clone</span>(), <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>))
+            .<span class="ident">install_dna_from_file</span>(<span class="ident">new_dna_path</span>.<span class="ident">clone</span>(), <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>), <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not install DNA&quot;</span>);
 
-        <span class="kw">let</span> <span class="ident">add_result</span> <span class="op">=</span> <span class="ident">container</span>.<span class="ident">add_instance</span>(<span class="ident">InstanceConfiguration</span> {
-            <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-instance&quot;</span>),
-            <span class="ident">dna</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
-            <span class="ident">agent</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-agent-1&quot;</span>),
-            <span class="ident">storage</span>: <span class="ident">StorageConfiguration</span>::<span class="ident">Memory</span>,
-        });
+        <span class="kw">let</span> <span class="ident">add_result</span> <span class="op">=</span> <span class="ident">container</span>.<span class="ident">add_instance</span>(
+            <span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-instance&quot;</span>),
+            <span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
+            <span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-agent-1&quot;</span>),
+        );
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">add_result</span>, <span class="prelude-val">Ok</span>(()));
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>);
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
@@ -1868,9 +2322,9 @@ ui_interfaces = []&quot;#</span>,
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[dnas]]
-file = &quot;new-dna.hcpkg&quot;
-hash = &quot;QmPB7PJUjwj6zap7jB7oyk616sCRSSnNFRNouqhit6kMTr&quot;
-id = &quot;new-dna&quot;&quot;#</span>,
+file = &#39;new-dna.hcpkg&#39;
+hash = &#39;QmfLwk9WrK8ZxakduUpk5uqZqitwj6t6Rbcn6P7tbn5cWW&#39;
+id = &#39;new-dna&#39;&quot;#</span>,
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance1</span>());
@@ -1879,15 +2333,28 @@ id = &quot;new-dna&quot;&quot;#</span>,
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[instances]]
-agent = &quot;test-agent-1&quot;
-dna = &quot;new-dna&quot;
-id = &quot;new-instance&quot;
-
-[instances.storage]
-type = &quot;memory&quot;&quot;#</span>,
+agent = &#39;test-agent-1&#39;
+dna = &#39;new-dna&#39;
+id = &#39;new-instance&#39;&quot;#</span>,
             ),
         );
-        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>());
+
+        <span class="kw">let</span> <span class="ident">storage_path</span> <span class="op">=</span> <span class="ident">current_dir</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Could not get current dir&quot;</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;tmp-test&quot;</span>)
+            .<span class="ident">join</span>(<span class="ident">test_name</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;storage&quot;</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;new-instance&quot;</span>);
+
+        <span class="kw">let</span> <span class="ident">storage_path_string</span> <span class="op">=</span> <span class="ident">storage_path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_owned</span>();
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(
+            <span class="ident">toml</span>,
+            <span class="macro">format</span><span class="macro">!</span>(
+                <span class="string">&quot;[instances.storage]\npath = &#39;{}&#39;\ntype = &#39;file&#39;&quot;</span>,
+                <span class="ident">storage_path_string</span>
+            ),
+        );
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>(<span class="number">3001</span>));
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n&quot;</span>, <span class="ident">toml</span>);
 
@@ -1899,22 +2366,22 @@ type = &quot;memory&quot;&quot;#</span>,
     <span class="doccomment">/// as well as the mentions of the removed instance are gone from the interfaces</span>
     <span class="doccomment">/// (to not render the config invalid).</span>
     <span class="kw">fn</span> <span class="ident">test_remove_instance</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_remove_instance&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_remove_instance&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3002</span>);
+
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">container</span>.<span class="ident">remove_instance</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-instance-1&quot;</span>)),
             <span class="prelude-val">Ok</span>(()),
         );
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>);
+
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
@@ -1925,14 +2392,14 @@ ui_interfaces = []&quot;#</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[interfaces]]
 admin = true
-id = &quot;websocket interface&quot;
+id = &#39;websocket interface&#39;
 
 [[interfaces.instances]]
-id = &quot;test-instance-2&quot;
+id = &#39;test-instance-2&#39;
 
 [interfaces.driver]
-port = 3000
-type = &quot;websocket&quot;&quot;#</span>,
+port = 3002
+type = &#39;websocket&#39;&quot;#</span>,
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
@@ -1946,21 +2413,24 @@ type = &quot;websocket&quot;&quot;#</span>,
     <span class="doccomment">/// as well as the instances that use the DNA and their mentions are gone from the interfaces</span>
     <span class="doccomment">/// (to not render the config invalid).</span>
     <span class="kw">fn</span> <span class="ident">test_uninstall_dna</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_uninstall_dna&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_uninstall_dna&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3003</span>);
+
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">container</span>.<span class="ident">uninstall_dna</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-dna&quot;</span>)), <span class="prelude-val">Ok</span>(()),);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-dnas = []
-instances = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">empty_bridges</span>();
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="string">&quot;dnas = []&quot;</span>.<span class="ident">to_string</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="string">&quot;instances = []&quot;</span>.<span class="ident">to_string</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">persistence_dir</span>(<span class="ident">test_name</span>));
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">empty_ui_bundles</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">empty_ui_interfaces</span>());
+
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="comment">//toml = add_block(toml, dna());</span>
@@ -1971,12 +2441,12 @@ ui_interfaces = []&quot;#</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[interfaces]]
 admin = true
-id = &quot;websocket interface&quot;
+id = &#39;websocket interface&#39;
 instances = []
 
 [interfaces.driver]
-port = 3000
-type = &quot;websocket&quot;&quot;#</span>,
+port = 3003
+type = &#39;websocket&#39;&quot;#</span>,
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
@@ -1987,7 +2457,7 @@ type = &quot;websocket&quot;&quot;#</span>,
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_start_stop_instance</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_start_stop_instance&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_start_stop_instance&quot;</span>, <span class="number">3004</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">container</span>.<span class="ident">start_instance</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-instance-1&quot;</span>)),
             <span class="prelude-val">Ok</span>(()),
@@ -2012,7 +2482,9 @@ type = &quot;websocket&quot;&quot;#</span>,
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_add_interface</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_add_interface&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_add_interface&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3005</span>);
+
         <span class="kw">let</span> <span class="ident">interface_config</span> <span class="op">=</span> <span class="ident">InterfaceConfiguration</span> {
             <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-interface&quot;</span>),
             <span class="ident">driver</span>: <span class="ident">InterfaceDriver</span>::<span class="ident">Http</span> { <span class="ident">port</span>: <span class="number">8080</span> },
@@ -2023,32 +2495,29 @@ type = &quot;websocket&quot;&quot;#</span>,
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">container</span>.<span class="ident">add_interface</span>(<span class="ident">interface_config</span>), <span class="prelude-val">Ok</span>(()),);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>);
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance2</span>());
-        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>(<span class="number">3005</span>));
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[interfaces]]
 admin = false
-id = &quot;new-interface&quot;
+id = &#39;new-interface&#39;
 instances = []
 
 [interfaces.driver]
 port = 8080
-type = &quot;http&quot;&quot;#</span>,
+type = &#39;http&#39;&quot;#</span>,
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
@@ -2059,7 +2528,9 @@ type = &quot;http&quot;&quot;#</span>,
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_remove_interface</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_remove_interface&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_remove_interface&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3006</span>);
+
         <span class="ident">container</span>.<span class="ident">start_all_interfaces</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">container</span>
             .<span class="ident">interface_threads</span>
@@ -2072,16 +2543,17 @@ type = &quot;http&quot;&quot;#</span>,
         );
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-interfaces = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">empty_bridges</span>();
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="string">&quot;interfaces = []&quot;</span>.<span class="ident">to_string</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">persistence_dir</span>(<span class="ident">test_name</span>));
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">empty_ui_bundles</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">empty_ui_interfaces</span>());
+
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
@@ -2100,21 +2572,23 @@ ui_interfaces = []&quot;#</span>,
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_add_instance_to_interface</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_add_instance_to_interface&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_add_instance_to_interface&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3007</span>);
+
         <span class="ident">container</span>.<span class="ident">start_all_interfaces</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">container</span>
             .<span class="ident">interface_threads</span>
             .<span class="ident">get</span>(<span class="string">&quot;websocket interface&quot;</span>)
             .<span class="ident">is_some</span>());
 
-        <span class="kw">let</span> <span class="ident">instance_config</span> <span class="op">=</span> <span class="ident">InstanceConfiguration</span> {
-            <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-instance&quot;</span>),
-            <span class="ident">dna</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-dna&quot;</span>),
-            <span class="ident">agent</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-agent-1&quot;</span>),
-            <span class="ident">storage</span>: <span class="ident">StorageConfiguration</span>::<span class="ident">Memory</span>,
-        };
-
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">container</span>.<span class="ident">add_instance</span>(<span class="ident">instance_config</span>.<span class="ident">clone</span>()), <span class="prelude-val">Ok</span>(()));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">container</span>.<span class="ident">add_instance</span>(
+                <span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-instance&quot;</span>),
+                <span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-dna&quot;</span>),
+                <span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-agent-1&quot;</span>)
+            ),
+            <span class="prelude-val">Ok</span>(())
+        );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">container</span>.<span class="ident">add_instance_to_interface</span>(
                 <span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;websocket interface&quot;</span>),
@@ -2124,15 +2598,12 @@ ui_interfaces = []&quot;#</span>,
         );
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>);
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
@@ -2142,12 +2613,25 @@ ui_interfaces = []&quot;#</span>,
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[instances]]
-agent = &quot;test-agent-1&quot;
-dna = &quot;test-dna&quot;
-id = &quot;new-instance&quot;
+agent = &#39;test-agent-1&#39;
+dna = &#39;test-dna&#39;
+id = &#39;new-instance&#39;&quot;#</span>,
+            ),
+        );
 
-[instances.storage]
-type = &quot;memory&quot;&quot;#</span>,
+        <span class="kw">let</span> <span class="ident">storage_path</span> <span class="op">=</span> <span class="ident">current_dir</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Could not get current dir&quot;</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;tmp-test&quot;</span>)
+            .<span class="ident">join</span>(<span class="ident">test_name</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;storage&quot;</span>)
+            .<span class="ident">join</span>(<span class="string">&quot;new-instance&quot;</span>);
+
+        <span class="kw">let</span> <span class="ident">storage_path_string</span> <span class="op">=</span> <span class="ident">storage_path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_owned</span>();
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(
+            <span class="ident">toml</span>,
+            <span class="macro">format</span><span class="macro">!</span>(
+                <span class="string">&quot;[instances.storage]\npath = &#39;{}&#39;\ntype = &#39;file&#39;&quot;</span>,
+                <span class="ident">storage_path_string</span>
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(
@@ -2155,20 +2639,20 @@ type = &quot;memory&quot;&quot;#</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[interfaces]]
 admin = true
-id = &quot;websocket interface&quot;
+id = &#39;websocket interface&#39;
 
 [[interfaces.instances]]
-id = &quot;test-instance-1&quot;
+id = &#39;test-instance-1&#39;
 
 [[interfaces.instances]]
-id = &quot;test-instance-2&quot;
+id = &#39;test-instance-2&#39;
 
 [[interfaces.instances]]
-id = &quot;new-instance&quot;
+id = &#39;new-instance&#39;
 
 [interfaces.driver]
-port = 3000
-type = &quot;websocket&quot;&quot;#</span>,
+port = 3007
+type = &#39;websocket&#39;&quot;#</span>,
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
@@ -2179,7 +2663,9 @@ type = &quot;websocket&quot;&quot;#</span>,
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_remove_instance_from_interface</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_remove_instance_from_interface&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_remove_instance_from_interface&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3008</span>);
+
         <span class="ident">container</span>.<span class="ident">start_all_interfaces</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">container</span>
             .<span class="ident">interface_threads</span>
@@ -2195,15 +2681,12 @@ type = &quot;websocket&quot;&quot;#</span>,
         );
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>);
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
@@ -2214,14 +2697,14 @@ ui_interfaces = []&quot;#</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[interfaces]]
 admin = true
-id = &quot;websocket interface&quot;
+id = &#39;websocket interface&#39;
 
 [[interfaces.instances]]
-id = &quot;test-instance-2&quot;
+id = &#39;test-instance-2&#39;
 
 [interfaces.driver]
-port = 3000
-type = &quot;websocket&quot;&quot;#</span>,
+port = 3008
+type = &#39;websocket&#39;&quot;#</span>,
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
@@ -2237,7 +2720,9 @@ type = &quot;websocket&quot;&quot;#</span>,
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_add_agent</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_add_agent&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_add_agent&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3009</span>);
+
         <span class="kw">let</span> <span class="ident">agent_config</span> <span class="op">=</span> <span class="ident">AgentConfiguration</span> {
             <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-agent&quot;</span>),
             <span class="ident">name</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Mr. New&quot;</span>),
@@ -2248,31 +2733,28 @@ type = &quot;websocket&quot;&quot;#</span>,
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">container</span>.<span class="ident">add_agent</span>(<span class="ident">agent_config</span>), <span class="prelude-val">Ok</span>(()),);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>);
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[agents]]
-id = &quot;new-agent&quot;
-key_file = &quot;new-test-path&quot;
-name = &quot;Mr. New&quot;
-public_address = &quot;new-------------------------------------------------------------------------------AAAFeOAoWg&quot;&quot;#</span>,
+id = &#39;new-agent&#39;
+key_file = &#39;new-test-path&#39;
+name = &#39;Mr. New&#39;
+public_address = &#39;new-------------------------------------------------------------------------------AAAFeOAoWg&#39;&quot;#</span>,
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance2</span>());
-        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>(<span class="number">3009</span>));
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n&quot;</span>, <span class="ident">toml</span>);
 
@@ -2281,7 +2763,8 @@ public_address = &quot;new------------------------------------------------------
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_remove_agent</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_remove_agent&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_remove_agent&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3010</span>);
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">container</span>.<span class="ident">remove_agent</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-agent-2&quot;</span>)),
@@ -2289,15 +2772,12 @@ public_address = &quot;new------------------------------------------------------
         );
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>);
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="comment">//toml = add_block(toml, agent2());</span>
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
@@ -2309,14 +2789,14 @@ ui_interfaces = []&quot;#</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[interfaces]]
 admin = true
-id = &quot;websocket interface&quot;
+id = &#39;websocket interface&#39;
 
 [[interfaces.instances]]
-id = &quot;test-instance-1&quot;
+id = &#39;test-instance-1&#39;
 
 [interfaces.driver]
-port = 3000
-type = &quot;websocket&quot;&quot;#</span>,
+port = 3010
+type = &#39;websocket&#39;&quot;#</span>,
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
@@ -2327,7 +2807,9 @@ type = &quot;websocket&quot;&quot;#</span>,
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_add_and_remove_bridge</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="string">&quot;test_add_and_remove_bridge&quot;</span>);
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_add_and_remove_bridge&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>, <span class="number">3011</span>);
+
         <span class="kw">let</span> <span class="ident">bridge</span> <span class="op">=</span> <span class="ident">Bridge</span> {
             <span class="ident">caller_id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-instance-1&quot;</span>),
             <span class="ident">callee_id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-instance-2&quot;</span>),
@@ -2337,29 +2819,30 @@ type = &quot;websocket&quot;&quot;#</span>,
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">container</span>.<span class="ident">add_bridge</span>(<span class="ident">bridge</span>), <span class="prelude-val">Ok</span>(()),);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">persistence_dir</span>(<span class="ident">test_name</span>);
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">empty_ui_bundles</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">empty_ui_interfaces</span>());
+
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[bridges]]
-callee_id = &quot;test-instance-2&quot;
-caller_id = &quot;test-instance-1&quot;
-handle = &quot;my favourite instance!&quot;&quot;#</span>,
+callee_id = &#39;test-instance-2&#39;
+caller_id = &#39;test-instance-1&#39;
+handle = &#39;my favourite instance!&#39;&quot;#</span>,
             ),
         );
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance2</span>());
-        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>(<span class="number">3011</span>));
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n&quot;</span>, <span class="ident">toml</span>);
 
@@ -2374,21 +2857,18 @@ handle = &quot;my favourite instance!&quot;&quot;#</span>,
         );
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config_contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span>
+            <span class="ident">File</span>::<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">container</span>.<span class="ident">config_path</span>()).<span class="ident">expect</span>(<span class="string">&quot;Could not open temp config file&quot;</span>);
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">config_contents</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not read temp config file&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;bridges = []
-ui_bundles = []
-ui_interfaces = []&quot;#</span>,
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>);
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">dna</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">instance2</span>());
-        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>());
+        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">interface</span>(<span class="number">3011</span>));
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">logger</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n&quot;</span>, <span class="ident">toml</span>);
 

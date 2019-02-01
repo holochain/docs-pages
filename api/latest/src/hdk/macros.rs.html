@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `hdk-rust/src/macros.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>macros.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `hdk-rust/src/macros.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>macros.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../..//index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -291,6 +291,93 @@
 <span id="291">291</span>
 <span id="292">292</span>
 <span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This file contains the define_zome! macro, and smaller helper macros.</span>
 
@@ -298,26 +385,37 @@
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">load_json</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">encoded_allocation_of_input</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {{
-        <span class="kw">let</span> <span class="ident">maybe_input</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory_serialization</span>::<span class="ident">load_json</span>(
+
+        <span class="kw">let</span> <span class="ident">maybe_input</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">load_ribosome_encoded_json</span>(
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">encoded_allocation_of_input</span>,
         );
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">hc_err</span>) <span class="op">=</span> <span class="ident">maybe_input</span> {
-            <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">store_and_return_output</span>(<span class="ident">hc_err</span>);
+
+        <span class="kw">match</span> <span class="ident">maybe_input</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">input</span>) <span class="op">=&gt;</span> <span class="ident">input</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">hc_err</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">return_code_for_allocation_result</span>(
+                <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">write_json</span>(<span class="ident">hc_err</span>)
+            ).<span class="ident">into</span>(),
         }
-        <span class="ident">maybe_input</span>
+
     }};
 }
+
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">load_string</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">encoded_allocation_of_input</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {{
-        <span class="kw">let</span> <span class="ident">maybe_input</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory_serialization</span>::<span class="ident">load_string</span>(
+
+        <span class="kw">let</span> <span class="ident">maybe_input</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">load_ribosome_encoded_string</span>(
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">encoded_allocation_of_input</span>,
         );
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">hc_err</span>) <span class="op">=</span> <span class="ident">maybe_input</span> {
-            <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">store_and_return_output</span>(<span class="ident">hc_err</span>);
+
+        <span class="kw">match</span> <span class="ident">maybe_input</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">input</span>) <span class="op">=&gt;</span> <span class="ident">input</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">hc_err</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">return_code_for_allocation_result</span>(
+                <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">write_json</span>(<span class="ident">hc_err</span>)
+            ).<span class="ident">into</span>(),
         }
-        <span class="ident">maybe_input</span>
+
     }};
 }
 
@@ -353,29 +451,41 @@
 <span class="doccomment">/// # use holochain_core_types::entry::entry_type::AppEntryType;</span>
 <span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
 <span class="doccomment">/// # use holochain_core_types::error::HolochainError;</span>
+<span class="doccomment">/// # use holochain_core_types::error::RibosomeEncodedValue;</span>
 <span class="doccomment">/// # use boolinator::Boolinator;</span>
 <span class="doccomment">/// use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">/// use holochain_core_types::{</span>
 <span class="doccomment">///     cas::content::Address,</span>
 <span class="doccomment">///     dna::entry_types::Sharing,</span>
 <span class="doccomment">/// };</span>
+<span class="doccomment">/// # use holochain_core_types::error::RibosomeEncodingBits;</span>
 <span class="doccomment">/// # // Adding empty functions so that the cfg(test) build can link.</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_init_globals(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_init_globals(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_commit_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_commit_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_get_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_get_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_entry_address(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_entry_address(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_query(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_query(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_update_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_update_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_remove_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_remove_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_send(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_send(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_sleep(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_debug(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_call(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_get_links(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_link_entries(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// #[derive(Serialize, Deserialize, Debug, DefaultJson)]</span>
@@ -405,7 +515,7 @@
 <span class="doccomment">///                 hdk::ValidationPackageDefinition::ChainFull</span>
 <span class="doccomment">///             },</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///             validation: |post: Post, _ctx: hdk::ValidationData| {</span>
+<span class="doccomment">///             validation: |post: Post, _validation_data: hdk::ValidationData| {</span>
 <span class="doccomment">///                 (post.content.len() &lt; 280)</span>
 <span class="doccomment">///                     .ok_or_else(|| String::from(&quot;Content too long&quot;))</span>
 <span class="doccomment">///             }</span>
@@ -421,10 +531,7 @@
 <span class="doccomment">///       format!(&quot;Received: {}&quot;, payload)</span>
 <span class="doccomment">///     }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     functions: {</span>
-<span class="doccomment">///         // &quot;main&quot; is the name of the capability</span>
-<span class="doccomment">///         // &quot;Public&quot; is the access setting of the capability</span>
-<span class="doccomment">///         main (Public) {</span>
+<span class="doccomment">///     functions: [</span>
 <span class="doccomment">///             // the name of this function, &quot;post_address&quot; is the</span>
 <span class="doccomment">///             // one to give while performing a `call` method to this function.</span>
 <span class="doccomment">///             // the name of the handler function must be different than the</span>
@@ -434,7 +541,12 @@
 <span class="doccomment">///                 outputs: |post: ZomeApiResult&lt;Address&gt;|,</span>
 <span class="doccomment">///                 handler: handle_post_address</span>
 <span class="doccomment">///             }</span>
-<span class="doccomment">///         }</span>
+<span class="doccomment">///     ]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     // by convention &quot;public&quot; is the name of the capability for functions</span>
+<span class="doccomment">///     // that can be called by anyone</span>
+<span class="doccomment">///     capabilities: {</span>
+<span class="doccomment">///         public (Public) [post_address]</span>
 <span class="doccomment">///     }</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -457,19 +569,24 @@
             }
         )<span class="op">*</span>
 
-        <span class="ident">functions</span> : {
+        <span class="ident">functions</span> : [
             $(
-                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cap</span>:<span class="ident">ident</span> ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vis</span>:<span class="ident">ident</span> ) {
-                    $(
                         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">zome_function_name</span>:<span class="ident">ident</span> : {
                             <span class="ident">inputs</span>: <span class="op">|</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_type</span>:<span class="ident">ty</span> ),<span class="op">*</span> <span class="op">|</span>,
                             <span class="ident">outputs</span>: <span class="op">|</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">output_param_name</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">output_param_type</span>:<span class="ident">ty</span> ),<span class="op">*</span> <span class="op">|</span>,
                             <span class="ident">handler</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">handler_path</span>:<span class="ident">path</span>
                         }
-                    )<span class="op">+</span>
-                }
-            )<span class="op">*</span>
-        }
+            )<span class="op">+</span>
+        ]
+
+        <span class="ident">capabilities</span> : {
+                $(
+                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">cap</span>:<span class="ident">ident</span> ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vis</span>:<span class="ident">ident</span> ) [
+                        $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">cap_fn</span>:<span class="ident">ident</span>),<span class="op">*</span>
+                    ]
+                )<span class="op">*</span>
+            }
+
 
     ) <span class="op">=&gt;</span> {
         <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
@@ -481,33 +598,61 @@
         }
 
         <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
-        <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">genesis</span>(<span class="ident">encoded_allocation_of_input</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
-            <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">init_global_memory</span>(<span class="ident">encoded_allocation_of_input</span>);
+        <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">genesis</span>(<span class="ident">encoded_allocation_of_input</span>: <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodingBits</span>) <span class="op">-&gt;</span> <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodingBits</span> {
+            <span class="kw">let</span> <span class="ident">maybe_allocation</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">allocation</span>::<span class="ident">WasmAllocation</span>::<span class="ident">try_from_ribosome_encoding</span>(<span class="ident">encoded_allocation_of_input</span>);
+            <span class="kw">let</span> <span class="ident">allocation</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_allocation</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">allocation</span>) <span class="op">=&gt;</span> <span class="ident">allocation</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">allocation_error</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodedValue</span>::<span class="ident">from</span>(<span class="ident">allocation_error</span>).<span class="ident">into</span>(),
+            };
+            <span class="kw">let</span> <span class="ident">init</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">init_global_memory</span>(<span class="ident">allocation</span>);
+            <span class="kw">if</span> <span class="ident">init</span>.<span class="ident">is_err</span>() {
+                <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">return_code_for_allocation_result</span>(
+                    <span class="ident">init</span>
+                ).<span class="ident">into</span>();
+            }
 
             <span class="kw">fn</span> <span class="ident">execute</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">genesis_expr</span>
             }
 
             <span class="kw">match</span> <span class="ident">execute</span>() {
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="number">0</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">store_and_return_output</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">holochain_core_types</span>::<span class="ident">json</span>::<span class="ident">RawString</span>::<span class="ident">from</span>(<span class="ident">e</span>)),
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodedValue</span>::<span class="ident">Success</span>.<span class="ident">into</span>(),
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">return_code_for_allocation_result</span>(
+                    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">write_json</span>(
+                        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">holochain_core_types</span>::<span class="ident">json</span>::<span class="ident">RawString</span>::<span class="ident">from</span>(<span class="ident">e</span>)
+                    )
+                ).<span class="ident">into</span>(),
             }
         }
 
         $(
             <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
-            <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">receive</span>(<span class="ident">encoded_allocation_of_input</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
-                <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">init_global_memory</span>(<span class="ident">encoded_allocation_of_input</span>);
+            <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">receive</span>(<span class="ident">encoded_allocation_of_input</span>: <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodingBits</span>) <span class="op">-&gt;</span> <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodingBits</span> {
+                <span class="kw">let</span> <span class="ident">maybe_allocation</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">allocation</span>::<span class="ident">WasmAllocation</span>::<span class="ident">try_from_ribosome_encoding</span>(<span class="ident">encoded_allocation_of_input</span>);
+                <span class="kw">let</span> <span class="ident">allocation</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_allocation</span> {
+                    <span class="prelude-val">Ok</span>(<span class="ident">allocation</span>) <span class="op">=&gt;</span> <span class="ident">allocation</span>,
+                    <span class="prelude-val">Err</span>(<span class="ident">allocation_error</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodedValue</span>::<span class="ident">from</span>(<span class="ident">allocation_error</span>).<span class="ident">into</span>(),
+                };
+                <span class="kw">let</span> <span class="ident">init</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">init_global_memory</span>(<span class="ident">allocation</span>);
+                <span class="kw">if</span> <span class="ident">init</span>.<span class="ident">is_err</span>() {
+                    <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">return_code_for_allocation_result</span>(
+                        <span class="ident">init</span>
+                    ).<span class="ident">into</span>();
+                }
 
                 <span class="comment">// Deserialize input</span>
-                <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="macro">load_string</span><span class="macro">!</span>(<span class="ident">encoded_allocation_of_input</span>).<span class="ident">unwrap</span>();
+                <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="macro">load_string</span><span class="macro">!</span>(<span class="ident">encoded_allocation_of_input</span>);
 
                 <span class="kw">fn</span> <span class="ident">execute</span>(<span class="ident">payload</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
                     <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">receive_param</span> <span class="op">=</span> <span class="ident">payload</span>;
                     <span class="macro-nonterminal">$</span><span class="macro-nonterminal">receive_expr</span>
                 }
 
-                <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">store_and_return_output</span>(<span class="ident">execute</span>(<span class="ident">input</span>))
+                <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">return_code_for_allocation_result</span>(
+                    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">write_json</span>(
+                        <span class="ident">execute</span>(<span class="ident">input</span>)
+                    )
+                ).<span class="ident">into</span>()
             }
         )<span class="op">*</span>
 
@@ -518,7 +663,8 @@
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">__list_capabilities</span>() <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">ZomeCapabilities</span> {
 
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">capabilities</span>::{<span class="ident">Capability</span>, <span class="ident">CapabilityType</span>, <span class="ident">FnParameter</span>, <span class="ident">FnDeclaration</span>};
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">capabilities</span>::{<span class="ident">Capability</span>, <span class="ident">CapabilityType</span>};
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">fn_declarations</span>::{<span class="ident">FnParameter</span>, <span class="ident">FnDeclaration</span>};
             <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 
             <span class="kw">let</span> <span class="ident">return_value</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">ZomeCapabilities</span> <span class="op">=</span> {
@@ -529,20 +675,7 @@
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">Capability</span>::<span class="ident">new</span>(<span class="ident">CapabilityType</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vis</span>);
                         <span class="ident">capability</span>.<span class="ident">functions</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
                             $(
-                                <span class="ident">FnDeclaration</span> {
-                                    <span class="ident">name</span>: <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">zome_function_name</span>).<span class="ident">into</span>(),
-                                    <span class="ident">inputs</span>: <span class="macro">vec</span><span class="macro">!</span>[
-                                        $(
-                                            <span class="ident">FnParameter</span>::<span class="ident">new</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_name</span>), <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_type</span>))
-                                        ),<span class="op">*</span>
-                                    ],
-                                    <span class="ident">outputs</span>: <span class="macro">vec</span><span class="macro">!</span>[
-                                        $(
-                                            <span class="ident">FnParameter</span>::<span class="ident">new</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">output_param_name</span>), <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">output_param_type</span>))
-                                        ),<span class="op">*</span>
-                                    ]
-                                }
-
+                                <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">cap_fn</span>).<span class="ident">into</span>()
                             ),<span class="op">+</span>
                         ];
 
@@ -556,21 +689,61 @@
             <span class="ident">return_value</span>
         }
 
+        <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">__list_functions</span>() <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">ZomeFnDeclarations</span> {
+
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">capabilities</span>::{<span class="ident">Capability</span>, <span class="ident">CapabilityType</span>};
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">fn_declarations</span>::{<span class="ident">FnParameter</span>, <span class="ident">FnDeclaration</span>};
+
+            <span class="kw">let</span> <span class="ident">return_value</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">ZomeFnDeclarations</span> <span class="op">=</span> {
+                <span class="macro">vec</span><span class="macro">!</span>[
+
+                    $(
+                         <span class="ident">FnDeclaration</span> {
+                                    <span class="ident">name</span>: <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">zome_function_name</span>).<span class="ident">into</span>(),
+                                    <span class="ident">inputs</span>: <span class="macro">vec</span><span class="macro">!</span>[
+                                        $(
+                                            <span class="ident">FnParameter</span>::<span class="ident">new</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_name</span>), <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_type</span>))
+                                        ),<span class="op">*</span>
+                                    ],
+                                    <span class="ident">outputs</span>: <span class="macro">vec</span><span class="macro">!</span>[
+                                        $(
+                                            <span class="ident">FnParameter</span>::<span class="ident">new</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">output_param_name</span>), <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">output_param_type</span>))
+                                        ),<span class="op">*</span>
+                                    ]
+                                }
+                    ),<span class="op">+</span>
+
+                ]
+            };
+
+            <span class="ident">return_value</span>
+        }
+
         $(
-            $(
                 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
-                <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">zome_function_name</span>(<span class="ident">encoded_allocation_of_input</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
-                    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">init_global_memory</span>(<span class="ident">encoded_allocation_of_input</span>);
+                <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">zome_function_name</span>(<span class="ident">encoded_allocation_of_input</span>: <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodingBits</span>) <span class="op">-&gt;</span> <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodingBits</span> {
+                    <span class="kw">let</span> <span class="ident">maybe_allocation</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">allocation</span>::<span class="ident">WasmAllocation</span>::<span class="ident">try_from_ribosome_encoding</span>(<span class="ident">encoded_allocation_of_input</span>);
+                    <span class="kw">let</span> <span class="ident">allocation</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_allocation</span> {
+                        <span class="prelude-val">Ok</span>(<span class="ident">allocation</span>) <span class="op">=&gt;</span> <span class="ident">allocation</span>,
+                        <span class="prelude-val">Err</span>(<span class="ident">allocation_error</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodedValue</span>::<span class="ident">from</span>(<span class="ident">allocation_error</span>).<span class="ident">into</span>(),
+                    };
+                    <span class="kw">let</span> <span class="ident">init</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">init_global_memory</span>(<span class="ident">allocation</span>);
+                    <span class="kw">if</span> <span class="ident">init</span>.<span class="ident">is_err</span>() {
+                        <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">return_code_for_allocation_result</span>(
+                            <span class="ident">init</span>
+                        ).<span class="ident">into</span>();
+                    }
 
                     <span class="comment">// Macro&#39;d InputStruct</span>
-                    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Debug</span>)]</span>
+                    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Debug</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types_derive</span>::<span class="ident">DefaultJson</span>)]</span>
                     <span class="kw">struct</span> <span class="ident">InputStruct</span> {
                         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_name</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_type</span>),<span class="op">*</span>
                     }
 
                     <span class="comment">// Deserialize input</span>
-                    <span class="kw">let</span> <span class="ident">maybe_input</span> <span class="op">=</span> <span class="macro">load_json</span><span class="macro">!</span>(<span class="ident">encoded_allocation_of_input</span>);
-                    <span class="kw">let</span> <span class="ident">input</span>: <span class="ident">InputStruct</span> <span class="op">=</span> <span class="ident">maybe_input</span>.<span class="ident">unwrap</span>();
+                    <span class="kw">let</span> <span class="ident">input</span>: <span class="ident">InputStruct</span> <span class="op">=</span> <span class="macro">load_json</span><span class="macro">!</span>(<span class="ident">encoded_allocation_of_input</span>);
 
                     <span class="comment">// Macro&#39;d function body</span>
                     <span class="kw">fn</span> <span class="ident">execute</span> (<span class="ident">params</span>: <span class="ident">InputStruct</span>) <span class="op">-&gt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">output_param_type</span> )<span class="op">*</span> {
@@ -579,10 +752,11 @@
                         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">handler_path</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_name</span>),<span class="kw-2">*</span>)
                     }
 
-                    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">store_and_return_output</span>(<span class="ident">execute</span>(<span class="ident">input</span>))
+                    <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">return_code_for_allocation_result</span>(
+                        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">write_json</span>(<span class="ident">execute</span>(<span class="ident">input</span>))
+                    ).<span class="ident">into</span>()
                 }
-            )<span class="op">+</span>
-        )<span class="op">*</span>
+        )<span class="op">+</span>
     };
 }
 </pre></div>

@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["QueryArgsNames",""]],"struct":[["QueryArgs",""]],"type":[["QueryResult",""]]});
+initSidebarItems({"enum":[["QueryArgsNames",""],["QueryResult",""]],"struct":[["QueryArgs",""],["QueryArgsOptions",""]]});

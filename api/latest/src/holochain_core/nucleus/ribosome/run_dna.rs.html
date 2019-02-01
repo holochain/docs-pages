@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/nucleus/ribosome/run_dna.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>run_dna.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/nucleus/ribosome/run_dna.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>run_dna.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../..//index.html'><img src='../../../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -174,20 +174,40 @@
 <span id="174">174</span>
 <span id="175">175</span>
 <span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">nucleus</span>::{
-        <span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiFunction</span>, <span class="ident">memory</span>::<span class="ident">SinglePageManager</span>, <span class="ident">Runtime</span>},
+        <span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiFunction</span>, <span class="ident">memory</span>::<span class="ident">WasmPageManager</span>, <span class="ident">Runtime</span>},
         <span class="ident">ZomeFnCall</span>, <span class="ident">ZomeFnResult</span>,
     },
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">error</span>::{<span class="ident">HcResult</span>, <span class="ident">HolochainError</span>, <span class="ident">RibosomeErrorCode</span>, <span class="ident">RibosomeReturnCode</span>},
+    <span class="ident">error</span>::{
+        <span class="ident">HcResult</span>, <span class="ident">HolochainError</span>, <span class="ident">RibosomeEncodedValue</span>, <span class="ident">RibosomeEncodingBits</span>, <span class="ident">RibosomeRuntimeBits</span>,
+    },
     <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
-<span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">memory_allocation</span>::<span class="ident">decode_encoded_allocation</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">str</span>::<span class="ident">FromStr</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
+<span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">allocation</span>::{<span class="ident">AllocationError</span>, <span class="ident">WasmAllocation</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">str</span>::<span class="ident">FromStr</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
 <span class="kw">use</span> <span class="ident">wasmi</span>::{
     <span class="self">self</span>, <span class="ident">Error</span> <span class="kw">as</span> <span class="ident">InterpreterError</span>, <span class="ident">FuncInstance</span>, <span class="ident">FuncRef</span>, <span class="ident">ImportsBuilder</span>, <span class="ident">ModuleImportResolver</span>,
     <span class="ident">ModuleInstance</span>, <span class="ident">NopExternals</span>, <span class="ident">RuntimeValue</span>, <span class="ident">Signature</span>, <span class="ident">ValueType</span>,
@@ -236,10 +256,10 @@
                 <span class="ident">ZomeApiFunction</span>::<span class="ident">Abort</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">FuncInstance</span>::<span class="ident">alloc_host</span>(
                     <span class="ident">Signature</span>::<span class="ident">new</span>(
                         <span class="kw-2">&amp;</span>[
-                            <span class="ident">ValueType</span>::<span class="ident">I32</span>,
-                            <span class="ident">ValueType</span>::<span class="ident">I32</span>,
-                            <span class="ident">ValueType</span>::<span class="ident">I32</span>,
-                            <span class="ident">ValueType</span>::<span class="ident">I32</span>,
+                            <span class="ident">ValueType</span>::<span class="ident">I64</span>,
+                            <span class="ident">ValueType</span>::<span class="ident">I64</span>,
+                            <span class="ident">ValueType</span>::<span class="ident">I64</span>,
+                            <span class="ident">ValueType</span>::<span class="ident">I64</span>,
                         ][..],
                         <span class="prelude-val">None</span>,
                     ),
@@ -247,7 +267,7 @@
                 )),
                 <span class="comment">// All of our Zome API Functions have the same signature</span>
                 <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">FuncInstance</span>::<span class="ident">alloc_host</span>(
-                    <span class="ident">Signature</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[<span class="ident">ValueType</span>::<span class="ident">I32</span>][..], <span class="prelude-val">Some</span>(<span class="ident">ValueType</span>::<span class="ident">I32</span>)),
+                    <span class="ident">Signature</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[<span class="ident">ValueType</span>::<span class="ident">I64</span>][..], <span class="prelude-val">Some</span>(<span class="ident">ValueType</span>::<span class="ident">I64</span>)),
                     <span class="ident">api_fn</span> <span class="kw">as</span> <span class="ident">usize</span>,
                 )),
             }
@@ -269,7 +289,7 @@
 
     <span class="comment">// instantiate runtime struct for passing external state data over wasm but not to wasm</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">runtime</span> <span class="op">=</span> <span class="ident">Runtime</span> {
-        <span class="ident">memory_manager</span>: <span class="ident">SinglePageManager</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">wasm_instance</span>),
+        <span class="ident">memory_manager</span>: <span class="ident">WasmPageManager</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">wasm_instance</span>),
         <span class="ident">context</span>,
         <span class="ident">zome_call</span>: <span class="ident">zome_call</span>.<span class="ident">clone</span>(),
         <span class="ident">dna_name</span>: <span class="ident">dna_name</span>.<span class="ident">to_string</span>(),
@@ -277,34 +297,36 @@
 
     <span class="comment">// Write input arguments in wasm memory</span>
     <span class="comment">// scope for mutable borrow of runtime</span>
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_input</span>: <span class="ident">u32</span>;
+    <span class="kw">let</span> <span class="ident">encoded_allocation_of_input</span>: <span class="ident">RibosomeEncodingBits</span>;
     {
         <span class="kw">let</span> <span class="ident">mut_runtime</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">runtime</span>;
-        <span class="kw">let</span> <span class="ident">maybe_allocation_of_input</span> <span class="op">=</span> <span class="ident">mut_runtime</span>.<span class="ident">memory_manager</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="ident">input_parameters</span>);
-        <span class="ident">encoded_allocation_of_input</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_allocation_of_input</span> {
+        <span class="kw">let</span> <span class="ident">maybe_allocation</span> <span class="op">=</span> <span class="ident">mut_runtime</span>.<span class="ident">memory_manager</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="ident">input_parameters</span>);
+        <span class="ident">encoded_allocation_of_input</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_allocation</span> {
             <span class="comment">// No allocation to write is ok</span>
-            <span class="prelude-val">Err</span>(<span class="ident">RibosomeErrorCode</span>::<span class="ident">ZeroSizedAllocation</span>) <span class="op">=&gt;</span> <span class="number">0</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">AllocationError</span>::<span class="ident">ZeroLength</span>) <span class="op">=&gt;</span> <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Success</span>.<span class="ident">into</span>(),
             <span class="comment">// Any other error is memory related</span>
             <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">RibosomeFailed</span>(<span class="ident">err</span>.<span class="ident">to_string</span>()));
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">RibosomeFailed</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">err</span>)));
             }
             <span class="comment">// Write successful, encode allocation</span>
-            <span class="prelude-val">Ok</span>(<span class="ident">allocation_of_input</span>) <span class="op">=&gt;</span> <span class="ident">allocation_of_input</span>.<span class="ident">encode</span>(),
+            <span class="prelude-val">Ok</span>(<span class="ident">allocation</span>) <span class="op">=&gt;</span> <span class="ident">RibosomeEncodedValue</span>::<span class="ident">from</span>(<span class="ident">allocation</span>).<span class="ident">into</span>(),
         }
     }
 
     <span class="comment">// scope for mutable borrow of runtime</span>
-    <span class="kw">let</span> <span class="ident">returned_encoded_allocation</span>: <span class="ident">u32</span>;
+    <span class="kw">let</span> <span class="ident">returned_encoding</span>: <span class="ident">RibosomeEncodingBits</span>;
     {
         <span class="kw">let</span> <span class="ident">mut_runtime</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">runtime</span>;
 
         <span class="comment">// invoke function in wasm instance</span>
         <span class="comment">// arguments are info for wasm on how to retrieve complex input arguments</span>
         <span class="comment">// which have been set in memory module</span>
-        <span class="ident">returned_encoded_allocation</span> <span class="op">=</span> <span class="ident">wasm_instance</span>
+        <span class="ident">returned_encoding</span> <span class="op">=</span> <span class="ident">wasm_instance</span>
             .<span class="ident">invoke_export</span>(
                 <span class="ident">zome_call</span>.<span class="ident">fn_name</span>.<span class="ident">clone</span>().<span class="ident">as_str</span>(),
-                <span class="kw-2">&amp;</span>[<span class="ident">RuntimeValue</span>::<span class="ident">I32</span>(<span class="ident">encoded_allocation_of_input</span> <span class="kw">as</span> <span class="ident">i32</span>)],
+                <span class="kw-2">&amp;</span>[<span class="ident">RuntimeValue</span>::<span class="ident">I64</span>(
+                    <span class="ident">RibosomeEncodingBits</span>::<span class="ident">from</span>(<span class="ident">encoded_allocation_of_input</span>) <span class="kw">as</span> <span class="ident">RibosomeRuntimeBits</span>,
+                )],
                 <span class="ident">mut_runtime</span>,
             )
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">RibosomeFailed</span>(<span class="ident">err</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>
@@ -314,41 +336,55 @@
     }
 
     <span class="comment">// Handle result returned by called zome function</span>
-    <span class="kw">let</span> <span class="ident">maybe_allocation</span> <span class="op">=</span> <span class="ident">decode_encoded_allocation</span>(<span class="ident">returned_encoded_allocation</span>);
+    <span class="kw">let</span> <span class="ident">return_code</span> <span class="op">=</span> <span class="ident">RibosomeEncodedValue</span>::<span class="ident">from</span>(<span class="ident">returned_encoding</span>);
+
     <span class="kw">let</span> <span class="ident">return_log_msg</span>: <span class="ident">String</span>;
     <span class="kw">let</span> <span class="ident">return_result</span>: <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span>;
-    <span class="kw">match</span> <span class="ident">maybe_allocation</span> {
-        <span class="comment">// Nothing in memory, return result depending on return_code received.</span>
-        <span class="prelude-val">Err</span>(<span class="ident">return_code</span>) <span class="op">=&gt;</span> {
+
+    <span class="kw">match</span> <span class="ident">return_code</span>.<span class="ident">clone</span>() {
+        <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Success</span> <span class="op">=&gt;</span> {
             <span class="ident">return_log_msg</span> <span class="op">=</span> <span class="ident">return_code</span>.<span class="ident">to_string</span>();
-            <span class="ident">return_result</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">return_code</span> {
-                <span class="ident">RibosomeReturnCode</span>::<span class="ident">Success</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">null</span>()),
-                <span class="ident">RibosomeReturnCode</span>::<span class="ident">Failure</span>(<span class="ident">err_code</span>) <span class="op">=&gt;</span> {
-                    <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">RibosomeFailed</span>(<span class="ident">err_code</span>.<span class="ident">to_string</span>()))
-                }
-            };
+            <span class="ident">return_result</span> <span class="op">=</span> <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">null</span>());
         }
-        <span class="comment">// Something in memory, try to read and return it</span>
-        <span class="prelude-val">Ok</span>(<span class="ident">valid_allocation</span>) <span class="op">=&gt;</span> {
-            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">runtime</span>.<span class="ident">memory_manager</span>.<span class="ident">read</span>(<span class="ident">valid_allocation</span>);
-            <span class="kw">let</span> <span class="ident">maybe_zome_result</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">result</span>);
-            <span class="kw">match</span> <span class="ident">maybe_zome_result</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
-                    <span class="ident">return_log_msg</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">to_string</span>();
-                    <span class="ident">return_result</span> <span class="op">=</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">RibosomeFailed</span>(<span class="ident">err</span>.<span class="ident">to_string</span>()));
+
+        <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Failure</span>(<span class="ident">err_code</span>) <span class="op">=&gt;</span> {
+            <span class="ident">return_log_msg</span> <span class="op">=</span> <span class="ident">return_code</span>.<span class="ident">to_string</span>();
+            <span class="ident">return_result</span> <span class="op">=</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">RibosomeFailed</span>(<span class="ident">err_code</span>.<span class="ident">to_string</span>()));
+        }
+
+        <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Allocation</span>(<span class="ident">ribosome_allocation</span>) <span class="op">=&gt;</span> {
+            <span class="kw">match</span> <span class="ident">WasmAllocation</span>::<span class="ident">try_from</span>(<span class="ident">ribosome_allocation</span>) {
+                <span class="prelude-val">Ok</span>(<span class="ident">allocation</span>) <span class="op">=&gt;</span> {
+                    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">runtime</span>.<span class="ident">memory_manager</span>.<span class="ident">read</span>(<span class="ident">allocation</span>);
+                    <span class="kw">match</span> <span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">result</span>) {
+                        <span class="prelude-val">Ok</span>(<span class="ident">json_string</span>) <span class="op">=&gt;</span> {
+                            <span class="ident">return_log_msg</span> <span class="op">=</span> <span class="ident">json_string</span>.<span class="ident">clone</span>();
+                            <span class="ident">return_result</span> <span class="op">=</span> <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">json_string</span>));
+                        }
+                        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
+                            <span class="ident">return_log_msg</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">to_string</span>();
+                            <span class="ident">return_result</span> <span class="op">=</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">RibosomeFailed</span>(<span class="ident">err</span>.<span class="ident">to_string</span>()));
+                        }
+                    }
                 }
-                <span class="prelude-val">Ok</span>(<span class="ident">json_str</span>) <span class="op">=&gt;</span> {
-                    <span class="ident">return_log_msg</span> <span class="op">=</span> <span class="ident">json_str</span>.<span class="ident">clone</span>();
-                    <span class="ident">return_result</span> <span class="op">=</span> <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">json_str</span>));
+                <span class="prelude-val">Err</span>(<span class="ident">allocation_error</span>) <span class="op">=&gt;</span> {
+                    <span class="ident">return_log_msg</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">allocation_error</span>.<span class="ident">clone</span>());
+                    <span class="ident">return_result</span> <span class="op">=</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">RibosomeFailed</span>(<span class="ident">String</span>::<span class="ident">from</span>(
+                        <span class="ident">allocation_error</span>,
+                    )));
                 }
             }
         }
     };
+
     <span class="comment">// Log &amp; done</span>
-    <span class="ident">runtime</span>.<span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-        <span class="string">&quot;debug/zome: Zome Function &#39;{}&#39; returned: {}&quot;</span>,
-        <span class="ident">zome_call</span>.<span class="ident">fn_name</span>, <span class="ident">return_log_msg</span>,
-    ));
+    <span class="comment">// @TODO make this more sophisticated (truncation or something)</span>
+    <span class="comment">// right now we have tests that return multiple wasm pages (64k+ bytes) so this is very spammy</span>
+    <span class="comment">// runtime.context.log(format!(</span>
+    <span class="comment">//     &quot;debug/zome: Zome Function &#39;{}&#39; returned: {}&quot;,</span>
+    <span class="comment">//     zome_call.fn_name, return_log_msg,</span>
+    <span class="comment">// ));</span>
+    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">return_log_msg</span>;
     <span class="kw">return</span> <span class="ident">return_result</span>;
 }
 </pre></div>

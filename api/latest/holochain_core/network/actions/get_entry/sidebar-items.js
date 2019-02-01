@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["get_entry","GetEntry Action Creator This is the network version of get_entry that makes the network module start a look-up process."]],"struct":[["GetEntryFuture","GetEntryFuture resolves to a HcResult. Tracks the state of the network module"]]});
+initSidebarItems({"fn":[["get_entry","FetchEntry Action Creator This is the network version of get_entry that makes the network module start a look-up process."]],"struct":[["GetEntryFuture","GetEntryFuture resolves to a HcResult. Tracks the state of the network module"]]});

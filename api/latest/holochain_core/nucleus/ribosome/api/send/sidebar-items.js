@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["invoke_send","ZomeApiFunction::Send function code args: [0] encoded MemoryAllocation as u32 Expected complex argument: SendArgs Returns an HcApiReturnCode as I32"]]});
+initSidebarItems({"fn":[["invoke_send","ZomeApiFunction::Send function code args: [0] encoded MemoryAllocation as u64 Expected complex argument: SendArgs Returns an HcApiReturnCode as I64"]]});

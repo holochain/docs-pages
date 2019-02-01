@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/nucleus/ribosome/api/get_entry.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>get_entry.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../light.css" id="themeStyle"><script src="../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../settings.html"><img src="../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/nucleus/ribosome/api/get_entry.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>get_entry.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../light.css" id="themeStyle"><script src="../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../..//index.html'><img src='../../../../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../settings.html"><img src="../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -296,6 +296,26 @@
 <span id="296">296</span>
 <span id="297">297</span>
 <span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>},
@@ -307,9 +327,9 @@
 <span class="kw">use</span> <span class="ident">wasmi</span>::{<span class="ident">RuntimeArgs</span>, <span class="ident">RuntimeValue</span>};
 
 <span class="doccomment">/// ZomeApiFunction::GetAppEntry function code</span>
-<span class="doccomment">/// args: [0] encoded MemoryAllocation as u32</span>
+<span class="doccomment">/// args: [0] encoded MemoryAllocation as u64</span>
 <span class="doccomment">/// Expected complex argument: GetEntryArgs</span>
-<span class="doccomment">/// Returns an HcApiReturnCode as I32</span>
+<span class="doccomment">/// Returns an HcApiReturnCode as I64</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">invoke_get_entry</span>(<span class="ident">runtime</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Runtime</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">RuntimeArgs</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span> {
     <span class="comment">// deserialize args</span>
     <span class="kw">let</span> <span class="ident">args_str</span> <span class="op">=</span> <span class="ident">runtime</span>.<span class="ident">load_json_string_from_args</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>);
@@ -364,7 +384,13 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_get_args_bytes</span>() <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">entry_args</span> <span class="op">=</span> <span class="ident">GetEntryArgs</span> {
             <span class="ident">address</span>: <span class="ident">test_entry</span>().<span class="ident">address</span>(),
-            <span class="ident">options</span>: <span class="ident">GetEntryOptions</span>::<span class="ident">new</span>(<span class="ident">StatusRequestKind</span>::<span class="ident">Latest</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="bool-val">false</span>),
+            <span class="ident">options</span>: <span class="ident">GetEntryOptions</span>::<span class="ident">new</span>(
+                <span class="ident">StatusRequestKind</span>::<span class="ident">Latest</span>,
+                <span class="bool-val">true</span>,
+                <span class="bool-val">false</span>,
+                <span class="bool-val">false</span>,
+                <span class="ident">Default</span>::<span class="ident">default</span>(),
+            ),
         };
         <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">entry_args</span>).<span class="ident">into_bytes</span>()
     }
@@ -373,7 +399,13 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_get_args_unknown</span>() <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">entry_args</span> <span class="op">=</span> <span class="ident">GetEntryArgs</span> {
             <span class="ident">address</span>: <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;xxxxxxxxx&quot;</span>),
-            <span class="ident">options</span>: <span class="ident">GetEntryOptions</span>::<span class="ident">new</span>(<span class="ident">StatusRequestKind</span>::<span class="ident">Latest</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="bool-val">false</span>),
+            <span class="ident">options</span>: <span class="ident">GetEntryOptions</span>::<span class="ident">new</span>(
+                <span class="ident">StatusRequestKind</span>::<span class="ident">Latest</span>,
+                <span class="bool-val">true</span>,
+                <span class="bool-val">false</span>,
+                <span class="bool-val">false</span>,
+                <span class="ident">Default</span>::<span class="ident">default</span>(),
+            ),
         };
         <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">entry_args</span>).<span class="ident">into_bytes</span>()
     }
@@ -388,15 +420,15 @@
 (module
     (import &quot;env&quot; &quot;hc_get_entry&quot;
         (func $get
-            (param i32)
-            (result i32)
+            (param i64)
+            (result i64)
         )
     )
 
     (import &quot;env&quot; &quot;hc_commit_entry&quot;
         (func $commit
-            (param i32)
-            (result i32)
+            (param i64)
+            (result i64)
         )
     )
 
@@ -405,8 +437,8 @@
 
     (func
         (export &quot;get_dispatch&quot;)
-            (param $allocation i32)
-            (result i32)
+            (param $allocation i64)
+            (result i64)
 
         (call
             $get
@@ -416,8 +448,8 @@
 
     (func
         (export &quot;commit_dispatch&quot;)
-            (param $allocation i32)
-            (result i32)
+            (param $allocation i64)
+            (result i64)
 
         (call
             $commit
@@ -427,31 +459,39 @@
 
     (func
         (export &quot;__hdk_validate_app_entry&quot;)
-        (param $allocation i32)
-        (result i32)
+        (param $allocation i64)
+        (result i64)
 
-        (i32.const 0)
+        (i64.const 0)
     )
 
     (func
         (export &quot;__hdk_get_validation_package_for_entry_type&quot;)
-        (param $allocation i32)
-        (result i32)
+        (param $allocation i64)
+        (result i64)
 
         ;; This writes &quot;Entry&quot; into memory
-        (i32.store (i32.const 0) (i32.const 34))
-        (i32.store (i32.const 1) (i32.const 69))
-        (i32.store (i32.const 2) (i32.const 110))
-        (i32.store (i32.const 3) (i32.const 116))
-        (i32.store (i32.const 4) (i32.const 114))
-        (i32.store (i32.const 5) (i32.const 121))
-        (i32.store (i32.const 6) (i32.const 34))
+        (i64.store (i32.const 0) (i64.const 34))
+        (i64.store (i32.const 1) (i64.const 69))
+        (i64.store (i32.const 2) (i64.const 110))
+        (i64.store (i32.const 3) (i64.const 116))
+        (i64.store (i32.const 4) (i64.const 114))
+        (i64.store (i32.const 5) (i64.const 121))
+        (i64.store (i32.const 6) (i64.const 34))
 
-        (i32.const 7)
+        (i64.const 7)
     )
 
     (func
         (export &quot;__list_capabilities&quot;)
+        (param $allocation i64)
+        (result i64)
+
+        (i64.const 0)
+    )
+
+    (func
+        (export &quot;__list_functions&quot;)
         (param $allocation i32)
         (result i32)
 

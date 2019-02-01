@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `nodejs_waiter/src/waiter.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>waiter.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `nodejs_waiter/src/waiter.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>waiter.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../..//index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -638,7 +638,6 @@
 <span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_core</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
-    <span class="ident">network</span>::<span class="ident">direct_message</span>::<span class="ident">DirectMessage</span>,
     <span class="ident">nucleus</span>::<span class="ident">ZomeFnCall</span>,
     <span class="ident">signal</span>::{<span class="ident">Signal</span>, <span class="ident">SignalReceiver</span>},
 };
@@ -826,21 +825,23 @@
                         <span class="kw">_</span> <span class="op">=&gt;</span> (),
                     },
 
-                    (<span class="prelude-val">Some</span>(<span class="ident">checker</span>), <span class="ident">Action</span>::<span class="ident">SendDirectMessage</span>(<span class="ident">data</span>)) <span class="op">=&gt;</span> {
-                        <span class="kw">let</span> <span class="ident">msg_id</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">msg_id</span>;
-                        <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">message</span> {
-                            <span class="ident">DirectMessage</span>::<span class="ident">Custom</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
-                                <span class="ident">checker</span>.<span class="ident">add</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">aw</span><span class="op">|</span> {
-                                    [
-                                        <span class="ident">Action</span>::<span class="ident">ResolveDirectConnection</span>(<span class="ident">msg_id</span>.<span class="ident">clone</span>()),
-                                        <span class="ident">Action</span>::<span class="ident">SendDirectMessageTimeout</span>(<span class="ident">msg_id</span>.<span class="ident">clone</span>()),
-                                    ]
-                                    .<span class="ident">contains</span>(<span class="ident">aw</span>.<span class="ident">action</span>())
-                                });
-                            }
-                            <span class="kw">_</span> <span class="op">=&gt;</span> (),
-                        }
-                    }
+                    <span class="comment">// Don&#39;t need to check for message stuff since hdk::send is blocking</span>
+
+                    <span class="comment">// (Some(checker), Action::SendDirectMessage(data)) =&gt; {</span>
+                    <span class="comment">//     let msg_id = data.msg_id;</span>
+                    <span class="comment">//     match data.message {</span>
+                    <span class="comment">//         DirectMessage::Custom(_) =&gt; {</span>
+                    <span class="comment">//             checker.add(move |aw| {</span>
+                    <span class="comment">//                 [</span>
+                    <span class="comment">//                     Action::ResolveDirectConnection(msg_id.clone()),</span>
+                    <span class="comment">//                     Action::SendDirectMessageTimeout(msg_id.clone()),</span>
+                    <span class="comment">//                 ]</span>
+                    <span class="comment">//                 .contains(aw.action())</span>
+                    <span class="comment">//             });</span>
+                    <span class="comment">//         }</span>
+                    <span class="comment">//         _ =&gt; (),</span>
+                    <span class="comment">//     }</span>
+                    <span class="comment">// }</span>
 
                     <span class="comment">// Note that we ignore anything coming in if there&#39;s no active checker,</span>
                     (<span class="prelude-val">None</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> (),
@@ -953,10 +954,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Action</span>::<span class="kw-2">*</span>, <span class="kw-2">*</span>};
-    <span class="kw">use</span> <span class="ident">holochain_core</span>::{
-        <span class="ident">action</span>::<span class="ident">DirectMessageData</span>, <span class="ident">network</span>::<span class="ident">direct_message</span>::<span class="ident">CustomDirectMessage</span>,
-        <span class="ident">nucleus</span>::<span class="ident">ExecuteZomeFnResponse</span>,
-    };
+    <span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">nucleus</span>::<span class="ident">ExecuteZomeFnResponse</span>;
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">entry</span>::<span class="ident">Entry</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>, <span class="ident">link</span>::<span class="ident">link_add</span>::<span class="ident">LinkAdd</span>};
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">mpsc</span>::<span class="ident">sync_channel</span>;
 
@@ -968,17 +966,18 @@
         <span class="ident">Entry</span>::<span class="ident">App</span>(<span class="ident">ty</span>.<span class="ident">into</span>(), <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">content</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">msg_data</span>(<span class="ident">msg_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">DirectMessageData</span> {
-        <span class="ident">DirectMessageData</span> {
-            <span class="ident">address</span>: <span class="string">&quot;fake address&quot;</span>.<span class="ident">into</span>(),
-            <span class="ident">message</span>: <span class="ident">DirectMessage</span>::<span class="ident">Custom</span>(<span class="ident">CustomDirectMessage</span> {
-                <span class="ident">zome</span>: <span class="string">&quot;fake zome&quot;</span>.<span class="ident">into</span>(),
-                <span class="ident">payload</span>: <span class="prelude-val">Ok</span>(<span class="string">&quot;fake payload&quot;</span>.<span class="ident">into</span>()),
-            }),
-            <span class="ident">msg_id</span>: <span class="ident">msg_id</span>.<span class="ident">into</span>(),
-            <span class="ident">is_response</span>: <span class="bool-val">false</span>,
-        }
-    }
+    <span class="comment">// not needed as long as hdk::send is blocking</span>
+    <span class="comment">// fn msg_data(msg_id: &amp;str) -&gt; DirectMessageData {</span>
+    <span class="comment">//     DirectMessageData {</span>
+    <span class="comment">//         address: &quot;fake address&quot;.into(),</span>
+    <span class="comment">//         message: DirectMessage::Custom(CustomDirectMessage {</span>
+    <span class="comment">//             zome: &quot;fake zome&quot;.into(),</span>
+    <span class="comment">//             payload: Ok(&quot;fake payload&quot;.into()),</span>
+    <span class="comment">//         }),</span>
+    <span class="comment">//         msg_id: msg_id.into(),</span>
+    <span class="comment">//         is_response: false,</span>
+    <span class="comment">//     }</span>
+    <span class="comment">// }</span>
 
     <span class="kw">fn</span> <span class="ident">zf_call</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">ZomeFnCall</span> {
         <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="ident">name</span>, <span class="prelude-val">None</span>, <span class="ident">name</span>, <span class="string">&quot;&quot;</span>)
@@ -1232,44 +1231,45 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">waiter</span>.<span class="ident">checkers</span>.<span class="ident">len</span>(), <span class="number">0</span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">can_await_direct_messages</span>() {
-        <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">waiter</span>, <span class="ident">sender_tx</span>) <span class="op">=</span> <span class="ident">test_waiter</span>();
-        <span class="kw">let</span> <span class="ident">_entry_1</span> <span class="op">=</span> <span class="ident">mk_entry</span>(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;x&quot;</span>);
-        <span class="kw">let</span> <span class="ident">_entry_2</span> <span class="op">=</span> <span class="ident">mk_entry</span>(<span class="string">&quot;b&quot;</span>, <span class="string">&quot;y&quot;</span>);
-        <span class="kw">let</span> <span class="ident">_entry_3</span> <span class="op">=</span> <span class="ident">mk_entry</span>(<span class="string">&quot;c&quot;</span>, <span class="string">&quot;z&quot;</span>);
-        <span class="kw">let</span> <span class="ident">call_1</span> <span class="op">=</span> <span class="ident">zf_call</span>(<span class="string">&quot;1&quot;</span>);
-        <span class="kw">let</span> <span class="ident">call_2</span> <span class="op">=</span> <span class="ident">zf_call</span>(<span class="string">&quot;2&quot;</span>);
-        <span class="kw">let</span> <span class="ident">msg_id_1</span> <span class="op">=</span> <span class="string">&quot;m1&quot;</span>;
-        <span class="kw">let</span> <span class="ident">msg_id_2</span> <span class="op">=</span> <span class="string">&quot;m2&quot;</span>;
+    <span class="comment">// not needed as long as hdk::send is blocking</span>
+    <span class="comment">// #[test]</span>
+    <span class="comment">// fn can_await_direct_messages() {</span>
+    <span class="comment">//     let (mut waiter, sender_tx) = test_waiter();</span>
+    <span class="comment">//     let _entry_1 = mk_entry(&quot;a&quot;, &quot;x&quot;);</span>
+    <span class="comment">//     let _entry_2 = mk_entry(&quot;b&quot;, &quot;y&quot;);</span>
+    <span class="comment">//     let _entry_3 = mk_entry(&quot;c&quot;, &quot;z&quot;);</span>
+    <span class="comment">//     let call_1 = zf_call(&quot;1&quot;);</span>
+    <span class="comment">//     let call_2 = zf_call(&quot;2&quot;);</span>
+    <span class="comment">//     let msg_id_1 = &quot;m1&quot;;</span>
+    <span class="comment">//     let msg_id_2 = &quot;m2&quot;;</span>
 
-        <span class="kw">let</span> <span class="ident">control_rx_1</span> <span class="op">=</span> <span class="ident">test_register</span>(<span class="kw-2">&amp;</span><span class="ident">sender_tx</span>);
-        <span class="ident">waiter</span>.<span class="ident">process_signal</span>(<span class="ident">sig</span>(<span class="ident">ExecuteZomeFunction</span>(<span class="ident">call_1</span>.<span class="ident">clone</span>())));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">num_conditions</span>(<span class="kw-2">&amp;</span><span class="ident">waiter</span>, <span class="kw-2">&amp;</span><span class="ident">call_1</span>), <span class="number">1</span>);
+    <span class="comment">//     let control_rx_1 = test_register(&amp;sender_tx);</span>
+    <span class="comment">//     waiter.process_signal(sig(ExecuteZomeFunction(call_1.clone())));</span>
+    <span class="comment">//     assert_eq!(num_conditions(&amp;waiter, &amp;call_1), 1);</span>
 
-        <span class="ident">waiter</span>.<span class="ident">process_signal</span>(<span class="ident">sig</span>(<span class="ident">SendDirectMessage</span>(<span class="ident">msg_data</span>(<span class="ident">msg_id_1</span>))));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">num_conditions</span>(<span class="kw-2">&amp;</span><span class="ident">waiter</span>, <span class="kw-2">&amp;</span><span class="ident">call_1</span>), <span class="number">2</span>);
+    <span class="comment">//     waiter.process_signal(sig(SendDirectMessage(msg_data(msg_id_1))));</span>
+    <span class="comment">//     assert_eq!(num_conditions(&amp;waiter, &amp;call_1), 2);</span>
 
-        <span class="ident">waiter</span>.<span class="ident">process_signal</span>(<span class="ident">sig</span>(<span class="ident">ReturnZomeFunctionResult</span>(<span class="ident">zf_response</span>(<span class="ident">call_1</span>.<span class="ident">clone</span>()))));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">num_conditions</span>(<span class="kw-2">&amp;</span><span class="ident">waiter</span>, <span class="kw-2">&amp;</span><span class="ident">call_1</span>), <span class="number">1</span>);
+    <span class="comment">//     waiter.process_signal(sig(ReturnZomeFunctionResult(zf_response(call_1.clone()))));</span>
+    <span class="comment">//     assert_eq!(num_conditions(&amp;waiter, &amp;call_1), 1);</span>
 
-        <span class="kw">let</span> <span class="ident">control_rx_2</span> <span class="op">=</span> <span class="ident">test_register</span>(<span class="kw-2">&amp;</span><span class="ident">sender_tx</span>);
-        <span class="ident">waiter</span>.<span class="ident">process_signal</span>(<span class="ident">sig</span>(<span class="ident">ExecuteZomeFunction</span>(<span class="ident">call_2</span>.<span class="ident">clone</span>())));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">num_conditions</span>(<span class="kw-2">&amp;</span><span class="ident">waiter</span>, <span class="kw-2">&amp;</span><span class="ident">call_2</span>), <span class="number">1</span>);
+    <span class="comment">//     let control_rx_2 = test_register(&amp;sender_tx);</span>
+    <span class="comment">//     waiter.process_signal(sig(ExecuteZomeFunction(call_2.clone())));</span>
+    <span class="comment">//     assert_eq!(num_conditions(&amp;waiter, &amp;call_2), 1);</span>
 
-        <span class="ident">waiter</span>.<span class="ident">process_signal</span>(<span class="ident">sig</span>(<span class="ident">SendDirectMessage</span>(<span class="ident">msg_data</span>(<span class="ident">msg_id_2</span>))));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">num_conditions</span>(<span class="kw-2">&amp;</span><span class="ident">waiter</span>, <span class="kw-2">&amp;</span><span class="ident">call_2</span>), <span class="number">2</span>);
+    <span class="comment">//     waiter.process_signal(sig(SendDirectMessage(msg_data(msg_id_2))));</span>
+    <span class="comment">//     assert_eq!(num_conditions(&amp;waiter, &amp;call_2), 2);</span>
 
-        <span class="ident">waiter</span>.<span class="ident">process_signal</span>(<span class="ident">sig</span>(<span class="ident">ReturnZomeFunctionResult</span>(<span class="ident">zf_response</span>(<span class="ident">call_2</span>.<span class="ident">clone</span>()))));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">num_conditions</span>(<span class="kw-2">&amp;</span><span class="ident">waiter</span>, <span class="kw-2">&amp;</span><span class="ident">call_2</span>), <span class="number">1</span>);
+    <span class="comment">//     waiter.process_signal(sig(ReturnZomeFunctionResult(zf_response(call_2.clone()))));</span>
+    <span class="comment">//     assert_eq!(num_conditions(&amp;waiter, &amp;call_2), 1);</span>
 
-        <span class="ident">expect_final</span>(<span class="ident">control_rx_1</span>, <span class="op">||</span> {
-            <span class="ident">waiter</span>.<span class="ident">process_signal</span>(<span class="ident">sig</span>(<span class="ident">ResolveDirectConnection</span>(<span class="ident">msg_id_1</span>.<span class="ident">to_string</span>())));
-        });
-        <span class="ident">expect_final</span>(<span class="ident">control_rx_2</span>, <span class="op">||</span> {
-            <span class="ident">waiter</span>.<span class="ident">process_signal</span>(<span class="ident">sig</span>(<span class="ident">SendDirectMessageTimeout</span>(<span class="ident">msg_id_2</span>.<span class="ident">to_string</span>())));
-        });
-    }
+    <span class="comment">//     expect_final(control_rx_1, || {</span>
+    <span class="comment">//         waiter.process_signal(sig(ResolveDirectConnection(msg_id_1.to_string())));</span>
+    <span class="comment">//     });</span>
+    <span class="comment">//     expect_final(control_rx_2, || {</span>
+    <span class="comment">//         waiter.process_signal(sig(SendDirectMessageTimeout(msg_id_2.to_string())));</span>
+    <span class="comment">//     });</span>
+    <span class="comment">// }</span>
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "holochain_node_test_waiter";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

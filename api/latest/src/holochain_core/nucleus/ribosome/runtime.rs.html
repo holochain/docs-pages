@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/nucleus/ribosome/runtime.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>runtime.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/nucleus/ribosome/runtime.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>runtime.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../..//index.html'><img src='../../../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -100,31 +100,42 @@
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">nucleus</span>::{
         <span class="ident">ribosome</span>::{
             <span class="ident">api</span>::{<span class="ident">ZomeApiFunction</span>, <span class="ident">ZomeApiResult</span>},
-            <span class="ident">memory</span>::<span class="ident">SinglePageManager</span>,
+            <span class="ident">memory</span>::<span class="ident">WasmPageManager</span>,
             <span class="ident">Defn</span>,
         },
         <span class="ident">ZomeFnCall</span>,
     },
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">error</span>::{<span class="ident">HolochainError</span>, <span class="ident">RibosomeReturnCode</span>, <span class="ident">ZomeApiInternalResult</span>},
+    <span class="ident">error</span>::{
+        <span class="ident">HolochainError</span>, <span class="ident">RibosomeEncodedValue</span>, <span class="ident">RibosomeEncodingBits</span>, <span class="ident">RibosomeRuntimeBits</span>,
+        <span class="ident">ZomeApiInternalResult</span>,
+    },
     <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
-<span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">memory_allocation</span>::<span class="ident">decode_encoded_allocation</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
+<span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">allocation</span>::<span class="ident">WasmAllocation</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
 <span class="kw">use</span> <span class="ident">wasmi</span>::{<span class="ident">Externals</span>, <span class="ident">RuntimeArgs</span>, <span class="ident">RuntimeValue</span>};
 
 <span class="doccomment">/// Object holding data to pass around to invoked Zome API functions</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Runtime</span> {
     <span class="doccomment">/// Memory state tracker between ribosome and wasm.</span>
-    <span class="kw">pub</span> <span class="ident">memory_manager</span>: <span class="ident">SinglePageManager</span>,
+    <span class="kw">pub</span> <span class="ident">memory_manager</span>: <span class="ident">WasmPageManager</span>,
     <span class="doccomment">/// Context of Holochain. Required for operating.</span>
     <span class="kw">pub</span> <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Name of the DNA that is being hosted.</span>
@@ -144,16 +155,18 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">1</span>, <span class="ident">args</span>.<span class="ident">len</span>());
 
         <span class="comment">// Read complex argument serialized in memory</span>
-        <span class="kw">let</span> <span class="ident">encoded_allocation</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">nth</span>(<span class="number">0</span>);
-        <span class="kw">let</span> <span class="ident">maybe_allocation</span> <span class="op">=</span> <span class="ident">decode_encoded_allocation</span>(<span class="ident">encoded_allocation</span>);
-        <span class="kw">let</span> <span class="ident">allocation</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_allocation</span> {
-            <span class="comment">// Handle empty allocation edge case</span>
-            <span class="prelude-val">Err</span>(<span class="ident">RibosomeReturnCode</span>::<span class="ident">Success</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">JsonString</span>::<span class="ident">null</span>(),
-            <span class="comment">// Handle error code</span>
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;received error code instead of valid encoded allocation&quot;</span>),
-            <span class="comment">// Handle normal allocation</span>
-            <span class="prelude-val">Ok</span>(<span class="ident">allocation</span>) <span class="op">=&gt;</span> <span class="ident">allocation</span>,
+        <span class="kw">let</span> <span class="ident">encoded</span>: <span class="ident">RibosomeEncodingBits</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">nth</span>(<span class="number">0</span>);
+        <span class="kw">let</span> <span class="ident">return_code</span> <span class="op">=</span> <span class="ident">RibosomeEncodedValue</span>::<span class="ident">from</span>(<span class="ident">encoded</span>);
+        <span class="kw">let</span> <span class="ident">allocation</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">return_code</span> {
+            <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Success</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">JsonString</span>::<span class="ident">null</span>(),
+            <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Failure</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
+                <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;received error code instead of valid encoded allocation&quot;</span>)
+            }
+            <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Allocation</span>(<span class="ident">ribosome_allocation</span>) <span class="op">=&gt;</span> {
+                <span class="ident">WasmAllocation</span>::<span class="ident">try_from</span>(<span class="ident">ribosome_allocation</span>).<span class="ident">unwrap</span>()
+            }
         };
+
         <span class="kw">let</span> <span class="ident">bin_arg</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">memory_manager</span>.<span class="ident">read</span>(<span class="ident">allocation</span>);
 
         <span class="comment">// convert complex argument</span>
@@ -176,7 +189,10 @@
 
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">memory_manager</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="ident">s_bytes</span>) {
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">ribosome_error_code</span><span class="macro">!</span>(<span class="ident">Unspecified</span>),
-            <span class="prelude-val">Ok</span>(<span class="ident">allocation</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">RuntimeValue</span>::<span class="ident">I32</span>(<span class="ident">allocation</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">i32</span>))),
+            <span class="prelude-val">Ok</span>(<span class="ident">allocation</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">RuntimeValue</span>::<span class="ident">I64</span>(<span class="ident">RibosomeEncodingBits</span>::<span class="ident">from</span>(
+                <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Allocation</span>(<span class="ident">allocation</span>.<span class="ident">into</span>()),
+            )
+                <span class="kw">as</span> <span class="ident">RibosomeRuntimeBits</span>))),
         }
     }
 

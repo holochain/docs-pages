@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["p2p_node",""]]});
+initSidebarItems({"mod":[["p2p_node",""],["predicate",""]]});

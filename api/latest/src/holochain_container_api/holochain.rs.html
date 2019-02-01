@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `container_api/src/holochain.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>holochain.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `container_api/src/holochain.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>holochain.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../..//index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -664,6 +664,7 @@
 <span id="664">664</span>
 <span id="665">665</span>
 <span id="666">666</span>
+<span id="667">667</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! `holochain_container_api` is a library for instantiating and using holochain instances that</span>
 <span class="doccomment">//! each run a holochain DNA, DHT and source chain.</span>
@@ -709,7 +710,7 @@
 <span class="doccomment">//! hc.start().expect(&quot;couldn&#39;t start the holochain instance&quot;);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // call a function in the zome code</span>
-<span class="doccomment">//! hc.call(&quot;test_zome&quot;, Some(CapabilityCall::new(&quot;foo&quot;.to_string(), Address::from(&quot;&quot;), None)), &quot;some_fn&quot;, &quot;{}&quot;);</span>
+<span class="doccomment">//! hc.call(&quot;test_zome&quot;, Some(CapabilityCall::new(Address::from(&quot;&quot;), None)), &quot;some_fn&quot;, &quot;{}&quot;);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // get the state</span>
 <span class="doccomment">//! {</span>
@@ -858,12 +859,12 @@
         <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">callback</span>::<span class="ident">Callback</span>, <span class="ident">Defn</span>},
         <span class="ident">signal</span>::{<span class="ident">signal_channel</span>, <span class="ident">SignalReceiver</span>},
     };
-    <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">agent</span>::<span class="ident">AgentId</span>, <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">dna</span>::<span class="ident">Dna</span>};
+    <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">agent</span>::<span class="ident">AgentId</span>, <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">dna</span>::<span class="ident">Dna</span>, <span class="ident">json</span>::<span class="ident">RawString</span>};
     <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">wasm_target_dir</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>};
     <span class="kw">use</span> <span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
     <span class="kw">use</span> <span class="ident">test_utils</span>::{
-        <span class="ident">create_test_cap_with_fn_name</span>, <span class="ident">create_test_dna_with_cap</span>, <span class="ident">create_test_dna_with_wat</span>,
+        <span class="ident">create_test_defs_with_fn_name</span>, <span class="ident">create_test_dna_with_defs</span>, <span class="ident">create_test_dna_with_wat</span>,
         <span class="ident">create_wasm_from_file</span>, <span class="ident">expect_action</span>, <span class="ident">hc_setup_and_call_zome_fn</span>,
     };
 
@@ -900,11 +901,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">example_capability_call</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CapabilityCall</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">CapabilityCall</span>::<span class="ident">new</span>(
-            <span class="string">&quot;test_cap&quot;</span>.<span class="ident">to_string</span>(),
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;test_token&quot;</span>),
-            <span class="prelude-val">None</span>,
-        ))
+        <span class="prelude-val">Some</span>(<span class="ident">CapabilityCall</span>::<span class="ident">new</span>(<span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;test_token&quot;</span>), <span class="prelude-val">None</span>))
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -957,9 +954,9 @@
             <span class="prelude-val">Some</span>(
                 <span class="string">r#&quot;
             (module
-                (memory (;0;) 17)
-                (func (export &quot;genesis&quot;) (param $p0 i32) (result i32)
-                    i32.const 9
+                (memory (;0;) 1)
+                (func (export &quot;genesis&quot;) (param $p0 i64) (result i64)
+                    i64.const 9
                 )
                 (data (i32.const 0)
                     &quot;fail&quot;
@@ -980,33 +977,34 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;broken-tests&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">fails_instantiate_if_genesis_times_out</span>() {
-        <span class="comment">// let dna = create_test_dna_with_wat(</span>
-        <span class="comment">//     &quot;test_zome&quot;,</span>
-        <span class="comment">//     Callback::Genesis.capability().as_str(),</span>
-        <span class="comment">//     Some(</span>
-        <span class="comment">//         r#&quot;</span>
-        <span class="comment">//     (module</span>
-        <span class="comment">//         (memory (;0;) 17)</span>
-        <span class="comment">//         (func (export &quot;genesis&quot;) (param $p0 i32) (result i32)</span>
-        <span class="comment">//             (loop (br 0))</span>
-        <span class="comment">//             i32.const 0</span>
-        <span class="comment">//         )</span>
-        <span class="comment">//         (export &quot;memory&quot; (memory 0))</span>
-        <span class="comment">//     )</span>
-        <span class="comment">// &quot;#,</span>
-        <span class="comment">//     ),</span>
-        <span class="comment">// );</span>
-        <span class="comment">//</span>
-        <span class="comment">// let (context, _test_logger, _) = test_context(&quot;bob&quot;);</span>
-        <span class="comment">// let result = Holochain::new(dna.clone(), context.clone());</span>
-        <span class="comment">// assert!(result.is_err());</span>
-        <span class="comment">// assert_eq!(</span>
-        <span class="comment">//     HolochainInstanceError::from(HolochainError::ErrorGeneric(</span>
-        <span class="comment">//         &quot;Timeout while initializing&quot;.to_string()</span>
-        <span class="comment">//     )),</span>
-        <span class="comment">//     result.err().unwrap(),</span>
-        <span class="comment">// );</span>
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_wat</span>(
+            <span class="string">&quot;test_zome&quot;</span>,
+            <span class="ident">Callback</span>::<span class="ident">Genesis</span>.<span class="ident">capability</span>().<span class="ident">as_str</span>(),
+            <span class="prelude-val">Some</span>(
+                <span class="string">r#&quot;
+            (module
+                (memory (;0;) 1)
+                (func (export &quot;genesis&quot;) (param $p0 i64) (result i64)
+                    (loop (br 0))
+                    i64.const 0
+                )
+                (export &quot;memory&quot; (memory 0))
+            )
+        &quot;#</span>,
+            ),
+        );
+
+        <span class="kw">let</span> (<span class="ident">context</span>, <span class="ident">_test_logger</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>.<span class="ident">clone</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">HolochainInstanceError</span>::<span class="ident">from</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
+                <span class="string">&quot;Timeout while initializing&quot;</span>.<span class="ident">to_string</span>()
+            )),
+            <span class="ident">result</span>.<span class="ident">err</span>().<span class="ident">unwrap</span>(),
+        );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1046,9 +1044,9 @@
 (module
  (memory 1)
  (export &quot;memory&quot; (memory 0))
- (export &quot;main&quot; (func $func0))
- (func $func0 (param $p0 i32) (result i32)
-       i32.const 16
+ (export &quot;public_test_fn&quot; (func $func0))
+ (func $func0 (param $p0 i64) (result i64)
+       i64.const 16
        )
  (data (i32.const 0)
        &quot;{\&quot;holo\&quot;:\&quot;world\&quot;}&quot;
@@ -1059,7 +1057,7 @@
         <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">hc</span>.<span class="ident">call</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="ident">example_capability_call</span>(), <span class="string">&quot;main&quot;</span>, <span class="string">&quot;&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">hc</span>.<span class="ident">call</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="ident">example_capability_call</span>(), <span class="string">&quot;public_test_fn&quot;</span>, <span class="string">&quot;&quot;</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">result</span>.<span class="ident">err</span>().<span class="ident">unwrap</span>(),
@@ -1069,7 +1067,7 @@
         <span class="ident">hc</span>.<span class="ident">start</span>().<span class="ident">expect</span>(<span class="string">&quot;couldn&#39;t start&quot;</span>);
 
         <span class="comment">// always returns not implemented error for now!</span>
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">hc</span>.<span class="ident">call</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="ident">example_capability_call</span>(), <span class="string">&quot;main&quot;</span>, <span class="string">&quot;&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">hc</span>.<span class="ident">call</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="ident">example_capability_call</span>(), <span class="string">&quot;public_test_fn&quot;</span>, <span class="string">&quot;&quot;</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_ok</span>(), <span class="string">&quot;result = {:?}&quot;</span>, <span class="ident">result</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">result</span>.<span class="ident">ok</span>().<span class="ident">unwrap</span>(),
@@ -1091,8 +1089,8 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">can_call_test</span>() {
         <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">example_api_wasm</span>();
-        <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">create_test_cap_with_fn_name</span>(<span class="string">&quot;round_trip_test&quot;</span>);
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_cap</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">capability</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
+        <span class="kw">let</span> <span class="ident">defs</span> <span class="op">=</span> <span class="ident">create_test_defs_with_fn_name</span>(<span class="string">&quot;round_trip_test&quot;</span>);
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_defs</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="ident">defs</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
         <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
 
@@ -1117,8 +1115,8 @@
     <span class="kw">fn</span> <span class="ident">can_call_commit</span>() {
         <span class="comment">// Setup the holochain instance</span>
         <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">example_api_wasm</span>();
-        <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">create_test_cap_with_fn_name</span>(<span class="string">&quot;commit_test&quot;</span>);
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_cap</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">capability</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
+        <span class="kw">let</span> <span class="ident">defs</span> <span class="op">=</span> <span class="ident">create_test_defs_with_fn_name</span>(<span class="string">&quot;commit_test&quot;</span>);
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_defs</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="ident">defs</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
         <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="ident">signal_rx</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
 
@@ -1165,8 +1163,8 @@
     <span class="kw">fn</span> <span class="ident">can_call_commit_err</span>() {
         <span class="comment">// Setup the holochain instance</span>
         <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">example_api_wasm</span>();
-        <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">create_test_cap_with_fn_name</span>(<span class="string">&quot;commit_fail_test&quot;</span>);
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_cap</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">capability</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
+        <span class="kw">let</span> <span class="ident">defs</span> <span class="op">=</span> <span class="ident">create_test_defs_with_fn_name</span>(<span class="string">&quot;commit_fail_test&quot;</span>);
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_defs</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="ident">defs</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
         <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="ident">signal_rx</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
 
@@ -1204,10 +1202,10 @@
     <span class="kw">fn</span> <span class="ident">can_call_debug</span>() {
         <span class="comment">// Setup the holochain instance</span>
         <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">example_api_wasm</span>();
-        <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">create_test_cap_with_fn_name</span>(<span class="string">&quot;debug_hello&quot;</span>);
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_cap</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">capability</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
+        <span class="kw">let</span> <span class="ident">defs</span> <span class="op">=</span> <span class="ident">create_test_defs_with_fn_name</span>(<span class="string">&quot;debug_hello&quot;</span>);
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_defs</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="ident">defs</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
 
-        <span class="kw">let</span> (<span class="ident">context</span>, <span class="ident">test_logger</span>, <span class="ident">signal_rx</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
+        <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="ident">signal_rx</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
 
         <span class="comment">// Run the holochain instance</span>
@@ -1222,9 +1220,10 @@
         );
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">null</span>()), <span class="ident">result</span>,);
-        <span class="kw">let</span> <span class="ident">test_logger</span> <span class="op">=</span> <span class="ident">test_logger</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">test_logger</span>.<span class="ident">log</span>).<span class="ident">contains</span>(
-            <span class="string">&quot;\&quot;debug/dna: \\\&#39;\\\&quot;Hello world!\\\&quot;\\\&#39;\&quot;, \&quot;debug/zome: Zome Function \\\&#39;debug_hello\\\&#39; returned: Success\&quot;&quot;</span>));
+        <span class="comment">// @TODO https://github.com/holochain/holochain-rust/issues/928</span>
+        <span class="comment">// let test_logger = test_logger.lock().unwrap();</span>
+        <span class="comment">// assert!(format!(&quot;{:?}&quot;, test_logger.log).contains(</span>
+        <span class="comment">//     &quot;\&quot;debug/dna: \\\&#39;\\\&quot;Hello world!\\\&quot;\\\&#39;\&quot;, \&quot;debug/zome: Zome Function \\\&#39;debug_hello\\\&#39; returned: Success\&quot;&quot;));</span>
 
         <span class="ident">expect_action</span>(<span class="kw-2">&amp;</span><span class="ident">signal_rx</span>, <span class="op">|</span><span class="ident">action</span><span class="op">|</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Action</span>::<span class="ident">ReturnZomeFunctionResult</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">action</span> {
@@ -1241,10 +1240,10 @@
     <span class="kw">fn</span> <span class="ident">can_call_debug_multiple</span>() {
         <span class="comment">// Setup the holochain instance</span>
         <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">example_api_wasm</span>();
-        <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">create_test_cap_with_fn_name</span>(<span class="string">&quot;debug_multiple&quot;</span>);
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_cap</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">capability</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
+        <span class="kw">let</span> <span class="ident">defs</span> <span class="op">=</span> <span class="ident">create_test_defs_with_fn_name</span>(<span class="string">&quot;debug_multiple&quot;</span>);
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_defs</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="ident">defs</span>, <span class="kw-2">&amp;</span><span class="ident">wasm</span>);
 
-        <span class="kw">let</span> (<span class="ident">context</span>, <span class="ident">test_logger</span>, <span class="ident">signal_rx</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
+        <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="ident">signal_rx</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
 
         <span class="comment">// Run the holochain instance</span>
@@ -1262,10 +1261,10 @@
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;result = {:?}&quot;</span>, <span class="ident">result</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">null</span>()), <span class="ident">result</span>,);
 
-        <span class="kw">let</span> <span class="ident">test_logger</span> <span class="op">=</span> <span class="ident">test_logger</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">test_logger</span>.<span class="ident">log</span>).<span class="ident">contains</span>(
-            <span class="string">&quot;\&quot;debug/dna: \\\&#39;\\\&quot;Hello\\\&quot;\\\&#39;\&quot;, \&quot;debug/dna: \\\&#39;\\\&quot;world\\\&quot;\\\&#39;\&quot;, \&quot;debug/dna: \\\&#39;\\\&quot;!\\\&quot;\\\&#39;\&quot;, \&quot;debug/zome: Zome Function \\\&#39;debug_multiple\\\&#39; returned: Success\&quot;&quot;</span>));
+        <span class="comment">// @TODO https://github.com/holochain/holochain-rust/issues/928</span>
+        <span class="comment">// let test_logger = test_logger.lock().unwrap();</span>
+        <span class="comment">// assert!(format!(&quot;{:?}&quot;, test_logger.log).contains(</span>
+        <span class="comment">//     &quot;\&quot;debug/dna: \\\&#39;\\\&quot;Hello\\\&quot;\\\&#39;\&quot;, \&quot;debug/dna: \\\&#39;\\\&quot;world\\\&quot;\\\&#39;\&quot;, \&quot;debug/dna: \\\&#39;\\\&quot;!\\\&quot;\\\&#39;\&quot;, \&quot;debug/zome: Zome Function \\\&#39;debug_multiple\\\&#39; returned: Success\&quot;&quot;));</span>
 
         <span class="ident">expect_action</span>(<span class="kw-2">&amp;</span><span class="ident">signal_rx</span>, <span class="op">|</span><span class="ident">action</span><span class="op">|</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Action</span>::<span class="ident">ReturnZomeFunctionResult</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">action</span> {
@@ -1280,8 +1279,11 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="comment">// TODO #165 - Move test to core/nucleus and use instance directly</span>
     <span class="kw">fn</span> <span class="ident">call_debug_stacked</span>() {
-        <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span>
-            <span class="ident">hc_setup_and_call_zome_fn</span>(<span class="kw-2">&amp;</span><span class="ident">example_api_wasm_path</span>(), <span class="string">&quot;debug_stacked_hello&quot;</span>);
+        <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">hc_setup_and_call_zome_fn</span>(
+            <span class="kw-2">&amp;</span><span class="ident">example_api_wasm_path</span>(),
+            <span class="string">&quot;debug_stacked_hello&quot;</span>,
+            <span class="ident">RawString</span>::<span class="ident">from</span>(<span class="string">&quot;&quot;</span>),
+        );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;value\&quot;:\&quot;fish\&quot;}&quot;</span>),
             <span class="ident">call_result</span>.<span class="ident">unwrap</span>()
@@ -1297,9 +1299,9 @@
             <span class="string">&quot;{}/wasm32-unknown-unknown/release/example_api_wasm.wasm&quot;</span>,
             <span class="ident">wasm_target_dir</span>(<span class="string">&quot;container_api/&quot;</span>, <span class="string">&quot;wasm-test/&quot;</span>),
         ));
-        <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_cap_with_fn_name</span>(<span class="string">&quot;commit_test&quot;</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna</span> <span class="op">=</span>
-            <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_cap</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">capability</span>, <span class="ident">wasm</span>);
+        <span class="kw">let</span> <span class="ident">defs</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_defs_with_fn_name</span>(<span class="string">&quot;commit_test&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_defs</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="ident">defs</span>, <span class="ident">wasm</span>);
+
         <span class="ident">dna</span>.<span class="ident">uuid</span> <span class="op">=</span> <span class="string">&quot;can_receive_action_signals&quot;</span>.<span class="ident">into</span>();
         <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="ident">signal_rx</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>);
         <span class="kw">let</span> <span class="ident">timeout</span> <span class="op">=</span> <span class="number">1000</span>;

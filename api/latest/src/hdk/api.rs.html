@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `hdk-rust/src/api.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>api.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `hdk-rust/src/api.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>api.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../..//index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1089,63 +1089,6 @@
 <span id="1089">1089</span>
 <span id="1090">1090</span>
 <span id="1091">1091</span>
-<span id="1092">1092</span>
-<span id="1093">1093</span>
-<span id="1094">1094</span>
-<span id="1095">1095</span>
-<span id="1096">1096</span>
-<span id="1097">1097</span>
-<span id="1098">1098</span>
-<span id="1099">1099</span>
-<span id="1100">1100</span>
-<span id="1101">1101</span>
-<span id="1102">1102</span>
-<span id="1103">1103</span>
-<span id="1104">1104</span>
-<span id="1105">1105</span>
-<span id="1106">1106</span>
-<span id="1107">1107</span>
-<span id="1108">1108</span>
-<span id="1109">1109</span>
-<span id="1110">1110</span>
-<span id="1111">1111</span>
-<span id="1112">1112</span>
-<span id="1113">1113</span>
-<span id="1114">1114</span>
-<span id="1115">1115</span>
-<span id="1116">1116</span>
-<span id="1117">1117</span>
-<span id="1118">1118</span>
-<span id="1119">1119</span>
-<span id="1120">1120</span>
-<span id="1121">1121</span>
-<span id="1122">1122</span>
-<span id="1123">1123</span>
-<span id="1124">1124</span>
-<span id="1125">1125</span>
-<span id="1126">1126</span>
-<span id="1127">1127</span>
-<span id="1128">1128</span>
-<span id="1129">1129</span>
-<span id="1130">1130</span>
-<span id="1131">1131</span>
-<span id="1132">1132</span>
-<span id="1133">1133</span>
-<span id="1134">1134</span>
-<span id="1135">1135</span>
-<span id="1136">1136</span>
-<span id="1137">1137</span>
-<span id="1138">1138</span>
-<span id="1139">1139</span>
-<span id="1140">1140</span>
-<span id="1141">1141</span>
-<span id="1142">1142</span>
-<span id="1143">1143</span>
-<span id="1144">1144</span>
-<span id="1145">1145</span>
-<span id="1146">1146</span>
-<span id="1147">1147</span>
-<span id="1148">1148</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This file contains many of the structs, enums, and functions relevant for Zome</span>
 <span class="doccomment">//! developers! Detailed references and examples can be found here for how to use the</span>
@@ -1159,7 +1102,8 @@
     <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
     <span class="ident">dna</span>::<span class="ident">capabilities</span>::<span class="ident">CapabilityCall</span>,
     <span class="ident">entry</span>::<span class="ident">Entry</span>,
-    <span class="ident">error</span>::{<span class="ident">CoreError</span>, <span class="ident">HolochainError</span>, <span class="ident">RibosomeReturnCode</span>, <span class="ident">ZomeApiInternalResult</span>},
+    <span class="ident">error</span>::{<span class="ident">RibosomeEncodedAllocation</span>, <span class="ident">RibosomeEncodingBits</span>, <span class="ident">ZomeApiInternalResult</span>},
+    <span class="ident">time</span>::<span class="ident">Timeout</span>,
 };
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">validation</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::{
@@ -1170,18 +1114,21 @@
         },
         <span class="ident">get_links</span>::{<span class="ident">GetLinksArgs</span>, <span class="ident">GetLinksOptions</span>, <span class="ident">GetLinksResult</span>},
         <span class="ident">link_entries</span>::<span class="ident">LinkEntriesArgs</span>,
-        <span class="ident">send</span>::<span class="ident">SendArgs</span>,
-        <span class="ident">QueryArgs</span>, <span class="ident">QueryArgsNames</span>, <span class="ident">QueryResult</span>, <span class="ident">UpdateEntryArgs</span>, <span class="ident">ZomeFnCallArgs</span>,
+        <span class="ident">send</span>::{<span class="ident">SendArgs</span>, <span class="ident">SendOptions</span>},
+        <span class="ident">QueryArgs</span>, <span class="ident">QueryArgsNames</span>, <span class="ident">QueryArgsOptions</span>, <span class="ident">QueryResult</span>, <span class="ident">UpdateEntryArgs</span>, <span class="ident">ZomeFnCallArgs</span>,
     },
     <span class="ident">holochain_core_types</span>::{
         <span class="ident">hash</span>::<span class="ident">HashString</span>,
         <span class="ident">json</span>::{<span class="ident">JsonString</span>, <span class="ident">RawString</span>},
     },
-    <span class="ident">memory_allocation</span>::<span class="kw-2">*</span>,
-    <span class="ident">memory_serialization</span>::<span class="kw-2">*</span>,
+    <span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">load_ribosome_encoded_json</span>,
 };
+<span class="kw">use</span> <span class="ident">init_globals</span>::<span class="ident">hc_init_globals</span>;
 <span class="kw">use</span> <span class="ident">serde_json</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryInto</span>, <span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_char</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{
+    <span class="ident">convert</span>::{<span class="ident">TryFrom</span>, <span class="ident">TryInto</span>},
+    <span class="ident">time</span>::<span class="ident">Duration</span>,
+};
 
 <span class="comment">//--------------------------------------------------------------------------------------------------</span>
 <span class="comment">// ZOME API GLOBAL VARIABLES</span>
@@ -1331,38 +1278,82 @@
 <span class="comment">// API FUNCTIONS</span>
 <span class="comment">//--------------------------------------------------------------------------------------------------</span>
 
-<span class="doccomment">/// Prints a string through the stdout of the running service, and also</span>
-<span class="doccomment">/// writes that string to the logger in the execution context</span>
-<span class="doccomment">/// # Examples</span>
-<span class="doccomment">/// ```rust</span>
-<span class="doccomment">/// # #[macro_use]</span>
-<span class="doccomment">/// # extern crate hdk;</span>
-<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # fn main() {</span>
-<span class="doccomment">/// pub fn handle_some_function(content: String) -&gt; ZomeApiResult&lt;()&gt; {</span>
-<span class="doccomment">///     // ...</span>
-<span class="doccomment">///     hdk::debug(&quot;write a message to the logs&quot;);</span>
-<span class="doccomment">///     // ...</span>
-<span class="doccomment">///     Ok(())</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # }</span>
-<span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug</span><span class="op">&lt;</span><span class="ident">J</span>: <span class="ident">TryInto</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;&gt;</span>(<span class="ident">msg</span>: <span class="ident">J</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>() };
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Dispatch</span> {
+    <span class="ident">Debug</span>,
+    <span class="ident">InitGlobals</span>,
+    <span class="ident">Call</span>,
+    <span class="ident">CommitEntry</span>,
+    <span class="ident">GetEntry</span>,
+    <span class="ident">GetLinks</span>,
+    <span class="ident">LinkEntries</span>,
+    <span class="ident">EntryAddress</span>,
+    <span class="ident">UpdateEntry</span>,
+    <span class="ident">RemoveEntry</span>,
+    <span class="ident">Query</span>,
+    <span class="ident">Send</span>,
+    <span class="ident">Sleep</span>,
+}
 
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">msg</span>)<span class="question-mark">?</span>;
+<span class="kw">impl</span> <span class="ident">Dispatch</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_input</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">TryInto</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span>, <span class="ident">O</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">input</span>: <span class="ident">I</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">G_MEM_STACK</span> } {
+            <span class="prelude-val">Some</span>(<span class="ident">mem_stack</span>) <span class="op">=&gt;</span> <span class="ident">mem_stack</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">Internal</span>(
+                    <span class="string">&quot;debug failed to load mem_stack&quot;</span>.<span class="ident">to_string</span>(),
+                ));
+            }
+        };
 
-    <span class="kw">unsafe</span> {
-        <span class="ident">hc_debug</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>());
+        <span class="kw">let</span> <span class="ident">wasm_allocation</span> <span class="op">=</span> <span class="ident">mem_stack</span>.<span class="ident">write_json</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
+
+        <span class="comment">// Call Ribosome&#39;s commit_entry()</span>
+        <span class="kw">let</span> <span class="ident">encoded_input</span>: <span class="ident">RibosomeEncodingBits</span> <span class="op">=</span>
+            <span class="ident">RibosomeEncodedAllocation</span>::<span class="ident">from</span>(<span class="ident">wasm_allocation</span>).<span class="ident">into</span>();
+        <span class="kw">let</span> <span class="ident">encoded_output</span>: <span class="ident">RibosomeEncodingBits</span> <span class="op">=</span> <span class="kw">unsafe</span> {
+            (<span class="kw">match</span> <span class="self">self</span> {
+                <span class="ident">Dispatch</span>::<span class="ident">Debug</span> <span class="op">=&gt;</span> <span class="ident">hc_debug</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">Call</span> <span class="op">=&gt;</span> <span class="ident">hc_call</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">CommitEntry</span> <span class="op">=&gt;</span> <span class="ident">hc_commit_entry</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">GetEntry</span> <span class="op">=&gt;</span> <span class="ident">hc_get_entry</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">GetLinks</span> <span class="op">=&gt;</span> <span class="ident">hc_get_links</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">LinkEntries</span> <span class="op">=&gt;</span> <span class="ident">hc_link_entries</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">InitGlobals</span> <span class="op">=&gt;</span> <span class="ident">hc_init_globals</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">EntryAddress</span> <span class="op">=&gt;</span> <span class="ident">hc_entry_address</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">UpdateEntry</span> <span class="op">=&gt;</span> <span class="ident">hc_update_entry</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">RemoveEntry</span> <span class="op">=&gt;</span> <span class="ident">hc_remove_entry</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">Query</span> <span class="op">=&gt;</span> <span class="ident">hc_query</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">Send</span> <span class="op">=&gt;</span> <span class="ident">hc_send</span>,
+                <span class="ident">Dispatch</span>::<span class="ident">Sleep</span> <span class="op">=&gt;</span> <span class="ident">hc_sleep</span>,
+            })(<span class="ident">encoded_input</span>)
+        };
+
+        <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">load_ribosome_encoded_json</span>(<span class="ident">encoded_output</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">r</span>) <span class="op">=&gt;</span> <span class="ident">r</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="ident">mem_stack</span>.<span class="ident">deallocate</span>(<span class="ident">wasm_allocation</span>)<span class="question-mark">?</span>;
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>());
+            }
+        };
+
+        <span class="comment">// Free result &amp; input allocations</span>
+        <span class="ident">mem_stack</span>.<span class="ident">deallocate</span>(<span class="ident">wasm_allocation</span>)<span class="question-mark">?</span>;
+
+        <span class="comment">// Done</span>
+        <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
+            <span class="kw">match</span> <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>).<span class="ident">try_into</span>() {
+                <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">v</span>),
+                <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(
+                    <span class="string">&quot;Failed to deserialize return value&quot;</span>,
+                ))),
+            }
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
+        }
     }
-
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;should be able to deallocate input that has been allocated on memory stack&quot;</span>);
-
-    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// Call an exposed function from another zome or another (bridged) instance running</span>
@@ -1375,6 +1366,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// This first one, is the one that is called into, with the Zome name `summer`.</span>
 <span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// # #![feature(try_from)]</span>
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate hdk;</span>
 <span class="doccomment">/// # extern crate serde;</span>
@@ -1383,26 +1375,37 @@
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate serde_json;</span>
 <span class="doccomment">/// # use hdk::holochain_core_types::json::JsonString;</span>
+<span class="doccomment">/// # use hdk::holochain_core_types::error::HolochainError;</span>
+<span class="doccomment">/// # use hdk::holochain_core_types::error::RibosomeEncodingBits;</span>
+<span class="doccomment">/// # use hdk::holochain_core_types::error::RibosomeEncodedValue;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # // Adding empty functions so that the cfg(test) build can link.</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_init_globals(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_init_globals(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_commit_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_commit_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_get_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_get_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_entry_address(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_entry_address(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_query(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_query(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_call(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_call(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_update_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_update_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_remove_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_remove_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_send(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_send(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_sleep(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_debug(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_get_links(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_link_entries(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
@@ -1418,14 +1421,16 @@
 <span class="doccomment">///         Ok(())</span>
 <span class="doccomment">///     }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     functions: {</span>
-<span class="doccomment">///         main (Public) {</span>
+<span class="doccomment">///     functions: [</span>
 <span class="doccomment">///             sum: {</span>
 <span class="doccomment">///                 inputs: |num1: u32, num2: u32|,</span>
 <span class="doccomment">///                 outputs: |sum: JsonString|,</span>
 <span class="doccomment">///                 handler: handle_sum</span>
 <span class="doccomment">///             }</span>
-<span class="doccomment">///         }</span>
+<span class="doccomment">///     ]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     capabilities: {</span>
+<span class="doccomment">///         public (Public) [sum]</span>
 <span class="doccomment">///     }</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -1450,26 +1455,36 @@
 <span class="doccomment">/// # use hdk::holochain_core_types::error::HolochainError;</span>
 <span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">/// # use std::convert::TryInto;</span>
+<span class="doccomment">/// # use hdk::holochain_core_types::error::RibosomeEncodingBits;</span>
+<span class="doccomment">/// # use hdk::holochain_core_types::error::RibosomeEncodedValue;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # // Adding empty functions so that the cfg(test) build can link.</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_init_globals(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_init_globals(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_commit_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_commit_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_get_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_get_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_entry_address(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_entry_address(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_query(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_query(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_call(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_call(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_update_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_update_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_remove_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_remove_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_send(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_send(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_sleep(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_debug(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_get_links(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_link_entries(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
@@ -1483,7 +1498,7 @@
 <span class="doccomment">///         num1: num1,</span>
 <span class="doccomment">///         num2: num2,</span>
 <span class="doccomment">///     };</span>
-<span class="doccomment">///     hdk::call(hdk::THIS_INSTANCE, &quot;summer&quot;, &quot;main&quot;, &quot;test_token&quot;, &quot;sum&quot;, call_input.into())</span>
+<span class="doccomment">///     hdk::call(hdk::THIS_INSTANCE, &quot;summer&quot;, &quot;test_token&quot;, &quot;sum&quot;, call_input.into())</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// define_zome! {</span>
@@ -1493,14 +1508,16 @@
 <span class="doccomment">///         Ok(())</span>
 <span class="doccomment">///     }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     functions: {</span>
-<span class="doccomment">///         main (Public) {</span>
+<span class="doccomment">///     functions: [</span>
 <span class="doccomment">///             check_sum: {</span>
 <span class="doccomment">///                 inputs: |num1: u32, num2: u32|,</span>
 <span class="doccomment">///                 outputs: |sum: ZomeApiResult&lt;JsonString&gt;|,</span>
 <span class="doccomment">///                 handler: handle_check_sum</span>
 <span class="doccomment">///             }</span>
-<span class="doccomment">///         }</span>
+<span class="doccomment">///     ]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     capabilities: {</span>
+<span class="doccomment">///         public (Public) [sum]</span>
 <span class="doccomment">///     }</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -1509,47 +1526,42 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(
     <span class="ident">instance_handle</span>: <span class="ident">S</span>,
     <span class="ident">zome_name</span>: <span class="ident">S</span>,
-    <span class="ident">cap_name</span>: <span class="ident">S</span>, <span class="comment">//temporary...</span>
     <span class="ident">cap_token</span>: <span class="ident">S</span>,
     <span class="ident">fn_name</span>: <span class="ident">S</span>,
     <span class="ident">fn_args</span>: <span class="ident">JsonString</span>,
 ) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">mem_stack</span> <span class="op">=</span> <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>();
-    }
+    <span class="ident">Dispatch</span>::<span class="ident">Call</span>.<span class="ident">with_input</span>(<span class="ident">ZomeFnCallArgs</span> {
+        <span class="ident">instance_handle</span>: <span class="ident">instance_handle</span>.<span class="ident">into</span>(),
+        <span class="ident">zome_name</span>: <span class="ident">zome_name</span>.<span class="ident">into</span>(),
+        <span class="ident">cap</span>: <span class="prelude-val">Some</span>(<span class="ident">CapabilityCall</span>::<span class="ident">new</span>(<span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">cap_token</span>.<span class="ident">into</span>()), <span class="prelude-val">None</span>)),
+        <span class="ident">fn_name</span>: <span class="ident">fn_name</span>.<span class="ident">into</span>(),
+        <span class="ident">fn_args</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">fn_args</span>),
+    })
+}
 
-    <span class="comment">// Put args in struct and serialize into memory</span>
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>,
-        <span class="ident">ZomeFnCallArgs</span> {
-            <span class="ident">instance_handle</span>: <span class="ident">instance_handle</span>.<span class="ident">into</span>(),
-            <span class="ident">zome_name</span>: <span class="ident">zome_name</span>.<span class="ident">into</span>(),
-            <span class="ident">cap</span>: <span class="prelude-val">Some</span>(<span class="ident">CapabilityCall</span>::<span class="ident">new</span>(
-                <span class="ident">cap_name</span>.<span class="ident">into</span>(),
-                <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">cap_token</span>.<span class="ident">into</span>()),
-                <span class="prelude-val">None</span>,
-            )),
-            <span class="ident">fn_name</span>: <span class="ident">fn_name</span>.<span class="ident">into</span>(),
-            <span class="ident">fn_args</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">fn_args</span>),
-        },
-    )<span class="question-mark">?</span>;
-
-    <span class="comment">// Call WASMI-able commit</span>
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">hc_call</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>) };
-    <span class="comment">// Deserialize complex result stored in memory and check for ERROR in encoding</span>
-    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="ident">load_json</span>(<span class="ident">encoded_allocation_of_result</span>)<span class="question-mark">?</span>;
-
-    <span class="comment">// Free result &amp; input allocations.</span>
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
-    <span class="comment">// Done</span>
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>).<span class="ident">try_into</span>()<span class="question-mark">?</span>)
-    } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
-    }
+<span class="doccomment">/// Prints a string through the stdout of the running service, and also</span>
+<span class="doccomment">/// writes that string to the logger in the execution context</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// # #[macro_use]</span>
+<span class="doccomment">/// # extern crate hdk;</span>
+<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # fn main() {</span>
+<span class="doccomment">/// pub fn handle_some_function(content: String) -&gt; ZomeApiResult&lt;()&gt; {</span>
+<span class="doccomment">///     // ...</span>
+<span class="doccomment">///     hdk::debug(&quot;write a message to the logs&quot;);</span>
+<span class="doccomment">///     // ...</span>
+<span class="doccomment">///     Ok(())</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # }</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug</span><span class="op">&lt;</span><span class="ident">J</span>: <span class="ident">TryInto</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;&gt;</span>(<span class="ident">msg</span>: <span class="ident">J</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Dispatch</span>::<span class="ident">Debug</span>.<span class="ident">with_input</span>(<span class="ident">msg</span>);
+    <span class="comment">// internally returns RibosomeEncodedValue::Success which is a zero length allocation</span>
+    <span class="comment">// return Ok(()) unconditionally instead of the &quot;error&quot; from success</span>
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// Attempts to commit an entry to your local source chain. The entry</span>
@@ -1572,9 +1584,10 @@
 <span class="doccomment">/// # use holochain_core_types::entry::entry_type::AppEntryType;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::Entry;</span>
 <span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
+<span class="doccomment">/// # use holochain_core_types::error::RibosomeEncodingBits;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_commit_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_commit_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { 0 }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
@@ -1600,31 +1613,7 @@
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">commit_entry</span>(<span class="ident">entry</span>: <span class="kw-2">&amp;</span><span class="ident">Entry</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">mem_stack</span> <span class="op">=</span> <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>();
-    }
-
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">entry</span>)<span class="question-mark">?</span>;
-
-    <span class="comment">// Call Ribosome&#39;s commit_entry()</span>
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">encoded_allocation_of_result</span> <span class="op">=</span> <span class="ident">hc_commit_entry</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>);
-    }
-
-    <span class="comment">// Deserialize complex result stored in wasm memory</span>
-    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="ident">load_json</span>(<span class="ident">encoded_allocation_of_result</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
-    <span class="comment">// Free result &amp; input allocations</span>
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
-    <span class="comment">// Done</span>
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>).<span class="ident">try_into</span>()<span class="question-mark">?</span>)
-    } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
-    }
+    <span class="ident">Dispatch</span>::<span class="ident">CommitEntry</span>.<span class="ident">with_input</span>(<span class="ident">entry</span>)
 }
 
 <span class="doccomment">/// Retrieves latest version of an entry from the local chain or the DHT, by looking it up using</span>
@@ -1666,7 +1655,13 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_entry_initial</span>(<span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Entry</span><span class="op">&gt;&gt;</span> {
     <span class="kw">let</span> <span class="ident">entry_result</span> <span class="op">=</span> <span class="ident">get_entry_result</span>(
         <span class="ident">address</span>,
-        <span class="ident">GetEntryOptions</span>::<span class="ident">new</span>(<span class="ident">StatusRequestKind</span>::<span class="ident">Initial</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="bool-val">false</span>),
+        <span class="ident">GetEntryOptions</span>::<span class="ident">new</span>(
+            <span class="ident">StatusRequestKind</span>::<span class="ident">Initial</span>,
+            <span class="bool-val">true</span>,
+            <span class="bool-val">false</span>,
+            <span class="bool-val">false</span>,
+            <span class="ident">Default</span>::<span class="ident">default</span>(),
+        ),
     )<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(<span class="ident">entry_result</span>.<span class="ident">latest</span>())
 }
@@ -1677,7 +1672,13 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_entry_history</span>(<span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryHistory</span><span class="op">&gt;&gt;</span> {
     <span class="kw">let</span> <span class="ident">entry_result</span> <span class="op">=</span> <span class="ident">get_entry_result</span>(
         <span class="ident">address</span>,
-        <span class="ident">GetEntryOptions</span>::<span class="ident">new</span>(<span class="ident">StatusRequestKind</span>::<span class="ident">All</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="bool-val">false</span>),
+        <span class="ident">GetEntryOptions</span>::<span class="ident">new</span>(
+            <span class="ident">StatusRequestKind</span>::<span class="ident">All</span>,
+            <span class="bool-val">true</span>,
+            <span class="bool-val">false</span>,
+            <span class="bool-val">false</span>,
+            <span class="ident">Default</span>::<span class="ident">default</span>(),
+        ),
     )<span class="question-mark">?</span>;
     <span class="kw">if</span> <span class="op">!</span><span class="ident">entry_result</span>.<span class="ident">found</span>() {
         <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
@@ -1695,36 +1696,10 @@
     <span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
     <span class="ident">options</span>: <span class="ident">GetEntryOptions</span>,
 ) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">GetEntryResult</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">mem_stack</span> <span class="op">=</span> <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>();
-    }
-
-    <span class="kw">let</span> <span class="ident">entry_args</span> <span class="op">=</span> <span class="ident">GetEntryArgs</span> {
+    <span class="ident">Dispatch</span>::<span class="ident">GetEntry</span>.<span class="ident">with_input</span>(<span class="ident">GetEntryArgs</span> {
         <span class="ident">address</span>: <span class="ident">address</span>.<span class="ident">clone</span>(),
         <span class="ident">options</span>,
-    };
-
-    <span class="comment">// Put args in struct and serialize into memory</span>
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">entry_args</span>)<span class="question-mark">?</span>;
-
-    <span class="comment">// Call WASMI-able get_entry</span>
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">encoded_allocation_of_result</span> <span class="op">=</span> <span class="ident">hc_get_entry</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>);
-    }
-    <span class="comment">// Deserialize complex result stored in memory</span>
-    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="ident">load_json</span>(<span class="ident">encoded_allocation_of_result</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
-    <span class="comment">// Free result &amp; input allocations</span>
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
-    <span class="comment">// Done</span>
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>).<span class="ident">try_into</span>()<span class="question-mark">?</span>)
-    } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
-    }
+    })
 }
 
 <span class="doccomment">/// Consumes three values, two of which are the addresses of entries, and one of which is a string that defines a</span>
@@ -1774,7 +1749,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">///     if let Some(in_reply_to_address) = in_reply_to {</span>
 <span class="doccomment">///         // return with Err if in_reply_to_address points to missing entry</span>
-<span class="doccomment">///         hdk::get_entry_result(&amp;in_reply_to_address, GetEntryOptions { status_request: StatusRequestKind::All, entry: false, header: false, sources: false })?;</span>
+<span class="doccomment">///         hdk::get_entry_result(&amp;in_reply_to_address, GetEntryOptions { status_request: StatusRequestKind::All, entry: false, header: false, sources: false, timeout: Default::default() })?;</span>
 <span class="doccomment">///         hdk::link_entries(&amp;in_reply_to_address, &amp;address, &quot;comments&quot;)?;</span>
 <span class="doccomment">///     }</span>
 <span class="doccomment">///</span>
@@ -1788,33 +1763,11 @@
     <span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
     <span class="ident">tag</span>: <span class="ident">S</span>,
 ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ZomeApiError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>() };
-
-    <span class="comment">// Put args in struct and serialize into memory</span>
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>,
-        <span class="ident">LinkEntriesArgs</span> {
-            <span class="ident">base</span>: <span class="ident">base</span>.<span class="ident">clone</span>(),
-            <span class="ident">target</span>: <span class="ident">target</span>.<span class="ident">clone</span>(),
-            <span class="ident">tag</span>: <span class="ident">tag</span>.<span class="ident">into</span>(),
-        },
-    )<span class="question-mark">?</span>;
-
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span> <span class="op">=</span>
-        <span class="kw">unsafe</span> { <span class="ident">hc_link_entries</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>) };
-
-    <span class="comment">// Deserialize complex result stored in memory and check for ERROR in encoding</span>
-    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="ident">load_json</span>(<span class="ident">encoded_allocation_of_result</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
-    <span class="comment">// Free result &amp; input allocations</span>
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
-    <span class="comment">// Done</span>
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>).<span class="ident">try_into</span>()<span class="question-mark">?</span>)
-    } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
-    }
+    <span class="ident">Dispatch</span>::<span class="ident">LinkEntries</span>.<span class="ident">with_input</span>(<span class="ident">LinkEntriesArgs</span> {
+        <span class="ident">base</span>: <span class="ident">base</span>.<span class="ident">clone</span>(),
+        <span class="ident">target</span>: <span class="ident">target</span>.<span class="ident">clone</span>(),
+        <span class="ident">tag</span>: <span class="ident">tag</span>.<span class="ident">into</span>(),
+    })
 }
 
 <span class="doccomment">/// NOT YET AVAILABLE</span>
@@ -1867,30 +1820,7 @@
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">entry_address</span>(<span class="ident">entry</span>: <span class="kw-2">&amp;</span><span class="ident">Entry</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">mem_stack</span> <span class="op">=</span> <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>();
-    }
-    <span class="comment">// Put args in struct and serialize into memory</span>
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">entry</span>)<span class="question-mark">?</span>;
-
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">encoded_allocation_of_result</span> <span class="op">=</span> <span class="ident">hc_entry_address</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>);
-    }
-
-    <span class="comment">// Deserialize complex result stored in memory and check for ERROR in encoding</span>
-    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="ident">load_json</span>(<span class="ident">encoded_allocation_of_result</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
-    <span class="comment">// Free result &amp; input allocations</span>
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
-    <span class="comment">// Done</span>
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>).<span class="ident">try_into</span>()<span class="question-mark">?</span>)
-    } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
-    }
+    <span class="ident">Dispatch</span>::<span class="ident">EntryAddress</span>.<span class="ident">with_input</span>(<span class="ident">entry</span>)
 }
 
 <span class="doccomment">/// NOT YET AVAILABLE</span>
@@ -1914,35 +1844,10 @@
 <span class="doccomment">/// The updated entry will hold the previous entry&#39;s address in its header,</span>
 <span class="doccomment">/// which will be used by validation routes.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_entry</span>(<span class="ident">new_entry</span>: <span class="ident">Entry</span>, <span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">mem_stack</span> <span class="op">=</span> <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>();
-    }
-
-    <span class="kw">let</span> <span class="ident">update_args</span> <span class="op">=</span> <span class="ident">UpdateEntryArgs</span> {
+    <span class="ident">Dispatch</span>::<span class="ident">UpdateEntry</span>.<span class="ident">with_input</span>(<span class="ident">UpdateEntryArgs</span> {
         <span class="ident">new_entry</span>,
         <span class="ident">address</span>: <span class="ident">address</span>.<span class="ident">clone</span>(),
-    };
-
-    <span class="comment">// Put args in struct and serialize into memory</span>
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">update_args</span>)<span class="question-mark">?</span>;
-
-    <span class="comment">// Call Ribosome</span>
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">encoded_allocation_of_result</span> <span class="op">=</span> <span class="ident">hc_update_entry</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>);
-    }
-    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="ident">load_json</span>(<span class="ident">encoded_allocation_of_result</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
-    <span class="comment">// Free result &amp; input allocations</span>
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
-    <span class="comment">// Done</span>
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>).<span class="ident">try_into</span>()<span class="question-mark">?</span>)
-    } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
-    }
+    })
 }
 
 <span class="doccomment">/// NOT YET AVAILABLE</span>
@@ -1954,25 +1859,7 @@
 <span class="doccomment">/// its status metadata to `Deleted` and adding the DeleteEntry&#39;s address in the deleted entry&#39;s</span>
 <span class="doccomment">/// metadata, which will be used by validation routes.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_entry</span>(<span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">mem_stack</span> <span class="op">=</span> <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>();
-    }
-    <span class="comment">// Put args in struct and serialize into memory</span>
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">address</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
-
-    <span class="comment">// Call WASMI-able get_entry</span>
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span>;
-    <span class="kw">unsafe</span> {
-        <span class="ident">encoded_allocation_of_result</span> <span class="op">=</span> <span class="ident">hc_remove_entry</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>);
-    }
-    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">check_for_ribosome_error</span>(<span class="ident">encoded_allocation_of_result</span>);
-    <span class="comment">// Free result &amp; input allocations</span>
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
-    <span class="comment">// Done</span>
-    <span class="ident">res</span>
+    <span class="ident">Dispatch</span>::<span class="ident">RemoveEntry</span>.<span class="ident">with_input</span>(<span class="ident">address</span>.<span class="ident">to_owned</span>())
 }
 
 <span class="doccomment">/// Consumes three values; the address of an entry get get links from (the base), the tag of the links</span>
@@ -2003,35 +1890,11 @@
     <span class="ident">tag</span>: <span class="ident">S</span>,
     <span class="ident">options</span>: <span class="ident">GetLinksOptions</span>,
 ) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">GetLinksResult</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>() };
-    <span class="comment">// Put args in struct and serialize into memory</span>
-
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>,
-        <span class="ident">GetLinksArgs</span> {
-            <span class="ident">entry_address</span>: <span class="ident">base</span>.<span class="ident">clone</span>(),
-            <span class="ident">tag</span>: <span class="ident">tag</span>.<span class="ident">into</span>(),
-            <span class="ident">options</span>: <span class="ident">options</span>,
-        },
-    )<span class="question-mark">?</span>;
-
-    <span class="comment">// Call Ribosome</span>
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span> <span class="op">=</span>
-        <span class="kw">unsafe</span> { <span class="ident">hc_get_links</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>) };
-
-    <span class="comment">// Deserialize complex result stored in memory</span>
-    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="ident">load_json</span>(<span class="ident">encoded_allocation_of_result</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
-
-    <span class="comment">// Free result &amp; input allocations</span>
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
-
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>).<span class="ident">try_into</span>()<span class="question-mark">?</span>)
-    } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
-    }
+    <span class="ident">Dispatch</span>::<span class="ident">GetLinks</span>.<span class="ident">with_input</span>(<span class="ident">GetLinksArgs</span> {
+        <span class="ident">entry_address</span>: <span class="ident">base</span>.<span class="ident">clone</span>(),
+        <span class="ident">tag</span>: <span class="ident">tag</span>.<span class="ident">into</span>(),
+        <span class="ident">options</span>,
+    })
 }
 
 <span class="doccomment">/// Helper function for get_links. Returns a vector with the default return results.</span>
@@ -2100,15 +1963,21 @@
     <span class="prelude-val">Ok</span>(<span class="ident">entries</span>)
 }
 
-<span class="doccomment">/// Returns a list of entries from your local source chain, that match a given entry type name or names.</span>
+<span class="doccomment">/// Returns a list of entries from your local source chain that match a given entry type name or names.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Each name may be a plain entry type name, or a &quot;glob&quot; pattern such as &quot;prefix/*&quot; (matches all</span>
-<span class="doccomment">/// entry types starting with &quot;prefix/&quot;), or &quot;[!%]*e&quot; (matches all non-system non-name-spaced entry</span>
-<span class="doccomment">/// types ending in &quot;e&quot;).  All names and patterns are merged into a single efficient Regular</span>
-<span class="doccomment">/// Expression for scanning.</span>
+<span class="doccomment">/// Each name may be a plain entry type name, or a `&quot;glob&quot;` pattern.  All names and patterns are</span>
+<span class="doccomment">/// merged into a single efficient Regular Expression for scanning.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Entry type name-spaces are supported by including &quot;/&quot; in your entry type names; use vec![], &quot;&quot;,</span>
-<span class="doccomment">/// or &quot;**&quot; to match all names in all name-spaces, &quot;*&quot; to match all non-namespaced names.</span>
+<span class="doccomment">/// You can select many names with patterns such as `&quot;boo*&quot;` (match all entry types starting with</span>
+<span class="doccomment">/// `&quot;boo&quot;`), or `&quot;[!%]*e&quot;` (all non-system non-name-spaced entry types ending in `&quot;e&quot;`).</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// You can organize your entry types using simple name-spaces, by including `&quot;/&quot;` in your entry type</span>
+<span class="doccomment">/// names.  For example, if you have several entry types related to fizzing a widget, you might</span>
+<span class="doccomment">/// create entry types `&quot;fizz/bar&quot;`, `&quot;fizz/baz&quot;`, `&quot;fizz/qux/foo&quot;` and `&quot;fizz/qux/boo&quot;`.  Query for</span>
+<span class="doccomment">/// `&quot;fizz/**&quot;` to match them all.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Use vec![], `&quot;&quot;`, or `&quot;**&quot;` to match all names in all name-spaces.  Matching `&quot;*&quot;` will match only</span>
+<span class="doccomment">/// non-namespaced names.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// entry_type_names: Specify type of entry(s) to retrieve, as a String or Vec&lt;String&gt; of 0 or more names, converted into the QueryArgNames type</span>
 <span class="doccomment">/// start: First entry in result list to retrieve</span>
@@ -2133,40 +2002,59 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// With hdk::query_result, you can specify a package of QueryArgsOptions, and get a</span>
+<span class="doccomment">/// variety of return values, such a vector of Headers as a `Vec&lt;ChainHeader&gt;`:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// // pub fn get_post_headers() -&gt; ZomeApiResult&lt;QueryResult&gt; {</span>
+<span class="doccomment">/// //    hdk::query_result(&quot;post&quot;.into(), QueryArgsOptions{ headers: true, ..Default::default()})</span>
+<span class="doccomment">/// // }</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The types of the results available depend on whether `headers` and/or `entries` is set:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// //                                                     // headers  entries</span>
+<span class="doccomment">/// // pub enum QueryResult {                              // -------  -------</span>
+<span class="doccomment">/// //     Addresses(Vec&lt;Address&gt;),                        // false    false</span>
+<span class="doccomment">/// //     Headers(Vec&lt;ChainHeader&gt;),                      // true     false</span>
+<span class="doccomment">/// //     Entries(Vec&lt;(Address, Entry)&gt;),                 // false    true</span>
+<span class="doccomment">/// //     HeadersWithEntries(Vec&lt;(ChainHeader, Entry)&gt;),  // true     true</span>
+<span class="doccomment">/// // }</span>
+<span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">query</span>(
     <span class="ident">entry_type_names</span>: <span class="ident">QueryArgsNames</span>,
-    <span class="ident">start</span>: <span class="ident">u32</span>,
-    <span class="ident">limit</span>: <span class="ident">u32</span>,
-) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">QueryResult</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>() };
-
-    <span class="comment">// Put args in struct and serialize into memory</span>
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>,
-        <span class="ident">QueryArgs</span> {
-            <span class="ident">entry_type_names</span>,
-            <span class="ident">start</span>,
-            <span class="ident">limit</span>,
+    <span class="ident">start</span>: <span class="ident">usize</span>,
+    <span class="ident">limit</span>: <span class="ident">usize</span>,
+) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;&gt;</span> {
+    <span class="comment">// The hdk::query API always returns a simple Vec&lt;Address&gt;</span>
+    <span class="kw">match</span> <span class="ident">query_result</span>(
+        <span class="ident">entry_type_names</span>,
+        <span class="ident">QueryArgsOptions</span> {
+            <span class="ident">start</span>: <span class="ident">start</span>,
+            <span class="ident">limit</span>: <span class="ident">limit</span>,
+            <span class="ident">headers</span>: <span class="bool-val">false</span>,
+            <span class="ident">entries</span>: <span class="bool-val">false</span>,
         },
-    )<span class="question-mark">?</span>;
-
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span> <span class="op">=</span>
-        <span class="kw">unsafe</span> { <span class="ident">hc_query</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>) };
-
-    <span class="comment">// Deserialize complex result stored in memory</span>
-    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="ident">load_json</span>(<span class="ident">encoded_allocation_of_result</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
-    <span class="comment">// Free result &amp; input allocations</span>
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
-    <span class="comment">// Done</span>
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>).<span class="ident">try_into</span>()<span class="question-mark">?</span>)
-    } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
+    ) {
+        <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">result</span> {
+            <span class="ident">QueryResult</span>::<span class="ident">Addresses</span>(<span class="ident">addresses</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">addresses</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">FunctionNotImplemented</span>), <span class="comment">// should never occur</span>
+        },
+        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
     }
 }
 
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">query_result</span>(
+    <span class="ident">entry_type_names</span>: <span class="ident">QueryArgsNames</span>,
+    <span class="ident">options</span>: <span class="ident">QueryArgsOptions</span>,
+) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">QueryResult</span><span class="op">&gt;</span> {
+    <span class="ident">Dispatch</span>::<span class="ident">Query</span>.<span class="ident">with_input</span>(<span class="ident">QueryArgs</span> {
+        <span class="ident">entry_type_names</span>,
+        <span class="ident">options</span>,
+    })
+}
 <span class="doccomment">/// Sends a node-to-node message to the given agent, specified by their address.</span>
 <span class="doccomment">/// Addresses of agents can be accessed using [hdk::AGENT_ADDRESS](struct.AGENT_ADDRESS.html).</span>
 <span class="doccomment">/// This works in conjunction with the `receive` callback that has to be defined in the</span>
@@ -2176,6 +2064,7 @@
 <span class="doccomment">/// by the `receive` callback of the other node.</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// # #![feature(try_from)]</span>
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate hdk;</span>
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
@@ -2186,32 +2075,44 @@
 <span class="doccomment">/// # extern crate serde_json;</span>
 <span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
+<span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
+<span class="doccomment">/// # use holochain_core_types::error::HolochainError;</span>
+<span class="doccomment">/// # use holochain_core_types::error::RibosomeEncodingBits;</span>
+<span class="doccomment">/// # use holochain_core_types::error::RibosomeEncodedValue;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # // Adding empty functions so that the cfg(test) build can link.</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_init_globals(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_init_globals(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_commit_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_commit_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_get_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_get_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_entry_address(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_entry_address(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_query(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_query(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_call(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_call(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_update_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_update_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_remove_entry(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_remove_entry(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
-<span class="doccomment">/// # pub fn hc_send(_: u32) -&gt; u32 { 0 }</span>
+<span class="doccomment">/// # pub fn hc_send(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_sleep(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_debug(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_get_links(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_link_entries(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">/// fn handle_send_message(to_agent: Address, message: String) -&gt; ZomeApiResult&lt;String&gt; {</span>
 <span class="doccomment">///     // because the function signature of hdk::send is the same as the</span>
 <span class="doccomment">///     // signature of handle_send_message we can just directly return its&#39; result</span>
-<span class="doccomment">///     hdk::send(to_agent, message)</span>
+<span class="doccomment">///     hdk::send(to_agent, message, 60000.into())</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// define_zome! {</span>
@@ -2224,38 +2125,26 @@
 <span class="doccomment">///        format!(&quot;Received: {}&quot;, payload)</span>
 <span class="doccomment">///    }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///    functions: {</span>
-<span class="doccomment">///        main (Public) {</span>
+<span class="doccomment">///    functions: [</span>
 <span class="doccomment">///            send_message: {</span>
 <span class="doccomment">///                inputs: |to_agent: Address, message: String|,</span>
 <span class="doccomment">///                outputs: |response: ZomeApiResult&lt;String&gt;|,</span>
 <span class="doccomment">///                handler: handle_send_message</span>
 <span class="doccomment">///            }</span>
-<span class="doccomment">///        }</span>
-<span class="doccomment">///    }</span>
+<span class="doccomment">///    ]</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     capabilities: {</span>
+<span class="doccomment">///         public (Public) [send_message]</span>
+<span class="doccomment">///     }</span>
 <span class="doccomment">///}</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send</span>(<span class="ident">to_agent</span>: <span class="ident">Address</span>, <span class="ident">payload</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_stack</span>: <span class="ident">SinglePageStack</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">G_MEM_STACK</span>.<span class="ident">unwrap</span>() };
-
-    <span class="comment">// Put args in struct and serialize into memory</span>
-    <span class="kw">let</span> <span class="ident">allocation_of_input</span> <span class="op">=</span> <span class="ident">store_as_json</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_stack</span>, <span class="ident">SendArgs</span> { <span class="ident">to_agent</span>, <span class="ident">payload</span> })<span class="question-mark">?</span>;
-
-    <span class="kw">let</span> <span class="ident">encoded_allocation_of_result</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">hc_send</span>(<span class="ident">allocation_of_input</span>.<span class="ident">encode</span>() <span class="kw">as</span> <span class="ident">u32</span>) };
-
-    <span class="comment">// Deserialize complex result stored in memory</span>
-    <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">ZomeApiInternalResult</span> <span class="op">=</span> <span class="ident">load_json</span>(<span class="ident">encoded_allocation_of_result</span> <span class="kw">as</span> <span class="ident">u32</span>)<span class="question-mark">?</span>;
-    <span class="comment">// Free result &amp; input allocations</span>
-    <span class="ident">mem_stack</span>
-        .<span class="ident">deallocate</span>(<span class="ident">allocation_of_input</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;deallocate failed&quot;</span>);
-    <span class="comment">// Done</span>
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>))
-    } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">error</span>))
-    }
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send</span>(<span class="ident">to_agent</span>: <span class="ident">Address</span>, <span class="ident">payload</span>: <span class="ident">String</span>, <span class="ident">timeout</span>: <span class="ident">Timeout</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="ident">Dispatch</span>::<span class="ident">Send</span>.<span class="ident">with_input</span>(<span class="ident">SendArgs</span> {
+        <span class="ident">to_agent</span>,
+        <span class="ident">payload</span>,
+        <span class="ident">options</span>: <span class="ident">SendOptions</span>(<span class="ident">timeout</span>),
+    })
 }
 
 <span class="doccomment">/// NOT YET AVAILABLE</span>
@@ -2268,32 +2157,29 @@
     <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">FunctionNotImplemented</span>)
 }
 
-<span class="comment">//--------------------------------------------------------------------------------------------------</span>
-<span class="comment">// Helpers</span>
-<span class="comment">//--------------------------------------------------------------------------------------------------</span>
-
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check_for_ribosome_error</span>(<span class="ident">encoded_allocation</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="comment">// Check for error from Ribosome</span>
-    <span class="kw">let</span> <span class="ident">rib_result</span> <span class="op">=</span> <span class="ident">decode_encoded_allocation</span>(<span class="ident">encoded_allocation</span>);
-    <span class="kw">match</span> <span class="ident">rib_result</span> {
-        <span class="comment">// Expecting a &#39;Success&#39; return code</span>
-        <span class="prelude-val">Err</span>(<span class="ident">ret_code</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">ret_code</span> {
-            <span class="ident">RibosomeReturnCode</span>::<span class="ident">Success</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="ident">RibosomeReturnCode</span>::<span class="ident">Failure</span>(<span class="ident">err_code</span>) <span class="op">=&gt;</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">Internal</span>(<span class="ident">err_code</span>.<span class="ident">to_string</span>()))
-            }
-        },
-        <span class="comment">// If we have an allocation, than it should be a CoreError</span>
-        <span class="prelude-val">Ok</span>(<span class="ident">allocation</span>) <span class="op">=&gt;</span> {
-            <span class="kw">let</span> <span class="ident">maybe_err</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CoreError</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">=</span>
-                <span class="ident">load_json_from_raw</span>(<span class="ident">allocation</span>.<span class="ident">offset</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>);
-            <span class="kw">match</span> <span class="ident">maybe_err</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">hc_err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">Internal</span>(<span class="ident">hc_err</span>.<span class="ident">to_string</span>())),
-                <span class="prelude-val">Ok</span>(<span class="ident">core_err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ZomeApiError</span>::<span class="ident">Internal</span>(<span class="ident">core_err</span>.<span class="ident">to_string</span>())),
-            }
-        }
-    }
+<span class="doccomment">/// Lets the DNA runtime sleep for the given duration.</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// # #[macro_use]</span>
+<span class="doccomment">/// # extern crate hdk;</span>
+<span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
+<span class="doccomment">/// # use std::time::Duration;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # fn main() {</span>
+<span class="doccomment">/// pub fn handle_some_function(content: String) -&gt; ZomeApiResult&lt;()&gt; {</span>
+<span class="doccomment">///     // ...</span>
+<span class="doccomment">///     hdk::sleep(Duration::from_millis(100));</span>
+<span class="doccomment">///     // ...</span>
+<span class="doccomment">///     Ok(())</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # }</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sleep</span>(<span class="ident">duration</span>: <span class="ident">Duration</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Dispatch</span>::<span class="ident">Sleep</span>.<span class="ident">with_input</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">duration</span>.<span class="ident">as_nanos</span>()));
+    <span class="comment">// internally returns RibosomeEncodedValue::Success which is a zero length allocation</span>
+    <span class="comment">// return Ok(()) unconditionally instead of the &quot;error&quot; from success</span>
+    <span class="prelude-val">Ok</span>(())
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "hdk";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

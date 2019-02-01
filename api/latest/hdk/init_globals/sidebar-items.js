@@ -1,1 +1,1 @@
-initSidebarItems({});
+initSidebarItems({"fn":[["hc_init_globals",""]]});

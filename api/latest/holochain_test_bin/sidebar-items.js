@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["p2p_node",""]]});
+initSidebarItems({"mod":[["basic_workflows",""],["constants",""],["p2p_node",""],["predicate",""],["publish_hold_workflows",""]],"struct":[["TEST_FNS",""]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ChainStore",""],["ChainStoreIterator","Access each Entry"],["ChainStoreTypeIterator","Quickly access each Entry of a single known EntryType"]]});
+initSidebarItems({"enum":[["ChainStoreQueryResult",""]],"struct":[["ChainStore",""],["ChainStoreIterator","Access each Entry"],["ChainStoreQueryOptions",""],["ChainStoreTypeIterator","Quickly access each Entry of a single known EntryType"]]});
