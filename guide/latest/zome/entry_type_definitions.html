@@ -185,7 +185,9 @@ define_zome! {
         Ok(())
     }
 
-    functions: {}
+    functions: []
+
+    capabilities: {}
 }
 #}</code></pre></pre>
 <p><code>entries</code> is where we will populate the Zome with entry type definitions. It expects an array of <code>ValidatingEntryType</code>. So how can one be created?</p>
@@ -354,7 +356,9 @@ define_zome! {
         Ok(())
     }
 
-    functions: {}
+    functions: []
+
+    capabilitites: {}
 }
 #}</code></pre></pre>
 <p>If there is only entry type, this can be fine, but if there are multiple, this can hurt readability of the source code. You can wrap the entry type definition in a function, and call it in <code>define_zome!</code>, like so:</p>
@@ -388,7 +392,9 @@ define_zome! {
         Ok(())
     }
 
-    functions: {}
+    functions: []
+
+    capabilitites: {}
 }
 #}</code></pre></pre>
 <p>Use of this technique can help you write clean, modular code.</p>

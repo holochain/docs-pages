@@ -176,7 +176,7 @@ two arguments, a <code>&amp;mut nucleus::ribosome::Runtime</code> and a <code>&a
 <p>This function will be called by the invocation dispatch (see above).</p>
 <a class="header" href="#zome-api-function-arguments" id="zome-api-function-arguments"><h4>Zome API function arguments</h4></a>
 <p>The <code>wasmi::RuntimeArgs</code> passed to the Zome API function contains only a single
-<code>u32</code> value. This is an encoded representation of a single page of memory
+<code>u64</code> value. This is an encoded representation of a single page of memory
 supported by the memory manager. The 16 high bits are the memory offset and the
 16 low bits are the memory length. See the <code>wasm_utils</code> crate for more
 implementation details.</p>
@@ -212,7 +212,7 @@ layer.</p>
 </ul>
 <a class="header" href="#zome-api-function-return-values" id="zome-api-function-return-values"><h4>Zome API function return values</h4></a>
 <p>The zome API function returns a value to wasm representing success or a wasm trap.</p>
-<p>The success value can only be a single <code>i32</code>.</p>
+<p>The success value can only be a single <code>u64</code>.</p>
 <p>Traps are a low level wasm concern and are unlikely to be directly useful to a
 zome API function implementation.</p>
 <p>See https://github.com/WebAssembly/design/blob/master/Semantics.md#traps</p>

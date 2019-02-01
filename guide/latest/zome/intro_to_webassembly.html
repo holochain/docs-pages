@@ -150,9 +150,9 @@
 <p>This textual format is called WAT.</p>
 <p>Not because it needs to be understood, but so that you can get a glimpse of what WAT looks like, here's a little sample:</p>
 <pre><code>(module
-    (memory (;0;) 17)
-    (func (export &quot;main&quot;) (param $p0 i32) (result i32)
-        i32.const 6
+    (memory (;0;) 1)
+    (func (export &quot;public_test_fn&quot;) (param $p0 i64) (result i64)
+        i64.const 6
     )
     (data (i32.const 0)
         &quot;1337.0&quot;
