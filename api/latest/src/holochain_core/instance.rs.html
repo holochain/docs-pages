@@ -762,81 +762,21 @@
 <span id="762">762</span>
 <span id="763">763</span>
 <span id="764">764</span>
-<span id="765">765</span>
-<span id="766">766</span>
-<span id="767">767</span>
-<span id="768">768</span>
-<span id="769">769</span>
-<span id="770">770</span>
-<span id="771">771</span>
-<span id="772">772</span>
-<span id="773">773</span>
-<span id="774">774</span>
-<span id="775">775</span>
-<span id="776">776</span>
-<span id="777">777</span>
-<span id="778">778</span>
-<span id="779">779</span>
-<span id="780">780</span>
-<span id="781">781</span>
-<span id="782">782</span>
-<span id="783">783</span>
-<span id="784">784</span>
-<span id="785">785</span>
-<span id="786">786</span>
-<span id="787">787</span>
-<span id="788">788</span>
-<span id="789">789</span>
-<span id="790">790</span>
-<span id="791">791</span>
-<span id="792">792</span>
-<span id="793">793</span>
-<span id="794">794</span>
-<span id="795">795</span>
-<span id="796">796</span>
-<span id="797">797</span>
-<span id="798">798</span>
-<span id="799">799</span>
-<span id="800">800</span>
-<span id="801">801</span>
-<span id="802">802</span>
-<span id="803">803</span>
-<span id="804">804</span>
-<span id="805">805</span>
-<span id="806">806</span>
-<span id="807">807</span>
-<span id="808">808</span>
-<span id="809">809</span>
-<span id="810">810</span>
-<span id="811">811</span>
-<span id="812">812</span>
-<span id="813">813</span>
-<span id="814">814</span>
-<span id="815">815</span>
-<span id="816">816</span>
-<span id="817">817</span>
-<span id="818">818</span>
-<span id="819">819</span>
-<span id="820">820</span>
-<span id="821">821</span>
-<span id="822">822</span>
-<span id="823">823</span>
-<span id="824">824</span>
-<span id="825">825</span>
-<span id="826">826</span>
-<span id="827">827</span>
-<span id="828">828</span>
-<span id="829">829</span>
-<span id="830">830</span>
-<span id="831">831</span>
-<span id="832">832</span>
-<span id="833">833</span>
-<span id="834">834</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">action</span>::<span class="ident">ActionWrapper</span>, <span class="ident">context</span>::<span class="ident">Context</span>, <span class="ident">signal</span>::<span class="ident">Signal</span>, <span class="ident">state</span>::<span class="ident">State</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">action</span>::<span class="ident">ActionWrapper</span>, <span class="ident">context</span>::<span class="ident">Context</span>, <span class="ident">signal</span>::<span class="ident">Signal</span>, <span class="ident">state</span>::<span class="ident">State</span>, <span class="ident">workflows</span>::<span class="ident">application</span>,
+};
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">network</span>::<span class="ident">actions</span>::<span class="ident">initialize_network</span>::<span class="ident">initialize_network_with_spoofed_dna</span>,
+    <span class="ident">nucleus</span>::<span class="ident">actions</span>::<span class="ident">initialize</span>::<span class="ident">initialize_application</span>,
+};
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">dna</span>::<span class="ident">Dna</span>, <span class="ident">error</span>::<span class="ident">HcResult</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">sync</span>::{
-        <span class="ident">mpsc</span>::{<span class="ident">sync_channel</span>, <span class="ident">Receiver</span>, <span class="ident">SyncSender</span>},
+        <span class="ident">mpsc</span>::{<span class="ident">sync_channel</span>, <span class="ident">Receiver</span>, <span class="ident">Sender</span>, <span class="ident">SyncSender</span>},
         <span class="ident">Arc</span>, <span class="ident">RwLock</span>, <span class="ident">RwLockReadGuard</span>,
     },
     <span class="ident">thread</span>,
@@ -855,11 +795,9 @@
     <span class="ident">observer_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;&gt;</span>,
 }
 
-<span class="kw">type</span> <span class="ident">ClosureType</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">State</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>;
-
 <span class="doccomment">/// State Observer that executes a closure everytime the State changes.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Observer</span> {
-    <span class="kw">pub</span> <span class="ident">sensor</span>: <span class="ident">ClosureType</span>,
+    <span class="kw">pub</span> <span class="ident">ticker</span>: <span class="ident">Sender</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
 }
 
 <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">DISPATCH_WITHOUT_CHANNELS</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;dispatch called without channels open&quot;</span>;
@@ -869,12 +807,64 @@
         <span class="number">100</span>
     }
 
+    <span class="doccomment">/// This is initializing and starting the redux action loop and adding channels to dispatch</span>
+    <span class="doccomment">/// actions and observers to the context</span>
+    <span class="kw">pub</span>(<span class="kw">in</span> <span class="kw">crate</span>::<span class="ident">instance</span>) <span class="kw">fn</span> <span class="ident">inner_setup</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> (<span class="ident">rx_action</span>, <span class="ident">rx_observer</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">initialize_channels</span>();
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">initialize_context</span>(<span class="ident">context</span>);
+        <span class="self">self</span>.<span class="ident">start_action_loop</span>(<span class="ident">context</span>.<span class="ident">clone</span>(), <span class="ident">rx_action</span>, <span class="ident">rx_observer</span>);
+        <span class="ident">context</span>
+    }
+
+    <span class="doccomment">/// This is calling inner_setup and running the initialization workflow which makes sure that</span>
+    <span class="doccomment">/// the chain gets initialized if dna is Some.</span>
+    <span class="doccomment">/// If dna is None it is assumed the chain is already initialized, i.e. we are loading a chain.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">initialize</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">dna</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Dna</span><span class="op">&gt;</span>,
+        <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;&gt;</span> {
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner_setup</span>(<span class="ident">context</span>);
+        <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">application</span>::<span class="ident">initialize</span>(<span class="self">self</span>, <span class="ident">dna</span>, <span class="ident">context</span>.<span class="ident">clone</span>()))
+    }
+
+    <span class="doccomment">/// This function is only needed in tests to create integration tests in which an instance</span>
+    <span class="doccomment">/// tries to publish invalid entries.</span>
+    <span class="doccomment">/// The DNA needs to be spoofed then so that we can emulate a hacked node that does not</span>
+    <span class="doccomment">/// run the right validation checks locally but actually commits and publishes invalid data.</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">initialize_with_spoofed_dna</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">dna</span>: <span class="ident">Dna</span>,
+        <span class="ident">spoofed_dna_address</span>: <span class="ident">Address</span>,
+        <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;&gt;</span> {
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner_setup</span>(<span class="ident">context</span>);
+        <span class="ident">context</span>.<span class="ident">block_on</span>(
+            <span class="kw">async</span> {
+                <span class="macro">await</span><span class="macro">!</span>(<span class="ident">initialize_application</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>))<span class="question-mark">?</span>;
+                <span class="macro">await</span><span class="macro">!</span>(<span class="ident">initialize_network_with_spoofed_dna</span>(
+                    <span class="ident">spoofed_dna_address</span>,
+                    <span class="kw-2">&amp;</span><span class="ident">context</span>
+                ))
+            },
+        )<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">context</span>)
+    }
+
+    <span class="doccomment">/// Only needed in tests to check that the initialization (and other workflows) fail</span>
+    <span class="doccomment">/// with the right error message if no DNA is present.</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">initialize_without_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">inner_setup</span>(<span class="ident">context</span>)
+    }
+
     <span class="comment">// @NB: these three getters smell bad because previously Instance and Context had SyncSenders</span>
     <span class="comment">// rather than Option&lt;SyncSenders&gt;, but these would be initialized by default to broken channels</span>
     <span class="comment">// which would panic if `send` was called upon them. These `expect`s just bring more visibility to</span>
     <span class="comment">// that potential failure mode.</span>
     <span class="comment">// @see https://github.com/holochain/holochain-rust/issues/739</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">action_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">action_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">action_channel</span>
             .<span class="ident">as_ref</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;Action channel not initialized&quot;</span>)
@@ -893,36 +883,6 @@
     <span class="doccomment">/// Panics if called before `start_action_loop`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">action_wrapper</span>: <span class="ident">ActionWrapper</span>) {
         <span class="ident">dispatch_action</span>(<span class="self">self</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>)
-    }
-
-    <span class="doccomment">/// Stack an Action in the Event Queue and block until is has been processed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if called before `start_action_loop`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_and_wait</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">action_wrapper</span>: <span class="ident">ActionWrapper</span>) {
-        <span class="ident">dispatch_action_and_wait</span>(
-            <span class="self">self</span>.<span class="ident">action_channel</span>(),
-            <span class="self">self</span>.<span class="ident">observer_channel</span>(),
-            <span class="ident">action_wrapper</span>,
-        );
-    }
-
-    <span class="doccomment">/// Stack an action in the Event Queue and create an Observer on it with the specified closure</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if called before `start_action_loop`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_with_observer</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">action_wrapper</span>: <span class="ident">ActionWrapper</span>, <span class="ident">closure</span>: <span class="ident">F</span>)
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">State</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Send</span>,
-    {
-        <span class="ident">dispatch_action_with_observer</span>(
-            <span class="self">self</span>.<span class="ident">action_channel</span>(),
-            <span class="self">self</span>.<span class="ident">observer_channel</span>(),
-            <span class="ident">action_wrapper</span>,
-            <span class="ident">closure</span>,
-        )
     }
 
     <span class="doccomment">/// Returns recievers for actions and observers that get added to this instance</span>
@@ -946,9 +906,12 @@
     }
 
     <span class="doccomment">/// Start the Event Loop on a separate thread</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start_action_loop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) {
-        <span class="kw">let</span> (<span class="ident">rx_action</span>, <span class="ident">rx_observer</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">initialize_channels</span>();
-
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start_action_loop</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
+        <span class="ident">rx_action</span>: <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span>,
+        <span class="ident">rx_observer</span>: <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span>,
+    ) {
         <span class="kw">let</span> <span class="ident">sync_self</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="ident">sub_context</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">initialize_context</span>(<span class="ident">context</span>);
 
@@ -999,28 +962,16 @@
             <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span> <span class="ident">new_state</span>;
         }
 
-        <span class="comment">// @TODO: add a big fat debug logger here</span>
+        <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/reduce: {:?}&quot;</span>, <span class="ident">action_wrapper</span>.<span class="ident">action</span>()));
         <span class="self">self</span>.<span class="ident">maybe_emit_action_signal</span>(<span class="ident">context</span>, <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
 
         <span class="comment">// Add new observers</span>
         <span class="ident">state_observers</span>.<span class="ident">extend</span>(<span class="ident">rx_observer</span>.<span class="ident">try_iter</span>());
-
-        <span class="comment">// Run all observer closures</span>
-        {
-            <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>
-                .<span class="ident">state</span>
-                .<span class="ident">read</span>()
-                .<span class="ident">expect</span>(<span class="string">&quot;owners of the state RwLock shouldn&#39;t panic&quot;</span>);
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-            <span class="kw">while</span> <span class="ident">i</span> <span class="op">!=</span> <span class="ident">state_observers</span>.<span class="ident">len</span>() {
-                <span class="kw">if</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">state_observers</span>[<span class="ident">i</span>].<span class="ident">sensor</span>)(<span class="kw-2">&amp;</span><span class="ident">state</span>) {
-                    <span class="ident">state_observers</span>.<span class="ident">remove</span>(<span class="ident">i</span>);
-                } <span class="kw">else</span> {
-                    <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
-                }
-            }
-        }
+        <span class="comment">// Tick all observers and remove those that have lost their receiving part</span>
         <span class="ident">state_observers</span>
+            .<span class="ident">into_iter</span>()
+            .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">observer</span><span class="op">|</span> <span class="ident">observer</span>.<span class="ident">ticker</span>.<span class="ident">send</span>(()).<span class="ident">is_ok</span>())
+            .<span class="ident">collect</span>()
     }
 
     <span class="doccomment">/// Given an `Action` that is being processed, decide whether or not it should be</span>
@@ -1070,56 +1021,17 @@
 <span class="doccomment">/// # Panics</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Panics if the channels passed are disconnected.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_action_and_wait</span>(
-    <span class="ident">action_channel</span>: <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span>,
-    <span class="ident">observer_channel</span>: <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span>,
-    <span class="ident">action_wrapper</span>: <span class="ident">ActionWrapper</span>,
-) {
-    <span class="comment">// Create blocking channel</span>
-    <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">sync_channel</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>(<span class="number">1</span>);
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_action_and_wait</span>(<span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>, <span class="ident">action_wrapper</span>: <span class="ident">ActionWrapper</span>) {
+    <span class="kw">let</span> <span class="ident">tick_rx</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">create_observer</span>();
+    <span class="ident">dispatch_action</span>(<span class="ident">context</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
 
-    <span class="comment">// Create blocking observer</span>
-    <span class="kw">let</span> <span class="ident">observer_action_wrapper</span> <span class="op">=</span> <span class="ident">action_wrapper</span>.<span class="ident">clone</span>();
-    <span class="kw">let</span> <span class="ident">closure</span> <span class="op">=</span> <span class="kw">move</span> <span class="op">|</span><span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="ident">State</span><span class="op">|</span> {
-        <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">history</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">observer_action_wrapper</span>) {
-            <span class="ident">sender</span>
-                .<span class="ident">send</span>(())
-                <span class="comment">// the channel stays connected until the first message has been sent</span>
-                <span class="comment">// if this fails that means that it was called after having returned done=true</span>
-                .<span class="ident">expect</span>(<span class="string">&quot;observer called after done&quot;</span>);
-            <span class="bool-val">true</span>
+    <span class="kw">loop</span> {
+        <span class="kw">if</span> <span class="ident">context</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">history</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">action_wrapper</span>) {
+            <span class="kw">return</span>;
         } <span class="kw">else</span> {
-            <span class="bool-val">false</span>
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">tick_rx</span>.<span class="ident">recv_timeout</span>(<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="number">10</span>));
         }
-    };
-
-    <span class="ident">dispatch_action_with_observer</span>(<span class="kw-2">&amp;</span><span class="ident">action_channel</span>, <span class="kw-2">&amp;</span><span class="ident">observer_channel</span>, <span class="ident">action_wrapper</span>, <span class="ident">closure</span>);
-
-    <span class="comment">// Block until Observer has sensed the completion of the Action</span>
-    <span class="ident">receiver</span>.<span class="ident">recv</span>().<span class="ident">expect</span>(<span class="ident">DISPATCH_WITHOUT_CHANNELS</span>);
-}
-
-<span class="doccomment">/// Send Action to the Event Queue and create an Observer for it with the specified closure</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Panics</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Panics if the channels passed are disconnected.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_action_with_observer</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
-    <span class="ident">action_channel</span>: <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span>,
-    <span class="ident">observer_channel</span>: <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span>,
-    <span class="ident">action_wrapper</span>: <span class="ident">ActionWrapper</span>,
-    <span class="ident">closure</span>: <span class="ident">F</span>,
-) <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">State</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> <span class="op">+</span> <span class="ident">Send</span>,
-{
-    <span class="kw">let</span> <span class="ident">observer</span> <span class="op">=</span> <span class="ident">Observer</span> {
-        <span class="ident">sensor</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">closure</span>),
-    };
-
-    <span class="ident">observer_channel</span>
-        .<span class="ident">send</span>(<span class="ident">observer</span>)
-        .<span class="ident">expect</span>(<span class="ident">DISPATCH_WITHOUT_CHANNELS</span>);
-    <span class="ident">dispatch_action</span>(<span class="ident">action_channel</span>, <span class="ident">action_wrapper</span>);
+    }
 }
 
 <span class="doccomment">/// Send Action to the Event Queue</span>
@@ -1148,7 +1060,6 @@
         <span class="ident">context</span>::{<span class="ident">test_memory_network_config</span>, <span class="ident">Context</span>},
         <span class="ident">logger</span>::{<span class="ident">test_logger</span>, <span class="ident">TestLogger</span>},
     };
-    <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">executor</span>::<span class="ident">block_on</span>;
     <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::{<span class="ident">cas</span>::<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">eav</span>::<span class="ident">file</span>::<span class="ident">EavFileStorage</span>};
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
         <span class="ident">agent</span>::<span class="ident">AgentId</span>,
@@ -1160,20 +1071,13 @@
     };
 
     <span class="kw">use</span> <span class="kw">crate</span>::{
-        <span class="ident">network</span>::<span class="ident">actions</span>::<span class="ident">initialize_network</span>::<span class="ident">initialize_network</span>,
-        <span class="ident">nucleus</span>::{
-            <span class="ident">actions</span>::<span class="ident">initialize</span>::<span class="ident">initialize_application</span>,
-            <span class="ident">ribosome</span>::{<span class="ident">callback</span>::<span class="ident">Callback</span>, <span class="ident">Defn</span>},
-        },
+        <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">callback</span>::<span class="ident">Callback</span>, <span class="ident">Defn</span>},
         <span class="ident">persister</span>::<span class="ident">SimplePersister</span>,
         <span class="ident">state</span>::<span class="ident">State</span>,
     };
 
     <span class="kw">use</span> <span class="ident">std</span>::{
-        <span class="ident">sync</span>::{
-            <span class="ident">mpsc</span>::{<span class="ident">channel</span>, <span class="ident">sync_channel</span>},
-            <span class="ident">Arc</span>, <span class="ident">Mutex</span>,
-        },
+        <span class="ident">sync</span>::{<span class="ident">mpsc</span>::<span class="ident">channel</span>, <span class="ident">Arc</span>, <span class="ident">Mutex</span>},
         <span class="ident">thread</span>::<span class="ident">sleep</span>,
         <span class="ident">time</span>::<span class="ident">Duration</span>,
     };
@@ -1330,14 +1234,7 @@
         <span class="comment">// Create instance and plug in our DNA</span>
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="ident">name</span>, <span class="ident">network_name</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">Instance</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">clone</span>());
-        <span class="ident">instance</span>.<span class="ident">start_action_loop</span>(<span class="ident">context</span>.<span class="ident">clone</span>());
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize_context</span>(<span class="ident">context</span>);
-        <span class="ident">block_on</span>(
-            <span class="kw">async</span> {
-                <span class="macro">await</span><span class="macro">!</span>(<span class="ident">initialize_application</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>))<span class="question-mark">?</span>;
-                <span class="macro">await</span><span class="macro">!</span>(<span class="ident">initialize_network</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>))
-            },
-        )<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize</span>(<span class="prelude-val">Some</span>(<span class="ident">dna</span>.<span class="ident">clone</span>()), <span class="ident">context</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance</span>.<span class="ident">state</span>().<span class="ident">nucleus</span>().<span class="ident">dna</span>(), <span class="prelude-val">Some</span>(<span class="ident">dna</span>.<span class="ident">clone</span>()));
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">instance</span>.<span class="ident">state</span>().<span class="ident">nucleus</span>().<span class="ident">has_initialized</span>());
@@ -1459,43 +1356,6 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="doccomment">/// This test shows how to call dispatch with a closure that should run</span>
-    <span class="doccomment">/// when the action results in a state change.  Note that the observer closure</span>
-    <span class="doccomment">/// needs to return a boolean to indicate that it has successfully observed what</span>
-    <span class="doccomment">/// it intends to observe.  It will keep getting called as the state changes until</span>
-    <span class="doccomment">/// it returns true.</span>
-    <span class="doccomment">/// Note also that for this test we create a channel to send something (in this case</span>
-    <span class="doccomment">/// the dna) back over, just so that the test will block until the closure is successfully</span>
-    <span class="doccomment">/// run and the assert will actually run.  If we put the assert inside the closure</span>
-    <span class="doccomment">/// the test thread could complete before the closure was called.</span>
-    <span class="kw">fn</span> <span class="ident">can_dispatch_with_observer</span>() {
-        <span class="kw">let</span> <span class="ident">netname</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;can_dispatch_with_observer&quot;</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">Instance</span>::<span class="ident">new</span>(<span class="ident">test_context</span>(<span class="string">&quot;jason&quot;</span>, <span class="ident">netname</span>));
-        <span class="ident">instance</span>.<span class="ident">start_action_loop</span>(<span class="ident">test_context</span>(<span class="string">&quot;jane&quot;</span>, <span class="ident">netname</span>));
-
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">sync_channel</span>(<span class="number">1</span>);
-        <span class="ident">instance</span>.<span class="ident">dispatch_with_observer</span>(
-            <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">InitApplication</span>(<span class="ident">dna</span>.<span class="ident">clone</span>())),
-            <span class="kw">move</span> <span class="op">|</span><span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="ident">State</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">state</span>.<span class="ident">nucleus</span>().<span class="ident">dna</span>() {
-                <span class="prelude-val">Some</span>(<span class="ident">dna</span>) <span class="op">=&gt;</span> {
-                    <span class="ident">sender</span>
-                        .<span class="ident">send</span>(<span class="ident">dna</span>)
-                        <span class="comment">// the channel stays connected until the first message has been sent</span>
-                        <span class="comment">// if this fails that means that it was called after having returned done=true</span>
-                        .<span class="ident">expect</span>(<span class="string">&quot;observer called after done&quot;</span>);
-                    <span class="bool-val">true</span>
-                }
-                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
-            },
-        );
-
-        <span class="kw">let</span> <span class="ident">stored_dna</span> <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">recv</span>().<span class="ident">expect</span>(<span class="string">&quot;observer dropped before done&quot;</span>);
-
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna</span>, <span class="ident">stored_dna</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="doccomment">/// tests that we can dispatch an action and block until it completes</span>
     <span class="kw">fn</span> <span class="ident">can_dispatch_and_wait</span>() {
         <span class="kw">let</span> <span class="ident">netname</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;can_dispatch_and_wait&quot;</span>);
@@ -1509,7 +1369,7 @@
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">new</span>();
 
         <span class="kw">let</span> <span class="ident">action</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">InitApplication</span>(<span class="ident">dna</span>.<span class="ident">clone</span>()));
-        <span class="ident">instance</span>.<span class="ident">start_action_loop</span>(<span class="ident">test_context</span>(<span class="string">&quot;jane&quot;</span>, <span class="ident">netname</span>));
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">inner_setup</span>(<span class="ident">test_context</span>(<span class="string">&quot;jane&quot;</span>, <span class="ident">netname</span>));
 
         <span class="comment">// the initial state is not intialized</span>
         <span class="macro">assert_eq</span><span class="macro">!</span>(
@@ -1517,7 +1377,7 @@
             <span class="kw">crate</span>::<span class="ident">nucleus</span>::<span class="ident">state</span>::<span class="ident">NucleusStatus</span>::<span class="ident">New</span>
         );
 
-        <span class="ident">instance</span>.<span class="ident">dispatch_and_wait</span>(<span class="ident">action</span>);
+        <span class="ident">dispatch_action_and_wait</span>(<span class="ident">context</span>, <span class="ident">action</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance</span>.<span class="ident">state</span>().<span class="ident">nucleus</span>().<span class="ident">dna</span>(), <span class="prelude-val">Some</span>(<span class="ident">dna</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">instance</span>.<span class="ident">state</span>().<span class="ident">nucleus</span>().<span class="ident">status</span>(),

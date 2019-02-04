@@ -1435,7 +1435,6 @@
 <span id="1435">1435</span>
 <span id="1436">1436</span>
 <span id="1437">1437</span>
-<span id="1438">1438</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">config</span>::{
@@ -1955,10 +1954,10 @@
     <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">env</span>::<span class="ident">current_dir</span>, <span class="ident">fs</span>::<span class="ident">File</span>, <span class="ident">io</span>::<span class="ident">Read</span>};
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_dna_loader</span>() <span class="op">-&gt;</span> <span class="ident">DnaLoader</span> {
-        <span class="kw">let</span> <span class="ident">loader</span> <span class="op">=</span>
-            <span class="ident">Box</span>::<span class="ident">new</span>(
-                <span class="op">|</span><span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">String</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">example_dna_string</span>())).<span class="ident">unwrap</span>()),
-            ) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>;
+        <span class="kw">let</span> <span class="ident">loader</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span><span class="op">|</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">example_dna_string</span>())).<span class="ident">unwrap</span>())
+        })
+            <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>;
         <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">loader</span>)
     }
 
@@ -2076,7 +2075,7 @@ pattern = &#39;.*&#39;&quot;#</span>
             .<span class="ident">to_string</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">add_block</span>(<span class="ident">base</span>: <span class="ident">String</span>, <span class="ident">new_block</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_block</span>(<span class="ident">base</span>: <span class="ident">String</span>, <span class="ident">new_block</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n\n{}&quot;</span>, <span class="ident">base</span>, <span class="ident">new_block</span>)
     }
 
@@ -2085,8 +2084,7 @@ pattern = &#39;.*&#39;&quot;#</span>
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_toml</span>(<span class="ident">test_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">port</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">empty_bridges</span>();
-        <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_line</span>(<span class="ident">toml</span>, <span class="ident">persistence_dir</span>(<span class="ident">test_name</span>));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toml</span> <span class="op">=</span> <span class="ident">header_block</span>(<span class="ident">test_name</span>);
 
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent1</span>());
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(<span class="ident">toml</span>, <span class="ident">agent2</span>());
@@ -2098,7 +2096,7 @@ pattern = &#39;.*&#39;&quot;#</span>
         <span class="ident">toml</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">port</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">Container</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_test_container</span>(<span class="ident">test_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">port</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">Container</span> {
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">test_toml</span>(<span class="ident">test_name</span>, <span class="ident">port</span>)).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">container</span> <span class="op">=</span> <span class="ident">Container</span>::<span class="ident">from_config</span>(<span class="ident">config</span>.<span class="ident">clone</span>());
         <span class="ident">container</span>.<span class="ident">dna_loader</span> <span class="op">=</span> <span class="ident">test_dna_loader</span>();
@@ -2125,7 +2123,7 @@ pattern = &#39;.*&#39;&quot;#</span>
         );
 
         <span class="kw">let</span> <span class="ident">new_dna</span> <span class="op">=</span>
-            <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>()).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>)).<span class="ident">unwrap</span>();
+            <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>()).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>)).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">container</span>.<span class="ident">config</span>().<span class="ident">dnas</span>.<span class="ident">len</span>(), <span class="number">2</span>,);
 
@@ -2192,7 +2190,7 @@ id = &#39;new-dna&#39;&quot;#</span>,
         );
 
         <span class="kw">let</span> <span class="ident">new_dna</span> <span class="op">=</span>
-            <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>()).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>)).<span class="ident">unwrap</span>();
+            <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>()).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>)).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">container</span>.<span class="ident">config</span>().<span class="ident">dnas</span>.<span class="ident">len</span>(), <span class="number">2</span>,);
 
@@ -2255,7 +2253,7 @@ id = &#39;new-dna&#39;&quot;#</span>,
         );
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_dna</span> <span class="op">=</span>
-            <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>()).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>)).<span class="ident">unwrap</span>();
+            <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">test_dna_loader</span>()).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>)).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">original_hash</span> <span class="op">=</span> <span class="ident">new_dna</span>.<span class="ident">address</span>();
         <span class="ident">new_dna</span>.<span class="ident">properties</span> <span class="op">=</span> <span class="ident">new_props</span>;
         <span class="kw">let</span> <span class="ident">new_hash</span> <span class="op">=</span> <span class="ident">new_dna</span>.<span class="ident">address</span>();

@@ -32,13 +32,11 @@
 <span id="32">32</span>
 <span id="33">33</span>
 <span id="34">34</span>
-<span id="35">35</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">network</span>::{<span class="ident">actions</span>::<span class="ident">custom_send</span>::<span class="ident">custom_send</span>, <span class="ident">direct_message</span>::<span class="ident">CustomDirectMessage</span>},
     <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>},
 };
-<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">executor</span>::<span class="ident">block_on</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">send</span>::<span class="ident">SendArgs</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">wasmi</span>::{<span class="ident">RuntimeArgs</span>, <span class="ident">RuntimeValue</span>};
@@ -60,7 +58,7 @@
         <span class="ident">zome</span>: <span class="ident">runtime</span>.<span class="ident">zome_call</span>.<span class="ident">zome_name</span>.<span class="ident">clone</span>(),
     };
 
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">block_on</span>(<span class="ident">custom_send</span>(
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">runtime</span>.<span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">custom_send</span>(
         <span class="ident">args</span>.<span class="ident">to_agent</span>,
         <span class="ident">message</span>,
         <span class="ident">args</span>.<span class="ident">options</span>.<span class="number">0</span>,

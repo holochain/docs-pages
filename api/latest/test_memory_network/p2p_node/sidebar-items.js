@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["P2pNode","Core Mock"]]});

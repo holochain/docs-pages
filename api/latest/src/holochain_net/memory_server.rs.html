@@ -744,6 +744,15 @@
 <span id="744">744</span>
 <span id="745">745</span>
 <span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! provides fake in-memory p2p worker for use in scenario testing</span>
 
@@ -849,9 +858,9 @@
     <span class="ident">published_entry_book</span>: <span class="ident">AddressBook</span>,
     <span class="comment">// stored data book: bucket_id -&gt; entry_addresses</span>
     <span class="ident">stored_entry_book</span>: <span class="ident">AddressBook</span>,
-    <span class="comment">// published meta data book: bucket_id -&gt; entry_addresses? hashed meta?</span>
+    <span class="comment">// published meta data book: bucket_id -&gt; MetaAddress</span>
     <span class="ident">published_meta_book</span>: <span class="ident">AddressBook</span>,
-    <span class="comment">// stored meta data book: bucket_id -&gt; entry_addresses? hashed meta?</span>
+    <span class="comment">// stored meta data book: bucket_id -&gt; MetaAddress</span>
     <span class="ident">stored_meta_book</span>: <span class="ident">AddressBook</span>,
 
     <span class="comment">// Keep track of which DNAs are tracked... String should be BucketId</span>
@@ -1080,14 +1089,14 @@
                 }
 
                 <span class="ident">JsonProtocol</span>::<span class="ident">FetchMeta</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_FetchDhtMeta</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+                    <span class="self">self</span>.<span class="ident">priv_serve_FetchMeta</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
                 }
                 <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchMetaResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_HandleFetchDhtMetaResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+                    <span class="self">self</span>.<span class="ident">priv_serve_HandleFetchMetaResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="ident">JsonProtocol</span>::<span class="ident">PublishMeta</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_PublishDhtMeta</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+                    <span class="self">self</span>.<span class="ident">priv_serve_PublishMeta</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="comment">// Our request for the publish_list has returned</span>
@@ -1097,7 +1106,7 @@
 
                 <span class="comment">// Our request for the hold_list has returned</span>
                 <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingEntryListResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_HandleGetHoldingDataListResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>);
+                    <span class="self">self</span>.<span class="ident">priv_serve_HandleGetHoldingEntryListResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>);
                 }
 
                 <span class="comment">// Our request for the publish_meta_list has returned</span>
@@ -1196,7 +1205,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="comment">// -- serve DHT data -- //</span>
+    <span class="comment">// -- serve DHT Entry -- //</span>
 
     <span class="doccomment">/// on publish, we send store requests to all nodes connected on this dna</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_PublishEntry</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">EntryData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
@@ -1277,7 +1286,14 @@
     <span class="comment">// -- serve DHT metadata -- //</span>
 
     <span class="doccomment">/// on publish, we send store requests to all nodes connected on this dna</span>
-    <span class="kw">fn</span> <span class="ident">priv_serve_PublishDhtMeta</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">DhtMetaData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">priv_serve_PublishMeta</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">DhtMetaData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">meta_address</span> <span class="op">=</span> <span class="ident">into_meta_address</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">entry_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">attribute</span>);
+        <span class="ident">bookkeep_address</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">published_meta_book</span>,
+            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
+            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">provider_agent_id</span>,
+            <span class="kw-2">&amp;</span><span class="ident">meta_address</span>,
+        );
         <span class="self">self</span>.<span class="ident">priv_send_all</span>(
             <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleStoreMeta</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>(),
@@ -1288,7 +1304,7 @@
     <span class="doccomment">/// when someone makes a dht meta data request,</span>
     <span class="doccomment">/// this in-memory module routes it to the first node connected on that dna.</span>
     <span class="doccomment">/// this works because we also send store requests to all connected nodes.</span>
-    <span class="kw">fn</span> <span class="ident">priv_serve_FetchDhtMeta</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">FetchMetaData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">priv_serve_FetchMeta</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">FetchMetaData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">senders_by_dna</span>.<span class="ident">entry</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">to_owned</span>()) {
             <span class="ident">Entry</span>::<span class="ident">Occupied</span>(<span class="kw-2">mut</span> <span class="ident">e</span>) <span class="op">=&gt;</span> {
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">e</span>.<span class="ident">get</span>().<span class="ident">is_empty</span>() {
@@ -1316,7 +1332,7 @@
     }
 
     <span class="doccomment">/// send back a response to a request for dht meta data</span>
-    <span class="kw">fn</span> <span class="ident">priv_serve_HandleFetchDhtMetaResult</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">FetchMetaResultData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">priv_serve_HandleFetchMetaResult</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">FetchMetaResultData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// if its from our own request do a publish</span>
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">request_book</span>.<span class="ident">contains_key</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">request_id</span>) {
             <span class="kw">let</span> <span class="ident">meta_data</span> <span class="op">=</span> <span class="ident">DhtMetaData</span> {
@@ -1326,7 +1342,7 @@
                 <span class="ident">content</span>: <span class="ident">msg</span>.<span class="ident">content</span>.<span class="ident">clone</span>(),
                 <span class="ident">attribute</span>: <span class="ident">msg</span>.<span class="ident">attribute</span>.<span class="ident">clone</span>(),
             };
-            <span class="self">self</span>.<span class="ident">priv_serve_PublishDhtMeta</span>(<span class="kw-2">&amp;</span><span class="ident">meta_data</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">priv_serve_PublishMeta</span>(<span class="kw-2">&amp;</span><span class="ident">meta_data</span>)<span class="question-mark">?</span>;
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
         <span class="comment">// otherwise just send back to requester</span>
@@ -1338,6 +1354,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
+    <span class="doccomment">///</span>
     <span class="kw">fn</span> <span class="ident">priv_check_request</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">request_id</span>: <span class="kw-2">&amp;</span><span class="ident">RequestId</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BucketId</span><span class="op">&gt;</span> {
         <span class="comment">// Get bucket_id and make sure its our request</span>
         <span class="kw">let</span> <span class="ident">bucket_id</span>;
@@ -1398,12 +1415,12 @@
     }
 
     <span class="doccomment">/// Received response from our request for the &#39;holding_list&#39;</span>
-    <span class="kw">fn</span> <span class="ident">priv_serve_HandleGetHoldingDataListResult</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">EntryListData</span>) {
+    <span class="kw">fn</span> <span class="ident">priv_serve_HandleGetHoldingEntryListResult</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">EntryListData</span>) {
         <span class="kw">let</span> <span class="ident">bucket_id</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">priv_check_request</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">request_id</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Not our request&quot;</span>);
         <span class="comment">// println!(</span>
-        <span class="comment">//    &quot;---- InMemoryServer::HandleGetHoldingDataListResult: bucket_id = &#39;{}&#39;&quot;,</span>
+        <span class="comment">//    &quot;---- InMemoryServer::HandleGetHoldingEntryListResult: bucket_id = &#39;{}&#39;&quot;,</span>
         <span class="comment">//    bucket_id,</span>
         <span class="comment">// );</span>
         <span class="comment">// Compare with current stored_data_book</span>
@@ -1439,21 +1456,22 @@
         <span class="comment">// );</span>
         <span class="comment">// Compare with already published list</span>
         <span class="comment">// For each metadata not already published, request it and publish it ourselves.</span>
-        <span class="kw">let</span> <span class="ident">known_published_list</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">published_meta_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>) {
+        <span class="kw">let</span> <span class="ident">known_published_meta_list</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">published_meta_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>) {
             <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=&gt;</span> <span class="ident">list</span>.<span class="ident">clone</span>(),
             <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">new</span>(),
         };
-        <span class="kw">for</span> (<span class="ident">data_address</span>, <span class="ident">attribute</span>) <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">meta_list</span>.<span class="ident">clone</span>() {
-            <span class="kw">if</span> <span class="ident">known_published_list</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">data_address</span>) {
+        <span class="kw">for</span> (<span class="ident">entry_address</span>, <span class="ident">attribute</span>) <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">meta_list</span>.<span class="ident">clone</span>() {
+            <span class="kw">let</span> <span class="ident">meta_address</span> <span class="op">=</span> <span class="ident">into_meta_address</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>, <span class="kw-2">&amp;</span><span class="ident">attribute</span>);
+            <span class="kw">if</span> <span class="ident">known_published_meta_list</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">meta_address</span>) {
                 <span class="kw">continue</span>;
             }
             <span class="kw">let</span> <span class="ident">request_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_create_request_with_bucket</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>);
             <span class="kw">let</span> <span class="ident">fetch_meta</span> <span class="op">=</span> <span class="ident">FetchMetaData</span> {
-                <span class="ident">attribute</span>: <span class="ident">attribute</span>.<span class="ident">clone</span>(),
                 <span class="ident">requester_agent_id</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
                 <span class="ident">request_id</span>,
                 <span class="ident">dna_address</span>: <span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
-                <span class="ident">entry_address</span>: <span class="ident">data_address</span>,
+                <span class="ident">entry_address</span>: <span class="ident">entry_address</span>,
+                <span class="ident">attribute</span>: <span class="ident">attribute</span>.<span class="ident">clone</span>(),
             };
             <span class="self">self</span>.<span class="ident">priv_send_one_with_bucket</span>(
                 <span class="kw-2">&amp;</span><span class="ident">bucket_id</span>,
@@ -1474,13 +1492,13 @@
         <span class="comment">// );</span>
         <span class="comment">// Compare with current stored_meta_book</span>
         <span class="comment">// For each data not already holding, add it to stored_meta_book?</span>
-        <span class="kw">let</span> <span class="ident">known_stored_list</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">stored_meta_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>) {
+        <span class="kw">let</span> <span class="ident">known_stored_meta_list</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">stored_meta_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>) {
             <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=&gt;</span> <span class="ident">list</span>.<span class="ident">clone</span>(),
             <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">new</span>(),
         };
-        <span class="kw">for</span> (<span class="ident">data_address</span>, <span class="ident">attribute</span>) <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">meta_list</span>.<span class="ident">clone</span>() {
-            <span class="kw">let</span> <span class="ident">meta_address</span> <span class="op">=</span> <span class="ident">into_meta_address</span>(<span class="kw-2">&amp;</span><span class="ident">data_address</span>, <span class="kw-2">&amp;</span><span class="ident">attribute</span>);
-            <span class="kw">if</span> <span class="ident">known_stored_list</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">data_address</span>) {
+        <span class="kw">for</span> (<span class="ident">entry_address</span>, <span class="ident">attribute</span>) <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">meta_list</span>.<span class="ident">clone</span>() {
+            <span class="kw">let</span> <span class="ident">meta_address</span> <span class="op">=</span> <span class="ident">into_meta_address</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>, <span class="kw-2">&amp;</span><span class="ident">attribute</span>);
+            <span class="kw">if</span> <span class="ident">known_stored_meta_list</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">meta_address</span>) {
                 <span class="kw">continue</span>;
             }
             <span class="ident">bookkeep_address_with_bucket</span>(

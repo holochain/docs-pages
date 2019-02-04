@@ -325,7 +325,6 @@
 <span id="325">325</span>
 <span id="326">326</span>
 <span id="327">327</span>
-<span id="328">328</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
@@ -543,7 +542,6 @@
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::<span class="ident">actions</span>::<span class="ident">tests</span>::<span class="kw-2">*</span>;
 
-    <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">executor</span>::<span class="ident">block_on</span>;
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">validation</span>::<span class="ident">ValidationPackage</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -557,7 +555,7 @@
         <span class="comment">// commit entry to build validation package for</span>
         <span class="kw">let</span> <span class="ident">chain_header</span> <span class="op">=</span> <span class="ident">commit</span>(<span class="ident">test_entry_package_entry</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>);
 
-        <span class="kw">let</span> <span class="ident">maybe_validation_package</span> <span class="op">=</span> <span class="ident">block_on</span>(<span class="ident">build_validation_package</span>(
+        <span class="kw">let</span> <span class="ident">maybe_validation_package</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">build_validation_package</span>(
             <span class="kw-2">&amp;</span><span class="ident">test_entry_package_entry</span>(),
             <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">clone</span>(),
         ));
@@ -585,7 +583,7 @@
         <span class="comment">// commit entry to build validation package for</span>
         <span class="kw">let</span> <span class="ident">chain_header</span> <span class="op">=</span> <span class="ident">commit</span>(<span class="ident">test_entry_package_chain_entries</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>);
 
-        <span class="kw">let</span> <span class="ident">maybe_validation_package</span> <span class="op">=</span> <span class="ident">block_on</span>(<span class="ident">build_validation_package</span>(
+        <span class="kw">let</span> <span class="ident">maybe_validation_package</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">build_validation_package</span>(
             <span class="kw-2">&amp;</span><span class="ident">test_entry_package_chain_entries</span>(),
             <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">clone</span>(),
         ));
@@ -612,7 +610,7 @@
         <span class="comment">// commit entry to build validation package for</span>
         <span class="kw">let</span> <span class="ident">chain_header</span> <span class="op">=</span> <span class="ident">commit</span>(<span class="ident">test_entry_package_chain_headers</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>);
 
-        <span class="kw">let</span> <span class="ident">maybe_validation_package</span> <span class="op">=</span> <span class="ident">block_on</span>(<span class="ident">build_validation_package</span>(
+        <span class="kw">let</span> <span class="ident">maybe_validation_package</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">build_validation_package</span>(
             <span class="kw-2">&amp;</span><span class="ident">test_entry_package_chain_headers</span>(),
             <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">clone</span>(),
         ));
@@ -639,7 +637,7 @@
         <span class="comment">// commit entry to build validation package for</span>
         <span class="kw">let</span> <span class="ident">chain_header</span> <span class="op">=</span> <span class="ident">commit</span>(<span class="ident">test_entry_package_chain_full</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>);
 
-        <span class="kw">let</span> <span class="ident">maybe_validation_package</span> <span class="op">=</span> <span class="ident">block_on</span>(<span class="ident">build_validation_package</span>(
+        <span class="kw">let</span> <span class="ident">maybe_validation_package</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">build_validation_package</span>(
             <span class="kw-2">&amp;</span><span class="ident">test_entry_package_chain_full</span>(),
             <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">clone</span>(),
         ));

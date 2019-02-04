@@ -657,14 +657,6 @@
 <span id="657">657</span>
 <span id="658">658</span>
 <span id="659">659</span>
-<span id="660">660</span>
-<span id="661">661</span>
-<span id="662">662</span>
-<span id="663">663</span>
-<span id="664">664</span>
-<span id="665">665</span>
-<span id="666">666</span>
-<span id="667">667</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! `holochain_container_api` is a library for instantiating and using holochain instances that</span>
 <span class="doccomment">//! each run a holochain DNA, DHT and source chain.</span>
@@ -726,14 +718,12 @@
 <span class="doccomment">//!```</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">HolochainInstanceError</span>, <span class="ident">HolochainResult</span>};
-<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">executor</span>::<span class="ident">block_on</span>;
 <span class="kw">use</span> <span class="ident">holochain_core</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">instance</span>::<span class="ident">Instance</span>,
     <span class="ident">nucleus</span>::{<span class="ident">call_and_wait_for_result</span>, <span class="ident">ZomeFnCall</span>},
     <span class="ident">persister</span>::{<span class="ident">Persister</span>, <span class="ident">SimplePersister</span>},
     <span class="ident">state</span>::<span class="ident">State</span>,
-    <span class="ident">workflows</span>::<span class="ident">application</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">dna</span>::{<span class="ident">capabilities</span>::<span class="ident">CapabilityCall</span>, <span class="ident">Dna</span>},
@@ -763,12 +753,7 @@
         <span class="kw-2">mut</span> <span class="ident">instance</span>: <span class="ident">Instance</span>,
     ) <span class="op">-&gt;</span> <span class="ident">HolochainResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">dna</span>.<span class="ident">name</span>.<span class="ident">clone</span>();
-        <span class="ident">instance</span>.<span class="ident">start_action_loop</span>(<span class="ident">context</span>.<span class="ident">clone</span>());
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">block_on</span>(<span class="ident">application</span>::<span class="ident">initialize</span>(
-            <span class="kw-2">&amp;</span><span class="ident">instance</span>,
-            <span class="prelude-val">Some</span>(<span class="ident">dna</span>),
-            <span class="ident">context</span>.<span class="ident">clone</span>(),
-        ));
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize</span>(<span class="prelude-val">Some</span>(<span class="ident">dna</span>), <span class="ident">context</span>.<span class="ident">clone</span>());
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">new_context</span>) <span class="op">=&gt;</span> {
                 <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/container: {} instantiated&quot;</span>, <span class="ident">name</span>));
@@ -789,8 +774,7 @@
             .<span class="ident">load</span>(<span class="ident">context</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>
             .<span class="ident">unwrap_or</span>(<span class="ident">State</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">clone</span>()));
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">Instance</span>::<span class="ident">from_state</span>(<span class="ident">loaded_state</span>.<span class="ident">clone</span>());
-        <span class="ident">instance</span>.<span class="ident">start_action_loop</span>(<span class="ident">context</span>.<span class="ident">clone</span>());
-        <span class="kw">let</span> <span class="ident">new_context</span> <span class="op">=</span> <span class="ident">block_on</span>(<span class="ident">application</span>::<span class="ident">initialize</span>(<span class="kw-2">&amp;</span><span class="ident">instance</span>, <span class="prelude-val">None</span>, <span class="ident">context</span>.<span class="ident">clone</span>()))<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">new_context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize</span>(<span class="prelude-val">None</span>, <span class="ident">context</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">Holochain</span> {
             <span class="ident">instance</span>,
             <span class="ident">context</span>: <span class="ident">new_context</span>.<span class="ident">clone</span>(),

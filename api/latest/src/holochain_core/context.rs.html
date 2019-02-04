@@ -303,6 +303,40 @@
 <span id="303">303</span>
 <span id="304">304</span>
 <span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::<span class="ident">ActionWrapper</span>,
@@ -311,6 +345,10 @@
     <span class="ident">persister</span>::<span class="ident">Persister</span>,
     <span class="ident">signal</span>::{<span class="ident">Signal</span>, <span class="ident">SignalSender</span>},
     <span class="ident">state</span>::<span class="ident">State</span>,
+};
+<span class="kw">use</span> <span class="ident">futures</span>::{
+    <span class="ident">task</span>::{<span class="ident">noop_local_waker_ref</span>, <span class="ident">Poll</span>},
+    <span class="ident">Future</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">agent</span>::<span class="ident">AgentId</span>,
@@ -326,7 +364,10 @@
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>;
 <span class="kw">use</span> <span class="ident">jsonrpc_ws_server</span>::<span class="ident">jsonrpc_core</span>::<span class="ident">IoHandler</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">sync</span>::{<span class="ident">mpsc</span>::<span class="ident">SyncSender</span>, <span class="ident">Arc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>, <span class="ident">RwLockReadGuard</span>},
+    <span class="ident">sync</span>::{
+        <span class="ident">mpsc</span>::{<span class="ident">channel</span>, <span class="ident">Receiver</span>, <span class="ident">SyncSender</span>},
+        <span class="ident">Arc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>, <span class="ident">RwLockReadGuard</span>,
+    },
     <span class="ident">thread</span>::<span class="ident">sleep</span>,
     <span class="ident">time</span>::<span class="ident">Duration</span>,
 };
@@ -489,6 +530,33 @@
         <span class="self">self</span>.<span class="ident">observer_channel</span>
             .<span class="ident">as_ref</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;Observer channel not initialized&quot;</span>)
+    }
+
+    <span class="doccomment">/// This creates an observer for the instance&#39;s redux loop and installs it.</span>
+    <span class="doccomment">/// The returned receiver gets sent ticks from the instance every time the state</span>
+    <span class="doccomment">/// got mutated.</span>
+    <span class="doccomment">/// This enables blocking/parking the calling thread until the application state got changed.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_observer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Receiver</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> (<span class="ident">tick_tx</span>, <span class="ident">tick_rx</span>) <span class="op">=</span> <span class="ident">channel</span>();
+        <span class="self">self</span>.<span class="ident">observer_channel</span>()
+            .<span class="ident">send</span>(<span class="ident">Observer</span> { <span class="ident">ticker</span>: <span class="ident">tick_tx</span> })
+            .<span class="ident">expect</span>(<span class="string">&quot;Observer channel not initialized&quot;</span>);
+        <span class="ident">tick_rx</span>
+    }
+
+    <span class="doccomment">/// Custom future executor that enables nested futures and nested calls of `block_on`.</span>
+    <span class="doccomment">/// This makes use of the redux action loop and the observers.</span>
+    <span class="doccomment">/// The given future gets polled everytime the instance&#39;s state got changed.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">block_on</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">Future</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">future</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="op">&lt;</span><span class="ident">F</span> <span class="kw">as</span> <span class="ident">Future</span><span class="op">&gt;</span>::<span class="ident">Output</span> {
+        <span class="kw">let</span> <span class="ident">tick_rx</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">create_observer</span>();
+        <span class="ident">pin_utils</span>::<span class="macro">pin_mut</span><span class="macro">!</span>(<span class="ident">future</span>);
+
+        <span class="kw">loop</span> {
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">future</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">noop_local_waker_ref</span>()) {
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">result</span>,
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">tick_rx</span>.<span class="ident">recv_timeout</span>(<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="number">10</span>)),
+            };
+        }
     }
 }
 

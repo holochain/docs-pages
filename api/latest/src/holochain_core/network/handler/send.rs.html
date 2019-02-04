@@ -108,7 +108,6 @@
 <span id="108">108</span>
 <span id="109">109</span>
 <span id="110">110</span>
-<span id="111">111</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -120,7 +119,6 @@
         <span class="ident">respond_validation_package_request</span>::<span class="ident">respond_validation_package_request</span>,
     },
 };
-<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">executor</span>::<span class="ident">block_on</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">sync</span>::<span class="ident">Arc</span>, <span class="ident">thread</span>};
 
@@ -135,7 +133,7 @@
     <span class="kw">match</span> <span class="ident">message</span> {
         <span class="ident">DirectMessage</span>::<span class="ident">Custom</span>(<span class="ident">custom_direct_message</span>) <span class="op">=&gt;</span> {
             <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span> <span class="ident">block_on</span>(<span class="ident">handle_custom_direct_message</span>(
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span> <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">handle_custom_direct_message</span>(
                     <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">message_data</span>.<span class="ident">from_agent_id</span>),
                     <span class="ident">message_data</span>.<span class="ident">request_id</span>,
                     <span class="ident">custom_direct_message</span>,
@@ -151,7 +149,7 @@
             <span class="comment">// network thread, so I use block_on to poll the async function but do that in</span>
             <span class="comment">// another thread:</span>
             <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
-                <span class="ident">block_on</span>(<span class="ident">respond_validation_package_request</span>(
+                <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">respond_validation_package_request</span>(
                     <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">message_data</span>.<span class="ident">from_agent_id</span>),
                     <span class="ident">message_data</span>.<span class="ident">request_id</span>,
                     <span class="ident">address</span>,

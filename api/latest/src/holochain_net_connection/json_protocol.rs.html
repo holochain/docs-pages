@@ -892,7 +892,7 @@
 <span class="comment">// DHT Entry</span>
 <span class="comment">//--------------------------------------------------------------------------------------------------</span>
 
-<span class="doccomment">/// Data Request from own p2p-module</span>
+<span class="doccomment">/// Drop some data request from own p2p-module</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DropEntryData</span> {
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
@@ -1010,7 +1010,7 @@
     <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span>,
 }
 
-<span class="doccomment">/// Data Request from own p2p-module</span>
+<span class="doccomment">/// Drop some data request from own p2p-module</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DropMetaData</span> {
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>

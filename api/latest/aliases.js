@@ -16,4 +16,3 @@ ALIASES["holochain_node_test_waiter"] = {};
 ALIASES["holochain_sodium"] = {};
 ALIASES["holochain_test_bin"] = {};
 ALIASES["holochain_wasm_utils"] = {};
-ALIASES["test_memory_network"] = {};

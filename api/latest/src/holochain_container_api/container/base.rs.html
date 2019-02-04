@@ -1047,6 +1047,27 @@
 <span id="1047">1047</span>
 <span id="1048">1048</span>
 <span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">config</span>::{
@@ -1127,9 +1148,10 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Container</span> {
     <span class="kw">pub</span>(<span class="kw">in</span> <span class="kw">crate</span>::<span class="ident">container</span>) <span class="ident">instances</span>: <span class="ident">InstanceMap</span>,
     <span class="kw">pub</span>(<span class="kw">in</span> <span class="kw">crate</span>::<span class="ident">container</span>) <span class="ident">config</span>: <span class="ident">Configuration</span>,
-    <span class="ident">static_servers</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">StaticServer</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">in</span> <span class="kw">crate</span>::<span class="ident">container</span>) <span class="ident">static_servers</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">StaticServer</span><span class="op">&gt;</span>,
     <span class="kw">pub</span>(<span class="kw">in</span> <span class="kw">crate</span>::<span class="ident">container</span>) <span class="ident">interface_threads</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Sender</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span>,
     <span class="kw">pub</span>(<span class="kw">in</span> <span class="kw">crate</span>::<span class="ident">container</span>) <span class="ident">dna_loader</span>: <span class="ident">DnaLoader</span>,
+    <span class="kw">pub</span>(<span class="kw">in</span> <span class="kw">crate</span>::<span class="ident">container</span>) <span class="ident">ui_dir_copier</span>: <span class="ident">UiDirCopier</span>,
     <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SignalSender</span><span class="op">&gt;</span>,
     <span class="ident">logger</span>: <span class="ident">DebugLogger</span>,
     <span class="ident">p2p_config</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span>,
@@ -1145,7 +1167,9 @@
 }
 
 <span class="kw">type</span> <span class="ident">SignalSender</span> <span class="op">=</span> <span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;</span>;
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">DnaLoader</span> <span class="op">=</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">DnaLoader</span> <span class="op">=</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">UiDirCopier</span> <span class="op">=</span>
+    <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span>;
 
 <span class="comment">// preparing for having container notifiers go to one of the log streams</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">notify</span>(<span class="ident">msg</span>: <span class="ident">String</span>) {
@@ -1162,6 +1186,7 @@
             <span class="ident">static_servers</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
             <span class="ident">config</span>,
             <span class="ident">dna_loader</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">Self</span>::<span class="ident">load_dna</span>)),
+            <span class="ident">ui_dir_copier</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">Self</span>::<span class="ident">copy_ui_dir</span>)),
             <span class="ident">signal_tx</span>: <span class="prelude-val">None</span>,
             <span class="ident">logger</span>: <span class="ident">DebugLogger</span>::<span class="ident">new</span>(<span class="ident">rules</span>),
             <span class="ident">p2p_config</span>: <span class="prelude-val">None</span>,
@@ -1285,6 +1310,8 @@
                 <span class="string">&quot;attempt to spawn network when not configured&quot;</span>.<span class="ident">to_string</span>(),
             ))<span class="question-mark">?</span>;
 
+        <span class="kw">let</span> <span class="ident">opaque_net_config</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;{}&quot;</span>);
+
         <span class="macro">println</span><span class="macro">!</span>(
             <span class="string">&quot;Spawning network with working directory: {}&quot;</span>,
             <span class="ident">network_config</span>.<span class="ident">n3h_persistence_path</span>
@@ -1300,6 +1327,7 @@
                 <span class="ident">network_config</span>.<span class="ident">n3h_path</span>.<span class="ident">clone</span>()
             )],
             <span class="ident">network_config</span>.<span class="ident">n3h_persistence_path</span>.<span class="ident">clone</span>(),
+            <span class="ident">opaque_net_config</span>,
             <span class="macro">hashmap</span><span class="macro">!</span> {
                 <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;N3H_MODE&quot;</span>) <span class="op">=&gt;</span> <span class="ident">network_config</span>.<span class="ident">n3h_mode</span>.<span class="ident">clone</span>(),
                 <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;N3H_WORK_DIR&quot;</span>) <span class="op">=&gt;</span> <span class="ident">network_config</span>.<span class="ident">n3h_persistence_path</span>.<span class="ident">clone</span>(),
@@ -1497,14 +1525,13 @@
 
                 <span class="comment">// Get DNA</span>
                 <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">dna_by_id</span>(<span class="kw-2">&amp;</span><span class="ident">instance_config</span>.<span class="ident">dna</span>).<span class="ident">unwrap</span>();
-                <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">dna_loader</span>).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">dna_config</span>.<span class="ident">file</span>).<span class="ident">map_err</span>(
-                    <span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-                        <span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="macro">format</span><span class="macro">!</span>(
-                            <span class="string">&quot;Could not load DNA file \&quot;{}\&quot;&quot;</span>,
-                            <span class="ident">dna_config</span>.<span class="ident">file</span>
-                        ))
-                    },
-                )<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">dna_file</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="ident">dna_config</span>.<span class="ident">file</span>);
+                <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">dna_loader</span>).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">dna_file</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
+                    <span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="macro">format</span><span class="macro">!</span>(
+                        <span class="string">&quot;Could not load DNA file \&quot;{}\&quot;&quot;</span>,
+                        <span class="ident">dna_config</span>.<span class="ident">file</span>
+                    ))
+                })<span class="question-mark">?</span>;
 
                 <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>, <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">context</span>)).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">hc_err</span><span class="op">|</span> <span class="ident">hc_err</span>.<span class="ident">to_string</span>())
             })
@@ -1521,12 +1548,26 @@
     }
 
     <span class="doccomment">/// Default DnaLoader that actually reads files from the filesystem</span>
-    <span class="kw">fn</span> <span class="ident">load_dna</span>(<span class="ident">file</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
-        <span class="ident">notify</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Reading DNA from {}&quot;</span>, <span class="ident">file</span>));
+    <span class="kw">fn</span> <span class="ident">load_dna</span>(<span class="ident">file</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+        <span class="ident">notify</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Reading DNA from {}&quot;</span>, <span class="ident">file</span>.<span class="ident">display</span>()));
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">open</span>(<span class="ident">file</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
         <span class="ident">f</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">contents</span>)<span class="question-mark">?</span>;
         <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">contents</span>))
+    }
+
+    <span class="kw">fn</span> <span class="ident">copy_ui_dir</span>(<span class="ident">source</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+        <span class="ident">notify</span>(<span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">&quot;Copying UI from {} to {}&quot;</span>,
+            <span class="ident">source</span>.<span class="ident">display</span>(),
+            <span class="ident">dest</span>.<span class="ident">display</span>()
+        ));
+        <span class="ident">fs</span>::<span class="ident">create_dir_all</span>(<span class="ident">dest</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
+            <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Could not directory structure {:?}&quot;</span>, <span class="ident">dest</span>).<span class="ident">into</span>())
+        })<span class="question-mark">?</span>;
+        <span class="ident">fs_extra</span>::<span class="ident">dir</span>::<span class="ident">copy</span>(<span class="kw-2">&amp;</span><span class="ident">source</span>, <span class="kw-2">&amp;</span><span class="ident">dest</span>, <span class="kw-2">&amp;</span><span class="ident">fs_extra</span>::<span class="ident">dir</span>::<span class="ident">CopyOptions</span>::<span class="ident">new</span>())
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="ident">e</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">fn</span> <span class="ident">make_interface_handler</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interface_config</span>: <span class="kw-2">&amp;</span><span class="ident">InterfaceConfiguration</span>) <span class="op">-&gt;</span> <span class="ident">IoHandler</span> {
@@ -1675,13 +1716,14 @@
     <span class="kw">use</span> <span class="ident">test_utils</span>::<span class="kw-2">*</span>;
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_dna_loader</span>() <span class="op">-&gt;</span> <span class="ident">DnaLoader</span> {
-        <span class="kw">let</span> <span class="ident">loader</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">String</span><span class="op">|</span> {
-            <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">path</span>.<span class="ident">as_ref</span>() {
+        <span class="kw">let</span> <span class="ident">loader</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span><span class="op">|</span> {
+            <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">as_ref</span>() {
                 <span class="string">&quot;bridge/callee.dna&quot;</span> <span class="op">=&gt;</span> <span class="ident">callee_dna</span>(),
                 <span class="string">&quot;bridge/caller.dna&quot;</span> <span class="op">=&gt;</span> <span class="ident">caller_dna</span>(),
                 <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">example_dna_string</span>())).<span class="ident">unwrap</span>(),
             })
-        }) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>;
+        })
+            <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>;
         <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">loader</span>)
     }
 
@@ -1854,7 +1896,7 @@
         <span class="kw">let</span> <span class="ident">file_path</span> <span class="op">=</span> <span class="ident">tempdir</span>.<span class="ident">path</span>().<span class="ident">join</span>(<span class="string">&quot;test.dna.json&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp_file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">create</span>(<span class="ident">file_path</span>.<span class="ident">clone</span>()).<span class="ident">unwrap</span>();
         <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">tmp_file</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">example_dna_string</span>()).<span class="ident">unwrap</span>();
-        <span class="kw">match</span> <span class="ident">Container</span>::<span class="ident">load_dna</span>(<span class="kw-2">&amp;</span><span class="ident">file_path</span>.<span class="ident">into_os_string</span>().<span class="ident">into_string</span>().<span class="ident">unwrap</span>()) {
+        <span class="kw">match</span> <span class="ident">Container</span>::<span class="ident">load_dna</span>(<span class="kw-2">&amp;</span><span class="ident">file_path</span>) {
             <span class="prelude-val">Ok</span>(<span class="ident">dna</span>) <span class="op">=&gt;</span> {
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna</span>.<span class="ident">name</span>, <span class="string">&quot;my dna&quot;</span>);
             }
