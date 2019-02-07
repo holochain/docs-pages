@@ -574,13 +574,13 @@
 }
 
 <span class="kw">fn</span> <span class="ident">bridge_call</span>(<span class="ident">runtime</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Runtime</span>, <span class="ident">input</span>: <span class="ident">ZomeFnCallArgs</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">JsonString</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">container_api</span> <span class="op">=</span>
+    <span class="kw">let</span> <span class="ident">conductor_api</span> <span class="op">=</span>
         <span class="ident">runtime</span>
             .<span class="ident">context</span>
-            .<span class="ident">container_api</span>
+            .<span class="ident">conductor_api</span>
             .<span class="ident">clone</span>()
             .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(
-                <span class="string">&quot;No container API in context&quot;</span>.<span class="ident">to_string</span>(),
+                <span class="string">&quot;No conductor API in context&quot;</span>.<span class="ident">to_string</span>(),
             ))<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">method</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
@@ -588,7 +588,7 @@
         <span class="ident">input</span>.<span class="ident">instance_handle</span>, <span class="ident">input</span>.<span class="ident">zome_name</span>, <span class="ident">input</span>.<span class="ident">fn_name</span>
     );
 
-    <span class="kw">let</span> <span class="ident">handler</span> <span class="op">=</span> <span class="ident">container_api</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">handler</span> <span class="op">=</span> <span class="ident">conductor_api</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>();
 
     <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>();
     <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(

@@ -229,7 +229,7 @@
         <span class="comment">// Result&lt;ChainStoreQueryResult,...&gt;</span>
         <span class="ident">QueryArgsNames</span>::<span class="ident">QueryList</span>(<span class="ident">pats</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">refs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">pats</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="ident">AsRef</span>::<span class="ident">as_ref</span>).<span class="ident">collect</span>(); <span class="comment">// Vec&lt;String&gt; -&gt; Vec&lt;&amp;str&gt;</span>
-            <span class="ident">agent</span>.<span class="ident">chain</span>().<span class="ident">query</span>(
+            <span class="ident">agent</span>.<span class="ident">chain_store</span>().<span class="ident">query</span>(
                 <span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">top</span>),
                 <span class="ident">refs</span>.<span class="ident">as_slice</span>(), <span class="comment">// Vec&lt;&amp;str&gt; -&gt; Vec[&amp;str]</span>
                 <span class="ident">ChainStoreQueryOptions</span> {
@@ -241,7 +241,7 @@
         }
         <span class="ident">QueryArgsNames</span>::<span class="ident">QueryName</span>(<span class="ident">name</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">refs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="kw-2">&amp;</span><span class="ident">name</span>]; <span class="comment">// String -&gt; Vec&lt;&amp;str&gt;</span>
-            <span class="ident">agent</span>.<span class="ident">chain</span>().<span class="ident">query</span>(
+            <span class="ident">agent</span>.<span class="ident">chain_store</span>().<span class="ident">query</span>(
                 <span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">top</span>),
                 <span class="ident">refs</span>.<span class="ident">as_slice</span>(), <span class="comment">// Vec&lt;&amp;str&gt; -&gt; &amp;[&amp;str]</span>
                 <span class="ident">ChainStoreQueryOptions</span> {
@@ -254,7 +254,7 @@
     };
     <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_result</span> {
         <span class="comment">// TODO #793: the Err(_code) is the RibosomeErrorCode, but we can&#39;t import that type here.</span>
-        <span class="comment">// Perhaps return chain().query should return Some(result)/None instead, and the fixed</span>
+        <span class="comment">// Perhaps return chain_store().query should return Some(result)/None instead, and the fixed</span>
         <span class="comment">// UnknownEntryType code here, rather than trying to return a specific error code.</span>
         <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="kw">match</span> (<span class="ident">query</span>.<span class="ident">options</span>.<span class="ident">entries</span>, <span class="ident">result</span>) {
             (<span class="bool-val">false</span>, <span class="ident">ChainStoreQueryResult</span>::<span class="ident">Addresses</span>(<span class="ident">addresses</span>)) <span class="op">=&gt;</span> {

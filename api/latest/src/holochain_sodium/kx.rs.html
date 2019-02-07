@@ -199,12 +199,16 @@
 <span id="199">199</span>
 <span id="200">200</span>
 <span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides access to libsodium</span>
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">check_init</span>;
 <span class="doccomment">/// Recomended to use secure SecBuf for return values in these functions</span>
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">SodiumResult</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">SodiumError</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PUBLICKEYBYTES</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">rust_sodium_sys</span>::<span class="ident">crypto_kx_PUBLICKEYBYTES</span> <span class="kw">as</span> <span class="ident">usize</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SECRETKEYBYTES</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">rust_sodium_sys</span>::<span class="ident">crypto_kx_SECRETKEYBYTES</span> <span class="kw">as</span> <span class="ident">usize</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SESSIONKEYBYTES</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">rust_sodium_sys</span>::<span class="ident">crypto_kx_SESSIONKEYBYTES</span> <span class="kw">as</span> <span class="ident">usize</span>;
@@ -214,7 +218,7 @@
 <span class="doccomment">/// @param {SecBuf} pk - Empty Buffer to be used as publicKey return</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// @param {SecBuf} sk - Empty Buffer to be used as secretKey return</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">keypair</span>(<span class="ident">pk</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>, <span class="ident">sk</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>) <span class="op">-&gt;</span> <span class="ident">SodiumResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">keypair</span>(<span class="ident">pk</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>, <span class="ident">sk</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SodiumError</span><span class="op">&gt;</span> {
     <span class="ident">check_init</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pk</span> <span class="op">=</span> <span class="ident">pk</span>.<span class="ident">write_lock</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sk</span> <span class="op">=</span> <span class="ident">sk</span>.<span class="ident">write_lock</span>();
@@ -231,7 +235,11 @@
 <span class="doccomment">/// @param {SecBuf} pk - Empty Buffer to be used as publicKey return</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// @param {SecBuf} sk - Empty Buffer to be used as secretKey return</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">seed_keypair</span>(<span class="ident">seed</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>, <span class="ident">pk</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>, <span class="ident">sk</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>) <span class="op">-&gt;</span> <span class="ident">SodiumResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">seed_keypair</span>(
+    <span class="ident">seed</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
+    <span class="ident">pk</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
+    <span class="ident">sk</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SodiumError</span><span class="op">&gt;</span> {
     <span class="ident">check_init</span>();
     <span class="kw">let</span> <span class="ident">seed</span> <span class="op">=</span> <span class="ident">seed</span>.<span class="ident">read_lock</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pk</span> <span class="op">=</span> <span class="ident">pk</span>.<span class="ident">write_lock</span>();
@@ -263,7 +271,7 @@
     <span class="ident">server_pk</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
     <span class="ident">rx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
     <span class="ident">tx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
-) <span class="op">-&gt;</span> <span class="ident">SodiumResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SodiumError</span><span class="op">&gt;</span> {
     <span class="ident">check_init</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rx</span> <span class="op">=</span> <span class="ident">rx</span>.<span class="ident">write_lock</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">tx</span>.<span class="ident">write_lock</span>();
@@ -299,7 +307,7 @@
     <span class="ident">client_pk</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
     <span class="ident">rx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
     <span class="ident">tx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
-) <span class="op">-&gt;</span> <span class="ident">SodiumResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SodiumError</span><span class="op">&gt;</span> {
     <span class="ident">check_init</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rx</span> <span class="op">=</span> <span class="ident">rx</span>.<span class="ident">write_lock</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">tx</span>.<span class="ident">write_lock</span>();

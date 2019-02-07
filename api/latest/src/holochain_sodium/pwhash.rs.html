@@ -140,7 +140,7 @@
 <span class="doccomment">//! This module provides access to libsodium</span>
 
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">check_init</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">SodiumResult</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">SodiumError</span>;
 
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">OPSLIMIT_INTERACTIVE</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="ident">rust_sodium_sys</span>::<span class="ident">crypto_pwhash_OPSLIMIT_INTERACTIVE</span> <span class="kw">as</span> <span class="ident">u64</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MEMLIMIT_INTERACTIVE</span>: <span class="ident">usize</span> <span class="op">=</span>
@@ -176,7 +176,7 @@
     <span class="ident">alg</span>: <span class="ident">i8</span>,
     <span class="ident">salt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
     <span class="ident">hash</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
-) <span class="op">-&gt;</span> <span class="ident">SodiumResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SodiumError</span><span class="op">&gt;</span> {
     <span class="ident">check_init</span>();
     <span class="kw">let</span> <span class="ident">salt</span> <span class="op">=</span> <span class="ident">salt</span>.<span class="ident">read_lock</span>();
     <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="ident">password</span>.<span class="ident">read_lock</span>();

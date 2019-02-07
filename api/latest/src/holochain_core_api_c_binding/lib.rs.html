@@ -134,12 +134,12 @@
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">directories</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_cas_implementations</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_container_api</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_conductor_api</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_net</span>;
 
-<span class="kw">use</span> <span class="ident">holochain_container_api</span>::{<span class="ident">context_builder</span>::<span class="ident">ContextBuilder</span>, <span class="ident">Holochain</span>};
+<span class="kw">use</span> <span class="ident">holochain_conductor_api</span>::{<span class="ident">context_builder</span>::<span class="ident">ContextBuilder</span>, <span class="ident">Holochain</span>};
 <span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">context</span>::<span class="ident">Context</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">dna</span>::<span class="ident">Dna</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>};
 

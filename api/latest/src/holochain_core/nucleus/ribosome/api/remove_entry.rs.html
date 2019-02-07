@@ -93,8 +93,6 @@
 <span id="93">93</span>
 <span id="94">94</span>
 <span id="95">95</span>
-<span id="96">96</span>
-<span id="97">97</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">agent</span>::<span class="ident">actions</span>::<span class="ident">commit</span>::<span class="ident">commit_entry</span>,
@@ -110,7 +108,6 @@
     <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>},
     <span class="ident">entry</span>::{<span class="ident">deletion_entry</span>::<span class="ident">DeletionEntry</span>, <span class="ident">Entry</span>},
     <span class="ident">error</span>::<span class="ident">HolochainError</span>,
-    <span class="ident">hash</span>::<span class="ident">HashString</span>,
     <span class="ident">validation</span>::{<span class="ident">EntryAction</span>, <span class="ident">EntryLifecycle</span>, <span class="ident">ValidationData</span>},
 };
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">get_entry</span>::<span class="kw-2">*</span>;
@@ -163,7 +160,6 @@
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">validation_package</span><span class="op">|</span> {
                 <span class="ident">future</span>::<span class="ident">ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ValidationData</span> {
                     <span class="ident">package</span>: <span class="ident">validation_package</span>,
-                    <span class="ident">sources</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HashString</span>::<span class="ident">from</span>(<span class="string">&quot;&lt;insert your agent key here&gt;&quot;</span>)],
                     <span class="ident">lifecycle</span>: <span class="ident">EntryLifecycle</span>::<span class="ident">Chain</span>,
                     <span class="ident">action</span>: <span class="ident">EntryAction</span>::<span class="ident">Delete</span>,
                 }))

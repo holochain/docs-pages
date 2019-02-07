@@ -46,7 +46,7 @@
 };
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryInto</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntryWithHeader</span> {
     <span class="kw">pub</span> <span class="ident">entry</span>: <span class="ident">Entry</span>,
     <span class="kw">pub</span> <span class="ident">header</span>: <span class="ident">ChainHeader</span>,

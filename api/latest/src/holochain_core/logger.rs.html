@@ -104,10 +104,12 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This logger is the logger that&#39;s attached to each Holochain application</span>
 <span class="doccomment">//! which is separate from standard logging via the log crate warn! info! debug! logging that</span>
-<span class="doccomment">//! gets emitted globaly from the container.</span>
+<span class="doccomment">//! gets emitted globaly from the conductor.</span>
 <span class="kw">use</span> <span class="ident">chrono</span>::<span class="ident">Local</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">mpsc</span>, <span class="ident">Arc</span>, <span class="ident">Mutex</span>};
 
@@ -128,8 +130,10 @@
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">impl</span> <span class="ident">Logger</span> <span class="kw">for</span> <span class="ident">SimpleLogger</span> {
     <span class="kw">fn</span> <span class="ident">log</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">String</span>) {
-        <span class="kw">let</span> <span class="ident">date</span> <span class="op">=</span> <span class="ident">Local</span>::<span class="ident">now</span>();
-        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="ident">date</span>.<span class="ident">format</span>(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>), <span class="ident">msg</span>);
+        <span class="kw">if</span> <span class="ident">std</span>::<span class="ident">env</span>::<span class="ident">var</span>(<span class="string">&quot;HC_SIMPLE_LOGGER_MUTE&quot;</span>).<span class="ident">is_err</span>() {
+            <span class="kw">let</span> <span class="ident">date</span> <span class="op">=</span> <span class="ident">Local</span>::<span class="ident">now</span>();
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="ident">date</span>.<span class="ident">format</span>(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>), <span class="ident">msg</span>);
+        }
     }
 }
 

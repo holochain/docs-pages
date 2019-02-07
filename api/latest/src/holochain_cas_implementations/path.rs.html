@@ -56,18 +56,19 @@
 <span id="56">56</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::{<span class="ident">HcResult</span>, <span class="ident">HolochainError</span>};
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>::<span class="ident">DirBuilder</span>, <span class="ident">path</span>::<span class="ident">Path</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{
+    <span class="ident">fs</span>::<span class="ident">DirBuilder</span>,
+    <span class="ident">path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>},
+};
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">storage_path</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">folder_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">storage_path</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">folder_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">full_path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">join</span>(<span class="string">&quot;.hc&quot;</span>).<span class="ident">join</span>(<span class="string">&quot;storage&quot;</span>).<span class="ident">join</span>(<span class="ident">folder_name</span>);
-    <span class="kw">let</span> <span class="ident">path_as_string</span> <span class="op">=</span> <span class="ident">full_path</span>.<span class="ident">to_str</span>().<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">IoError</span>(
-        <span class="string">&quot;Could not find home directory&quot;</span>.<span class="ident">to_string</span>(),
-    ))<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">path_as_string</span>))
+
+    <span class="prelude-val">Ok</span>(<span class="ident">full_path</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_path_if_not_exists</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">Path</span>::<span class="ident">new</span>(<span class="ident">path</span>).<span class="ident">exists</span>() {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_path_if_not_exists</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">path</span>.<span class="ident">exists</span>() {
         <span class="kw">return</span> <span class="ident">DirBuilder</span>::<span class="ident">new</span>()
             .<span class="ident">create</span>(<span class="ident">path</span>)
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">IoError</span>(<span class="string">&quot;Could not create directory&quot;</span>.<span class="ident">to_string</span>()));
@@ -80,14 +81,14 @@
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">create_path_if_not_exists</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">path</span>::<span class="ident">storage_path</span>;
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>;
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::{<span class="ident">Path</span>, <span class="ident">MAIN_SEPARATOR</span>};
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>};
     <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tempfile</span>;
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_storage_path</span>() {
         <span class="kw">let</span> <span class="ident">dummy_path</span> <span class="op">=</span> <span class="ident">storage_path</span>(<span class="ident">Path</span>::<span class="ident">new</span>(<span class="string">&quot;foo&quot;</span>), <span class="string">&quot;bar&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">expected_path</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;.hc&quot;</span>, <span class="string">&quot;storage&quot;</span>, <span class="string">&quot;bar&quot;</span>].<span class="ident">join</span>(<span class="kw-2">&amp;</span><span class="ident">MAIN_SEPARATOR</span>.<span class="ident">to_string</span>());
+        <span class="kw">let</span> <span class="ident">expected_path</span>: <span class="ident">PathBuf</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;.hc&quot;</span>, <span class="string">&quot;storage&quot;</span>, <span class="string">&quot;bar&quot;</span>].<span class="ident">iter</span>().<span class="ident">collect</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dummy_path</span>, <span class="ident">expected_path</span>);
     }
 
@@ -103,8 +104,7 @@
             ),
         };
         <span class="kw">let</span> <span class="ident">dir</span> <span class="op">=</span> <span class="ident">tempdir</span>().<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">file_path</span> <span class="op">=</span> <span class="ident">dir</span>.<span class="ident">path</span>();
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">create_path_if_not_exists</span>(<span class="ident">file_path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>());
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">create_path_if_not_exists</span>(<span class="ident">dir</span>.<span class="ident">path</span>());
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">val</span>, ()),
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),

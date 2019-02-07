@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["DPKIError","Error for hc-dpki lib to use in your code."]]});

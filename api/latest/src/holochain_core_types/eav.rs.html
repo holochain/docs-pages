@@ -567,7 +567,7 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Entity</span> <span class="op">=</span> <span class="ident">Address</span>;
 
 <span class="doccomment">/// Using String for EAV attributes (not e.g. an enum) keeps it simple and open</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Attribute</span> <span class="op">=</span> <span class="ident">String</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Attribute</span> <span class="op">=</span> <span class="ident">String</span>; <span class="comment">// BUT we totally could make it an enum with a Custom variant!</span>
 
 <span class="doccomment">/// Address of AddressableContent representing the EAV value</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="ident">Address</span>;

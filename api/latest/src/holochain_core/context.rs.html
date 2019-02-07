@@ -388,7 +388,7 @@
     <span class="kw">pub</span> <span class="ident">dht_storage</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">ContentAddressableStorage</span><span class="op">&gt;&gt;</span>,
     <span class="kw">pub</span> <span class="ident">eav_storage</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueStorage</span><span class="op">&gt;&gt;</span>,
     <span class="kw">pub</span> <span class="ident">network_config</span>: <span class="ident">JsonString</span>,
-    <span class="kw">pub</span> <span class="ident">container_api</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">IoHandler</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">conductor_api</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">IoHandler</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;&gt;</span>,
 }
 
@@ -405,7 +405,7 @@
         <span class="ident">dht_storage</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">ContentAddressableStorage</span><span class="op">&gt;&gt;</span>,
         <span class="ident">eav</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueStorage</span><span class="op">&gt;&gt;</span>,
         <span class="ident">network_config</span>: <span class="ident">JsonString</span>,
-        <span class="ident">container_api</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">IoHandler</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">conductor_api</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">IoHandler</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
         <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SignalSender</span><span class="op">&gt;</span>,
     ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Context</span> {
@@ -420,7 +420,7 @@
             <span class="ident">dht_storage</span>,
             <span class="ident">eav_storage</span>: <span class="ident">eav</span>,
             <span class="ident">network_config</span>,
-            <span class="ident">container_api</span>,
+            <span class="ident">conductor_api</span>,
         }
     }
 
@@ -447,7 +447,7 @@
             <span class="ident">dht_storage</span>: <span class="ident">cas</span>,
             <span class="ident">eav_storage</span>: <span class="ident">eav</span>,
             <span class="ident">network_config</span>,
-            <span class="ident">container_api</span>: <span class="prelude-val">None</span>,
+            <span class="ident">conductor_api</span>: <span class="prelude-val">None</span>,
         })
     }
 

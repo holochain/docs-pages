@@ -68,6 +68,7 @@
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
     <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">instance</span>::<span class="ident">dispatch_action</span>,
+    <span class="ident">network</span>::<span class="ident">entry_with_header</span>::<span class="ident">EntryWithHeader</span>,
 };
 <span class="kw">use</span> <span class="ident">futures</span>::{
     <span class="ident">future</span>::<span class="ident">Future</span>,
@@ -75,21 +76,20 @@
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>},
-    <span class="ident">entry</span>::<span class="ident">Entry</span>,
     <span class="ident">error</span>::<span class="ident">HolochainError</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">pin</span>::<span class="ident">Pin</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
 
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">hold_entry</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-    <span class="ident">entry</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Entry</span>,
-    <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
+    <span class="ident">entry_wh</span>: <span class="ident">EntryWithHeader</span>,
+    <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
 ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">Hold</span>(<span class="ident">entry</span>.<span class="ident">clone</span>()));
+    <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">Hold</span>(<span class="ident">entry_wh</span>.<span class="ident">clone</span>()));
     <span class="ident">dispatch_action</span>(<span class="ident">context</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
 
     <span class="macro">await</span><span class="macro">!</span>(<span class="ident">HoldEntryFuture</span> {
-        <span class="ident">context</span>: <span class="ident">context</span>.<span class="ident">clone</span>(),
-        <span class="ident">address</span>: <span class="ident">entry</span>.<span class="ident">address</span>(),
+        <span class="ident">context</span>: <span class="ident">context</span>,
+        <span class="ident">address</span>: <span class="ident">entry_wh</span>.<span class="ident">entry</span>.<span class="ident">address</span>(),
     })
 }
 
