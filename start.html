@@ -64,7 +64,7 @@
                                         development.
                                         It will guide you through installation.
 
-                                        Once you've got things installed, or regardless, 
+                                        Once you've got things installed, or regardless,
                                         read on into a <a href="https://medium.com/holochain/first-steps-writing-holochain-happs-with-rust-80ae111960e" target="_blank">tutorial</a>, the <a href="/guide/latest">Holochain guidebook</a>, and the <a href="/api/0.0.3/hdk">API Reference</a>
                                         to get going!
                                     </p>
@@ -83,28 +83,45 @@
                                     <h3 class="block-title">Step One - Nodejs</h3>
                                     <p>
 
-                                        Testing of Holochain apps is done in Javascript, executed by Nodejs. To run
-                                        tests, you'll need Nodejs installed.
+                                        End-to-end testing of Holochain apps is done in Javascript executed by Nodejs. <br />
+                                        To run the end-to-end tests you need nodejs installed.
+                                    </p>
+                                    <p>
+                                        Holochain core is tested against nodejs 8.14.1. <br />
+                                        <strong>Holochain core only supports 8.x LTS versions of nodejs.</strong><br />
+                                    </p>
+                                    <p>
+                                        To check the currently installed node version run: <br />
 
-                                        Nodejs must be version 8 or higher to work.
-
-                                        If you don't have it installed already, you can find great installation
-                                        instructions here: <a href="https://nodejs.org" target="_blank">https://nodejs.org</a>
+                                        <p>
+                                         <code>node -v</code><br />
+                                        </p>
+                                    </p>
+                                    <p>
+                                        If you don't have a supported nodejs version you can find installation
+                                        instructions at <a href="https://nodejs.org" target="_blank">https://nodejs.org</a>.
                                     </p>
                                 </div>
                                 <!--//section-block-->
                                 <div id="prereq-step2" class="section-block">
                                     <h3 class="block-title">Step Two - Rust</h3>
                                     <p>
-                                        In the future, you will be able to use a variety of languages to write
-                                        Holochain applications.
-                                        While the WebAssembly API is still being defined the only "HDK" library
-                                        available,
-                                        which simplifies Holochain development, is for Rust. Rust must be installed to
-                                        your computer
-                                        to develop with Holochain, and it must be a specific version of the "nightly" toolchain. Platform
-                                        specific instructions for
-                                        installation follow:
+                                        The recommended way to write Holochain applications is to use the "Holochain Development Kit" (HDK).
+                                    </p>
+                                    <p>
+                                     The HDK allows generation of low level web assembly (WASM) code with convenience functions written in the high level Rust language.
+                                    </p>
+                                    <p>
+                                     In the future there will be HDKs written to a variety of languages, but for now you will need to install and maybe learn some Rust.
+                                    </p>
+                                    <p>
+                                     We are using a "nightly" release of the Rust langauge.<br />
+                                     The Rust community moves very quickly so we "pin" to a specific version to ensure a relatively stable working environment.<br />
+                                     <strong>Only the pinned nightly version of Rust is compatible with Holochain</strong><br />
+                                     To find the current nightly version, check the readme/scripts at https://github.com/holochain/holochain-rust<br />
+                                    </p>
+                                    </p>
+                                    For installation follow:
 
                                         <nav>
                                             <div class="nav nav-tabs nav-fill" role="tablist">
@@ -121,7 +138,7 @@
                                                 In a terminal, run:
                                                 <br />
                                                 <br />
-                                                <code>curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly-2018-12-26</code>
+                                                <code>curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly-2019-01-24</code>
                                                 <!--//code-block-->
                                             </div>
                                             <div class="tab-pane fade" id="rust-windows" role="tabpanel"
@@ -130,12 +147,12 @@
                                                     installation instructions.</p>
 
                                                 Once you have rust successfully installed, you need to install the
-                                                "nightly-2018-12-26" toolchain of rust. This means having the specific version of
+                                                "nightly-2019-01-24" toolchain of rust. This means having the specific version of
                                                 the tools, which are required for working with Holochain. In a
                                                 terminal, run:
                                                 <div class="code-block">
-                                                    <p><code>rustup toolchain install nightly-2018-12-26</code></p>
-                                                    <p><code>rustup default nightly-2018-12-26</code></p>
+                                                    <p><code>rustup toolchain install nightly-2019-01-24</code></p>
+                                                    <p><code>rustup default nightly-2019-01-24</code></p>
                                                 </div>
                                             </div>
                                         </div>
