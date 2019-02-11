@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["P2pNode","Core Mock"]]});
+initSidebarItems({"struct":[["MetaStore",""],["P2pNode","Core Mock"]],"type":[["MetaStoreValue",""]]});

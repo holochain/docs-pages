@@ -1101,6 +1101,12 @@
 <span id="1101">1101</span>
 <span id="1102">1102</span>
 <span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Conductor Configuration</span>
@@ -1418,12 +1424,14 @@
 }
 
 <span class="doccomment">/// A DNA is represented by a DNA file.</span>
-<span class="doccomment">/// A hash has to be provided for sanity check.</span>
+<span class="doccomment">/// A hash can optionally be provided, which could be used to validate that the DNA being installed</span>
+<span class="doccomment">/// is the DNA that was intended to be installed.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DnaConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">file</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="ident">String</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">DnaConfiguration</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Dna</span> {
@@ -1515,11 +1523,15 @@
     <span class="kw">pub</span> <span class="ident">handle</span>: <span class="ident">String</span>,
 }
 
+<span class="doccomment">/// A UI Bundle is a folder containing static assets which can be served as a UI</span>
+<span class="doccomment">/// A hash can optionally be provided, which could be used to validate that the UI being installed</span>
+<span class="doccomment">/// is the UI bundle that was intended to be installed.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UiBundleConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">root_dir</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="ident">String</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
@@ -1670,7 +1682,7 @@
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="string">&quot;Qm328wyq38924y&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>.<span class="ident">to_string</span>()));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1732,7 +1744,7 @@
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="string">&quot;Qm328wyq38924y&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>.<span class="ident">to_string</span>()));
 
         <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">instances</span>;
         <span class="kw">let</span> <span class="ident">instance_config</span> <span class="op">=</span> <span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
@@ -1826,7 +1838,7 @@
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="string">&quot;Qm328wyq38924y&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>.<span class="ident">to_string</span>()));
 
         <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">instances</span>;
         <span class="kw">let</span> <span class="ident">instance_config</span> <span class="op">=</span> <span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();

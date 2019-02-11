@@ -962,7 +962,7 @@
             <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span> <span class="ident">new_state</span>;
         }
 
-        <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/reduce: {:?}&quot;</span>, <span class="ident">action_wrapper</span>.<span class="ident">action</span>()));
+        <span class="comment">// context.log(format!(&quot;trace/reduce: {:?}&quot;, action_wrapper.action()));</span>
         <span class="self">self</span>.<span class="ident">maybe_emit_action_signal</span>(<span class="ident">context</span>, <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
 
         <span class="comment">// Add new observers</span>

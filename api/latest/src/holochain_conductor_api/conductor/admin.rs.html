@@ -1537,7 +1537,7 @@
         <span class="kw">let</span> <span class="ident">new_dna</span> <span class="op">=</span> <span class="ident">DnaConfiguration</span> {
             <span class="ident">id</span>: <span class="ident">id</span>.<span class="ident">clone</span>(),
             <span class="ident">file</span>: <span class="ident">config_path_str</span>.<span class="ident">into</span>(),
-            <span class="ident">hash</span>: <span class="ident">dna</span>.<span class="ident">address</span>().<span class="ident">to_string</span>(),
+            <span class="ident">hash</span>: <span class="prelude-val">Some</span>(<span class="ident">dna</span>.<span class="ident">address</span>().<span class="ident">to_string</span>()),
         };
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_config</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">clone</span>();
@@ -2133,12 +2133,12 @@ pattern = &#39;.*&#39;&quot;#</span>
                 <span class="ident">DnaConfiguration</span> {
                     <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-dna&quot;</span>),
                     <span class="ident">file</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app_spec.hcpkg&quot;</span>),
-                    <span class="ident">hash</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>),
+                    <span class="ident">hash</span>: <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>)),
                 },
                 <span class="ident">DnaConfiguration</span> {
                     <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
                     <span class="ident">file</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna.hcpkg&quot;</span>),
-                    <span class="ident">hash</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">new_dna</span>.<span class="ident">address</span>()),
+                    <span class="ident">hash</span>: <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">new_dna</span>.<span class="ident">address</span>())),
                 },
             ]
         );
@@ -2158,7 +2158,7 @@ pattern = &#39;.*&#39;&quot;#</span>
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[dnas]]
 file = &#39;new-dna.hcpkg&#39;
-hash = &#39;QmfLwk9WrK8ZxakduUpk5uqZqitwj6t6Rbcn6P7tbn5cWW&#39;
+hash = &#39;QmX8Waqm8HDqoHdG4E3Z19iXEoL3QdAk45KqLcjypXXTN1&#39;
 id = &#39;new-dna&#39;&quot;#</span>,
             ),
         );
@@ -2209,12 +2209,12 @@ id = &#39;new-dna&#39;&quot;#</span>,
                 <span class="ident">DnaConfiguration</span> {
                     <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-dna&quot;</span>),
                     <span class="ident">file</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app_spec.hcpkg&quot;</span>),
-                    <span class="ident">hash</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>),
+                    <span class="ident">hash</span>: <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>)),
                 },
                 <span class="ident">DnaConfiguration</span> {
                     <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
                     <span class="ident">file</span>: <span class="ident">output_dna_file</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>(),
-                    <span class="ident">hash</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">new_dna</span>.<span class="ident">address</span>()),
+                    <span class="ident">hash</span>: <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">new_dna</span>.<span class="ident">address</span>())),
                 },
             ]
         );
@@ -2275,12 +2275,12 @@ id = &#39;new-dna&#39;&quot;#</span>,
                 <span class="ident">DnaConfiguration</span> {
                     <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-dna&quot;</span>),
                     <span class="ident">file</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app_spec.hcpkg&quot;</span>),
-                    <span class="ident">hash</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>),
+                    <span class="ident">hash</span>: <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>)),
                 },
                 <span class="ident">DnaConfiguration</span> {
                     <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna-with-props&quot;</span>),
                     <span class="ident">file</span>: <span class="ident">output_dna_file</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>(),
-                    <span class="ident">hash</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">new_dna</span>.<span class="ident">address</span>()),
+                    <span class="ident">hash</span>: <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">new_dna</span>.<span class="ident">address</span>())),
                 },
             ]
         );
@@ -2321,7 +2321,7 @@ id = &#39;new-dna&#39;&quot;#</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[dnas]]
 file = &#39;new-dna.hcpkg&#39;
-hash = &#39;QmfLwk9WrK8ZxakduUpk5uqZqitwj6t6Rbcn6P7tbn5cWW&#39;
+hash = &#39;QmX8Waqm8HDqoHdG4E3Z19iXEoL3QdAk45KqLcjypXXTN1&#39;
 id = &#39;new-dna&#39;&quot;#</span>,
             ),
         );

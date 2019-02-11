@@ -202,29 +202,6 @@
 <span id="202">202</span>
 <span id="203">203</span>
 <span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! holochain_core_types::dna::zome is a set of structs for working with holochain dna.</span>
 
@@ -242,34 +219,14 @@
 <span class="kw">use</span> <span class="ident">dna</span>::<span class="ident">entry_types</span>::{<span class="self">self</span>, <span class="ident">deserialize_entry_types</span>, <span class="ident">serialize_entry_types</span>, <span class="ident">EntryTypeDef</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 
-<span class="doccomment">/// Enum for &quot;zome&quot; &quot;config&quot; &quot;error_handling&quot; property.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ErrorHandling</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;throw-errors&quot;</span>)]</span>
-    <span class="ident">ThrowErrors</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">ErrorHandling</span> {
-    <span class="doccomment">/// Default zome config error_handling is &quot;throw-errors&quot;</span>
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">ErrorHandling</span>::<span class="ident">ThrowErrors</span>
-    }
-}
-
 <span class="doccomment">/// Represents the &quot;config&quot; object on a &quot;zome&quot;.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Config</span> {
-    <span class="doccomment">/// How errors should be handled within this zome.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error_handling</span>: <span class="ident">ErrorHandling</span>,
-}
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Config</span> {}
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Config</span> {
     <span class="doccomment">/// Provide defaults for the &quot;zome&quot; &quot;config&quot; object.</span>
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Config</span> {
-            <span class="ident">error_handling</span>: <span class="ident">ErrorHandling</span>::<span class="ident">ThrowErrors</span>,
-        }
+        <span class="ident">Config</span> {}
     }
 }
 
@@ -399,9 +356,7 @@
         <span class="kw">let</span> <span class="ident">fixture</span>: <span class="ident">Zome</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>(
             <span class="string">r#&quot;{
                 &quot;description&quot;: &quot;test&quot;,
-                &quot;config&quot;: {
-                    &quot;error_handling&quot;: &quot;throw-errors&quot;
-                },
+                &quot;config&quot;: {},
                 &quot;entry_types&quot;: {},
                 &quot;fn_delcarations&quot;: [],
                 &quot;capabilities&quot;: {}
@@ -411,7 +366,6 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">zome</span> <span class="op">=</span> <span class="ident">Zome</span>::<span class="ident">default</span>();
         <span class="ident">zome</span>.<span class="ident">description</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test&quot;</span>);
-        <span class="ident">zome</span>.<span class="ident">config</span>.<span class="ident">error_handling</span> <span class="op">=</span> <span class="ident">ErrorHandling</span>::<span class="ident">ThrowErrors</span>;
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">fixture</span>, <span class="ident">zome</span>);
     }
@@ -425,7 +379,7 @@
             ..<span class="ident">Default</span>::<span class="ident">default</span>()
         };
 
-        <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="string">&quot;{\&quot;description\&quot;:\&quot;\&quot;,\&quot;config\&quot;:{\&quot;error_handling\&quot;:\&quot;throw-errors\&quot;},\&quot;entry_types\&quot;:{\&quot;foo\&quot;:{\&quot;description\&quot;:\&quot;\&quot;,\&quot;sharing\&quot;:\&quot;public\&quot;,\&quot;links_to\&quot;:[],\&quot;linked_from\&quot;:[]}},\&quot;capabilities\&quot;:{},\&quot;fn_declarations\&quot;:[],\&quot;code\&quot;:{\&quot;code\&quot;:\&quot;\&quot;},\&quot;bridges\&quot;:[]}&quot;</span>;
+        <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="string">&quot;{\&quot;description\&quot;:\&quot;\&quot;,\&quot;config\&quot;:{},\&quot;entry_types\&quot;:{\&quot;foo\&quot;:{\&quot;description\&quot;:\&quot;\&quot;,\&quot;sharing\&quot;:\&quot;public\&quot;,\&quot;links_to\&quot;:[],\&quot;linked_from\&quot;:[]}},\&quot;capabilities\&quot;:{},\&quot;fn_declarations\&quot;:[],\&quot;code\&quot;:{\&quot;code\&quot;:\&quot;\&quot;},\&quot;bridges\&quot;:[]}&quot;</span>;
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">expected</span>.<span class="ident">clone</span>()),

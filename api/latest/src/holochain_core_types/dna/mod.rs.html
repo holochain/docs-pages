@@ -555,27 +555,6 @@
 <span id="555">555</span>
 <span id="556">556</span>
 <span id="557">557</span>
-<span id="558">558</span>
-<span id="559">559</span>
-<span id="560">560</span>
-<span id="561">561</span>
-<span id="562">562</span>
-<span id="563">563</span>
-<span id="564">564</span>
-<span id="565">565</span>
-<span id="566">566</span>
-<span id="567">567</span>
-<span id="568">568</span>
-<span id="569">569</span>
-<span id="570">570</span>
-<span id="571">571</span>
-<span id="572">572</span>
-<span id="573">573</span>
-<span id="574">574</span>
-<span id="575">575</span>
-<span id="576">576</span>
-<span id="577">577</span>
-<span id="578">578</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! dna is a library for working with holochain dna files/entries.</span>
 <span class="doccomment">//!</span>
@@ -688,9 +667,7 @@
                 &quot;zomes&quot;: {
                     &quot;test&quot;: {
                         &quot;description&quot;: &quot;test&quot;,
-                        &quot;config&quot;: {
-                            &quot;error_handling&quot;: &quot;throw-errors&quot;
-                        },
+                        &quot;config&quot;: {},
                         &quot;entry_types&quot;: {
                             &quot;test&quot;: {
                                 &quot;description&quot;: &quot;test&quot;,
@@ -761,9 +738,7 @@
                 &quot;zomes&quot;: {
                     &quot;&quot;: {
                         &quot;description&quot;: &quot;&quot;,
-                        &quot;config&quot;: {
-                            &quot;error_handling&quot;: &quot;throw-errors&quot;
-                        },
+                        &quot;config&quot;: {},
                         &quot;entry_types&quot;: {
                             &quot;&quot;: {
                                 &quot;description&quot;: &quot;&quot;,
@@ -793,23 +768,6 @@
         .<span class="ident">unwrap</span>();
 
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">dna</span>.<span class="ident">uuid</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">parse_with_defaults_zome</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
-            <span class="string">r#&quot;{
-                &quot;zomes&quot;: {
-                    &quot;zome1&quot;: {}
-                }
-            }&quot;#</span>,
-        ))
-        .<span class="ident">unwrap</span>();
-
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">dna</span>.<span class="ident">zomes</span>.<span class="ident">get</span>(<span class="string">&quot;zome1&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">config</span>.<span class="ident">error_handling</span>,
-            <span class="ident">zome</span>::<span class="ident">ErrorHandling</span>::<span class="ident">ThrowErrors</span>
-        )
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

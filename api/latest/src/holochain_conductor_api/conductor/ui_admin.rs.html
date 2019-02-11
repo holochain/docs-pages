@@ -522,10 +522,6 @@
 <span id="522">522</span>
 <span id="523">523</span>
 <span id="524">524</span>
-<span id="525">525</span>
-<span id="526">526</span>
-<span id="527">527</span>
-<span id="528">528</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">conductor</span>::{<span class="ident">base</span>::<span class="ident">notify</span>, <span class="ident">Conductor</span>},
@@ -586,7 +582,7 @@
         <span class="kw">let</span> <span class="ident">new_bundle</span> <span class="op">=</span> <span class="ident">UiBundleConfiguration</span> {
             <span class="ident">id</span>: <span class="ident">id</span>.<span class="ident">to_string</span>(),
             <span class="ident">root_dir</span>: <span class="ident">path_string</span>.<span class="ident">into</span>(),
-            <span class="ident">hash</span>: <span class="string">&quot;&lt;not-used&gt;&quot;</span>.<span class="ident">to_string</span>(),
+            <span class="ident">hash</span>: <span class="prelude-val">None</span>,
         };
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_config</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">clone</span>();
@@ -743,7 +739,6 @@
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[ui_bundles]]
-hash = &#39;&lt;not-used&gt;&#39;
 id = &#39;test-bundle-id&#39;
 root_dir = &#39;.&#39;&quot;#</span>,
             ),
@@ -792,7 +787,6 @@ root_dir = &#39;.&#39;&quot;#</span>,
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[ui_bundles]]
-hash = &#39;&lt;not-used&gt;&#39;
 id = &#39;test-bundle-id&#39;&quot;#</span>,
             ),
         );
@@ -898,7 +892,6 @@ id = &#39;test-bundle-id&#39;&quot;#</span>,
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[ui_bundles]]
-hash = &#39;&lt;not-used&gt;&#39;
 id = &#39;test-bundle-id&#39;
 root_dir = &#39;.&#39;
 
@@ -970,7 +963,6 @@ port = 4000&quot;#</span>,
             <span class="ident">toml</span>,
             <span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">r#&quot;[[ui_bundles]]
-hash = &#39;&lt;not-used&gt;&#39;
 id = &#39;test-bundle-id&#39;
 root_dir = &#39;.&#39;&quot;#</span>,
             ),
