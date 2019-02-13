@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["conductor",""],["config",""],["context_builder",""],["error",""],["holochain","`holochain_conductor_api` is a library for instantiating and using holochain instances that  each run a holochain DNA, DHT and source chain."],["interface",""],["interface_impls",""],["logger",""],["static_file_server",""]]});

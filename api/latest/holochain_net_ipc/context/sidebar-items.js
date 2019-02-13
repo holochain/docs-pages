@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["destroy","Destroy the lazy_static! global"],["socket","Create a new zmq socket using the lazy_static! global"]],"struct":[["ZMQ_CTX","pseudo global for zmq::Context"]]});
