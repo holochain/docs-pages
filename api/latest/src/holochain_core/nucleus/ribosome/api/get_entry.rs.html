@@ -314,8 +314,6 @@
 <span id="314">314</span>
 <span id="315">315</span>
 <span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>},
@@ -330,13 +328,14 @@
 <span class="doccomment">/// Expected complex argument: GetEntryArgs</span>
 <span class="doccomment">/// Returns an HcApiReturnCode as I64</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">invoke_get_entry</span>(<span class="ident">runtime</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Runtime</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">RuntimeArgs</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span> {
+    <span class="kw">let</span> <span class="ident">zome_call_data</span> <span class="op">=</span> <span class="ident">runtime</span>.<span class="ident">zome_call_data</span>()<span class="question-mark">?</span>;
     <span class="comment">// deserialize args</span>
     <span class="kw">let</span> <span class="ident">args_str</span> <span class="op">=</span> <span class="ident">runtime</span>.<span class="ident">load_json_string_from_args</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>);
     <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">GetEntryArgs</span>::<span class="ident">try_from</span>(<span class="ident">args_str</span>.<span class="ident">clone</span>()) {
         <span class="prelude-val">Ok</span>(<span class="ident">input</span>) <span class="op">=&gt;</span> <span class="ident">input</span>,
         <span class="comment">// Exit on error</span>
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
-            <span class="ident">runtime</span>.<span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
+            <span class="ident">zome_call_data</span>.<span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
                 <span class="string">&quot;err/zome: invoke_get_entry() failed to deserialize: {:?}&quot;</span>,
                 <span class="ident">args_str</span>
             ));
@@ -344,9 +343,9 @@
         }
     };
     <span class="comment">// Create workflow future and block on it</span>
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">runtime</span>
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">zome_call_data</span>
         .<span class="ident">context</span>
-        .<span class="ident">block_on</span>(<span class="ident">get_entry_result_workflow</span>(<span class="kw-2">&amp;</span><span class="ident">runtime</span>.<span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">input</span>));
+        .<span class="ident">block_on</span>(<span class="ident">get_entry_result_workflow</span>(<span class="kw-2">&amp;</span><span class="ident">zome_call_data</span>.<span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">input</span>));
     <span class="comment">// Store result in wasm memory</span>
     <span class="ident">runtime</span>.<span class="ident">store_result</span>(<span class="ident">result</span>)
 }
@@ -366,6 +365,7 @@
                     <span class="ident">commit</span>::<span class="ident">tests</span>::<span class="ident">test_commit_args_bytes</span>,
                     <span class="ident">tests</span>::{<span class="ident">test_parameters</span>, <span class="ident">test_zome_name</span>},
                 },
+                <span class="ident">runtime</span>::<span class="ident">WasmCallData</span>,
             },
             <span class="ident">tests</span>::{<span class="ident">test_capability_call</span>, <span class="ident">test_capability_name</span>},
             <span class="ident">ZomeFnCall</span>,
@@ -482,7 +482,7 @@
     )
 
     (func
-        (export &quot;__list_capabilities&quot;)
+        (export &quot;__list_traits&quot;)
         (param $allocation i64)
         (result i64)
 
@@ -491,10 +491,10 @@
 
     (func
         (export &quot;__list_functions&quot;)
-        (param $allocation i32)
-        (result i32)
+        (param $allocation i64)
+        (result i64)
 
-        (i32.const 0)
+        (i64.const 0)
     )
 )
                 &quot;#</span>,
@@ -537,11 +537,9 @@
             <span class="ident">test_parameters</span>(),
         );
         <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">ribosome</span>::<span class="ident">run_dna</span>(
-            <span class="kw-2">&amp;</span><span class="ident">dna</span>.<span class="ident">name</span>.<span class="ident">to_string</span>(),
-            <span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>),
             <span class="ident">wasm</span>.<span class="ident">clone</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">commit_call</span>,
             <span class="prelude-val">Some</span>(<span class="ident">test_commit_args_bytes</span>()),
+            <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(<span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>), <span class="ident">dna</span>.<span class="ident">name</span>.<span class="ident">clone</span>(), <span class="ident">commit_call</span>),
         )
         .<span class="ident">expect</span>(<span class="string">&quot;test should be callable&quot;</span>);
 
@@ -561,11 +559,9 @@
             <span class="ident">test_parameters</span>(),
         );
         <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">ribosome</span>::<span class="ident">run_dna</span>(
-            <span class="kw-2">&amp;</span><span class="ident">dna</span>.<span class="ident">name</span>.<span class="ident">to_string</span>(),
-            <span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>),
             <span class="ident">wasm</span>.<span class="ident">clone</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">get_call</span>,
             <span class="prelude-val">Some</span>(<span class="ident">test_get_args_bytes</span>()),
+            <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(<span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>), <span class="ident">dna</span>.<span class="ident">name</span>, <span class="ident">get_call</span>),
         )
         .<span class="ident">expect</span>(<span class="string">&quot;test should be callable&quot;</span>);
 

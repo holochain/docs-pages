@@ -754,14 +754,6 @@
 <span id="754">754</span>
 <span id="755">755</span>
 <span id="756">756</span>
-<span id="757">757</span>
-<span id="758">758</span>
-<span id="759">759</span>
-<span id="760">760</span>
-<span id="761">761</span>
-<span id="762">762</span>
-<span id="763">763</span>
-<span id="764">764</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::<span class="ident">ActionWrapper</span>, <span class="ident">context</span>::<span class="ident">Context</span>, <span class="ident">signal</span>::<span class="ident">Signal</span>, <span class="ident">state</span>::<span class="ident">State</span>, <span class="ident">workflows</span>::<span class="ident">application</span>,
@@ -1070,11 +1062,7 @@
         <span class="ident">json</span>::{<span class="ident">JsonString</span>, <span class="ident">RawString</span>},
     };
 
-    <span class="kw">use</span> <span class="kw">crate</span>::{
-        <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">callback</span>::<span class="ident">Callback</span>, <span class="ident">Defn</span>},
-        <span class="ident">persister</span>::<span class="ident">SimplePersister</span>,
-        <span class="ident">state</span>::<span class="ident">State</span>,
-    };
+    <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">persister</span>::<span class="ident">SimplePersister</span>, <span class="ident">state</span>::<span class="ident">State</span>};
 
     <span class="kw">use</span> <span class="ident">std</span>::{
         <span class="ident">sync</span>::{<span class="ident">mpsc</span>::<span class="ident">channel</span>, <span class="ident">Arc</span>, <span class="ident">Mutex</span>},
@@ -1390,11 +1378,7 @@
     <span class="doccomment">/// @TODO is this right? should return unimplemented?</span>
     <span class="doccomment">/// @see https://github.com/holochain/holochain-rust/issues/97</span>
     <span class="kw">fn</span> <span class="ident">test_missing_genesis</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wat</span>(
-            <span class="string">&quot;test_zome&quot;</span>,
-            <span class="ident">Callback</span>::<span class="ident">Genesis</span>.<span class="ident">capability</span>().<span class="ident">as_str</span>(),
-            <span class="prelude-val">None</span>,
-        );
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wat</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="prelude-val">None</span>);
 
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">test_instance</span>(<span class="ident">dna</span>, <span class="prelude-val">None</span>);
 
@@ -1408,7 +1392,7 @@
     <span class="kw">fn</span> <span class="ident">test_genesis_ok</span>() {
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wat</span>(
             <span class="string">&quot;test_zome&quot;</span>,
-            <span class="ident">Callback</span>::<span class="ident">Genesis</span>.<span class="ident">capability</span>().<span class="ident">as_str</span>(),
+            <span class="string">&quot;test_cap&quot;</span>,
             <span class="prelude-val">Some</span>(
                 <span class="string">r#&quot;
             (module
@@ -1437,7 +1421,7 @@
     <span class="kw">fn</span> <span class="ident">test_genesis_err</span>() {
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wat</span>(
             <span class="string">&quot;test_zome&quot;</span>,
-            <span class="ident">Callback</span>::<span class="ident">Genesis</span>.<span class="ident">capability</span>().<span class="ident">as_str</span>(),
+            <span class="string">&quot;test_cap&quot;</span>,
             <span class="prelude-val">Some</span>(
                 <span class="string">r#&quot;
             (module

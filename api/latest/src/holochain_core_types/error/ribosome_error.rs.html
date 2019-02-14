@@ -317,8 +317,6 @@
 <span id="317">317</span>
 <span id="318">318</span>
 <span id="319">319</span>
-<span id="320">320</span>
-<span id="321">321</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="self">self</span>::{<span class="ident">RibosomeEncodedValue</span>::<span class="kw-2">*</span>, <span class="ident">RibosomeErrorCode</span>::<span class="kw-2">*</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
@@ -610,8 +608,6 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">ribosome_error_code_round_trip</span>() {
-        <span class="kw">let</span> <span class="ident">code_int</span> <span class="op">=</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">OutOfMemory</span> <span class="kw">as</span> <span class="ident">u64</span>;
-        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;zz {:?}&quot;</span>, <span class="ident">code_int</span>);
         <span class="kw">let</span> <span class="ident">oom</span> <span class="op">=</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">from_code_int</span>(
             ((<span class="ident">RibosomeErrorCode</span>::<span class="ident">OutOfMemory</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&gt;&gt;</span> <span class="number">32</span>) <span class="kw">as</span> <span class="ident">RibosomeCodeBits</span>,
         );

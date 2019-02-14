@@ -211,9 +211,6 @@
 <span id="211">211</span>
 <span id="212">212</span>
 <span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">cli</span>::{<span class="self">self</span>, <span class="ident">package</span>};
 <span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
@@ -249,7 +246,7 @@
     <span class="comment">// note that this behaviour is documented within</span>
     <span class="comment">// holochain_common::env_vars module and should be updated</span>
     <span class="comment">// if this logic changes</span>
-    <span class="kw">let</span> <span class="ident">agent_name</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="ident">EnvVar</span>::<span class="ident">Agent</span>).<span class="ident">ok</span>();
+    <span class="kw">let</span> <span class="ident">agent_name</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">Agent</span>.<span class="ident">value</span>().<span class="ident">ok</span>();
     <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="kw-2">&amp;</span><span class="ident">agent_name</span>.<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;testAgent&quot;</span>)));
     <span class="kw">let</span> <span class="ident">agent_config</span> <span class="op">=</span> <span class="ident">AgentConfiguration</span> {
         <span class="ident">id</span>: <span class="ident">AGENT_CONFIG_ID</span>.<span class="ident">into</span>(),
@@ -284,9 +281,7 @@
     <span class="comment">// note that this behaviour is documented within</span>
     <span class="comment">// holochain_common::env_vars module and should be updated</span>
     <span class="comment">// if this logic changes</span>
-    <span class="kw">let</span> <span class="ident">interface_type</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="ident">EnvVar</span>::<span class="ident">Interface</span>)
-        .<span class="ident">ok</span>()
-        .<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">interface</span>);
+    <span class="kw">let</span> <span class="ident">interface_type</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">Interface</span>.<span class="ident">value</span>().<span class="ident">ok</span>().<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">interface</span>);
     <span class="kw">let</span> <span class="ident">driver</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">interface_type</span> <span class="op">==</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;websocket&quot;</span>) {
         <span class="ident">InterfaceDriver</span>::<span class="ident">Websocket</span> { <span class="ident">port</span> }
     } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">interface_type</span> <span class="op">==</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;http&quot;</span>) {
@@ -314,7 +309,7 @@
     <span class="comment">// note that this behaviour is documented within</span>
     <span class="comment">// holochain_common::env_vars module and should be updated</span>
     <span class="comment">// if this logic changes</span>
-    <span class="kw">let</span> <span class="ident">n3h_path</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="ident">EnvVar</span>::<span class="ident">N3hPath</span>).<span class="ident">ok</span>();
+    <span class="kw">let</span> <span class="ident">n3h_path</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">N3hPath</span>.<span class="ident">value</span>().<span class="ident">ok</span>();
 
     <span class="comment">// create an n3h network config if the --networked flag is set</span>
     <span class="comment">// or if a value where to find n3h has been put into the</span>
@@ -323,9 +318,9 @@
         <span class="comment">// note that this behaviour is documented within</span>
         <span class="comment">// holochain_common::env_vars module and should be updated</span>
         <span class="comment">// if this logic changes</span>
-        <span class="kw">let</span> <span class="ident">n3h_mode</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="ident">EnvVar</span>::<span class="ident">N3hMode</span>).<span class="ident">ok</span>();
-        <span class="kw">let</span> <span class="ident">n3h_persistence_path</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="ident">EnvVar</span>::<span class="ident">N3hWorkDir</span>).<span class="ident">ok</span>();
-        <span class="kw">let</span> <span class="ident">n3h_bootstrap_node</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="ident">EnvVar</span>::<span class="ident">N3hBootstrapNode</span>).<span class="ident">ok</span>();
+        <span class="kw">let</span> <span class="ident">n3h_mode</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">N3hMode</span>.<span class="ident">value</span>().<span class="ident">ok</span>();
+        <span class="kw">let</span> <span class="ident">n3h_persistence_path</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">N3hWorkDir</span>.<span class="ident">value</span>().<span class="ident">ok</span>();
+        <span class="kw">let</span> <span class="ident">n3h_bootstrap_node</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">N3hBootstrapNode</span>.<span class="ident">value</span>().<span class="ident">ok</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n3h_bootstrap</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
 
         <span class="kw">if</span> <span class="ident">n3h_bootstrap_node</span>.<span class="ident">is_some</span>() {
@@ -336,14 +331,13 @@
         <span class="comment">// note that this behaviour is documented within</span>
         <span class="comment">// holochain_common::env_vars module and should be updated</span>
         <span class="comment">// if this logic changes</span>
-        <span class="kw">let</span> <span class="ident">networking_config_filepath</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="ident">EnvVar</span>::<span class="ident">NetworkingConfigFile</span>).<span class="ident">ok</span>();
+        <span class="kw">let</span> <span class="ident">networking_config_filepath</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">NetworkingConfigFile</span>.<span class="ident">value</span>().<span class="ident">ok</span>();
 
         <span class="prelude-val">Some</span>(<span class="ident">NetworkConfig</span> {
             <span class="ident">bootstrap_nodes</span>: <span class="ident">n3h_bootstrap</span>,
-            <span class="ident">n3h_path</span>: <span class="ident">n3h_path</span>.<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">default_n3h_path</span>()),
-            <span class="ident">n3h_mode</span>: <span class="ident">n3h_mode</span>.<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">default_n3h_mode</span>()),
-            <span class="ident">n3h_persistence_path</span>: <span class="ident">n3h_persistence_path</span>
-                .<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">default_n3h_persistence_path</span>()),
+            <span class="ident">n3h_path</span>: <span class="ident">n3h_path</span>.<span class="ident">unwrap_or_else</span>(<span class="ident">default_n3h_path</span>),
+            <span class="ident">n3h_mode</span>: <span class="ident">n3h_mode</span>.<span class="ident">unwrap_or_else</span>(<span class="ident">default_n3h_mode</span>),
+            <span class="ident">n3h_persistence_path</span>: <span class="ident">n3h_persistence_path</span>.<span class="ident">unwrap_or_else</span>(<span class="ident">default_n3h_persistence_path</span>),
             <span class="ident">n3h_ipc_uri</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
             <span class="ident">networking_config_file</span>: <span class="ident">networking_config_filepath</span>,
         })

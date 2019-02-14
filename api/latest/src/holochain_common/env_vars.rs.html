@@ -55,6 +55,7 @@
 <span id="55">55</span>
 <span id="56">56</span>
 <span id="57">57</span>
+<span id="58">58</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Holochain uses a number of environment variables that can be set, for easy configuration for aspects of the system.</span>
 <span class="doccomment">//! Below is the complete list of them, and what they are used for.</span>
@@ -109,6 +110,7 @@
             <span class="ident">EnvVar</span>::<span class="ident">SimpleLoggerMute</span> <span class="op">=&gt;</span> <span class="string">&quot;HC_SIMPLE_LOGGER_MUTE&quot;</span>,
         }
     }
+
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">VarError</span><span class="op">&gt;</span> {
         <span class="ident">std</span>::<span class="ident">env</span>::<span class="ident">var</span>(<span class="self">self</span>.<span class="ident">as_str</span>())
     }

@@ -464,8 +464,6 @@
 <span id="464">464</span>
 <span id="465">465</span>
 <span id="466">466</span>
-<span id="467">467</span>
-<span id="468">468</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This crate is an ffi wrapper to provide a c-compatible dna library.</span>
 <span class="doccomment">//!</span>
@@ -691,11 +689,11 @@
 }
 
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span> <span class="comment">//Tested in c_bindings_test by C based test code</span>
-<span class="kw">fn</span> <span class="ident">capabilities_as_vec</span>(<span class="ident">dna</span>: <span class="kw-2">&amp;</span><span class="ident">Dna</span>, <span class="ident">zome_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span><span class="op">&gt;&gt;</span> {
+<span class="kw">fn</span> <span class="ident">traits_as_vec</span>(<span class="ident">dna</span>: <span class="kw-2">&amp;</span><span class="ident">Dna</span>, <span class="ident">zome_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span><span class="op">&gt;&gt;</span> {
     <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">dna</span>
         .<span class="ident">zomes</span>
         .<span class="ident">get</span>(<span class="ident">zome_name</span>)<span class="question-mark">?</span>
-        .<span class="ident">capabilities</span>
+        .<span class="ident">traits</span>
         .<span class="ident">keys</span>()
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">cap_name</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">raw</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">CString</span>::<span class="ident">new</span>(<span class="ident">cap_name</span>.<span class="ident">clone</span>()) {
@@ -710,15 +708,15 @@
 
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span> <span class="comment">//Tested in c_bindings_test by C based test code</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">holochain_dna_get_capabilities_names</span>(
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">holochain_dna_get_trait_names</span>(
     <span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Dna</span>,
     <span class="ident">zome_name</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>,
     <span class="ident">string_vec</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">CStringVec</span>,
 ) {
     <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ptr</span>;
     <span class="kw">let</span> <span class="ident">zome_name</span> <span class="op">=</span> <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">zome_name</span>).<span class="ident">to_string_lossy</span>();
-    <span class="kw">let</span> <span class="ident">capabalities</span> <span class="op">=</span> <span class="ident">capabilities_as_vec</span>(<span class="ident">dna</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">zome_name</span>);
-    <span class="ident">vec_char_to_cstringvec</span>(<span class="ident">capabalities</span>, <span class="ident">string_vec</span>);
+    <span class="kw">let</span> <span class="ident">traits</span> <span class="op">=</span> <span class="ident">traits_as_vec</span>(<span class="ident">dna</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">zome_name</span>);
+    <span class="ident">vec_char_to_cstringvec</span>(<span class="ident">traits</span>, <span class="ident">string_vec</span>);
 }
 
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span> <span class="comment">//Tested in c_bindings_test by C based test code</span>
@@ -851,9 +849,8 @@
                         &quot;name&quot;: &quot;test zome&quot;,
                         &quot;description&quot;: &quot;test&quot;,
                         &quot;config&quot;: {},
-                        &quot;capabilities&quot;: {
-                            &quot;test capability&quot;: {
-                                &quot;type&quot;: &quot;public&quot;,
+                        &quot;traits&quot;: {
+                            &quot;test trait&quot;: {
                                 &quot;functions&quot;: []
                             }
                         },
@@ -883,9 +880,8 @@
                         &quot;name&quot;: &quot;test zome&quot;,
                         &quot;description&quot;: &quot;test&quot;,
                         &quot;config&quot;: {},
-                        &quot;capabilities&quot;: {
-                            &quot;test capability&quot;: {
-                                &quot;type&quot;: &quot;public&quot;,
+                        &quot;traits&quot;: {
+                            &quot;test trait&quot;: {
                                 &quot;functions&quot;: []
                             }
                         },

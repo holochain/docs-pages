@@ -210,7 +210,6 @@
 <span id="210">210</span>
 <span id="211">211</span>
 <span id="212">212</span>
-<span id="213">213</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -219,6 +218,7 @@
         <span class="ident">ribosome</span>::{
             <span class="self">self</span>,
             <span class="ident">callback</span>::{<span class="ident">links_utils</span>, <span class="ident">CallbackResult</span>},
+            <span class="ident">runtime</span>::<span class="ident">WasmCallData</span>,
         },
         <span class="ident">ZomeFnCall</span>,
     },
@@ -399,16 +399,14 @@
 
 <span class="kw">fn</span> <span class="ident">run_validation_callback</span>(
     <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
-    <span class="ident">fc</span>: <span class="ident">ZomeFnCall</span>,
+    <span class="ident">zome_call</span>: <span class="ident">ZomeFnCall</span>,
     <span class="ident">wasm</span>: <span class="kw-2">&amp;</span><span class="ident">DnaWasm</span>,
     <span class="ident">dna_name</span>: <span class="ident">String</span>,
 ) <span class="op">-&gt;</span> <span class="ident">CallbackResult</span> {
     <span class="kw">match</span> <span class="ident">ribosome</span>::<span class="ident">run_dna</span>(
-        <span class="kw-2">&amp;</span><span class="ident">dna_name</span>,
-        <span class="ident">context</span>,
         <span class="ident">wasm</span>.<span class="ident">code</span>.<span class="ident">clone</span>(),
-        <span class="kw-2">&amp;</span><span class="ident">fc</span>,
-        <span class="prelude-val">Some</span>(<span class="ident">fc</span>.<span class="ident">clone</span>().<span class="ident">parameters</span>.<span class="ident">into_bytes</span>()),
+        <span class="prelude-val">Some</span>(<span class="ident">zome_call</span>.<span class="ident">clone</span>().<span class="ident">parameters</span>.<span class="ident">into_bytes</span>()),
+        <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(<span class="ident">context</span>, <span class="ident">dna_name</span>, <span class="ident">zome_call</span>),
     ) {
         <span class="prelude-val">Ok</span>(<span class="ident">call_result</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">call_result</span>.<span class="ident">is_null</span>() {
             <span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="ident">CallbackResult</span>::<span class="ident">Pass</span>,

@@ -418,24 +418,11 @@
 <span id="418">418</span>
 <span id="419">419</span>
 <span id="420">420</span>
-<span id="421">421</span>
-<span id="422">422</span>
-<span id="423">423</span>
-<span id="424">424</span>
-<span id="425">425</span>
-<span id="426">426</span>
-<span id="427">427</span>
-<span id="428">428</span>
-<span id="429">429</span>
-<span id="430">430</span>
-<span id="431">431</span>
-<span id="432">432</span>
-<span id="433">433</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">cli</span>::<span class="ident">test_context</span>::<span class="ident">test_context</span>, <span class="ident">config_files</span>::<span class="ident">Build</span>, <span class="ident">error</span>::<span class="ident">DefaultResult</span>, <span class="ident">util</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">config_files</span>::<span class="ident">Build</span>, <span class="ident">error</span>::<span class="ident">DefaultResult</span>, <span class="ident">util</span>};
 <span class="kw">use</span> <span class="ident">base64</span>;
 <span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">nucleus</span>::{<span class="ident">ribosome</span>, <span class="ident">ZomeFnCall</span>};
+<span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">run_dna</span>, <span class="ident">WasmCallData</span>};
 <span class="kw">use</span> <span class="ident">ignore</span>::<span class="ident">WalkBuilder</span>;
 <span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="self">self</span>, <span class="ident">Map</span>, <span class="ident">Value</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -571,27 +558,14 @@
 
                     <span class="kw">let</span> <span class="ident">wasm_binary</span> <span class="op">=</span> <span class="ident">base64</span>::<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="ident">wasm</span>)<span class="question-mark">?</span>;
 
-                    <span class="comment">// Instantiating WASM and calling function to get JSON:</span>
-                    <span class="comment">// ribosome::run_dna is the WASM run-time imported from Holochain core.</span>
-                    <span class="comment">// We need to setup a shallow test context which actually is not needed</span>
-                    <span class="comment">// here so it doesn&#39;t matter what is in there.</span>
-                    <span class="comment">// TODO: extract core of run_dna() into a function that does not need a context</span>
-                    <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;HC&quot;</span>);
-                    <span class="comment">// We just call into __hdk_get_json_definition() without any arguments.</span>
-                    <span class="comment">// What we get back is a JSON string with all the entry types and zome functions</span>
-                    <span class="comment">// defined in that WASM code, constructed through our Rust macros define_zome!</span>
-                    <span class="comment">// and entry!.</span>
-
-                    <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">ribosome</span>::<span class="ident">run_dna</span>(
-                        <span class="string">&quot;HC&quot;</span>,
-                        <span class="ident">context</span>,
+                    <span class="kw">let</span> <span class="ident">json_string</span> <span class="op">=</span> <span class="ident">run_dna</span>(
                         <span class="ident">wasm_binary</span>,
-                        <span class="kw-2">&amp;</span><span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="string">&quot;&quot;</span>, <span class="prelude-val">None</span>, <span class="string">&quot;__hdk_get_json_definition&quot;</span>, <span class="string">&quot;&quot;</span>),
                         <span class="prelude-val">Some</span>(<span class="string">&quot;{}&quot;</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>()),
+                        <span class="ident">WasmCallData</span>::<span class="ident">DirectCall</span>(<span class="string">&quot;__hdk_get_json_definition&quot;</span>.<span class="ident">to_string</span>()),
                     )<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">json_from_wasm</span>: <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Value</span><span class="op">&gt;</span> <span class="op">=</span>
-                        <span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">call_result</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
+                        <span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">json_string</span>))<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sub_tree_content</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bundle_recurse</span>(<span class="kw-2">&amp;</span><span class="ident">node</span>)<span class="question-mark">?</span>;
                     <span class="kw">for</span> <span class="ident">key</span> <span class="kw">in</span> <span class="ident">json_from_wasm</span>.<span class="ident">keys</span>() {

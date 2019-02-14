@@ -718,7 +718,7 @@
 <span class="kw">use</span> <span class="ident">holochain_core</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">instance</span>::<span class="ident">Instance</span>,
-    <span class="ident">nucleus</span>::{<span class="ident">call_and_wait_for_result</span>, <span class="ident">ZomeFnCall</span>},
+    <span class="ident">nucleus</span>::{<span class="ident">call_zome_function</span>, <span class="ident">ZomeFnCall</span>},
     <span class="ident">persister</span>::{<span class="ident">Persister</span>, <span class="ident">SimplePersister</span>},
     <span class="ident">state</span>::<span class="ident">State</span>,
 };
@@ -809,7 +809,8 @@
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainInstanceError</span>::<span class="ident">InstanceNotActiveYet</span>);
         }
         <span class="kw">let</span> <span class="ident">zome_call</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">zome</span>, <span class="ident">cap</span>, <span class="kw-2">&amp;</span><span class="ident">fn_name</span>, <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">params</span>));
-        <span class="prelude-val">Ok</span>(<span class="ident">call_and_wait_for_result</span>(<span class="ident">zome_call</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">instance</span>)<span class="question-mark">?</span>)
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">context</span>();
+        <span class="prelude-val">Ok</span>(<span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">call_zome_function</span>(<span class="ident">zome_call</span>, <span class="ident">context</span>))<span class="question-mark">?</span>)
     }
 
     <span class="doccomment">/// checks to see if an instance is active</span>
@@ -837,7 +838,6 @@
         <span class="ident">action</span>::<span class="ident">Action</span>,
         <span class="ident">context</span>::<span class="ident">Context</span>,
         <span class="ident">logger</span>::{<span class="ident">test_logger</span>, <span class="ident">TestLogger</span>},
-        <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">callback</span>::<span class="ident">Callback</span>, <span class="ident">Defn</span>},
         <span class="ident">signal</span>::{<span class="ident">signal_channel</span>, <span class="ident">SignalReceiver</span>},
     };
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">agent</span>::<span class="ident">AgentId</span>, <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">dna</span>::<span class="ident">Dna</span>, <span class="ident">json</span>::<span class="ident">RawString</span>};
@@ -928,7 +928,7 @@
     <span class="kw">fn</span> <span class="ident">fails_instantiate_if_genesis_fails</span>() {
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_wat</span>(
             <span class="string">&quot;test_zome&quot;</span>,
-            <span class="ident">Callback</span>::<span class="ident">Genesis</span>.<span class="ident">capability</span>().<span class="ident">as_str</span>(),
+            <span class="string">&quot;test_cap&quot;</span>,
             <span class="prelude-val">Some</span>(
                 <span class="string">r#&quot;
             (module

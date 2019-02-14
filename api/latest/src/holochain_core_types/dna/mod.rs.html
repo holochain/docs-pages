@@ -548,13 +548,6 @@
 <span id="548">548</span>
 <span id="549">549</span>
 <span id="550">550</span>
-<span id="551">551</span>
-<span id="552">552</span>
-<span id="553">553</span>
-<span id="554">554</span>
-<span id="555">555</span>
-<span id="556">556</span>
-<span id="557">557</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! dna is a library for working with holochain dna files/entries.</span>
 <span class="doccomment">//!</span>
@@ -586,6 +579,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dna</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">entry_types</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fn_declarations</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">traits</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">wasm</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zome</span>;
 
@@ -599,7 +593,6 @@
         <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
         <span class="ident">dna</span>::{
             <span class="ident">bridges</span>::{<span class="ident">Bridge</span>, <span class="ident">BridgePresence</span>, <span class="ident">BridgeReference</span>},
-            <span class="ident">capabilities</span>::<span class="ident">CapabilityType</span>,
             <span class="ident">entry_types</span>::<span class="ident">EntryTypeDef</span>,
             <span class="ident">fn_declarations</span>::{<span class="ident">FnDeclaration</span>, <span class="ident">FnParameter</span>, <span class="ident">Trait</span>},
             <span class="ident">zome</span>::<span class="ident">tests</span>::<span class="ident">test_zome</span>,
@@ -681,9 +674,8 @@
                                 &quot;linked_from&quot;: []
                             }
                         },
-                        &quot;capabilities&quot;: {
-                            &quot;test&quot;: {
-                                &quot;type&quot;: &quot;public&quot;,
+                        &quot;traits&quot;: {
+                            &quot;hc_public&quot;: {
                                 &quot;functions&quot;: [&quot;test&quot;]
                             }
                         },
@@ -747,7 +739,7 @@
                                 &quot;linked_from&quot;: []
                             }
                         },
-                        &quot;capabilities&quot;: {},
+                        &quot;traits&quot;: {},
                         &quot;fn_declarations&quot;: [],
                         &quot;code&quot;: {&quot;code&quot;: &quot;&quot;}
                     }
@@ -923,9 +915,8 @@
                         &quot;description&quot;: &quot;test&quot;,
                         &quot;config&quot;: {},
                         &quot;entry_types&quot;: {},
-                        &quot;capabilities&quot;: {
-                            &quot;test capability&quot;: {
-                                &quot;type&quot;: &quot;public&quot;
+                        &quot;traits&quot;: {
+                            &quot;hc_public&quot;: {
                             }
                         },
                         &quot;fn_declarations&quot;: [],
@@ -962,9 +953,8 @@
                         &quot;name&quot;: &quot;test zome&quot;,
                         &quot;description&quot;: &quot;test&quot;,
                         &quot;config&quot;: {},
-                        &quot;capabilities&quot;: {
-                            &quot;test capability&quot;: {
-                                &quot;type&quot;: &quot;public&quot;,
+                        &quot;traits&quot;: {
+                            &quot;hc_public&quot;: {
                                 &quot;functions&quot;: []
                             }
                         },
@@ -1011,9 +1001,8 @@
                         &quot;name&quot;: &quot;test zome&quot;,
                         &quot;description&quot;: &quot;test&quot;,
                         &quot;config&quot;: {},
-                        &quot;capabilities&quot;: {
-                            &quot;test capability&quot;: {
-                                &quot;type&quot;: &quot;public&quot;,
+                        &quot;traits&quot;: {
+                            &quot;hc_public&quot;: {
                                 &quot;functions&quot;: []
                             }
                         },
@@ -1041,7 +1030,6 @@
                                 &quot;reference&quot;: {
                                     &quot;traits&quot;: {
                                         &quot;persona_management&quot;: {
-                                            &quot;type&quot;: &quot;public&quot;,
                                             &quot;functions&quot;: [
                                                 {
                                                     &quot;name&quot;: &quot;get_persona&quot;,
@@ -1059,7 +1047,6 @@
                                 &quot;reference&quot;: {
                                     &quot;traits&quot;: {
                                         &quot;happ_directory&quot;: {
-                                            &quot;type&quot;: &quot;public&quot;,
                                             &quot;functions&quot;: [
                                                 {
                                                     &quot;name&quot;: &quot;get_happs&quot;,
@@ -1094,7 +1081,6 @@
                     <span class="ident">reference</span>: <span class="ident">BridgeReference</span>::<span class="ident">Trait</span> {
                         <span class="ident">traits</span>: <span class="macro">btreemap</span><span class="macro">!</span> {
                             <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;happ_directory&quot;</span>) <span class="op">=&gt;</span> <span class="ident">Trait</span> {
-                                <span class="ident">cap_type</span>: <span class="ident">CapabilityType</span>::<span class="ident">Public</span>,
                                 <span class="ident">functions</span>: <span class="macro">vec</span><span class="macro">!</span>[
                                     <span class="ident">FnDeclaration</span> {
                                         <span class="ident">name</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;get_happs&quot;</span>),

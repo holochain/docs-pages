@@ -1053,7 +1053,6 @@
 <span id="1053">1053</span>
 <span id="1054">1054</span>
 <span id="1055">1055</span>
-<span id="1056">1056</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">config</span>::{
@@ -1830,9 +1829,8 @@
                                 &quot;sharing&quot;: &quot;public&quot;
                             }
                         },
-                        &quot;capabilities&quot;: {
+                        &quot;traits&quot;: {
                             &quot;test&quot;: {
-                                &quot;type&quot;: &quot;public&quot;,
                                 &quot;functions&quot;: [&quot;test&quot;]
                              }
                         },
@@ -2009,7 +2007,7 @@
     )
 
     (func
-        (export &quot;__list_capabilities&quot;)
+        (export &quot;__list_traits&quot;)
         (param $allocation i64)
         (result i64)
 
@@ -2018,10 +2016,10 @@
 
     (func
         (export &quot;__list_functions&quot;)
-        (param $allocation i32)
-        (result i32)
+        (param $allocation i64)
+        (result i64)
 
-        (i32.const 0)
+        (i64.const 0)
     )
 
     (func
@@ -2063,8 +2061,8 @@
         <span class="ident">dna</span>.<span class="ident">zomes</span>
             .<span class="ident">get_mut</span>(<span class="string">&quot;greeter&quot;</span>)
             .<span class="ident">unwrap</span>()
-            .<span class="ident">capabilities</span>
-            .<span class="ident">get_mut</span>(<span class="string">&quot;test_cap&quot;</span>)
+            .<span class="ident">traits</span>
+            .<span class="ident">get_mut</span>(<span class="string">&quot;hc_public&quot;</span>)
             .<span class="ident">unwrap</span>()
             .<span class="ident">functions</span>
             .<span class="ident">push</span>(<span class="string">&quot;hello&quot;</span>.<span class="ident">into</span>());

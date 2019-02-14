@@ -545,14 +545,14 @@
     <span class="doccomment">/// the result is Some arbitrary string</span>
     <span class="ident">ReturnInitializationResult</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>),
 
-    <span class="doccomment">/// execute a function in a zome WASM</span>
-    <span class="ident">ExecuteZomeFunction</span>(<span class="ident">ZomeFnCall</span>),
+    <span class="doccomment">/// Gets dispatched when a zome function call starts.</span>
+    <span class="doccomment">/// There is no reducer for this action so this does not change state</span>
+    <span class="doccomment">/// (hence &quot;Signal&quot;).</span>
+    <span class="doccomment">/// Is received as signal in the nodejs waiter to attach wait conditions.</span>
+    <span class="ident">SignalZomeFunctionCall</span>(<span class="ident">ZomeFnCall</span>),
 
     <span class="doccomment">/// return the result of a zome WASM function call</span>
     <span class="ident">ReturnZomeFunctionResult</span>(<span class="ident">ExecuteZomeFnResponse</span>),
-
-    <span class="doccomment">/// Execute a zome function call called by another zome function</span>
-    <span class="ident">Call</span>(<span class="ident">ZomeFnCall</span>),
 
     <span class="doccomment">/// A validation result is returned from a local callback execution</span>
     <span class="doccomment">/// Key is an unique id of the calling context</span>

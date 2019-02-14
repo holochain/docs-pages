@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["FnDeclaration","Represents a zome function declaration"],["FnParameter","Represents the type declaration for zome function parameter"],["Trait","Represents an trait definition for bridging"]]});
+initSidebarItems({"struct":[["FnDeclaration","Represents a zome function declaration"],["FnParameter","Represents the type declaration for zome function parameter"],["Trait","Represents an trait definition for bridging"],["TraitFns","Represents a group of named functions in the Zomes's \"traits\" array"]]});
