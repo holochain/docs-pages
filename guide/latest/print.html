@@ -852,7 +852,7 @@ entry!(
     ...
 )
 #}</code></pre></pre>
-<p>As mentioned above, sharing refers to whether entries of this type are private to their author, or whether they will be gossiped to other peers to hold copies of. The value must be referenced from an <a href="/api/latest/holochain_core_types/dna/entry_types/enum.Sharing.html">enum in the HDK</a>. Holochain currently supports the first two values in the enum: Public, and Private.</p>
+<p>As mentioned above, sharing refers to whether entries of this type are private to their author, or whether they will be gossiped to other peers to hold copies of. The value must be referenced from an <a href="/api/0.0.4-alpha/holochain_core_types/dna/entry_types/enum.Sharing.html">enum in the HDK</a>. Holochain currently supports the first two values in the enum: Public, and Private.</p>
 <hr />
 <p><strong>native_type</strong></p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -2592,7 +2592,7 @@ ws.close()
 <a class="header" href="#administering-conductors" id="administering-conductors"><h1>Administering Conductors</h1></a>
 <p>It is possible to dynamically configure a Conductor via a JSON-RPC interface connection. There is a powerful API that is exposed for doing so.</p>
 <p>To do this, first, recall that the <code>admin = true</code> <a href="./conductor_interfaces.html#admin-bool-optional">property needs to be set</a> for the interface that should allow admin access. Second, it is helpful to review and understand the behaviours around the <a href="./conductor_persistence_dir.html"><code>persistence_dir</code> property</a> for the Conductor.</p>
-<p>You can find details of the API for this functionality in the full <a href="https://developer.holochain.org/api/latest/holochain_container_api/interface/struct.ContainerApiBuilder.html">API reference material</a>. Scroll to view the <code>with_admin_dna_functions</code> comment block and the <code>with_admin_ui_functions</code> comment block. Calling these functions works exactly the same way as the other <a href="./conductor_json_rpc_api.html">JSON-RPC API calls</a>.</p>
+<p>You can find details of the API for this functionality in the full <a href="https://developer.holochain.org/api/0.0.4-alpha/holochain_container_api/interface/struct.ContainerApiBuilder.html">API reference material</a>. Scroll to view the <code>with_admin_dna_functions</code> comment block and the <code>with_admin_ui_functions</code> comment block. Calling these functions works exactly the same way as the other <a href="./conductor_json_rpc_api.html">JSON-RPC API calls</a>.</p>
 <p>As mentioned in <a href="./production_conductor.html">production Conductor</a>, there is a GUI in development that will cover all this functionality, so that it does not have to be done programmatically, but can be done by any user simply point and click.</p>
 <a class="header" href="#building-holochain-apps-user-interfaces" id="building-holochain-apps-user-interfaces"><h1>Building Holochain Apps: User Interfaces</h1></a>
 <p>Holochain is designed to be flexible and accomodating when it comes to building user interfaces. There is not a single approach to developing user interfaces that is enforced by Holochain, though there are some approaches that have extra tooling, support and focus. First and foremost, Holochain supports APIs that make building UIs with the technologies of the web (HTML, CSS, JS, etc) easy.</p>
