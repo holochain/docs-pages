@@ -234,12 +234,8 @@ final configuration to be instantiated by the Conductor</p>
 <hr />
 <p><strong>Name</strong> conductorOptions <em>Optional</em></p>
 <p><strong>Type</strong> <code>object</code></p>
-<p><strong>Description</strong> <em>conductorOptions.debugLog</em> <code>boolean</code> Which logger type to use. There are two options:</p>
-<ul>
-<li>debugLog = true: Use the &quot;debug&quot; logger. This one has nicer, colorful output.</li>
-<li>debugLog = false: Use the &quot;simple&quot; logger. This one has less interesting output, but can be silenced with the env variable <code>HC_SIMPLE_LOGGER_MUTE=1</code></li>
-</ul>
-<p><strong>Default</strong> <code>{ debugLog: true }</code></p>
+<p><strong>Description</strong> <em>conductorOptions.debugLog</em> <code>boolean</code> Enables debug logging. The logger produces nice, colorful output of the internal workings of Holochain.</p>
+<p><strong>Default</strong> <code>{ debugLog: false }</code></p>
 <hr />
 <a class="header" href="#example-3" id="example-3"><h4>Example</h4></a>
 <pre><code class="language-javascript">const agentConfig = Config.agent('alice')
@@ -251,7 +247,7 @@ const conductorConfig = Config.conductor([instanceConfig])
 <pre><code class="language-javascript">const agentConfig = Config.agent('alice')
 const dnaConfig = Config.dna('path/to/bundle.json')
 const instanceConfig = Config.instance(agentConfig, dnaConfig)
-const conductorConfig = Config.conductor([instanceConfig], { debugLog: false })
+const conductorConfig = Config.conductor([instanceConfig], { debugLog: true })
 </code></pre>
 <a class="header" href="#multiple-instances-example" id="multiple-instances-example"><h2>Multiple Instances Example</h2></a>
 <pre><code class="language-javascript">const { Config } = require('@holochain/holochain-nodejs')

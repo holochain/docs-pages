@@ -151,12 +151,8 @@ final configuration to be instantiated by the Conductor</p>
 <hr />
 <p><strong>Name</strong> conductorOptions <em>Optional</em></p>
 <p><strong>Type</strong> <code>object</code></p>
-<p><strong>Description</strong> <em>conductorOptions.debugLog</em> <code>boolean</code> Which logger type to use. There are two options:</p>
-<ul>
-<li>debugLog = true: Use the &quot;debug&quot; logger. This one has nicer, colorful output.</li>
-<li>debugLog = false: Use the &quot;simple&quot; logger. This one has less interesting output, but can be silenced with the env variable <code>HC_SIMPLE_LOGGER_MUTE=1</code></li>
-</ul>
-<p><strong>Default</strong> <code>{ debugLog: true }</code></p>
+<p><strong>Description</strong> <em>conductorOptions.debugLog</em> <code>boolean</code> Enables debug logging. The logger produces nice, colorful output of the internal workings of Holochain.</p>
+<p><strong>Default</strong> <code>{ debugLog: false }</code></p>
 <hr />
 <a class="header" href="#example" id="example"><h4>Example</h4></a>
 <pre><code class="language-javascript">const dna = Config.dna(&quot;path/to/happ.hcpkg&quot;)
@@ -164,11 +160,11 @@ const instanceAlice = Config.instance(Config.agent(&quot;alice&quot;), dna)
 const instanceBob = Config.instance(Config.agent(&quot;bob&quot;), dna)
 const scenario = new Scenario([instanceAlice])
 </code></pre>
-<a class="header" href="#with-config-example" id="with-config-example"><h4>With Config Example</h4></a>
+<a class="header" href="#with-conductoroptions-example" id="with-conductoroptions-example"><h4>With conductorOptions Example</h4></a>
 <pre><code class="language-javascript">const dna = Config.dna(&quot;path/to/happ.hcpkg&quot;)
 const instanceAlice = Config.instance(Config.agent(&quot;alice&quot;), dna)
 const instanceBob = Config.instance(Config.agent(&quot;bob&quot;), dna)
-const scenario = new Scenario([instanceAlice], { debugLog: false })
+const scenario = new Scenario([instanceAlice], { debugLog: true })
 </code></pre>
 <a class="header" href="#inject-tape-version" id="inject-tape-version"><h2>Inject Tape Version</h2></a>
 <a class="header" href="#scenariosettapetape--null" id="scenariosettapetape--null"><h3><code>Scenario.setTape(tape)</code> =&gt; <code>null</code></h3></a>
