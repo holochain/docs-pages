@@ -208,7 +208,7 @@ entry!(
 )
 #}</code></pre></pre>
 <p>The callback <code>validation</code>, replaces <code>validateCommit</code> and all the rest from holochain-proto. However, validation still happens at various times in the lifecycle of an entry, so if the validation is to operate differently between initial <code>commit</code> to the chain, <code>update</code>, or <code>remove</code>, then that logic must be written into this single validation function. To determine which context validation is being called within, you can check in a property of the second parameter of the callback, which in the example above is called <code>validation_data</code>.</p>
-<p>For this, you can use the Rust <code>match</code> operator, and check against the <code>validation_data.action</code>. It will be one of an enum that can be seen in detail <a href="/api/0.0.4/hdk/enum.EntryAction.html">in the API reference</a>.</p>
+<p>For this, you can use the Rust <code>match</code> operator, and check against the <code>validation_data.action</code>. It will be one of an enum that can be seen in detail <a href="/api/0.0.4-alpha/hdk/enum.EntryAction.html">in the API reference</a>.</p>
 <a class="header" href="#yet-to-cover" id="yet-to-cover"><h3>Yet to cover:</h3></a>
 <ul>
 <li>Capabilities</li>

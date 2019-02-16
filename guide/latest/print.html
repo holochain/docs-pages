@@ -170,7 +170,7 @@ so that you can get to work straightaway on developing applications that will se
 <p>This book uses a tool that builds HTML files from markdown files called <a href="https://github.com/rust-lang-nursery/mdBook">'mdbook'</a>. The markdown files are stored on GitHub, in the main <code>holochain-rust</code> repository. Because they are on GitHub, they have built-in version control, meaning that it's easy for anyone to contribute, and to propose, track and merge changes.</p>
 <p>There are two main pathways to contribute. One is by editing files directly in GitHub, and the other is cloning the repository to your computer, running mdbook locally, and then submitting change requests. The following covers both scenarios.</p>
 <a class="header" href="#writing-guidelines" id="writing-guidelines"><h2>Writing Guidelines</h2></a>
-<p>Please do not edit the SUMMARY.md file, which stores the raw chapter structure, without advanced signoff from the documentation team in <a href="https://chat.holochain.net/appsup/channels/hc-core">https://chat.holochain.org/appsup/channels/hc-core</a>.</p>
+<p>Please do not edit the SUMMARY.md file, which stores the raw chapter structure, without advanced signoff from the documentation team in <a href="https://chat.holochain.org/appsup/channels/hc-core">https://chat.holochain.org/appsup/channels/hc-core</a>.</p>
 <p>More forthcoming!</p>
 <a class="header" href="#how-the-book-works" id="how-the-book-works"><h2>How the Book Works</h2></a>
 <p>Writing is in classic markdown, so a new page is a new markdown file. These files get rendered in the book panel. One markdown file, SUMMARY.md stores the structure of the book as an outline.</p>
@@ -603,7 +603,7 @@ entry!(
 )
 #}</code></pre></pre>
 <p>The callback <code>validation</code>, replaces <code>validateCommit</code> and all the rest from holochain-proto. However, validation still happens at various times in the lifecycle of an entry, so if the validation is to operate differently between initial <code>commit</code> to the chain, <code>update</code>, or <code>remove</code>, then that logic must be written into this single validation function. To determine which context validation is being called within, you can check in a property of the second parameter of the callback, which in the example above is called <code>validation_data</code>.</p>
-<p>For this, you can use the Rust <code>match</code> operator, and check against the <code>validation_data.action</code>. It will be one of an enum that can be seen in detail <a href="/api/0.0.4/hdk/enum.EntryAction.html">in the API reference</a>.</p>
+<p>For this, you can use the Rust <code>match</code> operator, and check against the <code>validation_data.action</code>. It will be one of an enum that can be seen in detail <a href="/api/0.0.4-alpha/hdk/enum.EntryAction.html">in the API reference</a>.</p>
 <a class="header" href="#yet-to-cover" id="yet-to-cover"><h3>Yet to cover:</h3></a>
 <ul>
 <li>Capabilities</li>
@@ -912,7 +912,7 @@ entry!(
 )
 #}</code></pre></pre>
 <p>At the moment, what <code>validation_package</code> is will not be covered in great detail. In short, for a peer to perform validation of an entry from another peer, varying degrees of metadata from the original author of the entry might be needed. <code>validation_package</code> refers to the carrier for that extra metadata.</p>
-<p>Looking at the above code, there is a required import from the HDK needed for use in <code>validation_package</code>, and that's the enum <code>ValidationPackageDefinition</code>. The value of <code>validation_package</code> is a function that takes no arguments. It will be called as a callback by Holochain. The result should be a value from the <code>ValidationPackageDefinition</code> enum, whose values can be <a href="https://developer.holochain.org/api/0.0.4/hdk/enum.ValidationPackageDefinition.html">seen here</a>. In the example, and as the most basic option, simply use <code>Entry</code>, which means no extra metadata beyond the entry itself is needed.</p>
+<p>Looking at the above code, there is a required import from the HDK needed for use in <code>validation_package</code>, and that's the enum <code>ValidationPackageDefinition</code>. The value of <code>validation_package</code> is a function that takes no arguments. It will be called as a callback by Holochain. The result should be a value from the <code>ValidationPackageDefinition</code> enum, whose values can be <a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/enum.ValidationPackageDefinition.html">seen here</a>. In the example, and as the most basic option, simply use <code>Entry</code>, which means no extra metadata beyond the entry itself is needed.</p>
 <p>Further reading is <a href="./entry_validation.html">here</a>.</p>
 <hr />
 <p><strong>validation</strong></p>
@@ -1022,7 +1022,7 @@ define_zome! {
 }
 #}</code></pre></pre>
 <p>Use of this technique can help you write clean, modular code.</p>
-<p>If you want to look closely at a complete example of the use of <code>entry!</code> in a Zome, check out the <a href="https://developer.holochain.org/api/0.0.4/hdk/macro.entry.html">API reference</a>, or the <a href="https://github.com/holochain/holochain-rust/blob/v0.0.4/app_spec/zomes/blog/code/src/post.rs">&quot;app-spec&quot; example app</a>.</p>
+<p>If you want to look closely at a complete example of the use of <code>entry!</code> in a Zome, check out the <a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/macro.entry.html">API reference</a>, or the <a href="https://github.com/holochain/holochain-rust/blob/v0.0.4/app_spec/zomes/blog/code/src/post.rs">&quot;app-spec&quot; example app</a>.</p>
 <a class="header" href="#summary" id="summary"><h4>Summary</h4></a>
 <p>This is still a pretty minimal Zome, since it doesn't have any functions yet, and the most basic <code>genesis</code> behaviour, so read on to learn about how to work with those aspects of <code>define_zome!</code>.</p>
 <a class="header" href="#genesis" id="genesis"><h1>Genesis</h1></a>
@@ -1221,8 +1221,8 @@ fn handle_send_message(to_agent: Address, message: String) -&gt; ZomeApiResult&l
 #}</code></pre></pre>
 <p>Notice right away how the arguments match perfectly with the <code>inputs: |...|</code> section of the function declaration. Any differences will cause issues. This is also true of the return type of the output. Note the pairing of <code>ZomeApiResult&lt;String&gt;</code> as the return type.</p>
 <p>The name of the function, <code>handle_send_message</code> is the same as the name given as the <code>handler</code> in the <code>define_zome!</code> function declaration.</p>
-<p>Within the function, <code>handle_send_message</code> makes use of a Holochain/HDK function that <a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.send.html">sends messages directly node-to-node</a>.</p>
-<p>The available functions, their purpose, and how to use them is fully documented elsewhere, in the <a href="https://developer.holochain.org/api/0.0.4/hdk/api/index.html#functions">API reference</a> and the <a href="./api_functions.html">List of API Functions</a>.</p>
+<p>Within the function, <code>handle_send_message</code> makes use of a Holochain/HDK function that <a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.send.html">sends messages directly node-to-node</a>.</p>
+<p>The available functions, their purpose, and how to use them is fully documented elsewhere, in the <a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/index.html#functions">API reference</a> and the <a href="./api_functions.html">List of API Functions</a>.</p>
 <p>In the example, <code>handle_send_message</code> simply forwards the result of calling <code>hdk::send</code> as its' own result.</p>
 <p>Here are the above two steps combined:</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -1299,7 +1299,7 @@ define_zome! {
 <a class="header" href="#emitting-signals" id="emitting-signals"><h1>Emitting Signals</h1></a>
 <a class="header" href="#api-dna-variables" id="api-dna-variables"><h1>API DNA Variables</h1></a>
 <p>Note: Full reference is available in language-specific API Reference documentation.</p>
-<p>For the Rust <code>hdk</code>, <a href="https://developer.holochain.org/api/0.0.4/hdk/api/index.html#structs">see here</a></p>
+<p>For the Rust <code>hdk</code>, <a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/index.html#structs">see here</a></p>
 <table><thead><tr><th> Name        </th><th align="left"> Purpose           </th></tr></thead><tbody>
 <tr><td> DNA_NAME </td><td align="left"> Name of the Holochain DNA taken from the DNA. </td></tr>
 <tr><td> DNA_ADDRESS </td><td align="left"> The address of the DNA </td></tr>
@@ -1347,15 +1347,15 @@ It returns values from the DNA file that you set as properties of your applicati
 <a class="header" href="#entry-address" id="entry-address"><h3>Entry Address</h3></a>
 <p>Canonical name: <code>entry_address</code></p>
 <p>Returns the address that a given entry will hash into. Often used for reconstructing an address for a &quot;base&quot; when calling <a href="#get-links">get_links</a>.</p>
-<p><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.entry_address.html">View it in the Rust HDK</a></p>
+<p><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.entry_address.html">View it in the Rust HDK</a></p>
 <a class="header" href="#debug" id="debug"><h3>Debug</h3></a>
 <p>Canonical name: <code>debug</code></p>
 <p>Debug sends the passed arguments to the log that was given to the Holochain instance and returns <code>None</code>.</p>
-<p><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.debug.html">View it in the Rust HDK</a></p>
+<p><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.debug.html">View it in the Rust HDK</a></p>
 <a class="header" href="#call" id="call"><h3>Call</h3></a>
 <p>Canonical name: <code>call</code></p>
 <p>Enables making function calls to an exposed function from another app instance via bridging, or simply another Zome within the same instance.</p>
-<p><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.call.html">View it in the Rust HDK</a></p>
+<p><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.call.html">View it in the Rust HDK</a></p>
 <a class="header" href="#sign" id="sign"><h3>Sign</h3></a>
 <p>Canonical name: <code>sign</code></p>
 <p>Not yet available.</p>
@@ -1368,11 +1368,11 @@ This function allows that claim to be verified, when given a &quot;signature&quo
 <a class="header" href="#commit-entry" id="commit-entry"><h3>Commit Entry</h3></a>
 <p>Canonical name: <code>commit_entry</code></p>
 <p>Attempts to commit an entry to your local source chain. The entry will have to pass the defined validation rules for that entry type. If the entry type is defined as public, it will also publish the entry to the DHT. Returns either an address of the committed entry as a string, or an error.</p>
-<p><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.commit_entry.html">View it in the Rust HDK</a></p>
+<p><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.commit_entry.html">View it in the Rust HDK</a></p>
 <a class="header" href="#update-entry" id="update-entry"><h3>Update Entry</h3></a>
 <p>Canonical name: <code>update_entry</code></p>
 <p>Commit an entry to your local source chain that &quot;updates&quot; a previous entry, meaning when getting the previous entry, the updated entry will be returned. update_entry sets the previous entry's status metadata to Modified and adds the updated entry's address in the previous entry's metadata. The updated entry will hold the previous entry's address in its header, which will be used by validation routes.</p>
-<p><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.update_entry.html">View it in the Rust HDK</a></p>
+<p><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.update_entry.html">View it in the Rust HDK</a></p>
 <a class="header" href="#update-agent" id="update-agent"><h3>Update Agent</h3></a>
 <p>Canonical name: <code>update_agent</code></p>
 <p>Not yet available.</p>
@@ -1381,7 +1381,7 @@ This function allows that claim to be verified, when given a &quot;signature&quo
 <p>Enables an entry, referred to by its address, to be marked in the chain as 'deleted'. This is done by adding a new entry
 which indicates the deleted status of the old one. This will change which types of results that entry would then show up in,
 according to its new 'deleted' status. It can still be retrieved, but only if specifically asked for.</p>
-<p><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.remove_entry.html">View it in the Rust HDK</a></p>
+<p><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.remove_entry.html">View it in the Rust HDK</a></p>
 <a class="header" href="#get-entry" id="get-entry"><h3>Get Entry</h3></a>
 <p>Canonical name: <code>get_entry</code></p>
 <p>Given an entry hash, returns the entry from a chain or DHT if that entry exists.</p>
@@ -1394,32 +1394,32 @@ according to its new 'deleted' status. It can still be retrieved, but only if sp
 <p>Caller can request additional metadata on the entry such as type or sources
 (hashes of the agents that committed the entry).</p>
 <ul>
-<li><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.get_entry.html">View get_entry in the Rust HDK</a></li>
-<li><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.get_entry_initial.html">View get_entry_initial in the Rust HDK</a></li>
-<li><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.get_entry_history.html">View get_entry_history in the Rust HDK</a></li>
-<li><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.get_entry_result.html">View get_entry_result in the Rust HDK</a></li>
+<li><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.get_entry.html">View get_entry in the Rust HDK</a></li>
+<li><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.get_entry_initial.html">View get_entry_initial in the Rust HDK</a></li>
+<li><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.get_entry_history.html">View get_entry_history in the Rust HDK</a></li>
+<li><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.get_entry_result.html">View get_entry_result in the Rust HDK</a></li>
 </ul>
 <a class="header" href="#get-links" id="get-links"><h3>Get Links</h3></a>
 <p>Canonical name: <code>get_links</code></p>
 <p>Consumes two values, the first of which is the address of an entry, base, and the second of which is a string, tag, used to describe the relationship between the base and other entries you wish to lookup. Returns a list of addresses of other entries which matched as being linked by the given tag. Links are created in the first place using the Zome API function <a href="#link-entries">link_entries</a>. Once you have the addresses, there is a good likelihood that you will wish to call <a href="#get-entry">get_entry</a> for each of them.</p>
 <ul>
-<li><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.get_links.html">View get_links in the Rust HDK</a></li>
-<li><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.get_links_and_load.html">View get_links_and_load in the Rust HDK</a></li>
-<li><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.get_links_result.html">View get_links_result in the Rust HDK</a></li>
-<li><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.get_links_with_options.html">View get_links_with_options in the Rust HDK</a></li>
+<li><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.get_links.html">View get_links in the Rust HDK</a></li>
+<li><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.get_links_and_load.html">View get_links_and_load in the Rust HDK</a></li>
+<li><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.get_links_result.html">View get_links_result in the Rust HDK</a></li>
+<li><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.get_links_with_options.html">View get_links_with_options in the Rust HDK</a></li>
 </ul>
 <a class="header" href="#link-entries" id="link-entries"><h3>Link Entries</h3></a>
 <p>Canonical name: <code>link_entries</code></p>
 <p>Consumes three values, two of which are the addresses of entries, and one of which is a string that defines a relationship between them, called a <code>tag</code>. Later, lists of entries can be looked up by using <code>get_links</code>. Entries can only be looked up in the direction from the <code>base</code>, which is the first argument, to the <code>target</code>, which is the second.</p>
-<p><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.link_entries.html">View it in the Rust HDK</a></p>
+<p><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.link_entries.html">View it in the Rust HDK</a></p>
 <a class="header" href="#query" id="query"><h3>Query</h3></a>
 <p>Canonical name: <code>query</code></p>
 <p>Returns a list of addresses of entries from your local source chain, that match a given entry type name, or a vector of names. You can optionally limit the number of results, and you can use &quot;glob&quot; patterns such as &quot;prefix/*&quot; to specify the entry type names desired.</p>
-<p><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.query.html">View it in the Rust HDK</a></p>
+<p><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.query.html">View it in the Rust HDK</a></p>
 <a class="header" href="#send" id="send"><h3>Send</h3></a>
 <p>Canonical name: <code>send</code></p>
 <p>Sends a node-to-node message to the given agent. This works in conjunction with the receive callback, which is where the response behaviour to receiving a message should be defined. This function returns the result from the receive callback on the other side.</p>
-<p><a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.send.html">View it in the Rust HDK</a></p>
+<p><a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.send.html">View it in the Rust HDK</a></p>
 <a class="header" href="#start-bundle" id="start-bundle"><h3>Start Bundle</h3></a>
 <p>Canonical name: <code>start_bundle</code></p>
 <p>Not yet available.</p>

@@ -290,8 +290,8 @@ fn handle_send_message(to_agent: Address, message: String) -&gt; ZomeApiResult&l
 #}</code></pre></pre>
 <p>Notice right away how the arguments match perfectly with the <code>inputs: |...|</code> section of the function declaration. Any differences will cause issues. This is also true of the return type of the output. Note the pairing of <code>ZomeApiResult&lt;String&gt;</code> as the return type.</p>
 <p>The name of the function, <code>handle_send_message</code> is the same as the name given as the <code>handler</code> in the <code>define_zome!</code> function declaration.</p>
-<p>Within the function, <code>handle_send_message</code> makes use of a Holochain/HDK function that <a href="https://developer.holochain.org/api/0.0.4/hdk/api/fn.send.html">sends messages directly node-to-node</a>.</p>
-<p>The available functions, their purpose, and how to use them is fully documented elsewhere, in the <a href="https://developer.holochain.org/api/0.0.4/hdk/api/index.html#functions">API reference</a> and the <a href="./api_functions.html">List of API Functions</a>.</p>
+<p>Within the function, <code>handle_send_message</code> makes use of a Holochain/HDK function that <a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/fn.send.html">sends messages directly node-to-node</a>.</p>
+<p>The available functions, their purpose, and how to use them is fully documented elsewhere, in the <a href="https://developer.holochain.org/api/0.0.4-alpha/hdk/api/index.html#functions">API reference</a> and the <a href="./api_functions.html">List of API Functions</a>.</p>
 <p>In the example, <code>handle_send_message</code> simply forwards the result of calling <code>hdk::send</code> as its' own result.</p>
 <p>Here are the above two steps combined:</p>
 <pre><pre class="playpen"><code class="language-rust">
