@@ -211,18 +211,29 @@
 <span id="211">211</span>
 <span id="212">212</span>
 <span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">cli</span>::{<span class="self">self</span>, <span class="ident">package</span>};
+<span class="kw">use</span> <span class="ident">cli</span>;
 <span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">DefaultResult</span>;
 <span class="kw">use</span> <span class="ident">holochain_common</span>::<span class="ident">env_vars</span>::<span class="ident">EnvVar</span>;
 <span class="kw">use</span> <span class="ident">holochain_conductor_api</span>::{
     <span class="ident">conductor</span>::{<span class="ident">mount_conductor_from_config</span>, <span class="ident">CONDUCTOR</span>},
     <span class="ident">config</span>::<span class="kw-2">*</span>,
+    <span class="ident">key_loaders</span>::{<span class="ident">test_key</span>, <span class="ident">test_key_loader</span>},
     <span class="ident">logger</span>::<span class="ident">LogRules</span>,
 };
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">agent</span>::<span class="ident">AgentId</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>;
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">agent</span>::{<span class="ident">AgentId</span>, <span class="ident">KeyBuffer</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>, <span class="ident">path</span>::<span class="ident">PathBuf</span>};
 
 <span class="kw">const</span> <span class="ident">LOCAL_STORAGE_PATH</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;.hc&quot;</span>;
 
@@ -233,6 +244,7 @@
 
 <span class="doccomment">/// Starts a minimal configuration Conductor with the current application running</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>(
+    <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>,
     <span class="ident">package</span>: <span class="ident">bool</span>,
     <span class="ident">port</span>: <span class="ident">u16</span>,
     <span class="ident">persist</span>: <span class="ident">bool</span>,
@@ -240,24 +252,29 @@
     <span class="ident">interface</span>: <span class="ident">String</span>,
 ) <span class="op">-&gt;</span> <span class="ident">DefaultResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">package</span> {
-        <span class="ident">cli</span>::<span class="ident">package</span>(<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="ident">package</span>::<span class="ident">DEFAULT_BUNDLE_FILE_NAME</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
+        <span class="ident">cli</span>::<span class="ident">package</span>(<span class="bool-val">true</span>, <span class="kw">crate</span>::<span class="ident">util</span>::<span class="ident">std_package_path</span>(<span class="ident">path</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     }
 
     <span class="comment">// note that this behaviour is documented within</span>
     <span class="comment">// holochain_common::env_vars module and should be updated</span>
     <span class="comment">// if this logic changes</span>
-    <span class="kw">let</span> <span class="ident">agent_name</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">Agent</span>.<span class="ident">value</span>().<span class="ident">ok</span>();
-    <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="kw-2">&amp;</span><span class="ident">agent_name</span>.<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;testAgent&quot;</span>)));
+    <span class="kw">let</span> <span class="ident">agent_name</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">Agent</span>
+        .<span class="ident">value</span>()
+        .<span class="ident">ok</span>()
+        .<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;testAgent&quot;</span>));
+    <span class="kw">let</span> <span class="ident">keypair</span> <span class="op">=</span> <span class="ident">test_key</span>(<span class="kw-2">&amp;</span><span class="ident">agent_name</span>);
+    <span class="kw">let</span> <span class="ident">pub_key</span> <span class="op">=</span> <span class="ident">KeyBuffer</span>::<span class="ident">with_corrected</span>(<span class="kw-2">&amp;</span><span class="ident">keypair</span>.<span class="ident">get_id</span>()).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">agent_id</span> <span class="op">=</span> <span class="ident">AgentId</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">agent_name</span>, <span class="kw-2">&amp;</span><span class="ident">pub_key</span>);
     <span class="kw">let</span> <span class="ident">agent_config</span> <span class="op">=</span> <span class="ident">AgentConfiguration</span> {
         <span class="ident">id</span>: <span class="ident">AGENT_CONFIG_ID</span>.<span class="ident">into</span>(),
-        <span class="ident">name</span>: <span class="ident">agent</span>.<span class="ident">nick</span>,
-        <span class="ident">public_address</span>: <span class="ident">agent</span>.<span class="ident">key</span>,
-        <span class="ident">key_file</span>: <span class="string">&quot;hc_run.key&quot;</span>.<span class="ident">into</span>(),
+        <span class="ident">name</span>: <span class="ident">agent_id</span>.<span class="ident">nick</span>,
+        <span class="ident">public_address</span>: <span class="ident">agent_id</span>.<span class="ident">key</span>,
+        <span class="ident">key_file</span>: <span class="ident">agent_name</span>,
     };
 
     <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">DnaConfiguration</span> {
         <span class="ident">id</span>: <span class="ident">DNA_CONFIG_ID</span>.<span class="ident">into</span>(),
-        <span class="ident">file</span>: <span class="ident">package</span>::<span class="ident">DEFAULT_BUNDLE_FILE_NAME</span>.<span class="ident">into</span>(),
+        <span class="ident">file</span>: <span class="kw">crate</span>::<span class="ident">util</span>::<span class="ident">std_dna_file_name</span>(<span class="ident">path</span>)<span class="question-mark">?</span>,
         <span class="ident">hash</span>: <span class="prelude-val">None</span>,
     };
 
@@ -358,6 +375,7 @@
     <span class="ident">mount_conductor_from_config</span>(<span class="ident">base_config</span>);
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">conductor_guard</span> <span class="op">=</span> <span class="ident">CONDUCTOR</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
     <span class="kw">let</span> <span class="ident">conductor</span> <span class="op">=</span> <span class="ident">conductor_guard</span>.<span class="ident">as_mut</span>().<span class="ident">expect</span>(<span class="string">&quot;Conductor must be mounted&quot;</span>);
+    <span class="ident">conductor</span>.<span class="ident">key_loader</span> <span class="op">=</span> <span class="ident">test_key_loader</span>();
 
     <span class="ident">conductor</span>
         .<span class="ident">load_config</span>()
@@ -393,6 +411,8 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="comment">// flagged as broken for:</span>
 <span class="comment">// 1. taking 60+ seconds</span>
+<span class="comment">// 2. test doesn&#39;t take into account dynamic folder for package name</span>
+<span class="comment">// 3. test is broken in regard to reading an agent key</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;broken-tests&quot;</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">cli</span>::<span class="ident">init</span>::{<span class="ident">init</span>, <span class="ident">tests</span>::<span class="ident">gen_dir</span>};
@@ -416,7 +436,7 @@
             .<span class="ident">args</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;run&quot;</span>, <span class="string">&quot;--package&quot;</span>])
             .<span class="ident">output</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;should run&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>,<span class="ident">output</span>),<span class="string">&quot;Output { status: ExitStatus(ExitStatus(256)), stdout: \&quot;\\u{1b}[1;32mCreated\\u{1b}[0m bundle file at \\\&quot;bundle.json\\\&quot;\\nStarting instance \\\&quot;test-instance\\\&quot;...\\nHolochain development conductor started. Running websocket server on port 8888\\nType \\\&#39;exit\\\&#39; to stop the conductor and exit the program\\n\&quot;, stderr: \&quot;Error: EOF\\n\&quot; }&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>,<span class="ident">output</span>),<span class="string">&quot;Output { status: ExitStatus(ExitStatus(256)), stdout: \&quot;\\u{1b}[1;32mCreated\\u{1b}[0m dna package file at \\\&quot;x.dna.json\\\&quot;\\nStarting instance \\\&quot;test-instance\\\&quot;...\\nHolochain development conductor started. Running websocket server on port 8888\\nType \\\&#39;exit\\\&#39; to stop the conductor and exit the program\\n\&quot;, stderr: \&quot;Error: EOF\\n\&quot; }&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">run2_cmd</span>
             .<span class="ident">args</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;run&quot;</span>, <span class="string">&quot;--interface&quot;</span>, <span class="string">&quot;http&quot;</span>])

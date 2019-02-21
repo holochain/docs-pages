@@ -464,6 +464,7 @@
 <span id="464">464</span>
 <span id="465">465</span>
 <span id="466">466</span>
+<span id="467">467</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This crate is an ffi wrapper to provide a c-compatible dna library.</span>
 <span class="doccomment">//!</span>
@@ -471,6 +472,7 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! See the associated Qt unit tests in the c_binding_tests directory.</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
 
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">Dna</span>;

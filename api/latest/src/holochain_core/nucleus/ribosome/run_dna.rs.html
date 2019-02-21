@@ -194,6 +194,12 @@
 <span id="194">194</span>
 <span id="195">195</span>
 <span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::{
     <span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiFunction</span>, <span class="ident">memory</span>::<span class="ident">WasmPageManager</span>, <span class="ident">runtime</span>::<span class="ident">WasmCallData</span>, <span class="ident">Runtime</span>},
@@ -312,6 +318,12 @@
     <span class="kw">let</span> <span class="ident">returned_encoding</span>: <span class="ident">RibosomeEncodingBits</span>;
     {
         <span class="kw">let</span> <span class="ident">mut_runtime</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">runtime</span>;
+
+        <span class="comment">// Try installing a custom panic handler.</span>
+        <span class="comment">// HDK-rust implements a function __install_panic_handler that reroutes output of</span>
+        <span class="comment">// PanicInfo to hdk::debug.</span>
+        <span class="comment">// Try calling it but fail silently if this function is not there.</span>
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">wasm_instance</span>.<span class="ident">invoke_export</span>(<span class="string">&quot;__install_panic_handler&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="ident">mut_runtime</span>);
 
         <span class="comment">// invoke function in wasm instance</span>
         <span class="comment">// arguments are info for wasm on how to retrieve complex input arguments</span>

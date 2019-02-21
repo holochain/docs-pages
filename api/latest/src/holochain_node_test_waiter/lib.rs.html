@@ -3,18 +3,10 @@
 <span id="3">3</span>
 <span id="4">4</span>
 <span id="5">5</span>
-<span id="6">6</span>
-<span id="7">7</span>
-<span id="8">8</span>
-<span id="9">9</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">await_macro</span>)]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_cas_implementations</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_conductor_api</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_net</span>;
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">waiter</span>;
 </pre></div>

@@ -313,48 +313,20 @@
 <span id="313">313</span>
 <span id="314">314</span>
 <span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
-<span id="319">319</span>
-<span id="320">320</span>
-<span id="321">321</span>
-<span id="322">322</span>
-<span id="323">323</span>
-<span id="324">324</span>
-<span id="325">325</span>
-<span id="326">326</span>
-<span id="327">327</span>
-<span id="328">328</span>
-<span id="329">329</span>
-<span id="330">330</span>
-<span id="331">331</span>
-<span id="332">332</span>
-<span id="333">333</span>
-<span id="334">334</span>
-<span id="335">335</span>
-<span id="336">336</span>
-<span id="337">337</span>
-<span id="338">338</span>
-<span id="339">339</span>
-<span id="340">340</span>
-<span id="341">341</span>
-<span id="342">342</span>
-<span id="343">343</span>
-<span id="344">344</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">glob</span>::<span class="ident">glob</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">AddressableContent</span>,
     <span class="ident">eav</span>::{
-        <span class="ident">get_latest</span>, <span class="ident">increment_key_till_no_collision</span>, <span class="ident">Attribute</span>, <span class="ident">Entity</span>, <span class="ident">EntityAttributeValueIndex</span>,
-        <span class="ident">EntityAttributeValueStorage</span>, <span class="ident">IndexQuery</span>, <span class="ident">Value</span>,
+        <span class="ident">increment_key_till_no_collision</span>, <span class="ident">Attribute</span>, <span class="ident">EavFilter</span>, <span class="ident">EaviQuery</span>, <span class="ident">Entity</span>,
+        <span class="ident">EntityAttributeValueIndex</span>, <span class="ident">EntityAttributeValueStorage</span>, <span class="ident">IndexFilter</span>, <span class="ident">Value</span>,
     },
     <span class="ident">error</span>::{<span class="ident">HcResult</span>, <span class="ident">HolochainError</span>},
     <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections</span>::<span class="ident">BTreeSet</span>,
+    <span class="ident">convert</span>::{<span class="ident">TryFrom</span>, <span class="ident">TryInto</span>},
     <span class="ident">fs</span>::{<span class="ident">create_dir_all</span>, <span class="ident">File</span>, <span class="ident">OpenOptions</span>},
     <span class="ident">io</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>,
     <span class="ident">path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>},
@@ -439,7 +411,7 @@
     ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">address</span>: <span class="ident">String</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">subscript</span> {
             <span class="ident">ENTITY_DIR</span> <span class="op">=&gt;</span> <span class="ident">eav</span>.<span class="ident">entity</span>().<span class="ident">to_string</span>(),
-            <span class="ident">ATTRIBUTE_DIR</span> <span class="op">=&gt;</span> <span class="ident">eav</span>.<span class="ident">attribute</span>(),
+            <span class="ident">ATTRIBUTE_DIR</span> <span class="op">=&gt;</span> <span class="ident">eav</span>.<span class="ident">attribute</span>().<span class="ident">to_string</span>(),
             <span class="ident">VALUE_DIR</span> <span class="op">=&gt;</span> <span class="ident">eav</span>.<span class="ident">value</span>().<span class="ident">to_string</span>(),
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">String</span>::<span class="ident">new</span>(),
         };
@@ -464,39 +436,45 @@
     <span class="kw">fn</span> <span class="ident">read_from_dir</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">subscript</span>: <span class="ident">String</span>,
-        <span class="ident">eav_constraint</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+        <span class="ident">eav_filter</span>: <span class="kw-2">&amp;</span><span class="ident">EavFilter</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
     ) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>
     <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">ToString</span>,
+        <span class="ident">T</span>: <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">ToString</span> <span class="op">+</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     {
-        <span class="kw">let</span> <span class="ident">address</span> <span class="op">=</span> <span class="ident">eav_constraint</span>
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">to_string</span>())
-            .<span class="ident">unwrap_or</span>(<span class="string">&quot;*&quot;</span>.<span class="ident">to_string</span>());
-
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">dir_path</span>.<span class="ident">join</span>(<span class="kw-2">&amp;</span><span class="ident">subscript</span>);
 
         <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">exists</span>() {
-            <span class="kw">let</span> <span class="ident">full_path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">join</span>(<span class="kw-2">&amp;</span><span class="ident">address</span>);
+            <span class="kw">let</span> <span class="ident">full_path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">join</span>(<span class="string">&quot;*&quot;</span>);
 
             <span class="kw">let</span> <span class="ident">paths</span> <span class="op">=</span> <span class="ident">glob</span>(<span class="ident">full_path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>())
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="string">&quot;Could not get form path&quot;</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
 
-            <span class="kw">let</span> (<span class="ident">eavs</span>, <span class="ident">errors</span>): (<span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>) <span class="op">=</span> <span class="ident">paths</span>
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">path_val</span><span class="op">|</span> {
-                    <span class="ident">path_val</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">walk</span><span class="op">|</span> <span class="ident">read_eav</span>(<span class="ident">walk</span>.<span class="ident">clone</span>())).<span class="ident">unwrap_or</span>(<span class="prelude-val">Err</span>(
-                        <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
-                            <span class="string">&quot;Could not read eavs from directory&quot;</span>.<span class="ident">to_string</span>(),
-                        ),
-                    ))
+            <span class="kw">let</span> (<span class="ident">paths</span>, <span class="ident">errors</span>): (<span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>) <span class="op">=</span> <span class="ident">paths</span>.<span class="ident">partition</span>(<span class="prelude-ty">Result</span>::<span class="ident">is_ok</span>);
+            <span class="kw">let</span> <span class="ident">eavs</span> <span class="op">=</span> <span class="ident">paths</span>
+                .<span class="ident">into_iter</span>()
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> <span class="ident">p</span>.<span class="ident">unwrap</span>())
+                .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">pathbuf</span><span class="op">|</span> {
+                    <span class="ident">pathbuf</span>
+                        .<span class="ident">iter</span>()
+                        .<span class="ident">last</span>()
+                        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> {
+                            <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">to_string_lossy</span>();
+                            <span class="ident">v</span>.<span class="ident">to_string</span>()
+                                .<span class="ident">try_into</span>()
+                                .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;warn/eav: invalid EAV string: {}&quot;</span>, <span class="ident">v</span>))
+                                .<span class="ident">ok</span>()
+                                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">val</span><span class="op">|</span> <span class="ident">eav_filter</span>.<span class="ident">check</span>(<span class="ident">val</span>))
+                        })
+                        .<span class="ident">unwrap_or_default</span>()
                 })
-                .<span class="ident">partition</span>(<span class="prelude-ty">Result</span>::<span class="ident">is_ok</span>);
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">pathbuf</span><span class="op">|</span> <span class="ident">read_eav</span>(<span class="ident">pathbuf</span>.<span class="ident">clone</span>()));
             <span class="kw">if</span> <span class="ident">errors</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
                 <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
                     <span class="string">&quot;Could not read eavs from directory&quot;</span>.<span class="ident">to_string</span>(),
                 ))
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ordmap</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">BTreeSet</span>::<span class="ident">new</span>();
-                <span class="ident">eavs</span>.<span class="ident">iter</span>().<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
+                <span class="ident">eavs</span>.<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
                     <span class="ident">s</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or</span>(<span class="ident">Vec</span>::<span class="ident">new</span>()).<span class="ident">iter</span>().<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> {
                         <span class="ident">ordmap</span>.<span class="ident">insert</span>(<span class="ident">value</span>.<span class="ident">clone</span>());
                     })
@@ -515,12 +493,12 @@
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">eav</span>: <span class="kw-2">&amp;</span><span class="ident">EntityAttributeValueIndex</span>,
     ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueIndex</span><span class="op">&gt;</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">fetched</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fetch_eavi</span>(
-            <span class="prelude-val">Some</span>(<span class="ident">eav</span>.<span class="ident">entity</span>()),
-            <span class="prelude-val">Some</span>(<span class="ident">eav</span>.<span class="ident">attribute</span>()),
-            <span class="prelude-val">Some</span>(<span class="ident">eav</span>.<span class="ident">value</span>()),
-            <span class="ident">IndexQuery</span>::<span class="ident">default</span>(),
-        )<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">fetched</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fetch_eavi</span>(<span class="kw-2">&amp;</span><span class="ident">EaviQuery</span>::<span class="ident">new</span>(
+            <span class="prelude-val">Some</span>(<span class="ident">eav</span>.<span class="ident">entity</span>()).<span class="ident">into</span>(),
+            <span class="prelude-val">Some</span>(<span class="ident">eav</span>.<span class="ident">attribute</span>()).<span class="ident">into</span>(),
+            <span class="prelude-val">Some</span>(<span class="ident">eav</span>.<span class="ident">value</span>()).<span class="ident">into</span>(),
+            <span class="ident">IndexFilter</span>::<span class="ident">LatestByAttribute</span>,
+        ))<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lock</span>.<span class="ident">write</span>()<span class="question-mark">?</span>;
         <span class="ident">create_dir_all</span>(<span class="self">self</span>.<span class="ident">dir_path</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">new_eav</span> <span class="op">=</span> <span class="ident">increment_key_till_no_collision</span>(<span class="ident">eav</span>.<span class="ident">clone</span>(), <span class="ident">fetched</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
@@ -532,89 +510,49 @@
 
     <span class="kw">fn</span> <span class="ident">fetch_eavi</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">entity</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Entity</span><span class="op">&gt;</span>,
-        <span class="ident">attribute</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;</span>,
-        <span class="ident">value</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
-        <span class="ident">index_query</span>: <span class="ident">IndexQuery</span>,
+        <span class="ident">query</span>: <span class="kw-2">&amp;</span><span class="ident">EaviQuery</span>,
     ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueIndex</span><span class="op">&gt;</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lock</span>.<span class="ident">read</span>()<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">prefixes</span> <span class="op">=</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">index_query</span>.<span class="ident">prefixes</span>().<span class="ident">is_empty</span>() {
-            <span class="ident">index_query</span>.<span class="ident">prefixes</span>().<span class="ident">clone</span>()
-        } <span class="kw">else</span> {
-            <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;&quot;</span>]
-        };
-        <span class="kw">let</span> <span class="ident">union_set</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">BTreeSet</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="ident">entity_attribute_value_union</span> <span class="op">=</span> <span class="ident">prefixes</span>.<span class="ident">iter</span>().<span class="ident">fold</span>(
-            <span class="prelude-val">Ok</span>(<span class="ident">union_set</span>.<span class="ident">clone</span>()),
-            <span class="op">|</span><span class="ident">set</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span>, <span class="ident">prefix</span>: <span class="op">&amp;&amp;</span><span class="ident">str</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">entity_set</span> <span class="op">=</span>
-                    <span class="self">self</span>.<span class="ident">read_from_dir</span>::<span class="op">&lt;</span><span class="ident">Entity</span><span class="op">&gt;</span>(<span class="ident">ENTITY_DIR</span>.<span class="ident">to_string</span>(), <span class="ident">entity</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
-                <span class="kw">let</span> <span class="ident">attribute_with_prefix</span> <span class="op">=</span> <span class="ident">attribute</span>
-                    .<span class="ident">clone</span>()
-                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">attri</span><span class="op">|</span> <span class="ident">prefix</span>.<span class="ident">to_string</span>() <span class="op">+</span> <span class="kw-2">&amp;</span><span class="ident">attri</span>.<span class="ident">clone</span>());
-                <span class="kw">let</span> <span class="ident">attribute_set</span> <span class="op">=</span> <span class="self">self</span>
-                    .<span class="ident">read_from_dir</span>::<span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;</span>(<span class="ident">ATTRIBUTE_DIR</span>.<span class="ident">to_string</span>(), <span class="ident">attribute_with_prefix</span>)
-                    .<span class="ident">clone</span>()<span class="question-mark">?</span>;
-                <span class="kw">let</span> <span class="ident">value_set</span> <span class="op">=</span>
-                    <span class="self">self</span>.<span class="ident">read_from_dir</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>(<span class="ident">VALUE_DIR</span>.<span class="ident">to_string</span>(), <span class="ident">value</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
 
-                <span class="kw">let</span> <span class="ident">attribute_value_inter</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">value_set</span>
-                    .<span class="ident">intersection</span>(<span class="kw-2">&amp;</span><span class="ident">attribute_set</span>.<span class="ident">clone</span>())
-                    .<span class="ident">cloned</span>()
-                    .<span class="ident">collect</span>();
-                <span class="kw">let</span> <span class="ident">entity_attribute_value_inter</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">attribute_value_inter</span>
-                    .<span class="ident">intersection</span>(<span class="kw-2">&amp;</span><span class="ident">entity_set</span>)
-                    .<span class="ident">cloned</span>()
-                    .<span class="ident">collect</span>();
-                <span class="kw">let</span> <span class="ident">to_union</span> <span class="op">=</span> <span class="ident">set</span><span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>(<span class="ident">to_union</span>
-                    .<span class="ident">union</span>(<span class="kw-2">&amp;</span><span class="ident">entity_attribute_value_inter</span>)
-                    .<span class="ident">cloned</span>()
-                    .<span class="ident">collect</span>())
-            },
-        );
+        <span class="kw">let</span> <span class="ident">entity_set</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_from_dir</span>::<span class="op">&lt;</span><span class="ident">Entity</span><span class="op">&gt;</span>(<span class="ident">ENTITY_DIR</span>.<span class="ident">to_string</span>(), <span class="ident">query</span>.<span class="ident">entity</span>())<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">attribute_set</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">read_from_dir</span>::<span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;</span>(<span class="ident">ATTRIBUTE_DIR</span>.<span class="ident">to_string</span>(), <span class="ident">query</span>.<span class="ident">attribute</span>())
+            .<span class="ident">clone</span>()<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">value_set</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_from_dir</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>(<span class="ident">VALUE_DIR</span>.<span class="ident">to_string</span>(), <span class="ident">query</span>.<span class="ident">value</span>())<span class="question-mark">?</span>;
 
-        <span class="kw">let</span> (<span class="ident">eav</span>, <span class="ident">error</span>): (<span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>, <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>) <span class="op">=</span> <span class="ident">entity_attribute_value_union</span><span class="question-mark">?</span>
+        <span class="kw">let</span> <span class="ident">attribute_value_inter</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">value_set</span>
+            .<span class="ident">intersection</span>(<span class="kw-2">&amp;</span><span class="ident">attribute_set</span>.<span class="ident">clone</span>())
+            .<span class="ident">cloned</span>()
+            .<span class="ident">collect</span>();
+        <span class="kw">let</span> <span class="ident">entity_attribute_value_inter</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">attribute_value_inter</span>
+            .<span class="ident">intersection</span>(<span class="kw-2">&amp;</span><span class="ident">entity_set</span>)
+            .<span class="ident">cloned</span>()
+            .<span class="ident">collect</span>();
+        <span class="kw">let</span> <span class="ident">total</span> <span class="op">=</span> <span class="ident">entity_attribute_value_inter</span>.<span class="ident">len</span>();
+        <span class="kw">let</span> <span class="ident">eavis</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">entity_attribute_value_inter</span>
             .<span class="ident">clone</span>()
             .<span class="ident">into_iter</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">content</span><span class="op">|</span> <span class="ident">EntityAttributeValueIndex</span>::<span class="ident">try_from_content</span>(<span class="kw-2">&amp;</span><span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">content</span>)))
-            .<span class="ident">partition</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">is_ok</span>());
-        <span class="kw">if</span> <span class="ident">error</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
+            .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">content</span><span class="op">|</span> {
+                <span class="ident">EntityAttributeValueIndex</span>::<span class="ident">try_from_content</span>(<span class="kw-2">&amp;</span><span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">content</span>)).<span class="ident">ok</span>()
+            })
+            .<span class="ident">collect</span>();
+        <span class="kw">if</span> <span class="ident">eavis</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">total</span> {
+            <span class="comment">// not all EAVs were converted</span>
             <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
                 <span class="string">&quot;Error Converting EAVs&quot;</span>.<span class="ident">to_string</span>(),
             ))
         } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="ident">map</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueIndex</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">eav</span>
-                .<span class="ident">clone</span>()
-                .<span class="ident">into_iter</span>()
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span>: <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueIndex</span><span class="op">&gt;</span><span class="op">|</span> {
-                    <span class="ident">value</span>.<span class="ident">unwrap_or</span>(<span class="ident">EntityAttributeValueIndex</span>::<span class="ident">default</span>())
-                })
-                .<span class="ident">collect</span>();
-            <span class="prelude-val">Ok</span>(<span class="ident">map</span>
-                .<span class="ident">clone</span>()
-                .<span class="ident">into_iter</span>()
-                .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                    <span class="ident">index_query</span>
-                        .<span class="ident">start</span>()
-                        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">start</span><span class="op">|</span> <span class="ident">start</span> <span class="op">&lt;=</span> <span class="ident">e</span>.<span class="ident">index</span>())
-                        .<span class="ident">unwrap_or_else</span>(<span class="op">||</span> {
-                            <span class="kw">let</span> <span class="ident">latest</span> <span class="op">=</span> <span class="ident">get_latest</span>(<span class="ident">e</span>.<span class="ident">clone</span>(), <span class="ident">map</span>.<span class="ident">clone</span>(), <span class="ident">index_query</span>.<span class="ident">clone</span>())
-                                .<span class="ident">unwrap_or</span>(<span class="ident">EntityAttributeValueIndex</span>::<span class="ident">default</span>());
-                            <span class="ident">latest</span>.<span class="ident">index</span>() <span class="op">==</span> <span class="ident">e</span>.<span class="ident">index</span>()
-                        })
-                })
-                .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                    <span class="ident">index_query</span>
-                        .<span class="ident">end</span>()
-                        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">end</span><span class="op">|</span> <span class="ident">end</span> <span class="op">&gt;=</span> <span class="ident">e</span>.<span class="ident">index</span>())
-                        .<span class="ident">unwrap_or_else</span>(<span class="op">||</span> {
-                            <span class="kw">let</span> <span class="ident">latest</span> <span class="op">=</span> <span class="ident">get_latest</span>(<span class="ident">e</span>.<span class="ident">clone</span>(), <span class="ident">map</span>.<span class="ident">clone</span>(), <span class="ident">index_query</span>.<span class="ident">clone</span>())
-                                .<span class="ident">unwrap_or</span>(<span class="ident">EntityAttributeValueIndex</span>::<span class="ident">default</span>());
-                            <span class="ident">latest</span>.<span class="ident">index</span>() <span class="op">==</span> <span class="ident">e</span>.<span class="ident">index</span>()
-                        })
-                })
-                .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueIndex</span><span class="op">&gt;&gt;</span>())
+            <span class="comment">// Build a query that only filters by Index, to be run on the collection that was already filtered</span>
+            <span class="comment">// by the above code</span>
+            <span class="kw">let</span> <span class="ident">index_query</span> <span class="op">=</span> <span class="ident">EaviQuery</span>::<span class="ident">new</span>(
+                <span class="ident">Default</span>::<span class="ident">default</span>(),
+                <span class="ident">Default</span>::<span class="ident">default</span>(),
+                <span class="ident">Default</span>::<span class="ident">default</span>(),
+                <span class="ident">query</span>.<span class="ident">index</span>().<span class="ident">clone</span>(),
+            );
+            <span class="kw">let</span> <span class="ident">it</span> <span class="op">=</span> <span class="ident">eavis</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>();
+            <span class="kw">let</span> <span class="ident">results</span> <span class="op">=</span> <span class="ident">index_query</span>.<span class="ident">run</span>(<span class="ident">it</span>);
+            <span class="prelude-val">Ok</span>(<span class="ident">results</span>)
         }
     }
 }
@@ -629,6 +567,7 @@
             <span class="ident">content</span>::{<span class="ident">AddressableContent</span>, <span class="ident">ExampleAddressableContent</span>},
             <span class="ident">storage</span>::<span class="ident">EavTestSuite</span>,
         },
+        <span class="ident">eav</span>::<span class="ident">Attribute</span>,
         <span class="ident">json</span>::<span class="ident">RawString</span>,
     };
 
@@ -680,9 +619,12 @@
         <span class="kw">let</span> <span class="ident">temp</span> <span class="op">=</span> <span class="ident">tempdir</span>().<span class="ident">expect</span>(<span class="string">&quot;test was supposed to create temp dir&quot;</span>);
         <span class="kw">let</span> <span class="ident">temp_path</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">temp</span>.<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">expect</span>(<span class="string">&quot;temp dir could not be string&quot;</span>));
         <span class="kw">let</span> <span class="ident">eav_storage</span> <span class="op">=</span> <span class="ident">EavFileStorage</span>::<span class="ident">new</span>(<span class="ident">temp_path</span>).<span class="ident">unwrap</span>();
-        <span class="ident">EavTestSuite</span>::<span class="ident">test_prefixes</span>::<span class="op">&lt;</span><span class="ident">ExampleAddressableContent</span>, <span class="ident">EavFileStorage</span><span class="op">&gt;</span>(
+        <span class="ident">EavTestSuite</span>::<span class="ident">test_multiple_attributes</span>::<span class="op">&lt;</span><span class="ident">ExampleAddressableContent</span>, <span class="ident">EavFileStorage</span><span class="op">&gt;</span>(
             <span class="ident">eav_storage</span>,
-            <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;a_&quot;</span>, <span class="string">&quot;b_&quot;</span>, <span class="string">&quot;c_&quot;</span>, <span class="string">&quot;d_&quot;</span>],
+            <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;a_&quot;</span>, <span class="string">&quot;b_&quot;</span>, <span class="string">&quot;c_&quot;</span>, <span class="string">&quot;d_&quot;</span>]
+                .<span class="ident">into_iter</span>()
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> <span class="ident">Attribute</span>::<span class="ident">LinkTag</span>(<span class="ident">p</span>.<span class="ident">to_string</span>() <span class="op">+</span> <span class="string">&quot;one_to_many&quot;</span>))
+                .<span class="ident">collect</span>(),
         );
     }
 

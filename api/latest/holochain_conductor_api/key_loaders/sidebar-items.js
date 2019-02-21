@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["test_key","Create a deterministic test key from the SHA256 of the given name string."],["test_key_loader","Key loader callback to use with conductor_api. This replaces filesystem access for getting keys mentioned in the config. Uses `test_key` to create a deterministic key dependent on the (virtual) file name."]]});

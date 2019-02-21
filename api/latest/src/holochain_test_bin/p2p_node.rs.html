@@ -956,6 +956,20 @@
 <span id="956">956</span>
 <span id="957">957</span>
 <span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
 
@@ -1088,9 +1102,20 @@
     <span class="kw">pub</span> <span class="ident">logger</span>: <span class="ident">TweetProxy</span>,
 }
 
-<span class="comment">// Search logs</span>
-<span class="comment">// return the ith message that fullfills the predicate</span>
+<span class="doccomment">/// Query logs</span>
 <span class="kw">impl</span> <span class="ident">P2pNode</span> {
+    <span class="doccomment">/// Return number of JsonProtocol message this node has received</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">count_recv_json_messages</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">for</span> <span class="ident">msg</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">recv_msg_log</span>.<span class="ident">clone</span>() {
+            <span class="kw">if</span> <span class="ident">JsonProtocol</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>).<span class="ident">is_ok</span>() {
+                <span class="ident">count</span> <span class="op">+=</span> <span class="number">1</span>;
+            };
+        }
+        <span class="ident">count</span>
+    }
+
+    <span class="doccomment">/// Return the ith JSON message that this node has received and fullfills predicate</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">find_recv_msg</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">ith</span>: <span class="ident">usize</span>,
@@ -1707,6 +1732,9 @@
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">TrackDna</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Core should not receive TrackDna message&quot;</span>);
+            }
+            <span class="ident">JsonProtocol</span>::<span class="ident">UntrackDna</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
+                <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Core should not receive UntrackDna message&quot;</span>);
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">Connect</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Core should not receive Connect message&quot;</span>);

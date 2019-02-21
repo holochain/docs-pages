@@ -707,10 +707,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">wabt</span>;
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">wabt</span>::<span class="ident">Wat2Wasm</span>;
-    <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">json</span>::<span class="ident">JsonString</span>;
-    <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test_utils</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">ZomeApiFunction</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{
         <span class="ident">context</span>::<span class="ident">Context</span>,
@@ -721,7 +718,10 @@
             <span class="ident">ZomeFnCall</span>,
         },
     };
+    <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">json</span>::<span class="ident">JsonString</span>;
     <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">str</span>::<span class="ident">FromStr</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
+    <span class="kw">use</span> <span class="ident">test_utils</span>;
+    <span class="kw">use</span> <span class="ident">wabt</span>;
 
     <span class="doccomment">/// generates the wasm to dispatch any zome API function with a single memomry managed runtime</span>
     <span class="doccomment">/// and bytes argument</span>

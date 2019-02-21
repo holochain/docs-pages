@@ -110,6 +110,8 @@
 <span id="110">110</span>
 <span id="111">111</span>
 <span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This logger is the logger that&#39;s attached to each Holochain application</span>
 <span class="doccomment">//! which is separate from standard logging via the log crate warn! info! debug! logging that</span>
@@ -157,6 +159,8 @@
 
 <span class="kw">impl</span> <span class="ident">Logger</span> <span class="kw">for</span> <span class="ident">TestLogger</span> {
     <span class="kw">fn</span> <span class="ident">log</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">String</span>) {
+        <span class="comment">// Debugging code (do not remove)</span>
+        <span class="comment">// println!(&quot;{}&quot;, msg);</span>
         <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">push</span>(<span class="ident">msg</span>);
     }
     <span class="kw">fn</span> <span class="ident">dump</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {

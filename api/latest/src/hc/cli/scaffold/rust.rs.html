@@ -133,6 +133,31 @@
 <span id="133">133</span>
 <span id="134">134</span>
 <span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">cli</span>::{<span class="ident">package</span>, <span class="ident">scaffold</span>::<span class="ident">Scaffold</span>},
@@ -140,6 +165,8 @@
     <span class="ident">error</span>::<span class="ident">DefaultResult</span>,
     <span class="ident">util</span>,
 };
+<span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">holochain_common</span>::<span class="ident">env_vars</span>::<span class="ident">EnvVar</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">wasm_target_dir</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">fs</span>::{<span class="self">self</span>, <span class="ident">OpenOptions</span>},
@@ -163,7 +190,13 @@
 
     <span class="kw">let</span> <span class="ident">authors_default</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">from</span>(<span class="string">&quot;[\&quot;TODO\&quot;]&quot;</span>);
     <span class="kw">let</span> <span class="ident">edition_default</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">from</span>(<span class="string">&quot;\&quot;TODO\&quot;&quot;</span>);
-    <span class="kw">let</span> <span class="ident">version_default</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;branch = \&quot;develop\&quot;&quot;</span>);
+
+    <span class="kw">let</span> <span class="ident">maybe_version</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">ScaffoldVersion</span>.<span class="ident">value</span>().<span class="ident">ok</span>();
+    <span class="kw">let</span> <span class="ident">version_default</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">maybe_version</span>.<span class="ident">is_some</span>() {
+        <span class="ident">maybe_version</span>.<span class="ident">unwrap</span>()
+    } <span class="kw">else</span> {
+        <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;tag = \&quot;v0.0.4-alpha\&quot;&quot;</span>)
+    };
     <span class="kw">let</span> <span class="ident">maybe_package</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">get</span>(<span class="string">&quot;package&quot;</span>);
 
     <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">from</span>(<span class="ident">name</span>);
@@ -246,6 +279,16 @@
 
 <span class="kw">impl</span> <span class="ident">Scaffold</span> <span class="kw">for</span> <span class="ident">RustScaffold</span> {
     <span class="kw">fn</span> <span class="ident">gen</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">base_path</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> <span class="ident">DefaultResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// First, check whether they have `cargo` installed</span>
+        <span class="kw">let</span> <span class="ident">should_continue</span> <span class="op">=</span> <span class="ident">util</span>::<span class="ident">check_for_cargo</span>(
+            <span class="string">&quot;Generating a Rust based Zome depends on having Rust installed.&quot;</span>,
+            <span class="prelude-val">None</span>,
+        )<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">should_continue</span> {
+            <span class="comment">// early exit, but user will have received feedback within check_for_cargo about why</span>
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+
         <span class="ident">fs</span>::<span class="ident">create_dir_all</span>(<span class="kw-2">&amp;</span><span class="ident">base_path</span>)<span class="question-mark">?</span>;
 
         <span class="comment">// use cargo to initialise a library Rust crate without any version control</span>
@@ -265,6 +308,13 @@
         <span class="comment">// create and fill in a build file appropriate for Rust</span>
         <span class="kw">let</span> <span class="ident">build_file_path</span> <span class="op">=</span> <span class="ident">base_path</span>.<span class="ident">as_ref</span>().<span class="ident">join</span>(<span class="ident">package</span>::<span class="ident">BUILD_CONFIG_FILE_NAME</span>);
         <span class="self">self</span>.<span class="ident">build_template</span>.<span class="ident">save_as</span>(<span class="ident">build_file_path</span>)<span class="question-mark">?</span>;
+
+        <span class="comment">// CLI feedback</span>
+        <span class="macro">println</span><span class="macro">!</span>(
+            <span class="string">&quot;{} {:?} Zome&quot;</span>,
+            <span class="string">&quot;Generated&quot;</span>.<span class="ident">green</span>().<span class="ident">bold</span>(),
+            <span class="self">self</span>.<span class="ident">package_name</span>
+        );
 
         <span class="prelude-val">Ok</span>(())
     }

@@ -161,13 +161,13 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
 
-    <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tempfile</span>;
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{
         <span class="ident">instance</span>::<span class="ident">tests</span>::<span class="ident">test_context_with_agent_state</span>,
         <span class="ident">persister</span>::{<span class="ident">Persister</span>, <span class="ident">SimplePersister</span>},
     };
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>::<span class="ident">File</span>;
+    <span class="kw">use</span> <span class="ident">tempfile</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">persistence_round_trip</span>() {

@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["BUNDLE_DATA_LEN",""],["SEEDSIZE",""]],"struct":[["Keypair",""]]});
+initSidebarItems({"constant":[["BUNDLE_DATA_LEN",""],["SEEDSIZE",""],["SIGNATURESIZE",""]],"struct":[["Keypair",""]]});

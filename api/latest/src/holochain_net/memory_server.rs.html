@@ -784,18 +784,156 @@
 <span id="784">784</span>
 <span id="785">785</span>
 <span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">//! provides fake in-memory p2p worker for use in scenario testing</span>
+<span class="doccomment">//! provides in-memory p2p &quot;server&quot; for use in scenario testing</span>
+<span class="doccomment">//! the server connects all the memory_workers together, so there is no real gossiping going around.</span>
+<span class="doccomment">//! Could have pluggable DHT strategy. Full-sync currently hard-coded: #fulldht</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">tweetlog</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">hash</span>::<span class="ident">HashString</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error</span>::<span class="ident">NetworkError</span>, <span class="ident">memory_book</span>::<span class="kw-2">*</span>, <span class="ident">tweetlog</span>::<span class="kw-2">*</span>};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">holochain_net_connection</span>::{
     <span class="ident">json_protocol</span>::{
         <span class="ident">DhtMetaData</span>, <span class="ident">EntryData</span>, <span class="ident">EntryListData</span>, <span class="ident">FailureResultData</span>, <span class="ident">FetchEntryData</span>,
         <span class="ident">FetchEntryResultData</span>, <span class="ident">FetchMetaData</span>, <span class="ident">FetchMetaResultData</span>, <span class="ident">GetListData</span>, <span class="ident">JsonProtocol</span>,
-        <span class="ident">MessageData</span>, <span class="ident">MetaListData</span>, <span class="ident">MetaTuple</span>, <span class="ident">PeerData</span>,
+        <span class="ident">MessageData</span>, <span class="ident">MetaListData</span>, <span class="ident">PeerData</span>,
     },
     <span class="ident">protocol</span>::<span class="ident">Protocol</span>,
     <span class="ident">NetResult</span>,
@@ -806,12 +944,7 @@
     <span class="ident">sync</span>::{<span class="ident">mpsc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>},
 };
 
-<span class="kw">type</span> <span class="ident">BucketId</span> <span class="op">=</span> <span class="ident">String</span>;
 <span class="kw">type</span> <span class="ident">RequestId</span> <span class="op">=</span> <span class="ident">String</span>;
-
-<span class="doccomment">/// Type for holding list of addresses per dna+agent_id</span>
-<span class="doccomment">/// i.e. map of bucket_id -&gt; addresses</span>
-<span class="kw">type</span> <span class="ident">AddressBook</span> <span class="op">=</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">BucketId</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;&gt;</span>;
 
 <span class="doccomment">/// Type for holding a map of &#39;network_name -&gt; InMemoryServer&#39;</span>
 <span class="kw">type</span> <span class="ident">InMemoryServerMap</span> <span class="op">=</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">InMemoryServer</span><span class="op">&gt;&gt;</span>;
@@ -822,86 +955,27 @@
         <span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">HashMap</span>::<span class="ident">new</span>());
 }
 
-<span class="doccomment">/// return a BucketId out of a dna_address and agent_id</span>
-<span class="kw">fn</span> <span class="ident">into_bucket_id</span>(<span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>, <span class="ident">agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">BucketId</span> {
-    <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}::{}&quot;</span>, <span class="ident">dna_address</span>, <span class="ident">agent_id</span>)
-}
-
-<span class="doccomment">/// return a unique identifier out of a entry_address and attribute</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_meta_id</span>(<span class="ident">meta_tuple</span>: <span class="kw-2">&amp;</span><span class="ident">MetaTuple</span>) <span class="op">-&gt;</span> <span class="ident">Address</span> {
-    <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="macro">format</span><span class="macro">!</span>(
-        <span class="string">&quot;{}||{}||{}&quot;</span>,
-        <span class="ident">meta_tuple</span>.<span class="number">0</span>, <span class="ident">meta_tuple</span>.<span class="number">1</span>, <span class="ident">meta_tuple</span>.<span class="number">2</span>
-    ))
-}
-
-<span class="doccomment">/// Add an address to a book</span>
-<span class="kw">fn</span> <span class="ident">bookkeep_address_with_bucket</span>(<span class="ident">book</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">AddressBook</span>, <span class="ident">bucket_id</span>: <span class="ident">BucketId</span>, <span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) {
-    <span class="comment">// Append to existing address list if there is one</span>
-    {
-        <span class="kw">let</span> <span class="ident">maybe_vec_address</span> <span class="op">=</span> <span class="ident">book</span>.<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>);
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">vec_address</span>) <span class="op">=</span> <span class="ident">maybe_vec_address</span> {
-            <span class="ident">vec_address</span>.<span class="ident">push</span>(<span class="ident">address</span>.<span class="ident">clone</span>());
-            <span class="kw">return</span>;
-        }
-    } <span class="comment">// unborrow book</span>
-      <span class="comment">// None: Create and add a new address list</span>
-    <span class="kw">let</span> <span class="ident">vec</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">address</span>.<span class="ident">clone</span>()];
-    <span class="ident">book</span>.<span class="ident">insert</span>(<span class="ident">bucket_id</span>, <span class="ident">vec</span>);
-}
-
-<span class="doccomment">/// Add an address to a book (sugar)</span>
-<span class="kw">fn</span> <span class="ident">bookkeep_address</span>(
-    <span class="ident">book</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">AddressBook</span>,
-    <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
-    <span class="ident">agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
-) {
-    <span class="kw">let</span> <span class="ident">bucket_id</span> <span class="op">=</span> <span class="ident">into_bucket_id</span>(<span class="ident">dna_address</span>, <span class="ident">agent_id</span>);
-    <span class="ident">bookkeep_address_with_bucket</span>(<span class="ident">book</span>, <span class="ident">bucket_id</span>, <span class="ident">address</span>);
-}
-
-<span class="doccomment">/// Remove an address from a book</span>
-<span class="doccomment">/// Return true if address exists and has been successfully removed.</span>
-<span class="kw">fn</span> <span class="ident">_unbookkeep_address</span>(
-    <span class="ident">book</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">AddressBook</span>,
-    <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
-    <span class="ident">agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
-) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-    <span class="kw">let</span> <span class="ident">bucket_id</span> <span class="op">=</span> <span class="ident">into_bucket_id</span>(<span class="ident">dna_address</span>, <span class="ident">agent_id</span>);
-    <span class="kw">let</span> <span class="ident">maybe_vec_address</span> <span class="op">=</span> <span class="ident">book</span>.<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>);
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">vec_address</span>) <span class="op">=</span> <span class="ident">maybe_vec_address</span> {
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">vec_address</span>.<span class="ident">remove_item</span>(<span class="ident">address</span>);
-        <span class="kw">return</span> <span class="ident">result</span>.<span class="ident">is_some</span>();
-    }
-    <span class="bool-val">false</span>
-}
-
-<span class="doccomment">/// a global server for routing messages between agents in-memory</span>
+<span class="doccomment">/// a global server for routing messages between nodes in-memory</span>
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">InMemoryServer</span> {
     <span class="comment">// keep track of senders by `dna_address::agent_id`</span>
-    <span class="ident">senders</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">mpsc</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;&gt;</span>,
-    <span class="comment">// keep track of senders as arrays by dna_address</span>
-    <span class="ident">senders_by_dna</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">mpsc</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">senders</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">CellId</span>, <span class="ident">mpsc</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;&gt;</span>,
+    <span class="comment">// keep track of agents by dna_address</span>
+    <span class="ident">senders_by_dna</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">mpsc</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="comment">// Unique identifier</span>
     <span class="ident">name</span>: <span class="ident">String</span>,
     <span class="comment">// Keep track of connected clients</span>
     <span class="ident">client_count</span>: <span class="ident">usize</span>,
 
-    <span class="comment">// published data book: bucket_id -&gt; entry_addresses</span>
-    <span class="ident">published_entry_book</span>: <span class="ident">AddressBook</span>,
-    <span class="comment">// stored data book: bucket_id -&gt; entry_addresses</span>
-    <span class="ident">stored_entry_book</span>: <span class="ident">AddressBook</span>,
-    <span class="comment">// published meta data book: bucket_id -&gt; MetaIds</span>
-    <span class="ident">published_meta_book</span>: <span class="ident">AddressBook</span>,
-    <span class="comment">// stored meta data book: bucket_id -&gt; MetaIds</span>
-    <span class="ident">stored_meta_book</span>: <span class="ident">AddressBook</span>,
+    <span class="comment">// All published data book: cell_id -&gt; entry_addresses</span>
+    <span class="ident">published_book</span>: <span class="ident">CellBook</span>,
+    <span class="comment">// All stored data book: cell_id -&gt; entry_addresses</span>
+    <span class="ident">stored_book</span>: <span class="ident">CellBook</span>,
 
-    <span class="comment">// Keep track of which DNAs are tracked... String should be BucketId</span>
-    <span class="ident">trackdna_book</span>: <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">BucketId</span><span class="op">&gt;</span>,
-    <span class="comment">// request book: request_id -&gt; bucket_id</span>
-    <span class="ident">request_book</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">RequestId</span>, <span class="ident">BucketId</span><span class="op">&gt;</span>,
+    <span class="comment">// Keep track of which DNAs are &quot;tracked&quot;</span>
+    <span class="ident">trackdna_book</span>: <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">CellId</span><span class="op">&gt;</span>,
+    <span class="comment">// Keep track of requests authored by the server</span>
+    <span class="comment">// request_id -&gt; cell_id</span>
+    <span class="ident">request_book</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">RequestId</span>, <span class="ident">CellId</span><span class="op">&gt;</span>,
     <span class="comment">// used for making unique request ids</span>
     <span class="ident">request_count</span>: <span class="ident">usize</span>,
 
@@ -919,16 +993,26 @@
 
     <span class="doccomment">/// generate a new request, return the request_id  (sugar)</span>
     <span class="kw">fn</span> <span class="ident">priv_create_request</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>, <span class="ident">agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">RequestId</span> {
-        <span class="kw">let</span> <span class="ident">bucket_id</span> <span class="op">=</span> <span class="ident">into_bucket_id</span>(<span class="ident">dna_address</span>, <span class="ident">agent_id</span>);
-        <span class="self">self</span>.<span class="ident">priv_create_request_with_bucket</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>)
+        <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="ident">into_cell_id</span>(<span class="ident">dna_address</span>, <span class="ident">agent_id</span>);
+        <span class="self">self</span>.<span class="ident">priv_create_request_with_cell_id</span>(<span class="kw-2">&amp;</span><span class="ident">cell_id</span>)
     }
 
     <span class="doccomment">/// generate a new request, return the request_id</span>
-    <span class="kw">fn</span> <span class="ident">priv_create_request_with_bucket</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bucket_id</span>: <span class="kw-2">&amp;</span><span class="ident">BucketId</span>) <span class="op">-&gt;</span> <span class="ident">RequestId</span> {
+    <span class="kw">fn</span> <span class="ident">priv_create_request_with_cell_id</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cell_id</span>: <span class="kw-2">&amp;</span><span class="ident">CellId</span>) <span class="op">-&gt;</span> <span class="ident">RequestId</span> {
         <span class="kw">let</span> <span class="ident">req_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_generate_request_id</span>();
         <span class="self">self</span>.<span class="ident">request_book</span>
-            .<span class="ident">insert</span>(<span class="ident">req_id</span>.<span class="ident">clone</span>(), <span class="ident">bucket_id</span>.<span class="ident">to_string</span>());
+            .<span class="ident">insert</span>(<span class="ident">req_id</span>.<span class="ident">clone</span>(), <span class="ident">cell_id</span>.<span class="ident">to_string</span>());
         <span class="ident">req_id</span>
+    }
+
+    <span class="doccomment">/// Check if its our own request and return CellId</span>
+    <span class="kw">fn</span> <span class="ident">priv_check_request</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">request_id</span>: <span class="kw-2">&amp;</span><span class="ident">RequestId</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">CellId</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">t</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">&quot;---- priv_check_request(&#39;{}&#39;) in {:?} ?&quot;</span>,
+            <span class="ident">request_id</span>,
+            <span class="self">self</span>.<span class="ident">request_book</span>.<span class="ident">clone</span>(),
+        ));
+        <span class="self">self</span>.<span class="ident">request_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">request_id</span>.<span class="ident">clone</span>())
     }
 
     <span class="doccomment">/// Send all Get*Lists requests to agent</span>
@@ -945,7 +1029,7 @@
             })
             .<span class="ident">into</span>(),
         )
-        .<span class="ident">expect</span>(<span class="string">&quot;Sending HandleGetPublishingDataList failed&quot;</span>);
+        .<span class="ident">expect</span>(<span class="string">&quot;Sending HandleGetPublishingEntryList failed&quot;</span>);
         <span class="comment">// Request this agent&#39;s holding entries</span>
         <span class="kw">let</span> <span class="ident">request_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_create_request</span>(<span class="ident">dna_address</span>, <span class="ident">agent_id</span>);
         <span class="self">self</span>.<span class="ident">priv_send_one</span>(
@@ -957,7 +1041,7 @@
             })
             .<span class="ident">into</span>(),
         )
-        .<span class="ident">expect</span>(<span class="string">&quot;Sending HandleGetHoldingDataList failed&quot;</span>);
+        .<span class="ident">expect</span>(<span class="string">&quot;Sending HandleGetHoldingEntryList failed&quot;</span>);
 
         <span class="comment">// Metadata</span>
         <span class="comment">// Request this agent&#39;s published metadata</span>
@@ -997,10 +1081,8 @@
             <span class="ident">senders_by_dna</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
             <span class="ident">client_count</span>: <span class="number">0</span>,
             <span class="ident">request_book</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
-            <span class="ident">published_entry_book</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
-            <span class="ident">stored_entry_book</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
-            <span class="ident">published_meta_book</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
-            <span class="ident">stored_meta_book</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
+            <span class="ident">published_book</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
+            <span class="ident">stored_book</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
             <span class="ident">request_count</span>: <span class="number">0</span>,
             <span class="ident">trackdna_book</span>: <span class="ident">HashSet</span>::<span class="ident">new</span>(),
             <span class="ident">log</span>: <span class="ident">TweetProxy</span>::<span class="ident">new</span>(<span class="string">&quot;memory_server&quot;</span>),
@@ -1029,45 +1111,81 @@
         }
     }
 
-    <span class="doccomment">/// register a data handler with the server (for message routing)</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">register</span>(
+    <span class="doccomment">/// register a cell&#39;s handler with the server (for message routing)</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">register_cell</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
         <span class="ident">agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">sender</span>: <span class="ident">mpsc</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span>,
     ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">senders</span>
-            .<span class="ident">insert</span>(<span class="ident">into_bucket_id</span>(<span class="ident">dna_address</span>, <span class="ident">agent_id</span>), <span class="ident">sender</span>.<span class="ident">clone</span>());
+            .<span class="ident">insert</span>(<span class="ident">into_cell_id</span>(<span class="ident">dna_address</span>, <span class="ident">agent_id</span>), <span class="ident">sender</span>.<span class="ident">clone</span>());
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">senders_by_dna</span>.<span class="ident">entry</span>(<span class="ident">dna_address</span>.<span class="ident">to_owned</span>()) {
             <span class="ident">Entry</span>::<span class="ident">Occupied</span>(<span class="kw-2">mut</span> <span class="ident">e</span>) <span class="op">=&gt;</span> {
-                <span class="ident">e</span>.<span class="ident">get_mut</span>().<span class="ident">push</span>(<span class="ident">sender</span>.<span class="ident">clone</span>());
+                <span class="ident">e</span>.<span class="ident">get_mut</span>().<span class="ident">insert</span>(<span class="ident">agent_id</span>.<span class="ident">to_string</span>(), <span class="ident">sender</span>.<span class="ident">clone</span>());
             }
             <span class="ident">Entry</span>::<span class="ident">Vacant</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
-                <span class="ident">e</span>.<span class="ident">insert</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">sender</span>.<span class="ident">clone</span>()]);
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">new</span>();
+                <span class="ident">map</span>.<span class="ident">insert</span>(<span class="ident">agent_id</span>.<span class="ident">to_string</span>(), <span class="ident">sender</span>.<span class="ident">clone</span>());
+                <span class="ident">e</span>.<span class="ident">insert</span>(<span class="ident">map</span>);
             }
         };
         <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="doccomment">/// unregister a cell&#39;s handler with the server (for message routing)</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unregister_cell</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>, <span class="ident">agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+        <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="ident">into_cell_id</span>(<span class="ident">dna_address</span>, <span class="ident">agent_id</span>);
+        <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;unregistering &#39;{}&#39;&quot;</span>, <span class="ident">cell_id</span>));
+        <span class="kw">let</span> <span class="ident">maybe_sender</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">senders</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">cell_id</span>);
+        <span class="kw">if</span> <span class="ident">maybe_sender</span>.<span class="ident">is_none</span>() {
+            <span class="kw">return</span>;
+        }
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">senders_by_dna</span>.<span class="ident">entry</span>(<span class="ident">dna_address</span>.<span class="ident">to_owned</span>()) {
+            <span class="ident">Entry</span>::<span class="ident">Occupied</span>(<span class="kw-2">mut</span> <span class="ident">senders</span>) <span class="op">=&gt;</span> {
+                <span class="ident">senders</span>.<span class="ident">get_mut</span>().<span class="ident">remove</span>(<span class="ident">agent_id</span>.<span class="ident">clone</span>());
+            }
+            <span class="ident">Entry</span>::<span class="ident">Vacant</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+        };
+        <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;unregistering &#39;{}&#39; DONE&quot;</span>, <span class="ident">cell_id</span>));
     }
 
     <span class="doccomment">/// process a message sent by a node to the &quot;network&quot;</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">serve</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="ident">Protocol</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">log</span>
             .<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;&gt;&gt;&gt;&gt; &#39;{}&#39; recv: {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(), <span class="ident">data</span>));
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">json_msg</span>) <span class="op">=</span> <span class="ident">JsonProtocol</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>) {
-            <span class="comment">// Note: use same order as the enum</span>
-            <span class="kw">match</span> <span class="ident">json_msg</span> {
-                <span class="ident">JsonProtocol</span>::<span class="ident">SuccessResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="comment">// Relay directly the SuccessResult message</span>
-                    <span class="self">self</span>.<span class="ident">priv_send_one</span>(
-                        <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
-                        <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">to_agent_id</span>,
-                        <span class="ident">JsonProtocol</span>::<span class="ident">SuccessResult</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>(),
-                    )<span class="question-mark">?</span>;
+        <span class="comment">// serve only JsonProtocol</span>
+        <span class="kw">let</span> <span class="ident">maybe_json_msg</span> <span class="op">=</span> <span class="ident">JsonProtocol</span>::<span class="ident">try_from</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">maybe_json_msg</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        };
+        <span class="comment">// Note: use same order as the enum</span>
+        <span class="kw">match</span> <span class="ident">maybe_json_msg</span>.<span class="ident">unwrap</span>() {
+            <span class="ident">JsonProtocol</span>::<span class="ident">SuccessResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="comment">// Check if agent is tracking the dna</span>
+                <span class="kw">let</span> <span class="ident">is_tracked</span> <span class="op">=</span>
+                    <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">to_agent_id</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracked</span> {
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
                 }
-                <span class="ident">JsonProtocol</span>::<span class="ident">FailureResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="comment">// Check if its a response to our own request</span>
-                    <span class="kw">let</span> <span class="ident">maybe_bucket_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_check_request</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">request_id</span>);
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">maybe_bucket_id</span> {
+                <span class="comment">// Relay directly the SuccessResult message</span>
+                <span class="self">self</span>.<span class="ident">priv_send_one</span>(
+                    <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
+                    <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">to_agent_id</span>,
+                    <span class="ident">JsonProtocol</span>::<span class="ident">SuccessResult</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>(),
+                )<span class="question-mark">?</span>;
+            }
+            <span class="ident">JsonProtocol</span>::<span class="ident">FailureResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="comment">// Check if agent is tracking the dna</span>
+                <span class="kw">let</span> <span class="ident">is_tracked</span> <span class="op">=</span>
+                    <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">to_agent_id</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracked</span> {
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+                }
+                <span class="comment">// Check if its a response to our own request</span>
+                {
+                    <span class="kw">let</span> <span class="ident">maybe_cell_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_check_request</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">request_id</span>);
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">maybe_cell_id</span> {
                         <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
                             <span class="string">&quot;---- &#39;{}&#39; internal request failed: {:?}&quot;</span>,
                             <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
@@ -1075,105 +1193,173 @@
                         ));
                         <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
                     }
-                    <span class="comment">// If not, relay the FailureResult message to receipient</span>
-                    <span class="self">self</span>.<span class="ident">priv_send_one</span>(
-                        <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
-                        <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">to_agent_id</span>,
-                        <span class="ident">JsonProtocol</span>::<span class="ident">FailureResult</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>(),
-                    )<span class="question-mark">?</span>;
                 }
-                <span class="ident">JsonProtocol</span>::<span class="ident">TrackDna</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="comment">// Check if we are already tracking this dna for this agent</span>
-                    <span class="kw">let</span> <span class="ident">bucket_id</span> <span class="op">=</span> <span class="ident">into_bucket_id</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">agent_id</span>);
-                    <span class="kw">if</span> <span class="self">self</span>.<span class="ident">trackdna_book</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>) {
-                        <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">e</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-                            <span class="string">&quot;({}) ##### DNA already tracked: {}&quot;</span>,
-                            <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
-                            <span class="ident">bucket_id</span>
-                        ));
-                        <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
-                    }
-                    <span class="self">self</span>.<span class="ident">trackdna_book</span>.<span class="ident">insert</span>(<span class="ident">bucket_id</span>);
-                    <span class="comment">// Notify all Peers connected to this DNA of a new Peer connection.</span>
-                    <span class="self">self</span>.<span class="ident">priv_send_all</span>(
-                        <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
-                        <span class="ident">JsonProtocol</span>::<span class="ident">PeerConnected</span>(<span class="ident">PeerData</span> {
-                            <span class="ident">agent_id</span>: <span class="ident">msg</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>(),
-                        })
-                        .<span class="ident">into</span>(),
-                    )<span class="question-mark">?</span>;
-                    <span class="comment">// Request all data lists from this agent</span>
-                    <span class="self">self</span>.<span class="ident">priv_request_all_lists</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">agent_id</span>);
-                }
-
-                <span class="ident">JsonProtocol</span>::<span class="ident">SendMessage</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_SendMessage</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
-                }
-                <span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessageResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_HandleSendMessageResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
-                }
-                <span class="ident">JsonProtocol</span>::<span class="ident">FetchEntry</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_FetchEntry</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
-                }
-                <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntryResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_HandleFetchEntryResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
-                }
-
-                <span class="ident">JsonProtocol</span>::<span class="ident">PublishEntry</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_PublishEntry</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
-                }
-
-                <span class="ident">JsonProtocol</span>::<span class="ident">FetchMeta</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_FetchMeta</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
-                }
-                <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchMetaResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_HandleFetchMetaResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
-                }
-
-                <span class="ident">JsonProtocol</span>::<span class="ident">PublishMeta</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_PublishMeta</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
-                }
-
-                <span class="comment">// Our request for the publish_list has returned</span>
-                <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingEntryListResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_HandleGetPublishingEntryListResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
-                }
-
-                <span class="comment">// Our request for the hold_list has returned</span>
-                <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingEntryListResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_HandleGetHoldingEntryListResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>);
-                }
-
-                <span class="comment">// Our request for the publish_meta_list has returned</span>
-                <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingMetaListResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_HandleGetPublishingMetaListResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
-                }
-
-                <span class="comment">// Our request for the hold_meta_list has returned</span>
-                <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingMetaListResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">priv_serve_HandleGetHoldingMetaListResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>);
-                }
-
-                <span class="kw">_</span> <span class="op">=&gt;</span> (),
+                <span class="comment">// If not, relay the FailureResult message to receipient</span>
+                <span class="self">self</span>.<span class="ident">priv_send_one</span>(
+                    <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
+                    <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">to_agent_id</span>,
+                    <span class="ident">JsonProtocol</span>::<span class="ident">FailureResult</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>(),
+                )<span class="question-mark">?</span>;
             }
+            <span class="ident">JsonProtocol</span>::<span class="ident">TrackDna</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="comment">// Check if we are already tracking this dna for this agent</span>
+                <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="ident">into_cell_id</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">agent_id</span>);
+                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">trackdna_book</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">cell_id</span>) {
+                    <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">e</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+                        <span class="string">&quot;({}) ##### DNA already tracked: {}&quot;</span>,
+                        <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
+                        <span class="ident">cell_id</span>
+                    ));
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+                }
+                <span class="self">self</span>.<span class="ident">trackdna_book</span>.<span class="ident">insert</span>(<span class="ident">cell_id</span>);
+                <span class="comment">// Notify all Peers connected to this DNA of a new Peer connection.</span>
+                <span class="self">self</span>.<span class="ident">priv_send_all</span>(
+                    <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+                    <span class="ident">JsonProtocol</span>::<span class="ident">PeerConnected</span>(<span class="ident">PeerData</span> {
+                        <span class="ident">agent_id</span>: <span class="ident">msg</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>(),
+                    })
+                    .<span class="ident">into</span>(),
+                )<span class="question-mark">?</span>;
+                <span class="comment">// Request all data lists from this agent</span>
+                <span class="self">self</span>.<span class="ident">priv_request_all_lists</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">agent_id</span>);
+            }
+
+            <span class="ident">JsonProtocol</span>::<span class="ident">UntrackDna</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="comment">// Make sure we are already tracking this dna for this agent</span>
+                <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="ident">into_cell_id</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">agent_id</span>);
+                <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">trackdna_book</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">cell_id</span>) {
+                    <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">w</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+                        <span class="string">&quot;Trying to untrack an already untracked DNA: {}&quot;</span>,
+                        <span class="ident">cell_id</span>
+                    ));
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+                }
+                <span class="self">self</span>.<span class="ident">trackdna_book</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">cell_id</span>);
+            }
+
+            <span class="ident">JsonProtocol</span>::<span class="ident">SendMessage</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_SendMessage</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+            }
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessageResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_HandleSendMessageResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+            }
+            <span class="ident">JsonProtocol</span>::<span class="ident">FetchEntry</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_FetchEntry</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+            }
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntryResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_HandleFetchEntryResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+            }
+
+            <span class="ident">JsonProtocol</span>::<span class="ident">PublishEntry</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_PublishEntry</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+            }
+
+            <span class="ident">JsonProtocol</span>::<span class="ident">FetchMeta</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_FetchMeta</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+            }
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchMetaResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_HandleFetchMetaResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+            }
+
+            <span class="ident">JsonProtocol</span>::<span class="ident">PublishMeta</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_PublishMeta</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+            }
+
+            <span class="comment">// Our request for the publish_list has returned</span>
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingEntryListResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_HandleGetPublishingEntryListResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+            }
+
+            <span class="comment">// Our request for the hold_list has returned</span>
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingEntryListResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_HandleGetHoldingEntryListResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>);
+            }
+
+            <span class="comment">// Our request for the publish_meta_list has returned</span>
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingMetaListResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_HandleGetPublishingMetaListResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>)<span class="question-mark">?</span>;
+            }
+
+            <span class="comment">// Our request for the hold_meta_list has returned</span>
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingMetaListResult</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">priv_serve_HandleGetHoldingMetaListResult</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>);
+            }
+
+            <span class="kw">_</span> <span class="op">=&gt;</span> (),
         }
         <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class="comment">// Private sends</span>
+<span class="doccomment">/// Private sends</span>
 <span class="kw">impl</span> <span class="ident">InMemoryServer</span> {
+    <span class="doccomment">/// Check if agent is tracking dna.</span>
+    <span class="doccomment">/// If not, will try to send a FailureResult back to sender, if sender info is provided.</span>
+    <span class="doccomment">/// Returns true if agent is tracking dna.</span>
+    <span class="kw">fn</span> <span class="ident">priv_check_or_fail</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
+        <span class="ident">agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+        <span class="ident">maybe_sender_info</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="ident">into_cell_id</span>(<span class="ident">dna_address</span>, <span class="ident">agent_id</span>);
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">trackdna_book</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">cell_id</span>) {
+            <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">t</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+                <span class="string">&quot;---- &#39;{}&#39; check OK: {}&quot;</span>,
+                <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
+                <span class="ident">cell_id</span>,
+            ));
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>);
+        };
+        <span class="kw">if</span> <span class="ident">maybe_sender_info</span>.<span class="ident">is_none</span>() {
+            <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">e</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+                <span class="string">&quot;#### &#39;{}&#39; check failed: {}&quot;</span>,
+                <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
+                <span class="ident">cell_id</span>
+            ));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">NetworkError</span>::<span class="ident">GenericError</span> {
+                <span class="ident">error</span>: <span class="string">&quot;DNA not tracked by agent and no sender info.&quot;</span>.<span class="ident">to_string</span>(),
+            }
+            .<span class="ident">into</span>());
+        }
+        <span class="kw">let</span> <span class="ident">sender_info</span> <span class="op">=</span> <span class="ident">maybe_sender_info</span>.<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">sender_agent_id</span> <span class="op">=</span> <span class="ident">sender_info</span>.<span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">sender_request_id</span> <span class="op">=</span> <span class="ident">sender_info</span>.<span class="number">1</span>.<span class="ident">unwrap_or_default</span>();
+        <span class="kw">let</span> <span class="ident">fail_msg</span> <span class="op">=</span> <span class="ident">FailureResultData</span> {
+            <span class="ident">dna_address</span>: <span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+            <span class="ident">request_id</span>: <span class="ident">sender_request_id</span>,
+            <span class="ident">to_agent_id</span>: <span class="ident">sender_agent_id</span>.<span class="ident">clone</span>(),
+            <span class="ident">error_info</span>: <span class="macro">json</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;DNA not tracked by agent&quot;</span>)),
+        };
+        <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">e</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">&quot;#### &#39;{}&#39; check failed for {}.\n Sending failure {:?}&quot;</span>,
+            <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
+            <span class="ident">cell_id</span>,
+            <span class="ident">fail_msg</span>.<span class="ident">clone</span>()
+        ));
+        <span class="self">self</span>.<span class="ident">priv_send_one</span>(
+            <span class="ident">dna_address</span>,
+            <span class="kw-2">&amp;</span><span class="ident">sender_agent_id</span>,
+            <span class="ident">JsonProtocol</span>::<span class="ident">FailureResult</span>(<span class="ident">fail_msg</span>).<span class="ident">into</span>(),
+        )<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>)
+    }
+
     <span class="doccomment">/// send a message to the appropriate channel based on dna_address::to_agent_id</span>
-    <span class="kw">fn</span> <span class="ident">priv_send_one_with_bucket</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bucket_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">data</span>: <span class="ident">Protocol</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">maybe_sender</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">senders</span>.<span class="ident">get_mut</span>(<span class="ident">bucket_id</span>);
+    <span class="doccomment">/// If cell_id is unknown, send back FailureResult to `maybe_sender_info`</span>
+    <span class="kw">fn</span> <span class="ident">priv_send_one_with_cell_id</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cell_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">data</span>: <span class="ident">Protocol</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">maybe_sender</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">senders</span>.<span class="ident">get_mut</span>(<span class="ident">cell_id</span>);
         <span class="kw">if</span> <span class="ident">maybe_sender</span>.<span class="ident">is_none</span>() {
             <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">e</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;#### &#39;{}&#39; error: No sender channel found&quot;</span>,
-                <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>()
+                <span class="string">&quot;#### ({}) error: No sender channel found for {}&quot;</span>,
+                <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
+                <span class="ident">cell_id</span>,
             ));
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format_err</span><span class="macro">!</span>(
-                <span class="string">&quot;No sender channel found ({})&quot;</span>,
-                <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>()
+                <span class="string">&quot;({}) No sender channel found for {}&quot;</span>,
+                <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
+                <span class="ident">cell_id</span>,
             ));
         }
         <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span> <span class="ident">maybe_sender</span>.<span class="ident">unwrap</span>();
@@ -1182,15 +1368,16 @@
         <span class="ident">sender</span>.<span class="ident">send</span>(<span class="ident">data</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
-    <span class="doccomment">/// send a message to the appropriate channel based on dna_address::to_agent_id</span>
+    <span class="doccomment">/// send a message to the appropriate channel based on cell_id (dna_address::to_agent_id)</span>
+    <span class="doccomment">/// If cell_id is unknown, send back FailureResult to `maybe_sender_info`</span>
     <span class="kw">fn</span> <span class="ident">priv_send_one</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
         <span class="ident">to_agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">data</span>: <span class="ident">Protocol</span>,
     ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">bucked_id</span> <span class="op">=</span> <span class="ident">into_bucket_id</span>(<span class="ident">dna_address</span>, <span class="ident">to_agent_id</span>);
-        <span class="self">self</span>.<span class="ident">priv_send_one_with_bucket</span>(<span class="kw-2">&amp;</span><span class="ident">bucked_id</span>, <span class="ident">data</span>)
+        <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="ident">into_cell_id</span>(<span class="ident">dna_address</span>, <span class="ident">to_agent_id</span>);
+        <span class="self">self</span>.<span class="ident">priv_send_one_with_cell_id</span>(<span class="kw-2">&amp;</span><span class="ident">cell_id</span>, <span class="ident">data</span>)
     }
 
     <span class="doccomment">/// send a message to all nodes connected with this dna address</span>
@@ -1202,7 +1389,7 @@
                 <span class="ident">data</span>.<span class="ident">clone</span>(),
                 <span class="ident">dna_address</span>.<span class="ident">clone</span>()
             ));
-            <span class="kw">for</span> <span class="ident">val</span> <span class="kw">in</span> <span class="ident">arr</span>.<span class="ident">iter_mut</span>() {
+            <span class="kw">for</span> (<span class="ident">_k</span>, <span class="ident">val</span>) <span class="kw">in</span> <span class="ident">arr</span>.<span class="ident">iter_mut</span>() {
                 (<span class="kw-2">*</span><span class="ident">val</span>).<span class="ident">send</span>(<span class="ident">data</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
             }
         }
@@ -1210,18 +1397,33 @@
     }
 }
 
-<span class="comment">// Private serve fns</span>
+<span class="doccomment">/// Private serve fns</span>
 <span class="kw">impl</span> <span class="ident">InMemoryServer</span> {
     <span class="doccomment">/// we received a SendMessage message...</span>
     <span class="doccomment">/// normally this would travel over the network, then</span>
     <span class="doccomment">/// show up as a HandleSend message on the receiving agent</span>
     <span class="doccomment">/// Fabricate that message and deliver it to the receiving agent</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_SendMessage</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">MessageData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// Sender must be tracking</span>
+        <span class="kw">let</span> <span class="ident">sender_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">msg</span>.<span class="ident">from_agent_id</span>.<span class="ident">clone</span>(), <span class="prelude-val">Some</span>(<span class="ident">msg</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>())));
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span>
+            <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">from_agent_id</span>, <span class="ident">sender_info</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// Receiver must be tracking</span>
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span>
+            <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">to_agent_id</span>, <span class="ident">sender_info</span>)<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// All good, relay message</span>
         <span class="self">self</span>.<span class="ident">priv_send_one</span>(
             <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
             <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">to_agent_id</span>,
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>(),
         )<span class="question-mark">?</span>;
+        <span class="comment">// Done</span>
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -1230,6 +1432,20 @@
     <span class="doccomment">/// show up as a SendMessageResult message to the initial sender.</span>
     <span class="doccomment">/// Fabricate that message and deliver it to the initial sender.</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_HandleSendMessageResult</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">MessageData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// Sender must be tracking</span>
+        <span class="kw">let</span> <span class="ident">sender_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">msg</span>.<span class="ident">from_agent_id</span>.<span class="ident">clone</span>(), <span class="prelude-val">Some</span>(<span class="ident">msg</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>())));
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span>
+            <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">from_agent_id</span>, <span class="ident">sender_info</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// Receiver must be tracking</span>
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span>
+            <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">to_agent_id</span>, <span class="ident">sender_info</span>)<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// All good, relay message</span>
         <span class="self">self</span>.<span class="ident">priv_send_one</span>(
             <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
             <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">to_agent_id</span>,
@@ -1242,12 +1458,23 @@
 
     <span class="doccomment">/// on publish, we send store requests to all nodes connected on this dna</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_PublishEntry</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">EntryData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="ident">bookkeep_address</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">published_entry_book</span>,
+        <span class="comment">// Provider must be tracking</span>
+        <span class="kw">let</span> <span class="ident">sender_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">msg</span>.<span class="ident">provider_agent_id</span>.<span class="ident">clone</span>(), <span class="prelude-val">None</span>));
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span>
+            <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">provider_agent_id</span>, <span class="ident">sender_info</span>)<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// all good, book-keep publish</span>
+        <span class="ident">bookkeep</span>(
+            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">published_book</span>,
             <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
             <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">provider_agent_id</span>,
             <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">entry_address</span>,
+            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">entry_address</span>,
         );
+        <span class="comment">// #fulldht</span>
+        <span class="comment">// have everyone store it (including self)</span>
         <span class="self">self</span>.<span class="ident">priv_send_all</span>(
             <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleStoreEntry</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>(),
@@ -1260,41 +1487,63 @@
     <span class="doccomment">/// this works because we send store requests to all connected nodes.</span>
     <span class="doccomment">/// If there is no other node for this DNA, send a FailureResult.</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_FetchEntry</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">FetchEntryData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="comment">// Find other node and forward request</span>
+        <span class="comment">// Provider must be tracking</span>
+        <span class="kw">let</span> <span class="ident">sender_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">msg</span>.<span class="ident">requester_agent_id</span>.<span class="ident">clone</span>(), <span class="prelude-val">Some</span>(<span class="ident">msg</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>())));
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span>
+            <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">requester_agent_id</span>, <span class="ident">sender_info</span>)<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// #fulldht</span>
+        <span class="comment">// Have the first known cell registered to that DNA respond</span>
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">senders_by_dna</span>.<span class="ident">entry</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">to_owned</span>()) {
             <span class="ident">Entry</span>::<span class="ident">Occupied</span>(<span class="kw-2">mut</span> <span class="ident">e</span>) <span class="op">=&gt;</span> {
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">e</span>.<span class="ident">get</span>().<span class="ident">is_empty</span>() {
-                    <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">e</span>.<span class="ident">get_mut</span>()[<span class="number">0</span>];
-                    <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-                        <span class="string">&quot;&lt;&lt;&lt;&lt; &#39;{}&#39; send: {:?}&quot;</span>,
-                        <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
-                        <span class="ident">msg</span>.<span class="ident">clone</span>()
-                    ));
-                    <span class="kw">let</span> <span class="ident">msg</span>: <span class="ident">Protocol</span> <span class="op">=</span> <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntry</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>();
-                    <span class="ident">r</span>.<span class="ident">send</span>(<span class="ident">msg</span>)<span class="question-mark">?</span>;
+                    <span class="kw">let</span> (<span class="ident">_k</span>, <span class="ident">r</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">e</span>
+                        .<span class="ident">get_mut</span>()
+                        .<span class="ident">iter</span>()
+                        .<span class="ident">next</span>()
+                        .<span class="ident">expect</span>(<span class="string">&quot;No Cell is registered to track the DNA&quot;</span>);
+                    <span class="ident">r</span>.<span class="ident">send</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntry</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>())<span class="question-mark">?</span>;
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
                 }
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         };
-        <span class="comment">// no other node found, send a FailureResult.</span>
-        <span class="self">self</span>.<span class="ident">priv_send_one</span>(
-            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
-            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">requester_agent_id</span>,
-            <span class="ident">JsonProtocol</span>::<span class="ident">FailureResult</span>(<span class="ident">FailureResultData</span> {
-                <span class="ident">request_id</span>: <span class="ident">msg</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
-                <span class="ident">dna_address</span>: <span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
-                <span class="ident">to_agent_id</span>: <span class="ident">msg</span>.<span class="ident">requester_agent_id</span>.<span class="ident">clone</span>(),
-                <span class="ident">error_info</span>: <span class="macro">json</span><span class="macro">!</span>(<span class="string">&quot;could not find nodes handling this dnaAddress&quot;</span>),
-            })
-            .<span class="ident">into</span>(),
-        )<span class="question-mark">?</span>;
+
+        <span class="comment">// No node found, send an empty FetchEntryResultData</span>
+        <span class="comment">// TODO: should send a FailureResult instead?</span>
+        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">JsonProtocol</span>::<span class="ident">FetchEntryResult</span>(<span class="ident">FetchEntryResultData</span> {
+            <span class="ident">request_id</span>: <span class="ident">msg</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
+            <span class="ident">requester_agent_id</span>: <span class="ident">msg</span>.<span class="ident">requester_agent_id</span>.<span class="ident">clone</span>(),
+            <span class="ident">dna_address</span>: <span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+            <span class="ident">provider_agent_id</span>: <span class="ident">msg</span>.<span class="ident">requester_agent_id</span>.<span class="ident">clone</span>(),
+            <span class="ident">entry_address</span>: <span class="ident">msg</span>.<span class="ident">entry_address</span>.<span class="ident">clone</span>(),
+            <span class="ident">entry_content</span>: <span class="macro">json</span><span class="macro">!</span>(<span class="ident">null</span>),
+        });
+        <span class="self">self</span>.<span class="ident">priv_send_one</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">requester_agent_id</span>, <span class="ident">response</span>.<span class="ident">into</span>())<span class="question-mark">?</span>;
         <span class="comment">// Done</span>
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// send back a response to a request for dht data</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_HandleFetchEntryResult</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">FetchEntryResultData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// Provider must be tracking</span>
+        <span class="kw">let</span> <span class="ident">sender_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">msg</span>.<span class="ident">provider_agent_id</span>.<span class="ident">clone</span>(), <span class="prelude-val">Some</span>(<span class="ident">msg</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>())));
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(
+            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
+            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">provider_agent_id</span>,
+            <span class="ident">sender_info</span>.<span class="ident">clone</span>(),
+        )<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// Requester must be tracking</span>
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span> <span class="ident">msg</span>.<span class="ident">requester_agent_id</span> <span class="op">==</span> <span class="string">&quot;&quot;</span>
+            <span class="op">||</span> <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">requester_agent_id</span>, <span class="ident">sender_info</span>)<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
         <span class="comment">// if its from our own request do a publish</span>
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">request_book</span>.<span class="ident">contains_key</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">request_id</span>) {
             <span class="kw">let</span> <span class="ident">dht_data</span> <span class="op">=</span> <span class="ident">EntryData</span> {
@@ -1319,19 +1568,29 @@
 
     <span class="doccomment">/// on publish, we send store requests to all nodes connected on this dna</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_PublishMeta</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">DhtMetaData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// Provider must be tracking</span>
+        <span class="kw">let</span> <span class="ident">sender_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">msg</span>.<span class="ident">provider_agent_id</span>.<span class="ident">clone</span>(), <span class="prelude-val">None</span>));
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span>
+            <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">provider_agent_id</span>, <span class="ident">sender_info</span>)<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// all good, book-keep every metaContent</span>
         <span class="kw">for</span> <span class="ident">content</span> <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">content_list</span>.<span class="ident">clone</span>() {
             <span class="kw">let</span> <span class="ident">meta_id</span> <span class="op">=</span> <span class="ident">into_meta_id</span>(<span class="kw-2">&amp;</span>(
                 <span class="ident">msg</span>.<span class="ident">entry_address</span>.<span class="ident">clone</span>(),
                 <span class="ident">msg</span>.<span class="ident">attribute</span>.<span class="ident">clone</span>(),
                 <span class="ident">content</span>.<span class="ident">clone</span>(),
             ));
-            <span class="ident">bookkeep_address</span>(
-                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">published_meta_book</span>,
+            <span class="ident">bookkeep</span>(
+                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">published_book</span>,
                 <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
                 <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">provider_agent_id</span>,
+                <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">entry_address</span>,
                 <span class="kw-2">&amp;</span><span class="ident">meta_id</span>,
             );
         }
+        <span class="comment">// fully connected DHT so ask everyone to store the content.</span>
         <span class="self">self</span>.<span class="ident">priv_send_all</span>(
             <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleStoreMeta</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>(),
@@ -1342,59 +1601,66 @@
     <span class="doccomment">/// this in-memory module routes it to the first node connected on that dna.</span>
     <span class="doccomment">/// this works because we also send store requests to all connected nodes.</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_FetchMeta</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">FetchMetaData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// Requester must be tracking</span>
+        <span class="kw">let</span> <span class="ident">sender_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">msg</span>.<span class="ident">requester_agent_id</span>.<span class="ident">clone</span>(), <span class="prelude-val">Some</span>(<span class="ident">msg</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>())));
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span>
+            <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">requester_agent_id</span>, <span class="ident">sender_info</span>)<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// #fulldht</span>
+        <span class="comment">// Have the first known cell registered to that DNA respond</span>
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">senders_by_dna</span>.<span class="ident">entry</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">to_owned</span>()) {
             <span class="ident">Entry</span>::<span class="ident">Occupied</span>(<span class="kw-2">mut</span> <span class="ident">e</span>) <span class="op">=&gt;</span> {
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">e</span>.<span class="ident">get</span>().<span class="ident">is_empty</span>() {
-                    <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">e</span>.<span class="ident">get_mut</span>()[<span class="number">0</span>];
+                    <span class="kw">let</span> (<span class="ident">_k</span>, <span class="ident">r</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">e</span>
+                        .<span class="ident">get_mut</span>()
+                        .<span class="ident">iter</span>()
+                        .<span class="ident">next</span>()
+                        .<span class="ident">expect</span>(<span class="string">&quot;senders_by_dna.entry does not hold any value&quot;</span>);
                     <span class="ident">r</span>.<span class="ident">send</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchMeta</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="ident">into</span>())<span class="question-mark">?</span>;
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
                 }
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         };
-        <span class="comment">// no other node found, send a FailureResult.</span>
-        <span class="self">self</span>.<span class="ident">priv_send_one</span>(
-            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
-            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">requester_agent_id</span>,
-            <span class="ident">JsonProtocol</span>::<span class="ident">FailureResult</span>(<span class="ident">FailureResultData</span> {
-                <span class="ident">request_id</span>: <span class="ident">msg</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
-                <span class="ident">dna_address</span>: <span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
-                <span class="ident">to_agent_id</span>: <span class="ident">msg</span>.<span class="ident">requester_agent_id</span>.<span class="ident">clone</span>(),
-                <span class="ident">error_info</span>: <span class="macro">json</span><span class="macro">!</span>(<span class="string">&quot;could not find nodes handling this dnaAddress&quot;</span>),
-            })
-            .<span class="ident">into</span>(),
-        )<span class="question-mark">?</span>;
+        <span class="comment">// No node found, send an empty FetchMetaResultData</span>
+        <span class="comment">// TODO: should send a FailureResult instead?</span>
+        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">JsonProtocol</span>::<span class="ident">FetchMetaResult</span>(<span class="ident">FetchMetaResultData</span> {
+            <span class="ident">request_id</span>: <span class="ident">msg</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
+            <span class="ident">requester_agent_id</span>: <span class="ident">msg</span>.<span class="ident">requester_agent_id</span>.<span class="ident">clone</span>(),
+            <span class="ident">dna_address</span>: <span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+            <span class="ident">provider_agent_id</span>: <span class="ident">msg</span>.<span class="ident">requester_agent_id</span>.<span class="ident">clone</span>(),
+            <span class="ident">entry_address</span>: <span class="ident">msg</span>.<span class="ident">entry_address</span>.<span class="ident">clone</span>(),
+            <span class="ident">attribute</span>: <span class="ident">msg</span>.<span class="ident">attribute</span>.<span class="ident">clone</span>(),
+            <span class="ident">content_list</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="macro">json</span><span class="macro">!</span>(<span class="ident">null</span>)],
+        });
+        <span class="self">self</span>.<span class="ident">priv_send_one</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">requester_agent_id</span>, <span class="ident">response</span>.<span class="ident">into</span>())<span class="question-mark">?</span>;
         <span class="comment">// Done</span>
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// send back a response to a request for dht meta data</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_HandleFetchMetaResult</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">FetchMetaResultData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="comment">// if its from our own request, do a publish for each new/unknown meta content</span>
+        <span class="comment">// Provider must be tracking</span>
+        <span class="kw">let</span> <span class="ident">sender_info</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">msg</span>.<span class="ident">provider_agent_id</span>.<span class="ident">clone</span>(), <span class="prelude-val">Some</span>(<span class="ident">msg</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>())));
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(
+            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>,
+            <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">provider_agent_id</span>,
+            <span class="ident">sender_info</span>.<span class="ident">clone</span>(),
+        )<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// Requester must be tracking</span>
+        <span class="kw">let</span> <span class="ident">is_tracking</span> <span class="op">=</span> <span class="ident">msg</span>.<span class="ident">requester_agent_id</span> <span class="op">==</span> <span class="string">&quot;&quot;</span>
+            <span class="op">||</span> <span class="self">self</span>.<span class="ident">priv_check_or_fail</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">requester_agent_id</span>, <span class="ident">sender_info</span>)<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">is_tracking</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// if its from our own request, resolve it</span>
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">request_book</span>.<span class="ident">contains_key</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">request_id</span>) {
-            <span class="kw">let</span> <span class="ident">bucket_id</span> <span class="op">=</span> <span class="ident">into_bucket_id</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">provider_agent_id</span>);
-            <span class="kw">let</span> <span class="ident">known_published_meta_list</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">published_meta_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>) {
-                <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=&gt;</span> <span class="ident">list</span>.<span class="ident">clone</span>(),
-                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">new</span>(),
-            };
-            <span class="kw">for</span> <span class="ident">content</span> <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">content_list</span>.<span class="ident">clone</span>() {
-                <span class="kw">let</span> <span class="ident">meta_id</span> <span class="op">=</span> <span class="ident">into_meta_id</span>(<span class="kw-2">&amp;</span>(
-                    <span class="ident">msg</span>.<span class="ident">entry_address</span>.<span class="ident">clone</span>(),
-                    <span class="ident">msg</span>.<span class="ident">attribute</span>.<span class="ident">clone</span>(),
-                    <span class="ident">content</span>.<span class="ident">clone</span>(),
-                ));
-                <span class="kw">if</span> <span class="ident">known_published_meta_list</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">meta_id</span>) {
-                    <span class="kw">continue</span>;
-                }
-                <span class="kw">let</span> <span class="ident">meta_data</span> <span class="op">=</span> <span class="ident">DhtMetaData</span> {
-                    <span class="ident">dna_address</span>: <span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
-                    <span class="ident">provider_agent_id</span>: <span class="ident">msg</span>.<span class="ident">provider_agent_id</span>.<span class="ident">clone</span>(),
-                    <span class="ident">entry_address</span>: <span class="ident">msg</span>.<span class="ident">entry_address</span>.<span class="ident">clone</span>(),
-                    <span class="ident">attribute</span>: <span class="ident">msg</span>.<span class="ident">attribute</span>.<span class="ident">clone</span>(),
-                    <span class="ident">content_list</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">content</span>],
-                };
-                <span class="self">self</span>.<span class="ident">priv_serve_PublishMeta</span>(<span class="kw-2">&amp;</span><span class="ident">meta_data</span>)<span class="question-mark">?</span>;
-            }
+            <span class="self">self</span>.<span class="ident">priv_resolve_HandleFetchMetaResult</span>(<span class="ident">msg</span>)<span class="question-mark">?</span>;
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
         <span class="comment">// otherwise just send back to requester</span>
@@ -1406,26 +1672,38 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">///</span>
-    <span class="kw">fn</span> <span class="ident">priv_check_request</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">request_id</span>: <span class="kw-2">&amp;</span><span class="ident">RequestId</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BucketId</span><span class="op">&gt;</span> {
-        <span class="comment">// Get bucket_id and make sure its our request</span>
-        <span class="kw">let</span> <span class="ident">bucket_id</span>;
-        {
-            <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;---- priv_check_request(&#39;{}&#39;) in {:?} ?&quot;</span>,
-                <span class="ident">request_id</span>,
-                <span class="self">self</span>.<span class="ident">request_book</span>.<span class="ident">clone</span>(),
+    <span class="doccomment">/// Resolve our own HandleFetchMeta request:</span>
+    <span class="doccomment">///   - do a publish for each new/unknown meta content</span>
+    <span class="kw">fn</span> <span class="ident">priv_resolve_HandleFetchMetaResult</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">FetchMetaResultData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="ident">into_cell_id</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">provider_agent_id</span>);
+        <span class="kw">for</span> <span class="ident">meta_content</span> <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">content_list</span>.<span class="ident">clone</span>() {
+            <span class="kw">let</span> <span class="ident">meta_id</span> <span class="op">=</span> <span class="ident">into_meta_id</span>(<span class="kw-2">&amp;</span>(
+                <span class="ident">msg</span>.<span class="ident">entry_address</span>.<span class="ident">clone</span>(),
+                <span class="ident">msg</span>.<span class="ident">attribute</span>.<span class="ident">clone</span>(),
+                <span class="ident">meta_content</span>.<span class="ident">clone</span>(),
             ));
-            <span class="comment">// Make sure its our request</span>
-            <span class="kw">let</span> <span class="ident">maybe_bucket_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">request_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">request_id</span>.<span class="ident">clone</span>());
-            <span class="kw">if</span> <span class="ident">maybe_bucket_id</span>.<span class="ident">is_none</span>() {
-                <span class="kw">return</span> <span class="prelude-val">None</span>;
+            <span class="kw">if</span> <span class="ident">book_has</span>(
+                <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">published_book</span>,
+                <span class="ident">cell_id</span>.<span class="ident">clone</span>(),
+                <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">entry_address</span>,
+                <span class="kw-2">&amp;</span><span class="ident">meta_id</span>,
+            ) {
+                <span class="kw">continue</span>;
             }
-            <span class="comment">// Get bucketId</span>
-            <span class="ident">bucket_id</span> <span class="op">=</span> <span class="ident">maybe_bucket_id</span>.<span class="ident">unwrap</span>().<span class="ident">clone</span>();
+            <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">t</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+                <span class="string">&quot;Publishing missing Meta: {}&quot;</span>,
+                <span class="ident">meta_content</span>.<span class="ident">clone</span>()
+            ));
+            <span class="kw">let</span> <span class="ident">meta_data</span> <span class="op">=</span> <span class="ident">DhtMetaData</span> {
+                <span class="ident">dna_address</span>: <span class="ident">msg</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+                <span class="ident">provider_agent_id</span>: <span class="ident">msg</span>.<span class="ident">provider_agent_id</span>.<span class="ident">clone</span>(),
+                <span class="ident">entry_address</span>: <span class="ident">msg</span>.<span class="ident">entry_address</span>.<span class="ident">clone</span>(),
+                <span class="ident">attribute</span>: <span class="ident">msg</span>.<span class="ident">attribute</span>.<span class="ident">clone</span>(),
+                <span class="ident">content_list</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">meta_content</span>],
+            };
+            <span class="self">self</span>.<span class="ident">priv_serve_PublishMeta</span>(<span class="kw-2">&amp;</span><span class="ident">meta_data</span>)<span class="question-mark">?</span>;
         }
-        <span class="comment">// drop request</span>
-        <span class="prelude-val">Some</span>(<span class="ident">bucket_id</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Received response from our request for the &#39;publish_list&#39;</span>
@@ -1434,26 +1712,23 @@
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">EntryListData</span>,
     ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">bucket_id</span> <span class="op">=</span> <span class="self">self</span>
+        <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">priv_check_request</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">request_id</span>)
-            .<span class="ident">expect</span>(<span class="string">&quot;Not our request&quot;</span>);
+            .<span class="ident">expect</span>(<span class="string">&quot;Not our request&quot;</span>)
+            .<span class="ident">to_string</span>();
         <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;---- HandleGetPublishingDataListResult: bucket_id = &#39;{}&#39;&quot;</span>,
-            <span class="ident">bucket_id</span>,
+            <span class="string">&quot;---- HandleGetPublishingDataListResult: cell_id = &#39;{}&#39;&quot;</span>,
+            <span class="ident">cell_id</span>,
         ));
         <span class="comment">// Compare with already published list</span>
         <span class="comment">// For each data not already published, request it and publish it ourselves.</span>
-        <span class="kw">let</span> <span class="ident">known_published_list</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">published_entry_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=&gt;</span> <span class="ident">list</span>.<span class="ident">clone</span>(),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">new</span>(),
-        };
         <span class="kw">for</span> <span class="ident">entry_address</span> <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">entry_address_list</span>.<span class="ident">clone</span>() {
-            <span class="kw">if</span> <span class="ident">known_published_list</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>) {
+            <span class="kw">if</span> <span class="ident">book_has_entry</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">published_book</span>, <span class="ident">cell_id</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">entry_address</span>) {
                 <span class="kw">continue</span>;
             }
-            <span class="kw">let</span> <span class="ident">request_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_create_request_with_bucket</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>);
-            <span class="self">self</span>.<span class="ident">priv_send_one_with_bucket</span>(
-                <span class="kw-2">&amp;</span><span class="ident">bucket_id</span>,
+            <span class="kw">let</span> <span class="ident">request_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_create_request_with_cell_id</span>(<span class="kw-2">&amp;</span><span class="ident">cell_id</span>);
+            <span class="self">self</span>.<span class="ident">priv_send_one_with_cell_id</span>(
+                <span class="kw-2">&amp;</span><span class="ident">cell_id</span>,
                 <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntry</span>(<span class="ident">FetchEntryData</span> {
                     <span class="ident">requester_agent_id</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
                     <span class="ident">request_id</span>,
@@ -1468,27 +1743,25 @@
 
     <span class="doccomment">/// Received response from our request for the &#39;holding_list&#39;</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_HandleGetHoldingEntryListResult</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">EntryListData</span>) {
-        <span class="kw">let</span> <span class="ident">bucket_id</span> <span class="op">=</span> <span class="self">self</span>
+        <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">priv_check_request</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">request_id</span>)
-            .<span class="ident">expect</span>(<span class="string">&quot;Not our request&quot;</span>);
+            .<span class="ident">expect</span>(<span class="string">&quot;Not our request&quot;</span>)
+            .<span class="ident">to_string</span>();
         <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;---- HandleGetHoldingEntryListResult: bucket_id = &#39;{}&#39;&quot;</span>,
-            <span class="ident">bucket_id</span>,
+            <span class="string">&quot;---- HandleGetHoldingEntryListResult: cell_id = &#39;{}&#39;&quot;</span>,
+            <span class="ident">cell_id</span>,
         ));
-        <span class="comment">// Compare with current stored_data_book</span>
+        <span class="comment">// Compare with current stored_book</span>
         <span class="comment">// For each data not already holding, add it to stored_data_book?</span>
-        <span class="kw">let</span> <span class="ident">known_stored_list</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">stored_entry_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=&gt;</span> <span class="ident">list</span>.<span class="ident">clone</span>(),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">new</span>(),
-        };
-        <span class="kw">for</span> <span class="ident">data_address</span> <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">entry_address_list</span>.<span class="ident">clone</span>() {
-            <span class="kw">if</span> <span class="ident">known_stored_list</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">data_address</span>) {
+        <span class="kw">for</span> <span class="ident">entry_address</span> <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">entry_address_list</span>.<span class="ident">clone</span>() {
+            <span class="kw">if</span> <span class="ident">book_has_entry</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">stored_book</span>, <span class="ident">cell_id</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">entry_address</span>) {
                 <span class="kw">continue</span>;
             }
-            <span class="ident">bookkeep_address_with_bucket</span>(
-                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">stored_entry_book</span>,
-                <span class="ident">bucket_id</span>.<span class="ident">clone</span>(),
-                <span class="kw-2">&amp;</span><span class="ident">data_address</span>,
+            <span class="ident">bookkeep_with_cell_id</span>(
+                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">stored_book</span>,
+                <span class="ident">cell_id</span>.<span class="ident">clone</span>(),
+                <span class="kw-2">&amp;</span><span class="ident">entry_address</span>,
+                <span class="kw-2">&amp;</span><span class="ident">entry_address</span>,
             );
         }
     }
@@ -1499,39 +1772,36 @@
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">MetaListData</span>,
     ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">bucket_id</span> <span class="op">=</span> <span class="self">self</span>
+        <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">priv_check_request</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">request_id</span>)
-            .<span class="ident">expect</span>(<span class="string">&quot;Not our request&quot;</span>);
+            .<span class="ident">expect</span>(<span class="string">&quot;Not our request&quot;</span>)
+            .<span class="ident">to_string</span>();
         <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;---- HandleGetPublishingMetaListResult: bucket_id = &#39;{}&#39;&quot;</span>,
-            <span class="ident">bucket_id</span>,
+            <span class="string">&quot;---- HandleGetPublishingMetaListResult: cell_id = &#39;{}&#39;&quot;</span>,
+            <span class="ident">cell_id</span>,
         ));
         <span class="comment">// Compare with already published list</span>
         <span class="comment">// For each metadata not already published, request it and publish it ourselves.</span>
-        <span class="kw">let</span> <span class="ident">known_published_meta_list</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">published_meta_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=&gt;</span> <span class="ident">list</span>.<span class="ident">clone</span>(),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">new</span>(),
-        };
-        <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">t</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;known_published_meta_list = {:?}&quot;</span>,
-            <span class="ident">known_published_meta_list</span>
-        ));
-
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">request_meta_key</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">requested_meta_key</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="kw">for</span> <span class="ident">meta_tuple</span> <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">meta_list</span>.<span class="ident">clone</span>() {
             <span class="kw">let</span> <span class="ident">meta_id</span> <span class="op">=</span> <span class="ident">into_meta_id</span>(<span class="kw-2">&amp;</span><span class="ident">meta_tuple</span>);
             <span class="comment">// dont send request for a known meta</span>
-            <span class="kw">if</span> <span class="ident">known_published_meta_list</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">meta_id</span>) {
+            <span class="kw">if</span> <span class="ident">book_has</span>(
+                <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">published_book</span>,
+                <span class="ident">cell_id</span>.<span class="ident">clone</span>(),
+                <span class="kw-2">&amp;</span><span class="ident">meta_tuple</span>.<span class="number">0</span>,
+                <span class="kw-2">&amp;</span><span class="ident">meta_id</span>,
+            ) {
                 <span class="kw">continue</span>;
             }
             <span class="comment">// dont send same request twice</span>
             <span class="kw">let</span> <span class="ident">meta_key</span> <span class="op">=</span> (<span class="ident">meta_tuple</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="ident">meta_tuple</span>.<span class="number">1</span>.<span class="ident">clone</span>());
-            <span class="kw">if</span> <span class="ident">request_meta_key</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">meta_key</span>) {
+            <span class="kw">if</span> <span class="ident">requested_meta_key</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">meta_key</span>) {
                 <span class="kw">continue</span>;
             }
-            <span class="ident">request_meta_key</span>.<span class="ident">push</span>(<span class="ident">meta_key</span>);
+            <span class="ident">requested_meta_key</span>.<span class="ident">push</span>(<span class="ident">meta_key</span>);
             <span class="comment">// send request for that meta_key</span>
-            <span class="kw">let</span> <span class="ident">request_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_create_request_with_bucket</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>);
+            <span class="kw">let</span> <span class="ident">request_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">priv_create_request_with_cell_id</span>(<span class="kw-2">&amp;</span><span class="ident">cell_id</span>);
             <span class="kw">let</span> <span class="ident">fetch_meta</span> <span class="op">=</span> <span class="ident">FetchMetaData</span> {
                 <span class="ident">requester_agent_id</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
                 <span class="ident">request_id</span>,
@@ -1539,8 +1809,8 @@
                 <span class="ident">entry_address</span>: <span class="ident">meta_tuple</span>.<span class="number">0</span>,
                 <span class="ident">attribute</span>: <span class="ident">meta_tuple</span>.<span class="number">1</span>,
             };
-            <span class="self">self</span>.<span class="ident">priv_send_one_with_bucket</span>(
-                <span class="kw-2">&amp;</span><span class="ident">bucket_id</span>,
+            <span class="self">self</span>.<span class="ident">priv_send_one_with_cell_id</span>(
+                <span class="kw-2">&amp;</span><span class="ident">cell_id</span>,
                 <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchMeta</span>(<span class="ident">fetch_meta</span>).<span class="ident">into</span>(),
             )<span class="question-mark">?</span>;
         }
@@ -1549,25 +1819,27 @@
 
     <span class="doccomment">/// Received response from our request for the &#39;holding_meta_list&#39;</span>
     <span class="kw">fn</span> <span class="ident">priv_serve_HandleGetHoldingMetaListResult</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">MetaListData</span>) {
-        <span class="kw">let</span> <span class="ident">bucket_id</span> <span class="op">=</span> <span class="self">self</span>
+        <span class="kw">let</span> <span class="ident">cell_id</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">priv_check_request</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">request_id</span>)
-            .<span class="ident">expect</span>(<span class="string">&quot;Not our request&quot;</span>);
+            .<span class="ident">expect</span>(<span class="string">&quot;Not our request&quot;</span>)
+            .<span class="ident">to_string</span>();
         <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;---- HandleGetHoldingMetaListResult: bucket_id = &#39;{}&#39;&quot;</span>,
-            <span class="ident">bucket_id</span>,
+            <span class="string">&quot;---- HandleGetHoldingMetaListResult: cell_id = &#39;{}&#39;&quot;</span>,
+            <span class="ident">cell_id</span>,
         ));
         <span class="comment">// Compare with current stored_meta_book</span>
         <span class="comment">// For each data not already holding, add it to stored_meta_book?</span>
-        <span class="kw">let</span> <span class="ident">known_stored_meta_list</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">stored_meta_book</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">bucket_id</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=&gt;</span> <span class="ident">list</span>.<span class="ident">clone</span>(),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">new</span>(),
-        };
         <span class="kw">for</span> <span class="ident">meta_tuple</span> <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">meta_list</span>.<span class="ident">clone</span>() {
             <span class="kw">let</span> <span class="ident">meta_id</span> <span class="op">=</span> <span class="ident">into_meta_id</span>(<span class="kw-2">&amp;</span><span class="ident">meta_tuple</span>);
-            <span class="kw">if</span> <span class="ident">known_stored_meta_list</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">meta_id</span>) {
+            <span class="kw">if</span> <span class="ident">book_has</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">stored_book</span>, <span class="ident">cell_id</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">meta_tuple</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">meta_id</span>) {
                 <span class="kw">continue</span>;
             }
-            <span class="ident">bookkeep_address_with_bucket</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">stored_meta_book</span>, <span class="ident">bucket_id</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">meta_id</span>);
+            <span class="ident">bookkeep_with_cell_id</span>(
+                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">stored_book</span>,
+                <span class="ident">cell_id</span>.<span class="ident">clone</span>(),
+                <span class="kw-2">&amp;</span><span class="ident">meta_tuple</span>.<span class="number">0</span>,
+                <span class="kw-2">&amp;</span><span class="ident">meta_id</span>,
+            );
         }
     }
 }

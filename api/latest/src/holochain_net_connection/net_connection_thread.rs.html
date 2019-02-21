@@ -221,6 +221,8 @@
 <span id="221">221</span>
 <span id="222">222</span>
 <span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="ident">net_connection</span>::{<span class="ident">NetHandler</span>, <span class="ident">NetSend</span>, <span class="ident">NetShutdown</span>, <span class="ident">NetWorkerFactory</span>},
@@ -290,7 +292,9 @@
                         <span class="comment">// Received data from parent</span>
                         <span class="comment">// Have the worker handle it</span>
                         <span class="ident">did_something</span> <span class="op">=</span> <span class="bool-val">true</span>;
-                        <span class="ident">worker</span>.<span class="ident">receive</span>(<span class="ident">data</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
+                        <span class="ident">worker</span>.<span class="ident">receive</span>(<span class="ident">data</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                            <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;Error occured in p2p network module: {:?}&quot;</span>, <span class="ident">e</span>)
+                        });
                         <span class="prelude-val">Ok</span>(())
                     })
                     .<span class="ident">unwrap_or</span>(());
@@ -304,7 +308,7 @@
                         }
                         <span class="prelude-val">Ok</span>(())
                     })
-                    .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
+                    .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;Error occured in p2p network module: {:?}&quot;</span>, <span class="ident">e</span>));
 
                 <span class="comment">// Increase sleep duration if nothing was received or sent</span>
                 <span class="kw">if</span> <span class="ident">did_something</span> {

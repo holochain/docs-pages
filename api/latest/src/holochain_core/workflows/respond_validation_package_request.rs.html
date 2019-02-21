@@ -45,6 +45,8 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>, <span class="ident">DirectMessageData</span>},
@@ -67,7 +69,9 @@
         .<span class="ident">read</span>()
         .<span class="ident">unwrap</span>()
         .<span class="ident">fetch</span>(<span class="ident">address</span>)<span class="question-mark">?</span>
-        .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="string">&quot;Entry not found&quot;</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
+        .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
+            <span class="string">&quot;Entry not found when trying to build validation package&quot;</span>.<span class="ident">to_string</span>(),
+        ))<span class="question-mark">?</span>;
 
     <span class="ident">Entry</span>::<span class="ident">try_from</span>(<span class="ident">raw</span>)
 }

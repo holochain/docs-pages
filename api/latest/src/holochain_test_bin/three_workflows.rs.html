@@ -234,6 +234,8 @@
 <span id="234">234</span>
 <span id="235">235</span>
 <span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">constants</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">tweetlog</span>::<span class="kw-2">*</span>;
@@ -253,7 +255,7 @@
     <span class="ident">camille</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
     <span class="ident">can_connect</span>: <span class="ident">bool</span>,
 ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="comment">// Send TrackDna message on both nodes</span>
+    <span class="comment">// Send TrackDna message on all nodes</span>
     <span class="comment">// alex</span>
     <span class="ident">alex</span>.<span class="ident">send</span>(
         <span class="ident">JsonProtocol</span>::<span class="ident">TrackDna</span>(<span class="ident">TrackDnaData</span> {
@@ -394,6 +396,9 @@
     <span class="kw">let</span> <span class="ident">_msg_count</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">listen</span>(<span class="number">100</span>);
     <span class="kw">let</span> <span class="ident">_msg_count</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">listen</span>(<span class="number">100</span>);
     <span class="kw">let</span> <span class="ident">_msg_count</span> <span class="op">=</span> <span class="ident">camille</span>.<span class="ident">listen</span>(<span class="number">100</span>);
+
+    <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;setup_three_nodes() COMPLETE \n\n\n&quot;</span>);
+
     <span class="comment">// Done</span>
     <span class="prelude-val">Ok</span>(())
 }
@@ -409,22 +414,21 @@
     <span class="comment">// Setup</span>
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Testing: hold_entry_list_test()&quot;</span>);
     <span class="ident">setup_three_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="ident">camille</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
-    <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;setup_three_nodes() COMPLETE&quot;</span>);
 
     <span class="comment">// Have alex hold some data</span>
-    <span class="ident">alex</span>.<span class="ident">hold_entry</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_1</span>, <span class="kw-2">&amp;</span><span class="ident">ENTRY_CONTENT_1</span>);
+    <span class="ident">alex</span>.<span class="ident">author_entry</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_1</span>, <span class="kw-2">&amp;</span><span class="ident">ENTRY_CONTENT_1</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
     <span class="comment">// Alex: Look for the hold_list request received from network module and reply</span>
-    <span class="ident">alex</span>.<span class="ident">reply_to_first_HandleGetHoldingEntryList</span>();
+    <span class="ident">alex</span>.<span class="ident">reply_to_first_HandleGetPublishingEntryList</span>();
 
     <span class="comment">// Might receive a HandleFetchEntry request from network module:</span>
     <span class="comment">// hackmode would want the data right away</span>
     <span class="kw">let</span> <span class="ident">has_received</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">wait_HandleFetchEntry_and_reply</span>();
-    <span class="kw">if</span> <span class="ident">has_received</span> {
-        <span class="comment">// billy might receive HandleStoreEntry</span>
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">wait_with_timeout</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntry</span>(<span class="kw">_</span>))), <span class="number">2000</span>);
-    }
+    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">has_received</span>);
+
     <span class="comment">// Have billy author the same data</span>
     <span class="ident">billy</span>.<span class="ident">author_entry</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_2</span>, <span class="kw-2">&amp;</span><span class="ident">ENTRY_CONTENT_2</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+
+    <span class="kw">let</span> <span class="ident">_msg_count</span> <span class="op">=</span> <span class="ident">camille</span>.<span class="ident">listen</span>(<span class="number">3000</span>);
 
     <span class="comment">// Camille requests that entry</span>
     <span class="kw">let</span> <span class="ident">fetch_entry</span> <span class="op">=</span> <span class="ident">camille</span>.<span class="ident">request_entry</span>(<span class="ident">ENTRY_ADDRESS_1</span>.<span class="ident">clone</span>());

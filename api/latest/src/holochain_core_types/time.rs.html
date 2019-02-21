@@ -529,6 +529,24 @@
 <span id="529">529</span>
 <span id="530">530</span>
 <span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! The Iso8601 type is defined here. It is used in particular within ChainHeader to enforce that</span>
 <span class="doccomment">//! their timestamps are defined in a useful and consistent way.</span>
@@ -606,6 +624,24 @@
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Iso8601</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">secs</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">secs</span>, <span class="number">0</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Iso8601</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">secs</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">secs</span> <span class="kw">as</span> <span class="ident">i64</span>, <span class="number">0</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Iso8601</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">secs</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">secs</span>.<span class="ident">into</span>(), <span class="number">0</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Iso8601</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">secs</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">secs</span>.<span class="ident">into</span>(), <span class="number">0</span>)
     }
 }
 

@@ -1703,13 +1703,13 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
     &quot;#</span>;
         <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>().<span class="ident">dnas</span>;
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.dna.json&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>.<span class="ident">to_string</span>()));
     }
 
@@ -1724,7 +1724,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -1772,7 +1772,7 @@
         <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">dnas</span>;
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.dna.json&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>.<span class="ident">to_string</span>()));
 
         <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">instances</span>;
@@ -1809,7 +1809,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -1869,7 +1869,7 @@
         <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">dnas</span>;
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.dna.json&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>.<span class="ident">to_string</span>()));
 
         <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">instances</span>;
@@ -1894,7 +1894,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -1924,7 +1924,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -1967,7 +1967,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app-spec-rust.hcpkg&quot;
+    file = &quot;app-spec-rust.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -2010,7 +2010,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app-spec-rust.hcpkg&quot;
+    file = &quot;app-spec-rust.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -2188,7 +2188,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]

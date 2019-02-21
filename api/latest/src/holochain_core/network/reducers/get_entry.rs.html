@@ -426,7 +426,7 @@
         <span class="kw">let</span> <span class="ident">entry</span> <span class="op">=</span> <span class="ident">test_entry</span>();
         <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">GetEntryKey</span> {
             <span class="ident">address</span>: <span class="ident">entry</span>.<span class="ident">address</span>(),
-            <span class="ident">id</span>: <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>(),
+            <span class="ident">id</span>: <span class="string">&quot;req_alice_1&quot;</span>.<span class="ident">to_string</span>(),
         };
         <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">FetchEntry</span>(<span class="ident">key</span>.<span class="ident">clone</span>()));
 
@@ -468,7 +468,7 @@
         };
         <span class="kw">let</span> <span class="ident">new_key</span> <span class="op">=</span> <span class="ident">GetEntryKey</span> {
             <span class="ident">address</span>: <span class="ident">entry</span>.<span class="ident">address</span>(),
-            <span class="ident">id</span>: <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>(),
+            <span class="ident">id</span>: <span class="string">&quot;req_alice_2&quot;</span>.<span class="ident">to_string</span>(),
         };
         <span class="kw">let</span> <span class="ident">dht_data</span> <span class="op">=</span> <span class="ident">DhtData</span> {
             <span class="ident">msg_id</span>: <span class="ident">new_key</span>.<span class="ident">id</span>.<span class="ident">clone</span>(),

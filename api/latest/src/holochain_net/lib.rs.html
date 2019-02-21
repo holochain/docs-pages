@@ -32,16 +32,15 @@
 <span id="32">32</span>
 <span id="33">33</span>
 <span id="34">34</span>
-<span id="35">35</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">vec_remove_item</span>)]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
 
 <span class="doccomment">//! holochain_net is a library that defines an abstract networking layer for</span>
 <span class="doccomment">//! different network transports, providing a configurable interface</span>
 <span class="doccomment">//! for swapping different backends connection modules at load time</span>
 
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">base64</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">failure</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
@@ -49,7 +48,6 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_net_ipc</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">regex</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">snowflake</span>;
 <span class="comment">// macros used in tests</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
@@ -58,12 +56,12 @@
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_derive</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">multihash</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types_derive</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">error</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ipc_net_worker</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">memory_book</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">memory_server</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">memory_worker</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">p2p_config</span>;

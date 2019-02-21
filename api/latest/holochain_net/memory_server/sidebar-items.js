@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["into_meta_id","return a unique identifier out of a entry_address and attribute"]]});
+initSidebarItems({});

@@ -104,6 +104,10 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides the main abstraction for differing p2p backends</span>
 <span class="doccomment">//! P2pNetwork instances take a json configuration string</span>
@@ -115,6 +119,7 @@
     <span class="ident">protocol</span>::<span class="ident">Protocol</span>,
     <span class="ident">NetResult</span>,
 };
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">thread</span>::<span class="ident">sleep</span>, <span class="ident">time</span>::<span class="ident">Duration</span>};
 
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">ipc_net_worker</span>::<span class="ident">IpcNetWorker</span>, <span class="ident">memory_worker</span>::<span class="ident">InMemoryWorker</span>, <span class="ident">p2p_config</span>::<span class="kw-2">*</span>};
 
@@ -156,6 +161,9 @@
         };
         <span class="comment">// Create NetConnectionThread with appropriate worker factory</span>
         <span class="kw">let</span> <span class="ident">connection</span> <span class="op">=</span> <span class="ident">NetConnectionThread</span>::<span class="ident">new</span>(<span class="ident">handler</span>, <span class="ident">worker_factory</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">P2pBackendKind</span>::<span class="ident">IPC</span> <span class="op">=</span> <span class="ident">p2p_config</span>.<span class="ident">backend_kind</span> {
+            <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="number">1000</span>));
+        }
         <span class="comment">// Done</span>
         <span class="prelude-val">Ok</span>(<span class="ident">P2pNetwork</span> { <span class="ident">connection</span> })
     }

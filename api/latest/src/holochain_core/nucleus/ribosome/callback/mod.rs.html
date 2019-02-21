@@ -593,14 +593,14 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test_utils</span>;
-    <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">wabt</span>;
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">wabt</span>::<span class="ident">Wat2Wasm</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{
         <span class="ident">instance</span>::{<span class="ident">tests</span>::<span class="ident">test_instance</span>, <span class="ident">Instance</span>},
         <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">callback</span>::<span class="ident">Callback</span>, <span class="ident">Defn</span>},
     };
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+    <span class="kw">use</span> <span class="ident">test_utils</span>;
+    <span class="kw">use</span> <span class="ident">wabt</span>;
 
     <span class="doccomment">/// generates the wasm to dispatch any zome API function with a single memomry managed runtime</span>
     <span class="doccomment">/// and bytes argument</span>
