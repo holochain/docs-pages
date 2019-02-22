@@ -916,17 +916,17 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cnames</span> <span class="op">=</span> <span class="ident">CStringVec</span> {
             <span class="ident">len</span>: <span class="number">0</span>,
-            <span class="ident">ptr</span>: <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>,
+            <span class="ident">ptr</span>: <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>(),
         };
         <span class="kw">unsafe</span> { <span class="ident">holochain_dna_get_zome_names</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">dna</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cnames</span>) };
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">cnames</span>.<span class="ident">len</span>, <span class="number">2</span>);
 
         <span class="kw">let</span> <span class="ident">names</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">cstring_vec_to_rustvec</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cnames</span>) };
-        <span class="kw">let</span> <span class="ident">names</span> <span class="op">=</span> <span class="ident">names</span>
+        <span class="kw">let</span> <span class="ident">names</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">names</span>
             .<span class="ident">into_iter</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">into_string</span>().<span class="ident">unwrap</span>())
-            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
+            .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">into_string</span>().<span class="ident">ok</span>())
+            .<span class="ident">collect</span>();
 
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">names</span>[<span class="number">0</span>] <span class="op">==</span> <span class="string">&quot;test zome&quot;</span> <span class="op">||</span> <span class="ident">names</span>[<span class="number">1</span>] <span class="op">==</span> <span class="string">&quot;test zome&quot;</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">names</span>[<span class="number">0</span>] <span class="op">==</span> <span class="string">&quot;test zome2&quot;</span> <span class="op">||</span> <span class="ident">names</span>[<span class="number">1</span>] <span class="op">==</span> <span class="string">&quot;test zome2&quot;</span>);

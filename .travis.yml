@@ -1,0 +1,4 @@
+language: rust
+rust: nightly-2019-01-24
+before_script: cargo install mdbook
+script: ./build.sh

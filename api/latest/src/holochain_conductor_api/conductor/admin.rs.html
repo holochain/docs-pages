@@ -1447,6 +1447,7 @@
 <span id="1447">1447</span>
 <span id="1448">1448</span>
 <span id="1449">1449</span>
+<span id="1450">1450</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">conductor</span>::{<span class="ident">base</span>::<span class="ident">notify</span>, <span class="ident">Conductor</span>},
@@ -2750,6 +2751,7 @@ type = &#39;websocket&#39;&quot;#</span>,
             <span class="ident">name</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Mr. New&quot;</span>),
             <span class="ident">public_address</span>: <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;new&quot;</span>).<span class="ident">address</span>().<span class="ident">to_string</span>(),
             <span class="ident">key_file</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-test-path&quot;</span>),
+            <span class="ident">holo_remote_key</span>: <span class="prelude-val">None</span>,
         };
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">conductor</span>.<span class="ident">add_agent</span>(<span class="ident">agent_config</span>), <span class="prelude-val">Ok</span>(()),);

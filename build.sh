@@ -9,7 +9,7 @@ cd ..
 # latest api reference
 rm -rf api/latest
 mkdir api/latest
-cargo doc --no-deps --manifest-path rust/Cargo.toml --target-dir api/latest
+cargo doc --no-deps --manifest-path holochain-rust/Cargo.toml --target-dir api/latest
 rm -rf api/latest/debug
 mv -v api/latest/doc/* api/latest/
 rm -rf api/latest/doc
@@ -21,6 +21,8 @@ mkdir guide/latest
 mdbook build holochain-rust/doc/holochain_101 --dest-dir ../../../guide/latest
 
 rm -rf holochain-rust
+
+git diff
 # git add .
 # git commit -m "update to docs for ${SHA}"
 # git push origin master

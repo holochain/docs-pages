@@ -1123,6 +1123,15 @@
 <span id="1123">1123</span>
 <span id="1124">1124</span>
 <span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Conductor Configuration</span>
@@ -1187,6 +1196,12 @@
     <span class="doccomment">/// where to persist the config file and DNAs. Optional.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;default_persistence_dir&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">persistence_dir</span>: <span class="ident">PathBuf</span>,
+
+    <span class="doccomment">/// Optional URI for a websocket connection to an outsourced signing service.</span>
+    <span class="doccomment">/// Bootstrapping step for Holo closed-alpha.</span>
+    <span class="doccomment">/// If set, all agents with holo_remote_key = true will be emulated by asking for signatures</span>
+    <span class="doccomment">/// over this websocket.</span>
+    <span class="kw">pub</span> <span class="ident">signing_service_uri</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_persistence_dir</span>() <span class="op">-&gt;</span> <span class="ident">PathBuf</span> {
@@ -1424,12 +1439,15 @@
 }
 
 <span class="doccomment">/// An agent has a name/ID and is defined by a private key that resides in a file</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AgentConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">public_address</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">key_file</span>: <span class="ident">String</span>,
+    <span class="doccomment">/// If set to true conductor will ignore key_file and instead use the remote signer</span>
+    <span class="doccomment">/// accessible through signing_service_uri to request signatures.</span>
+    <span class="kw">pub</span> <span class="ident">holo_remote_key</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">AgentConfiguration</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AgentId</span> {
@@ -1462,7 +1480,7 @@
 
 <span class="doccomment">/// An instance combines a DNA with an agent.</span>
 <span class="doccomment">/// Each instance has its own storage configuration.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">dna</span>: <span class="ident">String</span>,
@@ -1477,7 +1495,7 @@
 <span class="doccomment">/// * file</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Projected are various DB adapters.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>, <span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">StorageConfiguration</span> {
     <span class="ident">Memory</span>,
@@ -1496,7 +1514,7 @@
 <span class="doccomment">/// The instances (referenced by ID) that are to be made available via that interface should be listed.</span>
 <span class="doccomment">/// An admin flag will enable conductor functions for programatically changing the configuration</span>
 <span class="doccomment">/// (e.g. installing apps)</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InterfaceConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">driver</span>: <span class="ident">InterfaceDriver</span>,
@@ -1506,7 +1524,7 @@
     <span class="kw">pub</span> <span class="ident">instances</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">InstanceReferenceConfiguration</span><span class="op">&gt;</span>,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>, <span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InterfaceDriver</span> {
     <span class="ident">Websocket</span> { <span class="ident">port</span>: <span class="ident">u16</span> },
@@ -1515,7 +1533,7 @@
     <span class="ident">Custom</span>(<span class="ident">toml</span>::<span class="ident">value</span>::<span class="ident">Value</span>),
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceReferenceConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
 }

@@ -306,13 +306,6 @@
 <span id="306">306</span>
 <span id="307">307</span>
 <span id="308">308</span>
-<span id="309">309</span>
-<span id="310">310</span>
-<span id="311">311</span>
-<span id="312">312</span>
-<span id="313">313</span>
-<span id="314">314</span>
-<span id="315">315</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">glob</span>::<span class="ident">glob</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
@@ -468,19 +461,12 @@
                         .<span class="ident">unwrap_or_default</span>()
                 })
                 .<span class="ident">map</span>(<span class="op">|</span><span class="ident">pathbuf</span><span class="op">|</span> <span class="ident">read_eav</span>(<span class="ident">pathbuf</span>.<span class="ident">clone</span>()));
-            <span class="kw">if</span> <span class="ident">errors</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">errors</span>.<span class="ident">is_empty</span>() {
                 <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
                     <span class="string">&quot;Could not read eavs from directory&quot;</span>.<span class="ident">to_string</span>(),
                 ))
             } <span class="kw">else</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ordmap</span>: <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">BTreeSet</span>::<span class="ident">new</span>();
-                <span class="ident">eavs</span>.<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
-                    <span class="ident">s</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or</span>(<span class="ident">Vec</span>::<span class="ident">new</span>()).<span class="ident">iter</span>().<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> {
-                        <span class="ident">ordmap</span>.<span class="ident">insert</span>(<span class="ident">value</span>.<span class="ident">clone</span>());
-                    })
-                });
-
-                <span class="prelude-val">Ok</span>(<span class="ident">ordmap</span>)
+                <span class="prelude-val">Ok</span>(<span class="ident">eavs</span>.<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">ok</span>()).<span class="ident">flatten</span>().<span class="ident">collect</span>())
             }
         } <span class="kw">else</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">BTreeSet</span>::<span class="ident">new</span>())
