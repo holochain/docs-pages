@@ -22,9 +22,11 @@ mdbook build holochain-rust/doc/holochain_101 --dest-dir ../../../guide/latest
 
 rm -rf holochain-rust
 
-# git config --global user.email "travis@travis-ci.org"
-# git config --global user.name "Travis CI"
+git config --global user.email "travis@travis-ci.org"
+git config --global user.name "Travis CI"
 
-# git add .
-# git commit -m "update to docs for ${SHA}"
-# git push origin master
+git add .
+git commit -m "update to docs for ${SHA}"
+
+git remote add origin-pages https://${GH_TOKEN}@github.com/holochain/docs-pages.git > /dev/null 2>&1
+git push --quiet --set-upstream origin-pages master
