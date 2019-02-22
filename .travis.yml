@@ -5,7 +5,7 @@ rust: nightly-2019-01-24
 cache: cargo
 before_script:
 - sudo apt-get install libzmq3-dev
-- cargo install mdbook --vers "^0.2.2"
+# - cargo install mdbook --vers "^0.2.2"
 script: "./build.sh"
 env:
   global:
