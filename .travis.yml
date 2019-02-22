@@ -1,4 +1,7 @@
 language: rust
 rust: nightly-2019-01-24
-before_script: cargo install mdbook
+cache: cargo
+before_script:
+  - apt-get install libzmq3-dev
+  - cargo install mdbook --vers "^0.2.2"
 script: ./build.sh
