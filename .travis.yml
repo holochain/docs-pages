@@ -3,6 +3,9 @@ language: rust
 rust: nightly-2019-01-24
 cache: cargo
 before_script:
-  - sudo apt-get install libzmq3-dev
-  - cargo install mdbook --vers "^0.2.2"
-script: ./build.sh
+- sudo apt-get install libzmq3-dev
+- cargo install mdbook --vers "^0.2.2"
+script: "./build.sh"
+env:
+  global:
+    secure: JGJk+6nNhhkKDPOUj3/encDjQ8wNA0xizyDgWiFS/jfukT4SGGzWZE2eAqIYGPa7Z65rHDy0Bk0eLf8k3i0mUtZw4NUoRx+rdSr4XPKIEhIIGwcGNZtqOaFEsI5+KPCWU0drcL1bnYiOXz+qCu6BiOG1xTxS9Z8ybE0xwMUqyTE+xRIJsY25ZGfZqNZgKfFn9ko1s5RwtjMukEt7MyFPvVoiCEc2hrW9tZO/9oxHhSQ7Ezl5CB4RkLd84L1zKIg8vMYo4R3wZlr9s2kwHtyArv7kSpOvqLlQFW62UI6iZYha7zhqs3bYo75dLblJk2+kS0gkJghdV9BPBbkEPPkA9fT8TS3kFiQS71y3jFH869ILV8zXuaQGUCK7BHqecoIoMwWDl5Gc0YCOSafRMdx5ORdCuj2GfxYs5Nz6zItzDh/Jp/EjjatBYJ5WzbleXdqmv31/rxTrta+NFc2OyAxq3dP1YWrqpYfDKINoEYdpCN4DcPaRCiL6PumJtC4BTcOwnnzG/354PbzxewKAo3z760GwbiPLIEeJ4G3vm9WqeAdK8sUlS4xTFgcPfyYBkOAJB0p6xBzXlLUUlLA/8i+KfXwtp2X2PfEnHYmASuom6fo/ef8pBZaN2CJlnC4DltB4IYxNrPzHwaWZmn2SdBNf9D1iMAcBUJTlkxUnuoaWSCA=
