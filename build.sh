@@ -22,7 +22,9 @@ mdbook build holochain-rust/doc/holochain_101 --dest-dir ../../../guide/latest
 
 rm -rf holochain-rust
 
-git diff
+# git config --global user.email "travis@travis-ci.org"
+# git config --global user.name "Travis CI"
+
 # git add .
 # git commit -m "update to docs for ${SHA}"
 # git push origin master
