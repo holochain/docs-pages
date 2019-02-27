@@ -25,9 +25,6 @@
 <span id="25">25</span>
 <span id="26">26</span>
 <span id="27">27</span>
-<span id="28">28</span>
-<span id="29">29</span>
-<span id="30">30</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Networking / P2P IPC Abstraction</span>
 <span class="doccomment">//!</span>
@@ -38,16 +35,13 @@
 <span class="doccomment">//! `tcp://` for other operating systems.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The main export you should care about is ZmqIpcClient.</span>
-
+<span class="doccomment">//!</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">failure</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_net_connection</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">regex</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rmp_serde</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_bytes</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">snowflake</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">zmq</span>;
 

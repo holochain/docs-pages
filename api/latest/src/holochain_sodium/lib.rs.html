@@ -57,11 +57,11 @@
 <span id="57">57</span>
 <span id="58">58</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">warnings</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rust_sodium_sys</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
 <span class="macro">lazy_static</span><span class="macro">!</span> {
     <span class="doccomment">/// we only need to call sodium_init once</span>

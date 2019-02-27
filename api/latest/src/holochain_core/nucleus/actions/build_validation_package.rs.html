@@ -325,9 +325,9 @@
 <span id="325">325</span>
 <span id="326">326</span>
 <span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
     <span class="ident">agent</span>::{<span class="self">self</span>, <span class="ident">find_chain_header</span>},
@@ -375,6 +375,10 @@
         }
 
         <span class="ident">EntryType</span>::<span class="ident">LinkAdd</span> <span class="op">=&gt;</span> {
+            <span class="comment">// LinkAdd can always be validated</span>
+        }
+
+        <span class="ident">EntryType</span>::<span class="ident">LinkRemove</span> <span class="op">=&gt;</span> {
             <span class="comment">// LinkAdd can always be validated</span>
         }
 

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["ipc_spawn","spawn a holochain networking ipc sub-process"]],"struct":[["SpawnResult",""]]});

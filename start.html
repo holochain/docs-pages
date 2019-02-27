@@ -65,7 +65,7 @@
                                         It will guide you through installation.
 
                                         Once you've got things installed, or regardless,
-                                        read on into a <a href="https://medium.com/holochain/first-steps-writing-holochain-happs-with-rust-80ae111960e" target="_blank">tutorial</a>, the <a href="/guide/latest">Holochain guidebook</a>, and the <a href="/api/0.0.3/hdk">API Reference</a>
+                                        read on into a <a href="https://medium.com/holochain/first-steps-writing-holochain-happs-with-rust-80ae111960e" target="_blank">tutorial</a>, the <a href="/guide/latest">Holochain guidebook</a>, and the <a href="/api/0.0.4-alpha/hdk">API Reference</a>
                                         to get going!
                                     </p>
 
@@ -290,7 +290,7 @@
                                             <p>
                                                 If you are on Windows (only 64 bit machines supported), for now, just
                                                 download
-                                                <a target="_blank" href="https://github.com/holochain/holochain-rust/raw/v0.0.3/zmq-sys/vendor/zmq/bin/libzmq-v140-mt-4_2_0.dll">this
+                                                <a target="_blank" href="https://github.com/holochain/holochain-rust/raw/v0.0.4-alpha/zmq-sys/vendor/zmq/bin/libzmq-v140-mt-4_2_0.dll">this
                                                     file</a>, which is a prebuilt ZMQ library. You will need this file
                                                 later.
                                             </p>
@@ -320,8 +320,8 @@
                                         The networking library is called "n3h".
                                     </p>
                                     <p>
-                                        To install it, download it from GitHub, and unzip it: <a href="https://github.com/holochain/n3h/releases/tag/v0.0.3"
-                                            target="_blank">https://github.com/holochain/n3h/releases/tag/v0.0.3</a>
+                                        To install it, download it from GitHub, and unzip it: <a href="https://github.com/holochain/n3h/releases/tag/v0.0.4-alpha1"
+                                            target="_blank">https://github.com/holochain/n3h/releases/tag/v0.0.4-alpha1</a>
                                     </p>
                                     <p>
                                         In a terminal, change directories to the downloaded and unzipped repository. Run:
@@ -349,8 +349,8 @@
                                         developer command line tools.</p>
                                     <h4 class="block-title">Step One</h4>
                                     <p>
-                                        When you go to Github, look for one of the downloads that starts with "cmd".
-                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.3"
+                                        When you go to Github, look for one of the downloads that starts with "cli".
+                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.4-alpha"
                                             target="_blank">Go to GitHub and download the appropriate release for your
                                             system.</a>
                                     </p>
@@ -386,7 +386,7 @@
                                         </div>
                                         <!--//code-block-->
                                         To read about the commands, and how to get started using them, check out the <a
-                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/v0.0.3/cmd#usage">README
+                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/v0.0.4-alpha/cli#usage">README
                                             for the "hc" command line tools.</a>
                                     </p>
                                 </div>
@@ -398,24 +398,24 @@
                                 <div id="production-step1" class="section-block">
                                     <p>If you wish to have a way to run Holochain apps, beyond the simple way available
                                         in the development tools, you can do that with the
-                                        holochain_container, which is capable of mounting configuration files that
+                                        Holochain Conductor, which is capable of mounting configuration files that
                                         start up
-                                        Holochain app instances.</p>
+                                        Holochain DNA instances.</p>
                                     <h4 class="block-title">Step One</h4>
                                     <p>
                                         When you go to Github, look for one of the downloads that starts with
-                                        "container".
-                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.3"
+                                        "conductor".
+                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.4-alpha"
                                             target="_blank">Go to GitHub and download the appropriate release for your
                                             system.</a>
                                     </p>
                                     <p>
-                                        Once you've downloaded it, unpack it, RENAME it "holochain_container" and move
+                                        Once you've downloaded it, unpack it, RENAME it "holochain" and move
                                         the resulting
                                         folder to a directory on your computer where you'd like to keep these files
                                         long term.
                                         As a default, lets assume that it can be this folder called
-                                        "holochain_container", right under
+                                        "holochain", right under
                                         your $HOME or %USERPROFILE% (your user) directory.
                                         Now we will have to add this directory to your PATH variable, so that the
                                         binary becomes available within your command line. The instructions for this
@@ -426,7 +426,7 @@
                                     <h5>Windows Note</h5>
                                     <p>
                                         For the ZMQ dependency to work, move a copy of the file "libzmq-v140-mt-4_2_0.dll" that
-                                        you downloaded into the same "holochain_container" folder as the other files.
+                                        you downloaded into the same "holochain" folder as the other files.
                                     </p>
                                     <p>
                                         If you encounter issues with this, please discuss <a target="_blank" href="https://github.com/holochain/holochain-rust/issues/701">here</a>.
@@ -435,15 +435,14 @@
                                 <div id="production-step2" class="section-block">
                                     <h4 class="block-title">Step Two</h4>
                                     <p>
-                                        To confirm that you have the Holochain container installed, try running the
+                                        To confirm that you have the Holochain Conductor installed, try running the
                                         following command:
                                         <div class="code-block">
-                                            <p><code>holochain_container --version</code></p>
+                                            <p><code>holochain --version</code></p>
                                         </div>
                                         <!--//code-block-->
-                                        To read about the container, and how to get started using it, check out the <a
-                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/v0.0.3/container#usage">README
-                                            for the holochain_container.</a>
+                                        To read about the Conductor, and how to get started using it, check out <a
+                                        target="_blank" href="https://developer.holochain.org/guide/latest/production_conductor.html">this section</a> of the Guidebook.
                                     </p>
                                 </div>
                             </section>
@@ -466,7 +465,7 @@
                                             aria-labelledby="nav-home-tab">
                                             <p>In the following example, adding the folder $HOME/hc to the PATH is
                                                 discussed, but it could apply equally and additionally to
-                                                $HOME/holochain_container.
+                                                $HOME/holochain.
                                                 In general, follow this pattern for adding any folder to your PATH. As
                                                 a reminder, this is done so that binary executables
                                                 within that folder become available within your command line.
@@ -509,7 +508,7 @@
                                             <p>In the following example, adding the folder %USERPROFILE%\hc to the PATH
                                                 is
                                                 discussed, but it could apply equally and additionally to
-                                                %USERPROFILE%/holochain_container.
+                                                %USERPROFILE%/holochain.
                                                 In general, follow this pattern for adding any folder to your PATH. As
                                                 a reminder, this is done so that binary executables
                                                 within that folder become available within your command line.
@@ -604,7 +603,7 @@
                             <a href="/guide/latest" title="Guidebook" target="_blank">Guidebook</a>
                         </li>
                         <li>
-                            <a href="/api/latest/hdk" title="API Reference" target="_blank">API Reference</a>
+                            <a href="/api/0.0.4-alpha/hdk" title="API Reference" target="_blank">API Reference</a>
                         </li>
                     </ul>
                 </div>

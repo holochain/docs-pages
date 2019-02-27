@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["PUBLICKEYBYTES",""],["SECRETKEYBYTES",""]],"fn":[["seed_keypair","Generate a signing keypair from a seed buffer"],["sign","generate a signature"],["verify","verify a signature given the message and a publicKey"]]});

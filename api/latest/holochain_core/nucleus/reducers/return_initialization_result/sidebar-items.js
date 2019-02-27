@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["reduce_return_initialization_result","Reduce ReturnInitializationResult Action On initialization success, set Initialized status otherwise set the failed message"]]});

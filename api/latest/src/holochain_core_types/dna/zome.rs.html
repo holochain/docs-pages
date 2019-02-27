@@ -217,22 +217,14 @@
 <span id="217">217</span>
 <span id="218">218</span>
 <span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! holochain_core_types::dna::zome is a set of structs for working with holochain dna.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">dna</span>::{
         <span class="ident">bridges</span>::{<span class="ident">Bridge</span>, <span class="ident">BridgePresence</span>},
-        <span class="ident">capabilities</span>::<span class="ident">Capability</span>,
-        <span class="ident">fn_declarations</span>::{<span class="ident">FnDeclaration</span>, <span class="ident">FnParameter</span>},
+        <span class="ident">fn_declarations</span>::{<span class="ident">FnDeclaration</span>, <span class="ident">FnParameter</span>, <span class="ident">TraitFns</span>},
+        <span class="ident">traits</span>::<span class="ident">ReservedTraitNames</span>,
         <span class="ident">wasm</span>::<span class="ident">DnaWasm</span>,
     },
     <span class="ident">entry</span>::<span class="ident">entry_type</span>::<span class="ident">EntryType</span>,
@@ -242,34 +234,14 @@
 <span class="kw">use</span> <span class="ident">dna</span>::<span class="ident">entry_types</span>::{<span class="self">self</span>, <span class="ident">deserialize_entry_types</span>, <span class="ident">serialize_entry_types</span>, <span class="ident">EntryTypeDef</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 
-<span class="doccomment">/// Enum for &quot;zome&quot; &quot;config&quot; &quot;error_handling&quot; property.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ErrorHandling</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;throw-errors&quot;</span>)]</span>
-    <span class="ident">ThrowErrors</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">ErrorHandling</span> {
-    <span class="doccomment">/// Default zome config error_handling is &quot;throw-errors&quot;</span>
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">ErrorHandling</span>::<span class="ident">ThrowErrors</span>
-    }
-}
-
 <span class="doccomment">/// Represents the &quot;config&quot; object on a &quot;zome&quot;.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Config</span> {
-    <span class="doccomment">/// How errors should be handled within this zome.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error_handling</span>: <span class="ident">ErrorHandling</span>,
-}
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Config</span> {}
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Config</span> {
     <span class="doccomment">/// Provide defaults for the &quot;zome&quot; &quot;config&quot; object.</span>
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Config</span> {
-            <span class="ident">error_handling</span>: <span class="ident">ErrorHandling</span>::<span class="ident">ThrowErrors</span>,
-        }
+        <span class="ident">Config</span> {}
     }
 }
 
@@ -281,7 +253,7 @@
 }
 
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ZomeEntryTypes</span> <span class="op">=</span> <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">EntryType</span>, <span class="ident">EntryTypeDef</span><span class="op">&gt;</span>;
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ZomeCapabilities</span> <span class="op">=</span> <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Capability</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ZomeTraits</span> <span class="op">=</span> <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">TraitFns</span><span class="op">&gt;</span>;
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ZomeFnDeclarations</span> <span class="op">=</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">FnDeclaration</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// Represents an individual &quot;zome&quot;.</span>
@@ -303,9 +275,9 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_entry_types&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_types</span>: <span class="ident">ZomeEntryTypes</span>,
 
-    <span class="doccomment">/// An array of capabilities associated with this zome.</span>
+    <span class="doccomment">/// An array of traits defined in this zome.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">capabilities</span>: <span class="ident">ZomeCapabilities</span>,
+    <span class="kw">pub</span> <span class="ident">traits</span>: <span class="ident">ZomeTraits</span>,
 
     <span class="doccomment">/// An array of functions declared in this this zome.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
@@ -330,7 +302,7 @@
             <span class="ident">config</span>: <span class="ident">Config</span>::<span class="ident">new</span>(),
             <span class="ident">entry_types</span>: <span class="ident">BTreeMap</span>::<span class="ident">new</span>(),
             <span class="ident">fn_declarations</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
-            <span class="ident">capabilities</span>: <span class="ident">BTreeMap</span>::<span class="ident">new</span>(),
+            <span class="ident">traits</span>: <span class="ident">BTreeMap</span>::<span class="ident">new</span>(),
             <span class="ident">code</span>: <span class="ident">DnaWasm</span>::<span class="ident">new</span>(),
             <span class="ident">bridges</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
         }
@@ -344,7 +316,7 @@
         <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">Config</span>,
         <span class="ident">entry_types</span>: <span class="kw-2">&amp;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">EntryType</span>, <span class="ident">entry_types</span>::<span class="ident">EntryTypeDef</span><span class="op">&gt;</span>,
         <span class="ident">fn_declarations</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">FnDeclaration</span><span class="op">&gt;</span>,
-        <span class="ident">capabilities</span>: <span class="kw-2">&amp;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Capability</span><span class="op">&gt;</span>,
+        <span class="ident">traits</span>: <span class="kw-2">&amp;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">TraitFns</span><span class="op">&gt;</span>,
         <span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="ident">DnaWasm</span>,
     ) <span class="op">-&gt;</span> <span class="ident">Zome</span> {
         <span class="ident">Zome</span> {
@@ -352,7 +324,7 @@
             <span class="ident">config</span>: <span class="ident">config</span>.<span class="ident">clone</span>(),
             <span class="ident">entry_types</span>: <span class="ident">entry_types</span>.<span class="ident">to_owned</span>(),
             <span class="ident">fn_declarations</span>: <span class="ident">fn_declarations</span>.<span class="ident">to_owned</span>(),
-            <span class="ident">capabilities</span>: <span class="ident">capabilities</span>.<span class="ident">to_owned</span>(),
+            <span class="ident">traits</span>: <span class="ident">traits</span>.<span class="ident">to_owned</span>(),
             <span class="ident">code</span>: <span class="ident">code</span>.<span class="ident">clone</span>(),
             <span class="ident">bridges</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
         }
@@ -378,6 +350,21 @@
             <span class="ident">outputs</span>,
         });
     }
+
+    <span class="doccomment">/// Return a Function declaration from a Zome</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_function</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fn_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">FnDeclaration</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">fn_declarations</span>
+            .<span class="ident">iter</span>()
+            .<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">fn_decl</span><span class="op">|</span> <span class="ident">fn_decl</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">fn_name</span>)
+    }
+
+    <span class="comment">// Helper function for finding out if a given function call is public</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_fn_public</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fn_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">let</span> <span class="ident">pub_trait</span> <span class="op">=</span> <span class="ident">ReservedTraitNames</span>::<span class="ident">Public</span>.<span class="ident">as_str</span>();
+        <span class="self">self</span>.<span class="ident">traits</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span>(<span class="ident">trait_name</span>, <span class="ident">trait_fns</span>)<span class="op">|</span> {
+            <span class="ident">trait_name</span> <span class="op">==</span> <span class="ident">pub_trait</span> <span class="op">&amp;&amp;</span> <span class="ident">trait_fns</span>.<span class="ident">functions</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">fn_name</span>.<span class="ident">to_owned</span>())
+        })
+    }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -399,19 +386,16 @@
         <span class="kw">let</span> <span class="ident">fixture</span>: <span class="ident">Zome</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>(
             <span class="string">r#&quot;{
                 &quot;description&quot;: &quot;test&quot;,
-                &quot;config&quot;: {
-                    &quot;error_handling&quot;: &quot;throw-errors&quot;
-                },
+                &quot;config&quot;: {},
                 &quot;entry_types&quot;: {},
                 &quot;fn_delcarations&quot;: [],
-                &quot;capabilities&quot;: {}
+                &quot;traits&quot;: {}
             }&quot;#</span>,
         )
         .<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">zome</span> <span class="op">=</span> <span class="ident">Zome</span>::<span class="ident">default</span>();
         <span class="ident">zome</span>.<span class="ident">description</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test&quot;</span>);
-        <span class="ident">zome</span>.<span class="ident">config</span>.<span class="ident">error_handling</span> <span class="op">=</span> <span class="ident">ErrorHandling</span>::<span class="ident">ThrowErrors</span>;
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">fixture</span>, <span class="ident">zome</span>);
     }
@@ -425,7 +409,7 @@
             ..<span class="ident">Default</span>::<span class="ident">default</span>()
         };
 
-        <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="string">&quot;{\&quot;description\&quot;:\&quot;\&quot;,\&quot;config\&quot;:{\&quot;error_handling\&quot;:\&quot;throw-errors\&quot;},\&quot;entry_types\&quot;:{\&quot;foo\&quot;:{\&quot;description\&quot;:\&quot;\&quot;,\&quot;sharing\&quot;:\&quot;public\&quot;,\&quot;links_to\&quot;:[],\&quot;linked_from\&quot;:[]}},\&quot;capabilities\&quot;:{},\&quot;fn_declarations\&quot;:[],\&quot;code\&quot;:{\&quot;code\&quot;:\&quot;\&quot;},\&quot;bridges\&quot;:[]}&quot;</span>;
+        <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="string">&quot;{\&quot;description\&quot;:\&quot;\&quot;,\&quot;config\&quot;:{},\&quot;entry_types\&quot;:{\&quot;foo\&quot;:{\&quot;description\&quot;:\&quot;\&quot;,\&quot;sharing\&quot;:\&quot;public\&quot;,\&quot;links_to\&quot;:[],\&quot;linked_from\&quot;:[]}},\&quot;traits\&quot;:{},\&quot;fn_declarations\&quot;:[],\&quot;code\&quot;:{\&quot;code\&quot;:\&quot;\&quot;},\&quot;bridges\&quot;:[]}&quot;</span>;
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">expected</span>.<span class="ident">clone</span>()),

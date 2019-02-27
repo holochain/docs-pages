@@ -1168,7 +1168,6 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tempfile</span>;
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">agent</span>::<span class="ident">chain_store</span>::{<span class="ident">ChainStore</span>, <span class="ident">ChainStoreQueryOptions</span>, <span class="ident">ChainStoreQueryResult</span>};
     <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::<span class="ident">cas</span>::<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>;
@@ -1182,6 +1181,7 @@
         <span class="ident">json</span>::<span class="ident">JsonString</span>,
         <span class="ident">time</span>::<span class="ident">test_iso_8601</span>,
     };
+    <span class="kw">use</span> <span class="ident">tempfile</span>;
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_chain_store</span>() <span class="op">-&gt;</span> <span class="ident">ChainStore</span> {
         <span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">RwLock</span>::<span class="ident">new</span>(

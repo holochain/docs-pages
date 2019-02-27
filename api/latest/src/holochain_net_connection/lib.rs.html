@@ -29,27 +29,21 @@
 <span id="29">29</span>
 <span id="30">30</span>
 <span id="31">31</span>
-<span id="32">32</span>
-<span id="33">33</span>
-<span id="34">34</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">fnbox</span>)]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
 
 <span class="doccomment">//! Provides a lightweight concurrency abstraction for holochain</span>
 <span class="doccomment">//! networking / p2p layer</span>
 <span class="doccomment">//! see holochain_net_ipc for a specific implementation, and</span>
 <span class="doccomment">//! holochain_net for the crate that pulls the implementations together</span>
 
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">byteorder</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">failure</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types_derive</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rmp</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rmp_serde</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_bytes</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_derive</span>;

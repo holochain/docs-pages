@@ -185,6 +185,16 @@
 <span id="185">185</span>
 <span id="186">186</span>
 <span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::{
     <span class="ident">cas</span>::{<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">memory</span>::<span class="ident">MemoryStorage</span>},
@@ -200,7 +210,7 @@
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">agent</span>::<span class="ident">AgentId</span>, <span class="ident">cas</span>::<span class="ident">storage</span>::<span class="ident">ContentAddressableStorage</span>, <span class="ident">eav</span>::<span class="ident">EntityAttributeValueStorage</span>,
-    <span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>,
+    <span class="ident">error</span>::<span class="ident">HolochainError</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>;
 <span class="kw">use</span> <span class="ident">jsonrpc_ws_server</span>::<span class="ident">jsonrpc_core</span>::<span class="ident">IoHandler</span>;
@@ -226,7 +236,7 @@
     <span class="ident">chain_storage</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">ContentAddressableStorage</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="ident">dht_storage</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">ContentAddressableStorage</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="ident">eav_storage</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueStorage</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">network_config</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span>,
+    <span class="ident">p2p_config</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">P2pConfig</span><span class="op">&gt;</span>,
     <span class="ident">conductor_api</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">IoHandler</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SignalSender</span><span class="op">&gt;</span>,
 }
@@ -239,7 +249,7 @@
             <span class="ident">chain_storage</span>: <span class="prelude-val">None</span>,
             <span class="ident">dht_storage</span>: <span class="prelude-val">None</span>,
             <span class="ident">eav_storage</span>: <span class="prelude-val">None</span>,
-            <span class="ident">network_config</span>: <span class="prelude-val">None</span>,
+            <span class="ident">p2p_config</span>: <span class="prelude-val">None</span>,
             <span class="ident">conductor_api</span>: <span class="prelude-val">None</span>,
             <span class="ident">signal_tx</span>: <span class="prelude-val">None</span>,
         }
@@ -281,8 +291,8 @@
     }
 
     <span class="doccomment">/// Sets the network config.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_network_config</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">network_config</span>: <span class="ident">JsonString</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">network_config</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">network_config</span>);
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_p2p_config</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">p2p_config</span>: <span class="ident">P2pConfig</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">p2p_config</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">p2p_config</span>);
         <span class="self">self</span>
     }
 
@@ -322,9 +332,8 @@
             <span class="ident">chain_storage</span>,
             <span class="ident">dht_storage</span>,
             <span class="ident">eav_storage</span>,
-            <span class="self">self</span>.<span class="ident">network_config</span>.<span class="ident">unwrap_or</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
-                <span class="ident">P2pConfig</span>::<span class="ident">new_with_unique_memory_backend</span>().<span class="ident">as_str</span>(),
-            )),
+            <span class="self">self</span>.<span class="ident">p2p_config</span>
+                .<span class="ident">unwrap_or</span>(<span class="ident">P2pConfig</span>::<span class="ident">new_with_unique_memory_backend</span>()),
             <span class="self">self</span>.<span class="ident">conductor_api</span>,
             <span class="self">self</span>.<span class="ident">signal_tx</span>,
         )
@@ -334,42 +343,53 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
+    <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tempfile</span>;
+    <span class="kw">use</span> <span class="self">self</span>::<span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
+    <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_config</span>::<span class="ident">P2pBackendKind</span>;
+    <span class="kw">use</span> <span class="ident">test_utils</span>::<span class="ident">mock_signing</span>::<span class="ident">mock_conductor_api</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">vanilla</span>() {
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">ContextBuilder</span>::<span class="ident">new</span>().<span class="ident">spawn</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">context</span>.<span class="ident">agent_id</span>, <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;alice&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">context</span>
-            .<span class="ident">network_config</span>
-            .<span class="ident">to_string</span>()
-            .<span class="ident">contains</span>(<span class="string">r#&quot;&quot;backend_kind&quot;:&quot;MEMORY&quot;&quot;#</span>));
+        <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;alice&quot;</span>);
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">ContextBuilder</span>::<span class="ident">new</span>()
+            .<span class="ident">with_conductor_api</span>(<span class="ident">mock_conductor_api</span>(<span class="ident">agent</span>.<span class="ident">clone</span>()))
+            .<span class="ident">spawn</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">context</span>.<span class="ident">agent_id</span>, <span class="ident">agent</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">P2pBackendKind</span>::<span class="ident">MEMORY</span>, <span class="ident">context</span>.<span class="ident">p2p_config</span>.<span class="ident">backend_kind</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">with_agent</span>() {
         <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;alice&quot;</span>);
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">ContextBuilder</span>::<span class="ident">new</span>().<span class="ident">with_agent</span>(<span class="ident">agent</span>.<span class="ident">clone</span>()).<span class="ident">spawn</span>();
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">ContextBuilder</span>::<span class="ident">new</span>()
+            .<span class="ident">with_agent</span>(<span class="ident">agent</span>.<span class="ident">clone</span>())
+            .<span class="ident">with_conductor_api</span>(<span class="ident">mock_conductor_api</span>(<span class="ident">agent</span>.<span class="ident">clone</span>()))
+            .<span class="ident">spawn</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">context</span>.<span class="ident">agent_id</span>, <span class="ident">agent</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">with_network_config</span>() {
-        <span class="kw">let</span> <span class="ident">net</span> <span class="op">=</span> <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">P2pConfig</span>::<span class="ident">new_with_unique_memory_backend</span>().<span class="ident">as_str</span>());
+        <span class="kw">let</span> <span class="ident">net</span> <span class="op">=</span> <span class="ident">P2pConfig</span>::<span class="ident">new_with_unique_memory_backend</span>();
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">ContextBuilder</span>::<span class="ident">new</span>()
-            .<span class="ident">with_network_config</span>(<span class="ident">net</span>.<span class="ident">clone</span>())
+            .<span class="ident">with_p2p_config</span>(<span class="ident">net</span>.<span class="ident">clone</span>())
+            .<span class="ident">with_conductor_api</span>(<span class="ident">mock_conductor_api</span>(<span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;alice&quot;</span>)))
             .<span class="ident">spawn</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">context</span>.<span class="ident">network_config</span>, <span class="ident">net</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">context</span>.<span class="ident">p2p_config</span>, <span class="ident">net</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">smoke_tests</span>() {
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">ContextBuilder</span>::<span class="ident">new</span>().<span class="ident">with_memory_storage</span>().<span class="ident">spawn</span>();
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">ContextBuilder</span>::<span class="ident">new</span>()
+            .<span class="ident">with_memory_storage</span>()
+            .<span class="ident">with_conductor_api</span>(<span class="ident">mock_conductor_api</span>(<span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;alice&quot;</span>)))
+            .<span class="ident">spawn</span>();
         <span class="kw">let</span> <span class="ident">temp</span> <span class="op">=</span> <span class="ident">tempdir</span>().<span class="ident">expect</span>(<span class="string">&quot;test was supposed to create temp dir&quot;</span>);
         <span class="kw">let</span> <span class="ident">temp_path</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">temp</span>.<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">expect</span>(<span class="string">&quot;temp dir could not be string&quot;</span>));
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">ContextBuilder</span>::<span class="ident">new</span>()
             .<span class="ident">with_file_storage</span>(<span class="ident">temp_path</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Filestorage should get instantiated with tempdir&quot;</span>)
+            .<span class="ident">with_conductor_api</span>(<span class="ident">mock_conductor_api</span>(<span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;alice&quot;</span>)))
             .<span class="ident">spawn</span>();
     }
 }

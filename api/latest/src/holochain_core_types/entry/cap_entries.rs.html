@@ -246,6 +246,7 @@
 <span id="246">246</span>
 <span id="247">247</span>
 <span id="248">248</span>
+<span id="249">249</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>},
@@ -352,7 +353,8 @@
         <span class="kw">if</span> <span class="ident">cap_type</span> <span class="op">==</span> <span class="ident">CapabilityType</span>::<span class="ident">Public</span> {
             <span class="kw">return</span> <span class="bool-val">true</span>;
         }
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">from</span>.<span class="ident">is_some</span>() {
+
+        <span class="kw">if</span> <span class="ident">from</span>.<span class="ident">is_none</span>() {
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
 

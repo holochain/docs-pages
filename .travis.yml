@@ -1,0 +1,12 @@
+sudo: true
+dist: bionic
+language: rust
+rust: nightly-2019-01-24
+cache: cargo
+before_script:
+- sudo apt-get install libzmq3-dev
+# - cargo install mdbook --vers "^0.2.2"
+script: "./build.sh"
+env:
+  global:
+  - secure: FPqGfhu2UyGwq9upTqlvATbufTYYrdzyJ52D9Nf7f2lDUlZVxdvPfAEfD2ZAyD97Pe2HrHUwBrAUpoSNkpJ9p1YItA//IqiCgixcnQjNVFmlw1/NA6ABy66S59QFibhYr6bOwmm/Jf8+JLYW15Q6DdCm5MZkyeNvGFb0wgNX+j+F5Z3LhHqbE6X3ojT9d0gBZk09zz9UKu7zcrAyvYFpKFUu+xJqQYHfche8iA0x+RTQdUts0xOTcA4O7RUUZdRZd8cOqBXy0scNsoRvxCi2ty51knu5h3MATeUivK8EwgKXkNqNMX3KZ/QUmP/OpLbADq8iKAnNp0lA5VZvI0lBTSv/zMel+ryaAs1mRK+EWZT7r3E6RJZfbOOgiyY2vk5VHmF4sgtWiabd3RKmUuR/BJrwpIDZLZ+sqIZREJwdMd4TTbfOcOeRJISqIPfGBZqfqZHYDLqNk5cbU6w0xdGgrRVV0LDO/0gstu0h6TuJNQ13jcQDRc57poTF/D2DSSbRlqkZOppXZQxWQ5VvjU0fumhqjahPEwiCFFvItifYbDF2/KXnSMwM/6ezi37lRgTP5mpWR7NeL3/DFptELK4S/SPdrUIJiPiSrS8pB2oDWv42lH5PRvosrTWrQqZt4haZhT8TF9Kx4t8/rFJ6mT//zu67bAuxQbydrRSqi8dxMKc=

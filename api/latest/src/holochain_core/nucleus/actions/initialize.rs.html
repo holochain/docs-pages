@@ -147,11 +147,7 @@
 <span id="147">147</span>
 <span id="148">148</span>
 <span id="149">149</span>
-<span id="150">150</span>
-<span id="151">151</span>
-<span id="152">152</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
     <span class="ident">agent</span>::<span class="ident">actions</span>::<span class="ident">commit</span>::<span class="ident">commit_entry</span>,
@@ -231,8 +227,6 @@
             .<span class="ident">expect</span>(<span class="string">&quot;Action channel not usable in initialize_application()&quot;</span>);
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">new</span>(<span class="string">&quot;error committing Agent&quot;</span>));
     }
-
-    <span class="comment">// TODO: Question: genesis is called AFTER dna and agent entries committed??</span>
 
     <span class="comment">// map genesis across every zome</span>
     <span class="kw">let</span> <span class="ident">results</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">dna</span>

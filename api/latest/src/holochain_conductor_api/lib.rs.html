@@ -144,12 +144,15 @@
 <span id="144">144</span>
 <span id="145">145</span>
 <span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! let file_system = Arc::new(RwLock::new(FilesystemStorage::new(tempdir().unwrap().path().to_str().unwrap()).unwrap()));</span>
 <span class="doccomment">//!     Arc::new(Mutex::new(SimplePersister::new(file_system.clone()))),</span>
 <span class="doccomment">//!     file_system.clone(),</span>
 
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>, <span class="ident">try_trait</span>, <span class="ident">async_await</span>, <span class="ident">await_macro</span>)]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
 <span class="doccomment">/// Holochain Conductor API</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This crate is a library that provides types and functions that help with building</span>
@@ -172,8 +175,6 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Example</span>
 <span class="doccomment">/// ```rust</span>
-<span class="doccomment">/// #![feature(try_from)]</span>
-<span class="doccomment">/// extern crate clap;</span>
 <span class="doccomment">/// extern crate holochain_conductor_api;</span>
 <span class="doccomment">/// extern crate holochain_core_types;</span>
 <span class="doccomment">/// #[macro_use]</span>
@@ -184,7 +185,7 @@
 <span class="doccomment">///     conductor::Conductor,</span>
 <span class="doccomment">/// };</span>
 <span class="doccomment">/// use holochain_core_types::error::HolochainError;</span>
-<span class="doccomment">/// use std::{convert::TryFrom, fs::File, io::prelude::*, path::PathBuf};</span>
+<span class="doccomment">/// use std::{fs::File, io::prelude::*, path::PathBuf};</span>
 <span class="doccomment">/// use structopt::StructOpt;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// #[derive(StructOpt, Debug)]</span>
@@ -225,7 +226,9 @@
 <span class="doccomment">///     config</span>
 <span class="doccomment">///         .check_consistency()</span>
 <span class="doccomment">///         .map_err(|string| HolochainError::ConfigError(string))?;</span>
-<span class="doccomment">///     Conductor::try_from(&amp;config)</span>
+<span class="doccomment">///     let mut conductor = Conductor::from_config(config);</span>
+<span class="doccomment">///     conductor.load_config()?;</span>
+<span class="doccomment">///     Ok(conductor)</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// fn load_config_file(path: &amp;String) -&gt; Result&lt;Configuration, HolochainError&gt; {</span>
@@ -235,17 +238,18 @@
 <span class="doccomment">///     Ok(load_configuration::&lt;Configuration&gt;(&amp;contents)?)</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_cas_implementations</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_common</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_dpki</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_net</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_net_connection</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_net_ipc</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_sodium</span>;
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">chrono</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tempfile</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_derive</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">boolinator</span>;
@@ -258,14 +262,11 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">regex</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_regex</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test_utils</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tiny_http</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">toml</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">maplit</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">dirs</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">directories</span>;
@@ -278,15 +279,18 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">pretty_assertions</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">fs_extra</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">base64</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rpassword</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">conductor</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">config</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">context_builder</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">error</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">holo_signing_service</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">holochain</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">interface</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">interface_impls</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">key_loaders</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">logger</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">static_file_server</span>;
 

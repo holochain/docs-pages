@@ -14,11 +14,6 @@
 <span id="14">14</span>
 <span id="15">15</span>
 <span id="16">16</span>
-<span id="17">17</span>
-<span id="18">18</span>
-<span id="19">19</span>
-<span id="20">20</span>
-<span id="21">21</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! CAS Implementations</span>
 <span class="doccomment">//!</span>
@@ -26,17 +21,12 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This crate contains implementations for the CAS and EAV traits</span>
 <span class="doccomment">//! which are defined but not implemented in the core_types crate.</span>
-
+<span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">snowflake</span>;
 
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">uuid</span>;
-
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
-
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">chrono</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">glob</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">uuid</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cas</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">eav</span>;

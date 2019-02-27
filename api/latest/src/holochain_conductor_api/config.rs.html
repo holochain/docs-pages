@@ -1101,6 +1101,37 @@
 <span id="1101">1101</span>
 <span id="1102">1102</span>
 <span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Conductor Configuration</span>
@@ -1165,6 +1196,12 @@
     <span class="doccomment">/// where to persist the config file and DNAs. Optional.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;default_persistence_dir&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">persistence_dir</span>: <span class="ident">PathBuf</span>,
+
+    <span class="doccomment">/// Optional URI for a websocket connection to an outsourced signing service.</span>
+    <span class="doccomment">/// Bootstrapping step for Holo closed-alpha.</span>
+    <span class="doccomment">/// If set, all agents with holo_remote_key = true will be emulated by asking for signatures</span>
+    <span class="doccomment">/// over this websocket.</span>
+    <span class="kw">pub</span> <span class="ident">signing_service_uri</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_persistence_dir</span>() <span class="op">-&gt;</span> <span class="ident">PathBuf</span> {
@@ -1402,12 +1439,15 @@
 }
 
 <span class="doccomment">/// An agent has a name/ID and is defined by a private key that resides in a file</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AgentConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">public_address</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">key_file</span>: <span class="ident">String</span>,
+    <span class="doccomment">/// If set to true conductor will ignore key_file and instead use the remote signer</span>
+    <span class="doccomment">/// accessible through signing_service_uri to request signatures.</span>
+    <span class="kw">pub</span> <span class="ident">holo_remote_key</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">AgentConfiguration</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AgentId</span> {
@@ -1418,12 +1458,14 @@
 }
 
 <span class="doccomment">/// A DNA is represented by a DNA file.</span>
-<span class="doccomment">/// A hash has to be provided for sanity check.</span>
+<span class="doccomment">/// A hash can optionally be provided, which could be used to validate that the DNA being installed</span>
+<span class="doccomment">/// is the DNA that was intended to be installed.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DnaConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">file</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="ident">String</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">DnaConfiguration</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Dna</span> {
@@ -1438,7 +1480,7 @@
 
 <span class="doccomment">/// An instance combines a DNA with an agent.</span>
 <span class="doccomment">/// Each instance has its own storage configuration.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">dna</span>: <span class="ident">String</span>,
@@ -1453,7 +1495,7 @@
 <span class="doccomment">/// * file</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Projected are various DB adapters.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>, <span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">StorageConfiguration</span> {
     <span class="ident">Memory</span>,
@@ -1472,7 +1514,7 @@
 <span class="doccomment">/// The instances (referenced by ID) that are to be made available via that interface should be listed.</span>
 <span class="doccomment">/// An admin flag will enable conductor functions for programatically changing the configuration</span>
 <span class="doccomment">/// (e.g. installing apps)</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InterfaceConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">driver</span>: <span class="ident">InterfaceDriver</span>,
@@ -1482,7 +1524,7 @@
     <span class="kw">pub</span> <span class="ident">instances</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">InstanceReferenceConfiguration</span><span class="op">&gt;</span>,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>, <span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InterfaceDriver</span> {
     <span class="ident">Websocket</span> { <span class="ident">port</span>: <span class="ident">u16</span> },
@@ -1491,7 +1533,7 @@
     <span class="ident">Custom</span>(<span class="ident">toml</span>::<span class="ident">value</span>::<span class="ident">Value</span>),
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceReferenceConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
 }
@@ -1504,7 +1546,7 @@
     <span class="doccomment">/// This instance depends on the callee.</span>
     <span class="kw">pub</span> <span class="ident">caller_id</span>: <span class="ident">String</span>,
 
-    <span class="doccomment">/// ID of the instance that exposes capabilities through this bridge.</span>
+    <span class="doccomment">/// ID of the instance that exposes traits through this bridge.</span>
     <span class="doccomment">/// This instance is used by the caller.</span>
     <span class="kw">pub</span> <span class="ident">callee_id</span>: <span class="ident">String</span>,
 
@@ -1515,11 +1557,15 @@
     <span class="kw">pub</span> <span class="ident">handle</span>: <span class="ident">String</span>,
 }
 
+<span class="doccomment">/// A UI Bundle is a folder containing static assets which can be served as a UI</span>
+<span class="doccomment">/// A hash can optionally be provided, which could be used to validate that the UI being installed</span>
+<span class="doccomment">/// is the UI bundle that was intended to be installed.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UiBundleConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">root_dir</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="ident">String</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
@@ -1559,12 +1605,21 @@
     <span class="doccomment">/// configs above. Default is None.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">n3h_ipc_uri</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// filepath to the json file holding the network settings for n3h</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">networking_config_file</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
+<span class="comment">// note that this behaviour is documented within</span>
+<span class="comment">// holochain_common::env_vars module and should be updated</span>
+<span class="comment">// if this logic changes</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_mode</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>)
 }
 
+<span class="comment">// note that this behaviour is documented within</span>
+<span class="comment">// holochain_common::env_vars module and should be updated</span>
+<span class="comment">// if this logic changes</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_path</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">user_dirs</span>) <span class="op">=</span> <span class="ident">directories</span>::<span class="ident">UserDirs</span>::<span class="ident">new</span>() {
         <span class="ident">user_dirs</span>
@@ -1579,6 +1634,9 @@
     }
 }
 
+<span class="comment">// note that this behaviour is documented within</span>
+<span class="comment">// holochain_common::env_vars module and should be updated</span>
+<span class="comment">// if this logic changes</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_persistence_path</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="ident">env</span>::<span class="ident">temp_dir</span>().<span class="ident">to_string_lossy</span>().<span class="ident">to_string</span>()
 }
@@ -1610,10 +1668,10 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">config</span>::{<span class="ident">load_configuration</span>, <span class="ident">Configuration</span>, <span class="ident">NetworkConfig</span>};
-    <span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">context</span>::<span class="ident">unique_memory_network_config</span>;
+    <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>;
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">example_serialized_network_config</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">unique_memory_network_config</span>())
+        <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">P2pConfig</span>::<span class="ident">new_with_unique_memory_backend</span>()))
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1663,14 +1721,14 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
     &quot;#</span>;
         <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>().<span class="ident">dnas</span>;
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="string">&quot;Qm328wyq38924y&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.dna.json&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>.<span class="ident">to_string</span>()));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1684,7 +1742,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -1723,6 +1781,7 @@
     bootstrap_nodes = [&quot;/ip4/127.0.0.1/tcp/45737/ipfs/QmYaEMe288imZVHnHeNby75m9V6mwjqu6W71cEuziEBC5i&quot;]
     n3h_path = &quot;/Users/cnorris/.holochain/n3h&quot;
     n3h_persistence_path = &quot;/Users/cnorris/.holochain/n3h_persistence&quot;
+    networking_config_file = &quot;/Users/cnorris/.holochain/network_config.json&quot;
     &quot;#</span>;
 
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
@@ -1731,8 +1790,8 @@
         <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">dnas</span>;
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="string">&quot;Qm328wyq38924y&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.dna.json&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>.<span class="ident">to_string</span>()));
 
         <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">instances</span>;
         <span class="kw">let</span> <span class="ident">instance_config</span> <span class="op">=</span> <span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
@@ -1750,6 +1809,9 @@
                 <span class="ident">n3h_mode</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>),
                 <span class="ident">n3h_persistence_path</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;/Users/cnorris/.holochain/n3h_persistence&quot;</span>),
                 <span class="ident">n3h_ipc_uri</span>: <span class="prelude-val">None</span>,
+                <span class="ident">networking_config_file</span>: <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(
+                    <span class="string">&quot;/Users/cnorris/.holochain/network_config.json&quot;</span>
+                )),
             }
         );
     }
@@ -1765,7 +1827,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -1825,8 +1887,8 @@
         <span class="kw">let</span> <span class="ident">dnas</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">dnas</span>;
         <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">dnas</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">expect</span>(<span class="string">&quot;expected at least 1 DNA&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec rust&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.hcpkg&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="string">&quot;Qm328wyq38924y&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">file</span>, <span class="string">&quot;app_spec.dna.json&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dna_config</span>.<span class="ident">hash</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;Qm328wyq38924y&quot;</span>.<span class="ident">to_string</span>()));
 
         <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">instances</span>;
         <span class="kw">let</span> <span class="ident">instance_config</span> <span class="op">=</span> <span class="ident">instances</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
@@ -1850,7 +1912,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -1880,7 +1942,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -1923,7 +1985,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app-spec-rust.hcpkg&quot;
+    file = &quot;app-spec-rust.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -1966,7 +2028,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app-spec-rust.hcpkg&quot;
+    file = &quot;app-spec-rust.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]
@@ -2144,7 +2206,7 @@
 
     [[dnas]]
     id = &quot;app spec rust&quot;
-    file = &quot;app_spec.hcpkg&quot;
+    file = &quot;app_spec.dna.json&quot;
     hash = &quot;Qm328wyq38924y&quot;
 
     [[instances]]

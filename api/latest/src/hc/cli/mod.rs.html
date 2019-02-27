@@ -14,23 +14,21 @@
 <span id="14">14</span>
 <span id="15">15</span>
 <span id="16">16</span>
-<span id="17">17</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">mod</span> <span class="ident">agent</span>;
 <span class="kw">mod</span> <span class="ident">generate</span>;
 <span class="kw">mod</span> <span class="ident">init</span>;
+<span class="kw">mod</span> <span class="ident">keygen</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">package</span>;
 <span class="kw">mod</span> <span class="ident">run</span>;
 <span class="kw">mod</span> <span class="ident">scaffold</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">test</span>;
-<span class="kw">mod</span> <span class="ident">test_context</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{
-    <span class="ident">agent</span>::<span class="ident">agent</span>,
     <span class="ident">generate</span>::<span class="ident">generate</span>,
     <span class="ident">init</span>::<span class="ident">init</span>,
+    <span class="ident">keygen</span>::<span class="ident">keygen</span>,
     <span class="ident">package</span>::{<span class="ident">package</span>, <span class="ident">unpack</span>},
-    <span class="ident">run</span>::<span class="ident">run</span>,
+    <span class="ident">run</span>::{<span class="ident">get_interface_type_string</span>, <span class="ident">hc_run_configuration</span>, <span class="ident">run</span>},
     <span class="ident">test</span>::{<span class="ident">test</span>, <span class="ident">TEST_DIR_NAME</span>},
 };
 </pre></div>

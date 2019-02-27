@@ -339,6 +339,13 @@
 <span id="339">339</span>
 <span id="340">340</span>
 <span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="self">self</span>::<span class="ident">HolochainError</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -351,6 +358,7 @@
     <span class="ident">error</span>::<span class="ident">Error</span>,
     <span class="ident">fmt</span>,
     <span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Error</span> <span class="kw">as</span> <span class="ident">IoError</span>},
+    <span class="ident">option</span>::<span class="ident">NoneError</span>,
 };
 
 <span class="comment">//--------------------------------------------------------------------------------------------------</span>
@@ -533,6 +541,12 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">NoneError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">HolochainError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">NoneError</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="string">&quot;Expected Some and got None&quot;</span>.<span class="ident">to_string</span>())
+    }
+}
+
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Default</span>, <span class="ident">Debug</span>, <span class="ident">DefaultJson</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZomeApiInternalResult</span> {
     <span class="kw">pub</span> <span class="ident">ok</span>: <span class="ident">bool</span>,
@@ -633,7 +647,7 @@
                 <span class="string">&quot;foo&quot;</span>,
             ),
             (
-                <span class="ident">HolochainError</span>::<span class="ident">Dna</span>(<span class="ident">DnaError</span>::<span class="ident">CapabilityNotFound</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;foo&quot;</span>))),
+                <span class="ident">HolochainError</span>::<span class="ident">Dna</span>(<span class="ident">DnaError</span>::<span class="ident">TraitNotFound</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;foo&quot;</span>))),
                 <span class="string">&quot;foo&quot;</span>,
             ),
             (
