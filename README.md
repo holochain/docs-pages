@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/holochain/docs-pages.svg?branch=master)](https://travis-ci.com/holochain/docs-pages)
+
 # Docs pages
 
 Everything is raw HTML! However, the Guidebook, and the API references, are built.
