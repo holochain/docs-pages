@@ -22,7 +22,8 @@ mdbook build holochain-rust/doc/holochain_101 --dest-dir ../../../guide/latest
 
 rm -rf holochain-rust
 
-if [[$TRAVIS_PULL_REQUEST == "false"] && [ $TRAVIS_BRANCH == 'master' ]]
+if [ [ $TRAVIS_PULL_REQUEST == "false" ] && [ $TRAVIS_BRANCH == 'master' ] ]
+then
     git config --global user.email "travis@travis-ci.org"
     git config --global user.name "Travis CI"
 
