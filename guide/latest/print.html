@@ -1183,6 +1183,22 @@ define_zome! {
 }
 #}</code></pre></pre>
 <p><code>functions</code> is where the function declarations will be made.</p>
+<a class="header" href="#adding-traits" id="adding-traits"><h3>Adding Traits:</h3></a>
+<p>Here are some sample traits</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+...
+
+define_zome! {
+    ...
+    traits: {
+        hc_public [read_post]
+        authoring [create_post, update_post]
+    }
+}
+#}</code></pre></pre>
+<p>In this example, <code>hc_public</code> is the reserved trait name which creates a <code>Public</code> Capbility-type grant at genesis time for access to the <code>read_post</code> function.  Additionally it names an <code>authoring</code> trait for the <code>create_post</code> and <code>update_post</code> functions.</p>
 <a class="header" href="#adding-a-zome-function" id="adding-a-zome-function"><h3>Adding a Zome Function</h3></a>
 <p>In order to add a Zome function, there are two primary steps that are involved.</p>
 <ol>
@@ -1247,7 +1263,7 @@ define_zome! {
 }
 #}</code></pre></pre>
 <p>To see plenty of examples of adding functions, check out a file used for <a href="https://github.com/holochain/holochain-rust/blob/v0.0.4/hdk-rust/wasm-test/src/lib.rs">testing the many capacities of the HDK</a>.</p>
-<a class="header" href="#adding-traits" id="adding-traits"><h3>Adding Traits:</h3></a>
+<a class="header" href="#adding-traits-1" id="adding-traits-1"><h3>Adding Traits:</h3></a>
 <p>Here are some sample traits</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
@@ -1262,7 +1278,7 @@ define_zome! {
     }
 }
 #}</code></pre></pre>
-<p>In this example, <code>hc_public</code> is the reserved trait name which create a <code>Public</code> Capbility-type grant at genesis time for access to the <code>read_post</code> function.  Additionally it names an <code>authoring</code> trait the <code>create_post</code> and <code>update_post</code> functions.</p>
+<p>In this example, <code>hc_public</code> is the reserved trait name which create a <code>Public</code> Capability-type grant at genesis time for access to the <code>read_post</code> function.  Additionally it names an <code>authoring</code> trait the <code>create_post</code> and <code>update_post</code> functions.</p>
 <p>Continue reading to learn all about the API Functions and examples of how to use them.</p>
 <a class="header" href="#capabilities" id="capabilities"><h1>Capabilities</h1></a>
 <a class="header" href="#overview-1" id="overview-1"><h2>Overview</h2></a>
@@ -2382,6 +2398,9 @@ pattern = &quot;.*&quot;
 <a class="header" href="#properties-8" id="properties-8"><h3>Properties</h3></a>
 <a class="header" href="#bootstrap_nodes-array-of-string-optional" id="bootstrap_nodes-array-of-string-optional"><h4><code>bootstrap_nodes</code>: <code>array of string</code> Optional</h4></a>
 <p>List of URIs that point to other nodes to bootstrap p2p connections.</p>
+<a class="header" href="#n3h_log_level-char" id="n3h_log_level-char"><h4><code>n3h_log_level</code>: <code>char</code></h4></a>
+<p>Set the logging level used globally by N3H. Must be one of the following: 't', 'd', 'i', 'w', 'e'
+Each value corresponding to the industry standard log level: Trace, Debug, Info, Warning, Error.</p>
 <a class="header" href="#n3h_path-string" id="n3h_path-string"><h4><code>n3h_path</code>: <code>string</code></h4></a>
 <p>Absolute path to the local installation/repository of n3h. Default is to a subdirectory of the $HOME directory on the device: <code>$HOME/.hc/net/n3h</code></p>
 <a class="header" href="#n3h_persistence_path-string-optional" id="n3h_persistence_path-string-optional"><h4><code>n3h_persistence_path</code>: <code>string</code> Optional</h4></a>
@@ -3637,6 +3656,7 @@ b. use a 16 bit integer for the pointers <code>length</code></li>
 <li>agent_address</li>
 <li>agent_initial_hash</li>
 <li>agent_latest_hash</li>
+<li>public_token</li>
 </ul>
 <p>See the <a href="/zome/api_globals.html">API global variables</a> page for details on what these are.</p>
 <a class="header" href="#publish-it-and-get-in-touch" id="publish-it-and-get-in-touch"><h3>Publish It and Get In Touch</h3></a>
