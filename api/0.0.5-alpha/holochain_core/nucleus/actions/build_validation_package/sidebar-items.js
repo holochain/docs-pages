@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["build_validation_package",""]],"struct":[["ValidationPackageFuture","ValidationPackageFuture resolves to the ValidationPackage or a HolochainError."]]});

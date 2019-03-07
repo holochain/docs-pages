@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["initialize_network","Creates a network proxy object and stores DNA and agent hash in the network state."]],"struct":[["InitNetworkFuture",""]]});

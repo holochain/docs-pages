@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Signature","Signature is meant in the classic cryptographic sense, as a string which can be validated as having been signed by the private key associated with a given public key"]]});
