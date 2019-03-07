@@ -433,7 +433,6 @@
 <span id="433">433</span>
 <span id="434">434</span>
 <span id="435">435</span>
-<span id="436">436</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">config_files</span>::<span class="ident">Build</span>, <span class="ident">error</span>::<span class="ident">DefaultResult</span>, <span class="ident">util</span>};
 <span class="kw">use</span> <span class="ident">base64</span>;
@@ -521,9 +520,8 @@
             .<span class="ident">skip</span>(<span class="number">1</span>);
 
         <span class="kw">let</span> <span class="ident">root</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">root_dir</span>
-            .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">is_ok</span>())
-            <span class="comment">// unwrap safe here due to is_ok() filter above</span>
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">unwrap</span>().<span class="ident">path</span>().<span class="ident">to_path_buf</span>())
+            .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">ok</span>())
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">path</span>().<span class="ident">to_path_buf</span>())
             .<span class="ident">collect</span>();
 
         <span class="kw">let</span> <span class="ident">maybe_json_file_path</span> <span class="op">=</span> <span class="ident">root</span>
@@ -577,8 +575,8 @@
                 <span class="comment">// should build the json and insert it for this zome</span>
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">dir_with_code</span>) <span class="op">=</span> <span class="ident">node</span>
                     .<span class="ident">read_dir</span>()<span class="question-mark">?</span>
-                    .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">is_ok</span>())
-                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">unwrap</span>().<span class="ident">path</span>())
+                    .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">ok</span>())
+                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">path</span>())
                     .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">path</span><span class="op">|</span> <span class="ident">path</span>.<span class="ident">is_dir</span>())
                     .<span class="ident">find</span>(<span class="op">|</span><span class="ident">path</span><span class="op">|</span> <span class="ident">path</span>.<span class="ident">join</span>(<span class="ident">BUILD_CONFIG_FILE_NAME</span>).<span class="ident">exists</span>())
                 {
@@ -610,8 +608,8 @@
                 <span class="comment">// this is the code folder itself, with a .hcbuild file in it</span>
                 } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">build_config</span>) <span class="op">=</span> <span class="ident">node</span>
                     .<span class="ident">read_dir</span>()<span class="question-mark">?</span>
-                    .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">is_ok</span>())
-                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">unwrap</span>().<span class="ident">path</span>())
+                    .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">ok</span>())
+                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">path</span>())
                     .<span class="ident">find</span>(<span class="op">|</span><span class="ident">path</span><span class="op">|</span> <span class="ident">path</span>.<span class="ident">ends_with</span>(<span class="ident">BUILD_CONFIG_FILE_NAME</span>))
                 {
                     <span class="ident">meta_tree</span>.<span class="ident">insert</span>(<span class="ident">file_name</span>.<span class="ident">clone</span>(), <span class="ident">META_BIN_ID</span>.<span class="ident">into</span>());

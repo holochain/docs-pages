@@ -67,7 +67,7 @@
     <span class="ident">nucleus</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">eav</span>::<span class="ident">Attribute</span>};
-<span class="kw">use</span> <span class="ident">holochain_net_connection</span>::<span class="ident">json_protocol</span>::{
+<span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">connection</span>::<span class="ident">json_protocol</span>::{
     <span class="ident">FetchEntryData</span>, <span class="ident">FetchEntryResultData</span>, <span class="ident">FetchMetaData</span>, <span class="ident">FetchMetaResultData</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections</span>::<span class="ident">BTreeSet</span>, <span class="ident">convert</span>::<span class="ident">TryInto</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};

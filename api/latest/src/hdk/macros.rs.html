@@ -403,6 +403,8 @@
 <span id="403">403</span>
 <span id="404">404</span>
 <span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This file contains the define_zome! macro, and smaller helper macros.</span>
 
@@ -506,6 +508,8 @@
 <span class="doccomment">/// # pub fn hc_debug(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_call(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_sign(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_get_links(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
@@ -755,7 +759,7 @@
                 <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">debug</span>(<span class="ident">RawString</span>::<span class="ident">from</span>(
                     <span class="ident">info</span>.<span class="ident">payload</span>().<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>().<span class="ident">clone</span>(),
                 ));
-                <span class="comment">//let _ = debug(RawString::from(format!(&quot;{}&quot;, info.message().unwrap().clone())));</span>
+
                 <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">location</span>) <span class="op">=</span> <span class="ident">info</span>.<span class="ident">location</span>() {
                     <span class="ident">debug</span>(<span class="ident">RawString</span>::<span class="ident">from</span>(<span class="macro">format</span><span class="macro">!</span>(
                         <span class="string">&quot;panic occurred in file &#39;{}&#39; at line {}&quot;</span>,

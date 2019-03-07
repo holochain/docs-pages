@@ -131,6 +131,39 @@
 <span id="131">131</span>
 <span id="132">132</span>
 <span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
@@ -138,9 +171,15 @@
     <span class="ident">network</span>::{
         <span class="ident">actions</span>::<span class="ident">get_validation_package</span>::<span class="ident">get_validation_package</span>, <span class="ident">entry_with_header</span>::<span class="ident">EntryWithHeader</span>,
     },
-    <span class="ident">nucleus</span>::<span class="ident">actions</span>::<span class="ident">validate</span>::<span class="ident">validate_entry</span>,
+    <span class="ident">nucleus</span>::<span class="ident">validation</span>::<span class="ident">validate_entry</span>,
 };
 
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">nucleus</span>::{
+        <span class="ident">actions</span>::<span class="ident">add_pending_validation</span>::<span class="ident">add_pending_validation</span>, <span class="ident">validation</span>::<span class="ident">ValidationError</span>,
+    },
+    <span class="ident">scheduled_jobs</span>::<span class="ident">pending_validations</span>::<span class="ident">ValidatingWorkflow</span>,
+};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">entry</span>::<span class="ident">Entry</span>,
     <span class="ident">error</span>::<span class="ident">HolochainError</span>,
@@ -167,10 +206,31 @@
     <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
         <span class="string">&quot;debug/workflow/hold_link: getting validation package...&quot;</span>
     ));
-    <span class="kw">let</span> <span class="ident">maybe_validation_package</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">get_validation_package</span>(<span class="ident">header</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>))<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="ident">validation_package</span> <span class="op">=</span> <span class="ident">maybe_validation_package</span>
-        .<span class="ident">ok_or</span>(<span class="string">&quot;Could not get validation package from source&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
-    <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/workflow/hold_link: got validation package!&quot;</span>));
+    <span class="kw">let</span> <span class="ident">maybe_validation_package</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">get_validation_package</span>(<span class="ident">header</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>))
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="string">&quot;Could not get validation package from source! -&gt; Add to pending...&quot;</span>;
+            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/workflow/hold_link: {}&quot;</span>, <span class="ident">message</span>));
+            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/workflow/hold_link: Error was: {:?}&quot;</span>, <span class="ident">err</span>));
+            <span class="ident">add_pending_validation</span>(
+                <span class="ident">entry_with_header</span>.<span class="ident">to_owned</span>(),
+                <span class="ident">Vec</span>::<span class="ident">new</span>(),
+                <span class="ident">ValidatingWorkflow</span>::<span class="ident">HoldLink</span>,
+                <span class="ident">context</span>,
+            );
+            <span class="ident">HolochainError</span>::<span class="ident">ValidationPending</span>
+        })<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">validation_package</span> <span class="op">=</span> <span class="ident">maybe_validation_package</span>.<span class="ident">ok_or_else</span>(<span class="op">||</span> {
+        <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="string">&quot;Source did respond to request but did not deliver validation package! (Empty response) This is weird! Let&#39;s try this again later -&gt; Add to pending&quot;</span>;
+        <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/workflow/hold_link: {}&quot;</span>, <span class="ident">message</span>));
+        <span class="ident">add_pending_validation</span>(
+            <span class="ident">entry_with_header</span>.<span class="ident">to_owned</span>(),
+            <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">ValidatingWorkflow</span>::<span class="ident">HoldLink</span>,
+            <span class="kw-2">&amp;</span><span class="ident">context</span>,
+        );
+        <span class="ident">HolochainError</span>::<span class="ident">ValidationPending</span>
+    })<span class="question-mark">?</span>;
+    <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/workflow/hold_link: got validation package&quot;</span>));
 
     <span class="comment">// 2. Create validation data struct</span>
     <span class="kw">let</span> <span class="ident">validation_data</span> <span class="op">=</span> <span class="ident">ValidationData</span> {
@@ -183,7 +243,15 @@
     <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/workflow/hold_link: validate...&quot;</span>));
     <span class="macro">await</span><span class="macro">!</span>(<span class="ident">validate_entry</span>(<span class="ident">entry</span>.<span class="ident">clone</span>(), <span class="ident">validation_data</span>, <span class="kw-2">&amp;</span><span class="ident">context</span>)).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> {
         <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/workflow/hold_link: invalid! {:?}&quot;</span>, <span class="ident">err</span>));
-        <span class="ident">err</span>
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">ValidationError</span>::<span class="ident">UnresolvedDependencies</span>(<span class="ident">dependencies</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">err</span> {
+            <span class="ident">add_pending_validation</span>(
+                <span class="ident">entry_with_header</span>.<span class="ident">to_owned</span>(),
+                <span class="ident">dependencies</span>.<span class="ident">clone</span>(),
+                <span class="ident">ValidatingWorkflow</span>::<span class="ident">HoldLink</span>,
+                <span class="kw-2">&amp;</span><span class="ident">context</span>,
+            );
+        }
+        <span class="ident">HolochainError</span>::<span class="ident">ValidationPending</span>
     })<span class="question-mark">?</span>;
     <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/workflow/hold_link: is valid!&quot;</span>));
 
@@ -216,11 +284,9 @@
     <span class="doccomment">/// hold_link_workflow is then expected to fail in its validation step</span>
     <span class="kw">fn</span> <span class="ident">test_reject_invalid_link_on_hold_workflow</span>() {
         <span class="comment">// Hacked DNA that regards everything as valid</span>
-        <span class="kw">let</span> <span class="ident">hacked_dna</span> <span class="op">=</span>
-            <span class="ident">create_test_dna_with_wat</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">test_wat_always_valid</span>()));
+        <span class="kw">let</span> <span class="ident">hacked_dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_wat</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">test_wat_always_valid</span>()));
         <span class="comment">// Original DNA that regards nothing as valid</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna</span> <span class="op">=</span>
-            <span class="ident">create_test_dna_with_wat</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="string">&quot;test_cap&quot;</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">test_wat_always_invalid</span>()));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_wat</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">test_wat_always_invalid</span>()));
         <span class="ident">dna</span>.<span class="ident">uuid</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test_reject_invalid_link_on_hold_workflow&quot;</span>);
 
         <span class="comment">// Address of the original DNA</span>

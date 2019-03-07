@@ -1132,6 +1132,18 @@
 <span id="1132">1132</span>
 <span id="1133">1133</span>
 <span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Conductor Configuration</span>
@@ -1148,7 +1160,7 @@
 <span class="kw">use</span> <span class="ident">boolinator</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">directories</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">agent</span>::<span class="ident">AgentId</span>,
+    <span class="ident">agent</span>::{<span class="ident">AgentId</span>, <span class="ident">Base32</span>},
     <span class="ident">dna</span>::<span class="ident">Dna</span>,
     <span class="ident">error</span>::{<span class="ident">HcResult</span>, <span class="ident">HolochainError</span>},
     <span class="ident">json</span>::<span class="ident">JsonString</span>,
@@ -1443,7 +1455,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AgentConfiguration</span> {
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">public_address</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">public_address</span>: <span class="ident">Base32</span>,
     <span class="kw">pub</span> <span class="ident">key_file</span>: <span class="ident">String</span>,
     <span class="doccomment">/// If set to true conductor will ignore key_file and instead use the remote signer</span>
     <span class="doccomment">/// accessible through signing_service_uri to request signatures.</span>
@@ -1590,6 +1602,9 @@
     <span class="doccomment">/// List of URIs that point to other nodes to bootstrap p2p connections.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">bootstrap_nodes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Global logging level output by N3H</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;default_n3h_log_level&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">n3h_log_level</span>: <span class="ident">String</span>,
     <span class="doccomment">/// Absolute path to the local installation/repository of n3h</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">n3h_path</span>: <span class="ident">String</span>,
@@ -1615,6 +1630,13 @@
 <span class="comment">// if this logic changes</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_mode</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>)
+}
+
+<span class="comment">// note that this behaviour is documented within</span>
+<span class="comment">// holochain_common::env_vars module and should be updated</span>
+<span class="comment">// if this logic changes</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_log_level</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;i&quot;</span>)
 }
 
 <span class="comment">// note that this behaviour is documented within</span>
@@ -1782,6 +1804,7 @@
     n3h_path = &quot;/Users/cnorris/.holochain/n3h&quot;
     n3h_persistence_path = &quot;/Users/cnorris/.holochain/n3h_persistence&quot;
     networking_config_file = &quot;/Users/cnorris/.holochain/network_config.json&quot;
+    n3h_log_level = &quot;d&quot;
     &quot;#</span>;
 
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
@@ -1805,6 +1828,7 @@
                 <span class="ident">bootstrap_nodes</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">String</span>::<span class="ident">from</span>(
                     <span class="string">&quot;/ip4/127.0.0.1/tcp/45737/ipfs/QmYaEMe288imZVHnHeNby75m9V6mwjqu6W71cEuziEBC5i&quot;</span>
                 )],
+                <span class="ident">n3h_log_level</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;d&quot;</span>),
                 <span class="ident">n3h_path</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;/Users/cnorris/.holochain/n3h&quot;</span>),
                 <span class="ident">n3h_mode</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>),
                 <span class="ident">n3h_persistence_path</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;/Users/cnorris/.holochain/n3h_persistence&quot;</span>),

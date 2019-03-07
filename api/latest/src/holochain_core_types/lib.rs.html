@@ -71,9 +71,6 @@
 <span id="71">71</span>
 <span id="72">72</span>
 <span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Holochain Core Types</span>
 <span class="doccomment">//!</span>
@@ -89,15 +86,12 @@
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">never_type</span>)]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
 
-<span class="attribute">#[<span class="ident">macro_use</span>]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">arrayref</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">base64</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">chrono</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">multihash</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">reed_solomon</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rust_base58</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
@@ -111,7 +105,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">maplit</span>;
-
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">hcid</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">uuid</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cas</span>;

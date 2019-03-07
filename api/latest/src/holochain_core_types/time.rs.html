@@ -781,7 +781,7 @@
                   )?
                 )?
                 \s*
-                (?P&lt;Z&gt;          # no timezone specifier implies Z         
+                (?P&lt;Z&gt;          # no timezone specifier implies Z
                    [Zz]
                  | (?P&lt;Zsgn&gt;[+-−]) # Zone sign allows UTF8 minus or ASCII hyphen as per RFC/ISO
                    (?P&lt;Zhrs&gt;\d{2}) # and always double-digit hours offset required
@@ -868,7 +868,7 @@
             <span class="comment">// and JSON round-trip.</span>
             <span class="ident">Iso8601</span>::<span class="ident">try_from</span>(<span class="kw-2">*</span><span class="ident">ts</span>)
                 .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">iso</span><span class="op">|</span> {
-                    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">iso</span>), <span class="string">&quot;2018-10-11T03:23:38+00:00&quot;</span>);
+                    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iso</span>.<span class="ident">to_string</span>(), <span class="string">&quot;2018-10-11T03:23:38+00:00&quot;</span>);
                     <span class="prelude-val">Ok</span>(<span class="ident">iso</span>)
                 })
                 .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">iso</span><span class="op">|</span> {
@@ -935,7 +935,7 @@
         .<span class="ident">iter</span>()
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">ts</span><span class="op">|</span> {
             <span class="ident">Iso8601</span>::<span class="ident">try_from</span>(<span class="kw-2">*</span><span class="ident">ts</span>)
-                .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">iso</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">iso</span>), <span class="string">&quot;2018-01-01T03:23:00+00:00&quot;</span>)))
+                .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">iso</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iso</span>.<span class="ident">to_string</span>(), <span class="string">&quot;2018-01-01T03:23:00+00:00&quot;</span>)))
         })
         .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(()), <span class="ident">HolochainError</span><span class="op">&gt;&gt;</span>()
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
@@ -962,7 +962,7 @@
             <span class="kw">let</span> <span class="ident">iso_8601</span> <span class="op">=</span> <span class="ident">Iso8601</span>::<span class="ident">try_from</span>(<span class="kw-2">*</span><span class="ident">ts</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">DateTime</span>::<span class="op">&lt;</span><span class="ident">FixedOffset</span><span class="op">&gt;</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="ident">iso_8601</span>); <span class="comment">// from &amp;Iso8601</span>
             <span class="prelude-val">Ok</span>(<span class="macro">assert_eq</span><span class="macro">!</span>(
-                <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">dt</span>.<span class="ident">to_rfc3339</span>()),
+                <span class="ident">dt</span>.<span class="ident">to_rfc3339</span>().<span class="ident">to_string</span>(),
                 <span class="string">&quot;2015-02-18T23:59:60.234567-05:00&quot;</span>
             ))
         })
@@ -1034,7 +1034,7 @@
                 <span class="ident">iso</span>
             ),
             <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>(
-                <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>),
+                <span class="ident">e</span>.<span class="ident">to_string</span>(),
                 <span class="string">&quot;Failed to find ISO 3339 or RFC 8601 timestamp in \&quot;boo\&quot;&quot;</span>
             ),
         }

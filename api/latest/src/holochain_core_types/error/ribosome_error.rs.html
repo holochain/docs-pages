@@ -317,6 +317,10 @@
 <span id="317">317</span>
 <span id="318">318</span>
 <span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="self">self</span>::{<span class="ident">RibosomeEncodedValue</span>::<span class="kw-2">*</span>, <span class="ident">RibosomeErrorCode</span>::<span class="kw-2">*</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
@@ -473,6 +477,7 @@
     <span class="ident">NotAnAllocation</span>                 <span class="op">=</span> <span class="number">8</span> <span class="op">&lt;&lt;</span> <span class="number">32</span>,
     <span class="ident">ZeroSizedAllocation</span>             <span class="op">=</span> <span class="number">9</span> <span class="op">&lt;&lt;</span> <span class="number">32</span>,
     <span class="ident">UnknownEntryType</span>                <span class="op">=</span> <span class="number">10</span> <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+    <span class="ident">MismatchWasmCallDataType</span>        <span class="op">=</span> <span class="number">11</span> <span class="op">&lt;&lt;</span> <span class="number">32</span>
 }
 
 <span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
@@ -489,6 +494,7 @@
             <span class="ident">NotAnAllocation</span>                 <span class="op">=&gt;</span> <span class="string">&quot;Not an allocation&quot;</span>,
             <span class="ident">ZeroSizedAllocation</span>             <span class="op">=&gt;</span> <span class="string">&quot;Zero-sized allocation&quot;</span>,
             <span class="ident">UnknownEntryType</span>                <span class="op">=&gt;</span> <span class="string">&quot;Unknown entry type&quot;</span>,
+            <span class="ident">MismatchWasmCallDataType</span>        <span class="op">=&gt;</span> <span class="string">&quot;Mismatched WasmCallData type&quot;</span>
         }
     }
 }
@@ -509,10 +515,12 @@
             <span class="ident">HolochainError</span>::<span class="ident">InvalidOperationOnSysEntry</span> <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">UnknownEntryType</span>,
             <span class="ident">HolochainError</span>::<span class="ident">CapabilityCheckFailed</span> <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">Unspecified</span>,
             <span class="ident">HolochainError</span>::<span class="ident">ValidationFailed</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">CallbackFailed</span>,
+            <span class="ident">HolochainError</span>::<span class="ident">ValidationPending</span> <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">Unspecified</span>,
             <span class="ident">HolochainError</span>::<span class="ident">Ribosome</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">e</span>,
             <span class="ident">HolochainError</span>::<span class="ident">RibosomeFailed</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">CallbackFailed</span>,
             <span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">Unspecified</span>,
             <span class="ident">HolochainError</span>::<span class="ident">Timeout</span> <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">Unspecified</span>,
+            <span class="ident">HolochainError</span>::<span class="ident">InitializationFailed</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">Unspecified</span>,
         }
     }
 }

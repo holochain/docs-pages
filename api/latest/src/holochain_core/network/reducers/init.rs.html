@@ -43,16 +43,20 @@
 <span id="43">43</span>
 <span id="44">44</span>
 <span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
     <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">network</span>::{<span class="ident">handler</span>::<span class="ident">create_handler</span>, <span class="ident">state</span>::<span class="ident">NetworkState</span>},
 };
-<span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_network</span>::<span class="ident">P2pNetwork</span>;
-<span class="kw">use</span> <span class="ident">holochain_net_connection</span>::{
-    <span class="ident">json_protocol</span>::{<span class="ident">JsonProtocol</span>, <span class="ident">TrackDnaData</span>},
-    <span class="ident">net_connection</span>::<span class="ident">NetSend</span>,
+<span class="kw">use</span> <span class="ident">holochain_net</span>::{
+    <span class="ident">connection</span>::{
+        <span class="ident">json_protocol</span>::{<span class="ident">JsonProtocol</span>, <span class="ident">TrackDnaData</span>},
+        <span class="ident">net_connection</span>::<span class="ident">NetSend</span>,
+    },
+    <span class="ident">p2p_network</span>::<span class="ident">P2pNetwork</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>};
 

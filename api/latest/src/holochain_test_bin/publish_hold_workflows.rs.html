@@ -321,11 +321,15 @@
 <span id="321">321</span>
 <span id="322">322</span>
 <span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">basic_workflows</span>::<span class="ident">setup_two_nodes</span>;
 <span class="kw">use</span> <span class="ident">constants</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">tweetlog</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">holochain_net_connection</span>::{<span class="ident">json_protocol</span>::<span class="ident">JsonProtocol</span>, <span class="ident">NetResult</span>};
+<span class="kw">use</span> <span class="ident">holochain_net</span>::{
+    <span class="ident">connection</span>::{<span class="ident">json_protocol</span>::<span class="ident">JsonProtocol</span>, <span class="ident">NetResult</span>},
+    <span class="ident">tweetlog</span>::<span class="kw-2">*</span>,
+};
 <span class="kw">use</span> <span class="ident">p2p_node</span>::<span class="ident">P2pNode</span>;
 
 <span class="doccomment">/// Test the following workflow after normal setup:</span>

@@ -264,6 +264,7 @@
 <span id="264">264</span>
 <span id="265">265</span>
 <span id="266">266</span>
+<span id="267">267</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
 <span class="kw">use</span> <span class="ident">snowflake</span>;
@@ -370,7 +371,7 @@
         <span class="ident">maybe_end_user_config_filepath</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">backend_config</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({
-            <span class="string">&quot;socketType&quot;</span>: <span class="string">&quot;zmq&quot;</span>,
+            <span class="string">&quot;socketType&quot;</span>: <span class="string">&quot;ws&quot;</span>,
             <span class="string">&quot;blockConnect&quot;</span>: <span class="bool-val">false</span>,
             <span class="string">&quot;bootstrapNodes&quot;</span>: <span class="ident">bootstrap_nodes</span>,
             <span class="string">&quot;ipcUri&quot;</span>: <span class="ident">maybe_ipc_binding</span>
@@ -391,7 +392,7 @@
                 .<span class="ident">expect</span>(<span class="string">&quot;Invalid backend_config json on P2pConfig creation.&quot;</span>),
             <span class="prelude-val">Some</span>(<span class="ident">ipc_binding</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">backend_config</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({
-                    <span class="string">&quot;socketType&quot;</span>: <span class="string">&quot;zmq&quot;</span>,
+                    <span class="string">&quot;socketType&quot;</span>: <span class="string">&quot;ws&quot;</span>,
                     <span class="string">&quot;blockConnect&quot;</span>: <span class="bool-val">false</span>,
                     <span class="string">&quot;ipcUri&quot;</span>: <span class="ident">ipc_binding</span>
                 })
@@ -481,12 +482,13 @@
     {
       &quot;backend_kind&quot;: &quot;IPC&quot;,
       &quot;backend_config&quot;: {
-        &quot;socketType&quot;: &quot;zmq&quot;,
+        &quot;socketType&quot;: &quot;ws&quot;,
         &quot;spawn&quot;: {
           &quot;cmd&quot;: &quot;node&quot;,
           &quot;env&quot;: {
             &quot;N3H_MODE&quot;: &quot;HACK&quot;,
-            &quot;N3H_IPC_SOCKET&quot;: &quot;tcp://127.0.0.1:*&quot;
+            &quot;N3H_IPC_SOCKET&quot;: &quot;tcp://127.0.0.1:*&quot;,
+            &quot;N3H_LOG_LEVEL&quot;: &quot;i&quot;
           }
         }
       }
@@ -496,7 +498,7 @@
     {
       &quot;backend_kind&quot;: &quot;IPC&quot;,
       &quot;backend_config&quot;: {
-        &quot;socketType&quot;: &quot;zmq&quot;,
+        &quot;socketType&quot;: &quot;ws&quot;,
         &quot;ipcUri&quot;: &quot;tcp://127.0.0.1:0&quot;,
         &quot;blockConnect&quot;: false
       }

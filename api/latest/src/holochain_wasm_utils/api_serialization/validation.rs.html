@@ -42,7 +42,7 @@
     <span class="ident">validation</span>::<span class="ident">ValidationData</span>,
 };
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">DefaultJson</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntryValidationArgs</span> {
     <span class="kw">pub</span> <span class="ident">entry_type</span>: <span class="ident">EntryType</span>,
     <span class="kw">pub</span> <span class="ident">entry</span>: <span class="ident">Entry</span>,

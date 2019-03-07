@@ -137,6 +137,7 @@
 <span id="137">137</span>
 <span id="138">138</span>
 <span id="139">139</span>
+<span id="140">140</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides access to libsodium</span>
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">check_init</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>};
@@ -211,26 +212,27 @@
 <span class="doccomment">/// @param {Buffer} message</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// @param {Buffer} publicKey</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">verify</span>(<span class="ident">signature</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>, <span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>, <span class="ident">public_key</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">verify</span>(<span class="ident">signature</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>, <span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>, <span class="ident">public_key</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
     <span class="ident">check_init</span>();
     <span class="kw">let</span> <span class="ident">signature</span> <span class="op">=</span> <span class="ident">signature</span>.<span class="ident">read_lock</span>();
     <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">read_lock</span>();
     <span class="kw">let</span> <span class="ident">public_key</span> <span class="op">=</span> <span class="ident">public_key</span>.<span class="ident">read_lock</span>();
     <span class="kw">let</span> <span class="ident">mess_len</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">libc</span>::<span class="ident">c_ulonglong</span>;
-    <span class="kw">unsafe</span> {
-        <span class="kw">return</span> <span class="ident">rust_sodium_sys</span>::<span class="ident">crypto_sign_verify_detached</span>(
+    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> {
+        <span class="ident">rust_sodium_sys</span>::<span class="ident">crypto_sign_verify_detached</span>(
             <span class="macro">raw_ptr_char_immut</span><span class="macro">!</span>(<span class="ident">signature</span>),
             <span class="macro">raw_ptr_char_immut</span><span class="macro">!</span>(<span class="ident">message</span>),
             <span class="ident">mess_len</span>,
             <span class="macro">raw_ptr_char_immut</span><span class="macro">!</span>(<span class="ident">public_key</span>),
-        );
-    }
+        )
+    };
+    <span class="ident">res</span> <span class="op">==</span> <span class="number">0</span>
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">random</span>::<span class="ident">random_secbuf</span>;
+
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_should_get_true_on_good_verify</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">seed</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">32</span>);
@@ -238,17 +240,17 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">secret_key</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">64</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signature</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">64</span>);
 
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span>);
+        <span class="ident">seed</span>.<span class="ident">randomize</span>();
 
         <span class="ident">seed_keypair</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">public_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span>).<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="number">32</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>);
+        <span class="ident">message</span>.<span class="ident">randomize</span>();
 
         <span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>).<span class="ident">unwrap</span>();
         {
-            <span class="kw">let</span> <span class="ident">ver</span> <span class="op">=</span> <span class="ident">verify</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">public_key</span>);
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">0</span>, <span class="ident">ver</span>);
+            <span class="kw">let</span> <span class="ident">succeeded</span> <span class="op">=</span> <span class="ident">verify</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">public_key</span>);
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">succeeded</span>);
         }
     }
 
@@ -259,21 +261,21 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">secret_key</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">64</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signature</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">64</span>);
 
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span>);
+        <span class="ident">seed</span>.<span class="ident">randomize</span>();
 
         <span class="ident">seed_keypair</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">public_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span>).<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="number">32</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>);
+        <span class="ident">message</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fake_message</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="number">32</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fake_message</span>);
+        <span class="ident">fake_message</span>.<span class="ident">randomize</span>();
 
         <span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>).<span class="ident">unwrap</span>();
 
         {
-            <span class="kw">let</span> <span class="ident">ver</span> <span class="op">=</span> <span class="ident">verify</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fake_message</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">public_key</span>);
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="op">-</span><span class="number">1</span>, <span class="ident">ver</span>);
+            <span class="kw">let</span> <span class="ident">succeeded</span> <span class="op">=</span> <span class="ident">verify</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fake_message</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">public_key</span>);
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">succeeded</span>);
         }
     }
 }

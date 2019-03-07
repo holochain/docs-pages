@@ -237,7 +237,6 @@
 <span id="237">237</span>
 <span id="238">238</span>
 <span id="239">239</span>
-<span id="240">240</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides access to libsodium</span>
 
@@ -355,21 +354,20 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">random</span>::<span class="ident">random_secbuf</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_should_with_auth_aead_encrypt_and_decrypt</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">8</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>);
+        <span class="ident">message</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">secret</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">32</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret</span>);
+        <span class="ident">secret</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">adata</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">16</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">adata</span>);
+        <span class="ident">adata</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">nonce</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="number">16</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">nonce</span>);
+        <span class="ident">nonce</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cipher</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">message</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">ABYTES</span>);
 
@@ -406,13 +404,13 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_should_with_none_aead_encrypt_and_decrypt</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">16</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>);
+        <span class="ident">message</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">secret</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">32</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret</span>);
+        <span class="ident">secret</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">nonce</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">NONCEBYTES</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">nonce</span>);
+        <span class="ident">nonce</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="ident">cip_len</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">ABYTES</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cipher</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">cip_len</span>);
@@ -427,7 +425,7 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">nonce</span>,
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cipher</span>,
         )
-        .<span class="ident">unwrap</span>();;
+        .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">read_lock</span>();
         <span class="kw">let</span> <span class="ident">decrypted_message</span> <span class="op">=</span> <span class="ident">decrypted_message</span>.<span class="ident">read_lock</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(
@@ -438,19 +436,19 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_should_with_bad_aead_encrypt_and_decrypt</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">16</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>);
+        <span class="ident">message</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">secret</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">32</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret</span>);
+        <span class="ident">secret</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">adata</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">16</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">adata</span>);
+        <span class="ident">adata</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">adata1</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">16</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">adata1</span>);
+        <span class="ident">adata1</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">nonce</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">NONCEBYTES</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">nonce</span>);
+        <span class="ident">nonce</span>.<span class="ident">randomize</span>();
 
         <span class="kw">let</span> <span class="ident">cip_len</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">ABYTES</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cipher</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">cip_len</span>);
@@ -461,7 +459,7 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">nonce</span>,
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cipher</span>,
         )
-        .<span class="ident">unwrap</span>();;
+        .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">dec_len</span> <span class="op">=</span> <span class="ident">cip_len</span> <span class="op">-</span> <span class="ident">ABYTES</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">decrypted_message</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">dec_len</span>);
         <span class="ident">dec</span>(
@@ -471,7 +469,7 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">nonce</span>,
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cipher</span>,
         )
-        .<span class="ident">unwrap</span>();;
+        .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">decrypted_message</span> <span class="op">=</span> <span class="ident">decrypted_message</span>.<span class="ident">read_lock</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="string">&quot;[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]&quot;</span>,

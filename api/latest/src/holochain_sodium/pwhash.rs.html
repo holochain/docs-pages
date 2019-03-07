@@ -136,6 +136,9 @@
 <span id="136">136</span>
 <span id="137">137</span>
 <span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides access to libsodium</span>
 
@@ -166,7 +169,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// @param {i8} algorithm - which hashing algorithm</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// @param {SecBuf} salt - predefined salt (randomomiz it if you dont want to generate it )</span>
+<span class="doccomment">/// @param {SecBuf} salt - predefined salt (randomized it if you dont want to generate it )</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// @param {SecBuf} hash - the hash generated</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hash</span>(
@@ -183,7 +186,7 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">hash</span>.<span class="ident">write_lock</span>();
     <span class="kw">let</span> <span class="ident">hash_len</span> <span class="op">=</span> <span class="ident">hash</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">libc</span>::<span class="ident">c_ulonglong</span>;
     <span class="kw">let</span> <span class="ident">pw_len</span> <span class="op">=</span> <span class="ident">password</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">libc</span>::<span class="ident">c_ulonglong</span>;
-    <span class="kw">unsafe</span> {
+    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> {
         <span class="ident">rust_sodium_sys</span>::<span class="ident">crypto_pwhash</span>(
             <span class="macro">raw_ptr_char</span><span class="macro">!</span>(<span class="ident">hash</span>),
             <span class="ident">hash_len</span>,
@@ -193,23 +196,26 @@
             <span class="ident">ops_limit</span> <span class="kw">as</span> <span class="ident">libc</span>::<span class="ident">c_ulonglong</span>,
             <span class="ident">mem_limit</span>,
             <span class="ident">alg</span> <span class="kw">as</span> <span class="ident">libc</span>::<span class="ident">c_int</span>,
-        );
+        )
+    };
+    <span class="kw">match</span> <span class="ident">res</span> {
+        <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+        <span class="op">-</span><span class="number">1</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">SodiumError</span>::<span class="ident">OutOfMemory</span>),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
     }
-    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">random</span>::<span class="ident">random_secbuf</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_should_generate_with_random_salt</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">password</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">HASHBYTES</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pw1_hash</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">HASHBYTES</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">random_salt</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">SALTBYTES</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">password</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">random_salt</span>);
+        <span class="ident">password</span>.<span class="ident">randomize</span>();
+        <span class="ident">random_salt</span>.<span class="ident">randomize</span>();
         <span class="ident">hash</span>(
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">password</span>,
             <span class="ident">OPSLIMIT_SENSITIVE</span>,
@@ -248,9 +254,9 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">password</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">HASHBYTES</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pw1_hash</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">HASHBYTES</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pw2_hash</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">HASHBYTES</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">password</span>);
+        <span class="ident">password</span>.<span class="ident">randomize</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">salt</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">SALTBYTES</span>);
-        <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">salt</span>);
+        <span class="ident">salt</span>.<span class="ident">randomize</span>();
         <span class="ident">hash</span>(
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">password</span>,
             <span class="ident">OPSLIMIT_SENSITIVE</span>,

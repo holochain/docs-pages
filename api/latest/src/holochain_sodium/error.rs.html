@@ -21,6 +21,8 @@
 <span id="21">21</span>
 <span id="22">22</span>
 <span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/// Error for Sodium lib to use in your code.</span>
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>;
@@ -29,6 +31,7 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SodiumError</span> {
     <span class="ident">Generic</span>(<span class="ident">String</span>),
     <span class="ident">OutputLength</span>(<span class="ident">String</span>),
+    <span class="ident">OutOfMemory</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">SodiumError</span> {
@@ -42,6 +45,7 @@
         <span class="kw">match</span> <span class="ident">error</span> {
             <span class="ident">SodiumError</span>::<span class="ident">Generic</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">HolochainError</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>),
             <span class="ident">SodiumError</span>::<span class="ident">OutputLength</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">HolochainError</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>),
+            <span class="ident">SodiumError</span>::<span class="ident">OutOfMemory</span> <span class="op">=&gt;</span> <span class="ident">HolochainError</span>::<span class="ident">new</span>(<span class="string">&quot;libSodium went out of memory&quot;</span>),
         }
     }
 }

@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["reduce_init_application","Reduce InitApplication Action Switch status to failed if an initialization is tried for an already initialized, or initializing instance."]]});
+initSidebarItems({"fn":[["reduce_initialize_chain","Reduce InitializeChain Action Switch status to failed if an initialization is tried for an already initialized, or initializing instance."]]});

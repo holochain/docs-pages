@@ -61,7 +61,7 @@
     <span class="ident">network</span>::{<span class="ident">actions</span>::<span class="ident">ActionResponse</span>, <span class="ident">reducers</span>::<span class="ident">send</span>, <span class="ident">state</span>::<span class="ident">NetworkState</span>},
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>};
-<span class="kw">use</span> <span class="ident">holochain_net_connection</span>::<span class="ident">json_protocol</span>::{<span class="ident">FetchMetaData</span>, <span class="ident">FetchMetaResultData</span>, <span class="ident">JsonProtocol</span>};
+<span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">connection</span>::<span class="ident">json_protocol</span>::{<span class="ident">FetchMetaData</span>, <span class="ident">FetchMetaResultData</span>, <span class="ident">JsonProtocol</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
 
 <span class="doccomment">/// Send back to network a HandleFetchMetaResult, no matter what.</span>
