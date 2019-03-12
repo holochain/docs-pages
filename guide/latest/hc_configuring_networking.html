@@ -146,13 +146,9 @@
 <pre><code class="language-shell">HC_N3H_PATH=/home/eric/holochain/n3h hc run
 </code></pre>
 <p>Assuming n3h was installed properly you should see something like this:</p>
-<pre><code class="language-shell">SPAWN (&quot;node&quot; &quot;/home/eric/holochain/n3h/packages/n3h/bin/n3h&quot;)
-(@hackmode@) [t] bound to tcp://127.0.0.1:42341
-(@hackmode@) [i] p2p bound [
-  &quot;/ip4/127.0.0.1/tcp/34199/ipfs/QmTg9qMFBosfWD8yeLbcNUwT8UgwNKoT9mGEfm9vXKEHzS&quot;,
-  &quot;/ip4/192.168.1.5/tcp/34199/ipfs/QmTg9qMFBosfWD8yeLbcNUwT8UgwNKoT9mGEfm9vXKEHzS&quot;
-]
-(@hackmode@) [t] running
+<pre><code class="language-shell">Network spawned with bindings:
+     - ipc: wss://127.0.0.1:64518/
+     - p2p: [&quot;wss://192.168.0.11:64519/?a=hkYW7TrZUS1hy-i374iRu5VbZP1sSw2mLxP4TSe_YI1H2BJM3v_LgAQnpmWA_iR1W5k-8_UoA1BNjzBSUTVNDSIcz9UG0uaM&quot;]
 ...
 </code></pre>
 <a class="header" href="#starting-a-second-node" id="starting-a-second-node"><h3>Starting A Second Node</h3></a>
@@ -164,7 +160,7 @@
 <a class="header" href="#step-3" id="step-3"><h4>Step 3</h4></a>
 <p>Specify a different port than the first node to run on. Since the port for the first node by default will be <code>8888</code>, <code>8889</code> is suitable.</p>
 <p>Running the command could look like this:</p>
-<pre><code class="language-shell">HC_AGENT=testAgent2 HC_N3H_BOOTSTRAP_NODE=/ip4/192.168.1.5/tcp/43919/ipfs/QmUhYXbBKcfL8KWx8DMpmhcHeWmmyyLHUe7jFnP5PdLdr4 HC_N3H_PATH=/home/eric/holochain/n3h hc run --port 8889
+<pre><code class="language-shell">HC_AGENT=testAgent2 HC_N3H_BOOTSTRAP_NODE=wss://192.168.0.11:64519/?a=hkYW7TrZUS1hy-i374iRu5VbZP1sSw2mLxP4TSe_YI1H2BJM3v_LgAQnpmWA_iR1W5k-8_UoA1BNjzBSUTVNDSIcz9UG0uaM HC_N3H_PATH=/home/eric/holochain/n3h hc run --port 8889
 </code></pre>
 <p>In the terminal logs that follow, you should see:</p>
 <pre><code class="language-shell">(libp2p) [i] QmUmUF..V71C new peer QmeDpQLchA9xeLDJ2jyXBwpe1JaQhFRrnWC2JfyyET2AAM
