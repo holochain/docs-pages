@@ -1433,6 +1433,60 @@
 <span id="1433">1433</span>
 <span id="1434">1434</span>
 <span id="1435">1435</span>
+<span id="1436">1436</span>
+<span id="1437">1437</span>
+<span id="1438">1438</span>
+<span id="1439">1439</span>
+<span id="1440">1440</span>
+<span id="1441">1441</span>
+<span id="1442">1442</span>
+<span id="1443">1443</span>
+<span id="1444">1444</span>
+<span id="1445">1445</span>
+<span id="1446">1446</span>
+<span id="1447">1447</span>
+<span id="1448">1448</span>
+<span id="1449">1449</span>
+<span id="1450">1450</span>
+<span id="1451">1451</span>
+<span id="1452">1452</span>
+<span id="1453">1453</span>
+<span id="1454">1454</span>
+<span id="1455">1455</span>
+<span id="1456">1456</span>
+<span id="1457">1457</span>
+<span id="1458">1458</span>
+<span id="1459">1459</span>
+<span id="1460">1460</span>
+<span id="1461">1461</span>
+<span id="1462">1462</span>
+<span id="1463">1463</span>
+<span id="1464">1464</span>
+<span id="1465">1465</span>
+<span id="1466">1466</span>
+<span id="1467">1467</span>
+<span id="1468">1468</span>
+<span id="1469">1469</span>
+<span id="1470">1470</span>
+<span id="1471">1471</span>
+<span id="1472">1472</span>
+<span id="1473">1473</span>
+<span id="1474">1474</span>
+<span id="1475">1475</span>
+<span id="1476">1476</span>
+<span id="1477">1477</span>
+<span id="1478">1478</span>
+<span id="1479">1479</span>
+<span id="1480">1480</span>
+<span id="1481">1481</span>
+<span id="1482">1482</span>
+<span id="1483">1483</span>
+<span id="1484">1484</span>
+<span id="1485">1485</span>
+<span id="1486">1486</span>
+<span id="1487">1487</span>
+<span id="1488">1488</span>
+<span id="1489">1489</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">conductor</span>::{<span class="ident">base</span>::<span class="ident">notify</span>, <span class="ident">Conductor</span>},
@@ -1442,7 +1496,9 @@
     },
     <span class="ident">error</span>::<span class="ident">HolochainInstanceError</span>,
 };
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">AddressableContent</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
+    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">AddressableContent</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">hash</span>::<span class="ident">HashString</span>,
+};
 <span class="kw">use</span> <span class="ident">json_patch</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>, <span class="ident">path</span>::<span class="ident">PathBuf</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
 
@@ -1452,6 +1508,7 @@
         <span class="ident">path</span>: <span class="ident">PathBuf</span>,
         <span class="ident">id</span>: <span class="ident">String</span>,
         <span class="ident">copy</span>: <span class="ident">bool</span>,
+        <span class="ident">expected_hash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HashString</span><span class="op">&gt;</span>,
         <span class="ident">properties</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">serde_json</span>::<span class="ident">Value</span><span class="op">&gt;</span>,
     ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span>;
     <span class="kw">fn</span> <span class="ident">uninstall_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span>;
@@ -1501,6 +1558,7 @@
         <span class="ident">path</span>: <span class="ident">PathBuf</span>,
         <span class="ident">id</span>: <span class="ident">String</span>,
         <span class="ident">copy</span>: <span class="ident">bool</span>,
+        <span class="ident">expected_hash</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HashString</span><span class="op">&gt;</span>,
         <span class="ident">properties</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">serde_json</span>::<span class="ident">Value</span><span class="op">&gt;</span>,
     ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">path_string</span> <span class="op">=</span> <span class="ident">path</span>
@@ -1514,6 +1572,12 @@
                     <span class="ident">e</span>.<span class="ident">to_string</span>()
                 ))
             })<span class="question-mark">?</span>;
+
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">hash</span>) <span class="op">=</span> <span class="ident">expected_hash</span> {
+            <span class="kw">if</span> <span class="ident">dna</span>.<span class="ident">address</span>() <span class="op">!=</span> <span class="ident">hash</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">DnaHashMismatch</span>(<span class="ident">dna</span>.<span class="ident">address</span>(), <span class="ident">hash</span>));
+            }
+        }
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">props</span>) <span class="op">=</span> <span class="ident">properties</span> {
             <span class="kw">if</span> <span class="op">!</span><span class="ident">copy</span> {
@@ -2109,6 +2173,7 @@ pattern = &#39;.*&#39;&quot;#</span>
                 <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
                 <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
                 <span class="bool-val">false</span>,
+                <span class="prelude-val">None</span>,
                 <span class="prelude-val">None</span>
             ),
             <span class="prelude-val">Ok</span>(()),
@@ -2177,6 +2242,7 @@ id = &#39;new-dna&#39;&quot;#</span>,
                 <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
                 <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
                 <span class="bool-val">true</span>,
+                <span class="prelude-val">None</span>,
                 <span class="prelude-val">None</span>
             ),
             <span class="prelude-val">Ok</span>(()),
@@ -2216,6 +2282,40 @@ id = &#39;new-dna&#39;&quot;#</span>,
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_install_dna_with_expected_hash</span>() {
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_install_dna_with_expected_hash&quot;</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">conductor</span> <span class="op">=</span> <span class="ident">create_test_conductor</span>(<span class="ident">test_name</span>, <span class="number">3000</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_dna_path</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">new</span>();
+        <span class="ident">new_dna_path</span>.<span class="ident">push</span>(<span class="string">&quot;new-dna.dna.json&quot;</span>);
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">conductor</span>.<span class="ident">dna_loader</span>).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">new_dna_path</span>).<span class="ident">unwrap</span>();
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">conductor</span>.<span class="ident">install_dna_from_file</span>(
+                <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
+                <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
+                <span class="bool-val">false</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">dna</span>.<span class="ident">address</span>()),
+                <span class="prelude-val">None</span>
+            ),
+            <span class="prelude-val">Ok</span>(()),
+        );
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">conductor</span>.<span class="ident">install_dna_from_file</span>(
+                <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
+                <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
+                <span class="bool-val">false</span>,
+                <span class="prelude-val">Some</span>(<span class="string">&quot;wrong-address&quot;</span>.<span class="ident">into</span>()),
+                <span class="prelude-val">None</span>
+            ),
+            <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">DnaHashMismatch</span>(
+                <span class="ident">dna</span>.<span class="ident">address</span>(),
+                <span class="string">&quot;wrong-address&quot;</span>.<span class="ident">into</span>()
+            )),
+        );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_install_dna_from_file_with_properties</span>() {
         <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="string">&quot;test_install_dna_from_file_with_properties&quot;</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">conductor</span> <span class="op">=</span> <span class="ident">create_test_conductor</span>(<span class="ident">test_name</span>, <span class="number">3000</span>);
@@ -2229,6 +2329,7 @@ id = &#39;new-dna&#39;&quot;#</span>,
                 <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
                 <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna-with-props&quot;</span>),
                 <span class="bool-val">false</span>,
+                <span class="prelude-val">None</span>,
                 <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">new_props</span>)
             ),
             <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(
@@ -2241,6 +2342,7 @@ id = &#39;new-dna&#39;&quot;#</span>,
                 <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
                 <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna-with-props&quot;</span>),
                 <span class="bool-val">true</span>,
+                <span class="prelude-val">None</span>,
                 <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">new_props</span>)
             ),
             <span class="prelude-val">Ok</span>(()),
@@ -2290,7 +2392,13 @@ id = &#39;new-dna&#39;&quot;#</span>,
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_dna_path</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">new</span>();
         <span class="ident">new_dna_path</span>.<span class="ident">push</span>(<span class="string">&quot;new-dna.dna.json&quot;</span>);
         <span class="ident">conductor</span>
-            .<span class="ident">install_dna_from_file</span>(<span class="ident">new_dna_path</span>.<span class="ident">clone</span>(), <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>), <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
+            .<span class="ident">install_dna_from_file</span>(
+                <span class="ident">new_dna_path</span>.<span class="ident">clone</span>(),
+                <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;new-dna&quot;</span>),
+                <span class="bool-val">false</span>,
+                <span class="prelude-val">None</span>,
+                <span class="prelude-val">None</span>,
+            )
             .<span class="ident">expect</span>(<span class="string">&quot;Could not install DNA&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">add_result</span> <span class="op">=</span> <span class="ident">conductor</span>.<span class="ident">add_instance</span>(

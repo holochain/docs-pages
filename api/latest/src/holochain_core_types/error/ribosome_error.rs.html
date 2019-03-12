@@ -321,6 +321,7 @@
 <span id="321">321</span>
 <span id="322">322</span>
 <span id="323">323</span>
+<span id="324">324</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="self">self</span>::{<span class="ident">RibosomeEncodedValue</span>::<span class="kw-2">*</span>, <span class="ident">RibosomeErrorCode</span>::<span class="kw-2">*</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
@@ -521,6 +522,7 @@
             <span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">Unspecified</span>,
             <span class="ident">HolochainError</span>::<span class="ident">Timeout</span> <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">Unspecified</span>,
             <span class="ident">HolochainError</span>::<span class="ident">InitializationFailed</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">Unspecified</span>,
+            <span class="ident">HolochainError</span>::<span class="ident">DnaHashMismatch</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">Unspecified</span>,
         }
     }
 }

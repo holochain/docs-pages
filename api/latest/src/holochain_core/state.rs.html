@@ -375,7 +375,7 @@
     ) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">agent_state</span> <span class="op">=</span> <span class="ident">AgentState</span>::<span class="ident">new_with_top_chain_header</span>(
             <span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">dht_storage</span>.<span class="ident">clone</span>()),
-            <span class="ident">agent_snapshot</span>.<span class="ident">top_chain_header</span>().<span class="ident">clone</span>(),
+            <span class="ident">agent_snapshot</span>.<span class="ident">top_chain_header</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">h</span><span class="op">|</span> <span class="ident">h</span>.<span class="ident">to_owned</span>()),
         );
         <span class="kw">let</span> <span class="ident">nucleus_state</span> <span class="op">=</span> <span class="ident">NucleusState</span>::<span class="ident">from</span>(<span class="ident">nucleus_snapshot</span>);
         <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">new_with_agent_and_nucleus</span>(

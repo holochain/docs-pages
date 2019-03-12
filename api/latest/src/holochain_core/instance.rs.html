@@ -1261,7 +1261,7 @@
         );
         <span class="kw">let</span> <span class="ident">chain_store</span> <span class="op">=</span> <span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">cas</span>.<span class="ident">clone</span>());
         <span class="kw">let</span> <span class="ident">chain_header</span> <span class="op">=</span> <span class="ident">test_chain_header</span>();
-        <span class="kw">let</span> <span class="ident">agent_state</span> <span class="op">=</span> <span class="ident">AgentState</span>::<span class="ident">new_with_top_chain_header</span>(<span class="ident">chain_store</span>, <span class="ident">chain_header</span>);
+        <span class="kw">let</span> <span class="ident">agent_state</span> <span class="op">=</span> <span class="ident">AgentState</span>::<span class="ident">new_with_top_chain_header</span>(<span class="ident">chain_store</span>, <span class="prelude-val">Some</span>(<span class="ident">chain_header</span>));
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">new_with_agent</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">clone</span>()), <span class="ident">agent_state</span>);
         <span class="kw">let</span> <span class="ident">global_state</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">state</span>));
         <span class="ident">context</span>.<span class="ident">set_state</span>(<span class="ident">global_state</span>.<span class="ident">clone</span>());

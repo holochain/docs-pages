@@ -360,6 +360,13 @@
 <span id="360">360</span>
 <span id="361">361</span>
 <span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="self">self</span>::<span class="ident">HolochainError</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -367,6 +374,7 @@
     <span class="ident">json</span>::<span class="kw-2">*</span>,
 };
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">channel</span>::<span class="ident">oneshot</span>::<span class="ident">Canceled</span> <span class="kw">as</span> <span class="ident">FutureCanceled</span>;
+<span class="kw">use</span> <span class="ident">hash</span>::<span class="ident">HashString</span>;
 <span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">SerdeError</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">error</span>::<span class="ident">Error</span>,
@@ -459,6 +467,7 @@
     <span class="ident">ConfigError</span>(<span class="ident">String</span>),
     <span class="ident">Timeout</span>,
     <span class="ident">InitializationFailed</span>(<span class="ident">String</span>),
+    <span class="ident">DnaHashMismatch</span>(<span class="ident">HashString</span>, <span class="ident">HashString</span>),
 }
 
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span>;
@@ -490,6 +499,11 @@
             <span class="ident">ConfigError</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">err_msg</span>),
             <span class="ident">Timeout</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;timeout&quot;</span>),
             <span class="ident">InitializationFailed</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">err_msg</span>),
+            <span class="ident">DnaHashMismatch</span>(<span class="ident">hash1</span>, <span class="ident">hash2</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;DNA hash does not match expected hash!\n{} != {}&quot;</span>,
+                <span class="ident">hash1</span>, <span class="ident">hash2</span>
+            ),
         }
     }
 }

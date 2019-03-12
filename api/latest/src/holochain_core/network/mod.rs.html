@@ -270,6 +270,8 @@
 <span id="270">270</span>
 <span id="271">271</span>
 <span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">actions</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">direct_message</span>;
@@ -299,7 +301,6 @@
         <span class="ident">crud_status</span>::<span class="ident">CrudStatus</span>,
         <span class="ident">entry</span>::{<span class="ident">entry_type</span>::<span class="ident">test_app_entry_type</span>, <span class="ident">test_entry</span>, <span class="ident">Entry</span>, <span class="ident">EntryWithMeta</span>},
         <span class="ident">link</span>::<span class="ident">link_data</span>::<span class="ident">LinkData</span>,
-        <span class="ident">time</span>::<span class="ident">Timeout</span>,
     };
     <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">get_entry</span>::{
         <span class="ident">GetEntryArgs</span>, <span class="ident">GetEntryOptions</span>, <span class="ident">GetEntryResultType</span>,
@@ -396,6 +397,9 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="comment">// flaky test</span>
+    <span class="comment">// see https://circleci.com/gh/holochain/holochain-rust/10027</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;broken-tests&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">get_non_existant_entry</span>() {
         <span class="kw">let</span> <span class="ident">netname</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;get_non_existant_entry&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_test_dna_with_wat</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="prelude-val">None</span>);

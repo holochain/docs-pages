@@ -71,6 +71,9 @@
 <span id="71">71</span>
 <span id="72">72</span>
 <span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Holochain Core Types</span>
 <span class="doccomment">//!</span>
@@ -132,6 +135,9 @@
     <span class="string">&quot;failed to obtain git hash from build environment. Check build.rs&quot;</span>
 );
 
+<span class="comment">// not docker build friendly</span>
+<span class="comment">// https://circleci.com/gh/holochain/holochain-rust/10757</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;broken-tests&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">test_hash</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
