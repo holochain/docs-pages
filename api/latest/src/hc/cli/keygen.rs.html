@@ -91,15 +91,11 @@
 <span id="91">91</span>
 <span id="92">92</span>
 <span id="93">93</span>
-<span id="94">94</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">DefaultResult</span>;
 <span class="kw">use</span> <span class="ident">holochain_common</span>::<span class="ident">paths</span>::<span class="ident">keys_directory</span>;
-<span class="kw">use</span> <span class="ident">holochain_dpki</span>::{
-    <span class="ident">bundle</span>::<span class="ident">KeyBundle</span>,
-    <span class="ident">keypair</span>::{<span class="ident">Keypair</span>, <span class="ident">SEEDSIZE</span>},
-};
-<span class="kw">use</span> <span class="ident">holochain_sodium</span>::{<span class="ident">random</span>::<span class="ident">random_secbuf</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>};
+<span class="kw">use</span> <span class="ident">holochain_dpki</span>::{<span class="ident">key_blob</span>::<span class="ident">Blobbable</span>, <span class="ident">key_bundle</span>::<span class="ident">KeyBundle</span>, <span class="ident">seed</span>::<span class="ident">SeedType</span>, <span class="ident">SEED_SIZE</span>};
+<span class="kw">use</span> <span class="ident">holochain_sodium</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
 <span class="kw">use</span> <span class="ident">rpassword</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">fs</span>::{<span class="ident">create_dir_all</span>, <span class="ident">File</span>},
@@ -125,33 +121,35 @@
         <span class="ident">passphrase1</span>
     });
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">seed</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">SEEDSIZE</span>);
-    <span class="ident">random_secbuf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span>);
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">keypair</span> <span class="op">=</span> <span class="ident">Keypair</span>::<span class="ident">new_from_seed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">seed</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">SEED_SIZE</span>);
+    <span class="ident">seed</span>.<span class="ident">randomize</span>();
+
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">keybundle</span> <span class="op">=</span> <span class="ident">KeyBundle</span>::<span class="ident">new_from_seed_buf</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span>, <span class="ident">SeedType</span>::<span class="ident">Mock</span>)
+        .<span class="ident">expect</span>(<span class="string">&quot;Failed to generate keybundle&quot;</span>);
     <span class="kw">let</span> <span class="ident">passphrase_bytes</span> <span class="op">=</span> <span class="ident">passphrase</span>.<span class="ident">as_bytes</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">passphrase_buf</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">passphrase_bytes</span>.<span class="ident">len</span>());
     <span class="ident">passphrase_buf</span>
         .<span class="ident">write</span>(<span class="number">0</span>, <span class="ident">passphrase_bytes</span>)
         .<span class="ident">expect</span>(<span class="string">&quot;SecBuf must be writeable&quot;</span>);
 
-    <span class="kw">let</span> <span class="ident">bundle</span>: <span class="ident">KeyBundle</span> <span class="op">=</span> <span class="ident">keypair</span>
-        .<span class="ident">get_bundle</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">passphrase_buf</span>, <span class="string">&quot;hint&quot;</span>.<span class="ident">to_string</span>(), <span class="prelude-val">None</span>)
-        .<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">blob</span> <span class="op">=</span> <span class="ident">keybundle</span>
+        .<span class="ident">as_blob</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">passphrase_buf</span>, <span class="string">&quot;hint&quot;</span>.<span class="ident">to_string</span>(), <span class="prelude-val">None</span>)
+        .<span class="ident">expect</span>(<span class="string">&quot;Failed to encrypt with passphrase.&quot;</span>);
 
     <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw">if</span> <span class="prelude-val">None</span> <span class="op">==</span> <span class="ident">path</span> {
         <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">keys_directory</span>();
         <span class="ident">create_dir_all</span>(<span class="ident">p</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
-        <span class="ident">p</span>.<span class="ident">join</span>(<span class="ident">keypair</span>.<span class="ident">pub_keys</span>.<span class="ident">clone</span>())
+        <span class="ident">p</span>.<span class="ident">join</span>(<span class="ident">keybundle</span>.<span class="ident">get_id</span>().<span class="ident">clone</span>())
     } <span class="kw">else</span> {
         <span class="ident">path</span>.<span class="ident">unwrap</span>()
     };
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">create</span>(<span class="ident">path</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
-    <span class="ident">file</span>.<span class="ident">write_all</span>(<span class="ident">serde_json</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">bundle</span>).<span class="ident">unwrap</span>().<span class="ident">as_bytes</span>())<span class="question-mark">?</span>;
+    <span class="ident">file</span>.<span class="ident">write_all</span>(<span class="ident">serde_json</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">blob</span>).<span class="ident">unwrap</span>().<span class="ident">as_bytes</span>())<span class="question-mark">?</span>;
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>);
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Succesfully created new agent keys.&quot;</span>);
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>);
-    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Public address: {}&quot;</span>, <span class="ident">keypair</span>.<span class="ident">pub_keys</span>);
+    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Public address: {}&quot;</span>, <span class="ident">keybundle</span>.<span class="ident">get_id</span>());
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Bundle written to: {}.&quot;</span>, <span class="ident">path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>());
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>);
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;You can set this file in a conductor config as key_file for an agent.&quot;</span>);
@@ -161,7 +159,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">test</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">holochain_dpki</span>::<span class="ident">bundle</span>::<span class="ident">KeyBundle</span>;
+    <span class="kw">use</span> <span class="ident">holochain_dpki</span>::<span class="ident">key_blob</span>::<span class="ident">KeyBlob</span>;
     <span class="kw">use</span> <span class="ident">std</span>::{
         <span class="ident">fs</span>::{<span class="ident">remove_file</span>, <span class="ident">File</span>},
         <span class="ident">path</span>::<span class="ident">PathBuf</span>,
@@ -178,11 +176,11 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">contents</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
         <span class="ident">file</span>.<span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">contents</span>).<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">bundle</span>: <span class="ident">KeyBundle</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">contents</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">blob</span>: <span class="ident">KeyBlob</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">contents</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">passphrase</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure_from_string</span>(<span class="ident">passphrase</span>);
-        <span class="kw">let</span> <span class="ident">keypair</span> <span class="op">=</span> <span class="ident">Keypair</span>::<span class="ident">from_bundle</span>(<span class="kw-2">&amp;</span><span class="ident">bundle</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">passphrase</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let</span> <span class="ident">keybundle</span> <span class="op">=</span> <span class="ident">KeyBundle</span>::<span class="ident">from_blob</span>(<span class="kw-2">&amp;</span><span class="ident">blob</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">passphrase</span>, <span class="prelude-val">None</span>);
 
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">keypair</span>.<span class="ident">is_ok</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">keybundle</span>.<span class="ident">is_ok</span>());
 
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">remove_file</span>(<span class="ident">path</span>);
     }

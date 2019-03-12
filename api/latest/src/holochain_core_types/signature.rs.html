@@ -25,16 +25,66 @@
 <span id="25">25</span>
 <span id="26">26</span>
 <span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! The Signature type is defined here. They are used in ChainHeaders as</span>
 <span class="doccomment">//! a way of providing cryptographically verifiable proof of a given agent</span>
 <span class="doccomment">//! as having been the author of a given data entry.</span>
 
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
+
+<span class="doccomment">/// Provenance is a tuple of initiating agent and signature of some item being signed</span>
+<span class="doccomment">/// this type is used in headers and in capability requests where the item being signed</span>
+<span class="doccomment">/// is implicitly known by context</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Provenance</span> <span class="op">=</span> (<span class="ident">Address</span>, <span class="ident">Signature</span>);
+<span class="comment">/*impl Provenance {
+    fn source(&amp;self) -&gt; Address {
+        self.1.clone()
+    }
+}*/</span>
 <span class="doccomment">/// Signature is meant in the classic cryptographic sense,</span>
 <span class="doccomment">/// as a string which can be validated as having been signed</span>
 <span class="doccomment">/// by the private key associated with a given public key</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Signature</span>(<span class="ident">String</span>);
+
+<span class="kw">impl</span> <span class="ident">Signature</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fake</span>() <span class="op">-&gt;</span> <span class="ident">Signature</span> {
+        <span class="ident">test_signature</span>()
+    }
+}
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Signature</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">Signature</span> {
@@ -46,6 +96,22 @@
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">Signature</span> {
         <span class="ident">Signature</span>(<span class="ident">s</span>.<span class="ident">to_owned</span>())
     }
+}
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_signatures</span>() <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Signature</span><span class="op">&gt;</span> {
+    <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">test_signature</span>()]
+}
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_signature</span>() <span class="op">-&gt;</span> <span class="ident">Signature</span> {
+    <span class="ident">Signature</span>::<span class="ident">from</span>(<span class="string">&quot;fake-signature&quot;</span>)
+}
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_signature_b</span>() <span class="op">-&gt;</span> <span class="ident">Signature</span> {
+    <span class="ident">Signature</span>::<span class="ident">from</span>(<span class="string">&quot;another-fake-signature&quot;</span>)
+}
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_signature_c</span>() <span class="op">-&gt;</span> <span class="ident">Signature</span> {
+    <span class="ident">Signature</span>::<span class="ident">from</span>(<span class="string">&quot;sig-c&quot;</span>)
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Signature</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">String</span> {

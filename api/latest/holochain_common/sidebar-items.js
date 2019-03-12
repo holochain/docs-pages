@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["env_vars","Holochain uses a number of environment variables that can be set, for easy configuration for aspects of the system. Below is the complete list of them, and what they are used for."],["paths",""]]});
+initSidebarItems({"constant":[["DEFAULT_PASSPHRASE",""]],"mod":[["env_vars","Holochain uses a number of environment variables that can be set, for easy configuration for aspects of the system. Below is the complete list of them, and what they are used for."],["paths",""]]});

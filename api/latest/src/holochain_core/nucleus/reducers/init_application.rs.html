@@ -77,12 +77,12 @@
 };
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
 
-<span class="doccomment">/// Reduce InitApplication Action</span>
+<span class="doccomment">/// Reduce InitializeChain Action</span>
 <span class="doccomment">/// Switch status to failed if an initialization is tried for an</span>
 <span class="doccomment">/// already initialized, or initializing instance.</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unknown_lints</span>)]</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">needless_pass_by_value</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reduce_init_application</span>(
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reduce_initialize_chain</span>(
     <span class="ident">_context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">NucleusState</span>,
     <span class="ident">action_wrapper</span>: <span class="kw-2">&amp;</span><span class="ident">ActionWrapper</span>,
@@ -92,13 +92,13 @@
             <span class="ident">state</span>.<span class="ident">status</span> <span class="op">=</span>
                 <span class="ident">NucleusStatus</span>::<span class="ident">InitializationFailed</span>(<span class="string">&quot;Nucleus already initializing&quot;</span>.<span class="ident">to_string</span>())
         }
-        <span class="ident">NucleusStatus</span>::<span class="ident">Initialized</span> <span class="op">=&gt;</span> {
+        <span class="ident">NucleusStatus</span>::<span class="ident">Initialized</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
             <span class="ident">state</span>.<span class="ident">status</span> <span class="op">=</span>
                 <span class="ident">NucleusStatus</span>::<span class="ident">InitializationFailed</span>(<span class="string">&quot;Nucleus already initialized&quot;</span>.<span class="ident">to_string</span>())
         }
         <span class="ident">NucleusStatus</span>::<span class="ident">New</span> <span class="op">|</span> <span class="ident">NucleusStatus</span>::<span class="ident">InitializationFailed</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">ia_action</span> <span class="op">=</span> <span class="ident">action_wrapper</span>.<span class="ident">action</span>();
-            <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="macro">unwrap_to</span><span class="macro">!</span>(<span class="ident">ia_action</span> <span class="op">=&gt;</span> <span class="ident">Action</span>::<span class="ident">InitApplication</span>);
+            <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="macro">unwrap_to</span><span class="macro">!</span>(<span class="ident">ia_action</span> <span class="op">=&gt;</span> <span class="ident">Action</span>::<span class="ident">InitializeChain</span>);
             <span class="comment">// Update status</span>
             <span class="ident">state</span>.<span class="ident">status</span> <span class="op">=</span> <span class="ident">NucleusStatus</span>::<span class="ident">Initializing</span>;
             <span class="comment">// Set DNA</span>
@@ -125,7 +125,7 @@
     <span class="doccomment">/// smoke test the init of a nucleus reduction</span>
     <span class="kw">fn</span> <span class="ident">can_reduce_initialize_action</span>() {
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">InitApplication</span>(<span class="ident">dna</span>.<span class="ident">clone</span>()));
+        <span class="kw">let</span> <span class="ident">action_wrapper</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">InitializeChain</span>(<span class="ident">dna</span>.<span class="ident">clone</span>()));
         <span class="kw">let</span> <span class="ident">nucleus</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">NucleusState</span>::<span class="ident">new</span>()); <span class="comment">// initialize to bogus value</span>
         <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">_receiver</span>) <span class="op">=</span> <span class="ident">sync_channel</span>::<span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;</span>(<span class="number">10</span>);
         <span class="kw">let</span> (<span class="ident">tx_observer</span>, <span class="ident">_observer</span>) <span class="op">=</span> <span class="ident">sync_channel</span>::<span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span>(<span class="number">10</span>);

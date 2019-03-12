@@ -202,6 +202,15 @@
 <span id="202">202</span>
 <span id="203">203</span>
 <span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_common</span>;
@@ -343,7 +352,10 @@
         <span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;k&quot;</span>,
         <span class="ident">about</span> <span class="op">=</span> <span class="string">&quot;Creates a new agent key pair, asks for a passphrase and writes an encrypted key bundle to disk in the XDG compliant config directory of Holochain, which is dependent on the OS platform (/home/alice/.config/holochain/keys or C:\\Users\\Alice\\AppData\\Roaming\\holochain\\holochain\\keys or /Users/Alice/Library/Preferences/com.holochain.holochain/keys)&quot;</span>
     )]</span>
-    <span class="ident">KeyGen</span>,
+    <span class="ident">KeyGen</span> {
+        <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">short</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Don&#39;t ask for passphrase&quot;</span>)]</span>
+        <span class="ident">silent</span>: <span class="ident">bool</span>,
+    },
 }
 
 <span class="kw">fn</span> <span class="ident">main</span>() {
@@ -400,8 +412,14 @@
             <span class="ident">cli</span>::<span class="ident">test</span>(<span class="kw-2">&amp;</span><span class="ident">current_path</span>, <span class="kw-2">&amp;</span><span class="ident">dir</span>, <span class="kw-2">&amp;</span><span class="ident">testfile</span>, <span class="ident">skip_build</span>)
         }
         .<span class="ident">map_err</span>(<span class="ident">HolochainError</span>::<span class="ident">Default</span>)<span class="question-mark">?</span>,
-        <span class="ident">Cli</span>::<span class="ident">KeyGen</span> <span class="op">=&gt;</span> {
-            <span class="ident">cli</span>::<span class="ident">keygen</span>(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">Default</span>(<span class="macro">format_err</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>)))<span class="question-mark">?</span>
+        <span class="ident">Cli</span>::<span class="ident">KeyGen</span> { <span class="ident">silent</span> } <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">passphrase</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">silent</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">holochain_common</span>::<span class="ident">DEFAULT_PASSPHRASE</span>))
+            } <span class="kw">else</span> {
+                <span class="prelude-val">None</span>
+            };
+            <span class="ident">cli</span>::<span class="ident">keygen</span>(<span class="prelude-val">None</span>, <span class="ident">passphrase</span>)
+                .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">Default</span>(<span class="macro">format_err</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>)))<span class="question-mark">?</span>
         }
     }
 

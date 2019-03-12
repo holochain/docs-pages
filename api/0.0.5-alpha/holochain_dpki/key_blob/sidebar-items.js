@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["BLOB_DATA_LEN",""]],"struct":[["KeyBlob","The data includes a base64 encoded, json serialized string of the EncryptedData that was created by concatenating all the keys in one SecBuf"]]});

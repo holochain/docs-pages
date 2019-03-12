@@ -886,14 +886,31 @@
 <span id="886">886</span>
 <span id="887">887</span>
 <span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">holo_signing_service</span>::<span class="ident">request_signing_service</span>;
 <span class="kw">use</span> <span class="ident">base64</span>;
-<span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">state</span>::<span class="ident">State</span>;
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">agent</span>::<span class="ident">AgentId</span>, <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">dna</span>::<span class="ident">capabilities</span>::<span class="ident">CapabilityCall</span>,
+<span class="kw">use</span> <span class="ident">holochain_core</span>::{
+    <span class="ident">nucleus</span>::<span class="ident">actions</span>::<span class="ident">call_zome_function</span>::<span class="ident">make_cap_request_for_call</span>, <span class="ident">state</span>::<span class="ident">State</span>,
 };
-<span class="kw">use</span> <span class="ident">holochain_dpki</span>::<span class="ident">keypair</span>::{<span class="ident">Keypair</span>, <span class="ident">SIGNATURESIZE</span>};
+
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">agent</span>::<span class="ident">AgentId</span>, <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>};
+<span class="kw">use</span> <span class="ident">holochain_dpki</span>::<span class="ident">key_bundle</span>::<span class="ident">KeyBundle</span>;
 <span class="kw">use</span> <span class="ident">holochain_sodium</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
 <span class="kw">use</span> <span class="ident">Holochain</span>;
 
@@ -1058,13 +1075,26 @@
                             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">hc_lock_inner</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>();
                             <span class="kw">let</span> <span class="ident">params_string</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>)
                                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">jsonrpc_core</span>::<span class="ident">Error</span>::<span class="ident">invalid_params</span>(<span class="ident">e</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
-                            <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">hc</span>
-                                .<span class="ident">call</span>(
-                                    <span class="kw-2">&amp;</span><span class="ident">zome_name</span>,
-                                    <span class="prelude-val">Some</span>(<span class="ident">CapabilityCall</span>::<span class="ident">new</span>(<span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;fake_token&quot;</span>), <span class="prelude-val">None</span>)),
+
+                            <span class="kw">let</span> <span class="ident">cap_request</span> <span class="op">=</span> {
+                                <span class="comment">// TODO: get the token from the parameters.  If not there assume public token.</span>
+                                <span class="comment">// currently we are always getting the public token.</span>
+                                <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">hc</span>.<span class="ident">context</span>();
+                                <span class="kw">let</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">get_public_token</span>().<span class="ident">ok_or</span>(
+                                    <span class="ident">jsonrpc_core</span>::<span class="ident">Error</span>::<span class="ident">invalid_params</span>(<span class="string">&quot;public token not found&quot;</span>),
+                                )<span class="question-mark">?</span>;
+                                <span class="kw">let</span> <span class="ident">caller</span> <span class="op">=</span> <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;fake&quot;</span>);
+                                <span class="ident">make_cap_request_for_call</span>(
+                                    <span class="ident">context</span>.<span class="ident">clone</span>(),
+                                    <span class="ident">token</span>,
+                                    <span class="ident">caller</span>,
                                     <span class="kw-2">&amp;</span><span class="ident">func_name</span>,
-                                    <span class="kw-2">&amp;</span><span class="ident">params_string</span>,
+                                    <span class="ident">params_string</span>.<span class="ident">clone</span>(),
                                 )
+                            };
+
+                            <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">hc</span>
+                                .<span class="ident">call</span>(<span class="kw-2">&amp;</span><span class="ident">zome_name</span>, <span class="ident">cap_request</span>, <span class="kw-2">&amp;</span><span class="ident">func_name</span>, <span class="kw-2">&amp;</span><span class="ident">params_string</span>)
                                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">jsonrpc_core</span>::<span class="ident">Error</span>::<span class="ident">invalid_params</span>(<span class="ident">e</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
                             <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">String</span>(<span class="ident">response</span>.<span class="ident">to_string</span>()))
                         })
@@ -1441,13 +1471,17 @@
             <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">get_as_string</span>(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">params_map</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">public_address</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">get_as_string</span>(<span class="string">&quot;public_address&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">params_map</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">key_file</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">get_as_string</span>(<span class="string">&quot;key_file&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">params_map</span>)<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">holo_remote_key</span> <span class="op">=</span> <span class="ident">params_map</span>
+                .<span class="ident">get</span>(<span class="string">&quot;holo_remote_key&quot;</span>)
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">k</span><span class="op">|</span> <span class="ident">k</span>.<span class="ident">as_bool</span>())
+                .<span class="ident">unwrap_or_default</span>();
 
             <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="ident">AgentConfiguration</span> {
                 <span class="ident">id</span>,
                 <span class="ident">name</span>,
                 <span class="ident">public_address</span>,
                 <span class="ident">key_file</span>,
-                <span class="ident">holo_remote_key</span>: <span class="prelude-val">None</span>,
+                <span class="ident">holo_remote_key</span>,
             };
             <span class="macro">conductor_call</span><span class="macro">!</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">add_agent</span>(<span class="ident">agent</span>))<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="macro">json</span><span class="macro">!</span>({<span class="string">&quot;success&quot;</span>: <span class="bool-val">true</span>}))
@@ -1508,13 +1542,13 @@
     <span class="doccomment">///     Params:</span>
     <span class="doccomment">///     - `id` ID used to refer to this bundle</span>
     <span class="doccomment">///     - `root_dir` Directory to host on the HTTP server</span>
-    <span class="doccomment">///     </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// - `admin/ui/uninstall`</span>
     <span class="doccomment">///     Uninstall and remove from the config a UI bundle by ID. This will also stop and remove</span>
     <span class="doccomment">///     any ui interfaces that are serving this bundle</span>
     <span class="doccomment">///     Params:</span>
     <span class="doccomment">///     - `id` ID of the UI bundle to remove</span>
-    <span class="doccomment">///     </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// - `admin/ui/list`</span>
     <span class="doccomment">///     List all the currently installed UI bundles</span>
     <span class="doccomment">///</span>
@@ -1528,25 +1562,25 @@
     <span class="doccomment">///     - `port` Port to host the HTTP server on</span>
     <span class="doccomment">///     - `bundle` UI bundle to serve on this port</span>
     <span class="doccomment">///     - `dna_interface` DNA interface this UI can connect to (Optional)</span>
-    <span class="doccomment">///     </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// - `admin/ui_interface/remove`</span>
     <span class="doccomment">///     Remove an interface by ID</span>
     <span class="doccomment">///     Params:</span>
     <span class="doccomment">///     - `id` ID of the UI interface to remove</span>
-    <span class="doccomment">///     </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// - `admin/ui_interface/list`</span>
     <span class="doccomment">///     List all the UI interfaces</span>
-    <span class="doccomment">///     </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// - `admin/ui_interface/start`</span>
     <span class="doccomment">///     Start a UI interface given an ID</span>
     <span class="doccomment">///     Params:</span>
     <span class="doccomment">///     - `id` ID of the UI interface to start</span>
-    <span class="doccomment">///     </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// - `admin/ui_interface/stop`</span>
     <span class="doccomment">///     Stop a UI interface given an ID</span>
     <span class="doccomment">///     Params:</span>
-    <span class="doccomment">///     - `id` ID of the UI interface to stop    </span>
-    <span class="doccomment">///     </span>
+    <span class="doccomment">///     - `id` ID of the UI interface to stop</span>
+    <span class="doccomment">///</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_admin_ui_functions</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">io</span>.<span class="ident">add_method</span>(<span class="string">&quot;admin/ui/install&quot;</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">params</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">params_map</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">unwrap_params_map</span>(<span class="ident">params</span>)<span class="question-mark">?</span>;
@@ -1635,26 +1669,24 @@
         <span class="self">self</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_agent_signature_callback</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">keypair</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Keypair</span><span class="op">&gt;&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_agent_signature_callback</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">keybundle</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">KeyBundle</span><span class="op">&gt;&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">io</span>.<span class="ident">add_method</span>(<span class="string">&quot;agent/sign&quot;</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">params</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">params_map</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">unwrap_params_map</span>(<span class="ident">params</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">get_as_string</span>(<span class="string">&quot;payload&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">params_map</span>)<span class="question-mark">?</span>;
             <span class="comment">// Convert payload string into a SecBuf</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure_from_string</span>(<span class="ident">payload</span>.<span class="ident">clone</span>());
-            <span class="comment">// Create signature</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message_signed</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">SIGNATURESIZE</span>);
 
             <span class="comment">// Get write lock on the key since we need a mutuble reference to lock the</span>
             <span class="comment">// secure memory the key is in:</span>
-            <span class="ident">keypair</span>
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message_signature</span> <span class="op">=</span> <span class="ident">keybundle</span>
                 .<span class="ident">lock</span>()
                 .<span class="ident">unwrap</span>()
-                .<span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message_signed</span>)
-                .<span class="ident">unwrap</span>();
+                .<span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;Failed to sign with keybundle.&quot;</span>);
 
-            <span class="kw">let</span> <span class="ident">message_signed</span> <span class="op">=</span> <span class="ident">message_signed</span>.<span class="ident">read_lock</span>();
+            <span class="kw">let</span> <span class="ident">message_signature</span> <span class="op">=</span> <span class="ident">message_signature</span>.<span class="ident">read_lock</span>();
             <span class="comment">// Return as base64 encoded string</span>
-            <span class="kw">let</span> <span class="ident">signature</span> <span class="op">=</span> <span class="ident">base64</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">message_signed</span>);
+            <span class="kw">let</span> <span class="ident">signature</span> <span class="op">=</span> <span class="ident">base64</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">message_signature</span>);
 
             <span class="prelude-val">Ok</span>(<span class="macro">json</span><span class="macro">!</span>({<span class="string">&quot;payload&quot;</span>: <span class="ident">payload</span>, <span class="string">&quot;signature&quot;</span>: <span class="ident">signature</span>}))
         });

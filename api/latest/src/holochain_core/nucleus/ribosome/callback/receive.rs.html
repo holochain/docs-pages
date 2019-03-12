@@ -102,7 +102,6 @@
 <span id="102">102</span>
 <span id="103">103</span>
 <span id="104">104</span>
-<span id="105">105</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
@@ -113,7 +112,7 @@
             <span class="ident">runtime</span>::<span class="ident">WasmCallData</span>,
             <span class="ident">Defn</span>,
         },
-        <span class="ident">ZomeFnCall</span>,
+        <span class="ident">CallbackFnCall</span>,
     },
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
@@ -126,16 +125,15 @@
     <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="ident">zome</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
     <span class="comment">// we ignore params for genesis</span>
-    <span class="ident">params</span>: <span class="kw-2">&amp;</span><span class="ident">CallbackParams</span>,
+    <span class="ident">parameters</span>: <span class="kw-2">&amp;</span><span class="ident">CallbackParams</span>,
 ) <span class="op">-&gt;</span> <span class="ident">CallbackResult</span> {
-    <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">params</span> {
+    <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">parameters</span> {
         <span class="ident">CallbackParams</span>::<span class="ident">Receive</span>(<span class="ident">payload</span>) <span class="op">=&gt;</span> <span class="ident">payload</span>,
         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">CallbackResult</span>::<span class="ident">NotImplemented</span>(<span class="string">&quot;receive/1&quot;</span>.<span class="ident">into</span>()),
     };
 
-    <span class="kw">let</span> <span class="ident">zome_call</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(
+    <span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">CallbackFnCall</span>::<span class="ident">new</span>(
         <span class="ident">zome</span>,
-        <span class="prelude-val">None</span>,
         <span class="kw-2">&amp;</span><span class="ident">Callback</span>::<span class="ident">Receive</span>.<span class="ident">as_str</span>().<span class="ident">to_string</span>(),
         <span class="ident">params</span>.<span class="ident">clone</span>(),
     );
@@ -153,8 +151,8 @@
 
     <span class="kw">match</span> <span class="ident">ribosome</span>::<span class="ident">run_dna</span>(
         <span class="ident">wasm</span>.<span class="ident">code</span>.<span class="ident">clone</span>(),
-        <span class="prelude-val">Some</span>(<span class="ident">zome_call</span>.<span class="ident">clone</span>().<span class="ident">parameters</span>.<span class="ident">into_bytes</span>()),
-        <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(<span class="ident">context</span>, <span class="ident">dna</span>.<span class="ident">name</span>, <span class="ident">zome_call</span>),
+        <span class="prelude-val">Some</span>(<span class="ident">call</span>.<span class="ident">clone</span>().<span class="ident">parameters</span>.<span class="ident">into_bytes</span>()),
+        <span class="ident">WasmCallData</span>::<span class="ident">new_callback_call</span>(<span class="ident">context</span>, <span class="ident">dna</span>.<span class="ident">name</span>, <span class="ident">call</span>),
     ) {
         <span class="prelude-val">Ok</span>(<span class="ident">call_result</span>) <span class="op">=&gt;</span> <span class="ident">CallbackResult</span>::<span class="ident">ReceiveResult</span>(<span class="ident">call_result</span>.<span class="ident">to_string</span>()),
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">CallbackResult</span>::<span class="ident">NotImplemented</span>(<span class="string">&quot;receive/4&quot;</span>.<span class="ident">into</span>()),
