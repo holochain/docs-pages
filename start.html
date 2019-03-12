@@ -50,8 +50,8 @@
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start</h1>
-                    <div class="meta"><i class="far fa-clock"></i> Last updated: March 6, 2019</div>
-                    <div class="meta">Version: 0.0.5-alpha</div>
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: March 12, 2019</div>
+                    <div class="meta">Version: 0.0.6-alpha</div>
                 </div>
                 <!--//doc-header-->
                 <div class="doc-body row">
@@ -66,7 +66,7 @@
                                         It will guide you through installation.
 
                                         Once you've got things installed, or regardless,
-                                        read on into a <a href="https://medium.com/holochain/first-steps-writing-holochain-happs-with-rust-80ae111960e" target="_blank">tutorial</a>, the <a href="/guide/latest">Holochain guidebook</a>, and the <a href="/api/0.0.5-alpha/hdk">API Reference</a>
+                                        read on into a <a href="https://medium.com/holochain/first-steps-writing-holochain-happs-with-rust-80ae111960e" target="_blank">tutorial</a>, the <a href="/guide/0.0.6-alpha">Holochain guidebook</a>, and the <a href="/api/0.0.6-alpha/hdk">API Reference</a>
                                         to get going!
                                     </p>
 
@@ -259,49 +259,6 @@
                                 </div>
                                 <!--//section-block-->
 
-                                <div id="prereq-step4" class="section-block">
-                                    <h3 class="block-title">Step Four - ZeroMQ</h3>
-                                    <p>
-                                        Being a P2P networking framework, Holochain utilizes a "distributed messaging"
-                                        library internally called ZeroMQ.
-                                        For the time being (it is hoped to change this in the future), this must be
-                                        installed on your computer as well
-                                        before Holochain can run.
-
-                                        The version number that you install must be 4.1 or higher.
-                                    </p>
-                                    <nav>
-                                        <div class="nav nav-tabs nav-fill" role="tablist">
-                                            <a class="nav-item nav-link active" data-toggle="tab" href="#zmq-mac-linux"
-                                                role="tab" aria-controls="zmq-mac-linux" aria-selected="true">Mac &
-                                                Linux</a>
-                                            <a class="nav-item nav-link" data-toggle="tab" href="#zmq-windows" role="tab"
-                                                aria-controls="zmq-windows" aria-selected="false">Windows</a>
-                                        </div>
-                                    </nav>
-                                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                                        <div class="tab-pane fade show active" id="zmq-mac-linux" role="tabpanel"
-                                            aria-labelledby="zmq-mac-linux">
-                                            <p>
-                                                The most update and useful installation instructions for ZMQ are
-                                                maintained <a target="_blank" href="http://zeromq.org/intro:get-the-software">here</a>.
-                                            </p>
-                                        </div>
-                                        <div class="tab-pane fade" id="zmq-windows" role="tabpanel" aria-labelledby="zmq-windows">
-                                            <p>
-                                                If you are on Windows (only 64 bit machines supported), for now, just
-                                                download
-                                                <a target="_blank" href="https://github.com/holochain/holochain-rust/raw/v0.0.5-alpha/zmq-sys/vendor/zmq/bin/libzmq-v140-mt-4_2_0.dll">this
-                                                    file</a>, which is a prebuilt ZMQ library. You will need this file
-                                                later.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--//section-block-->
-                            </section>
-                            <!--//doc-section-->
-
                             <section id="networking-section" class="doc-section">
                                 <h2 class="section-title">Networking Tools</h2>
                                 <div class="section-block">
@@ -321,8 +278,8 @@
                                         The networking library is called "n3h".
                                     </p>
                                     <p>
-                                        To install it, download it from GitHub, and unzip it: <a href="https://github.com/holochain/n3h/releases/tag/v0.0.5-alpha1"
-                                            target="_blank">https://github.com/holochain/n3h/releases/tag/v0.0.5-alpha1</a>
+                                        To install it, download it from GitHub, and unzip it: <a href="https://github.com/holochain/n3h/releases/tag/v0.0.6-alpha"
+                                            target="_blank">https://github.com/holochain/n3h/releases/tag/v0.0.6-alpha</a>
                                     </p>
                                     <p>
                                         In a terminal, change directories to the downloaded and unzipped repository. Run:
@@ -351,7 +308,7 @@
                                     <h4 class="block-title">Step One</h4>
                                     <p>
                                         When you go to Github, look for one of the downloads that starts with "cli".
-                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.5-alpha"
+                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.6-alpha"
                                             target="_blank">Go to GitHub and download the appropriate release for your
                                             system.</a>
                                     </p>
@@ -367,14 +324,6 @@
                                         relevant <a href="#paths-help-section">Help with PATHs</a> section at the
                                         bottom of this page.
                                     </p>
-                                    <h5>Windows Note</h5>
-                                    <p>
-                                        For the ZMQ dependency to work, move the file "libzmq-v140-mt-4_2_0.dll" that
-                                        you downloaded into the same "hc" folder as the other files.
-                                    </p>
-                                    <p>
-                                        If you encounter issues with this, please discuss <a target="_blank" href="https://github.com/holochain/holochain-rust/issues/701">here</a>.
-                                    </p>
                                 </div>
                                 <div id="development-step2" class="section-block">
                                     <h4 class="block-title">Step Two</h4>
@@ -387,7 +336,7 @@
                                         </div>
                                         <!--//code-block-->
                                         To read about the commands, and how to get started using them, check out the <a
-                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/v0.0.5-alpha/cli#usage">README
+                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/v0.0.6-alpha/cli#usage">README
                                             for the "hc" command line tools.</a>
                                     </p>
                                 </div>
@@ -406,7 +355,7 @@
                                     <p>
                                         When you go to Github, look for one of the downloads that starts with
                                         "conductor".
-                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.5-alpha"
+                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.6-alpha"
                                             target="_blank">Go to GitHub and download the appropriate release for your
                                             system.</a>
                                     </p>
@@ -423,14 +372,6 @@
                                         differ, depending on your platform. If you need help with this, read the
                                         relevant <a href="#paths-help-section">Help with PATHs</a> section at the
                                         bottom of this page.
-                                    </p>
-                                    <h5>Windows Note</h5>
-                                    <p>
-                                        For the ZMQ dependency to work, move a copy of the file "libzmq-v140-mt-4_2_0.dll" that
-                                        you downloaded into the same "holochain" folder as the other files.
-                                    </p>
-                                    <p>
-                                        If you encounter issues with this, please discuss <a target="_blank" href="https://github.com/holochain/holochain-rust/issues/701">here</a>.
                                     </p>
                                 </div>
                                 <div id="production-step2" class="section-block">
@@ -604,7 +545,7 @@
                             <a href="/guide/latest" title="Guidebook" target="_blank">Guidebook</a>
                         </li>
                         <li>
-                            <a href="/api/0.0.5-alpha/hdk" title="API Reference" target="_blank">API Reference</a>
+                            <a href="/api/0.0.6-alpha/hdk" title="API Reference" target="_blank">API Reference</a>
                         </li>
                     </ul>
                 </div>
