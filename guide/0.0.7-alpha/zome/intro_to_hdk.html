@@ -164,7 +164,7 @@ hdk = { git = &quot;https://github.com/holochain/holochain-rust&quot;, branch = 
 <a class="header" href="#setting-the-version-of-the-hdk" id="setting-the-version-of-the-hdk"><h4>Setting the version of the HDK</h4></a>
 <p>Once Holochain stabilizes beyond the 0.0.x version numbers, it will be published to the Rust package manager, <a href="https://crates.io">crates.io</a> and versioning will be simplified. For now, Cargo installs the HDK specified as a GIT dependency, fetching it from the <a href="https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-dependencies-from-git-repositories">specified commit, branch, or tag of the repository</a>.</p>
 <p>If you wanted to lock the HDK at a specific version, you could adjust the HDK dependency like this:</p>
-<pre><code class="language-toml">hdk = { git = &quot;https://github.com/holochain/holochain-rust&quot;, tag = &quot;v0.0.6-alpha&quot; }
+<pre><code class="language-toml">hdk = { git = &quot;https://github.com/holochain/holochain-rust&quot;, tag = &quot;v0.0.7-alpha&quot; }
 </code></pre>
 <a class="header" href="#use-of-the-hdk-in-rust-code" id="use-of-the-hdk-in-rust-code"><h4>Use of the HDK in Rust code</h4></a>
 <p>Notice now that within the <code>src/lib.rs</code> file of a new Zome, the HDK is already imported here too:</p>
