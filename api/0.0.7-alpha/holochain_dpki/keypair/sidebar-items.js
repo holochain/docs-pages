@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["EncryptingKeyPair","KeyPair used for encrypting data"],["SigningKeyPair","KeyPair used for signing data"]],"trait":[["KeyPair",""]]});

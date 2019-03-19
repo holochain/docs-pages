@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["ALG_ARGON2I13",""],["ALG_ARGON2ID13",""],["HASHBYTES",""],["MEMLIMIT_INTERACTIVE",""],["MEMLIMIT_MODERATE",""],["MEMLIMIT_SENSITIVE",""],["OPSLIMIT_INTERACTIVE",""],["OPSLIMIT_MODERATE",""],["OPSLIMIT_SENSITIVE",""],["SALTBYTES",""]],"fn":[["hash","Calculate a password hash"]]});

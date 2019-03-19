@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["IpcNetWorker","a NetWorker talking to the network via another process through an IPC connection."]]});
