@@ -65,7 +65,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">token</span>: <span class="ident">Address</span>, <span class="ident">requester</span>: <span class="ident">Address</span>, <span class="ident">signature</span>: <span class="ident">Signature</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">CapabilityRequest</span> {
             <span class="ident">cap_token</span>: <span class="ident">token</span>,
-            <span class="ident">provenance</span>: (<span class="ident">requester</span>, <span class="ident">signature</span>),
+            <span class="ident">provenance</span>: <span class="ident">Provenance</span>::<span class="ident">new</span>(<span class="ident">requester</span>, <span class="ident">signature</span>),
         }
     }
 }
@@ -85,7 +85,7 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">CapabilityRequest</span> {
                 <span class="ident">cap_token</span>: <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;123&quot;</span>),
-                <span class="ident">provenance</span>: (<span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;requester&quot;</span>), <span class="ident">Signature</span>::<span class="ident">fake</span>()),
+                <span class="ident">provenance</span>: <span class="ident">Provenance</span>::<span class="ident">new</span>(<span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;requester&quot;</span>), <span class="ident">Signature</span>::<span class="ident">fake</span>()),
             },
             <span class="ident">cap_call</span>
         );

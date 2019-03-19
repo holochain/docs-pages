@@ -20,8 +20,15 @@
 <span id="20">20</span>
 <span id="21">21</span>
 <span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">/// Macro for transforming a type check into a predicate</span>
+<span class="doccomment">/// Check if JsonProtocol is of type $p</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">one_is</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">p</span>:<span class="ident">pat</span>) <span class="op">=&gt;</span> {
         <span class="op">|</span><span class="ident">d</span><span class="op">|</span> {
@@ -30,6 +37,13 @@
             }
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
+    };
+}
+
+<span class="doccomment">/// Check if JsonProtocol is of type $p and meets conditions set in $code</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">one_is_where</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">p</span>:<span class="ident">pat</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">code</span>:<span class="ident">tt</span>) <span class="op">=&gt;</span> {
+        <span class="kw">move</span> <span class="op">|</span><span class="ident">d</span><span class="op">|</span> <span class="kw">return</span> <span class="kw">if</span> <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">p</span> <span class="op">=</span> <span class="ident">d</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">code</span> } <span class="kw">else</span> { <span class="bool-val">false</span> }
     };
 }
 

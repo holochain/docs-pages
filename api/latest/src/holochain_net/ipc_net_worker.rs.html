@@ -365,7 +365,7 @@
             .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">k</span>, <span class="ident">v</span>)<span class="op">|</span> (<span class="ident">k</span>.<span class="ident">to_string</span>(), <span class="ident">v</span>.<span class="ident">as_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>()))
             .<span class="ident">collect</span>();
         <span class="comment">// create a new IpcNetWorker witch spawns the n3h process</span>
-        <span class="ident">IpcNetWorker</span>::<span class="ident">priv_new_with_spawn</span>(
+        <span class="kw">return</span> <span class="ident">IpcNetWorker</span>::<span class="ident">priv_new_with_spawn</span>(
             <span class="ident">handler</span>,
             <span class="ident">spawn_config</span>[<span class="string">&quot;cmd&quot;</span>].<span class="ident">as_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>(),
             <span class="ident">spawn_config</span>[<span class="string">&quot;args&quot;</span>]
@@ -378,7 +378,7 @@
             <span class="ident">enduser_config</span>,
             <span class="ident">env</span>,
             <span class="ident">bootstrap_nodes</span>,
-        )
+        );
     }
 
     <span class="doccomment">/// Constructor with IpcNetWorker instance pointing to a process that we spawn here</span>

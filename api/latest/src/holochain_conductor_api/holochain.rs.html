@@ -716,6 +716,13 @@
 <span id="716">716</span>
 <span id="717">717</span>
 <span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! `holochain_conductor_api` is a library for instantiating and using holochain instances that</span>
 <span class="doccomment">//! each run a holochain DNA, DHT and source chain.</span>
@@ -874,7 +881,11 @@
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load</span>(<span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">persister</span> <span class="op">=</span> <span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">dht_storage</span>.<span class="ident">clone</span>());
-        <span class="kw">let</span> <span class="ident">loaded_state</span> <span class="op">=</span> <span class="ident">persister</span>.<span class="ident">load</span>(<span class="ident">context</span>.<span class="ident">clone</span>())<span class="question-mark">?</span><span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">loaded_state</span> <span class="op">=</span> <span class="ident">persister</span>
+            .<span class="ident">load</span>(<span class="ident">context</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>
+            .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
+                <span class="string">&quot;State could not be loaded due to NoneError&quot;</span>.<span class="ident">to_string</span>(),
+            ))<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">Instance</span>::<span class="ident">from_state</span>(<span class="ident">loaded_state</span>.<span class="ident">clone</span>());
         <span class="kw">let</span> <span class="ident">new_context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize</span>(<span class="prelude-val">None</span>, <span class="ident">context</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">Holochain</span> {
@@ -950,7 +961,11 @@
         },
         <span class="ident">signal</span>::{<span class="ident">signal_channel</span>, <span class="ident">SignalReceiver</span>},
     };
-    <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">dna</span>::<span class="ident">Dna</span>, <span class="ident">json</span>::<span class="ident">RawString</span>};
+    <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
+        <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>},
+        <span class="ident">dna</span>::<span class="ident">Dna</span>,
+        <span class="ident">json</span>::<span class="ident">RawString</span>,
+    };
     <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">wasm_target_dir</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>};
     <span class="kw">use</span> <span class="ident">test_utils</span>::{
@@ -994,8 +1009,7 @@
     <span class="kw">fn</span> <span class="ident">cap_call</span>(<span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>, <span class="ident">fn_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">params</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">CapabilityRequest</span> {
         <span class="ident">make_cap_request_for_call</span>(
             <span class="ident">context</span>.<span class="ident">clone</span>(),
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">context</span>.<span class="ident">clone</span>().<span class="ident">agent_id</span>.<span class="ident">pub_sign_key</span>.<span class="ident">clone</span>()),
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">context</span>.<span class="ident">clone</span>().<span class="ident">agent_id</span>.<span class="ident">pub_sign_key</span>.<span class="ident">clone</span>()),
+            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">context</span>.<span class="ident">clone</span>().<span class="ident">agent_id</span>.<span class="ident">address</span>()),
             <span class="ident">fn_name</span>,
             <span class="ident">params</span>.<span class="ident">to_string</span>(),
         )

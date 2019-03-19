@@ -366,14 +366,6 @@
 <span id="366">366</span>
 <span id="367">367</span>
 <span id="368">368</span>
-<span id="369">369</span>
-<span id="370">370</span>
-<span id="371">371</span>
-<span id="372">372</span>
-<span id="373">373</span>
-<span id="374">374</span>
-<span id="375">375</span>
-<span id="376">376</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/// Nucleus is the module that handles DNA, including the Ribosome.</span>
 <span class="doccomment">///</span>
@@ -430,14 +422,13 @@
         <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
         <span class="ident">zome</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">token</span>: <span class="ident">Address</span>,
-        <span class="ident">caller</span>: <span class="ident">Address</span>,
         <span class="ident">function</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">parameters</span>: <span class="ident">J</span>,
     ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">parameters</span>.<span class="ident">into</span>();
         <span class="ident">ZomeFnCall</span>::<span class="ident">new</span>(
             <span class="ident">zome</span>,
-            <span class="ident">make_cap_request_for_call</span>(<span class="ident">context</span>, <span class="ident">token</span>, <span class="ident">caller</span>, <span class="ident">function</span>, <span class="ident">params</span>.<span class="ident">clone</span>()),
+            <span class="ident">make_cap_request_for_call</span>(<span class="ident">context</span>, <span class="ident">token</span>, <span class="ident">function</span>, <span class="ident">params</span>.<span class="ident">clone</span>()),
             <span class="ident">function</span>,
             <span class="ident">params</span>,
         )
@@ -495,6 +486,7 @@
     <span class="kw">use</span> <span class="ident">test_utils</span>;
 
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
+        <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">AddressableContent</span>,
         <span class="ident">error</span>::{<span class="ident">DnaError</span>, <span class="ident">HolochainError</span>},
         <span class="ident">json</span>::{<span class="ident">JsonString</span>, <span class="ident">RawString</span>},
         <span class="ident">signature</span>::<span class="ident">Signature</span>,
@@ -534,7 +526,6 @@
         <span class="ident">make_cap_request_for_call</span>(
             <span class="ident">context</span>.<span class="ident">clone</span>(),
             <span class="ident">dummy_capability_token</span>(),
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">context</span>.<span class="ident">agent_id</span>.<span class="ident">pub_sign_key</span>.<span class="ident">clone</span>()),
             <span class="ident">function</span>,
             <span class="ident">parameters</span>,
         )
@@ -548,8 +539,7 @@
     ) <span class="op">-&gt;</span> <span class="ident">CapabilityRequest</span> {
         <span class="ident">make_cap_request_for_call</span>(
             <span class="ident">context</span>.<span class="ident">clone</span>(),
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">context</span>.<span class="ident">agent_id</span>.<span class="ident">pub_sign_key</span>.<span class="ident">clone</span>()),
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">context</span>.<span class="ident">agent_id</span>.<span class="ident">pub_sign_key</span>.<span class="ident">clone</span>()),
+            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">context</span>.<span class="ident">agent_id</span>.<span class="ident">address</span>()),
             <span class="ident">function</span>,
             <span class="ident">parameters</span>,
         )
@@ -642,14 +632,8 @@
         <span class="kw">let</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">get_public_token</span>().<span class="ident">unwrap</span>();
 
         <span class="comment">// Create zome function call</span>
-        <span class="kw">let</span> <span class="ident">zome_call</span> <span class="op">=</span> <span class="ident">ZomeFnCall</span>::<span class="ident">create</span>(
-            <span class="ident">context</span>.<span class="ident">clone</span>(),
-            <span class="string">&quot;test_zome&quot;</span>,
-            <span class="ident">token</span>,
-            <span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;some caller&quot;</span>),
-            <span class="string">&quot;public_test_fn&quot;</span>,
-            <span class="string">&quot;&quot;</span>,
-        );
+        <span class="kw">let</span> <span class="ident">zome_call</span> <span class="op">=</span>
+            <span class="ident">ZomeFnCall</span>::<span class="ident">create</span>(<span class="ident">context</span>.<span class="ident">clone</span>(), <span class="string">&quot;test_zome&quot;</span>, <span class="ident">token</span>, <span class="string">&quot;public_test_fn&quot;</span>, <span class="string">&quot;&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">call_zome_function</span>(<span class="ident">zome_call</span>, <span class="kw-2">&amp;</span><span class="ident">context</span>));
 

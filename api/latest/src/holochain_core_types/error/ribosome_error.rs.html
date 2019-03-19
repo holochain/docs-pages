@@ -322,6 +322,10 @@
 <span id="322">322</span>
 <span id="323">323</span>
 <span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="self">self</span>::{<span class="ident">RibosomeEncodedValue</span>::<span class="kw-2">*</span>, <span class="ident">RibosomeErrorCode</span>::<span class="kw-2">*</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
@@ -478,7 +482,8 @@
     <span class="ident">NotAnAllocation</span>                 <span class="op">=</span> <span class="number">8</span> <span class="op">&lt;&lt;</span> <span class="number">32</span>,
     <span class="ident">ZeroSizedAllocation</span>             <span class="op">=</span> <span class="number">9</span> <span class="op">&lt;&lt;</span> <span class="number">32</span>,
     <span class="ident">UnknownEntryType</span>                <span class="op">=</span> <span class="number">10</span> <span class="op">&lt;&lt;</span> <span class="number">32</span>,
-    <span class="ident">MismatchWasmCallDataType</span>        <span class="op">=</span> <span class="number">11</span> <span class="op">&lt;&lt;</span> <span class="number">32</span>
+    <span class="ident">MismatchWasmCallDataType</span>        <span class="op">=</span> <span class="number">11</span> <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+    <span class="ident">EntryNotFound</span>                   <span class="op">=</span> <span class="number">12</span> <span class="op">&lt;&lt;</span> <span class="number">32</span>
 }
 
 <span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
@@ -495,7 +500,8 @@
             <span class="ident">NotAnAllocation</span>                 <span class="op">=&gt;</span> <span class="string">&quot;Not an allocation&quot;</span>,
             <span class="ident">ZeroSizedAllocation</span>             <span class="op">=&gt;</span> <span class="string">&quot;Zero-sized allocation&quot;</span>,
             <span class="ident">UnknownEntryType</span>                <span class="op">=&gt;</span> <span class="string">&quot;Unknown entry type&quot;</span>,
-            <span class="ident">MismatchWasmCallDataType</span>        <span class="op">=&gt;</span> <span class="string">&quot;Mismatched WasmCallData type&quot;</span>
+            <span class="ident">MismatchWasmCallDataType</span>        <span class="op">=&gt;</span> <span class="string">&quot;Mismatched WasmCallData type&quot;</span>,
+            <span class="ident">EntryNotFound</span>                   <span class="op">=&gt;</span> <span class="string">&quot;Entry Could Not Be Found&quot;</span>
         }
     }
 }
@@ -552,6 +558,7 @@
             <span class="number">8</span> <span class="op">=&gt;</span> <span class="ident">NotAnAllocation</span>,
             <span class="number">9</span> <span class="op">=&gt;</span> <span class="ident">ZeroSizedAllocation</span>,
             <span class="number">10</span> <span class="op">=&gt;</span> <span class="ident">UnknownEntryType</span>,
+            <span class="number">12</span> <span class="op">=&gt;</span> <span class="ident">EntryNotFound</span>,
             <span class="number">1</span> <span class="op">|</span> <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">Unspecified</span>,
         }
     }
@@ -605,6 +612,7 @@
             <span class="string">&quot;Not an allocation&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">RibosomeErrorCode</span>::<span class="ident">NotAnAllocation</span>),
             <span class="string">&quot;Zero-sized allocation&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">RibosomeErrorCode</span>::<span class="ident">ZeroSizedAllocation</span>),
             <span class="string">&quot;Unknown entry type&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">RibosomeErrorCode</span>::<span class="ident">UnknownEntryType</span>),
+            <span class="string">&quot;Entry Could Not Be Found&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">EntryNotFound</span>),
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="ident">String</span>::<span class="ident">from</span>(
                 <span class="string">&quot;Unknown RibosomeErrorCode&quot;</span>,
             ))),

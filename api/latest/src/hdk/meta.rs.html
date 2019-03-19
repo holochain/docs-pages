@@ -389,7 +389,7 @@
         <span class="ident">ribosome</span>::{<span class="ident">load_ribosome_encoded_json</span>, <span class="ident">return_code_for_allocation_result</span>},
     },
 };
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections</span>::<span class="ident">BTreeMap</span>, <span class="ident">convert</span>::<span class="ident">TryFrom</span>};
 
 <span class="kw">trait</span> <span class="ident">Ribosome</span> {
     <span class="kw">fn</span> <span class="ident">define_entry_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">String</span>, <span class="ident">entry_type</span>: <span class="ident">ValidatingEntryType</span>);
@@ -478,15 +478,19 @@
         <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">RibosomeEncodedValue</span>::<span class="ident">from</span>(<span class="ident">e</span>).<span class="ident">into</span>(),
     };
 
+    <span class="kw">let</span> <span class="ident">entry_type</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">EntryType</span>::<span class="ident">try_from</span>(<span class="ident">input</span>.<span class="ident">validation_data</span>.<span class="ident">clone</span>()) {
+        <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">v</span>,
+        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">RibosomeEncodedValue</span>::<span class="ident">from</span>(<span class="ident">e</span>).<span class="ident">into</span>(),
+    };
+
     <span class="kw">match</span> <span class="ident">zd</span>
         .<span class="ident">entry_types</span>
         .<span class="ident">into_iter</span>()
-        .<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">validating_entry_type</span><span class="op">|</span> <span class="ident">validating_entry_type</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">input</span>.<span class="ident">entry_type</span>)
+        .<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">validating_entry_type</span><span class="op">|</span> <span class="ident">validating_entry_type</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">entry_type</span>)
     {
         <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">RibosomeErrorCode</span>::<span class="ident">CallbackFailed</span> <span class="kw">as</span> <span class="ident">RibosomeEncodingBits</span>,
         <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">entry_type_definition</span>) <span class="op">=&gt;</span> {
-            <span class="kw">let</span> <span class="ident">validation_result</span> <span class="op">=</span>
-                (<span class="kw-2">*</span><span class="ident">entry_type_definition</span>.<span class="ident">validator</span>)(<span class="ident">input</span>.<span class="ident">entry</span>, <span class="ident">input</span>.<span class="ident">validation_data</span>);
+            <span class="kw">let</span> <span class="ident">validation_result</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">entry_type_definition</span>.<span class="ident">validator</span>)(<span class="ident">input</span>.<span class="ident">validation_data</span>);
 
             <span class="kw">match</span> <span class="ident">validation_result</span> {
                 <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span> <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Success</span>.<span class="ident">into</span>(),
@@ -575,11 +579,7 @@
                     })
             })
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="kw-2">mut</span> <span class="ident">link_definition</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">validation_result</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">link_definition</span>.<span class="ident">validator</span>)(
-                    <span class="ident">input</span>.<span class="ident">link</span>.<span class="ident">base</span>().<span class="ident">clone</span>(),
-                    <span class="ident">input</span>.<span class="ident">link</span>.<span class="ident">target</span>().<span class="ident">clone</span>(),
-                    <span class="ident">input</span>.<span class="ident">validation_data</span>,
-                );
+                <span class="kw">let</span> <span class="ident">validation_result</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">link_definition</span>.<span class="ident">validator</span>)(<span class="ident">input</span>.<span class="ident">validation_data</span>);
                 <span class="prelude-val">Some</span>(<span class="kw">match</span> <span class="ident">validation_result</span> {
                     <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span> <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Success</span>,
                     <span class="prelude-val">Err</span>(<span class="ident">fail_string</span>) <span class="op">=&gt;</span> {
@@ -690,7 +690,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">partial_zome_json</span>() {
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">DefaultJson</span>)]</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">DefaultJson</span>, <span class="ident">Clone</span>)]</span>
         <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Post</span> {
             <span class="ident">content</span>: <span class="ident">String</span>,
             <span class="ident">date_created</span>: <span class="ident">String</span>,
@@ -702,13 +702,13 @@
             <span class="ident">name</span>: <span class="string">&quot;post&quot;</span>,
             <span class="ident">description</span>: <span class="string">&quot;blog entry post&quot;</span>,
             <span class="ident">sharing</span>: <span class="ident">Sharing</span>::<span class="ident">Public</span>,
-            <span class="ident">native_type</span>: <span class="ident">Post</span>,
+
 
             <span class="ident">validation_package</span>: <span class="op">||</span> {
                 <span class="ident">ValidationPackageDefinition</span>::<span class="ident">Entry</span>
             },
 
-            <span class="ident">validation</span>: <span class="op">|</span><span class="ident">_post</span>: <span class="ident">Post</span>, <span class="ident">_validation_data</span>: <span class="ident">hdk</span>::<span class="ident">ValidationData</span><span class="op">|</span> {
+            <span class="ident">validation</span>: <span class="op">|</span><span class="ident">_validation_data</span>: <span class="ident">hdk</span>::<span class="ident">EntryValidationData</span><span class="op">&lt;</span><span class="ident">Post</span><span class="op">&gt;</span><span class="op">|</span> {
                 <span class="prelude-val">Ok</span>(())
             }
 

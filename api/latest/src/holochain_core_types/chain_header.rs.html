@@ -396,6 +396,9 @@
 <span id="396">396</span>
 <span id="397">397</span>
 <span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module contains definitions of the ChainHeader struct, constructor, and getters. This struct really defines a local source chain,</span>
 <span class="doccomment">//! in the sense that it implements the pointers between hashes that a hash chain relies on, which</span>
@@ -541,7 +544,10 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_provenances</span>(<span class="ident">sig</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Provenance</span><span class="op">&gt;</span> {
-    <span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">test_agent_id</span>().<span class="ident">address</span>(), <span class="ident">Signature</span>::<span class="ident">from</span>(<span class="ident">sig</span>))]
+    <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Provenance</span>::<span class="ident">new</span>(
+        <span class="ident">test_agent_id</span>().<span class="ident">address</span>(),
+        <span class="ident">Signature</span>::<span class="ident">from</span>(<span class="ident">sig</span>),
+    )]
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>

@@ -405,6 +405,20 @@
 <span id="405">405</span>
 <span id="406">406</span>
 <span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This file contains the define_zome! macro, and smaller helper macros.</span>
 
@@ -483,6 +497,7 @@
 <span class="doccomment">/// use holochain_core_types::{</span>
 <span class="doccomment">///     cas::content::Address,</span>
 <span class="doccomment">///     dna::entry_types::Sharing,</span>
+<span class="doccomment">///     validation::EntryValidationData</span>
 <span class="doccomment">/// };</span>
 <span class="doccomment">/// # use holochain_core_types::error::RibosomeEncodingBits;</span>
 <span class="doccomment">/// # // Adding empty functions so that the cfg(test) build can link.</span>
@@ -511,6 +526,8 @@
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_sign(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_verify_signature(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_get_links(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_link_entries(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
@@ -518,7 +535,7 @@
 <span class="doccomment">/// # pub fn hc_remove_link(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// #[derive(Serialize, Deserialize, Debug, DefaultJson)]</span>
+<span class="doccomment">/// #[derive(Serialize, Deserialize, Debug, DefaultJson,Clone)]</span>
 <span class="doccomment">/// pub struct Post {</span>
 <span class="doccomment">///     content: String,</span>
 <span class="doccomment">///     date_created: String,</span>
@@ -539,16 +556,27 @@
 <span class="doccomment">///             name: &quot;post&quot;,</span>
 <span class="doccomment">///             description: &quot;&quot;,</span>
 <span class="doccomment">///             sharing: Sharing::Public,</span>
-<span class="doccomment">///             native_type: Post,</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///             validation_package: || {</span>
 <span class="doccomment">///                 hdk::ValidationPackageDefinition::ChainFull</span>
 <span class="doccomment">///             },</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///             validation: |post: Post, _validation_data: hdk::ValidationData| {</span>
-<span class="doccomment">///                 (post.content.len() &lt; 280)</span>
-<span class="doccomment">///                     .ok_or_else(|| String::from(&quot;Content too long&quot;))</span>
-<span class="doccomment">///             }</span>
+<span class="doccomment">///             validation: |validation_data: hdk::EntryValidationData&lt;Post&gt;| {</span>
+<span class="doccomment">///              match validation_data</span>
+<span class="doccomment">///              {</span>
+<span class="doccomment">///              EntryValidationData::Create{entry:test_entry,validation_package:_} =&gt;</span>
+<span class="doccomment">///              {</span>
+<span class="doccomment">///                        </span>
+<span class="doccomment">///                        </span>
+<span class="doccomment">///                        (test_entry.content != &quot;FAIL&quot;)</span>
+<span class="doccomment">///                        .ok_or_else(|| &quot;FAIL content is not allowed&quot;.to_string())</span>
+<span class="doccomment">///                }</span>
+<span class="doccomment">///                _ =&gt;</span>
+<span class="doccomment">///                 {</span>
+<span class="doccomment">///                      Err(&quot;Failed to validate with wrong entry type&quot;.to_string())</span>
+<span class="doccomment">///                }</span>
+<span class="doccomment">///         }}</span>
+<span class="doccomment">///</span>
 <span class="doccomment">///         )</span>
 <span class="doccomment">///     ]</span>
 <span class="doccomment">///</span>

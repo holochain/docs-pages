@@ -1271,8 +1271,6 @@
 <span id="1271">1271</span>
 <span id="1272">1272</span>
 <span id="1273">1273</span>
-<span id="1274">1274</span>
-<span id="1275">1275</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">config</span>::{
@@ -1299,7 +1297,6 @@
 };
 <span class="kw">use</span> <span class="ident">holochain_sodium</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
 <span class="kw">use</span> <span class="ident">jsonrpc_ws_server</span>::<span class="ident">jsonrpc_core</span>::<span class="ident">IoHandler</span>;
-<span class="kw">use</span> <span class="ident">rpassword</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">clone</span>::<span class="ident">Clone</span>,
     <span class="ident">collections</span>::<span class="ident">HashMap</span>,
@@ -1315,6 +1312,7 @@
     <span class="ident">thread</span>,
 };
 
+<span class="kw">use</span> <span class="ident">conductor</span>::<span class="ident">passphrase_manager</span>::{<span class="ident">PassphraseManager</span>, <span class="ident">PassphraseServiceCmd</span>};
 <span class="kw">use</span> <span class="ident">holochain_net</span>::{
     <span class="ident">ipc</span>::<span class="ident">spawn</span>::{<span class="ident">ipc_spawn</span>, <span class="ident">SpawnResult</span>},
     <span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>,
@@ -1368,6 +1366,7 @@
     <span class="ident">logger</span>: <span class="ident">DebugLogger</span>,
     <span class="ident">p2p_config</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">P2pConfig</span><span class="op">&gt;</span>,
     <span class="ident">network_spawn</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SpawnResult</span><span class="op">&gt;</span>,
+    <span class="ident">passphrase_manager</span>: <span class="ident">PassphraseManager</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Conductor</span> {
@@ -1381,7 +1380,9 @@
 }
 
 <span class="kw">type</span> <span class="ident">SignalSender</span> <span class="op">=</span> <span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;</span>;
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">KeyLoader</span> <span class="op">=</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyBundle</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">KeyLoader</span> <span class="op">=</span> <span class="ident">Arc</span><span class="op">&lt;</span>
+    <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="kw-2">&amp;</span><span class="ident">PassphraseManager</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyBundle</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>,
+<span class="op">&gt;</span>;
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">DnaLoader</span> <span class="op">=</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Dna</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span>;
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">UiDirCopier</span> <span class="op">=</span>
     <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span>;
@@ -1408,6 +1409,9 @@
             <span class="ident">logger</span>: <span class="ident">DebugLogger</span>::<span class="ident">new</span>(<span class="ident">rules</span>),
             <span class="ident">p2p_config</span>: <span class="prelude-val">None</span>,
             <span class="ident">network_spawn</span>: <span class="prelude-val">None</span>,
+            <span class="ident">passphrase_manager</span>: <span class="ident">PassphraseManager</span>::<span class="ident">new</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(
+                <span class="ident">PassphraseServiceCmd</span> {},
+            ))),
         }
     }
 
@@ -1420,10 +1424,9 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">p2p_bindings</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">network_spawn</span> {
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">spawn</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">spawn</span>.<span class="ident">p2p_bindings</span>.<span class="ident">clone</span>()),
-        }
+        <span class="self">self</span>.<span class="ident">network_spawn</span>
+            .<span class="ident">as_ref</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">spawn</span><span class="op">|</span> <span class="ident">spawn</span>.<span class="ident">p2p_bindings</span>.<span class="ident">clone</span>())
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">config</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Configuration</span> {
@@ -1442,10 +1445,9 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">stop_all_interfaces</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">for</span> (<span class="ident">id</span>, <span class="ident">kill_switch</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">interface_threads</span>.<span class="ident">iter</span>() {
             <span class="ident">notify</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Stopping interface {}&quot;</span>, <span class="ident">id</span>));
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">kill_switch</span>.<span class="ident">send</span>(()).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> {
+            <span class="ident">kill_switch</span>.<span class="ident">send</span>(()).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> {
                 <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error stopping interface: {}&quot;</span>, <span class="ident">err</span>);
                 <span class="ident">notify</span>(<span class="ident">message</span>.<span class="ident">clone</span>());
-                <span class="ident">err</span>
             });
         }
     }
@@ -1584,16 +1586,13 @@
         <span class="comment">// ipc_uri for it and save it for future calls to `load_config`</span>
         <span class="comment">// or we use that uri value that was created from previous calls!</span>
         <span class="kw">let</span> <span class="ident">net_config</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">network</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">net_config</span>.<span class="ident">n3h_ipc_uri</span>.<span class="ident">clone</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">uri</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">uri</span>),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
-                <span class="self">self</span>.<span class="ident">network_spawn</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">spawn_network</span>().<span class="ident">ok</span>();
-                <span class="kw">match</span> <span class="self">self</span>.<span class="ident">network_spawn</span> {
-                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-                    <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">spawn</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">spawn</span>.<span class="ident">ipc_binding</span>.<span class="ident">clone</span>()),
-                }
-            }
-        };
+        <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="ident">net_config</span>.<span class="ident">n3h_ipc_uri</span>.<span class="ident">clone</span>().<span class="ident">or_else</span>(<span class="op">||</span> {
+            <span class="self">self</span>.<span class="ident">network_spawn</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">spawn_network</span>().<span class="ident">ok</span>();
+            <span class="self">self</span>.<span class="ident">network_spawn</span>
+                .<span class="ident">as_ref</span>()
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">spawn</span><span class="op">|</span> <span class="ident">spawn</span>.<span class="ident">ipc_binding</span>.<span class="ident">clone</span>())
+        });
+
         <span class="ident">P2pConfig</span>::<span class="ident">new_ipc_uri</span>(
             <span class="ident">uri</span>,
             <span class="kw-2">&amp;</span><span class="ident">net_config</span>.<span class="ident">bootstrap_nodes</span>,
@@ -1686,7 +1685,7 @@
 
                 <span class="comment">// Agent:</span>
                 <span class="kw">let</span> <span class="ident">agent_config</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">agent_by_id</span>(<span class="kw-2">&amp;</span><span class="ident">instance_config</span>.<span class="ident">agent</span>).<span class="ident">unwrap</span>();
-                <span class="kw">let</span> <span class="ident">agent_id</span> <span class="op">=</span> <span class="kw">if</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>) <span class="op">==</span> <span class="ident">agent_config</span>.<span class="ident">holo_remote_key</span> {
+                <span class="kw">let</span> <span class="ident">agent_id</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>) <span class="op">=</span> <span class="ident">agent_config</span>.<span class="ident">holo_remote_key</span> {
                     <span class="comment">// !!!!!!!!!!!!!!!!!!!!!!!</span>
                     <span class="comment">// Holo closed-alpha hack:</span>
                     <span class="comment">// !!!!!!!!!!!!!!!!!!!!!!!</span>
@@ -1728,7 +1727,7 @@
                 <span class="comment">// Conductor API</span>
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api_builder</span> <span class="op">=</span> <span class="ident">ConductorApiBuilder</span>::<span class="ident">new</span>();
                 <span class="comment">// Signing callback:</span>
-                <span class="kw">if</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>) <span class="op">==</span> <span class="ident">agent_config</span>.<span class="ident">holo_remote_key</span> {
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>) <span class="op">=</span> <span class="ident">agent_config</span>.<span class="ident">holo_remote_key</span> {
                     <span class="comment">// !!!!!!!!!!!!!!!!!!!!!!!</span>
                     <span class="comment">// Holo closed-alpha hack:</span>
                     <span class="comment">// !!!!!!!!!!!!!!!!!!!!!!!</span>
@@ -1815,11 +1814,10 @@
     <span class="doccomment">/// passphrase prompts) before bootstrapping the whole config and have prompts appear</span>
     <span class="doccomment">/// in between other initialization output.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check_load_key_for_agent</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">agent_id</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>)
-            <span class="op">==</span> <span class="self">self</span>
-                .<span class="ident">config</span>
-                .<span class="ident">agent_by_id</span>(<span class="ident">agent_id</span>)
-                .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">holo_remote_key</span>)
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>) <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">config</span>
+            .<span class="ident">agent_by_id</span>(<span class="ident">agent_id</span>)
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">holo_remote_key</span>)
         {
             <span class="comment">// !!!!!!!!!!!!!!!!!!!!!!!</span>
             <span class="comment">// Holo closed-alpha hack:</span>
@@ -1843,13 +1841,16 @@
                 .<span class="ident">agent_by_id</span>(<span class="ident">agent_id</span>)
                 .<span class="ident">ok_or</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Agent &#39;{}&#39; not found&quot;</span>, <span class="ident">agent_id</span>))<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">key_file_path</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">agent_config</span>.<span class="ident">key_file</span>.<span class="ident">clone</span>());
-            <span class="kw">let</span> <span class="ident">keybundle</span> <span class="op">=</span>
-                <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">key_loader</span>).<span class="ident">unwrap</span>()(<span class="kw-2">&amp;</span><span class="ident">key_file_path</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-                    <span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="macro">format</span><span class="macro">!</span>(
-                        <span class="string">&quot;Could not load key file \&quot;{}\&quot;&quot;</span>,
-                        <span class="ident">agent_config</span>.<span class="ident">key_file</span>,
-                    ))
-                })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">keybundle</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">key_loader</span>).<span class="ident">unwrap</span>()(
+                <span class="kw-2">&amp;</span><span class="ident">key_file_path</span>,
+                <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">passphrase_manager</span>,
+            )
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
+                <span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="macro">format</span><span class="macro">!</span>(
+                    <span class="string">&quot;Could not load key file \&quot;{}\&quot;&quot;</span>,
+                    <span class="ident">agent_config</span>.<span class="ident">key_file</span>,
+                ))
+            })<span class="question-mark">?</span>;
             <span class="kw">if</span> <span class="ident">agent_config</span>.<span class="ident">public_address</span> <span class="op">!=</span> <span class="ident">keybundle</span>.<span class="ident">get_id</span>() {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format</span><span class="macro">!</span>(
                     <span class="string">&quot;Key from file &#39;{}&#39; (&#39;{}&#39;) does not match public address {} mentioned in config!&quot;</span>,
@@ -1885,7 +1886,10 @@
     }
 
     <span class="doccomment">/// Default KeyLoader that actually reads files from the filesystem</span>
-    <span class="kw">fn</span> <span class="ident">load_key</span>(<span class="ident">file</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyBundle</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">load_key</span>(
+        <span class="ident">file</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>,
+        <span class="ident">passphrase_manager</span>: <span class="kw-2">&amp;</span><span class="ident">PassphraseManager</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyBundle</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="ident">notify</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Reading agent key from {}&quot;</span>, <span class="ident">file</span>.<span class="ident">display</span>()));
 
         <span class="comment">// Read key file</span>
@@ -1898,20 +1902,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">default_passphrase</span> <span class="op">=</span>
             <span class="ident">SecBuf</span>::<span class="ident">with_insecure_from_string</span>(<span class="ident">holochain_common</span>::<span class="ident">DEFAULT_PASSPHRASE</span>.<span class="ident">to_string</span>());
         <span class="ident">KeyBundle</span>::<span class="ident">from_blob</span>(<span class="kw-2">&amp;</span><span class="ident">blob</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">default_passphrase</span>, <span class="prelude-val">None</span>).<span class="ident">or_else</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="comment">// Prompt for passphrase</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">passphrase_string</span> <span class="op">=</span> <span class="ident">rpassword</span>::<span class="ident">read_password_from_tty</span>(<span class="prelude-val">Some</span>(<span class="string">&quot;Passphrase: &quot;</span>))<span class="question-mark">?</span>;
-
-            <span class="comment">// Move passphrase in secure memory</span>
-            <span class="kw">let</span> <span class="ident">passphrase_bytes</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">passphrase_string</span>.<span class="ident">as_mut_vec</span>() };
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">passphrase_buf</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">passphrase_bytes</span>.<span class="ident">len</span>());
-            <span class="ident">passphrase_buf</span>
-                .<span class="ident">write</span>(<span class="number">0</span>, <span class="ident">passphrase_bytes</span>.<span class="ident">as_slice</span>())
-                .<span class="ident">expect</span>(<span class="string">&quot;Failed to write passphrase in a SecBuf&quot;</span>);
-
-            <span class="comment">// Overwrite the unsafe passphrase memory with zeros</span>
-            <span class="kw">for</span> <span class="ident">byte</span> <span class="kw">in</span> <span class="ident">passphrase_bytes</span>.<span class="ident">iter_mut</span>() {
-                <span class="kw-2">*</span><span class="ident">byte</span> <span class="op">=</span> <span class="number">0u8</span>;
-            }
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">passphrase_buf</span> <span class="op">=</span> <span class="ident">passphrase_manager</span>.<span class="ident">get_passphrase</span>()<span class="question-mark">?</span>;
 
             <span class="comment">// Unblob into KeyBundle</span>
             <span class="ident">KeyBundle</span>::<span class="ident">from_blob</span>(<span class="kw-2">&amp;</span><span class="ident">blob</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">passphrase_buf</span>, <span class="prelude-val">None</span>)
@@ -2089,16 +2080,22 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_key_loader</span>() <span class="op">-&gt;</span> <span class="ident">KeyLoader</span> {
-        <span class="kw">let</span> <span class="ident">loader</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">as_ref</span>() {
-            <span class="string">&quot;holo_tester1.key&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">test_keybundle</span>(<span class="number">1</span>)),
-            <span class="string">&quot;holo_tester2.key&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">test_keybundle</span>(<span class="number">2</span>)),
-            <span class="string">&quot;holo_tester3.key&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">test_keybundle</span>(<span class="number">3</span>)),
-            <span class="ident">unknown</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;No test key for {}&quot;</span>,
-                <span class="ident">unknown</span>
-            ))),
+        <span class="kw">let</span> <span class="ident">loader</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="ident">_pm</span>: <span class="kw-2">&amp;</span><span class="ident">PassphraseManager</span><span class="op">|</span> {
+            <span class="kw">match</span> <span class="ident">path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">as_ref</span>() {
+                <span class="string">&quot;holo_tester1.key&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">test_keybundle</span>(<span class="number">1</span>)),
+                <span class="string">&quot;holo_tester2.key&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">test_keybundle</span>(<span class="number">2</span>)),
+                <span class="string">&quot;holo_tester3.key&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">test_keybundle</span>(<span class="number">3</span>)),
+                <span class="ident">unknown</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="macro">format</span><span class="macro">!</span>(
+                    <span class="string">&quot;No test key for {}&quot;</span>,
+                    <span class="ident">unknown</span>
+                ))),
+            }
         })
-            <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyBundle</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>;
+            <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span>
+                <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="kw-2">&amp;</span><span class="ident">PassphraseManager</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyBundle</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span>
+                    <span class="op">+</span> <span class="ident">Send</span>
+                    <span class="op">+</span> <span class="ident">Sync</span>,
+            <span class="op">&gt;</span>;
         <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">loader</span>)
     }
 
@@ -2171,7 +2168,7 @@
     type = &quot;memory&quot;
 
     [[interfaces]]
-    id = &quot;test-interface&quot;
+    id = &quot;test-interface-1&quot;
     admin = true
     [interfaces.driver]
     type = &quot;websocket&quot;
@@ -2182,7 +2179,7 @@
     id = &quot;test-instance-2&quot;
 
     [[interfaces]]
-    id = &quot;test-interface&quot;
+    id = &quot;test-interface-2&quot;
     [interfaces.driver]
     type = &quot;http&quot;
     port = 4000
@@ -2501,8 +2498,7 @@
             <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">context</span>();
             <span class="ident">make_cap_request_for_call</span>(
                 <span class="ident">context</span>.<span class="ident">clone</span>(),
-                <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">context</span>.<span class="ident">clone</span>().<span class="ident">agent_id</span>.<span class="ident">pub_sign_key</span>.<span class="ident">clone</span>()),
-                <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">context</span>.<span class="ident">clone</span>().<span class="ident">agent_id</span>.<span class="ident">pub_sign_key</span>.<span class="ident">clone</span>()),
+                <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">context</span>.<span class="ident">clone</span>().<span class="ident">agent_id</span>.<span class="ident">address</span>()),
                 <span class="string">&quot;call_bridge&quot;</span>,
                 <span class="string">&quot;{}&quot;</span>.<span class="ident">to_string</span>(),
             )

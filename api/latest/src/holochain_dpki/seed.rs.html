@@ -393,10 +393,6 @@
 <span id="393">393</span>
 <span id="394">394</span>
 <span id="395">395</span>
-<span id="396">396</span>
-<span id="397">397</span>
-<span id="398">398</span>
-<span id="399">399</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">key_bundle</span>::<span class="ident">KeyBundle</span>, <span class="ident">password_encryption</span>::<span class="kw-2">*</span>, <span class="ident">SEED_SIZE</span>};
 <span class="kw">use</span> <span class="ident">bip39</span>::{<span class="ident">Language</span>, <span class="ident">Mnemonic</span>};
@@ -473,18 +469,14 @@
 
     <span class="comment">// TODO: We need some way of zeroing the internal memory used by mnemonic</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_mnemonic</span>(<span class="ident">phrase</span>: <span class="ident">String</span>, <span class="ident">seed_type</span>: <span class="ident">SeedType</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">maybe_mnemonic</span> <span class="op">=</span> <span class="ident">Mnemonic</span>::<span class="ident">from_phrase</span>(<span class="ident">phrase</span>, <span class="ident">Language</span>::<span class="ident">English</span>);
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">maybe_mnemonic</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;Error loading Mnemonic phrase: {}&quot;</span>,
-                <span class="ident">e</span>
-            )));
-        }
-        <span class="kw">let</span> <span class="ident">mnemonic</span> <span class="op">=</span> <span class="ident">maybe_mnemonic</span>.<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">entropy</span> <span class="op">=</span> <span class="ident">mnemonic</span>.<span class="ident">entropy</span>().<span class="ident">clone</span>();
+        <span class="kw">let</span> <span class="ident">mnemonic</span> <span class="op">=</span> <span class="ident">Mnemonic</span>::<span class="ident">from_phrase</span>(<span class="ident">phrase</span>, <span class="ident">Language</span>::<span class="ident">English</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+            <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error loading Mnemonic phrase: {}&quot;</span>, <span class="ident">e</span>))
+        })<span class="question-mark">?</span>;
+
+        <span class="kw">let</span> <span class="ident">entropy</span> <span class="op">=</span> <span class="ident">mnemonic</span>.<span class="ident">entropy</span>().<span class="ident">to_owned</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">entropy</span>.<span class="ident">len</span>(), <span class="ident">SEED_SIZE</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">seed_buf</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">entropy</span>.<span class="ident">len</span>());
-        <span class="ident">seed_buf</span>.<span class="ident">from_array</span>(<span class="ident">entropy</span>)<span class="question-mark">?</span>;
+        <span class="ident">seed_buf</span>.<span class="ident">from_array</span>(<span class="ident">entropy</span>.<span class="ident">as_slice</span>())<span class="question-mark">?</span>;
         <span class="comment">// Done</span>
         <span class="prelude-val">Ok</span>(<span class="ident">Seed</span> {
             <span class="ident">kind</span>: <span class="ident">seed_type</span>,
