@@ -93,7 +93,7 @@
 <span class="doccomment">/// Signature is a wrapper structure for a cryptographic signature</span>
 <span class="doccomment">/// it is stored as a string and can be validated as having been signed</span>
 <span class="doccomment">/// by the private key associated with a given public key.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>, <span class="ident">Eq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>, <span class="ident">Eq</span>, <span class="ident">DefaultJson</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Signature</span>(<span class="ident">String</span>);
 
 <span class="kw">impl</span> <span class="ident">Signature</span> {

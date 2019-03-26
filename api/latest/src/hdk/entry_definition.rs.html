@@ -543,7 +543,7 @@
 <span class="doccomment">///         validation: |validation_data: hdk::EntryValidationData&lt;Post&gt;| {</span>
 <span class="doccomment">///              match validation_data</span>
 <span class="doccomment">///              {</span>
-<span class="doccomment">///              EntryValidationData::Create{entry:test_entry,validation_package:_} =&gt;</span>
+<span class="doccomment">///              EntryValidationData::Create{entry:test_entry,validation_data:_} =&gt;</span>
 <span class="doccomment">///              {</span>
 <span class="doccomment">///                        </span>
 <span class="doccomment">///                        </span>
@@ -771,19 +771,19 @@
     <span class="kw">match</span> <span class="ident">entry_validation</span> {
         <span class="ident">EntryValidationData</span>::<span class="ident">Create</span> {
             <span class="ident">entry</span>,
-            <span class="ident">validation_package</span>,
+            <span class="ident">validation_data</span>,
         } <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">native_type</span> <span class="op">=</span> <span class="ident">convert_entry_validation_to_native</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">entry</span>)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="ident">EntryValidationData</span>::<span class="ident">Create</span> {
                 <span class="ident">entry</span>: <span class="ident">native_type</span>,
-                <span class="ident">validation_package</span>,
+                <span class="ident">validation_data</span>,
             })
         }
         <span class="ident">EntryValidationData</span>::<span class="ident">Modify</span> {
             <span class="ident">new_entry</span>,
             <span class="ident">old_entry</span>,
             <span class="ident">old_entry_header</span>,
-            <span class="ident">validation_package</span>,
+            <span class="ident">validation_data</span>,
         } <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">new_entry</span> <span class="op">=</span> <span class="ident">convert_entry_validation_to_native</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">new_entry</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">old_entry</span> <span class="op">=</span> <span class="ident">convert_entry_validation_to_native</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">old_entry</span>)<span class="question-mark">?</span>;
@@ -791,19 +791,19 @@
                 <span class="ident">new_entry</span>,
                 <span class="ident">old_entry</span>,
                 <span class="ident">old_entry_header</span>,
-                <span class="ident">validation_package</span>,
+                <span class="ident">validation_data</span>,
             })
         }
         <span class="ident">EntryValidationData</span>::<span class="ident">Delete</span> {
             <span class="ident">old_entry</span>,
             <span class="ident">old_entry_header</span>,
-            <span class="ident">validation_package</span>,
+            <span class="ident">validation_data</span>,
         } <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">old_entry</span> <span class="op">=</span> <span class="ident">convert_entry_validation_to_native</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">old_entry</span>)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="ident">EntryValidationData</span>::<span class="ident">Delete</span> {
                 <span class="ident">old_entry</span>,
                 <span class="ident">old_entry_header</span>,
-                <span class="ident">validation_package</span>,
+                <span class="ident">validation_data</span>,
             })
         }
     }
