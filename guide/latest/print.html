@@ -629,8 +629,8 @@ entry!(
 <li>JavaScript</li>
 </ul>
 <p>In the near future, this is likely to expand in diversity on both sides, Zome code and testing code.</p>
-<p>Throughout this chapter, there will be plenty of examples given as to writing Zome code in Rust, and test code in JavaScript. Before that though, one must know how to generate a Zome with the command line tools.</p>
-<p>Please note that this chapter is focused on explaining details of Holochain, not as a start to finish tutorial. If you'd like to start with a tutorial, and come back to explanations, check out <a href="https://medium.com/holochain/first-steps-writing-holochain-happs-with-rust-80ae111960e">this tutorial</a> article on the Holochain medium.com publication.</p>
+<p>Throughout this chapter, there will be plenty of examples given as to writing Zome code in Rust.</p>
+<p>This chapter starts with a step by step tutorial, and goes on with a detailed explanation of the affordances of Holochain, and how to use its core functions.</p>
 <a class="header" href="#first-steps-writing-holochain-happs-with-rust" id="first-steps-writing-holochain-happs-with-rust"><h1>First steps writing Holochain hApps with Rust</h1></a>
 <hr />
 <p>This tutorial builds for the 0.0.7-alpha release but as the API and HDK are changing it will likely fail under newer releases.</p>
@@ -1225,8 +1225,6 @@ define_zome! {
     }
 
     functions: []
-
-    capabilitites: {}
 }
 #}</code></pre></pre>
 <p><code>entries</code> represents the validating entry type definitions. Note that it is an array, because there can be many. What validating entry types are will be <a href="./entry_type_definitions.html">explained next</a>.</p>
@@ -2654,14 +2652,14 @@ $HOME/.holochain/conductor/conductor-config.toml
 <p>Give a name of your choice to the agent</p>
 <a class="header" href="#public_address-string" id="public_address-string"><h4><code>public_address</code>: <code>string</code></h4></a>
 <p>A public address for the agent. Run <code>hc keygen</code> and copy the public address to this value</p>
-<a class="header" href="#key_file-string" id="key_file-string"><h4><code>key_file</code>: <code>string</code></h4></a>
-<p>Path to the private key file for this agent. Copy the path from when you ran <code>hc keygen</code> into this value.</p>
+<a class="header" href="#keystore_file-string" id="keystore_file-string"><h4><code>keystore_file</code>: <code>string</code></h4></a>
+<p>Path to the keystore file for this agent. Copy the path from when you ran <code>hc keygen</code> into this value.</p>
 <a class="header" href="#example-18" id="example-18"><h3>Example</h3></a>
 <pre><code class="language-toml">[[agents]]
 id = &quot;test_agent2&quot;
 name = &quot;HoloTester2&quot;
 public_address = &quot;HcSCJts3fQ6Y4c4xr795Zj6inhTjecrfrsSFOrU9Jmnhnj5bdoXkoPSJivrm3wi&quot;
-key_file = &quot;/org.holochain.holochain/keys/HcSCJts3fQ6Y4c4xr795Zj6inhTjecrfrsSFOrU9Jmnhnj5bdoXkoPSJivrm3wi&quot;
+keystore_file = &quot;/org.holochain.holochain/keys/HcSCJts3fQ6Y4c4xr795Zj6inhTjecrfrsSFOrU9Jmnhnj5bdoXkoPSJivrm3wi&quot;
 </code></pre>
 <a class="header" href="#dnas" id="dnas"><h1>DNAs</h1></a>
 <p><code>dnas</code> is an array of configurations for &quot;DNAs&quot; that are available to be instantiated in the Conductor. A DNA is a packaged JSON file containing a valid DNA configuration including the WASM code for the Zomes. How to package DNA from source files can be read about <a href="./packaging.html">here</a>.</p>
