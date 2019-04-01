@@ -71,7 +71,7 @@
 <span class="doccomment">//! a way of providing cryptographically verifiable proof of a given agent</span>
 <span class="doccomment">//! as having been the author of a given data entry.</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">error</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
 
 <span class="doccomment">/// Provenance is a tuple of initiating agent public key and signature of some item being signed</span>
 <span class="doccomment">/// this type is used in headers and in capability requests where the item being signed</span>
@@ -84,7 +84,7 @@
         <span class="ident">Provenance</span>(<span class="ident">source</span>, <span class="ident">signature</span>)
     }
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Address</span> {
-        <span class="ident">Address</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>())
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>()
     }
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">signature</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Signature</span> {
         <span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>()

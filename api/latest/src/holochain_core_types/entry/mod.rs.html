@@ -402,7 +402,7 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">deserialize_with</span> <span class="op">=</span> <span class="string">&quot;deserialize_app_entry&quot;</span>)]</span>
     <span class="ident">App</span>(<span class="ident">AppEntryType</span>, <span class="ident">AppEntryValue</span>),
 
-    <span class="ident">Dna</span>(<span class="ident">Dna</span>),
+    <span class="ident">Dna</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Dna</span><span class="op">&gt;</span>),
     <span class="ident">AgentId</span>(<span class="ident">AgentId</span>),
     <span class="ident">Deletion</span>(<span class="ident">DeletionEntry</span>),
     <span class="ident">LinkAdd</span>(<span class="ident">LinkData</span>),
@@ -569,7 +569,7 @@
 
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_unpublishable_entry</span>() <span class="op">-&gt;</span> <span class="ident">Entry</span> {
-    <span class="ident">Entry</span>::<span class="ident">Dna</span>(<span class="ident">Dna</span>::<span class="ident">new</span>())
+    <span class="ident">Entry</span>::<span class="ident">Dna</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Dna</span>::<span class="ident">new</span>()))
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>

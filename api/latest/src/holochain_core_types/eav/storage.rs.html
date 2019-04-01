@@ -88,10 +88,9 @@
 <span id="88">88</span>
 <span id="89">89</span>
 <span id="90">90</span>
-<span id="91">91</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">eav</span>::{<span class="ident">eavi</span>::<span class="ident">EntityAttributeValueIndex</span>, <span class="ident">query</span>::<span class="ident">EaviQuery</span>};
-<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">error</span>::{<span class="ident">HcResult</span>, <span class="ident">HolochainError</span>};
+<span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">HcResult</span>, <span class="ident">HolochainError</span>};
 <span class="kw">use</span> <span class="ident">objekt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections</span>::<span class="ident">BTreeSet</span>,
@@ -128,15 +127,14 @@
 
 <span class="macro">clone_trait_object</span><span class="macro">!</span>(<span class="ident">EntityAttributeValueStorage</span>);
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExampleEntityAttributeValueStorage</span> {
     <span class="ident">storage</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueIndex</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
 }
+
 <span class="kw">impl</span> <span class="ident">ExampleEntityAttributeValueStorage</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">ExampleEntityAttributeValueStorage</span> {
-        <span class="ident">ExampleEntityAttributeValueStorage</span> {
-            <span class="ident">storage</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">BTreeSet</span>::<span class="ident">new</span>())),
-        }
+        <span class="ident">Default</span>::<span class="ident">default</span>()
     }
 }
 

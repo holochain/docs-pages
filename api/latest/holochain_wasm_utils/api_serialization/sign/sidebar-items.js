@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["SignArgs",""]]});
+initSidebarItems({"struct":[["OneTimeSignArgs",""],["SignArgs",""],["SignOneTimeResult",""]]});

@@ -654,8 +654,6 @@
 <span id="654">654</span>
 <span id="655">655</span>
 <span id="656">656</span>
-<span id="657">657</span>
-<span id="658">658</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! ContentAddressableStorage (CAS) is defined here as a trait, such that there could be various implementations,</span>
 <span class="doccomment">//! such as the memory based, and file storage based implementations already in this code base.</span>
@@ -750,7 +748,7 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
 <span class="doccomment">/// Not thread-safe CAS implementation with a HashMap</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExampleContentAddressableStorageContent</span> {
     <span class="ident">storage</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">Content</span><span class="op">&gt;</span>,
@@ -758,9 +756,7 @@
 
 <span class="kw">impl</span> <span class="ident">ExampleContentAddressableStorageContent</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">ExampleContentAddressableStorageContent</span> {
-        <span class="ident">ExampleContentAddressableStorageContent</span> {
-            <span class="ident">storage</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
-        }
+        <span class="ident">Default</span>::<span class="ident">default</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">unthreadable_add</span>(

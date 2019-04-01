@@ -427,6 +427,8 @@
 <span id="427">427</span>
 <span id="428">428</span>
 <span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! The JsonString type is defined here. It is used throughout Holochain</span>
 <span class="doccomment">//! to enforce a standardized serialization of data to/from json.</span>
@@ -466,8 +468,8 @@
     }
 
     <span class="doccomment">/// achieves the same outcome as serde_json::to_vec()</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">to_owned</span>().<span class="ident">into_bytes</span>()
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>()
     }
 }
 
@@ -697,7 +699,7 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RawString</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">i</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">RawString</span> {
-        <span class="ident">RawString</span>::<span class="ident">from</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">f64</span>)
+        <span class="ident">RawString</span>::<span class="ident">from</span>(<span class="ident">f64</span>::<span class="ident">from</span>(<span class="ident">i</span>))
     }
 }
 
@@ -706,10 +708,12 @@
         <span class="comment">// this will panic if RawString does not contain a string!</span>
         <span class="comment">// use JsonString::from(...) to stringify numbers or other values</span>
         <span class="comment">// @see raw_from_number_test()</span>
-        <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">raw_string</span>.<span class="number">0</span>.<span class="ident">as_str</span>().<span class="ident">expect</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;could not extract inner string for RawString: {:?}&quot;</span>,
-            <span class="kw-2">&amp;</span><span class="ident">raw_string</span>
-        )))
+        <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">raw_string</span>.<span class="number">0</span>.<span class="ident">as_str</span>().<span class="ident">unwrap_or_else</span>(<span class="op">||</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(
+                <span class="string">&quot;could not extract inner string for RawString: {:?}&quot;</span>,
+                <span class="kw-2">&amp;</span><span class="ident">raw_string</span>
+            )
+        }))
     }
 }
 
@@ -718,7 +722,7 @@
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">raw_string</span>: <span class="ident">RawString</span>) <span class="op">-&gt;</span> <span class="ident">JsonString</span> {
         <span class="ident">JsonString</span>::<span class="ident">from</span>(
             <span class="ident">serde_json</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">raw_string</span>.<span class="number">0</span>)
-                .<span class="ident">expect</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;could not Jsonify RawString: {:?}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">raw_string</span>)),
+                .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;could not Jsonify RawString: {:?}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">raw_string</span>)),
         )
     }
 }
@@ -766,7 +770,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">json_into_bytes_test</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;foo&quot;</span>).<span class="ident">into_bytes</span>(), <span class="macro">vec</span><span class="macro">!</span>[<span class="number">102</span>, <span class="number">111</span>, <span class="number">111</span>],);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;foo&quot;</span>).<span class="ident">to_bytes</span>(), <span class="macro">vec</span><span class="macro">!</span>[<span class="number">102</span>, <span class="number">111</span>, <span class="number">111</span>],);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

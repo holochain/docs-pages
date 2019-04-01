@@ -79,6 +79,11 @@
 <span id="79">79</span>
 <span id="80">80</span>
 <span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">cas</span>::{
@@ -104,13 +109,18 @@
         <span class="self">self</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">id</span>
     }
 }
-
-<span class="kw">impl</span> <span class="ident">MemoryStorage</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">MemoryStorage</span> {
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">MemoryStorage</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">MemoryStorage</span> {
         <span class="ident">MemoryStorage</span> {
             <span class="ident">storage</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">HashMap</span>::<span class="ident">new</span>())),
             <span class="ident">id</span>: <span class="ident">Uuid</span>::<span class="ident">new_v4</span>(),
         }
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">MemoryStorage</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">MemoryStorage</span> {
+        <span class="ident">Default</span>::<span class="ident">default</span>()
     }
 }
 

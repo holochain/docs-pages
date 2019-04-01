@@ -369,7 +369,7 @@
 <span class="doccomment">//! but not every developer should have to write them. A notable function defined here is</span>
 <span class="doccomment">//! __hdk_get_json_definition which allows Holochain to retrieve JSON defining the Zome.</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">entry_definition</span>::<span class="ident">ValidatingEntryType</span>, <span class="ident">globals</span>::<span class="ident">G_MEM_STACK</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">api</span>::<span class="ident">G_MEM_STACK</span>, <span class="ident">entry_definition</span>::<span class="ident">ValidatingEntryType</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">dna</span>::{
         <span class="ident">entry_types</span>::{<span class="ident">deserialize_entry_types</span>, <span class="ident">serialize_entry_types</span>},

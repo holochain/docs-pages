@@ -131,10 +131,6 @@
 <span id="131">131</span>
 <span id="132">132</span>
 <span id="133">133</span>
-<span id="134">134</span>
-<span id="135">135</span>
-<span id="136">136</span>
-<span id="137">137</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! File holding all the structs for handling function declarations defined in DNA.</span>
 
@@ -185,7 +181,7 @@
 }
 
 <span class="doccomment">/// Represents a group of named functions in the Zomes&#39;s &quot;traits&quot; array</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TraitFns</span> {
     <span class="doccomment">/// &quot;functions&quot; array</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
@@ -195,14 +191,12 @@
 <span class="kw">impl</span> <span class="ident">TraitFns</span> {
     <span class="doccomment">/// TraitFns Constructor</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">TraitFns</span> {
-            <span class="ident">functions</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
-        }
+        <span class="ident">Default</span>::<span class="ident">default</span>()
     }
 }
 
 <span class="doccomment">/// Represents an trait definition for bridging</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Trait</span> {
     <span class="doccomment">/// &quot;functions&quot; array</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
@@ -212,9 +206,7 @@
 <span class="kw">impl</span> <span class="ident">Trait</span> {
     <span class="doccomment">/// Trait Constructor</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Trait</span> {
-            <span class="ident">functions</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
-        }
+        <span class="ident">Default</span>::<span class="ident">default</span>()
     }
 }
 

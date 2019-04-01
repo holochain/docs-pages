@@ -724,98 +724,6 @@
 <span id="724">724</span>
 <span id="725">725</span>
 <span id="726">726</span>
-<span id="727">727</span>
-<span id="728">728</span>
-<span id="729">729</span>
-<span id="730">730</span>
-<span id="731">731</span>
-<span id="732">732</span>
-<span id="733">733</span>
-<span id="734">734</span>
-<span id="735">735</span>
-<span id="736">736</span>
-<span id="737">737</span>
-<span id="738">738</span>
-<span id="739">739</span>
-<span id="740">740</span>
-<span id="741">741</span>
-<span id="742">742</span>
-<span id="743">743</span>
-<span id="744">744</span>
-<span id="745">745</span>
-<span id="746">746</span>
-<span id="747">747</span>
-<span id="748">748</span>
-<span id="749">749</span>
-<span id="750">750</span>
-<span id="751">751</span>
-<span id="752">752</span>
-<span id="753">753</span>
-<span id="754">754</span>
-<span id="755">755</span>
-<span id="756">756</span>
-<span id="757">757</span>
-<span id="758">758</span>
-<span id="759">759</span>
-<span id="760">760</span>
-<span id="761">761</span>
-<span id="762">762</span>
-<span id="763">763</span>
-<span id="764">764</span>
-<span id="765">765</span>
-<span id="766">766</span>
-<span id="767">767</span>
-<span id="768">768</span>
-<span id="769">769</span>
-<span id="770">770</span>
-<span id="771">771</span>
-<span id="772">772</span>
-<span id="773">773</span>
-<span id="774">774</span>
-<span id="775">775</span>
-<span id="776">776</span>
-<span id="777">777</span>
-<span id="778">778</span>
-<span id="779">779</span>
-<span id="780">780</span>
-<span id="781">781</span>
-<span id="782">782</span>
-<span id="783">783</span>
-<span id="784">784</span>
-<span id="785">785</span>
-<span id="786">786</span>
-<span id="787">787</span>
-<span id="788">788</span>
-<span id="789">789</span>
-<span id="790">790</span>
-<span id="791">791</span>
-<span id="792">792</span>
-<span id="793">793</span>
-<span id="794">794</span>
-<span id="795">795</span>
-<span id="796">796</span>
-<span id="797">797</span>
-<span id="798">798</span>
-<span id="799">799</span>
-<span id="800">800</span>
-<span id="801">801</span>
-<span id="802">802</span>
-<span id="803">803</span>
-<span id="804">804</span>
-<span id="805">805</span>
-<span id="806">806</span>
-<span id="807">807</span>
-<span id="808">808</span>
-<span id="809">809</span>
-<span id="810">810</span>
-<span id="811">811</span>
-<span id="812">812</span>
-<span id="813">813</span>
-<span id="814">814</span>
-<span id="815">815</span>
-<span id="816">816</span>
-<span id="817">817</span>
-<span id="818">818</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides a higher level interface to p2p / network messaging</span>
 <span class="doccomment">//! basically handles serialization / deserialization from / to the core</span>
@@ -874,59 +782,41 @@
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MessageData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;toAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">to_agent_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;fromAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">from_agent_id</span>: <span class="ident">String</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;data&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">content</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TrackDnaData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;agentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">agent_id</span>: <span class="ident">String</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SuccessResultData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;toAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">to_agent_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;successInfo&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">success_info</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FailureResultData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;toAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">to_agent_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;errorInfo&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">error_info</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span>,
 }
 
@@ -936,61 +826,47 @@
 
 <span class="doccomment">/// Drop some data request from own p2p-module</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DropEntryData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dataAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_address</span>: <span class="ident">Address</span>,
 }
 
 <span class="doccomment">/// Data Request from some other agent</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FetchEntryData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;requesterAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">requester_agent_id</span>: <span class="ident">String</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;address&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_address</span>: <span class="ident">Address</span>,
 }
 
 <span class="doccomment">/// Generic DHT data message</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>, <span class="ident">Default</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntryData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;providerAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">provider_agent_id</span>: <span class="ident">String</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;address&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_address</span>: <span class="ident">Address</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;content&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_content</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span>,
 }
 
 <span class="doccomment">/// DHT data response from a request</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>, <span class="ident">Default</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FetchEntryResultData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;requesterAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">requester_agent_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;providerAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">provider_agent_id</span>: <span class="ident">String</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;address&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_address</span>: <span class="ident">Address</span>,
@@ -1004,71 +880,51 @@
 
 <span class="doccomment">/// Metadata Request from another agent</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FetchMetaData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;requesterAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">requester_agent_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;entryAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_address</span>: <span class="ident">Address</span>,
-
     <span class="kw">pub</span> <span class="ident">attribute</span>: <span class="ident">String</span>,
 }
 
 <span class="doccomment">/// Generic DHT metadata message</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DhtMetaData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;providerAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">provider_agent_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;entryAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_address</span>: <span class="ident">Address</span>,
-
     <span class="kw">pub</span> <span class="ident">attribute</span>: <span class="ident">String</span>,
     <span class="comment">// single string or list of hashs</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;contentList&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">content_list</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">serde_json</span>::<span class="ident">Value</span><span class="op">&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FetchMetaResultData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;requesterAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">requester_agent_id</span>: <span class="ident">String</span>,
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;providerAgentId&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">provider_agent_id</span>: <span class="ident">String</span>,
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;entryAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_address</span>: <span class="ident">Address</span>,
     <span class="kw">pub</span> <span class="ident">attribute</span>: <span class="ident">String</span>,
-
     <span class="comment">// // List of (hash, content) pairs.</span>
     <span class="comment">// single string or list of hashs</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;contentList&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">content_list</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">serde_json</span>::<span class="ident">Value</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// Drop some data request from own p2p-module</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DropMetaData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;entryAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_address</span>: <span class="ident">Address</span>,
-
     <span class="kw">pub</span> <span class="ident">attribute</span>: <span class="ident">String</span>,
 }
 
@@ -1077,33 +933,29 @@
 <span class="comment">//--------------------------------------------------------------------------------------------------</span>
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetListData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EntryListData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;entryAddressList&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">entry_address_list</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MetaListData</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;dnaAddress&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;_id&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">request_id</span>: <span class="ident">String</span>,
-
     <span class="comment">// List of meta identifiers, a pair: (entry_address, attribute, hashed_content)</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;metaList&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">meta_list</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MetaTuple</span><span class="op">&gt;</span>,
 }
 
@@ -1120,31 +972,25 @@
 <span class="doccomment">/// Fetch = Request between node and the network (other nodes)</span>
 <span class="doccomment">/// Get   = Request within a node between p2p module and core</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">DefaultJson</span>)]</span>
-<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;method&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;method&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">JsonProtocol</span> {
     <span class="comment">// -- Generic responses -- //</span>
     <span class="doccomment">/// Success response to a request (any message with an _id field.)</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;successResult&quot;</span>)]</span>
     <span class="ident">SuccessResult</span>(<span class="ident">SuccessResultData</span>),
     <span class="doccomment">/// Failure response to a request (any message with an _id field.)</span>
     <span class="doccomment">/// Can also be a response to a mal-formed request.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;failureResult&quot;</span>)]</span>
     <span class="ident">FailureResult</span>(<span class="ident">FailureResultData</span>),
 
     <span class="comment">// -- Connection -- //</span>
     <span class="doccomment">/// Order the p2p module to be part of the network of the specified DNA.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;trackDna&quot;</span>)]</span>
     <span class="ident">TrackDna</span>(<span class="ident">TrackDnaData</span>),
 
     <span class="doccomment">/// Order the p2p module to leave the network of the specified DNA.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;untrackDna&quot;</span>)]</span>
     <span class="ident">UntrackDna</span>(<span class="ident">TrackDnaData</span>),
 
     <span class="doccomment">/// Connect to the specified multiaddr</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;connect&quot;</span>)]</span>
     <span class="ident">Connect</span>(<span class="ident">ConnectData</span>),
     <span class="doccomment">/// Notification of a connection from another peer.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;peerConnected&quot;</span>)]</span>
     <span class="ident">PeerConnected</span>(<span class="ident">PeerData</span>),
 
     <span class="comment">// -- Config (deprecated?) -- //</span>
@@ -1161,90 +1007,64 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;defaultConfig&quot;</span>)]</span>
     <span class="ident">GetDefaultConfigResult</span>(<span class="ident">ConfigData</span>),
     <span class="doccomment">/// Set the p2p config</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;setConfig&quot;</span>)]</span>
     <span class="ident">SetConfig</span>(<span class="ident">ConfigData</span>),
 
     <span class="comment">// -- Direct Messaging -- //</span>
     <span class="doccomment">/// Send a message to another peer on the network</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;sendMessage&quot;</span>)]</span>
     <span class="ident">SendMessage</span>(<span class="ident">MessageData</span>),
     <span class="doccomment">/// the response from a previous `SendMessage`</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;sendMessageResult&quot;</span>)]</span>
     <span class="ident">SendMessageResult</span>(<span class="ident">MessageData</span>),
     <span class="doccomment">/// Request to handle a message another peer has sent us.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleSendMessage&quot;</span>)]</span>
     <span class="ident">HandleSendMessage</span>(<span class="ident">MessageData</span>),
     <span class="doccomment">/// Our response to a message from another peer.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleSendMessageResult&quot;</span>)]</span>
     <span class="ident">HandleSendMessageResult</span>(<span class="ident">MessageData</span>),
 
     <span class="comment">// -- Entry -- //</span>
     <span class="doccomment">/// Request data from the dht network</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;fetchEntry&quot;</span>)]</span>
     <span class="ident">FetchEntry</span>(<span class="ident">FetchEntryData</span>),
     <span class="doccomment">/// Response from requesting dht data from the network</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;fetchEntryResult&quot;</span>)]</span>
     <span class="ident">FetchEntryResult</span>(<span class="ident">FetchEntryResultData</span>),
     <span class="doccomment">/// Another node, or the network module itself is requesting data from us</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleFetchEntry&quot;</span>)]</span>
     <span class="ident">HandleFetchEntry</span>(<span class="ident">FetchEntryData</span>),
     <span class="doccomment">/// Successful data response for a `HandleFetchDhtData` request</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleFetchEntryResult&quot;</span>)]</span>
     <span class="ident">HandleFetchEntryResult</span>(<span class="ident">FetchEntryResultData</span>),
 
     <span class="doccomment">/// Publish data to the dht.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;publishEntry&quot;</span>)]</span>
     <span class="ident">PublishEntry</span>(<span class="ident">EntryData</span>),
     <span class="doccomment">/// Store data on a node&#39;s dht slice.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleStoreEntry&quot;</span>)]</span>
     <span class="ident">HandleStoreEntry</span>(<span class="ident">EntryData</span>),
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleDropEntry&quot;</span>)]</span>
     <span class="ident">HandleDropEntry</span>(<span class="ident">DropEntryData</span>),
 
     <span class="comment">// -- Meta -- //</span>
     <span class="doccomment">/// Request metadata from the dht</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;fetchMeta&quot;</span>)]</span>
     <span class="ident">FetchMeta</span>(<span class="ident">FetchMetaData</span>),
     <span class="doccomment">/// Response by the network for our metadata request</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;fetchMetaResult&quot;</span>)]</span>
     <span class="ident">FetchMetaResult</span>(<span class="ident">FetchMetaResultData</span>),
     <span class="doccomment">/// Another node, or the network module itself, is requesting data from us</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleFetchMeta&quot;</span>)]</span>
     <span class="ident">HandleFetchMeta</span>(<span class="ident">FetchMetaData</span>),
     <span class="doccomment">/// Successful metadata response for a `HandleFetchMeta` request</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleFetchMetaResult&quot;</span>)]</span>
     <span class="ident">HandleFetchMetaResult</span>(<span class="ident">FetchMetaResultData</span>),
 
     <span class="doccomment">/// Publish metadata to the dht.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;publishMeta&quot;</span>)]</span>
     <span class="ident">PublishMeta</span>(<span class="ident">DhtMetaData</span>),
     <span class="doccomment">/// Store metadata on a node&#39;s dht slice.</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleStoreMeta&quot;</span>)]</span>
     <span class="ident">HandleStoreMeta</span>(<span class="ident">DhtMetaData</span>),
     <span class="doccomment">/// Drop metadata on a node&#39;s dht slice.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleDropData&quot;</span>)]</span>
     <span class="ident">HandleDropMeta</span>(<span class="ident">DropMetaData</span>),
 
     <span class="comment">// -- Entry lists -- //</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleGetPublishingEntryList&quot;</span>)]</span>
     <span class="ident">HandleGetPublishingEntryList</span>(<span class="ident">GetListData</span>),
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleGetPublishingEntryListResult&quot;</span>)]</span>
     <span class="ident">HandleGetPublishingEntryListResult</span>(<span class="ident">EntryListData</span>),
 
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleGetHoldingEntryList&quot;</span>)]</span>
     <span class="ident">HandleGetHoldingEntryList</span>(<span class="ident">GetListData</span>),
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleGetHoldingEntryListResult&quot;</span>)]</span>
     <span class="ident">HandleGetHoldingEntryListResult</span>(<span class="ident">EntryListData</span>),
 
     <span class="comment">// -- Meta lists -- //</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleGetPublishingMetaList&quot;</span>)]</span>
     <span class="ident">HandleGetPublishingMetaList</span>(<span class="ident">GetListData</span>),
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleGetPublishingMetaListResult&quot;</span>)]</span>
     <span class="ident">HandleGetPublishingMetaListResult</span>(<span class="ident">MetaListData</span>),
 
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleGetHoldingMetaList&quot;</span>)]</span>
     <span class="ident">HandleGetHoldingMetaList</span>(<span class="ident">GetListData</span>),
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleGetHoldingMetaListResult&quot;</span>)]</span>
     <span class="ident">HandleGetHoldingMetaListResult</span>(<span class="ident">MetaListData</span>),
 }
 
@@ -1253,14 +1073,10 @@
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>;
     <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">Protocol</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Protocol</span>::<span class="ident">Json</span>(<span class="ident">json</span>) <span class="op">=</span> <span class="ident">p</span> {
-            <span class="kw">match</span> <span class="ident">JsonProtocol</span>::<span class="ident">try_from</span>(<span class="ident">json</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">w</span>) <span class="op">=&gt;</span> {
-                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">w</span>);
-                }
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="macro">bail</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>),
-            };
+            <span class="ident">JsonProtocol</span>::<span class="ident">try_from</span>(<span class="ident">json</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">format_err</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>))
+        } <span class="kw">else</span> {
+            <span class="macro">bail</span><span class="macro">!</span>(<span class="string">&quot;could not convert into JsonProtocol: {:?}&quot;</span>, <span class="ident">p</span>);
         }
-        <span class="macro">bail</span><span class="macro">!</span>(<span class="string">&quot;could not convert into JsonProtocol: {:?}&quot;</span>, <span class="ident">p</span>);
     }
 }
 

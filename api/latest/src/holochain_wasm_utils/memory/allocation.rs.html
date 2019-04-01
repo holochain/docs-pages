@@ -278,7 +278,7 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Offset</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MemoryBits</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">offset</span>: <span class="ident">Offset</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">offset</span>.<span class="number">0</span> <span class="kw">as</span> <span class="ident">MemoryBits</span>
+        <span class="ident">MemoryBits</span>::<span class="ident">from</span>(<span class="ident">offset</span>.<span class="number">0</span>)
     }
 }
 
@@ -296,7 +296,7 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Length</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MemoryBits</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">length</span>: <span class="ident">Length</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">length</span>.<span class="number">0</span> <span class="kw">as</span> <span class="ident">MemoryBits</span>
+        <span class="ident">MemoryBits</span>::<span class="ident">from</span>(<span class="ident">length</span>.<span class="number">0</span>)
     }
 }
 

@@ -44,7 +44,7 @@
 
     <span class="doccomment">/// Retrieve a stored string from an allocation.</span>
     <span class="doccomment">/// Return error code if encoded_allocation is invalid.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_to_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_to_string</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="ident">WasmAllocation</span>::<span class="ident">read_str_raw</span>(<span class="ident">MemoryInt</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">offset</span>()) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>).<span class="ident">to_string</span>()
     }
 }

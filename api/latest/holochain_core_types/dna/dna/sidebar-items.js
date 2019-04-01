@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Dna","Represents the top-level holochain dna object."]]});
