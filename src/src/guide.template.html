@@ -1,0 +1,35 @@
+<div class="page-wrapper">
+    {{{header}}}
+    <div class="doc-wrapper">
+        <div class="container">
+            <div class="doc-body row">
+                <div class="doc-content col-12 order-1">
+                    <div class="content-inner">
+                        <section id="versions-section" class="doc-section">
+                            <h2 class="section-title">Guide Book Versions</h2>
+                            <div class="section-block">
+                                <p>
+                                    <a href="/guide/latest">Latest</a>
+                                </p>
+                                {{#each guide_versions as |v| ~}}
+                                    <p>
+                                        <a href="/guide/{{v.url}}">{{v.text}}</a>
+                                    </p>
+                                {{/each~}}
+                            </div>
+                            <!--//section-block-->
+                        </section>
+                        <!--//doc-section-->
+                    </div>
+                    <!--//content-inner-->
+                </div>
+                <!--//doc-content-->
+            </div>
+            <!--//doc-body-->
+        </div>
+        <!--//container-->
+    </div>
+    <!--//doc-wrapper-->
+
+</div>
+<!--//page-wrapper-->

@@ -10,10 +10,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+    <link
+        href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
         rel='stylesheet' type='text/css'>
     <!-- FontAwesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a"
+    <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js"
+        integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a"
         crossorigin="anonymous"></script>
     <!-- Global CSS -->
     <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
@@ -23,7 +25,6 @@
 
     <!-- Theme CSS -->
     <link id="theme-style" rel="stylesheet" href="/assets/css/styles.css">
-
 </head>
 
 <body class="body-green">
@@ -50,8 +51,8 @@
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start</h1>
-                    <div class="meta"><i class="far fa-clock"></i> Last updated: March 26, 2019</div>
-                    <div class="meta">Version: 0.0.8-alpha</div>
+                    <div class="meta"><i class="far fa-clock"></i> Last updated: Apr 2, 2019</div>
+                    <div class="meta">Version: v0.0.8-alpha</div>
                 </div>
                 <!--//doc-header-->
                 <div class="doc-body row">
@@ -66,95 +67,128 @@
                                         It will guide you through installation.
 
                                         Once you've got things installed, or regardless,
-                                        read on into a <a href="https://developer.holochain.org/guide/latest/first_steps.html" target="_blank">tutorial</a>, the <a href="/guide/0.0.8-alpha">Holochain guidebook</a>, and the <a href="/api/0.0.8-alpha/hdk">API Reference</a>
+                                        read on into a <a
+                                            href="https://developer.holochain.org/guide/latest/first_steps.html"
+                                            target="_blank">tutorial</a>, the <a href="/guide/0.0.8-alpha">Holochain
+                                            guidebook</a>, and the <a href="/api/0.0.8-alpha/hdk">API Reference</a>
                                         to get going!
                                     </p>
 
-                                    <p>If you find an issue with the instructions, please <a href="https://github.com/holochain/docs-pages/issues/new" target="_blank">open an issue</a> on the GitHub repo for the documentation site.</p>
-                                    <p>If you believe you've found an issue with Holochain, please <a href="https://github.com/holochain/holochain-rust/issues/new" target="_blank">open an issue</a> on the GitHub repo for Holochain Rust core.</p>
-                                    <p>If you need general assistance, <a href="https://stackoverflow.com/questions/tagged/holochain" target="_blank">post all the relevant details</a> on StackOverflow then post a link to it in the <a href="https://chat.holochain.org/appsup/channels/app-dev" target="_blank">developer community chat</a>.</p>
+                                    <p>If you find an issue with the instructions, please <a
+                                            href="https://github.com/holochain/docs-pages/issues/new"
+                                            target="_blank">open
+                                            an issue</a> on the GitHub repo for the documentation site.</p>
+                                    <p>If you believe you've found an issue with Holochain, please <a
+                                            href="https://github.com/holochain/holochain-rust/issues/new"
+                                            target="_blank">open an issue</a> on the GitHub repo for Holochain Rust
+                                        core.
+                                    </p>
+                                    <p>If you need general assistance, <a
+                                            href="https://stackoverflow.com/questions/tagged/holochain"
+                                            target="_blank">post
+                                            all the relevant details</a> on StackOverflow then post a link to it in the
+                                        <a href="https://chat.holochain.org/appsup/channels/app-dev"
+                                            target="_blank">developer community chat</a>.</p>
                                 </div>
                                 <!--//section-block-->
                             </section>
 
                             <section id="install-script-section" class="doc-section">
-                             <h2 class="section-title">Install script (mac/linux)</h2>
+                                <h2 class="section-title">Install script (mac/linux)</h2>
 
-                             <div class="section-block">
-                              <p>
-                               The Holochain Rust repository contains automated install scripts for Mac OS X & Linux.
-                              </p>
-                              <p>
-                               The install scripts are tested against fresh virtual machines regularly during automated testing.
-                              </p>
-                              <p>
-                               The install scripts will modify the host environment through the most popular package management tooling for each OS.<br />
-                              </p>
-                              <p>
-                               The package manager is <code>brew</code> on Mac OS X and <code>apt-get</code> for Ubuntu.
-                              </p>
-                              <p>
-                               The installation scripts are all open source and the same basic steps can be performed manually (see below for details).
-                              </p>
-                              <p>
-                               <strong>Important: Windows users need to install Holochain manually (see below).</strong>
-                              </p>
-                             </div>
+                                <div class="section-block">
+                                    <p>
+                                        The Holochain Rust repository contains automated install scripts for Mac OS X &
+                                        Linux.
+                                    </p>
+                                    <p>
+                                        The install scripts are tested against fresh virtual machines regularly during
+                                        automated testing.
+                                    </p>
+                                    <p>
+                                        The install scripts will modify the host environment through the most popular
+                                        package management tooling for each OS.<br />
+                                    </p>
+                                    <p>
+                                        The package manager is <code>brew</code> on Mac OS X and <code>apt-get</code>
+                                        for
+                                        Ubuntu.
+                                    </p>
+                                    <p>
+                                        The installation scripts are all open source and the same basic steps can be
+                                        performed manually (see below for details).
+                                    </p>
+                                    <p>
+                                        <strong>Important: Windows users need to install Holochain manually (see
+                                            below).</strong>
+                                    </p>
+                                </div>
 
-                             <div id="install-script-step1" class="section-block">
-                              <h3 class="block-title">Install git</h3>
+                                <div id="install-script-step1" class="section-block">
+                                    <h3 class="block-title">Install git</h3>
 
-                              <p>
-                               At a minimum you will need to install git to download and manage the Holochain code repository locally.
-                              </p>
+                                    <p>
+                                        At a minimum you will need to install git to download and manage the Holochain
+                                        code
+                                        repository locally.
+                                    </p>
 
-                              <p>
-                               There are many ways to install git (it is a very common development tool). Instructions for each OS can be found at <a href="https://gist.github.com/derhuerst/1b15ff4652a867391f03">https://gist.github.com/derhuerst/1b15ff4652a867391f03</a>.
-                              </p>
+                                    <p>
+                                        There are many ways to install git (it is a very common development tool).
+                                        Instructions for each OS can be found at <a
+                                            href="https://gist.github.com/derhuerst/1b15ff4652a867391f03">https://gist.github.com/derhuerst/1b15ff4652a867391f03</a>.
+                                    </p>
 
-                              <p>
-                               If git is installed correctly then <code>git --version</code> will print the currently installed version.
-                              </p>
+                                    <p>
+                                        If git is installed correctly then <code>git --version</code> will print the
+                                        currently installed version.
+                                    </p>
 
-                             </div>
+                                </div>
 
-                             <div id="install-script-step2" class="section-block">
-                              <h3 class="block-title">Checkout the Holochain repository</h3>
+                                <div id="install-script-step2" class="section-block">
+                                    <h3 class="block-title">Checkout the Holochain repository</h3>
 
-                              <p>
-                               The Holochain Rust repository is hosted on Github at <a href="https://github.com/holochain/holochain-rust">https://github.com/holochain/holochain-rust</a>.
-                              </p>
+                                    <p>
+                                        The Holochain Rust repository is hosted on Github at <a
+                                            href="https://github.com/holochain/holochain-rust">https://github.com/holochain/holochain-rust</a>.
+                                    </p>
 
-                              <p>
-                               Use git to checkout a specific version of Holochain. For example, to download the latest develop commit:
-                              </p>
+                                    <p>
+                                        Use git to checkout a specific version of Holochain. For example, to download
+                                        the
+                                        latest develop commit:
+                                    </p>
 
-                              <p>
-                               <code>
+                                    <p>
+                                        <code>
                                 # develop is the default branch<br />
                                 $ git clone https://github.com/holochain/holochain-rust.git
                                </code>
-                              </p>
-                             </div>
+                                    </p>
+                                </div>
 
-                             <div id="install-script-step3" class="section-block">
-                              <h3 class="block-title">Run the auto install script</h3>
+                                <div id="install-script-step3" class="section-block">
+                                    <h3 class="block-title">Run the auto install script</h3>
 
-                              <p>
-                               The auto install script will attempt to detect Mac OS X and Linux then run appropriate installation commands.
-                              </p>
+                                    <p>
+                                        The auto install script will attempt to detect Mac OS X and Linux then run
+                                        appropriate installation commands.
+                                    </p>
 
-                              <p>
-                               <strong>Important: the script installs and uses package managers such as apt-get, brew and npm.</strong>
-                              </p>
+                                    <p>
+                                        <strong>Important: the script installs and uses package managers such as
+                                            apt-get,
+                                            brew and npm.</strong>
+                                    </p>
 
-                              <p>
-                               <code>
+                                    <p>
+                                        <code>
                                 $ cd path/to/holochain<br />
                                 $ . ./scripts/install/auto.sh
                                </code>
-                              </p>
-                             </div>
+                                    </p>
+                                </div>
 
                             </section>
 
@@ -165,7 +199,8 @@
                                     <h3 class="block-title">Step One - Nodejs</h3>
                                     <p>
 
-                                        End-to-end testing of Holochain apps is done in Javascript executed by Nodejs. <br />
+                                        End-to-end testing of Holochain apps is done in Javascript executed by Nodejs.
+                                        <br />
                                         To run the end-to-end tests you need nodejs installed.
                                     </p>
                                     <p>
@@ -176,68 +211,82 @@
                                         To check the currently installed node version run: <br />
 
                                         <p>
-                                         <code>node -v</code><br />
+                                            <code>node -v</code><br />
                                         </p>
                                     </p>
                                     <p>
                                         If you don't have a supported nodejs version you can find installation
-                                        instructions at <a href="https://nodejs.org" target="_blank">https://nodejs.org</a>.
+                                        instructions at <a href="https://nodejs.org"
+                                            target="_blank">https://nodejs.org</a>.
                                     </p>
                                 </div>
                                 <!--//section-block-->
                                 <div id="prereq-step2" class="section-block">
                                     <h3 class="block-title">Step Two - Rust</h3>
                                     <p>
-                                        The recommended way to write Holochain applications is to use the "Holochain Development Kit" (HDK).
+                                        The recommended way to write Holochain applications is to use the "Holochain
+                                        Development Kit" (HDK).
                                     </p>
                                     <p>
-                                     The HDK allows generation of low level web assembly (WASM) code with convenience functions written in the high level Rust language.
+                                        The HDK allows generation of low level web assembly (WASM) code with convenience
+                                        functions written in the high level Rust language.
                                     </p>
                                     <p>
-                                     In the future there will be HDKs written to a variety of languages, but for now you will need to install and maybe learn some Rust.
+                                        In the future there will be HDKs written to a variety of languages, but for now
+                                        you
+                                        will need to install and maybe learn some Rust.
                                     </p>
                                     <p>
-                                     We are using a "nightly" release of the Rust langauge.<br />
-                                     The Rust community moves very quickly so we "pin" to a specific version to ensure a relatively stable working environment.<br />
-                                     <strong>Only the pinned nightly version of Rust is compatible with Holochain</strong><br />
-                                     To find the current nightly version, check the readme/scripts at https://github.com/holochain/holochain-rust<br />
+                                        We are using a "nightly" release of the Rust langauge.<br />
+                                        The Rust community moves very quickly so we "pin" to a specific version to
+                                        ensure a
+                                        relatively stable working environment.<br />
+                                        <strong>Only the pinned nightly version of Rust is compatible with
+                                            Holochain</strong><br />
+                                        To find the current nightly version, check the readme/scripts at
+                                        https://github.com/holochain/holochain-rust<br />
                                     </p>
                                     </p>
                                     For installation follow:
 
-                                        <nav>
-                                            <div class="nav nav-tabs nav-fill" role="tablist">
-                                                <a class="nav-item nav-link active" data-toggle="tab" href="#rust-mac-linux"
-                                                    role="tab" aria-controls="rust-mac-linux" aria-selected="true">Mac
-                                                    & Linux</a>
-                                                <a class="nav-item nav-link" data-toggle="tab" href="#rust-windows"
-                                                    role="tab" aria-controls="rust-windows" aria-selected="false">Windows</a>
-                                            </div>
-                                        </nav>
-                                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                                            <div class="tab-pane fade show active" id="rust-mac-linux" role="tabpanel"
-                                                aria-labelledby="rust-mac-linux">
-                                                In a terminal, run:
-                                                <br />
-                                                <br />
-                                                <code>curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly-2019-01-24</code>
-                                                <!--//code-block-->
-                                            </div>
-                                            <div class="tab-pane fade" id="rust-windows" role="tabpanel"
-                                                aria-labelledby="rust-windows">
-                                                <p>Go to <a href="https://rustup.rs" target="_blank">https://rustup.rs</a> and follow
-                                                    installation instructions.</p>
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" role="tablist">
+                                            <a class="nav-item nav-link active" data-toggle="tab" href="#rust-mac-linux"
+                                                role="tab" aria-controls="rust-mac-linux" aria-selected="true">Mac
+                                                & Linux</a>
+                                            <a class="nav-item nav-link" data-toggle="tab" href="#rust-windows"
+                                                role="tab" aria-controls="rust-windows"
+                                                aria-selected="false">Windows</a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="rust-mac-linux" role="tabpanel"
+                                            aria-labelledby="rust-mac-linux">
+                                            In a terminal, run:
+                                            <br />
+                                            <br />
+                                            <code>curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly-2019-01-24</code>
+                                            <!--//code-block-->
+                                        </div>
+                                        <div class="tab-pane fade" id="rust-windows" role="tabpanel"
+                                            aria-labelledby="rust-windows">
+                                            <p>Go to <a href="https://rustup.rs" target="_blank">https://rustup.rs</a>
+                                                and
+                                                follow
+                                                installation instructions.</p>
 
-                                                Once you have rust successfully installed, you need to install the
-                                                "nightly-2019-01-24" toolchain of rust. This means having the specific version of
-                                                the tools, which are required for working with Holochain. In a
-                                                terminal, run:
-                                                <div class="code-block">
-                                                    <p><code>rustup toolchain install nightly-2019-01-24</code></p>
-                                                    <p><code>rustup default nightly-2019-01-24</code></p>
-                                                </div>
+                                            Once you have rust successfully installed, you need to install the
+                                            "nightly-2019-01-24" toolchain of rust. This means having the specific
+                                            version
+                                            of
+                                            the tools, which are required for working with Holochain. In a
+                                            terminal, run:
+                                            <div class="code-block">
+                                                <p><code>rustup toolchain install nightly-2019-01-24</code></p>
+                                                <p><code>rustup default nightly-2019-01-24</code></p>
                                             </div>
                                         </div>
+                                    </div>
                                     </p>
                                 </div>
                                 <!--//section-block-->
@@ -259,225 +308,246 @@
                                 </div>
                                 <!--//section-block-->
 
-                            <section id="networking-section" class="doc-section">
-                                <h2 class="section-title">Networking Tools</h2>
-                                <div class="section-block">
-                                    <p>
-                                        The networking capabilities for Holochain have been developed as a library
-                                        decoupled
-                                        from the Rust core. At this time they are written in nodejs (another reason
-                                        nodejs is a dependency above) and communicate with Holochain
-                                        via IPC (inter process communication).
-                                        There is a mock networking implementation in Holochain meaning that technically
-                                        development
-                                        of apps can happen without this library, but if you wish to use actual
-                                        networking this library
-                                        will be required.
-                                    </p>
-                                    <p>
-                                        The networking library is called "n3h".
-                                    </p>
-                                    <p>
-                                        To install it, download it from GitHub, and unzip it: <a href="https://github.com/holochain/n3h/releases/tag/v0.0.8-alpha1"
-                                            target="_blank">https://github.com/holochain/n3h/releases/tag/v0.0.8-alpha1</a>
-                                    </p>
-                                    <p>
-                                        In a terminal, change directories to the downloaded and unzipped repository. Run:
-                                        <div class="code-block">
-                                            <p><code>npm install</code></p>
-                                        </div>
-                                    </p>
-                                    <p>
-                                        This means all the dependencies are installed. Finally, for now, just take note
-                                        of the full path to the n3h folder on your computer, because you will be
-                                        needing it later.
-                                    </p>
-                                </div>
-                                <!--//section-block-->
-                            </section>
-
-                            <section id="development-section" class="doc-section">
-                                <h2 class="section-title">Development Tools Installation</h2>
-
-                                <div id="development-step1" class="section-block">
-                                    <p>If you wish to develop Holochain apps, you will want to install the Holochain
-                                        developer command line tools.</p>
-                                    <h4 class="block-title">Step One</h4>
-                                    <p>
-                                        When you go to Github, look for one of the downloads that starts with "cli".
-                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.8-alpha"
-                                            target="_blank">Go to GitHub and download the appropriate release for your
-                                            system.</a>
-                                    </p>
-                                    <p>
-                                        Once you've downloaded it, unpack it, RENAME it "hc" and move the resulting
-                                        folder to a directory on your computer where you'd like to keep these files
-                                        long term.
-                                        As a default, lets assume that it can be this folder called "hc", right under
-                                        your $HOME or %USERPROFILE% (your user) directory.
-                                        Now we will have to add this directory to your PATH variable, so that the
-                                        binary becomes available within your command line. The instructions for this
-                                        differ, depending on your platform. If you need help with this, read the
-                                        relevant <a href="#paths-help-section">Help with PATHs</a> section at the
-                                        bottom of this page.
-                                    </p>
-                                </div>
-                                <div id="development-step2" class="section-block">
-                                    <h4 class="block-title">Step Two</h4>
-                                    <p>
-                                        Once the steps for your platform are complete, to confirm that you have the
-                                        Holochain developer command line tools installed, try running the following
-                                        command:
-                                        <div class="code-block">
-                                            <p><code>hc --version</code></p>
-                                        </div>
-                                        <!--//code-block-->
-                                        To read about the commands, and how to get started using them, check out the <a
-                                            target="_blank" href="https://github.com/holochain/holochain-rust/tree/v0.0.8-alpha/cli#usage">README
-                                            for the "hc" command line tools.</a>
-                                    </p>
-                                </div>
-                            </section>
-                            <!--//doc-section-->
-
-                            <section id="production-section" class="doc-section">
-                                <h2 class="section-title">Production Tools Installation</h2>
-                                <div id="production-step1" class="section-block">
-                                    <p>If you wish to have a way to run Holochain apps, beyond the simple way available
-                                        in the development tools, you can do that with the
-                                        Holochain Conductor, which is capable of mounting configuration files that
-                                        start up
-                                        Holochain DNA instances.</p>
-                                    <h4 class="block-title">Step One</h4>
-                                    <p>
-                                        When you go to Github, look for one of the downloads that starts with
-                                        "conductor".
-                                        <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.8-alpha"
-                                            target="_blank">Go to GitHub and download the appropriate release for your
-                                            system.</a>
-                                    </p>
-                                    <p>
-                                        Once you've downloaded it, unpack it, RENAME it "holochain" and move
-                                        the resulting
-                                        folder to a directory on your computer where you'd like to keep these files
-                                        long term.
-                                        As a default, lets assume that it can be this folder called
-                                        "holochain", right under
-                                        your $HOME or %USERPROFILE% (your user) directory.
-                                        Now we will have to add this directory to your PATH variable, so that the
-                                        binary becomes available within your command line. The instructions for this
-                                        differ, depending on your platform. If you need help with this, read the
-                                        relevant <a href="#paths-help-section">Help with PATHs</a> section at the
-                                        bottom of this page.
-                                    </p>
-                                </div>
-                                <div id="production-step2" class="section-block">
-                                    <h4 class="block-title">Step Two</h4>
-                                    <p>
-                                        To confirm that you have the Holochain Conductor installed, try running the
-                                        following command:
-                                        <div class="code-block">
-                                            <p><code>holochain --version</code></p>
-                                        </div>
-                                        <!--//code-block-->
-                                        To read about the Conductor, and how to get started using it, check out <a
-                                        target="_blank" href="https://developer.holochain.org/guide/latest/production_conductor.html">this section</a> of the Guidebook.
-                                    </p>
-                                </div>
-                            </section>
-                            <!--//doc-section-->
-
-                            <section id="paths-help-section" class="doc-section">
-                                <h2 class="section-title">Help With PATHs</h2>
-                                <div class="section-block">
-                                    <nav>
-                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
-                                                href="#paths-mac-linux" role="tab" aria-controls="paths-mac-linux"
-                                                aria-selected="true">Mac & Linux</a>
-                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#paths-windows"
-                                                role="tab" aria-controls="paths-windows" aria-selected="false">Windows</a>
-                                        </div>
-                                    </nav>
-                                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                                        <div class="tab-pane fade show active" id="paths-mac-linux" role="tabpanel"
-                                            aria-labelledby="nav-home-tab">
-                                            <p>In the following example, adding the folder $HOME/hc to the PATH is
-                                                discussed, but it could apply equally and additionally to
-                                                $HOME/holochain.
-                                                In general, follow this pattern for adding any folder to your PATH. As
-                                                a reminder, this is done so that binary executables
-                                                within that folder become available within your command line.
-                                            </p>
-                                            <p>
-                                                If you DO NOT have a shell profile file, follow ALL these instructions
-                                                in your terminal. If you know about shell profiles, and have one, just
-                                                do steps 4 and 5
-                                                <div class="code-block">
-                                                    1. This changes directories to your $HOME directory.
-                                                    <p><code>cd ~</code></p>
-                                                </div>
-                                                <!--//code-block-->
-                                                <div class="code-block">
-                                                    2. This creates a file called ".bash_profile" in your $HOME
-                                                    directory, if it didn't exist.
-                                                    <p><code>touch .bash_profile</code></p>
-                                                </div>
-                                                <!--//code-block-->
-                                                <div class="code-block">
-                                                    3. This opens that file in some text editor on your computer.
-                                                    <p><code>open .bash_profile</code></p>
-                                                </div>
-                                                <!--//code-block-->
-                                                4. In your editor, add the following to .bash_profile, and save it. If
-                                                you used a different path than $HOME/hc for your folder, use that
-                                                instead of $HOME/hc in the line that follows.
-                                            </p>
-                                            <p>
-                                                export PATH="$HOME/hc:$PATH"
-                                            </p>
+                                <section id="networking-section" class="doc-section">
+                                    <h2 class="section-title">Networking Tools</h2>
+                                    <div class="section-block">
+                                        <p>
+                                            The networking capabilities for Holochain have been developed as a library
+                                            decoupled
+                                            from the Rust core. At this time they are written in nodejs (another reason
+                                            nodejs is a dependency above) and communicate with Holochain
+                                            via IPC (inter process communication).
+                                            There is a mock networking implementation in Holochain meaning that
+                                            technically
+                                            development
+                                            of apps can happen without this library, but if you wish to use actual
+                                            networking this library
+                                            will be required.
+                                        </p>
+                                        <p>
+                                            The networking library is called "n3h".
+                                        </p>
+                                        <p>
+                                            To install it, download it from GitHub, and unzip it: <a
+                                                href="https://github.com/holochain/n3h/releases/tag/v0.0.8-alpha1"
+                                                target="_blank">https://github.com/holochain/n3h/releases/tag/v0.0.8-alpha1</a>
+                                        </p>
+                                        <p>
+                                            In a terminal, change directories to the downloaded and unzipped repository.
+                                            Run:
                                             <div class="code-block">
-                                                5. This refreshes your terminal so that it can access the binary in the
-                                                folder that you just added to your $PATH variable.
-                                                <p><code>source .bash_profile</code></p>
+                                                <p><code>npm install</code></p>
+                                            </div>
+                                        </p>
+                                        <p>
+                                            This means all the dependencies are installed. Finally, for now, just take
+                                            note
+                                            of the full path to the n3h folder on your computer, because you will be
+                                            needing it later.
+                                        </p>
+                                    </div>
+                                    <!--//section-block-->
+                                </section>
+
+                                <section id="development-section" class="doc-section">
+                                    <h2 class="section-title">Development Tools Installation</h2>
+
+                                    <div id="development-step1" class="section-block">
+                                        <p>If you wish to develop Holochain apps, you will want to install the Holochain
+                                            developer command line tools.</p>
+                                        <h4 class="block-title">Step One</h4>
+                                        <p>
+                                            When you go to Github, look for one of the downloads that starts with "cli".
+                                            <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.8-alpha"
+                                                target="_blank">Go to GitHub and download the appropriate release for
+                                                your
+                                                system.</a>
+                                        </p>
+                                        <p>
+                                            Once you've downloaded it, unpack it, RENAME it "hc" and move the resulting
+                                            folder to a directory on your computer where you'd like to keep these files
+                                            long term.
+                                            As a default, lets assume that it can be this folder called "hc", right
+                                            under
+                                            your $HOME or %USERPROFILE% (your user) directory.
+                                            Now we will have to add this directory to your PATH variable, so that the
+                                            binary becomes available within your command line. The instructions for this
+                                            differ, depending on your platform. If you need help with this, read the
+                                            relevant <a href="#paths-help-section">Help with PATHs</a> section at the
+                                            bottom of this page.
+                                        </p>
+                                    </div>
+                                    <div id="development-step2" class="section-block">
+                                        <h4 class="block-title">Step Two</h4>
+                                        <p>
+                                            Once the steps for your platform are complete, to confirm that you have the
+                                            Holochain developer command line tools installed, try running the following
+                                            command:
+                                            <div class="code-block">
+                                                <p><code>hc --version</code></p>
                                             </div>
                                             <!--//code-block-->
-                                        </div>
-                                        <div class="tab-pane fade" id="paths-windows" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                            <p>In the following example, adding the folder %USERPROFILE%\hc to the PATH
-                                                is
-                                                discussed, but it could apply equally and additionally to
-                                                %USERPROFILE%/holochain.
-                                                In general, follow this pattern for adding any folder to your PATH. As
-                                                a reminder, this is done so that binary executables
-                                                within that folder become available within your command line.
-                                            </p>
-                                            <p>
-                                                In your Control Panel, select System>Advanced system
-                                                settings>Environment Variables... and under System Variables do the
-                                                following:
-                                            </p>
-                                            <p>
-                                                (If you used a different path than %USERPROFILE%\hc for your folder,
-                                                use
-                                                that instead of %USERPROFILE%\hc in the instruction that follows)
-                                            </p>
-                                            <p>
-                                                Double-click "Path", and in the window that pops up add the following
-                                                entry:
-                                            </p>
-                                            <p>
-                                                %USERPROFILE%\hc
-                                            </p>
-                                            <p>
-                                                Once you've done this, be sure to open up a new command line window,
-                                                before proceeding.
-                                            </p>
+                                            To read about the commands, and how to get started using them, check out the
+                                            <a target="_blank"
+                                                href="https://github.com/holochain/holochain-rust/tree/v0.0.8-alpha/cli#usage">README
+                                                for the "hc" command line tools.</a>
+                                        </p>
+                                    </div>
+                                </section>
+                                <!--//doc-section-->
+
+                                <section id="production-section" class="doc-section">
+                                    <h2 class="section-title">Production Tools Installation</h2>
+                                    <div id="production-step1" class="section-block">
+                                        <p>If you wish to have a way to run Holochain apps, beyond the simple way
+                                            available
+                                            in the development tools, you can do that with the
+                                            Holochain Conductor, which is capable of mounting configuration files that
+                                            start up
+                                            Holochain DNA instances.</p>
+                                        <h4 class="block-title">Step One</h4>
+                                        <p>
+                                            When you go to Github, look for one of the downloads that starts with
+                                            "conductor".
+                                            <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.8-alpha"
+                                                target="_blank">Go to GitHub and download the appropriate release for
+                                                your
+                                                system.</a>
+                                        </p>
+                                        <p>
+                                            Once you've downloaded it, unpack it, RENAME it "holochain" and move
+                                            the resulting
+                                            folder to a directory on your computer where you'd like to keep these files
+                                            long term.
+                                            As a default, lets assume that it can be this folder called
+                                            "holochain", right under
+                                            your $HOME or %USERPROFILE% (your user) directory.
+                                            Now we will have to add this directory to your PATH variable, so that the
+                                            binary becomes available within your command line. The instructions for this
+                                            differ, depending on your platform. If you need help with this, read the
+                                            relevant <a href="#paths-help-section">Help with PATHs</a> section at the
+                                            bottom of this page.
+                                        </p>
+                                    </div>
+                                    <div id="production-step2" class="section-block">
+                                        <h4 class="block-title">Step Two</h4>
+                                        <p>
+                                            To confirm that you have the Holochain Conductor installed, try running the
+                                            following command:
+                                            <div class="code-block">
+                                                <p><code>holochain --version</code></p>
+                                            </div>
+                                            <!--//code-block-->
+                                            To read about the Conductor, and how to get started using it, check out <a
+                                                target="_blank"
+                                                href="https://developer.holochain.org/guide/latest/production_conductor.html">this
+                                                section</a> of the Guidebook.
+                                        </p>
+                                    </div>
+                                </section>
+                                <!--//doc-section-->
+
+                                <section id="paths-help-section" class="doc-section">
+                                    <h2 class="section-title">Help With PATHs</h2>
+                                    <div class="section-block">
+                                        <nav>
+                                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+                                                    href="#paths-mac-linux" role="tab" aria-controls="paths-mac-linux"
+                                                    aria-selected="true">Mac & Linux</a>
+                                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+                                                    href="#paths-windows" role="tab" aria-controls="paths-windows"
+                                                    aria-selected="false">Windows</a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="paths-mac-linux" role="tabpanel"
+                                                aria-labelledby="nav-home-tab">
+                                                <p>In the following example, adding the folder $HOME/hc to the PATH is
+                                                    discussed, but it could apply equally and additionally to
+                                                    $HOME/holochain.
+                                                    In general, follow this pattern for adding any folder to your PATH.
+                                                    As
+                                                    a reminder, this is done so that binary executables
+                                                    within that folder become available within your command line.
+                                                </p>
+                                                <p>
+                                                    If you DO NOT have a shell profile file, follow ALL these
+                                                    instructions
+                                                    in your terminal. If you know about shell profiles, and have one,
+                                                    just
+                                                    do steps 4 and 5
+                                                    <div class="code-block">
+                                                        1. This changes directories to your $HOME directory.
+                                                        <p><code>cd ~</code></p>
+                                                    </div>
+                                                    <!--//code-block-->
+                                                    <div class="code-block">
+                                                        2. This creates a file called ".bash_profile" in your $HOME
+                                                        directory, if it didn't exist.
+                                                        <p><code>touch .bash_profile</code></p>
+                                                    </div>
+                                                    <!--//code-block-->
+                                                    <div class="code-block">
+                                                        3. This opens that file in some text editor on your computer.
+                                                        <p><code>open .bash_profile</code></p>
+                                                    </div>
+                                                    <!--//code-block-->
+                                                    4. In your editor, add the following to .bash_profile, and save it.
+                                                    If
+                                                    you used a different path than $HOME/hc for your folder, use that
+                                                    instead of $HOME/hc in the line that follows.
+                                                </p>
+                                                <p>
+                                                    export PATH="$HOME/hc:$PATH"
+                                                </p>
+                                                <div class="code-block">
+                                                    5. This refreshes your terminal so that it can access the binary in
+                                                    the
+                                                    folder that you just added to your $PATH variable.
+                                                    <p><code>source .bash_profile</code></p>
+                                                </div>
+                                                <!--//code-block-->
+                                            </div>
+                                            <div class="tab-pane fade" id="paths-windows" role="tabpanel"
+                                                aria-labelledby="nav-profile-tab">
+                                                <p>In the following example, adding the folder %USERPROFILE%\hc to the
+                                                    PATH
+                                                    is
+                                                    discussed, but it could apply equally and additionally to
+                                                    %USERPROFILE%/holochain.
+                                                    In general, follow this pattern for adding any folder to your PATH.
+                                                    As
+                                                    a reminder, this is done so that binary executables
+                                                    within that folder become available within your command line.
+                                                </p>
+                                                <p>
+                                                    In your Control Panel, select System>Advanced system
+                                                    settings>Environment Variables... and under System Variables do the
+                                                    following:
+                                                </p>
+                                                <p>
+                                                    (If you used a different path than %USERPROFILE%\hc for your folder,
+                                                    use
+                                                    that instead of %USERPROFILE%\hc in the instruction that follows)
+                                                </p>
+                                                <p>
+                                                    Double-click "Path", and in the window that pops up add the
+                                                    following
+                                                    entry:
+                                                </p>
+                                                <p>
+                                                    %USERPROFILE%\hc
+                                                </p>
+                                                <p>
+                                                    Once you've done this, be sure to open up a new command line window,
+                                                    before proceeding.
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--//section-block-->
-                            </section>
+                                    <!--//section-block-->
+                                </section>
 
                         </div>
                         <!--//content-inner-->
@@ -527,16 +597,19 @@
     </div>
     <!--//page-wrapper-->
 
+
     <footer class="footer holochain-green-blue-gradient">
         <div class="container">
             <div class="row">
                 <div class="col-4">
                     <ul class="list-unstyled">
                         <li>
-                            <a href="https://holochain.org" title="Documentation" target="_blank" class="footer-col__link type--roman-14 theme-color--extra-light theme-color--extra-light--hover">About</a>
+                            <a href="https://holochain.org" title="Documentation" target="_blank"
+                                class="footer-col__link type--roman-14 theme-color--extra-light theme-color--extra-light--hover">About</a>
                         </li>
                         <li>
-                            <a href="https://developer.holochain.org/guide/latest/first_steps.html" title="Tutorial" target="_blank">Tutorial</a>
+                            <a href="https://developer.holochain.org/guide/latest/first_steps.html" title="Tutorial"
+                                target="_blank">Tutorial</a>
                         </li>
                         <li>
                             <a href="/guide/latest" title="Guidebook" target="_blank">Guidebook</a>
@@ -552,14 +625,16 @@
                             <a href="https://github.com/holochain" title="Github" target="_blank">GitHub</a>
                         </li>
                         <li>
-                            <a href="https://devcamp.holo.host/" title="DevCamps" target="_blank">Online Developer Camps</a>
+                            <a href="https://devcamp.holo.host/" title="DevCamps" target="_blank">Online Developer
+                                Camps</a>
                         </li>
                         <li>
-                            <a href="https://github.com/holochain/holochain-proto/blob/whitepaper/holochain.pdf" title="Whitepaper"
-                                target="_blank">Whitepaper</a>
+                            <a href="https://github.com/holochain/holochain-proto/blob/whitepaper/holochain.pdf"
+                                title="Whitepaper" target="_blank">Whitepaper</a>
                         </li>
                         <li>
-                            <a href="https://proto.holochain.org" title="Holochain Proto Documentation" target="_blank">Holochain Proto
+                            <a href="https://proto.holochain.org" title="Holochain Proto Documentation"
+                                target="_blank">Holochain Proto
                                 Documentation</a>
                         </li>
                     </ul>
@@ -567,7 +642,8 @@
                 <div class="col-4">
                     <ul class="list-unstyled">
                         <li>
-                            <a href="https://chat.holochain.org/appsup/channels/app-dev" title="Developer Chat" target="_blank">Developer Chat</a>
+                            <a href="https://chat.holochain.org/appsup/channels/app-dev" title="Developer Chat"
+                                target="_blank">Developer Chat</a>
                         </li>
                         <li>
                             <a href="https://medium.com/holochain" title="Developer blog" target="_blank">Blog</a>
@@ -579,7 +655,8 @@
                             <a href="https://www.reddit.com/r/holochain/" title="Reddit" target="_blank">Reddit</a>
                         </li>
                         <li>
-                            <a href="https://stackoverflow.com/questions/tagged/holochain" title="StackOverflow" target="_blank">StackOverflow</a>
+                            <a href="https://stackoverflow.com/questions/tagged/holochain" title="StackOverflow"
+                                target="_blank">StackOverflow</a>
                         </li>
                         <li>
                             <a href="http://t.me/channelHolo" title="Telegram" target="_blank">Telegram</a>
@@ -599,7 +676,6 @@
     <script type="text/javascript" src="/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
     <script type="text/javascript" src="/assets/plugins/stickyfill/dist/stickyfill.min.js"></script>
     <script type="text/javascript" src="/assets/js/main.js"></script>
-
 </body>
 
 </html>

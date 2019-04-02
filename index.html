@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Holochain Developer Documentation</title>
     <!-- Meta -->
@@ -8,22 +9,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link
+        href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+        rel='stylesheet' type='text/css'>
     <!-- FontAwesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js"
+        integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a"
+        crossorigin="anonymous"></script>
     <!-- Global CSS -->
-    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
     <!-- Plugins CSS -->
-    <link rel="stylesheet" href="assets/plugins/elegant_font/css/style.css">
-    <!-- Theme CSS -->
-    <link id="theme-style" rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/plugins/prism/prism.css">
+    <link rel="stylesheet" href="/assets/plugins/elegant_font/css/style.css">
 
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="/assets/css/styles.css">
 </head>
 
 <body class="landing-page">
-
-	<!-- GITHUB BUTTON JS -->
+    <!-- GITHUB BUTTON JS -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     <div class="page-wrapper">
@@ -34,19 +39,26 @@
                 <div class="branding">
                     <img src="assets/images/holochain/holochain-word-logo.png" alt="holochain logo" />
                     <h1>Developer Resource Portal</h1>
-                </div><!--//branding-->
+                </div>
+                <!--//branding-->
                 <div class="tagline">
-                    <p>Holochain is a framework for building and running secure, fully peer-to-peer distributed apps.</p>
+                    <p>Holochain is a framework for building and running secure, fully peer-to-peer distributed apps.
+                    </p>
                     <p>It has never been easier to build the distributed app you've been thinking about.</p>
-                </div><!--//tagline-->
+                </div>
+                <!--//tagline-->
                 <div class="social-container">
-	                <!-- Replace with your Github Button -->
-	                <div class="github-btn mb-2">
-						<a class="github-button" href="https://github.com/holochain/holochain-rust" data-size="large" aria-label="Star holochain/holochain-rust on GitHub">Star</a>
-	                </div>
-                 </div><!--//social-container-->
-            </div><!--//container-->
-        </header><!--//header-->
+                    <!-- Replace with your Github Button -->
+                    <div class="github-btn mb-2">
+                        <a class="github-button" href="https://github.com/holochain/holochain-rust" data-size="large"
+                            aria-label="Star holochain/holochain-rust on GitHub">Star</a>
+                    </div>
+                </div>
+                <!--//social-container-->
+            </div>
+            <!--//container-->
+        </header>
+        <!--//header-->
 
         <section class="cards-section text-center">
             <div class="container">
@@ -55,70 +67,102 @@
                         <div class="item-inner">
                             <div class="icon-holder">
                                 <i class="icon fa fa-paper-plane"></i>
-                            </div><!--//icon-holder-->
+                            </div>
+                            <!--//icon-holder-->
                             <h3 class="title">Quick Start</h3>
-                            <p class="intro">Want to install and learn Holochain? Waste no time and get started with a quick and simple guide.</p>
+                            <p class="intro">Want to install and learn Holochain? Waste no time and get started with a
+                                quick
+                                and simple guide.</p>
                             <a class="link" href="/start.html"><span></span></a>
-                        </div><!--//item-inner-->
-                    </div><!--//item-->
+                        </div>
+                        <!--//item-inner-->
+                    </div>
+                    <!--//item-->
                     <div class="item item-pink item-2 col-lg-4 col-6">
                         <div class="item-inner">
                             <div class="icon-holder">
                                 <span aria-hidden="true" class="icon icon_book_alt"></span>
-                            </div><!--//icon-holder-->
+                            </div>
+                            <!--//icon-holder-->
                             <h3 class="title">Guidebook</h3>
-                            <p class="intro">Develop an understanding of the fundamentals of Holochain, or follow comprehensive development guides. <br /><br /><small>Please note that the guidebook is still in its early stages and under active development.</small></p>
+                            <p class="intro">Develop an understanding of the fundamentals of Holochain, or follow
+                                comprehensive development guides. <br /><br /><small>Please note that the guidebook is
+                                    still
+                                    in its early stages and under active development.</small></p>
                             <a class="link" href="/guide" target="_blank"><span></span></a>
-                        </div><!--//item-inner-->
-                    </div><!--//item-->
+                        </div>
+                        <!--//item-inner-->
+                    </div>
+                    <!--//item-->
                     <div class="item item-blue col-lg-4 col-6">
                         <div class="item-inner">
                             <div class="icon-holder">
                                 <span aria-hidden="true" class="icon icon_puzzle_alt"></span>
-                            </div><!--//icon-holder-->
+                            </div>
+                            <!--//icon-holder-->
                             <h3 class="title">API Reference</h3>
                             <p class="intro">
-                                Discover the details of using the Rust Holochain Development Kit "HDK" library. This API reference also contains details for Holochain itself.
-                                0.0.8-alpha now out!
+                                Discover the details of using the Rust Holochain Development Kit "HDK" library. This API
+                                reference also contains details for Holochain itself.
+                                v0.0.8-alpha now out!
                             </p>
                             <a class="link" href="/api" target="_blank"><span></span></a>
-                        </div><!--//item-inner-->
-                    </div><!--//item-->
+                        </div>
+                        <!--//item-inner-->
+                    </div>
+                    <!--//item-->
                     <div class="item item-purple col-lg-4 col-6">
                         <div class="item-inner">
                             <div class="icon-holder">
                                 <span aria-hidden="true" class="icon icon_lifesaver"></span>
-                            </div><!--//icon-holder-->
+                            </div>
+                            <!--//icon-holder-->
                             <h3 class="title">FAQs</h3>
-                            <p class="intro">Questions? We all have them. See the ones frequently asked about Holochain.</p>
+                            <p class="intro">Questions? We all have them. See the ones frequently asked about Holochain.
+                            </p>
                             <a class="link" href="/guide/latest/faq.html"><span></span></a>
-                        </div><!--//item-inner-->
-                    </div><!--//item-->
+                        </div>
+                        <!--//item-inner-->
+                    </div>
+                    <!--//item-->
                     <div class="item item-primary col-lg-4 col-6">
                         <div class="item-inner">
                             <div class="icon-holder">
                                 <span aria-hidden="true" class="icon icon_genius"></span>
-                            </div><!--//icon-holder-->
+                            </div>
+                            <!--//icon-holder-->
                             <h3 class="title">Showcase</h3>
-                            <p class="intro">Discover apps built, or being built, with Holochain. Even add yours to the list!</p>
+                            <p class="intro">Discover apps built, or being built, with Holochain. Even add yours to the
+                                list!</p>
                             <a class="link" href="/guide/latest/built_with_holochain.html"><span></span></a>
-                        </div><!--//item-inner-->
-                    </div><!--//item-->
+                        </div>
+                        <!--//item-inner-->
+                    </div>
+                    <!--//item-->
                     <div class="item item-orange col-lg-4 col-6">
                         <div class="item-inner">
                             <div class="icon-holder">
                                 <span aria-hidden="true" class="icon icon_cone"></span>
-                            </div><!--//icon-holder-->
+                            </div>
+                            <!--//icon-holder-->
                             <h3 class="title">Dev Pulse</h3>
-                            <p class="intro">A weekly publication announcing the latest Holochain developments, features, bug fixes, and more.</p>
+                            <p class="intro">A weekly publication announcing the latest Holochain developments,
+                                features,
+                                bug fixes, and more.</p>
                             <a class="link" href="https://medium.com/holochain"><span></span></a>
-                        </div><!--//item-inner-->
-                    </div><!--//item-->
-                </div><!--//cards-->
+                        </div>
+                        <!--//item-inner-->
+                    </div>
+                    <!--//item-->
+                </div>
+                <!--//cards-->
 
-            </div><!--//container-->
-        </section><!--//cards-section-->
-    </div><!--//page-wrapper-->
+            </div>
+            <!--//container-->
+        </section>
+        <!--//cards-section-->
+    </div>
+    <!--//page-wrapper-->
 
     <footer class="footer holochain-green-blue-gradient">
         <div class="container">
@@ -126,13 +170,15 @@
                 <div class="col-4">
                     <ul class="list-unstyled">
                         <li>
-                            <a href="https://holochain.org" title="Documentation" target="_blank" class="footer-col__link type--roman-14 theme-color--extra-light theme-color--extra-light--hover">About</a>
+                            <a href="https://holochain.org" title="Documentation" target="_blank"
+                                class="footer-col__link type--roman-14 theme-color--extra-light theme-color--extra-light--hover">About</a>
                         </li>
                         <li>
-                            <a href="https://developer.holochain.org/guide/latest/first_steps.html" title="Tutorial" target="_blank">Tutorial</a>
+                            <a href="https://developer.holochain.org/guide/latest/first_steps.html" title="Tutorial"
+                                target="_blank">Tutorial</a>
                         </li>
                         <li>
-                            <a href="/guide/0.0.8-alpha" title="Guidebook" target="_blank">Guidebook</a>
+                            <a href="/guide/latest" title="Guidebook" target="_blank">Guidebook</a>
                         </li>
                         <li>
                             <a href="/api/0.0.8-alpha/hdk" title="API Reference" target="_blank">API Reference</a>
@@ -145,14 +191,16 @@
                             <a href="https://github.com/holochain" title="Github" target="_blank">GitHub</a>
                         </li>
                         <li>
-                            <a href="https://devcamp.holo.host/" title="DevCamps" target="_blank">Online Developer Camps</a>
+                            <a href="https://devcamp.holo.host/" title="DevCamps" target="_blank">Online Developer
+                                Camps</a>
                         </li>
                         <li>
-                            <a href="https://github.com/holochain/holochain-proto/blob/whitepaper/holochain.pdf" title="Whitepaper"
-                                target="_blank">Whitepaper</a>
+                            <a href="https://github.com/holochain/holochain-proto/blob/whitepaper/holochain.pdf"
+                                title="Whitepaper" target="_blank">Whitepaper</a>
                         </li>
                         <li>
-                            <a href="https://proto.holochain.org" title="Holochain Proto Documentation" target="_blank">Holochain Proto
+                            <a href="https://proto.holochain.org" title="Holochain Proto Documentation"
+                                target="_blank">Holochain Proto
                                 Documentation</a>
                         </li>
                     </ul>
@@ -160,7 +208,8 @@
                 <div class="col-4">
                     <ul class="list-unstyled">
                         <li>
-                            <a href="https://chat.holochain.org/appsup/channels/app-dev" title="Developer Chat" target="_blank">Developer Chat</a>
+                            <a href="https://chat.holochain.org/appsup/channels/app-dev" title="Developer Chat"
+                                target="_blank">Developer Chat</a>
                         </li>
                         <li>
                             <a href="https://medium.com/holochain" title="Developer blog" target="_blank">Blog</a>
@@ -172,7 +221,8 @@
                             <a href="https://www.reddit.com/r/holochain/" title="Reddit" target="_blank">Reddit</a>
                         </li>
                         <li>
-                            <a href="https://stackoverflow.com/questions/tagged/holochain" title="StackOverflow" target="_blank">StackOverflow</a>
+                            <a href="https://stackoverflow.com/questions/tagged/holochain" title="StackOverflow"
+                                target="_blank">StackOverflow</a>
                         </li>
                         <li>
                             <a href="http://t.me/channelHolo" title="Telegram" target="_blank">Telegram</a>
@@ -181,14 +231,17 @@
                 </div>
             </div>
         </div>
-    </footer><!--//footer-->
+    </footer>
+    <!--//footer-->
 
 
     <!-- Main Javascript -->
-    <script type="text/javascript" src="assets/plugins/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/stickyfill/dist/stickyfill.min.js"></script>
-    <script type="text/javascript" src="assets/js/main.js"></script>
-
+    <script type="text/javascript" src="/assets/plugins/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/prism/prism.js"></script>
+    <script type="text/javascript" src="/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/stickyfill/dist/stickyfill.min.js"></script>
+    <script type="text/javascript" src="/assets/js/main.js"></script>
 </body>
+
 </html>

@@ -1,7 +1,7 @@
 [package]
 name = "docs"
 version = "0.1.0"
-authors = ["Connor Turland <connorturland@gmail.com>"]
+authors = ["Connor Turland <connor.turland@holo.host>"]
 edition = "2018"
 
 [dependencies]
