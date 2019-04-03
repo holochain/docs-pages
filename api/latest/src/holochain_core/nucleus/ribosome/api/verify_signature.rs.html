@@ -123,7 +123,7 @@
             <span class="ident">ZomeApiFunction</span>::<span class="ident">Sign</span>.<span class="ident">as_str</span>(),
             <span class="string">r#&quot;{ &quot;payload&quot;: &quot;this is data&quot; }&quot;#</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>(),
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">r#&quot;{&quot;ok&quot;:true,&quot;value&quot;:&quot;xoEEoLF1yWM4VBNtjEwrfM/iVzjuAxxbkOyBWi0LV0+1CAH/PCs9MErnbmFeZRtQNtw7+SmVrm7Irac4lZsaDA==&quot;,&quot;error&quot;:&quot;null&quot;}&quot;#</span>), <span class="ident">call_result</span>,);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="string">r#&quot;{&quot;ok&quot;:true,&quot;value&quot;:&quot;xoEEoLF1yWM4VBNtjEwrfM/iVzjuAxxbkOyBWi0LV0+1CAH/PCs9MErnbmFeZRtQNtw7+SmVrm7Irac4lZsaDA==&quot;,&quot;error&quot;:&quot;null&quot;}&quot;#</span>), <span class="ident">call_result</span>,);
 
         <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">r#&quot;{{ &quot;provenance&quot;: [&quot;{}&quot;,&quot;xoEEoLF1yWM4VBNtjEwrfM/iVzjuAxxbkOyBWi0LV0+1CAH/PCs9MErnbmFeZRtQNtw7+SmVrm7Irac4lZsaDA==&quot;], &quot;payload&quot;: &quot;this is data&quot; }}&quot;#</span>,<span class="ident">context</span>.<span class="ident">agent_id</span>.<span class="ident">address</span>());
         <span class="kw">let</span> (<span class="ident">call_result</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_zome_api_function</span>(
@@ -132,7 +132,7 @@
         );
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">r#&quot;{&quot;ok&quot;:true,&quot;value&quot;:&quot;true&quot;,&quot;error&quot;:&quot;null&quot;}&quot;#</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="string">r#&quot;{&quot;ok&quot;:true,&quot;value&quot;:&quot;true&quot;,&quot;error&quot;:&quot;null&quot;}&quot;#</span>),
             <span class="ident">call_result</span>,
         );
     }

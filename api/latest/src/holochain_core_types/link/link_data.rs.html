@@ -206,7 +206,7 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_link_entry_json_string</span>() <span class="op">-&gt;</span> <span class="ident">JsonString</span> {
-        <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="macro">format</span><span class="macro">!</span>(
+        <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
             <span class="string">&quot;{{\&quot;LinkAdd\&quot;:{{\&quot;action_kind\&quot;:\&quot;ADD\&quot;,\&quot;link\&quot;:{{\&quot;base\&quot;:\&quot;{}\&quot;,\&quot;target\&quot;:\&quot;{}\&quot;,\&quot;tag\&quot;:\&quot;foo-tag\&quot;}}}}}}&quot;</span>,
             <span class="ident">test_entry_a</span>().<span class="ident">address</span>(),
             <span class="ident">test_entry_b</span>().<span class="ident">address</span>(),

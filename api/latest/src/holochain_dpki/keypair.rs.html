@@ -243,6 +243,30 @@
 <span id="243">243</span>
 <span id="244">244</span>
 <span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">warnings</span>)]</span>
 
@@ -263,6 +287,10 @@
     <span class="kw">fn</span> <span class="ident">public</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Base32</span>;
     <span class="kw">fn</span> <span class="ident">private</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>;
     <span class="kw">fn</span> <span class="ident">new_from_seed</span>(<span class="ident">seed</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="self">Self</span>: <span class="ident">Sized</span>;
+
+    <span class="kw">fn</span> <span class="ident">new_from_self</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>;
 
@@ -326,6 +354,14 @@
         <span class="kw">let</span> <span class="ident">pub_key_b32</span> <span class="op">=</span> <span class="ident">utils</span>::<span class="ident">encode_pub_key</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_sec_buf</span>, <span class="self">Self</span>::<span class="ident">codec</span>())<span class="question-mark">?</span>;
         <span class="comment">// Done</span>
         <span class="prelude-val">Ok</span>(<span class="ident">SigningKeyPair</span>::<span class="ident">new</span>(<span class="ident">pub_key_b32</span>, <span class="ident">priv_sec_buf</span>))
+    }
+
+    <span class="kw">fn</span> <span class="ident">new_from_self</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="self">self</span>.<span class="ident">private</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="ident">pub_key</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">public</span>();
+        <span class="kw">let</span> <span class="ident">lock</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">private</span>().<span class="ident">read_lock</span>();
+        <span class="ident">buf</span>.<span class="ident">write</span>(<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">lock</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">SigningKeyPair</span>::<span class="ident">new</span>(<span class="ident">pub_key</span>, <span class="ident">buf</span>))
     }
 }
 
@@ -394,6 +430,14 @@
         <span class="comment">// Done</span>
         <span class="prelude-val">Ok</span>(<span class="ident">EncryptingKeyPair</span>::<span class="ident">new</span>(<span class="ident">pub_key_b32</span>, <span class="ident">priv_sec_buf</span>))
     }
+
+    <span class="kw">fn</span> <span class="ident">new_from_self</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="self">self</span>.<span class="ident">private</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="ident">pub_key</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">public</span>();
+        <span class="kw">let</span> <span class="ident">lock</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">private</span>().<span class="ident">read_lock</span>();
+        <span class="ident">buf</span>.<span class="ident">write</span>(<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">lock</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">EncryptingKeyPair</span>::<span class="ident">new</span>(<span class="ident">pub_key</span>, <span class="ident">buf</span>))
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">EncryptingKeyPair</span> {
@@ -438,27 +482,31 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">keypair_should_construct_sign</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sign_keys</span> <span class="op">=</span> <span class="ident">test_generate_random_sign_keypair</span>();
+    <span class="kw">fn</span> <span class="ident">keypair_should_construct_and_clone_sign</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">keys</span> <span class="op">=</span> <span class="ident">test_generate_random_sign_keypair</span>();
         <span class="comment">// Test public key</span>
-        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;sign_keys.public = {:?}&quot;</span>, <span class="ident">sign_keys</span>.<span class="ident">public</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">63</span>, <span class="ident">sign_keys</span>.<span class="ident">public</span>.<span class="ident">len</span>());
-        <span class="kw">let</span> <span class="ident">prefix</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">sign_keys</span>.<span class="ident">public</span>.<span class="ident">chars</span>().<span class="ident">skip</span>(<span class="number">0</span>).<span class="ident">take</span>(<span class="number">3</span>).<span class="ident">collect</span>();
+        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;sign_keys.public = {:?}&quot;</span>, <span class="ident">keys</span>.<span class="ident">public</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">63</span>, <span class="ident">keys</span>.<span class="ident">public</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="ident">prefix</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">keys</span>.<span class="ident">public</span>.<span class="ident">chars</span>().<span class="ident">skip</span>(<span class="number">0</span>).<span class="ident">take</span>(<span class="number">3</span>).<span class="ident">collect</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;HcS&quot;</span>, <span class="ident">prefix</span>);
         <span class="comment">// Test private key</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">64</span>, <span class="ident">sign_keys</span>.<span class="ident">private</span>.<span class="ident">len</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">64</span>, <span class="ident">keys</span>.<span class="ident">private</span>.<span class="ident">len</span>());
+        <span class="comment">// Test clone</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">keys</span>.<span class="ident">new_from_self</span>().<span class="ident">unwrap</span>().<span class="ident">is_same</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">keys</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">keypair_should_construct_enc</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sign_keys</span> <span class="op">=</span> <span class="ident">test_generate_random_enc_keypair</span>();
+    <span class="kw">fn</span> <span class="ident">keypair_should_construct_and_clone_enc</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">keys</span> <span class="op">=</span> <span class="ident">test_generate_random_enc_keypair</span>();
         <span class="comment">// Test public key</span>
-        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;sign_keys.public = {:?}&quot;</span>, <span class="ident">sign_keys</span>.<span class="ident">public</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">63</span>, <span class="ident">sign_keys</span>.<span class="ident">public</span>.<span class="ident">len</span>());
-        <span class="kw">let</span> <span class="ident">prefix</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">sign_keys</span>.<span class="ident">public</span>.<span class="ident">chars</span>().<span class="ident">skip</span>(<span class="number">0</span>).<span class="ident">take</span>(<span class="number">3</span>).<span class="ident">collect</span>();
+        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;enc_keys.public = {:?}&quot;</span>, <span class="ident">keys</span>.<span class="ident">public</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">63</span>, <span class="ident">keys</span>.<span class="ident">public</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="ident">prefix</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">keys</span>.<span class="ident">public</span>.<span class="ident">chars</span>().<span class="ident">skip</span>(<span class="number">0</span>).<span class="ident">take</span>(<span class="number">3</span>).<span class="ident">collect</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;HcK&quot;</span>, <span class="ident">prefix</span>);
         <span class="comment">// Test private key</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">32</span>, <span class="ident">sign_keys</span>.<span class="ident">private</span>.<span class="ident">len</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">32</span>, <span class="ident">keys</span>.<span class="ident">private</span>.<span class="ident">len</span>());
+        <span class="comment">// Test clone</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">keys</span>.<span class="ident">new_from_self</span>().<span class="ident">unwrap</span>().<span class="ident">is_same</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">keys</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

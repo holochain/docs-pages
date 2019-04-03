@@ -192,7 +192,7 @@
             <span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">CallbackFnCall</span>::<span class="ident">new</span>(
                 <span class="kw-2">&amp;</span><span class="ident">zome_name</span>,
                 <span class="string">&quot;__hdk_get_validation_package_for_entry_type&quot;</span>,
-                <span class="ident">app_entry_type</span>.<span class="ident">to_string</span>(),
+                <span class="ident">app_entry_type</span>.<span class="ident">clone</span>(),
             );
             <span class="ident">ribosome</span>::<span class="ident">run_dna</span>(
                 <span class="ident">wasm</span>.<span class="ident">code</span>.<span class="ident">clone</span>(),

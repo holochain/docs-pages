@@ -1128,7 +1128,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_can_convert_funky_state</span>() {
-        <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">JsonProtocol</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="ident">JsonProtocol</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
             &quot;method&quot;: &quot;state&quot;,
             &quot;state&quot;: &quot;test_state&quot;

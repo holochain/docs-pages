@@ -152,6 +152,9 @@
 <span id="152">152</span>
 <span id="153">153</span>
 <span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>, <span class="ident">Content</span>},
@@ -253,7 +256,10 @@
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_identity_value</span>() <span class="op">-&gt;</span> <span class="ident">Content</span> {
-        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{{\&quot;nick\&quot;:\&quot;bob\&quot;,\&quot;pub_sign_key\&quot;:\&quot;{}\&quot;}}&quot;</span>, <span class="ident">GOOD_ID</span>).<span class="ident">into</span>()
+        <span class="ident">Content</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">&quot;{{\&quot;nick\&quot;:\&quot;bob\&quot;,\&quot;pub_sign_key\&quot;:\&quot;{}\&quot;}}&quot;</span>,
+            <span class="ident">GOOD_ID</span>
+        ))
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -296,7 +302,7 @@
     <span class="doccomment">/// show AddressableContent implementation for Agent</span>
     <span class="kw">fn</span> <span class="ident">agent_addressable_content_test</span>() {
         <span class="kw">let</span> <span class="ident">expected_content</span> <span class="op">=</span>
-            <span class="ident">Content</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;AgentId\&quot;:{\&quot;nick\&quot;:\&quot;bob\&quot;,\&quot;pub_sign_key\&quot;:\&quot;HcScIkRaAaaaaaaaaaAaaaAAAAaaaaaaaaAaaaaAaaaaaaaaAaaAAAAatzu4aqa\&quot;}}&quot;</span>);
+            <span class="ident">Content</span>::<span class="ident">from_json</span>(<span class="string">&quot;{\&quot;AgentId\&quot;:{\&quot;nick\&quot;:\&quot;bob\&quot;,\&quot;pub_sign_key\&quot;:\&quot;HcScIkRaAaaaaaaaaaAaaaAAAAaaaaaaaaAaaaaAaaaaaaaaAaaAAAAatzu4aqa\&quot;}}&quot;</span>);
         <span class="comment">// content()</span>
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">expected_content</span>, <span class="ident">test_agent_id</span>().<span class="ident">content</span>(),);
 

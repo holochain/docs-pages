@@ -419,7 +419,7 @@
     <span class="ident">conductor</span>.<span class="ident">key_loader</span> <span class="op">=</span> <span class="ident">test_keystore_loader</span>();
 
     <span class="ident">conductor</span>
-        .<span class="ident">load_config</span>()
+        .<span class="ident">boot_from_config</span>(<span class="prelude-val">None</span>)
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="macro">format_err</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>))<span class="question-mark">?</span>;
 
     <span class="ident">conductor</span>.<span class="ident">start_all_interfaces</span>();
@@ -524,7 +524,7 @@
     <span class="kw">if</span> <span class="ident">persist</span> {
         <span class="ident">fs</span>::<span class="ident">create_dir_all</span>(<span class="ident">LOCAL_STORAGE_PATH</span>)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>(<span class="ident">StorageConfiguration</span>::<span class="ident">File</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">StorageConfiguration</span>::<span class="ident">Pickle</span> {
             <span class="ident">path</span>: <span class="ident">LOCAL_STORAGE_PATH</span>.<span class="ident">into</span>(),
         })
     } <span class="kw">else</span> {
@@ -701,7 +701,7 @@
         <span class="kw">let</span> <span class="ident">persist_store</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">storage_configuration</span>(<span class="bool-val">true</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">persist_store</span>,
-            <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> {
+            <span class="ident">StorageConfiguration</span>::<span class="ident">Pickle</span> {
                 <span class="ident">path</span>: <span class="string">&quot;.hc&quot;</span>.<span class="ident">to_string</span>()
             }
         );

@@ -667,8 +667,8 @@
     }
 
     <span class="doccomment">/// dummy parameters for a zome API function call</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_parameters</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="ident">String</span>::<span class="ident">new</span>()
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_parameters</span>() <span class="op">-&gt;</span> <span class="ident">JsonString</span> {
+        <span class="ident">JsonString</span>::<span class="ident">empty_object</span>()
     }
 
     <span class="doccomment">/// calls the zome API function with passed bytes argument using the instance runtime</span>

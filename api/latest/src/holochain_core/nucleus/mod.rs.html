@@ -564,8 +564,8 @@
     }
 
     <span class="doccomment">/// dummy parameters compatible with ZomeFnCall</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_parameters</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>()
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_parameters</span>() <span class="op">-&gt;</span> <span class="ident">JsonString</span> {
+        <span class="ident">JsonString</span>::<span class="ident">empty_object</span>()
     }
 
     <span class="doccomment">/// dummy function call</span>

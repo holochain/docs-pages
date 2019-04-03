@@ -1842,7 +1842,7 @@
                     <span class="kw">let</span> <span class="ident">deserialized</span>: <span class="ident">Iso8601</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">serialized</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
                     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">deserialized</span>.<span class="ident">to_string</span>(), <span class="string">&quot;2018-10-11T03:23:38+00:00&quot;</span>);
 
-                    <span class="comment">// JSON serialization via JsonSring</span>
+                    <span class="comment">// JSON serialization via JsonString</span>
                     <span class="kw">let</span> <span class="ident">iso_8601_ser</span> <span class="op">=</span> <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="ident">iso</span>);
                     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iso_8601_ser</span>.<span class="ident">to_string</span>(), <span class="string">&quot;\&quot;2018-10-11T03:23:38+00:00\&quot;&quot;</span>);
                     <span class="kw">let</span> <span class="ident">iso_8601_des</span> <span class="op">=</span> <span class="ident">Iso8601</span>::<span class="ident">try_from</span>(<span class="ident">iso_8601_ser</span>);

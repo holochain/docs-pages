@@ -494,10 +494,10 @@
 
             <span class="kw">match</span> <span class="ident">validation_result</span> {
                 <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span> <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Success</span>.<span class="ident">into</span>(),
-                <span class="prelude-val">Err</span>(<span class="ident">fail_string</span>) <span class="op">=&gt;</span> {
-                    <span class="ident">return_code_for_allocation_result</span>(<span class="kw">crate</span>::<span class="ident">global_fns</span>::<span class="ident">write_json</span>(<span class="ident">fail_string</span>))
-                        .<span class="ident">into</span>()
-                }
+                <span class="prelude-val">Err</span>(<span class="ident">fail_string</span>) <span class="op">=&gt;</span> <span class="ident">return_code_for_allocation_result</span>(
+                    <span class="kw">crate</span>::<span class="ident">global_fns</span>::<span class="ident">write_json</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="ident">fail_string</span>)),
+                )
+                .<span class="ident">into</span>(),
             }
         }
     }
@@ -582,9 +582,9 @@
                 <span class="kw">let</span> <span class="ident">validation_result</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">link_definition</span>.<span class="ident">validator</span>)(<span class="ident">input</span>.<span class="ident">validation_data</span>);
                 <span class="prelude-val">Some</span>(<span class="kw">match</span> <span class="ident">validation_result</span> {
                     <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span> <span class="ident">RibosomeEncodedValue</span>::<span class="ident">Success</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">fail_string</span>) <span class="op">=&gt;</span> {
-                        <span class="ident">return_code_for_allocation_result</span>(::<span class="ident">global_fns</span>::<span class="ident">write_json</span>(<span class="ident">fail_string</span>))
-                    }
+                    <span class="prelude-val">Err</span>(<span class="ident">fail_string</span>) <span class="op">=&gt;</span> <span class="ident">return_code_for_allocation_result</span>(
+                        ::<span class="ident">global_fns</span>::<span class="ident">write_json</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="ident">fail_string</span>)),
+                    ),
                 })
             })
             .<span class="ident">unwrap_or</span>(<span class="ident">RibosomeEncodedValue</span>::<span class="ident">Failure</span>(
@@ -725,7 +725,7 @@
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">partial_zome</span>),
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;entry_types\&quot;:{\&quot;post\&quot;:{\&quot;description\&quot;:\&quot;blog entry post\&quot;,\&quot;sharing\&quot;:\&quot;public\&quot;,\&quot;links_to\&quot;:[],\&quot;linked_from\&quot;:[]}},\&quot;traits\&quot;:{},\&quot;fn_declarations\&quot;:[]}&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="string">&quot;{\&quot;entry_types\&quot;:{\&quot;post\&quot;:{\&quot;description\&quot;:\&quot;blog entry post\&quot;,\&quot;sharing\&quot;:\&quot;public\&quot;,\&quot;links_to\&quot;:[],\&quot;linked_from\&quot;:[]}},\&quot;traits\&quot;:{},\&quot;fn_declarations\&quot;:[]}&quot;</span>),
         );
     }
 }

@@ -759,14 +759,14 @@
     <span class="doccomment">/// test response to json</span>
     <span class="kw">fn</span> <span class="ident">test_commit_response_to_json</span>() {
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="macro">format</span><span class="macro">!</span>(
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
                 <span class="string">&quot;{{\&quot;Commit\&quot;:{{\&quot;Ok\&quot;:\&quot;{}\&quot;}}}}&quot;</span>,
                 <span class="ident">expected_entry_address</span>()
             )),
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">ActionResponse</span>::<span class="ident">Commit</span>(<span class="prelude-val">Ok</span>(<span class="ident">expected_entry_address</span>()))),
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;Commit\&quot;:{\&quot;Err\&quot;:{\&quot;ErrorGeneric\&quot;:\&quot;some error\&quot;}}}&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="string">&quot;{\&quot;Commit\&quot;:{\&quot;Err\&quot;:{\&quot;ErrorGeneric\&quot;:\&quot;some error\&quot;}}}&quot;</span>),
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">ActionResponse</span>::<span class="ident">Commit</span>(<span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">new</span>(
                 <span class="string">&quot;some error&quot;</span>
             ))))
@@ -776,7 +776,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_get_response_to_json</span>() {
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(
                 <span class="string">&quot;{\&quot;FetchEntry\&quot;:{\&quot;App\&quot;:[\&quot;testEntryType\&quot;,\&quot;\\\&quot;test entry value\\\&quot;\&quot;]}}&quot;</span>
             ),
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">ActionResponse</span>::<span class="ident">FetchEntry</span>(<span class="prelude-val">Some</span>(<span class="ident">Entry</span>::<span class="ident">from</span>(
@@ -784,7 +784,7 @@
             ))))
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;FetchEntry\&quot;:null}&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="string">&quot;{\&quot;FetchEntry\&quot;:null}&quot;</span>),
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">ActionResponse</span>::<span class="ident">FetchEntry</span>(<span class="prelude-val">None</span>)),
         )
     }
@@ -792,14 +792,14 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_get_links_response_to_json</span>() {
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="macro">format</span><span class="macro">!</span>(
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
                 <span class="string">&quot;{{\&quot;GetLinks\&quot;:{{\&quot;Ok\&quot;:[\&quot;{}\&quot;]}}}}&quot;</span>,
                 <span class="ident">expected_entry_address</span>()
             )),
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">ActionResponse</span>::<span class="ident">GetLinks</span>(<span class="prelude-val">Ok</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">test_entry</span>().<span class="ident">address</span>()]))),
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;GetLinks\&quot;:{\&quot;Err\&quot;:{\&quot;ErrorGeneric\&quot;:\&quot;some error\&quot;}}}&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="string">&quot;{\&quot;GetLinks\&quot;:{\&quot;Err\&quot;:{\&quot;ErrorGeneric\&quot;:\&quot;some error\&quot;}}}&quot;</span>),
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">ActionResponse</span>::<span class="ident">GetLinks</span>(<span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">new</span>(
                 <span class="string">&quot;some error&quot;</span>
             )))),
@@ -818,13 +818,13 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_link_entries_response_to_json</span>() {
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;LinkEntries\&quot;:{\&quot;Ok\&quot;:{\&quot;App\&quot;:[\&quot;testEntryType\&quot;,\&quot;\\\&quot;test entry value\\\&quot;\&quot;]}}}&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="string">&quot;{\&quot;LinkEntries\&quot;:{\&quot;Ok\&quot;:{\&quot;App\&quot;:[\&quot;testEntryType\&quot;,\&quot;\\\&quot;test entry value\\\&quot;\&quot;]}}}&quot;</span>),
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">ActionResponse</span>::<span class="ident">LinkEntries</span>(<span class="prelude-val">Ok</span>(<span class="ident">Entry</span>::<span class="ident">from</span>(
                 <span class="ident">test_entry</span>(),
             )))),
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;LinkEntries\&quot;:{\&quot;Err\&quot;:{\&quot;ErrorGeneric\&quot;:\&quot;some error\&quot;}}}&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="string">&quot;{\&quot;LinkEntries\&quot;:{\&quot;Err\&quot;:{\&quot;ErrorGeneric\&quot;:\&quot;some error\&quot;}}}&quot;</span>),
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">ActionResponse</span>::<span class="ident">LinkEntries</span>(<span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">new</span>(
                 <span class="string">&quot;some error&quot;</span>
             )))),

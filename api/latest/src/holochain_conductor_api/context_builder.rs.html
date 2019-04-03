@@ -195,10 +195,28 @@
 <span id="195">195</span>
 <span id="196">196</span>
 <span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_cas_implementations</span>::{
-    <span class="ident">cas</span>::{<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">memory</span>::<span class="ident">MemoryStorage</span>},
-    <span class="ident">eav</span>::{<span class="ident">file</span>::<span class="ident">EavFileStorage</span>, <span class="ident">memory</span>::<span class="ident">EavMemoryStorage</span>},
+    <span class="ident">cas</span>::{<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">memory</span>::<span class="ident">MemoryStorage</span>, <span class="ident">pickle</span>::<span class="ident">PickleStorage</span>},
+    <span class="ident">eav</span>::{<span class="ident">file</span>::<span class="ident">EavFileStorage</span>, <span class="ident">memory</span>::<span class="ident">EavMemoryStorage</span>, <span class="ident">pickle</span>::<span class="ident">EavPickleStorage</span>},
 };
 
 <span class="kw">use</span> <span class="ident">holochain_core</span>::{
@@ -284,6 +302,24 @@
 
         <span class="kw">let</span> <span class="ident">file_storage</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">FilesystemStorage</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">cas_path</span>)<span class="question-mark">?</span>));
         <span class="kw">let</span> <span class="ident">eav_storage</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">EavFileStorage</span>::<span class="ident">new</span>(<span class="ident">eav_path</span>)<span class="question-mark">?</span>));
+        <span class="self">self</span>.<span class="ident">chain_storage</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>());
+        <span class="self">self</span>.<span class="ident">dht_storage</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">file_storage</span>);
+        <span class="self">self</span>.<span class="ident">eav_storage</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">eav_storage</span>);
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// Sets all three storages, chain, DHT and EAV storage, to persistent pikcle based implementations.</span>
+    <span class="doccomment">/// Chain and DHT storages get set to the same pikcle CAS.</span>
+    <span class="doccomment">/// Returns an error if no pickle storage could be spawned on the given path.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_pickle_storage</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">base_path</span>: <span class="ident">PathBuf</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">as_ref</span>().<span class="ident">into</span>();
+        <span class="kw">let</span> <span class="ident">cas_path</span> <span class="op">=</span> <span class="ident">base_path</span>.<span class="ident">join</span>(<span class="string">&quot;cas&quot;</span>);
+        <span class="kw">let</span> <span class="ident">eav_path</span> <span class="op">=</span> <span class="ident">base_path</span>.<span class="ident">join</span>(<span class="string">&quot;eav&quot;</span>);
+        <span class="ident">fs</span>::<span class="ident">create_dir_all</span>(<span class="kw-2">&amp;</span><span class="ident">cas_path</span>)<span class="question-mark">?</span>;
+        <span class="ident">fs</span>::<span class="ident">create_dir_all</span>(<span class="kw-2">&amp;</span><span class="ident">eav_path</span>)<span class="question-mark">?</span>;
+
+        <span class="kw">let</span> <span class="ident">file_storage</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">PickleStorage</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">cas_path</span>)));
+        <span class="kw">let</span> <span class="ident">eav_storage</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">EavPickleStorage</span>::<span class="ident">new</span>(<span class="ident">eav_path</span>)));
         <span class="self">self</span>.<span class="ident">chain_storage</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>());
         <span class="self">self</span>.<span class="ident">dht_storage</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">file_storage</span>);
         <span class="self">self</span>.<span class="ident">eav_storage</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">eav_storage</span>);

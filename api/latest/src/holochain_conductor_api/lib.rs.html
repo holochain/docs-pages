@@ -145,6 +145,7 @@
 <span id="145">145</span>
 <span id="146">146</span>
 <span id="147">147</span>
+<span id="148">148</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! let file_system = Arc::new(RwLock::new(FilesystemStorage::new(tempdir().unwrap().path().to_str().unwrap()).unwrap()));</span>
 <span class="doccomment">//!     Arc::new(Mutex::new(SimplePersister::new(file_system.clone()))),</span>
@@ -226,7 +227,7 @@
 <span class="doccomment">///         .check_consistency()</span>
 <span class="doccomment">///         .map_err(|string| HolochainError::ConfigError(string))?;</span>
 <span class="doccomment">///     let mut conductor = Conductor::from_config(config);</span>
-<span class="doccomment">///     conductor.load_config()?;</span>
+<span class="doccomment">///     conductor.boot_from_config(None)?;</span>
 <span class="doccomment">///     Ok(conductor)</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -282,6 +283,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">conductor</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">config</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">context_builder</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dpki_instance</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">error</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">holo_signing_service</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">holochain</span>;

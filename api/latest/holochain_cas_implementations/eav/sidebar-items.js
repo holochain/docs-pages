@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["file",""],["memory",""]]});
+initSidebarItems({"mod":[["file",""],["memory",""],["pickle",""]]});

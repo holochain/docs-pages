@@ -231,6 +231,9 @@
 <span id="231">231</span>
 <span id="232">232</span>
 <span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! holochain_core_types::dna::zome is a set of structs for working with holochain dna.</span>
 
@@ -427,11 +430,14 @@
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="string">&quot;{\&quot;description\&quot;:\&quot;\&quot;,\&quot;config\&quot;:{},\&quot;entry_types\&quot;:{\&quot;foo\&quot;:{\&quot;description\&quot;:\&quot;\&quot;,\&quot;sharing\&quot;:\&quot;public\&quot;,\&quot;links_to\&quot;:[],\&quot;linked_from\&quot;:[]}},\&quot;traits\&quot;:{},\&quot;fn_declarations\&quot;:[],\&quot;code\&quot;:{\&quot;code\&quot;:\&quot;\&quot;},\&quot;bridges\&quot;:[]}&quot;</span>;
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">expected</span>.<span class="ident">clone</span>()),
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="ident">expected</span>),
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">zome</span>.<span class="ident">clone</span>()),
         );
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">zome</span>, <span class="ident">Zome</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">expected</span>)).<span class="ident">unwrap</span>(),);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">zome</span>,
+            <span class="ident">Zome</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="ident">expected</span>)).<span class="ident">unwrap</span>(),
+        );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

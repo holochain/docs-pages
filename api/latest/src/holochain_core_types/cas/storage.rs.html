@@ -650,10 +650,6 @@
 <span id="650">650</span>
 <span id="651">651</span>
 <span id="652">652</span>
-<span id="653">653</span>
-<span id="654">654</span>
-<span id="655">655</span>
-<span id="656">656</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! ContentAddressableStorage (CAS) is defined here as a trait, such that there could be various implementations,</span>
 <span class="doccomment">//! such as the memory based, and file storage based implementations already in this code base.</span>
@@ -1016,8 +1012,6 @@
             <span class="ident">expected</span>.<span class="ident">insert</span>(<span class="ident">eavi</span>);
         }
 
-        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;expected {:?}&quot;</span>, <span class="ident">expected</span>.<span class="ident">clone</span>());
-
         <span class="comment">// show the many results for one</span>
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">expected</span>,
@@ -1251,8 +1245,6 @@
                 .<span class="ident">expect</span>(<span class="string">&quot;could not add eav&quot;</span>);
             <span class="ident">expected</span>.<span class="ident">insert</span>(<span class="ident">eavi</span>);
         }
-
-        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;expected {:?}&quot;</span>, <span class="ident">expected</span>.<span class="ident">clone</span>());
 
         <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">EaviQuery</span>::<span class="ident">new</span>(
             <span class="ident">EavFilter</span>::<span class="ident">default</span>(),

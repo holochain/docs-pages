@@ -54,6 +54,12 @@
 <span id="54">54</span>
 <span id="55">55</span>
 <span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">conductor</span>::<span class="ident">base</span>::<span class="ident">KeyLoader</span>,
@@ -61,7 +67,7 @@
 };
 <span class="kw">use</span> <span class="ident">conductor</span>::<span class="ident">passphrase_manager</span>::{<span class="ident">PassphraseManager</span>, <span class="ident">PassphraseServiceMock</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>;
-<span class="kw">use</span> <span class="ident">holochain_dpki</span>::<span class="ident">SEED_SIZE</span>;
+<span class="kw">use</span> <span class="ident">holochain_dpki</span>::{<span class="ident">password_encryption</span>::<span class="ident">PwHashConfig</span>, <span class="ident">SEED_SIZE</span>};
 <span class="kw">use</span> <span class="ident">holochain_sodium</span>::{<span class="ident">hash</span>::<span class="ident">sha256</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>};
 <span class="kw">use</span> <span class="ident">keystore</span>::<span class="ident">test_hash_config</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -73,11 +79,17 @@
 <span class="doccomment">/// This replaces filesystem access for getting keys mentioned in the config.</span>
 <span class="doccomment">/// Uses `test_keybundle` to create a deterministic key dependent on the (virtual) file name.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_keystore_loader</span>() <span class="op">-&gt;</span> <span class="ident">KeyLoader</span> {
-    <span class="kw">let</span> <span class="ident">loader</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="ident">_pm</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">PassphraseManager</span><span class="op">&gt;</span><span class="op">|</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">test_keystore</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>()))
-    })
+    <span class="kw">let</span> <span class="ident">loader</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(
+        <span class="op">|</span><span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="ident">_pm</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">PassphraseManager</span><span class="op">&gt;</span>, <span class="ident">_hash_config</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PwHashConfig</span><span class="op">&gt;</span><span class="op">|</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">test_keystore</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>()))
+        },
+    )
         <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span>
-            <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">PassphraseManager</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Keystore</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span>
+            <span class="ident">FnMut</span>(
+                    <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>,
+                    <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">PassphraseManager</span><span class="op">&gt;</span>,
+                    <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PwHashConfig</span><span class="op">&gt;</span>,
+                ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Keystore</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span>
                 <span class="op">+</span> <span class="ident">Send</span>
                 <span class="op">+</span> <span class="ident">Sync</span>,
         <span class="op">&gt;</span>;

@@ -436,7 +436,7 @@
                 <span class="string">&quot;Attempted to deserialize CoreError from a non-error ZomeApiInternalResult&quot;</span>.<span class="ident">into</span>(),
             ))
         } <span class="kw">else</span> {
-            <span class="ident">CoreError</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">zome_api_internal_result</span>.<span class="ident">error</span>))
+            <span class="ident">CoreError</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="ident">zome_api_internal_result</span>.<span class="ident">error</span>))
         }
     }
 }
@@ -646,7 +646,7 @@
     <span class="kw">fn</span> <span class="ident">test_to_json</span>() {
         <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">HolochainError</span>::<span class="ident">new</span>(<span class="string">&quot;foo&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;{\&quot;ErrorGeneric\&quot;:\&quot;foo\&quot;}&quot;</span>),
+            <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="string">&quot;{\&quot;ErrorGeneric\&quot;:\&quot;foo\&quot;}&quot;</span>),
             <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">err</span>),
         );
     }

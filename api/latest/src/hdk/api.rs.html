@@ -1380,10 +1380,10 @@
             <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">without_input</span><span class="op">&lt;</span><span class="ident">O</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;&gt;</span>(
                 <span class="kw-2">&amp;</span><span class="self">self</span>,
             ) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span> {
-                <span class="self">self</span>.<span class="ident">with_input</span>(<span class="string">&quot;{}&quot;</span>)
+                <span class="self">self</span>.<span class="ident">with_input</span>(<span class="ident">JsonString</span>::<span class="ident">empty_object</span>())
             }
 
-            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_input</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">TryInto</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span>, <span class="ident">O</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;&gt;</span>(
+            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_input</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">TryInto</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;</span>, <span class="ident">O</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;&gt;</span>(
                 <span class="kw-2">&amp;</span><span class="self">self</span>,
                 <span class="ident">input</span>: <span class="ident">I</span>,
             ) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">O</span><span class="op">&gt;</span> {
@@ -1412,7 +1412,7 @@
 
                 <span class="comment">// Done</span>
                 <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">ok</span> {
-                    <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">result</span>.<span class="ident">value</span>)
+                    <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="ident">result</span>.<span class="ident">value</span>)
                         .<span class="ident">try_into</span>()
                         .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ZomeApiError</span>::<span class="ident">from</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Failed to deserialize return value&quot;</span>)))
                 } <span class="kw">else</span> {
@@ -1885,8 +1885,8 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug</span><span class="op">&lt;</span><span class="ident">J</span>: <span class="ident">TryInto</span><span class="op">&lt;</span><span class="ident">JsonString</span><span class="op">&gt;&gt;</span>(<span class="ident">msg</span>: <span class="ident">J</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Dispatch</span>::<span class="ident">Debug</span>.<span class="ident">with_input</span>(<span class="ident">msg</span>);
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug</span><span class="op">&lt;</span><span class="ident">J</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="ident">msg</span>: <span class="ident">J</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Dispatch</span>::<span class="ident">Debug</span>.<span class="ident">with_input</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">into</span>()));
     <span class="comment">// internally returns RibosomeEncodedValue::Success which is a zero length allocation</span>
     <span class="comment">// return Ok(()) unconditionally instead of the &quot;error&quot; from success</span>
     <span class="prelude-val">Ok</span>(())

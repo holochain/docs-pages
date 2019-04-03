@@ -1243,7 +1243,7 @@
                 }
             }&quot;#</span>,
         );
-        <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">fixture</span>)).<span class="ident">unwrap</span>()
+        <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="ident">fixture</span>)).<span class="ident">unwrap</span>()
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1420,7 +1420,7 @@
         )
         .<span class="ident">replace</span>(<span class="ident">char</span>::<span class="ident">is_whitespace</span>, <span class="string">&quot;&quot;</span>);
 
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">fixture</span>.<span class="ident">clone</span>())).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="ident">fixture</span>.<span class="ident">clone</span>())).<span class="ident">unwrap</span>();
 
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">dna</span>.<span class="ident">to_json_pretty</span>().<span class="ident">unwrap</span>());
 
@@ -1443,7 +1443,7 @@
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">dna</span>.<span class="ident">clone</span>());
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">expected</span>);
 
-        <span class="kw">let</span> <span class="ident">fixture</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="kw">let</span> <span class="ident">fixture</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
                 &quot;name&quot;: &quot;&quot;,
                 &quot;description&quot;: &quot;&quot;,
@@ -1477,7 +1477,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">parse_with_defaults_dna</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
             }&quot;#</span>,
         ))
@@ -1488,7 +1488,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">parse_with_defaults_entry_type</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
                 &quot;zomes&quot;: {
                     &quot;zome1&quot;: {
@@ -1515,7 +1515,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">parse_wasm</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
                 &quot;zomes&quot;: {
                     &quot;zome1&quot;: {
@@ -1537,7 +1537,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">should_panic</span>]</span>
     <span class="kw">fn</span> <span class="ident">parse_fail_if_bad_type_dna</span>() {
-        <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
                 &quot;name&quot;: 42
             }&quot;#</span>,
@@ -1548,7 +1548,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">should_panic</span>]</span>
     <span class="kw">fn</span> <span class="ident">parse_fail_if_bad_type_zome</span>() {
-        <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
                 &quot;zomes&quot;: {
                     &quot;zome1&quot;: {
@@ -1563,7 +1563,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">should_panic</span>]</span>
     <span class="kw">fn</span> <span class="ident">parse_fail_if_bad_type_entry_type</span>() {
-        <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
                 &quot;zomes&quot;: {
                     &quot;zome1&quot;: {
@@ -1581,7 +1581,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">parse_accepts_arbitrary_dna_properties</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
                 &quot;properties&quot;: {
                     &quot;str&quot;: &quot;hello&quot;,
@@ -1623,7 +1623,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">get_wasm_from_zome_name</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
                 &quot;name&quot;: &quot;test&quot;,
                 &quot;description&quot;: &quot;test&quot;,
@@ -1662,7 +1662,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_get_zome_name_for_entry_type</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
                 &quot;name&quot;: &quot;test&quot;,
                 &quot;description&quot;: &quot;test&quot;,
@@ -1710,7 +1710,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_get_required_bridges</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from_json</span>(
             <span class="string">r#&quot;{
                 &quot;name&quot;: &quot;test&quot;,
                 &quot;description&quot;: &quot;test&quot;,
