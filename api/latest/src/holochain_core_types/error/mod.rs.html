@@ -511,7 +511,7 @@
             <span class="ident">InitializationFailed</span>(<span class="ident">err_msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">err_msg</span>),
             <span class="ident">DnaHashMismatch</span>(<span class="ident">hash1</span>, <span class="ident">hash2</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
-                <span class="string">&quot;DNA hash does not match expected hash!\n{} != {}&quot;</span>,
+                <span class="string">&quot;DNA hash does not match expected hash! {} != {}&quot;</span>,
                 <span class="ident">hash1</span>, <span class="ident">hash2</span>
             ),
         }

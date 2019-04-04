@@ -399,6 +399,58 @@
 <span id="399">399</span>
 <span id="400">400</span>
 <span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides an abstraction for memory for use with libsodium</span>
 
@@ -417,9 +469,9 @@
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Send</span>;
     <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>;
-    <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>);
+    <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>);
     <span class="kw">fn</span> <span class="ident">writable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>);
-    <span class="kw">fn</span> <span class="ident">noaccess</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>);
+    <span class="kw">fn</span> <span class="ident">noaccess</span>(<span class="kw-2">&amp;</span><span class="self">self</span>);
     <span class="kw">fn</span> <span class="ident">ref_</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>];
     <span class="kw">fn</span> <span class="ident">ref_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>];
 }
@@ -445,11 +497,11 @@
         <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">len</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {}
+    <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {}
 
     <span class="kw">fn</span> <span class="ident">writable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {}
 
-    <span class="kw">fn</span> <span class="ident">noaccess</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {}
+    <span class="kw">fn</span> <span class="ident">noaccess</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {}
 
     <span class="kw">fn</span> <span class="ident">ref_</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">b</span>
@@ -495,7 +547,7 @@
         <span class="self">self</span>.<span class="ident">s</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="kw">unsafe</span> {
             <span class="ident">rust_sodium_sys</span>::<span class="ident">sodium_mprotect_readonly</span>(<span class="self">self</span>.<span class="ident">z</span>);
         }
@@ -507,7 +559,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">noaccess</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">fn</span> <span class="ident">noaccess</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="kw">unsafe</span> {
             <span class="ident">rust_sodium_sys</span>::<span class="ident">sodium_mprotect_noaccess</span>(<span class="self">self</span>.<span class="ident">z</span>);
         }
@@ -530,6 +582,12 @@
     }
 }
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="kw">enum</span> <span class="ident">SecurityType</span> {
+    <span class="ident">Insecure</span>,
+    <span class="ident">Secure</span>,
+}
+
 <span class="doccomment">/// Represents the memory protection state of a SecBuf</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ProtectState</span> {
@@ -542,8 +600,29 @@
 <span class="doccomment">/// It can be backed by insecure (raw) memory for things like public keys,</span>
 <span class="doccomment">/// or secure (mlocked / mprotected) memory for things like private keys.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SecBuf</span> {
+    <span class="ident">t</span>: <span class="ident">SecurityType</span>,
     <span class="ident">b</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Bufferable</span><span class="op">&gt;</span>,
     <span class="ident">p</span>: <span class="ident">ProtectState</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">SecBuf</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">t</span> {
+            <span class="ident">SecurityType</span>::<span class="ident">Insecure</span> <span class="op">=&gt;</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="self">self</span>.<span class="ident">len</span>()),
+            <span class="ident">SecurityType</span>::<span class="ident">Secure</span> <span class="op">=&gt;</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="self">self</span>.<span class="ident">len</span>()),
+        };
+        <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">readable</span>();
+        <span class="kw">unsafe</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out_lock</span> <span class="op">=</span> <span class="ident">out</span>.<span class="ident">write_lock</span>();
+            <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">copy</span>(
+                <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">ref_</span>().<span class="ident">as_ptr</span>(),
+                (<span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">out_lock</span>).<span class="ident">as_mut_ptr</span>(),
+                <span class="self">self</span>.<span class="ident">len</span>(),
+            );
+        }
+        <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">noaccess</span>();
+        <span class="ident">out</span>
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">SecBuf</span> {
@@ -556,6 +635,7 @@
     <span class="doccomment">/// create a new SecBuf backed by insecure memory (for things like public keys)</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_insecure</span>(<span class="ident">s</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">SecBuf</span> {
+            <span class="ident">t</span>: <span class="ident">SecurityType</span>::<span class="ident">Insecure</span>,
             <span class="ident">b</span>: <span class="ident">RustBuf</span>::<span class="ident">new</span>(<span class="ident">s</span>),
             <span class="ident">p</span>: <span class="ident">ProtectState</span>::<span class="ident">NoAccess</span>,
         }
@@ -565,6 +645,7 @@
     <span class="doccomment">/// warning: funky sizes may result in mis-alignment</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_secure</span>(<span class="ident">s</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">SecBuf</span> {
+            <span class="ident">t</span>: <span class="ident">SecurityType</span>::<span class="ident">Secure</span>,
             <span class="ident">b</span>: <span class="ident">SodiumBuf</span>::<span class="ident">new</span>(<span class="ident">s</span>),
             <span class="ident">p</span>: <span class="ident">ProtectState</span>::<span class="ident">NoAccess</span>,
         }
@@ -572,6 +653,7 @@
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_insecure_from_string</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">SecBuf</span> {
+            <span class="ident">t</span>: <span class="ident">SecurityType</span>::<span class="ident">Insecure</span>,
             <span class="ident">b</span>: <span class="ident">RustBuf</span>::<span class="ident">from_string</span>(<span class="ident">s</span>),
             <span class="ident">p</span>: <span class="ident">ProtectState</span>::<span class="ident">NoAccess</span>,
         }
@@ -747,6 +829,28 @@
             <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">b</span>.<span class="ident">read_lock</span>();
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ProtectState</span>::<span class="ident">ReadOnly</span>, <span class="ident">b</span>.<span class="ident">protect_state</span>());
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">b</span>[<span class="number">0</span>], <span class="number">12</span>);
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">it_should_clone_insecure</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="number">16</span>);
+        <span class="ident">b</span>.<span class="ident">write</span>(<span class="number">0</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">b</span>.<span class="ident">clone</span>();
+        {
+            <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">read_lock</span>();
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>[<span class="number">0</span>..<span class="number">3</span>], <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">it_should_clone_secure</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="number">16</span>);
+        <span class="ident">b</span>.<span class="ident">write</span>(<span class="number">0</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">b</span>.<span class="ident">clone</span>();
+        {
+            <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">read_lock</span>();
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>[<span class="number">0</span>..<span class="number">3</span>], <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
         }
     }
 

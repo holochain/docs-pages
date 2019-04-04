@@ -1780,7 +1780,7 @@
             <span class="ident">id</span>: <span class="ident">id</span>.<span class="ident">to_string</span>(),
             <span class="ident">dna</span>: <span class="ident">dna_id</span>.<span class="ident">to_string</span>(),
             <span class="ident">agent</span>: <span class="ident">agent_id</span>.<span class="ident">to_string</span>(),
-            <span class="ident">storage</span>: <span class="ident">StorageConfiguration</span>::<span class="ident">File</span> {
+            <span class="ident">storage</span>: <span class="ident">StorageConfiguration</span>::<span class="ident">Pickle</span> {
                 <span class="ident">path</span>: <span class="ident">storage_path</span>
                     .<span class="ident">to_str</span>()
                     .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(
@@ -2629,7 +2629,7 @@ id = &#39;new-instance&#39;&quot;#</span>,
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(
             <span class="ident">toml</span>,
             <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;[instances.storage]\npath = &#39;{}&#39;\ntype = &#39;file&#39;&quot;</span>,
+                <span class="string">&quot;[instances.storage]\npath = &#39;{}&#39;\ntype = &#39;pickle&#39;&quot;</span>,
                 <span class="ident">storage_path_string</span>
             ),
         );
@@ -2935,7 +2935,7 @@ id = &#39;new-instance-2&#39;&quot;#</span>,
         <span class="ident">toml</span> <span class="op">=</span> <span class="ident">add_block</span>(
             <span class="ident">toml</span>,
             <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;[instances.storage]\npath = &#39;{}&#39;\ntype = &#39;file&#39;&quot;</span>,
+                <span class="string">&quot;[instances.storage]\npath = &#39;{}&#39;\ntype = &#39;pickle&#39;&quot;</span>,
                 <span class="ident">storage_path_string</span>
             ),
         );
