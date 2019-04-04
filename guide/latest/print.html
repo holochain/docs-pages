@@ -632,7 +632,7 @@ entry!(
 <p>This chapter starts with a step by step tutorial, and goes on with a detailed explanation of the affordances of Holochain, and how to use its core functions.</p>
 <a class="header" href="#first-steps-writing-holochain-happs-with-rust" id="first-steps-writing-holochain-happs-with-rust"><h1>First steps writing Holochain hApps with Rust</h1></a>
 <hr />
-<p>This tutorial builds for the 0.0.7-alpha release but as the API and HDK are changing it will likely fail under newer releases.</p>
+<p>This tutorial builds for the 0.0.9-alpha release but as the API and HDK are changing it will likely fail under newer releases.</p>
 <hr />
 <p>Holochain hApps are made of compiled WebAssembly that encodes the rules of the hApp, the data it can store and how users will interact with it. This means that <a href="https://github.com/appcypher/awesome-wasm-langs">any language that can compile to WebAssembly</a> can one day be used for Holochain.</p>
 <p>Writing WebAssembly that complies with the Holochain runtime can be tricky. To make development as streamlined as possible the core team has been developing a Holochain-dev-kit (HDK) for the first supported language, Rust! In the near future the community is encouraged to develop an HDK for their language of choice.</p>
@@ -672,7 +672,7 @@ hc generate zomes/lists rust
  └── zome.json
 </code></pre>
 <a class="header" href="#writing-the-lists-zome" id="writing-the-lists-zome"><h2>Writing the lists zome</h2></a>
-<p>The Rust HDK makes use of Rust macros to reduce the need for boilerplate code. The most important of which is the <a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/macro.define_zome.html"><code>define_zome!</code></a> macro. Every zome must use this to define the structure of the zome, what entries it contains, which functions it exposes and what to do on first start-up (genesis).</p>
+<p>The Rust HDK makes use of Rust macros to reduce the need for boilerplate code. The most important of which is the <a href="https://developer.holochain.org/api/0.0.9-alpha/hdk/macro.define_zome.html"><code>define_zome!</code></a> macro. Every zome must use this to define the structure of the zome, what entries it contains, which functions it exposes and what to do on first start-up (genesis).</p>
 <p>Open up <code>lib.rs</code> and replace its contents with the following:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
@@ -701,12 +701,12 @@ define_zome! {
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-#[derive(Serialize, Deserialize, Debug, DefaultJson)]
+#[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
 struct List {
     name: String
 }
 
-#[derive(Serialize, Deserialize, Debug, DefaultJson)]
+#[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
 struct ListItem {
     text: String,
     completed: bool
@@ -755,9 +755,8 @@ define_zome! {
             name: &quot;list&quot;,
             description: &quot;&quot;,
             sharing: Sharing::Public,
-            native_type: List,
             validation_package: || hdk::ValidationPackageDefinition::Entry,
-            validation: |list: List, _ctx: hdk::ValidationData| {
+            validation: |validation_data: hdk::EntryValidationData&lt;List&gt;| {
                 Ok(())
             },
             links: [
@@ -765,7 +764,7 @@ define_zome! {
                     &quot;listItem&quot;,
                     tag: &quot;items&quot;,
                     validation_package: || hdk::ValidationPackageDefinition::Entry,
-                    validation: |base: Address, target: Address, _ctx: hdk::ValidationData| {
+                    validation: |_validation_data: hdk::LinkValidationData| {
                         Ok(())
                     }
                 )
@@ -775,9 +774,8 @@ define_zome! {
             name: &quot;listItem&quot;,
             description: &quot;&quot;,
             sharing: Sharing::Public,
-            native_type: ListItem,
             validation_package: || hdk::ValidationPackageDefinition::Entry,
-            validation: |list_item: ListItem, _ctx: hdk::ValidationData| {
+            validation: |validation_data: hdk::EntryValidationData&lt;ListItem&gt;| {
                 Ok(())
             }
         )
@@ -905,9 +903,8 @@ define_zome! {
             name: &quot;list&quot;,
             description: &quot;&quot;,
             sharing: Sharing::Public,
-            native_type: List,
             validation_package: || hdk::ValidationPackageDefinition::Entry,
-            validation: |list: List, _ctx: hdk::ValidationData| {
+            validation: |validation_data: hdk::EntryValidationData&lt;List&gt;| {
                 Ok(())
             },
             links: [
@@ -915,7 +912,7 @@ define_zome! {
                     &quot;listItem&quot;,
                     tag: &quot;items&quot;,
                     validation_package: || hdk::ValidationPackageDefinition::Entry,
-                    validation: |base: Address, target: Address, _ctx: hdk::ValidationData| {
+                    validation: |_validation_data: hdk::LinkValidationData| {
                         Ok(())
                     }
                 )
@@ -925,9 +922,8 @@ define_zome! {
             name: &quot;listItem&quot;,
             description: &quot;&quot;,
             sharing: Sharing::Public,
-            native_type: ListItem,
             validation_package: || hdk::ValidationPackageDefinition::Entry,
-            validation: |list_item: ListItem, _ctx: hdk::ValidationData| {
+            validation: |validation_data: hdk::EntryValidationData&lt;ListItem&gt;| {
                 Ok(())
             }
         )
@@ -960,12 +956,12 @@ define_zome! {
 }
 
 
-#[derive(Serialize, Deserialize, Debug, DefaultJson)]
+#[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
 struct List {
     name: String
 }
 
-#[derive(Serialize, Deserialize, Debug, DefaultJson)]
+#[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
 struct ListItem {
     text: String,
     completed: bool
@@ -1098,7 +1094,7 @@ scenario.runTape('Can get a list with items', async (t, { alice }) =&gt; {
 <p>Pro tip: <a href="https://github.com/scottcorgan/tap-spec">Pipe the output to tap-spec</a> (which must be installed via npm first) to get beautifully formatted test output.</p>
 <a class="header" href="#conclusion" id="conclusion"><h2>Conclusion</h2></a>
 <p>And there we have it! A simple Zome created with Holochain using the Rust HDK.</p>
-<p>The <a href="https://github.com/willemolding/holochain-rust-todo">complete working version of this project is available on github</a>. This builds under the 0.0.7-alpha release but as the API and HDK are changing it will likely fail under newer releases.</p>
+<p>The <a href="https://github.com/willemolding/holochain-rust-todo">complete working version of this project is available on github</a>. This builds under the 0.0.9-alpha release but as the API and HDK are changing it will likely fail under newer releases.</p>
 <a class="header" href="#adding-a-zome" id="adding-a-zome"><h1>Adding a Zome</h1></a>
 <p>After <a href="../new_project.html">creating a new project</a>, in the resulting folder there is an empty folder called 'zomes'. The name of this folder is important and should not be changed. It will serve as the root folder for the one or more Zomes in a project.</p>
 <p>Every Zome should have its own folder within the 'zomes' root folder, and the name of those folders is also important, it should be the name of the Zome. It shouldn't have any spaces, and it should be a valid folder name.</p>
@@ -3343,7 +3339,7 @@ bloat that more with edge-case serialization needs
 <li>every new format is a new crate</li>
 </ul>
 </li>
-<li>We don't (yet) have any use-cases showing that JSON is a problem/bottlenec&lt;k</li>
+<li>We don't (yet) have any use-cases showing that JSON is a problem/bottleneck</li>
 <li>Adding more serialization options would exacerbate non-idiomatic conductor
 and HDK data structure mapping issues (see above)</li>
 </ul>
