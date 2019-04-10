@@ -12,7 +12,7 @@ The API Reference source files are the [source code](https://github.com/holochai
 
 # Building the docs
 
-To rebuild the `latest` versions of the guidebook and api reference, which is the `develop` branch of holochain-rust, run `./build_docs.sh develop`.
+To rebuild the `latest` versions of the guidebook and api reference, which is the `develop` branch of holochain-rust, run `./build_docs.sh develop latest`. The first argument is the branch/tag, the second is the folder name to put it in.
 
 > nodejs is a dependency for adding a new version
 
