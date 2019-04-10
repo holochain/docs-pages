@@ -18,5 +18,3 @@ rm api/.rustc_info.json
 rm -rf guide/$FOLDER
 mkdir guide/$FOLDER
 mdbook build holochain-rust/doc/holochain_101 --dest-dir ../../../guide/$FOLDER
-
-rm -rf holochain-rust
