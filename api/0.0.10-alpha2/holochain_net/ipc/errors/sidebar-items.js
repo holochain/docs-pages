@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["IpcError","net_ipc-specific error types"]],"type":[["Result","Default result type for net_ipc modules that `use errors::*`."]]});
