@@ -238,6 +238,12 @@
 <span id="238">238</span>
 <span id="239">239</span>
 <span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -349,8 +355,14 @@
     }
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cap_functions</span> <span class="op">=</span> <span class="ident">CapFunctions</span>::<span class="ident">new</span>();
+    <span class="kw">let</span> <span class="ident">zomes</span> <span class="op">=</span> <span class="ident">dna</span>.<span class="ident">clone</span>().<span class="ident">zomes</span>;
+    <span class="kw">if</span> <span class="ident">zomes</span>.<span class="ident">is_empty</span>() {
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
+            <span class="string">&quot;Attempting to initialize DNA with zero zomes!&quot;</span>.<span class="ident">into</span>(),
+        ));
+    }
     <span class="comment">// Commit Public Capability Grants to chain</span>
-    <span class="kw">for</span> (<span class="ident">zome_name</span>, <span class="ident">zome</span>) <span class="kw">in</span> <span class="ident">dna</span>.<span class="ident">clone</span>().<span class="ident">zomes</span> {
+    <span class="kw">for</span> (<span class="ident">zome_name</span>, <span class="ident">zome</span>) <span class="kw">in</span> <span class="ident">zomes</span> {
         <span class="kw">let</span> <span class="ident">maybe_public</span> <span class="op">=</span> <span class="ident">zome</span>
             .<span class="ident">traits</span>
             .<span class="ident">iter</span>()

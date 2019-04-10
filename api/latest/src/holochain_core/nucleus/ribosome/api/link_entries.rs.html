@@ -198,16 +198,6 @@
 <span id="198">198</span>
 <span id="199">199</span>
 <span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">runtime</span>::<span class="ident">Runtime</span>},
@@ -344,18 +334,14 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">returns_ok_if_base_is_present</span>() {
-        <span class="kw">let</span> (<span class="ident">instance</span>, <span class="ident">context</span>) <span class="op">=</span>
-            <span class="ident">create_test_instance_with_name</span>(<span class="prelude-val">Some</span>(<span class="string">&quot;returns_ok_if_base_present&quot;</span>));
+        <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">context</span>) <span class="op">=</span> <span class="ident">create_test_instance_with_name</span>(<span class="prelude-val">Some</span>(<span class="string">&quot;returns_ok_if_base_present&quot;</span>));
 
         <span class="ident">context</span>
             .<span class="ident">block_on</span>(<span class="ident">commit_entry</span>(<span class="ident">test_entry</span>(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;</span><span class="ident">context</span>))
             .<span class="ident">expect</span>(<span class="string">&quot;Could not commit entry for testing&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">test_zome_api_function_call</span>(
-            <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">get_dna</span>().<span class="ident">unwrap</span>().<span class="ident">name</span>.<span class="ident">to_string</span>(),
             <span class="ident">context</span>.<span class="ident">clone</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">instance</span>,
-            <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">get_wasm</span>(<span class="kw-2">&amp;</span><span class="ident">test_zome_name</span>()).<span class="ident">unwrap</span>().<span class="ident">code</span>,
             <span class="ident">test_link_args_bytes</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-tag&quot;</span>)),
         );
 
@@ -369,17 +355,14 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">errors_with_wrong_tag</span>() {
-        <span class="kw">let</span> (<span class="ident">instance</span>, <span class="ident">context</span>) <span class="op">=</span> <span class="ident">create_test_instance</span>();
+        <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">context</span>) <span class="op">=</span> <span class="ident">create_test_instance</span>();
 
         <span class="ident">context</span>
             .<span class="ident">block_on</span>(<span class="ident">commit_entry</span>(<span class="ident">test_entry</span>(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;</span><span class="ident">context</span>))
             .<span class="ident">expect</span>(<span class="string">&quot;Could not commit entry for testing&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">test_zome_api_function_call</span>(
-            <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">get_dna</span>().<span class="ident">unwrap</span>().<span class="ident">name</span>.<span class="ident">to_string</span>(),
             <span class="ident">context</span>.<span class="ident">clone</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">instance</span>,
-            <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">get_wasm</span>(<span class="kw-2">&amp;</span><span class="ident">test_zome_name</span>()).<span class="ident">unwrap</span>().<span class="ident">code</span>,
             <span class="ident">test_link_args_bytes</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;wrong-tag&quot;</span>)),
         );
 
@@ -392,7 +375,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">works_with_linked_from_defined_link</span>() {
-        <span class="kw">let</span> (<span class="ident">instance</span>, <span class="ident">context</span>) <span class="op">=</span> <span class="ident">create_test_instance</span>();
+        <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">context</span>) <span class="op">=</span> <span class="ident">create_test_instance</span>();
 
         <span class="ident">context</span>
             .<span class="ident">block_on</span>(<span class="ident">commit_entry</span>(<span class="ident">test_entry</span>(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;</span><span class="ident">context</span>))
@@ -403,10 +386,7 @@
             .<span class="ident">expect</span>(<span class="string">&quot;Could not commit entry for testing&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">test_zome_api_function_call</span>(
-            <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">get_dna</span>().<span class="ident">unwrap</span>().<span class="ident">name</span>.<span class="ident">to_string</span>(),
             <span class="ident">context</span>.<span class="ident">clone</span>(),
-            <span class="kw-2">&amp;</span><span class="ident">instance</span>,
-            <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">get_wasm</span>(<span class="kw-2">&amp;</span><span class="ident">test_zome_name</span>()).<span class="ident">unwrap</span>().<span class="ident">code</span>,
             <span class="ident">test_link_2_args_bytes</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-tag&quot;</span>)),
         );
 

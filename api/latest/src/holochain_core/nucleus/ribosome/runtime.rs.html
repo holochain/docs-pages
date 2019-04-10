@@ -206,25 +206,6 @@
 <span id="206">206</span>
 <span id="207">207</span>
 <span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
@@ -252,8 +233,6 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZomeCallData</span> {
     <span class="doccomment">/// Context of Holochain. Required for operating.</span>
     <span class="kw">pub</span> <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Name of the DNA that is being hosted.</span>
-    <span class="kw">pub</span> <span class="ident">dna_name</span>: <span class="ident">String</span>,
     <span class="doccomment">/// The zome function call that initiated the Ribosome.</span>
     <span class="kw">pub</span> <span class="ident">call</span>: <span class="ident">ZomeFnCall</span>,
 }
@@ -262,8 +241,6 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CallbackCallData</span> {
     <span class="doccomment">/// Context of Holochain. Required for operating.</span>
     <span class="kw">pub</span> <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Name of the DNA that is being hosted.</span>
-    <span class="kw">pub</span> <span class="ident">dna_name</span>: <span class="ident">String</span>,
     <span class="doccomment">/// The callback function call that initiated the Ribosome.</span>
     <span class="kw">pub</span> <span class="ident">call</span>: <span class="ident">CallbackFnCall</span>,
 }
@@ -272,7 +249,7 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">WasmCallData</span> {
     <span class="ident">ZomeCall</span>(<span class="ident">ZomeCallData</span>),
     <span class="ident">CallbackCall</span>(<span class="ident">CallbackCallData</span>),
-    <span class="ident">DirectCall</span>(<span class="ident">String</span>),
+    <span class="ident">DirectCall</span>(<span class="ident">String</span>, <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>),
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -286,31 +263,19 @@
 <span class="kw">impl</span> <span class="ident">HostError</span> <span class="kw">for</span> <span class="ident">BadCallError</span> {}
 
 <span class="kw">impl</span> <span class="ident">WasmCallData</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_zome_call</span>(<span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>, <span class="ident">dna_name</span>: <span class="ident">String</span>, <span class="ident">call</span>: <span class="ident">ZomeFnCall</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">WasmCallData</span>::<span class="ident">ZomeCall</span>(<span class="ident">ZomeCallData</span> {
-            <span class="ident">context</span>,
-            <span class="ident">dna_name</span>,
-            <span class="ident">call</span>,
-        })
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_zome_call</span>(<span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>, <span class="ident">call</span>: <span class="ident">ZomeFnCall</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">WasmCallData</span>::<span class="ident">ZomeCall</span>(<span class="ident">ZomeCallData</span> { <span class="ident">context</span>, <span class="ident">call</span> })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_callback_call</span>(
-        <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
-        <span class="ident">dna_name</span>: <span class="ident">String</span>,
-        <span class="ident">call</span>: <span class="ident">CallbackFnCall</span>,
-    ) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">WasmCallData</span>::<span class="ident">CallbackCall</span>(<span class="ident">CallbackCallData</span> {
-            <span class="ident">context</span>,
-            <span class="ident">dna_name</span>,
-            <span class="ident">call</span>,
-        })
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_callback_call</span>(<span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>, <span class="ident">call</span>: <span class="ident">CallbackFnCall</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">WasmCallData</span>::<span class="ident">CallbackCall</span>(<span class="ident">CallbackCallData</span> { <span class="ident">context</span>, <span class="ident">call</span> })
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fn_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident">WasmCallData</span>::<span class="ident">ZomeCall</span>(<span class="ident">data</span>) <span class="op">=&gt;</span> <span class="ident">data</span>.<span class="ident">call</span>.<span class="ident">fn_name</span>.<span class="ident">clone</span>(),
             <span class="ident">WasmCallData</span>::<span class="ident">CallbackCall</span>(<span class="ident">data</span>) <span class="op">=&gt;</span> <span class="ident">data</span>.<span class="ident">call</span>.<span class="ident">fn_name</span>.<span class="ident">clone</span>(),
-            <span class="ident">WasmCallData</span>::<span class="ident">DirectCall</span>(<span class="ident">name</span>) <span class="op">=&gt;</span> <span class="ident">name</span>.<span class="ident">to_string</span>(),
+            <span class="ident">WasmCallData</span>::<span class="ident">DirectCall</span>(<span class="ident">name</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">name</span>.<span class="ident">to_string</span>(),
         }
     }
 }
@@ -319,7 +284,6 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CallData</span> {
     <span class="kw">pub</span> <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">dna_name</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">zome_name</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">fn_name</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">parameters</span>: <span class="ident">JsonString</span>,
@@ -354,14 +318,12 @@
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data</span> {
             <span class="ident">WasmCallData</span>::<span class="ident">ZomeCall</span>(<span class="kw-2">ref</span> <span class="ident">data</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">CallData</span> {
                 <span class="ident">context</span>: <span class="ident">data</span>.<span class="ident">context</span>.<span class="ident">clone</span>(),
-                <span class="ident">dna_name</span>: <span class="ident">data</span>.<span class="ident">dna_name</span>.<span class="ident">clone</span>(),
                 <span class="ident">zome_name</span>: <span class="ident">data</span>.<span class="ident">call</span>.<span class="ident">zome_name</span>.<span class="ident">clone</span>(),
                 <span class="ident">fn_name</span>: <span class="ident">data</span>.<span class="ident">call</span>.<span class="ident">fn_name</span>.<span class="ident">clone</span>(),
                 <span class="ident">parameters</span>: <span class="ident">data</span>.<span class="ident">call</span>.<span class="ident">parameters</span>.<span class="ident">clone</span>(),
             }),
             <span class="ident">WasmCallData</span>::<span class="ident">CallbackCall</span>(<span class="kw-2">ref</span> <span class="ident">data</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">CallData</span> {
                 <span class="ident">context</span>: <span class="ident">data</span>.<span class="ident">context</span>.<span class="ident">clone</span>(),
-                <span class="ident">dna_name</span>: <span class="ident">data</span>.<span class="ident">dna_name</span>.<span class="ident">clone</span>(),
                 <span class="ident">zome_name</span>: <span class="ident">data</span>.<span class="ident">call</span>.<span class="ident">zome_name</span>.<span class="ident">clone</span>(),
                 <span class="ident">fn_name</span>: <span class="ident">data</span>.<span class="ident">call</span>.<span class="ident">fn_name</span>.<span class="ident">clone</span>(),
                 <span class="ident">parameters</span>: <span class="ident">data</span>.<span class="ident">call</span>.<span class="ident">parameters</span>.<span class="ident">clone</span>(),

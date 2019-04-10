@@ -11,6 +11,7 @@ each run a holochain DNA, DHT and source chain.</p>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_dpki</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_sodium</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tempfile</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test_utils</span>;
 <span class="kw">use</span> <span class="ident">holochain_conductor_api</span>::{<span class="kw-2">*</span>, <span class="ident">context_builder</span>::<span class="ident">ContextBuilder</span>};
 <span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">nucleus</span>::<span class="ident">ribosome</span>::<span class="ident">capabilities</span>::<span class="ident">CapabilityRequest</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
@@ -22,6 +23,7 @@ each run a holochain DNA, DHT and source chain.</p>
 };
 <span class="kw">use</span> <span class="ident">holochain_dpki</span>::{<span class="ident">key_bundle</span>::<span class="ident">KeyBundle</span>, <span class="ident">seed</span>::<span class="ident">SeedType</span>, <span class="ident">SEED_SIZE</span>};
 <span class="kw">use</span> <span class="ident">holochain_sodium</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
+<span class="kw">use</span> <span class="ident">test_utils</span>;
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>};
 <span class="kw">use</span> <span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
@@ -32,7 +34,7 @@ each run a holochain DNA, DHT and source chain.</p>
 <span class="comment">// let dna = holochain_core_types::dna::from_package_file(&quot;mydna.dna.json&quot;);</span>
 
 <span class="comment">// But for now:</span>
-<span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_arbitrary_test_dna</span>();
 <span class="kw">let</span> <span class="ident">dir</span> <span class="op">=</span> <span class="ident">tempdir</span>().<span class="ident">unwrap</span>();
 <span class="kw">let</span> <span class="ident">storage_directory_path</span> <span class="op">=</span> <span class="ident">dir</span>.<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>();
 

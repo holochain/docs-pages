@@ -103,6 +103,8 @@
 <span id="103">103</span>
 <span id="104">104</span>
 <span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
@@ -131,7 +133,7 @@
     <span class="ident">config</span>::{<span class="self">self</span>, <span class="ident">load_configuration</span>, <span class="ident">Configuration</span>},
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>::<span class="ident">File</span>, <span class="ident">io</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>, <span class="ident">path</span>::<span class="ident">PathBuf</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>::<span class="ident">File</span>, <span class="ident">io</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>, <span class="ident">path</span>::<span class="ident">PathBuf</span>, <span class="ident">thread</span>::<span class="ident">sleep</span>, <span class="ident">time</span>::<span class="ident">Duration</span>};
 <span class="kw">use</span> <span class="ident">structopt</span>::<span class="ident">StructOpt</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">StructOpt</span>, <span class="ident">Debug</span>)]</span>
@@ -172,7 +174,9 @@
                     .<span class="ident">start_all_static_servers</span>()
                     .<span class="ident">expect</span>(<span class="string">&quot;Could not start UI servers!&quot;</span>);
             }
-            <span class="kw">loop</span> {}
+            <span class="kw">loop</span> {
+                <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">1</span>))
+            }
         }
         <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Error while trying to boot from config: {:?}&quot;</span>, <span class="ident">error</span>),
     };

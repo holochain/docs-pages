@@ -1531,7 +1531,7 @@
         ))
         .<span class="ident">unwrap</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="ident">dna</span>.<span class="ident">zomes</span>.<span class="ident">get</span>(<span class="string">&quot;zome1&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">code</span>.<span class="ident">code</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="kw-2">*</span><span class="ident">dna</span>.<span class="ident">zomes</span>.<span class="ident">get</span>(<span class="string">&quot;zome1&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">code</span>.<span class="ident">code</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1654,7 +1654,7 @@
         .<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">dna</span>.<span class="ident">get_wasm_from_zome_name</span>(<span class="string">&quot;test zome&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;AAECAw==&quot;</span>, <span class="ident">base64</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">wasm</span>.<span class="ident">unwrap</span>().<span class="ident">code</span>));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;AAECAw==&quot;</span>, <span class="ident">base64</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">wasm</span>.<span class="ident">unwrap</span>().<span class="ident">code</span>));
 
         <span class="kw">let</span> <span class="ident">fail</span> <span class="op">=</span> <span class="ident">dna</span>.<span class="ident">get_wasm_from_zome_name</span>(<span class="string">&quot;non existant zome&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">fail</span>);

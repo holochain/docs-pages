@@ -742,6 +742,7 @@
 <span class="doccomment">//! extern crate holochain_dpki;</span>
 <span class="doccomment">//! extern crate holochain_sodium;</span>
 <span class="doccomment">//! extern crate tempfile;</span>
+<span class="doccomment">//! extern crate test_utils;</span>
 <span class="doccomment">//! use holochain_conductor_api::{*, context_builder::ContextBuilder};</span>
 <span class="doccomment">//! use holochain_core::nucleus::ribosome::capabilities::CapabilityRequest;</span>
 <span class="doccomment">//! use holochain_core_types::{</span>
@@ -753,6 +754,7 @@
 <span class="doccomment">//! };</span>
 <span class="doccomment">//! use holochain_dpki::{key_bundle::KeyBundle, seed::SeedType, SEED_SIZE};</span>
 <span class="doccomment">//! use holochain_sodium::secbuf::SecBuf;</span>
+<span class="doccomment">//! use test_utils;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! use std::sync::{Arc, Mutex};</span>
 <span class="doccomment">//! use tempfile::tempdir;</span>
@@ -763,7 +765,7 @@
 <span class="doccomment">//! // let dna = holochain_core_types::dna::from_package_file(&quot;mydna.dna.json&quot;);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // But for now:</span>
-<span class="doccomment">//! let dna = Dna::new();</span>
+<span class="doccomment">//! let dna = test_utils::create_arbitrary_test_dna();</span>
 <span class="doccomment">//! let dir = tempdir().unwrap();</span>
 <span class="doccomment">//! let storage_directory_path = dir.path().to_str().unwrap();</span>
 <span class="doccomment">//!</span>
@@ -842,9 +844,8 @@
 
         <span class="kw">for</span> <span class="ident">zome</span> <span class="kw">in</span> <span class="ident">dna</span>.<span class="ident">zomes</span>.<span class="ident">values</span>() {
             <span class="kw">let</span> <span class="ident">maybe_json_string</span> <span class="op">=</span> <span class="ident">run_dna</span>(
-                <span class="ident">zome</span>.<span class="ident">code</span>.<span class="ident">code</span>.<span class="ident">clone</span>(),
                 <span class="prelude-val">Some</span>(<span class="string">&quot;{}&quot;</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>()),
-                <span class="ident">WasmCallData</span>::<span class="ident">DirectCall</span>(<span class="string">&quot;__hdk_git_hash&quot;</span>.<span class="ident">to_string</span>()),
+                <span class="ident">WasmCallData</span>::<span class="ident">DirectCall</span>(<span class="string">&quot;__hdk_git_hash&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">zome</span>.<span class="ident">code</span>.<span class="ident">code</span>.<span class="ident">clone</span>()),
             );
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">json_string</span>) <span class="op">=</span> <span class="ident">maybe_json_string</span> {
@@ -965,14 +966,13 @@
     };
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
         <span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>},
-        <span class="ident">dna</span>::<span class="ident">Dna</span>,
         <span class="ident">json</span>::<span class="ident">RawString</span>,
     };
     <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">wasm_target_dir</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>};
     <span class="kw">use</span> <span class="ident">test_utils</span>::{
-        <span class="ident">create_test_defs_with_fn_name</span>, <span class="ident">create_test_dna_with_defs</span>, <span class="ident">create_test_dna_with_wat</span>,
-        <span class="ident">create_wasm_from_file</span>, <span class="ident">expect_action</span>, <span class="ident">hc_setup_and_call_zome_fn</span>,
+        <span class="ident">create_arbitrary_test_dna</span>, <span class="ident">create_test_defs_with_fn_name</span>, <span class="ident">create_test_dna_with_defs</span>,
+        <span class="ident">create_test_dna_with_wat</span>, <span class="ident">create_wasm_from_file</span>, <span class="ident">expect_action</span>, <span class="ident">hc_setup_and_call_zome_fn</span>,
         <span class="ident">mock_signing</span>::{<span class="ident">mock_conductor_api</span>, <span class="ident">registered_test_agent</span>},
     };
 
@@ -1019,7 +1019,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">can_instantiate</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_arbitrary_test_dna</span>();;
         <span class="ident">dna</span>.<span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;TestApp&quot;</span>.<span class="ident">to_string</span>();
         <span class="kw">let</span> (<span class="ident">context</span>, <span class="ident">test_logger</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>.<span class="ident">clone</span>());
@@ -1124,7 +1124,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">can_start_and_stop</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_arbitrary_test_dna</span>();
         <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">hc</span>.<span class="ident">active</span>());
@@ -1194,7 +1194,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">can_get_state</span>() {
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">Dna</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">create_arbitrary_test_dna</span>();
         <span class="kw">let</span> (<span class="ident">context</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;bob&quot;</span>);
         <span class="kw">let</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">Holochain</span>::<span class="ident">new</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">context</span>).<span class="ident">unwrap</span>();
 

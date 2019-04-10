@@ -302,8 +302,6 @@
 <span id="302">302</span>
 <span id="303">303</span>
 <span id="304">304</span>
-<span id="305">305</span>
-<span id="306">306</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>},
@@ -496,8 +494,8 @@
     <span class="doccomment">/// test that we can round trip bytes through a get action and it comes back from wasm</span>
     <span class="kw">fn</span> <span class="ident">test_get_round_trip</span>() {
         <span class="kw">let</span> <span class="ident">netname</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="string">&quot;test_get_round_trip&quot;</span>);
-        <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">test_get_round_trip_wat</span>();
-        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wasm</span>(<span class="kw-2">&amp;</span><span class="ident">test_zome_name</span>(), <span class="ident">wasm</span>.<span class="ident">clone</span>());
+        <span class="kw">let</span> <span class="ident">wasm</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">test_get_round_trip_wat</span>());
+        <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wasm</span>(<span class="kw-2">&amp;</span><span class="ident">test_zome_name</span>(), (<span class="kw-2">*</span><span class="ident">wasm</span>).<span class="ident">clone</span>());
         <span class="kw">let</span> (<span class="ident">instance</span>, <span class="ident">context</span>) <span class="op">=</span> <span class="ident">test_instance_and_context</span>(<span class="ident">dna</span>.<span class="ident">clone</span>(), <span class="ident">netname</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Could not initialize test instance&quot;</span>);
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">initialize_context</span>(<span class="ident">context</span>);
@@ -520,9 +518,8 @@
             <span class="ident">test_parameters</span>(),
         );
         <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">ribosome</span>::<span class="ident">run_dna</span>(
-            <span class="ident">wasm</span>.<span class="ident">clone</span>(),
             <span class="prelude-val">Some</span>(<span class="ident">test_commit_args_bytes</span>()),
-            <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(<span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>), <span class="ident">dna</span>.<span class="ident">name</span>.<span class="ident">clone</span>(), <span class="ident">commit_call</span>),
+            <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(<span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>), <span class="ident">commit_call</span>),
         )
         .<span class="ident">expect</span>(<span class="string">&quot;test should be callable&quot;</span>);
 
@@ -542,9 +539,8 @@
             <span class="ident">test_parameters</span>(),
         );
         <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">ribosome</span>::<span class="ident">run_dna</span>(
-            <span class="ident">wasm</span>.<span class="ident">clone</span>(),
             <span class="prelude-val">Some</span>(<span class="ident">test_get_args_bytes</span>()),
-            <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(<span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>), <span class="ident">dna</span>.<span class="ident">name</span>, <span class="ident">get_call</span>),
+            <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(<span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>), <span class="ident">get_call</span>),
         )
         .<span class="ident">expect</span>(<span class="string">&quot;test should be callable&quot;</span>);
 

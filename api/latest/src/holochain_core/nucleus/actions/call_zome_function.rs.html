@@ -512,11 +512,6 @@
 <span id="512">512</span>
 <span id="513">513</span>
 <span id="514">514</span>
-<span id="515">515</span>
-<span id="516">516</span>
-<span id="517">517</span>
-<span id="518">518</span>
-<span id="519">519</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -592,7 +587,7 @@
     ));
 
     <span class="comment">// 1. Validate the call (a number of things could go wrong)</span>
-    <span class="kw">let</span> (<span class="ident">dna_name</span>, <span class="ident">wasm</span>) <span class="op">=</span> <span class="ident">validate_call</span>(<span class="ident">context</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">zome_call</span>)<span class="question-mark">?</span>;
+    <span class="ident">validate_call</span>(<span class="ident">context</span>.<span class="ident">clone</span>(), <span class="kw-2">&amp;</span><span class="ident">zome_call</span>)<span class="question-mark">?</span>;
 
     <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
         <span class="string">&quot;debug/actions/call_zome_fn: executing call: {:?}&quot;</span>,
@@ -614,13 +609,8 @@
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
         <span class="comment">// Have Ribosome spin up DNA and call the zome function</span>
         <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">ribosome</span>::<span class="ident">run_dna</span>(
-            <span class="ident">wasm</span>.<span class="ident">code</span>,
             <span class="prelude-val">Some</span>(<span class="ident">zome_call_clone</span>.<span class="ident">clone</span>().<span class="ident">parameters</span>.<span class="ident">to_bytes</span>()),
-            <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(
-                <span class="ident">context_clone</span>.<span class="ident">clone</span>(),
-                <span class="ident">dna_name</span>.<span class="ident">clone</span>(),
-                <span class="ident">zome_call_clone</span>.<span class="ident">clone</span>(),
-            ),
+            <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(<span class="ident">context_clone</span>.<span class="ident">clone</span>(), <span class="ident">zome_call_clone</span>.<span class="ident">clone</span>()),
         );
         <span class="comment">// Construct response</span>
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">ExecuteZomeFnResponse</span>::<span class="ident">new</span>(<span class="ident">zome_call_clone</span>, <span class="ident">call_result</span>);

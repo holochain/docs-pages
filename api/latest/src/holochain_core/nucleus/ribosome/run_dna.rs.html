@@ -191,117 +191,69 @@
 <span id="191">191</span>
 <span id="192">192</span>
 <span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::{
     <span class="ident">ribosome</span>::{
-        <span class="ident">api</span>::<span class="ident">ZomeApiFunction</span>,
+        <span class="ident">factories</span>::{<span class="ident">wasm_instance_factory</span>, <span class="ident">wasm_module_factory</span>},
         <span class="ident">memory</span>::<span class="ident">WasmPageManager</span>,
         <span class="ident">runtime</span>::{<span class="ident">Runtime</span>, <span class="ident">WasmCallData</span>},
     },
     <span class="ident">ZomeFnResult</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
+    <span class="ident">dna</span>::<span class="ident">wasm</span>::<span class="ident">ModuleArc</span>,
     <span class="ident">error</span>::{
         <span class="ident">HcResult</span>, <span class="ident">HolochainError</span>, <span class="ident">RibosomeEncodedValue</span>, <span class="ident">RibosomeEncodingBits</span>, <span class="ident">RibosomeRuntimeBits</span>,
     },
     <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">allocation</span>::{<span class="ident">AllocationError</span>, <span class="ident">WasmAllocation</span>};
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">str</span>::<span class="ident">FromStr</span>};
-<span class="kw">use</span> <span class="ident">wasmi</span>::{
-    <span class="self">self</span>, <span class="ident">Error</span> <span class="kw">as</span> <span class="ident">InterpreterError</span>, <span class="ident">FuncInstance</span>, <span class="ident">FuncRef</span>, <span class="ident">ImportsBuilder</span>, <span class="ident">ModuleImportResolver</span>,
-    <span class="ident">ModuleInstance</span>, <span class="ident">NopExternals</span>, <span class="ident">RuntimeValue</span>, <span class="ident">Signature</span>, <span class="ident">ValueType</span>,
-};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
+<span class="kw">use</span> <span class="ident">wasmi</span>::<span class="ident">RuntimeValue</span>;
+
+<span class="doccomment">/// Returns the WASM module, i.e. the WASM binary program code to run</span>
+<span class="doccomment">/// for the given WasmCallData.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// In case of a direct call, the module gets created from the WASM binary</span>
+<span class="doccomment">/// inside the DirectCall specialisation for WasmCallData.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For ZomeCalls and CallbackCalls it gets the according module from the DNA.</span>
+<span class="kw">fn</span> <span class="ident">get_module</span>(<span class="ident">data</span>: <span class="ident">WasmCallData</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ModuleArc</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> (<span class="ident">context</span>, <span class="ident">zome_name</span>) <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">WasmCallData</span>::<span class="ident">DirectCall</span>(<span class="kw">_</span>, <span class="ident">wasm</span>) <span class="op">=</span> <span class="ident">data</span> {
+        <span class="kw">let</span> <span class="ident">transient_module</span> <span class="op">=</span> <span class="ident">ModuleArc</span>::<span class="ident">new</span>(<span class="ident">wasm_module_factory</span>(<span class="ident">wasm</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>);
+        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">transient_module</span>);
+    } <span class="kw">else</span> {
+        <span class="kw">match</span> <span class="ident">data</span> {
+            <span class="ident">WasmCallData</span>::<span class="ident">ZomeCall</span>(<span class="ident">d</span>) <span class="op">=&gt;</span> (<span class="ident">d</span>.<span class="ident">context</span>.<span class="ident">clone</span>(), <span class="ident">d</span>.<span class="ident">call</span>.<span class="ident">zome_name</span>.<span class="ident">clone</span>()),
+            <span class="ident">WasmCallData</span>::<span class="ident">CallbackCall</span>(<span class="ident">d</span>) <span class="op">=&gt;</span> (<span class="ident">d</span>.<span class="ident">context</span>.<span class="ident">clone</span>(), <span class="ident">d</span>.<span class="ident">call</span>.<span class="ident">zome_name</span>.<span class="ident">clone</span>()),
+            <span class="ident">WasmCallData</span>::<span class="ident">DirectCall</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+        }
+    };
+
+    <span class="kw">let</span> <span class="ident">state_lock</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">state</span>()<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">module</span> <span class="op">=</span> <span class="ident">state_lock</span>
+        .<span class="ident">nucleus</span>()
+        .<span class="ident">dna</span>
+        .<span class="ident">as_ref</span>()
+        .<span class="ident">unwrap</span>()
+        .<span class="ident">zomes</span>
+        .<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">zome_name</span>)
+        .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">&quot;No Ribosome found for Zome &#39;{}&#39;&quot;</span>,
+            <span class="ident">zome_name</span>
+        )))<span class="question-mark">?</span>
+        .<span class="ident">code</span>
+        .<span class="ident">get_wasm_module</span>()<span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(<span class="ident">module</span>)
+}
 
 <span class="doccomment">/// Executes an exposed zome function in a wasm binary.</span>
 <span class="doccomment">/// Multithreaded function</span>
 <span class="doccomment">/// panics if wasm binary isn&#39;t valid.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run_dna</span>(<span class="ident">wasm</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">parameters</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>, <span class="ident">data</span>: <span class="ident">WasmCallData</span>) <span class="op">-&gt;</span> <span class="ident">ZomeFnResult</span> {
-    <span class="comment">// Create wasm module from wasm binary</span>
-    <span class="kw">let</span> <span class="ident">module</span> <span class="op">=</span>
-        <span class="ident">wasmi</span>::<span class="ident">Module</span>::<span class="ident">from_buffer</span>(<span class="ident">wasm</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="ident">e</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
-
-    <span class="comment">// invoke_index and resolve_func work together to enable callable host functions</span>
-    <span class="comment">// within WASM modules, which is how the core API functions</span>
-    <span class="comment">// read about the Externals trait for more detail</span>
-
-    <span class="comment">// Correlate the names of the core ZomeApiFunction&#39;s with their indexes</span>
-    <span class="comment">// and declare its function signature (which is always the same)</span>
-    <span class="kw">struct</span> <span class="ident">RuntimeModuleImportResolver</span>;
-    <span class="kw">impl</span> <span class="ident">ModuleImportResolver</span> <span class="kw">for</span> <span class="ident">RuntimeModuleImportResolver</span> {
-        <span class="kw">fn</span> <span class="ident">resolve_func</span>(
-            <span class="kw-2">&amp;</span><span class="self">self</span>,
-            <span class="ident">field_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-            <span class="ident">_signature</span>: <span class="kw-2">&amp;</span><span class="ident">Signature</span>,
-        ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">FuncRef</span>, <span class="ident">InterpreterError</span><span class="op">&gt;</span> {
-            <span class="kw">let</span> <span class="ident">api_fn</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">ZomeApiFunction</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">field_name</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">api_fn</span>) <span class="op">=&gt;</span> <span class="ident">api_fn</span>,
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">InterpreterError</span>::<span class="ident">Function</span>(<span class="macro">format</span><span class="macro">!</span>(
-                        <span class="string">&quot;host module doesn&#39;t export function with name {}&quot;</span>,
-                        <span class="ident">field_name</span>
-                    )));
-                }
-            };
-
-            <span class="kw">match</span> <span class="ident">api_fn</span> {
-                <span class="comment">// Abort is a way to receive useful debug info from</span>
-                <span class="comment">// assemblyscript memory allocators, see enum definition for function signature</span>
-                <span class="ident">ZomeApiFunction</span>::<span class="ident">Abort</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">FuncInstance</span>::<span class="ident">alloc_host</span>(
-                    <span class="ident">Signature</span>::<span class="ident">new</span>(
-                        <span class="kw-2">&amp;</span>[
-                            <span class="ident">ValueType</span>::<span class="ident">I64</span>,
-                            <span class="ident">ValueType</span>::<span class="ident">I64</span>,
-                            <span class="ident">ValueType</span>::<span class="ident">I64</span>,
-                            <span class="ident">ValueType</span>::<span class="ident">I64</span>,
-                        ][..],
-                        <span class="prelude-val">None</span>,
-                    ),
-                    <span class="ident">api_fn</span> <span class="kw">as</span> <span class="ident">usize</span>,
-                )),
-                <span class="comment">// All of our Zome API Functions have the same signature</span>
-                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">FuncInstance</span>::<span class="ident">alloc_host</span>(
-                    <span class="ident">Signature</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[<span class="ident">ValueType</span>::<span class="ident">I64</span>][..], <span class="prelude-val">Some</span>(<span class="ident">ValueType</span>::<span class="ident">I64</span>)),
-                    <span class="ident">api_fn</span> <span class="kw">as</span> <span class="ident">usize</span>,
-                )),
-            }
-        }
-    }
-
-    <span class="comment">// Create Imports with previously described Resolver</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">imports</span> <span class="op">=</span> <span class="ident">ImportsBuilder</span>::<span class="ident">new</span>();
-    <span class="ident">imports</span>.<span class="ident">push_resolver</span>(<span class="string">&quot;env&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">RuntimeModuleImportResolver</span>);
-
-    <span class="comment">// Create module instance from wasm module, and start it if start is defined</span>
-    <span class="kw">let</span> <span class="ident">wasm_instance</span> <span class="op">=</span> <span class="ident">ModuleInstance</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">module</span>, <span class="kw-2">&amp;</span><span class="ident">imports</span>)
-        .<span class="ident">expect</span>(<span class="string">&quot;Failed to instantiate module&quot;</span>)
-        .<span class="ident">run_start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">NopExternals</span>)
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">RibosomeFailed</span>(<span class="string">&quot;Module failed to start&quot;</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
-
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run_dna</span>(<span class="ident">parameters</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>, <span class="ident">data</span>: <span class="ident">WasmCallData</span>) <span class="op">-&gt;</span> <span class="ident">ZomeFnResult</span> {
+    <span class="kw">let</span> <span class="ident">wasm_module</span> <span class="op">=</span> <span class="ident">get_module</span>(<span class="ident">data</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">wasm_instance</span> <span class="op">=</span> <span class="ident">wasm_instance_factory</span>(<span class="kw-2">&amp;</span><span class="ident">wasm_module</span>)<span class="question-mark">?</span>;
     <span class="comment">// write input arguments for module call in memory Buffer</span>
     <span class="kw">let</span> <span class="ident">input_parameters</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">parameters</span>.<span class="ident">unwrap_or_default</span>();
 
