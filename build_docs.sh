@@ -3,7 +3,7 @@
 BRANCH=$1
 FOLDER=$2
 
-git clone --branch $BRANCH https://github.com/holochain/holochain-rust.git
+git clone --depth 1 --branch $BRANCH https://github.com/holochain/holochain-rust.git
 
 # api reference
 rm -rf api/$FOLDER
