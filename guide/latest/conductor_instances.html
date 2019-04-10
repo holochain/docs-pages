@@ -152,11 +152,11 @@
 <a class="header" href="#storage-storageconfiguration" id="storage-storageconfiguration"><h4><code>storage</code>: <code>StorageConfiguration</code></h4></a>
 <p>A table for configuring the approach to storage of the local source chain and DHT for this instance</p>
 <a class="header" href="#storageconfigurationtype-enum" id="storageconfigurationtype-enum"><h4><code>StorageConfiguration.type</code>: <code>enum</code></h4></a>
-<p>Select between different storage implementations. There are two so far:</p>
+<p>Select between different storage implementations. There are three so far:</p>
 <ul>
 <li><code>memory</code>: Persist actions taken in this instance only to memory. Everything will disappear when the Conductor process stops.</li>
 <li><code>file</code>: Persist actions taken in this instance to the disk of the device the Conductor is running on. If the Conductor process stops and then restarts, the actions taken will resume at the place in the local source chain they last were at.</li>
-<li><code>pickle</code> : Persists to a fast rust implementation. This persists every 5 minutes and on a drop trait, actions will continue from where they were last were at if application is every restarted. Takes in path string which is directory where pickledb instance will be persisting to</li>
+<li><code>pickle</code> : Persists to a fast memory call which is eventually persisted to a file storage every 5 seconds. The actions taken will also resume at the place in the local source chain they were last. If an application error does occur, it will make sure to persist the latest data prior to any shutdown occurring.</li>
 </ul>
 <a class="header" href="#storageconfigurationpath-string" id="storageconfigurationpath-string"><h4><code>StorageConfiguration.path</code>: <code>string</code></h4></a>
 <p>Path to the folder in which to store the data for this instance.</p>

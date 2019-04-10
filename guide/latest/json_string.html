@@ -164,7 +164,7 @@ fastest C and C++ JSON libraries or even 30% faster for many use cases.
 Benchmarks live in the serde-rs/json-benchmark repo.</p>
 </blockquote>
 <a class="header" href="#holochain-aims-to-support-all-wasm-languages-not-just-rustjs" id="holochain-aims-to-support-all-wasm-languages-not-just-rustjs"><h3>Holochain aims to support all WASM languages not just Rust/JS</h3></a>
-<p>The official Holochain HDKs are Rust and AssemblyScript. The Rust HDK will
+<p>The official Holochain HDK is Rust. The Rust HDK will
 always be the most tightly integrated HDK with core simply because Holochain
 itself is Rust based.</p>
 <p>Generally though, we are hoping and expecting many different WASM zome
@@ -262,7 +262,7 @@ let foo_json = json!({&quot;foo&quot;: foo.inner()});
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-let foo: Foo = serde_json::from_str(&amp;hopefully_foo_json).unwrap();
+let foo: Foo = Foo::try_from(&amp;hopefully_foo_json)?;
 #}</code></pre></pre>
 <p>Notes:</p>
 <ul>
@@ -465,15 +465,16 @@ let foo_json_b = JsonString::from(Err(some_error.to_string()));
 <p>Which is great for the majority of data that needs serializing. There are some
 important edge cases that we need to cover with additional techniques/tooling.</p>
 <a class="header" href="#string-handling" id="string-handling"><h4>String handling</h4></a>
-<p><code>JsonString::from</code> assumes any <code>String</code> or <code>&amp;str</code> passed to it is already a
-serialized JSON value.</p>
+<p><code>JsonString::from_json(&amp;str)</code> requires the <code>&amp;str</code> passed to it is already a
+serialized JSON value. We may add the option to validate this for debug builds at runtime in the future.</p>
+<p>Previously <code>JsonString</code> implemented the <code>From&lt;String&gt;</code> trait but this was removed. Strings are a special case as they may either contain serialized json or be used as a JSON string primitive. <code>JsonString::from_json</code> makes it explicit that you mean the former.</p>
 <p>We can use <code>serde_json::to_string</code> and <code>json!</code> to create JSON data that we can
 then wrap in <code>JsonString</code>.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
 // same end result for both of these...
-let foo_json = JsonString::from(serde_json::to_string(&amp;foo));
+let foo_json = JsonString::from_json(&amp;serde_json::to_string(&amp;foo));
 let foo_json = JsonString::from(foo);
 #}</code></pre></pre>
 <p>More commonly useful, we can move back and forward between <code>String</code> and
@@ -482,7 +483,7 @@ let foo_json = JsonString::from(foo);
 # #![allow(unused_variables)]
 #fn main() {
 // this does a round trip through types without triggering any serde
-JsonString::from(String::from(JsonString::from(foo)));
+JsonString::from_json(&amp;String::from(JsonString::from(foo)));
 #}</code></pre></pre>
 <p>This is helpful when a function signature requires a <code>String</code> or <code>JsonString</code>
 argument and we have the inverse type. It also helps when manually building
@@ -491,20 +492,25 @@ JSON data by <em>wrapping</em> already serialized data e.g. with <code>format!</
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
+fn result_to_json_string&lt;T: Into&lt;JsonString&gt;, E: Into&lt;JsonString&gt;&gt;(
+    result: Result&lt;T, E&gt;,
+) -&gt; JsonString {
+    let is_ok = result.is_ok();
+    let inner_json: JsonString = match result {
+        Ok(inner) =&gt; inner.into(),
+        Err(inner) =&gt; inner.into(),
+    };
+    let inner_string = String::from(inner_json);
+    JsonString::from_json(&amp;format!(
+        &quot;{{\&quot;{}\&quot;:{}}}&quot;,
+        if is_ok { &quot;Ok&quot; } else { &quot;Err&quot; },
+        inner_string
+    ))
+}
+
 impl&lt;T: Into&lt;JsonString&gt;, E: Into&lt;JsonString&gt; + JsonError&gt; From&lt;Result&lt;T, E&gt;&gt; for JsonString {
     fn from(result: Result&lt;T, E&gt;) -&gt; JsonString {
-        let is_ok = result.is_ok();
-        let inner_json: JsonString = match result {
-            Ok(inner) =&gt; inner.into(),
-            Err(inner) =&gt; inner.into(),
-        };
-        let inner_string = String::from(inner_json);
-        format!(
-            &quot;{{\&quot;{}\&quot;:{}}}&quot;,
-            if is_ok { &quot;Ok&quot; } else { &quot;Err&quot; },
-            inner_string
-        )
-        .into()
+        result_to_json_string(result)
     }
 }
 #}</code></pre></pre>
@@ -531,7 +537,7 @@ serialization.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-let foo = String::from(JsonString::from(&quot;foo&quot;)); // &quot;foo&quot; = not what we want
+let foo = String::from(JsonString::from_json(&quot;foo&quot;)); // &quot;foo&quot; = not what we want
 let foo = ???; // &quot;\&quot;foo\&quot;&quot; = what we want
 #}</code></pre></pre>
 <p>To keep the type safety from <code>JsonString</code> and nest String serialization use

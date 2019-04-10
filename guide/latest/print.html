@@ -2708,11 +2708,11 @@ file = &quot;example-config/app_spec.dna.json&quot;
 <a class="header" href="#storage-storageconfiguration" id="storage-storageconfiguration"><h4><code>storage</code>: <code>StorageConfiguration</code></h4></a>
 <p>A table for configuring the approach to storage of the local source chain and DHT for this instance</p>
 <a class="header" href="#storageconfigurationtype-enum" id="storageconfigurationtype-enum"><h4><code>StorageConfiguration.type</code>: <code>enum</code></h4></a>
-<p>Select between different storage implementations. There are two so far:</p>
+<p>Select between different storage implementations. There are three so far:</p>
 <ul>
 <li><code>memory</code>: Persist actions taken in this instance only to memory. Everything will disappear when the Conductor process stops.</li>
 <li><code>file</code>: Persist actions taken in this instance to the disk of the device the Conductor is running on. If the Conductor process stops and then restarts, the actions taken will resume at the place in the local source chain they last were at.</li>
-<li><code>pickle</code> : Persists to a fast rust implementation. This persists every 5 minutes and on a drop trait, actions will continue from where they were last were at if application is every restarted. Takes in path string which is directory where pickledb instance will be persisting to</li>
+<li><code>pickle</code> : Persists to a fast memory call which is eventually persisted to a file storage every 5 seconds. The actions taken will also resume at the place in the local source chain they were last. If an application error does occur, it will make sure to persist the latest data prior to any shutdown occurring.</li>
 </ul>
 <a class="header" href="#storageconfigurationpath-string" id="storageconfigurationpath-string"><h4><code>StorageConfiguration.path</code>: <code>string</code></h4></a>
 <p>Path to the folder in which to store the data for this instance.</p>
@@ -3126,7 +3126,7 @@ fastest C and C++ JSON libraries or even 30% faster for many use cases.
 Benchmarks live in the serde-rs/json-benchmark repo.</p>
 </blockquote>
 <a class="header" href="#holochain-aims-to-support-all-wasm-languages-not-just-rustjs" id="holochain-aims-to-support-all-wasm-languages-not-just-rustjs"><h3>Holochain aims to support all WASM languages not just Rust/JS</h3></a>
-<p>The official Holochain HDKs are Rust and AssemblyScript. The Rust HDK will
+<p>The official Holochain HDK is Rust. The Rust HDK will
 always be the most tightly integrated HDK with core simply because Holochain
 itself is Rust based.</p>
 <p>Generally though, we are hoping and expecting many different WASM zome
@@ -3224,7 +3224,7 @@ let foo_json = json!({&quot;foo&quot;: foo.inner()});
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-let foo: Foo = serde_json::from_str(&amp;hopefully_foo_json).unwrap();
+let foo: Foo = Foo::try_from(&amp;hopefully_foo_json)?;
 #}</code></pre></pre>
 <p>Notes:</p>
 <ul>
@@ -3427,15 +3427,16 @@ let foo_json_b = JsonString::from(Err(some_error.to_string()));
 <p>Which is great for the majority of data that needs serializing. There are some
 important edge cases that we need to cover with additional techniques/tooling.</p>
 <a class="header" href="#string-handling" id="string-handling"><h4>String handling</h4></a>
-<p><code>JsonString::from</code> assumes any <code>String</code> or <code>&amp;str</code> passed to it is already a
-serialized JSON value.</p>
+<p><code>JsonString::from_json(&amp;str)</code> requires the <code>&amp;str</code> passed to it is already a
+serialized JSON value. We may add the option to validate this for debug builds at runtime in the future.</p>
+<p>Previously <code>JsonString</code> implemented the <code>From&lt;String&gt;</code> trait but this was removed. Strings are a special case as they may either contain serialized json or be used as a JSON string primitive. <code>JsonString::from_json</code> makes it explicit that you mean the former.</p>
 <p>We can use <code>serde_json::to_string</code> and <code>json!</code> to create JSON data that we can
 then wrap in <code>JsonString</code>.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
 // same end result for both of these...
-let foo_json = JsonString::from(serde_json::to_string(&amp;foo));
+let foo_json = JsonString::from_json(&amp;serde_json::to_string(&amp;foo));
 let foo_json = JsonString::from(foo);
 #}</code></pre></pre>
 <p>More commonly useful, we can move back and forward between <code>String</code> and
@@ -3444,7 +3445,7 @@ let foo_json = JsonString::from(foo);
 # #![allow(unused_variables)]
 #fn main() {
 // this does a round trip through types without triggering any serde
-JsonString::from(String::from(JsonString::from(foo)));
+JsonString::from_json(&amp;String::from(JsonString::from(foo)));
 #}</code></pre></pre>
 <p>This is helpful when a function signature requires a <code>String</code> or <code>JsonString</code>
 argument and we have the inverse type. It also helps when manually building
@@ -3453,20 +3454,25 @@ JSON data by <em>wrapping</em> already serialized data e.g. with <code>format!</
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
+fn result_to_json_string&lt;T: Into&lt;JsonString&gt;, E: Into&lt;JsonString&gt;&gt;(
+    result: Result&lt;T, E&gt;,
+) -&gt; JsonString {
+    let is_ok = result.is_ok();
+    let inner_json: JsonString = match result {
+        Ok(inner) =&gt; inner.into(),
+        Err(inner) =&gt; inner.into(),
+    };
+    let inner_string = String::from(inner_json);
+    JsonString::from_json(&amp;format!(
+        &quot;{{\&quot;{}\&quot;:{}}}&quot;,
+        if is_ok { &quot;Ok&quot; } else { &quot;Err&quot; },
+        inner_string
+    ))
+}
+
 impl&lt;T: Into&lt;JsonString&gt;, E: Into&lt;JsonString&gt; + JsonError&gt; From&lt;Result&lt;T, E&gt;&gt; for JsonString {
     fn from(result: Result&lt;T, E&gt;) -&gt; JsonString {
-        let is_ok = result.is_ok();
-        let inner_json: JsonString = match result {
-            Ok(inner) =&gt; inner.into(),
-            Err(inner) =&gt; inner.into(),
-        };
-        let inner_string = String::from(inner_json);
-        format!(
-            &quot;{{\&quot;{}\&quot;:{}}}&quot;,
-            if is_ok { &quot;Ok&quot; } else { &quot;Err&quot; },
-            inner_string
-        )
-        .into()
+        result_to_json_string(result)
     }
 }
 #}</code></pre></pre>
@@ -3493,7 +3499,7 @@ serialization.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-let foo = String::from(JsonString::from(&quot;foo&quot;)); // &quot;foo&quot; = not what we want
+let foo = String::from(JsonString::from_json(&quot;foo&quot;)); // &quot;foo&quot; = not what we want
 let foo = ???; // &quot;\&quot;foo\&quot;&quot; = what we want
 #}</code></pre></pre>
 <p>To keep the type safety from <code>JsonString</code> and nest String serialization use
@@ -4552,7 +4558,7 @@ interact with the file system through the relevant actor.</p>
 <a class="header" href="#how-is-holochain-different-from-a-dht-distributed-hash-table" id="how-is-holochain-different-from-a-dht-distributed-hash-table"><h2>How is Holochain different from a DHT (Distributed Hash Table)?</h2></a>
 <p>DHTs enable key/value pair storage and retrieval across many machines. The only validation rules they have is the hash of the data itself to confirm what you're getting is probably what you intended to get. They have no other means to confirm authenticity, provenance, timelines, or integrity of data sources.</p>
 <p>In fact, since many DHTs are used for illegal file sharing (Napster, Bittorrent, Sharezaa, etc.), they are designed to protect anonymity of uploaders so they won't get in trouble. File sharing DHTs frequently serve virus infected files, planted by uploaders trying to infect digital pirates. There's no accountability for actions or reliable way to ensure bad data doesn't spread.</p>
-<p>By embedding validation rules as a condition for the propagation of data, our DHT keeps its data bound to signed source chains. This can provide similar consistency and rule enforcement as blockchain ledgers asynchronously so bottlenecks of immediate consensus become of the thing of the past.</p>
+<p>By embedding validation rules as a condition for the propagation of data, our DHT keeps its data bound to signed source chains. This can provide similar consistency and rule enforcement as blockchain ledgers asynchronously so bottlenecks of immediate consensus become a thing of the past.</p>
 <p>The DHT leverages the signed source chains to ensure tamper-proof immutability of data, as well as cryptographic signatures to verify its origins and provenance.</p>
 <p>The Holochain DHT also emulates aspects of a graph database by enabling people to connect links to other hashes in the DHT tagged with semantic markers. This helps solve the problem of finding the hashes that you want to retrieve from the DHT. For example, if I have the hash of your user identity, I could query it for links to blogs you've published to a holochain so that I can find them without knowing either the hash or the content. This is part of how we eliminate the need for tracking nodes that many DHTs rely on.</p>
 <a class="header" href="#what-kind-of-projects-is-holochain-good-for" id="what-kind-of-projects-is-holochain-good-for"><h2>What kind of projects is Holochain good for?</h2></a>
@@ -4603,7 +4609,7 @@ interact with the file system through the relevant actor.</p>
 <p>In making Holochain, our goal is to keep it &quot;as simple as possible, but no simpler&quot; for providing data integrity for fully distributed applications. As we understand it, information integrity does not require consensus about an absolute order of events. You know how we know? Because the real world works this way—meaning, the physically distributed systems outside of computers. Atoms, molecules, cells, bodies each maintain the integrity of their individual and collective state just fine without consensus on a global ledger.</p>
 <p>Not only is there no consensus about an absolute order of events, but if you understand the General Theory of Relativity, then you'll understand there is in fact no real sequence of events, only sequences relative to a particular vantage point.</p>
 <p>That's how holochains are implemented. Each source chain for each person/agent/participant in a Holochain preserves the immutable data integrity and order of events of that agent's actions from their vantage point. As data is published from a source chain to the validating DHT, then other agents sign their validation, per the shared &quot;physics&quot; encoded into the DNA of that Holochain.</p>
-<p>The minor exception to the singular vantage point of each chain, is the case when a multi-party transaction is signed to each party's chain. That is an act of consensus -- but consensus on a very small scale -- just between the parties involved in the transaction. Each party signs the exact same transaction to with links to each of their previous chain entries. Luckily, it's pretty easy to reach consensus between 2 or 3 parties. In fact, that is already why they're doing a transaction together, because they all agree to it.</p>
+<p>The minor exception to the singular vantage point of each chain, is the case when a multi-party transaction is signed to each party's chain. That is an act of consensus -- but consensus on a very small scale -- just between the parties involved in the transaction. Each party signs the exact same transaction with links to each of their previous chain entries. Luckily, it's pretty easy to reach consensus between 2 or 3 parties. In fact, that is already why they're doing a transaction together, because they all agree to it.</p>
 <p>Holochains do sign every change of data and timestamp (without a universal time synchronization solution), This provides ample foundation for most applications which need solid data integrity for shared data in a fully distributed multi-agent system. Surely, there will be people who will build consensus algorithms on top of foundation (maybe like rounds, witnesses, supermajorities of Swirld),</p>
 <p>However, if your system is designed around data having one absolute true state, not one which is dynamic and varied based on vantage point, we would suggest you rethink your design. So far, for every problem space where people thought they needed an absolute sequence of events or global consensus, we have been able to map an alternate approach without those requirements. Also, we already know this is how the world outside of computers works, so to design your system to require (or construct) an artificial reality is probably setting yourself up for failure, or at the very least for massive amounts of unnecessary computation, communication, and fragility within your system.</p>
 <a class="header" href="#how-is-holochain-more-environmentally-ethical-than-blockchain" id="how-is-holochain-more-environmentally-ethical-than-blockchain"><h2>How is Holochain more environmentally ethical than blockchain?</h2></a>
