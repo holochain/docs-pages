@@ -160,6 +160,9 @@
 <span id="160">160</span>
 <span id="161">161</span>
 <span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">eav</span>::{<span class="ident">EaviQuery</span>, <span class="ident">EntityAttributeValueIndex</span>, <span class="ident">EntityAttributeValueStorage</span>},
@@ -171,8 +174,11 @@
     <span class="ident">fmt</span>::{<span class="ident">Debug</span>, <span class="ident">Error</span>, <span class="ident">Formatter</span>},
     <span class="ident">path</span>::<span class="ident">Path</span>,
     <span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">RwLock</span>},
+    <span class="ident">time</span>::<span class="ident">Duration</span>,
 };
 <span class="kw">use</span> <span class="ident">uuid</span>::<span class="ident">Uuid</span>;
+
+<span class="kw">const</span> <span class="ident">PERSISTENCE_INTERVAL</span>: <span class="ident">Duration</span> <span class="op">=</span> <span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="number">5000</span>);
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EavPickleStorage</span> {
@@ -188,13 +194,13 @@
             <span class="ident">db</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(
                 <span class="ident">PickleDb</span>::<span class="ident">load</span>(
                     <span class="ident">eav_db</span>.<span class="ident">clone</span>(),
-                    <span class="ident">PickleDbDumpPolicy</span>::<span class="ident">AutoDump</span>,
+                    <span class="ident">PickleDbDumpPolicy</span>::<span class="ident">PeriodicDump</span>(<span class="ident">PERSISTENCE_INTERVAL</span>),
                     <span class="ident">SerializationMethod</span>::<span class="ident">Cbor</span>,
                 )
                 .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
                     <span class="ident">PickleDb</span>::<span class="ident">new</span>(
                         <span class="ident">eav_db</span>,
-                        <span class="ident">PickleDbDumpPolicy</span>::<span class="ident">AutoDump</span>,
+                        <span class="ident">PickleDbDumpPolicy</span>::<span class="ident">PeriodicDump</span>(<span class="ident">PERSISTENCE_INTERVAL</span>),
                         <span class="ident">SerializationMethod</span>::<span class="ident">Cbor</span>,
                     )
                 }),

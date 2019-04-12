@@ -2582,12 +2582,11 @@ To run it as HTTP, run:</p>
 <a class="header" href="#stopping-the-server" id="stopping-the-server"><h3>Stopping the Server</h3></a>
 <p>Once you are done with the server, to quit type <code>exit</code> then press <code>Enter</code>, or press <code>Ctrl-C</code>.</p>
 <a class="header" href="#configuring-networking-for-hc-run" id="configuring-networking-for-hc-run"><h1>Configuring Networking for <code>hc run</code></h1></a>
-<p><code>hc run</code> uses mock networking by default and therefore doesn't talk to any other nodes.  If you wish to test multiple nodes you will need to install the <a href="https://github.com/holochain/n3h">n3h</a> networking component (following the instructions on the README).</p>
-<p>If you set the HC_N3H_PATH environment variable to the path where you installed it, <code>hc run</code> will automatically default to using real networking.</p>
-<p>Set the HC_N3H_PATH environment variable, and start the server by running (make sure to change the path to where you actually installed n3h):</p>
-<pre><code class="language-shell">HC_N3H_PATH=/home/eric/holochain/n3h hc run
+<p><code>hc run</code> uses mock networking by default and therefore doesn't talk to any other nodes.</p>
+<p>Start the server by running:</p>
+<pre><code class="language-shell">hc run
 </code></pre>
-<p>Assuming n3h was installed properly you should see something like this:</p>
+<p>You should see something like this:</p>
 <pre><code class="language-shell">Network spawned with bindings:
      - ipc: wss://127.0.0.1:64518/
      - p2p: [&quot;wss://192.168.0.11:64519/?a=hkYW7TrZUS1hy-i374iRu5VbZP1sSw2mLxP4TSe_YI1H2BJM3v_LgAQnpmWA_iR1W5k-8_UoA1BNjzBSUTVNDSIcz9UG0uaM&quot;]
@@ -2602,7 +2601,7 @@ To run it as HTTP, run:</p>
 <a class="header" href="#step-3" id="step-3"><h4>Step 3</h4></a>
 <p>Specify a different port than the first node to run on. Since the port for the first node by default will be <code>8888</code>, <code>8889</code> is suitable.</p>
 <p>Running the command could look like this:</p>
-<pre><code class="language-shell">HC_AGENT=testAgent2 HC_N3H_BOOTSTRAP_NODE=wss://192.168.0.11:64519/?a=hkYW7TrZUS1hy-i374iRu5VbZP1sSw2mLxP4TSe_YI1H2BJM3v_LgAQnpmWA_iR1W5k-8_UoA1BNjzBSUTVNDSIcz9UG0uaM HC_N3H_PATH=/home/eric/holochain/n3h hc run --port 8889
+<pre><code class="language-shell">HC_AGENT=testAgent2 HC_N3H_BOOTSTRAP_NODE=wss://192.168.0.11:64519/?a=hkYW7TrZUS1hy-i374iRu5VbZP1sSw2mLxP4TSe_YI1H2BJM3v_LgAQnpmWA_iR1W5k-8_UoA1BNjzBSUTVNDSIcz9UG0uaM hc run --port 8889
 </code></pre>
 <p>In the terminal logs that follow, you should see:</p>
 <pre><code class="language-shell">(libp2p) [i] QmUmUF..V71C new peer QmeDpQLchA9xeLDJ2jyXBwpe1JaQhFRrnWC2JfyyET2AAM
@@ -2882,8 +2881,6 @@ pattern = &quot;.*&quot;
 <a class="header" href="#n3h_log_level-char" id="n3h_log_level-char"><h4><code>n3h_log_level</code>: <code>char</code></h4></a>
 <p>Set the logging level used globally by N3H. Must be one of the following: 't', 'd', 'i', 'w', 'e'
 Each value corresponding to the industry standard log level: Trace, Debug, Info, Warning, Error.</p>
-<a class="header" href="#n3h_path-string" id="n3h_path-string"><h4><code>n3h_path</code>: <code>string</code></h4></a>
-<p>Absolute path to the local installation/repository of n3h. Default is to a subdirectory of the $HOME directory on the device: <code>$HOME/.hc/net/n3h</code></p>
 <a class="header" href="#n3h_persistence_path-string-optional" id="n3h_persistence_path-string-optional"><h4><code>n3h_persistence_path</code>: <code>string</code> Optional</h4></a>
 <p>Absolute path to the directory that n3h uses to store persisted data. The default is that a temporary self-removing directory for this transient data will be used.</p>
 <a class="header" href="#n3h_ipc_uri-string-optional" id="n3h_ipc_uri-string-optional"><h4><code>n3h_ipc_uri</code>: <code>string</code> Optional</h4></a>
@@ -2891,7 +2888,6 @@ Each value corresponding to the industry standard log level: Trace, Debug, Info,
 Conductor. If this is set the Conductor does not spawn n3h itself and ignores the path configs above. Default is this value is empty.</p>
 <a class="header" href="#example-25" id="example-25"><h3>Example</h3></a>
 <pre><code class="language-toml">[network]
-n3h_path = &quot;/home/eric/holochain/n3h&quot;
 n3h_persistence_path = &quot;/tmp&quot;
 bootstrap_nodes = []
 </code></pre>
@@ -3097,7 +3093,79 @@ ws.close()
 <a class="header" href="#building-holochain-apps-user-interfaces" id="building-holochain-apps-user-interfaces"><h1>Building Holochain Apps: User Interfaces</h1></a>
 <p>Holochain is designed to be flexible and accomodating when it comes to building user interfaces. There is not a single approach to developing user interfaces that is enforced by Holochain, though there are some approaches that have extra tooling, support and focus. First and foremost, Holochain supports APIs that make building UIs with the technologies of the web (HTML, CSS, JS, etc) easy.</p>
 <p>Put simply, it is entirely possible to build a user interface for Holochain completely in HTML, CSS, and JavaScript.</p>
-<a class="header" href="#e-building-holochain-apps-bridging" id="e-building-holochain-apps-bridging"><h1>(E) Building Holochain Apps: Bridging</h1></a>
+<a class="header" href="#building-holochain-apps-bridging" id="building-holochain-apps-bridging"><h1>Building Holochain Apps: Bridging</h1></a>
+<p>As you saw in <a href="./building_apps.html">Building Apps</a> each <strong>DNA</strong> has a unique hash that spawns a brand new <strong>DHT network</strong> and creates isolated <strong>source chains</strong> for each agent. Even when you change the DNA, releasing a new version of the app, it will spawn a brand new DHT network and source chains.</p>
+<p>So if every app lives in an entirely separated world how can they talk to each other? This is where <strong>bridging</strong> comes into play.</p>
+<p>A <strong>bridge</strong> is a connector between two apps (or two versions of the same app, for that matter) that allows a synchronous bidirectional transfer of information between them.</p>
+<p>To use a bridge, right now you need to configure a <a href="./production_conductor.html">production Holochain conductor</a>, at least two instances configured, along the lines of the following example setup (in a <strong>conductor-config.toml</strong> file):</p>
+<pre><code>[[instances]]
+id = &quot;caller-instance&quot;
+dna = &quot;caller-dna&quot;
+agent = &quot;caller-agent&quot;
+[instances.logger]
+type = &quot;simple&quot;
+[instances.storage]
+type = &quot;memory&quot;
+
+[[instances]]
+id = &quot;target-instance&quot;
+dna = target-dna&quot;
+agent = &quot;target-agent&quot;
+[instances.logger]
+type = &quot;simple&quot;
+[instances.storage]
+type = &quot;memory&quot;
+
+[[bridges]]
+caller_id = &quot;caller-instance&quot;
+callee_id = &quot;target-instance&quot;
+handle = &quot;sample-bridge&quot;
+</code></pre>
+<p>Then on the caller DNA you have to initiate the bridge call using <code>hdk::call</code> like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+    let response = match hdk::call(
+        &quot;sample-bridge&quot;,
+        &quot;sample_zome&quot;,
+        Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
+        &quot;sample_function&quot;,
+        json!({
+            &quot;some_param&quot;: &quot;some_val&quot;,
+        }).into()
+    ) {
+        Ok(json) =&gt; serde_json::from_str(&amp;json.to_string()).unwrap(), // converts the return to JSON
+        Err(e) =&gt; return Err(e)
+    };
+#}</code></pre></pre>
+<p>And the corresponding target / callee DNA on the other end should have a zome called &quot;sample_zome&quot;, with a function as follows:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub fn handle_sample_function(some_param: String) -&gt; ZomeApiResult&lt;Address&gt; {
+    // do something here
+}
+
+define_zome! {
+    entries: []
+
+    genesis: || { Ok(()) }
+
+    functions: [
+        sample_function: {
+            inputs: |some_param: String|,
+            outputs: |result: ZomeApiResult&lt;Address&gt;|,
+            handler: handle_sample_function
+        }
+    ]
+
+    traits: {
+        hc_public [
+            sample_function
+        ]
+    }
+#}</code></pre></pre>
+<p>Remember that the <strong>call</strong> will block the execution of the caller DNA until the callee (target) finishes executing the call, so it's best to mind performance issues when working with bridges. Try to make contextual or incremental calls rather than all-encompassing ones.</p>
 <a class="header" href="#going-live-with-holochain-apps-1" id="going-live-with-holochain-apps-1"><h1>Going Live with Holochain Apps</h1></a>
 <a class="header" href="#creating-versioned-releases" id="creating-versioned-releases"><h1>Creating Versioned Releases</h1></a>
 <a class="header" href="#building-holochain-apps-advanced-topics" id="building-holochain-apps-advanced-topics"><h1>Building Holochain Apps: Advanced Topics</h1></a>

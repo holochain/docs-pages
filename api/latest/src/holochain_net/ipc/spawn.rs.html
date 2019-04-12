@@ -130,6 +130,10 @@
 <span id="130">130</span>
 <span id="131">131</span>
 <span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This is a helper function to manage spawning an IPC sub-process</span>
 <span class="doccomment">//! This process is expected to output some specific messages on its stdout</span>
@@ -139,6 +143,8 @@
     <span class="ident">connection</span>::{<span class="ident">net_connection</span>::<span class="ident">NetShutdown</span>, <span class="ident">NetResult</span>},
     <span class="ident">tweetlog</span>::<span class="ident">TWEETLOG</span>,
 };
+
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">n3h</span>::<span class="ident">get_verify_n3h</span>;
 
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections</span>::<span class="ident">HashMap</span>,
@@ -155,20 +161,22 @@
 <span class="doccomment">/// Will block for IPC connection until timeout_ms is reached.</span>
 <span class="doccomment">/// Can also block for P2P connection</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ipc_spawn</span>(
-    <span class="ident">cmd</span>: <span class="ident">String</span>,
-    <span class="ident">args</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="ident">work_dir</span>: <span class="ident">String</span>,
     <span class="ident">end_user_config</span>: <span class="ident">String</span>,
-    <span class="ident">env</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="kw-2">mut</span> <span class="ident">env</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span>,
     <span class="ident">timeout_ms</span>: <span class="ident">usize</span>,
     <span class="ident">can_wait_for_p2p</span>: <span class="ident">bool</span>,
 ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span><span class="ident">SpawnResult</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">process</span>::<span class="ident">Command</span>::<span class="ident">new</span>(<span class="ident">cmd</span>);
+    <span class="kw">let</span> (<span class="ident">n3h</span>, <span class="ident">n3h_args</span>) <span class="op">=</span> <span class="ident">get_verify_n3h</span>()<span class="question-mark">?</span>;
+
+    <span class="ident">env</span>.<span class="ident">insert</span>(<span class="string">&quot;NO_CLEANUP&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;1&quot;</span>.<span class="ident">to_string</span>());
+
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">process</span>::<span class="ident">Command</span>::<span class="ident">new</span>(<span class="ident">n3h</span>);
 
     <span class="ident">child</span>
         .<span class="ident">stdout</span>(<span class="ident">std</span>::<span class="ident">process</span>::<span class="ident">Stdio</span>::<span class="ident">piped</span>())
         .<span class="ident">stdin</span>(<span class="ident">std</span>::<span class="ident">process</span>::<span class="ident">Stdio</span>::<span class="ident">piped</span>())
-        .<span class="ident">args</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>)
+        .<span class="ident">args</span>(<span class="kw-2">&amp;</span><span class="ident">n3h_args</span>)
         .<span class="ident">envs</span>(<span class="kw-2">&amp;</span><span class="ident">env</span>)
         .<span class="ident">current_dir</span>(<span class="ident">work_dir</span>);
 

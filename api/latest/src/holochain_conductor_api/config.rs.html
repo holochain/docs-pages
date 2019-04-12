@@ -1204,42 +1204,6 @@
 <span id="1204">1204</span>
 <span id="1205">1205</span>
 <span id="1206">1206</span>
-<span id="1207">1207</span>
-<span id="1208">1208</span>
-<span id="1209">1209</span>
-<span id="1210">1210</span>
-<span id="1211">1211</span>
-<span id="1212">1212</span>
-<span id="1213">1213</span>
-<span id="1214">1214</span>
-<span id="1215">1215</span>
-<span id="1216">1216</span>
-<span id="1217">1217</span>
-<span id="1218">1218</span>
-<span id="1219">1219</span>
-<span id="1220">1220</span>
-<span id="1221">1221</span>
-<span id="1222">1222</span>
-<span id="1223">1223</span>
-<span id="1224">1224</span>
-<span id="1225">1225</span>
-<span id="1226">1226</span>
-<span id="1227">1227</span>
-<span id="1228">1228</span>
-<span id="1229">1229</span>
-<span id="1230">1230</span>
-<span id="1231">1231</span>
-<span id="1232">1232</span>
-<span id="1233">1233</span>
-<span id="1234">1234</span>
-<span id="1235">1235</span>
-<span id="1236">1236</span>
-<span id="1237">1237</span>
-<span id="1238">1238</span>
-<span id="1239">1239</span>
-<span id="1240">1240</span>
-<span id="1241">1241</span>
-<span id="1242">1242</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Conductor Configuration</span>
@@ -1254,7 +1218,6 @@
 <span class="doccomment">///   the conductor</span>
 <span class="doccomment">/// * bridges, which are</span>
 <span class="kw">use</span> <span class="ident">boolinator</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">directories</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">agent</span>::{<span class="ident">AgentId</span>, <span class="ident">Base32</span>},
     <span class="ident">dna</span>::<span class="ident">Dna</span>,
@@ -1751,9 +1714,6 @@
     <span class="doccomment">/// Global logging level output by N3H</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;default_n3h_log_level&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">n3h_log_level</span>: <span class="ident">String</span>,
-    <span class="doccomment">/// Absolute path to the local installation/repository of n3h</span>
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">n3h_path</span>: <span class="ident">String</span>,
     <span class="doccomment">/// networking mode used by n3h</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;default_n3h_mode&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">n3h_mode</span>: <span class="ident">String</span>,
@@ -1783,23 +1743,6 @@
 <span class="comment">// if this logic changes</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_log_level</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;i&quot;</span>)
-}
-
-<span class="comment">// note that this behaviour is documented within</span>
-<span class="comment">// holochain_common::env_vars module and should be updated</span>
-<span class="comment">// if this logic changes</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_path</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">user_dirs</span>) <span class="op">=</span> <span class="ident">directories</span>::<span class="ident">UserDirs</span>::<span class="ident">new</span>() {
-        <span class="ident">user_dirs</span>
-            .<span class="ident">home_dir</span>()
-            .<span class="ident">join</span>(<span class="string">&quot;.hc&quot;</span>)
-            .<span class="ident">join</span>(<span class="string">&quot;net&quot;</span>)
-            .<span class="ident">join</span>(<span class="string">&quot;n3h&quot;</span>)
-            .<span class="ident">to_string_lossy</span>()
-            .<span class="ident">to_string</span>()
-    } <span class="kw">else</span> {
-        <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;n3h&quot;</span>)
-    }
 }
 
 <span class="comment">// note that this behaviour is documented within</span>
@@ -1955,7 +1898,6 @@
 
     [network]
     bootstrap_nodes = [&quot;wss://192.168.0.11:64519/?a=hkYW7TrZUS1hy-i374iRu5VbZP1sSw2mLxP4TSe_YI1H2BJM3v_LgAQnpmWA_iR1W5k-8_UoA1BNjzBSUTVNDSIcz9UG0uaM&quot;]
-    n3h_path = &quot;/Users/cnorris/.holochain/n3h&quot;
     n3h_persistence_path = &quot;/Users/cnorris/.holochain/n3h_persistence&quot;
     networking_config_file = &quot;/Users/cnorris/.holochain/network_config.json&quot;
     n3h_log_level = &quot;d&quot;
@@ -1983,7 +1925,6 @@
                     <span class="string">&quot;wss://192.168.0.11:64519/?a=hkYW7TrZUS1hy-i374iRu5VbZP1sSw2mLxP4TSe_YI1H2BJM3v_LgAQnpmWA_iR1W5k-8_UoA1BNjzBSUTVNDSIcz9UG0uaM&quot;</span>
                 )],
                 <span class="ident">n3h_log_level</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;d&quot;</span>),
-                <span class="ident">n3h_path</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;/Users/cnorris/.holochain/n3h&quot;</span>),
                 <span class="ident">n3h_mode</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>),
                 <span class="ident">n3h_persistence_path</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;/Users/cnorris/.holochain/n3h_persistence&quot;</span>),
                 <span class="ident">n3h_ipc_uri</span>: <span class="prelude-val">None</span>,
@@ -2358,19 +2299,6 @@
             <span class="ident">bridged_ids</span>,
             <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app2&quot;</span>), <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;app3&quot;</span>),]
         );
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_n3h_defaults</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">default_n3h_mode</span>(), <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>));
-
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">windows</span>))]</span>
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">default_n3h_path</span>().<span class="ident">contains</span>(<span class="string">&quot;/.hc/net/n3h&quot;</span>));
-
-        <span class="comment">// the path can be lots of things in different environments (travis CI etc)</span>
-        <span class="comment">// so we are just testing that it isn&#39;t null</span>
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">windows</span>))]</span>
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">default_n3h_persistence_path</span>() <span class="op">!=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

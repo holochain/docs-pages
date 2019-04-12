@@ -377,15 +377,6 @@
 <span id="377">377</span>
 <span id="378">378</span>
 <span id="379">379</span>
-<span id="380">380</span>
-<span id="381">381</span>
-<span id="382">382</span>
-<span id="383">383</span>
-<span id="384">384</span>
-<span id="385">385</span>
-<span id="386">386</span>
-<span id="387">387</span>
-<span id="388">388</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">cli</span>;
 <span class="kw">use</span> <span class="ident">colored</span>::<span class="kw-2">*</span>;
@@ -584,15 +575,8 @@
 
 <span class="comment">// NETWORKING</span>
 <span class="kw">fn</span> <span class="ident">networking_configuration</span>(<span class="ident">networked</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NetworkConfig</span><span class="op">&gt;</span> {
-    <span class="comment">// note that this behaviour is documented within</span>
-    <span class="comment">// holochain_common::env_vars module and should be updated</span>
-    <span class="comment">// if this logic changes</span>
-    <span class="kw">let</span> <span class="ident">maybe_n3h_path</span> <span class="op">=</span> <span class="ident">EnvVar</span>::<span class="ident">N3hPath</span>.<span class="ident">value</span>().<span class="ident">ok</span>();
-
     <span class="comment">// create an n3h network config if the --networked flag is set</span>
-    <span class="comment">// or if a value where to find n3h has been put into the</span>
-    <span class="comment">// HC_N3H_PATH environment variable</span>
-    <span class="kw">if</span> <span class="ident">maybe_n3h_path</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">networked</span> {
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">networked</span> {
         <span class="kw">return</span> <span class="prelude-val">None</span>;
     }
 
@@ -610,7 +594,6 @@
             .<span class="ident">value</span>()
             .<span class="ident">ok</span>()
             .<span class="ident">unwrap_or_else</span>(<span class="ident">default_n3h_log_level</span>),
-        <span class="ident">n3h_path</span>: <span class="ident">maybe_n3h_path</span>.<span class="ident">unwrap_or_else</span>(<span class="ident">default_n3h_path</span>),
         <span class="ident">n3h_mode</span>: <span class="ident">EnvVar</span>::<span class="ident">N3hMode</span>
             .<span class="ident">value</span>()
             .<span class="ident">ok</span>()
@@ -763,7 +746,6 @@
             <span class="prelude-val">Some</span>(<span class="ident">NetworkConfig</span> {
                 <span class="ident">bootstrap_nodes</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
                 <span class="ident">n3h_log_level</span>: <span class="ident">default_n3h_log_level</span>(),
-                <span class="ident">n3h_path</span>: <span class="ident">default_n3h_path</span>(),
                 <span class="ident">n3h_mode</span>: <span class="ident">default_n3h_mode</span>(),
                 <span class="ident">n3h_persistence_path</span>: <span class="ident">default_n3h_persistence_path</span>(),
                 <span class="ident">n3h_ipc_uri</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),

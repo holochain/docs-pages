@@ -35,6 +35,10 @@
 <span id="35">35</span>
 <span id="36">36</span>
 <span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">fnbox</span>)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
@@ -47,10 +51,14 @@
 
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">failure</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_common</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types_derive</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">directories</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">reqwest</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">sha2</span>;
 <span class="comment">// macros used in tests</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>

@@ -139,7 +139,79 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#e-building-holochain-apps-bridging" id="e-building-holochain-apps-bridging"><h1>(E) Building Holochain Apps: Bridging</h1></a>
+                        <a class="header" href="#building-holochain-apps-bridging" id="building-holochain-apps-bridging"><h1>Building Holochain Apps: Bridging</h1></a>
+<p>As you saw in <a href="./building_apps.html">Building Apps</a> each <strong>DNA</strong> has a unique hash that spawns a brand new <strong>DHT network</strong> and creates isolated <strong>source chains</strong> for each agent. Even when you change the DNA, releasing a new version of the app, it will spawn a brand new DHT network and source chains.</p>
+<p>So if every app lives in an entirely separated world how can they talk to each other? This is where <strong>bridging</strong> comes into play.</p>
+<p>A <strong>bridge</strong> is a connector between two apps (or two versions of the same app, for that matter) that allows a synchronous bidirectional transfer of information between them.</p>
+<p>To use a bridge, right now you need to configure a <a href="./production_conductor.html">production Holochain conductor</a>, at least two instances configured, along the lines of the following example setup (in a <strong>conductor-config.toml</strong> file):</p>
+<pre><code>[[instances]]
+id = &quot;caller-instance&quot;
+dna = &quot;caller-dna&quot;
+agent = &quot;caller-agent&quot;
+[instances.logger]
+type = &quot;simple&quot;
+[instances.storage]
+type = &quot;memory&quot;
+
+[[instances]]
+id = &quot;target-instance&quot;
+dna = target-dna&quot;
+agent = &quot;target-agent&quot;
+[instances.logger]
+type = &quot;simple&quot;
+[instances.storage]
+type = &quot;memory&quot;
+
+[[bridges]]
+caller_id = &quot;caller-instance&quot;
+callee_id = &quot;target-instance&quot;
+handle = &quot;sample-bridge&quot;
+</code></pre>
+<p>Then on the caller DNA you have to initiate the bridge call using <code>hdk::call</code> like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+    let response = match hdk::call(
+        &quot;sample-bridge&quot;,
+        &quot;sample_zome&quot;,
+        Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
+        &quot;sample_function&quot;,
+        json!({
+            &quot;some_param&quot;: &quot;some_val&quot;,
+        }).into()
+    ) {
+        Ok(json) =&gt; serde_json::from_str(&amp;json.to_string()).unwrap(), // converts the return to JSON
+        Err(e) =&gt; return Err(e)
+    };
+#}</code></pre></pre>
+<p>And the corresponding target / callee DNA on the other end should have a zome called &quot;sample_zome&quot;, with a function as follows:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub fn handle_sample_function(some_param: String) -&gt; ZomeApiResult&lt;Address&gt; {
+    // do something here
+}
+
+define_zome! {
+    entries: []
+
+    genesis: || { Ok(()) }
+
+    functions: [
+        sample_function: {
+            inputs: |some_param: String|,
+            outputs: |result: ZomeApiResult&lt;Address&gt;|,
+            handler: handle_sample_function
+        }
+    ]
+
+    traits: {
+        hc_public [
+            sample_function
+        ]
+    }
+#}</code></pre></pre>
+<p>Remember that the <strong>call</strong> will block the execution of the caller DNA until the callee (target) finishes executing the call, so it's best to mind performance issues when working with bridges. Try to make contextual or incremental calls rather than all-encompassing ones.</p>
 
                         <hr />
                         <a href="https://github.com/holochain/holochain-rust/edit/develop/doc/holochain_101/src/bridging.md">suggest an edit</a>
