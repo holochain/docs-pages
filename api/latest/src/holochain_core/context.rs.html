@@ -416,8 +416,6 @@
 <span id="416">416</span>
 <span id="417">417</span>
 <span id="418">418</span>
-<span id="419">419</span>
-<span id="420">420</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::<span class="ident">ActionWrapper</span>,
@@ -444,8 +442,8 @@
     <span class="ident">error</span>::{<span class="ident">HcResult</span>, <span class="ident">HolochainError</span>},
 };
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>;
+<span class="kw">use</span> <span class="ident">jsonrpc_core</span>::{<span class="self">self</span>, <span class="ident">IoHandler</span>};
 <span class="kw">use</span> <span class="ident">jsonrpc_lite</span>::<span class="ident">JsonRpc</span>;
-<span class="kw">use</span> <span class="ident">jsonrpc_ws_server</span>::<span class="ident">jsonrpc_core</span>::<span class="ident">IoHandler</span>;
 <span class="kw">use</span> <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">sync</span>::{
@@ -475,7 +473,7 @@
     <span class="kw">pub</span> <span class="ident">eav_storage</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueStorage</span><span class="op">&gt;&gt;</span>,
     <span class="kw">pub</span> <span class="ident">p2p_config</span>: <span class="ident">P2pConfig</span>,
     <span class="kw">pub</span> <span class="ident">conductor_api</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">IoHandler</span><span class="op">&gt;&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">crossbeam_channel</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Context</span> {
@@ -539,7 +537,7 @@
         <span class="ident">logger</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Logger</span><span class="op">&gt;&gt;</span>,
         <span class="ident">persister</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Persister</span><span class="op">&gt;&gt;</span>,
         <span class="ident">action_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;&gt;</span>,
-        <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;&gt;</span>,
+        <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">crossbeam_channel</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;&gt;</span>,
         <span class="ident">observer_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;&gt;</span>,
         <span class="ident">cas</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">ContentAddressableStorage</span><span class="op">&gt;&gt;</span>,
         <span class="ident">eav</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueStorage</span><span class="op">&gt;&gt;</span>,
@@ -628,10 +626,8 @@
             .<span class="ident">expect</span>(<span class="string">&quot;Action channel not initialized&quot;</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">signal_tx</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">signal_tx</span>
-            .<span class="ident">as_ref</span>()
-            .<span class="ident">expect</span>(<span class="string">&quot;Signal channel not initialized&quot;</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">signal_tx</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">crossbeam_channel</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;&gt;</span> {
+        <span class="self">self</span>.<span class="ident">signal_tx</span>.<span class="ident">as_ref</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">observer_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">SyncSender</span><span class="op">&lt;</span><span class="ident">Observer</span><span class="op">&gt;</span> {

@@ -206,6 +206,7 @@
 <span id="206">206</span>
 <span id="207">207</span>
 <span id="208">208</span>
+<span id="209">209</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">get</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">send</span>;
@@ -213,6 +214,7 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
+    <span class="ident">entry</span>::<span class="ident">CanPublish</span>,
     <span class="ident">network</span>::{
         <span class="ident">actions</span>::<span class="ident">publish</span>::<span class="ident">publish</span>,
         <span class="ident">handler</span>::{<span class="ident">get</span>::<span class="kw-2">*</span>, <span class="ident">send</span>::<span class="kw-2">*</span>, <span class="ident">store</span>::<span class="kw-2">*</span>},
@@ -403,7 +405,7 @@
     <span class="kw">let</span> <span class="ident">top_header</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">agent</span>().<span class="ident">top_chain_header</span>();
     <span class="ident">chain</span>
         .<span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="ident">top_header</span>)
-        .<span class="ident">filter</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">chain_header</span><span class="op">|</span> <span class="ident">chain_header</span>.<span class="ident">entry_type</span>().<span class="ident">can_publish</span>())
+        .<span class="ident">filter</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">chain_header</span><span class="op">|</span> <span class="ident">chain_header</span>.<span class="ident">entry_type</span>().<span class="ident">can_publish</span>(<span class="ident">context</span>))
         .<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">chain_header</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="ident">chain_header</span>.<span class="ident">entry_address</span>().<span class="ident">to_string</span>());
             <span class="kw">match</span> <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">publish</span>(<span class="ident">hash</span>.<span class="ident">clone</span>(), <span class="ident">context</span>)) {

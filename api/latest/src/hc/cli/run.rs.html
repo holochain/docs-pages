@@ -410,7 +410,7 @@
     <span class="ident">conductor</span>.<span class="ident">key_loader</span> <span class="op">=</span> <span class="ident">test_keystore_loader</span>();
 
     <span class="ident">conductor</span>
-        .<span class="ident">boot_from_config</span>(<span class="prelude-val">None</span>)
+        .<span class="ident">boot_from_config</span>()
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="macro">format_err</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>))<span class="question-mark">?</span>;
 
     <span class="ident">conductor</span>.<span class="ident">start_all_interfaces</span>();

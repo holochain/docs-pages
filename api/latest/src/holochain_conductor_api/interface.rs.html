@@ -1186,9 +1186,21 @@
 <span id="1186">1186</span>
 <span id="1187">1187</span>
 <span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
+<span id="1193">1193</span>
+<span id="1194">1194</span>
+<span id="1195">1195</span>
+<span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">holo_signing_service</span>::<span class="ident">request_signing_service</span>;
 <span class="kw">use</span> <span class="ident">base64</span>;
+<span class="kw">use</span> <span class="ident">conductor</span>::<span class="ident">broadcaster</span>::<span class="ident">Broadcaster</span>;
+<span class="kw">use</span> <span class="ident">crossbeam_channel</span>::<span class="ident">Receiver</span>;
 <span class="kw">use</span> <span class="ident">holochain_core</span>::<span class="ident">nucleus</span>::{
     <span class="ident">actions</span>::<span class="ident">call_zome_function</span>::<span class="ident">make_cap_request_for_call</span>,
     <span class="ident">ribosome</span>::<span class="ident">capabilities</span>::<span class="ident">CapabilityRequest</span>,
@@ -1201,12 +1213,13 @@
 <span class="kw">use</span> <span class="ident">holochain_sodium</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
 <span class="kw">use</span> <span class="ident">Holochain</span>;
 
-<span class="kw">use</span> <span class="ident">jsonrpc_ws_server</span>::<span class="ident">jsonrpc_core</span>::{<span class="self">self</span>, <span class="ident">types</span>::<span class="ident">params</span>::<span class="ident">Params</span>, <span class="ident">IoHandler</span>, <span class="ident">Value</span>};
+<span class="kw">use</span> <span class="ident">jsonrpc_core</span>::{<span class="self">self</span>, <span class="ident">types</span>::<span class="ident">params</span>::<span class="ident">Params</span>, <span class="ident">IoHandler</span>, <span class="ident">Value</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections</span>::<span class="ident">HashMap</span>,
     <span class="ident">convert</span>::<span class="ident">TryFrom</span>,
     <span class="ident">path</span>::<span class="ident">PathBuf</span>,
-    <span class="ident">sync</span>::{<span class="ident">mpsc</span>::<span class="ident">Receiver</span>, <span class="ident">Arc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>},
+    <span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>},
+    <span class="ident">thread</span>,
 };
 
 <span class="kw">use</span> <span class="ident">conductor</span>::{<span class="ident">ConductorAdmin</span>, <span class="ident">ConductorUiAdmin</span>, <span class="ident">CONDUCTOR</span>};
@@ -2156,8 +2169,15 @@
     }
 }
 
+<span class="doccomment">/// A Broadcaster is something that knows how to send a Signal back to a client.</span>
+<span class="doccomment">/// Each Interface implementation&#39;s `run` method must return a Broadcaster, even if it&#39;s just the No-op.</span>
+<span class="doccomment">/// Then, if the Conductor is set up for it, it will start a new thread which continually consumes the signal channel and sends each signal over every interface via its Broadcaster.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Interface</span> {
-    <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">handler</span>: <span class="ident">IoHandler</span>, <span class="ident">kill_switch</span>: <span class="ident">Receiver</span><span class="op">&lt;</span>()<span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">run</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">handler</span>: <span class="ident">IoHandler</span>,
+        <span class="ident">kill_switch</span>: <span class="ident">Receiver</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Broadcaster</span>, <span class="ident">thread</span>::<span class="ident">JoinHandle</span><span class="op">&lt;</span>()<span class="op">&gt;</span>), <span class="ident">String</span><span class="op">&gt;</span>;
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -2166,7 +2186,7 @@
     <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">conductor</span>::<span class="ident">tests</span>::<span class="ident">test_conductor</span>, <span class="ident">config</span>::<span class="ident">Configuration</span>};
 
     <span class="kw">fn</span> <span class="ident">example_config_and_instances</span>() <span class="op">-&gt;</span> (<span class="ident">Configuration</span>, <span class="ident">InstanceMap</span>) {
-        <span class="kw">let</span> <span class="ident">conductor</span> <span class="op">=</span> <span class="ident">test_conductor</span>();
+        <span class="kw">let</span> <span class="ident">conductor</span> <span class="op">=</span> <span class="ident">test_conductor</span>(<span class="number">7777</span>, <span class="number">7778</span>);
         <span class="kw">let</span> <span class="ident">holochain</span> <span class="op">=</span> <span class="ident">conductor</span>
             .<span class="ident">instances</span>()
             .<span class="ident">get</span>(<span class="string">&quot;test-instance-1&quot;</span>)

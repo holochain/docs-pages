@@ -202,7 +202,7 @@
         })
         .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>()<span class="op">&gt;</span>, <span class="ident">String</span><span class="op">&gt;&gt;</span>()
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">error</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">ConfigError</span>(<span class="ident">error</span>))<span class="question-mark">?</span>;
-    <span class="ident">conductor</span>.<span class="ident">boot_from_config</span>(<span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+    <span class="ident">conductor</span>.<span class="ident">boot_from_config</span>()<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
 
