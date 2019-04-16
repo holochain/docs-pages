@@ -16,7 +16,7 @@ To rebuild the `latest` versions of the guidebook and api reference, which is th
 
 > nodejs is a dependency for adding a new version
 
-To add a new version, run `./add_new_version.sh v0.0.X-alphaX 0.0.X-alphaX 2019-01-24`, where the first argument is exactly the git tag of the version, the second is the git tag without the `v` prefix, and the third is the current nightly version of Rust.
+To add a new version, run `./add_new_version.sh v0.0.11-alpha1 0.0.11-alpha1 2019-01-24`, where the first argument is exactly the git tag of the version, the second is the git tag without the `v` prefix, and the third is the current nightly version of Rust.
 
 > this is Mac only at the moment, unless you compile the code in `src` on a different platform, and overwrite the `regenerate_html_bin` file in this folder with the compiled binary.
 
