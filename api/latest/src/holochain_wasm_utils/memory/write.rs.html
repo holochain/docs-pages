@@ -64,7 +64,7 @@
         <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">MemoryInt</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">allocate</span>(<span class="ident">next_allocation</span>)<span class="question-mark">?</span>) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_char</span>;
         <span class="kw">let</span> <span class="ident">ptr_safe</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">slice</span>::<span class="ident">from_raw_parts_mut</span>(<span class="ident">ptr</span>, <span class="ident">usize</span>::<span class="ident">from</span>(<span class="ident">length</span>)) };
         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">byte</span>) <span class="kw">in</span> <span class="ident">bytes</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-            <span class="ident">ptr_safe</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="kw-2">*</span><span class="ident">byte</span> <span class="kw">as</span> <span class="ident">i8</span>;
+            <span class="ident">ptr_safe</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="kw-2">*</span><span class="ident">byte</span> <span class="kw">as</span> <span class="ident">c_char</span>;
         }
 
         <span class="ident">WasmAllocation</span>::<span class="ident">new</span>((<span class="ident">ptr</span> <span class="kw">as</span> <span class="ident">MemoryInt</span>).<span class="ident">into</span>(), <span class="ident">length</span>)

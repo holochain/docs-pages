@@ -617,6 +617,7 @@ entry!(
 <li><a href="https://github.com/willemolding/holochain-rust-todo">Todo List tutorial</a></li>
 <li><a href="https://github.com/Hylozoic/hylo-holo-dnas">Hylo on Holochain</a></li>
 <li><a href="https://github.com/pythagorean/coolcats2">Coolcats2</a></li>
+<li><a href="https://github.com/holochain/dev-camp-tests-rust">Learn Using Test Driven Development</a></li>
 </ul>
 <a class="header" href="#building-for-different-platforms" id="building-for-different-platforms"><h1>Building for Different Platforms</h1></a>
 <p>Holochain is designed to run on many different platforms.  Essentially it can run on any platform that Rust and the Rust WASM interpreter targets.  Thus Holochain DNA's will be able to run on platforms ranging from Raspberry Pis to Android smartphones once the tools have been fully developed.</p>
@@ -2637,8 +2638,8 @@ To run it as HTTP, run:</p>
 <p>Once you are done with the server, to quit type <code>exit</code> then press <code>Enter</code>, or press <code>Ctrl-C</code>.</p>
 <a class="header" href="#configuring-networking-for-hc-run" id="configuring-networking-for-hc-run"><h1>Configuring Networking for <code>hc run</code></h1></a>
 <p><code>hc run</code> uses mock networking by default and therefore doesn't talk to any other nodes.</p>
-<p>Start the server by running:</p>
-<pre><code class="language-shell">hc run
+<p>In order to have <code>hc run</code> spawn a real network instance, start it with the <code>--networked</code> option:</p>
+<pre><code class="language-shell">hc run --networked
 </code></pre>
 <p>You should see something like this:</p>
 <pre><code class="language-shell">Network spawned with bindings:
@@ -3142,7 +3143,7 @@ ws.close()
 <a class="header" href="#administering-conductors" id="administering-conductors"><h1>Administering Conductors</h1></a>
 <p>It is possible to dynamically configure a Conductor via a JSON-RPC interface connection. There is a powerful API that is exposed for doing so.</p>
 <p>To do this, first, recall that the <code>admin = true</code> <a href="./conductor_interfaces.html#admin-bool-optional">property needs to be set</a> for the interface that should allow admin access. Second, it is helpful to review and understand the behaviours around the <a href="./conductor_persistence_dir.html"><code>persistence_dir</code> property</a> for the Conductor.</p>
-<p>You can find details of the API for this functionality in the full <a href="https://developer.holochain.org/api/0.0.7-alpha/holochain_container_api/interface/struct.ContainerApiBuilder.html">API reference material</a>. Scroll to view the <code>with_admin_dna_functions</code> comment block and the <code>with_admin_ui_functions</code> comment block. Calling these functions works exactly the same way as the other <a href="./conductor_json_rpc_api.html">JSON-RPC API calls</a>.</p>
+<p>You can find details of the API for this functionality in the full <a href="https://developer.holochain.org/api/latest/holochain_conductor_api/interface/struct.ConductorApiBuilder.html#method.with_admin_dna_functions">API reference material</a>. Scroll to view the <code>with_admin_dna_functions</code> comment block and the <code>with_admin_ui_functions</code> comment block. Calling these functions works exactly the same way as the other <a href="./conductor_json_rpc_api.html">JSON-RPC API calls</a>.</p>
 <p>As mentioned in <a href="./production_conductor.html">production Conductor</a>, there is a GUI in development that will cover all this functionality, so that it does not have to be done programmatically, but can be done by any user simply point and click.</p>
 <a class="header" href="#building-holochain-apps-user-interfaces" id="building-holochain-apps-user-interfaces"><h1>Building Holochain Apps: User Interfaces</h1></a>
 <p>Holochain is designed to be flexible and accomodating when it comes to building user interfaces. There is not a single approach to developing user interfaces that is enforced by Holochain, though there are some approaches that have extra tooling, support and focus. First and foremost, Holochain supports APIs that make building UIs with the technologies of the web (HTML, CSS, JS, etc) easy.</p>

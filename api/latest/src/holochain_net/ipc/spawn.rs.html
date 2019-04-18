@@ -134,6 +134,8 @@
 <span id="134">134</span>
 <span id="135">135</span>
 <span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This is a helper function to manage spawning an IPC sub-process</span>
 <span class="doccomment">//! This process is expected to output some specific messages on its stdout</span>
@@ -156,6 +158,8 @@
     <span class="kw">pub</span> <span class="ident">ipc_binding</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">p2p_bindings</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
+
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DEFAULT_TIMEOUT_MS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">5000</span>;
 
 <span class="doccomment">/// Spawn a holochain networking ipc sub-process</span>
 <span class="doccomment">/// Will block for IPC connection until timeout_ms is reached.</span>

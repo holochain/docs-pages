@@ -141,8 +141,8 @@
                     <main>
                         <a class="header" href="#configuring-networking-for-hc-run" id="configuring-networking-for-hc-run"><h1>Configuring Networking for <code>hc run</code></h1></a>
 <p><code>hc run</code> uses mock networking by default and therefore doesn't talk to any other nodes.</p>
-<p>Start the server by running:</p>
-<pre><code class="language-shell">hc run
+<p>In order to have <code>hc run</code> spawn a real network instance, start it with the <code>--networked</code> option:</p>
+<pre><code class="language-shell">hc run --networked
 </code></pre>
 <p>You should see something like this:</p>
 <pre><code class="language-shell">Network spawned with bindings:
