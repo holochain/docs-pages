@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.com/holochain/docs-pages.svg?branch=master)](https://travis-ci.com/holochain/docs-pages)
-
 # Docs pages
 
 The static html files, Guidebook, and the API references, are all built.

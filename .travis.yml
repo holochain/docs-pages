@@ -1,9 +1,0 @@
-sudo: true
-dist: bionic
-language: rust
-rust: nightly-2019-01-24
-cache: cargo
-script: "./build.sh"
-env:
-  global:
-  - secure: MjWS5mjDKuwdy+zeh17ElPdAizb2hvQ+H13L0f53DlCgzyDS6Wz9JyaPdFhFiYD7OsOpj6n5G+0XzCJNQwZFLzq/zNqfeXxmiyZD9RAsqFDrSJJH7WvTMLGes6jfFtbHJfivBiUQ0xHrSeqlBgIzpzZ+rGuLhCneFJouXNxEJYXZCkkrM67SeKVyfWbT6YBb1l7IB9HWDYTwswk1pw1VPfFJy87F6FXFUn7EzhD5ydl/Na4lvljyvs+5RwlS3yuLcIrauvlaeixfpyuGSYkoAlHxyK5hPEB+jZosPipdv1vaFTX5T8QEU9YszkMYaJPNT7sKI3k2Ipr+fzumnvl1l5m4qB+7Znn6qi+7Gjdv3+ygBl0OZiYZjBllcaA7l7LsohyWKevrUKwUA9+3hSf9LGdruuY6yLlpyRdQc7kHWvAR0Da/+t/vuGVMUFFRXkJsXXmN4s1sbnATV6q3+atffm8oYyIUeG2aKrWP4rfklfT1O1bcW3/PYQ3P2IZWv3GwdVuEia2mRcpVhjpuZFkl3t84cb97yU7l9q6OsZFV8k/QZSpdbY+Di104r6+ZwUlnpYT6sef/4bSrk8WVic56aSWo15aktWCrIglVOPWRBLDno8UFn5gXmzG/CsspS8gAAbM0mlZWCN3usA+auSe6Qhb0ccoGZupR/LDs2QKTtDI=
