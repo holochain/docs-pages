@@ -503,6 +503,7 @@
 <span id="503">503</span>
 <span id="504">504</span>
 <span id="505">505</span>
+<span id="506">506</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
@@ -599,13 +600,14 @@
     <span class="kw">let</span> <span class="ident">conductor_api</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">conductor_api</span>.<span class="ident">clone</span>();
 
     <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
-        <span class="string">r#&quot;{{&quot;instance_id&quot;:&quot;{}&quot;, &quot;zome&quot;: &quot;{}&quot;, &quot;function&quot;: &quot;{}&quot;, &quot;params&quot;: {}}}&quot;#</span>,
+        <span class="string">r#&quot;{{&quot;instance_id&quot;:&quot;{}&quot;, &quot;zome&quot;: &quot;{}&quot;, &quot;function&quot;: &quot;{}&quot;, &quot;args&quot;: {}}}&quot;#</span>,
         <span class="ident">input</span>.<span class="ident">instance_handle</span>, <span class="ident">input</span>.<span class="ident">zome_name</span>, <span class="ident">input</span>.<span class="ident">fn_name</span>, <span class="ident">input</span>.<span class="ident">fn_args</span>
     );
 
     <span class="kw">let</span> <span class="ident">handler</span> <span class="op">=</span> <span class="ident">conductor_api</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>();
 
     <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>();
+    <span class="comment">// json-rpc format</span>
     <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
         <span class="string">r#&quot;{{&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;call&quot;, &quot;params&quot;: {}, &quot;id&quot;: &quot;{}&quot;}}&quot;#</span>,
         <span class="ident">params</span>, <span class="ident">id</span>

@@ -191,8 +191,17 @@ ws.on('open', function() {
 <p>The following code shows how to use <code>rpc-websockets</code> to call Zome functions.</p>
 <pre><code class="language-js">...
 ws.on('open', function() {
-    let method = 'test-instance/blogs/create_blog'
-    let params = { blog: { content: 'sample content' }}
+    let method = 'call'
+    let params = {
+        instance_id: &quot;test-instance&quot;,
+        zome: &quot;blog&quot;,
+        function: &quot;create_post&quot;,
+        args: {
+            content: &quot;sample content&quot;
+        }
+    }
+
+    // call an RPC method with parameters
     ws.call(method, params).then(result =&gt; {
         console.log(result)
     })

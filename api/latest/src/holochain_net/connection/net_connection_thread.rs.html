@@ -227,6 +227,8 @@
 <span id="227">227</span>
 <span id="228">228</span>
 <span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="ident">net_connection</span>::{<span class="ident">NetHandler</span>, <span class="ident">NetSend</span>, <span class="ident">NetShutdown</span>, <span class="ident">NetWorkerFactory</span>},
@@ -278,7 +280,9 @@
         <span class="comment">// Spawn worker thread</span>
         <span class="kw">let</span> <span class="ident">thread</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="comment">// Create worker</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">worker</span> <span class="op">=</span> <span class="ident">worker_factory</span>(<span class="ident">handler</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>));
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">worker</span> <span class="op">=</span> <span class="ident">worker_factory</span>(<span class="ident">handler</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Failure while attempting to create network worker with provided P2pConfig. Error: {:?}&quot;</span>, <span class="ident">e</span>)
+            });
             <span class="comment">// Get endpoint and send it to owner (NetConnectionThread)</span>
             <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="ident">worker</span>.<span class="ident">endpoint</span>();
             <span class="ident">send_endpoint</span>
@@ -334,10 +338,10 @@
             });
         });
 
-        <span class="comment">// Retrieve endpoint from spawned thread</span>
-        <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="ident">recv_endpoint</span>
-            .<span class="ident">recv</span>()
-            .<span class="ident">expect</span>(<span class="string">&quot;Failed to receive endpoint address from net worker&quot;</span>);
+        <span class="comment">// Retrieve endpoint from spawned thread.</span>
+        <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="ident">recv_endpoint</span>.<span class="ident">recv</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+            <span class="macro">format_err</span><span class="macro">!</span>(<span class="string">&quot;Failed to receive endpoint address from net worker: {}&quot;</span>, <span class="ident">e</span>)
+        })<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="ident">endpoint</span>
             .<span class="ident">expect</span>(<span class="string">&quot;Should have an endpoint address&quot;</span>)
             .<span class="ident">to_string</span>();

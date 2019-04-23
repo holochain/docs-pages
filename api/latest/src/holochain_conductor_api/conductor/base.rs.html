@@ -1551,6 +1551,10 @@
 <span id="1551">1551</span>
 <span id="1552">1552</span>
 <span id="1553">1553</span>
+<span id="1554">1554</span>
+<span id="1555">1555</span>
+<span id="1556">1556</span>
+<span id="1557">1557</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">conductor</span>::<span class="ident">broadcaster</span>::<span class="ident">Broadcaster</span>,
@@ -1953,16 +1957,20 @@
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">network</span>.<span class="ident">is_none</span>() {
             <span class="kw">return</span> <span class="ident">P2pConfig</span>::<span class="ident">new_with_unique_memory_backend</span>();
         }
-        <span class="comment">// if there is a config then either we need to spawn a process and get the</span>
-        <span class="comment">// ipc_uri for it and save it for future calls to `load_config`</span>
-        <span class="comment">// or we use that uri value that was created from previous calls!</span>
+        <span class="comment">// if there is a config then either we need to spawn a process and get</span>
+        <span class="comment">// the ipc_uri for it and save it for future calls to `load_config` or</span>
+        <span class="comment">// we use a (non-empty) uri value that was created from previous calls!</span>
         <span class="kw">let</span> <span class="ident">net_config</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">network</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="ident">net_config</span>.<span class="ident">n3h_ipc_uri</span>.<span class="ident">clone</span>().<span class="ident">or_else</span>(<span class="op">||</span> {
-            <span class="self">self</span>.<span class="ident">network_spawn</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">spawn_network</span>().<span class="ident">ok</span>();
-            <span class="self">self</span>.<span class="ident">network_spawn</span>
-                .<span class="ident">as_ref</span>()
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">spawn</span><span class="op">|</span> <span class="ident">spawn</span>.<span class="ident">ipc_binding</span>.<span class="ident">clone</span>())
-        });
+        <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="ident">net_config</span>
+            .<span class="ident">n3h_ipc_uri</span>
+            .<span class="ident">clone</span>()
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">==</span> <span class="string">&quot;&quot;</span> { <span class="prelude-val">None</span> } <span class="kw">else</span> { <span class="prelude-val">Some</span>(<span class="ident">v</span>) })
+            .<span class="ident">or_else</span>(<span class="op">||</span> {
+                <span class="self">self</span>.<span class="ident">network_spawn</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">spawn_network</span>().<span class="ident">ok</span>();
+                <span class="self">self</span>.<span class="ident">network_spawn</span>
+                    .<span class="ident">as_ref</span>()
+                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">spawn</span><span class="op">|</span> <span class="ident">spawn</span>.<span class="ident">ipc_binding</span>.<span class="ident">clone</span>())
+            });
 
         <span class="ident">P2pConfig</span>::<span class="ident">new_ipc_uri</span>(
             <span class="ident">uri</span>,

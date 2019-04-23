@@ -102,6 +102,13 @@
 <span id="102">102</span>
 <span id="103">103</span>
 <span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides the main abstraction for differing p2p backends</span>
 <span class="doccomment">//! P2pNetwork instances take a json configuration string</span>
@@ -157,8 +164,15 @@
                 <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">InMemoryWorker</span>::<span class="ident">new</span>(<span class="ident">h</span>, <span class="kw-2">&amp;</span><span class="ident">backend_config</span>)<span class="question-mark">?</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>)
             }),
         };
-        <span class="comment">// Create NetConnectionThread with appropriate worker factory</span>
-        <span class="kw">let</span> <span class="ident">connection</span> <span class="op">=</span> <span class="ident">NetConnectionThread</span>::<span class="ident">new</span>(<span class="ident">handler</span>, <span class="ident">worker_factory</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+        <span class="comment">// Create NetConnectionThread with appropriate worker factory.  Indicate *what*</span>
+        <span class="comment">// configuration failed to produce a connection.</span>
+        <span class="kw">let</span> <span class="ident">connection</span> <span class="op">=</span> <span class="ident">NetConnectionThread</span>::<span class="ident">new</span>(<span class="ident">handler</span>, <span class="ident">worker_factory</span>, <span class="prelude-val">None</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+            <span class="macro">format_err</span><span class="macro">!</span>(
+                <span class="string">&quot;Failed to obtain a connection to a p2p network module w/ config: {}: {}&quot;</span>,
+                <span class="ident">p2p_config</span>.<span class="ident">as_str</span>(),
+                <span class="ident">e</span>
+            )
+        })<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">P2pBackendKind</span>::<span class="ident">IPC</span> <span class="op">=</span> <span class="ident">p2p_config</span>.<span class="ident">backend_kind</span> {
             <span class="comment">// TODO: this is a hack until Core takes in account the &#39;P2pReady&#39; message sent by the network module</span>
             <span class="comment">// see: https://realtimeboard.com/app/board/o9J_kyiXmFs=/?moveToWidget=3074457346457995629</span>

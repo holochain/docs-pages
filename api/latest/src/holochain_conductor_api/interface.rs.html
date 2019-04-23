@@ -1194,6 +1194,26 @@
 <span id="1194">1194</span>
 <span id="1195">1195</span>
 <span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
+<span id="1212">1212</span>
+<span id="1213">1213</span>
+<span id="1214">1214</span>
+<span id="1215">1215</span>
+<span id="1216">1216</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">holo_signing_service</span>::<span class="ident">request_signing_service</span>;
 <span class="kw">use</span> <span class="ident">base64</span>;
@@ -1319,6 +1339,10 @@
     <span class="kw">fn</span> <span class="ident">setup_call_api</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">let</span> <span class="ident">instances</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">instances</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="ident">instance_ids_map</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">instance_ids_map</span>.<span class="ident">clone</span>();
+
+        <span class="comment">// We need to place this one here in order to avoid compiler lifetime issue</span>
+        <span class="kw">let</span> <span class="ident">default_call_args</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({});
+
         <span class="self">self</span>.<span class="ident">io</span>.<span class="ident">add_method</span>(<span class="string">&quot;call&quot;</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">params</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">params_map</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">unwrap_params_map</span>(<span class="ident">params</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">public_id_str</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">get_as_string</span>(<span class="string">&quot;instance_id&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">params_map</span>)<span class="question-mark">?</span>;
@@ -1333,8 +1357,24 @@
             <span class="kw">let</span> <span class="ident">hc_lock</span> <span class="op">=</span> <span class="ident">instance</span>.<span class="ident">clone</span>();
             <span class="kw">let</span> <span class="ident">hc_lock_inner</span> <span class="op">=</span> <span class="ident">hc_lock</span>.<span class="ident">clone</span>();
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hc</span> <span class="op">=</span> <span class="ident">hc_lock_inner</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>();
-            <span class="kw">let</span> <span class="ident">call_params</span> <span class="op">=</span> <span class="ident">params_map</span>.<span class="ident">get</span>(<span class="string">&quot;params&quot;</span>);
-            <span class="kw">let</span> <span class="ident">params_string</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">call_params</span>)
+
+
+            <span class="comment">// Getting the arguments of the call contained in the json-rpc &#39;params&#39;</span>
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">call_args</span> <span class="op">=</span> <span class="ident">params_map</span>.<span class="ident">get</span>(<span class="string">&quot;args&quot;</span>).<span class="ident">or_else</span>(<span class="op">||</span> {
+                <span class="comment">// TODO: Remove this fall back to the previous impl of inner &#39;params&#39;</span>
+                <span class="comment">// as soon as its deprecation life cycle is over &lt;17-04-19, dymayday&gt; //</span>
+                <span class="ident">hc</span>.<span class="ident">context</span>()
+                    .<span class="ident">log</span>(<span class="string">&quot;warn/interface: DEPRECATION WARNING: Using &#39;params&#39; for a Zome function call is now deprecated.\
+                    Please switch to &#39;args&#39; instead, as &#39;params&#39; will soon be phased out.&quot;</span>);
+                <span class="ident">params_map</span>.<span class="ident">get</span>(<span class="string">&quot;params&quot;</span>)
+            });
+
+            <span class="comment">// For a consistent error behavior, we check if the passed value is &#39;null&#39;,</span>
+            <span class="comment">// which triggers an error, and fallback as if an empty object was passed instead &#39;{}&#39;</span>
+            <span class="kw">if</span> <span class="macro">json</span><span class="macro">!</span>(<span class="ident">null</span>) <span class="op">==</span> <span class="kw-2">*</span><span class="ident">call_args</span>.<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">default_call_args</span>) {
+                <span class="ident">call_args</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">default_call_args</span>);
+            }
+            <span class="kw">let</span> <span class="ident">args_string</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">call_args</span>)
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">jsonrpc_core</span>::<span class="ident">Error</span>::<span class="ident">invalid_params</span>(<span class="ident">e</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">zome_name</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">get_as_string</span>(<span class="string">&quot;zome&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">params_map</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">func_name</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">get_as_string</span>(<span class="string">&quot;function&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">params_map</span>)<span class="question-mark">?</span>;
@@ -1359,7 +1399,7 @@
                         <span class="ident">context</span>.<span class="ident">clone</span>(),
                         <span class="ident">token</span>,
                         <span class="kw-2">&amp;</span><span class="ident">func_name</span>,
-                        <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="ident">params_string</span>.<span class="ident">clone</span>()),
+                        <span class="ident">JsonString</span>::<span class="ident">from_json</span>(<span class="kw-2">&amp;</span><span class="ident">args_string</span>.<span class="ident">clone</span>()),
                     ),
                     <span class="prelude-val">Some</span>(<span class="ident">json_provenance</span>) <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">provenance</span>: <span class="ident">Provenance</span> <span class="op">=</span>
@@ -1375,7 +1415,7 @@
             };
 
             <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">hc</span>
-                .<span class="ident">call</span>(<span class="kw-2">&amp;</span><span class="ident">zome_name</span>, <span class="ident">cap_request</span>, <span class="kw-2">&amp;</span><span class="ident">func_name</span>, <span class="kw-2">&amp;</span><span class="ident">params_string</span>)
+                .<span class="ident">call</span>(<span class="kw-2">&amp;</span><span class="ident">zome_name</span>, <span class="ident">cap_request</span>, <span class="kw-2">&amp;</span><span class="ident">func_name</span>, <span class="kw-2">&amp;</span><span class="ident">args_string</span>)
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">jsonrpc_core</span>::<span class="ident">Error</span>::<span class="ident">invalid_params</span>(<span class="ident">e</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">String</span>(<span class="ident">response</span>.<span class="ident">to_string</span>()))
         });
