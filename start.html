@@ -88,124 +88,16 @@
                                         target="_blank">developer community chat</a>.</p>
                             </div>
                             <!--//section-block-->
-                        </section>
-
-                        <section id="prereq-section" class="doc-section">
-                            <h2 class="section-title">Prerequisites</h2>
-
-                            <div id="prereq-step1" class="section-block">
-                                <h3 class="block-title">Step One - Nodejs</h3>
-                                <p>
-
-                                    End-to-end testing of Holochain apps is done in Javascript executed by Nodejs.
-                                    <br />
-                                    To run the end-to-end tests you need nodejs installed.
-                                </p>
-                                <p>
-                                    Holochain supports nodejs versions in the 8, 10, and 11 ranges
-                                </p>
-                                <p>
-                                    To check the currently installed node version run: <br />
-
-                                    <p>
-                                        <code>node -v</code><br />
-                                    </p>
-                                </p>
-                                <p>
-                                    If you don't have a supported nodejs version you can find installation
-                                    instructions at <a href="https://nodejs.org" target="_blank">https://nodejs.org</a>.
-                                </p>
-                            </div>
-                            <!--//section-block-->
-                            <div id="prereq-step2" class="section-block">
-                                <h3 class="block-title">Step Two - Rust</h3>
-                                <p>
-                                    The recommended way to write Holochain applications is to use the "Holochain
-                                    Development Kit" (HDK).
-                                </p>
-                                <p>
-                                    The HDK allows generation of low level web assembly (WASM) code with convenience
-                                    functions written in the high level Rust language.
-                                </p>
-                                <p>
-                                    In the future there will be HDKs written to a variety of languages, but for now you
-                                    will need to install and maybe learn some Rust.
-                                </p>
-                                <p>
-                                    We are using a "nightly" release of the Rust langauge.<br />
-                                    The Rust community moves very quickly so we "pin" to a specific version to ensure a
-                                    relatively stable working environment.<br />
-                                    <strong>Only the pinned nightly version of Rust is compatible with
-                                        Holochain</strong><br />
-                                    To find the current nightly version, check the readme/scripts at
-                                    https://github.com/holochain/holochain-rust<br />
-                                </p>
-                                </p>
-                                For installation follow:
-
-                                <nav>
-                                    <div class="nav nav-tabs nav-fill" role="tablist">
-                                        <a class="nav-item nav-link active" data-toggle="tab" href="#rust-mac-linux"
-                                            role="tab" aria-controls="rust-mac-linux" aria-selected="true">Mac
-                                            & Linux</a>
-                                        <a class="nav-item nav-link" data-toggle="tab" href="#rust-windows" role="tab"
-                                            aria-controls="rust-windows" aria-selected="false">Windows</a>
-                                    </div>
-                                </nav>
-                                <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                                    <div class="tab-pane fade show active" id="rust-mac-linux" role="tabpanel"
-                                        aria-labelledby="rust-mac-linux">
-                                        In a terminal, run:
-                                        <br />
-                                        <br />
-                                        <code>curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly-2019-01-24</code>
-                                        <!--//code-block-->
-                                    </div>
-                                    <div class="tab-pane fade" id="rust-windows" role="tabpanel"
-                                        aria-labelledby="rust-windows">
-                                        <p>Go to <a href="https://rustup.rs" target="_blank">https://rustup.rs</a> and
-                                            follow
-                                            installation instructions.</p>
-
-                                        Once you have rust successfully installed, you need to install the
-                                        "nightly-2019-01-24" toolchain of rust. This means having the specific version
-                                        of
-                                        the tools, which are required for working with Holochain. In a
-                                        terminal, run:
-                                        <div class="code-block">
-                                            <p><code>rustup toolchain install nightly-2019-01-24</code></p>
-                                            <p><code>rustup default nightly-2019-01-24</code></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                </p>
-                            </div>
-                            <!--//section-block-->
-                            <div id="prereq-step3" class="section-block">
-                                <h3 class="block-title">Step Three - WebAssembly</h3>
-                                <p>
-                                    Since Holochain code needs to be in WebAssembly, the Rust compilation "target"
-                                    for WebAssembly is required.
-                                    This just means that the Rust toolchain knows how to compile Rust code to
-                                    WebAssembly.
-                                    You will likely need to restart your terminal, or open a new one, before being
-                                    able to run the following command.
-                                    In a terminal, run:
-                                    <div class="code-block">
-                                        <p><code>rustup target add wasm32-unknown-unknown</code></p>
-                                    </div>
-                                    <!--//code-block-->
-                                </p>
-                            </div>
-                            <!--//section-block-->
+                        </section>                          
 
                             <section id="development-section" class="doc-section">
                                 <h2 class="section-title">Development Tools Installation</h2>
 
                                 <div id="development-step1" class="section-block">
-                                    <p>If you wish to develop Holochain apps, you will want to install the Holochain
+                                    <p>If you wish to develop Holochain DNAs, you will want to install the Holochain
                                         developer command line tools.</p>
-                                    <h4 class="block-title">Step One</h4>
+
+                                    <h4 class="block-title">Step One: Fetch and Setup the Dev Tools Binary</h4>
                                     <p>
                                         When you go to Github, look for one of the downloads that starts with "cli".
                                         <a href="https://github.com/holochain/holochain-rust/releases/tag/v0.0.12-alpha1"
@@ -224,21 +116,172 @@
                                         relevant <a href="#paths-help-section">Help with PATHs</a> section at the
                                         bottom of this page.
                                     </p>
-                                </div>
-                                <div id="development-step2" class="section-block">
-                                    <h4 class="block-title">Step Two</h4>
                                     <p>
-                                        Once the steps for your platform are complete, to confirm that you have the
-                                        Holochain developer command line tools installed, try running the following
-                                        command:
+                                        To confirm that you have them installed, try running the following
+                                        command, which should result in it printing the version of the tools that you downloaded:
                                         <div class="code-block">
                                             <p><code>hc --version</code></p>
                                         </div>
-                                        <!--//code-block-->
-                                        To read about the commands, and how to get started using them, check out the <a
+                                        Congratulations!
+                                    </p>
+                                    <p>
+                                        Note that you've installed the minimum necessary to start developing with Holochain.
+                                        You have enough installed to generate a new Holochain project from scratch! To do additional
+                                        things with it, you will need to make sure you have the additional dependencies mentioned below.
+                                        Relevant feedback will also be given through the use of the commands, so don't be afraid to try things out.
+                                    </p>
+                                </div>
+                                <div id="development-step2" class="section-block">
+                                    <h4 class="block-title">Step Two: Getting Started</h4>
+                                    <p>
+                                        As a next step, try running the following command to familiarize with the tools:
+                                        <div class="code-block">
+                                            <p><code>hc help</code></p>
+                                        </div>
+                                    </p>
+                                    <p>
+                                        To generate your first Holochain project folder, run:
+                                        <div class="code-block">
+                                            <p><code>hc init my_first_app</code></p>
+                                        </div>
+                                        In the new "my_first_app" folder is the basic structure of a new Holochain project, congratulations! Open it up
+                                        in a file browser or text editor to start to check it out.
+                                    </p>
+                                    <p>
+                                        To get started beyond this, you will need to jump ahead to the <a class="scrollto" href="#development-prereq-packaging">code generation prerequisite</a> and follow those instructions, diving a layer deeper into Holochain development.
+                                    </p>
+                                    <p>
+                                        Once you've completed that, you will be able to generate a new "Zome", the basic module format for Holochain.
+                                        To try it, make sure your terminal is set to the directory of "my_first_app" and then run:
+                                        <div class="code-block">
+                                            <p><code>hc generate zomes/my_zome</code></p>
+                                        </div>
+                                        This will add some starter code into the "zomes/my_zome" sub folder, which you can open up in a text editor and
+                                        start checking out!
+                                        That's the quick start. To go further, you may want to check out a 
+                                        <a href="https://developer.holochain.org/guide/0.0.12-alpha1/first_steps.html" target="_blank">tutorial</a>,
+                                        and the 
+                                        <a href="https://developer.holochain.org/guide/0.0.12-alpha1" target="_blank">Guidebook</a>.
+                                    </p>
+                                    <p>
+                                        To read about the rest of the commands, and how to get started using them, check out the <a
                                             target="_blank"
                                             href="https://github.com/holochain/holochain-rust/tree/v0.0.12-alpha1/cli#usage">README
                                             for the "hc" command line tools.</a>
+                                    </p>
+                                </div>
+
+                                <div id="development-prereq-packaging" class="section-block">
+                                    <h3 class="block-title">Prerequisite for Packaging and Generating</h3>
+                                    <p>
+                                        If you are generating new Zomes, developing new code, or wish to "package" code that someone else wrote,
+                                        you will need to install Rust. To "package" the code means to compile or build all
+                                        the source code into WebAssembly from its native language, and then aggregate it
+                                        into a Holochain "DNA" file. This can be read about further in the
+                                        <a href="https://developer.holochain.org/guide/latest/building_apps.html" target="_blank">Guidebook</a>.
+                                    </p>
+                                    <p>
+                                        Commands that invoke the Rust dependencies include <code>hc generate</code>, <code>hc test</code>, <code>hc run --package</code>, and
+                                        <code>hc package</code>. Use of any of these commands will require Rust to be installed. Other commands
+                                        can be run without the installation of Rust.
+                                    </p>
+                                    <p>
+                                        The recommended way to write Holochain applications is to use the "Holochain
+                                        Development Kit" (HDK).
+                                    </p>
+                                    <p>
+                                        The HDK allows generation of low level web assembly (WASM) code with convenience
+                                        functions written in the high level Rust language.
+                                    </p>
+                                    <p>
+                                        In the future there will be HDKs written to a variety of languages, but for now you
+                                        will need to install and maybe learn some Rust.
+                                    </p>
+                                    <p>
+                                        We are using a "nightly" release of the Rust langauge.<br />
+                                        The Rust community moves very quickly so we "pin" to a specific version to ensure a
+                                        relatively stable working environment.<br />
+                                        <strong>Only the pinned nightly version of Rust is compatible with
+                                            Holochain</strong>
+                                    </p>
+                                    </p>
+                                    For installation follow:
+    
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" role="tablist">
+                                            <a class="nav-item nav-link active" data-toggle="tab" href="#rust-mac-linux"
+                                                role="tab" aria-controls="rust-mac-linux" aria-selected="true">Mac
+                                                & Linux</a>
+                                            <a class="nav-item nav-link" data-toggle="tab" href="#rust-windows" role="tab"
+                                                aria-controls="rust-windows" aria-selected="false">Windows</a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="rust-mac-linux" role="tabpanel"
+                                            aria-labelledby="rust-mac-linux">
+                                            In a terminal, run:
+                                            <br />
+                                            <br />
+                                            <code>curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly-2019-01-24</code>
+                                            <!--//code-block-->
+                                        </div>
+                                        <div class="tab-pane fade" id="rust-windows" role="tabpanel"
+                                            aria-labelledby="rust-windows">
+                                            <p>Go to <a href="https://rustup.rs" target="_blank">https://rustup.rs</a> and
+                                                follow
+                                                installation instructions.</p>
+    
+                                            Once you have rust successfully installed, you need to install the
+                                            "nightly-2019-01-24" toolchain of rust. This means having the specific version
+                                            of
+                                            the tools, which are required for working with Holochain. In a
+                                            terminal, run:
+                                            <div class="code-block">
+                                                <p><code>rustup toolchain install nightly-2019-01-24</code></p>
+                                                <p><code>rustup default nightly-2019-01-24</code></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </p>
+    
+                                    <h3 class="block-title">Add WebAssembly Support</h3>
+                                    <p>
+                                        Since Holochain code needs to be in WebAssembly, the Rust compilation "target"
+                                        for WebAssembly is required.
+                                        This just means that the Rust toolchain knows how to compile Rust code to
+                                        WebAssembly.
+                                        You will likely need to restart your terminal, or open a new one, before being
+                                        able to run the following command.
+                                        In a terminal, run:
+                                        <div class="code-block">
+                                            <p><code>rustup target add wasm32-unknown-unknown</code></p>
+                                        </div>
+                                        <!--//code-block-->
+                                    </p>
+                                </div>
+
+                                <div id="development-prereq-testing" class="section-block">
+                                    <h4 class="block-title">Prerequisite for Testing</h4>
+                                    <p>
+    
+                                        End-to-end testing of Holochain apps is done in Javascript executed by Nodejs.
+                                        The command to run these tests is <code>hc test</code>.
+                                        <br />
+                                        If you wan't to use <code>hc test</code> you will need to have nodejs installed.
+                                    </p>
+                                    <p>
+                                        Holochain supports nodejs versions in the 8, 10, and 11 ranges
+                                    </p>
+                                    <p>
+                                        To check the currently installed node version run: <br />
+    
+                                        <p>
+                                            <code>node -v</code><br />
+                                        </p>
+                                    </p>
+                                    <p>
+                                        If you don't have a supported nodejs version you can find installation
+                                        instructions at <a href="https://nodejs.org" target="_blank">https://nodejs.org</a>.
                                     </p>
                                 </div>
                             </section>
@@ -286,7 +329,7 @@
                                         <!--//code-block-->
                                         To read about the Conductor, and how to get started using it, check out <a
                                             target="_blank"
-                                            href="https://developer.holochain.org/guide/latest/production_conductor.html">this
+                                            href="https://developer.holochain.org/guide/0.0.12-alpha1/production_conductor.html">this
                                             section</a> of the Guidebook.
                                     </p>
                                 </div>
@@ -396,19 +439,14 @@
 
                         <nav id="doc-menu" class="nav doc-menu flex-column sticky">
                             <a class="nav-link scrollto" href="#overview-section">Overview</a>
-                            <a class="nav-link scrollto" href="#prereq-section">Prerequisites</a>
-                            <nav class="doc-sub-menu nav flex-column">
-                                <a class="nav-link scrollto" href="#prereq-step1">Step One</a>
-                                <a class="nav-link scrollto" href="#prereq-step2">Step Two</a>
-                                <a class="nav-link scrollto" href="#prereq-step3">Step Three</a>
-                                <a class="nav-link scrollto" href="#prereq-step4">Step Four</a>
-                            </nav>
                             <!--//nav-->
                             <!--//nav-->
                             <a class="nav-link scrollto" href="#development-section">Development Tools</a>
                             <nav class="doc-sub-menu nav flex-column">
-                                <a class="nav-link scrollto" href="#development-step1">Step One</a>
-                                <a class="nav-link scrollto" href="#development-step2">Step Two</a>
+                                <a class="nav-link scrollto" href="#development-step1">Step One: Install</a>
+                                <a class="nav-link scrollto" href="#development-step2">Step Two: Getting Started</a>
+                                <a class="nav-link scrollto" href="#development-prereq-packaging">Prerequisite for Packaging & Generating</a>
+                                <a class="nav-link scrollto" href="#development-prereq-testing">Prerequisite for Testing</a>
                             </nav>
                             <!--//nav-->
                             <a class="nav-link scrollto" href="#production-section">Production Tools</a>
