@@ -1,5 +1,5 @@
 [package]
-name = "docs"
+name = "regenerate_html_bin"
 version = "0.1.0"
 authors = ["Connor Turland <connor.turland@holo.host>"]
 edition = "2018"
