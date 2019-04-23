@@ -63,7 +63,7 @@ fn main() {
   let mut start_body_data = BTreeMap::new();
   start_body_data.insert("header".to_string(), start_header_html);
   let now: DateTime<Utc> = Utc::now();
-  start_body_data.insert("date".to_string(), now.format("%b%e, %Y").to_string());
+  start_body_data.insert("date".to_string(), now.format("%b %e, %Y").to_string());
   start_body_data.insert("version".to_string(), version.clone());
   start_body_data.insert("version_for_url".to_string(), version_for_url.clone());
   start_body_data.insert("rust_version".to_string(), rust_version.clone());

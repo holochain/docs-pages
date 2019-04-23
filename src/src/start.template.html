@@ -28,6 +28,10 @@
                                     to get going!
                                 </p>
 
+                                <p>Please note that previously the networking component "n3h" had to be installed separately. It will now be dowloaded and setup
+                                    automatically by Holochain.
+                                </p>
+
                                 <p>If you find an issue with the instructions, please <a
                                         href="https://github.com/holochain/docs-pages/issues/new" target="_blank">open
                                         an issue</a> on the GitHub repo for the documentation site.</p>
@@ -249,45 +253,6 @@
                             </div>
                             <!--//section-block-->
 
-                            <section id="networking-section" class="doc-section">
-                                <h2 class="section-title">Networking Tools</h2>
-                                <div class="section-block">
-                                    <p>
-                                        The networking capabilities for Holochain have been developed as a library
-                                        decoupled
-                                        from the Rust core. At this time they are written in nodejs (another reason
-                                        nodejs is a dependency above) and communicate with Holochain
-                                        via IPC (inter process communication).
-                                        There is a mock networking implementation in Holochain meaning that technically
-                                        development
-                                        of apps can happen without this library, but if you wish to use actual
-                                        networking this library
-                                        will be required.
-                                    </p>
-                                    <p>
-                                        The networking library is called "n3h".
-                                    </p>
-                                    <p>
-                                        To install it, download it from GitHub, and unzip it: <a
-                                            href="https://github.com/holochain/n3h/releases/tag/{{version}}1"
-                                            target="_blank">https://github.com/holochain/n3h/releases/tag/{{version}}1</a>
-                                    </p>
-                                    <p>
-                                        In a terminal, change directories to the downloaded and unzipped repository.
-                                        Run:
-                                        <div class="code-block">
-                                            <p><code>npm install</code></p>
-                                        </div>
-                                    </p>
-                                    <p>
-                                        This means all the dependencies are installed. Finally, for now, just take note
-                                        of the full path to the n3h folder on your computer, because you will be
-                                        needing it later.
-                                    </p>
-                                </div>
-                                <!--//section-block-->
-                            </section>
-
                             <section id="development-section" class="doc-section">
                                 <h2 class="section-title">Development Tools Installation</h2>
 
@@ -493,7 +458,6 @@
                                 <a class="nav-link scrollto" href="#prereq-step4">Step Four</a>
                             </nav>
                             <!--//nav-->
-                            <a class="nav-link scrollto" href="#networking-section">Networking Tools</a>
                             <!--//nav-->
                             <a class="nav-link scrollto" href="#development-section">Development Tools</a>
                             <nav class="doc-sub-menu nav flex-column">

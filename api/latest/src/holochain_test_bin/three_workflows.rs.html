@@ -251,33 +251,11 @@
 <span id="251">251</span>
 <span id="252">252</span>
 <span id="253">253</span>
-<span id="254">254</span>
-<span id="255">255</span>
-<span id="256">256</span>
-<span id="257">257</span>
-<span id="258">258</span>
-<span id="259">259</span>
-<span id="260">260</span>
-<span id="261">261</span>
-<span id="262">262</span>
-<span id="263">263</span>
-<span id="264">264</span>
-<span id="265">265</span>
-<span id="266">266</span>
-<span id="267">267</span>
-<span id="268">268</span>
-<span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
-<span id="272">272</span>
-<span id="273">273</span>
-<span id="274">274</span>
-<span id="275">275</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">constants</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_net</span>::{
     <span class="ident">connection</span>::{
-        <span class="ident">json_protocol</span>::{<span class="ident">ConnectData</span>, <span class="ident">JsonProtocol</span>, <span class="ident">TrackDnaData</span>},
+        <span class="ident">json_protocol</span>::{<span class="ident">ConnectData</span>, <span class="ident">JsonProtocol</span>},
         <span class="ident">net_connection</span>::<span class="ident">NetSend</span>,
         <span class="ident">NetResult</span>,
     },
@@ -296,42 +274,21 @@
 ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Send TrackDna message on all nodes</span>
     <span class="comment">// alex</span>
-    <span class="ident">alex</span>.<span class="ident">send</span>(
-        <span class="ident">JsonProtocol</span>::<span class="ident">TrackDna</span>(<span class="ident">TrackDnaData</span> {
-            <span class="ident">dna_address</span>: <span class="ident">DNA_ADDRESS</span>.<span class="ident">clone</span>(),
-            <span class="ident">agent_id</span>: <span class="ident">ALEX_AGENT_ID</span>.<span class="ident">to_string</span>(),
-        })
-        .<span class="ident">into</span>(),
-    )
-    .<span class="ident">expect</span>(<span class="string">&quot;Failed sending TrackDnaData on alex&quot;</span>);
+    <span class="ident">alex</span>.<span class="ident">track_dna</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed sending TrackDna on alex&quot;</span>);
     <span class="kw">let</span> <span class="ident">connect_result_1</span> <span class="op">=</span> <span class="ident">alex</span>
         .<span class="ident">wait</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">PeerConnected</span>(<span class="kw">_</span>))))
         .<span class="ident">unwrap</span>();
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;self connected result 1: {:?}&quot;</span>, <span class="ident">connect_result_1</span>);
     <span class="comment">// billy</span>
-    <span class="ident">billy</span>
-        .<span class="ident">send</span>(
-            <span class="ident">JsonProtocol</span>::<span class="ident">TrackDna</span>(<span class="ident">TrackDnaData</span> {
-                <span class="ident">dna_address</span>: <span class="ident">DNA_ADDRESS</span>.<span class="ident">clone</span>(),
-                <span class="ident">agent_id</span>: <span class="ident">BILLY_AGENT_ID</span>.<span class="ident">to_string</span>(),
-            })
-            .<span class="ident">into</span>(),
-        )
-        .<span class="ident">expect</span>(<span class="string">&quot;Failed sending TrackDnaData on billy&quot;</span>);
+    <span class="ident">billy</span>.<span class="ident">track_dna</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed sending TrackDna on billy&quot;</span>);
     <span class="kw">let</span> <span class="ident">connect_result_2</span> <span class="op">=</span> <span class="ident">billy</span>
         .<span class="ident">wait</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">PeerConnected</span>(<span class="kw">_</span>))))
         .<span class="ident">unwrap</span>();
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;self connected result 2: {:?}&quot;</span>, <span class="ident">connect_result_2</span>);
     <span class="comment">// camille</span>
     <span class="ident">camille</span>
-        .<span class="ident">send</span>(
-            <span class="ident">JsonProtocol</span>::<span class="ident">TrackDna</span>(<span class="ident">TrackDnaData</span> {
-                <span class="ident">dna_address</span>: <span class="ident">DNA_ADDRESS</span>.<span class="ident">clone</span>(),
-                <span class="ident">agent_id</span>: <span class="ident">CAMILLE_AGENT_ID</span>.<span class="ident">to_string</span>(),
-            })
-            .<span class="ident">into</span>(),
-        )
-        .<span class="ident">expect</span>(<span class="string">&quot;Failed sending TrackDnaData on camille&quot;</span>);
+        .<span class="ident">track_dna</span>()
+        .<span class="ident">expect</span>(<span class="string">&quot;Failed sending TrackDna on camille&quot;</span>);
     <span class="kw">let</span> <span class="ident">connect_result_3</span> <span class="op">=</span> <span class="ident">camille</span>
         .<span class="ident">wait</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">PeerConnected</span>(<span class="kw">_</span>))))
         .<span class="ident">unwrap</span>();
@@ -508,7 +465,6 @@
             { <span class="ident">entry_data</span>.<span class="ident">request_id</span> <span class="op">==</span> <span class="ident">fetch_entry</span>.<span class="ident">request_id</span> }
         )))
     }
-
     <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">unwrap</span>();
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;got result 1: {:?}&quot;</span>, <span class="ident">json</span>);
     <span class="kw">let</span> <span class="ident">entry_data</span> <span class="op">=</span> <span class="macro">unwrap_to</span><span class="macro">!</span>(<span class="ident">json</span> <span class="op">=&gt;</span> <span class="ident">JsonProtocol</span>::<span class="ident">FetchEntryResult</span>);

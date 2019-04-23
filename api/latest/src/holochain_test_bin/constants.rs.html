@@ -25,6 +25,8 @@
 <span id="25">25</span>
 <span id="26">26</span>
 <span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">json</span>;
 
@@ -40,7 +42,9 @@
 <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">META_LINK_ATTRIBUTE</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;link__yay&quot;</span>;
 
 <span class="macro">lazy_static</span><span class="macro">!</span> {
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">DNA_ADDRESS</span>: <span class="ident">Address</span> <span class="op">=</span> <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="string">&quot;DUMMY_DNA_ADDRESS&quot;</span>);
+    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">DNA_ADDRESS</span>: <span class="ident">Address</span> <span class="op">=</span> <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="string">&quot;DNA_A&quot;</span>);
+    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">DNA_ADDRESS_B</span>: <span class="ident">Address</span> <span class="op">=</span> <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="string">&quot;DNA_B&quot;</span>);
+    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">DNA_ADDRESS_C</span>: <span class="ident">Address</span> <span class="op">=</span> <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="string">&quot;DNA_C&quot;</span>);
     <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">ENTRY_ADDRESS_1</span>: <span class="ident">Address</span> <span class="op">=</span> <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="string">&quot;entry_addr_1&quot;</span>);
     <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">ENTRY_ADDRESS_2</span>: <span class="ident">Address</span> <span class="op">=</span> <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="string">&quot;entry_addr_2&quot;</span>);
     <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">ENTRY_ADDRESS_3</span>: <span class="ident">Address</span> <span class="op">=</span> <span class="ident">HashString</span>::<span class="ident">from</span>(<span class="string">&quot;entry_addr_3&quot;</span>);
