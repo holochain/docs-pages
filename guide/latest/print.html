@@ -1753,9 +1753,10 @@ define_zome! {
 <li>bridging calls between different DNAs,</li>
 <li>and providing selective users of a DNA the ability to query private entries on the local chain via send/receive.</li>
 </ul>
-<p>Each capability grant gets recorded as a private entry on the grantor’s chain, and are validated against for every zome function call.</p>
+<p>Each capability grant gets recorded as a private entry on the grantor’s chain.  The hash (i.e. address) of that entry is then serves as the capability token usable by the grantee when making zome function call, because the grantor simply verifies the existence of that grant in it's chain.  Thus, all zome functions calls include a capability request object which contains: public key of the grantee and signature of the parameters being used to call the function, along with the capability token being used as the access credential.</p>
 <a class="header" href="#using-capabilities" id="using-capabilities"><h2>Using Capabilities</h2></a>
-<p>As of version 0.0.7-alpha capabilities are not fully implemented. In this version, however you must declare all functions as public using the special <code>hc_public</code> marker trait in your <code>define_zome!</code> call.  Functions in that trait will be added to the public capability grant which gets auto-committed during genesis, and thus, because other capability grants aren't yet available in 0.0.7-alpha, all Zome functions must be made public.</p>
+<a class="header" href="#public-capabilities" id="public-capabilities"><h3>Public Capabilities</h3></a>
+<p>You can declare some functions as &quot;public&quot;  using the special <code>hc_public</code> marker trait in your <code>define_zome!</code> call.  Functions in that trait will be added to the public capability grant which gets auto-committed during genesis.  Like this:</p>
 <pre><code>define_zome! {
 
 ...
@@ -1768,6 +1769,29 @@ define_zome! {
 
 }
 </code></pre>
+<a class="header" href="#grant-capabilities" id="grant-capabilities"><h3>Grant Capabilities</h3></a>
+<p>You can use the <code>grant_capability</code> HDK function to create a custom capability grant.  For example, imaging a blogging use-case where you want to grant friends the ability to call the <code>create_post</code> function in a <code>blog</code> zome.  Assuming the function <code>is_my_friend(addr)</code> correctly examines the provenance in CAPABILITY_REQ global which always holds the capability request of the current zome call, then the following code is an example of how you might call <code>hdk::grant_capability</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub fn handle_request_post_grant() -&gt; ZomeApiResult&lt;Option&lt;Address&gt;&gt; {
+    let addr = CAPABILITY_REQ.provenance.source();
+    if is_my_friend(addr.clone()) {
+        let mut functions = BTreeMap::new();
+        functions.insert(&quot;blog&quot;.to_string(), vec![&quot;create_post&quot;.to_string()]);
+        Ok(Some(hdk::grant_capability(
+            &quot;can_post&quot;,
+            CapabilityType::Assigned,
+            Some(vec![addr]),
+            functions,
+        )?))
+    } else {
+        Ok(None)
+    }
+}
+#}</code></pre></pre>
+<a class="header" href="#capabilities-in-bridging" id="capabilities-in-bridging"><h3>Capabilities in Bridging</h3></a>
+<p>TBD.</p>
 <a class="header" href="#read--write-data-operations" id="read--write-data-operations"><h1>Read &amp; Write Data Operations</h1></a>
 <a class="header" href="#entry-validation" id="entry-validation"><h1>Entry Validation</h1></a>
 <a class="header" href="#linking" id="linking"><h1>Linking</h1></a>
@@ -1883,8 +1907,8 @@ This function allows that claim to be verified, when given a &quot;signature&quo
 <a class="header" href="#remove-entry" id="remove-entry"><h3>Remove Entry</h3></a>
 <p>Canonical name: <code>remove_entry</code></p>
 <p>Enables an entry, referred to by its address, to be marked in the chain as 'deleted'. This is done by adding a new entry
-which indicates the deleted status of the old one. This will change which types of results that entry would then show up in,
-according to its new 'deleted' status. It can still be retrieved, but only if specifically asked for.</p>
+which indicates the deleted status of the old one. This will changes which types of results that entry would then show up in,
+according to its new 'deleted' status. It can still be retrieved, but only if specifically asked for. This function also returns the Hash of the deletion entry on completion</p>
 <p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.remove_entry.html">View it in the Rust HDK</a></p>
 <a class="header" href="#get-entry" id="get-entry"><h3>Get Entry</h3></a>
 <p>Canonical name: <code>get_entry</code></p>
@@ -1914,7 +1938,7 @@ according to its new 'deleted' status. It can still be retrieved, but only if sp
 </ul>
 <a class="header" href="#link-entries" id="link-entries"><h3>Link Entries</h3></a>
 <p>Canonical name: <code>link_entries</code></p>
-<p>Consumes three values, two of which are the addresses of entries, and one of which is a string that defines a relationship between them, called a <code>tag</code>. Later, lists of entries can be looked up by using <code>get_links</code>. Entries can only be looked up in the direction from the <code>base</code>, which is the first argument, to the <code>target</code>, which is the second.</p>
+<p>Consumes three values, two of which are the addresses of entries, and one of which is a string that defines a relationship between them, called a <code>tag</code>. Later, lists of entries can be looked up by using <code>get_links</code>. Entries can only be looked up in the direction from the <code>base</code>, which is the first argument, to the <code>target</code>, which is the second. This function returns a hash for the LinkAdd entry on completion.</p>
 <p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.link_entries.html">View it in the Rust HDK</a></p>
 <a class="header" href="#query" id="query"><h3>Query</h3></a>
 <p>Canonical name: <code>query</code></p>
@@ -1924,6 +1948,10 @@ according to its new 'deleted' status. It can still be retrieved, but only if sp
 <p>Canonical name: <code>send</code></p>
 <p>Sends a node-to-node message to the given agent. This works in conjunction with the receive callback, which is where the response behaviour to receiving a message should be defined. This function returns the result from the receive callback on the other side.</p>
 <p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.send.html">View it in the Rust HDK</a></p>
+<a class="header" href="#grant-capability" id="grant-capability"><h3>Grant Capability</h3></a>
+<p>Canonical name: <code>grant_capability</code></p>
+<p>Creates a capability grant on the local chain for allowing access to zome functions.</p>
+<p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.grant_capability.html">View it in the Rust HDK</a></p>
 <a class="header" href="#start-bundle" id="start-bundle"><h3>Start Bundle</h3></a>
 <p>Canonical name: <code>start_bundle</code></p>
 <p>Not yet available.</p>
@@ -2777,9 +2805,9 @@ id = &quot;app spec instance 1&quot;
 agent = &quot;test agent 1&quot;
 dna = &quot;app spec rust&quot;
 
-[instances.storage]
-type = &quot;file&quot;
-path = &quot;example-config/tmp-storage&quot;
+    [instances.storage]
+    type = &quot;file&quot;
+    path = &quot;example-config/tmp-storage&quot;
 </code></pre>
 <a class="header" href="#interfaces-1" id="interfaces-1"><h1>Interfaces</h1></a>
 <p><code>interfaces</code> is an array of configurations of the channels (e.g. http or websockets) that the Conductor will use to send information to and from instances and users. Interfaces are user facing and make Zome functions, info, and optionally admin functions available to GUIs, browser based web UIs, local native UIs, and other local applications and scripts.
@@ -2816,24 +2844,24 @@ An admin flag can enable special Conductor functions for programatically changin
 <pre><code class="language-toml">[[interfaces]]
 id = &quot;websocket interface&quot;
 
-[[interfaces.instances]]
-id = &quot;app spec instance 1&quot;
+    [[interfaces.instances]]
+    id = &quot;app spec instance 1&quot;
 
-[interfaces.driver]
-type = &quot;websocket&quot;
-port = 4000
+    [interfaces.driver]
+    type = &quot;websocket&quot;
+    port = 4000
 </code></pre>
 <a class="header" href="#example-with-admin" id="example-with-admin"><h3>Example With Admin</h3></a>
 <pre><code class="language-toml">[[interfaces]]
 id = &quot;http interface&quot;
 admin = true
 
-[[interfaces.instances]]
-id = &quot;app spec instance 1&quot;
+    [[interfaces.instances]]
+    id = &quot;app spec instance 1&quot;
 
-[interfaces.driver]
-type = &quot;http&quot;
-port = 4000
+    [interfaces.driver]
+    type = &quot;http&quot;
+    port = 4000
 </code></pre>
 <a class="header" href="#bridges-1" id="bridges-1"><h1>Bridges</h1></a>
 <p><code>bridges</code> is an array of configuration instances that are configured to be able to make calls to Zome functions of another instance. You can think of this of as configuring an internal direct interface between DNA instances.  The <a href="./bridging.html">section on bridging</a> provides more information on how this ability is used to to compose complex applications out of many DNA instances.</p>
@@ -2905,28 +2933,28 @@ dna_interface = &quot;websocket_interface&quot;
 <p>Whether to use this pattern to exclude things that match from the logs. Defaults to <code>false</code>. This option is useful for when the logs seem noisy.</p>
 <a class="header" href="#logrulecolor-enum-optional" id="logrulecolor-enum-optional"><h4><code>LogRule.color</code>: <code>enum</code> Optional</h4></a>
 <p>What color to use in the terminal output for logs that match this pattern. Options:</p>
-<pre><code>black, red, green, yellow, blue, magenta, cyan, white
+<pre><code class="language-text">black, red, green, yellow, blue, magenta, cyan, white
 </code></pre>
 <a class="header" href="#example-25" id="example-25"><h3>Example</h3></a>
 <pre><code class="language-toml">[logger]
 type = &quot;debug&quot;
-[[logger.rules.rules]]
-color = &quot;red&quot;
-exclude = false
-pattern = &quot;^err/&quot;
+    [[logger.rules.rules]]
+    color = &quot;red&quot;
+    exclude = false
+    pattern = &quot;^err/&quot;
 
-[[logger.rules.rules]]
-color = &quot;white&quot;
-exclude = false
-pattern = &quot;^debug/dna&quot;
+    [[logger.rules.rules]]
+    color = &quot;white&quot;
+    exclude = false
+    pattern = &quot;^debug/dna&quot;
 
-[[logger.rules.rules]]
-exclude = true
-pattern = &quot;^debug/reduce&quot;
+    [[logger.rules.rules]]
+    exclude = true
+    pattern = &quot;^debug/reduce&quot;
 
-[[logger.rules.rules]]
-exclude = false
-pattern = &quot;.*&quot;
+    [[logger.rules.rules]]
+    exclude = false
+    pattern = &quot;.*&quot;
 </code></pre>
 <a class="header" href="#networking-1" id="networking-1"><h1>Networking</h1></a>
 <p><code>network</code> is a table for the configuration of how networking should behave in the Conductor. The Conductor currently uses mock networking by default. To network with other nodes Holochain will automatically setup the <a href="https://github.com/holochain/n3h">n3h networking component</a>. How <code>n3h</code> behaves can be configured with the following properties in a Conductor configuration file.</p>

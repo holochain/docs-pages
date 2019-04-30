@@ -1329,6 +1329,32 @@
 <span id="1329">1329</span>
 <span id="1330">1330</span>
 <span id="1331">1331</span>
+<span id="1332">1332</span>
+<span id="1333">1333</span>
+<span id="1334">1334</span>
+<span id="1335">1335</span>
+<span id="1336">1336</span>
+<span id="1337">1337</span>
+<span id="1338">1338</span>
+<span id="1339">1339</span>
+<span id="1340">1340</span>
+<span id="1341">1341</span>
+<span id="1342">1342</span>
+<span id="1343">1343</span>
+<span id="1344">1344</span>
+<span id="1345">1345</span>
+<span id="1346">1346</span>
+<span id="1347">1347</span>
+<span id="1348">1348</span>
+<span id="1349">1349</span>
+<span id="1350">1350</span>
+<span id="1351">1351</span>
+<span id="1352">1352</span>
+<span id="1353">1353</span>
+<span id="1354">1354</span>
+<span id="1355">1355</span>
+<span id="1356">1356</span>
+<span id="1357">1357</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This file contains many of the structs, enums, and functions relevant for Zome</span>
 <span class="doccomment">//! developers! Detailed references and examples can be found here for how to use the</span>
@@ -1337,7 +1363,11 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">ZomeApiError</span>, <span class="ident">ZomeApiResult</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
-    <span class="ident">entry</span>::<span class="ident">Entry</span>,
+    <span class="ident">dna</span>::<span class="ident">capabilities</span>::<span class="ident">CapabilityRequest</span>,
+    <span class="ident">entry</span>::{
+        <span class="ident">cap_entries</span>::{<span class="ident">CapFunctions</span>, <span class="ident">CapabilityType</span>},
+        <span class="ident">Entry</span>,
+    },
     <span class="ident">error</span>::{<span class="ident">RibosomeEncodedAllocation</span>, <span class="ident">RibosomeEncodingBits</span>, <span class="ident">ZomeApiInternalResult</span>},
     <span class="ident">signature</span>::<span class="ident">Provenance</span>,
     <span class="ident">time</span>::<span class="ident">Timeout</span>,
@@ -1345,6 +1375,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">validation</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::{
     <span class="ident">api_serialization</span>::{
+        <span class="ident">capabilities</span>::<span class="ident">GrantCapabilityArgs</span>,
         <span class="ident">get_entry</span>::{
             <span class="ident">EntryHistory</span>, <span class="ident">GetEntryArgs</span>, <span class="ident">GetEntryOptions</span>, <span class="ident">GetEntryResult</span>, <span class="ident">GetEntryResultType</span>,
             <span class="ident">StatusRequestKind</span>,
@@ -1362,7 +1393,6 @@
         <span class="ident">ZomeFnCallArgs</span>,
     },
     <span class="ident">holochain_core_types</span>::{
-        <span class="ident">dna</span>::<span class="ident">capabilities</span>::<span class="ident">CapabilityRequest</span>,
         <span class="ident">hash</span>::<span class="ident">HashString</span>,
         <span class="ident">json</span>::{<span class="ident">JsonString</span>, <span class="ident">RawString</span>},
     },
@@ -1492,6 +1522,7 @@
     <span class="ident">hc_keystore_derive_seed</span>, <span class="ident">KeystoreDeriveSeed</span>;
     <span class="ident">hc_keystore_derive_key</span>, <span class="ident">KeystoreDeriveKey</span>;
     <span class="ident">hc_keystore_sign</span>, <span class="ident">KeystoreSign</span>;
+    <span class="ident">hc_grant_capability</span>, <span class="ident">GrantCapability</span>;
 }
 
 <span class="comment">//--------------------------------------------------------------------------------------------------</span>
@@ -1735,6 +1766,8 @@
 <span class="doccomment">/// # pub fn hc_keystore_derive_key(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_keystore_sign(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_grant_capability(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
@@ -1833,6 +1866,8 @@
 <span class="doccomment">/// # pub fn hc_keystore_derive_key(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_keystore_sign(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_grant_capability(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
@@ -2098,7 +2133,7 @@
     <span class="ident">base</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
     <span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
     <span class="ident">tag</span>: <span class="ident">S</span>,
-) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ZomeApiError</span><span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">ZomeApiError</span><span class="op">&gt;</span> {
     <span class="ident">Dispatch</span>::<span class="ident">LinkEntries</span>.<span class="ident">with_input</span>(<span class="ident">LinkEntriesArgs</span> {
         <span class="ident">base</span>: <span class="ident">base</span>.<span class="ident">clone</span>(),
         <span class="ident">target</span>: <span class="ident">target</span>.<span class="ident">clone</span>(),
@@ -2288,7 +2323,7 @@
     <span class="ident">Dispatch</span>::<span class="ident">EntryAddress</span>.<span class="ident">with_input</span>(<span class="ident">entry</span>)
 }
 
-<span class="doccomment">/// NOT YET AVAILABLE</span>
+<span class="doccomment">/// Verifies a that a given provenance signed the payload</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">verify_signature</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(
     <span class="ident">provenance</span>: <span class="ident">Provenance</span>,
     <span class="ident">payload</span>: <span class="ident">S</span>,
@@ -2320,7 +2355,7 @@
 <span class="doccomment">/// Commit a DeletionEntry to your local source chain that marks an entry as &#39;deleted&#39; by setting</span>
 <span class="doccomment">/// its status metadata to `Deleted` and adding the DeleteEntry&#39;s address in the deleted entry&#39;s</span>
 <span class="doccomment">/// metadata, which will be used by validation routes.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_entry</span>(<span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_entry</span>(<span class="ident">address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span> {
     <span class="ident">Dispatch</span>::<span class="ident">RemoveEntry</span>.<span class="ident">with_input</span>(<span class="ident">address</span>.<span class="ident">to_owned</span>())
 }
 
@@ -2585,6 +2620,8 @@
 <span class="doccomment">/// # pub fn hc_keystore_derive_key(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_keystore_sign(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_grant_capability(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">/// fn handle_send_message(to_agent: Address, message: String) -&gt; ZomeApiResult&lt;String&gt; {</span>
@@ -2660,6 +2697,21 @@
     <span class="comment">// internally returns RibosomeEncodedValue::Success which is a zero length allocation</span>
     <span class="comment">// return Ok(()) unconditionally instead of the &quot;error&quot; from success</span>
     <span class="prelude-val">Ok</span>(())
+}
+
+<span class="doccomment">/// Adds a capability grant to the local chain</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">grant_capability</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(
+    <span class="ident">id</span>: <span class="ident">S</span>,
+    <span class="ident">cap_type</span>: <span class="ident">CapabilityType</span>,
+    <span class="ident">assignees</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">functions</span>: <span class="ident">CapFunctions</span>,
+) <span class="op">-&gt;</span> <span class="ident">ZomeApiResult</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span> {
+    <span class="ident">Dispatch</span>::<span class="ident">GrantCapability</span>.<span class="ident">with_input</span>(<span class="ident">GrantCapabilityArgs</span> {
+        <span class="ident">id</span>: <span class="ident">id</span>.<span class="ident">into</span>(),
+        <span class="ident">cap_type</span>,
+        <span class="ident">assignees</span>,
+        <span class="ident">functions</span>,
+    })
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "hdk";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

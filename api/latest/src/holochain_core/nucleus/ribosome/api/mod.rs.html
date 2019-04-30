@@ -347,6 +347,11 @@
 <span id="347">347</span>
 <span id="348">348</span>
 <span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Module for ZomeApiFunctions</span>
 <span class="doccomment">//! ZomeApiFunctions are the functions provided by the ribosome that are callable by Zomes.</span>
@@ -361,6 +366,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">link_entries</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">mod</span> <span class="ident">macros</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">capabilities</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">keystore</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">query</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">remove_entry</span>;
@@ -374,6 +380,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{
     <span class="ident">api</span>::{
         <span class="ident">call</span>::<span class="ident">invoke_call</span>,
+        <span class="ident">capabilities</span>::<span class="ident">invoke_grant_capability</span>,
         <span class="ident">commit</span>::<span class="ident">invoke_commit_app_entry</span>,
         <span class="ident">debug</span>::<span class="ident">invoke_debug</span>,
         <span class="ident">entry_address</span>::<span class="ident">invoke_entry_address</span>,
@@ -477,6 +484,9 @@
 
     <span class="doccomment">/// Sign a block of data using a key in the keystore</span>
     <span class="string">&quot;hc_keystore_sign&quot;</span>, <span class="ident">KeystoreSign</span>, <span class="ident">invoke_keystore_sign</span>;
+
+    <span class="doccomment">/// Commit a capability grant to the source chain</span>
+    <span class="string">&quot;hc_grant_capability&quot;</span>, <span class="ident">GrantCapability</span>, <span class="ident">invoke_grant_capability</span>;
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>

@@ -791,6 +791,7 @@
 <span id="791">791</span>
 <span id="792">792</span>
 <span id="793">793</span>
+<span id="794">794</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::<span class="ident">ActionWrapper</span>, <span class="ident">context</span>::<span class="ident">Context</span>, <span class="ident">persister</span>::<span class="ident">Persister</span>, <span class="ident">scheduled_jobs</span>, <span class="ident">signal</span>::<span class="ident">Signal</span>,
@@ -1029,10 +1030,11 @@
             <span class="comment">// @TODO: if needed for performance, could add a filter predicate here</span>
             <span class="comment">// to prevent emitting too many unneeded signals</span>
             <span class="kw">let</span> <span class="ident">signal</span> <span class="op">=</span> <span class="ident">Signal</span>::<span class="ident">Internal</span>(<span class="ident">action</span>);
-            <span class="ident">tx</span>.<span class="ident">send</span>(<span class="ident">signal</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">_e</span><span class="op">|</span> {
+            <span class="ident">tx</span>.<span class="ident">send</span>(<span class="ident">signal</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                    <span class="string">&quot;warn/reduce: Signal channel is closed! No signals can be sent.&quot;</span>
-                ))
+                    <span class="string">&quot;warn/reduce: Signal channel is closed! No signals can be sent ({:?}).&quot;</span>,
+                    <span class="ident">e</span>
+                ));
             })
         }
     }

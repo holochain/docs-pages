@@ -112,6 +112,16 @@
 <span id="112">112</span>
 <span id="113">113</span>
 <span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This logger is the logger that&#39;s attached to each Holochain application</span>
 <span class="doccomment">//! which is separate from standard logging via the log crate warn! info! debug! logging that</span>
@@ -142,7 +152,12 @@
         <span class="comment">// if this logic changes</span>
         <span class="kw">if</span> <span class="ident">EnvVar</span>::<span class="ident">SimpleLoggerMute</span>.<span class="ident">value</span>().<span class="ident">is_err</span>() {
             <span class="kw">let</span> <span class="ident">date</span> <span class="op">=</span> <span class="ident">Local</span>::<span class="ident">now</span>();
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="ident">date</span>.<span class="ident">format</span>(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>), <span class="ident">msg</span>);
+            <span class="macro">println</span><span class="macro">!</span>(
+                <span class="string">&quot;{} {:?}:{}&quot;</span>,
+                <span class="ident">date</span>.<span class="ident">format</span>(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>),
+                <span class="ident">std</span>::<span class="ident">thread</span>::<span class="ident">current</span>().<span class="ident">id</span>(),
+                <span class="ident">msg</span>
+            );
         }
     }
 }
@@ -193,7 +208,12 @@
 }
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_handler</span>(<span class="ident">msg</span>: <span class="ident">String</span>) {
     <span class="kw">let</span> <span class="ident">date</span> <span class="op">=</span> <span class="ident">Local</span>::<span class="ident">now</span>();
-    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="ident">date</span>.<span class="ident">format</span>(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>), <span class="ident">msg</span>);
+    <span class="macro">println</span><span class="macro">!</span>(
+        <span class="string">&quot;{} {:?}:{}&quot;</span>,
+        <span class="ident">date</span>.<span class="ident">format</span>(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>),
+        <span class="ident">std</span>::<span class="ident">thread</span>::<span class="ident">current</span>().<span class="ident">id</span>(),
+        <span class="ident">msg</span>
+    );
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>

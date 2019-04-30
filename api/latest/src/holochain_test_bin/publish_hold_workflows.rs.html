@@ -333,6 +333,10 @@
 <span id="333">333</span>
 <span id="334">334</span>
 <span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">basic_workflows</span>::<span class="ident">setup_two_nodes</span>;
 <span class="kw">use</span> <span class="ident">constants</span>::<span class="kw-2">*</span>;
@@ -340,7 +344,7 @@
     <span class="ident">connection</span>::{<span class="ident">json_protocol</span>::<span class="ident">JsonProtocol</span>, <span class="ident">NetResult</span>},
     <span class="ident">tweetlog</span>::<span class="kw-2">*</span>,
 };
-<span class="kw">use</span> <span class="ident">p2p_node</span>::<span class="ident">P2pNode</span>;
+<span class="kw">use</span> <span class="ident">p2p_node</span>::<span class="ident">test_node</span>::<span class="ident">TestNode</span>;
 
 <span class="doccomment">/// Test the following workflow after normal setup:</span>
 <span class="doccomment">/// sequenceDiagram</span>
@@ -354,13 +358,13 @@
 <span class="doccomment">/// net-&gt;&gt;b: FailureResult</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty_publish_entry_list_test</span>(
-    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
-    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
+    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
+    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
     <span class="ident">can_connect</span>: <span class="ident">bool</span>,
 ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Setup</span>
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Testing: empty_publish_entry_list_test()&quot;</span>);
-    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
+    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
     <span class="comment">// Alex replies an empty list to the initial HandleGetPublishingEntryList</span>
     <span class="ident">alex</span>.<span class="ident">reply_to_first_HandleGetPublishingEntryList</span>();
     <span class="comment">// Billy asks for unpublished data.</span>
@@ -379,13 +383,13 @@
 <span class="doccomment">/// Return some data in publish_list request</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">publish_entry_list_test</span>(
-    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
-    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
+    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
+    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
     <span class="ident">can_connect</span>: <span class="ident">bool</span>,
 ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Setup</span>
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Testing: publish_entry_list_test()&quot;</span>);
-    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
+    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
     <span class="comment">// author an entry without publishing it</span>
     <span class="ident">alex</span>.<span class="ident">author_entry</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_1</span>, <span class="kw-2">&amp;</span><span class="ident">ENTRY_CONTENT_1</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
     <span class="comment">// Reply to the publish_list request received from network module</span>
@@ -415,13 +419,13 @@
 <span class="doccomment">/// Reply some data in publish_meta_list</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">publish_meta_list_test</span>(
-    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
-    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
+    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
+    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
     <span class="ident">can_connect</span>: <span class="ident">bool</span>,
 ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Setup</span>
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Testing: publish_meta_list_test()&quot;</span>);
-    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
+    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
     <span class="comment">// Author meta and reply to HandleGetPublishingMetaList</span>
     <span class="ident">alex</span>.<span class="ident">author_entry</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_1</span>, <span class="kw-2">&amp;</span><span class="ident">ENTRY_CONTENT_1</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
     <span class="ident">alex</span>.<span class="ident">author_meta</span>(
@@ -434,7 +438,7 @@
     <span class="comment">// Should receive a HandleFetchEntry request from network module</span>
     <span class="kw">let</span> <span class="ident">has_received</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">wait_HandleFetchMeta_and_reply</span>();
     <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">has_received</span>);
-    <span class="comment">// billy might receive HandleDhtStore</span>
+    <span class="comment">// billy might receive HandleFetchMeta</span>
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">wait_with_timeout</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchMeta</span>(<span class="kw">_</span>))), <span class="number">2000</span>);
     <span class="comment">// billy asks for reported published data.</span>
     <span class="ident">billy</span>.<span class="ident">request_meta</span>(<span class="ident">ENTRY_ADDRESS_1</span>.<span class="ident">clone</span>(), <span class="ident">META_LINK_ATTRIBUTE</span>.<span class="ident">into</span>());
@@ -457,13 +461,13 @@
 <span class="doccomment">/// Reply with some meta in hold_meta_list</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hold_meta_list_test</span>(
-    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
-    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
+    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
+    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
     <span class="ident">can_connect</span>: <span class="ident">bool</span>,
 ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Setup</span>
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Testing: hold_meta_list_test()&quot;</span>);
-    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
+    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
     <span class="comment">// Have alex hold some data</span>
     <span class="ident">alex</span>.<span class="ident">hold_meta</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_1</span>, <span class="ident">META_LINK_ATTRIBUTE</span>, <span class="kw-2">&amp;</span><span class="ident">META_LINK_CONTENT_1</span>);
     <span class="comment">// Alex: Look for the hold_list request received from network module and reply</span>
@@ -496,12 +500,12 @@
 <span class="doccomment">/// Return some data in publish_list request</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">double_publish_entry_list_test</span>(
-    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
-    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
+    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
+    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
     <span class="ident">can_connect</span>: <span class="ident">bool</span>,
 ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Testing: double_publish_entry_list_test()&quot;</span>);
-    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
+    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
     <span class="ident">alex</span>.<span class="ident">author_entry</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_1</span>, <span class="kw-2">&amp;</span><span class="ident">ENTRY_CONTENT_1</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
     <span class="ident">alex</span>.<span class="ident">reply_to_first_HandleGetPublishingEntryList</span>();
     <span class="comment">// Should NOT receive a HandleFetchEntry request from network module</span>
@@ -528,13 +532,13 @@
 <span class="doccomment">/// Reply some data in publish_meta_list</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">double_publish_meta_list_test</span>(
-    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
-    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>,
+    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
+    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
     <span class="ident">can_connect</span>: <span class="ident">bool</span>,
 ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Setup</span>
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Testing: double_publish_meta_list_test()&quot;</span>);
-    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
+    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
 
     <span class="comment">// Author meta and reply to HandleGetPublishingMetaList</span>
     <span class="ident">alex</span>.<span class="ident">author_entry</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_1</span>, <span class="kw-2">&amp;</span><span class="ident">ENTRY_CONTENT_1</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
@@ -548,7 +552,7 @@
     <span class="comment">// Should NOT receive a HandleFetchMeta request from network module</span>
     <span class="kw">let</span> <span class="ident">has_received</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">wait_HandleFetchMeta_and_reply</span>();
     <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">has_received</span>);
-    <span class="comment">// billy might receive HandleDhtStore</span>
+    <span class="comment">// billy might receive HandleFetchMeta</span>
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">wait_with_timeout</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchMeta</span>(<span class="kw">_</span>))), <span class="number">2000</span>);
     <span class="comment">// billy asks for reported published data.</span>
     <span class="ident">billy</span>.<span class="ident">request_meta</span>(<span class="ident">ENTRY_ADDRESS_1</span>.<span class="ident">clone</span>(), <span class="ident">META_LINK_ATTRIBUTE</span>.<span class="ident">into</span>());
@@ -570,10 +574,14 @@
 
 <span class="doccomment">/// Reply some data in publish_meta_list</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">many_meta_test</span>(<span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>, <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">P2pNode</span>, <span class="ident">can_connect</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">many_meta_test</span>(
+    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
+    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
+    <span class="ident">can_connect</span>: <span class="ident">bool</span>,
+) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Setup</span>
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Testing: many_meta_test()&quot;</span>);
-    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
+    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
     <span class="comment">// Author meta and reply to HandleGetPublishingMetaList</span>
     <span class="ident">alex</span>.<span class="ident">author_entry</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_1</span>, <span class="kw-2">&amp;</span><span class="ident">ENTRY_CONTENT_1</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
     <span class="macro">log_d</span><span class="macro">!</span>(<span class="string">&quot;entry authored&quot;</span>);
@@ -612,7 +620,7 @@
     <span class="kw">let</span> <span class="ident">has_received</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">wait_HandleFetchMeta_and_reply</span>();
     <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">has_received</span>);
 
-    <span class="comment">// billy might receive HandleDhtStore</span>
+    <span class="comment">// billy might receive HandleFetchMeta</span>
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">wait_with_timeout</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchMeta</span>(<span class="kw">_</span>))), <span class="number">2000</span>);
     <span class="macro">log_d</span><span class="macro">!</span>(<span class="string">&quot;alex has_received done&quot;</span>);
 
@@ -627,9 +635,9 @@
     <span class="macro">log_d</span><span class="macro">!</span>(<span class="string">&quot;node has_received HandleFetchMeta 1 = {}&quot;</span>, <span class="ident">has_received</span>);
 
     <span class="comment">// Alex or billy should receive HandleFetchMeta request</span>
-    <span class="kw">let</span> <span class="ident">has_received</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">wait_HandleFetchMeta_and_reply</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_received</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">wait_HandleFetchMeta_and_reply</span>();
     <span class="kw">if</span> <span class="op">!</span><span class="ident">has_received</span> {
-        <span class="ident">billy</span>.<span class="ident">wait_HandleFetchMeta_and_reply</span>();
+        <span class="ident">has_received</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">wait_HandleFetchMeta_and_reply</span>();
     }
     <span class="macro">log_d</span><span class="macro">!</span>(<span class="string">&quot;node has_received HandleFetchMeta 2 = {}&quot;</span>, <span class="ident">has_received</span>);
 

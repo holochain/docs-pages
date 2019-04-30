@@ -174,24 +174,24 @@ An admin flag can enable special Conductor functions for programatically changin
 <pre><code class="language-toml">[[interfaces]]
 id = &quot;websocket interface&quot;
 
-[[interfaces.instances]]
-id = &quot;app spec instance 1&quot;
+    [[interfaces.instances]]
+    id = &quot;app spec instance 1&quot;
 
-[interfaces.driver]
-type = &quot;websocket&quot;
-port = 4000
+    [interfaces.driver]
+    type = &quot;websocket&quot;
+    port = 4000
 </code></pre>
 <a class="header" href="#example-with-admin" id="example-with-admin"><h3>Example With Admin</h3></a>
 <pre><code class="language-toml">[[interfaces]]
 id = &quot;http interface&quot;
 admin = true
 
-[[interfaces.instances]]
-id = &quot;app spec instance 1&quot;
+    [[interfaces.instances]]
+    id = &quot;app spec instance 1&quot;
 
-[interfaces.driver]
-type = &quot;http&quot;
-port = 4000
+    [interfaces.driver]
+    type = &quot;http&quot;
+    port = 4000
 </code></pre>
 
                         <hr />

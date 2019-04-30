@@ -159,28 +159,28 @@
 <p>Whether to use this pattern to exclude things that match from the logs. Defaults to <code>false</code>. This option is useful for when the logs seem noisy.</p>
 <a class="header" href="#logrulecolor-enum-optional" id="logrulecolor-enum-optional"><h4><code>LogRule.color</code>: <code>enum</code> Optional</h4></a>
 <p>What color to use in the terminal output for logs that match this pattern. Options:</p>
-<pre><code>black, red, green, yellow, blue, magenta, cyan, white
+<pre><code class="language-text">black, red, green, yellow, blue, magenta, cyan, white
 </code></pre>
 <a class="header" href="#example" id="example"><h3>Example</h3></a>
 <pre><code class="language-toml">[logger]
 type = &quot;debug&quot;
-[[logger.rules.rules]]
-color = &quot;red&quot;
-exclude = false
-pattern = &quot;^err/&quot;
+    [[logger.rules.rules]]
+    color = &quot;red&quot;
+    exclude = false
+    pattern = &quot;^err/&quot;
 
-[[logger.rules.rules]]
-color = &quot;white&quot;
-exclude = false
-pattern = &quot;^debug/dna&quot;
+    [[logger.rules.rules]]
+    color = &quot;white&quot;
+    exclude = false
+    pattern = &quot;^debug/dna&quot;
 
-[[logger.rules.rules]]
-exclude = true
-pattern = &quot;^debug/reduce&quot;
+    [[logger.rules.rules]]
+    exclude = true
+    pattern = &quot;^debug/reduce&quot;
 
-[[logger.rules.rules]]
-exclude = false
-pattern = &quot;.*&quot;
+    [[logger.rules.rules]]
+    exclude = false
+    pattern = &quot;.*&quot;
 </code></pre>
 
                         <hr />

@@ -149,9 +149,10 @@
 <li>bridging calls between different DNAs,</li>
 <li>and providing selective users of a DNA the ability to query private entries on the local chain via send/receive.</li>
 </ul>
-<p>Each capability grant gets recorded as a private entry on the grantor’s chain, and are validated against for every zome function call.</p>
+<p>Each capability grant gets recorded as a private entry on the grantor’s chain.  The hash (i.e. address) of that entry is then serves as the capability token usable by the grantee when making zome function call, because the grantor simply verifies the existence of that grant in it's chain.  Thus, all zome functions calls include a capability request object which contains: public key of the grantee and signature of the parameters being used to call the function, along with the capability token being used as the access credential.</p>
 <a class="header" href="#using-capabilities" id="using-capabilities"><h2>Using Capabilities</h2></a>
-<p>As of version 0.0.7-alpha capabilities are not fully implemented. In this version, however you must declare all functions as public using the special <code>hc_public</code> marker trait in your <code>define_zome!</code> call.  Functions in that trait will be added to the public capability grant which gets auto-committed during genesis, and thus, because other capability grants aren't yet available in 0.0.7-alpha, all Zome functions must be made public.</p>
+<a class="header" href="#public-capabilities" id="public-capabilities"><h3>Public Capabilities</h3></a>
+<p>You can declare some functions as &quot;public&quot;  using the special <code>hc_public</code> marker trait in your <code>define_zome!</code> call.  Functions in that trait will be added to the public capability grant which gets auto-committed during genesis.  Like this:</p>
 <pre><code>define_zome! {
 
 ...
@@ -164,6 +165,29 @@
 
 }
 </code></pre>
+<a class="header" href="#grant-capabilities" id="grant-capabilities"><h3>Grant Capabilities</h3></a>
+<p>You can use the <code>grant_capability</code> HDK function to create a custom capability grant.  For example, imaging a blogging use-case where you want to grant friends the ability to call the <code>create_post</code> function in a <code>blog</code> zome.  Assuming the function <code>is_my_friend(addr)</code> correctly examines the provenance in CAPABILITY_REQ global which always holds the capability request of the current zome call, then the following code is an example of how you might call <code>hdk::grant_capability</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub fn handle_request_post_grant() -&gt; ZomeApiResult&lt;Option&lt;Address&gt;&gt; {
+    let addr = CAPABILITY_REQ.provenance.source();
+    if is_my_friend(addr.clone()) {
+        let mut functions = BTreeMap::new();
+        functions.insert(&quot;blog&quot;.to_string(), vec![&quot;create_post&quot;.to_string()]);
+        Ok(Some(hdk::grant_capability(
+            &quot;can_post&quot;,
+            CapabilityType::Assigned,
+            Some(vec![addr]),
+            functions,
+        )?))
+    } else {
+        Ok(None)
+    }
+}
+#}</code></pre></pre>
+<a class="header" href="#capabilities-in-bridging" id="capabilities-in-bridging"><h3>Capabilities in Bridging</h3></a>
+<p>TBD.</p>
 
                         <hr />
                         <a href="https://github.com/holochain/holochain-rust/edit/develop/doc/holochain_101/src/zome/capabilities.md">suggest an edit</a>

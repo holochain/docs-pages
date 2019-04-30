@@ -207,6 +207,10 @@
 <span id="207">207</span>
 <span id="208">208</span>
 <span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">get</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">send</span>;
@@ -222,6 +226,7 @@
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">hash</span>::<span class="ident">HashString</span>;
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">connection</span>::{<span class="ident">json_protocol</span>::<span class="ident">JsonProtocol</span>, <span class="ident">net_connection</span>::<span class="ident">NetHandler</span>};
+
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>};
 
 <span class="comment">// FIXME: Temporary hack to ignore messages incorrectly sent to us by the networking</span>
@@ -251,6 +256,7 @@
         <span class="comment">//   &quot;trace/net/handle:({}): {:?}&quot;,</span>
         <span class="comment">//   context.agent_id.nick, message</span>
         <span class="comment">// ));</span>
+
         <span class="kw">let</span> <span class="ident">maybe_json_msg</span> <span class="op">=</span> <span class="ident">JsonProtocol</span>::<span class="ident">try_from</span>(<span class="ident">message</span>);
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">maybe_json_msg</span> {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
@@ -390,6 +396,8 @@
                 <span class="kw">if</span> <span class="ident">is_my_id</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">peer_data</span>.<span class="ident">agent_id</span>) {
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
                 }
+
+                <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;debug/net/handle: PeerConnected: {:?}&quot;</span>, <span class="ident">peer_data</span>));
                 <span class="comment">// Total hack in lieu of a world-model.</span>
                 <span class="comment">// Just republish everything when a new person comes on-line!!</span>
                 <span class="ident">republish_all_public_chain_entries</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>);

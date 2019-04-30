@@ -214,12 +214,6 @@
 <span id="214">214</span>
 <span id="215">215</span>
 <span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">basic_workflows</span>, <span class="ident">print_three_nodes_test_name</span>, <span class="ident">print_two_nodes_test_name</span>, <span class="ident">ThreeNodesTestFn</span>,
@@ -234,7 +228,7 @@
     },
     <span class="ident">tweetlog</span>::<span class="kw-2">*</span>,
 };
-<span class="kw">use</span> <span class="ident">p2p_node</span>::<span class="ident">P2pNode</span>;
+<span class="kw">use</span> <span class="ident">p2p_node</span>::<span class="ident">test_node</span>::<span class="ident">TestNode</span>;
 
 <span class="comment">// Disconnect &amp; reconnect a Node in a two nodes scenario</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
@@ -247,17 +241,15 @@
     <span class="kw">let</span> <span class="ident">alex_dir</span> <span class="op">=</span> <span class="ident">tempfile</span>::<span class="ident">tempdir</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed to created a temp directory.&quot;</span>);
     <span class="kw">let</span> <span class="ident">alex_dir_path</span> <span class="op">=</span> <span class="ident">alex_dir</span>.<span class="ident">path</span>().<span class="ident">to_string_lossy</span>().<span class="ident">to_string</span>();
     <span class="comment">// Create two nodes</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">alex</span> <span class="op">=</span> <span class="ident">P2pNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">alex</span> <span class="op">=</span> <span class="ident">TestNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
         <span class="ident">ALEX_AGENT_ID</span>.<span class="ident">to_string</span>(),
-        <span class="ident">DNA_ADDRESS</span>.<span class="ident">clone</span>(),
         <span class="prelude-val">Some</span>(<span class="ident">config_filepath</span>),
         <span class="ident">maybe_end_user_config_filepath</span>.<span class="ident">clone</span>(),
         <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/ip4/127.0.0.1/tcp/12345/ipfs/blabla&quot;</span>.<span class="ident">to_string</span>()],
         <span class="prelude-val">Some</span>(<span class="ident">alex_dir_path</span>.<span class="ident">clone</span>()),
     );
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">billy</span> <span class="op">=</span> <span class="ident">P2pNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">billy</span> <span class="op">=</span> <span class="ident">TestNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
         <span class="ident">BILLY_AGENT_ID</span>.<span class="ident">to_string</span>(),
-        <span class="ident">DNA_ADDRESS</span>.<span class="ident">clone</span>(),
         <span class="prelude-val">Some</span>(<span class="ident">config_filepath</span>),
         <span class="ident">maybe_end_user_config_filepath</span>.<span class="ident">clone</span>(),
         <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/ip4/127.0.0.1/tcp/12345/ipfs/blabla&quot;</span>.<span class="ident">to_string</span>()],
@@ -278,16 +270,15 @@
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;#### billy got: {}\n\n\n\n&quot;</span>, <span class="ident">count</span>);
 
     <span class="comment">// re-enable alex</span>
-    <span class="ident">alex</span> <span class="op">=</span> <span class="ident">P2pNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
+    <span class="ident">alex</span> <span class="op">=</span> <span class="ident">TestNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
         <span class="ident">ALEX_AGENT_ID</span>.<span class="ident">to_string</span>(),
-        <span class="ident">DNA_ADDRESS</span>.<span class="ident">clone</span>(),
         <span class="prelude-val">Some</span>(<span class="ident">config_filepath</span>),
         <span class="ident">maybe_end_user_config_filepath</span>.<span class="ident">clone</span>(),
         <span class="comment">// TODO test bootstrap with billy&#39;s endpoint</span>
         <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/ip4/127.0.0.1/tcp/12345/ipfs/blabla&quot;</span>.<span class="ident">to_string</span>()],
         <span class="prelude-val">Some</span>(<span class="ident">alex_dir_path</span>),
     );
-    <span class="ident">basic_workflows</span>::<span class="ident">setup_one_node</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">alex</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">billy</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+    <span class="ident">basic_workflows</span>::<span class="ident">setup_one_node</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">alex</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">billy</span>, <span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">alex_binding_2</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">p2p_binding</span>.<span class="ident">clone</span>();
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;#### alex_binding_2: {}&quot;</span>, <span class="ident">alex_binding_2</span>);
@@ -342,9 +333,8 @@
     <span class="comment">// Create alex &amp; temp dir</span>
     <span class="kw">let</span> <span class="ident">alex_dir</span> <span class="op">=</span> <span class="ident">tempfile</span>::<span class="ident">tempdir</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed to created a temp directory.&quot;</span>);
     <span class="kw">let</span> <span class="ident">alex_dir_path</span> <span class="op">=</span> <span class="ident">alex_dir</span>.<span class="ident">path</span>().<span class="ident">to_string_lossy</span>().<span class="ident">to_string</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">alex</span> <span class="op">=</span> <span class="ident">P2pNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">alex</span> <span class="op">=</span> <span class="ident">TestNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
         <span class="ident">ALEX_AGENT_ID</span>.<span class="ident">to_string</span>(),
-        <span class="ident">DNA_ADDRESS</span>.<span class="ident">clone</span>(),
         <span class="prelude-val">Some</span>(<span class="ident">config_filepath</span>),
         <span class="ident">maybe_end_user_config_filepath</span>.<span class="ident">clone</span>(),
         <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/ip4/127.0.0.1/tcp/12345/ipfs/blabla&quot;</span>.<span class="ident">to_string</span>()],
@@ -353,9 +343,8 @@
     <span class="comment">// Create billy &amp; temp dir</span>
     <span class="kw">let</span> <span class="ident">billy_dir</span> <span class="op">=</span> <span class="ident">tempfile</span>::<span class="ident">tempdir</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed to created a temp directory.&quot;</span>);
     <span class="kw">let</span> <span class="ident">billy_dir_path</span> <span class="op">=</span> <span class="ident">billy_dir</span>.<span class="ident">path</span>().<span class="ident">to_string_lossy</span>().<span class="ident">to_string</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">billy</span> <span class="op">=</span> <span class="ident">P2pNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">billy</span> <span class="op">=</span> <span class="ident">TestNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
         <span class="ident">BILLY_AGENT_ID</span>.<span class="ident">to_string</span>(),
-        <span class="ident">DNA_ADDRESS</span>.<span class="ident">clone</span>(),
         <span class="prelude-val">Some</span>(<span class="ident">config_filepath</span>),
         <span class="ident">maybe_end_user_config_filepath</span>.<span class="ident">clone</span>(),
         <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/ip4/127.0.0.1/tcp/12345/ipfs/blabla&quot;</span>.<span class="ident">to_string</span>()],
@@ -364,9 +353,8 @@
     <span class="comment">// Create camille &amp; temp dir</span>
     <span class="kw">let</span> <span class="ident">camille_dir</span> <span class="op">=</span> <span class="ident">tempfile</span>::<span class="ident">tempdir</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed to created a temp directory.&quot;</span>);
     <span class="kw">let</span> <span class="ident">camille_dir_path</span> <span class="op">=</span> <span class="ident">camille_dir</span>.<span class="ident">path</span>().<span class="ident">to_string_lossy</span>().<span class="ident">to_string</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">camille</span> <span class="op">=</span> <span class="ident">P2pNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">camille</span> <span class="op">=</span> <span class="ident">TestNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
         <span class="ident">CAMILLE_AGENT_ID</span>.<span class="ident">to_string</span>(),
-        <span class="ident">DNA_ADDRESS</span>.<span class="ident">clone</span>(),
         <span class="prelude-val">Some</span>(<span class="ident">config_filepath</span>),
         <span class="ident">maybe_end_user_config_filepath</span>.<span class="ident">clone</span>(),
         <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;/ip4/127.0.0.1/tcp/12345/ipfs/blabla&quot;</span>.<span class="ident">to_string</span>()],
@@ -389,15 +377,15 @@
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;#### billy got alex camille authoring: {}\n\n\n\n&quot;</span>, <span class="ident">count</span>);
 
     <span class="comment">// re-enable alex</span>
-    <span class="ident">alex</span> <span class="op">=</span> <span class="ident">P2pNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
+    <span class="ident">alex</span> <span class="op">=</span> <span class="ident">TestNode</span>::<span class="ident">new_with_spawn_ipc_network</span>(
         <span class="ident">ALEX_AGENT_ID</span>.<span class="ident">to_string</span>(),
-        <span class="ident">DNA_ADDRESS</span>.<span class="ident">clone</span>(),
         <span class="prelude-val">Some</span>(<span class="ident">config_filepath</span>),
         <span class="ident">maybe_end_user_config_filepath</span>.<span class="ident">clone</span>(),
         <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">billy</span>.<span class="ident">p2p_binding</span>.<span class="ident">clone</span>()],
         <span class="prelude-val">Some</span>(<span class="ident">alex_dir_path</span>),
     );
-    <span class="ident">alex</span>.<span class="ident">track_dna</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed sending TrackDna on alex&quot;</span>);
+    <span class="ident">alex</span>.<span class="ident">track_dna</span>(<span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="bool-val">true</span>)
+        .<span class="ident">expect</span>(<span class="string">&quot;Failed sending TrackDna on alex&quot;</span>);
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;#### alex reborn ({})&quot;</span>, <span class="ident">alex</span>.<span class="ident">p2p_binding</span>.<span class="ident">clone</span>());
 
     <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">listen</span>(<span class="number">500</span>);

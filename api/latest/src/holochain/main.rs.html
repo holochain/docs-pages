@@ -105,6 +105,8 @@
 <span id="105">105</span>
 <span id="106">106</span>
 <span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
@@ -162,7 +164,7 @@
                     <span class="string">&quot;Successfully loaded {} instance configurations&quot;</span>,
                     <span class="ident">conductor</span>.<span class="ident">instances</span>().<span class="ident">len</span>()
                 );
-                <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Starting all of them...&quot;</span>);
+                <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Starting instances...&quot;</span>);
                 <span class="ident">conductor</span>
                     .<span class="ident">start_all_instances</span>()
                     .<span class="ident">expect</span>(<span class="string">&quot;Could not start instances!&quot;</span>);
@@ -174,6 +176,8 @@
                     .<span class="ident">start_all_static_servers</span>()
                     .<span class="ident">expect</span>(<span class="string">&quot;Could not start UI servers!&quot;</span>);
             }
+
+            <span class="comment">// TODO wait for a SIGKILL or SIGINT instead here.</span>
             <span class="kw">loop</span> {
                 <span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_secs</span>(<span class="number">1</span>))
             }

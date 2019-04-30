@@ -230,7 +230,7 @@
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">error</span><span class="op">|</span> <span class="ident">HolochainError</span>::<span class="ident">IoError</span>(<span class="ident">error</span>.<span class="ident">to_string</span>()))
         })
         .<span class="ident">ok_or</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
-            <span class="string">&quot;Network not intialized&quot;</span>.<span class="ident">to_string</span>(),
+            <span class="string">&quot;Network not initialized&quot;</span>.<span class="ident">to_string</span>(),
         ))<span class="question-mark">?</span>
 }
 

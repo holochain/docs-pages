@@ -210,8 +210,8 @@ This function allows that claim to be verified, when given a &quot;signature&quo
 <a class="header" href="#remove-entry" id="remove-entry"><h3>Remove Entry</h3></a>
 <p>Canonical name: <code>remove_entry</code></p>
 <p>Enables an entry, referred to by its address, to be marked in the chain as 'deleted'. This is done by adding a new entry
-which indicates the deleted status of the old one. This will change which types of results that entry would then show up in,
-according to its new 'deleted' status. It can still be retrieved, but only if specifically asked for.</p>
+which indicates the deleted status of the old one. This will changes which types of results that entry would then show up in,
+according to its new 'deleted' status. It can still be retrieved, but only if specifically asked for. This function also returns the Hash of the deletion entry on completion</p>
 <p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.remove_entry.html">View it in the Rust HDK</a></p>
 <a class="header" href="#get-entry" id="get-entry"><h3>Get Entry</h3></a>
 <p>Canonical name: <code>get_entry</code></p>
@@ -241,7 +241,7 @@ according to its new 'deleted' status. It can still be retrieved, but only if sp
 </ul>
 <a class="header" href="#link-entries" id="link-entries"><h3>Link Entries</h3></a>
 <p>Canonical name: <code>link_entries</code></p>
-<p>Consumes three values, two of which are the addresses of entries, and one of which is a string that defines a relationship between them, called a <code>tag</code>. Later, lists of entries can be looked up by using <code>get_links</code>. Entries can only be looked up in the direction from the <code>base</code>, which is the first argument, to the <code>target</code>, which is the second.</p>
+<p>Consumes three values, two of which are the addresses of entries, and one of which is a string that defines a relationship between them, called a <code>tag</code>. Later, lists of entries can be looked up by using <code>get_links</code>. Entries can only be looked up in the direction from the <code>base</code>, which is the first argument, to the <code>target</code>, which is the second. This function returns a hash for the LinkAdd entry on completion.</p>
 <p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.link_entries.html">View it in the Rust HDK</a></p>
 <a class="header" href="#query" id="query"><h3>Query</h3></a>
 <p>Canonical name: <code>query</code></p>
@@ -251,6 +251,10 @@ according to its new 'deleted' status. It can still be retrieved, but only if sp
 <p>Canonical name: <code>send</code></p>
 <p>Sends a node-to-node message to the given agent. This works in conjunction with the receive callback, which is where the response behaviour to receiving a message should be defined. This function returns the result from the receive callback on the other side.</p>
 <p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.send.html">View it in the Rust HDK</a></p>
+<a class="header" href="#grant-capability" id="grant-capability"><h3>Grant Capability</h3></a>
+<p>Canonical name: <code>grant_capability</code></p>
+<p>Creates a capability grant on the local chain for allowing access to zome functions.</p>
+<p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.grant_capability.html">View it in the Rust HDK</a></p>
 <a class="header" href="#start-bundle" id="start-bundle"><h3>Start Bundle</h3></a>
 <p>Canonical name: <code>start_bundle</code></p>
 <p>Not yet available.</p>

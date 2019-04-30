@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["MetaStore",""],["P2pNode","Core Mock"]],"type":[["MetaStoreValue",""]]});
+initSidebarItems({"mod":[["dna_store",""],["ipc_config",""],["meta_store",""],["test_node",""]]});

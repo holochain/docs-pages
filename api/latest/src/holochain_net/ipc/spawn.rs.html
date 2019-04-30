@@ -167,6 +167,25 @@
 <span id="167">167</span>
 <span id="168">168</span>
 <span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This is a helper function to manage spawning an IPC sub-process</span>
 <span class="doccomment">//! This process is expected to output some specific messages on its stdout</span>
@@ -319,6 +338,9 @@
 
     <span class="comment">// Set shutdown function to kill the sub-process</span>
     <span class="ident">out</span>.<span class="ident">kill</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">||</span> {
+        <span class="kw">if</span> <span class="ident">term_child</span>(<span class="ident">child</span>.<span class="ident">id</span>()) {
+            <span class="kw">return</span>;
+        }
         <span class="kw">match</span> <span class="ident">child</span>.<span class="ident">kill</span>() {
             <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span> <span class="ident">kill_child</span>(<span class="kw-2">&amp;</span><span class="ident">real_pid</span>),
             <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;failed to kill ipc sub-process: {:?}&quot;</span>, <span class="ident">e</span>),
@@ -326,6 +348,22 @@
     }));
 
     <span class="prelude-val">Ok</span>(<span class="ident">out</span>)
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
+<span class="kw">fn</span> <span class="ident">term_child</span>(<span class="ident">_pid</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="bool-val">false</span>
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">windows</span>))]</span>
+<span class="kw">fn</span> <span class="ident">term_child</span>(<span class="ident">pid</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">unsafe</span> {
+        <span class="kw">if</span> <span class="ident">libc</span>::<span class="ident">kill</span>(<span class="ident">pid</span> <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">libc</span>::<span class="ident">SIGTERM</span>) <span class="op">==</span> <span class="number">0</span> {
+            <span class="ident">libc</span>::<span class="ident">waitpid</span>(<span class="ident">pid</span> <span class="kw">as</span> <span class="ident">i32</span>, <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null_mut</span>(), <span class="number">0</span>);
+            <span class="kw">return</span> <span class="bool-val">true</span>;
+        }
+    }
+    <span class="bool-val">false</span>
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `test_bin/src/p2p_node.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>p2p_node.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../..//index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `test_bin/src/p2p_node/test_node.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>test_node.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../..//index.html'><img src='../../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1011,31 +1011,16 @@
 <span id="1011">1011</span>
 <span id="1012">1012</span>
 <span id="1013">1013</span>
-<span id="1014">1014</span>
-<span id="1015">1015</span>
-<span id="1016">1016</span>
-<span id="1017">1017</span>
-<span id="1018">1018</span>
-<span id="1019">1019</span>
-<span id="1020">1020</span>
-<span id="1021">1021</span>
-<span id="1022">1022</span>
-<span id="1023">1023</span>
-<span id="1024">1024</span>
-<span id="1025">1025</span>
-<span id="1026">1026</span>
-<span id="1027">1027</span>
-<span id="1028">1028</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
 
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">hash</span>::<span class="ident">HashString</span>};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">holochain_net</span>::{
     <span class="ident">connection</span>::{
         <span class="ident">json_protocol</span>::{
             <span class="ident">DhtMetaData</span>, <span class="ident">EntryData</span>, <span class="ident">EntryListData</span>, <span class="ident">FailureResultData</span>, <span class="ident">FetchEntryData</span>,
             <span class="ident">FetchEntryResultData</span>, <span class="ident">FetchMetaData</span>, <span class="ident">FetchMetaResultData</span>, <span class="ident">GetListData</span>, <span class="ident">JsonProtocol</span>,
-            <span class="ident">MessageData</span>, <span class="ident">MetaKey</span>, <span class="ident">MetaListData</span>, <span class="ident">MetaTuple</span>, <span class="ident">TrackDnaData</span>,
+            <span class="ident">MessageData</span>, <span class="ident">MetaKey</span>, <span class="ident">MetaListData</span>, <span class="ident">TrackDnaData</span>,
         },
         <span class="ident">net_connection</span>::<span class="ident">NetSend</span>,
         <span class="ident">protocol</span>::<span class="ident">Protocol</span>,
@@ -1045,91 +1030,19 @@
     <span class="ident">p2p_network</span>::<span class="ident">P2pNetwork</span>,
     <span class="ident">tweetlog</span>::{<span class="ident">TweetProxy</span>, <span class="kw-2">*</span>},
 };
-<span class="kw">use</span> <span class="ident">multihash</span>::<span class="ident">Hash</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections</span>::<span class="ident">HashMap</span>, <span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">sync</span>::<span class="ident">mpsc</span>};
+
+<span class="kw">use</span> <span class="ident">std</span>::{
+    <span class="ident">collections</span>::{<span class="ident">HashMap</span>, <span class="ident">HashSet</span>},
+    <span class="ident">convert</span>::<span class="ident">TryFrom</span>,
+    <span class="ident">sync</span>::<span class="ident">mpsc</span>,
+};
+
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">dna_store</span>::<span class="ident">DnaStore</span>, <span class="ident">ipc_config</span>::<span class="ident">create_ipc_config</span>};
 
 <span class="kw">static</span> <span class="ident">TIMEOUT_MS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">5000</span>;
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">MetaStoreValue</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">Value</span>;
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MetaStore</span> {
-    <span class="comment">// TODO: Changed once meta is only Addresses</span>
-    <span class="comment">// pub meta_store: HashMap&lt;MetaKey, HashSet&lt;Address&gt;&gt;,</span>
-    <span class="ident">store</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">MetaKey</span>, <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">serde_json</span>::<span class="ident">Value</span><span class="op">&gt;&gt;</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">MetaStore</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">MetaStore</span> {
-            <span class="ident">store</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
-        }
-    }
-
-    <span class="doccomment">/// Check if this value is already stored</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">has</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">meta_key</span>: <span class="ident">MetaKey</span>, <span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="ident">MetaStoreValue</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">HashString</span>::<span class="ident">encode_from_str</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>.<span class="ident">to_string</span>(), <span class="ident">Hash</span>::<span class="ident">SHA2256</span>);
-        <span class="kw">let</span> <span class="ident">maybe_map</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">meta_key</span>);
-        <span class="kw">if</span> <span class="ident">maybe_map</span>.<span class="ident">is_none</span>() {
-            <span class="kw">return</span> <span class="bool-val">false</span>;
-        }
-        <span class="ident">maybe_map</span>.<span class="ident">unwrap</span>().<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>).<span class="ident">is_some</span>()
-    }
-
-    <span class="doccomment">///</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">insert</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">meta_key</span>: <span class="ident">MetaKey</span>, <span class="ident">v</span>: <span class="ident">MetaStoreValue</span>) {
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">HashString</span>::<span class="ident">encode_from_str</span>(<span class="kw-2">&amp;</span><span class="ident">v</span>.<span class="ident">to_string</span>(), <span class="ident">Hash</span>::<span class="ident">SHA2256</span>);
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">None</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">store</span>.<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">meta_key</span>) {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">new</span>();
-            <span class="macro">log_tt</span><span class="macro">!</span>(
-                <span class="string">&quot;metastore&quot;</span>,
-                <span class="string">&quot;MetaStore: first content for &#39;{:?}&#39; = {} | {}&quot;</span>,
-                <span class="ident">meta_key</span>,
-                <span class="ident">v</span>,
-                <span class="ident">hash</span>,
-            );
-            <span class="ident">map</span>.<span class="ident">insert</span>(<span class="ident">hash</span>, <span class="ident">v</span>);
-            <span class="self">self</span>.<span class="ident">store</span>.<span class="ident">insert</span>(<span class="ident">meta_key</span>, <span class="ident">map</span>);
-        } <span class="kw">else</span> {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">map</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">store</span>.<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">meta_key</span>) {
-                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">map</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>).<span class="ident">is_none</span>());
-                <span class="macro">log_tt</span><span class="macro">!</span>(
-                    <span class="string">&quot;metastore&quot;</span>,
-                    <span class="string">&quot;MetaStore: adding content for &#39;{:?}&#39; = {} | {}&quot;</span>,
-                    <span class="ident">meta_key</span>,
-                    <span class="ident">v</span>,
-                    <span class="ident">hash</span>,
-                );
-                <span class="ident">map</span>.<span class="ident">insert</span>(<span class="ident">hash</span>, <span class="ident">v</span>);
-            };
-        };
-    }
-
-    <span class="doccomment">/// Get all values for a meta_key as a vec</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">meta_key</span>: <span class="ident">MetaKey</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">serde_json</span>::<span class="ident">Value</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">maybe_metas</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">meta_key</span>);
-        <span class="kw">let</span> <span class="ident">metas</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_metas</span>.<span class="ident">clone</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">map</span>) <span class="op">=&gt;</span> <span class="ident">map</span>.<span class="ident">clone</span>(),
-            <span class="comment">// if meta not found return empty list (will make the aggregation easier)</span>
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">HashMap</span>::<span class="ident">new</span>(),
-        };
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">metas</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">v</span>)<span class="op">|</span> <span class="ident">v</span>.<span class="ident">clone</span>()).<span class="ident">collect</span>();
-        <span class="ident">res</span>
-    }
-
-    <span class="doccomment">/// Get all values stored</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_all</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MetaTuple</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">meta_list</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MetaTuple</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
-        <span class="kw">for</span> (<span class="ident">meta_key</span>, <span class="ident">meta_map</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">store</span>.<span class="ident">clone</span>() {
-            <span class="kw">for</span> (<span class="kw">_</span>, <span class="ident">v</span>) <span class="kw">in</span> <span class="ident">meta_map</span> {
-                <span class="ident">meta_list</span>.<span class="ident">push</span>((<span class="ident">meta_key</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="ident">meta_key</span>.<span class="number">1</span>.<span class="ident">clone</span>(), <span class="ident">v</span>));
-            }
-        }
-        <span class="ident">meta_list</span>
-    }
-}
-
 <span class="doccomment">/// Core Mock</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">P2pNode</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TestNode</span> {
     <span class="comment">// Need to hold the tempdir to keep it alive, otherwise we will get a dir error.</span>
     <span class="ident">_maybe_temp_dir</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">tempfile</span>::<span class="ident">TempDir</span><span class="op">&gt;</span>,
     <span class="ident">p2p_connection</span>: <span class="ident">P2pNetwork</span>,
@@ -1146,14 +1059,11 @@
     <span class="ident">recv_msg_log</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span>,
     <span class="ident">recv_dm_log</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MessageData</span><span class="op">&gt;</span>,
 
-    <span class="comment">// datastores for one dna</span>
-    <span class="comment">// TODO: Have a datastore per dna ; perhaps in a CoreMock struct</span>
-    <span class="kw">pub</span> <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-    <span class="kw">pub</span> <span class="ident">entry_store</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">serde_json</span>::<span class="ident">Value</span><span class="op">&gt;</span>,
+    <span class="comment">// datastores per dna</span>
+    <span class="ident">dna_stores</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">DnaStore</span><span class="op">&gt;</span>,
+    <span class="ident">tracked_dnas</span>: <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>,
 
-    <span class="kw">pub</span> <span class="ident">meta_store</span>: <span class="ident">MetaStore</span>,
-    <span class="kw">pub</span> <span class="ident">authored_entry_store</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Address</span>, <span class="ident">serde_json</span>::<span class="ident">Value</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">authored_meta_store</span>: <span class="ident">MetaStore</span>,
+    <span class="kw">pub</span> <span class="ident">current_dna</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>,
 
     <span class="kw">pub</span> <span class="ident">logger</span>: <span class="ident">TweetProxy</span>,
 
@@ -1162,7 +1072,7 @@
 }
 
 <span class="doccomment">/// Query logs</span>
-<span class="kw">impl</span> <span class="ident">P2pNode</span> {
+<span class="kw">impl</span> <span class="ident">TestNode</span> {
     <span class="doccomment">/// Return number of JsonProtocol message this node has received</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">count_recv_json_messages</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">0</span>;
@@ -1197,53 +1107,107 @@
     }
 }
 
-<span class="comment">// Track, publish, hold</span>
-<span class="kw">impl</span> <span class="ident">P2pNode</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">track_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">dna_address</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>();
-        <span class="self">self</span>.<span class="ident">track_extra_dna</span>(<span class="kw-2">&amp;</span><span class="ident">dna_address</span>)
+<span class="comment">// Track</span>
+<span class="kw">impl</span> <span class="ident">TestNode</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">track_current_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="self">self</span>.<span class="ident">track_dna</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>, <span class="bool-val">false</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">track_extra_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">track_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>, <span class="ident">can_set_current</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">tracked_dnas</span>.<span class="ident">contains</span>(<span class="ident">dna_address</span>) {
+            <span class="kw">if</span> <span class="ident">can_set_current</span> {
+                <span class="self">self</span>.<span class="ident">set_current_dna</span>(<span class="ident">dna_address</span>);
+            }
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
         <span class="kw">let</span> <span class="ident">agent_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>();
-        <span class="self">self</span>.<span class="ident">send</span>(
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">send</span>(
             <span class="ident">JsonProtocol</span>::<span class="ident">TrackDna</span>(<span class="ident">TrackDnaData</span> {
                 <span class="ident">dna_address</span>: <span class="ident">dna_address</span>.<span class="ident">clone</span>(),
                 <span class="ident">agent_id</span>,
             })
             .<span class="ident">into</span>(),
-        )
+        );
+        <span class="kw">if</span> <span class="ident">res</span>.<span class="ident">is_ok</span>() {
+            <span class="self">self</span>.<span class="ident">tracked_dnas</span>.<span class="ident">insert</span>(<span class="ident">dna_address</span>.<span class="ident">clone</span>());
+            <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">dna_stores</span>.<span class="ident">contains_key</span>(<span class="ident">dna_address</span>) {
+                <span class="self">self</span>.<span class="ident">dna_stores</span>
+                    .<span class="ident">insert</span>(<span class="ident">dna_address</span>.<span class="ident">clone</span>(), <span class="ident">DnaStore</span>::<span class="ident">new</span>(<span class="ident">dna_address</span>.<span class="ident">clone</span>()));
+            }
+            <span class="kw">if</span> <span class="ident">can_set_current</span> {
+                <span class="self">self</span>.<span class="ident">set_current_dna</span>(<span class="ident">dna_address</span>);
+            }
+        }
+        <span class="ident">res</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">untrack_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">dna_address</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>();
-        <span class="self">self</span>.<span class="ident">untrack_extra_dna</span>(<span class="kw-2">&amp;</span><span class="ident">dna_address</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">untrack_current_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">untrack_dna</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>);
+        <span class="kw">if</span> <span class="ident">res</span>.<span class="ident">is_ok</span>() {
+            <span class="self">self</span>.<span class="ident">current_dna</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        }
+        <span class="ident">res</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">untrack_extra_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">untrack_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">tracked_dnas</span>.<span class="ident">contains</span>(<span class="ident">dna_address</span>) {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
         <span class="kw">let</span> <span class="ident">agent_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>();
-        <span class="self">self</span>.<span class="ident">send</span>(
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">send</span>(
             <span class="ident">JsonProtocol</span>::<span class="ident">UntrackDna</span>(<span class="ident">TrackDnaData</span> {
                 <span class="ident">dna_address</span>: <span class="ident">dna_address</span>.<span class="ident">clone</span>(),
                 <span class="ident">agent_id</span>,
             })
             .<span class="ident">into</span>(),
-        )
+        );
+        <span class="kw">if</span> <span class="ident">res</span>.<span class="ident">is_ok</span>() {
+            <span class="self">self</span>.<span class="ident">tracked_dnas</span>.<span class="ident">remove</span>(<span class="ident">dna_address</span>);
+        }
+        <span class="ident">res</span>
     }
 
+    <span class="doccomment">///</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_tracking</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">tracked_dnas</span>.<span class="ident">contains</span>(<span class="ident">dna_address</span>)
+    }
+
+    <span class="doccomment">///</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_current_dna</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dna_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">dna_stores</span>.<span class="ident">contains_key</span>(<span class="ident">dna_address</span>) {
+            <span class="self">self</span>.<span class="ident">current_dna</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">dna_address</span>.<span class="ident">clone</span>());
+        };
+    }
+}
+
+<span class="doccomment">/// publish, hold</span>
+<span class="kw">impl</span> <span class="ident">TestNode</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">author_entry</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">entry_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>,
         <span class="ident">entry_content</span>: <span class="kw-2">&amp;</span><span class="ident">serde_json</span>::<span class="ident">Value</span>,
         <span class="ident">can_publish</span>: <span class="ident">bool</span>,
     ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="self">self</span>.<span class="ident">authored_entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>).<span class="ident">is_some</span>());
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="self">self</span>.<span class="ident">entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>).<span class="ident">is_some</span>());
-        <span class="self">self</span>.<span class="ident">authored_entry_store</span>
-            .<span class="ident">insert</span>(<span class="ident">entry_address</span>.<span class="ident">clone</span>(), <span class="ident">entry_content</span>.<span class="ident">clone</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        {
+            <span class="kw">let</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                .<span class="ident">dna_stores</span>
+                .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">dna_store</span>.<span class="ident">authored_entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>).<span class="ident">is_some</span>());
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">dna_store</span>.<span class="ident">entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>).<span class="ident">is_some</span>());
+            <span class="ident">dna_store</span>
+                .<span class="ident">authored_entry_store</span>
+                .<span class="ident">insert</span>(<span class="ident">entry_address</span>.<span class="ident">clone</span>(), <span class="ident">entry_content</span>.<span class="ident">clone</span>());
+        }
         <span class="kw">if</span> <span class="ident">can_publish</span> {
             <span class="kw">let</span> <span class="ident">msg_data</span> <span class="op">=</span> <span class="ident">EntryData</span> {
-                <span class="ident">dna_address</span>: <span class="self">self</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+                <span class="ident">dna_address</span>: <span class="ident">current_dna</span>,
                 <span class="ident">provider_agent_id</span>: <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>(),
                 <span class="ident">entry_address</span>: <span class="ident">entry_address</span>.<span class="ident">clone</span>(),
                 <span class="ident">entry_content</span>: <span class="ident">entry_content</span>.<span class="ident">clone</span>(),
@@ -1261,19 +1225,28 @@
         <span class="ident">link_entry_address</span>: <span class="kw-2">&amp;</span><span class="ident">serde_json</span>::<span class="ident">Value</span>,
         <span class="ident">can_publish</span>: <span class="ident">bool</span>,
     ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span><span class="ident">MetaKey</span><span class="op">&gt;</span> {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">meta_key</span> <span class="op">=</span> (<span class="ident">entry_address</span>.<span class="ident">clone</span>(), <span class="ident">attribute</span>.<span class="ident">to_string</span>());
 
         <span class="comment">// bookkeep</span>
         {
+            <span class="kw">let</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                .<span class="ident">dna_stores</span>
+                .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
             <span class="comment">// Must not already have meta</span>
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="self">self</span>.<span class="ident">meta_store</span>.<span class="ident">has</span>(<span class="ident">meta_key</span>.<span class="ident">clone</span>(), <span class="ident">link_entry_address</span>));
-            <span class="self">self</span>.<span class="ident">authored_meta_store</span>
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">dna_store</span>
+                .<span class="ident">meta_store</span>
+                .<span class="ident">has</span>(<span class="ident">meta_key</span>.<span class="ident">clone</span>(), <span class="ident">link_entry_address</span>));
+            <span class="ident">dna_store</span>
+                .<span class="ident">authored_meta_store</span>
                 .<span class="ident">insert</span>(<span class="ident">meta_key</span>.<span class="ident">clone</span>(), <span class="ident">link_entry_address</span>.<span class="ident">clone</span>());
         }
         <span class="comment">// publish it</span>
         <span class="kw">if</span> <span class="ident">can_publish</span> {
             <span class="kw">let</span> <span class="ident">msg_data</span> <span class="op">=</span> <span class="ident">DhtMetaData</span> {
-                <span class="ident">dna_address</span>: <span class="self">self</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+                <span class="ident">dna_address</span>: <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>(),
                 <span class="ident">provider_agent_id</span>: <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>(),
                 <span class="ident">entry_address</span>: <span class="ident">entry_address</span>.<span class="ident">clone</span>(),
                 <span class="ident">attribute</span>: <span class="ident">attribute</span>.<span class="ident">to_string</span>(),
@@ -1287,9 +1260,16 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hold_entry</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">entry_address</span>: <span class="kw-2">&amp;</span><span class="ident">Address</span>, <span class="ident">entry_content</span>: <span class="kw-2">&amp;</span><span class="ident">serde_json</span>::<span class="ident">Value</span>) {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="self">self</span>.<span class="ident">authored_entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>).<span class="ident">is_some</span>());
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="self">self</span>.<span class="ident">entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>).<span class="ident">is_some</span>());
-        <span class="self">self</span>.<span class="ident">entry_store</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">dna_stores</span>
+            .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>)
+            .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">dna_store</span>.<span class="ident">authored_entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>).<span class="ident">is_some</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">dna_store</span>.<span class="ident">entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">entry_address</span>).<span class="ident">is_some</span>());
+        <span class="ident">dna_store</span>
+            .<span class="ident">entry_store</span>
             .<span class="ident">insert</span>(<span class="ident">entry_address</span>.<span class="ident">clone</span>(), <span class="ident">entry_content</span>.<span class="ident">clone</span>());
     }
 
@@ -1299,17 +1279,25 @@
         <span class="ident">attribute</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">link_entry_address</span>: <span class="kw-2">&amp;</span><span class="ident">serde_json</span>::<span class="ident">Value</span>,
     ) {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">dna_stores</span>
+            .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>)
+            .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
         <span class="kw">let</span> <span class="ident">meta_key</span> <span class="op">=</span> (<span class="ident">entry_address</span>.<span class="ident">clone</span>(), <span class="ident">attribute</span>.<span class="ident">to_string</span>());
         <span class="comment">// Must not already have meta</span>
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="self">self</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">dna_store</span>
             .<span class="ident">authored_meta_store</span>
             .<span class="ident">has</span>(<span class="ident">meta_key</span>.<span class="ident">clone</span>(), <span class="ident">link_entry_address</span>));
-        <span class="self">self</span>.<span class="ident">meta_store</span>.<span class="ident">insert</span>(<span class="ident">meta_key</span>, <span class="ident">link_entry_address</span>.<span class="ident">clone</span>());
+        <span class="ident">dna_store</span>
+            .<span class="ident">meta_store</span>
+            .<span class="ident">insert</span>(<span class="ident">meta_key</span>, <span class="ident">link_entry_address</span>.<span class="ident">clone</span>());
     }
 }
 
 <span class="doccomment">/// fetch &amp; sendMessage</span>
-<span class="kw">impl</span> <span class="ident">P2pNode</span> {
+<span class="kw">impl</span> <span class="ident">TestNode</span> {
     <span class="doccomment">/// generate a new request_id</span>
     <span class="kw">fn</span> <span class="ident">generate_request_id</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="self">self</span>.<span class="ident">request_count</span> <span class="op">+=</span> <span class="number">1</span>;
@@ -1320,9 +1308,11 @@
 
     <span class="doccomment">/// Node asks for some entry on the network.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">request_entry</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">entry_address</span>: <span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="ident">FetchEntryData</span> {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">fetch_data</span> <span class="op">=</span> <span class="ident">FetchEntryData</span> {
             <span class="ident">request_id</span>: <span class="self">self</span>.<span class="ident">generate_request_id</span>(),
-            <span class="ident">dna_address</span>: <span class="self">self</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+            <span class="ident">dna_address</span>: <span class="ident">current_dna</span>,
             <span class="ident">requester_agent_id</span>: <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>(),
             <span class="ident">entry_address</span>,
         };
@@ -1333,9 +1323,11 @@
 
     <span class="doccomment">/// Node asks for some meta on the network.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">request_meta</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">entry_address</span>: <span class="ident">Address</span>, <span class="ident">attribute</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">FetchMetaData</span> {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">fetch_meta</span> <span class="op">=</span> <span class="ident">FetchMetaData</span> {
             <span class="ident">request_id</span>: <span class="self">self</span>.<span class="ident">generate_request_id</span>(),
-            <span class="ident">dna_address</span>: <span class="self">self</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+            <span class="ident">dna_address</span>: <span class="ident">current_dna</span>,
             <span class="ident">requester_agent_id</span>: <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">to_string</span>(),
             <span class="ident">entry_address</span>,
             <span class="ident">attribute</span>,
@@ -1347,8 +1339,11 @@
 
     <span class="doccomment">/// Node sends Message on the network.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_message</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">to_agent_id</span>: <span class="ident">String</span>, <span class="ident">content</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="ident">MessageData</span> {
+        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;set_current_dna: {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">current_dna</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">msg_data</span> <span class="op">=</span> <span class="ident">MessageData</span> {
-            <span class="ident">dna_address</span>: <span class="self">self</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+            <span class="ident">dna_address</span>: <span class="ident">current_dna</span>,
             <span class="ident">from_agent_id</span>: <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">to_string</span>(),
             <span class="ident">request_id</span>: <span class="self">self</span>.<span class="ident">generate_request_id</span>(),
             <span class="ident">to_agent_id</span>,
@@ -1365,10 +1360,12 @@
         <span class="ident">msg</span>: <span class="ident">MessageData</span>,
         <span class="ident">response_content</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span>,
     ) <span class="op">-&gt;</span> <span class="ident">MessageData</span> {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="ident">current_dna</span>.<span class="ident">clone</span>());
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">to_agent_id</span>, <span class="self">self</span>.<span class="ident">agent_id</span>);
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">MessageData</span> {
-            <span class="ident">dna_address</span>: <span class="self">self</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+            <span class="ident">dna_address</span>: <span class="ident">current_dna</span>.<span class="ident">clone</span>(),
             <span class="ident">from_agent_id</span>: <span class="self">self</span>.<span class="ident">agent_id</span>.<span class="ident">to_string</span>(),
             <span class="ident">request_id</span>: <span class="ident">msg</span>.<span class="ident">request_id</span>,
             <span class="ident">to_agent_id</span>: <span class="ident">msg</span>.<span class="ident">from_agent_id</span>.<span class="ident">clone</span>(),
@@ -1381,18 +1378,24 @@
 }
 
 <span class="comment">// Replies</span>
-<span class="kw">impl</span> <span class="ident">P2pNode</span> {
+<span class="kw">impl</span> <span class="ident">TestNode</span> {
     <span class="comment">// -- FETCH -- //</span>
 
     <span class="doccomment">/// Send a reponse to a FetchDhtData request</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reply_to_HandleFetchEntry</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">request</span>: <span class="kw-2">&amp;</span><span class="ident">FetchEntryData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="ident">current_dna</span>);
         <span class="kw">let</span> <span class="ident">msg</span>;
         {
             <span class="comment">// Get data from local datastores</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">maybe_data</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">authored_entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">request</span>.<span class="ident">entry_address</span>);
+            <span class="kw">let</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                .<span class="ident">dna_stores</span>
+                .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">maybe_data</span> <span class="op">=</span> <span class="ident">dna_store</span>.<span class="ident">authored_entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">request</span>.<span class="ident">entry_address</span>);
             <span class="kw">if</span> <span class="ident">maybe_data</span>.<span class="ident">is_none</span>() {
-                <span class="ident">maybe_data</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">request</span>.<span class="ident">entry_address</span>);
+                <span class="ident">maybe_data</span> <span class="op">=</span> <span class="ident">dna_store</span>.<span class="ident">entry_store</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">request</span>.<span class="ident">entry_address</span>);
             }
             <span class="comment">// Send failure or success response</span>
             <span class="ident">msg</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_data</span>.<span class="ident">clone</span>() {
@@ -1427,14 +1430,20 @@
 
     <span class="doccomment">/// Send a reponse to a FetchDhtMetaData request</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reply_to_HandleFetchMeta</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">request</span>: <span class="kw-2">&amp;</span><span class="ident">FetchMetaData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="ident">current_dna</span>);
         <span class="kw">let</span> <span class="ident">msg</span>;
         {
+            <span class="kw">let</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                .<span class="ident">dna_stores</span>
+                .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
             <span class="comment">// Get meta from local datastores</span>
             <span class="kw">let</span> <span class="ident">meta_key</span> <span class="op">=</span> (<span class="ident">request</span>.<span class="ident">entry_address</span>.<span class="ident">clone</span>(), <span class="ident">request</span>.<span class="ident">attribute</span>.<span class="ident">clone</span>());
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">metas</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">authored_meta_store</span>.<span class="ident">get</span>(<span class="ident">meta_key</span>.<span class="ident">clone</span>());
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">metas</span> <span class="op">=</span> <span class="ident">dna_store</span>.<span class="ident">authored_meta_store</span>.<span class="ident">get</span>(<span class="ident">meta_key</span>.<span class="ident">clone</span>());
             <span class="kw">if</span> <span class="ident">metas</span>.<span class="ident">is_empty</span>() {
-                <span class="ident">metas</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">meta_store</span>.<span class="ident">get</span>(<span class="ident">meta_key</span>);
+                <span class="ident">metas</span> <span class="op">=</span> <span class="ident">dna_store</span>.<span class="ident">meta_store</span>.<span class="ident">get</span>(<span class="ident">meta_key</span>);
             }
             <span class="self">self</span>.<span class="ident">logger</span>.<span class="ident">t</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;metas = {:?}&quot;</span>, <span class="ident">metas</span>));
             <span class="ident">msg</span> <span class="op">=</span> <span class="ident">FetchMetaResultData</span> {
@@ -1457,17 +1466,26 @@
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">request</span>: <span class="kw-2">&amp;</span><span class="ident">GetListData</span>,
     ) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
-        <span class="kw">let</span> <span class="ident">entry_address_list</span> <span class="op">=</span> <span class="self">self</span>
-            .<span class="ident">authored_entry_store</span>
-            .<span class="ident">iter</span>()
-            .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">k</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">k</span>.<span class="ident">clone</span>())
-            .<span class="ident">collect</span>();
-        <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">EntryListData</span> {
-            <span class="ident">entry_address_list</span>: <span class="ident">entry_address_list</span>,
-            <span class="ident">request_id</span>: <span class="ident">request</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
-            <span class="ident">dna_address</span>: <span class="ident">request</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
-        };
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="ident">current_dna</span>);
+        <span class="kw">let</span> <span class="ident">msg</span>;
+        {
+            <span class="kw">let</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                .<span class="ident">dna_stores</span>
+                .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
+            <span class="kw">let</span> <span class="ident">entry_address_list</span> <span class="op">=</span> <span class="ident">dna_store</span>
+                .<span class="ident">authored_entry_store</span>
+                .<span class="ident">iter</span>()
+                .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">k</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">k</span>.<span class="ident">clone</span>())
+                .<span class="ident">collect</span>();
+            <span class="ident">msg</span> <span class="op">=</span> <span class="ident">EntryListData</span> {
+                <span class="ident">entry_address_list</span>: <span class="ident">entry_address_list</span>,
+                <span class="ident">request_id</span>: <span class="ident">request</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
+                <span class="ident">dna_address</span>: <span class="ident">request</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+            };
+        }
         <span class="self">self</span>.<span class="ident">send</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingEntryListResult</span>(<span class="ident">msg</span>).<span class="ident">into</span>())
     }
     <span class="doccomment">/// Look for the first HandleGetPublishingEntryList request received from network module and reply</span>
@@ -1485,12 +1503,21 @@
 
     <span class="doccomment">/// Reply to a HandleGetPublishingMetaList request</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reply_to_HandleGetPublishingMetaList</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">request</span>: <span class="kw-2">&amp;</span><span class="ident">GetListData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
-        <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">MetaListData</span> {
-            <span class="ident">request_id</span>: <span class="ident">request</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
-            <span class="ident">dna_address</span>: <span class="ident">request</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
-            <span class="ident">meta_list</span>: <span class="self">self</span>.<span class="ident">authored_meta_store</span>.<span class="ident">get_all</span>(),
-        };
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="ident">current_dna</span>);
+        <span class="kw">let</span> <span class="ident">msg</span>;
+        {
+            <span class="kw">let</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                .<span class="ident">dna_stores</span>
+                .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
+            <span class="ident">msg</span> <span class="op">=</span> <span class="ident">MetaListData</span> {
+                <span class="ident">request_id</span>: <span class="ident">request</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
+                <span class="ident">dna_address</span>: <span class="ident">request</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+                <span class="ident">meta_list</span>: <span class="ident">dna_store</span>.<span class="ident">authored_meta_store</span>.<span class="ident">get_all</span>(),
+            };
+        }
         <span class="self">self</span>.<span class="ident">send</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingMetaListResult</span>(<span class="ident">msg</span>).<span class="ident">into</span>())
     }
     <span class="doccomment">/// Look for the first HandleGetPublishingMetaList request received from network module and reply</span>
@@ -1512,13 +1539,26 @@
 
     <span class="doccomment">/// Reply to a HandleGetHoldingEntryList request</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reply_to_HandleGetHoldingEntryList</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">request</span>: <span class="kw-2">&amp;</span><span class="ident">GetListData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
-        <span class="kw">let</span> <span class="ident">entry_address_list</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">entry_store</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">k</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">k</span>.<span class="ident">clone</span>()).<span class="ident">collect</span>();
-        <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">EntryListData</span> {
-            <span class="ident">request_id</span>: <span class="ident">request</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
-            <span class="ident">dna_address</span>: <span class="ident">request</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
-            <span class="ident">entry_address_list</span>: <span class="ident">entry_address_list</span>,
-        };
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="ident">current_dna</span>);
+        <span class="kw">let</span> <span class="ident">msg</span>;
+        {
+            <span class="kw">let</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                .<span class="ident">dna_stores</span>
+                .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
+            <span class="kw">let</span> <span class="ident">entry_address_list</span> <span class="op">=</span> <span class="ident">dna_store</span>
+                .<span class="ident">entry_store</span>
+                .<span class="ident">iter</span>()
+                .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">k</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">k</span>.<span class="ident">clone</span>())
+                .<span class="ident">collect</span>();
+            <span class="ident">msg</span> <span class="op">=</span> <span class="ident">EntryListData</span> {
+                <span class="ident">request_id</span>: <span class="ident">request</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
+                <span class="ident">dna_address</span>: <span class="ident">request</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+                <span class="ident">entry_address_list</span>: <span class="ident">entry_address_list</span>,
+            };
+        }
         <span class="self">self</span>.<span class="ident">send</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingEntryListResult</span>(<span class="ident">msg</span>).<span class="ident">into</span>())
     }
     <span class="doccomment">/// Look for the first HandleGetHoldingEntryList request received from network module and reply</span>
@@ -1538,12 +1578,21 @@
 
     <span class="doccomment">/// Reply to a HandleGetHoldingMetaList request</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reply_to_HandleGetHoldingMetaList</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">request</span>: <span class="kw-2">&amp;</span><span class="ident">GetListData</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
-        <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">MetaListData</span> {
-            <span class="ident">request_id</span>: <span class="ident">request</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
-            <span class="ident">dna_address</span>: <span class="ident">request</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
-            <span class="ident">meta_list</span>: <span class="self">self</span>.<span class="ident">meta_store</span>.<span class="ident">get_all</span>(),
-        };
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">is_some</span>());
+        <span class="kw">let</span> <span class="ident">current_dna</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_dna</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">request</span>.<span class="ident">dna_address</span>, <span class="ident">current_dna</span>);
+        <span class="kw">let</span> <span class="ident">msg</span>;
+        {
+            <span class="kw">let</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                .<span class="ident">dna_stores</span>
+                .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">current_dna</span>)
+                .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
+            <span class="ident">msg</span> <span class="op">=</span> <span class="ident">MetaListData</span> {
+                <span class="ident">request_id</span>: <span class="ident">request</span>.<span class="ident">request_id</span>.<span class="ident">clone</span>(),
+                <span class="ident">dna_address</span>: <span class="ident">request</span>.<span class="ident">dna_address</span>.<span class="ident">clone</span>(),
+                <span class="ident">meta_list</span>: <span class="ident">dna_store</span>.<span class="ident">meta_store</span>.<span class="ident">get_all</span>(),
+            };
+        }
         <span class="self">self</span>.<span class="ident">send</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingMetaListResult</span>(<span class="ident">msg</span>).<span class="ident">into</span>())
     }
     <span class="doccomment">/// Look for the first HandleGetHoldingMetaList request received from network module and reply</span>
@@ -1562,18 +1611,17 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">P2pNode</span> {
+<span class="kw">impl</span> <span class="ident">TestNode</span> {
     <span class="doccomment">/// Private constructor</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_config</span>(
         <span class="ident">agent_id_arg</span>: <span class="ident">String</span>,
-        <span class="ident">dna_address</span>: <span class="ident">Address</span>,
         <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">P2pConfig</span>,
         <span class="ident">_maybe_temp_dir</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">tempfile</span>::<span class="ident">TempDir</span><span class="op">&gt;</span>,
     ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="macro">log_dd</span><span class="macro">!</span>(
             <span class="string">&quot;p2pnode&quot;</span>,
-            <span class="string">&quot;new P2pNode &#39;{}&#39; with config: {:?}&quot;</span>,
+            <span class="string">&quot;new TestNode &#39;{}&#39; with config: {:?}&quot;</span>,
             <span class="ident">agent_id_arg</span>,
             <span class="ident">config</span>
         );
@@ -1592,7 +1640,7 @@
         )
         .<span class="ident">expect</span>(<span class="string">&quot;Failed to create P2pNetwork&quot;</span>);
 
-        <span class="ident">P2pNode</span> {
+        <span class="ident">TestNode</span> {
             <span class="ident">_maybe_temp_dir</span>,
             <span class="ident">p2p_connection</span>,
             <span class="ident">receiver</span>,
@@ -1602,11 +1650,9 @@
             <span class="ident">request_count</span>: <span class="number">0</span>,
             <span class="ident">recv_msg_log</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
             <span class="ident">recv_dm_log</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
-            <span class="ident">dna_address</span>,
-            <span class="ident">entry_store</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
-            <span class="ident">meta_store</span>: <span class="ident">MetaStore</span>::<span class="ident">new</span>(),
-            <span class="ident">authored_entry_store</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
-            <span class="ident">authored_meta_store</span>: <span class="ident">MetaStore</span>::<span class="ident">new</span>(),
+            <span class="ident">dna_stores</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
+            <span class="ident">tracked_dnas</span>: <span class="ident">HashSet</span>::<span class="ident">new</span>(),
+            <span class="ident">current_dna</span>: <span class="prelude-val">None</span>,
             <span class="ident">logger</span>: <span class="ident">TweetProxy</span>::<span class="ident">new</span>(<span class="string">&quot;p2pnode&quot;</span>),
             <span class="ident">is_network_ready</span>: <span class="bool-val">false</span>,
             <span class="ident">p2p_binding</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
@@ -1620,27 +1666,22 @@
 
     <span class="doccomment">/// Constructor for an in-memory P2P Network</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_unique_memory_network</span>(<span class="ident">agent_id</span>: <span class="ident">String</span>, <span class="ident">dna_address</span>: <span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_unique_memory_network</span>(<span class="ident">agent_id</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">P2pConfig</span>::<span class="ident">new_with_unique_memory_backend</span>();
-        <span class="kw">return</span> <span class="ident">P2pNode</span>::<span class="ident">new_with_config</span>(<span class="ident">agent_id</span>, <span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">config</span>, <span class="prelude-val">None</span>);
+        <span class="kw">return</span> <span class="ident">TestNode</span>::<span class="ident">new_with_config</span>(<span class="ident">agent_id</span>, <span class="kw-2">&amp;</span><span class="ident">config</span>, <span class="prelude-val">None</span>);
     }
 
     <span class="doccomment">/// Constructor for an IPC node that uses an existing n3h process and a temp folder</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_uri_ipc_network</span>(
-        <span class="ident">agent_id</span>: <span class="ident">String</span>,
-        <span class="ident">dna_address</span>: <span class="ident">Address</span>,
-        <span class="ident">ipc_binding</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    ) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_uri_ipc_network</span>(<span class="ident">agent_id</span>: <span class="ident">String</span>, <span class="ident">ipc_binding</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">p2p_config</span> <span class="op">=</span> <span class="ident">P2pConfig</span>::<span class="ident">default_ipc_uri</span>(<span class="prelude-val">Some</span>(<span class="ident">ipc_binding</span>));
-        <span class="kw">return</span> <span class="ident">P2pNode</span>::<span class="ident">new_with_config</span>(<span class="ident">agent_id</span>, <span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">p2p_config</span>, <span class="prelude-val">None</span>);
+        <span class="kw">return</span> <span class="ident">TestNode</span>::<span class="ident">new_with_config</span>(<span class="ident">agent_id</span>, <span class="kw-2">&amp;</span><span class="ident">p2p_config</span>, <span class="prelude-val">None</span>);
     }
 
     <span class="doccomment">/// Constructor for an IPC node that spawns and uses a n3h process and a temp folder</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_spawn_ipc_network</span>(
         <span class="ident">agent_id</span>: <span class="ident">String</span>,
-        <span class="ident">dna_address</span>: <span class="ident">Address</span>,
         <span class="ident">maybe_config_filepath</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">maybe_end_user_config_filepath</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
         <span class="ident">bootstrap_nodes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
@@ -1652,7 +1693,7 @@
             <span class="ident">bootstrap_nodes</span>,
             <span class="ident">maybe_dir_path</span>,
         );
-        <span class="kw">return</span> <span class="ident">P2pNode</span>::<span class="ident">new_with_config</span>(<span class="ident">agent_id</span>, <span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">p2p_config</span>, <span class="ident">_maybe_temp_dir</span>);
+        <span class="kw">return</span> <span class="ident">TestNode</span>::<span class="ident">new_with_config</span>(<span class="ident">agent_id</span>, <span class="kw-2">&amp;</span><span class="ident">p2p_config</span>, <span class="ident">_maybe_temp_dir</span>);
     }
 
     <span class="doccomment">/// See if there is a message to receive, and log it</span>
@@ -1694,7 +1735,7 @@
                 <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>);
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;Empty&quot;</span>) <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;Pong(PongData&quot;</span>) {
                     <span class="self">self</span>.<span class="ident">logger</span>.<span class="ident">e</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
-                        <span class="string">&quot;({}) ###### Received parse error: {} {:?}&quot;</span>,
+                        <span class="string">&quot;({}) ###### Received parse error: {} | data = {:?}&quot;</span>,
                         <span class="self">self</span>.<span class="ident">agent_id</span>, <span class="ident">s</span>, <span class="ident">data</span>,
                     ));
                 }
@@ -1743,7 +1784,7 @@
         <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">maybe_request</span>.<span class="ident">unwrap</span>();
         <span class="comment">// extract msg data</span>
         <span class="kw">let</span> <span class="ident">fetch_data</span> <span class="op">=</span> <span class="macro">unwrap_to</span><span class="macro">!</span>(<span class="ident">request</span> <span class="op">=&gt;</span> <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntry</span>);
-        <span class="comment">// Alex responds: should send entry data back</span>
+        <span class="comment">// Respond</span>
         <span class="self">self</span>.<span class="ident">reply_to_HandleFetchEntry</span>(<span class="kw-2">&amp;</span><span class="ident">fetch_data</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Reply to HandleFetchEntry should work&quot;</span>);
         <span class="bool-val">true</span>
@@ -1859,7 +1900,7 @@
                 <span class="comment">// n/a</span>
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+                <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">is_tracking</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>));
                 <span class="comment">// log the direct message sent to us</span>
                 <span class="self">self</span>.<span class="ident">recv_dm_log</span>.<span class="ident">push</span>(<span class="ident">msg</span>);
             }
@@ -1874,7 +1915,7 @@
                 <span class="comment">// n/a</span>
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntry</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+                <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">is_tracking</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>));
                 <span class="comment">// n/a</span>
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntryResult</span>(<span class="ident">_msg</span>) <span class="op">=&gt;</span> {
@@ -1885,15 +1926,24 @@
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Core should not receive PublishDhtData message&quot;</span>);
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleStoreEntry</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+                <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">is_tracking</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>));
                 <span class="comment">// Store data in local datastore</span>
-                <span class="self">self</span>.<span class="ident">entry_store</span>
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                    .<span class="ident">dna_stores</span>
+                    .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>)
+                    .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
+                <span class="ident">dna_store</span>
+                    .<span class="ident">entry_store</span>
                     .<span class="ident">insert</span>(<span class="ident">msg</span>.<span class="ident">entry_address</span>, <span class="ident">msg</span>.<span class="ident">entry_content</span>);
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleDropEntry</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+                <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">is_tracking</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>));
                 <span class="comment">// Remove data in local datastore</span>
-                <span class="self">self</span>.<span class="ident">entry_store</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">entry_address</span>);
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                    .<span class="ident">dna_stores</span>
+                    .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>)
+                    .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
+                <span class="ident">dna_store</span>.<span class="ident">entry_store</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">entry_address</span>);
             }
 
             <span class="ident">JsonProtocol</span>::<span class="ident">FetchMeta</span>(<span class="ident">_msg</span>) <span class="op">=&gt;</span> {
@@ -1903,7 +1953,7 @@
                 <span class="comment">// n/a</span>
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchMeta</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+                <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">is_tracking</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>));
                 <span class="comment">// n/a</span>
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchMetaResult</span>(<span class="ident">_msg</span>) <span class="op">=&gt;</span> {
@@ -1914,30 +1964,32 @@
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Core should not receive PublishDhtMeta message&quot;</span>);
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleStoreMeta</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+                <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">is_tracking</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>));
                 <span class="comment">// Store data in local datastore</span>
                 <span class="kw">let</span> <span class="ident">meta_key</span> <span class="op">=</span> (<span class="ident">msg</span>.<span class="ident">entry_address</span>, <span class="ident">msg</span>.<span class="ident">attribute</span>);
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dna_store</span> <span class="op">=</span> <span class="self">self</span>
+                    .<span class="ident">dna_stores</span>
+                    .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">dna_address</span>)
+                    .<span class="ident">expect</span>(<span class="string">&quot;No dna_store for this DNA&quot;</span>);
                 <span class="kw">for</span> <span class="ident">content</span> <span class="kw">in</span> <span class="ident">msg</span>.<span class="ident">content_list</span> {
-                    <span class="self">self</span>.<span class="ident">meta_store</span>.<span class="ident">insert</span>(<span class="ident">meta_key</span>.<span class="ident">clone</span>(), <span class="ident">content</span>);
+                    <span class="ident">dna_store</span>.<span class="ident">meta_store</span>.<span class="ident">insert</span>(<span class="ident">meta_key</span>.<span class="ident">clone</span>(), <span class="ident">content</span>);
                 }
             }
             <span class="comment">// TODO</span>
             <span class="comment">//            JsonProtocol::HandleDropMeta(msg) =&gt; {</span>
-            <span class="comment">//                assert_eq!(msg.dna_address, self.dna_address);</span>
+            <span class="comment">//                assert!(self.is_tracking(&amp;msg.dna_address));</span>
             <span class="comment">//                // Remove data in local datastore</span>
             <span class="comment">//                self.meta_store.remove(&amp;(msg.entry_address, msg.attribute));</span>
             <span class="comment">//            }</span>
 
             <span class="comment">// -- Publish &amp; Hold data -- //</span>
-            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingEntryList</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingEntryList</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="comment">// n/a</span>
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingEntryListResult</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Core should not receive HandleGetPublishingDataListResult message&quot;</span>);
             }
-            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingEntryList</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingEntryList</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="comment">// n/a</span>
             }
             <span class="comment">// Our request for the hold_list has returned</span>
@@ -1946,15 +1998,13 @@
             }
 
             <span class="comment">// -- Publish &amp; Hold meta -- //</span>
-            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingMetaList</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingMetaList</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="comment">// n/a</span>
             }
             <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetPublishingMetaListResult</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Core should not receive HandleGetPublishingMetaListResult message&quot;</span>);
             }
-            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingMetaList</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">dna_address</span>, <span class="self">self</span>.<span class="ident">dna_address</span>);
+            <span class="ident">JsonProtocol</span>::<span class="ident">HandleGetHoldingMetaList</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="comment">// n/a</span>
             }
             <span class="comment">// Our request for the hold_list has returned</span>
@@ -1967,7 +2017,7 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">NetSend</span> <span class="kw">for</span> <span class="ident">P2pNode</span> {
+<span class="kw">impl</span> <span class="ident">NetSend</span> <span class="kw">for</span> <span class="ident">TestNode</span> {
     <span class="doccomment">/// send a Protocol message to the p2p network instance</span>
     <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="ident">Protocol</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">logger</span>
@@ -1975,85 +2025,5 @@
         <span class="self">self</span>.<span class="ident">p2p_connection</span>.<span class="ident">send</span>(<span class="ident">data</span>)
     }
 }
-
-<span class="comment">//--------------------------------------------------------------------------------------------------</span>
-<span class="comment">// create_ipc_config</span>
-<span class="comment">//--------------------------------------------------------------------------------------------------</span>
-
-<span class="doccomment">/// Create a P2pConfig for an IPC node that uses n3h and possibily a specific folder.</span>
-<span class="doccomment">/// Return the generated P2pConfig and the created tempdir if no dir was provided.</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
-<span class="kw">fn</span> <span class="ident">create_ipc_config</span>(
-    <span class="ident">maybe_config_filepath</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>,
-    <span class="ident">maybe_end_user_config_filepath</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="ident">bootstrap_nodes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="ident">maybe_dir_path</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-) <span class="op">-&gt;</span> (<span class="ident">P2pConfig</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">tempfile</span>::<span class="ident">TempDir</span><span class="op">&gt;</span>) {
-    <span class="comment">// Create temp directory if no dir was provided</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">maybe_dir_ref</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-    <span class="kw">let</span> <span class="ident">dir</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">dir_path</span>) <span class="op">=</span> <span class="ident">maybe_dir_path</span> {
-        <span class="ident">dir_path</span>
-    } <span class="kw">else</span> {
-        <span class="kw">let</span> <span class="ident">dir_ref</span> <span class="op">=</span> <span class="ident">tempfile</span>::<span class="ident">tempdir</span>().<span class="ident">expect</span>(<span class="string">&quot;Failed to created a temp directory.&quot;</span>);
-        <span class="kw">let</span> <span class="ident">dir_path</span> <span class="op">=</span> <span class="ident">dir_ref</span>.<span class="ident">path</span>().<span class="ident">clone</span>().<span class="ident">to_string_lossy</span>().<span class="ident">to_string</span>();
-        <span class="ident">maybe_dir_ref</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">dir_ref</span>);
-        <span class="ident">dir_path</span>
-    };
-
-    <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;create_ipc_config() dir = {}&quot;</span>, <span class="ident">dir</span>);
-
-    <span class="comment">// Create config</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config</span>: <span class="ident">P2pConfig</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">maybe_config_filepath</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">filepath</span>) <span class="op">=&gt;</span> {
-            <span class="macro">log_d</span><span class="macro">!</span>(<span class="string">&quot;filepath = {}&quot;</span>, <span class="ident">filepath</span>);
-            <span class="comment">// Get config from file</span>
-            <span class="kw">let</span> <span class="ident">p2p_config</span> <span class="op">=</span> <span class="ident">P2pConfig</span>::<span class="ident">from_file</span>(<span class="ident">filepath</span>);
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">p2p_config</span>.<span class="ident">backend_kind</span>, <span class="ident">P2pBackendKind</span>::<span class="ident">IPC</span>);
-            <span class="comment">// complement missing fields</span>
-            <span class="ident">serde_json</span>::<span class="ident">from_value</span>(<span class="macro">json</span><span class="macro">!</span>({
-            <span class="string">&quot;backend_kind&quot;</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">p2p_config</span>.<span class="ident">backend_kind</span>),
-            <span class="string">&quot;backend_config&quot;</span>:
-            {
-                <span class="string">&quot;socketType&quot;</span>: <span class="ident">p2p_config</span>.<span class="ident">backend_config</span>[<span class="string">&quot;socketType&quot;</span>],
-                <span class="string">&quot;bootstrapNodes&quot;</span>: <span class="ident">bootstrap_nodes</span>,
-                <span class="string">&quot;spawn&quot;</span>:
-                {
-                    <span class="string">&quot;workDir&quot;</span>: <span class="ident">dir</span>.<span class="ident">clone</span>(),
-                    <span class="string">&quot;env&quot;</span>: {
-                        <span class="string">&quot;N3H_MODE&quot;</span>: <span class="ident">p2p_config</span>.<span class="ident">backend_config</span>[<span class="string">&quot;spawn&quot;</span>][<span class="string">&quot;env&quot;</span>][<span class="string">&quot;N3H_MODE&quot;</span>],
-                        <span class="string">&quot;N3H_WORK_DIR&quot;</span>: <span class="ident">dir</span>.<span class="ident">clone</span>(),
-                        <span class="string">&quot;N3H_IPC_SOCKET&quot;</span>: <span class="ident">p2p_config</span>.<span class="ident">backend_config</span>[<span class="string">&quot;spawn&quot;</span>][<span class="string">&quot;env&quot;</span>][<span class="string">&quot;N3H_IPC_SOCKET&quot;</span>],
-                        <span class="string">&quot;N3H_LOG_LEVEL&quot;</span>: <span class="ident">p2p_config</span>.<span class="ident">backend_config</span>[<span class="string">&quot;spawn&quot;</span>][<span class="string">&quot;env&quot;</span>][<span class="string">&quot;N3H_LOG_LEVEL&quot;</span>],
-                    }
-                },
-            }})).<span class="ident">expect</span>(<span class="string">&quot;Failled making valid P2pConfig with filepath&quot;</span>)
-        }
-        <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
-            <span class="comment">// use default config</span>
-            <span class="ident">serde_json</span>::<span class="ident">from_value</span>(<span class="macro">json</span><span class="macro">!</span>({
-            <span class="string">&quot;backend_kind&quot;</span>: <span class="string">&quot;IPC&quot;</span>,
-            <span class="string">&quot;backend_config&quot;</span>:
-            {
-                <span class="string">&quot;socketType&quot;</span>: <span class="string">&quot;ws&quot;</span>,
-                <span class="string">&quot;bootstrapNodes&quot;</span>: <span class="ident">bootstrap_nodes</span>,
-                <span class="string">&quot;spawn&quot;</span>:
-                {
-                    <span class="string">&quot;workDir&quot;</span>: <span class="ident">dir</span>.<span class="ident">clone</span>(),
-                    <span class="string">&quot;env&quot;</span>: {
-                        <span class="string">&quot;N3H_MODE&quot;</span>: <span class="string">&quot;HACK&quot;</span>,
-                        <span class="string">&quot;N3H_WORK_DIR&quot;</span>: <span class="ident">dir</span>.<span class="ident">clone</span>(),
-                        <span class="string">&quot;N3H_IPC_SOCKET&quot;</span>: <span class="string">&quot;tcp://127.0.0.1:*&quot;</span>,
-                        <span class="string">&quot;N3H_LOG_LEVEL&quot;</span>: <span class="string">&quot;t&quot;</span>
-                }
-            },
-            }}))
-            .<span class="ident">expect</span>(<span class="string">&quot;Failled making valid default P2pConfig&quot;</span>)
-        }
-    };
-    <span class="ident">config</span>.<span class="ident">maybe_end_user_config</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">P2pConfig</span>::<span class="ident">load_end_user_config</span>(
-        <span class="ident">maybe_end_user_config_filepath</span>,
-    ));
-    <span class="kw">return</span> (<span class="ident">config</span>, <span class="ident">maybe_dir_ref</span>);
-}
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "holochain_test_bin";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "holochain_test_bin";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

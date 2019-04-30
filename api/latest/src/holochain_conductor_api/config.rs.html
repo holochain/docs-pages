@@ -1200,10 +1200,6 @@
 <span id="1200">1200</span>
 <span id="1201">1201</span>
 <span id="1202">1202</span>
-<span id="1203">1203</span>
-<span id="1204">1204</span>
-<span id="1205">1205</span>
-<span id="1206">1206</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Conductor Configuration</span>
@@ -1868,33 +1864,33 @@
     id = &quot;app spec instance&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;app_spec_storage&quot;
+        [instances.storage]
+        type = &quot;file&quot;
+        path = &quot;app_spec_storage&quot;
 
     [[interfaces]]
     id = &quot;app spec websocket interface&quot;
-    [interfaces.driver]
-    type = &quot;websocket&quot;
-    port = 8888
-    [[interfaces.instances]]
-    id = &quot;app spec instance&quot;
+        [interfaces.driver]
+        type = &quot;websocket&quot;
+        port = 8888
+        [[interfaces.instances]]
+        id = &quot;app spec instance&quot;
 
     [[interfaces]]
     id = &quot;app spec http interface&quot;
-    [interfaces.driver]
-    type = &quot;http&quot;
-    port = 4000
-    [[interfaces.instances]]
-    id = &quot;app spec instance&quot;
+        [interfaces.driver]
+        type = &quot;http&quot;
+        port = 4000
+        [[interfaces.instances]]
+        id = &quot;app spec instance&quot;
 
     [[interfaces]]
     id = &quot;app spec domainsocket interface&quot;
-    [interfaces.driver]
-    type = &quot;domainsocket&quot;
-    file = &quot;/tmp/holochain.sock&quot;
-    [[interfaces.instances]]
-    id = &quot;app spec instance&quot;
+        [interfaces.driver]
+        type = &quot;domainsocket&quot;
+        file = &quot;/tmp/holochain.sock&quot;
+        [[interfaces.instances]]
+        id = &quot;app spec instance&quot;
 
     [network]
     bootstrap_nodes = [&quot;wss://192.168.0.11:64519/?a=hkYW7TrZUS1hy-i374iRu5VbZP1sSw2mLxP4TSe_YI1H2BJM3v_LgAQnpmWA_iR1W5k-8_UoA1BNjzBSUTVNDSIcz9UG0uaM&quot;]
@@ -1953,39 +1949,39 @@
     id = &quot;app spec instance&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;app_spec_storage&quot;
+        [instances.storage]
+        type = &quot;file&quot;
+        path = &quot;app_spec_storage&quot;
 
     [[interfaces]]
     id = &quot;app spec websocket interface&quot;
-    [interfaces.driver]
-    type = &quot;websocket&quot;
-    port = 8888
-    [[interfaces.instances]]
-    id = &quot;app spec instance&quot;
+        [interfaces.driver]
+        type = &quot;websocket&quot;
+        port = 8888
+        [[interfaces.instances]]
+        id = &quot;app spec instance&quot;
 
     [[interfaces]]
     id = &quot;app spec http interface&quot;
-    [interfaces.driver]
-    type = &quot;http&quot;
-    port = 4000
-    [[interfaces.instances]]
-    id = &quot;app spec instance&quot;
+        [interfaces.driver]
+        type = &quot;http&quot;
+        port = 4000
+        [[interfaces.instances]]
+        id = &quot;app spec instance&quot;
 
     [[interfaces]]
     id = &quot;app spec domainsocket interface&quot;
-    [interfaces.driver]
-    type = &quot;domainsocket&quot;
-    file = &quot;/tmp/holochain.sock&quot;
-    [[interfaces.instances]]
-    id = &quot;app spec instance&quot;
+        [interfaces.driver]
+        type = &quot;domainsocket&quot;
+        file = &quot;/tmp/holochain.sock&quot;
+        [[interfaces.instances]]
+        id = &quot;app spec instance&quot;
 
     [logger]
     type = &quot;debug&quot;
-    [[logger.rules.rules]]
-    pattern = &quot;.*&quot;
-    color = &quot;red&quot;
+        [[logger.rules.rules]]
+        pattern = &quot;.*&quot;
+        color = &quot;red&quot;
 
     [[ui_bundles]]
     id = &quot;bundle1&quot;
@@ -1997,7 +1993,6 @@
     bundle = &quot;bundle1&quot;
     port = 3000
     dna_interface = &quot;app spec domainsocket interface&quot;
-
     &quot;#</span>;
 
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
@@ -2038,10 +2033,9 @@
     id = &quot;app spec instance&quot;
     dna = &quot;WRONG DNA ID&quot;
     agent = &quot;test agent&quot;
-    [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;app_spec_storage&quot;
-
+        [instances.storage]
+        type = &quot;file&quot;
+        path = &quot;app_spec_storage&quot;
     &quot;#</span>;
 
         <span class="kw">let</span> <span class="ident">config</span>: <span class="ident">Configuration</span> <span class="op">=</span>
@@ -2068,17 +2062,17 @@
     id = &quot;app spec instance&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;app_spec_storage&quot;
+        [instances.storage]
+        type = &quot;file&quot;
+        path = &quot;app_spec_storage&quot;
 
     [[interfaces]]
     id = &quot;app spec interface&quot;
-    [interfaces.driver]
-    type = &quot;websocket&quot;
-    port = 8888
-    [[interfaces.instances]]
-    id = &quot;WRONG INSTANCE ID&quot;
+        [interfaces.driver]
+        type = &quot;websocket&quot;
+        port = 8888
+        [[interfaces.instances]]
+        id = &quot;WRONG INSTANCE ID&quot;
     &quot;#</span>;
 
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="ident">toml</span>).<span class="ident">unwrap</span>();
@@ -2112,17 +2106,17 @@
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
     network = &quot;{}&quot;
-    [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;app_spec_storage&quot;
+        [instances.storage]
+        type = &quot;file&quot;
+        path = &quot;app_spec_storage&quot;
 
     [[interfaces]]
     id = &quot;app spec interface&quot;
-    [interfaces.driver]
-    type = &quot;invalid type&quot;
-    port = 8888
-    [[interfaces.instances]]
-    id = &quot;app spec instance&quot;
+        [interfaces.driver]
+        type = &quot;invalid type&quot;
+        port = 8888
+        [[interfaces.instances]]
+        id = &quot;app spec instance&quot;
     &quot;#</span>,
             <span class="ident">example_serialized_network_config</span>()
         );
@@ -2154,25 +2148,25 @@
     id = &quot;app1&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;app_spec_storage&quot;
+        [instances.storage]
+        type = &quot;file&quot;
+        path = &quot;app_spec_storage&quot;
 
     [[instances]]
     id = &quot;app2&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;app_spec_storage&quot;
+        [instances.storage]
+        type = &quot;file&quot;
+        path = &quot;app_spec_storage&quot;
 
     [[instances]]
     id = &quot;app3&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;app_spec_storage&quot;
+        [instances.storage]
+        type = &quot;file&quot;
+        path = &quot;app_spec_storage&quot;
 
     {}
     &quot;#</span>, <span class="ident">bridges</span>)
@@ -2319,39 +2313,39 @@
     id = &quot;app spec instance&quot;
     dna = &quot;app spec rust&quot;
     agent = &quot;test agent&quot;
-    [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;app_spec_storage&quot;
+        [instances.storage]
+        type = &quot;file&quot;
+        path = &quot;app_spec_storage&quot;
 
     [[interfaces]]
     id = &quot;app spec websocket interface&quot;
-    [interfaces.driver]
-    type = &quot;websocket&quot;
-    port = 8888
-    [[interfaces.instances]]
-    id = &quot;app spec instance&quot;
+        [interfaces.driver]
+        type = &quot;websocket&quot;
+        port = 8888
+        [[interfaces.instances]]
+        id = &quot;app spec instance&quot;
 
     [[interfaces]]
     id = &quot;app spec http interface&quot;
-    [interfaces.driver]
-    type = &quot;http&quot;
-    port = 4000
-    [[interfaces.instances]]
-    id = &quot;app spec instance&quot;
+        [interfaces.driver]
+        type = &quot;http&quot;
+        port = 4000
+        [[interfaces.instances]]
+        id = &quot;app spec instance&quot;
 
     [[interfaces]]
     id = &quot;app spec domainsocket interface&quot;
-    [interfaces.driver]
-    type = &quot;domainsocket&quot;
-    file = &quot;/tmp/holochain.sock&quot;
-    [[interfaces.instances]]
-    id = &quot;app spec instance&quot;
+        [interfaces.driver]
+        type = &quot;domainsocket&quot;
+        file = &quot;/tmp/holochain.sock&quot;
+        [[interfaces.instances]]
+        id = &quot;app spec instance&quot;
 
     [logger]
     type = &quot;debug&quot;
-    [[logger.rules.rules]]
-    pattern = &quot;.*&quot;
-    color = &quot;red&quot;
+        [[logger.rules.rules]]
+        pattern = &quot;.*&quot;
+        color = &quot;red&quot;
 
     [[ui_bundles]]
     id = &quot;bundle1&quot;
@@ -2363,7 +2357,6 @@
     bundle = &quot;bundle1&quot;
     port = 3000
     dna_interface = &quot;&lt;not existant&gt;&quot;
-
     &quot;#</span>;
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">toml</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Config should be syntactically correct&quot;</span>);
@@ -2391,14 +2384,13 @@
     id = &quot;deepkey&quot;
     dna = &quot;deepkey&quot;
     agent = &quot;test agent&quot;
-    [instances.storage]
-    type = &quot;file&quot;
-    path = &quot;deepkey_storage&quot;
+        [instances.storage]
+        type = &quot;file&quot;
+        path = &quot;deepkey_storage&quot;
 
     [dpki]
     instance_id = &quot;bogus instance&quot;
     init_params = &quot;{}&quot;
-
     &quot;#</span>;
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">load_configuration</span>::<span class="op">&lt;</span><span class="ident">Configuration</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">toml</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;Config should be syntactically correct&quot;</span>);
