@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["BYTES256","Size of return value while converting to sha256"],["BYTES512","Size of return value while converting to sha512"]],"fn":[["sha256","Compute the sha256 hash of input buffer **** @param {SecBuf} input - the data to hash"],["sha512","Compute the sha512 hash of input buffer **** @param {Buffer} input - the data to hash"]]});
