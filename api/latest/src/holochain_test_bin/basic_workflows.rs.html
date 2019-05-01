@@ -622,6 +622,7 @@
 <span id="622">622</span>
 <span id="623">623</span>
 <span id="624">624</span>
+<span id="625">625</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">constants</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
@@ -870,7 +871,7 @@
         <span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> <span class="ident">msg</span>,
         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
     };
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;{\&quot;ry\&quot;:\&quot;hello\&quot;}&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">msg</span>.<span class="ident">content</span>.<span class="ident">to_string</span>());
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ENTRY_CONTENT_1</span>.<span class="ident">to_string</span>(), <span class="ident">msg</span>.<span class="ident">content</span>.<span class="ident">to_string</span>());
 
     <span class="comment">// Send a message back from billy to alex</span>
     <span class="ident">billy</span>.<span class="ident">send_reponse</span>(
@@ -1015,6 +1016,7 @@
 
 <span class="doccomment">/// Sending a Message before doing a &#39;TrackDna&#39; should fail</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">no_setup_test</span>(<span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>, <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>, <span class="ident">_connect</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="comment">// Little dance for making alex have its current_dna set to DNA_ADDRESS_A</span>
     <span class="ident">alex</span>.<span class="ident">track_dna</span>(<span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="bool-val">true</span>)
         .<span class="ident">expect</span>(<span class="string">&quot;Failed sending TrackDna message on alex&quot;</span>);
     <span class="ident">alex</span>.<span class="ident">untrack_current_dna</span>()

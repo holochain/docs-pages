@@ -68,6 +68,7 @@
 <span id="68">68</span>
 <span id="69">69</span>
 <span id="70">70</span>
+<span id="71">71</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>},
@@ -134,6 +135,7 @@
             <span class="kw-2">&amp;</span><span class="ident">deletion_entry</span>.<span class="ident">clone</span>(),
             <span class="prelude-val">Some</span>(<span class="ident">deleted_entry_address</span>.<span class="ident">clone</span>()),
             <span class="kw-2">&amp;</span><span class="ident">context</span>.<span class="ident">clone</span>(),
+            <span class="kw-2">&amp;</span><span class="macro">vec</span><span class="macro">!</span>[],
         ))
         .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">deletion_entry</span>.<span class="ident">address</span>());
 

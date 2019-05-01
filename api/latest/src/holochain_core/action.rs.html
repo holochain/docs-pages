@@ -379,6 +379,8 @@
 <span id="379">379</span>
 <span id="380">380</span>
 <span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">agent</span>::<span class="ident">state</span>::<span class="ident">AgentState</span>,
@@ -402,6 +404,7 @@
     <span class="ident">entry</span>::{<span class="ident">Entry</span>, <span class="ident">EntryWithMetaAndHeader</span>},
     <span class="ident">error</span>::<span class="ident">HolochainError</span>,
     <span class="ident">link</span>::<span class="ident">Link</span>,
+    <span class="ident">signature</span>::<span class="ident">Provenance</span>,
     <span class="ident">validation</span>::<span class="ident">ValidationPackage</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_net</span>::{
@@ -414,6 +417,7 @@
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>},
     <span class="ident">sync</span>::<span class="ident">Arc</span>,
+    <span class="ident">vec</span>::<span class="ident">Vec</span>,
 };
 
 <span class="doccomment">/// Wrapper for actions that provides a unique ID</span>
@@ -475,7 +479,7 @@
     <span class="comment">// ----------------</span>
     <span class="doccomment">/// Writes an entry to the source chain.</span>
     <span class="doccomment">/// Does not validate, assumes entry is valid.</span>
-    <span class="ident">Commit</span>((<span class="ident">Entry</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>)),
+    <span class="ident">Commit</span>((<span class="ident">Entry</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Provenance</span><span class="op">&gt;</span>)),
 
     <span class="comment">// -------------</span>
     <span class="comment">// DHT actions:</span>
@@ -694,7 +698,7 @@
 
     <span class="doccomment">/// dummy action wrapper with commit of test_entry()</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_action_wrapper_commit</span>() <span class="op">-&gt;</span> <span class="ident">ActionWrapper</span> {
-        <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">test_entry</span>(), <span class="prelude-val">None</span>)))
+        <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">test_entry</span>(), <span class="prelude-val">None</span>, <span class="macro">vec</span><span class="macro">!</span>[])))
     }
 
     <span class="doccomment">/// dummy action for a get of test_hash()</span>

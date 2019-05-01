@@ -66,6 +66,10 @@
 <span id="66">66</span>
 <span id="67">67</span>
 <span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! The Signature type is defined here. They are used in ChainHeaders as</span>
 <span class="doccomment">//! a way of providing cryptographically verifiable proof of a given agent</span>
@@ -80,6 +84,10 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Provenance</span>(<span class="kw">pub</span> <span class="ident">Address</span>, <span class="kw">pub</span> <span class="ident">Signature</span>);
 
 <span class="kw">impl</span> <span class="ident">Provenance</span> {
+    <span class="doccomment">/// Creates a new provenance instance with source typically</span>
+    <span class="doccomment">/// being an agent address (public key) and the signature</span>
+    <span class="doccomment">/// some signed data using the private key associated with</span>
+    <span class="doccomment">/// the public key.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">source</span>: <span class="ident">Address</span>, <span class="ident">signature</span>: <span class="ident">Signature</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Provenance</span>(<span class="ident">source</span>, <span class="ident">signature</span>)
     }

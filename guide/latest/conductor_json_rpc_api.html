@@ -160,35 +160,35 @@
 </code></pre>
 <a class="header" href="#calling-zome-functions" id="calling-zome-functions"><h2>Calling Zome Functions</h2></a>
 <p>The following explains the general JSON-RPC pattern for how to call a Zome function.</p>
-<a class="header" href="#method" id="method"><h3>method</h3></a>
-<p>To call a Zome function, for the <code>method</code> we need three things:</p>
+<p>Unlike <code>info/instances</code>, a Zome function call also expects arguments. We will need to include a JSON-RPC <code>args</code> field in our RPC call.</p>
+<p>To call a Zome function, use <code>&quot;call&quot;</code> as the JSON-RPC <code>method</code>, and a <code>params</code> object with four items:</p>
 <ol>
-<li>The instance ID, corresponding to the instance IDs returned by <code>info/instances</code></li>
-<li>The name of the Zome</li>
-<li>The name of the function</li>
+<li><code>instance_id</code>: The instance ID, corresponding to the instance IDs returned by <code>info/instances</code></li>
+<li><code>zome</code>: The name of the Zome</li>
+<li><code>function</code>: The name of the function</li>
+<li><code>args</code>: The actual parameters of the zome function call</li>
 </ol>
-<p>The three are combined into a single string, separated by forward slash (<code>/</code>) characters, to use as the JSON-RPC &quot;method&quot;.</p>
-<p>In the last example, the instance ID &quot;test-instance&quot; was returned, which can be used here as the instance ID. Say there was a Zome in a DNA called &quot;blogs&quot;, this is the Zome name. That Zome has a function called &quot;create_blog&quot;, that is the function name. Append these together with <code>/</code> characters to get the &quot;method&quot; for the JSON-RPC call.</p>
-<p><strong>example method</strong></p>
-<pre><code>&quot;test-instance/blogs/create_blog&quot;
-</code></pre>
-<a class="header" href="#params" id="params"><h3>params</h3></a>
-<p>Unlike <code>info/instances</code>, Zome functions usually expect arguments. To give arguments, a JSON object should be constructed.</p>
+<p>In the last example, the instance ID &quot;test-instance&quot; was returned, which can be used here as the instance ID. Say there was a Zome in a DNA called &quot;blogs&quot;, this is the Zome name. That Zome has a function called &quot;create_blog&quot;, that is the function name.</p>
 <blockquote>
-<p>Any top level keys of the input object should correspond <strong>exactly</strong> with the name of an argument expected by the Zome method being called.</p>
+<p>Any top level keys of the <code>args</code> field should correspond <strong>exactly</strong> with the name of an argument expected by the Zome method being called.</p>
 </blockquote>
-<p><strong>example params</strong></p>
+<p><strong>Example Zome Function Arguments</strong></p>
 <pre><code class="language-json">{ &quot;blog&quot;: { &quot;content&quot;: &quot;sample content&quot; }}
 </code></pre>
-<a class="header" href="#example-1" id="example-1"><h3>Example</h3></a>
+<a class="header" href="#example-request" id="example-request"><h3>Example Request</h3></a>
 <p><strong>example request</strong></p>
 <pre><code class="language-json">{
     &quot;jsonrpc&quot;: &quot;2.0&quot;,
     &quot;id&quot;: &quot;0&quot;,
-    &quot;method&quot;: &quot;test-instance/blogs/create_blog&quot;,
+    &quot;method&quot;: &quot;call&quot;,
     &quot;params&quot;: {
-        &quot;blog&quot;: {
-            &quot;content&quot;:&quot;sample content&quot;
+        &quot;instance_id&quot;: &quot;test-instance&quot;,
+        &quot;zome&quot;: &quot;blog&quot;,
+        &quot;function&quot;: &quot;create_blog&quot;,
+        &quot;args&quot;: {
+            &quot;blog&quot;: {
+                &quot;content&quot;: &quot;sample content&quot;
+            } 
         }
     }
 }

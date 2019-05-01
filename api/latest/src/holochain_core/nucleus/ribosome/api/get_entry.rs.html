@@ -302,6 +302,7 @@
 <span id="302">302</span>
 <span id="303">303</span>
 <span id="304">304</span>
+<span id="305">305</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>},
@@ -348,7 +349,7 @@
             <span class="ident">ribosome</span>::{
                 <span class="self">self</span>,
                 <span class="ident">api</span>::{
-                    <span class="ident">commit</span>::<span class="ident">tests</span>::<span class="ident">test_commit_args_bytes</span>,
+                    <span class="ident">commit</span>::<span class="ident">tests</span>::<span class="ident">test_commit_entry_args_bytes</span>,
                     <span class="ident">tests</span>::{<span class="ident">test_parameters</span>, <span class="ident">test_zome_name</span>},
                 },
                 <span class="ident">runtime</span>::<span class="ident">WasmCallData</span>,
@@ -364,7 +365,8 @@
         <span class="ident">error</span>::<span class="ident">ZomeApiInternalResult</span>,
         <span class="ident">json</span>::<span class="ident">JsonString</span>,
     };
-    <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">get_entry</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::{<span class="ident">commit_entry</span>::<span class="ident">CommitEntryResult</span>, <span class="ident">get_entry</span>::<span class="kw-2">*</span>};
+
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
 
     <span class="doccomment">/// dummy get args from standard test entry</span>
@@ -518,7 +520,7 @@
             <span class="ident">test_parameters</span>(),
         );
         <span class="kw">let</span> <span class="ident">call_result</span> <span class="op">=</span> <span class="ident">ribosome</span>::<span class="ident">run_dna</span>(
-            <span class="prelude-val">Some</span>(<span class="ident">test_commit_args_bytes</span>()),
+            <span class="prelude-val">Some</span>(<span class="ident">test_commit_entry_args_bytes</span>()),
             <span class="ident">WasmCallData</span>::<span class="ident">new_zome_call</span>(<span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>), <span class="ident">commit_call</span>),
         )
         .<span class="ident">expect</span>(<span class="string">&quot;test should be callable&quot;</span>);
@@ -527,7 +529,7 @@
             <span class="ident">call_result</span>,
             <span class="ident">JsonString</span>::<span class="ident">from_json</span>(
                 <span class="kw-2">&amp;</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">ZomeApiInternalResult</span>::<span class="ident">success</span>(
-                    <span class="ident">test_entry</span>().<span class="ident">address</span>()
+                    <span class="ident">CommitEntryResult</span>::<span class="ident">new</span>(<span class="ident">test_entry</span>().<span class="ident">address</span>())
                 ))) <span class="op">+</span> <span class="string">&quot;\u{0}&quot;</span>)
             ),
         );

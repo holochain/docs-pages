@@ -446,6 +446,10 @@
 <span id="446">446</span>
 <span id="447">447</span>
 <span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
@@ -469,6 +473,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">basic_workflows</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">connection_workflows</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">constants</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">multidna_workflows</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">p2p_node</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">publish_hold_workflows</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">three_workflows</span>;
@@ -514,6 +519,9 @@
     <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">THREE_NODES_TEST_FNS</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ThreeNodesTestFn</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
         <span class="ident">three_workflows</span>::<span class="ident">hold_and_publish_test</span>,
         <span class="ident">three_workflows</span>::<span class="ident">publish_entry_stress_test</span>,
+        <span class="ident">multidna_workflows</span>::<span class="ident">send_test</span>,
+        <span class="ident">multidna_workflows</span>::<span class="ident">dht_test</span>,
+        <span class="ident">multidna_workflows</span>::<span class="ident">meta_test</span>,
     ];
     <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">MULTI_NODES_TEST_FNS</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MultiNodesTestFn</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
     ];

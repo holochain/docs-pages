@@ -792,6 +792,7 @@
 <span id="792">792</span>
 <span id="793">793</span>
 <span id="794">794</span>
+<span id="795">795</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::<span class="ident">ActionWrapper</span>, <span class="ident">context</span>::<span class="ident">Context</span>, <span class="ident">persister</span>::<span class="ident">Persister</span>, <span class="ident">scheduled_jobs</span>, <span class="ident">signal</span>::<span class="ident">Signal</span>,
@@ -1331,7 +1332,7 @@
             .<span class="ident">history</span>
             .<span class="ident">iter</span>()
             .<span class="ident">find</span>(<span class="op">|</span><span class="ident">aw</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">aw</span>.<span class="ident">action</span>() {
-                <span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">entry</span>, <span class="kw">_</span>)) <span class="op">=&gt;</span> {
+                <span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">entry</span>, <span class="kw">_</span>, <span class="kw">_</span>)) <span class="op">=&gt;</span> {
                     <span class="macro">assert</span><span class="macro">!</span>(
                         <span class="ident">entry</span>.<span class="ident">entry_type</span>() <span class="op">==</span> <span class="ident">EntryType</span>::<span class="ident">AgentId</span>
                             <span class="op">||</span> <span class="ident">entry</span>.<span class="ident">entry_type</span>() <span class="op">==</span> <span class="ident">EntryType</span>::<span class="ident">Dna</span>
@@ -1530,7 +1531,7 @@
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>, <span class="ident">netname</span>);
         <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">test_utils</span>::<span class="ident">create_test_dna_with_wat</span>(<span class="string">&quot;test_zome&quot;</span>, <span class="prelude-val">None</span>);
         <span class="kw">let</span> <span class="ident">dna_entry</span> <span class="op">=</span> <span class="ident">Entry</span>::<span class="ident">Dna</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">dna</span>));
-        <span class="kw">let</span> <span class="ident">commit_action</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">dna_entry</span>.<span class="ident">clone</span>(), <span class="prelude-val">None</span>)));
+        <span class="kw">let</span> <span class="ident">commit_action</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">dna_entry</span>.<span class="ident">clone</span>(), <span class="prelude-val">None</span>, <span class="macro">vec</span><span class="macro">!</span>[])));
 
         <span class="comment">// Set up instance and process the action</span>
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">Instance</span>::<span class="ident">new</span>(<span class="ident">test_context</span>(<span class="string">&quot;jason&quot;</span>, <span class="ident">netname</span>));
@@ -1546,7 +1547,7 @@
             .<span class="ident">history</span>
             .<span class="ident">iter</span>()
             .<span class="ident">find</span>(<span class="op">|</span><span class="ident">aw</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">aw</span>.<span class="ident">action</span>() {
-                <span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">entry</span>, <span class="kw">_</span>)) <span class="op">=&gt;</span> {
+                <span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">entry</span>, <span class="kw">_</span>, <span class="kw">_</span>)) <span class="op">=&gt;</span> {
                     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">entry</span>.<span class="ident">entry_type</span>(), <span class="ident">EntryType</span>::<span class="ident">Dna</span>);
                     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">entry</span>.<span class="ident">content</span>(), <span class="ident">dna_entry</span>.<span class="ident">content</span>());
                     <span class="bool-val">true</span>
@@ -1562,7 +1563,8 @@
         <span class="comment">// Create Context, Agent and Commit AgentIdEntry Action</span>
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">test_context</span>(<span class="string">&quot;alex&quot;</span>, <span class="ident">netname</span>);
         <span class="kw">let</span> <span class="ident">agent_entry</span> <span class="op">=</span> <span class="ident">Entry</span>::<span class="ident">AgentId</span>(<span class="ident">context</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>());
-        <span class="kw">let</span> <span class="ident">commit_agent_action</span> <span class="op">=</span> <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">agent_entry</span>.<span class="ident">clone</span>(), <span class="prelude-val">None</span>)));
+        <span class="kw">let</span> <span class="ident">commit_agent_action</span> <span class="op">=</span>
+            <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">agent_entry</span>.<span class="ident">clone</span>(), <span class="prelude-val">None</span>, <span class="macro">vec</span><span class="macro">!</span>[])));
 
         <span class="comment">// Set up instance and process the action</span>
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="ident">Instance</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">clone</span>());
@@ -1578,7 +1580,7 @@
             .<span class="ident">history</span>
             .<span class="ident">iter</span>()
             .<span class="ident">find</span>(<span class="op">|</span><span class="ident">aw</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">aw</span>.<span class="ident">action</span>() {
-                <span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">entry</span>, <span class="kw">_</span>)) <span class="op">=&gt;</span> {
+                <span class="ident">Action</span>::<span class="ident">Commit</span>((<span class="ident">entry</span>, <span class="kw">_</span>, <span class="kw">_</span>)) <span class="op">=&gt;</span> {
                     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">entry</span>.<span class="ident">entry_type</span>(), <span class="ident">EntryType</span>::<span class="ident">AgentId</span>);
                     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">entry</span>.<span class="ident">content</span>(), <span class="ident">agent_entry</span>.<span class="ident">content</span>());
                     <span class="bool-val">true</span>

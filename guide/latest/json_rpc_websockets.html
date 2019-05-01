@@ -184,10 +184,11 @@ ws.on('open', function() {
 </code></pre>
 <a class="header" href="#calling-zome-functions" id="calling-zome-functions"><h3>Calling Zome Functions</h3></a>
 <p>The following discusses how to use <code>rpc-websockets</code> to make calls to Zome functions.</p>
-<p>To use as the JSON-RPC &quot;method&quot; the instance ID (as seen in the <code>info/instances</code> example), the Zome name, and the function name are combined into a single string, separated by forward slash (<code>/</code>) characters. It could look like the following:
-<code>'test-instance/blogs/create_blog'</code></p>
-<p>A JSON object is constructed to give arguments. It could look like the following:
-<code>{ blog: { content: 'sample content' }}</code></p>
+<p>The JSON-RPC &quot;method&quot; to use is simply &quot;call&quot;.</p>
+<p>The instance ID (as seen in the <code>info/instances</code> example), the Zome name, and the function name all need to be given as values in the &quot;params&quot; value of the JSON-RPC, in addition to the arguments to pass that function. This part of the &quot;params&quot; object might look like this:
+<code>{&quot;instance_id&quot;: &quot;test-instance&quot;, &quot;zome&quot;: &quot;blog&quot;, &quot;function&quot;: &quot;create_post&quot;}</code></p>
+<p>Unlike <code>info/instances</code>, Zome functions usually expect arguments. To give arguments, a JSON object should be constructed, and given as <code>&quot;args&quot;</code> key of the &quot;params&quot; value. It may look like the following:
+<code>{ blog: { content: &quot;sample content&quot; }}</code></p>
 <p>The following code shows how to use <code>rpc-websockets</code> to call Zome functions.</p>
 <pre><code class="language-js">...
 ws.on('open', function() {

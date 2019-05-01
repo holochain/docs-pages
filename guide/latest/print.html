@@ -3017,35 +3017,35 @@ bootstrap_nodes = []
 </code></pre>
 <a class="header" href="#calling-zome-functions-1" id="calling-zome-functions-1"><h2>Calling Zome Functions</h2></a>
 <p>The following explains the general JSON-RPC pattern for how to call a Zome function.</p>
-<a class="header" href="#method" id="method"><h3>method</h3></a>
-<p>To call a Zome function, for the <code>method</code> we need three things:</p>
+<p>Unlike <code>info/instances</code>, a Zome function call also expects arguments. We will need to include a JSON-RPC <code>args</code> field in our RPC call.</p>
+<p>To call a Zome function, use <code>&quot;call&quot;</code> as the JSON-RPC <code>method</code>, and a <code>params</code> object with four items:</p>
 <ol>
-<li>The instance ID, corresponding to the instance IDs returned by <code>info/instances</code></li>
-<li>The name of the Zome</li>
-<li>The name of the function</li>
+<li><code>instance_id</code>: The instance ID, corresponding to the instance IDs returned by <code>info/instances</code></li>
+<li><code>zome</code>: The name of the Zome</li>
+<li><code>function</code>: The name of the function</li>
+<li><code>args</code>: The actual parameters of the zome function call</li>
 </ol>
-<p>The three are combined into a single string, separated by forward slash (<code>/</code>) characters, to use as the JSON-RPC &quot;method&quot;.</p>
-<p>In the last example, the instance ID &quot;test-instance&quot; was returned, which can be used here as the instance ID. Say there was a Zome in a DNA called &quot;blogs&quot;, this is the Zome name. That Zome has a function called &quot;create_blog&quot;, that is the function name. Append these together with <code>/</code> characters to get the &quot;method&quot; for the JSON-RPC call.</p>
-<p><strong>example method</strong></p>
-<pre><code>&quot;test-instance/blogs/create_blog&quot;
-</code></pre>
-<a class="header" href="#params" id="params"><h3>params</h3></a>
-<p>Unlike <code>info/instances</code>, Zome functions usually expect arguments. To give arguments, a JSON object should be constructed.</p>
+<p>In the last example, the instance ID &quot;test-instance&quot; was returned, which can be used here as the instance ID. Say there was a Zome in a DNA called &quot;blogs&quot;, this is the Zome name. That Zome has a function called &quot;create_blog&quot;, that is the function name.</p>
 <blockquote>
-<p>Any top level keys of the input object should correspond <strong>exactly</strong> with the name of an argument expected by the Zome method being called.</p>
+<p>Any top level keys of the <code>args</code> field should correspond <strong>exactly</strong> with the name of an argument expected by the Zome method being called.</p>
 </blockquote>
-<p><strong>example params</strong></p>
+<p><strong>Example Zome Function Arguments</strong></p>
 <pre><code class="language-json">{ &quot;blog&quot;: { &quot;content&quot;: &quot;sample content&quot; }}
 </code></pre>
-<a class="header" href="#example-29" id="example-29"><h3>Example</h3></a>
+<a class="header" href="#example-request" id="example-request"><h3>Example Request</h3></a>
 <p><strong>example request</strong></p>
 <pre><code class="language-json">{
     &quot;jsonrpc&quot;: &quot;2.0&quot;,
     &quot;id&quot;: &quot;0&quot;,
-    &quot;method&quot;: &quot;test-instance/blogs/create_blog&quot;,
+    &quot;method&quot;: &quot;call&quot;,
     &quot;params&quot;: {
-        &quot;blog&quot;: {
-            &quot;content&quot;:&quot;sample content&quot;
+        &quot;instance_id&quot;: &quot;test-instance&quot;,
+        &quot;zome&quot;: &quot;blog&quot;,
+        &quot;function&quot;: &quot;create_blog&quot;,
+        &quot;args&quot;: {
+            &quot;blog&quot;: {
+                &quot;content&quot;: &quot;sample content&quot;
+            } 
         }
     }
 }
@@ -3081,11 +3081,12 @@ bootstrap_nodes = []
 </code></pre>
 <a class="header" href="#calling-zome-functions-2" id="calling-zome-functions-2"><h3>Calling Zome Functions</h3></a>
 <p>The following discusses how to use cURL (and thus HTTP generally) to make calls to Zome functions.</p>
-<p>To use as the JSON-RPC &quot;method&quot; the instance ID (as seen in the <code>info/instances</code> example), the Zome name, and the function name are combined into a single string, separated by forward slash (<code>/</code>) characters. It could look like the following:
-<code>&quot;method&quot;: &quot;test-instance/blogs/create_blog&quot;</code></p>
-<p>Unlike <code>info/instances</code>, Zome functions usually expect arguments. To give arguments, a JSON object should be constructed. It may look like the following:
+<p>The JSON-RPC &quot;method&quot; to use is simply &quot;call&quot;.</p>
+<p>The instance ID (as seen in the <code>info/instances</code> example), the Zome name, and the function name all need to be given as values in the &quot;params&quot; value of the JSON-RPC, in addition to the arguments to pass that function. This part of the &quot;params&quot; object might look like this:
+<code>{&quot;instance_id&quot;: &quot;test-instance&quot;, &quot;zome&quot;: &quot;blog&quot;, &quot;function&quot;: &quot;create_post&quot;}</code></p>
+<p>Unlike <code>info/instances</code>, Zome functions usually expect arguments. To give arguments, a JSON object should be constructed, and given as <code>&quot;args&quot;</code> key of the &quot;params&quot; value. It may look like the following:
 <code>&quot;args&quot;: {&quot;content&quot;: &quot;sample content&quot;}</code></p>
-<p>With all this, a request like the following could be made via cURL from a terminal:
+<p>Combining these, a request like the following could be made via cURL from a terminal:
 <code>curl -X POST -H &quot;Content-Type: application/json&quot; -d '{&quot;id&quot;: &quot;0&quot;, &quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;call&quot;, &quot;params&quot;: {&quot;instance_id&quot;: &quot;test-instance&quot;, &quot;zome&quot;: &quot;blog&quot;, &quot;function&quot;: &quot;create_post&quot;, &quot;args&quot;: { &quot;content&quot;: &quot;sample content&quot;} }}' http://127.0.0.1:8888</code></p>
 <p>A response like the following might be returned:</p>
 <pre><code class="language-json">{
@@ -3141,10 +3142,11 @@ ws.on('open', function() {
 </code></pre>
 <a class="header" href="#calling-zome-functions-3" id="calling-zome-functions-3"><h3>Calling Zome Functions</h3></a>
 <p>The following discusses how to use <code>rpc-websockets</code> to make calls to Zome functions.</p>
-<p>To use as the JSON-RPC &quot;method&quot; the instance ID (as seen in the <code>info/instances</code> example), the Zome name, and the function name are combined into a single string, separated by forward slash (<code>/</code>) characters. It could look like the following:
-<code>'test-instance/blogs/create_blog'</code></p>
-<p>A JSON object is constructed to give arguments. It could look like the following:
-<code>{ blog: { content: 'sample content' }}</code></p>
+<p>The JSON-RPC &quot;method&quot; to use is simply &quot;call&quot;.</p>
+<p>The instance ID (as seen in the <code>info/instances</code> example), the Zome name, and the function name all need to be given as values in the &quot;params&quot; value of the JSON-RPC, in addition to the arguments to pass that function. This part of the &quot;params&quot; object might look like this:
+<code>{&quot;instance_id&quot;: &quot;test-instance&quot;, &quot;zome&quot;: &quot;blog&quot;, &quot;function&quot;: &quot;create_post&quot;}</code></p>
+<p>Unlike <code>info/instances</code>, Zome functions usually expect arguments. To give arguments, a JSON object should be constructed, and given as <code>&quot;args&quot;</code> key of the &quot;params&quot; value. It may look like the following:
+<code>{ blog: { content: &quot;sample content&quot; }}</code></p>
 <p>The following code shows how to use <code>rpc-websockets</code> to call Zome functions.</p>
 <pre><code class="language-js">...
 ws.on('open', function() {
@@ -4771,7 +4773,7 @@ interact with the file system through the relevant actor.</p>
 <p>Not only is there no consensus about an absolute order of events, but if you understand the General Theory of Relativity, then you'll understand there is in fact no real sequence of events, only sequences relative to a particular vantage point.</p>
 <p>That's how holochains are implemented. Each source chain for each person/agent/participant in a Holochain preserves the immutable data integrity and order of events of that agent's actions from their vantage point. As data is published from a source chain to the validating DHT, then other agents sign their validation, per the shared &quot;physics&quot; encoded into the DNA of that Holochain.</p>
 <p>The minor exception to the singular vantage point of each chain, is the case when a multi-party transaction is signed to each party's chain. That is an act of consensus -- but consensus on a very small scale -- just between the parties involved in the transaction. Each party signs the exact same transaction with links to each of their previous chain entries. Luckily, it's pretty easy to reach consensus between 2 or 3 parties. In fact, that is already why they're doing a transaction together, because they all agree to it.</p>
-<p>Holochains do sign every change of data and timestamp (without a universal time synchronization solution), This provides ample foundation for most applications which need solid data integrity for shared data in a fully distributed multi-agent system. Surely, there will be people who will build consensus algorithms on top of foundation (maybe like rounds, witnesses, supermajorities of Swirld),</p>
+<p>Holochains do sign every change of data and timestamp (without a universal time synchronization solution), This provides ample foundation for most applications which need solid data integrity for shared data in a fully distributed multi-agent system. Surely, there will be people who will build consensus algorithms on top of foundation (maybe like rounds, witnesses, supermajorities of <a href="https://www.swirlds.com/">Swirlds</a>),</p>
 <p>However, if your system is designed around data having one absolute true state, not one which is dynamic and varied based on vantage point, we would suggest you rethink your design. So far, for every problem space where people thought they needed an absolute sequence of events or global consensus, we have been able to map an alternate approach without those requirements. Also, we already know this is how the world outside of computers works, so to design your system to require (or construct) an artificial reality is probably setting yourself up for failure, or at the very least for massive amounts of unnecessary computation, communication, and fragility within your system.</p>
 <a class="header" href="#how-is-holochain-more-environmentally-ethical-than-blockchain" id="how-is-holochain-more-environmentally-ethical-than-blockchain"><h2>How is Holochain more environmentally ethical than blockchain?</h2></a>
 <blockquote>
