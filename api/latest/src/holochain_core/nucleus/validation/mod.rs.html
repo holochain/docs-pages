@@ -217,7 +217,7 @@
 <span class="kw">mod</span> <span class="ident">provenances</span>;
 <span class="kw">mod</span> <span class="ident">remove_entry</span>;
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>)]</span>
 <span class="doccomment">/// A failed validation.</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ValidationError</span> {
     <span class="doccomment">/// `Fail` means the validation function did run successfully and recognized the entry</span>

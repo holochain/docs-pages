@@ -1555,6 +1555,8 @@
 <span id="1555">1555</span>
 <span id="1556">1556</span>
 <span id="1557">1557</span>
+<span id="1558">1558</span>
+<span id="1559">1559</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">conductor</span>::<span class="ident">broadcaster</span>::<span class="ident">Broadcaster</span>,
@@ -2340,8 +2342,10 @@
             .<span class="ident">with_instance_configs</span>(<span class="self">self</span>.<span class="ident">config</span>.<span class="ident">instances</span>.<span class="ident">clone</span>());
 
         <span class="kw">if</span> <span class="ident">interface_config</span>.<span class="ident">admin</span> {
-            <span class="ident">conductor_api_builder</span> <span class="op">=</span> <span class="ident">conductor_api_builder</span>.<span class="ident">with_admin_dna_functions</span>();
-            <span class="ident">conductor_api_builder</span> <span class="op">=</span> <span class="ident">conductor_api_builder</span>.<span class="ident">with_admin_ui_functions</span>();
+            <span class="ident">conductor_api_builder</span> <span class="op">=</span> <span class="ident">conductor_api_builder</span>
+                .<span class="ident">with_admin_dna_functions</span>()
+                .<span class="ident">with_admin_ui_functions</span>()
+                .<span class="ident">with_test_admin_functions</span>();
         }
 
         <span class="ident">conductor_api_builder</span>.<span class="ident">spawn</span>()

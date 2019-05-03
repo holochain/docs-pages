@@ -394,7 +394,7 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
 
 <span class="doccomment">/// Struct holding data for requesting the execution of a Zome function (ExecutionZomeFunction Action)</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZomeFnCall</span> {
     <span class="ident">id</span>: <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>,
     <span class="kw">pub</span> <span class="ident">zome_name</span>: <span class="ident">String</span>,

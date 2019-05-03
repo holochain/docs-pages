@@ -12,16 +12,20 @@
 <span id="12">12</span>
 <span id="13">13</span>
 <span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">admin</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">base</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">broadcaster</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">passphrase_manager</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">test_admin</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ui_admin</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{
     <span class="ident">admin</span>::<span class="ident">ConductorAdmin</span>,
     <span class="ident">base</span>::{<span class="ident">mount_conductor_from_config</span>, <span class="ident">Conductor</span>, <span class="ident">CONDUCTOR</span>},
+    <span class="ident">test_admin</span>::<span class="ident">ConductorTestAdmin</span>,
     <span class="ident">ui_admin</span>::<span class="ident">ConductorUiAdmin</span>,
 };
 

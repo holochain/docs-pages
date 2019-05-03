@@ -381,6 +381,7 @@
 <span id="381">381</span>
 <span id="382">382</span>
 <span id="383">383</span>
+<span id="384">384</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">agent</span>::<span class="ident">state</span>::<span class="ident">AgentState</span>,
@@ -426,7 +427,7 @@
 <span class="doccomment">/// The standard approach is to drop the ActionWrapper into the key of a state history HashMap and</span>
 <span class="doccomment">/// use the convenience unwrap_to! macro to extract the action data in a reducer.</span>
 <span class="doccomment">/// All reducer functions must accept an ActionWrapper so all dispatchers take an ActionWrapper.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ActionWrapper</span> {
     <span class="ident">action</span>: <span class="ident">Action</span>,
     <span class="ident">id</span>: <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>,
@@ -472,7 +473,8 @@
 }
 
 <span class="doccomment">/// All Actions for the Holochain Instance Store, according to Redux pattern.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;action_type&quot;</span>, <span class="ident">content</span> <span class="op">=</span> <span class="string">&quot;data&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Action</span> {
     <span class="comment">// ----------------</span>
     <span class="comment">// Agent actions:</span>
@@ -615,7 +617,7 @@
 
 <span class="doccomment">/// The unique key that represents a GetLinks request, used to associate the eventual</span>
 <span class="doccomment">/// response with this GetLinks request</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetLinksKey</span> {
     <span class="doccomment">/// The address of the Link base</span>
     <span class="kw">pub</span> <span class="ident">base_address</span>: <span class="ident">Address</span>,
@@ -629,7 +631,7 @@
 
 <span class="doccomment">/// The unique key that represents a Get request, used to associate the eventual</span>
 <span class="doccomment">/// response with this Get request</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetEntryKey</span> {
     <span class="doccomment">/// The address of the entry to get</span>
     <span class="kw">pub</span> <span class="ident">address</span>: <span class="ident">Address</span>,
@@ -640,7 +642,7 @@
 
 <span class="doccomment">/// Everything the network module needs to know in order to send a</span>
 <span class="doccomment">/// direct message.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DirectMessageData</span> {
     <span class="doccomment">/// The address of the node to send a message to</span>
     <span class="kw">pub</span> <span class="ident">address</span>: <span class="ident">Address</span>,
@@ -658,7 +660,7 @@
 }
 
 <span class="doccomment">/// Everything the network needs to initialize</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NetworkSettings</span> {
     <span class="doccomment">/// P2pConfig that gets passed to [P2pNetwork](struct.P2pNetwork.html)</span>
     <span class="doccomment">/// determines how to connect to the network module.</span>
