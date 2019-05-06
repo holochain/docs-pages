@@ -225,6 +225,15 @@
 <span id="225">225</span>
 <span id="226">226</span>
 <span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">three_workflows</span>::<span class="ident">setup_three_nodes</span>;
 <span class="kw">use</span> <span class="ident">constants</span>::<span class="kw-2">*</span>;
@@ -448,7 +457,16 @@
     <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span>
         <span class="ident">camille</span>.<span class="ident">wait_with_timeout</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">FetchMetaResult</span>(<span class="kw">_</span>))), <span class="number">1000</span>);
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;got GetMetaResult: {:?}&quot;</span>, <span class="ident">result</span>);
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_none</span>());
+
+    <span class="comment">// XXX - currently in-memory and mock return none here</span>
+    <span class="comment">//       and realmode returns a result with no meta items.</span>
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">result</span>.<span class="ident">is_none</span>() {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">meta_data</span> <span class="op">=</span> <span class="macro">unwrap_to</span><span class="macro">!</span>(<span class="ident">result</span> <span class="op">=&gt;</span> <span class="ident">JsonProtocol</span>::<span class="ident">FetchMetaResult</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">meta_data</span>.<span class="ident">entry_address</span>, <span class="ident">ENTRY_ADDRESS_3</span>.<span class="ident">clone</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">meta_data</span>.<span class="ident">attribute</span>, <span class="ident">META_LINK_ATTRIBUTE</span>.<span class="ident">clone</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">meta_data</span>.<span class="ident">content_list</span>.<span class="ident">len</span>(), <span class="number">0</span>);
+    }
 
     <span class="comment">// Done</span>
     <span class="prelude-val">Ok</span>(())

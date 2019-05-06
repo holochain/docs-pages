@@ -272,6 +272,24 @@
 <span id="272">272</span>
 <span id="273">273</span>
 <span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! provides a NetWorker implementation for backend IPC p2p connections</span>
 
@@ -409,10 +427,19 @@
 <span class="kw">impl</span> <span class="ident">NetWorker</span> <span class="kw">for</span> <span class="ident">IpcNetWorker</span> {
     <span class="doccomment">/// stop the net worker</span>
     <span class="kw">fn</span> <span class="ident">stop</span>(<span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// Nothing to do if sub-process already terminated</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">last_known_state</span> <span class="op">==</span> <span class="string">&quot;terminated&quot;</span> {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
+        <span class="comment">// Tell sub-process to shutdown</span>
+        <span class="self">self</span>.<span class="ident">receive</span>(<span class="ident">Protocol</span>::<span class="ident">Shutdown</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">tick</span>();
+        <span class="comment">// Close connection and kill process</span>
         <span class="self">self</span>.<span class="ident">wss_socket</span>.<span class="ident">close_all</span>()<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">done</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">done</span> {
             <span class="ident">done</span>();
         }
+        <span class="comment">// Done</span>
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -469,8 +496,17 @@
                         };
                     }
                     <span class="comment">// Send data back to handler</span>
-                    (<span class="self">self</span>.<span class="ident">handler</span>)(<span class="prelude-val">Ok</span>(<span class="ident">msg</span>))<span class="question-mark">?</span>;
+                    (<span class="self">self</span>.<span class="ident">handler</span>)(<span class="prelude-val">Ok</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()))<span class="question-mark">?</span>;
 
+                    <span class="comment">// on shutdown, close all connections</span>
+                    <span class="kw">if</span> <span class="ident">msg</span> <span class="op">==</span> <span class="ident">Protocol</span>::<span class="ident">Terminated</span> {
+                        <span class="self">self</span>.<span class="ident">is_network_ready</span> <span class="op">=</span> <span class="bool-val">false</span>;
+                        <span class="self">self</span>.<span class="ident">last_known_state</span> <span class="op">=</span> <span class="string">&quot;terminated&quot;</span>.<span class="ident">to_string</span>();
+                        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">wss_socket</span>.<span class="ident">close_all</span>();
+                        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">res</span> {
+                            <span class="self">self</span>.<span class="ident">log</span>.<span class="ident">w</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error while stopping worker: {:?}&quot;</span>, <span class="ident">e</span>));
+                        }
+                    }
                     <span class="comment">// When p2p module is ready:</span>
                     <span class="comment">// - Notify handler that the p2p module is ready</span>
                     <span class="comment">// - Try connecting to boostrap nodes</span>

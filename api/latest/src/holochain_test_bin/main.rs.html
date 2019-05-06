@@ -450,6 +450,16 @@
 <span id="450">450</span>
 <span id="451">451</span>
 <span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
@@ -506,6 +516,7 @@
         <span class="ident">basic_workflows</span>::<span class="ident">dht_test</span>,
         <span class="ident">basic_workflows</span>::<span class="ident">meta_test</span>,
         <span class="ident">basic_workflows</span>::<span class="ident">no_meta_test</span>,
+        <span class="ident">basic_workflows</span>::<span class="ident">shutdown_test</span>,
     ];
     <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">TWO_NODES_LIST_TEST_FNS</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">TwoNodesTestFn</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
         <span class="ident">publish_hold_workflows</span>::<span class="ident">empty_publish_entry_list_test</span>,
@@ -625,7 +636,12 @@
             .<span class="ident">unwrap</span>();
         }
         <span class="kw">if</span> <span class="ident">config</span>[<span class="string">&quot;modes&quot;</span>][<span class="string">&quot;HACK_MODE&quot;</span>].<span class="ident">as_bool</span>().<span class="ident">unwrap</span>() {
-            <span class="ident">launch_two_nodes_test</span>(<span class="string">&quot;test_bin/data/network_config.json&quot;</span>, <span class="prelude-val">None</span>, <span class="ident">test_fn</span>).<span class="ident">unwrap</span>();
+            <span class="ident">launch_two_nodes_test</span>(
+                <span class="string">&quot;test_bin/data/network_config.json&quot;</span>,
+                <span class="prelude-val">Some</span>(<span class="string">&quot;test_bin/data/end_user_net_config.json&quot;</span>.<span class="ident">to_string</span>()),
+                <span class="ident">test_fn</span>,
+            )
+            .<span class="ident">unwrap</span>();
         }
     }
 
@@ -644,8 +660,12 @@
                 .<span class="ident">unwrap</span>();
             }
             <span class="kw">if</span> <span class="ident">config</span>[<span class="string">&quot;modes&quot;</span>][<span class="string">&quot;HACK_MODE&quot;</span>].<span class="ident">as_bool</span>().<span class="ident">unwrap</span>() {
-                <span class="ident">launch_three_nodes_test</span>(<span class="string">&quot;test_bin/data/network_config.json&quot;</span>, <span class="prelude-val">None</span>, <span class="ident">test_fn</span>)
-                    .<span class="ident">unwrap</span>();
+                <span class="ident">launch_three_nodes_test</span>(
+                    <span class="string">&quot;test_bin/data/network_config.json&quot;</span>,
+                    <span class="prelude-val">Some</span>(<span class="string">&quot;test_bin/data/end_user_net_config.json&quot;</span>.<span class="ident">to_string</span>()),
+                    <span class="ident">test_fn</span>,
+                )
+                .<span class="ident">unwrap</span>();
             }
         }
     }
@@ -656,14 +676,14 @@
     {
         <span class="ident">connection_workflows</span>::<span class="ident">two_nodes_disconnect_test</span>(
             <span class="string">&quot;test_bin/data/network_config.json&quot;</span>,
-            <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="string">&quot;test_bin/data/end_user_net_config.json&quot;</span>.<span class="ident">to_string</span>()),
             <span class="ident">basic_workflows</span>::<span class="ident">dht_test</span>,
         )
         .<span class="ident">unwrap</span>();
 
         <span class="ident">connection_workflows</span>::<span class="ident">three_nodes_disconnect_test</span>(
             <span class="string">&quot;test_bin/data/network_config.json&quot;</span>,
-            <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="string">&quot;test_bin/data/end_user_net_config.json&quot;</span>.<span class="ident">to_string</span>()),
             <span class="ident">three_workflows</span>::<span class="ident">hold_and_publish_test</span>,
         )
         .<span class="ident">unwrap</span>();

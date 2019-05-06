@@ -186,6 +186,19 @@
 <span id="186">186</span>
 <span id="187">187</span>
 <span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This is a helper function to manage spawning an IPC sub-process</span>
 <span class="doccomment">//! This process is expected to output some specific messages on its stdout</span>
@@ -338,6 +351,19 @@
 
     <span class="comment">// Set shutdown function to kill the sub-process</span>
     <span class="ident">out</span>.<span class="ident">kill</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">||</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wait_ms</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">while</span> <span class="ident">wait_ms</span> <span class="op">&lt;</span> <span class="number">500</span> {
+            <span class="kw">match</span> <span class="ident">child</span>.<span class="ident">try_wait</span>() {
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=&gt;</span> {}
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">_status</span>)) <span class="op">=&gt;</span> <span class="kw">return</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
+                    <span class="macro">log_e</span><span class="macro">!</span>(<span class="string">&quot;error attempting to wait: {}&quot;</span>, <span class="ident">e</span>);
+                    <span class="kw">return</span>;
+                }
+            }
+            <span class="ident">std</span>::<span class="ident">thread</span>::<span class="ident">sleep</span>(<span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="number">10</span>));
+            <span class="ident">wait_ms</span> <span class="op">+=</span> <span class="number">10</span>;
+        }
         <span class="kw">if</span> <span class="ident">term_child</span>(<span class="ident">child</span>.<span class="ident">id</span>()) {
             <span class="kw">return</span>;
         }

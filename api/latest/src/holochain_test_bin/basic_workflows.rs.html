@@ -623,6 +623,37 @@
 <span id="623">623</span>
 <span id="624">624</span>
 <span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">constants</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
@@ -630,6 +661,7 @@
     <span class="ident">connection</span>::{
         <span class="ident">json_protocol</span>::{<span class="ident">ConnectData</span>, <span class="ident">JsonProtocol</span>},
         <span class="ident">net_connection</span>::<span class="ident">NetSend</span>,
+        <span class="ident">protocol</span>::<span class="ident">Protocol</span>,
         <span class="ident">NetResult</span>,
     },
     <span class="ident">tweetlog</span>::<span class="ident">TWEETLOG</span>,
@@ -1229,6 +1261,8 @@
         <span class="bool-val">true</span>,
     )<span class="question-mark">?</span>;
 
+    <span class="ident">billy</span>.<span class="ident">listen</span>(<span class="number">200</span>);
+
     <span class="comment">// Billy asks for metadata on the network.</span>
     <span class="kw">let</span> <span class="ident">fetch_meta</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">request_meta</span>(<span class="ident">ENTRY_ADDRESS_2</span>.<span class="ident">clone</span>(), <span class="ident">META_LINK_ATTRIBUTE</span>.<span class="ident">to_string</span>());
 
@@ -1237,7 +1271,10 @@
 
     <span class="comment">// Billy should receive meta</span>
     <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">billy</span>
-        .<span class="ident">wait</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">FetchMetaResult</span>(<span class="kw">_</span>))))
+        .<span class="ident">wait</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is_where</span><span class="macro">!</span>(
+            <span class="ident">JsonProtocol</span>::<span class="ident">FetchMetaResult</span>(<span class="ident">meta_data</span>),
+            { <span class="ident">meta_data</span>.<span class="ident">request_id</span> <span class="op">==</span> <span class="ident">fetch_meta</span>.<span class="ident">request_id</span> }
+        )))
         .<span class="ident">unwrap</span>();
 
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;got GetMetaResult: {:?}&quot;</span>, <span class="ident">result</span>);
@@ -1246,6 +1283,31 @@
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">meta_data</span>.<span class="ident">attribute</span>, <span class="ident">META_LINK_ATTRIBUTE</span>.<span class="ident">clone</span>());
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">meta_data</span>.<span class="ident">content_list</span>.<span class="ident">len</span>(), <span class="number">1</span>);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">meta_data</span>.<span class="ident">content_list</span>[<span class="number">0</span>], <span class="ident">META_LINK_CONTENT_2</span>.<span class="ident">clone</span>());
+    <span class="comment">// Done</span>
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="doccomment">/// Send Protocol::Shutdown</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shutdown_test</span>(
+    <span class="ident">alex</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
+    <span class="ident">billy</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span>,
+    <span class="ident">can_connect</span>: <span class="ident">bool</span>,
+) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="comment">// Setup</span>
+    <span class="ident">setup_two_nodes</span>(<span class="ident">alex</span>, <span class="ident">billy</span>, <span class="kw-2">&amp;</span><span class="ident">DNA_ADDRESS_A</span>, <span class="ident">can_connect</span>)<span class="question-mark">?</span>;
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">alex</span>.<span class="ident">is_network_ready</span>(), <span class="bool-val">true</span>);
+
+    <span class="comment">// Do something</span>
+    <span class="ident">alex</span>.<span class="ident">author_entry</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_1</span>, <span class="kw-2">&amp;</span><span class="ident">ENTRY_CONTENT_1</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">listen</span>(<span class="number">200</span>);
+
+    <span class="comment">// kill alex manually</span>
+    <span class="ident">alex</span>.<span class="ident">send</span>(<span class="ident">Protocol</span>::<span class="ident">Shutdown</span>.<span class="ident">into</span>())<span class="question-mark">?</span>;
+
+    <span class="comment">// alex should receive &#39;Terminated&#39; which should set `is_network_ready`  to false</span>
+    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">listen</span>(<span class="number">200</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">alex</span>.<span class="ident">is_network_ready</span>(), <span class="bool-val">false</span>);
+
     <span class="comment">// Done</span>
     <span class="prelude-val">Ok</span>(())
 }

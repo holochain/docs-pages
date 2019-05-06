@@ -2960,13 +2960,13 @@ type = &quot;debug&quot;
 <p><code>network</code> is a table for the configuration of how networking should behave in the Conductor. The Conductor currently uses mock networking by default. To network with other nodes Holochain will automatically setup the <a href="https://github.com/holochain/n3h">n3h networking component</a>. How <code>n3h</code> behaves can be configured with the following properties in a Conductor configuration file.</p>
 <p><strong>Optional</strong></p>
 <a class="header" href="#properties-8" id="properties-8"><h3>Properties</h3></a>
+<a class="header" href="#n3h_persistence_path-string" id="n3h_persistence_path-string"><h4><code>n3h_persistence_path</code>: <code>string</code></h4></a>
+<p>Absolute path to the directory that n3h uses to store persisted data. The default is that a temporary self-removing directory for this transient data will be used.</p>
 <a class="header" href="#bootstrap_nodes-array-of-string-optional" id="bootstrap_nodes-array-of-string-optional"><h4><code>bootstrap_nodes</code>: <code>array of string</code> Optional</h4></a>
 <p>List of URIs that point to other nodes to bootstrap p2p connections.</p>
 <a class="header" href="#n3h_log_level-char" id="n3h_log_level-char"><h4><code>n3h_log_level</code>: <code>char</code></h4></a>
 <p>Set the logging level used globally by N3H. Must be one of the following: 't', 'd', 'i', 'w', 'e'
 Each value corresponding to the industry standard log level: Trace, Debug, Info, Warning, Error.</p>
-<a class="header" href="#n3h_persistence_path-string-optional" id="n3h_persistence_path-string-optional"><h4><code>n3h_persistence_path</code>: <code>string</code> Optional</h4></a>
-<p>Absolute path to the directory that n3h uses to store persisted data. The default is that a temporary self-removing directory for this transient data will be used.</p>
 <a class="header" href="#n3h_ipc_uri-string-optional" id="n3h_ipc_uri-string-optional"><h4><code>n3h_ipc_uri</code>: <code>string</code> Optional</h4></a>
 <p>URI pointing to an n3h process that is already running and not managed by this
 Conductor. If this is set the Conductor does not spawn n3h itself and ignores the path configs above. Default is this value is empty.</p>

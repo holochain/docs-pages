@@ -221,6 +221,11 @@
 <span id="221">221</span>
 <span id="222">222</span>
 <span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! provides fake in-memory p2p worker for use in scenario testing</span>
 
@@ -251,6 +256,11 @@
     <span class="doccomment">/// we got a message from holochain core</span>
     <span class="doccomment">/// forward to our in-memory server</span>
     <span class="kw">fn</span> <span class="ident">receive</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="ident">Protocol</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// InMemoryWorker doesn&#39;t have to do anything on shutdown</span>
+        <span class="kw">if</span> <span class="ident">data</span> <span class="op">==</span> <span class="ident">Protocol</span>::<span class="ident">Shutdown</span> {
+            (<span class="self">self</span>.<span class="ident">handler</span>)(<span class="prelude-val">Ok</span>(<span class="ident">Protocol</span>::<span class="ident">Terminated</span>))<span class="question-mark">?</span>;
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+        }
         <span class="kw">let</span> <span class="ident">server_map</span> <span class="op">=</span> <span class="ident">MEMORY_SERVER_MAP</span>.<span class="ident">read</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">server</span> <span class="op">=</span> <span class="ident">server_map</span>
             .<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">server_name</span>)

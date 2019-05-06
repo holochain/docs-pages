@@ -1011,6 +1011,12 @@
 <span id="1011">1011</span>
 <span id="1012">1012</span>
 <span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
 
@@ -1719,6 +1725,12 @@
                 <span class="self">self</span>.<span class="ident">logger</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="ident">dbg_msg</span>);
                 <span class="self">self</span>.<span class="ident">is_network_ready</span> <span class="op">=</span> <span class="bool-val">true</span>;
                 <span class="macro">bail</span><span class="macro">!</span>(<span class="string">&quot;received P2pReady&quot;</span>);
+            }
+            <span class="ident">Protocol</span>::<span class="ident">Terminated</span> <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">dbg_msg</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;&lt;&lt; ({}) recv ** Terminated **&quot;</span>, <span class="self">self</span>.<span class="ident">agent_id</span>);
+                <span class="self">self</span>.<span class="ident">logger</span>.<span class="ident">d</span>(<span class="kw-2">&amp;</span><span class="ident">dbg_msg</span>);
+                <span class="self">self</span>.<span class="ident">is_network_ready</span> <span class="op">=</span> <span class="bool-val">false</span>;
+                <span class="macro">bail</span><span class="macro">!</span>(<span class="string">&quot;received Terminated&quot;</span>);
             }
             <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">dbg_msg</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;&lt;&lt; ({}) recv &lt;other&gt;&quot;</span>, <span class="self">self</span>.<span class="ident">agent_id</span>);

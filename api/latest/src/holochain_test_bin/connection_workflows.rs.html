@@ -388,7 +388,7 @@
         .<span class="ident">expect</span>(<span class="string">&quot;Failed sending TrackDna on alex&quot;</span>);
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;#### alex reborn ({})&quot;</span>, <span class="ident">alex</span>.<span class="ident">p2p_binding</span>.<span class="ident">clone</span>());
 
-    <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">listen</span>(<span class="number">500</span>);
+    <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">listen</span>(<span class="number">3000</span>);
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;#### alex got reconnecting: {}\n\n&quot;</span>, <span class="ident">count</span>);
 
     <span class="comment">// Make sure Peers are connected</span>
