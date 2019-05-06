@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["invoke_grant_capability",""]]});
