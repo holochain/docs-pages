@@ -533,7 +533,7 @@ fn handle_get_list(list_addr: HashString) -&gt; ZomeApiResult&lt;GetListResponse
 </code></pre>
 <p>from the root directory. This will compile the Rust to WebAssembly and produce a <code>holochain-rust-todo.dna.json</code> file in the <code>dist</code> folder which contains the compiled WASM code and the required metadata. This is the file that we can load and run using <code>hc</code>.</p>
 <a class="header" href="#writing-tests" id="writing-tests"><h2>Writing tests</h2></a>
-<p>The testing framework is built on JavaScript around Tape.js and allows for writing single agent and muti-agent tests using javascript async/await syntax.
+<p>The testing framework is built on JavaScript around Tape.js and allows for writing single agent and multi-agent tests using javascript async/await syntax.
 Opening up the <code>test/index.js</code> file you will see a skeleton test file already created:</p>
 <pre><code class="language-javascript">// This test file uses the tape testing framework.
 // To learn more, go here: https://github.com/substack/tape
