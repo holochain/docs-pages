@@ -1770,7 +1770,7 @@ define_zome! {
 }
 </code></pre>
 <a class="header" href="#grant-capabilities" id="grant-capabilities"><h3>Grant Capabilities</h3></a>
-<p>You can use the <code>grant_capability</code> HDK function to create a custom capability grant.  For example, imaging a blogging use-case where you want to grant friends the ability to call the <code>create_post</code> function in a <code>blog</code> zome.  Assuming the function <code>is_my_friend(addr)</code> correctly examines the provenance in CAPABILITY_REQ global which always holds the capability request of the current zome call, then the following code is an example of how you might call <code>hdk::grant_capability</code>:</p>
+<p>You can use the <code>commit_capability_grant</code> HDK function to create a custom capability grant.  For example, imaging a blogging use-case where you want to grant friends the ability to call the <code>create_post</code> function in a <code>blog</code> zome.  Assuming the function <code>is_my_friend(addr)</code> correctly examines the provenance in CAPABILITY_REQ global which always holds the capability request of the current zome call, then the following code is an example of how you might call <code>hdk::commit_capability_grant</code>:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -1779,7 +1779,7 @@ pub fn handle_request_post_grant() -&gt; ZomeApiResult&lt;Option&lt;Address&gt;&
     if is_my_friend(addr.clone()) {
         let mut functions = BTreeMap::new();
         functions.insert(&quot;blog&quot;.to_string(), vec![&quot;create_post&quot;.to_string()]);
-        Ok(Some(hdk::grant_capability(
+        Ok(Some(hdk::commit_capability_grant(
             &quot;can_post&quot;,
             CapabilityType::Assigned,
             Some(vec![addr]),
@@ -1813,6 +1813,7 @@ pub fn handle_request_post_grant() -&gt; ZomeApiResult&lt;Option&lt;Address&gt;&
 <li><code>keystore_derive_seed(src_id,dst_id,context,index)</code> -&gt; derives a higherarchical deterministic key seed to be identifided by <code>dst_id</code> from the <code>src_id</code>.  Uses <code>context</code> and <code>index</code> as part of the derivation path.</li>
 <li><code>keystore_derive_key(src_id,dst_id,key_type)</code>-&gt; derives a key (signing or encrypting) to be identified by <code>dst_id</code> from a previously created seed identified by <code>src_id</code>.  This function returns the public key of the keypair.</li>
 <li><code>keystore_sign(src_id,payload)</code> -&gt; returns a signature of the payload as signed by the key identified by <code>src_id</code></li>
+<li><code>keystore_get_public_key(src_id)</code> -&gt; returns a the public key of a key identified by <code>src_id</code>.  Returns an error if you pass an identifier of a seed secret.</li>
 <li><code>sign(payload)</code> -&gt; signs the payload using the DNA's instance agent ID public key.  This is a convenience function which is equivalent to calling <code>keystore_sign(&quot;primary_keybundle:sign_key&quot;,payload)</code></li>
 <li><code>sign_one_time(payload_list)</code> -&gt; signs the payloads with a randomly generated key-pair, returning the signatures and the public key of the key-pair after shredding the private-key.</li>
 <li><code>verify_signature(provenance, payload)</code> -&gt; verifies that the <code>payload</code> matches the <code>provenance</code> which is a public key/signature pair.</li>
@@ -1949,9 +1950,9 @@ according to its new 'deleted' status. It can still be retrieved, but only if sp
 <p>Sends a node-to-node message to the given agent. This works in conjunction with the receive callback, which is where the response behaviour to receiving a message should be defined. This function returns the result from the receive callback on the other side.</p>
 <p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.send.html">View it in the Rust HDK</a></p>
 <a class="header" href="#grant-capability" id="grant-capability"><h3>Grant Capability</h3></a>
-<p>Canonical name: <code>grant_capability</code></p>
+<p>Canonical name: <code>commit_capability_grant</code></p>
 <p>Creates a capability grant on the local chain for allowing access to zome functions.</p>
-<p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.grant_capability.html">View it in the Rust HDK</a></p>
+<p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.commit_capability_grant.html">View it in the Rust HDK</a></p>
 <a class="header" href="#start-bundle" id="start-bundle"><h3>Start Bundle</h3></a>
 <p>Canonical name: <code>start_bundle</code></p>
 <p>Not yet available.</p>
@@ -2155,6 +2156,17 @@ console.log(bridgeConfig)
   callee_id: 'bob' }
 */
 </code></pre>
+<a class="header" href="#dpki" id="dpki"><h2>DPKI</h2></a>
+<a class="header" href="#configdpkiinstanceconfig-initparams--object" id="configdpkiinstanceconfig-initparams--object"><h3><code>Config.dpki(instanceConfig, initParams)</code> =&gt; <code>object</code></h3></a>
+<p>Takes two arguments: an instance object, as specified by <code>Config.instance</code>, and an object which gets passed into the <code>init_params</code> conductor config object.</p>
+<hr />
+<p><strong>Name</strong> instanceConfig</p>
+<p><strong>Type</strong> <code>object</code></p>
+<p><strong>Description</strong> A config object with a <code>name</code> property, as produced by <code>Config.instance</code></p>
+<hr />
+<p><strong>Name</strong> initParams</p>
+<p><strong>Type</strong> <code>object</code></p>
+<p><strong>Description</strong> A config object which will be passed directly through to the conductor config (as <code>dpki.init_params</code>)</p>
 <a class="header" href="#full-conductor-configuration" id="full-conductor-configuration"><h2>Full Conductor Configuration</h2></a>
 <a class="header" href="#configconductorconductoroptions--object" id="configconductorconductoroptions--object"><h3><code>Config.conductor(conductorOptions)</code> =&gt; <code>object</code></h3></a>
 <a class="header" href="#configconductorinstancesarray-conductoroptions--object" id="configconductorinstancesarray-conductoroptions--object"><h3><code>Config.conductor(instancesArray, [conductorOptions])</code> =&gt; <code>object</code></h3></a>

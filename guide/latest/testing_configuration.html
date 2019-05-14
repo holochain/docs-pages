@@ -250,6 +250,17 @@ console.log(bridgeConfig)
   callee_id: 'bob' }
 */
 </code></pre>
+<a class="header" href="#dpki" id="dpki"><h2>DPKI</h2></a>
+<a class="header" href="#configdpkiinstanceconfig-initparams--object" id="configdpkiinstanceconfig-initparams--object"><h3><code>Config.dpki(instanceConfig, initParams)</code> =&gt; <code>object</code></h3></a>
+<p>Takes two arguments: an instance object, as specified by <code>Config.instance</code>, and an object which gets passed into the <code>init_params</code> conductor config object.</p>
+<hr />
+<p><strong>Name</strong> instanceConfig</p>
+<p><strong>Type</strong> <code>object</code></p>
+<p><strong>Description</strong> A config object with a <code>name</code> property, as produced by <code>Config.instance</code></p>
+<hr />
+<p><strong>Name</strong> initParams</p>
+<p><strong>Type</strong> <code>object</code></p>
+<p><strong>Description</strong> A config object which will be passed directly through to the conductor config (as <code>dpki.init_params</code>)</p>
 <a class="header" href="#full-conductor-configuration" id="full-conductor-configuration"><h2>Full Conductor Configuration</h2></a>
 <a class="header" href="#configconductorconductoroptions--object" id="configconductorconductoroptions--object"><h3><code>Config.conductor(conductorOptions)</code> =&gt; <code>object</code></h3></a>
 <a class="header" href="#configconductorinstancesarray-conductoroptions--object" id="configconductorinstancesarray-conductoroptions--object"><h3><code>Config.conductor(instancesArray, [conductorOptions])</code> =&gt; <code>object</code></h3></a>
