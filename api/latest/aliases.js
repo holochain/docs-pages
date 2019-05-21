@@ -5,6 +5,7 @@ ALIASES["holochain"] = {};
 ALIASES["holochain_cas_implementations"] = {};
 ALIASES["holochain_common"] = {};
 ALIASES["holochain_conductor_api"] = {};
+ALIASES["holochain_conductor_wasm"] = {};
 ALIASES["holochain_core"] = {};
 ALIASES["holochain_core_api_c_binding"] = {};
 ALIASES["holochain_core_types"] = {};

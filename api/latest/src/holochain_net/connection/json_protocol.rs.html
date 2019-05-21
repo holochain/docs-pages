@@ -724,6 +724,21 @@
 <span id="724">724</span>
 <span id="725">725</span>
 <span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides a higher level interface to p2p / network messaging</span>
 <span class="doccomment">//! basically handles serialization / deserialization from / to the core</span>
@@ -975,9 +990,10 @@
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;camelCase&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;method&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">JsonProtocol</span> {
     <span class="comment">// -- Generic responses -- //</span>
-    <span class="doccomment">/// Success response to a request (any message with an _id field.)</span>
+    <span class="doccomment">/// Generic success response to a request (any message with an _id field.).</span>
+    <span class="doccomment">/// Used when the request is not expecting a response holding specific data.</span>
     <span class="ident">SuccessResult</span>(<span class="ident">SuccessResultData</span>),
-    <span class="doccomment">/// Failure response to a request (any message with an _id field.)</span>
+    <span class="doccomment">/// Generic failure response to a request (any message with an _id field.)</span>
     <span class="doccomment">/// Can also be a response to a mal-formed request.</span>
     <span class="ident">FailureResult</span>(<span class="ident">FailureResultData</span>),
 
@@ -988,9 +1004,12 @@
     <span class="doccomment">/// Order the p2p module to leave the network of the specified DNA.</span>
     <span class="ident">UntrackDna</span>(<span class="ident">TrackDnaData</span>),
 
-    <span class="doccomment">/// Connect to the specified multiaddr</span>
+    <span class="doccomment">/// Request the network module to connect to a specific Peer. Used for bootstrapping only.</span>
+    <span class="doccomment">/// Connection address should be an opaque transport-layer connection string,</span>
+    <span class="doccomment">/// which will generally be a URI, but in the case of libp2p is a multiaddr.</span>
     <span class="ident">Connect</span>(<span class="ident">ConnectData</span>),
-    <span class="doccomment">/// Notification of a connection from another peer.</span>
+    <span class="doccomment">/// Notify that another Peer has connected to this Dna.</span>
+    <span class="doccomment">/// This is sent when another Peer joins the Network.</span>
     <span class="ident">PeerConnected</span>(<span class="ident">PeerData</span>),
 
     <span class="comment">// -- Config (deprecated?) -- //</span>
@@ -1016,55 +1035,66 @@
     <span class="ident">SendMessageResult</span>(<span class="ident">MessageData</span>),
     <span class="doccomment">/// Request to handle a message another peer has sent us.</span>
     <span class="ident">HandleSendMessage</span>(<span class="ident">MessageData</span>),
-    <span class="doccomment">/// Our response to a message from another peer.</span>
+    <span class="doccomment">/// Core&#39;s response to a `HandleSendMessage`</span>
     <span class="ident">HandleSendMessageResult</span>(<span class="ident">MessageData</span>),
 
     <span class="comment">// -- Entry -- //</span>
-    <span class="doccomment">/// Request data from the dht network</span>
+    <span class="doccomment">/// Request an Entry from the DHT network of a DNA.</span>
     <span class="ident">FetchEntry</span>(<span class="ident">FetchEntryData</span>),
-    <span class="doccomment">/// Response from requesting dht data from the network</span>
+    <span class="doccomment">/// The network&#39;s reponse from `FetchEntry`</span>
     <span class="ident">FetchEntryResult</span>(<span class="ident">FetchEntryResultData</span>),
-    <span class="doccomment">/// Another node, or the network module itself is requesting data from us</span>
+    <span class="doccomment">/// The network module is requesting its Core to respond to a `FetchEntry`</span>
     <span class="ident">HandleFetchEntry</span>(<span class="ident">FetchEntryData</span>),
-    <span class="doccomment">/// Successful data response for a `HandleFetchDhtData` request</span>
+    <span class="doccomment">/// Successful response for a `FetchEntry` request from Core</span>
     <span class="ident">HandleFetchEntryResult</span>(<span class="ident">FetchEntryResultData</span>),
 
-    <span class="doccomment">/// Publish data to the dht.</span>
+    <span class="doccomment">/// Core&#39;s request to add an Entry to the DHT network.</span>
+    <span class="doccomment">/// The network will take care to figure out which nodes are going to store it.</span>
     <span class="ident">PublishEntry</span>(<span class="ident">EntryData</span>),
-    <span class="doccomment">/// Store data on a node&#39;s dht slice.</span>
+    <span class="doccomment">/// Network request for Core to store an Entry in its DHT shard.</span>
     <span class="ident">HandleStoreEntry</span>(<span class="ident">EntryData</span>),
+    <span class="doccomment">/// Network informing Core that it isn&#39;t required to hold an Entry in its DHT shard anymore.</span>
     <span class="ident">HandleDropEntry</span>(<span class="ident">DropEntryData</span>),
 
     <span class="comment">// -- Meta -- //</span>
-    <span class="doccomment">/// Request metadata from the dht</span>
+    <span class="doccomment">/// Request a Meta from the DHT network of a DNA.</span>
     <span class="ident">FetchMeta</span>(<span class="ident">FetchMetaData</span>),
-    <span class="doccomment">/// Response by the network for our metadata request</span>
+    <span class="doccomment">/// The network&#39;s reponse from `FetchMeta`</span>
     <span class="ident">FetchMetaResult</span>(<span class="ident">FetchMetaResultData</span>),
-    <span class="doccomment">/// Another node, or the network module itself, is requesting data from us</span>
+    <span class="doccomment">/// The network module is requesting its Core to respond to a `FetchMeta`</span>
     <span class="ident">HandleFetchMeta</span>(<span class="ident">FetchMetaData</span>),
-    <span class="doccomment">/// Successful metadata response for a `HandleFetchMeta` request</span>
+    <span class="doccomment">/// Successful response for a `HandleFetchMeta` request from Core</span>
     <span class="ident">HandleFetchMetaResult</span>(<span class="ident">FetchMetaResultData</span>),
 
-    <span class="doccomment">/// Publish metadata to the dht.</span>
+    <span class="doccomment">/// Core&#39;s request to add a Meta to the DHT network.</span>
+    <span class="doccomment">/// The network will take care to figure out which nodes are going to store it.</span>
     <span class="ident">PublishMeta</span>(<span class="ident">DhtMetaData</span>),
-    <span class="doccomment">/// Store metadata on a node&#39;s dht slice.</span>
+    <span class="doccomment">/// Network request for Core to store a Meta in its DHT shard.</span>
     <span class="ident">HandleStoreMeta</span>(<span class="ident">DhtMetaData</span>),
-    <span class="doccomment">/// Drop metadata on a node&#39;s dht slice.</span>
+    <span class="doccomment">/// Network informing Core that it isn&#39;t required to hold a Meta in its DHT shard anymore.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;handleDropData&quot;</span>)]</span>
     <span class="ident">HandleDropMeta</span>(<span class="ident">DropMetaData</span>),
 
     <span class="comment">// -- Entry lists -- //</span>
+    <span class="doccomment">/// The p2p module requests from Core the list of entries it has authored</span>
+    <span class="doccomment">/// and wants published on the network.</span>
     <span class="ident">HandleGetPublishingEntryList</span>(<span class="ident">GetListData</span>),
+    <span class="doccomment">/// Core&#39;s response to a `HandleGetPublishingEntryList</span>
     <span class="ident">HandleGetPublishingEntryListResult</span>(<span class="ident">EntryListData</span>),
-
+    <span class="doccomment">/// The p2p module requests from Core the list of entries it is holding for the network.</span>
     <span class="ident">HandleGetHoldingEntryList</span>(<span class="ident">GetListData</span>),
+    <span class="doccomment">/// Core&#39;s response to a `HandleGetHoldingEntryList`</span>
     <span class="ident">HandleGetHoldingEntryListResult</span>(<span class="ident">EntryListData</span>),
 
     <span class="comment">// -- Meta lists -- //</span>
+    <span class="doccomment">/// The p2p module requests from Core the list of Meta it has authored</span>
+    <span class="doccomment">/// and wants published on the network.</span>
     <span class="ident">HandleGetPublishingMetaList</span>(<span class="ident">GetListData</span>),
+    <span class="doccomment">/// Core&#39;s response to a `HandleGetPublishingMetaList`</span>
     <span class="ident">HandleGetPublishingMetaListResult</span>(<span class="ident">MetaListData</span>),
-
+    <span class="doccomment">/// The p2p module requests from Core the list of Meta it is holding for the network.</span>
     <span class="ident">HandleGetHoldingMetaList</span>(<span class="ident">GetListData</span>),
+    <span class="doccomment">/// Core&#39;s response to a `HandleGetHoldingMetaList`</span>
     <span class="ident">HandleGetHoldingMetaListResult</span>(<span class="ident">MetaListData</span>),
 }
 

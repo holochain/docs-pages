@@ -1197,9 +1197,6 @@
 <span id="1197">1197</span>
 <span id="1198">1198</span>
 <span id="1199">1199</span>
-<span id="1200">1200</span>
-<span id="1201">1201</span>
-<span id="1202">1202</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Conductor Configuration</span>
@@ -1283,10 +1280,7 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_persistence_dir</span>() <span class="op">-&gt;</span> <span class="ident">PathBuf</span> {
-    <span class="ident">dirs</span>::<span class="ident">home_dir</span>()
-        .<span class="ident">expect</span>(<span class="string">&quot;No persistence_dir given in config file and no HOME dir defined. Don&#39;t know where to store config file!&quot;</span>)
-        .<span class="ident">join</span>(<span class="string">&quot;.holochain&quot;</span>)
-        .<span class="ident">join</span>(<span class="string">&quot;conductor&quot;</span>)
+    <span class="ident">holochain_common</span>::<span class="ident">paths</span>::<span class="ident">config_root</span>().<span class="ident">join</span>(<span class="string">&quot;conductor&quot;</span>)
 }
 
 <span class="doccomment">/// There might be different kinds of loggers in the future.</span>
