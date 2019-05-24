@@ -104,6 +104,7 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
+<span id="107">107</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">ActionWrapper</span>, <span class="ident">GetEntryKey</span>, <span class="ident">GetLinksKey</span>},
@@ -159,8 +160,9 @@
     <span class="kw">pub</span> <span class="ident">get_entry_with_meta_results</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">GetEntryKey</span>, <span class="ident">GetEntryWithMetaResult</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Here we store the results of GET links processes.</span>
-    <span class="doccomment">/// The key of this map is the base address and the tag name for which the links</span>
-    <span class="doccomment">/// are requested.</span>
+    <span class="doccomment">/// The key of this map contains the base address, link_type and link tag for the link being requested.</span>
+    <span class="doccomment">/// the tag and link_type fields of the key are Options, None means they are waiting to retrieve all</span>
+    <span class="doccomment">/// links of any tag/type</span>
     <span class="doccomment">/// None means that we are still waiting for a result from the network.</span>
     <span class="kw">pub</span> <span class="ident">get_links_results</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">GetLinksKey</span>, <span class="ident">GetLinksResult</span><span class="op">&gt;</span>,
 

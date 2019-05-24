@@ -12,6 +12,7 @@
 <span id="12">12</span>
 <span id="13">13</span>
 <span id="14">14</span>
+<span id="15">15</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="kw-2">*</span>, <span class="ident">link</span>::<span class="ident">Link</span>};
 
@@ -19,12 +20,13 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LinkEntriesArgs</span> {
     <span class="kw">pub</span> <span class="ident">base</span>: <span class="ident">Address</span>,
     <span class="kw">pub</span> <span class="ident">target</span>: <span class="ident">Address</span>,
+    <span class="kw">pub</span> <span class="ident">link_type</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">tag</span>: <span class="ident">String</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">LinkEntriesArgs</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_link</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Link</span> {
-        <span class="ident">Link</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">base</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">target</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">tag</span>)
+        <span class="ident">Link</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">base</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">target</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">link_type</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">tag</span>)
     }
 }
 </pre></div>

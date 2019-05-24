@@ -68,6 +68,8 @@
 <span id="68">68</span>
 <span id="69">69</span>
 <span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>, <span class="ident">GetLinksKey</span>},
@@ -88,11 +90,13 @@
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_links</span>(
     <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="ident">address</span>: <span class="ident">Address</span>,
-    <span class="ident">tag</span>: <span class="ident">String</span>,
+    <span class="ident">link_type</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">tag</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="ident">timeout</span>: <span class="ident">Timeout</span>,
 ) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;&gt;</span> {
     <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">GetLinksKey</span> {
         <span class="ident">base_address</span>: <span class="ident">address</span>.<span class="ident">clone</span>(),
+        <span class="ident">link_type</span>: <span class="ident">link_type</span>.<span class="ident">clone</span>(),
         <span class="ident">tag</span>: <span class="ident">tag</span>.<span class="ident">clone</span>(),
         <span class="ident">id</span>: <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>(),
     };

@@ -3,7 +3,7 @@
     (
         <span class="ident">direction</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">direction</span>:<span class="ident">expr</span>,
         <span class="ident">other_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">other_type</span>:<span class="ident">expr</span>,
-        <span class="ident">tag</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>:<span class="ident">expr</span>,
+        <span class="ident">link_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_type</span>:<span class="ident">expr</span>,
 
         <span class="ident">validation_package</span>: <span class="op">||</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">package_creator</span>:<span class="ident">expr</span>,
         <span class="ident">validation</span>: <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">validation_data</span>:<span class="ident">ident</span> : <span class="ident">hdk</span>::<span class="ident">LinkValidationData</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_validation</span>:<span class="ident">expr</span>
@@ -22,7 +22,7 @@ Must be of type <a href="struct.LinkDirection.html">LinkDirection</a>, so either
 or <code>hdk::LinkDirection::From</code>.</li>
 <li>other_type: <code>other_type</code> is the entry type this link connects to. If direction is <code>to</code> this
 would be the link target, if direction is <code>from</code> this defines the link's base type.</li>
-<li>tag: <code>tag</code> is the name of this association and thus the handle by which it can be retrieved
+<li>link_type: <code>link_type</code> is the name of this association and thus the handle by which it can be retrieved
 if given to <a href="fn.get_links.html">get_links()</a> in conjunction with the base address.</li>
 <li>validation_package: Similar to entries, links have to be validated.
 <code>validation_package</code> is a special identifier, which declares which data is required from peers

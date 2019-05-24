@@ -465,11 +465,11 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ValidatingLinkDefinition</span> {
     <span class="doccomment">/// Is this link defined as pointing from this entry type to some other type,</span>
     <span class="doccomment">/// or from the other type to this?</span>
-    <span class="kw">pub</span> <span class="ident">link_type</span>: <span class="ident">LinkDirection</span>,
+    <span class="kw">pub</span> <span class="ident">direction</span>: <span class="ident">LinkDirection</span>,
     <span class="doccomment">/// The other entry type the link connects this entry type to</span>
     <span class="kw">pub</span> <span class="ident">other_entry_type</span>: <span class="ident">String</span>,
     <span class="doccomment">/// Tag (i.e. name) of this type of links</span>
-    <span class="kw">pub</span> <span class="ident">tag</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">link_type</span>: <span class="ident">String</span>,
     <span class="doccomment">/// Callback that returns a validation package definition that Holochain reads in order</span>
     <span class="doccomment">/// to create the right validation package to pass in to the validator callback on validation.</span>
     <span class="kw">pub</span> <span class="ident">package_creator</span>: <span class="ident">PackageCreator</span>,
@@ -559,7 +559,7 @@
 <span class="doccomment">///         links: [</span>
 <span class="doccomment">///             to!(</span>
 <span class="doccomment">///                 &quot;post&quot;,</span>
-<span class="doccomment">///                 tag: &quot;comments&quot;,</span>
+<span class="doccomment">///                 link_type: &quot;comments&quot;,</span>
 <span class="doccomment">///</span>
 <span class="doccomment">///                 validation_package: || {</span>
 <span class="doccomment">///                     hdk::ValidationPackageDefinition::ChainFull</span>
@@ -602,12 +602,12 @@
             <span class="ident">entry_type</span>.<span class="ident">sharing</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sharing</span>;
 
             $($(
-                <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_expr</span>.<span class="ident">link_type</span> {
+                <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_expr</span>.<span class="ident">direction</span> {
                     <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">LinkDirection</span>::<span class="ident">To</span> <span class="op">=&gt;</span> {
                         <span class="ident">entry_type</span>.<span class="ident">links_to</span>.<span class="ident">push</span>(
                             <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">entry_types</span>::<span class="ident">LinksTo</span>{
                                 <span class="ident">target_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_expr</span>.<span class="ident">other_entry_type</span>,
-                                <span class="ident">tag</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_expr</span>.<span class="ident">tag</span>,
+                                <span class="ident">link_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_expr</span>.<span class="ident">link_type</span>,
                             }
                         );
                     },
@@ -615,7 +615,7 @@
                         <span class="ident">entry_type</span>.<span class="ident">linked_from</span>.<span class="ident">push</span>(
                             <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">entry_types</span>::<span class="ident">LinkedFrom</span>{
                                 <span class="ident">base_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_expr</span>.<span class="ident">other_entry_type</span>,
-                                <span class="ident">tag</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_expr</span>.<span class="ident">tag</span>,
+                                <span class="ident">link_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_expr</span>.<span class="ident">link_type</span>,
                             }
                         );
                     }
@@ -672,7 +672,7 @@
 <span class="doccomment">///     or `hdk::LinkDirection::From`.</span>
 <span class="doccomment">/// 2. other_type: `other_type` is the entry type this link connects to. If direction is `to` this</span>
 <span class="doccomment">///     would be the link target, if direction is `from` this defines the link&#39;s base type.</span>
-<span class="doccomment">/// 3. tag: `tag` is the name of this association and thus the handle by which it can be retrieved</span>
+<span class="doccomment">/// 3. link_type: `link_type` is the name of this association and thus the handle by which it can be retrieved</span>
 <span class="doccomment">///     if given to [get_links()](fn.get_links.html) in conjunction with the base address.</span>
 <span class="doccomment">/// 4. validation_package: Similar to entries, links have to be validated.</span>
 <span class="doccomment">///        `validation_package` is a special identifier, which declares which data is required from peers</span>
@@ -688,7 +688,7 @@
     (
         <span class="ident">direction</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">direction</span>:<span class="ident">expr</span>,
         <span class="ident">other_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">other_type</span>:<span class="ident">expr</span>,
-        <span class="ident">tag</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>:<span class="ident">expr</span>,
+        <span class="ident">link_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_type</span>:<span class="ident">expr</span>,
 
         <span class="ident">validation_package</span>: <span class="op">||</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">package_creator</span>:<span class="ident">expr</span>,
         <span class="ident">validation</span>: <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">validation_data</span>:<span class="ident">ident</span> : <span class="ident">hdk</span>::<span class="ident">LinkValidationData</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_validation</span>:<span class="ident">expr</span>
@@ -706,9 +706,9 @@
 
 
             ::<span class="ident">hdk</span>::<span class="ident">entry_definition</span>::<span class="ident">ValidatingLinkDefinition</span> {
-                <span class="ident">link_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">direction</span>,
+                <span class="ident">direction</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">direction</span>,
                 <span class="ident">other_entry_type</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">other_type</span>),
-                <span class="ident">tag</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>),
+                <span class="ident">link_type</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_type</span>),
                 <span class="ident">package_creator</span>,
                 <span class="ident">validator</span>,
             }
@@ -724,7 +724,7 @@
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">to</span> {
     (
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">other_type</span>:<span class="ident">expr</span>,
-        <span class="ident">tag</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>:<span class="ident">expr</span>,
+        <span class="ident">link_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_type</span>:<span class="ident">expr</span>,
 
         <span class="ident">validation_package</span>: <span class="op">||</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">package_creator</span>:<span class="ident">expr</span>,
         <span class="ident">validation</span>: <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">validation_data</span>:<span class="ident">ident</span> : <span class="ident">hdk</span>::<span class="ident">LinkValidationData</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_validation</span>:<span class="ident">expr</span>
@@ -732,7 +732,7 @@
         <span class="macro">link</span><span class="macro">!</span>(
             <span class="ident">direction</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">LinkDirection</span>::<span class="ident">To</span>,
             <span class="ident">other_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">other_type</span>,
-            <span class="ident">tag</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>,
+            <span class="ident">link_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_type</span>,
 
             <span class="ident">validation_package</span>: <span class="op">||</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">package_creator</span>,
             <span class="ident">validation</span>: <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">validation_data</span> : <span class="ident">hdk</span>::<span class="ident">LinkValidationData</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_validation</span>
@@ -748,7 +748,7 @@
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">from</span> {
     (
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">other_type</span>:<span class="ident">expr</span>,
-        <span class="ident">tag</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>:<span class="ident">expr</span>,
+        <span class="ident">link_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_type</span>:<span class="ident">expr</span>,
 
         <span class="ident">validation_package</span>: <span class="op">||</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">package_creator</span>:<span class="ident">expr</span>,
         <span class="ident">validation</span>: <span class="op">|</span>  <span class="macro-nonterminal">$</span><span class="macro-nonterminal">validation_data</span>:<span class="ident">ident</span> : <span class="ident">hdk</span>::<span class="ident">LinkValidationData</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_validation</span>:<span class="ident">expr</span>
@@ -756,7 +756,7 @@
         <span class="macro">link</span><span class="macro">!</span>(
             <span class="ident">direction</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">LinkDirection</span>::<span class="ident">From</span>,
             <span class="ident">other_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">other_type</span>,
-            <span class="ident">tag</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>,
+            <span class="ident">link_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_type</span>,
 
             <span class="ident">validation_package</span>: <span class="op">||</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">package_creator</span>,
             <span class="ident">validation</span>: <span class="op">|</span>  <span class="macro-nonterminal">$</span><span class="macro-nonterminal">validation_data</span> : <span class="ident">hdk</span>::<span class="ident">LinkValidationData</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_validation</span>

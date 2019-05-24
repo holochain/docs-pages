@@ -397,30 +397,10 @@
 <span id="397">397</span>
 <span id="398">398</span>
 <span id="399">399</span>
-<span id="400">400</span>
-<span id="401">401</span>
-<span id="402">402</span>
-<span id="403">403</span>
-<span id="404">404</span>
-<span id="405">405</span>
-<span id="406">406</span>
-<span id="407">407</span>
-<span id="408">408</span>
-<span id="409">409</span>
-<span id="410">410</span>
-<span id="411">411</span>
-<span id="412">412</span>
-<span id="413">413</span>
-<span id="414">414</span>
-<span id="415">415</span>
-<span id="416">416</span>
-<span id="417">417</span>
-<span id="418">418</span>
-<span id="419">419</span>
-<span id="420">420</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::<span class="ident">ActionWrapper</span>,
+    <span class="ident">conductor_api</span>::<span class="ident">ConductorApi</span>,
     <span class="ident">instance</span>::<span class="ident">Observer</span>,
     <span class="ident">logger</span>::<span class="ident">Logger</span>,
     <span class="ident">nucleus</span>::<span class="ident">actions</span>::<span class="ident">get_entry</span>::<span class="ident">get_entry_from_cas</span>,
@@ -449,8 +429,6 @@
 };
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>;
 <span class="kw">use</span> <span class="ident">jsonrpc_core</span>::{<span class="self">self</span>, <span class="ident">IoHandler</span>};
-<span class="kw">use</span> <span class="ident">jsonrpc_lite</span>::<span class="ident">JsonRpc</span>;
-<span class="kw">use</span> <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">sync</span>::{
         <span class="ident">mpsc</span>::{<span class="ident">channel</span>, <span class="ident">Receiver</span>, <span class="ident">SyncSender</span>},
@@ -478,7 +456,7 @@
     <span class="kw">pub</span> <span class="ident">dht_storage</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">ContentAddressableStorage</span><span class="op">&gt;&gt;</span>,
     <span class="kw">pub</span> <span class="ident">eav_storage</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">EntityAttributeValueStorage</span><span class="op">&gt;&gt;</span>,
     <span class="kw">pub</span> <span class="ident">p2p_config</span>: <span class="ident">P2pConfig</span>,
-    <span class="kw">pub</span> <span class="ident">conductor_api</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">IoHandler</span><span class="op">&gt;&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">conductor_api</span>: <span class="ident">ConductorApi</span>,
     <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">crossbeam_channel</span>::<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;&gt;</span>,
 }
 
@@ -534,7 +512,10 @@
             <span class="ident">dht_storage</span>,
             <span class="ident">eav_storage</span>: <span class="ident">eav</span>,
             <span class="ident">p2p_config</span>,
-            <span class="ident">conductor_api</span>: <span class="self">Self</span>::<span class="ident">test_check_conductor_api</span>(<span class="ident">conductor_api</span>, <span class="ident">agent_id</span>),
+            <span class="ident">conductor_api</span>: <span class="ident">ConductorApi</span>::<span class="ident">new</span>(<span class="self">Self</span>::<span class="ident">test_check_conductor_api</span>(
+                <span class="ident">conductor_api</span>,
+                <span class="ident">agent_id</span>,
+            )),
         }
     }
 
@@ -561,7 +542,7 @@
             <span class="ident">dht_storage</span>: <span class="ident">cas</span>,
             <span class="ident">eav_storage</span>: <span class="ident">eav</span>,
             <span class="ident">p2p_config</span>,
-            <span class="ident">conductor_api</span>: <span class="self">Self</span>::<span class="ident">test_check_conductor_api</span>(<span class="prelude-val">None</span>, <span class="ident">agent_id</span>),
+            <span class="ident">conductor_api</span>: <span class="ident">ConductorApi</span>::<span class="ident">new</span>(<span class="self">Self</span>::<span class="ident">test_check_conductor_api</span>(<span class="prelude-val">None</span>, <span class="ident">agent_id</span>)),
         })
     }
 
@@ -670,29 +651,7 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">payload</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">handler</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">conductor_api</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">r#&quot;{{&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;agent/sign&quot;, &quot;params&quot;: {{&quot;payload&quot;: &quot;{}&quot;}}, &quot;id&quot;: &quot;{}&quot;}}&quot;#</span>,
-            <span class="ident">payload</span>, <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>()
-        );
-
-        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">handler</span>
-            .<span class="ident">handle_request_sync</span>(<span class="kw-2">&amp;</span><span class="ident">request</span>)
-            .<span class="ident">ok_or</span>(<span class="string">&quot;Conductor sign call failed&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
-
-        <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">JsonRpc</span>::<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">response</span>)<span class="question-mark">?</span>;
-
-        <span class="kw">match</span> <span class="ident">response</span> {
-            <span class="ident">JsonRpc</span>::<span class="ident">Success</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">String</span>::<span class="ident">from</span>(
-                <span class="ident">response</span>.<span class="ident">get_result</span>().<span class="ident">unwrap</span>()[<span class="string">&quot;signature&quot;</span>]
-                    .<span class="ident">as_str</span>()
-                    .<span class="ident">unwrap</span>(),
-            )),
-            <span class="ident">JsonRpc</span>::<span class="ident">Error</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
-                <span class="ident">serde_json</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">response</span>.<span class="ident">get_error</span>().<span class="ident">unwrap</span>()).<span class="ident">unwrap</span>(),
-            )),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(<span class="string">&quot;Signing failed&quot;</span>.<span class="ident">to_string</span>())),
-        }
+        <span class="self">self</span>.<span class="ident">conductor_api</span>.<span class="ident">sign</span>(<span class="ident">payload</span>)
     }
 
     <span class="doccomment">/// returns the public capability token (if any)</span>
@@ -737,8 +696,7 @@
         .<span class="ident">state</span>()
         .<span class="ident">ok_or</span>(<span class="string">&quot;Network::start() could not get application state&quot;</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">agent_state</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">agent</span>();
-
-    <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="macro">await</span><span class="macro">!</span>(<span class="ident">agent_state</span>.<span class="ident">get_agent</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">agent</span> <span class="op">=</span> <span class="ident">agent_state</span>.<span class="ident">get_agent</span>()<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">agent_id</span> <span class="op">=</span> <span class="ident">agent</span>.<span class="ident">pub_sign_key</span>;
 
     <span class="kw">let</span> <span class="ident">dna</span> <span class="op">=</span> <span class="ident">state</span>

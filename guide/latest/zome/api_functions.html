@@ -232,7 +232,7 @@ according to its new 'deleted' status. It can still be retrieved, but only if sp
 </ul>
 <a class="header" href="#get-links" id="get-links"><h3>Get Links</h3></a>
 <p>Canonical name: <code>get_links</code></p>
-<p>Consumes two values, the first of which is the address of an entry, base, and the second of which is a string, tag, used to describe the relationship between the base and other entries you wish to lookup. Returns a list of addresses of other entries which matched as being linked by the given tag. Links are created in the first place using the Zome API function <a href="#link-entries">link_entries</a>. Once you have the addresses, there is a good likelihood that you will wish to call <a href="#get-entry">get_entry</a> for each of them.</p>
+<p>Consumes three values, the first of which is the address of an entry, base, the remaining two are Optional types for the <code>link_type</code> and <code>tag</code>. Passing <code>Some(&quot;string&quot;)</code> will return only links that match the type/tag exactly. Passing <code>None</code> for either of those params will return all links regardless of the type/tag. Returns a list of addresses of other entries which matched as being linked by the given link type. Links are created in the first place using the Zome API function <a href="#link-entries">link_entries</a>. Once you have the addresses, there is a good likelihood that you will wish to call <a href="#get-entry">get_entry</a> for each of them.</p>
 <ul>
 <li><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.get_links.html">View get_links in the Rust HDK</a></li>
 <li><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.get_links_and_load.html">View get_links_and_load in the Rust HDK</a></li>
@@ -241,7 +241,7 @@ according to its new 'deleted' status. It can still be retrieved, but only if sp
 </ul>
 <a class="header" href="#link-entries" id="link-entries"><h3>Link Entries</h3></a>
 <p>Canonical name: <code>link_entries</code></p>
-<p>Consumes three values, two of which are the addresses of entries, and one of which is a string that defines a relationship between them, called a <code>tag</code>. Later, lists of entries can be looked up by using <code>get_links</code>. Entries can only be looked up in the direction from the <code>base</code>, which is the first argument, to the <code>target</code>, which is the second. This function returns a hash for the LinkAdd entry on completion.</p>
+<p>Consumes four values, two of which are the addresses of entries, and two of which are strings that determine which <code>link_type</code> to use and a <code>tag</code> string that should be added to the link. The <code>link_type</code> must exactly match a type defined in an <code>entry!</code> macro. The tag can be any arbitrary string. Later, lists of entries can be looked up by using <code>get_links</code> and optionally filtered based on their type or tag. Entries can only be looked up in the direction from the <code>base</code>, which is the first argument, to the <code>target</code>, which is the second. This function returns a hash for the LinkAdd entry on completion.</p>
 <p><a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.link_entries.html">View it in the Rust HDK</a></p>
 <a class="header" href="#query" id="query"><h3>Query</h3></a>
 <p>Canonical name: <code>query</code></p>

@@ -1197,6 +1197,14 @@
 <span id="1197">1197</span>
 <span id="1198">1198</span>
 <span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Conductor Configuration</span>
@@ -1704,7 +1712,15 @@
     <span class="doccomment">/// Global logging level output by N3H</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;default_n3h_log_level&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">n3h_log_level</span>: <span class="ident">String</span>,
-    <span class="doccomment">/// networking mode used by n3h</span>
+    <span class="doccomment">/// Overall mode n3h operates in.</span>
+    <span class="doccomment">/// Should be one of</span>
+    <span class="doccomment">/// * REAL</span>
+    <span class="doccomment">/// * MOCK</span>
+    <span class="doccomment">/// * HACK</span>
+    <span class="doccomment">/// REAL is the default and what should be used in all production cases.</span>
+    <span class="doccomment">/// MOCK is for using n3h only as a local hub that apps connect to directly, i.e. n3h will</span>
+    <span class="doccomment">/// not connect to any other n3h instance.</span>
+    <span class="doccomment">/// HACK is Deprecated. Used by n3h developers only. Will get removed soon.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span> <span class="op">=</span> <span class="string">&quot;default_n3h_mode&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">n3h_mode</span>: <span class="ident">String</span>,
     <span class="doccomment">/// Absolute path to the directory that n3h uses to store persisted data.</span>
@@ -1725,7 +1741,7 @@
 <span class="comment">// holochain_common::env_vars module and should be updated</span>
 <span class="comment">// if this logic changes</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_n3h_mode</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-    <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>)
+    <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;REAL&quot;</span>)
 }
 
 <span class="comment">// note that this behaviour is documented within</span>
@@ -1915,7 +1931,7 @@
                     <span class="string">&quot;wss://192.168.0.11:64519/?a=hkYW7TrZUS1hy-i374iRu5VbZP1sSw2mLxP4TSe_YI1H2BJM3v_LgAQnpmWA_iR1W5k-8_UoA1BNjzBSUTVNDSIcz9UG0uaM&quot;</span>
                 )],
                 <span class="ident">n3h_log_level</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;d&quot;</span>),
-                <span class="ident">n3h_mode</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HACK&quot;</span>),
+                <span class="ident">n3h_mode</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;REAL&quot;</span>),
                 <span class="ident">n3h_persistence_path</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;/Users/cnorris/.holochain/n3h_persistence&quot;</span>),
                 <span class="ident">n3h_ipc_uri</span>: <span class="prelude-val">None</span>,
                 <span class="ident">networking_config_file</span>: <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(

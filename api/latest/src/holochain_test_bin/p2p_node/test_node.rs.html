@@ -1017,6 +1017,7 @@
 <span id="1017">1017</span>
 <span id="1018">1018</span>
 <span id="1019">1019</span>
+<span id="1020">1020</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
 
@@ -1040,10 +1041,11 @@
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections</span>::{<span class="ident">HashMap</span>, <span class="ident">HashSet</span>},
     <span class="ident">convert</span>::<span class="ident">TryFrom</span>,
-    <span class="ident">sync</span>::<span class="ident">mpsc</span>,
 };
 
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">dna_store</span>::<span class="ident">DnaStore</span>, <span class="ident">ipc_config</span>::<span class="ident">create_ipc_config</span>};
+<span class="kw">use</span> <span class="ident">crossbeam_channel</span>::{<span class="ident">unbounded</span>, <span class="ident">Receiver</span>};
+<span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">connection</span>::<span class="ident">net_connection</span>::<span class="ident">NetHandler</span>;
 
 <span class="kw">static</span> <span class="ident">TIMEOUT_MS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">5000</span>;
 
@@ -1052,7 +1054,7 @@
     <span class="comment">// Need to hold the tempdir to keep it alive, otherwise we will get a dir error.</span>
     <span class="ident">_maybe_temp_dir</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">tempfile</span>::<span class="ident">TempDir</span><span class="op">&gt;</span>,
     <span class="ident">p2p_connection</span>: <span class="ident">P2pNetwork</span>,
-    <span class="ident">receiver</span>: <span class="ident">mpsc</span>::<span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span>,
+    <span class="ident">receiver</span>: <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">config</span>: <span class="ident">P2pConfig</span>,
 
     <span class="kw">pub</span> <span class="ident">agent_id</span>: <span class="ident">String</span>,
@@ -1633,15 +1635,15 @@
         );
 
         <span class="comment">// use a mpsc channel for messaging between p2p connection and main thread</span>
-        <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">channel</span>::<span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span>();
+        <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">unbounded</span>::<span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span>();
         <span class="comment">// create a new P2pNetwork instance with the handler that will send the received Protocol to a channel</span>
         <span class="kw">let</span> <span class="ident">agent_id</span> <span class="op">=</span> <span class="ident">agent_id_arg</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="ident">p2p_connection</span> <span class="op">=</span> <span class="ident">P2pNetwork</span>::<span class="ident">new</span>(
-            <span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">r</span><span class="op">|</span> {
+            <span class="ident">NetHandler</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">r</span><span class="op">|</span> {
                 <span class="macro">log_tt</span><span class="macro">!</span>(<span class="string">&quot;p2pnode&quot;</span>, <span class="string">&quot;&lt;&lt;&lt; ({}) handler: {:?}&quot;</span>, <span class="ident">agent_id_arg</span>, <span class="ident">r</span>);
                 <span class="ident">sender</span>.<span class="ident">send</span>(<span class="ident">r</span><span class="question-mark">?</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
-            }),
+            })),
             <span class="kw-2">&amp;</span><span class="ident">config</span>,
         )
         .<span class="ident">expect</span>(<span class="string">&quot;Failed to create P2pNetwork&quot;</span>);

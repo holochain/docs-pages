@@ -241,9 +241,9 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">target_type</span>: <span class="ident">String</span>,
 
-    <span class="doccomment">/// The tag of this links_to entry</span>
+    <span class="doccomment">/// The type of this links_to entry</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">tag</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">link_type</span>: <span class="ident">String</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">LinksTo</span> {
@@ -251,7 +251,7 @@
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">LinksTo</span> {
             <span class="ident">target_type</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
-            <span class="ident">tag</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
+            <span class="ident">link_type</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
         }
     }
 }
@@ -271,9 +271,9 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">base_type</span>: <span class="ident">String</span>,
 
-    <span class="doccomment">/// The tag of this links_to entry</span>
+    <span class="doccomment">/// The link_type of this links_to entry</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">tag</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">link_type</span>: <span class="ident">String</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">LinkedFrom</span> {
@@ -281,7 +281,7 @@
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">LinkedFrom</span> {
             <span class="ident">base_type</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
-            <span class="ident">tag</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
+            <span class="ident">link_type</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
         }
     }
 }
@@ -367,13 +367,13 @@
                 &quot;links_to&quot;: [
                     {
                         &quot;target_type&quot;: &quot;test&quot;,
-                        &quot;tag&quot;: &quot;test&quot;
+                        &quot;link_type&quot;: &quot;test&quot;
                     }
                 ],
                 &quot;linked_from&quot;: [
                     {
                         &quot;base_type&quot;: &quot;HcSysAgentKeyHash&quot;,
-                        &quot;tag&quot;: &quot;authored_posts&quot;
+                        &quot;link_type&quot;: &quot;authored_posts&quot;
                     }
                 ]
             }&quot;#</span>,
@@ -386,12 +386,12 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">link</span> <span class="op">=</span> <span class="ident">LinksTo</span>::<span class="ident">new</span>();
         <span class="ident">link</span>.<span class="ident">target_type</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test&quot;</span>);
-        <span class="ident">link</span>.<span class="ident">tag</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test&quot;</span>);
+        <span class="ident">link</span>.<span class="ident">link_type</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test&quot;</span>);
         <span class="ident">entry</span>.<span class="ident">links_to</span>.<span class="ident">push</span>(<span class="ident">link</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">linked</span> <span class="op">=</span> <span class="ident">LinkedFrom</span>::<span class="ident">new</span>();
         <span class="ident">linked</span>.<span class="ident">base_type</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;HcSysAgentKeyHash&quot;</span>);
-        <span class="ident">linked</span>.<span class="ident">tag</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;authored_posts&quot;</span>);
+        <span class="ident">linked</span>.<span class="ident">link_type</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;authored_posts&quot;</span>);
         <span class="ident">entry</span>.<span class="ident">linked_from</span>.<span class="ident">push</span>(<span class="ident">linked</span>);
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">fixture</span>, <span class="ident">entry</span>);

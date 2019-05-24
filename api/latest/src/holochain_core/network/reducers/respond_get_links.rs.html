@@ -53,16 +53,14 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
-<span id="56">56</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::<span class="ident">ActionWrapper</span>,
-    <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">network</span>::{<span class="ident">actions</span>::<span class="ident">ActionResponse</span>, <span class="ident">reducers</span>::<span class="ident">send</span>, <span class="ident">state</span>::<span class="ident">NetworkState</span>},
+    <span class="ident">state</span>::<span class="ident">State</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>};
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">connection</span>::<span class="ident">json_protocol</span>::{<span class="ident">FetchMetaData</span>, <span class="ident">FetchMetaResultData</span>, <span class="ident">JsonProtocol</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
 
 <span class="doccomment">/// Send back to network a HandleFetchMetaResult, no matter what.</span>
 <span class="doccomment">/// Will return an empty content field if it actually doesn&#39;t have the data.</span>
@@ -90,18 +88,18 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reduce_respond_get_links</span>(
-    <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="ident">network_state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">NetworkState</span>,
+    <span class="ident">_root_state</span>: <span class="kw-2">&amp;</span><span class="ident">State</span>,
     <span class="ident">action_wrapper</span>: <span class="kw-2">&amp;</span><span class="ident">ActionWrapper</span>,
 ) {
     <span class="kw">let</span> <span class="ident">action</span> <span class="op">=</span> <span class="ident">action_wrapper</span>.<span class="ident">action</span>();
     <span class="kw">let</span> (<span class="ident">get_dht_meta_data</span>, <span class="ident">links</span>) <span class="op">=</span> <span class="macro">unwrap_to</span><span class="macro">!</span>(<span class="ident">action</span> <span class="op">=&gt;</span> <span class="kw">crate</span>::<span class="ident">action</span>::<span class="ident">Action</span>::<span class="ident">RespondGetLinks</span>);
     <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">reduce_respond_get_links_inner</span>(<span class="ident">network_state</span>, <span class="ident">get_dht_meta_data</span>, <span class="ident">links</span>);
 
-    <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
+    <span class="macro">println</span><span class="macro">!</span>(
         <span class="string">&quot;debug/reduce/get_links: Responding to GET LINKS request from {} with {:?}&quot;</span>,
         <span class="ident">get_dht_meta_data</span>.<span class="ident">requester_agent_id</span>, <span class="ident">links</span>
-    ));
+    );
 
     <span class="ident">network_state</span>.<span class="ident">actions</span>.<span class="ident">insert</span>(
         <span class="ident">action_wrapper</span>.<span class="ident">clone</span>(),

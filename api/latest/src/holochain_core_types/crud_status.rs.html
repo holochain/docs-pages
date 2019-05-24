@@ -264,7 +264,7 @@
             <span class="ident">RawString</span>::<span class="ident">from</span>(<span class="string">&quot;example&quot;</span>),
         ))
         .<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">attribute</span> <span class="op">=</span> <span class="ident">Attribute</span>::<span class="ident">LinkTag</span>(<span class="string">&quot;favourite-badge&quot;</span>.<span class="ident">into</span>());
+        <span class="kw">let</span> <span class="ident">attribute</span> <span class="op">=</span> <span class="ident">Attribute</span>::<span class="ident">LinkTag</span>(<span class="string">&quot;favourite-badge&quot;</span>.<span class="ident">into</span>(), <span class="string">&quot;some-tag&quot;</span>.<span class="ident">into</span>());
         <span class="kw">let</span> <span class="ident">value_content</span>: <span class="ident">Content</span> <span class="op">=</span>
             <span class="ident">CrudStatus</span>::<span class="ident">try_from_content</span>(<span class="kw-2">&amp;</span><span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">CrudStatus</span>::<span class="ident">Rejected</span>))
                 .<span class="ident">unwrap</span>()

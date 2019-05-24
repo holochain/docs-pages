@@ -2,7 +2,7 @@
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">from</span> {
     (
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">other_type</span>:<span class="ident">expr</span>,
-        <span class="ident">tag</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>:<span class="ident">expr</span>,
+        <span class="ident">link_type</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_type</span>:<span class="ident">expr</span>,
 
         <span class="ident">validation_package</span>: <span class="op">||</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">package_creator</span>:<span class="ident">expr</span>,
         <span class="ident">validation</span>: <span class="op">|</span>  <span class="macro-nonterminal">$</span><span class="macro-nonterminal">validation_data</span>:<span class="ident">ident</span> : <span class="ident">hdk</span>::<span class="ident">LinkValidationData</span> <span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link_validation</span>:<span class="ident">expr</span>

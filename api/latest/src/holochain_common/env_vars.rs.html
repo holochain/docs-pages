@@ -57,8 +57,6 @@
 <span id="57">57</span>
 <span id="58">58</span>
 <span id="59">59</span>
-<span id="60">60</span>
-<span id="61">61</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Holochain uses a number of environment variables that can be set, for easy configuration for aspects of the system.</span>
 <span class="doccomment">//! Below is the complete list of them, and what they are used for.</span>
@@ -75,6 +73,7 @@
 <span class="doccomment">//! - **HC_N3H_BOOTSTRAP_NODE** *string* Set an external p2p bound ip4 address for another node, to bootstrap the networking discovery process.</span>
 <span class="doccomment">//! Without this, a second node will of a network will be unable to find any others. See [configuring networking]([here](https://developer.holochain.org/guide/latest/hc_configuring_networking.html)</span>
 <span class="doccomment">//! for details.</span>
+<span class="doccomment">//! - **HC_N3H_MODE** *string* **REAL** OR **HACK** OR **MOCK** Sets the mode N3H operates in. Defaults to REAL which is what you should use unless your testing (MOCK) or you know what you&#39;re doing (HACK - might be removed soon).</span>
 <span class="doccomment">//! - **HC_N3H_LOG_LEVEL** *char* Set the logging level used globally by N3H. Must be one of the following: &#39;t&#39;, &#39;d&#39;, &#39;i&#39;, &#39;w&#39;, &#39;e&#39;. Each value represents its corresponding industry standard log level: Trace, Debug, Info, Warning, Error.</span>
 <span class="doccomment">//! - **NETWORKING_CONFIG_FILE** *string* Path to a JSON file containing configuration for the n3h networking module. More on this soon. Recommended to</span>
 <span class="doccomment">//! not use this as this time.</span>
@@ -84,9 +83,6 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ### Other</span>
 <span class="doccomment">//! - **HC_SIMPLE_LOGGER_MUTE** *int* Setting this value to 1 will silence the log output of a SimpleLogger. Use with any Conductor.</span>
-
-<span class="comment">// TODO, add this back in once the only option isn&#39;t &quot;HACK&quot;</span>
-<span class="comment">// - **HC_N3H_MODE** *string* **HACK**</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">env</span>::<span class="ident">VarError</span>;
 

@@ -250,7 +250,7 @@
 <span class="doccomment">/// has to handle.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_handler</span>(<span class="ident">c</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>, <span class="ident">my_dna_address</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">NetHandler</span> {
     <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">clone</span>();
-    <span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">message</span><span class="op">|</span> {
+    <span class="ident">NetHandler</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">message</span><span class="op">|</span> {
         <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">unwrap</span>();
         <span class="comment">// context.log(format!(</span>
         <span class="comment">//   &quot;trace/net/handle:({}): {:?}&quot;,</span>
@@ -405,7 +405,7 @@
             <span class="kw">_</span> <span class="op">=&gt;</span> {}
         }
         <span class="prelude-val">Ok</span>(())
-    })
+    }))
 }
 
 <span class="kw">fn</span> <span class="ident">republish_all_public_chain_entries</span>(<span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) {

@@ -496,7 +496,7 @@
                         };
                     }
                     <span class="comment">// Send data back to handler</span>
-                    (<span class="self">self</span>.<span class="ident">handler</span>)(<span class="prelude-val">Ok</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()))<span class="question-mark">?</span>;
+                    <span class="self">self</span>.<span class="ident">handler</span>.<span class="ident">handle</span>(<span class="prelude-val">Ok</span>(<span class="ident">msg</span>.<span class="ident">clone</span>()))<span class="question-mark">?</span>;
 
                     <span class="comment">// on shutdown, close all connections</span>
                     <span class="kw">if</span> <span class="ident">msg</span> <span class="op">==</span> <span class="ident">Protocol</span>::<span class="ident">Terminated</span> {
@@ -512,7 +512,7 @@
                     <span class="comment">// - Try connecting to boostrap nodes</span>
                     <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">is_network_ready</span> <span class="op">&amp;&amp;</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">last_known_state</span> <span class="op">==</span> <span class="string">&quot;ready&quot;</span> {
                         <span class="self">self</span>.<span class="ident">is_network_ready</span> <span class="op">=</span> <span class="bool-val">true</span>;
-                        (<span class="self">self</span>.<span class="ident">handler</span>)(<span class="prelude-val">Ok</span>(<span class="ident">Protocol</span>::<span class="ident">P2pReady</span>))<span class="question-mark">?</span>;
+                        <span class="self">self</span>.<span class="ident">handler</span>.<span class="ident">handle</span>(<span class="prelude-val">Ok</span>(<span class="ident">Protocol</span>::<span class="ident">P2pReady</span>))<span class="question-mark">?</span>;
                         <span class="self">self</span>.<span class="ident">priv_send_connects</span>()<span class="question-mark">?</span>;
                     }
                 }

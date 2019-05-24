@@ -15,18 +15,16 @@
 <span id="15">15</span>
 <span id="16">16</span>
 <span id="17">17</span>
-<span id="18">18</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
-    <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">nucleus</span>::<span class="ident">state</span>::<span class="ident">NucleusState</span>,
+    <span class="ident">state</span>::<span class="ident">State</span>,
 };
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reduce_return_validation_result</span>(
-    <span class="ident">_context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">NucleusState</span>,
+    <span class="ident">_root_state</span>: <span class="kw-2">&amp;</span><span class="ident">State</span>,
     <span class="ident">action_wrapper</span>: <span class="kw-2">&amp;</span><span class="ident">ActionWrapper</span>,
 ) {
     <span class="kw">let</span> <span class="ident">action</span> <span class="op">=</span> <span class="ident">action_wrapper</span>.<span class="ident">action</span>();

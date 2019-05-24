@@ -145,7 +145,6 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>, <span class="ident">NetworkReduceFn</span>},
-    <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">network</span>::{
         <span class="ident">direct_message</span>::<span class="ident">DirectMessage</span>,
         <span class="ident">reducers</span>::{
@@ -165,6 +164,7 @@
         },
         <span class="ident">state</span>::<span class="ident">NetworkState</span>,
     },
+    <span class="ident">state</span>::<span class="ident">State</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>};
 <span class="kw">use</span> <span class="ident">holochain_net</span>::<span class="ident">connection</span>::{
@@ -198,15 +198,15 @@
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reduce</span>(
-    <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="ident">old_state</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">NetworkState</span><span class="op">&gt;</span>,
+    <span class="ident">root_state</span>: <span class="kw-2">&amp;</span><span class="ident">State</span>,
     <span class="ident">action_wrapper</span>: <span class="kw-2">&amp;</span><span class="ident">ActionWrapper</span>,
 ) <span class="op">-&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">NetworkState</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">handler</span> <span class="op">=</span> <span class="ident">resolve_reducer</span>(<span class="ident">action_wrapper</span>);
     <span class="kw">match</span> <span class="ident">handler</span> {
         <span class="prelude-val">Some</span>(<span class="ident">f</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_state</span>: <span class="ident">NetworkState</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">old_state</span>).<span class="ident">clone</span>();
-            <span class="ident">f</span>(<span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">new_state</span>, <span class="kw-2">&amp;</span><span class="ident">action_wrapper</span>);
+            <span class="ident">f</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">new_state</span>, <span class="kw-2">&amp;</span><span class="ident">root_state</span>, <span class="kw-2">&amp;</span><span class="ident">action_wrapper</span>);
             <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">new_state</span>)
         }
         <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">old_state</span>,

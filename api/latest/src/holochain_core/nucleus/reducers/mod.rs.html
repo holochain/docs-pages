@@ -67,7 +67,6 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>, <span class="ident">NucleusReduceFn</span>},
-    <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">nucleus</span>::{
         <span class="ident">reducers</span>::{
             <span class="ident">add_pending_validation</span>::<span class="ident">reduce_add_pending_validation</span>,
@@ -82,6 +81,7 @@
     },
 };
 
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">state</span>::<span class="ident">State</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
 
 <span class="doccomment">/// Maps incoming action to the correct reducer</span>
@@ -101,15 +101,15 @@
 <span class="doccomment">/// Reduce state of Nucleus according to action.</span>
 <span class="doccomment">/// Note: Can&#39;t block when dispatching action here because we are inside the reduce&#39;s mutex</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reduce</span>(
-    <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="ident">old_state</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">NucleusState</span><span class="op">&gt;</span>,
+    <span class="ident">root_state</span>: <span class="kw-2">&amp;</span><span class="ident">State</span>,
     <span class="ident">action_wrapper</span>: <span class="kw-2">&amp;</span><span class="ident">ActionWrapper</span>,
 ) <span class="op">-&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">NucleusState</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">handler</span> <span class="op">=</span> <span class="ident">resolve_reducer</span>(<span class="ident">action_wrapper</span>);
     <span class="kw">match</span> <span class="ident">handler</span> {
         <span class="prelude-val">Some</span>(<span class="ident">f</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_state</span>: <span class="ident">NucleusState</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">old_state</span>).<span class="ident">clone</span>();
-            <span class="ident">f</span>(<span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">new_state</span>, <span class="kw-2">&amp;</span><span class="ident">action_wrapper</span>);
+            <span class="ident">f</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">new_state</span>, <span class="ident">root_state</span>, <span class="kw-2">&amp;</span><span class="ident">action_wrapper</span>);
             <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">new_state</span>)
         }
         <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">old_state</span>,
