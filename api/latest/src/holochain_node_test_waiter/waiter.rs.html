@@ -881,7 +881,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">process_signal</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">sig</span>: <span class="ident">Signal</span>) {
         <span class="kw">let</span> <span class="ident">num_instances</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">num_instances</span>;
         <span class="kw">match</span> <span class="ident">sig</span> {
-            <span class="ident">Signal</span>::<span class="ident">Internal</span>(<span class="kw-2">ref</span> <span class="ident">aw</span>) <span class="op">=&gt;</span> {
+            <span class="ident">Signal</span>::<span class="ident">Trace</span>(<span class="kw-2">ref</span> <span class="ident">aw</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">aw</span> <span class="op">=</span> <span class="ident">aw</span>.<span class="ident">clone</span>();
                 <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">current_checker</span>(), <span class="ident">aw</span>.<span class="ident">action</span>().<span class="ident">clone</span>()) {
                     <span class="comment">// Pair every `SignalZomeFunctionCall` with one `ReturnZomeFunctionResult`</span>
@@ -1100,7 +1100,7 @@
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">mpsc</span>::<span class="ident">sync_channel</span>;
 
     <span class="kw">fn</span> <span class="ident">sig</span>(<span class="ident">a</span>: <span class="ident">Action</span>) <span class="op">-&gt;</span> <span class="ident">Signal</span> {
-        <span class="ident">Signal</span>::<span class="ident">Internal</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">a</span>))
+        <span class="ident">Signal</span>::<span class="ident">Trace</span>(<span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">a</span>))
     }
 
     <span class="kw">fn</span> <span class="ident">mk_entry</span>(<span class="ident">ty</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">content</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">Entry</span> {

@@ -134,8 +134,8 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">error</span>::<span class="ident">HcResult</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>, <span class="ident">signature</span>::<span class="ident">Signature</span>};
 <span class="kw">use</span> <span class="ident">holochain_dpki</span>::<span class="ident">keypair</span>::<span class="ident">generate_random_sign_keypair</span>;
-<span class="kw">use</span> <span class="ident">holochain_sodium</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">sign</span>::{<span class="ident">OneTimeSignArgs</span>, <span class="ident">SignArgs</span>, <span class="ident">SignOneTimeResult</span>};
+<span class="kw">use</span> <span class="ident">lib3h_sodium</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">wasmi</span>::{<span class="ident">RuntimeArgs</span>, <span class="ident">RuntimeValue</span>};
 

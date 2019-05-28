@@ -14,6 +14,5 @@ ALIASES["holochain_dna_c_binding"] = {};
 ALIASES["holochain_dpki"] = {};
 ALIASES["holochain_net"] = {};
 ALIASES["holochain_node_test_waiter"] = {};
-ALIASES["holochain_sodium"] = {};
 ALIASES["holochain_test_bin"] = {};
 ALIASES["holochain_wasm_utils"] = {};

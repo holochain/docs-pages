@@ -68,8 +68,8 @@
 <span class="kw">use</span> <span class="ident">conductor</span>::<span class="ident">passphrase_manager</span>::{<span class="ident">PassphraseManager</span>, <span class="ident">PassphraseServiceMock</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>;
 <span class="kw">use</span> <span class="ident">holochain_dpki</span>::{<span class="ident">password_encryption</span>::<span class="ident">PwHashConfig</span>, <span class="ident">SEED_SIZE</span>};
-<span class="kw">use</span> <span class="ident">holochain_sodium</span>::{<span class="ident">hash</span>::<span class="ident">sha256</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>};
 <span class="kw">use</span> <span class="ident">keystore</span>::<span class="ident">test_hash_config</span>;
+<span class="kw">use</span> <span class="ident">lib3h_sodium</span>::{<span class="ident">hash</span>::<span class="ident">sha256</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">path</span>::<span class="ident">PathBuf</span>,
     <span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>},

@@ -1557,6 +1557,12 @@
 <span id="1557">1557</span>
 <span id="1558">1558</span>
 <span id="1559">1559</span>
+<span id="1560">1560</span>
+<span id="1561">1561</span>
+<span id="1562">1562</span>
+<span id="1563">1563</span>
+<span id="1564">1564</span>
+<span id="1565">1565</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">conductor</span>::<span class="ident">broadcaster</span>::<span class="ident">Broadcaster</span>,
@@ -1693,7 +1699,7 @@
 <span class="kw">impl</span> <span class="ident">Conductor</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_config</span>(<span class="ident">config</span>: <span class="ident">Configuration</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">rules</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">rules</span>.<span class="ident">clone</span>();
-        <span class="ident">holochain_sodium</span>::<span class="ident">check_init</span>();
+        <span class="ident">lib3h_sodium</span>::<span class="ident">check_init</span>();
         <span class="ident">Conductor</span> {
             <span class="ident">instances</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
             <span class="ident">instance_signal_receivers</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">HashMap</span>::<span class="ident">new</span>())),
@@ -1761,12 +1767,18 @@
                         <span class="ident">signal_tx</span>.<span class="ident">clone</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">send</span>(<span class="ident">signal</span>.<span class="ident">clone</span>()));
                         <span class="kw">let</span> <span class="ident">broadcasters</span> <span class="op">=</span> <span class="ident">broadcasters</span>.<span class="ident">read</span>().<span class="ident">unwrap</span>();
                         <span class="kw">let</span> <span class="ident">interfaces_with_instance</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">InterfaceConfiguration</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">signal</span> {
-                            <span class="comment">// Send internal signals only to admin interfaces:</span>
-                            <span class="ident">Signal</span>::<span class="ident">Internal</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">config</span>
-                                .<span class="ident">interfaces</span>
-                                .<span class="ident">iter</span>()
-                                .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">interface_config</span><span class="op">|</span> <span class="ident">interface_config</span>.<span class="ident">admin</span>)
-                                .<span class="ident">collect</span>(),
+                            <span class="comment">// Send internal signals only to admin interfaces, if expose_trace_signals is set:</span>
+                            <span class="ident">Signal</span>::<span class="ident">Trace</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
+                                <span class="kw">if</span> <span class="ident">config</span>.<span class="ident">expose_trace_signals</span> {
+                                    <span class="ident">config</span>
+                                        .<span class="ident">interfaces</span>
+                                        .<span class="ident">iter</span>()
+                                        .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">interface_config</span><span class="op">|</span> <span class="ident">interface_config</span>.<span class="ident">admin</span>)
+                                        .<span class="ident">collect</span>()
+                                } <span class="kw">else</span> {
+                                    <span class="ident">Vec</span>::<span class="ident">new</span>()
+                                }
+                            }
 
                             <span class="comment">// Pass through user-defined  signals to the according interfaces</span>
                             <span class="comment">// in which the source instance is exposed:</span>
@@ -2515,8 +2527,8 @@
     };
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">dna</span>, <span class="ident">json</span>::<span class="ident">RawString</span>};
     <span class="kw">use</span> <span class="ident">holochain_dpki</span>::{<span class="ident">key_bundle</span>::<span class="ident">KeyBundle</span>, <span class="ident">password_encryption</span>::<span class="ident">PwHashConfig</span>, <span class="ident">SEED_SIZE</span>};
-    <span class="kw">use</span> <span class="ident">holochain_sodium</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
     <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">wasm_target_dir</span>;
+    <span class="kw">use</span> <span class="ident">lib3h_sodium</span>::<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>;
     <span class="kw">use</span> <span class="ident">std</span>::{
         <span class="ident">fs</span>::{<span class="ident">File</span>, <span class="ident">OpenOptions</span>},
         <span class="ident">io</span>::<span class="ident">Write</span>,
@@ -3109,11 +3121,11 @@
 
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">received_signals</span>.<span class="ident">len</span>() <span class="op">&gt;=</span> <span class="number">3</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">received_signals</span>[<span class="number">0</span>]
-            .<span class="ident">starts_with</span>(<span class="string">&quot;{\&quot;signal\&quot;:{\&quot;Internal\&quot;:\&quot;SignalZomeFunctionCall(ZomeFnCall {&quot;</span>));
+            .<span class="ident">starts_with</span>(<span class="string">&quot;{\&quot;signal\&quot;:{\&quot;Trace\&quot;:\&quot;SignalZomeFunctionCall(ZomeFnCall {&quot;</span>));
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">received_signals</span>[<span class="number">1</span>]
-            .<span class="ident">starts_with</span>(<span class="string">&quot;{\&quot;signal\&quot;:{\&quot;Internal\&quot;:\&quot;SignalZomeFunctionCall(ZomeFnCall {&quot;</span>));
+            .<span class="ident">starts_with</span>(<span class="string">&quot;{\&quot;signal\&quot;:{\&quot;Trace\&quot;:\&quot;SignalZomeFunctionCall(ZomeFnCall {&quot;</span>));
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">received_signals</span>[<span class="number">2</span>].<span class="ident">starts_with</span>(
-            <span class="string">&quot;{\&quot;signal\&quot;:{\&quot;Internal\&quot;:\&quot;ReturnZomeFunctionResult(ExecuteZomeFnResponse {&quot;</span>
+            <span class="string">&quot;{\&quot;signal\&quot;:{\&quot;Trace\&quot;:\&quot;ReturnZomeFunctionResult(ExecuteZomeFnResponse {&quot;</span>
         ));
     }
 }

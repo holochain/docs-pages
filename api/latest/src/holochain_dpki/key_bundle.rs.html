@@ -142,7 +142,7 @@
 <span id="142">142</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">warnings</span>)]</span>
-<span class="kw">use</span> <span class="ident">holochain_sodium</span>::{<span class="ident">kx</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>, <span class="ident">sign</span>, <span class="kw-2">*</span>};
+<span class="kw">use</span> <span class="ident">lib3h_sodium</span>::{<span class="ident">kx</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>, <span class="ident">sign</span>, <span class="kw-2">*</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">keypair</span>::<span class="kw-2">*</span>,
@@ -220,7 +220,7 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">keypair</span>::<span class="kw-2">*</span>, <span class="ident">utils</span>::<span class="ident">generate_random_seed_buf</span>, <span class="ident">SIGNATURE_SIZE</span>};
-    <span class="kw">use</span> <span class="ident">holochain_sodium</span>::<span class="ident">pwhash</span>;
+    <span class="kw">use</span> <span class="ident">lib3h_sodium</span>::<span class="ident">pwhash</span>;
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="ident">TEST_CONFIG</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PwHashConfig</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">PwHashConfig</span>(
         <span class="ident">pwhash</span>::<span class="ident">OPSLIMIT_INTERACTIVE</span>,

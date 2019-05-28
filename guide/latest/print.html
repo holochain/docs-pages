@@ -491,7 +491,7 @@ Much like the private network, any one user-participant losing a key can become 
 <a class="header" href="#writing-in-rust" id="writing-in-rust"><h1>Writing in Rust</h1></a>
 <p>It has always been in the designs for Holochain to support programming in multiple languages. In the prototype of Holochain, Zomes could be written in variants of Javascript (ES5) and Lisp (Zygomys). In the new version of Holochain the primary &quot;Ribosome&quot;, where there was a JS one and Lisp one before, interprets WebAssembly code.</p>
 <p>While we will provide a small introduction to WebAssembly shortly, we should also briefly introduce Rust, since it is the first language that has a first class Holochain app development experience, with its' WebAssembly compilation. This is accomplished via a Holochain Development Kit (HDK) library which has been written for Rust.</p>
-<p>For the time being, writing Holochain apps requires writing code in Rust. This will not always be the case. <a href="https://github.com/AssemblyScript/assemblyscript">Assemblyscript</a>, a language based off Typescript, is the next likely language in which there will be an HDK library. If it happens to interest you, there is an article here about <a href="../writing_development_kit.html">writing an HDK</a>, since that is something we also invite and encourage the community to do.</p>
+<p>For the time being, writing Holochain apps requires writing code in Rust. This will not always be the case. <a href="https://github.com/AssemblyScript/assemblyscript">Assemblyscript</a>, a language based off Typescript, is the next likely language in which there will be an HDK library. If it happens to interest you, there is an article here about <a href="zome/../writing_development_kit.html">writing an HDK</a>, since that is something we also invite and encourage the community to do.</p>
 <p>From Wikipedia:
 &quot;Rust is a systems programming language with a focus on safety, especially safe concurrency, supporting both functional and imperative paradigms.&quot;</p>
 <p>Rust is a strongly typed language, which is desirable for the development of secure P2P applications, and compilation from Rust to WebAssembly is extremely easy.</p>
@@ -499,7 +499,7 @@ Much like the private network, any one user-participant losing a key can become 
 <p>While there are lots of other materials available for learning Rust, the base materials for the language are always a good resource to go back to: <a href="https://doc.rust-lang.org/">Rust Docs</a>.</p>
 <p>In many articles in the following chapters, you will find that there is a dedicated section at the bottom of the article called &quot;Building in Rust&quot;. This typically follows after a general discussion of a concept, and is done this way because implementation details may differ based on the language developers are writing Zomes in.</p>
 <a class="header" href="#writing-in-assemblyscript" id="writing-in-assemblyscript"><h1>Writing in Assemblyscript</h1></a>
-<p>As mentioned in <a href="./rust.html">writing in Rust</a> Assemblyscript is a language based off of Typescript, which is designed to compile to WebAssembly. It is hoped that Assemblyscript will soon be mature enough, and have the necessary features, to be able to have an HDK for it. Work on an HDK for Assemblyscript commenced mid 2018, but hit roadblocks.</p>
+<p>As mentioned in <a href="zome/./rust.html">writing in Rust</a> Assemblyscript is a language based off of Typescript, which is designed to compile to WebAssembly. It is hoped that Assemblyscript will soon be mature enough, and have the necessary features, to be able to have an HDK for it. Work on an HDK for Assemblyscript commenced mid 2018, but hit roadblocks.</p>
 <p>Updates on this should appear in a number of places:</p>
 <ul>
 <li><a href="https://medium.com/holochain">the Holochain medium publication</a></li>
@@ -1099,7 +1099,7 @@ scenario.runTape('Can get a list with items', async (t, { alice }) =&gt; {
 <p>And there we have it! A simple Zome created with Holochain using the Rust HDK.</p>
 <p>The <a href="https://github.com/willemolding/holochain-rust-todo">complete working version of this project is available on github</a>. This builds under the 0.0.9-alpha release but as the API and HDK are changing it will likely fail under newer releases.</p>
 <a class="header" href="#adding-a-zome" id="adding-a-zome"><h1>Adding a Zome</h1></a>
-<p>After <a href="../new_project.html">creating a new project</a>, in the resulting folder there is an empty folder called 'zomes'. The name of this folder is important and should not be changed. It will serve as the root folder for the one or more Zomes in a project.</p>
+<p>After <a href="zome/../new_project.html">creating a new project</a>, in the resulting folder there is an empty folder called 'zomes'. The name of this folder is important and should not be changed. It will serve as the root folder for the one or more Zomes in a project.</p>
 <p>Every Zome should have its own folder within the 'zomes' root folder, and the name of those folders is also important, it should be the name of the Zome. It shouldn't have any spaces, and it should be a valid folder name.</p>
 <p>While you could go about creating a new Zome manually through your file system, it will be far faster to use the Holochain command line tools to generate one, with all the basic files you need included.</p>
 <p>To do this, navigate in a command line to the root directory of your hApp project. In the command line, run</p>
@@ -1143,7 +1143,7 @@ Generated new rust Zome at &quot;zomes/your_zome_name&quot;
 </li>
 <li>Cargo.toml</li>
 </ul>
-<p>Notice that the Zome we generated has one extra file, <code>.hcbuild</code>. This is the only Holochain specific file in the <code>code</code> folder. The rest is standard Rust. The <a href="../build_files.html"><code>.hcbuild</code> file is discussed</a> in another chapter.</p>
+<p>Notice that the Zome we generated has one extra file, <code>.hcbuild</code>. This is the only Holochain specific file in the <code>code</code> folder. The rest is standard Rust. The <a href="zome/../build_files.html"><code>.hcbuild</code> file is discussed</a> in another chapter.</p>
 <p>In general, the generated files have been modified from their defaults to offer basic boilerplate needed to get started writing Zome code.</p>
 <p><code>src/lib.rs</code> is the default entry point to the code of a library crate. It can be the one and only Rust file of a Zome, or it can use standard Rust imports from other Rust files and their exports, taking full advantage of the Rust module system natively.</p>
 <p><code>Cargo.toml</code> is Rust's equivalent to nodejs' <code>package.json</code> or Ruby's <code>Gemfile</code>: a configuration and dependency specification at the same time.</p>
@@ -1159,7 +1159,7 @@ Generated new rust Zome at &quot;zomes/your_zome_name&quot;
 <li>It addresses hidden functions that Holochain needs from Zome code, but that would be redundant and confusing to make Zome developers write again and again.</li>
 </ul>
 <p>The HDK for a given language, if it has deep integration into the build tools, such as the Zome generator, should include this helper library by default, which is the case of the Rust HDK.</p>
-<p>There is an in-depth article on <a href="../writing_development_kit.html">writing an HDK</a> if this sounds interesting to you.</p>
+<p>There is an in-depth article on <a href="zome/../writing_development_kit.html">writing an HDK</a> if this sounds interesting to you.</p>
 <a class="header" href="#the-rust-hdk" id="the-rust-hdk"><h3>The Rust HDK</h3></a>
 <p>The HDK with priority development and support is implemented in Rust, and is included right in the <a href="https://github.com/holochain/holochain-rust">core repository</a> along with the Holochain core framework. Other HDKs may be implemented in different languages, and exist in separate repositories. This HDK implements all of the above features for developers, so just know that as you develop your Zome, a lot is going on behind the scenes in the HDK to make it all work.</p>
 <p>The Rust HDK has documentation for each released version, available at <a href="https://developer.holochain.org/api/">developer.holochain.org/api</a>. This documentation will be invaluable during your use of the HDK, because it can show you how the definitions of the various custom Holochain types, and give examples and details on the use of the API functions exposed to the Zomes.</p>
@@ -1184,10 +1184,10 @@ hdk = { git = &quot;https://github.com/holochain/holochain-rust&quot;, branch = 
 extern crate hdk;
 ...
 #}</code></pre></pre>
-<p>The <code>#[macro_use]</code> statement on the first line is very important, since it allows the usage of Rust macros (discussed in the <a href="./define_zome.html">Define Zome article</a>) defined in the HDK to be used in your code, and the macros will be needed. Now, within the Rust code files, exposed constants, functions, and even special macros from the HDK can be used.</p>
+<p>The <code>#[macro_use]</code> statement on the first line is very important, since it allows the usage of Rust macros (discussed in the <a href="zome/./define_zome.html">Define Zome article</a>) defined in the HDK to be used in your code, and the macros will be needed. Now, within the Rust code files, exposed constants, functions, and even special macros from the HDK can be used.</p>
 <p>The very first thing to familiarize with is the <code>define_zome!</code> macro. Read on to learn about it.</p>
 <a class="header" href="#intro-to-zome-definition" id="intro-to-zome-definition"><h1>Intro to Zome Definition</h1></a>
-<p>The <a href="./adding_a_zome.html">adding a zome</a> section explored the file structure of a Zome. <a href="./intro_to_hdk.html">Intro to HDK</a> covered Holochain Development Kit libraries for languages that Zomes can be written in. Once a Zome has been generated, and the HDK imported, it is time to start adding definitions to it.</p>
+<p>The <a href="zome/./adding_a_zome.html">adding a zome</a> section explored the file structure of a Zome. <a href="zome/./intro_to_hdk.html">Intro to HDK</a> covered Holochain Development Kit libraries for languages that Zomes can be written in. Once a Zome has been generated, and the HDK imported, it is time to start adding definitions to it.</p>
 <p>There are multiple aspects to defining a Zome. They will each be covered in detail in the following articles.</p>
 <p>What are the characteristics of a Zome, that need defining?</p>
 <p>A Zome has</p>
@@ -1203,7 +1203,7 @@ extern crate hdk;
 </ul>
 <p>To develop a Zome, you will have to become familiar with these different aspects, the most complex of which are the validating entry types, and the traits and function definition. Implementation details will differ depending on the language that you are developing a Zome in.</p>
 <a class="header" href="#building-in-rust-define_zome" id="building-in-rust-define_zome"><h2>Building in Rust: define_zome!</h2></a>
-<p>As discussed in the <a href="./intro_to_hdk.html">intro to HDK</a> article, by setting the HDK as a dependency in the <code>Cargo.toml</code> file, and then referencing it in <code>src/lib.rs</code>, Zome code in Rust gains access to a host of features.</p>
+<p>As discussed in the <a href="zome/./intro_to_hdk.html">intro to HDK</a> article, by setting the HDK as a dependency in the <code>Cargo.toml</code> file, and then referencing it in <code>src/lib.rs</code>, Zome code in Rust gains access to a host of features.</p>
 <p>The first line in the following code snippet (from a <code>src/lib.rs</code>) is important: <code>#[macro_use]</code>. This imports access to custom Rust macros defined by the HDK.</p>
 <p>What are Rust macros? Generally speaking, they are code that will actually generate other code, when compiled. They are shortcuts. Anywhere in Rust that you see an expression followed immediately (no space) by an exclamation mark (!) that is the use of a macro.</p>
 <p>In the case of Zome development, it was discovered that much code could be saved from being written, by encapsulating it in a macro.</p>
@@ -1225,9 +1225,9 @@ define_zome! {
     functions: []
 }
 #}</code></pre></pre>
-<p><code>entries</code> represents the validating entry type definitions. Note that it is an array, because there can be many. What validating entry types are will be <a href="./entry_type_definitions.html">explained next</a>.</p>
-<p><code>genesis</code> represents the previously mentioned <code>genesis</code> callback that Holochain expects from every Zome. <a href="./genesis.html">Skip here for details.</a></p>
-<p><code>functions</code> is where the functions are defined. <a href="./zome_functions.html">Skip here for details.</a></p>
+<p><code>entries</code> represents the validating entry type definitions. Note that it is an array, because there can be many. What validating entry types are will be <a href="zome/./entry_type_definitions.html">explained next</a>.</p>
+<p><code>genesis</code> represents the previously mentioned <code>genesis</code> callback that Holochain expects from every Zome. <a href="zome/./genesis.html">Skip here for details.</a></p>
+<p><code>functions</code> is where the functions are defined. <a href="zome/./zome_functions.html">Skip here for details.</a></p>
 <p>These are the three <em>required</em> properties of <code>define_zome!</code>.</p>
 <a class="header" href="#app-entry-type-definitions" id="app-entry-type-definitions"><h1>App Entry Type Definitions</h1></a>
 <p>An &quot;entry&quot; is a data element that an agent authors to their source-chain (stored on their local device), which is then propagated to peers. The entry is backed by a &quot;chain header&quot;, which is the data element used for verification of the integrity of itself, as well as the entry.</p>
@@ -1258,10 +1258,10 @@ define_zome! {
 ]
 </code></pre>
 <p>This is a Zome that implements only a single entry type, <code>post</code>.</p>
-<p>These values are likely not to be modified within a JSON file, but within some code itself, where the entry type is defined. The validation rules for the entry type, will of course be defined within the code as well. Since this can be a complex topic, defining the validation logic has <a href="./entry_validation.html">its' own article</a>.</p>
+<p>These values are likely not to be modified within a JSON file, but within some code itself, where the entry type is defined. The validation rules for the entry type, will of course be defined within the code as well. Since this can be a complex topic, defining the validation logic has <a href="zome/./entry_validation.html">its' own article</a>.</p>
 <p>Setting up the entry types for a Zome is an often logical starting point when creating a Zome.</p>
 <a class="header" href="#building-in-rust-defining-an-entry-type" id="building-in-rust-defining-an-entry-type"><h2>Building in Rust: Defining an Entry Type</h2></a>
-<p>Recall that in <a href="./define_zome.html#building-in-rust-define_zome">define_zome!</a>, there was an array called <code>entries</code>. The most minimalistic Zome could look like this:</p>
+<p>Recall that in <a href="zome/./define_zome.html#building-in-rust-define_zome">define_zome!</a>, there was an array called <code>entries</code>. The most minimalistic Zome could look like this:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -1379,7 +1379,7 @@ entry!(
 #}</code></pre></pre>
 <p>At the moment, what <code>validation_package</code> is will not be covered in great detail. In short, for a peer to perform validation of an entry from another peer, varying degrees of metadata from the original author of the entry might be needed. <code>validation_package</code> refers to the carrier for that extra metadata.</p>
 <p>Looking at the above code, there is a required import from the HDK needed for use in <code>validation_package</code>, and that's the enum <code>ValidationPackageDefinition</code>. The value of <code>validation_package</code> is a function that takes no arguments. It will be called as a callback by Holochain. The result should be a value from the <code>ValidationPackageDefinition</code> enum, whose values can be <a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/enum.ValidationPackageDefinition.html">seen here</a>. In the example, and as the most basic option, simply use <code>Entry</code>, which means no extra metadata beyond the entry itself is needed.</p>
-<p>Further reading is <a href="./entry_validation.html">here</a>.</p>
+<p>Further reading is <a href="zome/./entry_validation.html">here</a>.</p>
 <hr />
 <p><strong>validation</strong></p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -1394,13 +1394,13 @@ entry!(
     }
 )
 #}</code></pre></pre>
-<p><code>validation</code> is the last required property of <code>entry!</code>. Because it is such an important aspect, it has <a href="./entry_validation.html">its' own in depth article</a>.</p>
+<p><code>validation</code> is the last required property of <code>entry!</code>. Because it is such an important aspect, it has <a href="zome/./entry_validation.html">its' own in depth article</a>.</p>
 <p>It is a callback that Holochain will call during different moments in the lifecycle of an entry, in order to confirm which action to take with the entry, depending on its' validity. It will be called with two arguments, the first representing the struct of the entry itself, and the second a struct holding extra metadata that can be used for validation, including, if it was requested, the <code>validation_package</code>.</p>
 <p>The callback should return a Rust <code>Result</code> type. This is seen in <code>Ok(())</code>. The example above is the simplest possible <code>validation</code> function, since it doesn't perform any real logic. While this is ok in theory, great caution should be taken with the validation rules, and further reading is recommended.</p>
 <p><code>validation</code> for a <code>ValidatingEntryType</code> should either return <code>Ok(())</code> or an <code>Err</code> containing the string explaining why validation failed.</p>
 <p>The validity of an entry is therefore defined by the author of a Zome. First of all, data which doesn't conform to the schema defined by the <code>native_type</code> will fail, but <code>validation</code> allows for further rules to be defined.</p>
 <p>Note that not only the entry author will call this function to validate the entry during its' creation, but other peers will call this function to validate the entry when it is requested via the network that they hold a copy of it. <em>This is at the heart of how Holochain functions as peer-to-peer data integrity layer.</em></p>
-<p>Further reading can be found <a href="./entry_validation.html">here</a>.</p>
+<p>Further reading can be found <a href="zome/./entry_validation.html">here</a>.</p>
 <hr />
 <a class="header" href="#putting-it-all-together" id="putting-it-all-together"><h3>Putting It All Together</h3></a>
 <p>Taken all together, use of the <code>entry!</code> macro may look something like the following:</p>
@@ -1499,7 +1499,7 @@ define_zome! {
 <p>Of course, this also indicates that <code>genesis</code> is a reserved function name and should not be used as the name of any other function that is publicly callable in the Zome.</p>
 <a class="header" href="#building-in-rust-genesis" id="building-in-rust-genesis"><h2>Building in Rust: genesis</h2></a>
 <p>How is <code>genesis</code> used within the Rust HDK?</p>
-<p><a href="./define_zome.html">Previously</a>, the general structure of <code>define_zome!</code> has been covered. It includes a Rust function closure called <code>genesis</code>, which is passed zero arguments. This is the hook that Holochain is expecting. It expects a Rust <code>Result</code> as a return value, which is either <code>Ok(())</code> or an <code>Err</code>, with the string explaining the error.</p>
+<p><a href="zome/./define_zome.html">Previously</a>, the general structure of <code>define_zome!</code> has been covered. It includes a Rust function closure called <code>genesis</code>, which is passed zero arguments. This is the hook that Holochain is expecting. It expects a Rust <code>Result</code> as a return value, which is either <code>Ok(())</code> or an <code>Err</code>, with the string explaining the error.</p>
 <p>In the following two examples, nothing interesting will happen in the <code>genesis</code> functions, they are simply to illustrate how to return success, and how to return failure.</p>
 <p>More complex capabilities will be possible during <code>genesis</code> in the future, yet for now, using the first simple example that succeeds is recommended.</p>
 <p>If <code>genesis</code> should succeed:</p>
@@ -1590,7 +1590,7 @@ define_zome! {
 <p>Each function declaration is an object that includes the <code>name</code>, and the <code>inputs</code> and <code>outputs</code> expected for the function. Since WebAssembly only compiles from code languages with a type system, the generation of these inputs and outputs can expected to be automated.</p>
 <p>The <code>name</code> is the most important thing here, because when a function call to an instance is being performed, it will have to match a name which Holochain can find in the <code>functions</code>. If the function isn't declared, Holochain will treat it as if it doesn't exist, even if it is an exposed function in the WASM code.</p>
 <a class="header" href="#traits" id="traits"><h2>Traits</h2></a>
-<p>Traits provide a way to group functions by name.  The primary use of this feature is for creating a composibility space where DNA creators can implement different DNAs to emergent function interfaces and then compose with them in the conductor by matching on the function group names and signatures.  Additionally Holochain may reserve a few special trait names that have specific side-effects.  The first of such reserved names is <code>hc_public</code>.  Functions grouped in this name will have automatically added to a public capability grant that happens at genesis time, thus making them accessible to any caller.  For more details on the Holochain security model please see the <a href="capabilities.html">Capabilities</a> section.</p>
+<p>Traits provide a way to group functions by name.  The primary use of this feature is for creating a composibility space where DNA creators can implement different DNAs to emergent function interfaces and then compose with them in the conductor by matching on the function group names and signatures.  Additionally Holochain may reserve a few special trait names that have specific side-effects.  The first of such reserved names is <code>hc_public</code>.  Functions grouped in this name will have automatically added to a public capability grant that happens at genesis time, thus making them accessible to any caller.  For more details on the Holochain security model please see the <a href="zome/capabilities.html">Capabilities</a> section.</p>
 <p>Here is an example of what a trait definition using the public reserved trait name might look like:</p>
 <pre><code class="language-json">&quot;traits&quot;: {
     &quot;hc_public&quot;: {
@@ -1608,9 +1608,9 @@ define_zome! {
 <li>which function?</li>
 <li>what values should the function be called with?</li>
 </ul>
-<p>Before making the function call, Holochain will check the validity of the request, and fail if necessary. If the request is deemed valid, Holochain will mount the WASM code for a Zome using its' WASM interpreter, and then make a function call into it, giving it the arguments given to it in the request. When it receives the response from the WASM, it will then pass that return value as the response to the request. This may sound complex, but that's just what's going on internally, actually using it with an HDK and a <a href="../conductors.html">Conductor</a> (which is discussed later) is easy.</p>
+<p>Before making the function call, Holochain will check the validity of the request, and fail if necessary. If the request is deemed valid, Holochain will mount the WASM code for a Zome using its' WASM interpreter, and then make a function call into it, giving it the arguments given to it in the request. When it receives the response from the WASM, it will then pass that return value as the response to the request. This may sound complex, but that's just what's going on internally, actually using it with an HDK and a <a href="zome/../conductors.html">Conductor</a> (which is discussed later) is easy.</p>
 <a class="header" href="#building-in-rust-zome-functions" id="building-in-rust-zome-functions"><h2>Building in Rust: Zome Functions</h2></a>
-<p>So far, in <a href="./entry_type_definitions.html">entry type definitions</a> and <a href="./genesis.html">genesis</a>, the most complex example of <code>define_zome!</code> was still very simple, and didn't include any functions:</p>
+<p>So far, in <a href="zome/./entry_type_definitions.html">entry type definitions</a> and <a href="zome/./genesis.html">genesis</a>, the most complex example of <code>define_zome!</code> was still very simple, and didn't include any functions:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -1702,7 +1702,7 @@ fn handle_send_message(to_agent: Address, message: String) -&gt; ZomeApiResult&l
 <p>Notice right away how the arguments match perfectly with the <code>inputs: |...|</code> section of the function declaration. Any differences will cause issues. This is also true of the return type of the output. Note the pairing of <code>ZomeApiResult&lt;String&gt;</code> as the return type.</p>
 <p>The name of the function, <code>handle_send_message</code> is the same as the name given as the <code>handler</code> in the <code>define_zome!</code> function declaration.</p>
 <p>Within the function, <code>handle_send_message</code> makes use of a Holochain/HDK function that <a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/fn.send.html">sends messages directly node-to-node</a>.</p>
-<p>The available functions, their purpose, and how to use them is fully documented elsewhere, in the <a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/index.html#functions">API reference</a> and the <a href="./api_functions.html">List of API Functions</a>.</p>
+<p>The available functions, their purpose, and how to use them is fully documented elsewhere, in the <a href="https://developer.holochain.org/api/0.0.7-alpha/hdk/api/index.html#functions">API reference</a> and the <a href="zome/./api_functions.html">List of API Functions</a>.</p>
 <p>In the example, <code>handle_send_message</code> simply forwards the result of calling <code>hdk::send</code> as its' own result.</p>
 <p>Here are the above two steps combined:</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -1798,7 +1798,7 @@ pub fn handle_request_post_grant() -&gt; ZomeApiResult&lt;Option&lt;Address&gt;&
 <a class="header" href="#node-to-node-messaging" id="node-to-node-messaging"><h1>Node to Node Messaging</h1></a>
 <a class="header" href="#calling-other-zomes" id="calling-other-zomes"><h1>Calling Other Zomes</h1></a>
 <a class="header" href="#crypto-functions" id="crypto-functions"><h1>Crypto Functions</h1></a>
-<p>Holochain DNA instances are designed to function in the context of a <a href="./dpki.html">Distributed Public Key Insfrastructure (DPKI)</a> which:</p>
+<p>Holochain DNA instances are designed to function in the context of a <a href="zome/./dpki.html">Distributed Public Key Insfrastructure (DPKI)</a> which:</p>
 <ol>
 <li>manages key creation and revocation</li>
 <li>manages an agency context that allows grouping and verifying that sets of DNA instances are controlled by the same agent.</li>

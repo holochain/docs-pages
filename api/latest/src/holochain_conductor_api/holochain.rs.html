@@ -755,7 +755,7 @@
 <span class="doccomment">//! extern crate holochain_net;</span>
 <span class="doccomment">//! extern crate holochain_cas_implementations;</span>
 <span class="doccomment">//! extern crate holochain_dpki;</span>
-<span class="doccomment">//! extern crate holochain_sodium;</span>
+<span class="doccomment">//! extern crate lib3h_sodium;</span>
 <span class="doccomment">//! extern crate tempfile;</span>
 <span class="doccomment">//! extern crate test_utils;</span>
 <span class="doccomment">//! use holochain_conductor_api::{*, context_builder::ContextBuilder};</span>
@@ -767,7 +767,7 @@
 <span class="doccomment">//!     signature::Signature,</span>
 <span class="doccomment">//! };</span>
 <span class="doccomment">//! use holochain_dpki::{key_bundle::KeyBundle, seed::SeedType, SEED_SIZE};</span>
-<span class="doccomment">//! use holochain_sodium::secbuf::SecBuf;</span>
+<span class="doccomment">//! use lib3h_sodium::secbuf::SecBuf;</span>
 <span class="doccomment">//! use test_utils;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! use std::sync::{Arc, Mutex};</span>
@@ -1469,12 +1469,12 @@
             <span class="kw">let</span> <span class="ident">msg_publish</span> <span class="op">=</span> <span class="ident">signal_rx</span>
                 .<span class="ident">recv_timeout</span>(<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="ident">timeout</span>))
                 .<span class="ident">expect</span>(<span class="string">&quot;no more signals to receive (outer)&quot;</span>);
-            <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Signal</span>::<span class="ident">Internal</span>(<span class="ident">Action</span>::<span class="ident">Publish</span>(<span class="ident">address</span>)) <span class="op">=</span> <span class="ident">msg_publish</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Signal</span>::<span class="ident">Trace</span>(<span class="ident">Action</span>::<span class="ident">Publish</span>(<span class="ident">address</span>)) <span class="op">=</span> <span class="ident">msg_publish</span> {
                 <span class="kw">loop</span> {
                     <span class="kw">let</span> <span class="ident">msg_hold</span> <span class="op">=</span> <span class="ident">signal_rx</span>
                         .<span class="ident">recv_timeout</span>(<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="ident">timeout</span>))
                         .<span class="ident">expect</span>(<span class="string">&quot;no more signals to receive (inner)&quot;</span>);
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Signal</span>::<span class="ident">Internal</span>(<span class="ident">Action</span>::<span class="ident">Hold</span>(<span class="ident">entry</span>)) <span class="op">=</span> <span class="ident">msg_hold</span> {
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Signal</span>::<span class="ident">Trace</span>(<span class="ident">Action</span>::<span class="ident">Hold</span>(<span class="ident">entry</span>)) <span class="op">=</span> <span class="ident">msg_hold</span> {
                         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">address</span>, <span class="ident">entry</span>.<span class="ident">address</span>());
                         <span class="kw">break</span> <span class="lifetime">&#39;outer</span>;
                     }

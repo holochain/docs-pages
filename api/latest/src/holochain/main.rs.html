@@ -127,7 +127,7 @@
 <span class="doccomment">/// A custom config can be provided with the --config, -c flag.</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_conductor_api</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_sodium</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lib3h_sodium</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">structopt</span>;
 
 <span class="kw">use</span> <span class="ident">holochain_conductor_api</span>::{
@@ -148,7 +148,7 @@
 
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">fn</span> <span class="ident">main</span>() {
-    <span class="ident">holochain_sodium</span>::<span class="ident">check_init</span>();
+    <span class="ident">lib3h_sodium</span>::<span class="ident">check_init</span>();
     <span class="kw">let</span> <span class="ident">opt</span> <span class="op">=</span> <span class="ident">Opt</span>::<span class="ident">from_args</span>();
     <span class="kw">let</span> <span class="ident">config_path</span> <span class="op">=</span> <span class="ident">opt</span>
         .<span class="ident">config</span>

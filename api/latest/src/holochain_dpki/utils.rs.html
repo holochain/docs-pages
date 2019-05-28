@@ -238,10 +238,6 @@
 <span id="238">238</span>
 <span id="239">239</span>
 <span id="240">240</span>
-<span id="241">241</span>
-<span id="242">242</span>
-<span id="243">243</span>
-<span id="244">244</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">password_encryption</span>::{<span class="ident">pw_dec</span>, <span class="ident">pw_enc</span>, <span class="ident">EncryptedData</span>, <span class="ident">PwHashConfig</span>},
@@ -254,7 +250,7 @@
     <span class="ident">error</span>::{<span class="ident">HcResult</span>, <span class="ident">HolochainError</span>},
     <span class="ident">signature</span>::{<span class="ident">Provenance</span>, <span class="ident">Signature</span>},
 };
-<span class="kw">use</span> <span class="ident">holochain_sodium</span>::{<span class="ident">kdf</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>, <span class="ident">sign</span>};
+<span class="kw">use</span> <span class="ident">lib3h_sodium</span>::{<span class="ident">kdf</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>, <span class="ident">sign</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>;
 
 <span class="doccomment">/// a trait for things that have a provenance that can be verified</span>
@@ -317,11 +313,7 @@
     <span class="ident">signature</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>,
 ) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pub_key</span> <span class="op">=</span> <span class="ident">decode_pub_key</span>(<span class="ident">pub_sign_key_b32</span>, <span class="kw-2">&amp;</span><span class="ident">CODEC_HCS0</span>)<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(<span class="ident">holochain_sodium</span>::<span class="ident">sign</span>::<span class="ident">verify</span>(
-        <span class="ident">signature</span>,
-        <span class="ident">data</span>,
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_key</span>,
-    ))
+    <span class="prelude-val">Ok</span>(<span class="ident">lib3h_sodium</span>::<span class="ident">sign</span>::<span class="ident">verify</span>(<span class="ident">signature</span>, <span class="ident">data</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_key</span>))
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SeedContext</span> {
@@ -412,7 +404,7 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">SIGNATURE_SIZE</span>;
-    <span class="kw">use</span> <span class="ident">holochain_sodium</span>::{<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>, <span class="ident">sign</span>};
+    <span class="kw">use</span> <span class="ident">lib3h_sodium</span>::{<span class="ident">secbuf</span>::<span class="ident">SecBuf</span>, <span class="ident">sign</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_should_hcid_roundtrip</span>() {
@@ -437,13 +429,13 @@
         <span class="comment">// Create keys</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">public_key</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">sign</span>::<span class="ident">PUBLICKEYBYTES</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">secret_key</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">sign</span>::<span class="ident">SECRETKEYBYTES</span>);
-        <span class="ident">holochain_sodium</span>::<span class="ident">sign</span>::<span class="ident">seed_keypair</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">public_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span>).<span class="ident">unwrap</span>();
+        <span class="ident">lib3h_sodium</span>::<span class="ident">sign</span>::<span class="ident">seed_keypair</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">public_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">seed</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">pub_key_b32</span> <span class="op">=</span> <span class="ident">encode_pub_key</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">public_key</span>, <span class="kw-2">&amp;</span><span class="ident">codec</span>).<span class="ident">unwrap</span>();
         <span class="comment">// Create signing buffers</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="number">42</span>);
         <span class="ident">message</span>.<span class="ident">randomize</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signature</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">SIGNATURE_SIZE</span>);
-        <span class="ident">holochain_sodium</span>::<span class="ident">sign</span>::<span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>).<span class="ident">unwrap</span>();
+        <span class="ident">lib3h_sodium</span>::<span class="ident">sign</span>::<span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">secret_key</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">verify_bufs</span>(<span class="ident">pub_key_b32</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">message</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">unwrap</span>());
     }

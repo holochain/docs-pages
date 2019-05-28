@@ -279,8 +279,8 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_conductor_api</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_sodium</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_wasm_utils</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lib3h_sodium</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">structopt</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">failure</span>;
@@ -445,7 +445,7 @@
 }
 
 <span class="kw">fn</span> <span class="ident">main</span>() {
-    <span class="ident">holochain_sodium</span>::<span class="ident">check_init</span>();
+    <span class="ident">lib3h_sodium</span>::<span class="ident">check_init</span>();
     <span class="ident">run</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> {
         <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>);
 

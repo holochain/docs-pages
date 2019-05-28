@@ -1205,6 +1205,10 @@
 <span id="1205">1205</span>
 <span id="1206">1206</span>
 <span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Conductor Configuration</span>
@@ -1285,6 +1289,10 @@
     <span class="doccomment">/// Optional DPKI configuration if conductor is using a DPKI app to initalize and manage</span>
     <span class="doccomment">/// keys for new instances</span>
     <span class="kw">pub</span> <span class="ident">dpki</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DpkiConfiguration</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Send Trace signals through interfaces along with other signals</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">expose_trace_signals</span>: <span class="ident">bool</span>,
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_persistence_dir</span>() <span class="op">-&gt;</span> <span class="ident">PathBuf</span> {

@@ -269,7 +269,7 @@
 };
 <span class="kw">use</span> <span class="ident">hcid</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">agent</span>::<span class="ident">Base32</span>, <span class="ident">error</span>::<span class="ident">HcResult</span>};
-<span class="kw">use</span> <span class="ident">holochain_sodium</span>::{<span class="ident">kx</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>, <span class="ident">sign</span>};
+<span class="kw">use</span> <span class="ident">lib3h_sodium</span>::{<span class="ident">kx</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>, <span class="ident">sign</span>};
 <span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">json</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>;
 
@@ -341,7 +341,7 @@
         <span class="comment">// Generate keys</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pub_sec_buf</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">sign</span>::<span class="ident">PUBLICKEYBYTES</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">priv_sec_buf</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">sign</span>::<span class="ident">SECRETKEYBYTES</span>);
-        <span class="ident">holochain_sodium</span>::<span class="ident">sign</span>::<span class="ident">seed_keypair</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_sec_buf</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">priv_sec_buf</span>, <span class="ident">seed</span>)<span class="question-mark">?</span>;
+        <span class="ident">lib3h_sodium</span>::<span class="ident">sign</span>::<span class="ident">seed_keypair</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_sec_buf</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">priv_sec_buf</span>, <span class="ident">seed</span>)<span class="question-mark">?</span>;
         <span class="comment">// Convert and encode public key side</span>
         <span class="kw">let</span> <span class="ident">pub_key_b32</span> <span class="op">=</span> <span class="ident">utils</span>::<span class="ident">encode_pub_key</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_sec_buf</span>, <span class="self">Self</span>::<span class="ident">codec</span>())<span class="question-mark">?</span>;
         <span class="comment">// Done</span>
@@ -370,7 +370,7 @@
     <span class="doccomment">/// @return {SecBuf} signature - Empty SecBuf to be filled with the signature</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">SecBuf</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signature</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">SIGNATURE_SIZE</span>);
-        <span class="ident">holochain_sodium</span>::<span class="ident">sign</span>::<span class="ident">sign</span>(<span class="ident">data</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">private</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>)<span class="question-mark">?</span>;
+        <span class="ident">lib3h_sodium</span>::<span class="ident">sign</span>::<span class="ident">sign</span>(<span class="ident">data</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">private</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">signature</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">signature</span>)
     }
 
@@ -380,7 +380,7 @@
     <span class="doccomment">/// @return true if verification succeeded</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">verify</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>, <span class="ident">signature</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SecBuf</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pub_key</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">decode_pub_key_into_secbuf</span>();
-        <span class="ident">holochain_sodium</span>::<span class="ident">sign</span>::<span class="ident">verify</span>(<span class="ident">signature</span>, <span class="ident">data</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_key</span>)
+        <span class="ident">lib3h_sodium</span>::<span class="ident">sign</span>::<span class="ident">verify</span>(<span class="ident">signature</span>, <span class="ident">data</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_key</span>)
     }
 }
 
@@ -412,7 +412,7 @@
         <span class="comment">// Generate keys</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pub_sec_buf</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_insecure</span>(<span class="ident">kx</span>::<span class="ident">PUBLICKEYBYTES</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">priv_sec_buf</span> <span class="op">=</span> <span class="ident">SecBuf</span>::<span class="ident">with_secure</span>(<span class="ident">kx</span>::<span class="ident">SECRETKEYBYTES</span>);
-        <span class="ident">holochain_sodium</span>::<span class="ident">kx</span>::<span class="ident">seed_keypair</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_sec_buf</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">priv_sec_buf</span>, <span class="ident">seed</span>)<span class="question-mark">?</span>;
+        <span class="ident">lib3h_sodium</span>::<span class="ident">kx</span>::<span class="ident">seed_keypair</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_sec_buf</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">priv_sec_buf</span>, <span class="ident">seed</span>)<span class="question-mark">?</span>;
         <span class="comment">// Convert and encode public key side</span>
         <span class="kw">let</span> <span class="ident">pub_key_b32</span> <span class="op">=</span> <span class="ident">utils</span>::<span class="ident">encode_pub_key</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pub_sec_buf</span>, <span class="self">Self</span>::<span class="ident">codec</span>())<span class="question-mark">?</span>;
         <span class="comment">// Done</span>

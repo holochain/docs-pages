@@ -54,7 +54,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">DefaultJson</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;signal_type&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Signal</span> {
-    <span class="ident">Internal</span>(<span class="ident">ActionWrapper</span>),
+    <span class="ident">Trace</span>(<span class="ident">ActionWrapper</span>),
     <span class="ident">User</span>(<span class="ident">JsonString</span>),
 }
 
