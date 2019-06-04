@@ -7,4 +7,5 @@ ALIASES["holochain_core_types"] = {};
 ALIASES["holochain_core_types_derive"] = {};
 ALIASES["holochain_dna_c_binding"] = {};
 ALIASES["holochain_dpki"] = {};
+ALIASES["holochain_net"] = {};
 ALIASES["holochain_wasm_utils"] = {};
