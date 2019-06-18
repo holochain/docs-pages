@@ -12,7 +12,6 @@ fn main() {
 
   let version = env::var("HC_VERSION").expect("please set HC_VERSION");
   let version_for_url = env::var("HC_VERSION_FOR_URL").expect("please set HC_VERSION_FOR_URL");
-  let rust_version = env::var("HC_RUST_VERSION").expect("please set HC_RUST_VERSION");
 
   let api_versions_string = fs::read_to_string("api_versions.json")
         .expect("Something went wrong reading api_versions.json");
@@ -66,7 +65,6 @@ fn main() {
   start_body_data.insert("date".to_string(), now.format("%b %e, %Y").to_string());
   start_body_data.insert("version".to_string(), version.clone());
   start_body_data.insert("version_for_url".to_string(), version_for_url.clone());
-  start_body_data.insert("rust_version".to_string(), rust_version.clone());
   let start_body_html = handlebars.render("start", &start_body_data).unwrap();
 
   let mut start_html_data = BTreeMap::new();
