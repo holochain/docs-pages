@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Lib3hWorker","A worker that makes use of lib3h / NetworkEngine. It adapts the Worker interface with Lib3h's NetworkEngine's interface. Handles `Protocol` and translates `JsonProtocol` to `Lib3hProtocol`."]]});

@@ -59,16 +59,19 @@
 <span id="59">59</span>
 <span id="60">60</span>
 <span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">chain_header</span>::<span class="ident">ChainHeader</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="kw-2">*</span>, <span class="ident">time</span>::<span class="ident">Timeout</span>,
+    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">chain_header</span>::<span class="ident">ChainHeader</span>, <span class="ident">crud_status</span>::<span class="ident">CrudStatus</span>,
+    <span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="kw-2">*</span>, <span class="ident">time</span>::<span class="ident">Timeout</span>,
 };
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Default</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">DefaultJson</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetLinksArgs</span> {
     <span class="kw">pub</span> <span class="ident">entry_address</span>: <span class="ident">Address</span>,
-    <span class="kw">pub</span> <span class="ident">link_type</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">tag</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">link_type</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">tag</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">options</span>: <span class="ident">GetLinksOptions</span>,
 }
 
@@ -105,6 +108,7 @@
     <span class="kw">pub</span> <span class="ident">address</span>: <span class="ident">Address</span>,
     <span class="kw">pub</span> <span class="ident">headers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ChainHeader</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">tag</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">status</span>: <span class="ident">CrudStatus</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Debug</span>, <span class="ident">DefaultJson</span>)]</span>

@@ -20,9 +20,9 @@ The first argument is the branch/tag, the second is the folder name to put it in
 
 To add a new version, run something like (making the appropriate changes)
 ```shell
-./add_new_version.sh v0.0.11-alpha1 0.0.11-alpha1 2019-01-24
+./add_new_version.sh v0.0.11-alpha1 0.0.11-alpha1
 ```
-The first argument is exactly the git tag of the version, the second is the git tag without the `v` prefix, and the third is the current nightly version of Rust.
+The first argument is exactly the git tag of the version, and the second is the git tag without the `v` prefix.
 
 > this is Mac only at the moment, unless you compile the code in `src` on a different platform, and overwrite the `regenerate_html_bin` file in this folder with the compiled binary.
 

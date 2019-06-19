@@ -158,6 +158,8 @@
 <span id="158">158</span>
 <span id="159">159</span>
 <span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module holds the relevant constants and an enum required for Holochain to have &#39;status&#39; metadata for entries.</span>
 <span class="doccomment">//! Since Holochain uses an append-only data structure, but still wishes to provide classical features of a data</span>
@@ -195,7 +197,9 @@
 }
 
 <span class="doccomment">/// the CRUD status of a Pair is stored using an EAV, NOT in the entry itself</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">DefaultJson</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(
+    <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">DefaultJson</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">Eq</span>,
+)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CrudStatus</span> {
     <span class="ident">Live</span>,
