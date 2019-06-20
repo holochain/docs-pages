@@ -89,16 +89,12 @@
 <span id="89">89</span>
 <span id="90">90</span>
 <span id="91">91</span>
-<span id="92">92</span>
-<span id="93">93</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="self">self</span> <span class="kw">as</span> <span class="ident">hdk</span>,
     <span class="ident">error</span>::{<span class="ident">ZomeApiError</span>, <span class="ident">ZomeApiResult</span>},
-    <span class="ident">holochain_core_types</span>::{
-        <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
-        <span class="ident">entry</span>::{<span class="ident">AppEntryValue</span>, <span class="ident">Entry</span>},
-    },
+    <span class="ident">holochain_core_types</span>::<span class="ident">entry</span>::{<span class="ident">AppEntryValue</span>, <span class="ident">Entry</span>},
+    <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">link</span>::<span class="ident">LinkMatch</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;

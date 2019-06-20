@@ -73,11 +73,6 @@
 <span id="73">73</span>
 <span id="74">74</span>
 <span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Holochain Core Types</span>
 <span class="doccomment">//!</span>
@@ -99,7 +94,6 @@
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">multihash</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rust_base58</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
@@ -107,19 +101,17 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_derive</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">snowflake</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types_derive</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_json_derive</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_json_api</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_persistence_api</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lib3h_crypto_api</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">regex</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">maplit</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">hcid</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">uuid</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">wasmi</span>;
-<span class="attribute">#[<span class="ident">macro_use</span>]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">shrinkwraprs</span>;
 
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cas</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">chain_header</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">crud_status</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">eav</span>;
@@ -131,8 +123,6 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bits_n_pieces</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">chain_migrate</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dna</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">hash</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">json</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">link</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">signature</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">time</span>;

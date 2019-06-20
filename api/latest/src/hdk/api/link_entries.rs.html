@@ -82,10 +82,13 @@
 <span id="82">82</span>
 <span id="83">83</span>
 <span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Dispatch</span>;
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">ZomeApiError</span>;
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">link_entries</span>::<span class="ident">LinkEntriesArgs</span>;
 
 <span class="doccomment">/// Adds a named, tagged, directed link between two entries on the DHT.</span>
@@ -108,13 +111,16 @@
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate serde_derive;</span>
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
+<span class="doccomment">/// # extern crate holochain_persistence_api;</span>
+<span class="doccomment">/// # extern crate holochain_json_api;</span>
 <span class="doccomment">/// # #[macro_use]</span>
-<span class="doccomment">/// # extern crate holochain_core_types_derive;</span>
-<span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
+<span class="doccomment">/// # extern crate holochain_json_derive;</span>
+<span class="doccomment">/// # use holochain_json_api::json::JsonString;</span>
+<span class="doccomment">/// # use holochain_json_api::error::JsonError;</span>
 <span class="doccomment">/// # use holochain_core_types::error::HolochainError;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::entry_type::AppEntryType;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::Entry;</span>
-<span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
+<span class="doccomment">/// # use holochain_persistence_api::cas::content::Address;</span>
 <span class="doccomment">/// # use hdk::AGENT_ADDRESS;</span>
 <span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">/// # use hdk::holochain_wasm_utils::api_serialization::get_entry::GetEntryOptions;</span>

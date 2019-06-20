@@ -261,8 +261,12 @@
 <span id="261">261</span>
 <span id="262">262</span>
 <span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>;
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::{<span class="ident">error</span>::<span class="ident">JsonError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+
 <span class="kw">use</span> <span class="ident">memory</span>::{<span class="ident">MemoryBits</span>, <span class="ident">MemoryInt</span>, <span class="ident">MEMORY_INT_MAX</span>};
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>

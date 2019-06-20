@@ -82,10 +82,14 @@
 <span id="82">82</span>
 <span id="83">83</span>
 <span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Dispatch</span>;
 <span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">ZomeApiError</span>, <span class="ident">ZomeApiResult</span>};
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">entry</span>::<span class="ident">Entry</span>};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">entry</span>::<span class="ident">Entry</span>;
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">get_entry</span>::{
     <span class="ident">EntryHistory</span>, <span class="ident">GetEntryArgs</span>, <span class="ident">GetEntryOptions</span>, <span class="ident">GetEntryResult</span>, <span class="ident">GetEntryResultType</span>,
     <span class="ident">StatusRequestKind</span>,
@@ -102,10 +106,12 @@
 <span class="doccomment">/// ```rust</span>
 <span class="doccomment">/// # extern crate hdk;</span>
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
+<span class="doccomment">/// # extern crate holochain_persistence_api;</span>
+<span class="doccomment">/// # extern crate holochain_json_api;</span>
 <span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::Entry;</span>
-<span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
-<span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
+<span class="doccomment">/// # use holochain_json_api::json::JsonString;</span>
+<span class="doccomment">/// # use holochain_persistence_api::cas::content::Address;</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">/// pub fn handle_get_post(post_address: Address) -&gt; ZomeApiResult&lt;Option&lt;Entry&gt;&gt; {</span>
 <span class="doccomment">///     // get_entry returns a Result&lt;Option&lt;T&gt;, ZomeApiError&gt;</span>

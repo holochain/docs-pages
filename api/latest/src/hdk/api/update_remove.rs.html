@@ -27,10 +27,12 @@
 <span id="27">27</span>
 <span id="28">28</span>
 <span id="29">29</span>
+<span id="30">30</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Dispatch</span>;
 <span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">ZomeApiError</span>, <span class="ident">ZomeApiResult</span>};
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">entry</span>::<span class="ident">Entry</span>};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">entry</span>::<span class="ident">Entry</span>;
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">UpdateEntryArgs</span>;
 
 <span class="doccomment">/// Commit an entry to your local source chain that &quot;updates&quot; a previous entry, meaning when getting</span>

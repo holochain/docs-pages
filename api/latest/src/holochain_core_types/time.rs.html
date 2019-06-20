@@ -1262,13 +1262,15 @@
 <span id="1262">1262</span>
 <span id="1263">1263</span>
 <span id="1264">1264</span>
+<span id="1265">1265</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! The Iso8601 type is defined here. It is used in particular within ChainHeader to enforce that</span>
 <span class="doccomment">//! their timestamps are defined in a useful and consistent way.</span>
 
 <span class="kw">use</span> <span class="ident">chrono</span>::{<span class="ident">offset</span>::<span class="ident">FixedOffset</span>, <span class="ident">DateTime</span>, <span class="ident">TimeZone</span>};
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HolochainError</span>;
-<span class="kw">use</span> <span class="ident">json</span>::<span class="ident">JsonString</span>;
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::{<span class="ident">error</span>::<span class="ident">JsonError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+
 <span class="kw">use</span> <span class="ident">regex</span>::<span class="ident">Regex</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">de</span>, <span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -2334,7 +2336,7 @@
 
                     <span class="comment">// JSON round-tripping w/o serde or intermediates</span>
                     <span class="macro">assert_eq</span><span class="macro">!</span>(
-                        <span class="ident">Iso8601</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">iso</span>)),
+                        <span class="ident">Iso8601</span>::<span class="ident">try_from</span>(<span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="ident">iso</span>)).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">err</span>.<span class="ident">into</span>()),
                         <span class="ident">Iso8601</span>::<span class="ident">try_from</span>(<span class="string">&quot;2018-10-11T03:23:38+00:00&quot;</span>)
                     );
 

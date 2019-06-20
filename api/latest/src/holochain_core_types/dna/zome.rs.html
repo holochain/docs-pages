@@ -234,6 +234,7 @@
 <span id="234">234</span>
 <span id="235">235</span>
 <span id="236">236</span>
+<span id="237">237</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! holochain_core_types::dna::zome is a set of structs for working with holochain dna.</span>
 
@@ -245,9 +246,10 @@
         <span class="ident">wasm</span>::<span class="ident">DnaWasm</span>,
     },
     <span class="ident">entry</span>::<span class="ident">entry_type</span>::<span class="ident">EntryType</span>,
-    <span class="ident">error</span>::<span class="ident">HolochainError</span>,
-    <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
+
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::{<span class="ident">error</span>::<span class="ident">JsonError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+
 <span class="kw">use</span> <span class="ident">dna</span>::<span class="ident">entry_types</span>::{<span class="self">self</span>, <span class="ident">deserialize_entry_types</span>, <span class="ident">serialize_entry_types</span>, <span class="ident">EntryTypeDef</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 

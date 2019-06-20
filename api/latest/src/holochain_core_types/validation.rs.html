@@ -185,22 +185,24 @@
 <span id="185">185</span>
 <span id="186">186</span>
 <span id="187">187</span>
+<span id="188">188</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module defines structs that are used in the interchange</span>
 <span class="doccomment">//! of data that is used for validation of chain modifying</span>
 <span class="doccomment">//! agent actions between Holochain and Zomes.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
     <span class="ident">chain_header</span>::<span class="ident">ChainHeader</span>,
     <span class="ident">entry</span>::{
         <span class="ident">entry_type</span>::{<span class="ident">AppEntryType</span>, <span class="ident">EntryType</span>},
         <span class="ident">Entry</span>,
     },
     <span class="ident">error</span>::<span class="ident">HolochainError</span>,
-    <span class="ident">json</span>::<span class="ident">JsonString</span>,
     <span class="ident">link</span>::<span class="ident">link_data</span>::<span class="ident">LinkData</span>,
 };
+
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::{<span class="ident">error</span>::<span class="ident">JsonError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 
 <span class="kw">use</span> <span class="ident">chain_header</span>::<span class="ident">test_chain_header</span>;
 

@@ -466,6 +466,7 @@
 <span id="466">466</span>
 <span id="467">467</span>
 <span id="468">468</span>
+<span id="469">469</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This crate is an ffi wrapper to provide a c-compatible dna library.</span>
 <span class="doccomment">//!</span>
@@ -475,6 +476,7 @@
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">unused_extern_crates</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_json_api</span>;
 
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">Dna</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -484,7 +486,7 @@
     <span class="ident">panic</span>::<span class="ident">catch_unwind</span>,
 };
 
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">json</span>::<span class="ident">JsonString</span>;
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::<span class="ident">json</span>::<span class="ident">JsonString</span>;
 
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span> <span class="comment">//Tested in c_bindings_test by C based test code</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>

@@ -246,10 +246,10 @@
 <span class="kw">use</span> <span class="ident">hcid</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">agent</span>::<span class="ident">Base32</span>,
-    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
     <span class="ident">error</span>::{<span class="ident">HcResult</span>, <span class="ident">HolochainError</span>},
     <span class="ident">signature</span>::{<span class="ident">Provenance</span>, <span class="ident">Signature</span>},
 };
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">lib3h_sodium</span>::{<span class="ident">kdf</span>, <span class="ident">secbuf</span>::<span class="ident">SecBuf</span>, <span class="ident">sign</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>;
 

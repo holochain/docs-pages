@@ -333,9 +333,13 @@
 <span id="333">333</span>
 <span id="334">334</span>
 <span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="self">self</span>::{<span class="ident">RibosomeEncodedValue</span>::<span class="kw-2">*</span>, <span class="ident">RibosomeErrorCode</span>::<span class="kw-2">*</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">HolochainError</span>;
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::{<span class="ident">error</span>::<span class="ident">JsonError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+
 <span class="kw">use</span> <span class="ident">bits_n_pieces</span>::<span class="ident">u64_split_bits</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">str</span>::<span class="ident">FromStr</span>};

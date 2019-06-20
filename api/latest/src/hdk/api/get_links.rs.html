@@ -126,13 +126,14 @@
 <span id="126">126</span>
 <span id="127">127</span>
 <span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Dispatch</span>;
 <span class="kw">use</span> <span class="ident">api</span>::<span class="ident">get_entry</span>::<span class="ident">get_entry_result</span>;
 <span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">ZomeApiError</span>, <span class="ident">ZomeApiResult</span>};
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">entry</span>::<span class="ident">Entry</span>, <span class="ident">hash</span>::<span class="ident">HashString</span>, <span class="ident">link</span>::<span class="ident">LinkMatch</span>,
-};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">entry</span>::<span class="ident">Entry</span>, <span class="ident">link</span>::<span class="ident">LinkMatch</span>};
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">hash</span>::<span class="ident">HashString</span>};
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::{
     <span class="ident">get_entry</span>::{<span class="ident">GetEntryOptions</span>, <span class="ident">GetEntryResult</span>, <span class="ident">GetEntryResultItem</span>, <span class="ident">GetEntryResultType</span>},
     <span class="ident">get_links</span>::{<span class="ident">GetLinksArgs</span>, <span class="ident">GetLinksOptions</span>, <span class="ident">GetLinksResult</span>},
@@ -152,8 +153,10 @@
 <span class="doccomment">/// # extern crate hdk;</span>
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
 <span class="doccomment">/// # extern crate holochain_wasm_utils;</span>
-<span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
-<span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
+<span class="doccomment">/// # extern crate holochain_json_api;</span>
+<span class="doccomment">/// # extern crate holochain_persistence_api;</span>
+<span class="doccomment">/// # use holochain_json_api::json::JsonString;</span>
+<span class="doccomment">/// # use holochain_persistence_api::cas::content::Address;</span>
 <span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">/// # use holochain_wasm_utils::api_serialization::get_links::{GetLinksResult, GetLinksOptions};</span>
 <span class="doccomment">/// # use holochain_core_types::link::LinkMatch;</span>
@@ -198,8 +201,9 @@
 <span class="doccomment">/// # extern crate hdk;</span>
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
 <span class="doccomment">/// # extern crate holochain_wasm_utils;</span>
+<span class="doccomment">/// # extern crate holochain_persistence_api;</span>
 <span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
-<span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
+<span class="doccomment">/// # use holochain_persistence_api::cas::content::Address;</span>
 <span class="doccomment">/// # use holochain_wasm_utils::api_serialization::{</span>
 <span class="doccomment">/// #    get_entry::{GetEntryOptions, GetEntryResult},</span>
 <span class="doccomment">/// #    get_links::GetLinksOptions};</span>

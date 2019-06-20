@@ -14,12 +14,10 @@
 <span id="14">14</span>
 <span id="15">15</span>
 <span id="16">16</span>
-<span id="17">17</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">dna</span>::<span class="ident">capabilities</span>::<span class="ident">CapabilityRequest</span>, <span class="ident">error</span>::<span class="ident">HolochainError</span>,
-    <span class="ident">hash</span>::<span class="ident">HashString</span>, <span class="ident">json</span>::<span class="kw-2">*</span>,
-};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">capabilities</span>::<span class="ident">CapabilityRequest</span>;
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::{<span class="ident">error</span>::<span class="ident">JsonError</span>, <span class="ident">json</span>::<span class="kw-2">*</span>};
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">hash</span>::<span class="ident">HashString</span>};
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">DefaultJson</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZomeApiGlobals</span> {

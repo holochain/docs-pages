@@ -354,25 +354,26 @@
 <span id="354">354</span>
 <span id="355">355</span>
 <span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! developers! Detailed references and examples can be found here for how to use the</span>
 <span class="doccomment">//! HDK exposed functions to access powerful Holochain functions.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">ZomeApiError</span>, <span class="ident">ZomeApiResult</span>};
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::<span class="ident">json</span>::{<span class="ident">default_to_json</span>, <span class="ident">JsonString</span>, <span class="ident">RawString</span>};
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">hash</span>::<span class="ident">HashString</span>};
+
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
     <span class="ident">dna</span>::<span class="ident">capabilities</span>::<span class="ident">CapabilityRequest</span>,
     <span class="ident">error</span>::{<span class="ident">RibosomeEncodedAllocation</span>, <span class="ident">RibosomeEncodingBits</span>, <span class="ident">ZomeApiInternalResult</span>},
 };
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">validation</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::{
     <span class="ident">api_serialization</span>::<span class="ident">ZomeApiGlobals</span>,
-    <span class="ident">holochain_core_types</span>::{
-        <span class="ident">hash</span>::<span class="ident">HashString</span>,
-        <span class="ident">json</span>::{<span class="ident">default_to_json</span>, <span class="ident">JsonString</span>, <span class="ident">RawString</span>},
-    },
     <span class="ident">memory</span>::{<span class="ident">ribosome</span>::<span class="ident">load_ribosome_encoded_json</span>, <span class="ident">stack</span>::<span class="ident">WasmStack</span>},
 };
+
 <span class="kw">use</span> <span class="ident">init_globals</span>::<span class="ident">init_globals</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::{<span class="ident">TryFrom</span>, <span class="ident">TryInto</span>};
 
@@ -381,6 +382,7 @@
 <span class="kw">mod</span> <span class="ident">capability</span>;
 <span class="kw">mod</span> <span class="ident">commit_entry</span>;
 <span class="kw">mod</span> <span class="ident">debug</span>;
+<span class="kw">mod</span> <span class="ident">emit_signal</span>;
 <span class="kw">mod</span> <span class="ident">entry_address</span>;
 <span class="kw">mod</span> <span class="ident">get_entry</span>;
 <span class="kw">mod</span> <span class="ident">get_links</span>;
@@ -400,6 +402,7 @@
     <span class="ident">capability</span>::{<span class="ident">commit_capability_claim</span>, <span class="ident">commit_capability_grant</span>},
     <span class="ident">commit_entry</span>::{<span class="ident">commit_entry</span>, <span class="ident">commit_entry_result</span>},
     <span class="ident">debug</span>::<span class="ident">debug</span>,
+    <span class="ident">emit_signal</span>::<span class="ident">emit_signal</span>,
     <span class="ident">entry_address</span>::<span class="ident">entry_address</span>,
     <span class="ident">get_entry</span>::{<span class="ident">get_entry</span>, <span class="ident">get_entry_history</span>, <span class="ident">get_entry_initial</span>, <span class="ident">get_entry_result</span>},
     <span class="ident">get_links</span>::{<span class="ident">get_links</span>, <span class="ident">get_links_and_load</span>, <span class="ident">get_links_result</span>, <span class="ident">get_links_with_options</span>},
@@ -537,6 +540,7 @@
     <span class="ident">hc_keystore_get_public_key</span>, <span class="ident">KeystoreGetPublicKey</span>;
     <span class="ident">hc_commit_capability_grant</span>, <span class="ident">CommitCapabilityGrant</span>;
     <span class="ident">hc_commit_capability_claim</span>, <span class="ident">CommitCapabilityClaim</span>;
+    <span class="ident">hc_emit_signal</span>, <span class="ident">EmitSignal</span>;
 }
 
 <span class="comment">//--------------------------------------------------------------------------------------------------</span>

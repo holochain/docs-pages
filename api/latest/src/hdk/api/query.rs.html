@@ -95,10 +95,12 @@
 <span id="95">95</span>
 <span id="96">96</span>
 <span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Dispatch</span>;
 <span class="kw">use</span> <span class="ident">error</span>::{<span class="ident">ZomeApiError</span>, <span class="ident">ZomeApiResult</span>};
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::{
     <span class="ident">QueryArgs</span>, <span class="ident">QueryArgsNames</span>, <span class="ident">QueryArgsOptions</span>, <span class="ident">QueryResult</span>,
 };
@@ -126,9 +128,11 @@
 <span class="doccomment">/// ```rust</span>
 <span class="doccomment">/// # extern crate hdk;</span>
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
+<span class="doccomment">/// # extern crate holochain_persistence_api;</span>
+<span class="doccomment">/// # extern crate holochain_json_api;</span>
 <span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
-<span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
-<span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
+<span class="doccomment">/// # use holochain_json_api::json::JsonString;</span>
+<span class="doccomment">/// # use holochain_persistence_api::cas::content::Address;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">/// pub fn handle_my_posts_as_commited() -&gt; ZomeApiResult&lt;Vec&lt;Address&gt;&gt; {</span>

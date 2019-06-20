@@ -19,15 +19,11 @@
 <span id="19">19</span>
 <span id="20">20</span>
 <span id="21">21</span>
-<span id="22">22</span>
-<span id="23">23</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
-    <span class="ident">entry</span>::<span class="ident">cap_entries</span>::{<span class="ident">CapFunctions</span>, <span class="ident">CapabilityType</span>},
-    <span class="ident">error</span>::<span class="ident">HolochainError</span>,
-    <span class="ident">json</span>::<span class="kw-2">*</span>,
-};
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::{<span class="ident">error</span>::<span class="ident">JsonError</span>, <span class="ident">json</span>::<span class="kw-2">*</span>};
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
+
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">entry</span>::<span class="ident">cap_entries</span>::{<span class="ident">CapFunctions</span>, <span class="ident">CapabilityType</span>};
 
 <span class="comment">// arguments required for calling commit_capability_grant</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Default</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">DefaultJson</span>)]</span>

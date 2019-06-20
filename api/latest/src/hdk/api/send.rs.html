@@ -120,10 +120,17 @@
 <span id="120">120</span>
 <span id="121">121</span>
 <span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Dispatch</span>;
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">ZomeApiResult</span>;
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">time</span>::<span class="ident">Timeout</span>};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">time</span>::<span class="ident">Timeout</span>;
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">send</span>::{<span class="ident">SendArgs</span>, <span class="ident">SendOptions</span>};
 
 <span class="doccomment">/// Sends a node-to-node message to the given agent, specified by their address.</span>
@@ -139,14 +146,17 @@
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate hdk;</span>
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
+<span class="doccomment">/// # extern crate holochain_persistence_api;</span>
+<span class="doccomment">/// # extern crate holochain_json_api;</span>
 <span class="doccomment">/// # extern crate serde;</span>
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate serde_derive;</span>
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate serde_json;</span>
 <span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
-<span class="doccomment">/// # use holochain_core_types::cas::content::Address;</span>
-<span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
+<span class="doccomment">/// # use holochain_persistence_api::cas::content::Address;</span>
+<span class="doccomment">/// # use holochain_json_api::error::JsonError;</span>
+<span class="doccomment">/// # use holochain_json_api::json::JsonString;</span>
 <span class="doccomment">/// # use holochain_core_types::error::HolochainError;</span>
 <span class="doccomment">/// # use holochain_core_types::error::RibosomeEncodingBits;</span>
 <span class="doccomment">/// # use holochain_core_types::error::RibosomeEncodedValue;</span>
@@ -198,10 +208,12 @@
 <span class="doccomment">/// # pub fn hc_keystore_sign(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_keystore_get_public_key(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
-<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_commit_capability_grant(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
-<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_commit_capability_claim(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_emit_signal(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">/// fn handle_send_message(to_agent: Address, message: String) -&gt; ZomeApiResult&lt;String&gt; {</span>

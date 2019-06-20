@@ -48,17 +48,13 @@
 <span id="48">48</span>
 <span id="49">49</span>
 <span id="50">50</span>
-<span id="51">51</span>
-<span id="52">52</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/// capabilities implements the capability request functionality used to check</span>
 <span class="doccomment">/// that a given capability has been granted for actions like zome calls</span>
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
-    <span class="ident">error</span>::<span class="ident">HolochainError</span>,
-    <span class="ident">json</span>::<span class="ident">JsonString</span>,
-    <span class="ident">signature</span>::{<span class="ident">Provenance</span>, <span class="ident">Signature</span>},
-};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">signature</span>::{<span class="ident">Provenance</span>, <span class="ident">Signature</span>};
+
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::{<span class="ident">error</span>::<span class="ident">JsonError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 
 <span class="comment">//--------------------------------------------------------------------------------------------------</span>
 <span class="comment">// CapabilityRequest</span>
@@ -85,7 +81,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
+    <span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_capability_request_new</span>() {

@@ -233,10 +233,18 @@
 <span id="233">233</span>
 <span id="234">234</span>
 <span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Dispatch</span>;
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">ZomeApiResult</span>;
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::<span class="ident">json</span>::<span class="ident">JsonString</span>;
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">ZomeFnCallArgs</span>;
 
 <span class="doccomment">/// Call an exposed function from another zome or another (bridged) instance running</span>
@@ -256,7 +264,8 @@
 <span class="doccomment">/// # extern crate serde_derive;</span>
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate serde_json;</span>
-<span class="doccomment">/// # use hdk::holochain_core_types::json::JsonString;</span>
+<span class="doccomment">/// # use hdk::holochain_json_api::json::JsonString;</span>
+<span class="doccomment">/// # use hdk::holochain_json_api::error::JsonError;</span>
 <span class="doccomment">/// # use hdk::holochain_core_types::error::HolochainError;</span>
 <span class="doccomment">/// # use hdk::holochain_core_types::error::RibosomeEncodingBits;</span>
 <span class="doccomment">/// # use hdk::holochain_core_types::error::RibosomeEncodedValue;</span>
@@ -308,10 +317,12 @@
 <span class="doccomment">/// # pub fn hc_keystore_sign(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_keystore_get_public_key(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
-<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_commit_capability_grant(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
-<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_commit_capability_claim(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_emit_signal(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
@@ -354,16 +365,17 @@
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate serde_json;</span>
 <span class="doccomment">/// # #[macro_use]</span>
-<span class="doccomment">/// # extern crate holochain_core_types_derive;</span>
+<span class="doccomment">/// # extern crate holochain_json_derive;</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// # use hdk::holochain_core_types::hash::HashString;</span>
-<span class="doccomment">/// # use hdk::holochain_core_types::json::JsonString;</span>
+<span class="doccomment">/// # use hdk::holochain_persistence_api::hash::HashString;</span>
+<span class="doccomment">/// # use hdk::holochain_json_api::error::JsonError;</span>
+<span class="doccomment">/// # use hdk::holochain_json_api::json::JsonString;</span>
 <span class="doccomment">/// # use hdk::holochain_core_types::error::HolochainError;</span>
 <span class="doccomment">/// # use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">/// # use std::convert::TryInto;</span>
 <span class="doccomment">/// # use hdk::holochain_core_types::error::RibosomeEncodingBits;</span>
 <span class="doccomment">/// # use hdk::holochain_core_types::error::RibosomeEncodedValue;</span>
-<span class="doccomment">/// # use hdk::holochain_core_types::cas::content::Address;</span>
+<span class="doccomment">/// # use hdk::holochain_persistence_api::cas::content::Address;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # // Adding empty functions so that the cfg(test) build can link.</span>
 <span class="doccomment">/// # #[no_mangle]</span>
@@ -412,10 +424,12 @@
 <span class="doccomment">/// # pub fn hc_keystore_sign(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_keystore_get_public_key(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
-<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_commit_capability_grant(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
-<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_commit_capability_claim(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_emit_signal(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>

@@ -196,14 +196,12 @@
 <span id="196">196</span>
 <span id="197">197</span>
 <span id="198">198</span>
-<span id="199">199</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! File holding all the structs for handling entry types defined by DNA.</span>
 
 <span class="kw">use</span> <span class="ident">dna</span>::<span class="ident">zome</span>::<span class="ident">ZomeEntryTypes</span>;
 <span class="kw">use</span> <span class="ident">entry</span>::<span class="ident">entry_type</span>::<span class="ident">EntryType</span>;
-<span class="kw">use</span> <span class="ident">error</span>::<span class="ident">HolochainError</span>;
-<span class="kw">use</span> <span class="ident">json</span>::<span class="ident">JsonString</span>;
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::{<span class="ident">error</span>::<span class="ident">JsonError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">ser</span>::<span class="ident">SerializeMap</span>, <span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>, <span class="ident">Serializer</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 

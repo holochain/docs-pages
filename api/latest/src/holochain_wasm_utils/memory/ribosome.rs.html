@@ -332,6 +332,8 @@
 <span id="332">332</span>
 <span id="333">333</span>
 <span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// extends memory allocation to work with ribosome encodings</span>
 
@@ -341,8 +343,10 @@
         <span class="ident">HolochainError</span>, <span class="ident">RibosomeEncodedAllocation</span>, <span class="ident">RibosomeEncodedValue</span>, <span class="ident">RibosomeEncodingBits</span>,
         <span class="ident">RibosomeErrorCode</span>,
     },
-    <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
+
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::<span class="ident">json</span>::<span class="ident">JsonString</span>;
+
 <span class="kw">use</span> <span class="ident">memory</span>::{
     <span class="ident">allocation</span>::{<span class="ident">AllocationError</span>, <span class="ident">AllocationResult</span>, <span class="ident">WasmAllocation</span>},
     <span class="ident">stack</span>::<span class="ident">WasmStack</span>,

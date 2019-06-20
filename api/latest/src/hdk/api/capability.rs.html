@@ -33,15 +33,11 @@
 <span id="33">33</span>
 <span id="34">34</span>
 <span id="35">35</span>
-<span id="36">36</span>
-<span id="37">37</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Dispatch</span>;
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">ZomeApiResult</span>;
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
-    <span class="ident">entry</span>::<span class="ident">cap_entries</span>::{<span class="ident">CapFunctions</span>, <span class="ident">CapabilityType</span>},
-};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">entry</span>::<span class="ident">cap_entries</span>::{<span class="ident">CapFunctions</span>, <span class="ident">CapabilityType</span>};
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">capabilities</span>::{
     <span class="ident">CommitCapabilityClaimArgs</span>, <span class="ident">CommitCapabilityGrantArgs</span>,
 };

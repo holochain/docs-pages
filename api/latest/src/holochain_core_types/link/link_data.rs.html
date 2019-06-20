@@ -178,16 +178,14 @@
 <span id="178">178</span>
 <span id="179">179</span>
 <span id="180">180</span>
-<span id="181">181</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">agent</span>::<span class="ident">AgentId</span>,
-    <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>,
     <span class="ident">chain_header</span>::<span class="ident">ChainHeader</span>,
-    <span class="ident">error</span>::<span class="ident">HolochainError</span>,
-    <span class="ident">json</span>::<span class="ident">JsonString</span>,
     <span class="ident">link</span>::{<span class="ident">Link</span>, <span class="ident">LinkActionKind</span>},
 };
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::{<span class="ident">error</span>::<span class="ident">JsonError</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 
 <span class="comment">//-------------------------------------------------------------------------------------------------</span>
 <span class="comment">// LinkData</span>
@@ -270,15 +268,15 @@
 
     <span class="kw">use</span> <span class="kw">crate</span>::{
         <span class="ident">agent</span>::<span class="ident">test_agent_id</span>,
-        <span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">AddressableContent</span>,
         <span class="ident">chain_header</span>::<span class="ident">test_chain_header</span>,
         <span class="ident">entry</span>::{<span class="ident">test_entry_a</span>, <span class="ident">test_entry_b</span>, <span class="ident">Entry</span>},
-        <span class="ident">json</span>::<span class="ident">JsonString</span>,
         <span class="ident">link</span>::{
             <span class="ident">link_data</span>::<span class="ident">LinkData</span>,
             <span class="ident">tests</span>::{<span class="ident">example_link</span>, <span class="ident">example_link_action_kind</span>, <span class="ident">example_link_type</span>},
         },
     };
+    <span class="kw">use</span> <span class="ident">holochain_json_api</span>::<span class="ident">json</span>::<span class="ident">JsonString</span>;
+    <span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">AddressableContent</span>;
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">example_link_add</span>() <span class="op">-&gt;</span> <span class="ident">LinkData</span> {

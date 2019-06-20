@@ -439,6 +439,10 @@
 <span id="439">439</span>
 <span id="440">440</span>
 <span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This file contains the define_zome! macro, and smaller helper macros.</span>
 
@@ -506,19 +510,21 @@
 <span class="doccomment">/// # extern crate boolinator;</span>
 <span class="doccomment">/// # extern crate holochain_core_types;</span>
 <span class="doccomment">/// # #[macro_use]</span>
-<span class="doccomment">/// # extern crate holochain_core_types_derive;</span>
+<span class="doccomment">/// # extern crate holochain_json_derive;</span>
+<span class="doccomment">/// # extern crate holochain_json_api;</span>
+<span class="doccomment">/// # extern crate holochain_persistence_api;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::Entry;</span>
 <span class="doccomment">/// # use holochain_core_types::entry::entry_type::AppEntryType;</span>
-<span class="doccomment">/// # use holochain_core_types::json::JsonString;</span>
+<span class="doccomment">/// # use holochain_json_api::{error::JsonError, json::JsonString};</span>
 <span class="doccomment">/// # use holochain_core_types::error::HolochainError;</span>
 <span class="doccomment">/// # use holochain_core_types::error::RibosomeEncodedValue;</span>
 <span class="doccomment">/// # use boolinator::Boolinator;</span>
 <span class="doccomment">/// use hdk::error::ZomeApiResult;</span>
 <span class="doccomment">/// use holochain_core_types::{</span>
-<span class="doccomment">///     cas::content::Address,</span>
 <span class="doccomment">///     dna::entry_types::Sharing,</span>
 <span class="doccomment">///     validation::EntryValidationData</span>
 <span class="doccomment">/// };</span>
+<span class="doccomment">/// # use holochain_persistence_api::cas::content::Address;</span>
 <span class="doccomment">/// # use holochain_core_types::error::RibosomeEncodingBits;</span>
 <span class="doccomment">/// # // Adding empty functions so that the cfg(test) build can link.</span>
 <span class="doccomment">/// # #[no_mangle]</span>
@@ -567,10 +573,12 @@
 <span class="doccomment">/// # pub fn hc_keystore_sign(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_keystore_get_public_key(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
-<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_commit_capability_grant(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
-<span class="doccomment">/// #[no_mangle]</span>
+<span class="doccomment">/// # #[no_mangle]</span>
 <span class="doccomment">/// # pub fn hc_commit_capability_claim(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
+<span class="doccomment">/// # #[no_mangle]</span>
+<span class="doccomment">/// # pub fn hc_emit_signal(_: RibosomeEncodingBits) -&gt; RibosomeEncodingBits { RibosomeEncodedValue::Success.into() }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # fn main() {</span>
 <span class="doccomment">///</span>
@@ -715,7 +723,7 @@
                 <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">hdk</span>::<span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodedValue</span>::<span class="ident">Success</span>.<span class="ident">into</span>(),
                 <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">memory</span>::<span class="ident">ribosome</span>::<span class="ident">return_code_for_allocation_result</span>(
                     <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">global_fns</span>::<span class="ident">write_json</span>(
-                        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">holochain_core_types</span>::<span class="ident">json</span>::<span class="ident">RawString</span>::<span class="ident">from</span>(<span class="ident">e</span>)
+                        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_wasm_utils</span>::<span class="ident">holochain_json_api</span>::<span class="ident">json</span>::<span class="ident">RawString</span>::<span class="ident">from</span>(<span class="ident">e</span>)
                     )
                 ).<span class="ident">into</span>(),
             }
@@ -821,7 +829,7 @@
 
         <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
         <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">__install_panic_handler</span>() <span class="op">-&gt;</span> () {
-            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::{<span class="macro-nonterminal">api</span>::<span class="ident">debug</span>, <span class="ident">holochain_core_types</span>::<span class="ident">json</span>::<span class="ident">RawString</span>};
+            <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::{<span class="macro-nonterminal">api</span>::<span class="ident">debug</span>, <span class="ident">holochain_json_api</span>::<span class="ident">json</span>::<span class="ident">RawString</span>};
             <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">panic</span>;
             <span class="ident">panic</span>::<span class="ident">set_hook</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">info</span><span class="op">|</span> {
                 <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">debug</span>(<span class="ident">RawString</span>::<span class="ident">from</span>(
@@ -859,7 +867,7 @@
                     }
 
                     <span class="comment">// Macro&#39;d InputStruct</span>
-                    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Debug</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_core_types_derive</span>::<span class="ident">DefaultJson</span>)]</span>
+                    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Debug</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">holochain_json_derive</span>::<span class="ident">DefaultJson</span>)]</span>
                     <span class="kw">struct</span> <span class="ident">InputStruct</span> {
                         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_name</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">input_param_type</span>),<span class="op">*</span>
                     }

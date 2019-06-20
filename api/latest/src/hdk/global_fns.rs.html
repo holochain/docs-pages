@@ -35,12 +35,14 @@
 <span id="35">35</span>
 <span id="36">36</span>
 <span id="37">37</span>
+<span id="38">38</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This file contains small helper functions relating to WASM memory management</span>
 <span class="doccomment">//! and serialization used throughout the HDK.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">api</span>::<span class="ident">G_MEM_STACK</span>;
-<span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">error</span>::<span class="ident">RibosomeEncodingBits</span>, <span class="ident">json</span>::<span class="ident">JsonString</span>};
+<span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">error</span>::<span class="ident">RibosomeEncodingBits</span>;
+<span class="kw">use</span> <span class="ident">holochain_json_api</span>::<span class="ident">json</span>::<span class="ident">JsonString</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">api_serialization</span>::<span class="ident">validation</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">holochain_wasm_utils</span>::<span class="ident">memory</span>::{
     <span class="ident">allocation</span>::{<span class="ident">AllocationError</span>, <span class="ident">AllocationResult</span>, <span class="ident">WasmAllocation</span>},
