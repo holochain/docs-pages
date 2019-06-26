@@ -122,7 +122,7 @@
                                  <pre>nix-shell --pure</pre>
                                  Tells nix-shell to try and isolate common conflicts.<br />
                                  Try <a href="https://nixos.org/nix/manual/#options-1" target="_blank">this option</a> first if you see errors where others are not.<br />
-                                 The <a href="https://github.com/holochain/holochain-rust/blob/develop/scripts/nix/pod.sh" target="_blank">"nix pod" in holochain core</a> isolates assertively for debugging.
+                                 The <a href="https://github.com/holochain/holochain-rust/blob/develop/scripts/nix/pod.sh" target="_blank">"nix pod" in holochain core</a> isolates more aggressively for debugging.
                                 </p>
                                </div>
 
@@ -304,7 +304,7 @@
                                           hc --version
                                          </code>
                                         </p>
-            
+
                                         <p>
                                          <code>
                                           holochain --version
@@ -321,7 +321,7 @@
                                          </code>
                                         </p>
 
-                                        <h2>Your First App</h2>
+                                        <h2>Your first app</h2>
 
                                         <p>
                                          The hc tool can generate the basics of a new Holochain app.<br />
@@ -472,17 +472,17 @@
 
                                         <p>
                                          In the meantime you will need to work with a virtual machine.<br />
-                                         The process is similar to working with a local web server.
-                                         There are holochain friendly options for both <a href="https://hub.docker.com/r/holochain/holochain-rust" target="_blank">Docker</a> and <a href="https://holochain.love/box" target="_blank">Vagrant</a>.<br />
-                                         It is relatively simple to create custom setups with official NixOS boxes.<br />
+                                         The process is similar to working with a local web server.<br />
+                                         There are holochain optimised options for both <a href="https://hub.docker.com/r/holochain/holochain-rust" target="_blank">Docker</a> and <a href="https://holochain.love/box" target="_blank">Vagrant</a>.<br />
+                                         It is relatively simple to create custom setups with the official NixOS boxes.<br />
                                         </p>
 
                                         <p>
                                          <strong>This guide explains using NixOS with Vagrant/VirtualBox.</strong><br />
                                          Feel free to use Docker or another Vagrant provider if it suits you.<br />
                                          This guide is designed to be as inclusive as possible.<br />
-                                         Docker on Windows requires Windows Pro.<br />
-                                         VirtualBox is also generally more accessible than the alternatives.
+                                         Docker on Windows requires Windows Pro (costs money).<br />
+                                         VirtualBox is generally more accessible than alternative providers.
                                         </p>
 
                                         <p>
@@ -495,138 +495,172 @@
                                          </ul>
                                         </p>
 
-                                        <h3>About NixOS & Nix tools</h3>
+                                        <h3>About Vagrant</h3>
 
                                         <p>
-                                         We use the <a href="https://nixos.org/" target="_blank">NixOS</a> package manager to develop Holochain core and apps.<br />
-                                         NixOS is the operating system used by HoloPorts and&hellip;<br />
-                                         <strong>Nix tools work natively across Mac OS X and Linux</strong>.
+                                         Vagrant is a tool for configuring virtual machines or "boxes".<br />
+                                         The configuration is stored in a Vagrantfile in each project.<br />
+                                         This way everyone working on a project gets (roughly) the same box.
                                         </p>
 
                                         <p>
-                                         The main nix tools used in Holochain development are:
+                                         The <a href="https://github.com/holochain/holochain-rust/blob/develop/Vagrantfile" target="_blank">Vagrantfile used by core</a> is a good starting point.<br />
+                                         Let's assume we want to create a new app called "my_first_app".<br />
+                                         We need to (in order):<br />
+                                         <ol>
+                                          <li>Create a new folder for the app</li>
+                                          <li>Copy a Vagrantfile into place</li>
+                                          <li>Boot the virtual machine from the Vagrantfile</li>
+                                          <li>SSH into the booted machine</li>
+                                          <li>Run Holochain/NixOS commands inside the machine</li>
+                                         </ol>
+                                        </p>
+
+                                        <h4>Shared folders</h4>
+
+                                        <p>
+                                         By default Vagrant syncs a "shared folder" automatically.<br />
+                                         The shared folder always looks the same inside and outside the box.<br />
+                                         The default is to share the project folder into "/vagrant" inside the box.<br />
+                                        </p>
+
+                                        <p>
+                                         A typical workflow with shared folders:<br />
                                          <ul>
-                                          <li>nix-shell: a managed bash shell</li>
-                                          <li>nix-env: a cross-platform package manager</li>
+                                          <li>Write code outside the box</li>
+                                          <li>Do version control and git outside the box</li>
+                                          <li>Run tests inside the box</li>
+                                          <li><strong>Use holochain tools like hc inside the box</strong></li>
                                          </ul>
-                                         It is convenient that we can provide standard development tools and packages with a single tool across many operating systems.
+                                        </p>
+
+                                        <h4>Managing boxes</h4>
+
+                                        <p>
+                                         There are some key commands common to all Vagrant projects.<br />
+                                         These commands must be run from inside the project folder.
                                         </p>
 
                                         <p>
-                                         While working on Holochain you will usually have a nix shell active.<br />
-                                         When you close the shell all the extra dependencies will be cleaned up.<br />
+                                         <pre>vagrant up</pre>
+                                         Boots the vagrant box for the project.
                                         </p>
 
+                                        <p>
+                                         <pre>vagrant halt</pre>
+                                         Shut down the vagrant box for the project.
+                                        </p>
 
                                         <p>
-                                            To develop with Holochain, a managed work environment
-                                            is provided for your machine that is guaranteed to have the required
-                                            dependencies. It’s called a “nix-shell.” To
-                                            develop, you will want to work “inside” the nix-shell, which is a wrapper
-                                            around your normal shell that comes with all the requirements built-in, and
-                                            leaves your normal shell untampered with for all your other development
-                                            needs. In the case of Windows, as nix-shell is not native to it, this
-                                            requires
-                                            also working inside a Virtual Machine, "Vagrant".
+                                         <pre>vagrant destroy</pre>
+                                         Delete the vagrant box for the project.<br />
+                                         Undeleted boxes use disk space and maybe other resources.
                                         </p>
+
                                         <p>
-                                            OPen a command line terminal, and run each of the following commands, in
-                                            order:
+                                         <pre>vagrant ssh</pre>
+                                         Log into the vagrant box for the project in the current terminal.
                                         </p>
-                                        <ol>
-                                            <li>
-                                                <p>
-                                                    Clone the holochain repository, in order to access the Holochain
-                                                    "nix-shell":
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        git clone https://github.com/holochain/holochain-rust.git
-                                                    </code>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    Enter the new holochain-rust directory:
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        cd holochain-rust
-                                                    </code>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    Install a required vagrant plugin:
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        vagrant plugin install vagrant-disksize
-                                                    </code>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    Set up and configure the virtual machine:
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        vagrant up
-                                                    </code>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    Enter a "secure shell" SSH session in the virtual machine:
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        vagrant ssh
-                                                    </code>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    Change directories into the holochain-rust folder:
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        cd /vagrant
-                                                    </code>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    Enter the nix-shell environment:
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        nix-shell
-                                                    </code>
-                                                </p>
-                                                <p>
-                                                    This can take a moderately long time the first time, depending on
-                                                    network and computer speed.
-                                                    It takes less time in future cases. Your shell context should become
-                                                    neon green and
-                                                    begin with "[nix-shell:".
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    Test that you can access the tools:
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        hc --version
-                                                    </code>
-                                                </p>
-                                                <p>
-                                                    You should see a version number that represents the version of
-                                                    Holochain that you're using.
-                                                </p>
-                                            </li>
-                                        </ol>
+
+                                        <h4>NixOS box</h4>
+
+                                        <p>
+                                         The Vagrantfile used in this guide uses NixOS.<br />
+                                         This means we don't have to install any additional nix tooling.<br />
+                                         It also means that box configuration must be done with nix.<br />
+                                         This is why the <a href="https://github.com/nix-community/vagrant-nixos-plugin" target="_blank">vagrant nixos plugin</a> must be installed.
+                                        </p>
+
+                                        <p>
+                                         If you haven't already, install vagrant-nixos-plugin with this command:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          vagrant plugin install vagrant-nixos-plugin
+                                         </code>
+                                        </p>
+
+                                        <h3>Your first app</h3>
+
+                                        <p>
+                                         <strong>Important note:</strong><br />
+                                         All these commands assume Windows powershell version 2+.<br />
+                                         The basic process is the same for all systems.
+                                        </p>
+
+                                        <h4>Project Vagrantfile</h4>
+
+                                        <p>
+                                         We are creating a new project "my_first_app".<br />
+                                         Some of these commands can take a while the first time.<br />
+                                         Most of the "heavy" work is reused after the initial setup.<br />
+                                         Create a new folder and open it in terminal:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          mkdir my_first_app
+                                          cd my_first_app
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         Copy the basic Holochain optimised Vagrantfile:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          wget https://gist.githubusercontent.com/thedavidmeister/8e92696538fe04cf6b44552e14d29195/raw/4dcb83b983e8dcd2f5db213b0cde5a533af556a6/Vagrantfile -outfile Vagrantfile
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         Download and boot the box:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          vagrant up
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         SSH into the box:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          vagrant ssh
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         Move into the shared folder and test the tools:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          cd /vagrant<br />
+                                          nix-shell<br />
+                                          hc --version<br />
+                                          holochain --version<br />
+                                         </code>
+                                         You should see version numbers displayed.
+                                        </p>
+
+                                        <p>
+                                         (Still inside the nix-shell)<br />
+                                         Use hc to init the app and cleanup:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          hc init my_first_app
+                                          ( shopt -s dotglob; mv my_first_app/* .; rmdir my_first_app )
+                                         </code>
+                                        </p>
+
                                         <div>
                                             <p>
                                                 Anytime that would like to use the Holochain command line tools, you
