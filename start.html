@@ -64,7 +64,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start</h1>
-                <div class="meta"><i class="far fa-clock"></i> Last updated: Jun 19, 2019</div>
+                <div class="meta"><i class="far fa-clock"></i> Last updated: Jun 26, 2019</div>
             </div>
             <!--//doc-header-->
             <div class="doc-body row">
@@ -93,94 +93,177 @@
                                                     <p>
                                                         Hardware:
                                                         <ul>
-                                                            <li>16GB+ RAM minimum</li>
+                                                          <li>16GB+ RAM (including swap)</li>
+                                                          <li>4+ CPU (6+ CPU recommended)</li>
+                                                          <li>30GB+ available disk space</li>
+                                                          <li>Internet connection</li>
                                                         </ul>
                                                     </p>
                                                     <p>
-                                                        Software:
+                                                        Installed software:
                                                         <ul>
-                                                            <li><a href="https://nixos.org/nix/about.html"
-                                                                    target="_blank">nix-shell</a> (instructions included
-                                                                below)</li>
+                                                            <li><a href="https://nixos.org/nix/download.html"
+                                                                    target="_blank">nix-shell</a> (click link for instructions)</li>
+                                                            <li><a href="https://apps.apple.com/us/app/xcode/id497799835?mt=12" target="_blank">Xcode developer tools</a> (mac only, installed from app store)</li>
                                                         </ul>
                                                     </p>
                                                 </div>
                                             </div>
                                         </p>
                                         <p>
-                                            To develop with Holochain, a managed work environment
-                                            is provided for your machine that is guaranteed to have the required
-                                            dependencies. It’s called a “nix-shell.” To
-                                            develop, you will want to work “inside” the nix-shell, which is a wrapper
-                                            around your normal shell that comes with all the requirements built-in, and
-                                            leaves your normal shell untampered with for all your other development
-                                            needs.
+                                         We use the <a href="https://nixos.org/" target="_blank">NixOS</a> package manager to develop Holochain core and apps.<br />
+                                         NixOS is the operating system used by HoloPorts and&hellip;<br />
+                                         <strong>Nix tools work natively across Mac OS X and Linux</strong>.
+                                        </p>
+
+                                        <p>
+                                         The main nix tools used in Holochain development are:
+                                         <ul>
+                                          <li>nix-shell: a managed bash shell</li>
+                                          <li>nix-env: a cross-platform package manager</li>
+                                         </ul>
+                                         It is convenient that we can provide standard development tools and packages with a single tool across many operating systems.
+                                        </p>
+
+                                        <p>
+                                         While working on Holochain you will usually have a nix shell active.<br />
+                                         When you close the shell all the extra dependencies will be cleaned up.<br />
+                                        </p>
+
+                                        <h3>Install nix shell</h3>
+
+                                        <p>
+                                         If you did not already install nix shell do that now.</br>
+                                         Open a command line terminal and run:<br />
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          curl https://nixos.org/nix/install | sh
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         Follow any additional instructions at the end of the installation process.
+                                        </p>
+
+                                        <h3>Enter the nix shell</h3>
+
+                                        <p>
+                                         Nix is configured by default.nix files.<br />
+                                         These set all dependencies and variables added to your terminal.<br />
+                                         There is a master default.nix file updated from time to time.<br />
+                                         You can extend this or use it directly from <a href="https://holochain.love" target="_blank">https://holochain.love</a>.<br />
+                                         Opening a shell from holochain.love downloads updates automatically.
+                                        </p>
+
+                                        <p>
+                                         To enter a nix shell environment open a new terminal window and run:
+                                        <p>
+
+                                        <p>
+                                         <code>
+                                          nix-shell https://holochain.love
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         The first try will take some time to download.<br />
+                                         It is much faster after the initial download.<br />
+                                         You will see a neon green prompt starting with:<br />
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          [nix-shell:
+                                         </code>
+                                        </p>
+
+                                        <h3>Try the holochain tools</h3>
+
+                                        <p>
+                                         In the nix shell you can access Holochain dev tools:
+                                        </p>
+
+                                        <p>
+                                         <ul>
+                                          <li>hc: A general purpose app development toolkit.</li>
+                                          <li>holochain: Runs holochain apps.</li>
+                                         </ul>
+                                        </p>
+
+                                        <p>
+                                         You can see both are installed by checking their versions.<br />
+                                         Inside a nix shell run:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          hc --version
+                                          holochain --version
+                                         </code>
+                                        </p>
+
+                                        <h3>Exit the nix shell</h3>
+
+                                        <p>
+                                          Nix cleans up everything it adds when closed.<br />
+                                          You need to re-enter the shell each time you want to work.<br />
+                                          To close nix shell run this inside the shell:
                                         </p>
                                         <p>
-                                            Open a command line terminal and run each of the following commands, in
-                                            order:
+                                            <code>
+                                                exit
+                                            </code>
                                         </p>
-                                        <ol>
-                                            <li>
-                                                <p>
-                                                    Install nix:
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        curl https://nixos.org/nix/install | sh
-                                                    </code>
-                                                </p>
-                                                <p>
-                                                    Follow any additional instructions noted towards the end of the logs
-                                                    from the installation process.
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    Enter the nix-shell environment, by using the URL provided which downloads and configures it correctly:
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        nix-shell https://holochain.love
-                                                    </code>
-                                                </p>
-                                                <p>
-                                                    This can take a moderately long time the first time, depending on
-                                                    network and computer speed.
-                                                    It takes less time in future cases. Your shell context should become
-                                                    neon green and
-                                                    begin with "[nix-shell:".
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    Test that you can access the tools:
-                                                </p>
-                                                <p>
-                                                    <code>
-                                                        hc --version
-                                                    </code>
-                                                </p>
-                                                <p>
-                                                    You should see a version number that represents the version of
-                                                    Holochain that you're using.
-                                                </p>
-                                            </li>
-                                        </ol>
-                                        <div>
-                                            <p>
-                                                Anytime that would like to use the Holochain command line tools, you
-                                                will want to initialize a nix-shell session first, which will require
-                                                you to perform step 2 again. When you are done, and
-                                                wish to exit nix-shell, just run the following command:
-                                            </p>
-                                            <p>
-                                                <code>
-                                                    exit
-                                                </code>
-                                            </p>
-                                        </div>
+
+                                        <h3>Permanently install holochain tools (optional)</h3>
+
+                                        <p>
+                                         nix-env can be used to permanently install holochain tools.<br />
+                                         This means that hc and holochain can be run at any time.<br />
+                                         nix-env can also uninstall tools it installs.<br />
+                                        </p>
+
+                                        <p>
+                                         <strong>nix-env installations override nix-shell.</strong><br />
+                                         Use nix-shell if you want the latest releases.<br />
+                                         Use nix-env if you want a single copy of the tools everywhere.
+                                        </p>
+
+                                        <p>
+                                         To install holochain and hc with nix-env run (on one line):
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          nix-env -f https://holochain.love -iA holochain.holochain holochain.hc
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         Test this by running the following <em>outside</em> nix-shell:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          hc --version<br />
+                                          holochain --version
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         To uninstall holochain and hc with nix-env run:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          nix-env -e holochain hc
+                                         </code>
+                                        </p>
+
                                     </div>
+
                                     <div class="tab-pane fade" id="rust-windows" role="tabpanel"
                                         aria-labelledby="rust-windows">
                                         <p>
@@ -200,9 +283,11 @@
                                                         Operating System & Software:
                                                         <ul>
                                                             <li>Windows 8+</li>
-                                                            <li>git</li>
-                                                            <li>Vagrant</li>
-                                                            <li>VirtualBox</li>
+                                                            <li>Powershell 2.0+</li>
+                                                            <li><a href="https://git-scm.com/download/win" target="_blank">git installed</a></li>
+                                                            <li><a href="https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.msi" target="_blank">Vagrant</a></li>
+                                                            <li><a href="https://download.virtualbox.org/virtualbox/6.0.8/VirtualBox-6.0.8-130520-Win.exe" target="_blank">VirtualBox</a></li>
+                                                            <li><a href="https://github.com/nix-community/vagrant-nixos-plugin" target="_blank">Vagrant nixos plugin</a></li>
                                                         </ul>
                                                     </p>
                                                 </div>
@@ -446,7 +531,7 @@
         })
     })
 </script>
-    
+
 <footer class="footer holochain-green-blue-gradient">
         <div class="container">
             <div class="row">
@@ -515,8 +600,8 @@
         </div>
     </footer>
     <!--//footer-->
-    
-    
+
+
     <!-- Main Javascript -->
     <script type="text/javascript" src="/assets/plugins/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
