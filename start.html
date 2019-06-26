@@ -73,16 +73,85 @@
                         <section id="development-section" class="doc-section">
                             <h2 class="section-title">Development Tools Installation</h2>
                             <div class="section-block">
-                                <p>Please select an appropriate set of instructions for your operating system</p>
+
+                                <p>
+                                 We use the <a href="https://nixos.org/" target="_blank">NixOS</a> toolkit to develop Holochain core and apps.<br />
+                                 <strong>NixOS development tools run on many operating systems</strong>.<br />
+                                 NixOS is also the OS used by automated testing and for HoloPorts.<br />
+                                </p>
+
+                                <p>
+                                 The main components of the tooling are:
+                                 <ul>
+                                  <li>The Rust programming language</li>
+                                  <li>NodeJS and npm</li>
+                                  <li>Cryptographic libraries</li>
+                                  <li>Common automations and scripts</li>
+                                 </ul>
+                                 It is important these are kept consistent across compatible apps and core.<br />
+                                 The <a href="https://github.com/holochain/holonix" target="_blank">Holonix</a> repository tracks standard shared dependencies.<br />
+                                 Typically you won't ever need to interact with Holonix directly.
+                                </p>
+
+                                <p>
+                                 The main Nix tools used in Holochain dev workflows are:
+                                 <ul>
+                                  <li><strong>nix-shell</strong>: a managed bash shell</li>
+                                  <li><strong>nix-env</strong>: a cross-platform package manager</li>
+                                 </ul>
+                                 Many popular package management tools target only a single OS.<br />
+                                 NixOS package management supports most development environments.
+                                </p>
+
+                                <p>
+                                 While working on Holochain you will usually have a nix-shell active.<br />
+                                 When you close the shell all the extra dependencies will be cleaned up.<br />
+                                </p>
+
+                                <p>
+                                 The full suite of Nix tooling is broad and deep.<br />
+                                 There is even a dedicated OS and functional programming language.<br />
+                                 Learn more with <a href="https://nixos.wiki/" target="_blank">the wiki</a> or the <a href="https://nixos.org/nixos/nix-pills/why-you-should-give-it-a-try.html" target="_blank">"pills" tutorial</a>.<br />
+                                 The community chat at <a href="https://webchat.freenode.net/" target="_blank">#nixos on freenode</a> is active and helpful.
+                                </p>
+
+                                <p>
+                                 <strong>Troubleshooting note (--pure option):</strong><br />
+                                 By default nix-shell only <em>adds</em> new things to your bash shell.<br />
+                                 Your existing setup <em>could</em> override nix-shell and conflict with expectations.<br />
+                                 <pre>nix-shell --pure</pre>
+                                 Tells nix-shell to try and isolate common conflicts.<br />
+                                 Try <a href="https://nixos.org/nix/manual/#options-1" target="_blank">this option</a> first if you see errors where others are not.<br />
+                                 The <a href="https://github.com/holochain/holochain-rust/blob/develop/scripts/nix/pod.sh" target="_blank">"nix pod" in holochain core</a> isolates assertively for debugging.
+                                </p>
+                               </div>
+
+                               <h2 class="section-title">Basic setup</h2>
+                               <div class="section-block">
+
+                                <p>
+                                 Let's start with some basics:
+
+                                 <ul>
+                                  <li>Holochain (run Holochain apps natively!)</li>
+                                  <li>The Holochain app development tool</li>
+                                  <li>The NixOS toolkit</li>
+                                  <li>A skeleton app</li>
+                                 </ul>
+                                </p>
+
+                                <h3>Select your operating system</h3>
+
                                 <nav>
                                     <div class="nav nav-tabs nav-fill" role="tablist">
                                         <a class="nav-item nav-link active" data-toggle="tab" href="#rust-mac-linux"
                                             role="tab" aria-controls="rust-mac-linux" aria-selected="true">Mac
                                             & Linux</a>
                                         <a class="nav-item nav-link" data-toggle="tab" href="#rust-windows" role="tab"
-                                            aria-controls="rust-windows" aria-selected="false">Windows</a>
+                                            aria-controls="rust-windows" aria-selected="false">Windows or Vagrant/Docker</a>
                                     </div>
                                 </nav>
+
                                 <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
                                     <div class="tab-pane fade show active" id="rust-mac-linux" role="tabpanel"
                                         aria-labelledby="rust-mac-linux">
@@ -100,40 +169,23 @@
                                                         </ul>
                                                     </p>
                                                     <p>
-                                                        Installed software:
+                                                        Pre-installed software:
                                                         <ul>
-                                                            <li><a href="https://nixos.org/nix/download.html"
-                                                                    target="_blank">nix-shell</a> (click link for instructions)</li>
-                                                            <li><a href="https://apps.apple.com/us/app/xcode/id497799835?mt=12" target="_blank">Xcode developer tools</a> (mac only, installed from app store)</li>
+                                                            <li><a href="https://apps.apple.com/us/app/xcode/id497799835?mt=12" target="_blank">Xcode developer tools</a> (mac only)</li>
                                                         </ul>
                                                     </p>
                                                 </div>
                                             </div>
                                         </p>
-                                        <p>
-                                         We use the <a href="https://nixos.org/" target="_blank">NixOS</a> package manager to develop Holochain core and apps.<br />
-                                         NixOS is the operating system used by HoloPorts and&hellip;<br />
-                                         <strong>Nix tools work natively across Mac OS X and Linux</strong>.
-                                        </p>
-
-                                        <p>
-                                         The main nix tools used in Holochain development are:
-                                         <ul>
-                                          <li>nix-shell: a managed bash shell</li>
-                                          <li>nix-env: a cross-platform package manager</li>
-                                         </ul>
-                                         It is convenient that we can provide standard development tools and packages with a single tool across many operating systems.
-                                        </p>
-
-                                        <p>
-                                         While working on Holochain you will usually have a nix shell active.<br />
-                                         When you close the shell all the extra dependencies will be cleaned up.<br />
-                                        </p>
 
                                         <h3>Install nix shell</h3>
 
                                         <p>
-                                         If you did not already install nix shell do that now.</br>
+                                         If you have not already installed nix shell do that now.<br />
+                                         The official instructions <a href="https://nixos.org/nix/download.html" target="_blank">are here</a>.
+                                        </p>
+
+                                        <p>
                                          Open a command line terminal and run:<br />
                                         </p>
 
@@ -144,7 +196,9 @@
                                         </p>
 
                                         <p>
-                                         Follow any additional instructions at the end of the installation process.
+                                         Follow any additional instructions at the end of the installation process.<br />
+                                         It should be a smooth process.<br />
+                                         Check the instructions linked above for any troubleshooting.
                                         </p>
 
                                         <h3>Enter the nix shell</h3>
@@ -199,12 +253,7 @@
 
                                         <p>
                                          <code>
-                                          hc --version
-                                         </code>
-                                        </p>
-            
-                                        <p>
-                                         <code>
+                                          hc --version<br />
                                           holochain --version
                                          </code>
                                         </p>
@@ -272,6 +321,112 @@
                                          </code>
                                         </p>
 
+                                        <h2>Your First App</h2>
+
+                                        <p>
+                                         The hc tool can generate the basics of a new Holochain app.<br />
+                                         hc is available in nix-shell or can be installed by nix-env.
+                                        </p>
+
+
+                                        <p>
+                                         The command to generate a new app is "hc init <your-app-here>".<br />
+                                         Let's create a new app called "my_first_app".<br />
+
+                                         To do this with hc run:
+                                        </p>
+
+                                        <p>
+                                            <code>
+                                                hc init my_first_app
+                                            </code>
+                                        </p>
+
+                                        <p>
+                                         The basic structure of a Holochain project is now in the "my_first_app" folder.<br />
+                                         Explore it in a file browser or text editor.
+                                        </p>
+
+                                        <p>
+                                         Once you have a feel for what was created try generating a "zome".<br />
+                                         A "zome" is just what we call the source code of a Holochain app.
+                                        </p>
+
+                                        <p>
+                                         First make sure your terminal is working from the "my_first_app" folder.<br />
+                                         Run the following to "change directory" to the app:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                         cd my_first_app
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         You should see that you are in the nix-shell in the directory.<br />
+                                         It will look something like this:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          [nix-shell:~/my_first_app]$
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         Next run:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          hc generate zomes/my_zome
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         This will add real Rust code into the "zomes/my_zome" sub folder.<br />
+                                         You can open the generated code in a text editor and start building!<br />
+                                        </p>
+
+                                        <p>
+                                         The generated zomes come with a simple automated test suite.<br />
+                                         The tests can be found in "my_first_app/test/index.js".<br />
+                                         The tests can be run with the test command:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                             hc test
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         To learn more about the hc tool, run the help command:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          hc help
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         <strong>Note on coding with Rust</strong><br />
+                                         You do <em>not</em> need to be a Rust expert to write Holochain code.<br />
+                                         Writing validation rules for Holochain requires relatively modest Rust.<br />
+                                         For example you can ignore most of concurrency, memory management, etc.<br />
+                                         The <a href="https://doc.rust-lang.org/stable/book/" target="_blank">Rust book</a> is well written and detailed for beginners.<br />
+                                         That said, Rust is a low level language.<br />
+                                         Expect things to be somewhat verbose compared to e.g. JavaScript.
+                                        </p>
+
+                                        <p>
+                                         <strong>Next steps</strong><br />
+                                         Go create peer to peer applications on Holochain!<br />
+                                         Check out the <a href="/guide">Holochain Guidebook</a> and <a href="/api">HDK API Reference</a>.
+                                        </p>
+
                                     </div>
 
                                     <div class="tab-pane fade" id="rust-windows" role="tabpanel"
@@ -303,6 +458,66 @@
                                                 </div>
                                             </div>
                                         </p>
+
+                                        <h3>Important notice</h3>
+                                        <p>
+                                         Holochain development uses the same tools across Mac, Windows and Linux.<br />
+                                         BUT&hellip; NixOS tools (see below) only work natively on Mac and Linux.<br />
+                                        </p>
+
+                                        <p>
+                                         We expect this to change in the future.<br />
+                                         <a href="https://github.com/NixOS/nixpkgs/issues/30391" target="_blank">NixOS for Windows is under active development!</a>
+                                        </p>
+
+                                        <p>
+                                         In the meantime you will need to work with a virtual machine.<br />
+                                         The process is similar to working with a local web server.
+                                         There are holochain friendly options for both <a href="https://hub.docker.com/r/holochain/holochain-rust" target="_blank">Docker</a> and <a href="https://holochain.love/box" target="_blank">Vagrant</a>.<br />
+                                         It is relatively simple to create custom setups with official NixOS boxes.<br />
+                                        </p>
+
+                                        <p>
+                                         <strong>This guide explains using NixOS with Vagrant/VirtualBox.</strong><br />
+                                         Feel free to use Docker or another Vagrant provider if it suits you.<br />
+                                         This guide is designed to be as inclusive as possible.<br />
+                                         Docker on Windows requires Windows Pro.<br />
+                                         VirtualBox is also generally more accessible than the alternatives.
+                                        </p>
+
+                                        <p>
+                                         <strong>This guide <em>requires</em> that you already installed:</strong>
+                                         <ul>
+                                          <li><a href="https://git-scm.com/download/win" target="_blank">git</a></li>
+                                          <li><a href="https://download.virtualbox.org/virtualbox/6.0.8/VirtualBox-6.0.8-130520-Win.exe" target="_blank">VirtualBox</a></li>
+                                          <li><a href="https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.msi" target="_blank">Vagrant</a></li>
+                                          <li><a href="https://github.com/nix-community/vagrant-nixos-plugin" target="_blank">Vagrant NixOS plugin</a></li>
+                                         </ul>
+                                        </p>
+
+                                        <h3>About NixOS & Nix tools</h3>
+
+                                        <p>
+                                         We use the <a href="https://nixos.org/" target="_blank">NixOS</a> package manager to develop Holochain core and apps.<br />
+                                         NixOS is the operating system used by HoloPorts and&hellip;<br />
+                                         <strong>Nix tools work natively across Mac OS X and Linux</strong>.
+                                        </p>
+
+                                        <p>
+                                         The main nix tools used in Holochain development are:
+                                         <ul>
+                                          <li>nix-shell: a managed bash shell</li>
+                                          <li>nix-env: a cross-platform package manager</li>
+                                         </ul>
+                                         It is convenient that we can provide standard development tools and packages with a single tool across many operating systems.
+                                        </p>
+
+                                        <p>
+                                         While working on Holochain you will usually have a nix shell active.<br />
+                                         When you close the shell all the extra dependencies will be cleaned up.<br />
+                                        </p>
+
+
                                         <p>
                                             To develop with Holochain, a managed work environment
                                             is provided for your machine that is guaranteed to have the required
@@ -438,68 +653,6 @@
                                 </div>
                             </div>
                         </section>
-                        <section id="getting-started-section" class="doc-section">
-                            <h2 class="section-title">Starter Code For Your First App</h2>
-                            <div class="section-block">
-                                <p>To generate starter code in a new folder for a Holochain app, run:</p>
-
-                                <p>
-                                    <code>
-                                        hc init my_first_app
-                                    </code>
-                                </p>
-
-                                <p>In the new "my_first_app" folder is the basic structure of a new Holochain project.
-                                    Open it up in a file browser or text editor to start to check it out.</p>
-
-                                <p>Once you've completed that, you will be able to generate a new "Zome," the basic
-                                    module format for Holochain.</p>
-
-                                <p>To try it, make sure your terminal is set to the directory of "my_first_app" by
-                                    running</p>
-
-                                <p>
-                                    <code>
-                                        cd my_first_app
-                                    </code>
-                                </p>
-
-                                <p>and then run:</p>
-
-                                <p>
-                                    <code>
-                                        hc generate zomes/my_zome
-                                    </code>
-                                </p>
-
-                                <p>This will add some starter code into the "zomes/my_zome" sub folder, which you can
-                                    open
-                                    up in a text editor and start checking out!</p>
-
-
-                                <p>To run the tests (found in the “my_first_app/test/index.js” file), run the following
-                                    command:</p>
-
-                                <p>
-                                    <code>
-                                        hc test
-                                    </code>
-                                </p>
-
-                                <p>Otherwise, to familiarize with the tools, run the following command:</p>
-
-                                <p>
-                                    <code>
-                                        hc help
-                                    </code>
-                                </p>
-
-                                <p>Next Step: You now have the tools necessary to create completely peer to peer
-                                    applications using Holochain. Check the <a href="/guide">Holochain Guidebook</a> and <a href="/api">HDK API Reference</a>
-                                    for
-                                    more information about Holochain and how to develop hApps.</p>
-                            </div>
-                        </section>
                     </div>
                 </div>
                 <!--//doc-content-->
@@ -507,7 +660,6 @@
                     <div id="doc-nav" class="doc-nav">
                         <nav id="doc-menu" class="nav doc-menu flex-column sticky">
                             <a class="nav-link scrollto" href="#development-section">Installation</a>
-                            <a class="nav-link scrollto" href="#getting-started-section">Starter Code</a>
                         </nav>
                         <!--//doc-menu-->
                     </div>
