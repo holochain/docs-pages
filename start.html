@@ -505,6 +505,7 @@
 
                                         <p>
                                          The <a href="https://github.com/holochain/holochain-rust/blob/develop/Vagrantfile" target="_blank">Vagrantfile used by core</a> is a good starting point.<br />
+                                         This guide uses a "light" version of the core Vagrantfile to cut download times.<br />
                                          Let's assume we want to create a new app called "my_first_app".<br />
                                          We need to (in order):<br />
                                          <ol>
@@ -600,7 +601,7 @@
 
                                         <p>
                                          <code>
-                                          mkdir my_first_app
+                                          mkdir my_first_app<br />
                                           cd my_first_app
                                          </code>
                                         </p>
@@ -612,6 +613,16 @@
                                         <p>
                                          <code>
                                           wget https://gist.githubusercontent.com/thedavidmeister/8e92696538fe04cf6b44552e14d29195/raw/4dcb83b983e8dcd2f5db213b0cde5a533af556a6/Vagrantfile -outfile Vagrantfile
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         Copy the default.nix file for nix-shell config:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          wget https://gist.githubusercontent.com/thedavidmeister/48dafda7600cae0c6071aedbd9d3125b/raw/f0136d430d047d8930c07dd51a6de316a348f46c/default.nix -outfile default.nix
                                          </code>
                                         </p>
 
@@ -646,6 +657,8 @@
                                           hc --version<br />
                                           holochain --version<br />
                                          </code>
+                                        </p>
+                                       </p>
                                          You should see version numbers displayed.
                                         </p>
 
@@ -662,12 +675,7 @@
                                         </p>
 
                                         <div>
-                                            <p>
-                                                Anytime that would like to use the Holochain command line tools, you
-                                                will want to initialize a nix-shell session first, which will require
-                                                you to perform steps 2, 5, 6, and 7 again. When you are done, and
-                                                wish to exit nix-shell, just run the following command:
-                                            </p>
+
                                             <p>
                                                 <code>
                                                     exit
