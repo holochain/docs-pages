@@ -659,7 +659,8 @@
                                          </code>
                                         </p>
                                        </p>
-                                         You should see version numbers displayed.
+                                         You should see version numbers displayed.<br />
+                                         All holochain tooling is available while in the shell in vagrant.
                                         </p>
 
                                         <p>
@@ -669,28 +670,81 @@
 
                                         <p>
                                          <code>
-                                          hc init my_first_app
+                                          hc init my_first_app<br />
                                           ( shopt -s dotglob; mv my_first_app/* .; rmdir my_first_app )
                                          </code>
                                         </p>
 
-                                        <div>
+                                        <p>
+                                         Still inside the nix-shell in vagrant run:
+                                        </p>
 
-                                            <p>
-                                                <code>
-                                                    exit
-                                                </code>
-                                            </p>
-                                            <p>
-                                                Since Vagrant is also a shell, you will want to exit it as well, by
-                                                running the following:
-                                            </p>
-                                            <p>
-                                                <code>
-                                                    exit
-                                                </code>
-                                            </p>
-                                        </div>
+                                        <p>
+                                         <code>
+                                          hc generate zomes/my_zome
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         This will add real Rust code into the "zomes/my_zome" sub folder.<br />
+                                         You can open the generated code in a text editor <em>outside Vagrant</em> and start building!<br />
+                                        </p>
+
+                                        <p>
+                                         The generated zomes come with a simple automated test suite.<br />
+                                         The tests can be found in "my_first_app/test/index.js".<br />
+                                         The tests can be run with the test command (inside the shell/vagrant):
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                             hc test
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         To learn more about the hc tool, run the help command:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          hc help
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         To close vagrant and the shell you need to <em>exit twice</em>:
+                                        </p>
+
+                                        <p>
+                                         <code>
+                                          exit<br />
+                                          exit<br />
+                                         </code>
+                                        </p>
+
+                                        <p>
+                                         This first exits the shell then the vagrant ssh.<br />
+                                         To re-enter the shell you must be inside vagrant.<br />
+                                         To re-enter vagrant run "vagrant ssh" from the project.
+                                        </p>
+
+                                        <p>
+                                         <strong>Note on coding with Rust</strong><br />
+                                         You do <em>not</em> need to be a Rust expert to write Holochain code.<br />
+                                         Writing validation rules for Holochain requires relatively modest Rust.<br />
+                                         For example you can ignore most of concurrency, memory management, etc.<br />
+                                         The <a href="https://doc.rust-lang.org/stable/book/" target="_blank">Rust book</a> is well written and detailed for beginners.<br />
+                                         That said, Rust is a low level language.<br />
+                                         Expect things to be somewhat verbose compared to e.g. JavaScript.
+                                        </p>
+
+                                        <p>
+                                         <strong>Next steps</strong><br />
+                                         Go create peer to peer applications on Holochain!<br />
+                                         Check out the <a href="/guide">Holochain Guidebook</a> and <a href="/api">HDK API Reference</a>.
+                                        </p>
+                                         
                                     </div>
                                 </div>
                             </div>
