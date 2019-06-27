@@ -601,8 +601,8 @@
 
                                         <p>
                                          <code>
-                                          mkdir my_first_app<br />
-                                          cd my_first_app
+                                          mkdir holochain-vagrant<br />
+                                          cd holochain-vagrant
                                          </code>
                                         </p>
 
@@ -661,12 +661,12 @@
                                         <p>
                                          <code>
                                           hc init my_first_app<br />
-                                          ( shopt -s dotglob; mv my_first_app/* .; rmdir my_first_app )
+                                          cd my_first_app
                                          </code>
                                         </p>
 
                                         <p>
-                                         Still inside the nix-shell in vagrant run:
+                                         Still inside the my_first_app directory in the nix-shell in vagrant run:
                                         </p>
 
                                         <p>
@@ -677,7 +677,7 @@
 
                                         <p>
                                          This will add real Rust code into the "zomes/my_zome" sub folder.<br />
-                                         You can open the generated code in a text editor <em>outside Vagrant</em> and start building!<br />
+                                         You can open the generated code in a text editor <em>outside Vagrant</em> at "holochain-vagrant/my_first_app/" and start building!<br />
                                         </p>
 
                                         <p>
