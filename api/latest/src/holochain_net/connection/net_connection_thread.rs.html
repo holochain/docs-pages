@@ -230,12 +230,14 @@
 <span id="230">230</span>
 <span id="231">231</span>
 <span id="232">232</span>
+<span id="233">233</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="ident">net_connection</span>::{<span class="ident">NetHandler</span>, <span class="ident">NetSend</span>, <span class="ident">NetShutdown</span>, <span class="ident">NetWorkerFactory</span>},
     <span class="ident">protocol</span>::<span class="ident">Protocol</span>,
     <span class="ident">NetResult</span>,
 };
+<span class="kw">use</span> <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">sync</span>::{
         <span class="ident">atomic</span>::{<span class="ident">AtomicBool</span>, <span class="ident">Ordering</span>},
@@ -279,7 +281,7 @@
         <span class="kw">let</span> (<span class="ident">send_endpoint</span>, <span class="ident">recv_endpoint</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">channel</span>();
 
         <span class="comment">// Spawn worker thread</span>
-        <span class="kw">let</span> <span class="ident">thread</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
+        <span class="kw">let</span> <span class="ident">thread</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">Builder</span>::<span class="ident">new</span>().<span class="ident">name</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;net_worker_thread/{}&quot;</span>, <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>())).<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="comment">// Create worker</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">worker</span> <span class="op">=</span> <span class="ident">worker_factory</span>(<span class="ident">handler</span>).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Failure while attempting to create network worker with provided P2pConfig. Error: {:?}&quot;</span>, <span class="ident">e</span>)
@@ -337,7 +339,7 @@
             <span class="ident">worker</span>.<span class="ident">stop</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;Error occured in p2p network module on stop: {:?}&quot;</span>, <span class="ident">e</span>)
             });
-        });
+        }).<span class="ident">expect</span>(<span class="string">&quot;Could not spawn net connection thread&quot;</span>);
 
         <span class="comment">// Retrieve endpoint from spawned thread.</span>
         <span class="kw">let</span> <span class="ident">endpoint</span> <span class="op">=</span> <span class="ident">recv_endpoint</span>.<span class="ident">recv</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["create_handler","Creates the network handler. The returned closure is called by the network thread for every network event that core has to handle."]],"mod":[["fetch",""],["query",""],["send",""],["store",""]]});

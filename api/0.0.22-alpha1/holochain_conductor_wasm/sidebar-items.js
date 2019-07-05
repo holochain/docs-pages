@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["fast_foo","There isn't really any reason to export this but we need something to prove out the wasm build"]]});

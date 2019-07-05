@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["test_agent_id",""],["test_agent_id_with_name",""]],"static":[["BAD_ID",""],["GOOD_ID",""],["TOO_BAD_ID",""]],"struct":[["AgentId","AgentId represents an agent in the Holochain framework. This data struct is meant be stored in the CAS and source-chain. Its key is the public signing key, and is also used as its address."]],"type":[["Base32",""]]});

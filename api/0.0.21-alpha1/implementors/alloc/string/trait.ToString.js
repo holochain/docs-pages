@@ -1,0 +1,10 @@
+(function() {var implementors = {};
+implementors["holochain_core_types"] = [{text:"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html\" title=\"trait alloc::string::ToString\">ToString</a> for <a class=\"struct\" href=\"holochain_core_types/entry/entry_type/struct.AppEntryType.html\" title=\"struct holochain_core_types::entry::entry_type::AppEntryType\">AppEntryType</a>",synthetic:false,types:["holochain_core_types::entry::entry_type::AppEntryType"]},{text:"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html\" title=\"trait alloc::string::ToString\">ToString</a> for <a class=\"struct\" href=\"holochain_core_types/error/struct.RibosomeEncodedAllocation.html\" title=\"struct holochain_core_types::error::RibosomeEncodedAllocation\">RibosomeEncodedAllocation</a>",synthetic:false,types:["holochain_core_types::error::ribosome_error::RibosomeEncodedAllocation"]},{text:"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html\" title=\"trait alloc::string::ToString\">ToString</a> for <a class=\"enum\" href=\"holochain_core_types/error/enum.RibosomeEncodedValue.html\" title=\"enum holochain_core_types::error::RibosomeEncodedValue\">RibosomeEncodedValue</a>",synthetic:false,types:["holochain_core_types::error::ribosome_error::RibosomeEncodedValue"]},{text:"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html\" title=\"trait alloc::string::ToString\">ToString</a> for <a class=\"enum\" href=\"holochain_core_types/error/enum.RibosomeErrorCode.html\" title=\"enum holochain_core_types::error::RibosomeErrorCode\">RibosomeErrorCode</a>",synthetic:false,types:["holochain_core_types::error::ribosome_error::RibosomeErrorCode"]},];
+
+            if (window.register_implementors) {
+                window.register_implementors(implementors);
+            } else {
+                window.pending_implementors = implementors;
+            }
+        
+})()

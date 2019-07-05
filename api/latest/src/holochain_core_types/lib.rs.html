@@ -70,19 +70,12 @@
 <span id="70">70</span>
 <span id="71">71</span>
 <span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Holochain Core Types</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The reason for having this crate is to have a minimal but</span>
 <span class="doccomment">//! complete set of types that are used in most other Holochain</span>
 <span class="doccomment">//! crates, but that don&#39;t include Holochain itself.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Note: This is already quite big. Maybe break the CAS and EAV traits</span>
-<span class="doccomment">//! out into their separate crate as well since those are generic and not</span>
-<span class="doccomment">//! necessarily bound to Holochain.</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_from</span>)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">try_trait</span>)]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">never_type</span>)]</span>
@@ -126,6 +119,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">link</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">signature</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">time</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ugly</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">validation</span>;
 
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">GIT_HASH</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="macro">env</span><span class="macro">!</span>(

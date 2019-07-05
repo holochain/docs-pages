@@ -322,6 +322,7 @@
 <span id="322">322</span>
 <span id="323">323</span>
 <span id="324">324</span>
+<span id="325">325</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module contains all the necessary definitions for Entry, which broadly speaking</span>
 <span class="doccomment">//! refers to any data which will be written into the ContentAddressableStorage, or the EntityAttributeValueStorage.</span>
@@ -395,6 +396,7 @@
     <span class="ident">AgentId</span>(<span class="ident">AgentId</span>),
     <span class="ident">Deletion</span>(<span class="ident">DeletionEntry</span>),
     <span class="ident">LinkAdd</span>(<span class="ident">LinkData</span>),
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">large_enum_variant</span>)]</span>
     <span class="ident">LinkRemove</span>((<span class="ident">LinkData</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>)),
     <span class="ident">LinkList</span>(<span class="ident">LinkList</span>),
     <span class="ident">ChainHeader</span>(<span class="ident">ChainHeader</span>),

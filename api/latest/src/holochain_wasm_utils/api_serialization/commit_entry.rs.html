@@ -101,7 +101,7 @@
 
 <span class="kw">impl</span> <span class="ident">CommitEntryArgs</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">entry</span>: <span class="ident">Entry</span>, <span class="ident">options</span>: <span class="ident">CommitEntryOptions</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">return</span> <span class="self">Self</span> { <span class="ident">entry</span>, <span class="ident">options</span> };
+        <span class="self">Self</span> { <span class="ident">entry</span>, <span class="ident">options</span> }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">entry</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Entry</span> {

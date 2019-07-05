@@ -118,6 +118,7 @@
 <span id="118">118</span>
 <span id="119">119</span>
 <span id="120">120</span>
+<span id="121">121</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module contains definitions for what a Link is in Holochain, as well as</span>
 <span class="doccomment">//! structs relating to the adding and removing of links between entries</span>
@@ -195,6 +196,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span> <span class="ident">LinkMatch</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">wrong_self_convention</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_regex_string</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">re_string</span>: <span class="ident">String</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident">LinkMatch</span>::<span class="ident">Any</span> <span class="op">=&gt;</span> <span class="string">&quot;.*&quot;</span>.<span class="ident">into</span>(),

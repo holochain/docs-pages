@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["EmitSignalArgs","Struct for input data received when invoke_emit_signal is called"]]});
