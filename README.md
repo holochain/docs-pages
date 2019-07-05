@@ -42,11 +42,15 @@ You will also need the `mdbook` command, which is used to build the Guide book. 
 cargo install --version 0.2.2 mdbook
 ```
 
+### Rebuilding "latest"/develop branch Guide and API Ref
+
 To rebuild the `latest` versions of the guidebook and api reference, which is the `develop` branch of holochain-rust, run
 ```shell
 ./build_docs.sh develop latest
 ```
 > The first argument is the branch/tag, the second is the folder name to put it in.
+
+### Adding a New Version
 
 To add a new version, run something like (making the appropriate changes)
 ```shell
