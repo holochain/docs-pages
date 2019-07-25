@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["create_get_links_eavi_query",""]],"struct":[["DhtStore","The state-slice for the DHT. Holds the agent's local shard and interacts with the network module"]]});
+initSidebarItems({"fn":[["create_get_links_eavi_query",""]],"static":[["DHT_STORE_SNAPSHOT_ADDRESS",""]],"struct":[["DhtStore","The state-slice for the DHT. Holds the CAS and EAVi that's used for the agent's local shard as well as the holding list, i.e. list of all entries held for the DHT."],["DhtStoreSnapshot",""]]});

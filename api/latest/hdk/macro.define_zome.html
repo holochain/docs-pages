@@ -1,13 +1,19 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `define_zome` macro in crate `hdk`."><meta name="keywords" content="rust, rustlang, rust-lang, define_zome"><title>hdk::define_zome - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc macro"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='..//index.html'><img src='../rust-logo.png' alt='logo' width='100'></a><div class="sidebar-elems"><p class='location'><a href='index.html'>hdk</a></p><script>window.sidebarCurrent = {name: 'define_zome', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/hdk/macros.rs.html#214-445' title='goto source code'>[src]</a></span><span class='in-band'>Macro <a href='index.html'>hdk</a>::<wbr><a class="macro" href=''>define_zome</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><div class="example-wrap"><pre class="rust macro">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `define_zome` macro in crate `hdk`."><meta name="keywords" content="rust, rustlang, rust-lang, define_zome"><title>hdk::define_zome - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc macro"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../hdk/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>hdk</a></p><script>window.sidebarCurrent = {name: 'define_zome', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/hdk/macros.rs.html#219-462' title='goto source code'>[src]</a></span><span class='in-band'>Macro <a href='index.html'>hdk</a>::<wbr><a class="macro" href=''>define_zome</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><div class="example-wrap"><pre class="rust macro">
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">define_zome</span> {
     (
         <span class="ident">entries</span> : [
             $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">entry_expr</span>:<span class="ident">expr</span> ),<span class="op">*</span>
         ]
 
-        <span class="ident">genesis</span> : <span class="op">||</span> {
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">genesis_expr</span>:<span class="ident">expr</span>
+        <span class="ident">init</span> : <span class="op">||</span> {
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">init_expr</span>:<span class="ident">expr</span>
         }
+
+
+        <span class="ident">validate_agent</span>: <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">agent_validation_param</span>:<span class="ident">ident</span> : <span class="ident">EntryValidationData</span>::<span class="op">&lt;</span><span class="ident">AgentId</span><span class="op">&gt;</span><span class="op">|</span> {
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">agent_validation_expr</span>:<span class="ident">expr</span>
+        }
+
 
         $(
             <span class="ident">receive</span> : <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">receive_from</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">receive_param</span>:<span class="ident">ident</span><span class="op">|</span> {
@@ -41,7 +47,7 @@ macro in the main library file in their Zome.
 The <code>define_zome</code> macro has 4 component parts:</p>
 <ol>
 <li>entries: an array of <a href="entry_definition/struct.ValidatingEntryType.html">ValidatingEntryType</a> as returned by using the <a href="macro.entry.html">entry</a> macro</li>
-<li>genesis: <code>genesis</code> is a callback called by Holochain to every Zome implemented within a DNA.
+<li>init: <code>init</code> is a callback called by Holochain to every Zome implemented within a DNA.
 It gets called when a new agent is initializing an instance of the DNA for the first time, and
 should return <code>Ok</code> or an <code>Err</code>, depending on whether the agent can join the network or not.</li>
 <li>receive (optional): <code>receive</code> is a callback called by Holochain when another agent on a hApp has initiated a node-to-node direct message.
@@ -105,7 +111,11 @@ That node-to-node message is initiated via the <a href="api/fn.send.html"><stron
         )
     ]
 
-    <span class="ident">genesis</span>: <span class="op">||</span> {
+    <span class="ident">init</span>: <span class="op">||</span> {
+        <span class="prelude-val">Ok</span>(())
+    }
+     
+    <span class="ident">validate_agent</span>: <span class="op">|</span><span class="ident">validation_data</span> : <span class="ident">EntryValidationData</span>::<span class="op">&lt;</span><span class="ident">AgentId</span><span class="op">&gt;</span><span class="op">|</span> {
         <span class="prelude-val">Ok</span>(())
     }
 

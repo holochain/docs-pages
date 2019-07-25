@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/state.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>state.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../..//index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/state.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>state.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../holochain_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -348,6 +348,13 @@
 <span id="348">348</span>
 <span id="349">349</span>
 <span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::<span class="ident">ActionWrapper</span>,
@@ -377,6 +384,7 @@
     <span class="ident">eav</span>::<span class="ident">IndexFilter</span>,
 };
 
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">dht</span>::<span class="ident">dht_store</span>::<span class="ident">DhtStoreSnapshot</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections</span>::<span class="ident">HashSet</span>,
     <span class="ident">convert</span>::<span class="ident">TryInto</span>,
@@ -426,17 +434,30 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_agent_and_nucleus</span>(
         <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
         <span class="ident">agent_state</span>: <span class="ident">AgentState</span>,
-        <span class="kw-2">mut</span> <span class="ident">nucleus_state</span>: <span class="ident">NucleusState</span>,
+        <span class="ident">nucleus_state</span>: <span class="ident">NucleusState</span>,
     ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">cas</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">dht_storage</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="ident">eav</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">eav_storage</span>.<span class="ident">clone</span>();
+
+        <span class="kw">let</span> <span class="ident">dht_store</span> <span class="op">=</span> <span class="ident">DhtStore</span>::<span class="ident">new</span>(<span class="ident">cas</span>.<span class="ident">clone</span>(), <span class="ident">eav</span>.<span class="ident">clone</span>());
+        <span class="self">Self</span>::<span class="ident">new_with_agent_nucleus_dht</span>(<span class="ident">context</span>, <span class="ident">agent_state</span>, <span class="ident">nucleus_state</span>, <span class="ident">dht_store</span>)
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_agent_nucleus_dht</span>(
+        <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
+        <span class="ident">agent_state</span>: <span class="ident">AgentState</span>,
+        <span class="kw-2">mut</span> <span class="ident">nucleus_state</span>: <span class="ident">NucleusState</span>,
+        <span class="ident">dht_store</span>: <span class="ident">DhtStore</span>,
+    ) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="ident">cas</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">dht_storage</span>.<span class="ident">clone</span>();
+        <span class="comment">//let eav = context.eav_storage.clone();</span>
 
         <span class="ident">nucleus_state</span>.<span class="ident">dna</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">get_dna</span>(<span class="kw-2">&amp;</span><span class="ident">agent_state</span>, <span class="ident">cas</span>.<span class="ident">clone</span>()).<span class="ident">ok</span>();
 
         <span class="ident">State</span> {
             <span class="ident">nucleus</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">nucleus_state</span>),
             <span class="ident">agent</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">agent_state</span>),
-            <span class="ident">dht</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">DhtStore</span>::<span class="ident">new</span>(<span class="ident">cas</span>.<span class="ident">clone</span>(), <span class="ident">eav</span>.<span class="ident">clone</span>())),
+            <span class="ident">dht</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">dht_store</span>),
             <span class="ident">network</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">NetworkState</span>::<span class="ident">new</span>()),
             <span class="ident">history</span>: <span class="ident">HashSet</span>::<span class="ident">new</span>(),
             <span class="ident">conductor_api</span>: <span class="ident">context</span>.<span class="ident">conductor_api</span>.<span class="ident">clone</span>(),
@@ -506,17 +527,24 @@
         <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
         <span class="ident">agent_snapshot</span>: <span class="ident">AgentStateSnapshot</span>,
         <span class="ident">nucleus_snapshot</span>: <span class="ident">NucleusStateSnapshot</span>,
+        <span class="ident">dht_store_snapshot</span>: <span class="ident">DhtStoreSnapshot</span>,
     ) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">agent_state</span> <span class="op">=</span> <span class="ident">AgentState</span>::<span class="ident">new_with_top_chain_header</span>(
-            <span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">dht_storage</span>.<span class="ident">clone</span>()),
+            <span class="ident">ChainStore</span>::<span class="ident">new</span>(<span class="ident">context</span>.<span class="ident">chain_storage</span>.<span class="ident">clone</span>()),
             <span class="ident">agent_snapshot</span>.<span class="ident">top_chain_header</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">h</span><span class="op">|</span> <span class="ident">h</span>.<span class="ident">to_owned</span>()),
             <span class="ident">context</span>.<span class="ident">agent_id</span>.<span class="ident">address</span>(),
         );
         <span class="kw">let</span> <span class="ident">nucleus_state</span> <span class="op">=</span> <span class="ident">NucleusState</span>::<span class="ident">from</span>(<span class="ident">nucleus_snapshot</span>);
-        <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">new_with_agent_and_nucleus</span>(
+        <span class="kw">let</span> <span class="ident">dht_store</span> <span class="op">=</span> <span class="ident">DhtStore</span>::<span class="ident">new_with_holding_list</span>(
+            <span class="ident">context</span>.<span class="ident">dht_storage</span>.<span class="ident">clone</span>(),
+            <span class="ident">context</span>.<span class="ident">eav_storage</span>.<span class="ident">clone</span>(),
+            <span class="ident">dht_store_snapshot</span>.<span class="ident">holding_list</span>,
+        );
+        <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">new_with_agent_nucleus_dht</span>(
             <span class="ident">context</span>.<span class="ident">clone</span>(),
             <span class="ident">agent_state</span>,
             <span class="ident">nucleus_state</span>,
+            <span class="ident">dht_store</span>,
         ))
     }
 
@@ -650,20 +678,6 @@
                 .<span class="ident">expect</span>(<span class="string">&quot;Tried to use dropped state&quot;</span>)
                 .<span class="ident">network</span>,
         )
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_from_snapshots</span>(
-        <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
-        <span class="ident">agent_snapshot</span>: <span class="ident">AgentStateSnapshot</span>,
-        <span class="ident">nucleus_snapshot</span>: <span class="ident">NucleusStateSnapshot</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">HcResult</span><span class="op">&lt;</span><span class="ident">StateWrapper</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">StateWrapper</span> {
-            <span class="ident">state</span>: <span class="prelude-val">Some</span>(<span class="ident">State</span>::<span class="ident">try_from_snapshots</span>(
-                <span class="ident">context</span>,
-                <span class="ident">agent_snapshot</span>,
-                <span class="ident">nucleus_snapshot</span>,
-            )<span class="question-mark">?</span>),
-        })
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_headers</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">entry_address</span>: <span class="ident">Address</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ChainHeader</span><span class="op">&gt;</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {

@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["LinkDirection",""]],"struct":[["EntryValidationArgs",""],["LinkValidationArgs",""],["LinkValidationPackageArgs",""]]});
+initSidebarItems({"enum":[["LinkDirection",""]],"struct":[["AgentIdValidationArgs",""],["EntryValidationArgs",""],["LinkValidationArgs",""],["LinkValidationPackageArgs",""]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["NetworkQuery",""],["NetworkQueryResult",""]]});
+initSidebarItems({"enum":[["GetLinksNetworkQuery",""],["GetLinksNetworkResult",""],["NetworkQuery",""],["NetworkQueryResult",""]]});

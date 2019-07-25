@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/nucleus/ribosome/api/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../light.css" id="themeStyle"><script src="../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../..//index.html'><img src='../../../../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../settings.html"><img src="../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/nucleus/ribosome/api/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../light.css" id="themeStyle"><script src="../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../../holochain_core/index.html'><div class='logo-container'><img src='../../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../settings.html"><img src="../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -364,6 +364,19 @@
 <span id="364">364</span>
 <span id="365">365</span>
 <span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Module for ZomeApiFunctions</span>
 <span class="doccomment">//! ZomeApiFunctions are the functions provided by the ribosome that are callable by Zomes.</span>
@@ -375,6 +388,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">entry_address</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">get_entry</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">get_links</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">get_links_count</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">init_globals</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">link_entries</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
@@ -402,6 +416,7 @@
         <span class="ident">entry_address</span>::<span class="ident">invoke_entry_address</span>,
         <span class="ident">get_entry</span>::<span class="ident">invoke_get_entry</span>,
         <span class="ident">get_links</span>::<span class="ident">invoke_get_links</span>,
+        <span class="ident">get_links_count</span>::<span class="ident">invoke_get_links_count</span>,
         <span class="ident">init_globals</span>::<span class="ident">invoke_init_globals</span>,
         <span class="ident">keystore</span>::{
             <span class="ident">invoke_keystore_derive_key</span>, <span class="ident">invoke_keystore_derive_seed</span>,
@@ -460,6 +475,9 @@
 
     <span class="doccomment">/// Retrieve links from the DHT</span>
     <span class="string">&quot;hc_get_links&quot;</span>, <span class="ident">GetLinks</span>, <span class="ident">invoke_get_links</span>;
+
+    <span class="comment">//Retrieve link count from DHT</span>
+    <span class="string">&quot;hc_get_links_count&quot;</span>, <span class="ident">GetLinksCount</span>, <span class="ident">invoke_get_links_count</span>;
 
     <span class="doccomment">/// Query the local chain for entries</span>
     <span class="string">&quot;hc_query&quot;</span>, <span class="ident">Query</span>, <span class="ident">invoke_query</span>;
@@ -607,6 +625,14 @@
 
     (func
         (export &quot;__hdk_validate_app_entry&quot;)
+        (param $allocation i64)
+        (result i64)
+
+        (i64.const 0)
+    )
+
+    (func
+        (export &quot;__hdk_validate_agent_entry&quot;)
         (param $allocation i64)
         (result i64)
 

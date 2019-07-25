@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["LinksStatusRequestKind",""]],"struct":[["GetLinksArgs",""],["GetLinksOptions",""],["GetLinksResult",""],["LinksResult",""]]});
+initSidebarItems({"enum":[["LinksStatusRequestKind",""]],"struct":[["GetLinksArgs",""],["GetLinksOptions",""],["GetLinksResult",""],["GetLinksResultCount",""],["LinksResult",""]]});

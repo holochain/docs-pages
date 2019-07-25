@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["hold_and_publish_test","Reply with some data in hold_list"],["publish_entry_stress_test",""],["setup_three_nodes","Do normal setup: 'TrackDna' & 'Connect', and check that we received 'PeerConnected'"]]});
+initSidebarItems({"fn":[["hold_and_publish_test","Reply with some data in hold_list"],["publish_entry_stress_test",""],["setup_three_nodes","Do normal setup: 'TrackDna' & 'Connect', and check that we received 'Connected'"]]});

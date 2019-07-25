@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `net/src/p2p_network.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>p2p_network.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../..//index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `net/src/p2p_network.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>p2p_network.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../holochain_net/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -160,6 +160,40 @@
 <span id="160">160</span>
 <span id="161">161</span>
 <span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! This module provides the main abstraction for differing p2p backends</span>
 <span class="doccomment">//! P2pNetwork instances take a json configuration string</span>
@@ -169,7 +203,6 @@
     <span class="ident">connection</span>::{
         <span class="ident">net_connection</span>::{<span class="ident">NetHandler</span>, <span class="ident">NetSend</span>, <span class="ident">NetWorker</span>, <span class="ident">NetWorkerFactory</span>},
         <span class="ident">net_connection_thread</span>::<span class="ident">NetConnectionThread</span>,
-        <span class="ident">protocol</span>::<span class="ident">Protocol</span>,
         <span class="ident">NetResult</span>,
     },
     <span class="ident">in_memory</span>::<span class="ident">memory_worker</span>::<span class="ident">InMemoryWorker</span>,
@@ -178,6 +211,8 @@
     <span class="ident">p2p_config</span>::<span class="kw-2">*</span>,
     <span class="ident">tweetlog</span>::<span class="kw-2">*</span>,
 };
+<span class="kw">use</span> <span class="ident">lib3h_protocol</span>::{<span class="ident">protocol_client</span>::<span class="ident">Lib3hClientProtocol</span>, <span class="ident">protocol_server</span>::<span class="ident">Lib3hServerProtocol</span>};
+
 <span class="kw">use</span> <span class="ident">crossbeam_channel</span>;
 <span class="kw">use</span> <span class="ident">holochain_json_api</span>::<span class="ident">json</span>::<span class="ident">JsonString</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">time</span>::<span class="ident">Duration</span>};
@@ -194,8 +229,7 @@
 
 <span class="kw">impl</span> <span class="ident">P2pNetwork</span> {
     <span class="doccomment">/// Constructor</span>
-    <span class="doccomment">/// `config` is the configuration of the p2p module</span>
-    <span class="doccomment">/// `handler` is the closure for handling Protocol messages received from the network module.</span>
+    <span class="doccomment">/// `config` is the configuration of the p2p module `handler` is the closure for handling Protocol messages received from the network module.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="kw-2">mut</span> <span class="ident">handler</span>: <span class="ident">NetHandler</span>, <span class="ident">p2p_config</span>: <span class="ident">P2pConfig</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="comment">// Create Config struct</span>
         <span class="kw">let</span> <span class="ident">backend_config_str</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">p2p_config</span>.<span class="ident">backend_config</span> {
@@ -203,9 +237,9 @@
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">JsonString</span>::<span class="ident">from</span>(<span class="string">&quot;&quot;</span>),
         };
 
-        <span class="kw">let</span> <span class="ident">p2p_config_str</span> <span class="op">=</span> <span class="ident">p2p_config</span>.<span class="ident">as_str</span>();
+        <span class="kw">let</span> <span class="ident">p2p_config_str</span> <span class="op">=</span> <span class="ident">p2p_config</span>.<span class="ident">clone</span>().<span class="ident">as_str</span>();
         <span class="comment">// Provide worker factory depending on backend kind</span>
-        <span class="kw">let</span> <span class="ident">worker_factory</span>: <span class="ident">NetWorkerFactory</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">p2p_config</span>.<span class="ident">backend_kind</span> {
+        <span class="kw">let</span> <span class="ident">worker_factory</span>: <span class="ident">NetWorkerFactory</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">p2p_config</span>.<span class="ident">clone</span>().<span class="ident">backend_kind</span> {
             <span class="comment">// Create an IpcNetWorker with the passed backend config</span>
             <span class="ident">P2pBackendKind</span>::<span class="ident">N3H</span> <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">enduser_config</span> <span class="op">=</span> <span class="ident">p2p_config</span>
@@ -214,47 +248,53 @@
                     .<span class="ident">expect</span>(<span class="string">&quot;P2pConfig for N3H networking is missing an end-user config&quot;</span>)
                     .<span class="ident">to_string</span>();
                 <span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">h</span><span class="op">|</span> {
-                    <span class="prelude-val">Ok</span>(
-                        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">IpcNetWorker</span>::<span class="ident">new</span>(<span class="ident">h</span>, <span class="kw-2">&amp;</span><span class="ident">backend_config_str</span>, <span class="ident">enduser_config</span>)<span class="question-mark">?</span>)
-                            <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>,
-                    )
+                    <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">IpcNetWorker</span>::<span class="ident">new</span>(
+                        <span class="ident">h</span>,
+                        <span class="kw-2">&amp;</span><span class="ident">backend_config_str</span>,
+                        <span class="ident">enduser_config</span>.<span class="ident">clone</span>(),
+                    )<span class="question-mark">?</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NetWorker</span><span class="op">&gt;</span>)
                 })
             }
             <span class="comment">// Create a Lib3hWorker</span>
             <span class="ident">P2pBackendKind</span>::<span class="ident">LIB3H</span> <span class="op">=&gt;</span> {
-                <span class="kw">let</span> <span class="ident">backend_config</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">p2p_config</span>.<span class="ident">backend_config</span> {
+                <span class="kw">let</span> <span class="ident">backend_config</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">p2p_config</span>.<span class="ident">clone</span>().<span class="ident">backend_config</span> {
                     <span class="ident">BackendConfig</span>::<span class="ident">Lib3h</span>(<span class="ident">config</span>) <span class="op">=&gt;</span> <span class="ident">config</span>.<span class="ident">clone</span>(),
                     <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format_err</span><span class="macro">!</span>(<span class="string">&quot;mismatch backend type, expecting lib3h&quot;</span>)),
                 };
 
                 <span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">h</span><span class="op">|</span> {
-                    <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Lib3hWorker</span>::<span class="ident">new</span>(<span class="ident">h</span>, <span class="ident">backend_config</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>)
+                    <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Lib3hWorker</span>::<span class="ident">new</span>(<span class="ident">h</span>, <span class="ident">backend_config</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>)
+                        <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NetWorker</span><span class="op">&gt;</span>)
                 })
             }
             <span class="comment">// Create an InMemoryWorker</span>
             <span class="ident">P2pBackendKind</span>::<span class="ident">MEMORY</span> <span class="op">=&gt;</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">h</span><span class="op">|</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">InMemoryWorker</span>::<span class="ident">new</span>(<span class="ident">h</span>, <span class="kw-2">&amp;</span><span class="ident">backend_config_str</span>)<span class="question-mark">?</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">NetWorker</span><span class="op">&gt;</span>)
+                <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">InMemoryWorker</span>::<span class="ident">new</span>(<span class="ident">h</span>, <span class="kw-2">&amp;</span><span class="ident">backend_config_str</span>)<span class="question-mark">?</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">NetWorker</span><span class="op">&gt;</span>)
             }),
         };
 
         <span class="kw">let</span> (<span class="ident">t</span>, <span class="ident">rx</span>) <span class="op">=</span> <span class="ident">crossbeam_channel</span>::<span class="ident">unbounded</span>();
         <span class="kw">let</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">t</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">wrapped_handler</span> <span class="op">=</span> <span class="ident">NetHandler</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">message</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">unwrapped</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">unwrap</span>();
-            <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">unwrapped</span>.<span class="ident">clone</span>();
-            <span class="kw">match</span> <span class="ident">Protocol</span>::<span class="ident">try_from</span>(<span class="ident">unwrapped</span>.<span class="ident">clone</span>()) {
-                <span class="prelude-val">Ok</span>(<span class="ident">Protocol</span>::<span class="ident">P2pReady</span>) <span class="op">=&gt;</span> {
-                    <span class="ident">tx</span>.<span class="ident">send</span>(<span class="ident">Protocol</span>::<span class="ident">P2pReady</span>).<span class="ident">unwrap</span>();
-                    <span class="macro">log_d</span><span class="macro">!</span>(<span class="string">&quot;net/p2p_network: sent P2pReady event&quot;</span>)
-                }
-                <span class="prelude-val">Ok</span>(<span class="ident">_protocol_message</span>) <span class="op">=&gt;</span> {}
-                <span class="prelude-val">Err</span>(<span class="ident">_protocol_error</span>) <span class="op">=&gt;</span> {
-                    <span class="comment">// TODO why can&#39;t I use the above variable?</span>
-                    <span class="comment">// Generates compiler error.</span>
-                }
-            };
-            <span class="ident">handler</span>.<span class="ident">handle</span>(<span class="prelude-val">Ok</span>(<span class="ident">message</span>))
-        }));
+        <span class="kw">let</span> <span class="ident">wrapped_handler</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">Self</span>::<span class="ident">should_wait_for_p2p_ready</span>(<span class="kw-2">&amp;</span><span class="ident">p2p_config</span>.<span class="ident">clone</span>()) {
+            <span class="ident">NetHandler</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">message</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="ident">unwrapped</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">unwrap</span>();
+                <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">unwrapped</span>.<span class="ident">clone</span>();
+                <span class="kw">match</span> <span class="ident">Lib3hServerProtocol</span>::<span class="ident">try_from</span>(<span class="ident">unwrapped</span>.<span class="ident">clone</span>()) {
+                    <span class="prelude-val">Ok</span>(<span class="ident">Lib3hServerProtocol</span>::<span class="ident">P2pReady</span>) <span class="op">=&gt;</span> {
+                        <span class="ident">tx</span>.<span class="ident">send</span>(<span class="ident">Lib3hServerProtocol</span>::<span class="ident">P2pReady</span>).<span class="ident">ok</span>();
+                        <span class="macro">log_d</span><span class="macro">!</span>(<span class="string">&quot;net/p2p_network: sent P2pReady event&quot;</span>)
+                    }
+                    <span class="prelude-val">Ok</span>(<span class="ident">_msg</span>) <span class="op">=&gt;</span> {}
+                    <span class="prelude-val">Err</span>(<span class="ident">_protocol_error</span>) <span class="op">=&gt;</span> {
+                        <span class="comment">// TODO why can&#39;t I use the above variable?</span>
+                        <span class="comment">// Generates compiler error.</span>
+                    }
+                };
+                <span class="ident">handler</span>.<span class="ident">handle</span>(<span class="prelude-val">Ok</span>(<span class="ident">message</span>))
+            }))
+        } <span class="kw">else</span> {
+            <span class="ident">handler</span>
+        };
 
         <span class="comment">// Create NetConnectionThread with appropriate worker factory.  Indicate *what*</span>
         <span class="comment">// configuration failed to produce a connection.</span>
@@ -266,17 +306,28 @@
                     <span class="ident">e</span>
                 )
             })<span class="question-mark">?</span>;
-        <span class="ident">P2pNetwork</span>::<span class="ident">wait_p2p_ready</span>(<span class="kw-2">&amp;</span><span class="ident">rx</span>);
+        <span class="kw">if</span> <span class="self">Self</span>::<span class="ident">should_wait_for_p2p_ready</span>(<span class="kw-2">&amp;</span><span class="ident">p2p_config</span>.<span class="ident">clone</span>()) {
+            <span class="ident">P2pNetwork</span>::<span class="ident">wait_p2p_ready</span>(<span class="kw-2">&amp;</span><span class="ident">rx</span>);
+        }
 
         <span class="comment">// Done</span>
         <span class="prelude-val">Ok</span>(<span class="ident">P2pNetwork</span> { <span class="ident">connection</span> })
     }
 
-    <span class="kw">fn</span> <span class="ident">wait_p2p_ready</span>(<span class="ident">rx</span>: <span class="kw-2">&amp;</span><span class="ident">crossbeam_channel</span>::<span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">Protocol</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">should_wait_for_p2p_ready</span>(<span class="ident">p2p_config</span>: <span class="kw-2">&amp;</span><span class="ident">P2pConfig</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">match</span> <span class="ident">p2p_config</span>.<span class="ident">backend_kind</span> {
+            <span class="ident">P2pBackendKind</span>::<span class="ident">N3H</span> <span class="op">|</span> <span class="ident">P2pBackendKind</span>::<span class="ident">MEMORY</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="ident">P2pBackendKind</span>::<span class="ident">LIB3H</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+        }
+    }
+
+    <span class="kw">fn</span> <span class="ident">wait_p2p_ready</span>(<span class="ident">rx</span>: <span class="kw-2">&amp;</span><span class="ident">crossbeam_channel</span>::<span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">Lib3hServerProtocol</span><span class="op">&gt;</span>) {
         <span class="kw">let</span> <span class="ident">maybe_message</span> <span class="op">=</span> <span class="ident">rx</span>.<span class="ident">recv_timeout</span>(<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="ident">P2P_READY_TIMEOUT_MS</span>));
         <span class="kw">match</span> <span class="ident">maybe_message</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">Protocol</span>::<span class="ident">P2pReady</span>) <span class="op">=&gt;</span> <span class="macro">log_d</span><span class="macro">!</span>(<span class="string">&quot;net/p2p_network: received P2pReady event&quot;</span>),
-            <span class="prelude-val">Ok</span>(<span class="ident">_protocol_message</span>) <span class="op">=&gt;</span> {}
+            <span class="prelude-val">Ok</span>(<span class="ident">Lib3hServerProtocol</span>::<span class="ident">P2pReady</span>) <span class="op">=&gt;</span> <span class="macro">log_d</span><span class="macro">!</span>(<span class="string">&quot;net/p2p_network: received P2pReady event&quot;</span>),
+            <span class="prelude-val">Ok</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
+                <span class="macro">log_d</span><span class="macro">!</span>(<span class="string">&quot;net/p2p_network: received unexpected event: {:?}&quot;</span>, <span class="ident">msg</span>);
+            }
             <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
                 <span class="macro">log_e</span><span class="macro">!</span>(<span class="string">&quot;net/p2p_network: did not receive P2pReady: {:?}&quot;</span>, <span class="ident">e</span>);
                 <span class="macro">panic</span><span class="macro">!</span>(
@@ -296,6 +347,10 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">endpoint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="self">self</span>.<span class="ident">connection</span>.<span class="ident">endpoint</span>.<span class="ident">clone</span>()
     }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">p2p_endpoint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="self">self</span>.<span class="ident">connection</span>.<span class="ident">p2p_endpoint</span>.<span class="ident">clone</span>()
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">P2pNetwork</span> {
@@ -306,7 +361,7 @@
 
 <span class="kw">impl</span> <span class="ident">NetSend</span> <span class="kw">for</span> <span class="ident">P2pNetwork</span> {
     <span class="doccomment">/// send a Protocol message to the p2p network instance</span>
-    <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="ident">Protocol</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="ident">Lib3hClientProtocol</span>) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">connection</span>.<span class="ident">send</span>(<span class="ident">data</span>)
     }
 }
@@ -314,12 +369,25 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident">lib3h_protocol</span>::<span class="ident">data_types</span>::<span class="ident">ConnectData</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">it_should_create_memory_network</span>() {
         <span class="kw">let</span> <span class="ident">p2p</span> <span class="op">=</span> <span class="ident">P2pConfig</span>::<span class="ident">new_with_unique_memory_backend</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">P2pNetwork</span>::<span class="ident">new</span>(<span class="ident">NetHandler</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">_r</span><span class="op">|</span> <span class="prelude-val">Ok</span>(()))), <span class="ident">p2p</span>).<span class="ident">unwrap</span>();
-        <span class="ident">res</span>.<span class="ident">send</span>(<span class="ident">Protocol</span>::<span class="ident">P2pReady</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">handler</span> <span class="op">=</span> <span class="ident">NetHandler</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">_r</span><span class="op">|</span> <span class="prelude-val">Ok</span>(())));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">P2pNetwork</span>::<span class="ident">new</span>(<span class="ident">handler</span>.<span class="ident">clone</span>(), <span class="ident">p2p</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">connect_data</span> <span class="op">=</span> <span class="ident">ConnectData</span> {
+            <span class="ident">request_id</span>: <span class="string">&quot;memory_network_req_id&quot;</span>.<span class="ident">into</span>(),
+            <span class="ident">peer_uri</span>: <span class="ident">url</span>::<span class="ident">Url</span>::<span class="ident">parse</span>(<span class="string">&quot;mem://test&quot;</span>.<span class="ident">into</span>()).<span class="ident">expect</span>(<span class="string">&quot;well formed memory network url&quot;</span>),
+            <span class="ident">network_id</span>: <span class="string">&quot;test_net_id&quot;</span>.<span class="ident">into</span>(),
+        };
+
+        <span class="ident">handler</span>
+            .<span class="ident">to_owned</span>()
+            .<span class="ident">handle</span>(<span class="prelude-val">Ok</span>(<span class="ident">Lib3hServerProtocol</span>::<span class="ident">P2pReady</span>))
+            .<span class="ident">unwrap</span>();
+        <span class="ident">res</span>.<span class="ident">send</span>(<span class="ident">Lib3hClientProtocol</span>::<span class="ident">Connect</span>(<span class="ident">connect_data</span>))
+            .<span class="ident">unwrap</span>();
         <span class="ident">res</span>.<span class="ident">stop</span>().<span class="ident">unwrap</span>();
     }
 }

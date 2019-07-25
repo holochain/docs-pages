@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `test_bin/src/multidna_workflows.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>multidna_workflows.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../..//index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `test_bin/src/multidna_workflows.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>multidna_workflows.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../holochain_test_bin/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -182,21 +182,34 @@
 <span id="182">182</span>
 <span id="183">183</span>
 <span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">three_workflows</span>::<span class="ident">setup_three_nodes</span>;
 <span class="kw">use</span> <span class="ident">constants</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">holochain_net</span>::{
-    <span class="ident">connection</span>::{<span class="ident">json_protocol</span>::<span class="ident">JsonProtocol</span>, <span class="ident">NetResult</span>},
-    <span class="ident">tweetlog</span>::<span class="ident">TWEETLOG</span>,
-};
+<span class="kw">use</span> <span class="ident">holochain_net</span>::{<span class="ident">connection</span>::<span class="ident">NetResult</span>, <span class="ident">tweetlog</span>::<span class="ident">TWEETLOG</span>};
 <span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
+<span class="kw">use</span> <span class="ident">lib3h_protocol</span>::<span class="ident">protocol_server</span>::<span class="ident">Lib3hServerProtocol</span>;
 <span class="kw">use</span> <span class="ident">p2p_node</span>::<span class="ident">test_node</span>::<span class="ident">TestNode</span>;
 
 <span class="doccomment">/// Have multiple nodes track multiple dnas</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">multi_track</span>(<span class="kw-2">mut</span> <span class="ident">nodes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span><span class="op">&gt;</span>, <span class="ident">dnas</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">Address</span>]) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">for</span> <span class="ident">dna</span> <span class="kw">in</span> <span class="ident">dnas</span> {
-        <span class="kw">for</span> <span class="kw-2">mut</span> <span class="ident">node</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">nodes</span> {
+        <span class="kw">for</span> <span class="ident">node</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">nodes</span> {
             <span class="ident">node</span>.<span class="ident">track_dna</span>(<span class="ident">dna</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
         }
     }
@@ -206,7 +219,7 @@
 <span class="doccomment">/// Have multiple nodes untrack multiple dnas</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">tarpaulin</span>, <span class="ident">skip</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">multi_untrack</span>(<span class="kw-2">mut</span> <span class="ident">nodes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TestNode</span><span class="op">&gt;</span>, <span class="ident">dnas</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">Address</span>]) <span class="op">-&gt;</span> <span class="ident">NetResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">for</span> <span class="kw-2">mut</span> <span class="ident">node</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">nodes</span> {
+    <span class="kw">for</span> <span class="ident">node</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">nodes</span> {
         <span class="kw">for</span> <span class="ident">dna</span> <span class="kw">in</span> <span class="ident">dnas</span> {
             <span class="ident">node</span>.<span class="ident">untrack_dna</span>(<span class="ident">dna</span>)<span class="question-mark">?</span>;
         }
@@ -240,11 +253,13 @@
     <span class="comment">// Camille should receive it</span>
     <span class="ident">alex</span>.<span class="ident">send_direct_message</span>(<span class="kw-2">&amp;</span><span class="ident">CAMILLE_AGENT_ID</span>, <span class="ident">ASPECT_CONTENT_1</span>.<span class="ident">clone</span>());
     <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">camille</span>
-        .<span class="ident">wait_json</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="kw">_</span>))))
+        .<span class="ident">wait_lib3h</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(
+            <span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleSendDirectMessage</span>(<span class="kw">_</span>)
+        )))
         .<span class="ident">unwrap</span>();
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;#### got: {:?}&quot;</span>, <span class="ident">res</span>);
     <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">res</span> {
-        <span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> <span class="ident">msg</span>,
+        <span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleSendDirectMessage</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> <span class="ident">msg</span>,
         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
     };
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">ASPECT_CONTENT_1</span>, <span class="ident">msg</span>.<span class="ident">content</span>);
@@ -252,8 +267,10 @@
 
     <span class="comment">// Billy should not receive it</span>
     <span class="ident">alex</span>.<span class="ident">send_direct_message</span>(<span class="kw-2">&amp;</span><span class="ident">BILLY_AGENT_ID</span>, <span class="ident">ASPECT_CONTENT_1</span>.<span class="ident">clone</span>());
-    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span>
-        <span class="ident">billy</span>.<span class="ident">wait_json_with_timeout</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="kw">_</span>))), <span class="number">1000</span>);
+    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">wait_lib3h_with_timeout</span>(
+        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleSendDirectMessage</span>(<span class="kw">_</span>))),
+        <span class="number">1000</span>,
+    );
     <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">is_none</span>());
 
     <span class="comment">// Send messages on DNA B</span>
@@ -265,19 +282,23 @@
     <span class="comment">// Billy should receive it</span>
     <span class="ident">alex</span>.<span class="ident">send_direct_message</span>(<span class="kw-2">&amp;</span><span class="ident">BILLY_AGENT_ID</span>, <span class="ident">ASPECT_CONTENT_2</span>.<span class="ident">clone</span>());
     <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">billy</span>
-        .<span class="ident">wait_json</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="kw">_</span>))))
+        .<span class="ident">wait_lib3h</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(
+            <span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleSendDirectMessage</span>(<span class="kw">_</span>)
+        )))
         .<span class="ident">unwrap</span>();
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;#### got: {:?}&quot;</span>, <span class="ident">res</span>);
     <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">res</span> {
-        <span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> <span class="ident">msg</span>,
+        <span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleSendDirectMessage</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> <span class="ident">msg</span>,
         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
     };
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">ASPECT_CONTENT_2</span>, <span class="ident">msg</span>.<span class="ident">content</span>);
 
     <span class="comment">// Camille should not receive it</span>
     <span class="ident">alex</span>.<span class="ident">send_direct_message</span>(<span class="kw-2">&amp;</span><span class="ident">CAMILLE_AGENT_ID</span>, <span class="ident">ASPECT_CONTENT_2</span>.<span class="ident">clone</span>());
-    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span>
-        <span class="ident">camille</span>.<span class="ident">wait_json_with_timeout</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="kw">_</span>))), <span class="number">1000</span>);
+    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">camille</span>.<span class="ident">wait_lib3h_with_timeout</span>(
+        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleSendDirectMessage</span>(<span class="kw">_</span>))),
+        <span class="number">1000</span>,
+    );
     <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">is_none</span>());
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;Send messages on DNA B COMPLETE \n\n\n&quot;</span>);
 
@@ -290,19 +311,23 @@
     <span class="comment">// Camille should receive it</span>
     <span class="ident">camille</span>.<span class="ident">send_direct_message</span>(<span class="kw-2">&amp;</span><span class="ident">BILLY_AGENT_ID</span>, <span class="ident">ASPECT_CONTENT_3</span>.<span class="ident">clone</span>());
     <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">billy</span>
-        .<span class="ident">wait_json</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="kw">_</span>))))
+        .<span class="ident">wait_lib3h</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(
+            <span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleSendDirectMessage</span>(<span class="kw">_</span>)
+        )))
         .<span class="ident">unwrap</span>();
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;#### got: {:?}&quot;</span>, <span class="ident">res</span>);
     <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">res</span> {
-        <span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> <span class="ident">msg</span>,
+        <span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleSendDirectMessage</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> <span class="ident">msg</span>,
         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
     };
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">ASPECT_CONTENT_3</span>, <span class="ident">msg</span>.<span class="ident">content</span>);
 
     <span class="comment">// Alex should not receive it</span>
     <span class="ident">camille</span>.<span class="ident">send_direct_message</span>(<span class="kw-2">&amp;</span><span class="ident">ALEX_AGENT_ID</span>, <span class="ident">ASPECT_CONTENT_3</span>.<span class="ident">clone</span>());
-    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span>
-        <span class="ident">alex</span>.<span class="ident">wait_json_with_timeout</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleSendMessage</span>(<span class="kw">_</span>))), <span class="number">1000</span>);
+    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">wait_lib3h_with_timeout</span>(
+        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleSendDirectMessage</span>(<span class="kw">_</span>))),
+        <span class="number">1000</span>,
+    );
     <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">is_none</span>());
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;Send messages on DNA C COMPLETE \n\n\n&quot;</span>);
 
@@ -331,13 +356,16 @@
     <span class="comment">// Alex publish data on the network</span>
     <span class="ident">alex</span>.<span class="ident">author_entry</span>(<span class="kw-2">&amp;</span><span class="ident">ENTRY_ADDRESS_1</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ASPECT_CONTENT_1</span>.<span class="ident">clone</span>()], <span class="bool-val">true</span>)<span class="question-mark">?</span>;
     <span class="comment">// Gossip might ask us for the data</span>
-    <span class="kw">let</span> <span class="ident">maybe_fetch_a</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">wait_json</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntry</span>(<span class="kw">_</span>))));
+    <span class="kw">let</span> <span class="ident">maybe_fetch_a</span> <span class="op">=</span>
+        <span class="ident">alex</span>.<span class="ident">wait_lib3h</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleFetchEntry</span>(<span class="kw">_</span>))));
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">fetch_a</span>) <span class="op">=</span> <span class="ident">maybe_fetch_a</span> {
-        <span class="kw">let</span> <span class="ident">fetch</span> <span class="op">=</span> <span class="macro">unwrap_to</span><span class="macro">!</span>(<span class="ident">fetch_a</span> <span class="op">=&gt;</span> <span class="ident">JsonProtocol</span>::<span class="ident">HandleFetchEntry</span>);
+        <span class="kw">let</span> <span class="ident">fetch</span> <span class="op">=</span> <span class="macro">unwrap_to</span><span class="macro">!</span>(<span class="ident">fetch_a</span> <span class="op">=&gt;</span> <span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleFetchEntry</span>);
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">alex</span>.<span class="ident">reply_to_HandleFetchEntry</span>(<span class="kw-2">&amp;</span><span class="ident">fetch</span>).<span class="ident">unwrap</span>();
     }
     <span class="comment">// Check if both nodes are asked to store it</span>
-    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">camille</span>.<span class="ident">wait_json</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">HandleStoreEntryAspect</span>(<span class="kw">_</span>))));
+    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">camille</span>.<span class="ident">wait_lib3h</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(
+        <span class="ident">Lib3hServerProtocol</span>::<span class="ident">HandleStoreEntryAspect</span>(<span class="kw">_</span>)
+    )));
 
     <span class="comment">// Camille asks for that data</span>
     <span class="kw">let</span> <span class="ident">query_data</span> <span class="op">=</span> <span class="ident">camille</span>.<span class="ident">request_entry</span>(<span class="ident">ENTRY_ADDRESS_1</span>.<span class="ident">clone</span>());
@@ -348,7 +376,7 @@
 
     <span class="comment">// Camille should receive requested data</span>
     <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">camille</span>
-        .<span class="ident">wait_json</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">QueryEntryResult</span>(<span class="kw">_</span>))))
+        .<span class="ident">wait_lib3h</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">Lib3hServerProtocol</span>::<span class="ident">QueryEntryResult</span>(<span class="kw">_</span>))))
         .<span class="ident">unwrap</span>();
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;got QueryEntryResult: {:?}&quot;</span>, <span class="ident">result</span>);
 
@@ -360,8 +388,10 @@
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">reply_to_HandleQueryEntry</span>(<span class="kw-2">&amp;</span><span class="ident">query_data</span>);
 
     <span class="comment">// Billy might receive FailureResult</span>
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span>
-        <span class="ident">billy</span>.<span class="ident">wait_json_with_timeout</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">JsonProtocol</span>::<span class="ident">FailureResult</span>(<span class="kw">_</span>))), <span class="number">1000</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">billy</span>.<span class="ident">wait_lib3h_with_timeout</span>(
+        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">one_is</span><span class="macro">!</span>(<span class="ident">Lib3hServerProtocol</span>::<span class="ident">FailureResult</span>(<span class="kw">_</span>))),
+        <span class="number">1000</span>,
+    );
     <span class="macro">log_i</span><span class="macro">!</span>(<span class="string">&quot;got FailureResult: {:?}&quot;</span>, <span class="ident">result</span>);
 
     <span class="comment">// Done</span>

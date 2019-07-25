@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/nucleus/actions/build_validation_package.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>build_validation_package.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../..//index.html'><img src='../../../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core/src/nucleus/actions/build_validation_package.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>build_validation_package.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../holochain_core/index.html'><div class='logo-container'><img src='../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -353,6 +353,100 @@
 <span id="353">353</span>
 <span id="354">354</span>
 <span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -363,10 +457,7 @@
         <span class="ident">validation_package</span>::<span class="ident">get_validation_package_definition</span>, <span class="ident">CallbackResult</span>,
     },
 };
-<span class="kw">use</span> <span class="ident">futures</span>::{
-    <span class="ident">future</span>::<span class="ident">Future</span>,
-    <span class="ident">task</span>::{<span class="ident">LocalWaker</span>, <span class="ident">Poll</span>},
-};
+<span class="kw">use</span> <span class="ident">futures</span>::{<span class="ident">future</span>::<span class="ident">Future</span>, <span class="ident">task</span>::<span class="ident">Poll</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">chain_header</span>::<span class="ident">ChainHeader</span>,
     <span class="ident">entry</span>::{<span class="ident">entry_type</span>::<span class="ident">EntryType</span>, <span class="ident">Entry</span>},
@@ -486,19 +577,33 @@
                             <span class="ident">ChainEntries</span> <span class="op">=&gt;</span> {
                                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">package</span> <span class="op">=</span> <span class="ident">ValidationPackage</span>::<span class="ident">only_header</span>(<span class="ident">entry_header</span>);
                                 <span class="ident">package</span>.<span class="ident">source_chain_entries</span> <span class="op">=</span>
-                                    <span class="prelude-val">Some</span>(<span class="ident">all_public_chain_entries</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>));
+                                    <span class="prelude-val">Some</span>(<span class="ident">public_chain_entries_from_headers</span>(
+                                        <span class="kw-2">&amp;</span><span class="ident">context</span>,
+                                        <span class="kw-2">&amp;</span><span class="ident">all_chain_headers_before_header</span>(
+                                            <span class="kw-2">&amp;</span><span class="ident">context</span>,
+                                            <span class="kw-2">&amp;</span><span class="ident">package</span>.<span class="ident">chain_header</span>,
+                                        ),
+                                    ));
                                 <span class="ident">package</span>
                             }
                             <span class="ident">ChainHeaders</span> <span class="op">=&gt;</span> {
                                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">package</span> <span class="op">=</span> <span class="ident">ValidationPackage</span>::<span class="ident">only_header</span>(<span class="ident">entry_header</span>);
-                                <span class="ident">package</span>.<span class="ident">source_chain_headers</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">all_chain_headers</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>));
+                                <span class="ident">package</span>.<span class="ident">source_chain_headers</span> <span class="op">=</span>
+                                    <span class="prelude-val">Some</span>(<span class="ident">all_chain_headers_before_header</span>(
+                                        <span class="kw-2">&amp;</span><span class="ident">context</span>,
+                                        <span class="kw-2">&amp;</span><span class="ident">package</span>.<span class="ident">chain_header</span>,
+                                    ));
                                 <span class="ident">package</span>
                             }
                             <span class="ident">ChainFull</span> <span class="op">=&gt;</span> {
                                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">package</span> <span class="op">=</span> <span class="ident">ValidationPackage</span>::<span class="ident">only_header</span>(<span class="ident">entry_header</span>);
+                                <span class="kw">let</span> <span class="ident">headers</span> <span class="op">=</span> <span class="ident">all_chain_headers_before_header</span>(
+                                    <span class="kw-2">&amp;</span><span class="ident">context</span>,
+                                    <span class="kw-2">&amp;</span><span class="ident">package</span>.<span class="ident">chain_header</span>,
+                                );
                                 <span class="ident">package</span>.<span class="ident">source_chain_entries</span> <span class="op">=</span>
-                                    <span class="prelude-val">Some</span>(<span class="ident">all_public_chain_entries</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>));
-                                <span class="ident">package</span>.<span class="ident">source_chain_headers</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">all_chain_headers</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>));
+                                    <span class="prelude-val">Some</span>(<span class="ident">public_chain_entries_from_headers</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">headers</span>));
+                                <span class="ident">package</span>.<span class="ident">source_chain_headers</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">headers</span>);
                                 <span class="ident">package</span>
                             }
                             <span class="ident">Custom</span>(<span class="ident">string</span>) <span class="op">=&gt;</span> {
@@ -521,21 +626,29 @@
             .<span class="ident">expect</span>(<span class="string">&quot;Could not spawn thread for build_validation_package&quot;</span>);
     }
 
-    <span class="macro">await</span><span class="macro">!</span>(<span class="ident">ValidationPackageFuture</span> {
+    <span class="kw">await</span><span class="op">!</span>(<span class="ident">ValidationPackageFuture</span> {
         <span class="ident">context</span>: <span class="ident">context</span>.<span class="ident">clone</span>(),
         <span class="ident">key</span>: <span class="ident">id</span>,
         <span class="ident">error</span>: <span class="prelude-val">None</span>,
     })
 }
 
-<span class="kw">fn</span> <span class="ident">all_public_chain_entries</span>(<span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Entry</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">chain</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">agent</span>().<span class="ident">chain_store</span>();
-    <span class="kw">let</span> <span class="ident">top_header</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">agent</span>().<span class="ident">top_chain_header</span>();
-    <span class="ident">chain</span>
-        .<span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="ident">top_header</span>)
+<span class="comment">// given a slice of headers return the entries for those marked public</span>
+<span class="kw">fn</span> <span class="ident">public_chain_entries_from_headers</span>(
+    <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
+    <span class="ident">headers</span>: <span class="kw-2">&amp;</span>[<span class="ident">ChainHeader</span>],
+) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Entry</span><span class="op">&gt;</span> {
+    <span class="ident">headers</span>
+        .<span class="ident">iter</span>()
         .<span class="ident">filter</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="ident">chain_header</span><span class="op">|</span> <span class="ident">chain_header</span>.<span class="ident">entry_type</span>().<span class="ident">can_publish</span>(<span class="ident">context</span>))
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">chain_header</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">storage</span> <span class="op">=</span> <span class="ident">chain</span>.<span class="ident">content_storage</span>().<span class="ident">clone</span>();
+            <span class="kw">let</span> <span class="ident">storage</span> <span class="op">=</span> <span class="ident">context</span>
+                .<span class="ident">state</span>()
+                .<span class="ident">unwrap</span>()
+                .<span class="ident">agent</span>()
+                .<span class="ident">chain_store</span>()
+                .<span class="ident">content_storage</span>()
+                .<span class="ident">clone</span>();
             <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">storage</span>.<span class="ident">read</span>().<span class="ident">unwrap</span>())
                 .<span class="ident">fetch</span>(<span class="ident">chain_header</span>.<span class="ident">entry_address</span>())
                 .<span class="ident">expect</span>(<span class="string">&quot;Could not fetch from CAS&quot;</span>);
@@ -546,10 +659,12 @@
         .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>()
 }
 
-<span class="kw">fn</span> <span class="ident">all_chain_headers</span>(<span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ChainHeader</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">all_chain_headers_before_header</span>(
+    <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
+    <span class="ident">header</span>: <span class="kw-2">&amp;</span><span class="ident">ChainHeader</span>,
+) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ChainHeader</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">chain</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">agent</span>().<span class="ident">chain_store</span>();
-    <span class="kw">let</span> <span class="ident">top_header</span> <span class="op">=</span> <span class="ident">context</span>.<span class="ident">state</span>().<span class="ident">unwrap</span>().<span class="ident">agent</span>().<span class="ident">top_chain_header</span>();
-    <span class="ident">chain</span>.<span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="ident">top_header</span>).<span class="ident">collect</span>()
+    <span class="ident">chain</span>.<span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">header</span>.<span class="ident">clone</span>())).<span class="ident">skip</span>(<span class="number">1</span>).<span class="ident">collect</span>()
 }
 
 <span class="doccomment">/// ValidationPackageFuture resolves to the ValidationPackage or a HolochainError.</span>
@@ -562,7 +677,7 @@
 <span class="kw">impl</span> <span class="ident">Future</span> <span class="kw">for</span> <span class="ident">ValidationPackageFuture</span> {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ValidationPackage</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">lw</span>: <span class="kw-2">&amp;</span><span class="ident">LocalWaker</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">task</span>::<span class="ident">Context</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">context</span>.<span class="ident">action_channel_error</span>(<span class="string">&quot;ValidationPackageFuture&quot;</span>) {
             <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>));
         }
@@ -573,7 +688,7 @@
         <span class="comment">// TODO: connect the waker to state updates for performance reasons</span>
         <span class="comment">// See: https://github.com/holochain/holochain-rust/issues/314</span>
         <span class="comment">//</span>
-        <span class="ident">lw</span>.<span class="ident">wake</span>();
+        <span class="ident">cx</span>.<span class="ident">waker</span>().<span class="ident">clone</span>().<span class="ident">wake</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">state</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">context</span>.<span class="ident">state</span>() {
             <span class="kw">match</span> <span class="ident">state</span>.<span class="ident">nucleus</span>().<span class="ident">validation_packages</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">key</span>) {
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">validation_package</span>)) <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">validation_package</span>.<span class="ident">clone</span>())),
@@ -593,7 +708,8 @@
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::<span class="ident">actions</span>::<span class="ident">tests</span>::<span class="kw-2">*</span>;
 
-    <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">validation</span>::<span class="ident">ValidationPackage</span>;
+    <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">time</span>::<span class="ident">Iso8601</span>, <span class="ident">validation</span>::<span class="ident">ValidationPackage</span>};
+    <span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>};
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_building_validation_package_entry</span>() {
@@ -644,8 +760,11 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">maybe_validation_package</span>.<span class="ident">is_ok</span>());
 
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">ValidationPackage</span> {
-            <span class="ident">chain_header</span>: <span class="ident">chain_header</span>,
-            <span class="ident">source_chain_entries</span>: <span class="prelude-val">Some</span>(<span class="ident">all_public_chain_entries</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>)),
+            <span class="ident">chain_header</span>: <span class="ident">chain_header</span>.<span class="ident">clone</span>(),
+            <span class="ident">source_chain_entries</span>: <span class="prelude-val">Some</span>(<span class="ident">public_chain_entries_from_headers</span>(
+                <span class="kw-2">&amp;</span><span class="ident">context</span>,
+                <span class="kw-2">&amp;</span><span class="ident">all_chain_headers_before_header</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">chain_header</span>),
+            )),
             <span class="ident">source_chain_headers</span>: <span class="prelude-val">None</span>,
             <span class="ident">custom</span>: <span class="prelude-val">None</span>,
         };
@@ -672,9 +791,9 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">maybe_validation_package</span>.<span class="ident">is_ok</span>());
 
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">ValidationPackage</span> {
-            <span class="ident">chain_header</span>: <span class="ident">chain_header</span>,
+            <span class="ident">chain_header</span>: <span class="ident">chain_header</span>.<span class="ident">clone</span>(),
             <span class="ident">source_chain_entries</span>: <span class="prelude-val">None</span>,
-            <span class="ident">source_chain_headers</span>: <span class="prelude-val">Some</span>(<span class="ident">all_chain_headers</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>)),
+            <span class="ident">source_chain_headers</span>: <span class="prelude-val">Some</span>(<span class="ident">all_chain_headers_before_header</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">chain_header</span>)),
             <span class="ident">custom</span>: <span class="prelude-val">None</span>,
         };
 
@@ -699,14 +818,83 @@
         ));
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">maybe_validation_package</span>.<span class="ident">is_ok</span>());
 
+        <span class="kw">let</span> <span class="ident">headers</span> <span class="op">=</span> <span class="ident">all_chain_headers_before_header</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">chain_header</span>);
+
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">ValidationPackage</span> {
             <span class="ident">chain_header</span>: <span class="ident">chain_header</span>,
-            <span class="ident">source_chain_entries</span>: <span class="prelude-val">Some</span>(<span class="ident">all_public_chain_entries</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>)),
-            <span class="ident">source_chain_headers</span>: <span class="prelude-val">Some</span>(<span class="ident">all_chain_headers</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>)),
+            <span class="ident">source_chain_entries</span>: <span class="prelude-val">Some</span>(<span class="ident">public_chain_entries_from_headers</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">headers</span>)),
+            <span class="ident">source_chain_headers</span>: <span class="prelude-val">Some</span>(<span class="ident">headers</span>),
             <span class="ident">custom</span>: <span class="prelude-val">None</span>,
         };
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">maybe_validation_package</span>.<span class="ident">unwrap</span>(), <span class="ident">expected</span>);
+    }
+
+    <span class="comment">// test can make validation package with empty chain</span>
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_all_chain_headers_before_header_empty_chain</span>() {
+        <span class="kw">let</span> (<span class="ident">_instance</span>, <span class="ident">context</span>) <span class="op">=</span> <span class="ident">instance</span>(<span class="prelude-val">None</span>);
+        <span class="kw">let</span> <span class="ident">top_header</span> <span class="op">=</span> <span class="ident">context</span>
+            .<span class="ident">state</span>()
+            .<span class="ident">unwrap</span>()
+            .<span class="ident">agent</span>()
+            .<span class="ident">top_chain_header</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;There must be a top chain header&quot;</span>);
+        <span class="kw">let</span> <span class="ident">headers</span> <span class="op">=</span> <span class="ident">all_chain_headers_before_header</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">top_header</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">len</span>(), <span class="number">1</span>) <span class="comment">// includes the DNA entry only (no agent entry)</span>
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_all_chain_headers_before_header_entry_local_commit_validation</span>() {
+        <span class="kw">let</span> (<span class="ident">_instance</span>, <span class="ident">context</span>) <span class="op">=</span> <span class="ident">instance</span>(<span class="prelude-val">None</span>);
+
+        <span class="kw">let</span> <span class="ident">top_header</span> <span class="op">=</span> <span class="ident">context</span>
+            .<span class="ident">state</span>()
+            .<span class="ident">unwrap</span>()
+            .<span class="ident">agent</span>()
+            .<span class="ident">top_chain_header</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;There must be a top chain header&quot;</span>);
+        <span class="comment">// new entry header is created so it points to previous top header but not added to the local chain</span>
+        <span class="kw">let</span> <span class="ident">new_entry_header</span> <span class="op">=</span> <span class="ident">ChainHeader</span>::<span class="ident">new</span>(
+            <span class="kw-2">&amp;</span><span class="ident">EntryType</span>::<span class="ident">from</span>(<span class="string">&quot;test-new-entry&quot;</span>),
+            <span class="kw-2">&amp;</span><span class="ident">Address</span>::<span class="ident">from</span>(<span class="string">&quot;Qmtestaddress&quot;</span>),
+            <span class="kw-2">&amp;</span><span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="ident">top_header</span>.<span class="ident">address</span>()),
+            <span class="kw-2">&amp;</span><span class="prelude-val">None</span>,
+            <span class="kw-2">&amp;</span><span class="prelude-val">None</span>,
+            <span class="kw-2">&amp;</span><span class="ident">Iso8601</span>::<span class="ident">new</span>(<span class="number">0</span>, <span class="number">0</span>),
+        );
+
+        <span class="kw">let</span> <span class="ident">headers</span> <span class="op">=</span> <span class="ident">all_chain_headers_before_header</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">new_entry_header</span>);
+        <span class="comment">// entry should not appear in the validating chain</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">new_entry_header</span>), <span class="bool-val">false</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">len</span>(), <span class="number">2</span>) <span class="comment">// includes the DNA and agent entries</span>
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_all_chain_headers_before_header_entry_dht_validation</span>() {
+        <span class="kw">let</span> (<span class="ident">_instance</span>, <span class="ident">context</span>) <span class="op">=</span> <span class="ident">instance</span>(<span class="prelude-val">None</span>);
+        <span class="comment">// entry is added to the local chain</span>
+        <span class="kw">let</span> <span class="ident">chain_header</span> <span class="op">=</span> <span class="ident">commit</span>(<span class="ident">test_entry_package_chain_full</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>);
+        <span class="kw">let</span> <span class="ident">headers</span> <span class="op">=</span> <span class="ident">all_chain_headers_before_header</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">chain_header</span>);
+        <span class="comment">// entry should not appear in the validating chain</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">chain_header</span>), <span class="bool-val">false</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">len</span>(), <span class="number">2</span>) <span class="comment">// includes the DNA and agent entries</span>
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_later_headers_not_included</span>() {
+        <span class="kw">let</span> (<span class="ident">_instance</span>, <span class="ident">context</span>) <span class="op">=</span> <span class="ident">instance</span>(<span class="prelude-val">None</span>);
+        <span class="comment">// entry is added to the local chain</span>
+        <span class="kw">let</span> <span class="ident">chain_header</span> <span class="op">=</span> <span class="ident">commit</span>(<span class="ident">test_entry_package_chain_full</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>);
+        <span class="kw">let</span> <span class="ident">pre_commit_headers</span> <span class="op">=</span> <span class="ident">all_chain_headers_before_header</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">chain_header</span>);
+
+        <span class="comment">// commit come more entries</span>
+        <span class="ident">commit</span>(<span class="ident">test_entry_package_chain_entries</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>);
+        <span class="ident">commit</span>(<span class="ident">test_entry_package_entry</span>(), <span class="kw-2">&amp;</span><span class="ident">context</span>);
+
+        <span class="kw">let</span> <span class="ident">post_commit_headers</span> <span class="op">=</span> <span class="ident">all_chain_headers_before_header</span>(<span class="kw-2">&amp;</span><span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="ident">chain_header</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">pre_commit_headers</span>, <span class="ident">post_commit_headers</span>)
     }
 }
 </pre></div>
