@@ -22,6 +22,7 @@ For 2: open a terminal @ docs-pages.
 
 **Prerequisite**
 - Rust
+- Make sure that the environment variable `HC_VERSION` is set, do this by running `export HC_VERSION=0.0.24-alpha2` or whatever tag you want to highlight in links as the latest released version.
 
 Run the following, after you make changes to any of the templates:
 ```shell

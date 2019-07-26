@@ -11,7 +11,6 @@ use serde_json::{Map, Value};
 fn main() {
 
   let version = env::var("HC_VERSION").expect("please set HC_VERSION");
-  let version_for_url = env::var("HC_VERSION_FOR_URL").expect("please set HC_VERSION_FOR_URL");
 
   let api_versions_string = fs::read_to_string("api_versions.json")
         .expect("Something went wrong reading api_versions.json");
@@ -36,7 +35,7 @@ fn main() {
   let footer = include_str!("footer.template.html");
   let _ = handlebars.register_template_string("footer", footer);
   let mut footer_data = BTreeMap::new();
-  footer_data.insert("version_for_url".to_string(), version_for_url.clone());
+  footer_data.insert("version".to_string(), version.clone());
   let footer_html = handlebars.render("footer", &footer_data).unwrap();
 
   // page templates
@@ -64,7 +63,6 @@ fn main() {
   let now: DateTime<Utc> = Utc::now();
   start_body_data.insert("date".to_string(), now.format("%b %e, %Y").to_string());
   start_body_data.insert("version".to_string(), version.clone());
-  start_body_data.insert("version_for_url".to_string(), version_for_url.clone());
   let start_body_html = handlebars.render("start", &start_body_data).unwrap();
 
   let mut start_html_data = BTreeMap::new();
