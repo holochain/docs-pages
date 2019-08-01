@@ -57,7 +57,7 @@ To add a new version, run something like (making the appropriate changes)
 ```shell
 ./add_new_version.sh v0.0.11-alpha1 0.0.11-alpha1
 ```
-> The first argument is exactly the git tag of the version, and the second is the git tag without the `v` prefix.
+> The first argument is exactly the git tag of the version, and the second is the git tag without the `v` prefix. _Note:_ As of v0.0.24, we dropped the `v` prefix in the release tag. Check the [current tag formatting practice](https://github.com/holochain/holochain-rust/releases) first.
 
 
 ## Local serving
