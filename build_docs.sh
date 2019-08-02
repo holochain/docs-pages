@@ -3,6 +3,9 @@
 BRANCH=$1
 FOLDER=$2
 
+[ -z "$BRANCH" ] && echo "first argument must be holochain-rust branch/tag name e.g. v0.0.25-alpha2" && exit 1
+[ -z "$FOLDER" ] && echo "Second argument must be folder name, usually 'latest' or version number, e.g. 0.0.25-alpha2" && exit 1
+
 rm -rf holochain-rust
 git clone --depth 1 --branch $BRANCH https://github.com/holochain/holochain-rust.git
 

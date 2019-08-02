@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["WasmPageManager","Struct for managing a WASM Memory Instance as a single page memory stack"]]});

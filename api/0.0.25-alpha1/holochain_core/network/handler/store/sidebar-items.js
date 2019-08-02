@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["handle_store","The network requests us to store (i.e. hold) the given entry aspect data."]]});
