@@ -1580,6 +1580,63 @@
 <span id="1580">1580</span>
 <span id="1581">1581</span>
 <span id="1582">1582</span>
+<span id="1583">1583</span>
+<span id="1584">1584</span>
+<span id="1585">1585</span>
+<span id="1586">1586</span>
+<span id="1587">1587</span>
+<span id="1588">1588</span>
+<span id="1589">1589</span>
+<span id="1590">1590</span>
+<span id="1591">1591</span>
+<span id="1592">1592</span>
+<span id="1593">1593</span>
+<span id="1594">1594</span>
+<span id="1595">1595</span>
+<span id="1596">1596</span>
+<span id="1597">1597</span>
+<span id="1598">1598</span>
+<span id="1599">1599</span>
+<span id="1600">1600</span>
+<span id="1601">1601</span>
+<span id="1602">1602</span>
+<span id="1603">1603</span>
+<span id="1604">1604</span>
+<span id="1605">1605</span>
+<span id="1606">1606</span>
+<span id="1607">1607</span>
+<span id="1608">1608</span>
+<span id="1609">1609</span>
+<span id="1610">1610</span>
+<span id="1611">1611</span>
+<span id="1612">1612</span>
+<span id="1613">1613</span>
+<span id="1614">1614</span>
+<span id="1615">1615</span>
+<span id="1616">1616</span>
+<span id="1617">1617</span>
+<span id="1618">1618</span>
+<span id="1619">1619</span>
+<span id="1620">1620</span>
+<span id="1621">1621</span>
+<span id="1622">1622</span>
+<span id="1623">1623</span>
+<span id="1624">1624</span>
+<span id="1625">1625</span>
+<span id="1626">1626</span>
+<span id="1627">1627</span>
+<span id="1628">1628</span>
+<span id="1629">1629</span>
+<span id="1630">1630</span>
+<span id="1631">1631</span>
+<span id="1632">1632</span>
+<span id="1633">1633</span>
+<span id="1634">1634</span>
+<span id="1635">1635</span>
+<span id="1636">1636</span>
+<span id="1637">1637</span>
+<span id="1638">1638</span>
+<span id="1639">1639</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">logger</span>::<span class="ident">LogRules</span>;
 <span class="doccomment">/// Conductor Configuration</span>
@@ -1603,7 +1660,6 @@
     },
     <span class="ident">error</span>::{<span class="ident">HcResult</span>, <span class="ident">HolochainError</span>},
 };
-<span class="comment">//use logging::rule::Rule;</span>
 
 <span class="kw">use</span> <span class="ident">holochain_json_api</span>::<span class="ident">json</span>::<span class="ident">JsonString</span>;
 <span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">AddressableContent</span>;
@@ -1691,19 +1747,67 @@
     <span class="doccomment">/// Which signals to emit</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">signals</span>: <span class="ident">SignalConfig</span>,
+
+    <span class="doccomment">/// Configure how the conductor should prompt the user for the passphrase to lock/unlock keystores.</span>
+    <span class="doccomment">/// The conductor is independent of the specialized implementation of the trait</span>
+    <span class="doccomment">/// PassphraseService. It just needs something to provide a passphrase when needed.</span>
+    <span class="doccomment">/// This config setting selects one of the available services (i.e. CLI prompt, IPC, mock)</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">passphrase_service</span>: <span class="ident">PassphraseServiceConfig</span>,
+}
+
+<span class="doccomment">/// The default passphrase service is `Cmd` which will ask for a passphrase via stdout stdin.</span>
+<span class="doccomment">/// In the context of a UI that wraps the conductor, this way of providing passphrases</span>
+<span class="doccomment">/// is not feasible.</span>
+<span class="doccomment">/// Setting the type to &quot;unixsocket&quot; and providing a path to a file socket enables</span>
+<span class="doccomment">/// arbitrary UIs to connect to the conductor and prompt the user for a passphrase.</span>
+<span class="doccomment">/// The according `PassphraseServiceUnixSocket` will send a request message over the socket</span>
+<span class="doccomment">/// then receives bytes as passphrase until a newline is sent.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>, <span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PassphraseServiceConfig</span> {
+    <span class="ident">Cmd</span>,
+    <span class="ident">UnixSocket</span> { <span class="ident">path</span>: <span class="ident">String</span> },
+    <span class="ident">Mock</span> { <span class="ident">passphrase</span>: <span class="ident">String</span> },
+}
+
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">PassphraseServiceConfig</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">PassphraseServiceConfig</span> {
+        <span class="ident">PassphraseServiceConfig</span>::<span class="ident">Cmd</span>
+    }
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_persistence_dir</span>() <span class="op">-&gt;</span> <span class="ident">PathBuf</span> {
     <span class="ident">holochain_common</span>::<span class="ident">paths</span>::<span class="ident">config_root</span>().<span class="ident">join</span>(<span class="string">&quot;conductor&quot;</span>)
 }
 
-<span class="doccomment">/// There might be different kinds of loggers in the future.</span>
-<span class="doccomment">/// Currently there is a &quot;debug&quot; and &quot;simple&quot; logger.</span>
-<span class="doccomment">/// TODO: make this an enum</span>
+<span class="doccomment">/// This is a config helper structure used to interface with the holochain logging subcrate.</span>
+<span class="doccomment">/// Custom rules/filter can be applied to logging, in fact they are used by default in Holochain to</span>
+<span class="doccomment">/// filter the logs from its dependencies.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// extern crate holochain_conductor_api;</span>
+<span class="doccomment">/// use holochain_conductor_api::{logger,config};</span>
+<span class="doccomment">/// let mut rules = logger::LogRules::new();</span>
+<span class="doccomment">/// // Filtering out all the logs from our dependencies</span>
+<span class="doccomment">/// rules</span>
+<span class="doccomment">///     .add_rule(&quot;.*&quot;, true, None)</span>
+<span class="doccomment">///     .expect(&quot;Invalid logging rule.&quot;);</span>
+<span class="doccomment">/// // And logging back all Holochain logs</span>
+<span class="doccomment">/// rules</span>
+<span class="doccomment">///     .add_rule(&quot;^holochain&quot;, false, None)</span>
+<span class="doccomment">///     .expect(&quot;Invalid logging rule.&quot;);</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let lc = config::LoggerConfiguration {</span>
+<span class="doccomment">///     logger_level: &quot;debug&quot;.to_string(),</span>
+<span class="doccomment">///     rules: rules,</span>
+<span class="doccomment">///     state_dump: true,</span>
+<span class="doccomment">///     };</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LoggerConfiguration</span> {
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">logger_type</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">logger_level</span>: <span class="ident">String</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">rules</span>: <span class="ident">LogRules</span>,
     <span class="comment">//    pub file: Option&lt;String&gt;,</span>
@@ -1714,7 +1818,7 @@
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">LoggerConfiguration</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">LoggerConfiguration</span> {
         <span class="ident">LoggerConfiguration</span> {
-            <span class="ident">logger_type</span>: <span class="string">&quot;debug&quot;</span>.<span class="ident">into</span>(),
+            <span class="ident">logger_level</span>: <span class="string">&quot;debug&quot;</span>.<span class="ident">into</span>(),
             <span class="ident">rules</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
             <span class="ident">state_dump</span>: <span class="bool-val">false</span>,
         }
@@ -1840,6 +1944,16 @@
         }
 
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">instance_ids_sorted_by_bridge_dependencies</span>()<span class="question-mark">?</span>;
+
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">unix</span>))]</span>
+        {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="ident">PassphraseServiceConfig</span>::<span class="ident">UnixSocket</span> { <span class="ident">path</span> } <span class="op">=</span> <span class="self">self</span>.<span class="ident">passphrase_service</span>.<span class="ident">clone</span>() {
+                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">path</span>;
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">String</span>::<span class="ident">from</span>(
+                    <span class="string">&quot;Passphrase service type &#39;unixsocket&#39; is not available on non-Unix systems&quot;</span>,
+                ));
+            }
+        }
 
         <span class="prelude-val">Ok</span>(())
     }
@@ -2540,7 +2654,7 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec instance&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">dna</span>, <span class="string">&quot;app spec rust&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">agent</span>, <span class="string">&quot;test agent&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">logger_type</span>, <span class="string">&quot;debug&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">logger_level</span>, <span class="string">&quot;debug&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">config</span>.<span class="ident">network</span>.<span class="ident">unwrap</span>(),
             <span class="ident">NetworkConfig</span>::<span class="ident">N3h</span>(<span class="ident">N3hConfig</span> {
@@ -2636,7 +2750,7 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">id</span>, <span class="string">&quot;app spec instance&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">dna</span>, <span class="string">&quot;app spec rust&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">instance_config</span>.<span class="ident">agent</span>, <span class="string">&quot;test agent&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">logger_type</span>, <span class="string">&quot;debug&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">logger_level</span>, <span class="string">&quot;debug&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">rules</span>.<span class="ident">rules</span>.<span class="ident">len</span>(), <span class="number">1</span>);
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">config</span>.<span class="ident">network</span>, <span class="prelude-val">None</span>);

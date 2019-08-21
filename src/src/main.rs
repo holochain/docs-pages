@@ -1,4 +1,5 @@
 extern crate chrono;
+//extern crate glob;
 use std::fs;
 use std::env;
 use std::fs::File;
@@ -7,6 +8,7 @@ use std::collections::BTreeMap;
 use handlebars::Handlebars;
 use chrono::{DateTime, Utc};
 use serde_json::{Map, Value};
+//use glob::glob;
 
 fn main() {
 
@@ -23,12 +25,20 @@ fn main() {
   // create the handlebars registry
   let mut handlebars = Handlebars::new();
 
+//  let mut templates = BTreeMap::new();
+//
+//    for t in glob("src/src/*.template.html").expect("Failed to read glob pattern") {
+//        let tmpl = fs::read_to_string(t.unwrap()).expect("unable to read template");
+//        println!("TMPL:{:?}",tmpl);
+//    }
+//
+
   let html = include_str!("html.template.html");
   let _ = handlebars.register_template_string("html", html);
 
   let head = include_str!("head.template.html");
   let _ = handlebars.register_template_string("head", head);
-  
+
   let header = include_str!("header.template.html");
   let _ = handlebars.register_template_string("header", header);
 

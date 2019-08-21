@@ -14,3 +14,4 @@ ALIASES["holochain_dpki"] = {};
 ALIASES["holochain_net"] = {};
 ALIASES["holochain_test_bin"] = {};
 ALIASES["holochain_wasm_utils"] = {};
+ALIASES["logging"] = {};

@@ -427,12 +427,14 @@
 <span id="427">427</span>
 <span id="428">428</span>
 <span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
     <span class="ident">conductor_api</span>::<span class="ident">ConductorApi</span>,
     <span class="ident">instance</span>::<span class="ident">Observer</span>,
-    <span class="ident">logger</span>::<span class="ident">Logger</span>,
     <span class="ident">nucleus</span>::<span class="ident">actions</span>::<span class="ident">get_entry</span>::<span class="ident">get_entry_from_cas</span>,
     <span class="ident">persister</span>::<span class="ident">Persister</span>,
     <span class="ident">signal</span>::{<span class="ident">Signal</span>, <span class="ident">SignalSender</span>},
@@ -471,13 +473,13 @@
 <span class="kw">use</span> <span class="ident">test_utils</span>::<span class="ident">mock_signing</span>::<span class="ident">mock_conductor_api</span>;
 
 <span class="doccomment">/// Context holds the components that parts of a Holochain instance need in order to operate.</span>
-<span class="doccomment">/// This includes components that are injected from the outside like logger and persister</span>
+<span class="doccomment">/// This includes components that are injected from the outside like persister</span>
 <span class="doccomment">/// but also the store of the instance that gets injected before passing on the context</span>
 <span class="doccomment">/// to inner components/reducers.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Context</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">instance_name</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">agent_id</span>: <span class="ident">AgentId</span>,
-    <span class="kw">pub</span> <span class="ident">logger</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Logger</span><span class="op">&gt;&gt;</span>,
     <span class="kw">pub</span> <span class="ident">persister</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Persister</span><span class="op">&gt;&gt;</span>,
     <span class="ident">state</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">StateWrapper</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">action_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;&gt;</span>,
@@ -520,8 +522,8 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
+        <span class="ident">instance_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">agent_id</span>: <span class="ident">AgentId</span>,
-        <span class="ident">logger</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Logger</span><span class="op">&gt;&gt;</span>,
         <span class="ident">persister</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Persister</span><span class="op">&gt;&gt;</span>,
         <span class="ident">chain_storage</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ContentAddressableStorage</span><span class="op">&gt;&gt;</span>,
         <span class="ident">dht_storage</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ContentAddressableStorage</span><span class="op">&gt;&gt;</span>,
@@ -532,8 +534,8 @@
         <span class="ident">state_dump_logging</span>: <span class="ident">bool</span>,
     ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Context</span> {
+            <span class="ident">instance_name</span>: <span class="ident">instance_name</span>.<span class="ident">to_owned</span>(),
             <span class="ident">agent_id</span>: <span class="ident">agent_id</span>.<span class="ident">clone</span>(),
-            <span class="ident">logger</span>,
             <span class="ident">persister</span>,
             <span class="ident">state</span>: <span class="prelude-val">None</span>,
             <span class="ident">action_channel</span>: <span class="prelude-val">None</span>,
@@ -553,8 +555,8 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_channels</span>(
+        <span class="ident">instance_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">agent_id</span>: <span class="ident">AgentId</span>,
-        <span class="ident">logger</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Logger</span><span class="op">&gt;&gt;</span>,
         <span class="ident">persister</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Persister</span><span class="op">&gt;&gt;</span>,
         <span class="ident">action_channel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">ActionWrapper</span><span class="op">&gt;&gt;</span>,
         <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">Signal</span><span class="op">&gt;&gt;</span>,
@@ -565,8 +567,8 @@
         <span class="ident">state_dump_logging</span>: <span class="ident">bool</span>,
     ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Context</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">Context</span> {
+            <span class="ident">instance_name</span>: <span class="ident">instance_name</span>.<span class="ident">to_owned</span>(),
             <span class="ident">agent_id</span>: <span class="ident">agent_id</span>.<span class="ident">clone</span>(),
-            <span class="ident">logger</span>,
             <span class="ident">persister</span>,
             <span class="ident">state</span>: <span class="prelude-val">None</span>,
             <span class="ident">action_channel</span>,
@@ -582,14 +584,9 @@
         })
     }
 
-    <span class="comment">// helper function to make it easier to call the logger</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">log</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">logger</span> <span class="op">=</span> <span class="self">self</span>
-            .<span class="ident">logger</span>
-            .<span class="ident">lock</span>()
-            .<span class="ident">or</span>(<span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">LoggingError</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;Logger should work&quot;</span>);;
-        <span class="ident">logger</span>.<span class="ident">log</span>(<span class="ident">msg</span>.<span class="ident">into</span>());
+    <span class="doccomment">/// Returns the name of this context instance.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_instance_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="self">self</span>.<span class="ident">instance_name</span>.<span class="ident">clone</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_state</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">state</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span><span class="ident">StateWrapper</span><span class="op">&gt;&gt;</span>) {
@@ -784,20 +781,22 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">tempfile</span>::<span class="ident">tempdir</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">logger</span>::<span class="ident">test_logger</span>, <span class="ident">persister</span>::<span class="ident">SimplePersister</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">persister</span>::<span class="ident">SimplePersister</span>;
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">agent</span>::<span class="ident">AgentId</span>;
     <span class="kw">use</span> <span class="ident">holochain_persistence_file</span>::{<span class="ident">cas</span>::<span class="ident">file</span>::<span class="ident">FilesystemStorage</span>, <span class="ident">eav</span>::<span class="ident">file</span>::<span class="ident">EavFileStorage</span>};
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>};
     <span class="kw">use</span> <span class="ident">tempfile</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">state_test</span>() {
+    <span class="kw">fn</span> <span class="ident">context_log_macro_test_from_context</span>() {
+        <span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
+
         <span class="kw">let</span> <span class="ident">file_storage</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(
             <span class="ident">FilesystemStorage</span>::<span class="ident">new</span>(<span class="ident">tempdir</span>().<span class="ident">unwrap</span>().<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>()).<span class="ident">unwrap</span>(),
         ));
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">maybe_context</span> <span class="op">=</span> <span class="ident">Context</span>::<span class="ident">new</span>(
-            <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;Terence&quot;</span>),
-            <span class="ident">test_logger</span>(),
+        <span class="kw">let</span> <span class="ident">ctx</span> <span class="op">=</span> <span class="ident">Context</span>::<span class="ident">new</span>(
+            <span class="string">&quot;LOG-TEST-ID&quot;</span>,
+            <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;Bilbo&quot;</span>),
             <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>()))),
             <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
             <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
@@ -811,17 +810,24 @@
             <span class="bool-val">false</span>,
         );
 
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">maybe_context</span>.<span class="ident">state</span>().<span class="ident">is_none</span>());
+        <span class="comment">// Somehow we need to build our own logging instance for this test to show logs</span>
+        <span class="kw">use</span> <span class="ident">logging</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+        <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">FastLoggerBuilder</span>::<span class="ident">new</span>()
+            .<span class="ident">set_level_from_str</span>(<span class="string">&quot;Trace&quot;</span>)
+            .<span class="ident">build</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Fail to init logger.&quot;</span>);
 
-        <span class="kw">let</span> <span class="ident">global_state</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">RwLock</span>::<span class="ident">new</span>(<span class="ident">StateWrapper</span>::<span class="ident">new</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(
-            <span class="ident">maybe_context</span>.<span class="ident">clone</span>(),
-        ))));
-        <span class="ident">maybe_context</span>.<span class="ident">set_state</span>(<span class="ident">global_state</span>.<span class="ident">clone</span>());
+        <span class="comment">// Tests if the context logger can be customized by poassing a target value</span>
+        <span class="macro">log_info</span><span class="macro">!</span>(<span class="ident">target</span>: <span class="string">&quot;holochain-custom-log-target&quot;</span>, <span class="string">&quot;Custom target &amp; &#39;{}&#39; log level.&quot;</span>, <span class="string">&quot;Info&quot;</span>);
 
-        {
-            <span class="kw">let</span> <span class="ident">_read_lock</span> <span class="op">=</span> <span class="ident">global_state</span>.<span class="ident">read</span>().<span class="ident">unwrap</span>();
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">maybe_context</span>.<span class="ident">state</span>().<span class="ident">is_some</span>());
-        }
+        <span class="comment">// Tests if the context logger fills its target with the instance ID</span>
+        <span class="macro">log_trace</span><span class="macro">!</span>(<span class="ident">ctx</span>, <span class="string">&quot;&#39;{}&#39; log level with Context target.&quot;</span>, <span class="string">&quot;Trace&quot;</span>);
+        <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">ctx</span>, <span class="string">&quot;&#39;{}&#39; log level with Context target.&quot;</span>, <span class="string">&quot;Debug&quot;</span>);
+        <span class="macro">log_info</span><span class="macro">!</span>(<span class="ident">ctx</span>, <span class="string">&quot;&#39;{}&#39; log level with Context target.&quot;</span>, <span class="string">&quot;Info&quot;</span>);
+        <span class="macro">log_warn</span><span class="macro">!</span>(<span class="ident">ctx</span>, <span class="string">&quot;&#39;{}&#39; log level with Context target.&quot;</span>, <span class="string">&quot;Warning&quot;</span>);
+        <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">ctx</span>, <span class="string">&quot;&#39;{}&#39; log level with Context target.&quot;</span>, <span class="string">&quot;Error&quot;</span>);
+
+        <span class="ident">guard</span>.<span class="ident">flush</span>();
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -832,8 +838,8 @@
             <span class="ident">FilesystemStorage</span>::<span class="ident">new</span>(<span class="ident">tempdir</span>().<span class="ident">unwrap</span>().<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>()).<span class="ident">unwrap</span>(),
         ));
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">Context</span>::<span class="ident">new</span>(
+            <span class="string">&quot;test_deadlock_instance&quot;</span>,
             <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;Terence&quot;</span>),
-            <span class="ident">test_logger</span>(),
             <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>()))),
             <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
             <span class="ident">file_storage</span>.<span class="ident">clone</span>(),

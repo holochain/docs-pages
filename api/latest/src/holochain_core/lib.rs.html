@@ -40,6 +40,12 @@
 <span id="40">40</span>
 <span id="41">41</span>
 <span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! The library implementing the holochain pattern of validation rules + local source chain + DHT</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">arbitrary_self_types</span>, <span class="ident">async_await</span>, <span class="ident">await_macro</span>)]</span>
@@ -62,7 +68,13 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_json_derive</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">pretty_assertions</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">log</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">logging</span>;
 
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">macros</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">action</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">agent</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">consistency</span>;

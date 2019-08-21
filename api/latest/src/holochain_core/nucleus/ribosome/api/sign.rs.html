@@ -98,7 +98,6 @@
 <span id="98"> 98</span>
 <span id="99"> 99</span>
 <span id="100">100</span>
-<span id="101">101</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::<span class="ident">ribosome</span>::{<span class="ident">api</span>::<span class="ident">ZomeApiResult</span>, <span class="ident">Runtime</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{<span class="ident">error</span>::<span class="ident">HcResult</span>, <span class="ident">signature</span>::<span class="ident">Signature</span>};
@@ -122,10 +121,9 @@
         <span class="prelude-val">Ok</span>(<span class="ident">sign_input</span>) <span class="op">=&gt;</span> <span class="ident">sign_input</span>,
         <span class="comment">// Exit on error</span>
         <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
-            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;err/zome: invoke_sign_one_time failed to deserialize OneTimeSignArgs: {:?} got err: {:?}&quot;</span>,
+            <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;zome: invoke_sign_one_time failed to deserialize OneTimeSignArgs: {:?} got err: {:?}&quot;</span>,
                 <span class="ident">args_str</span>, <span class="ident">err</span>
-            ));
+            );
             <span class="kw">return</span> <span class="macro">ribosome_error_code</span><span class="macro">!</span>(<span class="ident">ArgumentDeserializationFailed</span>);
         }
     };

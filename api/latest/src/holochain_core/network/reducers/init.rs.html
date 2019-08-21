@@ -108,7 +108,6 @@
 <span id="108">108</span>
 <span id="109">109</span>
 <span id="110">110</span>
-<span id="111">111</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -163,7 +162,6 @@
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{
         <span class="ident">context</span>::<span class="ident">Context</span>,
-        <span class="ident">logger</span>::<span class="ident">test_logger</span>,
         <span class="ident">persister</span>::<span class="ident">SimplePersister</span>,
         <span class="ident">state</span>::{<span class="ident">test_store</span>, <span class="ident">StateWrapper</span>},
     };
@@ -179,8 +177,8 @@
             <span class="ident">FilesystemStorage</span>::<span class="ident">new</span>(<span class="ident">tempdir</span>().<span class="ident">unwrap</span>().<span class="ident">path</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>()).<span class="ident">unwrap</span>(),
         ));
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">Context</span>::<span class="ident">new</span>(
+            <span class="string">&quot;Test-context-instance&quot;</span>,
             <span class="ident">AgentId</span>::<span class="ident">generate_fake</span>(<span class="string">&quot;Terence&quot;</span>),
-            <span class="ident">test_logger</span>(),
             <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SimplePersister</span>::<span class="ident">new</span>(<span class="ident">file_storage</span>.<span class="ident">clone</span>()))),
             <span class="ident">file_storage</span>.<span class="ident">clone</span>(),
             <span class="ident">file_storage</span>.<span class="ident">clone</span>(),

@@ -89,19 +89,19 @@
         <span class="prelude-val">Ok</span>(<span class="ident">verify_signature_input</span>) <span class="op">=&gt;</span> <span class="ident">verify_signature_input</span>,
         <span class="comment">// Exit on error</span>
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
-            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;err/zome: invoke_verify_signature failed to deserialize SerializedEntry: {:?}&quot;</span>,
+            <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>,
+                <span class="string">&quot;zome: invoke_verify_signature failed to deserialize SerializedEntry: {:?}&quot;</span>,
                 <span class="ident">args_str</span>
-            ));
+            );
             <span class="kw">return</span> <span class="macro">ribosome_error_code</span><span class="macro">!</span>(<span class="ident">ArgumentDeserializationFailed</span>);
         }
     };
 
-    <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-        <span class="string">&quot;debug/zome: using provenance:{:?} to verify data:{:?}&quot;</span>,
+    <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">context</span>,
+        <span class="string">&quot;zome: using provenance:{:?} to verify data:{:?}&quot;</span>,
         <span class="ident">verification_args</span>.<span class="ident">provenance</span>.<span class="ident">clone</span>(),
         <span class="ident">verification_args</span>.<span class="ident">payload</span>.<span class="ident">clone</span>()
-    ));
+    );
 
     <span class="kw">let</span> <span class="ident">verification_result</span> <span class="op">=</span> <span class="ident">verification_args</span>
         .<span class="ident">provenance</span>

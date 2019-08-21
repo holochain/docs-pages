@@ -52,7 +52,6 @@
 <span id="52">52</span>
 <span id="53">53</span>
 <span id="54">54</span>
-<span id="55">55</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>, <span class="ident">DirectMessageData</span>},
@@ -87,15 +86,14 @@
         };
 
     <span class="kw">if</span> <span class="ident">maybe_validation_package</span>.<span class="ident">is_some</span>() {
-        <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;Sending validation package of entry {} to agent {}&quot;</span>,
+        <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">context</span>,
+            <span class="string">&quot;workflows/validation: Sending validation package of entry {} to agent {}&quot;</span>,
             <span class="ident">requested_entry_address</span>, <span class="ident">to_agent_id</span>
-        ));
+        );
     } <span class="kw">else</span> {
-        <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;Got request for validation package of unknown entry {} from agent {}!&quot;</span>,
+        <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;workflow/validation: Got request for validation package of unknown entry {} from agent {}!&quot;</span>,
             <span class="ident">requested_entry_address</span>, <span class="ident">to_agent_id</span>
-        ));
+        );
     };
 
     <span class="kw">let</span> <span class="ident">direct_message</span> <span class="op">=</span> <span class="ident">DirectMessage</span>::<span class="ident">ValidationPackage</span>(<span class="ident">maybe_validation_package</span>);

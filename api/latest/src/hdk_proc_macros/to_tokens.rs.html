@@ -248,7 +248,7 @@
 
 <span class="kw">impl</span> <span class="ident">ToTokens</span> <span class="kw">for</span> <span class="ident">ZomeCodeDef</span> {
     <span class="kw">fn</span> <span class="ident">to_tokens</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">tokens</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TokenStream</span>) {
-        <span class="kw">let</span> <span class="ident">genesis</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">init</span>();
+        <span class="kw">let</span> <span class="ident">init</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">init</span>();
         <span class="kw">let</span> <span class="ident">zome_setup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">zome_setup</span>();
         <span class="kw">let</span> <span class="ident">list_traits</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">list_traits</span>();
         <span class="kw">let</span> <span class="ident">list_functions</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">list_functions</span>();
@@ -264,7 +264,7 @@
 
             #(#<span class="ident">entry_def_fns</span> )<span class="op">*</span>
 
-            #<span class="ident">genesis</span>
+            #<span class="ident">init</span>
 
             #<span class="ident">zome_setup</span>
 

@@ -1520,7 +1520,7 @@
                 <span class="comment">// TODO: Remove this fall back to the previous impl of inner &#39;params&#39;</span>
                 <span class="comment">// as soon as its deprecation life cycle is over &lt;17-04-19, dymayday&gt; //</span>
                 <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">hc</span>.<span class="ident">context</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">context</span><span class="op">|</span>
-                    <span class="ident">context</span>.<span class="ident">log</span>(<span class="string">&quot;warn/interface: DEPRECATION WARNING: Using &#39;params&#39; for a Zome function call is now deprecated.\
+                    <span class="macro">log_warn</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;interface: DEPRECATION WARNING: Using &#39;params&#39; for a Zome function call is now deprecated.\
                     Please switch to &#39;args&#39; instead, as &#39;params&#39; will soon be phased out.&quot;</span>));
                 <span class="ident">params_map</span>.<span class="ident">get</span>(<span class="string">&quot;params&quot;</span>)
             });

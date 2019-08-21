@@ -206,7 +206,7 @@ fn resolve_action_handler(
 ) -&gt; Option&lt;fn(&amp;mut AgentState, &amp;ActionWrapper, &amp;Sender&lt;ActionWrapper&gt;, &amp;Sender&lt;Observer&gt;)&gt; {
     match action_wrapper.action() {
         Action::Commit(_, _) =&gt; Some(handle_commit),
-        Action::Get(_) =&gt; Some(handle_get),
+        Action::Query(_) =&gt; Some(handle_get),
         _ =&gt; None,
     }
 }

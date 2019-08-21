@@ -227,9 +227,6 @@
 <span id="227">227</span>
 <span id="228">228</span>
 <span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
-<span id="232">232</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -247,7 +244,7 @@
     },
     <span class="ident">error</span>::<span class="ident">HolochainError</span>,
 };
-<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>};
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">pin</span>::<span class="ident">Pin</span>, <span class="ident">sync</span>::<span class="ident">Arc</span>, <span class="ident">time</span>::<span class="kw-2">*</span>};
 
@@ -387,10 +384,7 @@
                 ));
             }
             <span class="prelude-val">Ok</span>(<span class="ident">addr</span>) <span class="op">=&gt;</span> {
-                <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                    <span class="string">&quot;debug/initialize: created public token: {:?}&quot;</span>,
-                    <span class="ident">addr</span>
-                ));
+                <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;initialize: created public token: {:?}&quot;</span>, <span class="ident">addr</span>);
                 <span class="prelude-val">Some</span>(<span class="ident">addr</span>)
             }
         }

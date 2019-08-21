@@ -38,8 +38,6 @@
 <span id="38">38</span>
 <span id="39">39</span>
 <span id="40">40</span>
-<span id="41">41</span>
-<span id="42">42</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -63,20 +61,18 @@
             <span class="kw">match</span> <span class="ident">get_meta_aspects</span>(<span class="kw-2">&amp;</span><span class="ident">address</span>, <span class="ident">context</span>.<span class="ident">clone</span>()) {
                 <span class="prelude-val">Ok</span>(<span class="kw-2">mut</span> <span class="ident">meta_aspects</span>) <span class="op">=&gt;</span> <span class="ident">aspects</span>.<span class="ident">append</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">meta_aspects</span>),
                 <span class="prelude-val">Err</span>(<span class="ident">get_meta_error</span>) <span class="op">=&gt;</span> {
-                    <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                        <span class="string">&quot;error/net/handle_fetch_entry: Error getting meta aspects for entry ({:?}), error: {:?}&quot;</span>,
+                    <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/handle_fetch_entry: Error getting meta aspects for entry ({:?}), error: {:?}&quot;</span>,
                         <span class="ident">address</span>,
                         <span class="ident">get_meta_error</span>,
-                    ));
+                    );
                 }
             }
         }
         <span class="prelude-val">Err</span>(<span class="ident">get_content_error</span>) <span class="op">=&gt;</span> {
-            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;warn/net/handle_fetch_entry: Could not get content aspect of requested entry ({:?}), error: {:?}&quot;</span>,
+            <span class="macro">log_warn</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/handle_fetch_entry: Could not get content aspect of requested entry ({:?}), error: {:?}&quot;</span>,
                 <span class="ident">address</span>,
                 <span class="ident">get_content_error</span>,
-            ));
+            );
         }
     }
 

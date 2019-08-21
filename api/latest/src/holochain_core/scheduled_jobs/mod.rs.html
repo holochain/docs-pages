@@ -22,7 +22,7 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_callback</span>(<span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="kw">impl</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">FnMut</span>() <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Send</span> {
     <span class="kw">move</span> <span class="op">||</span> {
-        <span class="comment">//context.log(&quot;debug/scheduled_jobs: tick&quot;);</span>
+        <span class="comment">//log_debug!(context, &quot;scheduled_jobs: tick&quot;);</span>
         <span class="kw">if</span> <span class="ident">context</span>.<span class="ident">state_dump_logging</span> {
             <span class="ident">state_dump</span>::<span class="ident">state_dump</span>(<span class="ident">context</span>.<span class="ident">clone</span>());
         }

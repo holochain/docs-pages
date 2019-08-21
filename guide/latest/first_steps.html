@@ -181,7 +181,7 @@ hc generate zomes/lists rust
  └── zome.json
 </code></pre>
 <a class="header" href="#writing-the-lists-zome" id="writing-the-lists-zome"><h2>Writing the lists zome</h2></a>
-<p>The Rust HDK makes use of Rust macros to reduce the need for boilerplate code. The most important of which is the <a href="https://developer.holochain.org/api/0.0.25-alpha1/hdk/macro.define_zome.html"><code>define_zome!</code></a> macro. Every zome must use this to define the structure of the zome, what entries it contains, which functions it exposes and what to do on first start-up (init).</p>
+<p>The Rust HDK makes use of Rust macros to reduce the need for boilerplate code. The most important of which is the <a href="https://developer.holochain.org/api/0.0.26-alpha1/hdk/macro.define_zome.html"><code>define_zome!</code></a> macro. Every zome must use this to define the structure of the zome, what entries it contains, which functions it exposes and what to do on first start-up (init).</p>
 <p>Open up <code>lib.rs</code> and replace its contents with the following:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]

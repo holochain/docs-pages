@@ -210,6 +210,13 @@
 <span id="210">210</span>
 <span id="211">211</span>
 <span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">nucleus</span>::{<span class="ident">actions</span>::<span class="ident">initialize</span>::<span class="ident">Initialization</span>, <span class="ident">validation</span>::<span class="ident">ValidationResult</span>, <span class="ident">ZomeFnCall</span>},
@@ -223,11 +230,12 @@
     <span class="ident">json</span>::<span class="ident">JsonString</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::{<span class="ident">Address</span>, <span class="ident">AddressableContent</span>, <span class="ident">Content</span>};
+<span class="kw">use</span> <span class="ident">serde</span>::{
+    <span class="ident">de</span>::{<span class="ident">Error</span>, <span class="ident">Visitor</span>},
+    <span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>,
+};
 <span class="kw">use</span> <span class="ident">snowflake</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections</span>::<span class="ident">HashMap</span>, <span class="ident">convert</span>::<span class="ident">TryFrom</span>};
-<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Serialize</span>, <span class="ident">Serializer</span>, <span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>};
-<span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">de</span>::{<span class="ident">Visitor</span>, <span class="ident">Error</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections</span>::<span class="ident">HashMap</span>, <span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">fmt</span>};
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>, <span class="ident">DefaultJson</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">NucleusStatus</span> {
@@ -268,23 +276,29 @@
     }
 
     <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Value</span>, <span class="ident">E</span><span class="op">&gt;</span>
-    <span class="kw">where</span> <span class="ident">E</span>: <span class="ident">Error</span> {
-        <span class="kw">let</span> <span class="ident">parts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">split</span>(<span class="string">&quot;__&quot;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span><span class="ident">s</span>.<span class="ident">to_string</span>()).<span class="ident">collect</span>();
-        <span class="kw">let</span> <span class="ident">address</span> <span class="op">=</span> <span class="ident">parts</span>.<span class="ident">first</span>().<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="string">&quot;No address found&quot;</span>))<span class="question-mark">?</span>.<span class="ident">to_owned</span>();
-        <span class="kw">let</span> <span class="ident">workflow</span> <span class="op">=</span> <span class="ident">parts</span>.<span class="ident">last</span>().<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="string">&quot;No workflow found&quot;</span>))<span class="question-mark">?</span>.<span class="ident">to_owned</span>();
+    <span class="kw">where</span>
+        <span class="ident">E</span>: <span class="ident">Error</span>,
+    {
+        <span class="kw">let</span> <span class="ident">parts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">split</span>(<span class="string">&quot;__&quot;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_string</span>()).<span class="ident">collect</span>();
+        <span class="kw">let</span> <span class="ident">address</span> <span class="op">=</span> <span class="ident">parts</span>
+            .<span class="ident">first</span>()
+            .<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="string">&quot;No address found&quot;</span>))<span class="question-mark">?</span>
+            .<span class="ident">to_owned</span>();
+        <span class="kw">let</span> <span class="ident">workflow</span> <span class="op">=</span> <span class="ident">parts</span>
+            .<span class="ident">last</span>()
+            .<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="string">&quot;No workflow found&quot;</span>))<span class="question-mark">?</span>
+            .<span class="ident">to_owned</span>();
         <span class="prelude-val">Ok</span>(<span class="ident">PendingValidationKey</span>::<span class="ident">new</span>(
             <span class="ident">address</span>.<span class="ident">into</span>(),
-            <span class="ident">ValidatingWorkflow</span>::<span class="ident">try_from</span>(<span class="ident">workflow</span>)
-                .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">custom</span>(<span class="ident">e</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>
+            <span class="ident">ValidatingWorkflow</span>::<span class="ident">try_from</span>(<span class="ident">workflow</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">custom</span>(<span class="ident">e</span>.<span class="ident">to_string</span>()))<span class="question-mark">?</span>,
         ))
     }
-
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PendingValidationKey</span> {
     <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
+    <span class="kw">where</span>
+        <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
     {
         <span class="ident">deserializer</span>.<span class="ident">deserialize_str</span>(<span class="ident">PendingValidationKeyStringVisitor</span>)
     }

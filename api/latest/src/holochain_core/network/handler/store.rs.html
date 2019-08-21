@@ -218,9 +218,6 @@
 <span id="218">218</span>
 <span id="219">219</span>
 <span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
@@ -245,8 +242,7 @@
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">aspect</span>) <span class="op">=</span> <span class="ident">aspect_json</span>.<span class="ident">clone</span>().<span class="ident">try_into</span>() {
         <span class="kw">match</span> <span class="ident">aspect</span> {
             <span class="ident">EntryAspect</span>::<span class="ident">Content</span>(<span class="ident">entry</span>, <span class="ident">header</span>) <span class="op">=&gt;</span> {
-                <span class="ident">context</span>
-                    .<span class="ident">log</span>(<span class="string">&quot;debug/net/handle: handle_store: Got EntryAspect::Content. processing...&quot;</span>);
+                <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/handle: handle_store: Got EntryAspect::Content. processing...&quot;</span>);
                 <span class="kw">let</span> <span class="ident">entry_with_header</span> <span class="op">=</span> <span class="ident">EntryWithHeader</span> { <span class="ident">entry</span>, <span class="ident">header</span> };
                 <span class="ident">thread</span>::<span class="ident">Builder</span>::<span class="ident">new</span>()
                     .<span class="ident">name</span>(<span class="macro">format</span><span class="macro">!</span>(
@@ -257,7 +253,7 @@
                         <span class="kw">match</span> <span class="ident">context</span>
                             .<span class="ident">block_on</span>(<span class="ident">hold_entry_workflow</span>(<span class="kw-2">&amp;</span><span class="ident">entry_with_header</span>, <span class="ident">context</span>.<span class="ident">clone</span>()))
                         {
-                            <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;err/net/dht: {}&quot;</span>, <span class="ident">error</span>)),
+                            <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/dht: {}&quot;</span>, <span class="ident">error</span>),
                             <span class="kw">_</span> <span class="op">=&gt;</span> (),
                         }
                     })
@@ -267,11 +263,10 @@
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;unimplemented store aspect Header: {:?}&quot;</span>, <span class="ident">header</span>));
             }
             <span class="ident">EntryAspect</span>::<span class="ident">LinkAdd</span>(<span class="ident">link_data</span>, <span class="ident">header</span>) <span class="op">=&gt;</span> {
-                <span class="ident">context</span>
-                    .<span class="ident">log</span>(<span class="string">&quot;debug/net/handle: handle_store: Got EntryAspect::LinkAdd. processing...&quot;</span>);
+                <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/handle: handle_store: Got EntryAspect::LinkAdd. processing...&quot;</span>);
                 <span class="kw">let</span> <span class="ident">entry</span> <span class="op">=</span> <span class="ident">Entry</span>::<span class="ident">LinkAdd</span>(<span class="ident">link_data</span>);
                 <span class="kw">if</span> <span class="ident">entry</span>.<span class="ident">address</span>() <span class="op">!=</span> <span class="kw-2">*</span><span class="ident">header</span>.<span class="ident">entry_address</span>() {
-                    <span class="ident">context</span>.<span class="ident">log</span>(<span class="string">&quot;err/net/handle: handle_store: Got EntryAspect::LinkAdd with non-matching LinkData and ChainHeader! Hash of content in header does not match content! Ignoring.&quot;</span>);
+                    <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/handle: handle_store: Got EntryAspect::LinkAdd with non-matching LinkData and ChainHeader! Hash of content in header does not match content! Ignoring.&quot;</span>);
                     <span class="kw">return</span>;
                 }
                 <span class="kw">let</span> <span class="ident">entry_with_header</span> <span class="op">=</span> <span class="ident">EntryWithHeader</span> { <span class="ident">entry</span>, <span class="ident">header</span> };
@@ -284,15 +279,15 @@
                         <span class="kw">match</span> <span class="ident">context</span>
                             .<span class="ident">block_on</span>(<span class="ident">hold_link_workflow</span>(<span class="kw-2">&amp;</span><span class="ident">entry_with_header</span>, <span class="ident">context</span>.<span class="ident">clone</span>()))
                         {
-                            <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;err/net/dht: {}&quot;</span>, <span class="ident">error</span>)),
+                            <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/dht: {}&quot;</span>, <span class="ident">error</span>),
                             <span class="kw">_</span> <span class="op">=&gt;</span> (),
                         }
                     })
                     .<span class="ident">expect</span>(<span class="string">&quot;Could not spawn thread for storing EntryAspect::LinkAdd&quot;</span>);
             }
             <span class="ident">EntryAspect</span>::<span class="ident">LinkRemove</span>((<span class="ident">link_data</span>, <span class="ident">links_to_remove</span>), <span class="ident">header</span>) <span class="op">=&gt;</span> {
-                <span class="ident">context</span>.<span class="ident">log</span>(
-                    <span class="string">&quot;debug/net/handle: handle_store: Got EntryAspect::LinkRemove. processing...&quot;</span>,
+                <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">context</span>, 
+                    <span class="string">&quot;net/handle: handle_store: Got EntryAspect::LinkRemove. processing...&quot;</span>,
                 );
                 <span class="kw">let</span> <span class="ident">entry</span> <span class="op">=</span> <span class="ident">Entry</span>::<span class="ident">LinkRemove</span>((<span class="ident">link_data</span>, <span class="ident">links_to_remove</span>));
                 <span class="kw">let</span> <span class="ident">entry_with_header</span> <span class="op">=</span> <span class="ident">EntryWithHeader</span> { <span class="ident">entry</span>, <span class="ident">header</span> };
@@ -305,14 +300,13 @@
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span> <span class="ident">context</span>
                             .<span class="ident">block_on</span>(<span class="ident">remove_link_workflow</span>(<span class="kw-2">&amp;</span><span class="ident">entry_with_header</span>, <span class="ident">context</span>.<span class="ident">clone</span>()))
                         {
-                            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;err/net/dht: {}&quot;</span>, <span class="ident">error</span>))
+                            <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/dht: {}&quot;</span>, <span class="ident">error</span>)
                         }
                     })
                     .<span class="ident">expect</span>(<span class="string">&quot;Could not spawn thread for storing EntryAspect::LinkRemove&quot;</span>);
             }
             <span class="ident">EntryAspect</span>::<span class="ident">Update</span>(<span class="ident">entry</span>, <span class="ident">header</span>) <span class="op">=&gt;</span> {
-                <span class="ident">context</span>
-                    .<span class="ident">log</span>(<span class="string">&quot;debug/net/handle: handle_store: Got EntryAspect::Update. processing...&quot;</span>);
+                <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/handle: handle_store: Got EntryAspect::Update. processing...&quot;</span>);
                 <span class="kw">let</span> <span class="ident">entry_with_header</span> <span class="op">=</span> <span class="ident">EntryWithHeader</span> { <span class="ident">entry</span>, <span class="ident">header</span> };
                 <span class="ident">thread</span>::<span class="ident">Builder</span>::<span class="ident">new</span>()
                     .<span class="ident">name</span>(<span class="macro">format</span><span class="macro">!</span>(
@@ -323,19 +317,19 @@
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span> <span class="ident">context</span>
                             .<span class="ident">block_on</span>(<span class="ident">hold_update_workflow</span>(<span class="kw-2">&amp;</span><span class="ident">entry_with_header</span>, <span class="ident">context</span>.<span class="ident">clone</span>()))
                         {
-                            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;err/net/dht: {}&quot;</span>, <span class="ident">error</span>))
+                            <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/dht: {}&quot;</span>, <span class="ident">error</span>)
                         }
                     })
                     .<span class="ident">expect</span>(<span class="string">&quot;Could not spawn thread for storing EntryAspect::Update&quot;</span>);
             }
             <span class="ident">EntryAspect</span>::<span class="ident">Deletion</span>(<span class="ident">header</span>) <span class="op">=&gt;</span> {
-                <span class="ident">context</span>.<span class="ident">log</span>(
-                    <span class="string">&quot;debug/net/handle: handle_store: Got EntryAspect::Deletion. processing...&quot;</span>,
+                <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">context</span>, 
+                    <span class="string">&quot;net/handle: handle_store: Got EntryAspect::Deletion. processing...&quot;</span>,
                 );
                 <span class="comment">// reconstruct the deletion entry from the header.</span>
                 <span class="kw">let</span> <span class="ident">deleted_entry_address</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">header</span>.<span class="ident">link_update_delete</span>() {
                     <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
-                        <span class="ident">context</span>.<span class="ident">log</span>(<span class="string">&quot;err/net/handle: handle_store: Got EntryAspect::Deletion with header that has no deletion link! Ignoring.&quot;</span>);
+                        <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/handle: handle_store: Got EntryAspect::Deletion with header that has no deletion link! Ignoring.&quot;</span>);
                         <span class="kw">return</span>;
                     }
                     <span class="prelude-val">Some</span>(<span class="ident">address</span>) <span class="op">=&gt;</span> <span class="ident">address</span>,
@@ -352,17 +346,17 @@
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span> <span class="ident">context</span>
                             .<span class="ident">block_on</span>(<span class="ident">hold_remove_workflow</span>(<span class="kw-2">&amp;</span><span class="ident">entry_with_header</span>, <span class="ident">context</span>.<span class="ident">clone</span>()))
                         {
-                            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;err/net/handle_store: {}&quot;</span>, <span class="ident">error</span>))
+                            <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net/handle_store: {}&quot;</span>, <span class="ident">error</span>)
                         }
                     })
                     .<span class="ident">expect</span>(<span class="string">&quot;Could not spawn thread for storing EntryAspect::Deletion&quot;</span>);
             }
         }
     } <span class="kw">else</span> {
-        <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;err/net/handle_store: Unable to parse entry aspect: {}&quot;</span>,
+        <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>,
+            <span class="string">&quot;net/handle_store: Unable to parse entry aspect: {}&quot;</span>,
             <span class="ident">aspect_json</span>
-        ))
+        )
     }
 }
 
@@ -374,7 +368,7 @@ pub fn handle_store_meta(dht_meta_data: DhtMetaData, context: Arc&lt;Context&gt;
     // @TODO: If network crates will switch to using the `Attribute` enum,
     // we can match on the enum directly
     if attr == Attribute::Link.to_string() {
-        context.log(&quot;debug/net/handle: HandleStoreMeta: got LINK. processing...&quot;);
+        log_debug!(context, &quot;net/handle: HandleStoreMeta: got LINK. processing...&quot;);
         // TODO: do a loop on content once links properly implemented
         assert_eq!(dht_meta_data.content_list.len(), 1);
         let entry_with_header: EntryWithHeader = serde_json::from_str(
@@ -384,12 +378,12 @@ pub fn handle_store_meta(dht_meta_data: DhtMetaData, context: Arc&lt;Context&gt;
         .expect(&quot;dht_meta_data should be EntryWithHeader&quot;);
         thread::spawn(move || {
             match context.block_on(hold_link_workflow(&amp;entry_with_header, &amp;context.clone())) {
-                Err(error) =&gt; context.log(format!(&quot;err/net/dht: {}&quot;, error)),
+                Err(error) =&gt; log_error!(context, &quot;net/dht: {}&quot;, error),
                 _ =&gt; (),
             }
         });
     } else if attr == Attribute::LinkRemove.to_string() {
-        context.log(&quot;debug/net/handle: HandleStoreMeta: got LINK REMOVAL. processing...&quot;);
+        log_debug!(context, &quot;net/handle: HandleStoreMeta: got LINK REMOVAL. processing...&quot;);
         // TODO: do a loop on content once links properly implemented
         assert_eq!(dht_meta_data.content_list.len(), 1);
         let entry_with_header: EntryWithHeader = serde_json::from_str(
@@ -402,14 +396,14 @@ pub fn handle_store_meta(dht_meta_data: DhtMetaData, context: Arc&lt;Context&gt;
             if let Err(error) =
                 context.block_on(remove_link_workflow(&amp;entry_with_header, &amp;context.clone()))
             {
-                context.log(format!(&quot;err/net/dht: {}&quot;, error))
+                log_error!(context, &quot;net/dht: {}&quot;, error)
             }
         });
     } else if CrudStatus::from_str(&amp;attr)
         .expect(&quot;Could not convert deleted attribute to CrudStatus&quot;)
         == CrudStatus::Deleted
     {
-        context.log(&quot;debug/net/handle: HandleStoreMeta: got CRUD STATUS. processing...&quot;);
+        log_debug!(context, &quot;net/handle: HandleStoreMeta: got CRUD STATUS. processing...&quot;);
 
         let entry_with_header: EntryWithHeader = serde_json::from_str(
             //should be careful doing slice access, it might panic
@@ -421,14 +415,14 @@ pub fn handle_store_meta(dht_meta_data: DhtMetaData, context: Arc&lt;Context&gt;
             if let Err(error) =
                 context.block_on(hold_remove_workflow(entry_with_header, context.clone()))
             {
-                context.log(format!(&quot;err/net/dht: {}&quot;, error))
+                log_error!(context, &quot;net/dht: {}&quot;, error)
             }
         });
     } else if CrudStatus::from_str(&amp;attr)
         .expect(&quot;Could not convert modified attribute to CrudStatus&quot;)
         == CrudStatus::Modified
     {
-        context.log(&quot;debug/net/handle: HandleStoreMeta: got CRUD LINK. processing...&quot;);
+        log_debug!(context, &quot;net/handle: HandleStoreMeta: got CRUD LINK. processing...&quot;);
         let entry_with_header: EntryWithHeader = serde_json::from_str(
             //should be careful doing slice access, it might panic
             &amp;serde_json::to_string(&amp;dht_meta_data.content_list[0])
@@ -439,7 +433,7 @@ pub fn handle_store_meta(dht_meta_data: DhtMetaData, context: Arc&lt;Context&gt;
             if let Err(error) =
                 context.block_on(hold_update_workflow(entry_with_header, context.clone()))
             {
-                context.log(format!(&quot;err/net/dht: {}&quot;, error))
+                log_error!(context, &quot;net/dht: {}&quot;, error)
             }
         });
     }

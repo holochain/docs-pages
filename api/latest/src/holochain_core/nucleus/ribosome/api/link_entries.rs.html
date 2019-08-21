@@ -267,10 +267,10 @@
         <span class="prelude-val">Ok</span>(<span class="ident">entry_input</span>) <span class="op">=&gt;</span> <span class="ident">entry_input</span>,
         <span class="comment">// Exit on error</span>
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
-            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;err/zome: invoke_link_entries failed to deserialize LinkEntriesArgs: {:?}&quot;</span>,
+            <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>,
+                <span class="string">&quot;zome: invoke_link_entries failed to deserialize LinkEntriesArgs: {:?}&quot;</span>,
                 <span class="ident">args_str</span>
-            ));
+            );
             <span class="kw">return</span> <span class="macro">ribosome_error_code</span><span class="macro">!</span>(<span class="ident">ArgumentDeserializationFailed</span>);
         }
     };
@@ -279,10 +279,10 @@
     <span class="kw">let</span> <span class="ident">top_chain_header</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">top_chain_header_option</span> {
         <span class="prelude-val">Some</span>(<span class="ident">top_chain</span>) <span class="op">=&gt;</span> <span class="ident">top_chain</span>,
         <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
-            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;err/zome: invoke_link_entries failed to deserialize LinkEntriesArgs: {:?}&quot;</span>,
+            <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>,
+                <span class="string">&quot;zome: invoke_link_entries failed to deserialize LinkEntriesArgs: {:?}&quot;</span>,
                 <span class="ident">args_str</span>
-            ));
+            );
             <span class="kw">return</span> <span class="macro">ribosome_error_code</span><span class="macro">!</span>(<span class="ident">ArgumentDeserializationFailed</span>);
         }
     };

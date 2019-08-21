@@ -130,6 +130,8 @@
 <span id="130">130</span>
 <span id="131">131</span>
 <span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">holochain_net</span>::{<span class="ident">p2p_config</span>::<span class="kw-2">*</span>, <span class="ident">tweetlog</span>::<span class="kw-2">*</span>};
 <span class="kw">use</span> <span class="ident">p2p_node</span>::<span class="ident">lib3h</span>::<span class="ident">engine</span>::<span class="ident">RealEngineConfig</span>;
@@ -254,6 +256,8 @@
                 <span class="ident">log_level</span>: <span class="string">&#39;d&#39;</span>,
                 <span class="ident">bind_url</span>: <span class="ident">url</span>::<span class="ident">Url</span>::<span class="ident">parse</span>(<span class="string">&quot;fixme://bind_url&quot;</span>).<span class="ident">unwrap</span>(),
                 <span class="ident">dht_custom_config</span>: <span class="macro">vec</span><span class="macro">!</span>[],
+                <span class="ident">dht_gossip_interval</span>: <span class="number">500</span>,
+                <span class="ident">dht_timeout_threshold</span>: <span class="number">3000</span>,
             }),
             <span class="ident">maybe_end_user_config</span>: <span class="prelude-val">None</span>,
         },

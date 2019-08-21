@@ -153,6 +153,10 @@
 <span id="153">153</span>
 <span id="154">154</span>
 <span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! let file_system = Arc::new(RwLock::new(FilesystemStorage::new(tempdir().unwrap().path().to_str().unwrap()).unwrap()));</span>
 <span class="doccomment">//!     Arc::new(Mutex::new(SimplePersister::new(file_system.clone()))),</span>
@@ -246,6 +250,7 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_common</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_core_types</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
@@ -258,6 +263,9 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_persistence_mem</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">holochain_persistence_pickle</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lib3h_sodium</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">log</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">logging</span>;
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">chrono</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">crossbeam_channel</span>;

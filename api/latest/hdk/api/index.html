@@ -94,7 +94,8 @@ metadata, which will be used by validation routes.</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.remove_link.html" title='hdk::api::remove_link fn'>remove_link</a></td><td class='docblock-short'><p>Commits a LinkRemove entry to your local source chain that marks a link as 'deleted' by setting
 its status metadata to <code>Deleted</code> which gets published to the DHT.
 Consumes four values, two of which are the addresses of entries, and two of which are strings that describe the link
-type and its tag. Both must match exactly to remove a link.</p>
+type and its tag. Both must match exactly to remove a link.
+Before a RemoveLink is executed, a get_links will have to make sure that we are deleting the right links</p>
 </td></tr><tr class='module-item'><td><a class="fn" href="fn.send.html" title='hdk::api::send fn'>send</a></td><td class='docblock-short'><p>Sends a node-to-node message to the given agent, specified by their address.
 Addresses of agents can be accessed using <a href="struct.AGENT_ADDRESS.html">hdk::AGENT_ADDRESS</a>.
 This works in conjunction with the <code>receive</code> callback that has to be defined in the

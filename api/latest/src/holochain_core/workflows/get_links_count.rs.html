@@ -25,12 +25,24 @@
 <span id="25">25</span>
 <span id="26">26</span>
 <span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">context</span>::<span class="ident">Context</span>,
     <span class="ident">network</span>::{
-        <span class="ident">actions</span>::<span class="ident">get_links</span>::<span class="ident">get_links</span>,
-        <span class="ident">query</span>::{<span class="ident">GetLinksNetworkQuery</span>, <span class="ident">GetLinksNetworkResult</span>},
+        <span class="ident">actions</span>::<span class="ident">query</span>::{<span class="ident">query</span>, <span class="ident">QueryMethod</span>},
+        <span class="ident">query</span>::{<span class="ident">GetLinksNetworkQuery</span>, <span class="ident">GetLinksNetworkResult</span>,<span class="ident">NetworkQueryResult</span>},
     },
 };
 
@@ -42,7 +54,19 @@
     <span class="ident">context</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>,
     <span class="ident">link_args</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">GetLinksArgs</span>,
 ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">GetLinksResultCount</span>, <span class="ident">HolochainError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">links_result</span> <span class="op">=</span> <span class="kw">await</span><span class="op">!</span>(<span class="ident">get_links</span>(<span class="ident">context</span>, <span class="ident">link_args</span>, <span class="ident">GetLinksNetworkQuery</span>::<span class="ident">Count</span>))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">method</span> <span class="op">=</span> <span class="ident">QueryMethod</span>::<span class="ident">Link</span>(<span class="ident">link_args</span>.<span class="ident">clone</span>(), <span class="ident">GetLinksNetworkQuery</span>::<span class="ident">Count</span>);
+    <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="kw">await</span><span class="op">!</span>(<span class="ident">query</span>(
+        <span class="ident">context</span>.<span class="ident">clone</span>(),
+        <span class="ident">method</span>,
+        <span class="ident">link_args</span>.<span class="ident">options</span>.<span class="ident">timeout</span>.<span class="ident">clone</span>()
+    ))<span class="question-mark">?</span>;
+
+    <span class="kw">let</span> <span class="ident">links_result</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">response</span> {
+        <span class="ident">NetworkQueryResult</span>::<span class="ident">Links</span>(<span class="ident">link_result</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">link_result</span>),
+        <span class="ident">NetworkQueryResult</span>::<span class="ident">Entry</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">HolochainError</span>::<span class="ident">ErrorGeneric</span>(
+            <span class="string">&quot;Could not get link&quot;</span>.<span class="ident">to_string</span>(),
+        )),
+    }<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">links_count</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">links_result</span> {
         <span class="ident">GetLinksNetworkResult</span>::<span class="ident">Count</span>(<span class="ident">count</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">count</span>),

@@ -590,7 +590,7 @@
 <span class="kw">fn</span> <span class="ident">logger_configuration</span>(<span class="ident">logging</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">LoggerConfiguration</span> {
     <span class="comment">// temporary log rules, should come from a configuration</span>
     <span class="ident">LoggerConfiguration</span> {
-        <span class="ident">logger_type</span>: <span class="string">&quot;debug&quot;</span>.<span class="ident">to_string</span>(),
+        <span class="ident">logger_level</span>: <span class="string">&quot;debug&quot;</span>.<span class="ident">to_string</span>(),
         <span class="ident">rules</span>: <span class="kw">if</span> <span class="ident">logging</span> {
             <span class="ident">LogRules</span>::<span class="ident">default</span>()
         } <span class="kw">else</span> {

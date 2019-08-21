@@ -135,6 +135,21 @@
 <span id="135">135</span>
 <span id="136">136</span>
 <span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>},
@@ -167,44 +182,59 @@
     <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">parse_direct_message</span>(<span class="ident">message_data</span>.<span class="ident">content</span>.<span class="ident">clone</span>()) {
         <span class="prelude-val">Ok</span>(<span class="ident">message</span>) <span class="op">=&gt;</span> <span class="ident">message</span>,
         <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> {
-            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;error/net/handle_send_message: Could not deserialize DirectMessage: {:?}&quot;</span>,
+            <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>,
+                <span class="string">&quot;net/handle_send_message: Could not deserialize DirectMessage: {:?}&quot;</span>,
                 <span class="ident">error</span>,
-            ));
+            );
             <span class="kw">return</span>;
         }
     };
 
     <span class="kw">match</span> <span class="ident">message</span> {
         <span class="ident">DirectMessage</span>::<span class="ident">Custom</span>(<span class="ident">custom_direct_message</span>) <span class="op">=&gt;</span> {
-            <span class="ident">thread</span>::<span class="ident">Builder</span>::<span class="ident">new</span>().<span class="ident">name</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;custom_direct_message/{}&quot;</span>, <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>())).<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span> <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">handle_custom_direct_message</span>(
-                    <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">message_data</span>.<span class="ident">from_agent_id</span>),
-                    <span class="ident">message_data</span>.<span class="ident">request_id</span>,
-                    <span class="ident">custom_direct_message</span>,
-                    <span class="ident">context</span>.<span class="ident">clone</span>(),
-                )) {
-                    <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;err/net: Error handling custom direct message: {:?}&quot;</span>, <span class="ident">error</span>));
-                }
-            }).<span class="ident">expect</span>(<span class="string">&quot;Could not spawn thread for handling of custom direct message&quot;</span>);
+            <span class="ident">thread</span>::<span class="ident">Builder</span>::<span class="ident">new</span>()
+                .<span class="ident">name</span>(<span class="macro">format</span><span class="macro">!</span>(
+                    <span class="string">&quot;custom_direct_message/{}&quot;</span>,
+                    <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>()
+                ))
+                .<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span> <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">handle_custom_direct_message</span>(
+                        <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">message_data</span>.<span class="ident">from_agent_id</span>),
+                        <span class="ident">message_data</span>.<span class="ident">request_id</span>,
+                        <span class="ident">custom_direct_message</span>,
+                        <span class="ident">context</span>.<span class="ident">clone</span>(),
+                    )) {
+                        <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>,
+                            <span class="string">&quot;net: Error handling custom direct message: {:?}&quot;</span>,
+                            <span class="ident">error</span>
+                        );
+                    }
+                })
+                .<span class="ident">expect</span>(<span class="string">&quot;Could not spawn thread for handling of custom direct message&quot;</span>);
         }
         <span class="ident">DirectMessage</span>::<span class="ident">RequestValidationPackage</span>(<span class="ident">address</span>) <span class="op">=&gt;</span> {
             <span class="comment">// Async functions only get executed when they are polled.</span>
             <span class="comment">// I don&#39;t want to wait for this workflow to finish here as it would block the</span>
             <span class="comment">// network thread, so I use block_on to poll the async function but do that in</span>
             <span class="comment">// another thread:</span>
-            <span class="ident">thread</span>::<span class="ident">Builder</span>::<span class="ident">new</span>().<span class="ident">name</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;validation_package_request/{}&quot;</span>, <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>())).<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
-                <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">respond_validation_package_request</span>(
-                    <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">message_data</span>.<span class="ident">from_agent_id</span>),
-                    <span class="ident">message_data</span>.<span class="ident">request_id</span>,
-                    <span class="ident">address</span>,
-                    <span class="ident">context</span>.<span class="ident">clone</span>(),
-                    <span class="kw-2">&amp;</span><span class="macro">vec</span><span class="macro">!</span>[]
-                ));
-            }).<span class="ident">expect</span>(<span class="string">&quot;Could not spawn thread for handling of validation package request&quot;</span>);
+            <span class="ident">thread</span>::<span class="ident">Builder</span>::<span class="ident">new</span>()
+                .<span class="ident">name</span>(<span class="macro">format</span><span class="macro">!</span>(
+                    <span class="string">&quot;validation_package_request/{}&quot;</span>,
+                    <span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>()
+                ))
+                .<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
+                    <span class="ident">context</span>.<span class="ident">block_on</span>(<span class="ident">respond_validation_package_request</span>(
+                        <span class="ident">Address</span>::<span class="ident">from</span>(<span class="ident">message_data</span>.<span class="ident">from_agent_id</span>),
+                        <span class="ident">message_data</span>.<span class="ident">request_id</span>,
+                        <span class="ident">address</span>,
+                        <span class="ident">context</span>.<span class="ident">clone</span>(),
+                        <span class="kw-2">&amp;</span><span class="macro">vec</span><span class="macro">!</span>[],
+                    ));
+                })
+                .<span class="ident">expect</span>(<span class="string">&quot;Could not spawn thread for handling of validation package request&quot;</span>);
         }
-        <span class="ident">DirectMessage</span>::<span class="ident">ValidationPackage</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">context</span>.<span class="ident">log</span>(
-            <span class="string">&quot;err/net: Got DirectMessage::ValidationPackage as initial message. This should not happen.&quot;</span>,
+        <span class="ident">DirectMessage</span>::<span class="ident">ValidationPackage</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, 
+            <span class="string">&quot;net: Got DirectMessage::ValidationPackage as initial message. This should not happen.&quot;</span>,
         ),
     };
 }
@@ -215,10 +245,10 @@
     <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">parse_direct_message</span>(<span class="ident">message_data</span>.<span class="ident">content</span>.<span class="ident">clone</span>()) {
         <span class="prelude-val">Ok</span>(<span class="ident">message</span>) <span class="op">=&gt;</span> <span class="ident">message</span>,
         <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> {
-            <span class="ident">context</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;error/net/handle_send_message_result: Could not deserialize DirectMessage: {:?}&quot;</span>,
+            <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>,
+                <span class="string">&quot;net/handle_send_message_result: Could not deserialize DirectMessage: {:?}&quot;</span>,
                 <span class="ident">error</span>,
-            ));
+            );
             <span class="kw">return</span>;
         }
     };
@@ -235,7 +265,7 @@
     <span class="kw">match</span> <span class="ident">response</span> {
         <span class="ident">DirectMessage</span>::<span class="ident">Custom</span>(<span class="ident">custom_direct_message</span>) <span class="op">=&gt;</span> {
             <span class="kw">if</span> <span class="ident">initial_message</span>.<span class="ident">is_none</span>() {
-                <span class="ident">context</span>.<span class="ident">log</span>(<span class="string">&quot;err/net: Received a custom direct message response but could not find message ID in history. Not able to process.&quot;</span>);
+                <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net: Received a custom direct message response but could not find message ID in history. Not able to process.&quot;</span>);
                 <span class="kw">return</span>;
             }
 
@@ -249,12 +279,12 @@
                 <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">ResolveDirectConnection</span>(<span class="ident">message_data</span>.<span class="ident">request_id</span>));
             <span class="ident">dispatch_action</span>(<span class="ident">context</span>.<span class="ident">action_channel</span>(), <span class="ident">action_wrapper</span>.<span class="ident">clone</span>());
         }
-        <span class="ident">DirectMessage</span>::<span class="ident">RequestValidationPackage</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">context</span>.<span class="ident">log</span>(
-            <span class="string">&quot;err/net: Got DirectMessage::RequestValidationPackage as a response. This should not happen.&quot;</span>,
+        <span class="ident">DirectMessage</span>::<span class="ident">RequestValidationPackage</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, 
+            <span class="string">&quot;net: Got DirectMessage::RequestValidationPackage as a response. This should not happen.&quot;</span>,
         ),
         <span class="ident">DirectMessage</span>::<span class="ident">ValidationPackage</span>(<span class="ident">maybe_validation_package</span>) <span class="op">=&gt;</span> {
             <span class="kw">if</span> <span class="ident">initial_message</span>.<span class="ident">is_none</span>() {
-                <span class="ident">context</span>.<span class="ident">log</span>(<span class="string">&quot;err/net: Received a validation package but could not find message ID in history. Not able to process.&quot;</span>);
+                <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;net: Received a validation package but could not find message ID in history. Not able to process.&quot;</span>);
                 <span class="kw">return</span>;
             }
 

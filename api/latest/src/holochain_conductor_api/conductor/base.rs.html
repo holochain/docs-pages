@@ -2364,6 +2364,32 @@
 <span id="2364">2364</span>
 <span id="2365">2365</span>
 <span id="2366">2366</span>
+<span id="2367">2367</span>
+<span id="2368">2368</span>
+<span id="2369">2369</span>
+<span id="2370">2370</span>
+<span id="2371">2371</span>
+<span id="2372">2372</span>
+<span id="2373">2373</span>
+<span id="2374">2374</span>
+<span id="2375">2375</span>
+<span id="2376">2376</span>
+<span id="2377">2377</span>
+<span id="2378">2378</span>
+<span id="2379">2379</span>
+<span id="2380">2380</span>
+<span id="2381">2381</span>
+<span id="2382">2382</span>
+<span id="2383">2383</span>
+<span id="2384">2384</span>
+<span id="2385">2385</span>
+<span id="2386">2386</span>
+<span id="2387">2387</span>
+<span id="2388">2388</span>
+<span id="2389">2389</span>
+<span id="2390">2390</span>
+<span id="2391">2391</span>
+<span id="2392">2392</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">conductor</span>::<span class="ident">broadcaster</span>::<span class="ident">Broadcaster</span>,
@@ -2375,15 +2401,11 @@
     <span class="ident">dpki_instance</span>::<span class="ident">DpkiInstance</span>,
     <span class="ident">error</span>::<span class="ident">HolochainInstanceError</span>,
     <span class="ident">keystore</span>::{<span class="ident">Keystore</span>, <span class="ident">PRIMARY_KEYBUNDLE_ID</span>},
-    <span class="ident">logger</span>::<span class="ident">DebugLogger</span>,
     <span class="ident">Holochain</span>,
 };
 <span class="kw">use</span> <span class="ident">crossbeam_channel</span>::{<span class="ident">unbounded</span>, <span class="ident">Receiver</span>, <span class="ident">Sender</span>};
 <span class="kw">use</span> <span class="ident">holochain_common</span>::<span class="ident">paths</span>::<span class="ident">DNA_EXTENSION</span>;
-<span class="kw">use</span> <span class="ident">holochain_core</span>::{
-    <span class="ident">logger</span>::{<span class="ident">ChannelLogger</span>, <span class="ident">Logger</span>},
-    <span class="ident">signal</span>::<span class="ident">Signal</span>,
-};
+<span class="kw">use</span> <span class="ident">holochain_core</span>::{<span class="ident">logger</span>::<span class="ident">Logger</span>, <span class="ident">signal</span>::<span class="ident">Signal</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
     <span class="ident">agent</span>::<span class="ident">AgentId</span>,
     <span class="ident">dna</span>::<span class="ident">Dna</span>,
@@ -2396,6 +2418,7 @@
 
 <span class="kw">use</span> <span class="ident">holochain_dpki</span>::{<span class="ident">key_bundle</span>::<span class="ident">KeyBundle</span>, <span class="ident">password_encryption</span>::<span class="ident">PwHashConfig</span>};
 <span class="kw">use</span> <span class="ident">jsonrpc_ws_server</span>::<span class="ident">jsonrpc_core</span>::<span class="ident">IoHandler</span>;
+<span class="kw">use</span> <span class="ident">logging</span>::{<span class="ident">rule</span>::<span class="ident">RuleFilter</span>, <span class="ident">FastLogger</span>, <span class="ident">FastLoggerBuilder</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">clone</span>::<span class="ident">Clone</span>,
     <span class="ident">collections</span>::<span class="ident">HashMap</span>,
@@ -2410,8 +2433,12 @@
 };
 
 <span class="kw">use</span> <span class="ident">boolinator</span>::<span class="ident">Boolinator</span>;
-<span class="kw">use</span> <span class="ident">conductor</span>::<span class="ident">passphrase_manager</span>::{<span class="ident">PassphraseManager</span>, <span class="ident">PassphraseServiceCmd</span>};
-<span class="kw">use</span> <span class="ident">config</span>::<span class="ident">AgentConfiguration</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
+<span class="kw">use</span> <span class="ident">conductor</span>::<span class="ident">passphrase_manager</span>::<span class="ident">PassphraseServiceUnixSocket</span>;
+<span class="kw">use</span> <span class="ident">conductor</span>::<span class="ident">passphrase_manager</span>::{
+    <span class="ident">PassphraseManager</span>, <span class="ident">PassphraseService</span>, <span class="ident">PassphraseServiceCmd</span>, <span class="ident">PassphraseServiceMock</span>,
+};
+<span class="kw">use</span> <span class="ident">config</span>::{<span class="ident">AgentConfiguration</span>, <span class="ident">PassphraseServiceConfig</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">dna</span>::<span class="ident">bridges</span>::<span class="ident">BridgePresence</span>;
 <span class="kw">use</span> <span class="ident">holochain_net</span>::{
     <span class="ident">connection</span>::<span class="ident">net_connection</span>::<span class="ident">NetHandler</span>,
@@ -2470,7 +2497,7 @@
     <span class="kw">pub</span>(<span class="kw">in</span> <span class="kw">crate</span>::<span class="ident">conductor</span>) <span class="ident">dna_loader</span>: <span class="ident">DnaLoader</span>,
     <span class="kw">pub</span>(<span class="kw">in</span> <span class="kw">crate</span>::<span class="ident">conductor</span>) <span class="ident">ui_dir_copier</span>: <span class="ident">UiDirCopier</span>,
     <span class="ident">signal_tx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SignalSender</span><span class="op">&gt;</span>,
-    <span class="ident">logger</span>: <span class="ident">DebugLogger</span>,
+    <span class="ident">logger</span>: <span class="ident">FastLogger</span>,
     <span class="ident">p2p_config</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">P2pConfig</span><span class="op">&gt;</span>,
     <span class="ident">network_spawn</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SpawnResult</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">passphrase_manager</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">PassphraseManager</span><span class="op">&gt;</span>,
@@ -2489,6 +2516,12 @@
 
         <span class="self">self</span>.<span class="ident">shutdown</span>()
             .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Error during shutdown, continuing anyway: {:?}&quot;</span>, <span class="ident">err</span>));
+
+        <span class="comment">// Flushing the logger&#39;s buffer writer</span>
+        <span class="self">self</span>.<span class="ident">logger</span>.<span class="ident">flush</span>();
+        <span class="comment">// Do not shut down the logging thread if there is multiple concurrent conductor thread</span>
+        <span class="comment">// like during unit testing because they all use the same registered logger</span>
+        <span class="comment">// self.logger.shutdown();</span>
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">network</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">n3h_keepalive_network</span>.<span class="ident">take</span>() {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="ident">network</span>.<span class="ident">stop</span>() {
@@ -2517,15 +2550,29 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">UiDirCopier</span> <span class="op">=</span>
     <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">PathBuf</span>, <span class="kw-2">&amp;</span><span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HolochainError</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span>;
 
-<span class="comment">// preparing for having conductor notifiers go to one of the log streams</span>
+<span class="doccomment">/// preparing for having conductor notifiers go to one of the log streams</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">notify</span>(<span class="ident">msg</span>: <span class="ident">String</span>) {
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>);
 }
 
 <span class="kw">impl</span> <span class="ident">Conductor</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_config</span>(<span class="ident">config</span>: <span class="ident">Configuration</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">rules</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">rules</span>.<span class="ident">clone</span>();
         <span class="ident">lib3h_sodium</span>::<span class="ident">check_init</span>();
+        <span class="kw">let</span> <span class="ident">_rules</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">rules</span>.<span class="ident">clone</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">logger_builder</span> <span class="op">=</span> <span class="ident">FastLoggerBuilder</span>::<span class="ident">new</span>();
+        <span class="ident">logger_builder</span>.<span class="ident">set_level_from_str</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">logger_level</span>.<span class="ident">as_str</span>());
+
+        <span class="kw">for</span> <span class="ident">rule</span> <span class="kw">in</span> <span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">rules</span>.<span class="ident">rules</span>.<span class="ident">iter</span>() {
+            <span class="ident">logger_builder</span>.<span class="ident">add_rule_filter</span>(<span class="ident">RuleFilter</span>::<span class="ident">new</span>(
+                <span class="ident">rule</span>.<span class="ident">pattern</span>.<span class="ident">as_str</span>(),
+                <span class="ident">rule</span>.<span class="ident">exclude</span>,
+                <span class="ident">rule</span>.<span class="ident">color</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">String</span>::<span class="ident">default</span>()).<span class="ident">as_str</span>(),
+            ));
+        }
+
+        <span class="kw">let</span> <span class="ident">logger</span> <span class="op">=</span> <span class="ident">logger_builder</span>
+            .<span class="ident">build</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;Fail to instanciate the logging factory.&quot;</span>);
 
         <span class="kw">if</span> <span class="ident">config</span>.<span class="ident">ui_bundles</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">config</span>.<span class="ident">ui_interfaces</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
             <span class="macro">println</span><span class="macro">!</span>();
@@ -2534,6 +2581,26 @@
             <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">repeat</span>(<span class="string">&quot;!&quot;</span>).<span class="ident">take</span>(<span class="number">20</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>());
             <span class="macro">println</span><span class="macro">!</span>();
         }
+
+        <span class="kw">let</span> <span class="ident">passphrase_service</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">dyn</span> <span class="ident">PassphraseService</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;&gt;</span> <span class="op">=</span>
+            <span class="kw">if</span> <span class="kw">let</span> <span class="ident">PassphraseServiceConfig</span>::<span class="ident">UnixSocket</span> { <span class="ident">path</span> } <span class="op">=</span> <span class="ident">config</span>.<span class="ident">passphrase_service</span>.<span class="ident">clone</span>()
+            {
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">unix</span>))]</span>
+                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">path</span>;
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">unix</span>))]</span>
+                <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unix domain sockets are not available on non-Unix systems. Can&#39;t create a PassphraseServiceUnixSocket.&quot;</span>);
+
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
+                <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">PassphraseServiceUnixSocket</span>::<span class="ident">new</span>(<span class="ident">path</span>)))
+            } <span class="kw">else</span> {
+                <span class="kw">match</span> <span class="ident">config</span>.<span class="ident">passphrase_service</span>.<span class="ident">clone</span>() {
+                    <span class="ident">PassphraseServiceConfig</span>::<span class="ident">Cmd</span> <span class="op">=&gt;</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">PassphraseServiceCmd</span> {})),
+                    <span class="ident">PassphraseServiceConfig</span>::<span class="ident">Mock</span> { <span class="ident">passphrase</span> } <span class="op">=&gt;</span> {
+                        <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">PassphraseServiceMock</span> { <span class="ident">passphrase</span> }))
+                    }
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                }
+            };
 
         <span class="ident">Conductor</span> {
             <span class="ident">instances</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
@@ -2548,12 +2615,10 @@
             <span class="ident">dna_loader</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">Self</span>::<span class="ident">load_dna</span>)),
             <span class="ident">ui_dir_copier</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">Self</span>::<span class="ident">copy_ui_dir</span>)),
             <span class="ident">signal_tx</span>: <span class="prelude-val">None</span>,
-            <span class="ident">logger</span>: <span class="ident">DebugLogger</span>::<span class="ident">new</span>(<span class="ident">rules</span>),
+            <span class="ident">logger</span>,
             <span class="ident">p2p_config</span>: <span class="prelude-val">None</span>,
             <span class="ident">network_spawn</span>: <span class="prelude-val">None</span>,
-            <span class="ident">passphrase_manager</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">PassphraseManager</span>::<span class="ident">new</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(
-                <span class="ident">PassphraseServiceCmd</span> {},
-            )))),
+            <span class="ident">passphrase_manager</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">PassphraseManager</span>::<span class="ident">new</span>(<span class="ident">passphrase_service</span>)),
             <span class="ident">hash_config</span>: <span class="prelude-val">None</span>,
             <span class="ident">n3h_keepalive_network</span>: <span class="prelude-val">None</span>,
         }
@@ -2596,7 +2661,7 @@
         <span class="kw">let</span> (<span class="ident">kill_switch_tx</span>, <span class="ident">kill_switch_rx</span>) <span class="op">=</span> <span class="ident">unbounded</span>();
         <span class="self">self</span>.<span class="ident">signal_multiplexer_kill_switch</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">kill_switch_tx</span>);
 
-        <span class="self">self</span>.<span class="ident">log</span>(<span class="string">&quot;starting signal loop&quot;</span>.<span class="ident">into</span>());
+        <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;starting signal loop&quot;</span>);
         <span class="ident">thread</span>::<span class="ident">Builder</span>::<span class="ident">new</span>()
             .<span class="ident">name</span>(<span class="string">&quot;signal_multiplexer&quot;</span>.<span class="ident">to_string</span>())
             .<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> <span class="kw">loop</span> {
@@ -3071,12 +3136,7 @@
                     }
                 }
 
-                <span class="kw">if</span> <span class="ident">config</span>.<span class="ident">logger</span>.<span class="ident">logger_type</span> <span class="op">==</span> <span class="string">&quot;debug&quot;</span> {
-                    <span class="ident">context_builder</span> <span class="op">=</span> <span class="ident">context_builder</span>.<span class="ident">with_logger</span>(<span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(
-                        <span class="ident">ChannelLogger</span>::<span class="ident">new</span>(<span class="ident">instance_config</span>.<span class="ident">id</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">logger</span>.<span class="ident">get_sender</span>()),
-                    )));
-                }
-
+                <span class="kw">let</span> <span class="ident">instance_name</span> <span class="op">=</span> <span class="ident">instance_config</span>.<span class="ident">id</span>.<span class="ident">clone</span>();
                 <span class="comment">// Conductor API</span>
                 <span class="kw">let</span> <span class="ident">api</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">build_conductor_api</span>(<span class="ident">instance_config</span>.<span class="ident">id</span>, <span class="ident">config</span>)<span class="question-mark">?</span>;
                 <span class="ident">context_builder</span> <span class="op">=</span> <span class="ident">context_builder</span>.<span class="ident">with_conductor_api</span>(<span class="ident">api</span>);
@@ -3086,7 +3146,7 @@
                 }
 
                 <span class="comment">// Spawn context</span>
-                <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">context_builder</span>.<span class="ident">spawn</span>();
+                <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">context_builder</span>.<span class="ident">with_instance_name</span>(<span class="kw-2">&amp;</span><span class="ident">instance_name</span>).<span class="ident">spawn</span>();
 
                 <span class="comment">// Get DNA</span>
                 <span class="kw">let</span> <span class="ident">dna_config</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">dna_by_id</span>(<span class="kw-2">&amp;</span><span class="ident">instance_config</span>.<span class="ident">dna</span>).<span class="ident">unwrap</span>();
@@ -3118,8 +3178,8 @@
                                 <span class="kw-2">&amp;</span><span class="ident">dna_hash_computed_from_file</span>, <span class="kw-2">&amp;</span><span class="ident">dna_file</span>)<span class="question-mark">?</span>;
                         },
                         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
-                            <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;err/Conductor: Could not load DNA file {:?}.&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">dna_file</span>);
-                            <span class="ident">context</span>.<span class="ident">log</span>(<span class="ident">msg</span>);
+                            <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Conductor: Could not load DNA file {:?}.&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">dna_file</span>);
+                            <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>);
 
                             <span class="comment">// If something is wrong with the DNA file, we only</span>
                             <span class="comment">// check the 2 primary sources of DNA&#39;s hashes</span>
@@ -3129,11 +3189,11 @@
                                 <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> (),
                                 <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
                                     <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;\
-                                    err/Conductor: DNA hashes mismatch: &#39;Conductor config&#39; != &#39;Conductor instance&#39;: \
+                                    Conductor: DNA hashes mismatch: &#39;Conductor config&#39; != &#39;Conductor instance&#39;: \
                                     &#39;{}&#39; != &#39;{}&#39;&quot;</span>,
                                     <span class="kw-2">&amp;</span><span class="ident">dna_hash_from_conductor_config</span>,
                                     <span class="kw-2">&amp;</span><span class="ident">dna_hash_computed</span>);
-                                    <span class="ident">context</span>.<span class="ident">log</span>(<span class="ident">msg</span>);
+                                    <span class="macro">log_error</span><span class="macro">!</span>(<span class="ident">context</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>);
 
                                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">to_string</span>());
                                 }
@@ -3301,7 +3361,8 @@
                                 &#39;{}&#39; != &#39;{}&#39;&quot;</span>,
                                 <span class="kw-2">&amp;</span><span class="ident">dna_hash_from_conductor_config</span>,
                                 <span class="kw-2">&amp;</span><span class="ident">dna_hash_computed</span>);
-                <span class="ident">ctx</span>.<span class="ident">log</span>(<span class="ident">msg</span>);
+
+                <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">ctx</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>);
 
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>);
             }
@@ -3319,7 +3380,8 @@
                                 <span class="kw-2">&amp;</span><span class="ident">dna_file</span>,
                                 <span class="kw-2">&amp;</span><span class="ident">dna_hash_from_conductor_config</span>,
                                 <span class="kw-2">&amp;</span><span class="ident">dna_hash_computed_from_file</span>);
-                <span class="ident">ctx</span>.<span class="ident">log</span>(<span class="ident">msg</span>);
+
+                <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">ctx</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>);
 
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>);
             }
@@ -3334,7 +3396,7 @@
                                 <span class="kw-2">&amp;</span><span class="ident">dna_file</span>,
                                 <span class="kw-2">&amp;</span><span class="ident">dna_hash_computed</span>,
                                 <span class="kw-2">&amp;</span><span class="ident">dna_hash_computed_from_file</span>);
-                <span class="ident">ctx</span>.<span class="ident">log</span>(<span class="ident">msg</span>);
+                <span class="macro">log_debug</span><span class="macro">!</span>(<span class="ident">ctx</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>);
 
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>);
             }
@@ -3516,17 +3578,14 @@
         <span class="kw">let</span> (<span class="ident">broadcaster</span>, <span class="ident">_handle</span>) <span class="op">=</span> <span class="ident">iface</span>
             .<span class="ident">run</span>(<span class="ident">dispatcher</span>, <span class="ident">kill_switch_rx</span>)
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">error</span><span class="op">|</span> {
-                <span class="self">self</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-                    <span class="string">&quot;err/conductor: Error running interface &#39;{}&#39;: {}&quot;</span>,
+                <span class="macro">error</span><span class="macro">!</span>(
+                    <span class="string">&quot;conductor: Error running interface &#39;{}&#39;: {}&quot;</span>,
                     <span class="ident">interface_config</span>.<span class="ident">id</span>, <span class="ident">error</span>
-                ));
+                );
                 <span class="ident">error</span>
             })
             .<span class="ident">unwrap</span>();
-        <span class="self">self</span>.<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(
-            <span class="string">&quot;debug/conductor: adding broadcaster to map {:?}&quot;</span>,
-            <span class="ident">broadcaster</span>
-        ));
+        <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;conductor: adding broadcaster to map {:?}&quot;</span>, <span class="ident">broadcaster</span>);
 
         {
             <span class="self">self</span>.<span class="ident">interface_broadcasters</span>
@@ -3536,13 +3595,6 @@
         }
 
         <span class="ident">kill_switch_tx</span>
-    }
-
-    <span class="kw">fn</span> <span class="ident">log</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">String</span>) {
-        <span class="self">self</span>.<span class="ident">logger</span>
-            .<span class="ident">get_sender</span>()
-            .<span class="ident">send</span>((<span class="string">&quot;conductor&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">msg</span>))
-            .<span class="ident">unwrap</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dna_dir_path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">PathBuf</span> {

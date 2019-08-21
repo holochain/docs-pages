@@ -35,7 +35,7 @@
 <span class="kw">use</span> <span class="ident">boolinator</span>::<span class="ident">Boolinator</span>;
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">validation</span>::<span class="ident">ValidationData</span>;
 <span class="kw">use</span> <span class="ident">holochain_dpki</span>::<span class="ident">utils</span>::<span class="ident">Verify</span>;
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">validate_provenances</span>(<span class="ident">validation_data</span>: <span class="kw-2">&amp;</span><span class="ident">ValidationData</span>) <span class="op">-&gt;</span> <span class="ident">ValidationResult</span> {
     <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">validation_data</span>.<span class="ident">package</span>.<span class="ident">chain_header</span>;
     <span class="ident">header</span>

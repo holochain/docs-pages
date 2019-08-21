@@ -189,9 +189,6 @@
 <span id="189">189</span>
 <span id="190">190</span>
 <span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">nucleus</span>::{
     <span class="ident">ribosome</span>::{
@@ -338,12 +335,10 @@
                 <span class="ident">err_code</span>.<span class="ident">as_str</span>()
             );
             <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">runtime</span>.<span class="ident">data</span> {
-                <span class="ident">WasmCallData</span>::<span class="ident">ZomeCall</span>(<span class="ident">d</span>) <span class="op">=&gt;</span> <span class="ident">d</span>
-                    .<span class="ident">context</span>
-                    .<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}, when calling: {:?}&quot;</span>, <span class="ident">log_message</span>, <span class="ident">d</span>.<span class="ident">call</span>)),
-                <span class="ident">WasmCallData</span>::<span class="ident">CallbackCall</span>(<span class="ident">d</span>) <span class="op">=&gt;</span> <span class="ident">d</span>
-                    .<span class="ident">context</span>
-                    .<span class="ident">log</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}, when calling: {:?}&quot;</span>, <span class="ident">log_message</span>, <span class="ident">d</span>.<span class="ident">call</span>)),
+                <span class="ident">WasmCallData</span>::<span class="ident">ZomeCall</span>(<span class="ident">d</span>) <span class="op">=&gt;</span>
+                    <span class="macro">log_info</span><span class="macro">!</span>(<span class="ident">d</span>.<span class="ident">context</span>, <span class="string">&quot;{}, when calling: {:?}&quot;</span>, <span class="ident">log_message</span>, <span class="ident">d</span>.<span class="ident">call</span>),
+                <span class="ident">WasmCallData</span>::<span class="ident">CallbackCall</span>(<span class="ident">d</span>) <span class="op">=&gt;</span>
+                    <span class="macro">log_info</span><span class="macro">!</span>(<span class="ident">d</span>.<span class="ident">context</span>, <span class="string">&quot;{}, when calling: {:?}&quot;</span>, <span class="ident">log_message</span>, <span class="ident">d</span>.<span class="ident">call</span>),
                 <span class="kw">_</span> <span class="op">=&gt;</span> {}
             };
         }
@@ -380,10 +375,9 @@
     <span class="comment">// Log &amp; done</span>
     <span class="comment">// @TODO make this more sophisticated (truncation or something)</span>
     <span class="comment">// right now we have tests that return multiple wasm pages (64k+ bytes) so this is very spammy</span>
-    <span class="comment">// runtime.context.log(format!(</span>
-    <span class="comment">//     &quot;debug/zome: Zome Function &#39;{}&#39; returned: {}&quot;,</span>
+    <span class="comment">// runtime. log_debug!(context, &quot;zome: Zome Function &#39;{}&#39; returned: {}&quot;,</span>
     <span class="comment">//     zome_call.fn_name, return_log_msg,</span>
-    <span class="comment">// ));</span>
+    <span class="comment">// );</span>
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">return_log_msg</span>;
     <span class="kw">return</span> <span class="ident">return_result</span>;
 }

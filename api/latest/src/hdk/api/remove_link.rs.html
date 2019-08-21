@@ -71,6 +71,7 @@
 <span id="71">71</span>
 <span id="72">72</span>
 <span id="73">73</span>
+<span id="74">74</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Dispatch</span>;
 <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">ZomeApiError</span>;
@@ -81,6 +82,7 @@
 <span class="doccomment">/// its status metadata to `Deleted` which gets published to the DHT.</span>
 <span class="doccomment">/// Consumes four values, two of which are the addresses of entries, and two of which are strings that describe the link</span>
 <span class="doccomment">/// type and its tag. Both must match exactly to remove a link.</span>
+<span class="doccomment">/// Before a RemoveLink is executed, a get_links will have to make sure that we are deleting the right links</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">/// ```rust</span>
 <span class="doccomment">/// # extern crate hdk;</span>

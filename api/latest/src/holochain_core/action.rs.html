@@ -406,6 +406,11 @@
 <span id="406">406</span>
 <span id="407">407</span>
 <span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">agent</span>::<span class="ident">state</span>::<span class="ident">AgentState</span>,
@@ -413,7 +418,7 @@
         <span class="ident">direct_message</span>::<span class="ident">DirectMessage</span>,
         <span class="ident">entry_aspect</span>::<span class="ident">EntryAspect</span>,
         <span class="ident">entry_with_header</span>::<span class="ident">EntryWithHeader</span>,
-        <span class="ident">query</span>::{<span class="ident">GetLinksNetworkQuery</span>, <span class="ident">GetLinksNetworkResult</span>},
+        <span class="ident">query</span>::{<span class="ident">GetLinksNetworkQuery</span>, <span class="ident">NetworkQueryResult</span>},
         <span class="ident">state</span>::<span class="ident">NetworkState</span>,
     },
     <span class="ident">nucleus</span>::{
@@ -427,13 +432,8 @@
 };
 
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
-    <span class="ident">chain_header</span>::<span class="ident">ChainHeader</span>,
-    <span class="ident">crud_status</span>::<span class="ident">CrudStatus</span>,
-    <span class="ident">dna</span>::<span class="ident">Dna</span>,
-    <span class="ident">entry</span>::{<span class="ident">Entry</span>, <span class="ident">EntryWithMetaAndHeader</span>},
-    <span class="ident">error</span>::<span class="ident">HolochainError</span>,
-    <span class="ident">link</span>::<span class="ident">link_data</span>::<span class="ident">LinkData</span>,
-    <span class="ident">signature</span>::<span class="ident">Provenance</span>,
+    <span class="ident">chain_header</span>::<span class="ident">ChainHeader</span>, <span class="ident">crud_status</span>::<span class="ident">CrudStatus</span>, <span class="ident">dna</span>::<span class="ident">Dna</span>, <span class="ident">entry</span>::<span class="ident">Entry</span>,
+    <span class="ident">error</span>::<span class="ident">HolochainError</span>, <span class="ident">link</span>::<span class="ident">link_data</span>::<span class="ident">LinkData</span>, <span class="ident">signature</span>::<span class="ident">Provenance</span>,
     <span class="ident">validation</span>::<span class="ident">ValidationPackage</span>,
 };
 <span class="kw">use</span> <span class="ident">holochain_net</span>::{<span class="ident">connection</span>::<span class="ident">net_connection</span>::<span class="ident">NetHandler</span>, <span class="ident">p2p_config</span>::<span class="ident">P2pConfig</span>};
@@ -496,6 +496,20 @@
     }
 }
 
+<span class="doccomment">///This describes a key for the actions</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">QueryKey</span> {
+    <span class="ident">Entry</span>(<span class="ident">GetEntryKey</span>),
+    <span class="ident">Links</span>(<span class="ident">GetLinksKey</span>),
+}
+
+<span class="doccomment">///This is a payload for the Get Method</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">QueryPayload</span> {
+    <span class="ident">Entry</span>,
+    <span class="ident">Links</span>((<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CrudStatus</span><span class="op">&gt;</span>, <span class="ident">GetLinksNetworkQuery</span>)),
+}
+
 <span class="doccomment">/// All Actions for the Holochain Instance Store, according to Redux pattern.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Serialize</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;action_type&quot;</span>, <span class="ident">content</span> <span class="op">=</span> <span class="string">&quot;data&quot;</span>)]</span>
@@ -539,36 +553,26 @@
     <span class="doccomment">/// (only publish for AppEntryType, publish and publish_meta for links etc)</span>
     <span class="ident">Publish</span>(<span class="ident">Address</span>),
 
-    <span class="doccomment">/// Get an Entry on the network by address</span>
-    <span class="ident">GetEntry</span>(<span class="ident">GetEntryKey</span>),
+    <span class="doccomment">///Performs a Network Query Action based on the key and payload, used for links and Entries</span>
+    <span class="ident">Query</span>((<span class="ident">QueryKey</span>, <span class="ident">QueryPayload</span>)),
 
-    <span class="doccomment">/// Lets the network module respond to a Get request.</span>
-    <span class="doccomment">/// Triggered from the corresponding workflow after retrieving the</span>
-    <span class="doccomment">/// requested entry from our local DHT shard.</span>
-    <span class="ident">RespondGet</span>((<span class="ident">QueryEntryData</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryWithMetaAndHeader</span><span class="op">&gt;</span>)),
+    <span class="doccomment">///Performs a Query Timeout Action which times out based the values given</span>
+    <span class="ident">QueryTimeout</span>(<span class="ident">QueryKey</span>),
 
-    <span class="doccomment">/// Lets the network module respond to a FETCH request.</span>
+    <span class="doccomment">/// Lets the network module respond to a Query request.</span>
     <span class="doccomment">/// Triggered from the corresponding workflow after retrieving the</span>
-    <span class="doccomment">/// requested entry from our local DHT shard.</span>
-    <span class="ident">RespondFetch</span>((<span class="ident">FetchEntryData</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">EntryAspect</span><span class="op">&gt;</span>)),
+    <span class="doccomment">/// requested object from the DHT</span>
+    <span class="ident">RespondQuery</span>((<span class="ident">QueryEntryData</span>, <span class="ident">NetworkQueryResult</span>)),
 
     <span class="doccomment">/// We got a response for our get request which needs to be added to the state.</span>
     <span class="doccomment">/// Triggered from the network handler.</span>
-    <span class="ident">HandleGetResult</span>((<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryWithMetaAndHeader</span><span class="op">&gt;</span>, <span class="ident">GetEntryKey</span>)),
+    <span class="ident">HandleQuery</span>((<span class="ident">NetworkQueryResult</span>, <span class="ident">QueryKey</span>)),
 
-    <span class="doccomment">///</span>
+    <span class="ident">RespondFetch</span>((<span class="ident">FetchEntryData</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">EntryAspect</span><span class="op">&gt;</span>)),
+
     <span class="ident">UpdateEntry</span>((<span class="ident">Address</span>, <span class="ident">Address</span>)),
     <span class="doccomment">///</span>
     <span class="ident">RemoveEntry</span>((<span class="ident">Address</span>, <span class="ident">Address</span>)),
-    <span class="doccomment">///</span>
-    <span class="ident">GetEntryTimeout</span>(<span class="ident">GetEntryKey</span>),
-
-    <span class="doccomment">/// get links from entry address and link_type name</span>
-    <span class="doccomment">/// Last string is the stringified process unique id of this `hdk::get_links` call.</span>
-    <span class="ident">GetLinks</span>((<span class="ident">GetLinksKey</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CrudStatus</span><span class="op">&gt;</span>, <span class="ident">GetLinksNetworkQuery</span>)),
-    <span class="ident">GetLinksTimeout</span>(<span class="ident">GetLinksKey</span>),
-    <span class="ident">RespondGetLinks</span>((<span class="ident">QueryEntryData</span>, <span class="ident">GetLinksNetworkResult</span>, <span class="ident">String</span>, <span class="ident">String</span>)),
-    <span class="ident">HandleGetLinksResult</span>((<span class="ident">GetLinksNetworkResult</span>, <span class="ident">GetLinksKey</span>)),
 
     <span class="doccomment">/// Makes the network module send a direct (node-to-node) message</span>
     <span class="doccomment">/// to the address given in [DirectMessageData](struct.DirectMessageData.html)</span>
@@ -727,7 +731,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tests</span> {
 
     <span class="kw">use</span> <span class="kw">crate</span>::{
-        <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>, <span class="ident">GetEntryKey</span>},
+        <span class="ident">action</span>::{<span class="ident">Action</span>, <span class="ident">ActionWrapper</span>, <span class="ident">GetEntryKey</span>, <span class="ident">QueryKey</span>, <span class="ident">QueryPayload</span>},
         <span class="ident">nucleus</span>::<span class="ident">tests</span>::<span class="ident">test_call_response</span>,
     };
     <span class="kw">use</span> <span class="ident">holochain_core_types</span>::<span class="ident">entry</span>::{<span class="ident">expected_entry_address</span>, <span class="ident">test_entry</span>};
@@ -735,10 +739,13 @@
 
     <span class="doccomment">/// dummy action</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_action</span>() <span class="op">-&gt;</span> <span class="ident">Action</span> {
-        <span class="ident">Action</span>::<span class="ident">GetEntry</span>(<span class="ident">GetEntryKey</span> {
-            <span class="ident">address</span>: <span class="ident">expected_entry_address</span>(),
-            <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-id&quot;</span>),
-        })
+        <span class="ident">Action</span>::<span class="ident">Query</span>((
+            <span class="ident">QueryKey</span>::<span class="ident">Entry</span>(<span class="ident">GetEntryKey</span> {
+                <span class="ident">address</span>: <span class="ident">expected_entry_address</span>(),
+                <span class="ident">id</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test-id&quot;</span>),
+            }),
+            <span class="ident">QueryPayload</span>::<span class="ident">Entry</span>,
+        ))
     }
 
     <span class="doccomment">/// dummy action wrapper with test_action()</span>
@@ -753,10 +760,13 @@
 
     <span class="doccomment">/// dummy action for a get of test_hash()</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_action_wrapper_get</span>() <span class="op">-&gt;</span> <span class="ident">ActionWrapper</span> {
-        <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">GetEntry</span>(<span class="ident">GetEntryKey</span> {
-            <span class="ident">address</span>: <span class="ident">expected_entry_address</span>(),
-            <span class="ident">id</span>: <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>(),
-        }))
+        <span class="ident">ActionWrapper</span>::<span class="ident">new</span>(<span class="ident">Action</span>::<span class="ident">Query</span>((
+            <span class="ident">QueryKey</span>::<span class="ident">Entry</span>(<span class="ident">GetEntryKey</span> {
+                <span class="ident">address</span>: <span class="ident">expected_entry_address</span>(),
+                <span class="ident">id</span>: <span class="ident">snowflake</span>::<span class="ident">ProcessUniqueId</span>::<span class="ident">new</span>().<span class="ident">to_string</span>(),
+            }),
+            <span class="ident">QueryPayload</span>::<span class="ident">Entry</span>,
+        )))
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test_action_wrapper_rzfr</span>() <span class="op">-&gt;</span> <span class="ident">ActionWrapper</span> {

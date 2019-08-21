@@ -757,6 +757,10 @@
 <span id="757">757</span>
 <span id="758">758</span>
 <span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! provides in-memory p2p &quot;server&quot; for use in scenario testing</span>
 <span class="doccomment">//! the server connects all the memory_workers together, so there is no real gossiping going around.</span>
@@ -777,13 +781,13 @@
 };
 
 <span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
+<span class="kw">use</span> <span class="ident">lib3h_protocol</span>::<span class="ident">data_types</span>::<span class="ident">ConnectedData</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections</span>::{<span class="ident">hash_map</span>::<span class="ident">Entry</span>, <span class="ident">HashMap</span>, <span class="ident">HashSet</span>},
+    <span class="ident">str</span>::<span class="ident">FromStr</span>,
     <span class="ident">sync</span>::{<span class="ident">mpsc</span>, <span class="ident">Mutex</span>, <span class="ident">RwLock</span>},
 };
-<span class="kw">use</span> <span class="ident">lib3h_protocol</span>::<span class="ident">data_types</span>::<span class="ident">ConnectedData</span>;
 <span class="kw">use</span> <span class="ident">url</span>::<span class="ident">Url</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
 
 <span class="kw">type</span> <span class="ident">RequestId</span> <span class="op">=</span> <span class="ident">String</span>;
 
@@ -1019,7 +1023,11 @@
                 <span class="kw">let</span> <span class="ident">dna_address</span> <span class="op">=</span> <span class="ident">msg</span>.<span class="ident">space_address</span>.<span class="ident">clone</span>();
                 <span class="kw">let</span> <span class="ident">agent_id</span> <span class="op">=</span> <span class="ident">msg</span>.<span class="ident">agent_id</span>.<span class="ident">clone</span>();
 
-                <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;JOINING SPACE: dna({}), agent({})&quot;</span>, <span class="ident">dna_address</span>.<span class="ident">to_string</span>(), <span class="ident">agent_id</span>.<span class="ident">to_string</span>());
+                <span class="macro">println</span><span class="macro">!</span>(
+                    <span class="string">&quot;JOINING SPACE: dna({}), agent({})&quot;</span>,
+                    <span class="ident">dna_address</span>.<span class="ident">to_string</span>(),
+                    <span class="ident">agent_id</span>.<span class="ident">to_string</span>()
+                );
 
                 <span class="comment">// Check if we are already tracking this dna for this agent</span>
                 <span class="kw">let</span> <span class="ident">chain_id</span> <span class="op">=</span> <span class="ident">into_chain_id</span>(<span class="kw-2">&amp;</span><span class="ident">dna_address</span>, <span class="kw-2">&amp;</span><span class="ident">agent_id</span>);
@@ -1036,7 +1044,7 @@
                 <span class="self">self</span>.<span class="ident">priv_send_one</span>(
                     <span class="kw-2">&amp;</span><span class="ident">dna_address</span>,
                     <span class="kw-2">&amp;</span><span class="ident">agent_id</span>,
-                    <span class="ident">Lib3hServerProtocol</span>::<span class="ident">Connected</span>(<span class="ident">ConnectedData</span>{
+                    <span class="ident">Lib3hServerProtocol</span>::<span class="ident">Connected</span>(<span class="ident">ConnectedData</span> {
                         <span class="ident">request_id</span>: <span class="ident">msg</span>.<span class="ident">request_id</span>,
                         <span class="ident">uri</span>: <span class="ident">Url</span>::<span class="ident">from_str</span>(<span class="string">&quot;memory:://0.0.0.0&quot;</span>).<span class="ident">unwrap</span>(),
                     }),

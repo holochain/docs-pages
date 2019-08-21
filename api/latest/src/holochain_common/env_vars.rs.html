@@ -53,10 +53,6 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
-<span id="56">56</span>
-<span id="57">57</span>
-<span id="58">58</span>
-<span id="59">59</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Holochain uses a number of environment variables that can be set, for easy configuration for aspects of the system.</span>
 <span class="doccomment">//! Below is the complete list of them, and what they are used for.</span>
@@ -81,8 +77,6 @@
 <span class="doccomment">//! ### `hc generate`</span>
 <span class="doccomment">//! - HC_SCAFFOLD_VERSION allows you to set a string value to be used in the generated Cargo.toml.  We use this override the default which points to the current version tag, which a pointer to the develop branch for our CI tests, so for example in CI we can run our tests with: `HC_SCAFFOLD_VERSION=&#39;branch=&quot;develop&quot;&#39;` and that overrides the default.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ### Other</span>
-<span class="doccomment">//! - **HC_SIMPLE_LOGGER_MUTE** *int* Setting this value to 1 will silence the log output of a SimpleLogger. Use with any Conductor.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">env</span>::<span class="ident">VarError</span>;
 
@@ -94,7 +88,6 @@
     <span class="ident">N3hBootstrapNode</span>,
     <span class="ident">N3hLogLevel</span>,
     <span class="ident">NetworkingConfigFile</span>,
-    <span class="ident">SimpleLoggerMute</span>,
     <span class="ident">ScaffoldVersion</span>,
 }
 
@@ -108,7 +101,6 @@
             <span class="ident">EnvVar</span>::<span class="ident">N3hBootstrapNode</span> <span class="op">=&gt;</span> <span class="string">&quot;HC_N3H_BOOTSTRAP_NODE&quot;</span>,
             <span class="ident">EnvVar</span>::<span class="ident">N3hLogLevel</span> <span class="op">=&gt;</span> <span class="string">&quot;HC_N3H_LOG_LEVEL&quot;</span>,
             <span class="ident">EnvVar</span>::<span class="ident">NetworkingConfigFile</span> <span class="op">=&gt;</span> <span class="string">&quot;NETWORKING_CONFIG_FILE&quot;</span>,
-            <span class="ident">EnvVar</span>::<span class="ident">SimpleLoggerMute</span> <span class="op">=&gt;</span> <span class="string">&quot;HC_SIMPLE_LOGGER_MUTE&quot;</span>,
             <span class="ident">EnvVar</span>::<span class="ident">ScaffoldVersion</span> <span class="op">=&gt;</span> <span class="string">&quot;HC_SCAFFOLD_VERSION&quot;</span>,
         }
     }

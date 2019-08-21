@@ -194,6 +194,9 @@
 <span id="194">194</span>
 <span id="195">195</span>
 <span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">context</span>::<span class="ident">Context</span>, <span class="ident">workflows</span>::<span class="ident">get_entry_result</span>::<span class="ident">get_entry_with_meta_workflow</span>};
 <span class="kw">use</span> <span class="ident">holochain_core_types</span>::{
@@ -291,19 +294,25 @@
             <span class="ident">validation_data</span>
         )),
 
-        <span class="ident">EntryType</span>::<span class="ident">LinkAdd</span> <span class="op">=&gt;</span> {
-            <span class="kw">await</span><span class="op">!</span>(<span class="ident">link_entry</span>::<span class="ident">validate_link_entry</span>(<span class="ident">entry</span>.<span class="ident">clone</span>(), <span class="ident">validation_data</span>, <span class="ident">context</span>))
-        }
+        <span class="ident">EntryType</span>::<span class="ident">LinkAdd</span> <span class="op">=&gt;</span> <span class="kw">await</span><span class="op">!</span>(<span class="ident">link_entry</span>::<span class="ident">validate_link_entry</span>(
+            <span class="ident">entry</span>.<span class="ident">clone</span>(),
+            <span class="ident">validation_data</span>,
+            <span class="ident">context</span>
+        )),
 
-        <span class="ident">EntryType</span>::<span class="ident">LinkRemove</span> <span class="op">=&gt;</span> {
-            <span class="kw">await</span><span class="op">!</span>(<span class="ident">link_entry</span>::<span class="ident">validate_link_entry</span>(<span class="ident">entry</span>.<span class="ident">clone</span>(), <span class="ident">validation_data</span>, <span class="ident">context</span>))
-        }
+        <span class="ident">EntryType</span>::<span class="ident">LinkRemove</span> <span class="op">=&gt;</span> <span class="kw">await</span><span class="op">!</span>(<span class="ident">link_entry</span>::<span class="ident">validate_link_entry</span>(
+            <span class="ident">entry</span>.<span class="ident">clone</span>(),
+            <span class="ident">validation_data</span>,
+            <span class="ident">context</span>
+        )),
 
         <span class="comment">// Deletion entries are not validated currently and always valid</span>
         <span class="comment">// TODO: Specify how Deletion can be commited to chain.</span>
-        <span class="ident">EntryType</span>::<span class="ident">Deletion</span> <span class="op">=&gt;</span> {
-            <span class="kw">await</span><span class="op">!</span>(<span class="ident">remove_entry</span>::<span class="ident">validate_remove_entry</span>(<span class="ident">entry</span>.<span class="ident">clone</span>(), <span class="ident">validation_data</span>, <span class="ident">context</span>))
-        }
+        <span class="ident">EntryType</span>::<span class="ident">Deletion</span> <span class="op">=&gt;</span> <span class="kw">await</span><span class="op">!</span>(<span class="ident">remove_entry</span>::<span class="ident">validate_remove_entry</span>(
+            <span class="ident">entry</span>.<span class="ident">clone</span>(),
+            <span class="ident">validation_data</span>,
+            <span class="ident">context</span>
+        )),
 
         <span class="comment">// a grant should always be private, so it should always pass</span>
         <span class="ident">EntryType</span>::<span class="ident">CapTokenGrant</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
@@ -313,9 +322,6 @@
             <span class="ident">validation_data</span>,
             <span class="ident">context</span>,
         )),
-
-        <span class="comment">// TODO: Update to use dependent validation so a header will only be held of the entry has been successfully published</span>
-        <span class="ident">EntryType</span>::<span class="ident">ChainHeader</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
 
         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ValidationError</span>::<span class="ident">NotImplemented</span>),
     }
