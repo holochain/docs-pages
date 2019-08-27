@@ -87,20 +87,20 @@
                                 <p>Holochain development uses the same tools across Mac, Windows and Linux. However, NixOS tools (see below) only work natively on Mac and Linux.</p>
                                 <p>We expect this to change in the future.
                                   NixOS for Windows is under <a href="https://github.com/NixOS/nixpkgs/issues/30391" target="_blank" rel="noopener">active development!</a></p>
-                                <p>In the meantime you will need to work with a virtual machine.<br>
-                                  The process is similar to working with a local web server.<br>
-                                  There are holochain optimised options for both Docker and Vagrant.<br>
+                                <p>In the meantime you will need to work with a virtual machine.
+                                  The process is similar to working with a local web server.
+                                  There are holochain optimised options for both Docker and Vagrant.
                                   It is relatively simple to create custom setups with the official NixOS boxes.</p>
                                 <p>This guide explains using NixOS with <strong>Vagrant/VirtualBox</strong>.</p>
-                                  <p><em>Feel free to use Docker or another Vagrant provider if it suits you.<br>
-                                    This guide is designed to be as inclusive as possible.<br>
-                                    Docker on Windows requires Windows Pro (which costs money).<br>
+                                  <p><em>Feel free to use Docker or another Vagrant provider if it suits you.
+                                    This guide is designed to be as inclusive as possible.
+                                    Docker on Windows requires Windows Pro (which costs money).
                                     VirtualBox is generally more accessible than alternative providers.</em></p>
-                                <br><h2 class="section-title" id="About-Vagrant">About Vagrant</h2><br>
-                                <p>Vagrant is a tool for configuring virtual machines or &ldquo;boxes&rdquo;.<br>
-                                  The configuration is stored in a Vagrantfile in each project.<br>
+                                <h2 class="section-title" id="About-Vagrant">About Vagrant</h2>
+                                <p>Vagrant is a tool for configuring virtual machines or &ldquo;boxes&rdquo;.
+                                  The configuration is stored in a Vagrantfile in each project.
                                   This way everyone working on a project gets (roughly) the same box.</p>
-                                <p>The Vagrantfile used by <a href="https://github.com/holochain/holochain-rust/blob/develop/Vagrantfile" target="_blank" rel="noopener">core</a> is a good starting point.<br>
+                                <p>The Vagrantfile used by <a href="https://github.com/holochain/holochain-rust/blob/develop/Vagrantfile" target="_blank" rel="noopener">core</a> is a good starting point.
                                   This guide uses a &ldquo;light&rdquo; version of the core Vagrantfile to cut download times.</p>
                                 <h4 id="The-basic-workflow-is-like-this">The basic workflow is like this:</h4>
                                 <ol>
@@ -111,8 +111,8 @@
                                   <li>Run Holochain/NixOS commands inside the machine</li>
                                 </ol>
                                 <h4 id="Shared-folders">Shared folders</h4>
-                                <p>By default Vagrant syncs a &ldquo;shared folder&rdquo; automatically.<br>
-                                  The shared folder always looks the same inside and outside the box.<br>
+                                <p>By default Vagrant syncs a &ldquo;shared folder&rdquo; automatically.
+                                  The shared folder always looks the same inside and outside the box.
                                   The default is to share the project folder into <span class="inline-code">/vagrant</span> inside the box.</p>
                                 <h4 id="A-typical-workflow-with-shared-folders">A typical workflow with shared folders:</h4>
                                 <ul>
@@ -122,7 +122,7 @@
                                   <li>Use holochain tools like hc inside the box</li>
                                 </ul>
                                 <h4 id="Managing-boxes">Managing boxes</h4>
-                                <p>There are some key commands common to all Vagrant projects.<br>
+                                <p>There are some key commands common to all Vagrant projects.
                                   These commands must be run from inside the project folder.</p>
                                 <p>Boots the vagrant box for the project:</p>
                                 <p><code>vagrant up  </code></p>
@@ -134,9 +134,9 @@
                                 <p>Log into the vagrant box for the project in the current terminal:</p>
                                 <p><code>vagrant ssh</code></p>
                                 <h4 id="NixOS-box">NixOS box</h4>
-                                <p>The Vagrantfile used in this guide uses NixOS.<br>
-                                  This means we don&rsquo;t have to install any additional nix tooling.<br>
-                                  It also means that box configuration must be done with nix.<br>
+                                <p>The Vagrantfile used in this guide uses NixOS.
+                                  This means we don&rsquo;t have to install any additional nix tooling.
+                                  It also means that box configuration must be done with nix.
                                   This is why the vagrant nixos plugin must be installed.</p>
                                 <p>You can easily install <span class="inline-code">vagrant-nixos-plugin</span> with this command:</p>
                                 <p><code>vagrant plugin install vagrant-nixos-plugin </code>
