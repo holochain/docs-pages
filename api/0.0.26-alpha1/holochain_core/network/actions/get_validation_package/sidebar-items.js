@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_validation_package","GetValidationPackage Action Creator This triggers the network module to retrieve the validation package for the entry given by the header."]],"struct":[["GetValidationPackageFuture","GetValidationPackageFuture resolves to an Option which would be None if the source responded with None, indicating that it is not the source."]]});

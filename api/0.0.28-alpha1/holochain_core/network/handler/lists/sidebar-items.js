@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["handle_get_authoring_list",""],["handle_get_gossip_list",""]]});

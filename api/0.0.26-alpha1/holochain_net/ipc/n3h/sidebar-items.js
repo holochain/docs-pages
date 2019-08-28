@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_verify_n3h","check for n3h in the path. if so, check its version if these aren't correct, download the pinned executable for our os/arch verify the hash and version return a pathbuf containing a runnable n3h executable path"]]});

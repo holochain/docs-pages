@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Holochain","contains a Holochain application instance"]]});
