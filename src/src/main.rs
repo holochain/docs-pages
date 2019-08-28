@@ -6,7 +6,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::collections::BTreeMap;
 use handlebars::Handlebars;
-use chrono::{DateTime, Utc};
+//use chrono::{DateTime, Utc};
 use serde_json::{Map, Value};
 //use glob::glob;
 
@@ -49,8 +49,10 @@ fn main() {
   let footer_html = handlebars.render("footer", &footer_data).unwrap();
 
   // page templates
+  /*
   let start = include_str!("start.template.html");
   let _ = handlebars.register_template_string("start", start);
+  */
   let landing = include_str!("landing.template.html");
   let _ = handlebars.register_template_string("landing", landing);
   let api = include_str!("api.template.html");
@@ -59,7 +61,7 @@ fn main() {
   let _ = handlebars.register_template_string("guide", guide);
 
   // START PAGE
-
+  /*
   let mut start_head_data = BTreeMap::new();
   start_head_data.insert("title".to_string(), "Holochain Installation Instructions".to_string());
   let start_head_html = handlebars.render("head", &start_head_data).unwrap();
@@ -84,6 +86,7 @@ fn main() {
 
   let mut start_file = File::create("start.html").unwrap();
   let _ = start_file.write_all(start_html.as_bytes());
+  */
 
   // API PAGE
 

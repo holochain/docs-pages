@@ -9,7 +9,7 @@ The API Reference source files are the [source code](https://github.com/holochai
 
 In order to develop any changes to the main pages, you will need to modify the template files, and rebuild the HTML from those templates.
 
-The templates for `/start.html`, `/index.html`, `/api/index.html`, and `/guide/index.html` are [here](./src/src).
+The templates for `/index.html`, `/api/index.html`, and `/guide/index.html` are [here](./src/src).
 These also draw from files containing version information, [api_versions.json](./api_versions.json) and [guide_versions.json](./guide_versions.json), to generate the /api/index.html and /guide/index.html.
 
 You will want to have two terminals open:
@@ -19,6 +19,8 @@ You will want to have two terminals open:
 For 1, you can skip to the [Local serving](#local-serving) section, and use any of the options it outlines.
 
 For 2: open a terminal @ docs-pages.
+
+To update the `start.html` just edit it directly.
 
 **Prerequisite**
 - Rust

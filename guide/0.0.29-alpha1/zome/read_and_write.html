@@ -1,0 +1,303 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Read &amp; Write Data Operations - The Holochain Guidebook</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "../";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="../welcome.html"><strong aria-hidden="true">1.</strong> Welcome</a></li><li><ol class="section"><li><a href="../overview.html"><strong aria-hidden="true">1.1.</strong> Overview</a></li><li><a href="../how_to_contribute.html"><strong aria-hidden="true">1.2.</strong> How to contribute</a></li></ol></li><li><a href="../planning_a_dapp.html"><strong aria-hidden="true">2.</strong> Planning a dApp</a></li><li><a href="../building_apps.html"><strong aria-hidden="true">3.</strong> Building Holochain Apps: Intro</a></li><li><ol class="section"><li><a href="../intro_to_dna_config.html"><strong aria-hidden="true">3.1.</strong> Intro to DNA: Configuration</a></li><li><a href="../intro_to_dna_code.html"><strong aria-hidden="true">3.2.</strong> Intro to DNA: Code</a></li><li><a href="../intro_to_command_line_tools.html"><strong aria-hidden="true">3.3.</strong> Intro to Command Line Tools</a></li><li><a href="../new_project.html"><strong aria-hidden="true">3.4.</strong> Create A New Project</a></li><li><a href="../project_source_folders.html"><strong aria-hidden="true">3.5.</strong> Project Source Folders</a></li><li><a href="../configuring_an_app.html"><strong aria-hidden="true">3.6.</strong> Configuring an App</a></li><li><a href="../zome/rust.html"><strong aria-hidden="true">3.7.</strong> Writing in Rust</a></li><li><a href="../zome/assemblyscript.html"><strong aria-hidden="true">3.8.</strong> Writing in Assemblyscript</a></li><li><a href="../zome/intro_to_webassembly.html"><strong aria-hidden="true">3.9.</strong> Intro to WebAssembly</a></li><li><a href="../alpha_migrate.html"><strong aria-hidden="true">3.10.</strong> Updating from Proto to Rust</a></li><li><a href="../built_with_holochain.html"><strong aria-hidden="true">3.11.</strong> Built With Holochain</a></li><li><a href="../building_for_different_platforms.html"><strong aria-hidden="true">3.12.</strong> Building for Different Platforms</a></li></ol></li><li><a href="../zome/welcome.html"><strong aria-hidden="true">4.</strong> Building Holochain Apps: Zome Code</a></li><li><ol class="section"><li><a href="../first_steps.html"><strong aria-hidden="true">4.1.</strong> Build A To-Do App!</a></li><li><a href="../zome/adding_a_zome.html"><strong aria-hidden="true">4.2.</strong> Adding a Zome</a></li><li><a href="../zome/intro_to_hdk.html"><strong aria-hidden="true">4.3.</strong> Intro to HDK</a></li><li><a href="../zome/define_zome.html"><strong aria-hidden="true">4.4.</strong> Intro to Zome Definition</a></li><li><a href="../zome/entry_type_definitions.html"><strong aria-hidden="true">4.5.</strong> App Entry Type Definitions</a></li><li><a href="../zome/init.html"><strong aria-hidden="true">4.6.</strong> Init</a></li><li><a href="../zome/validate_agent.html"><strong aria-hidden="true">4.7.</strong> Validate Agent</a></li><li><a href="../zome/zome_functions.html"><strong aria-hidden="true">4.8.</strong> Zome Functions</a></li><li><a href="../zome/capabilities.html"><strong aria-hidden="true">4.9.</strong> Capabilities</a></li><li><a href="../zome/read_and_write.html" class="active"><strong aria-hidden="true">4.10.</strong> Read &amp; Write Data Operations</a></li><li><a href="../zome/entry_validation.html"><strong aria-hidden="true">4.11.</strong> (E) Entry Validation</a></li><li><a href="../zome/linking.html"><strong aria-hidden="true">4.12.</strong> (E) Linking</a></li><li><a href="../zome/node_to_node_messages.html"><strong aria-hidden="true">4.13.</strong> (E) Node to Node Messaging</a></li><li><a href="../zome/calling_other_zomes.html"><strong aria-hidden="true">4.14.</strong> (E) Calling Other Zomes</a></li><li><a href="../zome/crypto.html"><strong aria-hidden="true">4.15.</strong> Crypto Functions</a></li><li><a href="../zome/bundling.html"><strong aria-hidden="true">4.16.</strong> (E) Bundling</a></li><li><a href="../zome/emitting_signals.html"><strong aria-hidden="true">4.17.</strong> Emitting Signals</a></li><li><a href="../zome/dna_variables.html"><strong aria-hidden="true">4.18.</strong> API DNA Variables</a></li><li><a href="../zome/api_functions.html"><strong aria-hidden="true">4.19.</strong> List of API Functions</a></li></ol></li><li><a href="../packaging.html"><strong aria-hidden="true">5.</strong> Building Holochain Apps: Packaging</a></li><li><ol class="section"><li><a href="../build_files.html"><strong aria-hidden="true">5.1.</strong> .hcbuild Files</a></li><li><a href="../hcignore_files.html"><strong aria-hidden="true">5.2.</strong> .hcignore Files</a></li></ol></li><li><a href="../intro_to_testing.html"><strong aria-hidden="true">6.</strong> Building Holochain Apps: Testing</a></li><li><ol class="section"><li><a href="../running_tests.html"><strong aria-hidden="true">6.1.</strong> Running Tests</a></li><li><a href="../intro_to_holochain_nodejs.html"><strong aria-hidden="true">6.2.</strong> Intro to holochain-nodejs</a></li><li><a href="../testing_configuration.html"><strong aria-hidden="true">6.3.</strong> Configuration</a></li><li><ol class="section"><li><a href="../configuration_alternatives.html"><strong aria-hidden="true">6.3.1.</strong> Configuration Alternatives</a></li></ol></li><li><a href="../scenario_testing.html"><strong aria-hidden="true">6.4.</strong> Scenario Testing</a></li><li><ol class="section"><li><a href="../scenario_testing_setup.html"><strong aria-hidden="true">6.4.1.</strong> Setup</a></li><li><a href="../scenario_testing_running_tape.html"><strong aria-hidden="true">6.4.2.</strong> Running With Tape</a></li><li><a href="../other_test_harnesses.html"><strong aria-hidden="true">6.4.3.</strong> Other Test Harnesses</a></li></ol></li><li><a href="../nodejs_dna_instances.html"><strong aria-hidden="true">6.5.</strong> DNA Instances</a></li><li><ol class="section"><li><a href="../nodejs_calling_zome_functions.html"><strong aria-hidden="true">6.5.1.</strong> Calling Zome Functions</a></li><li><a href="../handling_async.html"><strong aria-hidden="true">6.5.2.</strong> Handle Network Asynchronicity</a></li></ol></li><li><a href="../testing_checking_results.html"><strong aria-hidden="true">6.6.</strong> (E) Checking Results</a></li><li><a href="../managing_the_conductor.html"><strong aria-hidden="true">6.7.</strong> Manually Manage the Conductor</a></li><li><a href="../access_instance_info.html"><strong aria-hidden="true">6.8.</strong> Access Instance Info</a></li></ol></li><li><a href="../conductors.html"><strong aria-hidden="true">7.</strong> Running Holochain Apps: Conductors</a></li><li><ol class="section"><li><a href="../development_conductor.html"><strong aria-hidden="true">7.1.</strong> Development Conductor</a></li><li><ol class="section"><li><a href="../hc_configuring_networking.html"><strong aria-hidden="true">7.1.1.</strong> Configuring Networking</a></li></ol></li><li><a href="../production_conductor.html"><strong aria-hidden="true">7.2.</strong> Production Conductor</a></li><li><ol class="section"><li><a href="../intro_to_toml_config.html"><strong aria-hidden="true">7.2.1.</strong> Intro to TOML Config Files</a></li><li><a href="../conductor_agents.html"><strong aria-hidden="true">7.2.2.</strong> Agents</a></li><li><a href="../conductor_dnas.html"><strong aria-hidden="true">7.2.3.</strong> DNAs</a></li><li><a href="../conductor_instances.html"><strong aria-hidden="true">7.2.4.</strong> Instances</a></li><li><a href="../conductor_interfaces.html"><strong aria-hidden="true">7.2.5.</strong> Interfaces</a></li><li><a href="../conductor_bridges.html"><strong aria-hidden="true">7.2.6.</strong> Bridges</a></li><li><a href="../conductor_ui_bundles.html"><strong aria-hidden="true">7.2.7.</strong> UI Bundles</a></li><li><a href="../conductor_ui_interfaces.html"><strong aria-hidden="true">7.2.8.</strong> UI Interfaces</a></li><li><a href="../conductor_logging.html"><strong aria-hidden="true">7.2.9.</strong> Logging</a></li><li><a href="../conductor_networking.html"><strong aria-hidden="true">7.2.10.</strong> Networking</a></li><li><a href="../conductor_persistence_dir.html"><strong aria-hidden="true">7.2.11.</strong> Persistence Directory</a></li></ol></li><li><a href="../json_rpc_interfaces.html"><strong aria-hidden="true">7.3.</strong> Intro to JSON-RPC Interfaces</a></li><li><a href="../conductor_json_rpc_api.html"><strong aria-hidden="true">7.4.</strong> Conductor JSON-RPC API</a></li><li><ol class="section"><li><a href="../json_rpc_http.html"><strong aria-hidden="true">7.4.1.</strong> HTTP</a></li><li><a href="../json_rpc_websockets.html"><strong aria-hidden="true">7.4.2.</strong> WebSockets</a></li></ol></li><li><a href="../conductor_admin.html"><strong aria-hidden="true">7.5.</strong> Conductor Admin</a></li></ol></li><li><a href="../apps_user_interfaces.html"><strong aria-hidden="true">8.</strong> Building Holochain Apps: User Interfaces</a></li><li><a href="../bridging.html"><strong aria-hidden="true">9.</strong> Building Holochain Apps: Bridging</a></li><li><a href="../live_hc_apps.html"><strong aria-hidden="true">10.</strong> (E) Going Live with Holochain Apps</a></li><li><ol class="section"><li><a href="../creating_versioned_releases.html"><strong aria-hidden="true">10.1.</strong> (E) Creating Versioned Releases</a></li></ol></li><li><a href="../apps_advanced_topics.html"><strong aria-hidden="true">11.</strong> (E) Building Holochain Apps: Advanced Topics</a></li><li><ol class="section"><li><a href="../json_string.html"><strong aria-hidden="true">11.1.</strong> Understanding JsonString</a></li><li><a href="../building_for_android.html"><strong aria-hidden="true">11.2.</strong> Building For Android</a></li></ol></li><li><a href="../extending_holochain.html"><strong aria-hidden="true">12.</strong> (E) Extending Holochain</a></li><li><ol class="section"><li><a href="../embedding_holochain.html"><strong aria-hidden="true">12.1.</strong> (E) Embedding Holochain</a></li><li><ol class="section"><li><a href="../core_api.html"><strong aria-hidden="true">12.1.1.</strong> (E) Core API</a></li></ol></li><li><a href="../dpki.html"><strong aria-hidden="true">12.2.</strong> Key Management (DPKI)</a></li><li><a href="../naming_conventions.html"><strong aria-hidden="true">12.3.</strong> Naming conventions</a></li><li><a href="../writing_development_kit.html"><strong aria-hidden="true">12.4.</strong> Writing a Development Kit (HDK)</a></li><li><a href="../zome/implementation.html"><strong aria-hidden="true">12.5.</strong> Implementing Zome API functions</a></li><li><a href="../state_actions.html"><strong aria-hidden="true">12.6.</strong> Redux Architecture</a></li><li><ol class="section"><li><a href="../state/actions.html"><strong aria-hidden="true">12.6.1.</strong> State actions</a></li></ol></li><li><a href="../state/actors.html"><strong aria-hidden="true">12.7.</strong> State actors</a></li></ol></li><li><a href="../faq.html"><strong aria-hidden="true">13.</strong> FAQ</a></li><li><a href="../glossary.html"><strong aria-hidden="true">14.</strong> (E) Glossary</a></li><li><ol class="section"><li><a href="../agent.html"><strong aria-hidden="true">14.1.</strong> (E) Agent</a></li><li><a href="../keys.html"><strong aria-hidden="true">14.2.</strong> (E) Keys</a></li><li><a href="../dna.html"><strong aria-hidden="true">14.3.</strong> (E) DNA</a></li><li><a href="../zome.html"><strong aria-hidden="true">14.4.</strong> (E) Zome</a></li><li><a href="../source_chain.html"><strong aria-hidden="true">14.5.</strong> (E) Source Chain</a></li><li><a href="../distributed_hash_table.html"><strong aria-hidden="true">14.6.</strong> Distributed Hash Table</a></li></ol></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                            <a href="https://github.com/holochain/holochain-rust/edit/develop/doc/holochain_101/src/zome/read_and_write.md">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </div>
+
+                        <h1 class="menu-title">The Holochain Guidebook</h1>
+
+                        <div class="right-buttons">
+                            <a href="../print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="#read--write-data-operations" id="read--write-data-operations"><h1>Read &amp; Write Data Operations</h1></a>
+<a class="header" href="#the-local-source-chain-headers-and-entries" id="the-local-source-chain-headers-and-entries"><h2>The Local Source Chain: Headers and Entries</h2></a>
+<p>At the core of how Holochain is designed is the &quot;local source chain&quot;.
+It is the data structure that puts Holochain in the family of &quot;distributed ledger technology&quot;.
+It functions as an &quot;append-only log&quot;, which is a fancy way of saying that data can only ever be written to the log,
+and never modified in place, nor removed, without breaking the integrity of the data that follows it in the log. As has been found for many other projects, this is a critical design choice for a distributed technology.</p>
+<blockquote>
+<p>Note that across the world of crytocurrency and distributed ledgers, these logs are sometimes given different names, despite usually refering to a very similar data structure: feed, log, ledger, and chain are only four such examples. What they share is the append-only nature, as well as the use of cryptographic signatures for securing data integrity.</p>
+</blockquote>
+<p>As a consequence of this log-like data structure, Holochain is a departure from traditional relational
+(SQL) and also non-relational (noSQL) databases. There are no tables, and no foreign keys, at least on the formal level of Holochain.
+Despite this, one must of course still be able to persist data, and read back persisted data, and all of that happens in relation to the local source chain.</p>
+<p>With Holochain, there are two aspects that combine to form each &quot;element&quot; in this chain-like log: headers, and entries.</p>
+<a class="header" href="#headers" id="headers"><h3>Headers</h3></a>
+<p>The fundamental chain-like aspect of Holochain is driven by &quot;headers&quot;. They are a minimal data structure containing only a handful of values, but are sufficient to supply Holochain with verifiable data integrity.</p>
+<p>Fundamental to creating the &quot;chain&quot;, each header contains a reference to the &quot;last&quot; header. There are a couple aspects to this:</p>
+<ol>
+<li>The cryptographic hash (its data &quot;fingerprint&quot;) for a header is determined</li>
+<li>The hash of the previously written header is used as a fixed-length input for the next header, thus influencing the hash of that new header (since any change to contents change a hash)</li>
+<li>The only time this does not apply is for the very first header, for which there is no previous header hash, and a value of <code>0</code> is used</li>
+</ol>
+<p>Other data contained in the headers includes (but isn't limited to):</p>
+<ul>
+<li>the public key/address, and the cryptographically signed signature of the author</li>
+<li>a timestamp conveying the moment of creation of the header, from the perspective of the author's system clock</li>
+<li>the hash of the &quot;entry&quot; being created</li>
+<li>the &quot;entry type&quot; of the &quot;entry&quot; being created</li>
+</ul>
+<p>The meaning and role of entries is covered next.</p>
+<a class="header" href="#entries" id="entries"><h3>Entries</h3></a>
+<p>Entries are elements of data which get persisted to the same storage as Headers, yet have a different nature. They represent the substance of the data that is of interest to the end users of Holochain, storing records such as transactions, social media posts, or whatever else app developers come up with. The hash of each entry is stored and referenced in its corresponding header. Every local source chain should have exactly one Entry for every Header.</p>
+<p>All Entries have a type. Entries can be &quot;system&quot; Entries, or &quot;app&quot; Entries. System Entries are Entries integral to the proper functioning of Holochain. Importantly, there are system Entries written to each local source chain, at the time of its initialization.</p>
+<a class="header" href="#system-entries" id="system-entries"><h4>System Entries</h4></a>
+<p>These include firstly, the DNA itself. The DNA is written as the first entry into each local source chain. Importantly, this is the foundation for establishing confidence in the data of everyone's chains: the fact that you all know you started out by running the same code (otherwise, the hash of the initial DNA entry would be different). There will be more discussion on this later.</p>
+<p>The second Entry to be written to the chain is information about the agent using this source chain. That includes their &quot;public key&quot; which is also their address on the network.</p>
+<p>There are also other system entry types which are automatically created to record the occurrence of certain actions such as the creation or removal of a link, the marking of an existing entry as deleted, or the granting or revoking of a capability token. These will be covered in more detail in later chapters.</p>
+<a class="header" href="#app-entries" id="app-entries"><h4>App Entries</h4></a>
+<p>Next, there are the &quot;App&quot; Entries. The definitions for these entry types, and how to validate them, are in the hands of developers. When end users are attempting actions which should author data, the data will first be checked against the validation rules supplied by the DNA developer. The possibilities for App Entry type definitions are endless. Defining App Entry types is how you setup the schemas, data structures, and data integrity of your DNA.</p>
+<a class="header" href="#entry-sharing" id="entry-sharing"><h4>Entry Sharing</h4></a>
+<p>Not every Entry must be shared with other people running the same DNA. There are two (and may be more later) levels of sharing for App Entries defined: <code>public</code> and <code>private</code>.</p>
+<p>With <code>public</code>, all Entries of that type will get propagated to the other peers running the same DNA, so that they will hold a copy as well, and make your data more resilient, and so that it is available even when you're offline.</p>
+<p>With <code>private</code>, the Entry will never leave your device. In order to still be able to verify your local source chain, the HEADER for that Entry will be propagated to other peers, but the Entry itself will not.</p>
+<a class="header" href="#data-propagation" id="data-propagation"><h2>Data Propagation</h2></a>
+<p>After any chain-modifying functions are called, Holochain will attempt to notify other peers in the network of those actions. Note that it is not a requirement that the device be online or connected to any other networks or nodes for Holochain to be usable! Holochain will persist the changes locally to be gossiped to connected peers at a later date. As mentioned previously, if the entry is one of a <code>private</code> App Entry type, then only the Header will be published, not the entry itself. Publishing of the data is secondary to being able to author data in the first place, so this will be further elaborated in the <a href="./entry_validation.html">entry validation</a> article.</p>
+<a class="header" href="#writing-data" id="writing-data"><h2>Writing Data</h2></a>
+<p>Broadly speaking, writing data is accomplished by writing Zome source code that makes API calls to Holochain to affect the local source chain. One should only modify chain data by calling Holochain API functions, as there is lots of internal logic that it is instrumental that Holochain perform, for each change. When an API function to alter the chain from Zome source code is invoked, a series of steps is performed internally. It is important to know, at least roughly, what those steps are so that you can use Holochain effectively.</p>
+<p>Apart from the following three functions, there is only one additional way that data can be written to the local source chain, which is written about in <a href="./linking.html">linking</a>.</p>
+<a class="header" href="#creating-entries-or-committing" id="creating-entries-or-committing"><h3>Creating Entries, or &quot;Committing&quot;</h3></a>
+<p>Of course, first and foremost, there is the simple action of writing a new Entry. This is actually known as &quot;committing&quot; an Entry. It is known as &quot;committing&quot; an Entry in Holochain for precisely the reason that once you write it, you can't &quot;unwrite&quot; it, or delete it, without corrupting the integrity of your local source chain. It is there for good, and can only be &quot;marked&quot; as updated or deleted by writing additional entries in the future.</p>
+<p>Because the Entry will be permanent in your local source chain, it must first pass validation, in order to be written in the first place. Validation of Entries is core to the distributed data integrity model of Holochain.</p>
+<p>Invoking the commit entry API function will not always return &quot;success&quot;. The call can fail if the Entry fails to pass validation, or something else goes wrong internally while Holochain is attempting to write the Entry to the local source chain. Like in any code, failure tolerant code is far better, and Zomes should be written to handle possible error cases.</p>
+<p>So in general, the process that Holochain follows while trying to write an Entry during a &quot;commit&quot; call is this:</p>
+<ol>
+<li>Collects data necessary for use in validation (a &quot;validation package&quot;)</li>
+<li>Checks whether the new entry is valid by passing it through the validation callback specified in the Zome for its given entry type. If this fails, it will exit here and return either a user defined, or system level error message</li>
+<li>Creates a new Header for the Entry, and writes it to storage</li>
+<li>Writes the Entry itself to storage</li>
+<li>Announces over the network module this new Header and Entry, requesting that peers validate and hold a copy of it. This is known internally as &quot;publishing&quot;.</li>
+<li>Returns the &quot;address&quot; of the new Entry, which is the crytographic hash of the Entry data combined with its entry type string. This address can be used later to retrieve the Entry.</li>
+</ol>
+<a class="header" href="#updating-entries" id="updating-entries"><h3>Updating Entries</h3></a>
+<p>The act of updating an Entry is technically speaking just the same &quot;committing an Entry&quot;, plus storing a bit of metadata indicating that this new entry is an &quot;update&quot; to the entry at an old address which is also given. This has the effect that when an attempt to retrieve an Entry by its address, it will forward the request along to the latest version in a potential series of updates, and return that instead. There is always the option to return the results for an Entry according to whether it's the &quot;initial&quot; version, the &quot;latest&quot;, or getting the entire history too.</p>
+<p>So to update an Entry, use the address of that entry, and provide the new Entry to replace it. You can use the address of the Entry at any point in its update history as the address to update (as long as it hasn't been marked deleted), and it will still work, technically updating the very latest version of that Entry instead of whatever you pass in.</p>
+<p>So in general, the process that Holochain follows while trying to update an Entry during an &quot;update_entry&quot; call is this:</p>
+<ol>
+<li>Retrieves the very latest version of the Entry at the given address</li>
+<li>Collects data necessary for use in validation (a &quot;validation package&quot;)</li>
+<li>Checks whether the new entry is valid by passing it through the validation callback specified in the Zome for its given entry type. If this fails, it will exit here and return either a user defined, or system level error message</li>
+<li>Creates a new Header for the Entry, and writes it to storage</li>
+<li>Writes the Entry itself to storage</li>
+<li>Announces over the network module this new Header and Entry, requesting that peers validate and hold a copy of it. This is known internally as &quot;publishing&quot;. <strong>This step also involves updating the metadata for the Entry at the old address such that default requests for it will forward to the new Entry.</strong></li>
+<li>Returns the &quot;address&quot; of the new Entry, which is the crytographic hash of the Entry data combined with its entry type string. This address can be used later to retrieve the Entry.</li>
+</ol>
+<a class="header" href="#removing-entries" id="removing-entries"><h3>Removing Entries</h3></a>
+<p>The goal of removing an Entry is so that it will not automatically show up as a result when attempts to retrieve it are made, it is NOT to delete it entirely. Removing an Entry will not prevent someone who wishes to retrieve it from retrieving it, they will just have to pass a special option to do so. This makes sense due to the &quot;append-only&quot; nature of Holochain: the original Entry is never gone.</p>
+<p>To remove an Entry, Holochain actually commits an Entry of a special type: <code>DeletionEntry</code>.</p>
+<p>So in general, the process that Holochain follows while trying to remove an Entry during an &quot;remove_entry&quot; call is this:</p>
+<ol>
+<li>Retrieves the very latest version of the Entry at the given address</li>
+<li>Collects data necessary for use in validation (a &quot;validation package&quot;)</li>
+<li>Creates a new <code>DeletionEntry</code>, containing the address of the very latest version of the given entry</li>
+<li>Checks whether the <code>DeletionEntry</code> is valid by passing it through the validation callback specified in the Zome for its given entry type. If this fails, it will exit here and return either a user defined, or system level error message</li>
+<li>Creates a new Header for the Entry, and writes it to storage</li>
+<li>Writes the Entry itself to storage</li>
+<li>Announces over the network module this new Header and Entry, requesting that peers validate and hold a copy of it. This is known internally as &quot;publishing&quot;. <strong>This step also involves updating the metadata for the Entry at the old address such that default requests for it will return no Entry.</strong></li>
+<li>Returns a null value, as there is no need to retrieve the new <code>DeletionEntry</code> at any point for any reason.</li>
+</ol>
+<a class="header" href="#reading-data" id="reading-data"><h2>Reading Data</h2></a>
+<p>Reading data is a lot more straightforward than writing data. Data is either read from your own device, if it lives there, or is fetched from peers over network connections. Throughout the writing data section, it was mentioned that Entries and even Headers have &quot;addresses&quot;. These addresses are linked to the content itself, following a pattern known as <a href="https://en.wikipedia.org/wiki/Content-addressable_storage">&quot;content addressable storage&quot;</a>.</p>
+<p>This means that to determine the address, the content is passed through a cryptographic hash function, which will deterministically give the same hash whenever the same content is given, and can take an input of any length, and return a result of fixed length. The content is then deposited in a location on a computer, and a network, where it can be retrieved given its address/hash.</p>
+<p>Only Entries may be retrieved by their address, not Headers.</p>
+<a class="header" href="#get-an-entry" id="get-an-entry"><h3>Get an Entry</h3></a>
+<a class="header" href="#query-local-chain-entries" id="query-local-chain-entries"><h3>Query Local Chain Entries</h3></a>
+<a class="header" href="#building-in-rust-read--write-data" id="building-in-rust-read--write-data"><h2>Building in Rust: Read &amp; Write Data</h2></a>
+<a class="header" href="#hdkcommit_entry" id="hdkcommit_entry"><h3>hdk::commit_entry</h3></a>
+<a class="header" href="#hdkupdate_entry" id="hdkupdate_entry"><h3>hdk::update_entry</h3></a>
+<a class="header" href="#hdkremove_entry" id="hdkremove_entry"><h3>hdk::remove_entry</h3></a>
+<a class="header" href="#hdkget_entry" id="hdkget_entry"><h3>hdk::get_entry</h3></a>
+<a class="header" href="#hdkquery" id="hdkquery"><h3>hdk::query</h3></a>
+
+                        <hr />
+                        <a href="https://github.com/holochain/holochain-rust/edit/develop/doc/holochain_101/src/zome/read_and_write.md">suggest an edit</a>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../zome/capabilities.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../zome/entry_validation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="../zome/capabilities.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="../zome/entry_validation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

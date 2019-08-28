@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["invoke_emit_signal","ZomeApiFunction::EmitSignal function code args: [0] encoded MemoryAllocation as u64 Expecting a string as complex input argument Returns an HcApiReturnCode as I64"]]});

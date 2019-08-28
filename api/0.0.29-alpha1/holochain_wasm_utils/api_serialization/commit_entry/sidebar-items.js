@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["CommitEntryArgs","The arguments required to execute a commit_entry_result() call."],["CommitEntryOptions","Structure used to specify additional options to a commit_entry_result call."],["CommitEntryResult","Represents any useful information to return after entries are committed"]]});

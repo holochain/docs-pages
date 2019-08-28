@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["reduce_respond_query","Send back to network a HandleQueryEntryResult, no matter what. Will return an empty content field if it actually doesn't have the data."]]});
