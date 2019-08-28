@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Broadcaster","An abstraction which represents the ability to (maybe) send a message to the client over the existing connection."]]});

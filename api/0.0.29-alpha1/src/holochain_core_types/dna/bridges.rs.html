@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `core_types/src/dna/bridges.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>bridges.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../holochain_core_types/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1"> 1</span>
+<span id="2"> 2</span>
+<span id="3"> 3</span>
+<span id="4"> 4</span>
+<span id="5"> 5</span>
+<span id="6"> 6</span>
+<span id="7"> 7</span>
+<span id="8"> 8</span>
+<span id="9"> 9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+</pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">dna</span>::<span class="ident">fn_declarations</span>::<span class="ident">Trait</span>;
+<span class="kw">use</span> <span class="ident">holochain_persistence_api</span>::<span class="ident">cas</span>::<span class="ident">content</span>::<span class="ident">Address</span>;
+
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
+
+<span class="doccomment">/// A bridge is the definition of a connection to another DNA that runs under the same agency,</span>
+<span class="doccomment">/// i.e. in the same conductor.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Defining a bridge means that the code in this DNA can call zome functions of that other</span>
+<span class="doccomment">/// DNA.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The other DNA can either be referenced statically by exact DNA address/hash or dynamically</span>
+<span class="doccomment">/// by defining the traits that other DNA has to provide in order to be usable as bridge.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Bridges can be required or optional. If a required bridge DNA is not installed this DNA</span>
+<span class="doccomment">/// can&#39;t run, so required bridges are hard dependencies that have to be enforced by the conductor.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Bridge</span> {
+    <span class="doccomment">/// Required or optional</span>
+    <span class="kw">pub</span> <span class="ident">presence</span>: <span class="ident">BridgePresence</span>,
+
+    <span class="doccomment">/// An arbitrary name of this bridge that is used as handle to reference this</span>
+    <span class="doccomment">/// bridge in according zome API functions</span>
+    <span class="kw">pub</span> <span class="ident">handle</span>: <span class="ident">String</span>,
+
+    <span class="doccomment">/// Define what other DNA(s) to bridge to</span>
+    <span class="kw">pub</span> <span class="ident">reference</span>: <span class="ident">BridgeReference</span>,
+}
+
+<span class="doccomment">/// This enum represents the two different ways of referring to another DNA instance.</span>
+<span class="doccomment">/// If we know a priori what exact version of another DNA we want to bridge to we can</span>
+<span class="doccomment">/// specify the DNA address (i.e. hash) and lock it in.</span>
+<span class="doccomment">/// Often, we need more flexibility when</span>
+<span class="doccomment">/// * the other DNA gets replaced by a newer version</span>
+<span class="doccomment">/// * the other DNA gets created from a template and thus we don&#39;t know the exact hash</span>
+<span class="doccomment">///   during build-time</span>
+<span class="doccomment">/// * we want to build a complex system of components that should be pluggable.</span>
+<span class="doccomment">/// Bridges can therefore also be specified by traits.</span>
+<span class="doccomment">/// That means we specify a list of functions with their signatures and allow the conductor</span>
+<span class="doccomment">/// (through the conductor bridge config) to resolve this bridge by any DNA instance that</span>
+<span class="doccomment">/// implements all specified functions, just like a dynamic binding of function calls.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">untagged</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BridgeReference</span> {
+    <span class="doccomment">/// A bridge reference that defines another DNA statically by its address (i.e. hash).</span>
+    <span class="doccomment">/// If this variant is used the other DNA gets locked in as per DNA address</span>
+    <span class="ident">Address</span> { <span class="ident">dna_address</span>: <span class="ident">Address</span> },
+
+    <span class="doccomment">/// A bridge reference that defines another DNA loosely by expecting a DNA that implements</span>
+    <span class="doccomment">/// a given set of traits, i.e. that has specific sets of zome functions with</span>
+    <span class="doccomment">/// matching signatures.</span>
+    <span class="ident">Trait</span> { <span class="ident">traits</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Trait</span><span class="op">&gt;</span> },
+}
+
+<span class="doccomment">/// Required or optional</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
+<span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename_all</span> <span class="op">=</span> <span class="string">&quot;lowercase&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BridgePresence</span> {
+    <span class="doccomment">/// A required bridge is a dependency to another DNA.</span>
+    <span class="doccomment">/// This DNA won&#39;t load without it.</span>
+    <span class="ident">Required</span>,
+
+    <span class="doccomment">/// An optional bridge may be missing.</span>
+    <span class="doccomment">/// This DNA&#39;s code can check via API functions if the other DNA is installed and connected.</span>
+    <span class="ident">Optional</span>,
+}
+</pre></div>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "holochain_core_types";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

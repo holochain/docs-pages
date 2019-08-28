@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["add_pending_validation",""],["build_validation_package",""],["call_init",""],["call_zome_function",""],["get_entry",""],["initialize",""],["remove_pending_validation",""],["run_validation_callback",""]]});

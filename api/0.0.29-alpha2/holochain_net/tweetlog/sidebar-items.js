@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["LogLevel",""]],"struct":[["TWEETLOG",""],["TweetProxy","A facade for calling the singleton with a specific tag"],["Tweetlog","Tweetlog singleton Holds a TweetLogger per Tag Creates a global Tag: \"_\""]]});

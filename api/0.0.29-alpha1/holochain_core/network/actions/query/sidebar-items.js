@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["QueryMethod","FetchEntry Action Creator This is the network version of get_entry that makes the network module start a look-up process."]],"fn":[["query",""]],"struct":[["QueryFuture","GetEntryFuture resolves to a HcResult. Tracks the state of the network module"]]});

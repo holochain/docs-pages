@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `logging` crate."><meta name="keywords" content="rust, rustlang, rust-lang, logging"><title>logging - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../logging/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate logging</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all logging's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'logging', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/logging/lib.rs.html#1-973' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>logging</a></span></h1><div class='docblock'><p>Holochain's log implementation.</p>
+<p>This logger implementation is designed to be fast and to provide useful filtering combination capabilities.</p>
+<h1 id="use" class="section-header"><a href="#use">Use</a></h1>
+<p>The basic use of the log crate is through the five logging macros: <a href="../log/macro.error.html"><code>error!</code></a>,
+<a href="../log/macro.warn.html"><code>warn!</code></a>, <a href="../log/macro.info.html"><code>info!</code></a>, <a href="..log/macro.debug.html"><code>debug!</code></a> and <a href="../log/macro.trace.html"><code>trace!</code></a>
+where <code>error!</code> represents the highest-priority log messages
+and <code>trace!</code> the lowest. The log messages are filtered by configuring
+the log level to exclude messages with a lower priority.
+Each of these macros accept format strings similarly to <a href="https://doc.rust-lang.org/stable/std/macro.println.html"><code>println!</code></a>.</p>
+<h1 id="quick-start" class="section-header"><a href="#quick-start">Quick Start</a></h1>
+<p>To get you started quickly, the easiest and highest-level way to get a working logger (with the
+<a href="../logging/prelude/enum.Level.html#Info.v"><code>Info</code></a> log verbosity level) is to use <a href="../logging/fn.init_simple.html" title="`init_simple`"><code>init_simple</code></a>.</p>
+
+<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
+<span class="kw">use</span> <span class="ident">logging</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+
+<span class="comment">// We need a guard here in order to gracefully shutdown</span>
+<span class="comment">// the logging thread</span>
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">logging</span>::<span class="ident">init_simple</span>().<span class="ident">unwrap</span>();
+<span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;Here you go champ!&quot;</span>);
+
+<span class="comment">// Warning and Error log message have their own color</span>
+<span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;You&#39;ve been warned Sir!&quot;</span>);
+<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Oh... something wrong pal.&quot;</span>);
+
+<span class="comment">// Flushes any buffered records</span>
+<span class="ident">guard</span>.<span class="ident">flush</span>();
+<span class="comment">// Flush and shutdown gracefully the logging thread</span>
+<span class="ident">guard</span>.<span class="ident">shutdown</span>();</pre></div>
+<h3 id="examples" class="section-header"><a href="#examples">Examples</a></h3><h4 id="simple-log-with-trace-verbosity-level" class="section-header"><a href="#simple-log-with-trace-verbosity-level">Simple log with Trace verbosity level.</a></h4>
+<p>In order to log everything with at least the <a href="../logging/prelude/enum.Level.html#Debug.v"><code>Debug</code></a> verbosity level:</p>
+
+<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
+<span class="kw">use</span> <span class="ident">logging</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+
+<span class="comment">// We need a guard here in order to gracefully shutdown</span>
+<span class="comment">// the logging thread</span>
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">FastLoggerBuilder</span>::<span class="ident">new</span>()
+    <span class="comment">// The timestamp format is customizable as well</span>
+    .<span class="ident">timestamp_format</span>(<span class="string">&quot;%Y-%m-%d %H:%M:%S%.6f&quot;</span>)
+    .<span class="ident">set_level_from_str</span>(<span class="string">&quot;Debug&quot;</span>)
+    .<span class="ident">build</span>()
+    .<span class="ident">expect</span>(<span class="string">&quot;Fail to init the logging factory.&quot;</span>);
+
+<span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;Let&#39;s trace what that program is doing.&quot;</span>);
+
+<span class="comment">// Flushes any buffered records</span>
+<span class="ident">guard</span>.<span class="ident">flush</span>();
+<span class="comment">// Flush and shutdown gracefully the logging thread</span>
+<span class="ident">guard</span>.<span class="ident">shutdown</span>();</pre></div>
+<h4 id="building-the-logging-factory-from-toml-configuration" class="section-header"><a href="#building-the-logging-factory-from-toml-configuration">Building the logging factory from TOML configuration.</a></h4>
+<p>The logger can be built from a <a href="https://github.com/toml-lang/toml">TOML</a> configuration file:</p>
+
+<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
+<span class="kw">use</span> <span class="ident">logging</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
+   [logger]
+   level = &quot;debug&quot;
+
+        [[logger.rules]]
+        pattern = &quot;info&quot;
+        exclude = false
+        color = &quot;Blue&quot;
+    &quot;#</span>;
+<span class="comment">// We need a guard here in order to gracefully shutdown</span>
+<span class="comment">// the logging thread</span>
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">FastLoggerBuilder</span>::<span class="ident">from_toml</span>(<span class="ident">toml</span>)
+    .<span class="ident">expect</span>(<span class="string">&quot;Fail to instantiate the logger from toml.&quot;</span>)
+     .<span class="ident">build</span>()
+     .<span class="ident">expect</span>(<span class="string">&quot;Fail to build logger from toml.&quot;</span>);
+
+<span class="comment">// Should NOT be logged because of the verbosity level set to Debug</span>
+<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Track me if you can.&quot;</span>);
+<span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;What&#39;s bugging you today?&quot;</span>);
+
+<span class="comment">// This one is colored in blue because of our rule on &#39;info&#39; pattern</span>
+<span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;Some interesting info here&quot;</span>);
+
+<span class="comment">// Flushes any buffered records</span>
+<span class="ident">guard</span>.<span class="ident">flush</span>();
+<span class="comment">// Flush and shutdown gracefully the logging thread</span>
+<span class="ident">guard</span>.<span class="ident">shutdown</span>();</pre></div>
+<h4 id="dependency-filtering" class="section-header"><a href="#dependency-filtering">Dependency filtering</a></h4>
+<p>Filtering out every log from dependencies and putting back in everything related to a
+particular <a href="../log/struct.Record.html#method.target"><code>target</code></a></p>
+
+<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
+<span class="kw">use</span> <span class="ident">logging</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+
+<span class="kw">let</span> <span class="ident">toml</span> <span class="op">=</span> <span class="string">r#&quot;
+    [logger]
+    level = &quot;debug&quot;
+
+        [[logger.rules]]
+        pattern = &quot;.*&quot;
+        exclude = true
+
+        [[logger.rules]]
+        pattern = &quot;^holochain&quot;
+        exclude = false
+    &quot;#</span>;
+<span class="comment">// We need a guard here in order to gracefully shutdown</span>
+<span class="comment">// the logging thread</span>
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">FastLoggerBuilder</span>::<span class="ident">from_toml</span>(<span class="ident">toml</span>)
+    .<span class="ident">expect</span>(<span class="string">&quot;Fail to instantiate the logger from toml.&quot;</span>)
+    .<span class="ident">build</span>()
+    .<span class="ident">expect</span>(<span class="string">&quot;Fail to build logger from toml.&quot;</span>);
+
+<span class="comment">// Should NOT be logged</span>
+<span class="macro">debug</span><span class="macro">!</span>(<span class="ident">target</span>: <span class="string">&quot;rpc&quot;</span>, <span class="string">&quot;This is our dependency log filtering.&quot;</span>);
+
+<span class="comment">// Should be logged each in different color. We avoid filtering by prefixing using the &#39;target&#39;</span>
+<span class="comment">// argument.</span>
+<span class="macro">info</span><span class="macro">!</span>(<span class="ident">target</span>: <span class="string">&quot;holochain&quot;</span>, <span class="string">&quot;Log message from Holochain Core.&quot;</span>);
+<span class="macro">info</span><span class="macro">!</span>(<span class="ident">target</span>: <span class="string">&quot;holochain-app-2&quot;</span>, <span class="string">&quot;Log message from Holochain Core with instance ID 2&quot;</span>);
+
+<span class="comment">// Flushes any buffered records</span>
+<span class="ident">guard</span>.<span class="ident">flush</span>();
+<span class="comment">// Flush and shutdown gracefully the logging thread</span>
+<span class="ident">guard</span>.<span class="ident">shutdown</span>();</pre></div>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table><tr class='module-item'><td><a class="mod" href="color/index.html" title='logging::color mod'>color</a></td><td class='docblock-short'><p>This is where we handle the color of the logging messages.
+Greatly inspired by the <a href="https://docs.rs/fern/0.5.8/fern/colors/index.html">fern</a> crate.</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="prelude/index.html" title='logging::prelude mod'>prelude</a></td><td class='docblock-short'><p>Convenience re-export of common members</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="rule/index.html" title='logging::rule mod'>rule</a></td><td class='docblock-short'><p>Log filtering facility: add the capability to filter out by regex log messages and/or colorize them.</p>
+</td></tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table><tr class='module-item'><td><a class="struct" href="struct.FastLogger.html" title='logging::FastLogger struct'>FastLogger</a></td><td class='docblock-short'><p>The logging struct where we store everything we need in order to correctly log stuff.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.FastLoggerBuilder.html" title='logging::FastLoggerBuilder struct'>FastLoggerBuilder</a></td><td class='docblock-short'><p>Logger Builder used to correctly set up our logging capability.</p>
+</td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table><tr class='module-item'><td><a class="fn" href="fn.init_simple.html" title='logging::init_simple fn'>init_simple</a></td><td class='docblock-short'><p>Initialize a simple logging instance with <a href="../logging/prelude/enum.Level.html#Info.v">Info</a> log level verbosity or retrieve
+the level from the <em>RUST_LOG</em> environment variable and no rule filtering.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "logging";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
