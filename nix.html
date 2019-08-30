@@ -44,12 +44,10 @@
     .copy-confirmation {
         margin-left: 10px;
     }
-
     .code-long .copy-to-clipboard { margin: 5px 0 0 0; display: inline-block; }
     .inline-code { padding: 2px 5px; background: #EEE; font-style: normal; font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New; }
     p em { margin: 7px 0; padding: 7px 0 7px 10px; color: #888; font-style: normal; border-left: 4px solid #DDD; display: block; }
     p.button-hide .copy-to-clipboard { display: none; }
-
 </style>
 
 <div class="page-wrapper">
@@ -88,35 +86,28 @@
                                 <p>NixOS development tools run on many operating systems. NixOS is also the OS we use in our automated testing and our HoloPorts.</p>
                                 <p>The main components of the tooling for Holochain development are:</p>
                                 <ul>
-                                  <li>The <a href="https://www.rust-lang.org/" target="_blank" rel="noopener">Rust</a> programming language</li>
-                                  <li><a href="https://nodejs.org/en/" target="_blank" rel="noopener">NodeJS</a> and <a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a></li>
+                                  <li>The <a href="https://www.rust-lang.org/" target="_blank" rel="noopener">Rust</a> programming language</li>
+                                  <li><a href="https://nodejs.org/en/" target="_blank" rel="noopener">NodeJS</a> and <a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a></li>
                                   <li>Cryptographic libraries</li>
                                   <li>Common automations and scripts</li>
                                 </ul>
                                 <p>It is important that these remain consistent across compatible apps and the Holochain Core.</p>
                                 <p>The Holonix repository tracks standard, shared dependencies for all of the scenarios in which we use NixOS. Typically you won&rsquo;t need to interact with Holonix directly.</p>
-                                <p>The main Nix tools used in Holochain development workflows are:</p>
-                                <ul>
-                                  <li><span class="inline-code">nix-shell</span>, a managed Bash shell that overlays a new environment and set of tools on top of your existing environment</li>
-                                  <li><span class="inline-code">nix-env</span>, a cross-platform package manager that installs the tools right into your existing environment</li>
-                                </ul>
+                                <p>The main Nix tool used in Holochain development workflows is <span class="inline-code">nix-shell</span>, a managed Bash shell that overlays a new environment and set of tools on top of your existing environment</p>
                                 <p>Many popular package management tools only target a single OS. NixOS package management supports most OSes.</p>
-                                <p>The full suite of Nix tooling is broad and deep. There&rsquo;s even a dedicated OS and functional programming language. Learn more with the <a href="https://nixos.wiki/wiki/Main_Page" target="_blank" rel="noopener">NixOS Wiki</a> or the <a href="https://nixos.org/nixos/nix-pills/" target="_blank" rel="noopener">Pills</a> Tutorial. The community IRC chat at <span class="inline-code">#nixos</span> on freenode is active and helpful.</p>
+                                <p>The full suite of Nix tooling is broad and deep. There&rsquo;s even a dedicated OS and functional programming language. Learn more with the <a href="https://nixos.wiki/wiki/Main_Page" target="_blank" rel="noopener">NixOS Wiki</a> or the <a href="https://nixos.org/nixos/nix-pills/" target="_blank" rel="noopener">Pills</a> Tutorial. The community IRC chat at <span class="inline-code">#nixos</span> on freenode is active and helpful.</p>
                                 <br><h2 class="section-title" id="nix-shell"><span class="inline-code">nix-shell</span></h2><br>
-                                <p>While working on Holochain, you will usually have an active <span class="inline-code">nix-shell</span> to run commands. All the extra dependencies and environment variables will be cleaned up automatically when you close the shell.</p>
-                                <p><span class="inline-code">nix-shell</span> will give you the latest releases every time you enter it. Nix is configured by <span class="inline-code">default.nix</span> files; these set all dependencies and variables that are added to your terminal.</p>
-                                <p>You can extend the master <span class="inline-code">default.nix</span> file or use it directly from <a href="https://holochain.love/" target="_blank" rel="noopener">https://holochain.love</a>. Opening a shell from holochain.love downloads updates automatically. The initial run will take some time to download and build. It gets much faster on subsequent runs.</p>
-                                <p><span class="inline-code">nix-shell</span> cleans up everything it added when you exit. You need to re-enter the shell each time you want to work.</p>
+                                <p>While working on Holochain, you will usually have an active <span class="inline-code">nix-shell</span> to run commands. All the extra dependencies and environment variables will be cleaned up automatically when you close the shell.</p>
+                                <p><span class="inline-code">nix-shell</span> will give you the latest releases every time you enter it. Nix is configured by <span class="inline-code">default.nix</span> files; these set all dependencies and variables that are added to your terminal.</p>
+                                <p>You can extend the master <span class="inline-code">default.nix</span> file or use it directly from <a href="https://holochain.love/" target="_blank" rel="noopener">https://holochain.love</a>. Opening a shell from holochain.love downloads updates automatically. The initial run will take some time to download and build. It gets much faster on subsequent runs.</p>
+                                <p><span class="inline-code">nix-shell</span> cleans up everything it added when you exit. You need to re-enter the shell each time you want to work.</p>
                                   <p><em>Note: The files are cached locally on your machine, so they will not be re-downloaded or rebuilt the next time you enter the shell.</em></p>
                                 <h4 id="Troubleshooting">Troubleshooting</h4>
-                                <p>By default, <span class="inline-code">nix-shell</span> only adds new things to your bash shell. Your existing setup could contain dependencies that override <span class="inline-code">nix-shell</span> and conflict with expectations.</p>
-                                <p>The following command tells <span class="inline-code">nix-shell</span> to attempt to isolate common conflicts.</p>
+                                <p>By default, <span class="inline-code">nix-shell</span> only adds new things to your bash shell. Your existing setup could contain dependencies that override <span class="inline-code">nix-shell</span> and conflict with expectations.</p>
+                                <p>The following command tells <span class="inline-code">nix-shell</span> to attempt to isolate common conflicts.</p>
                                 <p><code>nix-shell --pure</code></p>
                                   <p><em>Try this option first if you&rsquo;re seeing errors where others are not.</em></p>
                                 <p>The &ldquo;nix pod&rdquo; in Holochain core isolates more aggressively for debugging.</p>
-                                <br><h2 class="section-title" id="nix-env"><span class="inline-code">nix-env</span></h2><br>
-                                <p>You may choose to use nix-env to permanently install the Holochain tools into your regular development environment.</p>
-                                <p>This means that <span class="inline-code">hc</span> and <span class="inline-code">holochain</span> can be run at any time without needing to be in <span class="inline-code">nix-shell</span>. nix-env installations will override <span class="inline-code">nix-shell</span>. <span class="inline-code">nix-env</span> can also update or uninstall the tools it installs.</p>
                             </div>
 
                         </section>
