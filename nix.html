@@ -93,7 +93,7 @@
                                 </ul>
                                 <p>It is important that these remain consistent across compatible apps and the Holochain Core.</p>
                                 <p>The Holonix repository tracks standard, shared dependencies for all of the scenarios in which we use NixOS. Typically you won&rsquo;t need to interact with Holonix directly.</p>
-                                <p>The main Nix tool used in Holochain development workflows is <span class="inline-code">nix-shell</span>, a managed Bash shell that overlays a new environment and set of tools on top of your existing environment</p>
+                                <p>The main Nix tool used in Holochain development workflows is <span class="inline-code">nix-shell</span>, a managed Bash shell that overlays a new environment and set of tools on top of your existing environment.</p>
                                 <p>Many popular package management tools only target a single OS. NixOS package management supports most OSes.</p>
                                 <p>The full suite of Nix tooling is broad and deep. There&rsquo;s even a dedicated OS and functional programming language. Learn more with the <a href="https://nixos.wiki/wiki/Main_Page" target="_blank" rel="noopener">NixOS Wiki</a> or the <a href="https://nixos.org/nixos/nix-pills/" target="_blank" rel="noopener">Pills</a> Tutorial. The community IRC chat at <span class="inline-code">#nixos</span> on freenode is active and helpful.</p>
                                 <br><h2 class="section-title" id="nix-shell"><span class="inline-code">nix-shell</span></h2><br>
@@ -102,12 +102,6 @@
                                 <p>You can extend the master <span class="inline-code">default.nix</span> file or use it directly from <a href="https://holochain.love/" target="_blank" rel="noopener">https://holochain.love</a>. Opening a shell from holochain.love downloads updates automatically. The initial run will take some time to download and build. It gets much faster on subsequent runs.</p>
                                 <p><span class="inline-code">nix-shell</span> cleans up everything it added when you exit. You need to re-enter the shell each time you want to work.</p>
                                   <p><em>Note: The files are cached locally on your machine, so they will not be re-downloaded or rebuilt the next time you enter the shell.</em></p>
-                                <h4 id="Troubleshooting">Troubleshooting</h4>
-                                <p>By default, <span class="inline-code">nix-shell</span> only adds new things to your bash shell. Your existing setup could contain dependencies that override <span class="inline-code">nix-shell</span> and conflict with expectations.</p>
-                                <p>The following command tells <span class="inline-code">nix-shell</span> to attempt to isolate common conflicts.</p>
-                                <p><code>nix-shell --pure</code></p>
-                                  <p><em>Try this option first if you&rsquo;re seeing errors where others are not.</em></p>
-                                <p>The &ldquo;nix pod&rdquo; in Holochain core isolates more aggressively for debugging.</p>
                             </div>
 
                         </section>
