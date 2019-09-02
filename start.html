@@ -44,7 +44,6 @@
     .copy-confirmation {
         margin-left: 10px;
     }
-
     .code-long .copy-to-clipboard { margin: 5px 0 0 0; display: inline-block; }
     .inline-code { padding: 2px 5px; background: #EEE; font-style: normal; font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New; }
     p em { margin: 7px 0; padding: 7px 0 7px 10px; color: #888; font-style: normal; border-left: 4px solid #DDD; display: block; }
@@ -234,58 +233,10 @@
                                     </div>
                                 </div>
 
-                                <br><h2 class="section-title">Install Rust</h2><br><br>
-
-                                <nav>
-                                    <div class="nav nav-tabs nav-fill" role="tablist">
-                                        <a class="nav-item nav-link active" data-toggle="tab" href="#rust-install-new"
-                                            role="tab" aria-controls="rust-install-new" aria-selected="true"><h5>New Rust installation</h5></a>
-                                        <a class="nav-item nav-link" data-toggle="tab" href="#rust-install-existing" role="tab"
-                                            aria-controls="rust-install-existing" aria-selected="false"><h5>Existing Rust installation</h5></a>
                                     </div>
-                                </nav>
+                                </div>
 
-                                <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                                    <div class="tab-pane fade show active" id="rust-install-new" role="tabpanel"
-                                        aria-labelledby="rust-install-new">
-                                        
-                                        <p><em>Use this path if you are only installing Rust for Holochain development and don’t have an existing Rust installation.</em></p>
-
-                                        <p>Now that you have installed Nix, you can install all the prerequisites, including Rust and the Holochain tools, with this command:</p>
-
-                                        <p><code>nix-env -f https://holochain.love -iA holochain.holochain holochain.hc</code></p>
-
-                                        <p>Test this by running:</p>
-
-                                        <p><code>hc --version</code></p>
-
-                                        <p>and</p>
-
-                                        <p><code>holochain --version</code></p>
-                                        
-                                        <p>You should see something like:</p>
-
-                                        <p class="button-hide"><code>hc 0.0.29-alpha2</code></p>
-
-                                        <p class="button-hide"><code>holochain 0.0.29-alpha2</code></p>
-
-                                        <br><h5>Update/Uninstall</h5>
-
-                                        <p>To update the Holochain tools, simply run the install command again:</p>
-
-                                        <p><code>nix-env -f https://holochain.love -iA holochain.holochain holochain.hc</code></p>
-
-                                        <p>To uninstall, run:</p>
-
-                                        <p><code>nix-env -e holochain hc</code></p>
-
-                                    </div>
-
-                                    <div class="tab-pane fade" id="rust-install-existing" role="tabpanel"
-                                        aria-labelledby="rust-install-existing">
-                                        
-                                        <p><em>Use this path if you use Rust for other projects and want your existing setup to be left alone.</em></p>
-
+                                <h2 class="section-title">Install Holochain tools</h2><br>
                                         <p>Now that you have installed Nix, you can run a development shell that contains all the prerequisites, including the correct Rust version and the Holochain tools. This shell won’t interfere with your current Rust installation. Run this command:</p>
 
                                         <p><code>nix-shell https://holochain.love</code></p>
@@ -312,10 +263,10 @@
 
                                         <p>With nix-shell, you don’t need to worry about updating or uninstalling; when you enter the nix-shell, everything is the latest release and is then cleaned up when you exit.</p>
 
-                                    </div>
-                                </div>
-
-                                <br><h2 class="section-title">Build your first DNA</h2>
+                                        <br><h5>Editor</h5>
+                                        <p>In most cases you can run your editor as normal. However, if you are using an integrated developer environment or IDE that needs to communicate with the Holochain dependencies then you should launch it from inside the nix-shell.</p> 
+                                        <p><em>To do this just open your editor while you are in the nix-shell like: <span class="button-hide"><code>[nix-shell:</code></span><code>vim my_file.rs</code></em></p>
+                                <br><br><h2 class="section-title">Build your first DNA</h2>
 
                                 <br><h3>Your first app</h3>
 
