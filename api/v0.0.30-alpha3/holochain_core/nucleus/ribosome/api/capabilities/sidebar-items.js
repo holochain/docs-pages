@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["invoke_commit_capability_claim",""],["invoke_commit_capability_grant",""]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["reduce","Reduce state of Nucleus according to action. Note: Can't block when dispatching action here because we are inside the reduce's mutex"]],"mod":[["init_application",""],["return_initialization_result",""],["return_validation_package",""],["return_validation_result",""],["return_zome_function_result",""]]});

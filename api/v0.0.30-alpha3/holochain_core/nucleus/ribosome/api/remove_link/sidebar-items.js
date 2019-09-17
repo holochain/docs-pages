@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["invoke_remove_link","ZomeApiFunction::GetLinks function code args: [0] encoded MemoryAllocation as u64 Expected complex argument: GetLinksArgs Returns an HcApiReturnCode as I64"]]});

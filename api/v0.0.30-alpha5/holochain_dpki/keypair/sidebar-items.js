@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["generate_random_enc_keypair",""],["generate_random_sign_keypair",""]],"struct":[["EncryptingKeyPair","KeyPair used for encrypting data"],["SigningKeyPair","KeyPair used for signing data"]],"trait":[["KeyPair",""]]});

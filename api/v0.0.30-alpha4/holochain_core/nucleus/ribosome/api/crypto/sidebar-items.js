@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["invoke_crypto","ZomeApiFunction::Sign function code args: [0] encoded MemoryAllocation as u64 Expected argument: u64 Returns an HcApiReturnCode as I64"]]});
