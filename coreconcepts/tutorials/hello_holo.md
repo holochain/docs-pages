@@ -101,7 +101,7 @@ Generate a zome called `hello` inside the zome's folder:
 
 #### Look at the folder layout
 
-![Folder Layout](../img/folder_layout.png)
+![Folder Layout](../../img/folder_layout.png)
 
 #### Open the `lib.rs` file
 

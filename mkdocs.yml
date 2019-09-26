@@ -15,12 +15,12 @@ nav:
     - Concept 3: concepts/XXXX.md
   - Tutorials:
     - Core Concepts:
-      - Hello Holo Tutorial: 'coreconcepts/tutorials/hello_holo.md'
-      - Hello Holo Tutorial: 'coreconcepts/tutorials/hello_test.md'
-      - Hello Holo Tutorial: 'coreconcepts/tutorials/hello_gui.md'
-      - Hello Holo Tutorial: 'coreconcepts/tutorials/hello_me.md'
-      - Hello Holo Tutorial: 'coreconcepts/tutorials/hello_world.md'
-      - Hello Holo Tutorial: 'coreconcepts/tutorials/simple_micro_blog.md'
+      - Hello Holo Tutorial: 'tutorials/coreconcepts/hello_holo.md'
+      - Hello Test Tutorial: 'tutorials/coreconcepts/hello_test.md'
+      - Hello Gui Tutorial: 'tutorials/coreconcepts/hello_gui.md'
+      - Hello Me Tutorial: 'tutorials/coreconcepts/hello_me.md'
+      - Hello World Tutorial: 'tutorials/coreconcepts/hello_world.md'
+      - Simple Mirco Blog Tutorial: 'tutorials/coreconcepts/simple_micro_blog.md'
   - Guidebook:
     - Welcome: 
       - 'guide/welcome.md'
