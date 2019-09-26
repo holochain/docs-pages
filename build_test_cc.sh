@@ -9,8 +9,8 @@ if [ ! -d "cc_tuts" ]; then
 fi
 
 cd cc_tuts
-../utility/single_source code ../coreconcepts/$CONCEPT.md zomes/hello/code/src/lib.rs rust
-../utility/single_source code ../coreconcepts/$CONCEPT.md test/index.js javascript test
+../utility/single_source code ../coreconcepts/tutorials/$CONCEPT.md zomes/hello/code/src/lib.rs rust
+../utility/single_source code ../coreconcepts/tutorials/$CONCEPT.md test/index.js javascript test
 
 echo "packaging: ${CONCEPT}"
 
@@ -29,4 +29,4 @@ if [ "${?}" -gt 0 ]; then
 fi
 
 cd ..
-utility/single_source md coreconcepts/$CONCEPT.md docs/coreconcepts/$CONCEPT.md
+utility/single_source md coreconcepts/tutorials/$CONCEPT.md docs/tutorials/coreconcepts/$CONCEPT.md

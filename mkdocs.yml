@@ -1,13 +1,27 @@
-site_name: My Docs
+site_name: Developer Docs
+
+# Navigation
 nav:
-  - Core Concepts Tutorials: 
-    - 'coreconcepts/hello_holo.md'
-    - 'coreconcepts/hello_test.md'
-    - 'coreconcepts/hello_gui.md'
-    - 'coreconcepts/hello_me.md'
-    - 'coreconcepts/hello_world.md'
-    - 'coreconcepts/simple_micro_blog.md'
-  - Guide: 
+  - Get Started:
+    - Introduction:
+      - Why Holochain?: index.md
+      - What is Holochain?: XXXX.md
+      - Why Develop a hApp?: XXXX.md
+    - Is Holochain right for you?: XXXX.md
+    - Install Holochain: install.md
+  - Core Concepts:
+    - Concept 1: concepts/index.md
+    - Concept 2: concepts/XXXX.md
+    - Concept 3: concepts/XXXX.md
+  - Tutorials:
+    - Core Concepts:
+      - Hello Holo Tutorial: 'coreconcepts/tutorials/hello_holo.md'
+      - Hello Holo Tutorial: 'coreconcepts/tutorials/hello_test.md'
+      - Hello Holo Tutorial: 'coreconcepts/tutorials/hello_gui.md'
+      - Hello Holo Tutorial: 'coreconcepts/tutorials/hello_me.md'
+      - Hello Holo Tutorial: 'coreconcepts/tutorials/hello_world.md'
+      - Hello Holo Tutorial: 'coreconcepts/tutorials/simple_micro_blog.md'
+  - Guidebook:
     - Welcome: 
       - 'guide/welcome.md'
       - Overview: 'guide/overview.md'
@@ -126,9 +140,28 @@ nav:
       - (E) Zome: 'guide/zome.md'
       - (E) Source Chain: 'guide/source_chain.md'
       - Distributed Hash Table: 'guide/distributed_hash_table.md'
+  - API:
+    - API: https://developer.holochain.org/api/latest/hdk/
 
+
+# Theme
 theme:
   name: 'material'
+  custom_dir: 'theme'
+  feature:
+    tabs: true
+  font:
+    text: 'Work Sans'
+    code: 'Roboto Mono'
+  palette:
+    primary: 'white'
+    accent: 'indigo'
+  favicon: 'https://forum.holochain.org/uploads/default/original/1X/79f6577e3c8102e1f0caf8d2f43d4fcf472a3e34.png'
+
+extra_css:
+  - 'custom/style.css'
+
+# Extensions
 markdown_extensions:
   - admonition
   - codehilite:
@@ -139,3 +172,8 @@ markdown_extensions:
   - pymdownx.emoji
   - pymdownx.details
   - pymdownx.superfences
+
+# Social
+
+repo_name: 'holochain-docs'
+repo_url: 'https://github.com/holochain/docs-pages'
