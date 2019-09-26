@@ -13,5 +13,5 @@ IFS=$SAVEIFS   # Restore IFS
 length2=${#f[@]}
 file_name=${f[$(expr $length2 - 1)]}
 if [ "${changes[$(expr $length - 1)]}" = "md" ]; then
-  single_source md $1 docs/coreconcepts/$file_name
+  single_source md $1 docs/tutorials/coreconcepts/$file_name
 fi
