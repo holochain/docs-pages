@@ -1,0 +1,269 @@
+version: 2
+jobs:
+  generate_and_test:
+    docker:
+      - image: holochain/holonix:latest
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: -V1-cc_tuts
+      - run:
+          name: Get single_source 
+          command: nix-shell https://holochain.love --run 'git clone https://github.com/freesig/single_source.git && cd single_source && cargo build --release && cd ../ && mkdir utility && cp single_source/target/release/single_source utility/single_source'
+      - run:
+          name: debug
+          command: ls single_source/target/release/ && ls . && pwd
+      - run:
+          name: Run all tests
+          command: nix-shell https://holochain.love --run './build_test_cc.sh hello_holo && ./build_test_cc.sh hello_test && ./build_test_cc.sh hello_gui && ./build_test_cc.sh hello_me && ./build_test_cc.sh hello_world && ./build_test_cc.sh simple_micro_blog'
+      - add_ssh_keys:
+          fingerprints:
+            - "08:d9:fc:72:f9:a4:ab:26:5f:32:29:2e:15:f1:85:ee"
+      - save_cache:
+          key: -V1-cc_tuts
+          paths:
+            - "cc_tuts"
+      - run:
+          name: Set github 
+          command: git config --global user.email "circleci@circleci" && git config --global user.name "Circleci" && git add docs && ./update_docs.sh 
+
+  build-api:
+    docker:
+      - image: holochain/holonix:latest
+    steps:
+      - checkout
+      #AUTOCACHE-RESTORE
+      - restore_cache:
+          key: -V1-build/api/v0.0.30-alpha6
+      - restore_cache:
+          key: -V1-build/api/v0.0.30-alpha5
+      - restore_cache:
+          key: -V1-build/api/v0.0.30-alpha4
+      - restore_cache:
+          key: -V1-build/api/v0.0.30-alpha3
+      - restore_cache:
+          key: -V1-build/api/0.0.30-alpha1
+      - restore_cache:
+          key: -V1-build/api/0.0.30-alpha2
+      - restore_cache:
+          key: -V1-build/api/0.0.29-alpha1
+      - restore_cache:
+          key: -V1-build/api/0.0.29-alpha2
+      - restore_cache:
+          key: -V1-build/api/0.0.28-alpha1
+      - restore_cache:
+          key: -V1-build/api/0.0.27-alpha1
+      - restore_cache:
+          key: -V1-build/api/0.0.26-alpha1
+      - restore_cache:
+          key: -V1-build/api/0.0.25-alpha1
+      - restore_cache:
+          key: -V1-build/api/0.0.24-alpha2
+      - restore_cache:
+          key: -V1-build/api/0.0.24-alpha1
+      - restore_cache:
+          key: -V1-build/api/v0.0.23-alpha1
+      - restore_cache:
+          key: -V1-build/api/v0.0.22-alpha1
+      - restore_cache:
+          key: -V1-build/api/v0.0.21-alpha1
+      - restore_cache:
+          key: -V1-build/api/v0.0.20-alpha3
+      - restore_cache:
+          key: -V1-build/api/v0.0.19-alpha1
+      - restore_cache:
+          key: -V1-build/api/v0.0.18-alpha1
+      - restore_cache:
+          key: -V1-build/api/v0.0.17-alpha2
+      - restore_cache:
+          key: -V1-build/api/v0.0.16-alpha1
+      - restore_cache:
+          key: -V1-build/api/v0.0.15-alpha1
+      - restore_cache:
+          key: -V1-build/api/v0.0.14-alpha1
+      #AUTOCACHE-RESTORE
+      - run:
+          name: Build api docs 
+          command: nix-shell https://holochain.love --run './build_api.sh'
+      #AUTOCACHE-SAVE
+      - save_cache:
+          key: -V1-build/api/v0.0.30-alpha6
+          paths:
+            - "build/api/v0.0.30-alpha6"
+      - save_cache:
+          key: -V1-build/api/v0.0.30-alpha5
+          paths:
+            - "build/api/v0.0.30-alpha5"
+      - save_cache:
+          key: -V1-build/api/v0.0.30-alpha4
+          paths:
+            - "build/api/v0.0.30-alpha4"
+      - save_cache:
+          key: -V1-build/api/v0.0.30-alpha3
+          paths:
+            - "build/api/v0.0.30-alpha3"
+      - save_cache:
+          key: -V1-build/api/0.0.30-alpha1
+          paths:
+            - "build/api/0.0.30-alpha1"
+      - save_cache:
+          key: -V1-build/api/0.0.30-alpha2
+          paths:
+            - "build/api/0.0.30-alpha2"
+      - save_cache:
+          key: -V1-build/api/0.0.29-alpha1
+          paths:
+            - "build/api/0.0.29-alpha1"
+      - save_cache:
+          key: -V1-build/api/0.0.29-alpha2
+          paths:
+            - "build/api/0.0.29-alpha2"
+      - save_cache:
+          key: -V1-build/api/0.0.28-alpha1
+          paths:
+            - "build/api/0.0.28-alpha1"
+      - save_cache:
+          key: -V1-build/api/0.0.27-alpha1
+          paths:
+            - "build/api/0.0.27-alpha1"
+      - save_cache:
+          key: -V1-build/api/0.0.26-alpha1
+          paths:
+            - "build/api/0.0.26-alpha1"
+      - save_cache:
+          key: -V1-build/api/0.0.25-alpha1
+          paths:
+            - "build/api/0.0.25-alpha1"
+      - save_cache:
+          key: -V1-build/api/0.0.24-alpha2
+          paths:
+            - "build/api/0.0.24-alpha2"
+      - save_cache:
+          key: -V1-build/api/0.0.24-alpha1
+          paths:
+            - "build/api/0.0.24-alpha1"
+      - save_cache:
+          key: -V1-build/api/v0.0.23-alpha1
+          paths:
+            - "build/api/v0.0.23-alpha1"
+      - save_cache:
+          key: -V1-build/api/v0.0.22-alpha1
+          paths:
+            - "build/api/v0.0.22-alpha1"
+      - save_cache:
+          key: -V1-build/api/v0.0.21-alpha1
+          paths:
+            - "build/api/v0.0.21-alpha1"
+      - save_cache:
+          key: -V1-build/api/v0.0.20-alpha3
+          paths:
+            - "build/api/v0.0.20-alpha3"
+      - save_cache:
+          key: -V1-build/api/v0.0.19-alpha1
+          paths:
+            - "build/api/v0.0.19-alpha1"
+      - save_cache:
+          key: -V1-build/api/v0.0.18-alpha1
+          paths:
+            - "build/api/v0.0.18-alpha1"
+      - save_cache:
+          key: -V1-build/api/v0.0.17-alpha2
+          paths:
+            - "build/api/v0.0.17-alpha2"
+      - save_cache:
+          key: -V1-build/api/v0.0.16-alpha1
+          paths:
+            - "build/api/v0.0.16-alpha1"
+      - save_cache:
+          key: -V1-build/api/v0.0.15-alpha1
+          paths:
+            - "build/api/v0.0.15-alpha1"
+      - save_cache:
+          key: -V1-build/api/v0.0.14-alpha1
+          paths:
+            - "build/api/v0.0.14-alpha1"
+      #AUTOCACHE-SAVE
+      - persist_to_workspace:
+          root: build
+          paths:
+            - api/*
+            - guide/*
+            - site/*
+
+  build-mkdocs:
+    docker:
+      - image: squidfunk/mkdocs-material
+
+    steps:
+      - checkout
+      - attach_workspace:
+          at: build
+      - run:
+          name: Build mkdocs 
+          command: mkdocs build -d build/site
+      - run:
+          name: debug2
+          command: ls .
+      - run:
+          name: debug3
+          command: ls build/
+      - run:
+          name: debug4
+          command: pwd 
+      - run:
+          name: debug
+          command: ls build/site
+      - persist_to_workspace:
+          root: build
+          paths:
+            - api/*
+            - guide/*
+            - site/*
+  docs-deploy:
+    docker:
+      - image: node:8.10.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: build/
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@2.1.1 && git config --global user.email "circleci@circleci" && git config --global user.name "Circleci" 
+      - add_ssh_keys:
+          fingerprints:
+            - "08:d9:fc:72:f9:a4:ab:26:5f:32:29:2e:15:f1:85:ee"
+      - run:
+          name: debug
+          command: ls build/site
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --message "[skip ci] Updates" -d build
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build-api:
+          filters:
+            branches:
+              only: v2 
+      - build-mkdocs:
+          requires:
+            - build-api
+          filters:
+            branches:
+              only: v2 
+      - generate_and_test:
+          filters:
+            branches:
+              only: 
+                - v2_develop
+#      - docs-deploy:
+#          requires:
+#            - build-api
+#            - build-mkdocs
+#          filters:
+#            branches:
+#              only: v2 

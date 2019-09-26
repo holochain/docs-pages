@@ -1,0 +1,141 @@
+site_name: My Docs
+nav:
+  - Core Concepts Tutorials: 
+    - 'coreconcepts/hello_holo.md'
+    - 'coreconcepts/hello_test.md'
+    - 'coreconcepts/hello_gui.md'
+    - 'coreconcepts/hello_me.md'
+    - 'coreconcepts/hello_world.md'
+    - 'coreconcepts/simple_micro_blog.md'
+  - Guide: 
+    - Welcome: 
+      - 'guide/welcome.md'
+      - Overview: 'guide/overview.md'
+      - How to contribute: 'guide/how_to_contribute.md'
+    - Planning a dApp: 'guide/planning_a_dapp.md'
+    - Building Holochain Apps - Intro: 
+      - 'guide/building_apps.md'
+      - Intro to DNA - Configuration: 'guide/intro_to_dna_config.md'
+      - Intro to DNA - Code: 'guide/intro_to_dna_code.md'
+      - Intro to Command Line Tools: 'guide/intro_to_command_line_tools.md'
+      - Create A New Project: 'guide/new_project.md'
+      - Project Source Folders: 'guide/project_source_folders.md'
+      - Configuring an App: 'guide/configuring_an_app.md'
+      - Writing in Rust: 'guide/zome/rust.md'
+      - Writing in Assemblyscript: 'guide/zome/assemblyscript.md'
+      - Intro to WebAssembly: 'guide/zome/intro_to_webassembly.md'
+      - Updating from Proto to Rust: 'guide/alpha_migrate.md'
+      - Built With Holochain: 'guide/built_with_holochain.md'
+      - Building for Different Platforms: 'guide/building_for_different_platforms.md'
+    - Building Holochain Apps - Zome Code: 
+      - 'guide/zome/welcome.md'
+      - Build A To-Do App!: 'guide/first_steps.md'
+      - Adding a Zome: 'guide/zome/adding_a_zome.md'
+      - Intro to HDK: 'guide/zome/intro_to_hdk.md'
+      - Intro to Zome Definition: 'guide/zome/define_zome.md'
+      - App Entry Type Definitions: 'guide/zome/entry_type_definitions.md'
+      - Init: 'guide/zome/init.md'
+      - Validate Agent: 'guide/zome/validate_agent.md'
+      - Zome Functions: 'guide/zome/zome_functions.md'
+      - Capabilities: 'guide/zome/capabilities.md'
+      - Read & Write Data Operations: 'guide/zome/read_and_write.md'
+      - (E) Entry Validation: 'guide/zome/entry_validation.md'
+      - (E) Linking: 'guide/zome/linking.md'
+      - (E) Node to Node Messaging: 'guide/zome/node_to_node_messages.md'
+      - (E) Calling Other Zomes: 'guide/zome/calling_other_zomes.md'
+      - Crypto Functions: 'guide/zome/crypto.md'
+      - (E) Bundling: 'guide/zome/bundling.md'
+      - Emitting Signals: 'guide/zome/emitting_signals.md'
+      - API DNA Variables: 'guide/zome/dna_variables.md'
+      - List of API Functions: 'guide/zome/api_functions.md'
+    - Building Holochain Apps - Packaging: 
+      - 'guide/packaging.md'
+      - .hcbuild Files: 'guide/build_files.md'
+      - .hcignore Files: 'guide/hcignore_files.md'
+    - Building Holochain Apps - Testing: 
+      - 'guide/intro_to_testing.md'
+      - Running Tests: 'guide/running_tests.md'
+      - Intro to holochain-nodejs: 'guide/intro_to_holochain_nodejs.md'
+      - Configuration:
+        - 'guide/testing_configuration.md'
+        - Configuration Alternatives: 'guide/configuration_alternatives.md'
+      - Scenario Testing: 
+        - 'guide/scenario_testing.md'
+        - Setup: 'guide/scenario_testing_setup.md'
+        - Running With Tape: 'guide/scenario_testing_running_tape.md'
+        - Other Test Harnesses: 'guide/other_test_harnesses.md'
+      - DNA Instances: 
+        - 'guide/nodejs_dna_instances.md'
+        - Calling Zome Functions: 'guide/nodejs_calling_zome_functions.md'
+        - Handle Network Asynchronicity: 'guide/handling_async.md'
+      - (E) Checking Results: 'guide/testing_checking_results.md'
+      - Manually Manage the Conductor: 'guide/managing_the_conductor.md'
+      - Access Instance Info: 'guide/access_instance_info.md'
+    - Running Holochain Apps: 
+      - Conductors: 'guide/conductors.md'
+      - Development Conductor: 
+        - 'guide/development_conductor.md'
+        - Configuring Networking: 'guide/hc_configuring_networking.md'
+      - Production Conductor: 
+        - 'guide/production_conductor.md'
+        - Intro to TOML Config Files: 'guide/intro_to_toml_config.md'
+        - Agents: 'guide/conductor_agents.md'
+        - DNAs: 'guide/conductor_dnas.md'
+        - Instances: 'guide/conductor_instances.md'
+        - Interfaces: 'guide/conductor_interfaces.md'
+        - Bridges: 'guide/conductor_bridges.md'
+        - UI Bundles: 'guide/conductor_ui_bundles.md'
+        - UI Interfaces: 'guide/conductor_ui_interfaces.md'
+        - Logging: 'guide/conductor_logging.md'
+        - Networking: 'guide/conductor_networking.md'
+        - Persistence Directory: 'guide/conductor_persistence_dir.md'
+      - Intro to JSON-RPC Interfaces: 'guide/json_rpc_interfaces.md'
+      - Conductor JSON-RPC API: 
+        - 'guide/conductor_json_rpc_api.md'
+        - HTTP: 'guide/json_rpc_http.md'
+        - WebSockets: 'guide/json_rpc_websockets.md'
+      - Conductor Admin: 'guide/conductor_admin.md'
+    - Building Holochain Apps - User Interfaces: 'guide/apps_user_interfaces.md'
+    - Building Holochain Apps - Bridging: 'guide/bridging.md'
+    - (E) Going Live with Holochain Apps: 
+      - 'guide/live_hc_apps.md'
+      - (E) Creating Versioned Releases: 'guide/creating_versioned_releases.md'
+    - (E) Building Holochain Apps - Advanced Topics: 
+      - 'guide/apps_advanced_topics.md'
+      - Understanding JsonString: 'guide/json_string.md'
+      - Building For Android: 'guide/building_for_android.md'
+    - (E) Extending Holochain: 
+      - 'guide/extending_holochain.md'
+      - (E) Embedding Holochain: 
+        - 'guide/embedding_holochain.md'
+        - (E) Core API: 'guide/core_api.md'
+      - Key Management (DPKI): 'guide/dpki.md'
+      - Naming conventions: 'guide/naming_conventions.md'
+      - Writing a Development Kit (HDK': 'guide/writing_development_kit.md'
+      - Implementing Zome API functions: 'guide/zome/implementation.md'
+      - Redux Architecture: 
+        - 'guide/state_actions.md'
+        - State actions: 'guide/state/actions.md'
+      - State actors: 'guide/state/actors.md'
+    - FAQ: 'guide/faq.md'
+    - (E) Glossary: 
+      - 'guide/glossary.md'
+      - (E) Agent: 'guide/agent.md'
+      - (E) Keys: 'guide/keys.md'
+      - (E) DNA: 'guide/dna.md'
+      - (E) Zome: 'guide/zome.md'
+      - (E) Source Chain: 'guide/source_chain.md'
+      - Distributed Hash Table: 'guide/distributed_hash_table.md'
+
+theme:
+  name: 'material'
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
+  - pymdownx.tilde
+  - pymdownx.emoji
+  - pymdownx.details
+  - pymdownx.superfences

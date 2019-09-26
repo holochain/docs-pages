@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Holochain Installation Instructions</title>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="/favicon.ico">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+    rel='stylesheet' type='text/css'>
+<!-- FontAwesome JS -->
+<script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a"
+    crossorigin="anonymous"></script>
+<!-- Global CSS -->
+<link rel="stylesheet" href="https://developer.holochain.org/assets/plugins/bootstrap/css/bootstrap.min.css">
+<!-- Plugins CSS -->
+<link rel="stylesheet" href="https://developer.holochain.org/assets/plugins/prism/prism.css">
+<link rel="stylesheet" href="https://developer.holochain.org/assets/plugins/elegant_font/css/style.css">
+
+<!-- Theme CSS -->
+<link id="theme-style" rel="stylesheet" href="https://developer.holochain.org/assets/css/styles.css">
+</head>
+<body class="body-green">
+    <style>
+    .doc-body code {
+        color: #75c181;
+    }
+    .copy-to-clipboard {
+        margin-left: 5px;
+        cursor: pointer;
+        border: 1px solid #494d55;
+        padding: 2px 7px 4px 7px;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+    .copy-to-clipboard:hover {
+        border: 1px solid #2b2d31;
+        background: rgba(0, 0, 0, 0.1);
+        color: #2b2d31;
+    }
+    .copy-confirmation {
+        margin-left: 10px;
+    }
+    .code-long .copy-to-clipboard { margin: 5px 0 0 0; display: inline-block; }
+    .inline-code { padding: 2px 5px; background: #EEE; font-style: normal; font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New; }
+    p em { margin: 7px 0; padding: 7px 0 7px 10px; color: #888; font-style: normal; border-left: 4px solid #DDD; display: block; }
+    p.button-hide .copy-to-clipboard { display: none; }
+    span.button-hide .copy-to-clipboard { display: none; }
+    
+</style>
+
+<div class="page-wrapper">
+    <!-- ******Header****** -->
+<header id="header" class="header holochain-blue-green-gradient">
+    <div class="container">
+        <div class="branding">
+            <a href="/">
+                <img src="https://developer.holochain.org/assets/images/holochain/holochain-word-logo.png" alt="holochain logo" />
+                <h4>Developer Resource Portal</h4>
+            </a>
+        </div>
+        <!--//branding-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">Quick Start</li>
+        </ol>
+    </div>
+    <!--//container-->
+</header>
+    <!--//header-->
+    <div class="doc-wrapper">
+        <div class="container">
+            <div id="doc-header" class="doc-header text-center">
+                <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start</h1>
+                <div class="meta"><i class="far fa-clock"></i> Last updated: Aug 21, 2019</div>
+            </div>
+            <!--//doc-header-->
+            <div class="doc-body row">
+                <div class="doc-content col-12">
+                    <div class="content-inner">
+                        <section id="development-section" class="doc-section">
+
+                            <h2 class="section-title">Check prerequisites</h2>
+                            <div class="section-block">
+
+                                <br><h3>Select your operating system</h3><br>
+
+                                <nav>
+                                    <div class="nav nav-tabs nav-fill" role="tablist">
+                                        <a class="nav-item nav-link active" data-toggle="tab" href="#rust-mac-linux"
+                                            role="tab" aria-controls="rust-mac-linux" aria-selected="true"><h5>Mac
+                                            & Linux</h5></a>
+                                        <a class="nav-item nav-link" data-toggle="tab" href="#rust-windows" role="tab"
+                                            aria-controls="rust-windows" aria-selected="false"><h5>Windows or
+                                            Vagrant/Docker</h5></a>
+                                    </div>
+                                </nav>
+
+                                <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="rust-mac-linux" role="tabpanel"
+                                        aria-labelledby="rust-mac-linux">
+                                        <p>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5>System Requirements</h5>
+                                                    <p>
+                                                        <strong>Hardware:</strong>
+                                                        <ul>
+                                                            <li>8GB+ RAM (16GB+ recommended)</li>
+                                                            <li>4+ CPU (6+ CPU recommended)</li>
+                                                            <li>30GB+ available disk space</li>
+                                                            <li>Internet connection</li>
+                                                        </ul>
+                                                    </p>
+                                                    <p>
+                                                        <strong>Pre-installed software:</strong>
+                                                        <ul>
+                                                            <li><a href="https://apps.apple.com/us/app/xcode/id497799835?mt=12"
+                                                                    target="_blank">xCode developer tools</a> (Mac only)
+                                                            </li>
+                                                        </ul>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </p>
+
+                                        <h3>Mac / Linux environment setup</h3>
+
+                                        <p>We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:</p>
+
+                                        <p><code>curl https://nixos.org/nix/install | sh</code></p>
+                                        
+                                        <p>Check that it installed correctly:</p>
+
+                                        <p><code>nix-env --version</code></p>
+                                        
+                                        <p>You should see something like:</p>
+
+                                        <p class="button-hide"><code>nix-env (Nix) 2.2.2</code></p>
+
+                                        <p>If you’d like to know more about NixOS and why we use it, you can <a href="nix.html" target="_blank">find information on Nix here</a>.</p>
+
+                                    </div>
+
+                                    <div class="tab-pane fade" id="rust-windows" role="tabpanel"
+                                        aria-labelledby="rust-windows">
+                                        <p>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5>System Requirements</h5>
+                                                    <p>
+                                                        <strong>Hardware:</strong>
+                                                        <ul>
+                                                            <li>8GB+ RAM (16GB+ recommended)</li>
+                                                            <li>4+ CPU (6+ CPU recommended)</li>
+                                                            <li>30GB+ available disk space</li>
+                                                            <li>Internet connection</li>
+                                                        </ul>
+                                                    </p>
+                                                    <p>
+                                                        <strong>Operating System & Software:</strong>
+                                                        <ul>
+                                                            <li>Windows 8+</li>
+                                                            <li>Powershell 2.0+</li>
+                                                            <li><a href="https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.msi"
+                                                                    target="_blank">Vagrant</a></li>
+                                                            <li><a href="https://download.virtualbox.org/virtualbox/6.0.8/VirtualBox-6.0.8-130520-Win.exe"
+                                                                    target="_blank">VirtualBox</a></li>
+                                                            <li><a href="https://github.com/nix-community/vagrant-nixos-plugin"
+                                                                    target="_blank">Vagrant nixos plugin</a></li>
+                                                        </ul>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </p>
+
+                                        <h3>Windows environment setup</h3>
+
+                                        <p>Holochain development uses the same tools across Mac, Windows, and Linux. However the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux.</p>
+
+                                        <p>We expect this to change in the future. <a href="https://github.com/NixOS/nixpkgs/issues/30391" target="_blank">NixOS for Windows is in active development!</a></p>
+
+                                        <p>In the meantime, you will need to work with a virtual machine.</p>
+
+                                        <p>The process is similar to working with a local web server.<br>
+                                        There are Holochain optimized options for both <a href="https://github.com/NixOS/nixpkgs/issues/30391" target="_blank">Docker</a> and <a href="https://github.com/NixOS/nixpkgs/issues/30391" target="_blank">Vagrant</a>.<br>
+                                        It is relatively simple to create custom setups with the official NixOS boxes.</p>
+
+                                        <h5>This guide explains using NixOS with Vagrant/VirtualBox.</h5>
+
+                                        <p><em>Note:<br>
+                                        All these commands assume Windows powershell 2.0+.<br>
+                                        The basic process is the same for all systems.</em></p>
+
+                                        <p>Create a new folder:</p>
+
+                                        <p><code>mkdir holochain-vagrant</code></p>
+
+                                        <p>Move into the new folder:</p>
+
+                                        <p><code>cd holochain-vagrant</code></p>
+
+                                        <p>Copy the basic, Holochain-optimised Vagrant file:</p>
+
+                                        <p class="code-long"><code>wget https://gist.githubusercontent.com/thedavidmeister/8e92696538fe04cf6b44552e14d29195/raw/4dcb83b983e8dcd2f5db213b0cde5a533af556a6/Vagrantfile -outfile Vagrantfile</code></p>
+                                        
+                                        <p>Download and boot the box:</p>
+
+                                        <p><code>vagrant up</code></p>
+
+                                        <p>SSH into the box:</p>
+
+                                        <p><code>vagrant ssh </code></p>
+
+                                        <p>Move into the shared folder</p>
+
+                                        <p><code>cd /vagrant</code></p>
+
+                                        <p>Check that it installed correctly:</p>
+
+                                        <p><code>nix-env --version</code></p>
+
+                                        <p>You should see something like:</p>
+
+                                        <p class="button-hide"><code>nix-env (Nix) 2.2.2</code></p>
+                                        
+                                        <p>If you’d like to know more about Nix and why we use it, you can <a href="nix.html" target="_blank">find information on Nix here</a>.</p>
+                                        <p>If you’d like to know more the Windows / Vagrant setup you can <a href="vagrant.html" target="_blank">find information here</a>.</p>
+
+                                    </div>
+                                </div>
+
+                                    </div>
+                                </div>
+
+                                <h2 class="section-title">Install Holochain tools</h2><br>
+                                        <p>Now that you have installed Nix, you can run a development shell that contains all the prerequisites, including the correct Rust version and the Holochain tools. This shell won’t interfere with your current Rust installation. Run this command:</p>
+
+                                        <p><code>nix-shell https://holochain.love</code></p>
+                                        
+                                        <p>The first time you run this command it will take some time to download and build, but it will be much faster the next time. When it’s complete, you will see a new prompt starting with:</p>
+
+                                        <p class="button-hide"><code>[nix-shell:</code></p>
+                                        
+                                        <p>Test that Holochain is working by running:</p>
+
+                                        <p><span class="button-hide"><code>[nix-shell:</code></span><code>hc --version</code></p>
+                                        
+                                        <p>and:</p>
+
+                                        <p><span class="button-hide"><code>[nix-shell:</code></span><code>holochain --version</code></p>
+                                        
+                                        <p>You should see something like:</p>
+
+                                        <p class="button-hide"><code>[nix-shell: hc 0.0.29-alpha2</code></p>
+                                        
+                                        <p class="button-hide"><code>[nix-shell: holochain 0.0.29-alpha2</code></p>
+                                        
+                                        <br><h5>Update/Uninstall</h5>
+
+                                        <p>With nix-shell, you don’t need to worry about updating or uninstalling; when you enter the nix-shell, everything is the latest release and is then cleaned up when you exit.</p>
+
+                                        <br><h5>Editor</h5>
+                                        <p>In most cases you can run your editor as normal. However, if you are using an integrated developer environment or IDE that needs to communicate with the Holochain dependencies then you should launch it from inside the nix-shell.</p> 
+                                        <p><em>To do this just open your editor while you are in the nix-shell like: <span class="button-hide"><code>[nix-shell:</code></span><code>vim my_file.rs</code></em></p>
+                                <br><br><h2 class="section-title">Build your first DNA</h2>
+
+                                <br><h3>Your first app</h3>
+
+                                <p>The hc tool can generate the basics of a new Holochain app.<br>
+                                hc is available from the previous step.</p>
+
+                                <p><em>If you are using nix-shell, enter it before continuing.</em></p>
+
+                                <p>The command to generate a new app is <span class="inline-code">hc init</span>.<br>
+                                Let’s create a new app called <span class="inline-code">my_first_app</span>.</p>
+
+                                <p>To do this with hc, run:</p>
+
+                                <p><code>hc init my_first_app</code></p>
+                                
+                                <p><em>Note: If you get this <span class="inline-code">Error: directory is not empty</span>, it’s because the <span class="inline-code">my_first_app</span> directory already exists. To remove it, simply run <span class="inline-code">rm -fr my_first_app</span>.</em></p>
+
+                                <p>The basic structure of a Holochain project is now in the “my_first_app” folder. Explore it in a file browser or text editor.</p>
+
+                                <p>Once you have a feel for what was created, try generating a "zome."<br>
+                                A “zome” is what we call the source code of a Holochain app.</p>
+
+                                <p>First, make sure your terminal is working from the <span class="inline-code">my_first_app</span> folder.</p>
+
+                                <p>Run the following to move to the apps directory:</p>
+
+                                <p><code>cd my_first_app</code></p>
+                                
+                                <p>To generate a zome, run the following command:</p>
+
+                                <p><code>hc generate zomes/my_zome</code></p>
+                                
+                                <p>This will add a Rust project into the <span class="inline-code">zomes/my_zome</span> sub-folder.<br>
+                                You can now open the generated code in a text editor and start building!</p>
+
+                                <p>The generated zomes come with a simple automated test suite.<br>
+                                The tests can be found in <span class="inline-code">my_first_app/test/index.js</span>.<br>
+                                The tests can be run with the test command:</p>
+
+                                <p><code>hc test</code></p>
+                                
+                                <p>To learn more about the hc tool, run the help command:</p>
+
+                                <p><code>hc help</code></p>
+
+                                <br><br><h2 class="section-title">Next Steps</h2>
+                                <div class="section-block">
+                                    <ol>
+                                        <li>Learn more about Holochain development in the <a href="https://developer.holochain.org/guide" target="_blank">Guidebook</a>.</li>
+                                        <li>Learn more about Rust in <a href="https://developer.holochain.org/api/latest/hdk/" target="_blank">Holochain API Reference Documentation</a>, <a href="https://crates.io/search?q=Holochain" target="_blank">Crates.io</a>, and the <a href="https://doc.rust-lang.org/book/" target="_blank">Rust book</a>.</li>
+                                        <li>Learn more about Nix as a dev dependency and why we’re using it in the <a href="https://github.com/holochain/holonix" target="_blank">Holonix documentation</a>.</li>
+                                        <li>Checkout all the resources at the <a href="https://developer.holochain.org/" target="_blank">Developer Home</a>.</li>
+                                    </ol>
+                                </div>
+                        </section>
+                    </div>
+                </div>
+                <!--//doc-content-->
+            </div>
+            <!--//doc-body-->
+        </div>
+        <!--//container-->
+    </div>
+    <!--//doc-wrapper-->
+</div>
+<!--//page-wrapper-->
+
+<script>
+    const codeBlocks = document.querySelectorAll('.doc-body code')
+    codeBlocks.forEach(block => {
+        const copy = document.createElement('span')
+        copy.classList = ['copy-to-clipboard']
+        copy.innerText = 'copy'
+        block.parentElement.appendChild(copy)
+        copy.addEventListener('click', ev => {
+            navigator.clipboard.writeText(block.innerText)
+            const confirm = document.createElement('span')
+            confirm.innerText = 'copied'
+            confirm.classList = ['copy-confirmation']
+            block.parentElement.appendChild(confirm)
+            setTimeout(() => {
+                block.parentElement.removeChild(confirm)
+            }, 3000)
+        })
+    })
+</script>
+
+    
+<footer class="footer holochain-green-blue-gradient">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://holochain.org" title="Documentation" target="_blank"
+                                class="footer-col__link type--roman-14 theme-color--extra-light theme-color--extra-light--hover">About</a>
+                        </li>
+                        <li>
+                            <a href="https://developer.holochain.org/guide/latest/first_steps.html" title="Tutorial"
+                                target="_blank">Tutorial</a>
+                        </li>
+                        <li>
+                            <a href="/guide/latest" title="Guidebook" target="_blank">Guidebook</a>
+                        </li>
+                        <li>
+                            <a href="/api/latest/hdk" title="API Reference" target="_blank">API Reference</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/holochain" title="Github" target="_blank">GitHub</a>
+                        </li>
+                        <li>
+                            <a href="https://devcamp.holo.host/" title="DevCamps" target="_blank">Online Developer Camps</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/holochain/holochain-proto/blob/whitepaper/holochain.pdf"
+                                title="Whitepaper" target="_blank">Whitepaper</a>
+                        </li>
+                        <li>
+                            <a href="https://proto.holochain.org" title="Holochain Proto Documentation"
+                                target="_blank">Holochain Proto
+                                Documentation</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://forum.holochain.org/c/technical" title="Developer Forum"
+                                target="_blank">Developer Forum</a>
+                        </li>
+                        <li>
+                            <a href="https://medium.com/holochain" title="Developer blog" target="_blank">Blog</a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/holochain" title="Twitter" target="_blank">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://www.reddit.com/r/holochain/" title="Reddit" target="_blank">Reddit</a>
+                        </li>
+                        <li>
+                            <a href="https://stackoverflow.com/questions/tagged/holochain" title="StackOverflow"
+                                target="_blank">StackOverflow</a>
+                        </li>
+                        <li>
+                            <a href="http://t.me/channelHolo" title="Telegram" target="_blank">Telegram</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--//footer-->
+    
+    
+    <!-- Main Javascript -->
+    <script type="text/javascript" src="https://developer.holochain.org/assets/plugins/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://developer.holochain.org/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://developer.holochain.org/assets/plugins/prism/prism.js"></script>
+    <script type="text/javascript" src="https://developer.holochain.org/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+    <script type="text/javascript" src="https://developer.holochain.org/assets/plugins/stickyfill/dist/stickyfill.min.js"></script>
+    <script type="text/javascript" src="https://developer.holochain.org/assets/js/main.js"></script>
+</body>
+</html>
