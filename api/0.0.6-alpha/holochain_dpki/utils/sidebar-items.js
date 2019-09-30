@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["verify","Verify data that was signed @param {Base32} pub_sign_key_b32 - Public signing key to verify with @param {SecBuf} data - Data buffer to verify @param {SecBuf} signature - Candidate signature for that data buffer @return true if verification succeeded"]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["ConductorApiBuilder","ConductorApiBuilder creates IoHandlers that implement RPCs for exposure through interfaces or bridges. This includes zome function calls as well as admin functionality."]],"trait":[["DispatchRpc",""],["Interface",""]],"type":[["InstanceMap",""],["InterfaceError",""]]});

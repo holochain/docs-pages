@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["invoke_get_entry","ZomeApiFunction::GetAppEntry function code args: [0] encoded MemoryAllocation as u64 Expected complex argument: GetEntryArgs Returns an HcApiReturnCode as I64"]]});

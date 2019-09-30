@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["DnaStore","Holds DNA-specific data"]]});

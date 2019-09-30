@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["InMemoryWorker","a p2p worker for mocking in-memory scenario tests"]]});

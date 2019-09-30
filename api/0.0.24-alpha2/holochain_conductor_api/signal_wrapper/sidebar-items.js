@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["SignalWrapper","This struct wraps a Signal from core before serializing and sending over an interface to the UI or other client."]]});

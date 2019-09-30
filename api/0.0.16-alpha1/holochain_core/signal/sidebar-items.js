@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Signal",""]],"fn":[["_combine_receivers","Pass on messages from multiple receivers into a single receiver A potentially useful utility, but currently unused."],["signal_channel",""]],"type":[["SignalReceiver",""],["SignalSender",""]]});

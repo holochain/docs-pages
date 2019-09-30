@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["invoke_sleep","ZomeApiFunction::Sleep function code args: [0] encoded MemoryAllocation as u64 Expected argument: u64 Returns an HcApiReturnCode as I64"]]});

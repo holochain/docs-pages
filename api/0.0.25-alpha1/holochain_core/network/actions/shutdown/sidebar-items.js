@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["shutdown","Shutdown the network This tells the network to untrack this instance and then stops the network thread and sets the P2pNetwork instance in the state to None."]],"struct":[["ShutdownFuture",""]]});

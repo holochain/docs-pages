@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["decode",""],["encode",""]],"struct":[["Raw","Helper that allows both to encode and decode strings no matter whether they contain valid or invalid UTF-8."],["RawRef","Helper that allows both to encode and decode strings no matter whether they contain valid or invalid UTF-8."]]});

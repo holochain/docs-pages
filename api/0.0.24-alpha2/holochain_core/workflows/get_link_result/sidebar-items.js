@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["get_link_add_entries",""],["get_link_result_workflow",""]]});

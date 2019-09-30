@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["NucleusStatus",""]],"static":[["NUCLEUS_SNAPSHOT_ADDRESS",""]],"struct":[["NucleusState","The state-slice for the Nucleus. Holds the dynamic parts of the DNA, i.e. zome calls and validation requests."],["NucleusStateSnapshot",""],["PendingValidationKey",""]]});

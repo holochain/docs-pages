@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["build_validation_package",""],["call_zome_function",""],["get_entry",""],["initialize",""],["validate",""]]});

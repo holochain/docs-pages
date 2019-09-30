@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["load_ribosome_encoded_json",""],["load_ribosome_encoded_string",""],["return_code_for_allocation_result","Equivalent to From for RibosomeEncodedValue not possible to implement the trait as Result and RibosomeEncodedValue from different crates"]]});

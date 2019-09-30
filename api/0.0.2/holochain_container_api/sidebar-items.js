@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["config",""],["container",""],["error",""],["holochain","`holochain_core_api` is a library for instantiating and using a holochain instance that  runs a holochain DNA, DHT and source chain."],["interface",""],["interface_impls",""]]});

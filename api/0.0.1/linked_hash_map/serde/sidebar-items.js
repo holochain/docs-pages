@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["LinkedHashMapVisitor","`serde::de::Visitor` for a linked hash map."]]});

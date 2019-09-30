@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["TestNode","Core Mock"]]});

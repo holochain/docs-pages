@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["chain_store",""],["create_config",""],["entry_store",""],["test_node",""]]});

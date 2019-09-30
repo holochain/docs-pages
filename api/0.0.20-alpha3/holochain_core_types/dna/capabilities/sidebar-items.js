@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["CapabilityRequest","a struct to hold the capability information needed to make any capability request, namely the provenance of the request (the agent address and signature) and the actual token being used to make the request"]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["invoke_keystore_derive_key",""],["invoke_keystore_derive_seed",""],["invoke_keystore_list",""],["invoke_keystore_new_random",""],["invoke_keystore_sign",""]]});

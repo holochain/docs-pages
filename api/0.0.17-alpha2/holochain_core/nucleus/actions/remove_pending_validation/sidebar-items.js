@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["remove_pending_validation",""]]});

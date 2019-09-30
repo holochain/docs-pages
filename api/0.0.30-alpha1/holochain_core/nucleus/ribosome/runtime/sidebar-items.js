@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["WasmCallData",""]],"struct":[["CallData","Struct holding data of any call (callback or zome)"],["CallbackCallData",""],["Runtime","Object holding data to pass around to invoked Zome API functions"],["ZomeCallData",""]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["validate_entry",""]]});

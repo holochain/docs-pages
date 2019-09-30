@@ -1,1 +1,0 @@
-initSidebarItems({"constant":[["KEYBUNDLE_BLOB_SIZE_ALIGNED",""]],"enum":[["BlobType","Enum of all blobbable types"]],"struct":[["KeyBlob","The data includes a base64 encoded, json serialized string of the EncryptedData that was created by concatenating all the keys in one SecBuf"]],"trait":[["Blobbable","Trait to implement in order to be blobbable into a KeyBlob"]]});

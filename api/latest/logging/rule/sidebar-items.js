@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["RuleFilter","This is our main way to filter out or colorize log messages."],["RuleFilterBuilder","[RuleFilter] builder following the builder pattern."]]});

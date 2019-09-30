@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["reduce_return_zome_function_result","Reduce ReturnZomeFunctionResult Action. Simply drops function call into zome_calls state."],["reduce_signal_zome_function","Reduce SignalZomeFunctionCall Action. Adds the call with a None result so we represent in the state that a zome call is running"]]});

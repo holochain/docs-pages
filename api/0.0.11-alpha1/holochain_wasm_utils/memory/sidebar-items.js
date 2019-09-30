@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["allocation",""],["read",""],["ribosome",""],["stack",""],["write",""]],"type":[["MemoryBits","encodes allocations as 2x MemoryInt in high/low bits etc. must be 2x larger than MemoryInt"],["MemoryInt","offsets, lengths, etc."]]});

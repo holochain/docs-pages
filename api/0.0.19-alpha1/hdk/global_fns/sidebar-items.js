@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["LinkDirection",""]],"fn":[["init_global_memory","Init global memory stack"],["init_global_memory_from_ribosome_encoding","sugar"],["write_json","Serialize output as json in WASM memory"]],"struct":[["EntryValidationArgs",""],["LinkValidationArgs",""],["LinkValidationPackageArgs",""]]});

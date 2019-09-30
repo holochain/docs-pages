@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["IpcClient","IPC communication client structure. Allows connection to an external process that manages p2p communications."]],"type":[["CallResult","A closure callback type def for getting acknowledgment when performing a `call`."],["ZmqIpcClient","The ZeroMQ implementation of IpcClient."]]});

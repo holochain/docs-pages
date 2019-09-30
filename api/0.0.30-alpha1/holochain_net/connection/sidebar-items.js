@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["net_connection",""],["net_connection_thread",""],["protocol","This module provides the core low-level protocol enumeration for communications between holochain core and the p2p / networking process or library. See json_protocol for a higher level interface."]],"type":[["NetResult",""]]});

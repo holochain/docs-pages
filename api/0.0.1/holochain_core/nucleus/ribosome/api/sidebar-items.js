@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["ZomeApiFunction","Enumeration of all the Zome Functions known and usable in Zomes. Enumeration can convert to str."]],"mod":[["call",""],["commit",""],["debug",""],["get_entry",""],["get_links",""],["hash_entry",""],["init_globals",""],["link_entries",""],["query",""]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["HolochainInstanceError",""]],"type":[["HolochainResult",""]]});

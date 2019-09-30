@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["KeyType",""]],"struct":[["KeystoreDeriveKeyArgs",""],["KeystoreDeriveSeedArgs",""],["KeystoreListResult",""],["KeystoreNewRandomArgs",""],["KeystoreSignArgs",""]]});

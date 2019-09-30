@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["double_publish_entry_list_test","Return some data in publish_list request"],["empty_publish_entry_list_test",""],["hold_list_test","Reply with some meta in hold_meta_list"],["many_aspects_test","Reply some data in publish_meta_list"],["publish_entry_list_test","Return some data in publish_list request"]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["default_handler",""],["test_logger","create a test logger"]],"struct":[["ChannelLogger",""],["SimpleLogger",""],["TestLogger",""]],"trait":[["Logger","trait that defines the logging functionality that holochain_core requires"]],"type":[["Receiver",""],["Sender",""]]});

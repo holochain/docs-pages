@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["check_buf_len","Check if length of buffer is of approprate size it should be either of size 8,16,32 or 64"]]});

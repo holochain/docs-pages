@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["DnaWasm","Represents web assembly code."],["ModuleArc","Wrapper around wasmi::Module since it does not implement Clone, Debug, PartialEq, Eq, which are all needed to add it to the DnaWasm below, and hence to the state."]]});

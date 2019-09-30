@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["reduce_respond_authoring_list",""]]});

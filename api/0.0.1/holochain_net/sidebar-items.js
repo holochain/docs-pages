@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["error",""],["p2p_network","This module defines the trait for holochain networking / p2p The goal is to make implementing concrete strucs as simple as possible so that we can iterate quickly on the API. All calls will go through one of two api functions, one using json strings, and the other using binary buffers."]]});

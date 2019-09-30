@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["handle_custom_direct_message","handles receiving a message from an api send call call the receive call back, and sends the result back to the source of the send message which is in the from_agent_id param"]]});

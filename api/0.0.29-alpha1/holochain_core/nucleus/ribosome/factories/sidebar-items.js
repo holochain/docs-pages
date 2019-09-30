@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["wasm_instance_factory","Creates a runnable WASM module instance from a module reference. Adds the Holochain specific API functions as imports."],["wasm_module_factory","Creates a WASM module, that is the executable program, from a given WASM binary byte array."]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["dna_store",""],["ipc_config",""],["meta_store",""],["test_node",""]]});

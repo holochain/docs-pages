@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["SodiumError","Error for Sodium lib to use in your code."]],"type":[["SodiumResult",""]]});

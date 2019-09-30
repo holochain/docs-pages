@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["find_link_definition_in_dna","This function tries to find the link definition for a link given by base type, tag and target type."],["get_link_entries","Retrieves the base and target entries of the link and returns both."]],"struct":[["LinkDefinitionPath","This is a \"path\" in the DNA tree. That uniquely identifies a link definition."]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"constant":[["ABYTES","Used with the size of the message to set the size of the cipher and decripted message"],["NONCEBYTES","Used to set the size of nonce var in the enc fns"],["SALTBYTES",""]],"struct":[["PwHashConfig",""]],"type":[["MemLimit",""],["OpsLimit",""],["PwHashAlgo",""]]});

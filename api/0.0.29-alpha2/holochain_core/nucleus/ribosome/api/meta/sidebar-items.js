@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["invoke_meta","ZomeApiFunction::Meta function code args: [0] encoded MemoryAllocation as u64 Expecting a string as complex input argument Returns an HcApiReturnCode as I64"]]});

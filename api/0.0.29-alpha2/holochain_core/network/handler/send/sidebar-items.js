@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["handle_send_message","We got a ProtocolWrapper::SendMessage, this means somebody initiates message roundtrip -> we are being called"],["handle_send_message_result","We got a Lib3hClientProtocol::HandleSendMessageResult. This means somebody has responded to our message that we called and this is the answer"]]});
