@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Holochain API Reference</title>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="/favicon.ico">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+    rel='stylesheet' type='text/css'>
+<!-- FontAwesome JS -->
+<script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a"
+    crossorigin="anonymous"></script>
+<!-- Global CSS -->
+<link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
+<!-- Plugins CSS -->
+<link rel="stylesheet" href="/assets/plugins/prism/prism.css">
+<link rel="stylesheet" href="/assets/plugins/elegant_font/css/style.css">
+
+<!-- Theme CSS -->
+<link id="theme-style" rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body onload="load_api()" class="body-green">
+    <div class="page-wrapper">
+    <!-- ******Header****** -->
+<header id="header" class="header holochain-blue-green-gradient">
+    <div class="container">
+        <div class="branding">
+            <a href="/">
+                <img src="/assets/images/holochain/holochain-word-logo.png" alt="holochain logo" />
+                <h4>Developer Resource Portal</h4>
+            </a>
+        </div>
+        <!--//branding-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">API Versions</li>
+        </ol>
+    </div>
+    <!--//container-->
+</header>
+    <div class="doc-wrapper">
+        <div class="container">
+            <div class="doc-body row">
+                <div class="doc-content col-12 order-1">
+                    <div class="content-inner">
+                        <section id="versions-section" class="doc-section">
+                            <h2 class="section-title">API Versions</h2>
+                            <div id="apis" class="section-block">
+                                </div>
+                            <!--//section-block-->
+                        </section>
+                        <!--//doc-section-->
+                    </div>
+                    <!--//content-inner-->
+                </div>
+                <!--//doc-content-->
+            </div>
+            <!--//doc-body-->
+        </div>
+        <!--//container-->
+    </div>
+    <!--//doc-wrapper-->
+
+</div>
+<!--//page-wrapper-->
+    
+<footer class="footer holochain-green-blue-gradient">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://holochain.org" title="Documentation" target="_blank"
+                                class="footer-col__link type--roman-14 theme-color--extra-light theme-color--extra-light--hover">About</a>
+                        </li>
+                        <li>
+                            <a href="/docs/tutorials/coreconcepts/hello_holo/" title="Tutorial"
+                                target="_blank">Tutorial</a>
+                        </li>
+                        <li>
+                            <a href="/docs/guide/welcome/" title="Guidebook" target="_blank">Guidebook</a>
+                        </li>
+                        <li>
+                            <a href="/api/latest/hdk" title="API Reference" target="_blank">API Reference</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/holochain" title="Github" target="_blank">GitHub</a>
+                        </li>
+                        <li>
+                            <a href="https://devcamp.holo.host/" title="DevCamps" target="_blank">Online Developer Camps</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/holochain/holochain-proto/blob/whitepaper/holochain.pdf"
+                                title="Whitepaper" target="_blank">Whitepaper</a>
+                        </li>
+                        <li>
+                            <a href="https://proto.holochain.org" title="Holochain Proto Documentation"
+                                target="_blank">Holochain Proto
+                                Documentation</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://forum.holochain.org/c/technical" title="Developer Forum"
+                                target="_blank">Developer Forum</a>
+                        </li>
+                        <li>
+                            <a href="https://medium.com/holochain" title="Developer blog" target="_blank">Blog</a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/holochain" title="Twitter" target="_blank">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://www.reddit.com/r/holochain/" title="Reddit" target="_blank">Reddit</a>
+                        </li>
+                        <li>
+                            <a href="https://stackoverflow.com/questions/tagged/holochain" title="StackOverflow"
+                                target="_blank">StackOverflow</a>
+                        </li>
+                        <li>
+                            <a href="http://t.me/channelHolo" title="Telegram" target="_blank">Telegram</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--//footer-->
+    
+    
+    <!-- Main Javascript -->
+    <script type="text/javascript" src="/assets/plugins/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/prism/prism.js"></script>
+    <script type="text/javascript" src="/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+    <script type="text/javascript" src="/assets/plugins/stickyfill/dist/stickyfill.min.js"></script>
+    <script type="text/javascript" src="/assets/js/main.js"></script>
+    <script>
+      function latest_api() {
+      const userAction = async () => {
+        const response = await fetch('https://api.github.com/repos/holochain/holochain-rust/releases');
+        response.json().then(result => show_api(result));
+      }
+        userAction();
+      }
+      function show_api(api) {
+        api = api.split(',');
+        api = api.filter(x => x.match(/^[v\d]/g));
+
+        const latest = api[0];
+        var apis = document.getElementById('apis');
+        var l_node = document.createElement("DIV");
+        l_node.innerHTML = "<p><a href=\"" + latest + "/hdk\">latest</a></p>";
+        apis.appendChild(l_node);
+        for (x of api) {
+          const tag_name = x;
+          var node = document.createElement("DIV");
+          node.innerHTML = "<p><a href=\"" + tag_name + "/hdk\">" + tag_name + "</a></p>";
+          apis.appendChild(node);
+        }
+      }
+      function load_api() {
+        const userAction = async () => {
+          const response = await fetch('holochain-rust-releases.txt');
+          if (response.status == 200) {
+            response.text().then(result => show_api(result));
+          }
+        }
+        userAction();
+      }
+    </script>
+</body>
+</html>

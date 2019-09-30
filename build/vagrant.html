@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>More Info on Windows Setup</title>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="/favicon.ico">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+    rel='stylesheet' type='text/css'>
+<!-- FontAwesome JS -->
+<script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a"
+    crossorigin="anonymous"></script>
+<!-- Global CSS -->
+<link rel="stylesheet" href="https://developer.holochain.org/assets/plugins/bootstrap/css/bootstrap.min.css">
+<!-- Plugins CSS -->
+<link rel="stylesheet" href="https://developer.holochain.org/assets/plugins/prism/prism.css">
+<link rel="stylesheet" href="https://developer.holochain.org/assets/plugins/elegant_font/css/style.css">
+
+<!-- Theme CSS -->
+<link id="theme-style" rel="stylesheet" href="https://developer.holochain.org/assets/css/styles.css">
+</head>
+<body class="body-green">
+    <style>
+    .doc-body code {
+        color: #75c181;
+    }
+    .copy-to-clipboard {
+        margin-left: 5px;
+        cursor: pointer;
+        border: 1px solid #494d55;
+        padding: 2px 7px 4px 7px;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+    .copy-to-clipboard:hover {
+        border: 1px solid #2b2d31;
+        background: rgba(0, 0, 0, 0.1);
+        color: #2b2d31;
+    }
+    .copy-confirmation {
+        margin-left: 10px;
+    }
+
+    .code-long .copy-to-clipboard { margin: 5px 0 0 0; display: inline-block; }
+    .inline-code { padding: 2px 5px; background: #EEE; font-style: normal; font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New; }
+    p em { margin: 7px 0; padding: 7px 0 7px 10px; color: #888; font-style: normal; border-left: 4px solid #DDD; display: block; }
+    p.button-hide .copy-to-clipboard { display: none; }
+
+</style>
+
+<div class="page-wrapper">
+    <!-- ******Header****** -->
+<header id="header" class="header holochain-blue-green-gradient">
+    <div class="container">
+        <div class="branding">
+            <a href="/">
+                <img src="https://developer.holochain.org/assets/images/holochain/holochain-word-logo.png" alt="holochain logo" />
+                <h4>Developer Resource Portal</h4>
+            </a>
+        </div>
+        <!--//branding-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">Quick Start</li>
+        </ol>
+    </div>
+    <!--//container-->
+</header>
+    <!--//header-->
+    <div class="doc-wrapper">
+        <div class="container">
+            <div id="doc-header" class="doc-header text-center">
+                <h1 class="doc-title">More Info on Windows Setup</h1>
+                <div class="meta"><i class="far fa-clock"></i> Last updated: Aug 21, 2019</div>
+            </div>
+            <!--//doc-header-->
+            <div class="doc-body row">
+                <div class="doc-content col-12">
+                    <div class="content-inner">
+                        <section id="development-section" class="doc-section">
+
+                            <div class="section-block">
+                                <p>Holochain development uses the same tools across Mac, Windows and Linux. However, NixOS tools (see below) only work natively on Mac and Linux.</p>
+                                <p>We expect this to change in the future.
+                                  NixOS for Windows is under <a href="https://github.com/NixOS/nixpkgs/issues/30391" target="_blank" rel="noopener">active development!</a></p>
+                                <p>In the meantime you will need to work with a virtual machine.
+                                  The process is similar to working with a local web server.
+                                  There are holochain optimised options for both Docker and Vagrant.
+                                  It is relatively simple to create custom setups with the official NixOS boxes.</p>
+                                <p>This guide explains using NixOS with <strong>Vagrant/VirtualBox</strong>.</p>
+                                  <p><em>Feel free to use Docker or another Vagrant provider if it suits you.
+                                    This guide is designed to be as inclusive as possible.
+                                    Docker on Windows requires Windows Pro (which costs money).
+                                    VirtualBox is generally more accessible than alternative providers.</em></p>
+                                <h2 class="section-title" id="About-Vagrant">About Vagrant</h2>
+                                <p>Vagrant is a tool for configuring virtual machines or &ldquo;boxes&rdquo;.
+                                  The configuration is stored in a Vagrantfile in each project.
+                                  This way everyone working on a project gets (roughly) the same box.</p>
+                                <p>The Vagrantfile used by <a href="https://github.com/holochain/holochain-rust/blob/develop/Vagrantfile" target="_blank" rel="noopener">core</a> is a good starting point.
+                                  This guide uses a &ldquo;light&rdquo; version of the core Vagrantfile to cut download times.</p>
+                                <h4 id="The-basic-workflow-is-like-this">The basic workflow is like this:</h4>
+                                <ol>
+                                  <li>Create a new folder for the app</li>
+                                  <li>Copy a Vagrantfile into place</li>
+                                  <li>Boot the virtual machine from the Vagrantfile</li>
+                                  <li>SSH into the booted machine</li>
+                                  <li>Run Holochain/NixOS commands inside the machine</li>
+                                </ol>
+                                <h4 id="Shared-folders">Shared folders</h4>
+                                <p>By default Vagrant syncs a &ldquo;shared folder&rdquo; automatically.
+                                  The shared folder always looks the same inside and outside the box.
+                                  The default is to share the project folder into <span class="inline-code">/vagrant</span> inside the box.</p>
+                                <h4 id="A-typical-workflow-with-shared-folders">A typical workflow with shared folders:</h4>
+                                <ul>
+                                  <li>Write code outside the box</li>
+                                  <li>Do version control and git outside the box</li>
+                                  <li>Run tests inside the box</li>
+                                  <li>Use holochain tools like hc inside the box</li>
+                                </ul>
+                                <h4 id="Managing-boxes">Managing boxes</h4>
+                                <p>There are some key commands common to all Vagrant projects.
+                                  These commands must be run from inside the project folder.</p>
+                                <p>Boots the vagrant box for the project:</p>
+                                <p><code>vagrant up  </code></p>
+                                <p>Shut down the vagrant box for the project:</p>
+                                <p><code>vagrant halt</code></code>
+                              <p>Undeleted boxes use disk space and maybe other resources.<br >
+                              Delete the vagrant box for the project:</p>
+                                <p><code>vagrant destroy</code></p>
+                                <p>Log into the vagrant box for the project in the current terminal:</p>
+                                <p><code>vagrant ssh</code></p>
+                                <h4 id="NixOS-box">NixOS box</h4>
+                                <p>The Vagrantfile used in this guide uses NixOS.
+                                  This means we don&rsquo;t have to install any additional nix tooling.
+                                  It also means that box configuration must be done with nix.
+                                  This is why the vagrant nixos plugin must be installed.</p>
+                                <p>You can easily install <span class="inline-code">vagrant-nixos-plugin</span> with this command:</p>
+                                <p><code>vagrant plugin install vagrant-nixos-plugin </code>
+                            </div>
+
+                        </section>
+                    </div>
+                </div>
+                <!--//doc-content-->
+            </div>
+            <!--//doc-body-->
+        </div>
+        <!--//container-->
+    </div>
+    <!--//doc-wrapper-->
+</div>
+<!--//page-wrapper-->
+
+<script>
+    const codeBlocks = document.querySelectorAll('.doc-body code')
+    codeBlocks.forEach(block => {
+        const copy = document.createElement('span')
+        copy.classList = ['copy-to-clipboard']
+        copy.innerText = 'copy'
+        block.parentElement.appendChild(copy)
+        copy.addEventListener('click', ev => {
+            navigator.clipboard.writeText(block.innerText)
+            const confirm = document.createElement('span')
+            confirm.innerText = 'copied'
+            confirm.classList = ['copy-confirmation']
+            block.parentElement.appendChild(confirm)
+            setTimeout(() => {
+                block.parentElement.removeChild(confirm)
+            }, 3000)
+        })
+    })
+</script>
+
+    
+<footer class="footer holochain-green-blue-gradient">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://holochain.org" title="Documentation" target="_blank"
+                                class="footer-col__link type--roman-14 theme-color--extra-light theme-color--extra-light--hover">About</a>
+                        </li>
+                        <li>
+                            <a href="/docs/tutorials/coreconcepts/hello_holo/" title="Tutorial"
+                                target="_blank">Tutorial</a>
+                        </li>
+                        <li>
+                            <a href="/docs/guide/welcome/" title="Guidebook" target="_blank">Guidebook</a>
+                        </li>
+                        <li>
+                            <a href="/api/latest/hdk" title="API Reference" target="_blank">API Reference</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/holochain" title="Github" target="_blank">GitHub</a>
+                        </li>
+                        <li>
+                            <a href="https://devcamp.holo.host/" title="DevCamps" target="_blank">Online Developer Camps</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/holochain/holochain-proto/blob/whitepaper/holochain.pdf"
+                                title="Whitepaper" target="_blank">Whitepaper</a>
+                        </li>
+                        <li>
+                            <a href="https://proto.holochain.org" title="Holochain Proto Documentation"
+                                target="_blank">Holochain Proto
+                                Documentation</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://forum.holochain.org/c/technical" title="Developer Forum"
+                                target="_blank">Developer Forum</a>
+                        </li>
+                        <li>
+                            <a href="https://medium.com/holochain" title="Developer blog" target="_blank">Blog</a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/holochain" title="Twitter" target="_blank">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://www.reddit.com/r/holochain/" title="Reddit" target="_blank">Reddit</a>
+                        </li>
+                        <li>
+                            <a href="https://stackoverflow.com/questions/tagged/holochain" title="StackOverflow"
+                                target="_blank">StackOverflow</a>
+                        </li>
+                        <li>
+                            <a href="http://t.me/channelHolo" title="Telegram" target="_blank">Telegram</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--//footer-->
+    
+    
+    <!-- Main Javascript -->
+    <script type="text/javascript" src="https://developer.holochain.org/assets/plugins/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://developer.holochain.org/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://developer.holochain.org/assets/plugins/prism/prism.js"></script>
+    <script type="text/javascript" src="https://developer.holochain.org/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+    <script type="text/javascript" src="https://developer.holochain.org/assets/plugins/stickyfill/dist/stickyfill.min.js"></script>
+    <script type="text/javascript" src="https://developer.holochain.org/assets/js/main.js"></script>
+</body>
+</html>
