@@ -1,8 +1,9 @@
+
 # Hello GUI
 
-Welcome to the first GUI tutorial. So far we have interacted with our zome using `curl` or `hc test`, but that's not as nice as having a GUI. Today you will learn how to interact with a Holochain app using a super simple web page.
+Welcome to the first GUI tutorial. So far you have interacted with your zome using `curl` or `hc test`, but that's not as nice as having a GUI. Today you will learn how to interact with a Holochain app using a super simple web page.
 
-## HTML page
+## Create the HTML page
 
 You will need somewhere for all your GUI code to live. This will be a different piece of software to your Holochain zome code. So choose somewhere outside your Holochain application.
 
@@ -19,56 +20,61 @@ Create a new file called `index.html` in your favourite editor. It should live a
 Add this modern template:
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
 
-  <title>Hello GUI</title>
-  <meta name="description" content="GUI for a Holochain app">
-</head>
+    <title>Hello GUI</title>
+    <meta name="description" content="GUI for a Holochain app" />
+  </head>
 
-<body>
-</body>
+  <body>
+  </body>
 </html>
 ```
 
 Inside the `<body>` tag add a button:
 
-```html 
-<button type="button">Say Hello</button>
+```html
+  <button type="button">Say Hello</button>
 ```
 
 To make things a bit nicer on the eyes you can add the `water.css` stylesheet.
 
 Add this water.css link inside the `<head>` tag:
 
-```html 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+```html
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css"
+    />
 ```
 
 ## Run a simple server
 
-Your `index.html` should now look like:
+??? question "Your `index.html` should now look like:"
+    ```html
+    <!DOCTYPE html>
 
-```html 
-<!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+        <title>Hello GUI</title>
+        <meta name="description" content="GUI for a Holochain app" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css"
+        />
+      </head>
 
-  <title>Hello Gui</title>
-  <meta name="description" content="Gui for a Holochain app">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
-</head>
-
-<body>
-   <button type="button">Say Hello</button>
-</body>
-</html>
-```
+      <body>
+        <button type="button">Say Hello</button>
+      </body>
+    </html>
+    ```
 
 Enter the `nix-shell` to make sure you have all the dependencies available:
 
@@ -91,6 +97,7 @@ And go have a look in your browser at `http://0.0.0.0:8000/`. You will see somet
 Time to communicate with the app that you built in the previous tutorials. To make this easy you can use the [hc-web-client](https://github.com/holochain/hc-web-client). It's Holochain's JavaScript library that helps you easily setup a [WebSocket](https://en.wikipedia.org/wiki/WebSocket) connection to your app.
 
 > #### Why WebSocket instead of HTTP?
+>
 > Having a WebSocket connection open allows your app to send messages to your GUI. While we are not doing that today, it's good to get familiar with this process.
 
 To make this process easy we have precompiled a version of the hc-web-client for you.
@@ -104,8 +111,11 @@ gui/hc-web-client/hc-web-client-0.5.1.browser.min.js.map
 
 Once that's done you can easily link to the compiled js file by adding this `script` tag inside your `body` tag:
 
-```html 
-<script type="text/javascript" src="hc-web-client/hc-web-client-0.5.1.browser.min.js"></script>
+```html
+<script
+  type="text/javascript"
+  src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
+></script>
 ```
 
 ## Call the zome function
@@ -113,6 +123,7 @@ Once that's done you can easily link to the compiled js file by adding this `scr
 Now that you have linked the hc-web-client.js library you can make a simple zome call with some vanilla JavaScript.
 
 Add this function inside your `<body>` tag:
+
 ```javascript
 <script type="text/javascript">
 ```
@@ -120,7 +131,9 @@ Add this function inside your `<body>` tag:
 Make a WebSocket connection to Holochain on port 3401:
 
 ```javascript
-var holochain_connection = holochainclient.connect({ url: "ws://localhost:3401"});
+var holochain_connection = holochainclient.connect({
+  url: 'ws://localhost:3401',
+});
 ```
 
 Add a `hello()` JavaScript function so you can call it from your HTML:
@@ -138,7 +151,7 @@ Wait for Holochain to connect and then make a zome call:
 Call the `hello_holo` zome function in the `hello` zome running on the `test-instance` instance:
 
 ```javascript
-    callZome('test-instance', 'hello', 'hello_holo')({"args": {} })
+callZome('test-instance', 'hello', 'hello_holo')({args: {}});
 ```
 
 Log the result in the browser's console:
@@ -162,7 +175,7 @@ Let's make your button call this function by adding an `onclick` event handler.
 Add this button inside the `<body>` tag:
 
 ```html
-   <button onclick="hello()" type="button">Say Hello</button>
+<button onclick="hello()" type="button">Say Hello</button>
 ```
 
 ## Run your app
@@ -227,8 +240,9 @@ python -m SimpleHTTPServer
 Open up your browser and head to `0.0.0.0:8000`. The page will look the same but open you your developer console and click the "Say Hello" button. You should see something like this:
 
 ![](https://i.imgur.com/vhTaH0W.png)
+
 > I'm using Firefox so this might look a little different depending on your browser
- 
+
 Woohoo! You have made a call to your Holochain app using a GUI.
 
 ## Render the output
@@ -237,7 +251,7 @@ It would be nicer if we didn't need to use the developer console to see the resu
 
 Add the following HTML inside your `<body>` tag:
 
-```html 
+```html
 <div>Response: <span id="output"></span></div>
 ```
 
@@ -254,13 +268,13 @@ function update_span(result) {
 Get the element that you'll be inserting the output into:
 
 ```javascript
-  var span = document.getElementById('output');
+var span = document.getElementById('output');
 ```
 
 Parse the zome function result as JSON:
 
 ```javascript
-  var output = JSON.parse(result);
+var output = JSON.parse(result);
 ```
 
 Set the contents of the element to the zome function result:
@@ -274,13 +288,13 @@ Finally, update the `hello` function to call your new `update_span` function ins
 
 [![asciicast](https://asciinema.org/a/AaEsgKDvORW1xHrjIRxBWWIIg.svg)](https://asciinema.org/a/AaEsgKDvORW1xHrjIRxBWWIIg)
 
-## Test the output works 
+## Test the output works
 
 Head over to `0.0.0.0:8000` in your web browser (you might need to refresh) and you should see this:
 
 ![](https://i.imgur.com/FMxeMx0.png)
 
-Now press the __Say Hello__ button and you get your response:
+Now press the **Say Hello** button and you get your response:
 
 ![](https://i.imgur.com/mDBaVlD.png)
 
