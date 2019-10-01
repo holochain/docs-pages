@@ -236,7 +236,7 @@ jobs:
       - run:
           name: Netlify Deploy
           command: netlify deploy --prod --dir=build
-          no_output_timeout: 30m
+          no_output_timeout: 300m
 
 workflows:
   version: 2
