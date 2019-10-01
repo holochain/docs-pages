@@ -30,3 +30,10 @@ fi
 
 cd ..
 utility/single_source md coreconcepts/tutorials/$CONCEPT.md docs/tutorials/coreconcepts/$CONCEPT.md
+
+files=$(find coreconcepts/ -maxdepth 1 -name '*.md')
+
+for f in $files 
+do
+  cp $f docs/concepts
+done
