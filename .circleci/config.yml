@@ -231,6 +231,7 @@ jobs:
       - attach_workspace:
           at: build/
       - run:
+
           name: Install netlify-cli
           command: sudo npm install -g --silent netlify-cli
       - run:
