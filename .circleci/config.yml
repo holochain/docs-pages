@@ -222,6 +222,20 @@ jobs:
       - run:
           name: Deploy docs to gh-pages branch
           command: gh-pages --message "[skip ci] Updates" -d build
+   
+  release:
+    docker:
+          - image: circleci/node:10
+    steps:
+      - checkout
+      - attach_workspace:
+          at: build/
+      - run:
+          name: Install netlify-cli
+          command: sudo npm install -g --silent netlify-cli
+      - run:
+          name: Netlify Deploy
+          command: netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
 
 workflows:
   version: 2
@@ -242,10 +256,10 @@ workflows:
             branches:
               only: 
                 - develop
-#      - docs-deploy:
-#          requires:
-#            - build-api
-#            - build-mkdocs
-#          filters:
-#            branches:
-#              only: v2 
+      - release:
+          requires:
+            - build-api
+            - build-mkdocs
+          filters:
+            branches:
+              only: master 
