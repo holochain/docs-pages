@@ -225,13 +225,12 @@ jobs:
    
   release:
     docker:
-          - image: circleci/node:10
+          - image: circleci/node:8
     steps:
       - checkout
       - attach_workspace:
           at: build/
       - run:
-
           name: Install netlify-cli
           command: sudo npm install -g --silent netlify-cli
       - run:
