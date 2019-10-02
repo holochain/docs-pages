@@ -1,24 +1,27 @@
 \#S:EXTERNAL=rust=hello_me.rs
 # Hello Me
 
-Welcome back to another tutorial in the Core Concepts series. Today you will learn how to add an entry type to your zome and start writing entries to your source chain. Remember an entry is a piece of data in your source chain that has been validated.
+Welcome back to another tutorial in the Core Concepts series. 
 
-The design of today's app will be:
+The app we have built so far returns a constant value however for more complex applications it would be useful to be able to store some data.  
+Today you will learn how to do this by adding an entry type to your zome. Remember an entry is a piece of data in your source chain that has been validated.
+
+We will add the following:
 
 1. Add a `person` entry type that stores information about a person.
 2. Expose the public function `create_person` for your UI to create and store a person entry.
 3. Expose a public function `retrieve_person` for your UI to retrieve a person entry.
 4. Add the UI components to interact with these functions.
 
-This tutorial builds on the previous tutorial so go back and complete that if you haven't already.
+This tutorial builds on the [previous](../hello_gui) tutorial so go back and complete that if you haven't already.
 
 ## Test first
 
-Let's start by writing a test so it's easy to see we have a working app before writing the UI.
+Start by writing a test so it's easy to see when your app is working:
 
-Open up your `tutorial/test/index.js`.
+Open up `cc_tuts/test/index.js`.
 
-This is how we left the testing scenario in the [Hello Test]() tutorial:
+This is how we left the testing scenario in the [Hello Test](../hello_test) tutorial:
 
 \#S:MODE=test
 \#S:EXTERNAL=javascript=hello_me.js=test
@@ -49,10 +52,10 @@ diorama.registerScenario("Test hello holo", async (s, t, { alice }) => {
   // Check that the result matches what you expected.
   t.deepEqual(result, { Ok: 'Hello Holo' })
   
-  // <---- Put your new tests here
 ```
+The new tests go below `t.deepEqual(result, { Ok: 'Hello Holo' })`.
 
-Add the new tests below `t.deepEqual(result, { Ok: 'Hello Holo' })`.
+The following test will create an entry with the name "Alice", retrieve the same entry and check that it has the name "Alice".
 
 Add a call to the `create_person` function with a person whose name is Alice:
 
@@ -77,15 +80,17 @@ Check that this call is Ok as well:
 ```javascript
   t.ok(retrieve_result.Ok);
 ```
-This is the actual result we want at the end of the test. Check that the entry at the address is indeed `Alice`:
+This is the actual result we want at the end of the test. Check that the entry at the address is indeed named `Alice`:
 
 ```javascript
-  t.deepEqual(retrieve_result, { Ok: { App: [ 'person', '{"name":"Alice"}' ] }})
+  t.deepEqual(retrieve_result, { Ok: {"name": "Alice"} })
 ```
 \#S:HIDE
 ```javascript
 
 })
+
+diorama.run()
 ```
 ### Running the test
 
@@ -103,15 +108,21 @@ nix-shell https://holochain.love
 
 Run the test:
 
-```bash
-nix-shell] hc test
-```
+!!! note "Run in `nix-shell`"
+    ```bash
+    hc test
+    ```
+
+!!! failure "The test fails on the create_person function because it doesn't exist yet:"
+    `"Holochain Instance Error: Zome function 'create_person' not found in Zome 'hello'"`
 
 > Note that this test might actually get stuck because we haven't put in the required functions yet. Press `ctrl-c` to exit a stuck test.
 
-## Entry
+## Add the entry
 
-Open up your `zomes/hello/code/src/lib.rs` file. To add an entry into your source chain you start by telling Holochain what kinds of entry exist. First we'll create a [`struct`](https://doc.rust-lang.org/1.9.0/book/structs.html) to define the shape of the data.
+Open up your `zomes/hello/code/src/lib.rs` file.  
+To add an entry into your source chain start by telling Holochain what kinds of entry exist.  
+First we'll create a [`struct`](https://doc.rust-lang.org/1.9.0/book/structs.html) to define the shape of the data.
 
 In a moment we will add a `Person` struct, but this is where to put it:
 
@@ -176,14 +187,14 @@ mod hello_zome {
 Add the `person_entry_def` function, which tells Holochain about the person entry type:
 
 ```rust
-#[entry_def]
-fn person_entry_def() -> ValidatingEntryType {
+    #[entry_def]
+    fn person_entry_def() -> ValidatingEntryType {
 ```
 
 Add the `entry!` macro that lets you easily create a `ValidatingEntryType`:
 
 ```rust
-    entry!(
+        entry!(
 ```
 
 Give it the same name as the `Person` struct, just to be consistent. Entry types are usually in lowercase.
@@ -191,22 +202,22 @@ Give it the same name as the `Person` struct, just to be consistent. Entry types
 Add the name and description of the entry:
 
 ```rust
-        name: "person",
-        description: "Person to say hello to",
+            name: "person",
+            description: "Person to say hello to",
 ```
 
 Entries of this type are just for this agent's eyes only, so set the entry sharing to private:
 
 ```rust
-        sharing: Sharing::Private,
+            sharing: Sharing::Private,
 ```
 
 Add the `validation_package` function that says what is needed to validate this entry:
 
 ```rust
-        validation_package: || {
-            hdk::ValidationPackageDefinition::Entry
-        },
+            validation_package: || {
+                hdk::ValidationPackageDefinition::Entry
+            },
 ```
 
 Add the `validation` function that validates this entry.
@@ -214,11 +225,11 @@ Add the `validation` function that validates this entry.
 It returns that this entry is always Ok as long as it fits the shape of the `Person` struct:
 
 ```rust
-        validation: | _validation_data: hdk::EntryValidationData<Person>| {
-            Ok(())
-        }
-    )
-}
+            validation: | _validation_data: hdk::EntryValidationData<Person>| {
+                Ok(())
+            }
+        )
+    }
 ```
 
 Now you can create actual `person` entries and store them on your source chain.
@@ -232,17 +243,57 @@ In the above code we have used a few types and macros that are not mentioned any
 
 Add the following `use` statements:
 
-[![asciicast](https://asciinema.org/a/Smv3xxADtSj8AExf3X9d3UApI.svg)](https://asciinema.org/a/Smv3xxADtSj8AExf3X9d3UApI)
+<script id="asciicast-Smv3xxADtSj8AExf3X9d3UApI" src="https://asciinema.org/a/Smv3xxADtSj8AExf3X9d3UApI.js" async data-autoplay="true"></script>
+
+``` diff
+#![feature(proc_macro_hygiene)]
++#[macro_use]
+extern crate hdk;
+extern crate hdk_proc_macros;
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde_json;
++#[macro_use]
+extern crate holochain_json_derive;
+
+use hdk::{
++    entry_definition::ValidatingEntryType,
+    error::ZomeApiResult,
+};
+
++use hdk::holochain_core_types::{
++    entry::Entry,
++    dna::entry_types::Sharing,
++};
++
++use hdk::holochain_json_api::{
++    json::JsonString,
++    error::JsonError,
++};
++
++use hdk::holochain_persistence_api::{
++    cas::content::Address
++};
+
+use hdk_proc_macros::zome;
+```
 
 ### Compile
 
+\#S:EXTRA
+```
+    }
+```
+
 \#S:CHECK=rust
 
-Package the app (in the nix-shell) and check that there's no compile errors:
+Package the app and check that there's no compile errors:
 
-```bash
-nix-shell] hc package
-```
+!!! note "Run in `nix-shell`"
+    ```bash
+    nix-shell] hc package
+    ```
 
 ## Create a person
 
@@ -293,17 +344,17 @@ Lastly you need a way for your UI to get a person entry back from the source cha
 
 Add the following lines below the `create_person` function.
 
-Add a public `retrieve_person` function that takes an `Address` and _maybe_ returns an `Entry` (because it might not exist):
+Add a public `retrieve_person` function that takes an `Address` and returns a `Person`:
 
 ```rust
 #[zome_fn("hc_public")]
-fn retrieve_person(address: Address) -> ZomeApiResult<Option<Entry>> {
+fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
 ```
 
 Get the entry from your local storage, asking for it by address:
 
 ```rust
-    hdk::get_entry(&address)
+    hdk::utils::get_as_type(address)
 }
 ```
 
