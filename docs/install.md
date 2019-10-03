@@ -152,7 +152,7 @@ hc help
 
 ## Next Steps
 
-1. **Read through the [Holochain Core Concepts](/concepts/introduction/).**
-2. Learn more about Holochain development in the [Guidebook](/guide/welcome/).
-3. Learn more about Rust in Holochain [API Reference Documentation](/api/latest/hdk/), [Crates.io](https://crates.io/search?q=Holochain), and the [Rust book](https://doc.rust-lang.org/book/).
+1. **Read through the [Holochain Core Concepts](../concepts/introduction/).**
+2. Learn more about Holochain development in the [Guidebook](../guide/welcome/).
+3. Learn more about Rust in Holochain [API Reference Documentation](../api/latest/hdk/), [Crates.io](https://crates.io/search?q=Holochain), and the [Rust book](https://doc.rust-lang.org/book/).
 4. Learn more about Nix as a dev dependency and why we’re using it in the [Holonix documentation](https://github.com/holochain/holonix).
