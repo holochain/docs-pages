@@ -4,8 +4,8 @@ No matter your experience level as a developer, we encourage you to stay connect
 
 ### Jump In and Get Your Feet Wet
 
-* Read through our [Core Concepts](/concepts/)
-* Start to build with one of our [Tutorials](/tutorials/)
+* Read through our [Core Concepts](../concepts/)
+* Start to build with one of our [Tutorials](../tutorials/)
 * Track development progress with the weekly [Holochain Dev Pulse](https://blog.holochain.org/tag/dev-pulse/)
 
 ### Connect and Contribute
