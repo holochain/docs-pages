@@ -15,3 +15,8 @@ Holochain has a "fat" UI but a skinny back end.
 * You’ve heard about blockchain and like the idea of decentralization, but want your application to feel fast and don’t like the idea of paying a new piper.
 * You’re exploring more equitable, fair models of revenue generation and want technology that both respects your values and makes it affordable to embody them.
 * You want the users of your application to be empowered, cooperating participants in the online spaces that they inhabit. You’re not afraid to give up control if it means giving people the power to govern their own lives.
+
+<div class="h-button-container">
+	<a href="../install/" class="h-button">Install Holochain</a><br><br>
+	<a href="../concepts/"><strong>Read our Core Concepts</strong></a>
+</div>
