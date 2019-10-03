@@ -67,6 +67,8 @@
 .md-icon.md-content__icon:before { content: 'Edit'; margin-right: 5px; letter-spacing: 0; font-family: 'work sans'; font-size: 12px; position: relative; top: -3px; font-weight: 700; transition: none; }
 article img { display: table; margin-left: auto; margin-right: auto; }
 .md-typeset ol li, .md-typeset ul li { margin-bottom: 0; }
+.h-button-container { margin: 0 auto; padding: 30px 0; display: table; text-align: center; }
+.h-button { padding: 12px 20px; margin: 0 10px; background: #2F1F62; color: #FFF !important; font-weight: bold; font-size: .9rem; }
 
 @media (min-width: 76.25em) {
 	.md-content { margin-left: 13.8rem; }

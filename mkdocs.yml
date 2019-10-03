@@ -188,8 +188,3 @@ markdown_extensions:
   - pymdownx.emoji
   - pymdownx.details
   - pymdownx.superfences
-
-# Social
-
-repo_name: 'holochain-docs'
-repo_url: 'https://github.com/holochain/docs-pages'
