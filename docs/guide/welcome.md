@@ -1,9 +1,9 @@
-# Welcome
+# Holochain Guidebook
 
-## Status
-**This documentation is a work in progress. Articles which have content in them appear normally in the chapter navigation. Articles which are incomplete appear with a (E) next to their name, indicating it is an empty unwritten article.**
+!!! attention "Please Note"
+    We are currently revamping our developer documentation and have plans for a new guidebook. Please feel free to use the current guidebook, but note that it will be updated in the future. 
 
-Hi there! You've discovered the comprehensive Holochain guidebook.
+**Hi there! You've discovered the comprehensive Holochain guidebook.**
 
 Holochain is an open source software library that provides a way for businesses, communities,
 and other groups to build and run applications which are hosted and validated by the "users" themselves.
