@@ -1,36 +1,37 @@
-site_name: Developer Docs
+site_name: Holochain Docs
 
 # Navigation
 nav:
   - Get Started:
-    - Introduction:
-      - Why Holochain?: index.md
-      - What is Holochain?: XXXX.md
-      - Why Develop a hApp?: XXXX.md
-    - Is Holochain right for you?: XXXX.md
+    - Introduction: index.md
+    - Why Holochain?: why-holochain.md
+    - What is Holochain?: what-is-holochain.md
+    - Who is Holochain For?: who-is-holochain-for.md
+    - Ready to Develop?: ready-to-develop.md
     - Install Holochain: install.md
+    - Get Involved: get-involved.md
   - Core Concepts:
-    - Introduction: 'concepts/introduction.md'
-    - 1. The Basics: 'concepts/1_the_basics.md'
-    - 2. Application Architecture: 'concepts/2_application_architecture.md'
-    - 3. Private Data On Your Local Source Chain: 'concepts/3_private_data.md'
-    - 4. Public Data On The DHT: 'concepts/4_public_data_on_the_DHT.md'
-    - 5. Linking Data Together: 'concepts/5_linking_data_together.md'
-    - 6. Modifying and deleting data: 'concepts/6_modifyin_and_deleting_data.md'
-    - 7. Validating Data: 'concepts/7_validating_data.md'
-    - 8. Resolution Callbacks: 'concepts/8_resolution_callbacks.md'
-    - 9. Sending Messages Directly To Peers: 'concepts/9_sending_messages_directly_to_peers.md'
-    - 10. Securing And Delegating Access To Zome Functions With Capability Tokens: 'concepts/10_capability_tokens.md'
-    - 11. Securing Access To DNA Instances With Membranes: 'concepts/11_membranes.md'
-    - 12. Bridging Across Multiple DNA Instances: 'concepts/12_bridging.md'
+    - Introduction: 'concepts/index.md'
+    - The Basics: 'concepts/1_the_basics.md'
+    - Application Architecture: 'concepts/2_application_architecture.md'
+    - Private Data On Your Local Source Chain: 'concepts/3_private_data.md'
+    - Public Data On The DHT: 'concepts/4_public_data_on_the_DHT.md'
+    - Linking Data Together: 'concepts/5_linking_data_together.md'
+    - Modifying and deleting data: 'concepts/6_modifyin_and_deleting_data.md'
+    - Validating Data: 'concepts/7_validating_data.md'
+    - Resolution Callbacks: 'concepts/8_resolution_callbacks.md'
+    - Sending Messages Directly To Peers: 'concepts/9_sending_messages_directly_to_peers.md'
+    - Securing And Delegating Access To Zome Functions With Capability Tokens: 'concepts/10_capability_tokens.md'
+    - Securing Access To DNA Instances With Membranes: 'concepts/11_membranes.md'
+    - Bridging Across Multiple DNA Instances: 'concepts/12_bridging.md'
   - Tutorials:
-    - Core Concepts:
-      - Hello Holo Tutorial: 'tutorials/coreconcepts/hello_holo.md'
-      - Hello Test Tutorial: 'tutorials/coreconcepts/hello_test.md'
-      - Hello Gui Tutorial: 'tutorials/coreconcepts/hello_gui.md'
-      - Hello Me Tutorial: 'tutorials/coreconcepts/hello_me.md'
-      - Hello World Tutorial: 'tutorials/coreconcepts/hello_world.md'
-      - Simple Mirco Blog Tutorial: 'tutorials/coreconcepts/simple_micro_blog.md'
+    - Introduction: 'tutorials/index.md'
+    - Hello Holo Tutorial: 'tutorials/coreconcepts/hello_holo.md'
+    - Hello Test Tutorial: 'tutorials/coreconcepts/hello_test.md'
+    - Hello Gui Tutorial: 'tutorials/coreconcepts/hello_gui.md'
+    - Hello Me Tutorial: 'tutorials/coreconcepts/hello_me.md'
+    - Hello World Tutorial: 'tutorials/coreconcepts/hello_world.md'
+    - Simple Mirco Blog Tutorial: 'tutorials/coreconcepts/simple_micro_blog.md'
   - Guidebook:
     - Welcome: 
       - 'guide/welcome.md'
@@ -171,9 +172,14 @@ theme:
 extra_css:
   - 'custom/style.css'
 
+google_analytics:
+  - 'UA-131226536-4'
+  - 'auto'
+
 # Extensions
 markdown_extensions:
   - admonition
+  - meta
   - codehilite:
       guess_lang: false
   - toc:
