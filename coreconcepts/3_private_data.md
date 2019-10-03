@@ -80,7 +80,7 @@ Holochain's answer is simple---_somebody will notice_. More on that in the next 
 
 #### Learn more
 
-* [Guidebook: The local source chain](https://developer.holochain.org/guide/latest/zome/read_and_write.html#the-local-source-chain-headers-and-entries)
+* [Guidebook: The local source chain](../../guide/zome/read_and_write#the-local-source-chain-headers-and-entries)
 * [dApp Planning: Crypto Basics](https://medium.com/holochain/dapp-planning-crypto-basics-8bd1073cbe19)
 * [Learn Cryptography: what are hash functions?](https://learncryptography.com/hash-functions/what-are-hash-functions)
 * [Wikipedia: Hash chain](https://en.wikipedia.org/wiki/Hash_chain)
