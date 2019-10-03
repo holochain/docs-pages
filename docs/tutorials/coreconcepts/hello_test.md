@@ -141,13 +141,14 @@ Now in the `hello_helo` directory, run the test like this:
 $ hc test
 ```
 
-This will compile and run the test scenario you just wrote. You will see a lot of output. But if everything went okay, then right at the end you will see:
+This will compile and run the test scenario you just wrote. You will see a lot of output. 
 
-```
-# tests 2
-# pass  2
+!!! success "If everything went okay, then right at the end you will see:"
+    ```
+    # tests 2
+    # pass  2
 
-# ok
-```
+    # ok
+    ```
 
 Congratulations; you have tested your first Holochain app. Look at you go! :sparkles: 

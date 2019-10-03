@@ -170,6 +170,10 @@ theme:
 
 extra_css:
   - 'custom/style.css'
+  - 'custom/prism.css'
+
+extra_javascript:
+  - 'custom/prism.js'
 
 # Extensions
 markdown_extensions:
