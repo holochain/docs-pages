@@ -248,7 +248,7 @@ Add the following `use` statements:
 
 <script id="asciicast-Smv3xxADtSj8AExf3X9d3UApI" src="https://asciinema.org/a/Smv3xxADtSj8AExf3X9d3UApI.js" async data-autoplay="true"></script>
 
-``` diff
+```diff
 #![feature(proc_macro_hygiene)]
 +#[macro_use]
 extern crate hdk;
@@ -275,15 +275,13 @@ use hdk::{
 +    error::JsonError,
 +};
 +
-+use hdk::holochain_persistence_api::{
++  use hdk::holochain_persistence_api::{
 +    cas::content::Address
 +};
 
 use hdk_proc_macros::zome;
 ```
 
-### Compile
-
 
 ??? question "Check your code"
     ```rust
@@ -358,43 +356,36 @@ use hdk_proc_macros::zome;
 
     ```
 
-Package the app and check that there's no compile errors:
-
-!!! note "Run in `nix-shell`"
-    ```bash
-    nix-shell] hc package
-    ```
-
 ## Create a person
 
-Now you need a way for you UI to actually create a person entry. Holochain has a concept called `hc_public` which is a way of telling the runtime make this function available to call from outside this zome.
+Now you need a way for your UI to actually create a person entry. Holochain has a concept called `hc_public` which is a way of telling the runtime make this function available to call from outside this zome.
 
 Add the following lines below the previous `person_entry_def` function.
 
 Add a public function that takes a `Person` and returns a result with an `Address`:
 
 ```rust
-#[zome_fn("hc_public")]
-pub fn create_person(person: Person) -> ZomeApiResult<Address> {
+    #[zome_fn("hc_public")]
+    pub fn create_person(person: Person) -> ZomeApiResult<Address> {
 ```
 
-Create an entry from the passed argument:
+Create an entry from the person argument:
 
 ```rust
-    let entry = Entry::App("person".into(), person.into());
+        let entry = Entry::App("person".into(), person.into());
 ```
 
 Commit the entry to your local source chain:
 
 ```rust
-    let address = hdk::commit_entry(&entry)?;
+        let address = hdk::commit_entry(&entry)?;
 ```
 
 Return the `Ok` result with the new person entry's address:
 
 ```rust
-    Ok(address)
-}
+        Ok(address)
+    }
 ```
 
 ### Compile
@@ -468,19 +459,21 @@ Return the `Ok` result with the new person entry's address:
                 }
             )
         }
-    #[zome_fn("hc_public")]
-    pub fn create_person(person: Person) -> ZomeApiResult<Address> {
-        let entry = Entry::App("person".into(), person.into());
-        let address = hdk::commit_entry(&entry)?;
-        Ok(address)
+        #[zome_fn("hc_public")]
+        pub fn create_person(person: Person) -> ZomeApiResult<Address> {
+            let entry = Entry::App("person".into(), person.into());
+            let address = hdk::commit_entry(&entry)?;
+            Ok(address)
+        }
     }
     ```
 
 Check for compile errors again:
 
-```bash
-nix-shell] hc package
-```
+!!! note "Run in `nix-shell`"
+    ```bash
+    hc package
+    ```
 
 ## Retrieve person
 
@@ -491,18 +484,18 @@ Add the following lines below the `create_person` function.
 Add a public `retrieve_person` function that takes an `Address` and returns a `Person`:
 
 ```rust
-#[zome_fn("hc_public")]
-fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
+    #[zome_fn("hc_public")]
+    fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
 ```
 
-Get the entry from your local storage, asking for it by address:
+Get the entry from your local storage, asking for it by address, and convert it to a Person type:
 
 ```rust
-    hdk::utils::get_as_type(address)
-}
+        hdk::utils::get_as_type(address)
+    }
 ```
 
-> In Rust the last line is always returned. You do not need to explicitly say `return`.
+> In Rust the last line is always returned. You do not need to explicitly say `return`. Just leave off the `;`.
 
 ### Test
 
@@ -575,39 +568,39 @@ Get the entry from your local storage, asking for it by address:
                 }
             )
         }
-    #[zome_fn("hc_public")]
-    pub fn create_person(person: Person) -> ZomeApiResult<Address> {
-        let entry = Entry::App("person".into(), person.into());
-        let address = hdk::commit_entry(&entry)?;
-        Ok(address)
-    }
-    #[zome_fn("hc_public")]
-    fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
-        hdk::utils::get_as_type(address)
+        #[zome_fn("hc_public")]
+        pub fn create_person(person: Person) -> ZomeApiResult<Address> {
+            let entry = Entry::App("person".into(), person.into());
+            let address = hdk::commit_entry(&entry)?;
+            Ok(address)
+        }
+        #[zome_fn("hc_public")]
+        fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
+            hdk::utils::get_as_type(address)
+        }
     }
     ```
 
 Instead of directly compiling, you can run the test you wrote at the start (the test always compiles before it runs):
 
-```bash
-nix-shell] hc test
-```
+!!! note "Run in `nix-shell`"
+    ```bash
+    hc test
+    ```
 
-If everything went smoothly you will see:
-
-```bash
-1..5
-# tests 5
-# pass  5
-
-# ok
-```
+!!! success "If everything went smoothly you will see:"
+    ```bash
+    # tests 5
+    # pass  5
+    
+    # ok
+    ```
 
 ## UI
 
-Now you can move onto the modifying the UI to interact with zome functions you just created. First let's do some housekeeping and move the JavaScript from the previous tutorial into its own file.
+Now that the backend is working you can modify the UI to interact with zome functions you created. First let's do some housekeeping and move the JavaScript from the previous tutorial into its own file.
 
-Go to the GUI project folder that you created in the [Hello GUI]() tutorial:
+Go to the GUI project folder that you created in the [Hello GUI](../hello_gui) tutorial:
 
 ```bash
 cd holochain/coreconcepts/gui
@@ -617,24 +610,37 @@ Create a new `hello.js` file, open it in your favorite editor, and open the `ind
 
 Move the everything inside the `<script>` tag into the `hello.js`:
 
-```javascript
+```diff
+--- index.html
 <script type="text/javascript">
-<!-- Everything from HERE to -->
-// Connection state
-    var holochain_connection = holochainclient.connect({ url: "ws://localhost:3401"});
-    
-    function hello() {
-      holochain_connection.then(({callZome, close}) => {
-        callZome('test-instance', 'hello', 'hello_holo')({"args": {} }).then((result) => update_span(result))
-      })
-    }
-    function update_span(result) {
-      var span = document.getElementById('output');
-      var output = JSON.parse(result);
-      span.textContent = " " + output.Ok;
-    }
-<!-- HERE -->
+-    var holochain_connection = holochainclient.connect({ url: "ws://localhost:3401"});
+-    
+-    function hello() {
+-      holochain_connection.then(({callZome, close}) => {
+-        callZome('test-instance', 'hello', 'hello_holo')({"args": {} }).then((result) => update_span(result))
+-      })
+-    }
+-    function show_output(result) {
+-      var span = document.getElementById('output');
+-      var output = JSON.parse(result);
+-      span.textContent = " " + output.Ok;
+-    }
 </script>
+
++++ hello.js
++var holochain_connection = holochainclient.connect({ url: "ws://localhost:3401"});
++
++function hello() {
++  holochain_connection.then(({callZome, close}) => {
++    callZome('test-instance', 'hello', 'hello_holo')({"args": {} }).then((result) => update_span(result))
++  })
++}
++
++function show_output(result) {
++  var span = document.getElementById('output');
++  var output = JSON.parse(result);
++  span.textContent = " " + output.Ok;
++}
 ```
 
 Add the `src` attribute to the `<script>` tag:
@@ -642,38 +648,74 @@ Add the `src` attribute to the `<script>` tag:
 ```html
 <script type="text/javascript" src="hello.js"></script>
 ```
+<script id="asciicast-rJ2HMQsrkMnYMiqkW4txPU9F8" src="https://asciinema.org/a/rJ2HMQsrkMnYMiqkW4txPU9F8.js" async data-autoplay="true" data-loop="true"></script>
 
 ## Create person UI widget
 
-Let's start with the HTML elements to create a person.
+In your `index.html` start by adding the HTML elements to create a person.
 
 Look for the previous 'say hello' elements.
 
 ```html
-<button onclick="hello()" type="button">Say Hello</button>
-<span>Response:</span><span id="output"></span>
-<!-- Put the following lines here -->
+    <button onclick="hello()" type="button">Say Hello</button>
+    <div>Response:</span><span id="output"></div>
+    <!-- Put the following lines here -->
 ```
 
-Below them, add a text box so the user can enter their name:
+Below them, give the section a heading:
+```html
+    <h3>Create a person</h3>
+```
+
+Add a text box so the user can enter their name:
 
 ```html
-<input type="text" id="name" placeholder="Enter your name :)"><br>
+    <input type="text" id="name" placeholder="Enter your name :)">
 ```
 
 Add a button that calls a (yet to be written) JavaScript function called `create_person`:
 
 ```html
-<button onclick="create_person()" type="button">Submit Name</button>
+    <button onclick="create_person()" type="button">Submit Name</button>
 ```
 
 Add a span with the id `address_output` so you can render the result of this call:
 
 ```html
-<div>Address: <span id="address_output"></span></div>
+    <div>Address: <span id="address_output"></span></div>
 ```
 
-_TODO: Add collapsable html code panel._
+??? question "Check your index.html:"
+    ```html
+    <!DOCTYPE html>
+
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+
+        <title>Hello GUI</title>
+        <meta name="description" content="GUI for a Holochain app" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css"
+        />
+      </head>
+
+      <body>
+        <button onclick="hello()" type="button">Say Hello</button>
+        <div>Response: <span id="output"></span></div>
+        <h3>Create a person</h3>
+        <input type="text" id="name" placeholder="Enter your name :)" />
+        <button onclick="create_person()" type="button">Submit Name</button>
+        <div>Address: <span id="address_output"></span></div>
+        <script
+          type="text/javascript"
+          src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
+        ></script>
+        <script type="text/javascript" src="hello.js"></script>
+      </body>
+    </html>
+    ```
 
 ### Switch to your `hello.js` file
 
@@ -688,7 +730,7 @@ function create_person() {
 Get the text box by its ID `name` and save the current text value into the name variable:
 
 ```javascript
-  var name = document.getElementById('name').value;
+  const name = document.getElementById('name').value;
 ```
 
 Wait for the connection and then make a zome call:
@@ -700,78 +742,155 @@ Wait for the connection and then make a zome call:
 Call `create_person` in your `hello` zome and pass in the name variable as part of a person structure, then write the result to the console:
 
 ```javascript
-    callZome('test-instance', 'hello', 'create_person')({person: {name: name} }).then((result) => console.log(result, 'address_output'))
-  })
+    callZome('test-instance', 'hello', 'create_person')({
+      person: {name: name},
+    }).then(result => console.log(result));
+  });
 }
 ```
 
+??? question "Check your hello.js:"
+    ```javascript
+    // Connect
+    var holochain_connection = holochainclient.connect({
+      url: 'ws://localhost:3401',
+    });
+
+    // Render functions
+    function show_output(result) {
+      var span = document.getElementById('output');
+      var output = JSON.parse(result);
+      span.textContent = ' ' + output.Ok;
+    }
+
+    // Zome calls
+
+    function hello() {
+      holochain_connection.then(({callZome, close}) => {
+        callZome('test-instance', 'hello', 'hello_holo')({args: {}}).then(result =>
+          show_output(result),
+        );
+      });
+    }
+
+    function create_person() {
+      const name = document.getElementById('name').value;
+      holochain_connection.then(({callZome, close}) => {
+        callZome('test-instance', 'hello', 'create_person')({
+          person: {name: name},
+        }).then(result => console.log(result));
+      });
+    }
+    ```
+
+
 ### Run the server and open a browser
 
-_TODO: Add collapsable hello.js code panel._
 Go ahead and test your first call.
 
 Open a new terminal window and enter the nix-shell:
 
 ```bash
+cd holochain/coreconcepts/gui
 nix-shell https://holochain.love
 ```
 
 Run the server:
 
-```bash
-nix-shell] python -m SimpleHTTPServer
-```
+!!! note "Run in `nix-shell`"
+    ```bash
+    python -m SimpleHTTPServer
+    ```
 
-In your other terminal window package and run your zome:
+In your other terminal window (the one with your backend code) package and run your zome:
 
-```bash
-nix-shell] hc package
-nix-shell] hc run -p 8080
-```
+!!! note "Run in `nix-shell`"
+    ```bash
+    hc package
+    ```
+    ```bash
+    hc run -p 3401
+    ```
 
 Now that both your UI server and your Holochain conductor server are running, open up a browser and go to `0.0.0.0:8000`. You should see the HTML elements you created:
 
-![](https://i.imgur.com/EsiVbNE.png)
+![](../../img/create_person_1.png)
 
 Open the developer console, enter your name, and press the "Submit Name" button. You should something similar to this:
 
 ![](https://i.imgur.com/s20Oh6A.png)
-> The address you see will probably be different, because you probably typed in your own name.
+> The address you see will probably be different, because you typed in your own name.
 
 ### Show the new entry's address
 
 Now we're going to show the address on the page rather than the developer console.
 
-But first, a bit of refactoring. If you make the `update_span` function more generic, then you can reuse it for each element that shows the output for a zome function.
+But first, a bit of refactoring. If you make the `show_ouput` function more generic, then you can reuse it for each element that shows the output for a zome function.
 
 Pass in the element's ID so that the function can be reused:
 
-[![asciicast](https://asciinema.org/a/ZIP7v6Qy4Y5f4aVR34CPWolW7.svg)](https://asciinema.org/a/ZIP7v6Qy4Y5f4aVR34CPWolW7)
+```diff
+-function show_output(result) {
++function show_output(result, id) {
+-  var span = document.getElementById('output');
++  var el = document.getElementById(id);
+  var output = JSON.parse(result);
+-  span.textContent = ' ' + output.Ok;
++  el.textContent = ' ' + output.Ok;
+}
+
+function hello() {
+  holochain_connection.then(({callZome, close}) => {
+    callZome('test-instance', 'hello', 'hello_holo')({args: {}}).then(result =>
+-      show_output(result),
++      show_output(result, id),
+    );
+  });
+}
+
+function create_person() {
+  const name = document.getElementById('name').value;
+  holochain_connection.then(({callZome, close}) => {
+    callZome('test-instance', 'hello', 'create_person')({
+      person: {name: name},
+-    }).then(result => console.log(result));
++    }).then(result => show_output(result, id));
+  });
+}
+```
+
+<script id="asciicast-JU3iJOeyEnzCVGLKugBOq2PRn" src="https://asciinema.org/a/JU3iJOeyEnzCVGLKugBOq2PRn.js" async data-autoplay="true" data-loop="true"></script>
 
 ### Enter the browser
 
 Go back to your browser and refresh the page. This time when you enter your name and press __Submit Name__, you will see the address show up:
 
-![](https://i.imgur.com/rMfAa7t.png)
+![](../../img/create_person_2.png)
 
 ## Retrieve a person entry and show it in the UI
 
-Back in the `index.html` file now. Add a text box so the user can enter the address that is returned from the `create_person` function:
+Back in the `index.html` file now and under the create person section, add a new header:
 
 ```html
-<input type="text" id="address_in" placeholder="Enter the entry address"><br>
+    <h3>Retrieve Person</h3>
+```
+
+Add a text box so the user can enter the address that is returned from the `create_person` function:
+
+```html
+    <input type="text" id="address_in" placeholder="Enter the entry address">
 ```
 
 Add a button that calls the (yet to be written) `retrieve_person` JavaScript function:
 
 ```html
-<button onclick="retrieve_person()" type="button">Get Entry</button>
+    <button onclick="retrieve_person()" type="button">Get Person</button>
 ```
 
-Add a span with the ID `entry_output` to display the person that is returned from the `retrieve_person` function:
+Add a span with the ID `person_output` to display the person that is returned from the `retrieve_person` function:
 
 ```html
-<div>Person: <span id="entry_output"></span></div>
+    <div>Person: <span id="person_output"></span></div>
 ```
 
 ### Go to your `hello.js` file
@@ -794,21 +913,30 @@ Wait for the connection and then make a zome call:
   holochain_connection.then(({callZome, close}) => {
 ```
 
-Call the `retrieve_person` public zome function, passing in the address. Then pass the result to `update_person`:
+Call the `retrieve_person` public zome function, passing in the address. Then pass the result to `show_person`:
 
 ```javascript
-    callZome('test-instance', 'hello', 'retrieve_person')({address: address}).then((result) => update_person(result))
-  })
+    callZome('test-instance', 'hello', 'retrieve_person')({
+      address: address,
+    }).then(result => show_person(result, 'person_output'));
+  });
 }
 ```
 
-Add the `update_person` function. It is very similar to `update_element` except that you need to parse the result and then parse the inner array.
+Add the `show_person` function. It is very similar to `show_output` except that you need to show the name.
 
 ```javascript
-function update_person(result) {
-  var person = document.getElementById('entry_output');
+function show_person(result) {
+  var person = document.getElementById('person_output');
   var output = JSON.parse(result);
-  var output = JSON.parse(output.Ok.App[1]);
-  person.textContent = " " + output.name;
+  person.textContent = ' ' + output.Ok.name;
 }
 ```
+
+### Enter the browser
+Finally go and test this out at `0.0.0.0:8000`.  
+You should see somehting like this:
+![retrieving a person](../../img/create_person_3.png)
+
+Well done! You have stored and retrieved data from a private source chain all using a GUI.
+
