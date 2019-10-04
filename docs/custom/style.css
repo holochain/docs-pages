@@ -13,7 +13,7 @@
 /* Navigation */
 
 .md-tabs__list .md-tabs__item a { color: rgba(0,0,0,.87); opacity: 1 !important; }
-.md-tabs__list .md-tabs__item { border-bottom: 3px solid; float: left; }
+.md-tabs__list .md-tabs__item { border-bottom: 2px solid; float: left; }
 .md-tabs__list .md-tabs__item:nth-child(1) { border-color: #AC3CFF; }
 .md-tabs__list .md-tabs__item:nth-child(2) { border-color: #4720E3; }
 .md-tabs__list .md-tabs__item:nth-child(3) { border-color: #20A1D3; }
@@ -31,14 +31,17 @@
 
 @media (min-width: 1220px) {
 	.md-sidebar.md-sidebar--primary { width: 12.8rem; padding-bottom: 2.4rem; }
-	.md-sidebar.md-sidebar--primary nav.md-nav:not(.md-nav--primary) .md-nav__list .md-nav__item { background: #F5F5F5; font-weight: bold; }
+	.md-sidebar.md-sidebar--primary nav.md-nav:not(.md-nav--primary) .md-nav__list .md-nav__item { background: #F8F8F8; font-weight: bold; transition: .3s; }
 	.md-sidebar.md-sidebar--primary nav.md-nav:not(.md-nav--primary) .md-nav__list .md-nav__list .md-nav__item { background: #FFF; }
 	.md-sidebar.md-sidebar--primary nav.md-nav:not(.md-nav--primary) .md-nav__list .md-nav__list .md-nav__item .md-nav__link { font-weight: normal; }
 	.md-sidebar.md-sidebar--primary .md-nav__title { display: none !important; }
-	.md-sidebar.md-sidebar--primary .md-nav__link { margin-top: 2px; padding: 10px; }
+	.md-sidebar.md-sidebar--primary .md-nav__link { margin-top: 2px; padding: 11px; }
 	.md-sidebar.md-sidebar--primary .md-nav__item { padding: 0; }
-	.md-sidebar__scrollwrap::-webkit-scrollbar { width: .1rem; opacity: .2; }
-	.md-sidebar__scrollwrap::-webkit-scrollbar-thumb { background: rgba(0,0,0,.15); }
+	.md-sidebar__scrollwrap::-webkit-scrollbar { width: .15rem; opacity: .2; }
+	.md-sidebar__scrollwrap::-webkit-scrollbar-thumb { background: rgba(0,0,0,.2) !important; }
+
+	.md-sidebar.md-sidebar--primary nav.md-nav:not(.md-nav--primary) .md-nav__list .md-nav__item.md-nav__item--active, .md-sidebar.md-sidebar--primary nav.md-nav:not(.md-nav--primary) .md-nav__list .md-nav__item:hover { background: #EEE !important; }
+	.md-nav__link--active, .md-nav__link:hover, .md-nav__link:active { color: rgba(0,0,0,.87) !important; }
 
 	body.page-concepts .md-sidebar.md-sidebar--primary li { position: relative; }
 	body.page-concepts .md-sidebar.md-sidebar--primary li a { padding-left: 43px; font-weight: normal; }
@@ -68,7 +71,7 @@
 article img { display: table; margin-left: auto; margin-right: auto; }
 .md-typeset ol li, .md-typeset ul li { margin-bottom: 0; }
 .h-button-container { margin: 0 auto; padding: 30px 0; display: table; text-align: center; }
-.h-button { padding: 12px 20px; margin: 0 10px; background: #2F1F62; color: #FFF !important; font-weight: bold; font-size: .9rem; }
+.h-button { padding: 12px 20px; margin: 0 10px; background: #07EED1; color: #000 !important; font-weight: bold; font-size: .9rem; }
 
 @media (min-width: 76.25em) {
 	.md-content { margin-left: 13.8rem; }
@@ -80,12 +83,14 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 .h-tile-container:after { content: ''; clear: both; display: block; }
 .h-tile { width: 50%; padding: 15px; float: left; box-sizing: border-box; }
 .h-tile a { padding: 1.2rem; display: block; border: 1px solid #E7E7E7; box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05); position: relative; border-radius: 4px; color: rgba(0,0,0,.87) !important; transition: .3s; }
-.h-tile a:after { content: ''; width: 100%; height: 1px; position: absolute; bottom: 0; left: 0; background: #AC3CFF; border-radius: 0 0 4px 4px; opacity: 0; transition: .2s; }
+.h-tile a:after { content: ''; width: 100%; height: 1px; position: absolute; bottom: 0; left: 0; background: #07EED1; border-radius: 0 0 4px 4px; opacity: 0; transition: .2s; }
+/*.h-tile.tile-started a:after { background: #AC3CFF; }
 .h-tile.tile-concepts a:after { background: #4720E3; }
 .h-tile.tile-tutorials a:after { background: #20A1D3; }
-.h-tile.tile-guidebook a:after { background: #0DDED3; }
+.h-tile.tile-guidebook a:after { background: #0DDED3; }*/
 .h-tile h3 { margin-top: 0; padding: 0; margin-bottom: 0; }
-.h-tile h3 span { font-size: .75rem; }
+.h-tile h3 span { font-size: .7rem; }
+.h-tile h3 img { opacity: .85; width: auto; height: 18px; margin-right: 7px; display: inline !important; margin-bottom: -1px; }
 .h-tile p { margin-top: .5rem; margin-bottom: 0; padding: 0; }
 .h-tile a:hover { box-shadow: 0 0 10px 0 rgba(0,0,0,.15); border-color: #E0E0E0; }
 .h-tile a:hover:after, .h-tile.tile-active a:after { height: 4px; opacity: 1; }
