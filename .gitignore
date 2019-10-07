@@ -2,3 +2,5 @@
 _site
 holochain-rust
 src/target
+# Local Netlify folder
+.netlify
