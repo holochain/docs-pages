@@ -3,12 +3,12 @@
 <div class="h-tile-container">
 	<div class="h-tile tile-active">
 		<a href="#">
-			<h3>Mac & Linux</h3>
+			<h3><img src="/custom/icon-apple.svg"> Mac & Linux</h3>
 		</a>
 	</div>
 	<div class="h-tile">
 		<a href="#">
-			<h3>Windows <span>or Vagrant/Docker</span></h3>
+			<h3><img src="/custom/icon-windows.svg"> Windows <span>or Vagrant/Docker</span></h3>
 		</a>
 	</div>
 </div>
