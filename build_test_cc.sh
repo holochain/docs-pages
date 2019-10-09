@@ -4,8 +4,11 @@ CONCEPT=$1
 
 [ -z "$CONCEPT" ] && echo "first argument must be core concept name eg. hello_holo" && exit 1
 
+#  git clone --depth 1 https://github.com/freesig/cc_tuts.git
 if [ ! -d "cc_tuts" ]; then
-  git clone --depth 1 https://github.com/freesig/cc_tuts.git
+  hc init cc_tuts
+  cd cc_tuts
+  hc generate zomes/hello rust-proc
 fi
 
 cd cc_tuts
