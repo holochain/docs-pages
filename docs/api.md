@@ -28,11 +28,12 @@ for (x of api) {
 }
 function load_api() {
 const userAction = async () => {
-  const response = await fetch('holochain-rust-releases.txt');
+  const response = await fetch('../custom/holochain-rust-releases.txt');
   if (response.status == 200) {
     response.text().then(result => show_api(result));
   }
 }
 userAction();
 }
+load_api();
 </script>
