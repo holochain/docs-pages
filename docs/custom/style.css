@@ -6,9 +6,14 @@
 
 /* Header */
 
+/*.md-header { background: #2F1F62 !important; }*/
 .md-header-nav__button.md-logo { display: none; }
 .md-header-nav__topic { font-weight: 700; }
 .md-header-nav__title { padding: 0 0.5rem; }
+
+@media only screen and (min-width: 76.25em) {
+	.md-tabs { background: #FFF !important; border-bottom: 1px solid #E5E5E5; }
+}
 
 /* Navigation */
 
@@ -41,7 +46,7 @@
 	.md-sidebar__scrollwrap::-webkit-scrollbar-thumb { background: rgba(0,0,0,.2) !important; }
 
 	.md-sidebar.md-sidebar--primary nav.md-nav:not(.md-nav--primary) .md-nav__list .md-nav__item.md-nav__item--active, .md-sidebar.md-sidebar--primary nav.md-nav:not(.md-nav--primary) .md-nav__list .md-nav__item:hover { background: #EEE !important; }
-	.md-nav__link--active, .md-nav__link:hover, .md-nav__link:active { color: rgba(0,0,0,.87) !important; }
+	.md-nav__link--active, .md-nav__link:hover, .md-nav__link:active, .md-nav__link:focus { color: rgba(0,0,0,.87) !important; }
 
 	body.page-concepts .md-sidebar.md-sidebar--primary li { position: relative; }
 	body.page-concepts .md-sidebar.md-sidebar--primary li a { padding-left: 43px; font-weight: normal; }
@@ -71,11 +76,23 @@
 article img { display: table; margin-left: auto; margin-right: auto; }
 .md-typeset ol li, .md-typeset ul li { margin-bottom: 0; }
 .h-button-container { margin: 0 auto; padding: 30px 0; display: table; text-align: center; }
-.h-button { padding: 12px 20px; margin: 0 10px; background: #07EED1; color: #000 !important; font-weight: bold; font-size: .9rem; }
+.h-button { padding: 12px 20px; margin: 0 10px; background: #00FFCE; color: #000 !important; font-weight: bold; font-size: .9rem; }
 
 @media (min-width: 76.25em) {
 	.md-content { margin-left: 13.8rem; }
 }
+
+/* Tables */
+
+.h-table { width: 100%; padding: 0; margin: 0 0 40px !important; border: none; font-size: .67rem; }
+.h-table th { margin: 0; padding: 0; text-align: left !important; }
+.h-table th h3, .h-table th h4 { margin: 10px 0 5px; border-bottom: 1px solid #E5E5E5; }
+.h-table th, .h-table td { padding-right: 15px; box-sizing: border-box; }
+.h-table.col-3 td { width: 33.33%; }
+.h-table.col-4 td { width: 25%; }
+.h-table .h-button { width: 100%; padding: 8px 0; margin: 0; text-align: center; display: block; font-size: .8rem; }
+.h-benefits { padding: 15px 0; text-align: center; }
+.h-benefits h3 { width: 100%; display: block; margin: 0; padding: 10px 0; background: #F5F5F5; }
 
 /* Tiles */
 
@@ -83,7 +100,7 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 .h-tile-container:after { content: ''; clear: both; display: block; }
 .h-tile { width: 50%; padding: 15px; float: left; box-sizing: border-box; }
 .h-tile a { padding: 1.2rem; display: block; border: 1px solid #E7E7E7; box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05); position: relative; border-radius: 4px; color: rgba(0,0,0,.87) !important; transition: .3s; }
-.h-tile a:after { content: ''; width: 100%; height: 1px; position: absolute; bottom: 0; left: 0; background: #07EED1; border-radius: 0 0 4px 4px; opacity: 0; transition: .2s; }
+.h-tile a:after { content: ''; width: 100%; height: 1px; position: absolute; bottom: 0; left: 0; background: #00FFCE; border-radius: 0 0 4px 4px; opacity: 0; transition: .2s; }
 /*.h-tile.tile-started a:after { background: #AC3CFF; }
 .h-tile.tile-concepts a:after { background: #4720E3; }
 .h-tile.tile-tutorials a:after { background: #20A1D3; }
@@ -105,7 +122,7 @@ footer { position: relative; z-index: 100; }
 
 /* Holochain Header */
 
-.h-banner { width: 100%; height: 50px; background: #2F1F62; z-index: 100; font-family: 'Work Sans'; position: relative; }
+.h-banner { width: 100%; height: 50px; background: #2F1F62; z-index: 100; font-family: 'Work Sans'; position: relative; /*border-bottom: 1px solid rgba(255,255,255,.1);*/ }
 .h-wrap { width: 100%; max-width: 1440px; position: relative; margin: auto; }
 .h-pad { padding: 0 .8rem; }
 .h-nav { list-style: none; margin: 0; padding: 0; float: left; }
