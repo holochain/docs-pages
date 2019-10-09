@@ -10,7 +10,7 @@ jobs:
           key: -V1-cc_tuts
       - run:
           name: Get single_source 
-          command: nix-shell https://holochain.love --run 'cargo install single_source && cd single_source && cargo build --release && cd ../ && mkdir utility && cp single_source/target/release/single_source utility/single_source'
+          command: nix-shell https://holochain.love --run 'cargo install single_source' 
       - run:
           name: Run all tests
           command: nix-shell https://holochain.love --run './build_test_cc.sh hello_holo && ./build_test_cc.sh hello_test && ./build_test_cc.sh hello_gui && ./build_test_cc.sh hello_me && ./build_test_cc.sh hello_world && ./build_test_cc.sh simple_micro_blog'
