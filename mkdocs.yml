@@ -166,6 +166,10 @@ theme:
 
 extra_css:
   - 'custom/style.css'
+  - 'custom/prism.css'
+
+extra_javascript:
+  - 'custom/prism.js'
 
 google_analytics:
   - 'UA-131226536-4'

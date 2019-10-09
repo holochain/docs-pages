@@ -19,7 +19,7 @@ _Because every participant in this app holds a copy of the validation rules, eve
 
 #### Learn more
 
-* [Guidebook: Validate Agent](https://developer.holochain.org/guide/latest/zome/validate_agent.html)
+* [Guidebook: Validate Agent](../../guide/zome/validate_agent)
 
 [Tutorial: **MicroBlog140** >](#)
 [Tutorial: **ForgivingMicroBlogWithWriteControl** >](#)

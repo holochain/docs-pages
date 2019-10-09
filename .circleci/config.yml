@@ -10,7 +10,7 @@ jobs:
           key: -V1-cc_tuts
       - run:
           name: Get single_source 
-          command: nix-shell https://holochain.love --run 'git clone https://github.com/freesig/single_source.git && cd single_source && cargo build --release && cd ../ && mkdir utility && cp single_source/target/release/single_source utility/single_source'
+          command: nix-shell https://holochain.love --run 'cargo install single_source' 
       - run:
           name: Run all tests
           command: nix-shell https://holochain.love --run './build_test_cc.sh hello_holo && ./build_test_cc.sh hello_test && ./build_test_cc.sh hello_gui && ./build_test_cc.sh hello_me && ./build_test_cc.sh hello_world && ./build_test_cc.sh simple_micro_blog'
@@ -31,6 +31,8 @@ jobs:
     steps:
       - checkout
       #AUTOCACHE-RESTORE
+      - restore_cache:
+          key: -V1-build/api/v0.0.31-alpha1
       - restore_cache:
           key: -V1-build/api/v0.0.30-alpha6
       - restore_cache:
@@ -84,6 +86,10 @@ jobs:
           name: Build api docs 
           command: nix-shell https://holochain.love --run './build_api.sh'
       #AUTOCACHE-SAVE
+      - save_cache:
+          key: -V1-build/api/v0.0.31-alpha1
+          paths:
+            - "build/api/v0.0.31-alpha1"
       - save_cache:
           key: -V1-build/api/v0.0.30-alpha6
           paths:
@@ -205,23 +211,6 @@ jobs:
             - api/*
             - guide/*
             - docs/*
-  docs-deploy:
-    docker:
-      - image: node:8.10.0
-    steps:
-      - checkout
-      - attach_workspace:
-          at: build/
-      - run:
-          name: Install and configure dependencies
-          command: |
-            npm install -g --silent gh-pages@2.1.1 && git config --global user.email "circleci@circleci" && git config --global user.name "Circleci" 
-      - add_ssh_keys:
-          fingerprints:
-            - "56:f2:e0:01:a5:9a:35:2c:cc:6e:9f:0b:e2:b1:f1:06"
-      - run:
-          name: Deploy docs to gh-pages branch
-          command: gh-pages --message "[skip ci] Updates" -d build
    
   release:
     docker:
