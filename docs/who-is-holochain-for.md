@@ -10,7 +10,7 @@
 * Organizations that want to onboard users [(GDPR compliant)](https://medium.com/h-o-l-o/beyond-gdpr-holo-vault-delivering-on-self-sovereign-identity-for-distributed-applications-543a5449d5c9) without much hassle
 * Those who wish to support the user agency and privacy of internal employees or external customers
 
-## Is Holochain Right for You?
+<!--## Is Holochain Right for You?
 
 <table class="h-table col-3">
 	<tr>
@@ -40,4 +40,4 @@
 		<td><a href="#" class="h-button">Learn More</a></td>
 		<td><a href="#" class="h-button">Learn More</a></td>
 	</tr>
-</table>
+</table-->

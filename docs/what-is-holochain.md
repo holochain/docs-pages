@@ -1,6 +1,5 @@
 # What is Holochain?
 
-Holochain is a peer-to-peer (P2P) framework for data sharing, storage, and validation. 
 Technically speaking, Holochain is a peer-to-peer (P2P) framework for data sharing, storage, and validation. It’s a [Free/Libre and Open Source Software](https://www.gnu.org/philosophy/floss-and-foss.en.html) (FLOSS) implementation of the P2P framework written in [Rust](https://www.rust-lang.org/) and [WebAssembly](https://webassembly.org/) (WASM).
 
 Trent Lapinski, VP of Solutions at Stratus5, in his Hackernoon article [WTF is Holochain](https://hackernoon.com/wtf-is-holochain-35f9dd8e5908) describes Holochain as follows:

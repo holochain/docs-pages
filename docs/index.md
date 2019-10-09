@@ -1,6 +1,6 @@
 title: Holochain Developer Documentation
 
-# Holochain Documentation
+# Get Started with Holochain
 
 <span style="font-size: 1rem;">Build public solutions with the scalability of private networks, and private solutions with the connectivity of public networks.</span>
 

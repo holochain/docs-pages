@@ -1,5 +1,8 @@
 site_name: Holochain Docs
 
+# Repository
+repo_url: https://github.com/holochain/docs-pages
+
 # Navigation
 nav:
   - Get Started:
@@ -18,20 +21,12 @@ nav:
     - Public Data On The DHT: 'concepts/4_public_data_on_the_DHT.md'
     - Linking Data Together: 'concepts/5_linking_data_together.md'
     - Modifying and deleting data: 'concepts/6_modifyin_and_deleting_data.md'
-    - Validating Data: 'concepts/7_validating_data.md'
-    - Resolution Callbacks: 'concepts/8_resolution_callbacks.md'
-    - Sending Messages Directly To Peers: 'concepts/9_sending_messages_directly_to_peers.md'
-    - Securing And Delegating Access To Zome Functions With Capability Tokens: 'concepts/10_capability_tokens.md'
-    - Securing Access To DNA Instances With Membranes: 'concepts/11_membranes.md'
-    - Bridging Across Multiple DNA Instances: 'concepts/12_bridging.md'
   - Tutorials:
     - Introduction: 'tutorials/index.md'
     - Hello Holo Tutorial: 'tutorials/coreconcepts/hello_holo.md'
     - Hello Test Tutorial: 'tutorials/coreconcepts/hello_test.md'
     - Hello Gui Tutorial: 'tutorials/coreconcepts/hello_gui.md'
     - Hello Me Tutorial: 'tutorials/coreconcepts/hello_me.md'
-    - Hello World Tutorial: 'tutorials/coreconcepts/hello_world.md'
-    - Simple Mirco Blog Tutorial: 'tutorials/coreconcepts/simple_micro_blog.md'
   - Guidebook:
     - Welcome: 
       - 'guide/welcome.md'
@@ -152,7 +147,7 @@ nav:
       - (E) Source Chain: 'guide/source_chain.md'
       - Distributed Hash Table: 'guide/distributed_hash_table.md'
   - API:
-    - API: https://developer.holochain.org/api/latest/hdk/
+    - API: api.md
 
 
 # Theme
