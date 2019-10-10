@@ -6,27 +6,27 @@ title: Holochain Developer Documentation
 
 <div class="h-tile-container">
 	<div class="h-tile tile-started">
-		<a href="/docs/install/">
+		<a href="install">
 			<h3>Install Holochain</h3>
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+			<p>Read through our quick start guide and install Holochain.</p>
 		</a>
 	</div>
 	<div class="h-tile tile-concepts">
-		<a href="/docs/concepts/introduction">
+		<a href="concepts">
 			<h3>Core Concepts</h3>
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+			<p>Our Core Concepts introduce you to the basics of Holochain.</p>
 		</a>
 	</div>
 	<div class="h-tile tile-tutorials">
-		<a href="/docs/tutorials/coreconcepts/hello_holo">
+		<a href="tutorials/coreconcepts">
 			<h3>Tutorials</h3>
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
+			<p>A set of tutorials to take you through building applications.</p>
 		</a>
 	</div>
 	<div class="h-tile tile-guidebook">
-		<a href="/docs/guide/welcome">
+		<a href="guide/welcome">
 			<h3>Guidebook</h3>
-			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
+			<p>Our guidebook offers a more in-depth knowledge of Holochain.</p>
 		</a>
 	</div>
 </div> 
