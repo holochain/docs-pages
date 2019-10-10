@@ -20,7 +20,7 @@ nav:
     - Private Data On Your Local Source Chain: 'concepts/3_private_data.md'
     - Public Data On The DHT: 'concepts/4_public_data_on_the_DHT.md'
     - Linking Data Together: 'concepts/5_linking_data_together.md'
-    - Modifying and deleting data: 'concepts/6_modifyin_and_deleting_data.md'
+    - Modifying and Deleting Data: 'concepts/6_modifyin_and_deleting_data.md'
   - Tutorials:
     - Introduction: 'tutorials/coreconcepts/index.md'
     - Hello Holo Tutorial: 'tutorials/coreconcepts/hello_holo.md'

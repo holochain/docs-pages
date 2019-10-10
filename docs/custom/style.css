@@ -130,7 +130,7 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 .h-tile-container:not(.tile-tabs) .h-tile a:hover, #apis .latest-api a:hover { top: -3px; }
 /*.h-tile-container:not(.tile-tabs) .h-tile a:hover h3 { color: #FFF; top: -14px; }
 .h-tile-container:not(.tile-tabs) .h-tile a:hover:after { height: 58px; }*/
-.h-tile-container.tile-tabs .h-tile a:after { height: 1px; opacity: 0; }
+.h-tile-container.tile-tabs .h-tile a:after { height: 1px; opacity: 0; transition: .2s; }
 .h-tile-container.tile-tabs .h-tile a:hover:after, .h-tile-container.tile-tabs .h-tile a.active:after { height: 5px; opacity: 1; }
 
 /* Footer */
