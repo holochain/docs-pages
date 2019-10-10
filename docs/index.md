@@ -26,7 +26,7 @@ title: Holochain Developer Documentation
 	<div class="h-tile tile-guidebook">
 		<a href="guide/welcome">
 			<h3>Guidebook</h3>
-			<p>Our guidebook offers a more in-depth knowledge of Holochain.</p>
+			<p>Our guidebook offers a deeper understanding of Holochain.</p>
 		</a>
 	</div>
 </div> 

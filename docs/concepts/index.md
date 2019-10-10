@@ -10,7 +10,7 @@ We've written this introduction for programmers, CTOs, and other technically-ori
 
 **If you're in a hurry** and need to find out if Holochain is a good fit for your project, you can just read the articles&mdash;or even just the intro paragraph at the top of each article.
 
-**If you're a programmer** and want to see the concepts come to life, follow the [tutorials](../tutorials/). Each tutorial is quick&mdash;you'll be creating a running app in anywhere from a few minutes to a few hours. Code samples are written in [Rust](https://www.rust-lang.org/).
+**If you're a programmer** and want to see the concepts come to life, follow the [tutorials](../tutorials/coreconcepts/). Each tutorial is quick&mdash;you'll be creating a running app in anywhere from a few minutes to a few hours. Code samples are written in [Rust](https://www.rust-lang.org/).
 
 **If you want to dig deep**, each article has links to further reading from the guidebook, API documentation, or web.
 
