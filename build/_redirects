@@ -1,1 +1,4 @@
-/guide/* /docs/guide/welcome/
+/guide/* /docs/guide/welcome 301!
+/ /docs/ 302!
+/api/* /docs/api/:splat 301!
+/start /docs/install/ 301!
