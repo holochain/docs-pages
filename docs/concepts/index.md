@@ -28,22 +28,22 @@ We've written this introduction for programmers, CTOs, and other technically-ori
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="3_private_data">
+        <a href="1_the_basics">
             <h4>03: Private Data <span>(Local Source Chain)</span></h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="4_public_data_on_the_dht">
+        <a href="1_the_basics">
             <h4>04: Public Data <span>(DHT)</span></h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="5_linking_data_together">
+        <a href="1_the_basics">
             <h4>05: Linking Data Together</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="6_modifyin_and_deleting_data">
+        <a href="1_the_basics">
             <h4>06: Modifying & Deleting Data</h4>
         </a>
     </div>
