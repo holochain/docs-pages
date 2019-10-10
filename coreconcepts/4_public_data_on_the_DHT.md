@@ -88,13 +88,18 @@ Let's see how this plays out in the real world.
 
 The author of an app can specify the desired data redundancy level. This is called the **resilience factor**. Cooperating agents work hard to keep enough copies of each entry to satisfy the resilience factor. It should be set higher for apps that require higher security or better failure tolerance.
 
-#### Learn more
+## Learn More
 
 * [Wikipedia: Gossip protocol](https://en.wikipedia.org/wiki/Gossip_protocol)
 * [Wikipedia: Distributed hash table](https://en.wikipedia.org/wiki/Distributed_hash_table)
 * [Wikipedia: Peer-to-peer](https://en.wikipedia.org/wiki/Peer-to-peer)
 
-[Tutorial: **HelloWorld** >](../../tutorials/coreconcepts/hello_world)
-[Next: **Links in the DHT** >>](../5_linking_data_together)
+## Tutorials
 
-###### tags: `Holochain Core Concepts`
+<div class="h-tile-container">
+    <div class="h-tile tile-alt tile-tutorials">
+        <a href="../../tutorials/coreconcepts/hello_holo">
+            <h4>01: Hello Holo Tutorial</h4>
+        </a>
+    </div>
+</div>
