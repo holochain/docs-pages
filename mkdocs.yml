@@ -22,7 +22,7 @@ nav:
     - Linking Data Together: 'concepts/5_linking_data_together.md'
     - Modifying and deleting data: 'concepts/6_modifyin_and_deleting_data.md'
   - Tutorials:
-    - Introduction: 'tutorials/index.md'
+    - Introduction: 'tutorials/coreconcepts/index.md'
     - Hello Holo Tutorial: 'tutorials/coreconcepts/hello_holo.md'
     - Hello Test Tutorial: 'tutorials/coreconcepts/hello_test.md'
     - Hello Gui Tutorial: 'tutorials/coreconcepts/hello_gui.md'

@@ -25,14 +25,14 @@ nix-shell https://holochain.love
 
 Pick a new home for all your future Holochain applications to live. Something like  `home_directory/holochain/`.
 
-Then create a `coreconcepts` folder for this tutorial series:
+Then create a `core concepts` folder for this tutorial series:
 
 ```bash
 cd ~
 mkdir holochain 
 cd holochain
-mkdir coreconcepts
-cd coreconcepts
+mkdir core concepts
+cd core concepts
 ``` 
 
 Time to put the holochain command line tool (`hc`) to work and make your app.
