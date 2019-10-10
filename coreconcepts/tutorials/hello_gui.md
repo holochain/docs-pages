@@ -105,7 +105,7 @@ Time to communicate with the app that you built in the previous tutorials. To ma
 
 To make this process easy we have precompiled a version of the hc-web-client for you.
 
-Download it [here](), then unzip it and stick it in the root of your GUI directory:
+Download it [here](../../assets/files/hc-web-client.zip), then unzip it and stick it in the root of your GUI directory:
 ```bash
 unzip hc-web-client.zip
 ```
