@@ -1,4 +1,4 @@
-# 1: The basics
+# 1: The Basics
 
 > Holochain is a development framework and networking protocol that allows you to create **truly peer-to-peer applications** that guarantee high levels of **trust and security**.
 
@@ -27,7 +27,6 @@ This simple foundation creates a surprisingly robust, resilient system. It's a l
 
 Although the foundation of Holochain is simple, there are many complexities involved. But don't worry---Holochain manages most of this for you at the 'subconscious' level. All you need to do is focus on your app's functionality.
 
-[Tutorial: **Download and run a demo app** >](#)
-[Next: **Application architecture** >>](../2_application_architecture)
-
-###### tags: `Holochain Core Concepts`
+<div class="h-button-container">
+	<a href="../install/" class="h-button">Tutorial: <span>Download and run a demo app</span></a>
+</div>

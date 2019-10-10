@@ -3,10 +3,10 @@
         <div class="h-wrap">
             <ul class="h-nav">
                 <li><a href="/"><img src="https://forum.holochain.org/uploads/default/original/1X/79f6577e3c8102e1f0caf8d2f43d4fcf472a3e34.png"></a></li>
-                <li class="tab-home h-hide"><a href="https://holochain.org">Holochain.org</a></li>
-                <li class="tab-developers"><a href="https://developer.holochain.org/">Developers</a></li>
-                <li class="tab-forum"><a href="https://forum.holochain.org/">Forum</a></li>
-                <li class="tab-blog"><a href="https://blog.holochain.org/">Blog</a></li>
+                <li class="tab-home h-hide"><a href="https://holochain.org" onclick="window.open(this.href,'_self'); return false;">Holochain.org</a></li>
+                <li class="tab-developers"><a href="https://developer.holochain.org/" onclick="window.open(this.href,'_self'); return false;">Developers</a></li>
+                <li class="tab-forum"><a href="https://forum.holochain.org/" onclick="window.open(this.href,'_self'); return false;">Forum</a></li>
+                <li class="tab-blog"><a href="https://blog.holochain.org/" onclick="window.open(this.href,'_self'); return false;">Blog</a></li>
             </ul>
             <ul class="h-icons">
                 <li><a href="https://github.com/holochain/holochain-rust/" target="_blank" title="GitHub">
@@ -94,7 +94,11 @@
 </header>
 
 <script>
+
+// Concepts Class
+
 if (document.location.pathname.indexOf("/docs/concepts/") == 0) {
   document.body.className = "page-concepts";
 }
+
 </script>
