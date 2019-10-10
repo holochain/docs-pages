@@ -32,6 +32,10 @@ jobs:
       - checkout
       #AUTOCACHE-RESTORE
       - restore_cache:
+          key: -V1-build/api/v0.0.32-alpha1
+      - restore_cache:
+          key: -V1-build/api/v0.0.32-alpha2
+      - restore_cache:
           key: -V1-build/api/v0.0.31-alpha1
       - restore_cache:
           key: -V1-build/api/v0.0.30-alpha6
@@ -79,13 +83,19 @@ jobs:
           key: -V1-build/api/v0.0.16-alpha1
       - restore_cache:
           key: -V1-build/api/v0.0.15-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.14-alpha1
       #AUTOCACHE-RESTORE
       - run:
           name: Build api docs 
           command: nix-shell https://holochain.love --run './build_api.sh'
       #AUTOCACHE-SAVE
+      - save_cache:
+          key: -V1-build/api/v0.0.32-alpha1
+          paths:
+            - "build/api/v0.0.32-alpha1"
+      - save_cache:
+          key: -V1-build/api/v0.0.32-alpha2
+          paths:
+            - "build/api/v0.0.32-alpha2"
       - save_cache:
           key: -V1-build/api/v0.0.31-alpha1
           paths:
@@ -182,10 +192,6 @@ jobs:
           key: -V1-build/api/v0.0.15-alpha1
           paths:
             - "build/api/v0.0.15-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.14-alpha1
-          paths:
-            - "build/api/v0.0.14-alpha1"
       #AUTOCACHE-SAVE
       - persist_to_workspace:
           root: build

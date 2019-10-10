@@ -1,4 +1,4 @@
 /guide/* /docs/guide/welcome
-/ /docs/
+/index.html /docs/
 /api /docs/api 
 /start.html /docs/install/
