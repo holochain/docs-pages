@@ -17,7 +17,7 @@ api = api.filter(x => x.match(/^[v\d]/g));
 const latest = api[0];
 var apis = document.getElementById('apis');
 var l_node = document.createElement("DIV");
-l_node.innerHTML = "<p><a href=\"../../api/" + latest + "/hdk\">latest</a></p>";
+l_node.innerHTML = "<p class='latest-api'><a href=\"../../api/" + latest + "/hdk\">latest</a></p>";
 apis.appendChild(l_node);
 for (x of api) {
   if (x[0] == 'v' && x.substring(3, 7) <= 0.23) { 
