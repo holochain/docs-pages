@@ -20,6 +20,9 @@ var l_node = document.createElement("DIV");
 l_node.innerHTML = "<p><a href=\"" + latest + "/hdk\">latest</a></p>";
 apis.appendChild(l_node);
 for (x of api) {
+  if (x[0] == 'v' && x.substring(3, 7) <= 0.23) { 
+    continue;
+  }
   const tag_name = x;
   var node = document.createElement("DIV");
   node.innerHTML = "<p><a href=\"" + tag_name + "/hdk\">" + tag_name + "</a></p>";
