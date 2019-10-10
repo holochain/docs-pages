@@ -1,6 +1,6 @@
 # Holochain API Reference
 
-<div id="apis" onload="load_api()"></div>
+<div id="apis"></div>
 
 <script>
 function latest_api() {
@@ -17,7 +17,7 @@ api = api.filter(x => x.match(/^[v\d]/g));
 const latest = api[0];
 var apis = document.getElementById('apis');
 var l_node = document.createElement("DIV");
-l_node.innerHTML = "<p><a href=\"" + latest + "/hdk\">latest</a></p>";
+l_node.innerHTML = "<p class='latest-api'><a href=\"" + latest + "/hdk\">latest</a></p>";
 apis.appendChild(l_node);
 for (x of api) {
   const tag_name = x;
