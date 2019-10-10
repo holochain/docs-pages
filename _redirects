@@ -1,4 +1,4 @@
-/guide/* /docs/guide/welcome
-/index.html /docs/
+#/guide/* /docs/guide/welcome
+/index.html /docs/ 302
 /api /docs/api 
 /start.html /docs/install/
