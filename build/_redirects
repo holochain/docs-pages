@@ -2,3 +2,4 @@
 / /docs/ 302!
 /api/* /docs/api/:splat 301!
 /start /docs/install/ 301!
+/start.html /docs/install/ 301!
