@@ -1,6 +1,6 @@
 # Holochain API Reference
 
-<div id="apis" onload="load_api()"></div>
+<div id="apis"></div>
 
 <script>
 function latest_api() {
