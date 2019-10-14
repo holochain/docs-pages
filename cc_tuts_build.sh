@@ -13,6 +13,6 @@ IFS=$SAVEIFS   # Restore IFS
 length2=${#f[@]}
 file_name=${f[$(expr $length2 - 1)]}
 if [ "${changes[$(expr $length - 1)]}" = "md" ]; then
-  echo "Building art game: ${file_name}"
-  single_source md $1 docs/tutorials/starter_app/$file_name
+  echo "Building cc tutorial: ${file_name}"
+  single_source md $1 docs/tutorials/coreconcepts/$file_name
 fi
