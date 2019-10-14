@@ -13,6 +13,6 @@ IFS=$SAVEIFS   # Restore IFS
 length2=${#f[@]}
 file_name=${f[$(expr $length2 - 1)]}
 if [ "${changes[$(expr $length - 1)]}" = "md" ]; then
-  echo ${file_name}
+  echo "Building cc article: ${file_name}"
   cp $1 docs/concepts/$file_name
 fi
