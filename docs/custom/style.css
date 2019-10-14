@@ -16,7 +16,7 @@
 
 /* Navigation */
 
-.md-tabs__list .md-tabs__item { padding-left: .5rem; padding-right: .5rem; }
+.md-tabs__list .md-tabs__item { padding-left: .4rem; padding-right: .4rem; }
 .md-tabs__list .md-tabs__item a { color: rgba(0,0,0,.87); opacity: 1 !important; }
 .md-tabs__list .md-tabs__item { border-bottom: 2px solid; float: left; }
 .md-tabs__list .md-tabs__item:nth-child(1) { border-color: #AC3CFF; }
@@ -24,6 +24,7 @@
 .md-tabs__list .md-tabs__item:nth-child(3) { border-color: #20A1D3; }
 .md-tabs__list .md-tabs__item:nth-child(4) { border-color: #0DDED3; }
 .md-tabs__list .md-tabs__item:nth-child(5) { border-color: #00FFBF; }
+.md-tabs__list .md-tabs__item .md-tabs__link { font-size: .77rem; letter-spacing: -.05px; }
 .md-tabs__list .md-tabs__item .md-tabs__link.md-tabs__link--active { font-weight: bold; }
 .md-tabs[data-md-state=hidden] .md-tabs__link { -webkit-transform: none !important; }
 

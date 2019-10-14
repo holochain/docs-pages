@@ -1,6 +1,10 @@
 # Docs
 This repo builds the documentation for developer.holochain.org.
 
+Release: [![CircleCI](https://circleci.com/gh/holochain/docs-pages.svg?style=svg)](https://circleci.com/gh/holochain/docs-pages)
+
+Staging: [![CircleCI](https://circleci.com/gh/holochain/docs-pages/tree/develop.svg?style=svg)](https://circleci.com/gh/holochain/docs-pages/tree/develop)
+
 ## Local Development
 To run the server locally use:
 
@@ -20,3 +24,4 @@ If you want to test netlify redirects you can run:
 ./dev_build_netlify.sh
 ```
 But you will have to manually reload pages.
+
