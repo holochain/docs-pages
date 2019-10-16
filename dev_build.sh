@@ -5,16 +5,13 @@ trap "exit" INT TERM
 trap "kill 0" EXIT
 
 run_on_update() {
-	echo "argv ----> " $@
 	files="${@:1:$#-1}"
-	echo "files ---> " $files
 	script="${@: -1}"
-	echo "scrpt ---> " $script
 	fswatch --event Created --event Updated --event Removed $files | xargs -n 1 $script &
 }
 
 rebuild_on_update() {
-	echo "Rebuilding on update..."
+	run_on_update docs/ "-I{} mkdocs build -d build/docs"
 	run_on_update coreconcepts/ art_game/ src/ "-I{} mkdocs build -d build/docs"
 }
 
