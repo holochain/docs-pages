@@ -22,5 +22,3 @@ Holochain lets you create membranes with two tools:
 
 [Tutorial: **SecureMicroBlog** >](#)
 [Next: **Bridging Across Multiple DNA Instances** >>](../12_bridging)
-
-###### tags: `Holochain Core Concepts`

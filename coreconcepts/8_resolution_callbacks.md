@@ -42,5 +42,3 @@ There may be other situations where you can't or don't want to define a CRDT to 
 
 [Tutorial: **MicroBlogWithUserNames** >](#)
 [Next: **Sending Messages Directly To Peers** >>](../9_sending_messages_directly_to_peers)
-
-###### tags: `Holochain Core Concepts`

@@ -24,25 +24,3 @@ _Because every participant in this app holds a copy of the validation rules, eve
 [Tutorial: **MicroBlog140** >](#)
 [Tutorial: **ForgivingMicroBlogWithWriteControl** >](#)
 [Next: **Handling data conflicts with CRDTs or resolution callbacks** >>](../8_resolution_callbacks)
-
-###### tags: `Holochain Core Concepts`
-
----
-
-deleted example of validation rules...
-
-To make it concrete, let's use a concrete example: a ['mutual credit' cryptocurrency](http://ceptr.org/whitepapers/mutual-credit) app. Mutual credit is a big subject, but we can use it to illustrate the importance of good validation rules. Here's how this currency works:
-
-* Everyone's account starts at zero.
-* Every transaction consists of a debit from the spender's account and a credit to the recipient's account.
-* A participant's account balance consists of the sum of all their debits and credits.
-* Limits may be set on negative and positive balances, in order to keep currency supply within a reasonable range.
-
-To make this work as a Holochain app, we need validation rules like:
-
-* Every debit entry written to a spender's account must be offset by a credit entry written to a recipient's account.
-* Every debit/credit pair must be signed by both parties.
-* The spender's current balance minus the transaction value must not exceed the community's agreed-upon negative credit limit.
-* Conversely, the recipient's current balance plus the transaction value must not exceed the positive credit limit.
-
-If we didn't have rules like this, we would see all sorts of fraud: credits without corresponding debits (counterfeiting), unauthorized transactions, or spending past credit limits.

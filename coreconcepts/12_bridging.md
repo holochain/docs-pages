@@ -25,11 +25,6 @@ A trait is like a [contract](https://en.wikipedia.org/wiki/Design_by_contract), 
 * [Holochain core apps](#) (non-existent article; link does notwork), DNAs that exist on nearly every Holochain node. You can bridge to these apps from your own and even 'fork' them into private instances.
 * [Open-source DNA registry](#) (non-existent link; should link to a GH repo that tracks things like [HoloREA](https://github.com/holo-rea), [File Storage](https://github.com/holochain/file-storage-zome), and [HoloJS](https://github.com/ReversedK/HoloJS).
 
-[Tutorial: **TransactionAnnouncements** >](#)
-[Next: **Spawning New DNA Instances From A Template** >>](#)
-
-###### tags: `Holochain Core Concepts`
-
 Here's a short listof core apps:
 
 * [**DeepKey**](https://github.com/Holo-Host/DeepKey), for maintaining a continuous identity across devices by allowing users to create, connect, and revoke their device keys.
@@ -38,3 +33,7 @@ Here's a short listof core apps:
 * [**HCHC**](https://github.com/holochain/HCHC-rust) or Holochain of Holochains, a package manager for distributing Holochain DNA and UI bundles.
 * [**hApp Store**](https://github.com/holochain/HApps-Store), a directory of Holochain apps.
 * **Source chain backups**, for safely making redundant copies of private source chain data and restoring them to new devices.
+
+[Tutorial: **TransactionAnnouncements** >](#)
+[Next: **Spawning New DNA Instances From A Template** >>](#)
+

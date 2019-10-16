@@ -43,4 +43,3 @@ A capability grant is a special system entry type that lives in your source chai
 [Tutorial: **DelegatedMicroBlog** >](#)
 [Next: **Securing Access to DNA Instances With Membranes** >>](../11_membranes)
 
-###### tags: `Holochain Core Concepts`

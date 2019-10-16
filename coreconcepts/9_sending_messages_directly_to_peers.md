@@ -24,21 +24,3 @@ Here's what happens in a node-to-node message exchange:
 
 [Tutorial: **PrivateMessenger** >](#)
 [Next: **Securing And Delegating Zome Functions With Capability Tokens** >>](../10_capability_tokens)
-
-###### tags: `Holochain Core Concepts`
-
----
-
-removed this; getting too far into the weeds:
-
-Here's what happens when you send a message to another node:
-
-> [ diagram / animation opportunity: replace below with step-by-step ]
-> [color=#f30]
-
-1. Your Holochain node asks the DHT for their IP address.
-2. An encrypted connection is established between the two of you.
-3. You [send](https://developer.holochain.org/api/latest/hdk/api/fn.send.html) them your message, which can be any meaningful string. This is a [blocking](https://en.wikipedia.org/wiki/Blocking_(computing)) function, which means that your app instance halts execution until it receives a response or times out.
-4. Your recipient's Holochain node calls their app instance's 'receive' callback, which decides how to respond and sends a message back to you.
-5. Your Holochain node receives the response and returns it to your app instance's waiting function, which processes it accordingly.
-
