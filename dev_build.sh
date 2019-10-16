@@ -12,7 +12,6 @@ run_on_update() {
 
 rebuild_on_update() {
 	run_on_update docs/ "-I{} mkdocs build -d build/docs"
-	run_on_update coreconcepts/ art_game/ src/ "-I{} mkdocs build -d build/docs"
 }
 
 run_on_update coreconcepts/tutorials ./cc_tuts_build.sh
@@ -21,7 +20,7 @@ run_on_update src/ ./dev_build_misc_static.sh
 run_on_update art_game/ ./dev_build_ag.sh
 if [ "$1" == "sync" ]; then
 	rebuild_on_update
-	cd build && browser-sync start -s -f . --port 9000
+	cd build && browser-sync start -s -f . --port 9000 --reload-delay 10000 --reload-debounce 10000
 elif [ "$1" == "netlify" ]; then
 	rebuild_on_update
 	cd build && netlify dev -p 8003 -l
