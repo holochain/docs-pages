@@ -1,4 +1,4 @@
-# 8: Handling Data Conflicts On The DHT With CRDTs Or Resolution Callbacks
+# 8: Handling data conflicts on the DHT with CRDTs or resolution callbacks
 
 > Inconsistencies between two nodes' views of the world can be prevented with [**conflict-free replicated data types (CRDTs)**](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type) or handled with **conflict resolution callback functions**.
 

@@ -19,32 +19,32 @@ We've written this introduction for programmers, CTOs, and other technically-ori
 <div class="h-tile-container">
     <div class="h-tile tile-alt tile-concepts">
         <a href="1_the_basics">
-            <h4>01: The Basics</h4>
+            <h4>01: The basics</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="2_application_architecture">
-            <h4>02: Application Architecture</h4>
+            <h4>02: Application architecture</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="3_private_data">
-            <h4>03: Private Data <span>(Local Source Chain)</span></h4>
+            <h4>03: Private data <span>(local source chain)</span></h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="4_public_data_on_the_dht">
-            <h4>04: Public Data <span>(DHT)</span></h4>
+            <h4>04: Public data <span>(DHT)</span></h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="5_linking_data_together">
-            <h4>05: Linking Data Together</h4>
+            <h4>05: Linking data together</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="6_modifying_and_deleting_data">
-            <h4>06: Modifying & Deleting Data</h4>
+            <h4>06: Modifying and deleting data</h4>
         </a>
     </div>
 </div>

@@ -1,4 +1,4 @@
-# 12: Bridging Across Multiple DNA Instances
+# 12: Bridging across multiple DNA instances
 
 > A user's running DNA instances can be **bridged** to each other to allow trustable interaction between app networks, mediated by their own membership in each of those networks.
 

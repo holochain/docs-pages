@@ -1,4 +1,4 @@
-# 4: Public Data on the DHT
+# 4: Public data on the DHT
 
 > Agents share their public keys, source chain headers, and public entries with their peers in a [**distributed hash table** (DHT)](https://en.wikipedia.org/wiki/Distributed_hash_table). This provides redundancy and availability for data and gives the network the power to detect corruption.
 
@@ -10,7 +10,7 @@ However, the value of most apps comes from their ability to connect people to on
 
 This is the point where we run into problems in a peer-to-peer system, because everybody is responsible for their own data and can mess around with it any way they like. In the previous section, we discovered that a source chain is tamper-_evident_, like a paper journal, but not tamper-_proof_ like a safe. So how do we catch data that's been modified by its author?
 
-## A Cloud of Witnesses
+## A cloud of witnesses
 
 When we [were laying out the basics of Holochain](../1_the_basics), we said that the second pillar of trust is **peer validation**. In a Holochain network, you share your source chain headers and public entries with your peers, who collectively witness, validate, and hold copies of them.
 
@@ -62,7 +62,7 @@ If any one of these checks fails, the validator publishes a warrant.
 
 As each entry is passed to more nodes in its neighborhood, it gathers more signatures attesting to its validity. This act of being inspected by many third-party witnesses, chosen at random, strengthens its trustworthiness and the accountability of its author.
 
-## Resilience and Availability
+## Resilience and availability
 
 The DHT stores multiple redundant copies of each piece of data, so the information is available even when its author or some of its validators are offline. This allows peers to access it whenever they need to, which is especially useful when the validity of other data depends on it.
 
@@ -88,7 +88,7 @@ Let's see how this plays out in the real world.
 
 The author of an app can specify the desired data redundancy level. This is called the **resilience factor**. Cooperating agents work hard to keep enough copies of each entry to satisfy the resilience factor. It should be set higher for apps that require higher security or better failure tolerance.
 
-## Learn More
+## Learn more
 
 * [Wikipedia: Gossip protocol](https://en.wikipedia.org/wiki/Gossip_protocol)
 * [Wikipedia: Distributed hash table](https://en.wikipedia.org/wiki/Distributed_hash_table)

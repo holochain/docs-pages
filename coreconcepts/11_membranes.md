@@ -1,4 +1,4 @@
-# 11. Securing Access to DNA Instances With Membranes
+# 11. Securing access to DNA Instances With membranes
 
 > A Holochain DNA can specify who belongs to its network using **membranes** --- functions which determine whether a node may join a network and gossip with other nodes. These tools can be used to screen new members or eject existing members.
 

@@ -1,4 +1,4 @@
-# 1: The Basics
+# 1: The basics
 
 > Holochain is a development framework and networking protocol that allows you to create **truly peer-to-peer applications** that guarantee high levels of **trust and security**.
 
