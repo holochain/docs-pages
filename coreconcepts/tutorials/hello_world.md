@@ -323,13 +323,13 @@ Go to `0.0.0.0:8000`. Enter `Alice` into the `Enter your instance ID` text box.
 
 Go to `0.0.0.0:8001`. Enter `Bob` into the `Enter your instance ID` text box.
 
-#### Tab one --- Alice
+#### Tab one---Alice
 
 Create a person entry with your name:
 
 ![](https://i.imgur.com/6PEDn6y.png)
 
-#### Tab two --- Bob
+#### Tab two---Bob
 
 Copy the address from the Alice tab and retrieve the person entry:
 

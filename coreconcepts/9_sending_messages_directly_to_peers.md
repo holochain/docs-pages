@@ -11,7 +11,7 @@ Holochain lets peers contact each other directly and exchange private messages. 
 Node-to-node messaging is also useful for ephemeral communications like:
 
 * 'Pinging' a peer to let them know you've published a DHT entry that they ought to be aware of
-* Negotiating a transaction or agreement with another party before publishing it to your source chains --- this includes the mutual exchange of signatures
+* Negotiating a transaction or agreement with another party before publishing it to your source chains---this includes the mutual exchange of signatures
 
 Neither of these scenarios necessarily requires data to be private, but they also don't require data to be permanent.
 

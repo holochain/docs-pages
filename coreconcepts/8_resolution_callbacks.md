@@ -17,7 +17,7 @@ But then we figured out that, as long as new data only adds to the existing data
 
 The simplest example of this is a hash table. As long as you always add items and never remove them, there will never be a clash between In Holochain, the source chain and the DHT are both examples of this strong eventual consistency. This is usually true for metadata on an entry, but there are some exceptions. [Modified/deleted status](../6_modifyin_and_deleting_data), for example, should always have one value only. Let's take a look at how and why the modified/deleted status might end up in a conflicting state:
 
-* Alice and Bob both see an entry on the DHT, held by Charlie. Its status is 'live' --- that is, it hasn't been deleted or modified.
+* Alice and Bob both see an entry on the DHT, held by Charlie. Its status is 'live'---that is, it hasn't been deleted or modified.
 * Alice tries to update it, but Bob tries to delete it at the same time. In each of their local copies of the DHT, they see a different state for that same entry.
 * This creates a conflict, because an entry can't be updated and deleted at the same time! But at this point neither Alice nor Bob is aware of the problem.
 * They both send a message to Charlie, telling him to update the status of that entry with their conflicting views.
