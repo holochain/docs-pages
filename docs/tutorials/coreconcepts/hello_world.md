@@ -1,6 +1,10 @@
 # Hello World
 
-The goal of this tutorial is to add an entry in Alice's instance and then retrieve that same entry in Bob's instance.
+Hello and welcome to the hello world tutorial. It's a little weird that we are doing a hello world tutorial as the 5th tutorial in this series but that's because we really want you to grasp the agent perspective of a Holochain app.  
+So far all the previous tutorials have had a local perspective of a single agent. However, the real power of Holochain comes from interacting with other agents.
+
+With that in mind let's try to share some data between two agents. To achieve this you will run two instances, Alice and Bob.  
+Then add an entry to Alice's local chain. Finally, retrieve that same entry from Bob's instance.
 
 ## Make your entry public 
 
@@ -10,7 +14,23 @@ Open up your `zomes/hello/code/src/lib.rs` file.
 
 Change the entry sharing to `Sharing::Public`:
 
-[![asciicast](https://asciinema.org/a/K0Vj50CIVNSYWr5RIbbrc6V3s.svg)](https://asciinema.org/a/K0Vj50CIVNSYWr5RIbbrc6V3s)
+```diff
+    fn person_entry_def() -> ValidatingEntryType {
+        entry!(
+            name: "person",
+            description: "Person to say hello to",
+-            sharing: Sharing::Private,
++            sharing: Sharing::Public,
+            validation_package: || {
+                hdk::ValidationPackageDefinition::Entry
+            },
+            validation: | _validation_data: hdk::EntryValidationData<Person>| {
+                Ok(())
+            }
+        )
+    }
+```
+<script id="asciicast-K0Vj50CIVNSYWr5RIbbrc6V3s" src="https://asciinema.org/a/K0Vj50CIVNSYWr5RIbbrc6V3s.js" async data-autoplay="true" data-loop="true"></script>
 
 ## Add Bob to the test
 
@@ -40,7 +60,7 @@ t.ok(bob_retrieve_result.Ok);
 Check that the result does indeed match the person entry that Alice created:
 
 ```javascript
-t.deepEqual(bob_retrieve_result, { Ok: { App: [ 'person', '{"name":"Alice"}' ] }})
+t.deepEqual(retrieve_result, { Ok: {"name": "Alice"} })
 ```
 Your test should look like this:
 
@@ -104,33 +124,33 @@ nix-shell] hc test
 # ok
 ```
 
-## Conductor
+## Switch to the Holochain conductor
 
 Now it would be cool to see this happen for real outside of a test. Up till now you have only used `hc run` to run a single instance of a node. However, in order to have two separate instances communicate on one machine, we need to run `holochain` directly and pass it a config file.
 
-> #### Note
-> `hc` and `holochain` are both conductors that host your apps on your users' machines. `hc run` is for testing and development, and `holochain` is for end-users. It can host multiple instances of multiple DNAs for multiple users. Normally Alice and Bob would be running instances of your app in their own conductors on their own machines. But for the purposes of this tutorial, it'll be a lot more convenient to try this on one machine, so you don't have to worry about network setup.
+!!! tip "hc run vs holochain"
+    `hc` and `holochain` are both conductors that host your apps on your users' machines. `hc run` is for testing and development, and `holochain` is for end-users. It can host multiple instances of multiple DNAs for multiple users. Normally Alice and Bob would be running instances of your app in their own conductors on their own machines. But for the purposes of this tutorial, it'll be a lot more convenient to try this on one machine, so you don't have to worry about network setup.
 
 Before you can create the config file, you will need to generate some keys for your agents.
 
 Use `hc keygen` in your nix-shell to generate a key for each agent:
 
-```
-nix-shell] hc keygen -n
-```
+!!! note "Run in `nix-shell`"
+    ```
+    hc keygen -n
+    ```
 
-This will output something similar to the following:
+!!! success "This will output something similar to the following:"
+    ```
+    Generating keystore (this will take a few moments)...
 
-```
-Generating keystore (this will take a few moments)...
+    Succesfully created new agent keystore.
 
-Succesfully created new agent keystore.
+    Public address: HcSCJhRioEqzvx9sooOfw6ANditrqdcxwfV7p7KP6extmnmzJIs83uKmfO9b8kz
+    Keystore written to: /Users/user/Library/Preferences/org.holochain.holochain/keys/HcSCJhRioEqzvx9sooOfw6ANditrqdcxwfV7p7KP6extmnmzJIs83uKmfO9b8kz
 
-Public address: HcSCJhRioEqzvx9sooOfw6ANditrqdcxwfV7p7KP6extmnmzJIs83uKmfO9b8kz
-Keystore written to: /Users/user/Library/Preferences/org.holochain.holochain/keys/HcSCJhRioEqzvx9sooOfw6ANditrqdcxwfV7p7KP6extmnmzJIs83uKmfO9b8kz
-
-You can set this file in a conductor config as keystore_file for an agent.
-```
+    You can set this file in a conductor config as keystore_file for an agent.
+    ```
 
 Take note of the `Public address`; you will need it later.
 
