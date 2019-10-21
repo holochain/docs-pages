@@ -1,4 +1,4 @@
-# 2: Application Architecture
+# 2: Application architecture
 
 > Applications built with Holochain are highly **modular** in both functionality and architecture. This makes it easy to share code and [compose](https://en.wikipedia.org/wiki/Composability) smaller pieces together into larger wholes. Each Holochain application (called **hApp**) has its own set of rules, private network, and distributed database.
 > 
@@ -16,7 +16,7 @@ On top of Holochain is your application. Each application has a different flavor
 
 ![](https://i.imgur.com/ImkR73e.png)
 
-Let's put you inside the hole. You have agency --- the power to receive information from your world and act on it. Together, your copy of the Holochain runtime and your application mediate between you and Holochain land. Your application defines a set of functions that define all the valid ways you can interact with it, and Holochain exposes those functions to you.
+Let's put you inside the hole. You have agency---the power to receive information from your world and act on it. Together, your copy of the Holochain runtime and your application mediate between you and Holochain land. Your application defines a set of functions that define all the valid ways you can interact with it, and Holochain exposes those functions to you.
 
 ![](https://i.imgur.com/Nvn4HIa.png)
 
@@ -51,7 +51,7 @@ Each user runs their own copy of the entire stack. They become an **agent** or *
 
 The clean separation between layers and components gives you and your users a lot of flexibility. You can mix and match components, creating rich experiences that rely on, augment, or replace existing components. Holochain has some similarities to [microservices](https://en.wikipedia.org/wiki/Microservices), with one difference---each user has their own copy of the microservices and GUI and is responsible for their own computing and storage. We call this **agent-centric computing**, and it's what makes Holochain special.
 
-## Learn More
+## Learn more
 
 * [Building Holochain apps: DNA](../../guide/building_apps)
 * [Building Holochain apps: zome code](../../guide/zome/welcome)

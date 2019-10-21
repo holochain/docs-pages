@@ -1,4 +1,4 @@
-# 10: Securing And Delegating Access To Zome Functions With Capability Tokens
+# 10: Securing and delegating access to zome functions with capability tokens
 
 > Holochain empowers individuals to control who or what accesses their DNA instances through **capability tokens**. This allows them to **delegate their agency** to other agents in the same network.
 
@@ -43,4 +43,3 @@ A capability grant is a special system entry type that lives in your source chai
 [Tutorial: **DelegatedMicroBlog** >](#)
 [Next: **Securing Access to DNA Instances With Membranes** >>](../11_membranes)
 
-###### tags: `Holochain Core Concepts`

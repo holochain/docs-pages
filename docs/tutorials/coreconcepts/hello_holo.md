@@ -351,4 +351,4 @@ Enter the following request, which will call the `hello_holo` function and retur
     {"jsonrpc":"2.0","result":"{\"Ok\":\"Hello Holo\"}","id":"0"}
     ```
 
-Congratulations --- you have created your first distributed Holochain application! :rocket:
+Congratulations---you have created your first distributed Holochain application! :rocket:
