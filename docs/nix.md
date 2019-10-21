@@ -10,7 +10,8 @@ The main components of the tooling for Holochain development are:
 * [NodeJS](https://holochain.love) and [npm](https://holochain.love)
 * Cryptographic libraries
 * Common automations and scripts
-* It is important that these remain consistent across compatible apps and the Holochain Core.
+
+It is important that these remain consistent across compatible apps and the Holochain Core.
 
 The Holonix repository tracks standard, shared dependencies for all of the scenarios in which we use NixOS. Typically you won’t need to interact with Holonix directly.
 

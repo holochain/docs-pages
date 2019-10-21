@@ -43,7 +43,7 @@ We've written this introduction for programmers, CTOs, and other technically-ori
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="6_modifyin_and_deleting_data">
+        <a href="6_modifying_and_deleting_data">
             <h4>06: Modifying & Deleting Data</h4>
         </a>
     </div>
