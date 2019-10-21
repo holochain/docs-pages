@@ -1,4 +1,4 @@
-# 3: Private Data on your Local Source Chain
+# 3: Private data on your local source chain
 
 > Each user in a Holochain network creates and stores their own data in a journal called a **source chain**. Each journal entry is cryptographically signed by its author, and is immutable once it's written.
 
@@ -78,7 +78,7 @@ But---_what if I want to tamper with my own source chain_? I have everything I n
 
 Holochain's answer is simple---_somebody will notice_. More on that in the next concept!
 
-## Learn More
+## Learn more
 
 * [Guidebook: The local source chain](../../guide/zome/read_and_write#the-local-source-chain-headers-and-entries)
 * [dApp Planning: Crypto Basics](https://medium.com/holochain/dapp-planning-crypto-basics-8bd1073cbe19)
