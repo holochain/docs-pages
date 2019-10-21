@@ -187,3 +187,4 @@ markdown_extensions:
   - pymdownx.emoji
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.extra
