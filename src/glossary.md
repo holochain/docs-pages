@@ -3,319 +3,319 @@
 As you go through our documentation you'll probably find some unfamiliar terms, or familiar ones used in surprising ways. Here are the definitions we use.
 
 Address
-:   The unique ID of an **entry** on the **DHT**. Every entry has an address that is generated from its content, usually by a **hash** function.
+:   The unique ID of an _entry_ on the _DHT_. Every entry has an address that is generated from its content, usually by a _hash_ function.
 
 Address space
-:   The entire range of possible **addresses** on the **DHT**. This space is circular; that is, the max address is considered adjacent to address 0.
+:   The entire range of possible _addresses_ on the _DHT_. This space is circular; that is, the max address is considered adjacent to address 0.
 
 Agent
-:   A **conductor** running one or more **DNA instances**, either on behalf of a person or as a bot. A person may own more than one device, each of which is a separate agent in a given **network**.
+:   A _conductor_ running one or more _DNA instances_, either on behalf of a person or as a bot. A person may own more than one device, each of which is a separate agent in a given _network_.
 
 Agent address
-:   The address of an agent ID entry on the DHT, calculated from the agent's **public key**. It is used in **node-to-node messaging** and in choosing **validators** for **public entries**.
+:   The address of an agent ID entry on the DHT, calculated from the agent's _public key_. It is used in _node-to-node messaging_ and in choosing _validators_ for _public entries_.
 
 Agent ID
-:   An **entry** near the beginning of an agent's source chain that identifies them. It contains their public key and other identifying information. This entry becomes an agent's unique identifier on the **DHT**. The address of this entry is the **agent's address** on the DHT.
+:   An _entry_ near the beginning of an agent's source chain that identifies them. It contains their public key and other identifying information. This entry becomes an agent's unique identifier on the _DHT_. The address of this entry is the _agent's address_ on the DHT.
 
 Append-only
-:   Describes any data structure that can only be written to. Once written, data is 'immutable', which means it can't be modified or deleted. An agent's **source chain** and the **DHT** are both append-only, which makes them **logically monotonic**.
+:   Describes any data structure that can only be written to. Once written, data is 'immutable', which means it can't be modified or deleted. An agent's _source chain_ and the _DHT_ are both append-only, which makes them _logically monotonic_.
 
 Application (app)
-:   A collection of **back end** and **front end** components that comprise something a person can actually use.
+:   A collection of _back end_ and _front end_ components that comprise something a person can actually use.
 
 Aspect
-:   A piece of metadata on an entry, such as a **link**, **provenance**, **validation signature**, **warrant**, or **CRUD** status.
+:   A piece of metadata on an entry, such as a _link_, _provenance_, _validation signature_, _warrant_, or _CRUD_ status.
 
 Author
-:   The **agent** who has **published** a **DHT entry**, as shown by their **provenance**.
+:   The _agent_ who has _published_ a _DHT entry_, as shown by their _provenance_.
 
 Back end
-:   Synonymous with a collection of **DNA instances** for a **hApp** --- the code that contains the base-level persistence and validation logic.
+:   Synonymous with a collection of _DNA instances_ for a _hApp_ --- the code that contains the base-level persistence and validation logic.
 
 Blockchain
-:   A distributed system that promises **Byzantine fault tolerance** by using a **coordination protocol** to get all nodes to agree on a single, shared history of events. This history is stored as a **hash chain** of 'blocks', or bundles of **state changes**. A blockchain can be public (anyone can join) or permissioned/private (membership is controlled). Public blockchains are usually **trustless**, ensuring tamper-resistance by making participation costly.
+:   A distributed system that promises _Byzantine fault tolerance_ by using a _coordination protocol_ to get all nodes to agree on a single, shared history of events. This history is stored as a _hash chain_ of 'blocks', or bundles of _state changes_. A blockchain can be public (anyone can join) or permissioned/private (membership is controlled). Public blockchains are usually _trustless_, ensuring tamper-resistance by making participation costly.
 
 Bridge
-:   A connection between **DNA instances** in one conductor that allows one instance to call another instance's **zome functions**.
+:   A connection between _DNA instances_ in one conductor that allows one instance to call another instance's _zome functions_.
 
 Bundle
-:   A **DNA bundle**.
-:   A group of **commits** that succeed or fail 'atomically', like a transaction in an SQL database.
+:   A _DNA bundle_.
+:   A group of _commits_ that succeed or fail 'atomically', like a transaction in an SQL database.
 
 Byzantine fault tolerance (BFT)
-:   Describes a **distributed system** that can still come to consistency 'Byzantine failures', accidental or intentional failures in **nodes** or the networking transport between them.
+:   Describes a _distributed system_ that can still come to consistency 'Byzantine failures', accidental or intentional failures in _nodes_ or the networking transport between them.
 
 Capability-based security
-:   A security model that allows the owner of a resource to maintain control over it. Instead of giving others direct access to the resource, it mediates access itself and manages privileges by issuing **capability tokens**. An agent's conductor uses capability-based security to protect their running **DNA instances** and grant access to **clients** on the same machine, as well as other DNA instances via **bridging**.
+:   A security model that allows the owner of a resource to maintain control over it. Instead of giving others direct access to the resource, it mediates access itself and manages privileges by issuing _capability tokens_. An agent's conductor uses capability-based security to protect their running _DNA instances_ and grant access to _clients_ on the same machine, as well as other DNA instances via _bridging_.
 
 Capability grant
-:   A special **private entry** that an **agent** writes to their **source chain**. It records the capability being granted, along with the recipient of the grant. The address of this grant becomes the **capability token**.
+:   A special _private entry_ that an _agent_ writes to their _source chain_. It records the capability being granted, along with the recipient of the grant. The address of this grant becomes the _capability token_.
 
 Capability claim
-:   A special **source chain entry** that an **agent** writes to their **source chain**. It records the **capability token** that they received, and allows them to exercise their claim later.
+:   A special _source chain entry_ that an _agent_ writes to their _source chain_. It records the _capability token_ that they received, and allows them to exercise their claim later.
 
 Capability token
-:   The address of a **capability grant**. It serves as proof that some agent is allowed to make a claim on a capability.
+:   The address of a _capability grant_. It serves as proof that some agent is allowed to make a claim on a capability.
 
 Client
-:   Any piece of software on a user's machine that accesses a **DNA instance**'s **zome functions**. It makes these function calls over the **conductor**'s **RPC interface**. This client can be a **GUI**, a shell script, a service, or a scheduled task. This client lives on the same machine as the conductor.
+:   Any piece of software on a user's machine that accesses a _DNA instance_'s _zome functions_. It makes these function calls over the _conductor_'s _RPC interface_. This client can be a _GUI_, a shell script, a service, or a scheduled task. This client lives on the same machine as the conductor.
 
 Commit
-:   The act of adding an **entry** to a **source chain**. If an entry is a **public entry** it also gets **published** to the DHT.
+:   The act of adding an _entry_ to a _source chain_. If an entry is a _public entry_ it also gets _published_ to the DHT.
 
 Commons
-:   Any resource that is used by a group of agents and owned by no agent. In order to survive, a commons must have rules governing its use. A Holochain **DHT** is a type of commons.
+:   Any resource that is used by a group of agents and owned by no agent. In order to survive, a commons must have rules governing its use. A Holochain _DHT_ is a type of commons.
 
 Conductor
-:   The service that hosts all of a participant's **DNA instances**, storing data and connecting them to others in the network. Synonymous with a Holochain **node**.
+:   The service that hosts all of a participant's _DNA instances_, storing data and connecting them to others in the network. Synonymous with a Holochain _node_.
 
 Conductor API
-:   The **RPC interface** that a **conductor** exposes, which allows locally running **clients** to access and manipulate configuration of **DNAs**, **agents**, **instances**, and **RPC interfaces**
+:   The _RPC interface_ that a _conductor_ exposes, which allows locally running _clients_ to access and manipulate configuration of _DNAs_, _agents_, _instances_, and _RPC interfaces_
 
 Conflict-free replicated data type (CRDT)
-:   A function that allows two **nodes** in a **distributed system** to separately make changes to the same piece of data without creating conflicts. A CRDT is **logically monotonic**, which means that it satisfies the **CALM theorem** and doesn't need a **coordination protocol**.
+:   A function that allows two _nodes_ in a _distributed system_ to separately make changes to the same piece of data without creating conflicts. A CRDT is _logically monotonic_, which means that it satisfies the _CALM theorem_ and doesn't need a _coordination protocol_.
 
 Consensus
-:   Synonymous with **consistency**.
-:   Synonymous with **global consensus**.
+:   Synonymous with _consistency_.
+:   Synonymous with _global consensus_.
 
 Consistency
-:   Agreement among **nodes** in a **distributed system** about the state of data. **Blockchains** enforce 'global' consensus, which means that all nodes share the same data structure. Holochain prefers small-scale consensus, either between interacting parties or among a small set of third-party **validators**.
+:   Agreement among _nodes_ in a _distributed system_ about the state of data. _Blockchains_ enforce 'global' consensus, which means that all nodes share the same data structure. Holochain prefers small-scale consensus, either between interacting parties or among a small set of third-party _validators_.
 
 Consistency/availability/partition-tolerance (CAP) theorem
-:   A principle that states that all **distributed systems** are prone to 'partitions' (some groups of nodes becoming unavailable to each other), and that in the presence of a partition you can only guarantee _availability_ (data can always be accessed and written) or _consistency_ (data is always correct), but not both.
+:   A principle that states that all _distributed systems_ are prone to 'partitions' (some groups of nodes becoming unavailable to each other), and that in the presence of a partition you can only guarantee _availability_ (data can always be accessed and written) or _consistency_ (data is always correct), but not both.
 
 Consistency as logical monotonicity (CALM) theorem
-:   A principle that states that, as long as a function is **logically monotonic**, it can be run on multiple **nodes** in a **distrubted system** and reach **eventual consistency** without needing **coordination protocols**.
+:   A principle that states that, as long as a function is _logically monotonic_, it can be run on multiple _nodes_ in a _distrubted system_ and reach _eventual consistency_ without needing _coordination protocols_.
 
 Coordination protocol
-:   An algorithm that governs the movement of data in a **distributed system**. It aims to prevent or resolve data conflicts that happen when two **nodes** are out of sync with each other.
+:   An algorithm that governs the movement of data in a _distributed system_. It aims to prevent or resolve data conflicts that happen when two _nodes_ are out of sync with each other.
 
 Core API
-:   See **Holochain Core API**.
+:   See _Holochain Core API_.
 
 Create, read, update, delete (CRUD)
-:   The four main things an application needs to do with data. Even though all data structures in Holochain are **append-only**, data can still be updated or deleted by adding a new entry that marks the old data as obsolete.
+:   The four main things an application needs to do with data. Even though all data structures in Holochain are _append-only_, data can still be updated or deleted by adding a new entry that marks the old data as obsolete.
 
 Decentralization
-:   The act of removing central points of power. Many **distributed systems** are decentralized to various degrees.
+:   The act of removing central points of power. Many _distributed systems_ are decentralized to various degrees.
 
 DeepKey
-:   Holochain's standard **distributed public key infrastructure** library.
+:   Holochain's standard _distributed public key infrastructure_ library.
 
 DHT entry
-:   A public **entry** that lives on the **DHT**. DHT entries are assigned to a **neighborhood** of **validators**, are **deduplicated**, can have many authors, and have **metadata** attached to them in **aspects**.
+:   A public _entry_ that lives on the _DHT_. DHT entries are assigned to a _neighborhood_ of _validators_, are _deduplicated_, can have many authors, and have _metadata_ attached to them in _aspects_.
 
 Distributed hash table (DHT)
-:   A collection of data stored collectively by many **nodes** in a **distributed system**. A node retrieves data by address (usually its cryptographic **hash**), searching for a **peer** that is responsible for holding the data. Holochain uses a **validating DHT** to store **public entries**. Each **DNA** has its own separate DHT.
+:   A collection of data stored collectively by many _nodes_ in a _distributed system_. A node retrieves data by address (usually its cryptographic _hash_), searching for a _peer_ that is responsible for holding the data. Holochain uses a _validating DHT_ to store _public entries_. Each _DNA_ has its own separate DHT.
 
 Distributed ledger technology (DLT)
-:   Any technology that involves many **nodes** in a distributed system sharing an **append-only** history of **state changes**. In Holochain, each **agent** stores their own history in their **source chain** and shares copies of it with **peers**.
+:   Any technology that involves many _nodes_ in a distributed system sharing an _append-only_ history of _state changes_. In Holochain, each _agent_ stores their own history in their _source chain_ and shares copies of it with _peers_.
 
 Distributed public key infrastructure (DPKI)
-:   A **public key infrastructure** that doesn't rely on a central authority. **DeepKey** is Holochain's default DPKI implementation.
+:   A _public key infrastructure_ that doesn't rely on a central authority. _DeepKey_ is Holochain's default DPKI implementation.
 
 Distributed system
-:   Any system that involves multiple **nodes** talking to each other over a network. Because communication isn't instantaneous, different agents can create conflicting data. Many distributed systems use a **coordination protocol** to come to **consistency**, while others rely on the **CALM theorem**.
+:   Any system that involves multiple _nodes_ talking to each other over a network. Because communication isn't instantaneous, different agents can create conflicting data. Many distributed systems use a _coordination protocol_ to come to _consistency_, while others rely on the _CALM theorem_.
 
 DNA
-:   A **package** of executable code that defines the shared 'rules of the game' for a group of agents. A DNA is made up of **zomes**, which define **validation rules** for data and **zome functions** for agents to take action.
+:   A _package_ of executable code that defines the shared 'rules of the game' for a group of agents. A DNA is made up of _zomes_, which define _validation rules_ for data and _zome functions_ for agents to take action.
 
 DNA bundle
-:   A package containing multiple DNA packages that are instantiated together to form the **back end** for a **hApp**.
+:   A package containing multiple DNA packages that are instantiated together to form the _back end_ for a _hApp_.
 
 DNA instance
-:   A particular Holochain DNA when it's bound to a **public/private key pair**. DNA + key pair = instance.
+:   A particular Holochain DNA when it's bound to a _public/private key pair_. DNA + key pair = instance.
 
 Entry
-:   A record of some sort. Each entry has its own defined type with a data schema and validation rules. When an agent **commits** an entry, it is written to their **source chain**. If it's marked as a **public entry**, it's also **published** to the DHT.
+:   A record of some sort. Each entry has its own defined type with a data schema and validation rules. When an agent _commits_ an entry, it is written to their _source chain_. If it's marked as a _public entry_, it's also _published_ to the DHT.
 
 Eventual consistency
-:   Describes a promise made by distributed systems that optimize for availability over consistency (see **CAP theorem**), meaning that given enough time, every **node** ought to eventually reach **consistency** with each other. _Strong_ eventual consistency means nodes are _guaranteed_ to reach consistency without conflicts, which is possible for any system whose **state change** functions adhere to the **CALM principle**.
+:   Describes a promise made by distributed systems that optimize for availability over consistency (see _CAP theorem_), meaning that given enough time, every _node_ ought to eventually reach _consistency_ with each other. _Strong_ eventual consistency means nodes are _guaranteed_ to reach consistency without conflicts, which is possible for any system whose _state change_ functions adhere to the _CALM principle_.
 
 Front end
-:   Synonymous with **graphical user interface**.
+:   Synonymous with _graphical user interface_.
 
 Global ledger
-:   A **ledger** shared by all **nodes** in a **blockchain**.
+:   A _ledger_ shared by all _nodes_ in a _blockchain_.
 
 Gossip
-:   A protocol used by many **peer-to-peer networks**. Each **node** knows a few other nodes, who know a few more, and so forth. Whenever any node receives a message, they broadcast it to some or all of their peers. Data propagates slowly at first, but spreads at an exponential rate.
+:   A protocol used by many _peer-to-peer networks_. Each _node_ knows a few other nodes, who know a few more, and so forth. Whenever any node receives a message, they broadcast it to some or all of their peers. Data propagates slowly at first, but spreads at an exponential rate.
 
 Graphical user interface (GUI)
-:   A **client** that presents a visual, easy-to-understand way for a user to interact with a **DNA instance** or collection of instances running in their **conductor**. As with any client, the GUI always runs on the same machine as the conductor.
+:   A _client_ that presents a visual, easy-to-understand way for a user to interact with a _DNA instance_ or collection of instances running in their _conductor_. As with any client, the GUI always runs on the same machine as the conductor.
 
 Hash
-:   A unique 'fingerprint' for a piece of data, calculated by running the data through a special function. A hash can serve as a unique identifier for that data (such as with **addresses** of **DHT entries**) and makes it easy to retrieve data from a hash table and verify its integrity.
+:   A unique 'fingerprint' for a piece of data, calculated by running the data through a special function. A hash can serve as a unique identifier for that data (such as with _addresses_ of _DHT entries_) and makes it easy to retrieve data from a hash table and verify its integrity.
 
 Hash chain
-:   An **append-only** data structure that can be used as a tamper-evident sequential log of events, such as a **source chain** or **blockchain**.
+:   An _append-only_ data structure that can be used as a tamper-evident sequential log of events, such as a _source chain_ or _blockchain_.
 
 Holochain Development Kit (HDK)
-:   Holochain's standard software development kit for **zome** and **DNA** developers. It proides developer-friendly access to the low-level **Holochain core API** as well as macros for defining **entry** and **link** types, **validation functions**, and **init functions**.
+:   Holochain's standard software development kit for _zome_ and _DNA_ developers. It proides developer-friendly access to the low-level _Holochain core API_ as well as macros for defining _entry_ and _link_ types, _validation functions_, and _init functions_.
 
 Holochain application (hApp)
-:   A collection of **DNAs** and a **client** (or clients) that allow users to interact with those DNAs.
+:   A collection of _DNAs_ and a _client_ (or clients) that allow users to interact with those DNAs.
 
 Holochain Core
-:   The basic components of Holochain. The **conductor**, the **nucleus**, and the **ribosome**.
+:   The basic components of Holochain. The _conductor_, the _nucleus_, and the _ribosome_.
 
 Holochain Core API
-:   The set of core functions that the **nucleus** makes available to the **ribosome**, so the **ribosome** can make them available to a running **DNA instance**. These functions allow the DNA to access and manipulate an **agent**'s **source chain**, run cryptographic functions, retrieve and write **DHT entries** and **links**, and send **node-to-node messages** to **peers**.
+:   The set of core functions that the _nucleus_ makes available to the _ribosome_, so the _ribosome_ can make them available to a running _DNA instance_. These functions allow the DNA to access and manipulate an _agent_'s _source chain_, run cryptographic functions, retrieve and write _DHT entries_ and _links_, and send _node-to-node messages_ to _peers_.
 
 Immune system
-:   A property of Holochain's **validating DHT**, whereby healthy **nodes** collect detect bad data and take defensive action against corrupt nodes.
+:   A property of Holochain's _validating DHT_, whereby healthy _nodes_ collect detect bad data and take defensive action against corrupt nodes.
 
 Init callback
-:   A function in a **DNA** that the **nucleus** calls when an **agent** runs the **DNA instance** for the first time. This can be used to set up initial variables, etc.
+:   A function in a _DNA_ that the _nucleus_ calls when an _agent_ runs the _DNA instance_ for the first time. This can be used to set up initial variables, etc.
 
 Intrinsic data integrity
-:   Holochain's fundamental strategy for guaranteeing data integrity. Data is considered valid or invalid based on the **DNA's** **validation rules** as well as Holochain's **subconscious** validation rules.
+:   Holochain's fundamental strategy for guaranteeing data integrity. Data is considered valid or invalid based on the _DNA's_ _validation rules_ as well as Holochain's _subconscious_ validation rules.
 
 Journal
-:   Synonymous with **ledger**.
+:   Synonymous with _ledger_.
 
 Ledger
-:   A history of events or **state changes**. In **distributed ledger technology**, ledgers are stored as **hash chains**, such as a Holochain agent's **source chain**.
+:   A history of events or _state changes_. In _distributed ledger technology_, ledgers are stored as _hash chains_, such as a Holochain agent's _source chain_.
 
 Link
-:   A piece of **metadata** connecting one **DHT entry** to another. Each link has a defined type as well as a 'tag' for storing arbitrary content.
+:   A piece of _metadata_ connecting one _DHT entry_ to another. Each link has a defined type as well as a 'tag' for storing arbitrary content.
 
 Logical monotonicity
 :   
 
 Membrane
 :   Any permeable boundary that allows appropriate access and disallows inappropriate access.
-:   The layer of protection around an **agent**'s **DNA instance** (provided by **capability-based security**) that prevents unauthorized access to the instance or its source chain data.
-:   A special **validation rule** for the **agent ID** entry that governs the **agent**'s ability to become part of the **DHT**.
+:   The layer of protection around an _agent_'s _DNA instance_ (provided by _capability-based security_) that prevents unauthorized access to the instance or its source chain data.
+:   A special _validation rule_ for the _agent ID_ entry that governs the _agent_'s ability to become part of the _DHT_.
 
 Metadata
-:   Supplementary data attached to a piece of data. In a Holochain **DHT**, metadata such as **links** are stored on **entries** as **aspects**.
+:   Supplementary data attached to a piece of data. In a Holochain _DHT_, metadata such as _links_ are stored on _entries_ as _aspects_.
 
 Microservice
-:   An application architecture pattern that encourages small, single-purpose **back end** services. Holochain **DNAs** can be designed as microservices that combine to form a fully featured **hApp**.
+:   An application architecture pattern that encourages small, single-purpose _back end_ services. Holochain _DNAs_ can be designed as microservices that combine to form a fully featured _hApp_.
 
 Mutual sovereignty
-:   The tension between the autonomy of the individual and the collective intentions of the group. A successful **commons** finds a healthy balance between these opposites. Holochain's design is based on this principle, empowering **participants** to control their own identity and their response to their peers, while also equipping the entire **network** to govern affairs to suit their intentions.
+:   The tension between the autonomy of the individual and the collective intentions of the group. A successful _commons_ finds a healthy balance between these opposites. Holochain's design is based on this principle, empowering _participants_ to control their own identity and their response to their peers, while also equipping the entire _network_ to govern affairs to suit their intentions.
 
 Nearness
-:   The proximity of two **addresses** to each other in the **DHT**'s **address space**.
+:   The proximity of two _addresses_ to each other in the _DHT_'s _address space_.
 
 Neighborhood
-:   A collection of **nodes** in a Holochain **DHT** who are **near** to each other (in terms of **address space**, not geography). Neighbors collectively support the **resilience** of all **DHT entries** whose **address** is near to them by storing and **validating** those entries and **gossiping** to each other about the entries they have.
+:   A collection of _nodes_ in a Holochain _DHT_ who are _near_ to each other (in terms of _address space_, not geography). Neighbors collectively support the _resilience_ of all _DHT entries_ whose _address_ is near to them by storing and _validating_ those entries and _gossiping_ to each other about the entries they have.
 
 Network
-:   A community of **nodes** **gossiping** with each other to form a **validating DHT**, aiding in data storage and retrieval, validation, and peer discovery. Each **DNA** has a separate network.
+:   A community of _nodes_ _gossiping_ with each other to form a _validating DHT_, aiding in data storage and retrieval, validation, and peer discovery. Each _DNA_ has a separate network.
 
 Node
-:   An individual **agent** in a Holochain **network**. It has an **agent address** and can be talked to via **gossip**.
+:   An individual _agent_ in a Holochain _network_. It has an _agent address_ and can be talked to via _gossip_.
 
 Node-to-node message
-:   A direct, end-to-end-encrypted exchange between two **nodes** on a **network**.
+:   A direct, end-to-end-encrypted exchange between two _nodes_ on a _network_.
 
 Nucleus
-:   The core of Holochain. It governs data flow between the **conductor** and a **DNA instance**, with the help of the **ribosome**, and enforces the **subconscious** **validation rules**.
+:   The core of Holochain. It governs data flow between the _conductor_ and a _DNA instance_, with the help of the _ribosome_, and enforces the _subconscious_ _validation rules_.
 
 Package
-:   Synonymous with **DNA**.
-:   The act of compiling source code and metadata into a **DNA** package.
+:   Synonymous with _DNA_.
+:   The act of compiling source code and metadata into a _DNA_ package.
 
 Participant
-:   Synonymous with 'user'. We often prefer the term 'participant' because a Holochain **DHT** is a **commons** of **mutually sovereign** peers who all actively participate to maintain its integrity.
+:   Synonymous with 'user'. We often prefer the term 'participant' because a Holochain _DHT_ is a _commons_ of _mutually sovereign_ peers who all actively participate to maintain its integrity.
 
 Peer
-:   Synonymous with **node**.
+:   Synonymous with _node_.
 
 Peer-to-peer
-:   Describes a **distributed system** in which **nodes** talk directly to each other without the intermediation of a central server.
+:   Describes a _distributed system_ in which _nodes_ talk directly to each other without the intermediation of a central server.
 
 Private entry
-:   An **entry** which is stored on the **source chain** but not **published** to the **DHT**.
+:   An _entry_ which is stored on the _source chain_ but not _published_ to the _DHT_.
 
 Provenance
-:   A **public key** and a **public-key signature**, stored as a piece of metadata on a **DHT entry**. It proves that an **agent** actually authored the entry, and allows anyone to verify that it hasn't been tampered with by a third party.
+:   A _public key_ and a _public-key signature_, stored as a piece of metadata on a _DHT entry_. It proves that an _agent_ actually authored the entry, and allows anyone to verify that it hasn't been tampered with by a third party.
 
 Public entry
-:   Synonymous with **DHT entry**. Any entry marked public will be **published** to the **DHT**.
+:   Synonymous with _DHT entry_. Any entry marked public will be _published_ to the _DHT_.
 
 Public-key cryptography
-:   A cryptographic system that consists of two keys: a public component and a private or secret component. These keys are mathematically related to each other in a way that's easy for the key pair's owner to prove but nearly impossible for a third-party to reverse-engineer. In Holochain, the public key lives in the **DHT** as an **agent**'s identity and the private key stays on the agent's device as a proof that they control their public key. **Peers** can verify an agent's claim of authorship on an entry by checking their **provenance**, or can use an agent's public key to encrypt a private message that only they can decrypt.
+:   A cryptographic system that consists of two keys: a public component and a private or secret component. These keys are mathematically related to each other in a way that's easy for the key pair's owner to prove but nearly impossible for a third-party to reverse-engineer. In Holochain, the public key lives in the _DHT_ as an _agent_'s identity and the private key stays on the agent's device as a proof that they control their public key. _Peers_ can verify an agent's claim of authorship on an entry by checking their _provenance_, or can use an agent's public key to encrypt a private message that only they can decrypt.
 
 Public-key infrastructure (PKI)
-:   A way for agents to share their public keys, prove their authenticity, and revoke old keys if they've been compromised. Most PKIs, such as the global SSL certficate authority system, are centralized. Holochain provides a **distributed PKI** system.
+:   A way for agents to share their public keys, prove their authenticity, and revoke old keys if they've been compromised. Most PKIs, such as the global SSL certficate authority system, are centralized. Holochain provides a _distributed PKI_ system.
 
 Public-key signature
-:   The hash of a piece of data, encrypted with a private key. It can be decrypted by anyone who has a copy of the public key. In Holochain, this is used in a **provenance** on each **DHT entry** to prove authorship and detect third-party tampering.
+:   The hash of a piece of data, encrypted with a private key. It can be decrypted by anyone who has a copy of the public key. In Holochain, this is used in a _provenance_ on each _DHT entry_ to prove authorship and detect third-party tampering.
 
 Public/private key pair
-:   See **public-key cryptography**.
+:   See _public-key cryptography_.
 
 Publish
-:   To send a **public entry** to the **DHT** after it has passed the author's own copy of the **validation rules** for the entry. The **neighborhood** of **validators** who are responsible for that entry's **address** receive it, validate it, and store a copy of it if it's valid.
+:   To send a _public entry_ to the _DHT_ after it has passed the author's own copy of the _validation rules_ for the entry. The _neighborhood_ of _validators_ who are responsible for that entry's _address_ receive it, validate it, and store a copy of it if it's valid.
 
 Remote procedure call (RPC)
-:   In Holochain, a call that a **client** makes to a **zome function** or **conductor API** function over an RPC interace.
+:   In Holochain, a call that a _client_ makes to a _zome function_ or _conductor API_ function over an RPC interace.
 
 RPC interface
-:   A network port that the **conductor** exposes, allowing **clients** to call the **conductor API** or make **zome function calls** to running **DNA instances**. This interface only listens for local connections (so it can't be accessed over the internet). That means that clients must be on the same machine as the conductor.
+:   A network port that the _conductor_ exposes, allowing _clients_ to call the _conductor API_ or make _zome function calls_ to running _DNA instances_. This interface only listens for local connections (so it can't be accessed over the internet). That means that clients must be on the same machine as the conductor.
 
 Resilience
-:   The level of a **network**'s capacity to hold itself in integrity as **nodes** leave and join the network and dishonest nodes try to corrupt it.
-:   The level of redundancy of a **DHT entry**, expected to correspond to the **resilience factor** of the DNA.
+:   The level of a _network_'s capacity to hold itself in integrity as _nodes_ leave and join the network and dishonest nodes try to corrupt it.
+:   The level of redundancy of a _DHT entry_, expected to correspond to the _resilience factor_ of the DNA.
 
 Resilience factor
-:   The desired number of copies of a **DHT entry** that should exist in a **DHT**. This value is set in the **DNA** by its creator. **Nodes** in a **neighborhood** who are responsible for an entry collectively work to make sure this factor is met at all times.
+:   The desired number of copies of a _DHT entry_ that should exist in a _DHT_. This value is set in the _DNA_ by its creator. _Nodes_ in a _neighborhood_ who are responsible for an entry collectively work to make sure this factor is met at all times.
 
 Ribosome
-:   The 'sandbox' or 'virtual machine' inside which a **DNA instance** runs. In Holochain's current design, the ribosome is a **WebAssembly** interpreter that exposes Holochain's **core API** to the instance and allows the **nucleus** to call the instance's **validation functions**, **init function**, and other callbacks.
+:   The 'sandbox' or 'virtual machine' inside which a _DNA instance_ runs. In Holochain's current design, the ribosome is a _WebAssembly_ interpreter that exposes Holochain's _core API_ to the instance and allows the _nucleus_ to call the instance's _validation functions_, _init function_, and other callbacks.
 
 Rust
-:   The programming language used to build both Holochain and **DNAs**.
+:   The programming language used to build both Holochain and _DNAs_.
 
 Scenario test
-:   An automated test involving multiple **agents** on a simulated **network**. **DNA** creators can write these tests to ensure that their code works properly in real-life scenarios.
+:   An automated test involving multiple _agents_ on a simulated _network_. _DNA_ creators can write these tests to ensure that their code works properly in real-life scenarios.
 
 Source chain
-:   A **hash chain** of actions taken by an **agent**. For each **DHT**, every agent stores their own source chain as a record of **state changes** they've made --- that is, **entries** they've committed.
+:   A _hash chain_ of actions taken by an _agent_. For each _DHT_, every agent stores their own source chain as a record of _state changes_ they've made --- that is, _entries_ they've committed.
 
 Source chain entry
-:   An individual record stored on a **source chain**. It may be a **private entry**, in which case it lives only on the source chain, or it may be a **public entry**, in which case it's also **published** to the **DHT**.
+:   An individual record stored on a _source chain_. It may be a _private entry_, in which case it lives only on the source chain, or it may be a _public entry_, in which case it's also _published_ to the _DHT_.
 
 Source chain header
-:   A meta-entry that links a **source chain entry** to the previous entry in an **agent**'s **source chain**.
+:   A meta-entry that links a _source chain entry_ to the previous entry in an _agent_'s _source chain_.
 
 State change
-:   A modification of application state. In Holochain, state changes begin life in an **agent**'s **source chain** as **entries** and are optionally **published** to the **DHT** as a permanent public record.
+:   A modification of application state. In Holochain, state changes begin life in an _agent_'s _source chain_ as _entries_ and are optionally _published_ to the _DHT_ as a permanent public record.
 
 Subconscious
-:   The 'base' **validation rules** defined by the Holochain **nucleus**. These rules check validity of **hashes** and **provenances**, as well as the integrity of each **agent**'s source chain.
+:   The 'base' _validation rules_ defined by the Holochain _nucleus_. These rules check validity of _hashes_ and _provenances_, as well as the integrity of each _agent_'s source chain.
 
 Trustless
-:   Describes a **peer-to-peer** **distributed system** which is **Byzantine fault tolerant** even when it is 'permissionless' (that is, any number of anonymous agents can become peers). Trust is placed in the quality of the algorithm and the game theory that underpins it, rather than in any human entity.
+:   Describes a _peer-to-peer_ _distributed system_ which is _Byzantine fault tolerant_ even when it is 'permissionless' (that is, any number of anonymous agents can become peers). Trust is placed in the quality of the algorithm and the game theory that underpins it, rather than in any human entity.
 
 Validating DHT
-:   Holochain's **DHT** design that creates an **immune system**. **Validators** are chosen at random, based on their **nearness** to the **address** of the **entry** to be validated. If an entry fails validation, the validator publishes a **warrant** against the entry's author, along with proof of invalidity.
+:   Holochain's _DHT_ design that creates an _immune system_. _Validators_ are chosen at random, based on their _nearness_ to the _address_ of the _entry_ to be validated. If an entry fails validation, the validator publishes a _warrant_ against the entry's author, along with proof of invalidity.
 
 Validation rule
-:   A function that checks the correctness of an **entry**. If validation fails, a **validator** can publish a **warrant** proving that the entry's author has broken the 'rules of the game' in the **DNA**'s executable code.
+:   A function that checks the correctness of an _entry_. If validation fails, a _validator_ can publish a _warrant_ proving that the entry's author has broken the 'rules of the game' in the _DNA_'s executable code.
 
 Validation signature
-:   A **provenance** created by the **validator** of a **DHT entry**, attesting to the validity of that entry according to its **validation rule**.
+:   A _provenance_ created by the _validator_ of a _DHT entry_, attesting to the validity of that entry according to its _validation rule_.
 
 Validator
-:   A **node** in the **validating DHT** who is chosen at random to validate a **DHT entry**, based on their **agent address**' **nearness** to the address of the entry. After validating, they also store the entry and help maintain its **resilience**.
+:   A _node_ in the _validating DHT_ who is chosen at random to validate a _DHT entry_, based on their _agent address_' _nearness_ to the address of the entry. After validating, they also store the entry and help maintain its _resilience_.
 
 Warrant
-:   An entry created by the **validator** of a **DHT entry**, attesting that the entry is invalid according to its **validation rule** and proving that its author has broken the 'rules of the game' in the **DNA**'s executable code.
+:   An entry created by the _validator_ of a _DHT entry_, attesting that the entry is invalid according to its _validation rule_ and proving that its author has broken the 'rules of the game' in the _DNA_'s executable code.
 
 WebAssembly (WASM)
-:   A low-level byte code that can be run on almost any platform, including the web browser. Holochain expects **DNAs** to be compiled to WebAssembly so the **ribosome** can execute them.
+:   A low-level byte code that can be run on almost any platform, including the web browser. Holochain expects _DNAs_ to be compiled to WebAssembly so the _ribosome_ can execute them.
 
 Zome
-:   A basic unit of modularity inside a **DNA**. Zome can be mixed and matched from other DNAs into one DNA in the service of the needs of a **network**. This zome defines **entry** types, **link** types, validation functions, public **zome functions**, and **init functions**.
+:   A basic unit of modularity inside a _DNA_. Zome can be mixed and matched from other DNAs into one DNA in the service of the needs of a _network_. This zome defines _entry_ types, _link_ types, validation functions, public _zome functions_, and _init functions_.
 
 Zome function
-:   A function, created by the author of a **zome**, that allows a **client** to take a particular action in a **DNA instance**. This includes data retrieval and storage, as well as node-to-node messaging. The zome functions act as a public API for the **zome**, and can be called by another zome within the same **DNA**, a **bridged** **DNA instance** within the same **conductor**, or a **client** via the conductor's **RPC interface**.
+:   A function, created by the author of a _zome_, that allows a _client_ to take a particular action in a _DNA instance_. This includes data retrieval and storage, as well as node-to-node messaging. The zome functions act as a public API for the _zome_, and can be called by another zome within the same _DNA_, a _bridged_ _DNA instance_ within the same _conductor_, or a _client_ via the conductor's _RPC interface_.
 
 Zome function call
-:   The act of calling a **zome function**.
+:   The act of calling a _zome function_.
