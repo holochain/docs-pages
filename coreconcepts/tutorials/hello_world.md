@@ -44,35 +44,42 @@ Open up your `test/index.js` file and add/update the following lines:
 Add `bob` to the scenario:
 
 ```diff
-- diorama.registerScenario("Test Hello Holo", async (s, t, { alice }) => {
-+ diorama.registerScenario("Test Hello Holo", async (s, t, { alice, bob }) => {
+-  const { alice } = await s.players({alice: config}, true)
++  const { alice, bob } = await s.players({alice: config, bob: config}, true)
 ```
 
-Make the `retrieve_person` call with the result from `create_person`:
-\#S:HIDE,SKIP
+Before you get Bob to retrieve a person you need Bob to be able to see the person that Alice committed. 
+This goes back to to an idea that will come up a lot in Holochain, eventual consistency. In a nutshell an Agent that is connected to the same network as another agent will eventually come to agreement on what data exists.
+
+To make sure this has happened in our tests you can call:
 ```javascript
-console.log(create_result);
+  await s.consistency();
 ```
 
+> This one line says a lot about the nature of a Holocahin application. The word `await` shows that we are in an asynchronous world and want to wait for consistency to be achieved. What kind of situation would lead to this line never completing?
+
+You get Bob to retrieve Alice's person using the same address she got when she created the entry: 
+
 ```javascript
-const bob_retrieve_result = await bob.call("hello", "retrieve_person", {"address": create_result.Ok});
+  const bob_retrieve_result = await bob.call('cc_tuts', 'hello', 'retrieve_person', {'address': alice_person_address });
 ```
 
-Check that the result was Ok:
+The result is checked and stored:
 
 ```javascript
-t.ok(bob_retrieve_result.Ok);
+  t.ok(bob_retrieve_result.Ok);
+  const bobs_person = bob_retrieve_result.Ok;
 ```
 
-Check that the result does indeed match the person entry that Alice created:
+Finally a deeper check makes sure the contents of the two persons match:
 
 ```javascript
-t.deepEqual(retrieve_result, { Ok: {"name": "Alice"} })
+  t.deepEqual(bobs_person, { "name": "Alice"});
 ```
 \#S:HIDE
 ```javascript
 })
-diorama.run()
+orchestrator.run()
 ```
 Your test should look like this:
 
@@ -89,20 +96,22 @@ nix-shell https://holochain.love
 
 Now run the test and make sure it passes:
 
-```bash
-nix-shell] hc test
-```
-```
-1..7
-# tests 7
-# pass  7
+!!! note "Run in `nix-shell`"
+    ```bash
+    nix-shell] hc test
+    ```
 
-# ok
-```
+!!! success "If everything went okay, then right at the end you will see:"
+    ```
+    # tests 7
+    # pass  7
+    
+    # ok
+    ```
 
 ## Switch to the Holochain conductor
 
-Now it would be cool to see this happen for real outside of a test. Up till now you have only used `hc run` to run a single instance of a node. However, in order to have two separate instances communicate on one machine, we need to run `holochain` directly and pass it a config file.
+Now it would be cool to see this happen for real outside of a test. Up till now you have only used `hc run` to run a single instance of a node. However, in order to have two separate instances communicate on one machine, we need to run our own conductor using the `holochain` cli tool.
 
 !!! tip "hc run vs holochain"
     `hc` and `holochain` are both conductors that host your apps on your users' machines. `hc run` is for testing and development, and `holochain` is for end-users. It can host multiple instances of multiple DNAs for multiple users. Normally Alice and Bob would be running instances of your app in their own conductors on their own machines. But for the purposes of this tutorial, it'll be a lot more convenient to try this on one machine, so you don't have to worry about network setup.
@@ -113,7 +122,7 @@ Use `hc keygen` in your nix-shell to generate a key for each agent:
 
 !!! note "Run in `nix-shell`"
     ```
-    hc keygen -n
+    hc keygen -n -p agent1.key
     ```
 
 !!! success "This will output something similar to the following:"
@@ -122,214 +131,224 @@ Use `hc keygen` in your nix-shell to generate a key for each agent:
 
     Succesfully created new agent keystore.
 
-    Public address: HcSCJhRioEqzvx9sooOfw6ANditrqdcxwfV7p7KP6extmnmzJIs83uKmfO9b8kz
-    Keystore written to: /Users/user/Library/Preferences/org.holochain.holochain/keys/HcSCJhRioEqzvx9sooOfw6ANditrqdcxwfV7p7KP6extmnmzJIs83uKmfO9b8kz
+    Public address: HcScjdwyq86W3w5y3935jKTcs4x9H9Pev898Ui5J36Sr7TUzoRjMhoNb9fikqez
+    Keystore written to: agent1.key 
 
     You can set this file in a conductor config as keystore_file for an agent.
     ```
 
 Take note of the `Public address`; you will need it later.
 
-Copy the newly generated keystore to your working folder (replace the path with the one in the `Keystore written to: ` line from the output of the previous command):
-
-```bash
-cp <path_of_generated_keystore> agent1.key
-```
-
 Now run `hc keygen` again but copy the key store to agent2.key:
 
-```bash
-cp <path_of_generated_keystore> agent2.key
-```
+!!! note "Run in `nix-shell`"
+    ```
+    hc keygen -n -p agent2.key
+    ```
 
 ### Config file
 
-Create a new file in the root directory of your project called `conductor-config.toml`.
+Create a new file in the root directory of your project called `conductor-config-agent1.toml`.
 
-Add an agent with ID `test_agent1` and name it `Agent 1`:
-
-```toml
-# -----------  Agents  -----------
-[[agents]]
-  id = "test_agent1"
-  name = "Agent 1"
-```
-
-Use the public address and keystore from `hc keygen` that you made for agent 1 before here:
-
-```toml
-  public_address = "<public_address_of_agent_1>"
-  keystore_file = "./agent1.key"
-```
-
-Add an agent with ID `test_agent2` and name it `Agent 2`:
+Add an agent with ID `alice` and name it `Alice`:
 
 ```toml
 [[agents]]
-  id = "test_agent2"
-  name = "Agent 2"
+id = 'alice'
+name = 'Alice'
+```
+Now point the keystore_file at `agent1.key` and the public_address is set to the `Public address` you generated before:
+```toml
+keystore_file = 'agent1.key'
+public_address = 'HcScjdwyq86W3w5y3935jKTcs4x9H9Pev898Ui5J36Sr7TUzoRjMhoNb9fikqez'
 ```
 
-Use the public address and keystore from `hc keygen` that you made for agent 2 before here:
+> Your public address will be different to this one.
+
+Next you need your DNA's hash:
+
+!!! note "Run in `nix-shell`"
+    ```
+    hc hash 
+    ```
+
+!!! success "You will see something similar to this:"
+    ```
+    DNA hash: QmPMMqNsbNqf3Hbizwwi6gDKw2nnSvpJQyHLG2SMYCCU8R
+    ```
+
+Add the DNA to your config file with the hash you got above:
 
 ```toml
-  public_address = "<public_address_of_agent_2>" 
-  keystore_file = "./agent2.key"
-```
-
-Package your DNA and take note of its hash:
-
-```
-nix-shell] hc package
-```
-
-You will see something similar to this:
-
-```
-DNA hash: QmS7wUJj6XZR1SBVk1idGh6bK8gN6RNSFXP2GoC8yCJUzn
-```
-
-Add the DNA to your config file with ID `hello` and the hash you just saw above:
-
-```toml
-# -----------  DNAs  -----------
 [[dnas]]
-  id = "hello"
-  file = "dist/hello_holo.dna.json"
-  hash = "<dna_hash>"
+file = 'dist/cc_tuts.dna.json'
+hash = 'QmPMMqNsbNqf3Hbizwwi6gDKw2nnSvpJQyHLG2SMYCCU8R'
+id = 'hc-run-dna'
 ```
 
-Connect agent 1 to the `hello` DNA to create an instance for Alice:
+Create the test instance with the alice agent:
 
 ```toml
 [[instances]]
-  id = "Alice"
-  dna = "hello"
-  agent = "test_agent1"
-[instances.storage]
-  type = "memory"
-```
+agent = 'alice'
+dna = 'hc-run-dna'
+id = 'test-instance'
 
-Add the Bob instance with the same `hello` dna:
-
-```toml
-[[instances]]
-  id = "Bob"
-  dna = "hello"
-  agent = "test_agent2"
 [instances.storage]
-  type = "memory"
+type = "memory"
 ```
 
 Setup the WebSocket interface on socket `3041`:
 
 ```toml
 [[interfaces]]
-  id = "websocket_interface"
+admin = true
+id = 'websocket-interface'
+
+[[interfaces.instances]]
+id = 'test-instance'
+
 [interfaces.driver]
-  type = "websocket"
-  port = 3401
+port = 3401
+type = 'websocket'
 ```
 
-Add your instances to this interface so you can call their zome functions:
-
+Finally add the sim2h network connection:
 ```toml
-[[interfaces.instances]]
-  id = "Alice"
-[[interfaces.instances]]
-  id = "Bob"
+[network]
+type = 'sim2h'
+sim2h_url = 'wss://0.0.0.0:9001'
 ```
 
-> #### Note
-> Again, in real life Alice and Bob would each have their own conductor, so they wouldn't be listening on the same WebSocket interface.
+The easiest thing to do now is copy this config file and change a few lines:
+```bash
+cp conductor-config-agent1.toml conductor-config-agent2.toml
+```
 
-## Allow the users to choose their instance
+```diff
+[[agents]]
+-id = 'alice'
++ id = 'bob'
+- name = 'Alice'
++ name = 'Bob'
+- keystore_file = 'agent1.key'
++ keystore_file = 'agent2.key'
+- public_address = 'HcScjdwyq86W3w5y3935jKTcs4x9H9Pev898Ui5J36Sr7TUzoRjMhoNb9fikqez'
++ public_address = 'HcSCj4uMm999rT4B6kfgSYx6ONfg3misvoV76JI9J57KM89ejVf4uwhm7Mm6f7i'
 
-Before you can use two agents, you need a way for the UI to specify which instance the user wants to use. You can do this by setting the instance ID in the zome call. You can think of an instance as a running version of a DNA, in the same way that a variable is an instance of a struct.
+[[dnas]]
+- file = 'dist/cc_tuts.dna.json'
++ file = '/Users/tomgowan/holochain/testing_tuts/cc_tuts/dist/cc_tuts.dna.json'
+- hash = 'QmPMMqNsbNqf3Hbizwwi6gDKw2nnSvpJQyHLG2SMYCCU8R'
++ hash = 'QmXNYdDHTajqf91q4igGgW88H6eBrpA6ha5bNE7iKvCKg8'
+id = 'hc-run-dna'
 
-Open the `gui/index.html` file.
+[[instances]]
+- agent = 'alice'
++ agent = 'bob'
+dna = 'hc-run-dna'
+id = 'test-instance'
 
-Add a text box for your users to set the agent ID:
+[interfaces.driver]
+- port = 3401
++ port = 3402
+type = 'websocket'
+```
+
+## Allow the UI to choose the conductor 
+
+Too use two agents from the gui, you need a way to specify which conductor the user wants to use. You can do this by setting the port for the websocket connection. 
+
+Open up `gui/index.html`.
+
+Add a text box and button in the UI to set the port:
 
 ```html
-<input type="text" id="instance" placeholder="Enter your instance ID"><br>
+    <input type="text" id="port" placeholder="Set websocket port" />
+    <button onclick="update_port()" type="button">update port</button>
 ```
+Now open `gui/hello.js`.
 
-Open the `gui/index.js` and do the following for every `callZome` call:
-
-[![asciicast](https://asciinema.org/a/Tp2xSDERlohFXy90LP7Yu4HQR.svg)](https://asciinema.org/a/Tp2xSDERlohFXy90LP7Yu4HQR)
+Add a `update_port` function that resets the connection to the new port:
+```javascript
+function update_port() {
+  const port = document.getElementById('port').value;
+  holochain_connection = holochainclient.connect({
+    url: 'ws://localhost:' + port,
+  });
+}
+```
 
 ## Run the app and two UIs
 
-Now the fun part, where you get to play with what you just wrote.
-
-Open up three terminal windows and enter the nix-shell in each one:
-
-```bash
-nix-shell https://holochain.love
-```
+Now the fun part, where you get to play with what you just wrote.  
+You going to need a few terminals to do this.
 
 #### Terminal one
 
-Go to the root folder of your app:
+Run the sim2h server
+!!! note "Run in `nix-shell`"
+    ```
+    sim2h_server -p 9001
+    ```
 
-```
-nix-shell] cd /path/to/my/app
-```
-
+#### Terminal two 
 Start by running the conductor. It's a bit different this time; instead of `hc run` you will use `holochain` directly:
 
-```
-nix-shell] holochain -c conductor-config.toml
-```
-
-#### Terminal two
-
-Go to the root folder of your GUI:
-
-```
-nix-shell] cd /path/to/my/gui
-```
-
-Run a GUI on port `8000`:
-
-```
-nix-shell] python -m SimpleHTTPServer 8000
-```
+!!! note "Run in `nix-shell`"
+    ```
+    holochain -c conductor-config-agent1.toml
+    ```
 
 #### Terminal three
+Start the second conductor:
+
+!!! note "Run in `nix-shell`"
+    ```
+    holochain -c conductor-config-agent2.toml
+    ```
+
+#### Terminal four 
 
 Go to the root folder of your GUI:
 
-```
-nix-shell] cd /path/to/my/gui
-```
+Run the first UI on port `8001`:
 
-Run a GUI on port `8001`:
+!!! note "Run in `nix-shell`"
+    ```
+    python -m SimpleHTTPServer 8001
+    ```
+#### Terminal five
 
-```
-nix-shell] python -m SimpleHTTPServer 8001
-```
+Still in the root folder of your GUI:
+
+Run the second UI on port `8002`:
+
+!!! note "Run in `nix-shell`"
+    ```
+    python -m SimpleHTTPServer 8002
+    ```
 
 ### Open up the browser
 
 Open two tabs.
 
-#### Tab one
+#### Tab Alice
 
-Go to `0.0.0.0:8000`. Enter `Alice` into the `Enter your instance ID` text box.
+Go to `0.0.0.0:8001`.
 
-#### Tab two
+#### Tab Bob 
 
-Go to `0.0.0.0:8001`. Enter `Bob` into the `Enter your instance ID` text box.
+Go to `0.0.0.0:8002`.  
+Enter `3402` into the port text box and click update port.
 
-#### Tab one---Alice
+#### Tab Alice
 
 Create a person entry with your name:
 
 ![](https://i.imgur.com/6PEDn6y.png)
 
-#### Tab two---Bob
+#### Tab Bob
 
 Copy the address from the Alice tab and retrieve the person entry:
 

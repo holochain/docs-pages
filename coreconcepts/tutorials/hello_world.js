@@ -1,34 +1,45 @@
 const path = require('path')
 const tape = require('tape')
 
-const { Diorama, tapeExecutor, backwardCompatibilityMiddleware } = require('@holochain/diorama')
+const { Config, Orchestrator, tapeExecutor, singleConductor, combine, callSync } = require('@holochain/try-o-rama')
+
 process.on('unhandledRejection', error => {
+  // Will print "unhandledRejection err is not defined"
   console.error('got unhandledRejection:', error);
 });
 
-const dnaPath = path.join(__dirname, "../dist/cc_tuts.dna.json")
-const dna = Diorama.dna(dnaPath, 'cc_tuts')
-const diorama = new Diorama({
-  instances: {
-    alice: dna,
-    bob: dna,
+const orchestrator = new Orchestrator({
+  globalConfig: {logger: false,  
+    //network: 'n3h'
+    network: {
+      type: 'sim1h',
+      dynamo_url: "http://localhost:8000",
+    }
   },
-  bridges: [],
-  debugLog: false,
-  executor: tapeExecutor(require('tape')),
-  middleware: backwardCompatibilityMiddleware,
+  middleware: combine(singleConductor, tapeExecutor(tape))
 })
-diorama.registerScenario("Test Hello Holo", async (s, t, { alice, bob }) => {
-  const result = await alice.call("hello", "hello_holo", {});
+
+const config = {
+  instances: {
+    cc_tuts: Config.dna('dist/cc_tuts.dna.json', 'cc_tuts')
+  }
+}
+
+orchestrator.registerScenario("Test hello holo", async (s, t) => {
+  const { alice, bob } = await s.players({alice: config, bob: config}, true)
+  // Make a call to the `hello_holo` Zome function
+  // passing no arguments.
+  const result = await alice.call('cc_tuts', "hello", "hello_holo", {});
+  // Make sure the result is ok.
   t.ok(result.Ok);
 
+  // Check that the result matches what you expected.
   t.deepEqual(result, { Ok: 'Hello Holo' })
-  
-  const create_result = await alice.call("hello", "create_person", {"person": { "name" : "Alice" }});
+  await s.consistency()
+  const create_result = await alice.call('cc_tuts', "hello", "create_person", {"person": { "name" : "Alice" }});
   t.ok(create_result.Ok);
-  const retrieve_result = await alice.call("hello", "retrieve_person", {"address": create_result.Ok});
+  const alice_person_address = create_result.Ok;
+  await s.consistency()
+  const retrieve_result = await alice.call('cc_tuts', "hello", "retrieve_person", {"address": alice_person_address });
   t.ok(retrieve_result.Ok);
-  t.deepEqual(retrieve_result, { Ok: { App: [ 'person', '{"name":"Alice"}' ] }})
-
-})
-diorama.run()
+  t.deepEqual(retrieve_result, { Ok: {"name": "Alice"} })
