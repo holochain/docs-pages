@@ -20,7 +20,3 @@ _Because every participant in this app holds a copy of the validation rules, eve
 #### Learn more
 
 * [Guidebook: Validate Agent](../../guide/zome/validate_agent)
-
-[Tutorial: **MicroBlog140** >](#)
-[Tutorial: **ForgivingMicroBlogWithWriteControl** >](#)
-[Next: **Handling data conflicts with CRDTs or resolution callbacks** >>](../8_resolution_callbacks)

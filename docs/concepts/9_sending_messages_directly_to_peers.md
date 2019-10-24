@@ -21,6 +21,3 @@ Here's what happens in a node-to-node message exchange:
 2. Alice's Holochain conductor looks up Bob's IP address on the DHT, then sends the message to Bob's device.
 3. Bob receives the message, decides what to do with it, and sends a response back to Alice.
 4. Alice receives Bob's response and processes it.
-
-[Tutorial: **PrivateMessenger** >](#)
-[Next: **Securing And Delegating Zome Functions With Capability Tokens** >>](../10_capability_tokens)
