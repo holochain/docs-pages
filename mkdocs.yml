@@ -21,6 +21,8 @@ nav:
     - Public data on the DHT: 'concepts/4_public_data_on_the_DHT.md'
     - Linking data together: 'concepts/5_linking_data_together.md'
     - Modifying and deleting data: 'concepts/6_modifying_and_deleting_data.md'
+    - Validating data: 'concepts/7_validating_data.md'
+    - Sending messages directly to peers: 'concepts/8_sending_messages_directly_to_peers.md'
   - Tutorials:
     - Introduction: 'tutorials/coreconcepts/index.md'
     - Hello Holo Tutorial: 'tutorials/coreconcepts/hello_holo.md'

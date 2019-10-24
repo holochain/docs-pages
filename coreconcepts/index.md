@@ -47,4 +47,14 @@ We've written this introduction for programmers, CTOs, and other technically-ori
             <h4>06: Modifying and deleting data</h4>
         </a>
     </div>
+    <div class="h-tile tile-alt tile-concepts">
+        <a href="7_validating_data">
+            <h4>07: Validating data</h4>
+        </a>
+    </div>
+    <div class="h-tile tile-alt tile-concepts">
+        <a href="8_sending_messages_directly_to_peers">
+            <h4>08: Sending messages directly to peers</h4>
+        </a>
+    </div>
 </div>
