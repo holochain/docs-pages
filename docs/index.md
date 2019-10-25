@@ -2,7 +2,7 @@ title: Holochain Developer Documentation
 
 # Get Started with Holochain
 
-<span style="font-size: 1rem;">Build public solutions with the scalability of private networks, and private solutions with the connectivity of public networks.</span>
+<span style="font-size: 1rem;">Holochain enables you to build truly serverless web applications—no infrastructure to support, no databases to secure.</span>
 
 <div class="h-tile-container">
 	<div class="h-tile tile-started">
