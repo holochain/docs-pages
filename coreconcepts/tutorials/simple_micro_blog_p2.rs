@@ -14,18 +14,4 @@ mod hello_zome {
         Ok("Hello Holo".into())
     }
 
-    #[entry_def]
-    fn post_entry_def() -> ValidatingEntryType {
-        entry!(
-            name: "post",
-            description: "A blog post",
-            sharing: Sharing::Public,
-            validation_package: || {
-                hdk::ValidationPackageDefinition::Entry
-            },
-            validation: | _validation_data: hdk::EntryValidationData<Post>| {
-                Ok(())
-            }
-        )
-    }
 

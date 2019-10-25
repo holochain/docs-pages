@@ -1,4 +1,4 @@
-# 5: Linking Data Together
+# 5: Linking data together
 
 > Entries on the DHT are connected to each other via one-way **links**. This allows you to build and traverse a graph database of linked information.
 
@@ -63,7 +63,7 @@ Those genres are already linked to an `_all_genres_` anchor, whose value is hard
 
 Alice's entries, linked to each other and to existing entries on the DHT, now form a graph that allows listeners to discover her and her music from a number of different starting points.
 
-## Learn More
+## Learn more
 
 * [Wikipedia: Graph database](https://en.wikipedia.org/wiki/Graph_database)
 * [Wikipedia: Resource Description Framework](https://en.wikipedia.org/wiki/Resource_Description_Framework), a standard for linking semantic data on the web

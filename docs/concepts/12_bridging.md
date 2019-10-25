@@ -1,4 +1,4 @@
-# 12: Bridging Across Multiple DNA Instances
+# 12: Bridging across multiple DNA instances
 
 > A user's running DNA instances can be **bridged** to each other to allow trustable interaction between app networks, mediated by their own membership in each of those networks.
 
@@ -18,17 +18,12 @@ A DNA can specify a bridge dependency either:
 * **explicitly** by its **DNA hash**, or
 * **implicitly** by referencing one or more **traits** that it may implement.
 
-A trait is like a [contract](https://en.wikipedia.org/wiki/Design_by_contract), [interface, or protocol](https://en.wikipedia.org/wiki/Protocol_(object-oriented_programming)) from object-oriented programming. It specifies a collection of functionality that a zome is capable of. This gives users choice over their preferred implementations of DNAs with certain traits. An example that we'll explore in the next tutorial is a currency DNA that broadcasts transaction announcements into a microblogging DNA --- as a user, you could swap the microblogging dependency with any DNA that advertises the ability to post a short status message.
+A trait is like a [contract](https://en.wikipedia.org/wiki/Design_by_contract), [interface, or protocol](https://en.wikipedia.org/wiki/Protocol_(object-oriented_programming)) from object-oriented programming. It specifies a collection of functionality that a zome is capable of. This gives users choice over their preferred implementations of DNAs with certain traits. An example that we'll explore in the next tutorial is a currency DNA that broadcasts transaction announcements into a microblogging DNA---as a user, you could swap the microblogging dependency with any DNA that advertises the ability to post a short status message.
 
 ## Further reading
 
 * [Holochain core apps](#) (non-existent article; link does notwork), DNAs that exist on nearly every Holochain node. You can bridge to these apps from your own and even 'fork' them into private instances.
 * [Open-source DNA registry](#) (non-existent link; should link to a GH repo that tracks things like [HoloREA](https://github.com/holo-rea), [File Storage](https://github.com/holochain/file-storage-zome), and [HoloJS](https://github.com/ReversedK/HoloJS).
-
-[Tutorial: **TransactionAnnouncements** >](#)
-[Next: **Spawning New DNA Instances From A Template** >>](#)
-
-###### tags: `Holochain Core Concepts`
 
 Here's a short listof core apps:
 
@@ -38,3 +33,7 @@ Here's a short listof core apps:
 * [**HCHC**](https://github.com/holochain/HCHC-rust) or Holochain of Holochains, a package manager for distributing Holochain DNA and UI bundles.
 * [**hApp Store**](https://github.com/holochain/HApps-Store), a directory of Holochain apps.
 * **Source chain backups**, for safely making redundant copies of private source chain data and restoring them to new devices.
+
+[Tutorial: **TransactionAnnouncements** >](#)
+[Next: **Spawning New DNA Instances From A Template** >>](#)
+

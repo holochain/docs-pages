@@ -20,7 +20,7 @@ Network spawned with bindings:
 Starting up a second node is a little bit more work:
 
 #### Step 1
-Set the `HC_N3H_BOOTSTRAP_NODE` environment variable to the external p2p bound address listed by the first node. Copy-paste it from the string from the terminal log of the first node, the one that starts with "/ip4/192.168".
+Set the `HC_N3H_BOOTSTRAP_NODE` environment variable to the external p2p bound address listed by the first node. Copy-paste it from the string from the terminal log of the first node, the one that starts with "wss://192.168".
 
 #### Step 2
 Specify a different agent id than the first node, by setting the `HC_AGENT` environment variable. Since the first agent by default will be `testAgent`, `testAgent2` is suitable.
