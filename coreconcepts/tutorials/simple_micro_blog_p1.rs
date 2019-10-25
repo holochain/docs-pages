@@ -23,10 +23,4 @@ use hdk::holochain_persistence_api::cas::content::Address;
 
 use hdk_proc_macros::zome;
 
-#[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
-pub struct Post {
-    message: String,
-    timestamp: u64,
-    author_id: Address,
-}
 
