@@ -1,42 +1,59 @@
 const path = require('path')
 const tape = require('tape')
 
-const { Diorama, tapeExecutor, backwardCompatibilityMiddleware } = require('@holochain/diorama')
+const { Config, Orchestrator, tapeExecutor, singleConductor, combine, callSync } = require('@holochain/try-o-rama')
+
 process.on('unhandledRejection', error => {
+  // Will print "unhandledRejection err is not defined"
   console.error('got unhandledRejection:', error);
 });
 
-const dnaPath = path.join(__dirname, "../dist/cc_tuts.dna.json")
-const dna = Diorama.dna(dnaPath, 'cc_tuts')
-const diorama = new Diorama({
-  instances: {
-    alice: dna,
-    bob: dna,
+const orchestrator = new Orchestrator({
+  globalConfig: {logger: false,  
+    network: {
+      type: 'sim2h',
+      sim2h_url: 'wss://0.0.0.0:9001',
+    }
   },
-  bridges: [],
-  debugLog: false,
-  executor: tapeExecutor(require('tape')),
-  middleware: backwardCompatibilityMiddleware,
+  middleware: combine(singleConductor, tapeExecutor(tape))
 })
 
-diorama.registerScenario("Test Hello Holo", async (s, t, { alice, bob }) => {
-  const result = await alice.call("hello", "hello_holo", {});
+const config = {
+  instances: {
+    cc_tuts: Config.dna('dist/cc_tuts.dna.json', 'cc_tuts')
+  }
+}
+
+orchestrator.registerScenario("Test hello holo", async (s, t) => {
+  const { alice, bob } = await s.players({alice: config, bob: config}, true)
+  // Make a call to the `hello_holo` Zome function
+  // passing no arguments.
+  const result = await alice.call('cc_tuts', "hello", "hello_holo", {});
+  // Make sure the result is ok.
   t.ok(result.Ok);
 
+  // Check that the result matches what you expected.
   t.deepEqual(result, { Ok: 'Hello Holo' })
 
   const timestamp = Date.now();
-  const create_result = await alice.call("hello", "create_post", {"message": "Hello blog", "timestamp" : timestamp });
+  const create_result = await alice.call('cc_tuts', "hello", "create_post", {"message": "Hello blog", "timestamp" : timestamp });
   t.ok(create_result.Ok);
 
-  const retrieve_result = await alice.call("hello", "retrieve_posts", {"author_address": alice.agentAddress});
+  await s.consistency();
+
+  const alice_address = alice.instance('cc_tuts').agentAddress;
+
+  const retrieve_result = await alice.call('cc_tuts', "hello", "retrieve_posts", {"agent_address": alice_address});
   t.ok(retrieve_result.Ok);
-  var post = {message: "Hello blog", timestamp: timestamp, author_id: alice.agentAddress };
-  t.deepEqual(retrieve_result, { Ok: [ post ] })
+  const alice_posts = retrieve_result.Ok;
+  var post = {message: "Hello blog", timestamp: timestamp, author_id: alice_address};
+  t.deepEqual(alice_posts, [post])
 
-  const bob_retrieve_result = await bob.call("hello", "retrieve_posts", {"author_address": alice.agentAddress});
+  await s.consistency();
+  
+  const bob_retrieve_result = await bob.call('cc_tuts', "hello", "retrieve_posts", {"agent_address": alice_address});
   t.ok(bob_retrieve_result.Ok);
-  t.deepEqual(bob_retrieve_result, { Ok: [ post ] })
+  const alice_posts_bob = bob_retrieve_result.Ok;
+  t.deepEqual(alice_posts_bob, [post] )
 })
-
-diorama.run()
+orchestrator.run()

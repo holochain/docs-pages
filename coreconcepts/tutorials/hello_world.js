@@ -10,10 +10,9 @@ process.on('unhandledRejection', error => {
 
 const orchestrator = new Orchestrator({
   globalConfig: {logger: false,  
-    //network: 'n3h'
     network: {
-      type: 'sim1h',
-      dynamo_url: "http://localhost:8000",
+      type: 'sim2h',
+      sim2h_url: 'wss://0.0.0.0:9001',
     }
   },
   middleware: combine(singleConductor, tapeExecutor(tape))
