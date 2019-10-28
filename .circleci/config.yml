@@ -253,6 +253,8 @@ workflows:
   build_and_test:
     jobs:
       - build-api:
+          requires:
+            - generate_and_test
           filters:
             branches:
               only: master
