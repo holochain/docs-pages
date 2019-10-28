@@ -2,9 +2,8 @@
 
 ./create_docs.sh
 
-cd docs
-
 source_md () {
+  rm $2/* 
   FILES=$(find $1 -maxdepth 0 -type f)
   for f in $FILES
   do
@@ -23,10 +22,10 @@ source_md () {
 
     if [ "${changes[$(expr $length - 1)]}" = "md" ]; then
       echo "cc tut $file_name"
-      single_source md $f $f
+      single_source md $f $2/$file_name
     fi
   done
 }
 
-source_md tutorials/coreconcepts/*
-source_md tutorials/starter_app/*
+source_md "src/tutorials/coreconcepts/*" "docs/tutorials/coreconcepts"
+source_md "src/tutorials/starter_app/*" "docs/tutorials/starter_app"

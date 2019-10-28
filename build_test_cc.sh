@@ -32,5 +32,6 @@ if [ "${?}" -gt 0 ]; then
 fi
 
 cd ..
+rm docs/tutorials/coreconcepts/$CONCEPT.md
 single_source md src/tutorials/coreconcepts/$CONCEPT.md docs/tutorials/coreconcepts/$CONCEPT.md
 
