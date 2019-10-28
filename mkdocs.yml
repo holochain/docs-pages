@@ -183,8 +183,8 @@ markdown_extensions:
       guess_lang: false
   - toc:
       permalink: true
+  - smarty
   - pymdownx.tilde
   - pymdownx.emoji
   - pymdownx.details
   - pymdownx.superfences
-  - pymdownx.extra
