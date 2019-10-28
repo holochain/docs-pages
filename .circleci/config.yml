@@ -12,11 +12,11 @@ jobs:
           name: Get single_source 
           command: nix-shell https://holochain.love --run 'cargo install single_source' 
       - run:
+        name: Pass through
+        command: ./create_docs.sh
+      - run:
           name: Run all tests
-          command: nix-shell https://holochain.love --run './build_test_cc.sh hello_holo && ./build_test_cc.sh hello_test && ./build_test_cc.sh hello_gui && ./build_test_cc.sh hello_me && ./build_test_cc.sh hello_world && ./build_test_cc.sh simple_micro_blog'
-      - add_ssh_keys:
-          fingerprints:
-            - "56:f2:e0:01:a5:9a:35:2c:cc:6e:9f:0b:e2:b1:f1:06"
+          command: nix-shell https://holochain.love --run './run_all_tests.sh' 
       - save_cache:
           key: -V1-cc_tuts
           paths:
