@@ -12,8 +12,8 @@ jobs:
           name: Get single_source 
           command: nix-shell https://holochain.love --run 'cargo install single_source' 
       - run:
-        name: Pass through
-        command: ./create_docs.sh
+          name: Pass through
+          command: ./create_docs.sh
       - run:
           name: Run all tests
           command: nix-shell https://holochain.love --run './run_all_tests.sh' 
