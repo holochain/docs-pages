@@ -26,7 +26,7 @@ fi
 
 echo "testing: ${CONCEPT}"
 
-hc test 
+timeout --preserve-status 120 hc test 
 if [ "${?}" -gt 0 ]; then
   echo "${CONCEPT} failed test"
 fi
