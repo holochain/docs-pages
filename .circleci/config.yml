@@ -6,6 +6,8 @@ jobs:
 
     steps:
       - checkout
+      - attach_workspace:
+          at: build
       - restore_cache:
           key: -V1-cc_tuts
       - run:
@@ -33,6 +35,8 @@ jobs:
       - image: holochain/holonix:latest
     steps:
       - checkout
+      - attach_workspace:
+          at: build
       #AUTOCACHE-RESTORE
       - restore_cache:
           key: -V1-build/api/v0.0.34-alpha1
