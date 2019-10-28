@@ -29,6 +29,10 @@ jobs:
             - api/*
             - guide/*
             - docs/*
+      - persist_to_workspace:
+          root: .
+          paths:
+            - docs/*
 
   build-api:
     docker:
@@ -226,6 +230,8 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
+          at: . 
+      - attach_workspace:
           at: build
       - run:
           name: Build mkdocs 
@@ -236,6 +242,10 @@ jobs:
             - api/*
             - guide/*
             - docs/*
+      - persist_to_workspace:
+          root: .
+          paths:
+            - docs/*
    
   release:
     docker:
@@ -244,6 +254,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: build/
+      - attach_workspace:
+          at: . 
       - run:
           name: Install netlify-cli
           command: sudo npm install -g --silent netlify-cli
