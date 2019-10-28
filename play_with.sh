@@ -10,6 +10,5 @@ if [ ! $CC_PATH ]; then
   CC_PATH=cc_tuts
 fi
 
-single_source code coreconcepts/tutorials/$CONCEPT.md ${CC_PATH}zomes/hello/code/src/lib.rs rust
-single_source code coreconcepts/tutorials/$CONCEPT.md ${CC_PATH}test/index.js javascript test
-
+single_source code src/tutorials/coreconcepts/$CONCEPT.md ${CC_PATH}zomes/hello/code/src/lib.rs rust
+single_source code src/tutorials/coreconcepts/$CONCEPT.md ${CC_PATH}test/index.js javascript test
