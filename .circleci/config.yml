@@ -21,9 +21,12 @@ jobs:
           key: -V1-cc_tuts
           paths:
             - "cc_tuts"
-      - run:
-          name: Set github 
-          command: git config --global user.email "circleci@circleci" && git config --global user.name "Circleci" && git add docs && ./update_docs.sh 
+      - persist_to_workspace:
+          root: build
+          paths:
+            - api/*
+            - guide/*
+            - docs/*
 
   build-api:
     docker:
@@ -31,6 +34,16 @@ jobs:
     steps:
       - checkout
       #AUTOCACHE-RESTORE
+      - restore_cache:
+          key: -V1-build/api/v0.0.34-alpha1
+      - restore_cache:
+          key: -V1-build/api/v0.0.33-alpha6
+      - restore_cache:
+          key: -V1-build/api/v0.0.33-alpha5
+      - restore_cache:
+          key: -V1-build/api/v0.0.33-alpha4
+      - restore_cache:
+          key: -V1-build/api/v0.0.33-alpha3
       - restore_cache:
           key: -V1-build/api/v0.0.32-alpha1
       - restore_cache:
@@ -77,17 +90,31 @@ jobs:
           key: -V1-build/api/v0.0.19-alpha1
       - restore_cache:
           key: -V1-build/api/v0.0.18-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.17-alpha2
-      - restore_cache:
-          key: -V1-build/api/v0.0.16-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.15-alpha1
       #AUTOCACHE-RESTORE
       - run:
           name: Build api docs 
           command: nix-shell https://holochain.love --run './build_api.sh'
       #AUTOCACHE-SAVE
+      - save_cache:
+          key: -V1-build/api/v0.0.34-alpha1
+          paths:
+            - "build/api/v0.0.34-alpha1"
+      - save_cache:
+          key: -V1-build/api/v0.0.33-alpha6
+          paths:
+            - "build/api/v0.0.33-alpha6"
+      - save_cache:
+          key: -V1-build/api/v0.0.33-alpha5
+          paths:
+            - "build/api/v0.0.33-alpha5"
+      - save_cache:
+          key: -V1-build/api/v0.0.33-alpha4
+          paths:
+            - "build/api/v0.0.33-alpha4"
+      - save_cache:
+          key: -V1-build/api/v0.0.33-alpha3
+          paths:
+            - "build/api/v0.0.33-alpha3"
       - save_cache:
           key: -V1-build/api/v0.0.32-alpha1
           paths:
@@ -180,18 +207,6 @@ jobs:
           key: -V1-build/api/v0.0.18-alpha1
           paths:
             - "build/api/v0.0.18-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.17-alpha2
-          paths:
-            - "build/api/v0.0.17-alpha2"
-      - save_cache:
-          key: -V1-build/api/v0.0.16-alpha1
-          paths:
-            - "build/api/v0.0.16-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.15-alpha1
-          paths:
-            - "build/api/v0.0.15-alpha1"
       #AUTOCACHE-SAVE
       - persist_to_workspace:
           root: build
@@ -244,6 +259,7 @@ workflows:
       - build-mkdocs:
           requires:
             - build-api
+            - generate_and_test
           filters:
             branches:
               only: master
@@ -252,6 +268,7 @@ workflows:
             branches:
               only: 
                 - develop
+                - master
       - release:
           requires:
             - build-api
