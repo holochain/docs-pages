@@ -1,8 +1,7 @@
 .DS_Store
 _site
 holochain-rust
-src/target
-docs/concepts
+docs
 build
 # Local Netlify folder
 .netlify
