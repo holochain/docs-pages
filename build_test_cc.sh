@@ -12,8 +12,8 @@ if [ ! -d "cc_tuts" ]; then
 fi
 
 cd cc_tuts
-single_source code ../coreconcepts/tutorials/$CONCEPT.md zomes/hello/code/src/lib.rs rust
-single_source code ../coreconcepts/tutorials/$CONCEPT.md test/index.js javascript test
+single_source code ../src/tutorials/coreconcepts/$CONCEPT.md zomes/hello/code/src/lib.rs rust
+single_source code ../src/tutorials/coreconcepts/$CONCEPT.md test/index.js javascript test
 
 echo "packaging: ${CONCEPT}"
 
@@ -26,17 +26,12 @@ fi
 
 echo "testing: ${CONCEPT}"
 
-hc test 
+timeout --preserve-status 120 hc test 
 if [ "${?}" -gt 0 ]; then
   echo "${CONCEPT} failed test"
 fi
 
 cd ..
-single_source md coreconcepts/tutorials/$CONCEPT.md docs/tutorials/coreconcepts/$CONCEPT.md
+rm docs/tutorials/coreconcepts/$CONCEPT.md
+single_source md src/tutorials/coreconcepts/$CONCEPT.md docs/tutorials/coreconcepts/$CONCEPT.md
 
-files=$(find coreconcepts/ -maxdepth 1 -name '*.md')
-
-for f in $files 
-do
-  cp $f docs/concepts
-done

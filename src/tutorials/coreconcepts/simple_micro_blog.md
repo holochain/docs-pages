@@ -1,58 +1,80 @@
+\#S:MODE=test
+\#S:EXTERNAL=javascript=simple_micro_blog.js=test
+\#S:EXTERNAL=rust=simple_micro_blog_p1.rs
 
 # Simple Micro Blog tutorial
 
 Welcome to the Simple Micro blog tutorial in the Core Concepts tutorial series. The aim of this tutorial is to show how entries can be linked to each other in a Holochain app. A link is simply a relationship between two entries. It's a useful way to find some data from something you already know. For example, you could link from your user's agent ID entry to their blog posts.
 
-You will be building on the previous [Hello World]() tutorial and making a super simple blog app. The app's users will be able to post a blog post and then retrieve other users' posts.
+You will be building on the previous [Hello World](hello_world) tutorial and making a super simple blog app. The app's users will be able to post a blog post and then retrieve other users' posts.
 
-## DNA hash
 
-The way you run your conductor has changed from `hc run` to calling `holochain` directly. As a consequence, the hash of your app's DNA now lives in the `conductor-config.toml` file. However, anytime you change your code and run `hc package` the hash will be different. So you will need to update the `conductor-config.toml` file.
+## Add a Post
 
-Enter the nix-shell:
+You store your posts as a `Post` struct that holds a message of type `String`, a timestamp of type `u64`, and an author ID  of type `Address`.
 
-```bash
-nix-shell https://holochain.love
+> Note the timestamp is important because otherwise two posts with the same author and message will be treated as the same data.
+
+Go ahead and change the `Person` struct into a `Post` struct:
+
+
+<script id="asciicast-tpHdFyTkVnfK5fkVWkgYDjH4c" src="https://asciinema.org/a/tpHdFyTkVnfK5fkVWkgYDjH4c.js" async data-autoplay="true" data-loop="true"></script>
+
+\#S:INCLUDE
+```rust
+#[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
+pub struct Post {
+    message: String,
+    timestamp: u64,
+    author_id: Address,
+}
 ```
 
-Package your app:
-
-```
-hc package
-```
-
-Copy the DNA hash (example shown):
-
-```
-DNA hash: QmfKyAk2jXgESca2zju6QbkLqUM1xEjqDsmHRgRxoFp39q
-```
-
-Update the `conductor-config.toml` dna hash:
-
-```toml
-[[dnas]]
-  id = "hello"
-  file = "dist/hello_holo.dna.json"
-  hash = "<new_dna_hash>"
-```
-
-## Post
-
-We will store our posts as a `Post` struct that holds a message of type `String`, a timestamp of type `u64`, and an author ID  of type `Address`.
-
-We're done with the Hello World tutorial, so remove the `Person` struct and add the `Post` struct:
-
-[![asciicast](https://asciinema.org/a/tpHdFyTkVnfK5fkVWkgYDjH4c.svg)](https://asciinema.org/a/tpHdFyTkVnfK5fkVWkgYDjH4c)
-
-## Entry
+## Add the post entry
 
 Update the `person` entry type definition to `post`:
 
-[![asciicast](https://asciinema.org/a/aYwqCZ2w2b4D3vAZw4F4unOfz.svg)](https://asciinema.org/a/aYwqCZ2w2b4D3vAZw4F4unOfz)
+
+<script id="asciicast-aYwqCZ2w2b4D3vAZw4F4unOfz" src="https://asciinema.org/a/aYwqCZ2w2b4D3vAZw4F4unOfz.js" async data-autoplay="true" data-loop="true"></script>
+
+
+
+> TODO add a length check on the post message.
+
+\#S:EXTERNAL=rust=simple_micro_blog_p2.rs
+
+```rust
+    #[entry_def]
+    fn post_entry_def() -> ValidatingEntryType {
+        entry!(
+            name: "post",
+            description: "A blog post",
+            sharing: Sharing::Public,
+            validation_package: || {
+                hdk::ValidationPackageDefinition::Entry
+            },
+            validation: | _validation_data: hdk::EntryValidationData<Post>| {
+                Ok(())
+            },
+            links: [
+                from!(
+                   "%agent_id",
+                   link_type: "author_post",
+                   validation_package: || {
+                       hdk::ValidationPackageDefinition::Entry
+                   },
+                   validation: |_validation_data: hdk::LinkValidationData| {
+                       Ok(())
+                   }
+                )
+            ]
+        )
+    }
+```
 
 ## Agent ID
 
-```rust
+```
 #[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
 pub struct Agent {
     id: String,
@@ -66,14 +88,14 @@ Define an agent anchor entry type by adding the following lines below the `post_
 
 Add an `agent_entry_def` function which creates an entry type for the agent:
 
-```rust
+```
 #[entry_def]
 fn agent_entry_def() -> ValidatingEntryType {
 ```
 
 Start the `entry!` macro for the agent entry:
 
-```rust
+```
     entry!(
         name: "agent",
         description: "Hash of agent",
@@ -81,13 +103,13 @@ Start the `entry!` macro for the agent entry:
 
 Set sharing to public so other agents can find this agent's anchor (and hence their posts):
 
-```rust
+```
         sharing: Sharing::Public,
 ```
 
 Add basic validation to make sure this is the `Agent` type that is passed in:
 
-```rust
+```
         validation_package: || {
             hdk::ValidationPackageDefinition::Entry
         },
@@ -100,21 +122,21 @@ Now you want to be able to link this agent entry to the post entry.
 
 Start out with the `to!` link macro, which lets you create link definitions that link from this entry type to another entry type:
 
-```rust
+```
         links: [
             to!(
 ```
 
 Define a link type from this entry to the `post` entry called `author_post`:
 
-```rust
+```
                "post",
                link_type: "author_post",
 ```
 
 Add empty validation for this link:
 
-```rust
+```
                validation_package: || {
                    hdk::ValidationPackageDefinition::Entry
                },
@@ -157,10 +179,13 @@ Create the `Post` using the message, timestamp, and author's address:
 
 Create the `Agent` struct from the `AGENT_ADDRESS`, turn it into an `Entry` and commit it:
 
-```rust
+```
     let agent_id = Agent { id: hdk::AGENT_ADDRESS.clone().into() };
     let entry = Entry::App("agent".into(), agent_id.into());
     let agent_address = hdk::commit_entry(&entry)?;
+```
+```rust
+    let agent_address = hdk::AGENT_ADDRESS.clone().into();
 ```
 
 Commit the post entry:
@@ -189,12 +214,12 @@ Add the `retrieve_posts` public function that takes an author address and return
 
 ```rust
 #[zome_fn("hc_public")]
-fn retrieve_posts(author_address: Address) -> ZomeApiResult<Vec<Post>> {
+fn retrieve_posts(agent_address: Address) -> ZomeApiResult<Vec<Post>> {
 ```
 
 Create an `Agent` struct from the passed address, turn it into an `Entry`, and calculate its address:
 
-```rust
+```
     let agent_id = Agent { id: author_address.into() };
     let entry = Entry::App("agent".into(), agent_id.into());
     let agent_address = hdk::entry_address(&entry)?;
@@ -215,6 +240,7 @@ Get all the `author_post` links from the agent's address and load them as the `P
 
 We're using a new directive, `link::LinkMatch`. You'll need to add it to your `use` statements at the top of the file:
 
+\#S:SKIP
 ```rust
 use hdk::holochain_core_types::{
     entry::Entry,
@@ -229,6 +255,7 @@ As a user, you will need some way of getting your own agent's ID in the UI later
 
 Add a public `get_agent_id` function that returns an `Address`:
 
+\#S:INCLUDE
 ```rust
 #[zome_fn("hc_public")]
 fn get_agent_id() -> ZomeApiResult<Address> {
@@ -261,6 +288,7 @@ Add an `onfocusout` event to the instance text box that will call the same funct
 
 Now open up the `hello.js` file and add the `get_agent_id` function:
 
+\#S:MODE=gui,SKIP
 ```javascript
 function get_agent_id() {
 ```
@@ -397,3 +425,7 @@ This is very similar to `retrieve_person`, so just update that function:
 
 [![asciicast](https://asciinema.org/a/oiFGzlKexjVVMrNxf7Gc00Oiw.svg)](https://asciinema.org/a/oiFGzlKexjVVMrNxf7Gc00Oiw)
 
+\#S:INCLUDE,HIDE
+```rust
+}
+```
