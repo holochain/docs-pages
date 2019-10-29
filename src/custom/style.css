@@ -96,6 +96,12 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 
 .md-typeset .admonition, .md-typeset details { border: 1px solid #E7E7E7 !important; border-top: none !important; border-top: none !important; box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05); }
 
+.md-typeset .coreconcepts-what { font-size: 1.25rem; border-left: .2rem solid rgba(0,0,0,.26); padding-left: 0.6rem; }
+.md-typeset .coreconcepts-intro { padding: 0.6rem; background: #F8F8F8; }
+.md-typeset .coreconcepts-intro, .md-typeset .coreconcepts-intro h2 { color: rgba(0,0,0,.54); }
+.md-typeset .coreconcepts-intro :first-child { margin-top: 0; }
+.md-typeset .coreconcepts-intro :last-child { margin-bottom: 0; }
+
 @media (min-width: 76.25em) {
 	.md-content { margin-left: 13.8rem; }
 }
