@@ -7,9 +7,9 @@ Holochain is a development framework and networking protocol that allows you to 
 <div class="coreconcepts-orientation" markdown=1>
 ## What you'll learn
 
-* [The problem with centralized architectures](#the-problem-with-centralized-architectures)
-* [Current solutions](#current-solutions)
-* [How Holochain does things differently](#how-holochain-does-things-differently)
+1. [The problem with centralized architectures](#the-problem-with-centralized-architectures)
+2. [Current solutions](#current-solutions)
+3. [How Holochain does things differently](#how-holochain-does-things-differently)
 
 ## Why it matters
 
