@@ -1,10 +1,10 @@
 # 01: The basics: what is Holochain?
 
-<div class="coreconcepts-what" markdown=1>
+<div class="coreconcepts-intro" markdown=1>
 Holochain is a development framework and networking protocol that allows you to create **truly serverless applications** that guarantee high levels of **trust and security**. Every user runs the application on their own device, creates and stores their own data, and talks directly to other users.
 </div>
 
-<div class="coreconcepts-intro" markdown=1>
+<div class="coreconcepts-orientation" markdown=1>
 ## What you'll learn
 
 * [The problem with centralized architectures](#the-problem-with-centralized-architectures)
