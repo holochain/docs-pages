@@ -1,4 +1,4 @@
-# 8: Sending messages directly to peers
+# 08: Sending messages directly to peers
 
 > Peers can use encrypted **node-to-node messaging** to talk directly to each other without relying on the DHT. This is useful for off-the-record communications.
 

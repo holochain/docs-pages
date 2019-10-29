@@ -1,4 +1,4 @@
-# 7: Validating data
+# 07: Validating data
 
 > Holochain applications specify **validation rules** for every type of entry or link. This empowers end-users to **check the integrity** of the data they see. When called upon to validate data, it allows them to identify corrupt peers and publish a **warrant** against them.
 

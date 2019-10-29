@@ -1,4 +1,4 @@
-# 5: Linking data together
+# 05: Linking data together
 
 > Entries on the DHT are connected to each other via one-way **links**. This allows you to build and traverse a graph database of linked information.
 

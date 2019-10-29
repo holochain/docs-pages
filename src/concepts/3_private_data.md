@@ -1,4 +1,4 @@
-# 3: Private data on your local source chain
+# 03: Private data on your local source chain
 
 > Each user in a Holochain network creates and stores their own data in a journal called a **source chain**. Each journal entry is cryptographically signed by its author, and is immutable once it's written.
 

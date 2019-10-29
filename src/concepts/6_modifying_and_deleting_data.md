@@ -1,4 +1,4 @@
-# 6: Modifying and deleting data
+# 06: Modifying and deleting data
 
 > Holochain allows agents to mutate immutable data by publishing special **remove** and **update** entries.
 

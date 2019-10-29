@@ -1,4 +1,4 @@
-# 2: Application architecture
+# 02: Application architecture
 
 > Applications built with Holochain are highly **modular** in both functionality and architecture. This makes it easy to share code and [compose](https://en.wikipedia.org/wiki/Composability) smaller pieces together into larger wholes. Each Holochain application (called **hApp**) has its own set of rules, private network, and distributed database.
 > 

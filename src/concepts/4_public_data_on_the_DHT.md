@@ -1,4 +1,4 @@
-# 4: Public data on the DHT
+# 04: Public data on the DHT
 
 > Agents share their public keys, source chain headers, and public entries with their peers in a [**distributed hash table** (DHT)](https://en.wikipedia.org/wiki/Distributed_hash_table). This provides redundancy and availability for data and gives the network the power to detect corruption.
 
