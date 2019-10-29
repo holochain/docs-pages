@@ -1,7 +1,7 @@
 # 02: Application architecture
 
 > Applications built with Holochain are highly **modular** in both functionality and architecture. This makes it easy to share code and [compose](https://en.wikipedia.org/wiki/Composability) smaller pieces together into larger wholes. Each Holochain application (called **hApp**) has its own set of rules, private network, and distributed database.
-> 
+>
 ## Agent-centric integrity: inside, outside, and the in-between
 
 Before we talk about the tech stack, let's talk about donuts. That's a good way to start, isn't it?
@@ -33,7 +33,7 @@ Now let's get into the details of how a Holochain app is put together. Holochain
 Code modules called **zomes** (short for chromosomes) contain their own data schemas, validation rules, persistence logic, and domain logic. A zome can define a public API, a set of functions that can be accessed by other components of the system.
 
 2. ![](https://i.imgur.com/keq5iAQ.png)
-One or more zomes are combined into a **DNA** that defines a package of basic functionality and 'rules of the game' that unite a network of users. Zomes in a DNA can talk to each other through their public APIs. 
+One or more zomes are combined into a **DNA** that defines a package of basic functionality and 'rules of the game' that unite a network of users. Zomes in a DNA can talk to each other through their public APIs.
 
 
 3. ![](https://i.imgur.com/s7bNuoD.png)

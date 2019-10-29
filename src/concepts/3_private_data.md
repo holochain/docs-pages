@@ -18,15 +18,12 @@ When you join a hApp's network, you create an identity for yourself by generatin
 
 The conductor generates and stores all your keypairs in an encrypted, password-protected file. This table shows how the public and private keys are used, and how they are different from each other.
 
-> [ diagram: maybe this following table could be made more visual? ]
-> [color=#f60]
-
-| Private Key | Public Key |
-| -------- | -------- |
-| • Stays **secret** on your device | • **Shared** with all your peers on the network |
-| • Acts like a **password**---only you have it, and it's necessary for proving ownership of your public key | • Acts like a **user ID**---uniquely identifies you to other users |
-| • Acts like a **royal seal**---creates unforgeable, tamper-evident ['digital signatures'](https://en.wikipedia.org/wiki/Digital_signature) on your data | • Acts like a **picture of a royal seal**---allows others to verify your signatures |
-| • Acts like a **mailbox key**---decrypts data encrypted with your public key | • Acts like a **mail slot**---allows others to encrypt and send data meant only for you |
+|                                                                       Private Key                                                                       |                                        Public Key                                       |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| • Stays **secret** on your device                                                                                                                       | • **Shared** with all your peers on the network                                         |
+| • Acts like a **password**---only you have it, and it's necessary for proving ownership of your public key                                              | • Acts like a **user ID**---uniquely identifies you to other users                      |
+| • Acts like a **royal seal**---creates unforgeable, tamper-evident ['digital signatures'](https://en.wikipedia.org/wiki/Digital_signature) on your data | • Acts like a **picture of a royal seal**---allows others to verify your signatures     |
+| • Acts like a **mailbox key**---decrypts data encrypted with your public key                                                                            | • Acts like a **mail slot**---allows others to encrypt and send data meant only for you |
 
 Don't worry if some of this doesn't make sense. Public key cryptography is complicated, so analogies tend to end up pretty muddy.
 
