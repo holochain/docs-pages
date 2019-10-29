@@ -96,15 +96,19 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 
 .md-typeset .admonition, .md-typeset details { border: 1px solid #E7E7E7 !important; border-top: none !important; border-top: none !important; box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05); }
 
+@media (min-width: 76.25em) {
+	.md-content { margin-left: 13.8rem; }
+}
+
+/* Core concepts supporting CSS */
+
 .md-typeset .coreconcepts-intro { font-size: 1.25rem; border-left: .2rem solid rgba(0,0,0,.26); padding-left: 0.6rem; }
 .md-typeset .coreconcepts-orientation { padding: 0.6rem; background: #F8F8F8; }
 .md-typeset .coreconcepts-orientation, .md-typeset .coreconcepts-orientation h2 { color: rgba(0,0,0,.54); }
 .md-typeset .coreconcepts-orientation :first-child { margin-top: 0; }
 .md-typeset .coreconcepts-orientation :last-child { margin-bottom: 0; }
-
-@media (min-width: 76.25em) {
-	.md-content { margin-left: 13.8rem; }
-}
+.md-typeset .coreconcepts-2-architecturallayers > ol { margin-left: 0; }
+.md-typeset .coreconcepts-2-architecturallayers > ol > li { list-style: none; padding: 0.6rem; background: #F8F8F8; margin: 1rem 0; }
 
 /* Tables */
 

@@ -1,8 +1,22 @@
 # 02: Application architecture
 
-> Applications built with Holochain are highly **modular** in both functionality and architecture. This makes it easy to share code and [compose](https://en.wikipedia.org/wiki/Composability) smaller pieces together into larger wholes. Each Holochain application (called **hApp**) has its own set of rules, private network, and distributed database.
->
-## Agent-centric integrity: inside, outside, and the in-between
+<div class="coreconcepts-intro" markdown=1>
+Applications built with Holochain are highly **modular** in both functionality and architecture. This makes it easy to share code and [compose](https://en.wikipedia.org/wiki/Composability) smaller pieces together into larger wholes. Each Holochain application (called **hApp**) has its own set of rules, private network, and distributed database.
+</div>
+
+<div class="coreconcepts-orientation" markdown=1>
+## What you'll learn
+
+1. [Agent-centric integrity: inside, outside, and in between](#agent-centric-integrity-inside-outside-and-in-between)
+2. [Architectural layers](#architectural-layers)
+3. [Key differences](#key-differences)
+
+## Why it matters
+
+A good understanding of the components of the tech stack will equip you to architect a well-structured, maintainable application. Because Holochain is probably different from what you're used to, it's good to shift your thinking early on.
+</div>
+
+## Agent-centric integrity: inside, outside, and in between
 
 Before we talk about the tech stack, let's talk about donuts. That's a good way to start, isn't it?
 
@@ -28,28 +42,44 @@ Holochain creates a 'double membrane' for each participant, bridging between the
 
 Now let's get into the details of how a Holochain app is put together. Holochain apps (**hApps**) are made from loosely coupled components. Here's how they are built:
 
+<div class="coreconcepts-2-architecturallayers" markdown=1>
+1. ![](https://i.imgur.com/VVAX0Jc.png)
+Code modules called **zomes** (short for chromosomes) define the core logic of your app. They contain:
 
-1. ![](https://i.imgur.com/GfsGnU0.png)
-Code modules called **zomes** (short for chromosomes) contain their own data schemas, validation rules, persistence logic, and domain logic. A zome can define a public API, a set of functions that can be accessed by other components of the system.
+    * **validation logic**: data types, data schemas, and validation functions
+    * **workflow and persistence logic**: app initialization functions and 'zome functions', which become part of your app's API
+    * **message handling logic**: event handlers for node-to-node communication
 
-2. ![](https://i.imgur.com/keq5iAQ.png)
-One or more zomes are combined into a **DNA** that defines a package of basic functionality and 'rules of the game' that unite a network of users. Zomes in a DNA can talk to each other through their public APIs.
+2. ![](https://i.imgur.com/RMnObHc.png)
+One or more zomes are combined into a **DNA** that defines the basic functionality and 'rules of the game' for a portion of an application's functionality. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices)-style back end, except that it lives on every user's device and only accepts function calls from local clients. This means that the running DNA is the user's personal agent---every piece of data that it creates or message it sends, it does so from the perspective of the user.
 
+3. ![](https://i.imgur.com/ogtDACY.png)
+DNAs can talk to each other's APIs via **bridging**. This lets you compose DNAs together into a bundle of functionality needed for a full-featured app.
 
-3. ![](https://i.imgur.com/s7bNuoD.png)
-One or more DNAs can be combined into a **DNA bundle** that specifies all the functionality needed for a complete hApp. Zomes from one DNA can talk to zomes from another through their public APIs.
+4. ![](https://i.imgur.com/d2aADQt.png)
+A **client** such as a GUI or utility script talks to one or more DNAs' APIs via a lightweight [remote procedure call (RPC)](https://en.wikipedia.org/wiki/Remote_procedure_call) interface. The client is like the front end of a traditional app. Just like the DNA, the client live on the user's device. This client and its DNAs are bundled into a **hApp bundle**.
 
+5. ![](https://i.imgur.com/2TEFXbQ.png)
+All DNAs are hosted in the **conductor**, a runtime that sandboxes and executes DNA code, manages data flow and storage, and handles connections between components of the stack. You can think of the conductor as a web application server, but as with the DNA and clients, it runs on every user's device. Clients usually live outside the conductor.
 
-4. ![](https://i.imgur.com/lK7EkQK.png)
-One or more **clients** such as a GUI or utility script talks to the public APIs of the zomes in the DNA bundle via a lightweight [Remote Procedure Call (RPC)](https://en.wikipedia.org/wiki/Remote_procedure_call) Interface. This package of DNAs and clients makes up a Holochain app (**hApp**).
+6. ![](https://i.imgur.com/FSKeHnJ.png)
+Each conductor is a **node** in a peer-to-peer network of agents using the same app. Each DNA in the hApp has its own separate, private network and distributed data store. The conductor handles communication and data sharing between nodes.
+</div>
 
-5. ![](https://i.imgur.com/y6Tqf0t.png)
-All DNAs are hosted in the **Conductor**, a runtime that executes DNA code, manages data flow, and handles connections between components of the stack. Clients live outside the Conductor, but our standard end-user Conductor has a small HTTP server for serving a single-page web app to the user's browser.
+The clean separation between layers and components gives you and your users a lot of flexibility. You can mix and match components, creating rich experiences that rely on, augment, or replace existing components. This empowers people to use their applications in ways that work best for them.
 
-6. ![](https://i.imgur.com/OJnabKc.png)
-Each user runs their own copy of the entire stack. They become an **agent** or **node** in a peer-to-peer network of agents using the same app. Each DNA in the hApp has its own separate, private network and distributed data store. The Conductor handles communication between agents.
+## Key differences
 
-The clean separation between layers and components gives you and your users a lot of flexibility. You can mix and match components, creating rich experiences that rely on, augment, or replace existing components. Holochain has some similarities to [microservices](https://en.wikipedia.org/wiki/Microservices), with one difference---each user has their own copy of the microservices and GUI and is responsible for their own computing and storage. We call this **agent-centric computing**, and it's what makes Holochain special.
+You can see that Holochain is built differently from typical application stacks. Here's a summary:
+
+* Each user has their own copy of the application's front end, back end, and server.
+* The conductor sandboxes the DNA code, mediating all access to the device's resources.
+* All code is executed on behalf of, and from the perspective of, the individual user.
+* No data is a global truth; it is simply a statement made by a user and acknowledged by their peers.
+* Users communicate and share data directly with each other rather than through a central server or blockchain validator network.
+* Holochain is opinionated about persistence; it handles all data storage and retrieval. (We'll learn about data structures in the next three articles.)
+* Persistence logic and core business logic are mixed together in your DNA. This is because Holochain is, at its heart, a framework for data validation. But you usually don't need much code in your DNA---only enough to encode the 'rules of the game'.
+* Just as with microservices, Holochain lends itself well to combining small, reusable components into large applications.
 
 ## Learn more
 
