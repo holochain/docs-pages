@@ -37,13 +37,18 @@ Other distributed computing efforts, like [blockchain](https://en.wikipedia.org/
 
 ## How Holochain does things differently
 
-We are approaching the problem from a different set of assumptions. We start with users, not servers or data, as the primary system component. Empowered by the Holochain runtime, each user runs their own copy of the back end code, manages their own identity, and stores their own data. Then we ask what sort of data integrity guarantees they need in order to interact meaningfully and safely with each other.
+We are approaching the problem from a different set of assumptions. Reality offers a great lesson: agents in the physical world can interact with each other just fine without an absolute, ordered, total view of all data ever produced. We don't need a server or a global public ledger.
 
-In setting out to solve this problem, we've discovered that reality offers a great lesson: agents can interact with each other just fine without an absolute, ordered, global view of all data. All they need is a way for people to figure out what and whom to trust. Holochain's two pillars of trust are:
+We start with users, not servers or data, as the primary system component. Empowered by the Holochain runtime, each user runs their own copy of the back end code, manages their own identity, and stores their own private and public data. An encrypted peer-to-peer network for each app means that users can find each other and communicate directly.
 
-* **Intrinsic data integrity**: The data itself carries almost everything needed to ensure its authenticity. Data is immutable once committed, and cryptography provides tamper-resistance and proof of authorship. Application-specific rules specify what constitutes valid data.
-* **Peer validation**: Each piece of data is witnessed, audited, and stored by a random portion of peers. Together, all cooperating participants detect modified or invalid data, spread evidence of corrupt actors or validators, and take steps to counteract threats.
+Then we ask what sort of data integrity guarantees users need in order to interact meaningfully and safely with each other. Half of the problem is already solved: because everyone has the 'rules of the game' in their copy of the code, they can verify that their peers are playing the game correctly just by looking at the data they create.
 
-This simple foundation creates something surprisingly robust and resilient---a distributed network with an 'immune system'. Systems scientists call this [emergence](https://en.wikipedia.org/wiki/Emergence). It's what biological systems have been doing for millions of years.
+This is the first pillar of Holochain's integrity model: **intrinsic data integrity**. Cryptography gives further proofs of authorship and tamper-resistance.
+
+But we're only halfway there. It's not particularly resilient; data can get lost when people go offline. It also forces everyone to do a lot of their own work, and it doesn't prevent people from tampering with their own data after they've created it.
+
+So we add one more pillar of integrity: **peer validation**. Each piece of public data is witnessed, audited, and backed up by a random selection of devices. Together, all cooperating participants detect modified or invalid data, spread evidence of corrupt actors or validators, and take steps to counteract threats.
+
+These simple building blocks create something surprisingly robust and resilient---a multicellular organism with a memory and an immune system. Systems scientists call this [emergence](https://en.wikipedia.org/wiki/Emergence). It's what biological systems have been doing for millions of years.
 
 The foundation of Holochain is simple, but the consequences of our design can lead to questions that programmers aren't used to asking. Don't worry---most of the answers can be found in real life experiences. And some of the trickier problems of distributed computing are handled by Holochain itself at the 'subconscious' layer. All you need to do is think about your application logic, and Holochain makes it work, completely serverless.
