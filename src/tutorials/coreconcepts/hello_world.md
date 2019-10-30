@@ -1,6 +1,8 @@
 \#S:EXTERNAL=rust=hello_world.rs
 \#S:MODE=test,INCLUDE
 \#S:EXTERNAL=javascript=hello_world.js=test
+\#S:EXTERNAL=html=hello_world.html=gui
+\#S:EXTERNAL=javascript=hello_world_gui.js=gui
 # Hello World
 
 Hello and welcome to the hello world tutorial. It's a little weird that we are doing a hello world tutorial as the 5th tutorial in this series but that's because we really want you to grasp the agent perspective of a Holochain app.  
@@ -263,6 +265,8 @@ Open up `gui/index.html`.
 
 Add a text box and button in the UI to set the port:
 
+\#S:INCLUDE,MODE=gui
+
 ```html
     <input type="text" id="port" placeholder="Set websocket port" />
     <button onclick="update_port()" type="button">update port</button>
@@ -278,6 +282,20 @@ function update_port() {
   });
 }
 ```
+\#S:HIDE
+
+```html
+    <script
+      type="text/javascript"
+      src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
+    ></script>
+    <script type="text/javascript" src="hello.js"></script>
+  </body>
+</html>
+```
+
+\#S:CHECK=html=gui
+\#S:CHECK=javascript=gui
 
 ## Run the app and two UIs
 

@@ -1,6 +1,8 @@
 \#S:MODE=test
 \#S:EXTERNAL=javascript=simple_micro_blog.js=test
 \#S:EXTERNAL=rust=simple_micro_blog_p1.rs
+\#S:EXTERNAL=html=simple_micro_blog_p1.html=gui
+\#S:EXTERNAL=javascript=simple_micro_blog_gui.js=gui
 
 # Simple Micro Blog tutorial
 
@@ -38,9 +40,6 @@ Update the `person` entry type definition to `post`:
 <script id="asciicast-aYwqCZ2w2b4D3vAZw4F4unOfz" src="https://asciinema.org/a/aYwqCZ2w2b4D3vAZw4F4unOfz.js" async data-autoplay="true" data-loop="true"></script>
 
 
-
-> TODO add a length check on the post message.
-
 \#S:EXTERNAL=rust=simple_micro_blog_p2.rs
 
 ```rust
@@ -53,8 +52,18 @@ Update the `person` entry type definition to `post`:
             validation_package: || {
                 hdk::ValidationPackageDefinition::Entry
             },
-            validation: | _validation_data: hdk::EntryValidationData<Post>| {
-                Ok(())
+            validation: | validation_data: hdk::EntryValidationData<Post>| {
+                match validation_data {
+                    hdk::EntryValidationData::Create{ entry, .. } => {
+                        const MAX_LENGTH: usize = 140;
+                        if entry.message.len() > MAX_LENGTH {
+                           Err("Post too long".into())
+                        } else {
+                           Ok(())
+                        }
+                    },
+                    _ => Ok(()),
+                }
             },
             links: [
                 from!(
@@ -70,83 +79,6 @@ Update the `person` entry type definition to `post`:
             ]
         )
     }
-```
-
-## Agent ID
-
-```
-#[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
-pub struct Agent {
-    id: String,
-}
-```
-
-
-Now you have a post entry but you also need some way to find the posts an agent makes. To do this you can create an agent 'anchor' entry which you will use to link to the posts that the user makes. An anchor is a simple string whose only purpose is to be an easy-to-find entry to attach links to.
-
-Define an agent anchor entry type by adding the following lines below the `post_entry_def`.
-
-Add an `agent_entry_def` function which creates an entry type for the agent:
-
-```
-#[entry_def]
-fn agent_entry_def() -> ValidatingEntryType {
-```
-
-Start the `entry!` macro for the agent entry:
-
-```
-    entry!(
-        name: "agent",
-        description: "Hash of agent",
-```
-
-Set sharing to public so other agents can find this agent's anchor (and hence their posts):
-
-```
-        sharing: Sharing::Public,
-```
-
-Add basic validation to make sure this is the `Agent` type that is passed in:
-
-```
-        validation_package: || {
-            hdk::ValidationPackageDefinition::Entry
-        },
-        validation: | _validation_data: hdk::EntryValidationData<Agent>| {
-            Ok(())
-        },
-```
-
-Now you want to be able to link this agent entry to the post entry.
-
-Start out with the `to!` link macro, which lets you create link definitions that link from this entry type to another entry type:
-
-```
-        links: [
-            to!(
-```
-
-Define a link type from this entry to the `post` entry called `author_post`:
-
-```
-               "post",
-               link_type: "author_post",
-```
-
-Add empty validation for this link:
-
-```
-               validation_package: || {
-                   hdk::ValidationPackageDefinition::Entry
-               },
-               validation: |_validation_data: hdk::LinkValidationData| {
-                   Ok(())
-               }
-            )
-        ]
-    )
-}
 ```
 
 ## Create a post
@@ -177,13 +109,6 @@ Create the `Post` using the message, timestamp, and author's address:
     };
 ```
 
-Create the `Agent` struct from the `AGENT_ADDRESS`, turn it into an `Entry` and commit it:
-
-```
-    let agent_id = Agent { id: hdk::AGENT_ADDRESS.clone().into() };
-    let entry = Entry::App("agent".into(), agent_id.into());
-    let agent_address = hdk::commit_entry(&entry)?;
-```
 ```rust
     let agent_address = hdk::AGENT_ADDRESS.clone().into();
 ```
@@ -215,14 +140,6 @@ Add the `retrieve_posts` public function that takes an author address and return
 ```rust
 #[zome_fn("hc_public")]
 fn retrieve_posts(agent_address: Address) -> ZomeApiResult<Vec<Post>> {
-```
-
-Create an `Agent` struct from the passed address, turn it into an `Entry`, and calculate its address:
-
-```
-    let agent_id = Agent { id: author_address.into() };
-    let entry = Entry::App("agent".into(), agent_id.into());
-    let agent_address = hdk::entry_address(&entry)?;
 ```
 
 Get all the `author_post` links from the agent's address and load them as the `Post` type:
@@ -272,91 +189,92 @@ For this app you can use the agent's address as their ID, because that's what we
 
 Let's start on the UI. Go to your GUI folder and open up the `index.html` file.
 
-To make it easy to pass around agent ID, you can display the ID for the instance that each GUI is currently targeting. This should happen when the page loads and when the instance ID changes.
+To make it easy to pass around agent ID, you can display the ID for the instance that each GUI is currently targeting. This should happen when the page loads and when the websocket port changes.
 
 Add an `onload` event to the body that will call the `get_agent_id` function when the page loads:
 
+\#S:MODE=gui,INCLUDE
 ```html
-<body onload="get_agent_id()">
+  <body onload="get_agent_id()">
 ```
-
-Add an `onfocusout` event to the instance text box that will call the same function when unfocused:
-
+Add an element to render the agents id:
 ```html
-<input type="text" id="instance" onfocusout="get_agent_id()" placeholder="Enter your instance ID">
+    <div id="agent_id"></div>
 ```
 
-Now open up the `hello.js` file and add the `get_agent_id` function:
 
-\#S:MODE=gui,SKIP
-```javascript
-function get_agent_id() {
-```
-
-Get the instance value and set up a zome call connection:
-
-```javascript
-  var instance = document.getElementById('instance').value;
-  holochainclient.connect({ url: "ws://localhost:3401"}).then(({callZome, close}) => {
-```
-
+Now open up the `hello.js` file and add the `get_agent_id` function.  
 Call the `get_agent_id` zome function and then update the `agent_id` element with the result:
 
 ```javascript
-    callZome(instance, 'hello', 'get_agent_id')({}).then((result) => update_element(result, 'agent_id'))
-  })
+function get_agent_id() {
+  holochain_connection.then(({callZome, close}) => {
+    callZome('test-instance', 'hello', 'get_agent_id')({}).then(result =>
+      show_output(result, 'agent_id'),
+    );
+  });
 }
 ```
+\#S:HIDE
 
-## Update the UI to allow posts to be created
+```html
+    <button onclick="hello()" type="button">Say Hello</button>
+    <div>Response: <span id="output"></span></div>
+```
 
-Back in `index.html` turn the "create person" HTML into a post entry widget. Use a `textarea`, call the `create_post` function, and update all the labels and IDs:
+```html
+    <h3>Create Post</h3>
+    <textarea id="post" placeholder="Enter a message :)"></textarea>
+    <button onclick="create_post()" type="button">Submit Post</button>
+    <div>Address: <span id="address_output"></span></div>
+    <h3>Retrieve Post</h3>
+    <input type="text" id="address_in" placeholder="Enter the entry address" />
+    <button onclick="retrieve_posts()" type="button">Show Posts</button>
+    <ul id="posts_output"></ul>
+```
+\#S:EXTERNAL=html=simple_micro_blog_p2.html=gui
 
-<script id="asciicast-mAPERkw51QbQQp2KZkTxZnwDB" src="https://asciinema.org/a/mAPERkw51QbQQp2KZkTxZnwDB.js" async></script>
+<script id="asciicast-VRgOq6rfYvXP5MpRFoIvOOvhv" src="https://asciinema.org/a/VRgOq6rfYvXP5MpRFoIvOOvhv.js" async></script>
 
-## Update the UI to retrieve an agent's posts
-
-Update the "retrieve person" HTML to retrieve posts:
-
-[![asciicast](https://asciinema.org/a/0eQ1giTdu4BEOnQghXax1ALBE.svg)](https://asciinema.org/a/0eQ1giTdu4BEOnQghXax1ALBE)
+\#S:CHECK=html=gui
 
 ## Call `create_post` from JavaScript
 
-In the `hello.js` file add the `create_post` function that your HTML calls:
+```diff
+- function create_person() {
++ function create_post() {
+-   const name = document.getElementById('name').value;
++   const message = document.getElementById('post').value;
++   const timestamp = Date.now();
+   holochain_connection.then(({callZome, close}) => {
+-     callZome('test-instance', 'hello', 'create_person')({
++     callZome('test-instance', 'hello', 'create_post')({
+-       person: {name: name},
++       message: message,
++       timestamp: timestamp,
+-     }).then(result => show_output(result, id));
++     }).then(result => show_output(result, 'address_output'));
+   });
+ }
+```
+<script id="asciicast-7TB7eDBA0sUS79hDzDSDaZgcP" src="https://asciinema.org/a/7TB7eDBA0sUS79hDzDSDaZgcP.js" async></script>
+
+\#S:HIDE
 
 ```javascript
 function create_post() {
-```
-
-Get the post message and instance ID:
-
-```javascript
-  var message = document.getElementById('post').value;
-  var instance = document.getElementById('instance').value;
-```
-
-Get the current timestamp:
-
-```javascript
-  var timestamp = Date.now();
-```
-
-Make a zome call to `create_post` with the message and timestamp:
-
-```javascript
-  holochainclient.connect({ url: "ws://localhost:3401"}).then(({callZome, close}) => {
-    callZome(instance, 'hello', 'create_post')({message: message, timestamp: timestamp }).then((result) => update_element(result, 'post_address'))
-  })
+  const message = document.getElementById('post').value;
+  const timestamp = Date.now();
+  holochain_connection.then(({callZome, close}) => {
+    callZome('test-instance', 'hello', 'create_post')({
+      message: message,
+      timestamp: timestamp,
+    }).then(result => show_output(result, 'address_output'));
+  });
 }
 ```
 
 ## Update the posts list dynamically
-
-Add an empty list below the `post_agent_id` text box:
-
-```html
-<ul id="posts_output"></ul>
-```
 
 In the `hello.js` file add the following lines to update the `posts_output` dynamically.
 
@@ -401,21 +319,24 @@ For each post add a `<li>` element that contains the post's message:
 }
 ```
 
-## Get this agent's ID
-
-Add the `get_agent_id` function:
-
-```javascript
-function get_agent_id() {
-  var instance = document.getElementById('instance').value;
+Update the agent id when the port is changed:
+```diff
+function update_port() {
+  const port = document.getElementById('port').value;
+  holochain_connection = holochainclient.connect({
+    url: 'ws://localhost:' + port,
+  });
++  get_agent_id();
+}
 ```
-
-Call the `get_agent_id` zome function and update the `agent_id` element:
-
+\#S:HIDE
 ```javascript
-  holochainclient.connect({ url: "ws://localhost:3401"}).then(({callZome, close}) => {
-    callZome(instance, 'hello', 'get_agent_id')({}).then((result) => update_element(result, 'agent_id'))
-  })
+function update_port() {
+  const port = document.getElementById('port').value;
+  holochain_connection = holochainclient.connect({
+    url: 'ws://localhost:' + port,
+  });
+  get_agent_id();
 }
 ```
 
@@ -423,9 +344,24 @@ Call the `get_agent_id` zome function and update the `agent_id` element:
 
 This is very similar to `retrieve_person`, so just update that function:
 
+```javascript
+function retrieve_posts() {
+  var address = document.getElementById('address_in').value;
+  holochain_connection.then(({callZome, close}) => {
+    callZome('test-instance', 'hello', 'retrieve_posts')({
+      agent_address: address,
+    }).then(result => display_posts(result));
+  });
+}
+```
+
 [![asciicast](https://asciinema.org/a/oiFGzlKexjVVMrNxf7Gc00Oiw.svg)](https://asciinema.org/a/oiFGzlKexjVVMrNxf7Gc00Oiw)
 
 \#S:INCLUDE,HIDE
 ```rust
 }
 ```
+## Submit some posts
+
+\#S:CHECK=html=gui
+\#S:CHECK=javascript=gui
