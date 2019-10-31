@@ -7,11 +7,11 @@ Agents share their public keys, source chain headers, and public entries with th
 <div class="coreconcepts-orientation" markdown=1>
 ## What you'll learn
 
-* [The downsides and risks of self-owned data](#self-owned-data-isnt-enough)
-* [How public data is stored](#the-distributed-hash-table-a-public-data-store)
-* [How nodes store and retrieve data in a distributed database](#finding-peers-and-data-in-a-distributed-database)
-* [How public data is validated](#a-cloud-of-witnesses)
-* [What happens when the network goes down](#resilience-and-availability)
+1. [The downsides and risks of self-owned data](#self-owned-data-isnt-enough)
+2. [How public data is stored](#the-distributed-hash-table-a-public-data-store)
+3. [How nodes store and retrieve data in a distributed database](#finding-peers-and-data-in-a-distributed-database)
+4. [What happens when the network goes down](#resilience-and-availability)
+5. [How public data is validated](#a-cloud-of-witnesses)
 
 ## Why it matters
 
@@ -146,7 +146,7 @@ The important thing is that the DHT _remembers what you've said in the past_, so
 * News of bad actors is spread through warrants, special entries that carry evidence of corruption.
 * Validators are chosen randomly, based on a deterministic selection algorithm, to prevent collusion.
 * A DHT can set a resilience factor, or expected level of redundancy, for each entry.
-* A DHT is resilient to network disruptions: it can keep operating as two separate networks and subsequently heal when the network is repaired.
+* A DHT tolerates network disruptions: it can keep operating as two separate networks and subsequently heal when the network is repaired.
 
 ## Learn more
 
