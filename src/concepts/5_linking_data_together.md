@@ -1,67 +1,100 @@
 # 05: Linking data together
 
-> Entries on the DHT are connected to each other via one-way **links**. This allows you to build and traverse a graph database of linked information.
+<div class="coreconcepts-intro" markdown="1">
+Entries on the DHT are connected to each other via one-way **links**. This allows you to create a graph database on the DHT to make information easy to discover.
+</div>
+
+<div class="coreconcepts-orientation" markdown="1">
+## What you'll learn
+
+1. [Why it's hard to find data in a DHT](#the-difficult-task-of-looking-for-data-when-you-dont-know-what-youre-looking-for)
+2. [How to make it easy by turning it into a graph database](#links-creating-a-distributed-graph-database)
+3. [What you can use as starting points for discovering data](#starting-points-for-traversing-graphs)
+4. [What this looks like in real life](#case-study-a-music-sharing-app)
+
+## Why it matters
+
+DHTs and graph databases are different from familiar data stores like relational databases, key/value stores, and document or object stores. Once you understand how they work, you'll be able to design a robust data model for your app that takes advantages of their strengths and avoids their weaknesses.
+</div>
+
+## The difficult task of looking for data when you don't know what you're looking for
 
 ![](https://i.imgur.com/FDGsIDF.png)
 
-Hash-based content-addressable storage, such as Holochain's DHT, has one big advantage---you can ignore the physical location of data and ask for it by its fingerprint. This means no broken URLs, unavailable resources, or nasty surprises about what the entry contains.
+The DHT has one big advantage---you can ignore the physical location of data and ask for it by its content address. This means no broken URLs, unavailable resources, or nasty surprises about what the entry contains.
 
-It does, however, make it hard to find the data you're looking for. If it were all on one machine, you could just do a quick search. But on a distributed system, where everyone has a little bit of the whole data set, that would get pretty slow.
+It does, however, make it hard to find the data you're looking for. If it were all on one machine, you could just run a quick query on it. But on a distributed system, where everyone has a little bit of the whole data set, that would get pretty slow.
 
-So all we have are hashes. This creates a chicken-and-egg problem. In order to find a piece of data, you need to know its hash. But in order to generate a hash, you need the data.
+On the DHT all we have are addresses. This creates a chicken-and-egg problem. In order to find an entry, you need to know its address. But you can only know the address if you either:
+
+* have the content and can calculate its hash, or
+* receive the hash from somewhere else.
+
+And a hash is a 'black box'---the DHT can only give you full entries, not search for partial content in an entry.
 
 So how do we find what we're looking for?
 
-Holochain lets you **link** any two entries together. Each link has a type identifier that indicates the nature of the relationship. This lets you _connect known things to unknown things_, which then become known things, and so on. Your app's DHT becomes a [**graph database**](https://en.wikipedia.org/wiki/Graph_database).
+## Links: creating a distributed graph database
 
-A link is stored in the DHT as metadata along with the entry it links from. So all you need in order to get the links on an entry is its hash.
+Holochain lets you **link** any two entries together. This lets you _connect known things to unknown things_, which then become known things that link to more unknown things, and so on. Your app's DHT becomes a [**graph database**](https://en.wikipedia.org/wiki/Graph_database).
 
-What sort of 'known things' are there in a DHT that we can use as a starting point?
+A link is stored in the DHT as metadata along with its **base**, the entry it links from. All you need to get the links on an entry are its address.
+
+Each link has a type identifier that indicates the nature of the relationship. It can also have a **tag** that contains extra metadata about the relationship or the target. You can filter links by this tag's content for something approaching an ad-hoc query, or reduce the number of DHT requests by populating the tag with selected information from the target.
+
+A link points one way, but you can create a two-way relationship with two links pointing in opposite directions.
+
+## Starting points for traversing graphs
+
+What sort of 'known things' in the DHT can we use as a starting point?
 
 * Everyone knows the hash of the DNA, because it's the first entry in their source chain.
-    > NOTE: While you can link from the DNA, it isn't recommended. Because a certain neighborhood of nodes will be responsible for storing all the links, they will become increasingly burdened with storage demands and network requests as the DHT grows.
 * Everyone knows their own agent ID entry's hash, because it's the second entry in their source chain.
 * You can create an entry containing a string that's hard-coded into the app, so that all agents can find that entry. We call this an 'anchor'.
-    > NOTE: We recommend caution with this approach, as it can cause 'hot spots' in the DHT just as with links on the DNA entry. If you expect to attach many links to a certain anchor, consider splitting it up into many anchors that have a good likelihood of sharing links evenly among themselves. Check out our [bucket set library](https://github.com/willemolding/holochain-collections#bucket-set) for an example.
-* Short strings such as usernames are easy to share via email, text, paper, or voice. They're also easy to type into a UI. This makes them useful as anchors that don't need to be hard-coded into the app.
+* Short strings such as usernames and shortcodes are easy to share via email, text, paper, or voice. They're also easy to type into a UI. This makes them useful as anchors that don't need to be hard-coded into the app.
 
-Here's an example using a fictional indie music sharing app.
+!!! warn
+While you theoretically can link from universally well-known entries like the DNA hash or hard-coded strings, it isn't recommended. A certain neighborhood of nodes will be responsible for storing all the links on those entries, creating a DHT 'hot spot' that will disproportionately tax that neighborhood's resources as the DHT grows. There are other approaches, such as splitting one anchor into many based on the content of their links' targets. For a trivial example, rather than an `all_users` anchor, consider `usernames_a`, `usernames_b`, etc. Check out our [bucket set library](https://github.com/willemolding/holochain-collections#bucket-set) for an even better approach.
 
-> Take note of the arrowheads. You'll note that most are bi-directional, which means they are actually two separate links going in opposite directions. Anchors whose values are hard-coded in the app are the exception: you don't need to discover them, so you don't need links pointing to them.
+## Case study: a music sharing app
 
-![](https://i.imgur.com/MSakvg1.png)
+!!! note
+Take note of the arrowheads. You'll note that most are bi-directional, which means they are actually two separate links going in opposite directions. Anchors whose values are hard-coded in the app are the exception: you don't need to discover them, so you don't need links pointing to them.
 
-Alice is a singer-songwriter who excels at the ukulele. She wants to share her songs with the world.
+<div class="coreconcepts-storysequence" markdown="1">
+1. ![](https://i.imgur.com/MSakvg1.png)
+Alice is a singer-songwriter who excels at the ukulele. She wants to share her songs with the world. So she joins the app and wants to register the username `@alice_ukulele`. She checks whether it's already been taken by calculating its address and looking for an existing `username` DHT entry with that address.
 
-Alice joins the app and wants to register the username `@alice_ukulele`. She checks whether it's already been taken by looking for an existing `username` entry on the DHT.
+2. ![](https://i.imgur.com/k2WpY1S.png)
+That username is available, so she creates a `username` entry containing `@alice_ukulele` and links it to her agent ID entry. Now users who know here username can find out her agent ID.
 
-![](https://i.imgur.com/k2WpY1S.png)
+3. ![](https://i.imgur.com/0PxLUgM.png)
+Alice wants to show up in the public directory of artists, so she links her username entry to an `_all_users_` anchor. This anchor already exists in the DHT and its value is hard-coded into the app. Anyone can query this anchor for a full list of usernames.
 
-That username is available, so she creates a `username` entry containing her username and links it to her agent ID entry.
+4. ![](https://i.imgur.com/CTgTxWh.png)
+Alice creates a listing for her debut EP album and links it to her agent ID entry. Now listeners who know her agent ID can discover the albums she's published.
 
-![](https://i.imgur.com/0PxLUgM.png)
-
-Alice wants to show up in the public directory of artists, so she links her username entry to an `_all_users_` anchor. This anchor's value is hard-coded into the app and is used to retrieve the directory.
-
-![](https://i.imgur.com/CTgTxWh.png)
-
-Alice creates a listing for her debut EP album and links it to her agent ID entry. Listeners can now retrieve all the albums she's recorded.
-
-![](https://i.imgur.com/xpKXxO2.png)
-
+5. ![](https://i.imgur.com/xpKXxO2.png)
 Now she uploads all the tracks and links them to the album.
 
-![](https://i.imgur.com/lQng0it.png)
-
+6. ![](https://i.imgur.com/lQng0it.png)
 She wants people to be able to find her album by genre, so she selects three applicable genres and links her album to them.
 
-![](https://i.imgur.com/cvYPJR2.png)
+7. ![](https://i.imgur.com/cvYPJR2.png)
+Those genres are already linked to an `_all_genres_` anchor, whose value is hard-coded into the app. Listeners can query this anchor to get the full list of genres.
 
-Those genres are already linked to an `_all_genres_` anchor, whose value is hard-coded into the app. Listeners can query this anchor for links and get the full list of genres.
-
-![](https://i.imgur.com/cPDXanB.png)
-
+8. ![](https://i.imgur.com/cPDXanB.png)
 Alice's entries, linked to each other and to existing entries on the DHT, now form a graph that allows listeners to discover her and her music from a number of different starting points.
+</div>
+
+## Key takeaways
+
+* It's not possible to do arbitrary queries on a DHT, because entries are scattered across many nodes and can only be retrieved by their addresses.
+* Links allow you to connect a known entry (the base) to an unknown entry (the target) to create a graph database on the DHT.
+* Links are stored on the base and can be retrieved by their base's address.
+* Links are typed to distinguish the nature of the relation.
+* Links can also have an arbitrary string tag that lets you filter results or preload information about their targets.
+* An anchor is a well-known entry whose address is easy to calculate because everyone knows its content.
 
 ## Learn more
 
