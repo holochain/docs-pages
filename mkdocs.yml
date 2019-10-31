@@ -9,10 +9,11 @@ nav:
     - Introduction: index.md
     - Why Holochain?: why-holochain.md
     - What is Holochain?: what-is-holochain.md
-    - Who is Holochain For?: who-is-holochain-for.md
-    - Ready to Develop?: ready-to-develop.md
+    - Who is Holochain for?: who-is-holochain-for.md
+    - Ready to develop?: ready-to-develop.md
     - Install Holochain: install.md
-    - Get Involved: get-involved.md
+    - Create a new app: create-new-app.md
+    - Get involved: get-involved.md
   - Core Concepts:
     - Introduction: 'concepts/index.md'
     - The basics: 'concepts/1_the_basics.md'

@@ -30,14 +30,11 @@ This is how we left the testing scenario in the [Hello Test](../hello_test) tuto
 \#S:MODE=test
 \#S:SKIP
 ```javascript
-diorama.registerScenario("Test hello holo", async (s, t, { alice }) => {
-  // Make a call to the `hello_holo` Zome function
-  // passing no arguments.
-  const result = await alice.call("hello", "hello_holo", {});
-  // Make sure the result is ok.
+orchestrator.registerScenario("Test hello holo", async (s, t) => {
+  const { alice } = await s.players({alice: config}, true)
+  
+  const result = await alice.call('cc_tuts', "hello", "hello_holo", {});
   t.ok(result.Ok);
-
-  // Check that the result matches what you expected.
   t.deepEqual(result, { Ok: 'Hello Holo' })
   
   // <---- Put your new tests here
@@ -45,14 +42,11 @@ diorama.registerScenario("Test hello holo", async (s, t, { alice }) => {
 ```
 \#S:INCLUDE,HIDE
 ```javascript
-diorama.registerScenario("Test hello holo", async (s, t, { alice }) => {
-  // Make a call to the `hello_holo` Zome function
-  // passing no arguments.
-  const result = await alice.call("hello", "hello_holo", {});
-  // Make sure the result is ok.
+orchestrator.registerScenario("Test hello holo", async (s, t) => {
+  const { alice } = await s.players({alice: config}, true)
+  
+  const result = await alice.call('cc_tuts', "hello", "hello_holo", {});
   t.ok(result.Ok);
-
-  // Check that the result matches what you expected.
   t.deepEqual(result, { Ok: 'Hello Holo' })
   
 ```
@@ -63,19 +57,28 @@ The following test will create an entry with the name "Alice", retrieve the same
 Add a call to the `create_person` function with a person whose name is Alice:
 
 ```javascript
-  const create_result = await alice.call("hello", "create_person", {"person": { "name" : "Alice" }});
+  const create_result = await alice.call('cc_tuts', "hello", "create_person", {"person": { "name" : "Alice" }});
 ```
 
 Check that the result of the call is Ok:
 
 ```javascript
   t.ok(create_result.Ok);
+  const alice_person_address = create_result.Ok;
+```
+
+Tell the test to wait for the dht to become consistent.
+
+```javascript
+
+  await s.consistency()
+
 ```
 
 Add a call to the `retrieve_person` function with the address from the last call:
 
 ```javascript
-  const retrieve_result = await alice.call("hello", "retrieve_person", {"address": create_result.Ok});
+  const retrieve_result = await alice.call('cc_tuts', "hello", "retrieve_person", {"address": alice_person_address });
 ```
 
 Check that this call is Ok as well:
@@ -93,7 +96,7 @@ This is the actual result we want at the end of the test. Check that the entry a
 
 })
 
-diorama.run()
+orchestrator.run()
 ```
 ### Running the test
 

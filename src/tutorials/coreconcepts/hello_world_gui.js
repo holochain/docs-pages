@@ -3,14 +3,6 @@ var holochain_connection = holochainclient.connect({
   url: 'ws://localhost:3401',
 });
 
-function update_port() {
-  const port = document.getElementById('port').value;
-  holochain_connection = holochainclient.connect({
-    url: 'ws://localhost:' + port,
-  });
-  get_agent_id();
-}
-
 // Render functions
 function show_output(result, id) {
   var el = document.getElementById(id);
@@ -26,14 +18,6 @@ function show_person(result) {
   var person = document.getElementById('person_output');
   var output = JSON.parse(result);
   person.textContent = ' ' + output.Ok.name;
-}
-
-function get_agent_id() {
-  holochain_connection.then(({callZome, close}) => {
-    callZome('test-instance', 'hello', 'get_agent_id')({}).then(result =>
-      show_output(result, 'agent_id'),
-    );
-  });
 }
 
 function show_posts(result) {

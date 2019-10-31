@@ -1,19 +1,21 @@
 \#S:EXTERNAL=rust=hello_world.rs
+\#S:MODE=gui,INCLUDE
+\#S:EXTERNAL=javascript=hello_world_gui.js=gui
 \#S:MODE=test,INCLUDE
 \#S:EXTERNAL=javascript=hello_world.js=test
 \#S:EXTERNAL=html=hello_world.html=gui
-\#S:EXTERNAL=javascript=hello_world_gui.js=gui
 # Hello World
 
-Hello and welcome to the hello world tutorial. It's a little weird that we are doing a hello world tutorial as the 5th tutorial in this series but that's because we really want you to grasp the agent perspective of a Holochain app.  
+Hello and welcome to the hello world tutorial. It's a little strange to do a hello world tutorial as the 5th tutorial, however that's because we really want to show the agent perspective of a Holochain app.
+
 So far all the previous tutorials have had a local perspective of a single agent. However, the real power of Holochain comes from interacting with other agents.
 
-With that in mind let's try to share some data between two agents. To achieve this you will run two instances, Alice and Bob.  
+With that in mind let's try to share some data between two agents. To achieve this you will run two conductors, Alice and Bob.  
 Then add an entry to Alice's local chain. Finally, retrieve that same entry from Bob's instance.
 
 ## Make your entry public 
 
-So far the only entry you have had has been private. But this isn't that useful if you want your users to be able to share entries on the same network.
+So far the only entry you have had has been private. If you want your users to be able to share some data then you can set the entry to public in the definition.
 
 Open up your `zomes/hello/code/src/lib.rs` file.
 
@@ -39,7 +41,9 @@ Change the entry sharing to `Sharing::Public`:
 
 ## Add Bob to the test
 
-Previously you made a test where Alice made a few zome calls and verified the results. Now, to test that the entries can be shared between agents on the same DNA, you can use Bob in your tests to interact with Alice.
+Previously you wrote a test where Alice made a few zome calls and verified the results. Now, to test that the entries can be shared between agents running the same DNA, you can use Bob in your tests to interact with Alice.
+
+The aim here is for Alice to create a person and then Bob retrieve that same person.
 
 Open up your `test/index.js` file and add/update the following lines:
 
@@ -50,17 +54,17 @@ Add `bob` to the scenario:
 +  const { alice, bob } = await s.players({alice: config, bob: config}, true)
 ```
 
-Before you get Bob to retrieve a person you need Bob to be able to see the person that Alice committed. 
+Before you get Bob to retrieve Alice's person you need Bob to be able to see the person that Alice committed. 
 This goes back to to an idea that will come up a lot in Holochain, eventual consistency. In a nutshell an Agent that is connected to the same network as another agent will eventually come to agreement on what data exists.
 
-To make sure this has happened in our tests you can call:
+To make sure this has happened add this line to the end of the scenario:
 ```javascript
   await s.consistency();
 ```
 
-> This one line says a lot about the nature of a Holocahin application. The word `await` shows that we are in an asynchronous world and want to wait for consistency to be achieved. What kind of situation would lead to this line never completing?
+> This one line says a lot about the nature of a Holocahin application. The word `await` shows that we are in an asynchronous world and want to wait for consistency to be achieved. What kind of situation would lead to this line never completing? _Hint: Think about networks that might not be perfect._
 
-You get Bob to retrieve Alice's person using the same address she got when she created the entry: 
+Get Bob to retrieve Alice's person using the same address she got when she created the entry: 
 
 ```javascript
   const bob_retrieve_result = await bob.call('cc_tuts', 'hello', 'retrieve_person', {'address': alice_person_address });
@@ -100,7 +104,7 @@ Now run the test and make sure it passes:
 
 !!! note "Run in `nix-shell`"
     ```bash
-    nix-shell] hc test
+    hc test
     ```
 
 !!! success "If everything went okay, then right at the end you will see:"
@@ -113,10 +117,11 @@ Now run the test and make sure it passes:
 
 ## Switch to the Holochain conductor
 
-Now it would be cool to see this happen for real outside of a test. Up till now you have only used `hc run` to run a single instance of a node. However, in order to have two separate instances communicate on one machine, we need to run our own conductor using the `holochain` cli tool.
+Now it would be cool to see this happen for real outside of a test. Up till now you have only used `hc run` to run a single conductor. However, in order to have two separate conductors communicate on one machine, we need to use the `holochain` cli tool.  
+This takes a bit of setting up.
 
 !!! tip "hc run vs holochain"
-    `hc` and `holochain` are both conductors that host your apps on your users' machines. `hc run` is for testing and development, and `holochain` is for end-users. It can host multiple instances of multiple DNAs for multiple users. Normally Alice and Bob would be running instances of your app in their own conductors on their own machines. But for the purposes of this tutorial, it'll be a lot more convenient to try this on one machine, so you don't have to worry about network setup.
+    `hc` and `holochain` are both conductors that host your apps on your users' machines. `hc run` is for testing and development, and `holochain` is for end-users. It can host multiple instances of multiple DNAs for multiple users. Normally Alice and Bob would be running instances of your app in their own conductors on their own machines. But for the purposes of this tutorial, it'll be a lot more convenient to try this on one machine, so you don't have to worry about network setup. Although you could use multiple machines if you'd like.
 
 Before you can create the config file, you will need to generate some keys for your agents.
 
@@ -148,7 +153,7 @@ Now run `hc keygen` again but copy the key store to agent2.key:
     hc keygen -n -p agent2.key
     ```
 
-### Config file
+### Create the conductor config file
 
 Create a new file in the root directory of your project called `conductor-config-agent1.toml`.
 
@@ -200,7 +205,7 @@ id = 'test-instance'
 type = "memory"
 ```
 
-Setup the WebSocket interface on socket `3041`:
+Setup the WebSocket interface on socket `3401`:
 
 ```toml
 [[interfaces]]
@@ -227,30 +232,29 @@ The easiest thing to do now is copy this config file and change a few lines:
 cp conductor-config-agent1.toml conductor-config-agent2.toml
 ```
 
+Change the names to Bob.
 ```diff
 [[agents]]
 -id = 'alice'
 + id = 'bob'
 - name = 'Alice'
 + name = 'Bob'
-- keystore_file = 'agent1.key'
-+ keystore_file = 'agent2.key'
+```
+Point to Bob's key file and use his public address from before:
+```diff
+- keystore_file = 'alice.key'
++ keystore_file = 'bob.key'
 - public_address = 'HcScjdwyq86W3w5y3935jKTcs4x9H9Pev898Ui5J36Sr7TUzoRjMhoNb9fikqez'
 + public_address = 'HcSCj4uMm999rT4B6kfgSYx6ONfg3misvoV76JI9J57KM89ejVf4uwhm7Mm6f7i'
-
-[[dnas]]
-- file = 'dist/cc_tuts.dna.json'
-+ file = '/Users/tomgowan/holochain/testing_tuts/cc_tuts/dist/cc_tuts.dna.json'
-- hash = 'QmPMMqNsbNqf3Hbizwwi6gDKw2nnSvpJQyHLG2SMYCCU8R'
-+ hash = 'QmXNYdDHTajqf91q4igGgW88H6eBrpA6ha5bNE7iKvCKg8'
-id = 'hc-run-dna'
 
 [[instances]]
 - agent = 'alice'
 + agent = 'bob'
 dna = 'hc-run-dna'
 id = 'test-instance'
-
+```
+Change the UI websocket port to 3402:
+```diff
 [interfaces.driver]
 - port = 3401
 + port = 3402
@@ -259,7 +263,7 @@ type = 'websocket'
 
 ## Allow the UI to choose the conductor 
 
-Too use two agents from the gui, you need a way to specify which conductor the user wants to use. You can do this by setting the port for the websocket connection. 
+To use two agents from the gui, you need a way to specify which conductor the user wants to use. You can do this by setting the port for the websocket connection. 
 
 Open up `gui/index.html`.
 
@@ -270,17 +274,6 @@ Add a text box and button in the UI to set the port:
 ```html
     <input type="text" id="port" placeholder="Set websocket port" />
     <button onclick="update_port()" type="button">update port</button>
-```
-Now open `gui/hello.js`.
-
-Add a `update_port` function that resets the connection to the new port:
-```javascript
-function update_port() {
-  const port = document.getElementById('port').value;
-  holochain_connection = holochainclient.connect({
-    url: 'ws://localhost:' + port,
-  });
-}
 ```
 \#S:HIDE
 
@@ -293,8 +286,21 @@ function update_port() {
   </body>
 </html>
 ```
-
 \#S:CHECK=html=gui
+
+
+Now open `gui/hello.js`.
+
+Add a `update_port` function that resets the connection to the new port:
+```javascript
+function update_port() {
+  const port = document.getElementById('port').value;
+  holochain_connection = holochainclient.connect({
+    url: 'ws://localhost:' + port,
+  });
+}
+```
+
 \#S:CHECK=javascript=gui
 
 ## Run the app and two UIs
@@ -360,16 +366,18 @@ Go to `0.0.0.0:8001`.
 Go to `0.0.0.0:8002`.  
 Enter `3402` into the port text box and click update port.
 
+![Update the port to 3401](../../../img/bobs_port.png)
+
 #### Tab Alice
 
 Create a person entry with your name:
 
-![](https://i.imgur.com/6PEDn6y.png)
+![Enter your name into create person](../../../img/hw_create_person.png)
 
 #### Tab Bob
 
 Copy the address from the Alice tab and retrieve the person entry:
 
-![](https://i.imgur.com/ps9RBr2.png)
+![Retrieve Alice's person from Bob's conductor](../../../img/hw_retrieve_person.png)
 
-Hooray! Alice and Bob are now able to find each other's information on the DHT
+Hooray! Alice and Bob are now able to share data on the DHT
