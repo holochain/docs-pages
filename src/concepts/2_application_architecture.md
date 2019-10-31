@@ -42,7 +42,7 @@ Holochain creates a 'double membrane' for each participant, bridging between the
 
 Now let's get into the details of how a Holochain app is put together. Holochain apps (**hApps**) are made from loosely coupled components. Here's how they are built:
 
-<div class="coreconcepts-2-architecturallayers" markdown=1>
+<div class="coreconcepts-storysequence" markdown=1>
 1. ![](https://i.imgur.com/VVAX0Jc.png)
 Code modules called **zomes** (short for chromosomes) define the core logic of your app. They contain:
 

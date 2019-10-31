@@ -107,8 +107,10 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 .md-typeset .coreconcepts-orientation, .md-typeset .coreconcepts-orientation h2 { color: rgba(0,0,0,.54); }
 .md-typeset .coreconcepts-orientation :first-child { margin-top: 0; }
 .md-typeset .coreconcepts-orientation :last-child { margin-bottom: 0; }
-.md-typeset .coreconcepts-2-architecturallayers > ol { margin-left: 0; }
-.md-typeset .coreconcepts-2-architecturallayers > ol > li { list-style: none; padding: 0.6rem; background: #F8F8F8; margin: 1rem 0; }
+/* Please forgive the unusually specific selectors; this was my way of managing to stick with pure markdown inside the storysequence div */
+.md-typeset .coreconcepts-storysequence > ol { margin-left: 0; }
+.md-typeset .coreconcepts-storysequence > ol > li { list-style: none; padding: 0.6rem; background: #F8F8F8; margin: 1rem 0; }
+.md-typeset .coreconcepts-storysequence > ol > li > img { margin-bottom: 1rem; }
 
 /* Tables */
 
