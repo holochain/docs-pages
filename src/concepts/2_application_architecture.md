@@ -8,8 +8,7 @@ Applications built with Holochain are highly **modular** in both functionality a
 ## What you'll learn
 
 1. [Agent-centric integrity: inside, outside, and in between](#agent-centric-integrity-inside-outside-and-in-between)
-2. [Architectural layers](#architectural-layers)
-3. [Key differences](#key-differences)
+2. [Layers of the application stack](#layers-of-the-application-stack)
 
 ## Why it matters
 
@@ -38,7 +37,7 @@ On the outside of the ring is a shared space. In it are other people, also using
 
 Holochain creates a 'double membrane' for each participant, bridging between their world and the digital space they share with others. It ensures the integrity of information passing through it on both the inside and the outside. This lets people safely do the things that are important to them, without having to depend on a central authority.
 
-## Architectural layers
+## Layers of the application stack
 
 Now let's get into the details of how a Holochain app is put together. Holochain apps (**hApps**) are made from loosely coupled components. Here's how they are built:
 
@@ -60,7 +59,7 @@ DNAs can talk to each other's APIs via **bridging**. This lets you compose DNAs 
 A **client** such as a GUI or utility script talks to one or more DNAs' APIs via a lightweight [remote procedure call (RPC)](https://en.wikipedia.org/wiki/Remote_procedure_call) interface. The client is like the front end of a traditional app. Just like the DNA, the client live on the user's device. This client and its DNAs are bundled into a **hApp bundle**.
 
 5. ![](https://i.imgur.com/2TEFXbQ.png)
-All DNAs are hosted in the **conductor**, a runtime that sandboxes and executes DNA code, manages data flow and storage, and handles connections between components of the stack. You can think of the conductor as a web application server, but as with the DNA and clients, it runs on every user's device. Clients usually live outside the conductor.
+All DNAs are hosted in the **conductor**, a runtime that sandboxes and executes DNA code, manages data flow and storage, and handles connections between components of the stack. You can think of the conductor as a web application server, but just as with the DNA and clients it runs on every user's device. Clients live outside the conductor.
 
 6. ![](https://i.imgur.com/FSKeHnJ.png)
 Each conductor is a **node** in a peer-to-peer network of agents using the same app. Each DNA in the hApp has its own separate, private network and distributed data store. The conductor handles communication and data sharing between nodes.
@@ -68,9 +67,9 @@ Each conductor is a **node** in a peer-to-peer network of agents using the same 
 
 The clean separation between layers and components gives you and your users a lot of flexibility. You can mix and match components, creating rich experiences that rely on, augment, or replace existing components. This empowers people to use their applications in ways that work best for them.
 
-## Key differences
+## Key takeaways
 
-You can see that Holochain is built differently from typical application stacks. Here's a summary:
+You can see that Holochain is different from typical application stacks. Here's a summary:
 
 * Each user has their own copy of the application's front end, back end, and server.
 * The conductor sandboxes the DNA code, mediating all access to the device's resources.
