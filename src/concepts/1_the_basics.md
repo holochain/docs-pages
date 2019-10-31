@@ -52,3 +52,13 @@ So we add one more pillar of integrity: **peer validation**. Each piece of publi
 These simple building blocks create something surprisingly robust and resilient---a multicellular organism with a memory and an immune system. Systems scientists call this [emergence](https://en.wikipedia.org/wiki/Emergence). It's what biological systems have been doing for millions of years.
 
 The foundation of Holochain is simple, but the consequences of our design can lead to questions that programmers aren't used to asking. Don't worry---most of the answers can be found in real life experiences. And some of the trickier problems of distributed computing are handled by Holochain itself at the 'subconscious' layer. All you need to do is think about your application logic, and Holochain makes it work, completely serverless.
+
+## Key takeaways
+
+* Traditional centralized architectures are easy to understand and maintain, but they create central points of vulnerability.
+* Holochain turns the architecture of applications inside-out---users are at the center of their online presence, in charge of their own identity and data.
+* The two pillars of application integrity are intrinsic data integrity and peer validation.
+* There is no single global state; data comes from many sources.
+* Each participant in an app supplies their own compute and storage infrastructure.
+* Each participant also validates and stores a small portion of other participants' data.
+* The whole is greater than the sum of its parts: many agents, playing by simple rules, combine to form an organism that understands and protects itself.
