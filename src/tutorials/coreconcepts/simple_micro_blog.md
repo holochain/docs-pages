@@ -5,7 +5,7 @@
 \#S:EXTERNAL=rust=simple_micro_blog_p1.rs
 \#S:EXTERNAL=html=simple_micro_blog_p1.html=gui
 
-# Simple Micro Blog tutorial
+# Simple Micro Blog Tutorial
 
 !!! info "WIP"
     This article is currently a work in progress and subject to frequent change.  
