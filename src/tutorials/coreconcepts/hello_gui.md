@@ -86,7 +86,7 @@ nix-shell https://holochain.love
 
 Once that is all up and running, you can fire up a simple server:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     python -m SimpleHTTPServer
     ```
@@ -234,7 +234,7 @@ nix-shell https://holochain.love
 
 Now run your app:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     Package the app:
     ```bash
     hc package
@@ -247,7 +247,7 @@ Now run your app:
 ## Make a zome call
 In your other terminal window (the one with the GUI code), start the `SimpleHTTPServer` if it's not still running:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     python -m SimpleHTTPServer
     ```

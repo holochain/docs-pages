@@ -168,7 +168,7 @@ The first time you run this command it will take some time to download and build
 
 Test that Holochain is working by running:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     hc --version
     ```
@@ -178,7 +178,7 @@ Test that Holochain is working by running:
     hc 0.0.35-alpha7
     ```
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     holochain --version
     ```
@@ -196,7 +196,7 @@ In most cases you can run your editor as normal. However, if you are using an in
 
 > To do this just open your editor while you are in the nix-shell like:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     vim my_file.rs
     ```

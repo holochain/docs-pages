@@ -435,7 +435,7 @@ This is the same setup as the previous tutorial.
 #### Terminal one
 
 Run the sim2h server
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     sim2h_server -p 9001
     ```
@@ -443,7 +443,7 @@ Run the sim2h server
 #### Terminal two 
 Package the dna and then update the hash 
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     hc package
     ```
@@ -456,13 +456,13 @@ Package the dna and then update the hash
 
 If you're feeling lazy I have provided a `sed` command to update the config file:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     sed -i "s/hash = '.*/hash = 'QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG'/g" conductor-config-agent1.toml
     ```
 
 Run Alice's conductor:
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     holochain -c conductor-config-agent1.toml
     ```
@@ -470,18 +470,18 @@ Run Alice's conductor:
 #### Terminal three
 No need to compile again but you will need to update the hash in Bob's config file:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     sed -i "s/hash = '.*/hash = 'QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG'/g" conductor-config-agent2.toml
     ```
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     holochain -c conductor-config-agent2.toml
     ```
 Start the second conductor:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     holochain -c conductor-config-agent2.toml
     ```
@@ -492,7 +492,7 @@ Go to the root folder of your GUI:
 
 Run the first UI on port `8001`:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     python -m SimpleHTTPServer 8001
     ```
@@ -502,7 +502,7 @@ Still in the root folder of your GUI:
 
 Run the second UI on port `8002`:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     python -m SimpleHTTPServer 8002
     ```

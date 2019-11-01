@@ -99,7 +99,7 @@ nix-shell https://holochain.love
 
 Now run the test and make sure it passes:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc test
     ```
@@ -124,7 +124,7 @@ Before you can create the config file, you will need to generate some keys for y
 
 Use `hc keygen` in your nix-shell to generate a key for each agent:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     hc keygen -n -p agent1.key
     ```
@@ -145,7 +145,7 @@ Take note of the `Public address`; you will need it later.
 
 Now run `hc keygen` again but copy the key store to agent2.key:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     hc keygen -n -p agent2.key
     ```
@@ -175,7 +175,7 @@ test_agent = true
 
 Next you need your DNA's hash:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     hc hash 
     ```
@@ -316,7 +316,7 @@ You going to need a few terminals to do this.
 #### Terminal one
 
 Run the sim2h server
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     sim2h_server -p 9001
     ```
@@ -324,7 +324,7 @@ Run the sim2h server
 #### Terminal two 
 Start by running the conductor. It's a bit different this time; instead of `hc run` you will use `holochain` directly:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     holochain -c conductor-config-agent1.toml
     ```
@@ -332,7 +332,7 @@ Start by running the conductor. It's a bit different this time; instead of `hc r
 #### Terminal three
 Start the second conductor:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     holochain -c conductor-config-agent2.toml
     ```
@@ -343,7 +343,7 @@ Go to the root folder of your GUI:
 
 Run the first UI on port `8001`:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     python -m SimpleHTTPServer 8001
     ```
@@ -353,7 +353,7 @@ Still in the root folder of your GUI:
 
 Run the second UI on port `8002`:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```
     python -m SimpleHTTPServer 8002
     ```

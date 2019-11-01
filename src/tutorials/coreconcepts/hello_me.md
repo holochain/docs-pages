@@ -114,7 +114,7 @@ nix-shell https://holochain.love
 
 Run the test:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc test
     ```
@@ -335,7 +335,7 @@ Return the `Ok` result with the new person entry's address:
 
 Check for compile errors again:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
@@ -372,7 +372,7 @@ Get the entry from your local storage, asking for it by address, and convert it 
 
 Instead of directly compiling, you can run the test you wrote at the start (the test always compiles before it runs):
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc test
     ```
@@ -545,14 +545,14 @@ nix-shell https://holochain.love
 
 Run the server:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     python -m SimpleHTTPServer
     ```
 
 In your other terminal window (the one with your backend code) package and run your zome:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```

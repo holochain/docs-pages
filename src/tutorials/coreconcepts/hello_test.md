@@ -3,7 +3,7 @@
 \#S:EXTERNAL=javascript=hello_test.js=test
 # Hello Test Tutorial
 
-Welcome to the Hello Test tutorial. Today you will be learning how to test your Holochain apps. This tutorial will add to the previous [Hello Holo](hello_holo) tutorial, so make sure you do that one first.
+Welcome to the Hello Test tutorial. Today you will be learning how to test your Holochain apps. This tutorial will add to the previous [Hello Holo](../hello_holo) tutorial, so make sure you do that one first.
 
 Testing is a really important part of building higher quality apps but it's also a an excellent way to think through how your app will be used.
 

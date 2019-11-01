@@ -39,7 +39,7 @@ Time to put the holochain command line tool (`hc`) to work and make your app.
 
 Initialize a new app and enter the app directory:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc init cc_tuts
     cd cc_tuts 
@@ -51,7 +51,7 @@ It's an always good to frequently compile your app. That way you catch any mista
 
 Give it a go by asking `hc` to package your app:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
@@ -71,14 +71,14 @@ Your app doesn't really do too much right now because it needs a [zome](https://
 
 Generate a zome called `hello` inside the zome's folder:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc generate zomes/hello rust-proc
     ```
 
 #### Compile
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
@@ -305,7 +305,7 @@ Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddn
 
 > If you do find any errors, remember to fix them before moving on. You can always get help on the [forum](https://forum.holochain.org/t/about-the-getting-started-category/167).
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
@@ -315,7 +315,7 @@ Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddn
 To interact with your application you can run it in HTTP mode.
 
 Run your app in HTTP mode:
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc run -i http
     ```
@@ -330,7 +330,7 @@ nix-shell https://holochain.love
 
 Enter the following request, which will call the `hello_holo` function and return the result:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     curl -X POST -H "Content-Type: application/json" -d '{"id": "0", "jsonrpc": "2.0", "method": "call", "params": {"instance_id": "test-instance", "zome": "hello", "function": "hello_holo", "args": {} }}' http://127.0.0.1:8888
     ```
