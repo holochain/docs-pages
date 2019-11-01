@@ -1,8 +1,9 @@
+\#S:MODE=gui
+\#S:EXTERNAL=javascript=simple_micro_blog_gui.js=gui
 \#S:MODE=test
 \#S:EXTERNAL=javascript=simple_micro_blog.js=test
 \#S:EXTERNAL=rust=simple_micro_blog_p1.rs
 \#S:EXTERNAL=html=simple_micro_blog_p1.html=gui
-\#S:EXTERNAL=javascript=simple_micro_blog_gui.js=gui
 
 # Simple Micro Blog tutorial
 
@@ -521,12 +522,23 @@ Enter `3402` into the port text box and click update port.
 
 Create a few posts:
 
+![Create posts](../../../img/smb_submit_post.png)
+
 Try retrieving them using Alice's agent id:
+
+![Retrieve Posts](../../../img/smb_retrieve_posts.png)
 
 > Be careful of spaces before or after the address.
 
 #### Tab Bob
 
 Copy Alice's agent id and try retrieving her posts from Bob's conductor:
+
+![Retrieve Posts](../../../img/smb_retrieve_posts.png)
+
+!!! bug
+    There is currently a bug in the links implimentation that is preventing this from working.  
+    This is the nature of alpha software. We are working to solve this asap.
+    See [this issue](https://github.com/holochain/holochain-rust/issues/1824) for more details.
 
 Congratulations you have created a simple blog hApp running on a decentralized network :smiley:

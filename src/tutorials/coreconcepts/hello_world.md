@@ -45,14 +45,7 @@ Previously you wrote a test where Alice made a few zome calls and verified the r
 
 The aim here is for Alice to create a person and then Bob retrieve that same person.
 
-Open up your `test/index.js` file and add/update the following lines:
-
-Add `bob` to the scenario:
-
-```diff
--  const { alice } = await s.players({alice: config}, true)
-+  const { alice, bob } = await s.players({alice: config, bob: config}, true)
-```
+Open up your `test/index.js` file.
 
 Before you get Bob to retrieve Alice's person you need Bob to be able to see the person that Alice committed. 
 This goes back to to an idea that will come up a lot in Holochain, eventual consistency. In a nutshell an Agent that is connected to the same network as another agent will eventually come to agreement on what data exists.
@@ -169,6 +162,10 @@ Now point the keystore_file at `agent1.key` and the public_address is set to the
 keystore_file = 'agent1.key'
 public_address = 'HcScjdwyq86W3w5y3935jKTcs4x9H9Pev898Ui5J36Sr7TUzoRjMhoNb9fikqez'
 ```
+Set your agent to a test agent. This makes it load faster:
+```toml
+test_agent = true
+```
 
 > Your public address will be different to this one.
 
@@ -224,8 +221,12 @@ Finally add the sim2h network connection:
 ```toml
 [network]
 type = 'sim2h'
-sim2h_url = 'wss://0.0.0.0:9001'
+sim2h_url = 'wss://sim2h.holochain.org:9000'
 ```
+
+!!! warning "Public server"
+    The above sim2h server is a public server. It has not been secured and should never be used in production.
+    You can also run your own local server.
 
 The easiest thing to do now is copy this config file and change a few lines:
 ```bash
