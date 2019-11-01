@@ -57,7 +57,8 @@
             {{ config.site_name }}
           {% else %}
             <span class="md-header-nav__topic">
-              {{ config.site_name }} <span class="version">v0.2.0</span>
+              {{ config.site_name }} <span class="version"><a href="/docs/changelog" target="_blank" title="Changelog">v0.2.0</a></span>
+                
             </span>
             <span class="md-header-nav__topic">
               {% if page and page.meta and page.meta.title %}

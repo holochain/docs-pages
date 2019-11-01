@@ -12,21 +12,25 @@ nav:
     - Who is Holochain For?: who-is-holochain-for.md
     - Ready to Develop?: ready-to-develop.md
     - Install Holochain: install.md
+    - Create a New App: create-new-app.md
     - Get Involved: get-involved.md
+    - Glossary [WIP]: glossary.md
   - Core Concepts:
     - Introduction: 'concepts/index.md'
-    - The basics: 'concepts/1_the_basics.md'
-    - Application architecture: 'concepts/2_application_architecture.md'
-    - Private data on your local source chain: 'concepts/3_private_data.md'
-    - Public data on the DHT: 'concepts/4_public_data_on_the_DHT.md'
-    - Linking data together: 'concepts/5_linking_data_together.md'
-    - Modifying and deleting data: 'concepts/6_modifying_and_deleting_data.md'
+    - The Basics: 'concepts/1_the_basics.md'
+    - Application Architecture: 'concepts/2_application_architecture.md'
+    - Private Data on Your Local Source Chain: 'concepts/3_private_data.md'
+    - Public Data on the DHT: 'concepts/4_public_data_on_the_DHT.md'
+    - Linking Data Together: 'concepts/5_linking_data_together.md'
+    - Modifying and Deleting Data: 'concepts/6_modifying_and_deleting_data.md'
   - Tutorials:
     - Introduction: 'tutorials/coreconcepts/index.md'
     - Hello Holo Tutorial: 'tutorials/coreconcepts/hello_holo.md'
     - Hello Test Tutorial: 'tutorials/coreconcepts/hello_test.md'
     - Hello Gui Tutorial: 'tutorials/coreconcepts/hello_gui.md'
     - Hello Me Tutorial: 'tutorials/coreconcepts/hello_me.md'
+    - Hello World Tutorial [WIP]: 'tutorials/coreconcepts/hello_world.md'
+    - Simple Micro Blog Tutorial [WIP]: 'tutorials/coreconcepts/simple_micro_blog.md'
   - Guidebook:
     - Welcome: 
       - 'guide/welcome.md'

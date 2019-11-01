@@ -1,5 +1,9 @@
 # Holochain Glossary
 
+!!! info "WIP"
+    This article is currently a work in progress and subject to frequent change.  
+    See [changelog](../changelog) for details.
+
 As you go through our documentation you'll probably find some unfamiliar terms, or familiar ones used in surprising ways. Here are the definitions we use.
 
 #### Address
