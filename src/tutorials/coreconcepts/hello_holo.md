@@ -25,21 +25,21 @@ nix-shell https://holochain.love
 
 Pick a new home for all your future Holochain applications to live. Something like  `home_directory/holochain/`.
 
-Then create a `core concepts` folder for this tutorial series:
+Then create a `core_concepts` folder for this tutorial series:
 
 ```bash
 cd ~
 mkdir holochain 
 cd holochain
-mkdir core concepts
-cd core concepts
+mkdir core_concepts
+cd core_concepts
 ``` 
 
 Time to put the holochain command line tool (`hc`) to work and make your app.
 
 Initialize a new app and enter the app directory:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc init cc_tuts
     cd cc_tuts 
@@ -47,11 +47,15 @@ Initialize a new app and enter the app directory:
 
 #### Compile 
 
+!!! tip "Run `hc` and `holochain` from root directory"
+    All `hc` and `holochain` commands should be run from the project root (ie. `cc_tuts/`).
+    Except of course `hc init` because the root doesn't exist at this point.
+
 It's an always good to frequently compile your app. That way you catch any mistakes early on. 
 
 Give it a go by asking `hc` to package your app:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
@@ -71,14 +75,14 @@ Your app doesn't really do too much right now because it needs a [zome](https://
 
 Generate a zome called `hello` inside the zome's folder:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc generate zomes/hello rust-proc
     ```
 
 #### Compile
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
@@ -305,7 +309,7 @@ Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddn
 
 > If you do find any errors, remember to fix them before moving on. You can always get help on the [forum](https://forum.holochain.org/t/about-the-getting-started-category/167).
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
@@ -315,7 +319,7 @@ Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddn
 To interact with your application you can run it in HTTP mode.
 
 Run your app in HTTP mode:
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc run -i http
     ```
@@ -330,7 +334,7 @@ nix-shell https://holochain.love
 
 Enter the following request, which will call the `hello_holo` function and return the result:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     curl -X POST -H "Content-Type: application/json" -d '{"id": "0", "jsonrpc": "2.0", "method": "call", "params": {"instance_id": "test-instance", "zome": "hello", "function": "hello_holo", "args": {} }}' http://127.0.0.1:8888
     ```
@@ -340,4 +344,4 @@ Enter the following request, which will call the `hello_holo` function and retur
     {"jsonrpc":"2.0","result":"{\"Ok\":\"Hello Holo\"}","id":"0"}
     ```
 
-Congratulations---you have created your first distributed Holochain application! :rocket:
+Congratulations&mdash;you have created your first distributed Holochain application! :rocket:

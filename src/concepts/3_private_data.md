@@ -24,9 +24,9 @@ The conductor generates and stores all your keypairs in an encrypted, password-p
 | Private Key | Public Key |
 | -------- | -------- |
 | • Stays **secret** on your device | • **Shared** with all your peers on the network |
-| • Acts like a **password**---only you have it, and it's necessary for proving ownership of your public key | • Acts like a **user ID**---uniquely identifies you to other users |
-| • Acts like a **royal seal**---creates unforgeable, tamper-evident ['digital signatures'](https://en.wikipedia.org/wiki/Digital_signature) on your data | • Acts like a **picture of a royal seal**---allows others to verify your signatures |
-| • Acts like a **mailbox key**---decrypts data encrypted with your public key | • Acts like a **mail slot**---allows others to encrypt and send data meant only for you |
+| • Acts like a **password**&mdash;only you have it, and it's necessary for proving ownership of your public key | • Acts like a **user ID**&mdash;uniquely identifies you to other users |
+| • Acts like a **royal seal**&mdash;creates unforgeable, tamper-evident ['digital signatures'](https://en.wikipedia.org/wiki/Digital_signature) on your data | • Acts like a **picture of a royal seal**&mdash;allows others to verify your signatures |
+| • Acts like a **mailbox key**&mdash;decrypts data encrypted with your public key | • Acts like a **mail slot**&mdash;allows others to encrypt and send data meant only for you |
 
 Don't worry if some of this doesn't make sense. Public key cryptography is complicated, so analogies tend to end up pretty muddy.
 
@@ -74,9 +74,9 @@ Let's look even closer at that first line in the header.
 
 This is what ensures the integrity of the entire source chain. It points back to the previous entry's header, which points back to _its_ previous entry's header, and so forth. With a paper journal, you can tell if someone's ripped out a page, glued a new page in, or taped a sheet of paper over an existing page. If you share your journal with someone else, they can verify its integrity in the same way. This chain of header hashes is the digital equivalent.
 
-But---_what if I want to tamper with my own source chain_? I have everything I need to recreate the necessary signatures and previous header hashes. This would be like buying a new journal, meticulously copying every entry up to the point that I wanted to make the change, then creating a new entry that didn't exist in my old journal. For a diary, this wouldn't matter so much. But if my source chain holds financial records, I could commit some serious mischief.
+But&mdash;_what if I want to tamper with my own source chain_? I have everything I need to recreate the necessary signatures and previous header hashes. This would be like buying a new journal, meticulously copying every entry up to the point that I wanted to make the change, then creating a new entry that didn't exist in my old journal. For a diary, this wouldn't matter so much. But if my source chain holds financial records, I could commit some serious mischief.
 
-Holochain's answer is simple---_somebody will notice_. More on that in the next concept!
+Holochain's answer is simple&mdash;_somebody will notice_. More on that in the next concept!
 
 ## Learn more
 

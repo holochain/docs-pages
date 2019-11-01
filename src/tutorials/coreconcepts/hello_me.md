@@ -1,4 +1,8 @@
 \#S:EXTERNAL=rust=hello_me.rs
+\#S:EXTERNAL=html=hello_me.html=gui
+\#S:EXTERNAL=javascript=hello_me_gui.js=gui
+\#S:EXTERNAL=javascript=hello_me_gui.js=gui2
+\#S:EXTERNAL=javascript=hello_me.js=test
 # Hello Me
 
 Welcome back to another tutorial in the Core Concepts series. 
@@ -24,17 +28,13 @@ Open up `cc_tuts/test/index.js`.
 This is how we left the testing scenario in the [Hello Test](../hello_test) tutorial:
 
 \#S:MODE=test
-\#S:EXTERNAL=javascript=hello_me.js=test
 \#S:SKIP
 ```javascript
-diorama.registerScenario("Test hello holo", async (s, t, { alice }) => {
-  // Make a call to the `hello_holo` Zome function
-  // passing no arguments.
-  const result = await alice.call("hello", "hello_holo", {});
-  // Make sure the result is ok.
+orchestrator.registerScenario("Test hello holo", async (s, t) => {
+  const { alice } = await s.players({alice: config}, true)
+  
+  const result = await alice.call('cc_tuts', "hello", "hello_holo", {});
   t.ok(result.Ok);
-
-  // Check that the result matches what you expected.
   t.deepEqual(result, { Ok: 'Hello Holo' })
   
   // <---- Put your new tests here
@@ -42,14 +42,11 @@ diorama.registerScenario("Test hello holo", async (s, t, { alice }) => {
 ```
 \#S:INCLUDE,HIDE
 ```javascript
-diorama.registerScenario("Test hello holo", async (s, t, { alice }) => {
-  // Make a call to the `hello_holo` Zome function
-  // passing no arguments.
-  const result = await alice.call("hello", "hello_holo", {});
-  // Make sure the result is ok.
+orchestrator.registerScenario("Test hello holo", async (s, t) => {
+  const { alice } = await s.players({alice: config}, true)
+  
+  const result = await alice.call('cc_tuts', "hello", "hello_holo", {});
   t.ok(result.Ok);
-
-  // Check that the result matches what you expected.
   t.deepEqual(result, { Ok: 'Hello Holo' })
   
 ```
@@ -60,19 +57,28 @@ The following test will create an entry with the name "Alice", retrieve the same
 Add a call to the `create_person` function with a person whose name is Alice:
 
 ```javascript
-  const create_result = await alice.call("hello", "create_person", {"person": { "name" : "Alice" }});
+  const create_result = await alice.call('cc_tuts', "hello", "create_person", {"person": { "name" : "Alice" }});
 ```
 
 Check that the result of the call is Ok:
 
 ```javascript
   t.ok(create_result.Ok);
+  const alice_person_address = create_result.Ok;
+```
+
+Tell the test to wait for the dht to become consistent.
+
+```javascript
+
+  await s.consistency()
+
 ```
 
 Add a call to the `retrieve_person` function with the address from the last call:
 
 ```javascript
-  const retrieve_result = await alice.call("hello", "retrieve_person", {"address": create_result.Ok});
+  const retrieve_result = await alice.call('cc_tuts', "hello", "retrieve_person", {"address": alice_person_address });
 ```
 
 Check that this call is Ok as well:
@@ -90,7 +96,7 @@ This is the actual result we want at the end of the test. Check that the entry a
 
 })
 
-diorama.run()
+orchestrator.run()
 ```
 ### Running the test
 
@@ -108,7 +114,7 @@ nix-shell https://holochain.love
 
 Run the test:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc test
     ```
@@ -329,7 +335,7 @@ Return the `Ok` result with the new person entry's address:
 
 Check for compile errors again:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
@@ -366,7 +372,7 @@ Get the entry from your local storage, asking for it by address, and convert it 
 
 Instead of directly compiling, you can run the test you wrote at the start (the test always compiles before it runs):
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc test
     ```
@@ -427,6 +433,7 @@ Move the everything inside the `<script>` tag into the `hello.js`:
 +}
 ```
 
+
 Add the `src` attribute to the `<script>` tag:
 
 ```html
@@ -436,9 +443,14 @@ Add the `src` attribute to the `<script>` tag:
 
 ## Create person UI widget
 
+
+\#S:INCLUDE
+
 In your `index.html` start by adding the HTML elements to create a person.
 
 Look for the previous 'say hello' elements.
+
+\#S:SKIP
 
 ```html
     <button onclick="hello()" type="button">Say Hello</button>
@@ -446,6 +458,7 @@ Look for the previous 'say hello' elements.
     <!-- Put the following lines here -->
 ```
 
+\#S:INCLUDE
 Below them, give the section a heading:
 ```html
     <h3>Create a person</h3>
@@ -469,29 +482,8 @@ Add a span with the id `address_output` so you can render the result of this cal
     <div>Address: <span id="address_output"></span></div>
 ```
 
-??? question "Check your index.html:"
-    ```html
-    <!DOCTYPE html>
-
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-
-        <title>Hello GUI</title>
-        <meta name="description" content="GUI for a Holochain app" />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css"
-        />
-      </head>
-
-      <body>
-        <button onclick="hello()" type="button">Say Hello</button>
-        <div>Response: <span id="output"></span></div>
-        <h3>Create a person</h3>
-        <input type="text" id="name" placeholder="Enter your name :)" />
-        <button onclick="create_person()" type="button">Submit Name</button>
-        <div>Address: <span id="address_output"></span></div>
+\#S:EXTRA
+```
         <script
           type="text/javascript"
           src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
@@ -499,9 +491,14 @@ Add a span with the id `address_output` so you can render the result of this cal
         <script type="text/javascript" src="hello.js"></script>
       </body>
     </html>
-    ```
+```
+
+\#S:CHECK=html=gui
+
+\#S:MODE=gui2
 
 ### Switch to your `hello.js` file
+
 
 Let's write the `create_person` function that will call your zome.
 
@@ -533,40 +530,7 @@ Call `create_person` in your `hello` zome and pass in the name variable as part 
 }
 ```
 
-??? question "Check your hello.js:"
-    ```javascript
-    // Connect
-    var holochain_connection = holochainclient.connect({
-      url: 'ws://localhost:3401',
-    });
-
-    // Render functions
-    function show_output(result) {
-      var span = document.getElementById('output');
-      var output = JSON.parse(result);
-      span.textContent = ' ' + output.Ok;
-    }
-
-    // Zome calls
-
-    function hello() {
-      holochain_connection.then(({callZome, close}) => {
-        callZome('test-instance', 'hello', 'hello_holo')({args: {}}).then(result =>
-          show_output(result),
-        );
-      });
-    }
-
-    function create_person() {
-      const name = document.getElementById('name').value;
-      holochain_connection.then(({callZome, close}) => {
-        callZome('test-instance', 'hello', 'create_person')({
-          person: {name: name},
-        }).then(result => console.log(result));
-      });
-    }
-    ```
-
+\#S:CHECK=javascript=gui2
 
 ### Run the server and open a browser
 
@@ -581,14 +545,14 @@ nix-shell https://holochain.love
 
 Run the server:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     python -m SimpleHTTPServer
     ```
 
 In your other terminal window (the one with your backend code) package and run your zome:
 
-!!! note "Run in `nix-shell`"
+!!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
@@ -638,7 +602,20 @@ function create_person() {
     callZome('test-instance', 'hello', 'create_person')({
       person: {name: name},
 -    }).then(result => console.log(result));
-+    }).then(result => show_output(result, id));
++    }).then(result => show_output(result, 'address_output'));
+  });
+}
+```
+
+\#S:HIDE,MODE=gui
+
+```javascript
+function create_person() {
+  const name = document.getElementById('name').value;
+  holochain_connection.then(({callZome, close}) => {
+    callZome('test-instance', 'hello', 'create_person')({
+      person: {name: name},
+    }).then(result => show_output(result, 'address_output'));
   });
 }
 ```
@@ -676,6 +653,20 @@ Add a span with the ID `person_output` to display the person that is returned fr
 ```html
     <div>Person: <span id="person_output"></span></div>
 ```
+
+\#S:HIDE
+```html
+    <script
+      type="text/javascript"
+      src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
+    ></script>
+    <script type="text/javascript" src="hello.js"></script>
+  </body>
+</html>
+```
+
+\#S:CHECK=html=gui
+
 
 ### Go to your `hello.js` file
 
@@ -716,6 +707,8 @@ function show_person(result) {
   person.textContent = ' ' + output.Ok.name;
 }
 ```
+
+\#S:CHECK=javascript=gui
 
 ### Enter the browser
 Finally go and test this out at `0.0.0.0:8000`.  

@@ -4,7 +4,7 @@
 
 ![](https://i.imgur.com/FDGsIDF.png)
 
-Hash-based content-addressable storage, such as Holochain's DHT, has one big advantage---you can ignore the physical location of data and ask for it by its fingerprint. This means no broken URLs, unavailable resources, or nasty surprises about what the entry contains.
+Hash-based content-addressable storage, such as Holochain's DHT, has one big advantage&mdash;you can ignore the physical location of data and ask for it by its fingerprint. This means no broken URLs, unavailable resources, or nasty surprises about what the entry contains.
 
 It does, however, make it hard to find the data you're looking for. If it were all on one machine, you could just do a quick search. But on a distributed system, where everyone has a little bit of the whole data set, that would get pretty slow.
 

@@ -25,4 +25,4 @@ With Holochain, we are approaching the problem differently. We recognize that in
 
 This simple foundation creates a surprisingly robust, resilient system. It's a lot like what biological systems have been doing for billions of years.
 
-Although the foundation of Holochain is simple, there are many complexities involved. But don't worry---Holochain manages most of this for you at the 'subconscious' level. All you need to do is focus on your app's functionality.
+Although the foundation of Holochain is simple, there are many complexities involved. But don't worry&mdash;Holochain manages most of this for you at the 'subconscious' level. All you need to do is focus on your app's functionality.

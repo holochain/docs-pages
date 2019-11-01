@@ -37,17 +37,16 @@
 <p>We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:</p>
 
 ```
-curl https://nixos.org/nix/install
+curl https://nixos.org/nix/install | sh
 ```
 
 <p>Check that it installed correctly:</p>
 
 ```
-nix-env --versioncopy
+nix-env --version
 ```
 
-<p>You should see something like:</p>
-
+<p>You should see something like: </p>
 <code>nix-env (Nix) 2.2.2</code>
 
 <p>If you’d like to know more about NixOS and why we use it, you can <a href="../nix/">find information on Nix here</a>.</p>
@@ -140,9 +139,10 @@ cd /vagrant
 nix-env --version
 ```
 
-<p>You should see something like:</p>
-
-<code>nix-env (Nix) 2.2.2</code>
+!!! success "You should see something like:"
+    ```
+    nix-env (Nix) 2.2.2
+    ```
 
 <p>If you’d like to know more about Nix and why we use it, you can <a href="../nix/">find information on Nix here</a>.</p>
 <p>If you’d like to know more the Windows / Vagrant setup you can <a href="../vagrant/">find information here</a>.</p>
@@ -159,27 +159,34 @@ Now that you have installed Nix, you can run a development shell that contains a
 nix-shell https://holochain.love
 ```
 
-The first time you run this command it will take some time to download and build, but it will be much faster the next time. When it’s complete, you will see a new prompt starting with:
+The first time you run this command it will take some time to download and build, but it will be much faster the next time. 
 
-<code>[nix-shell:</code>
+!!! info "When it’s complete, you will see a new prompt starting with:"
+    ```
+    [nix-shell:
+    ```
 
 Test that Holochain is working by running:
 
-```
-[nix-shell:hc --version
-```
+!!! note "Run in `nix-shell https://holochain.love`"
+    ```
+    hc --version
+    ```
 
-and:
+!!! success "You should see some thing like:"
+    ```
+    hc 0.0.35-alpha7
+    ```
 
-```
-[nix-shell:holochain --version
-```
+!!! note "Run in `nix-shell https://holochain.love`"
+    ```
+    holochain --version
+    ```
 
-You should see something like:
-
-<code>[nix-shell: hc 0.0.29-alpha2</code>
-
-<code>[nix-shell: holochain 0.0.29-alpha2</code>
+!!! success "You should see:"
+    ```
+    holochain 0.0.35-alpha7
+    ```
 
 ### Update/Uninstall
 With nix-shell, you don’t need to worry about updating or uninstalling; when you enter the nix-shell, everything is the latest release and is then cleaned up when you exit.
@@ -189,76 +196,19 @@ In most cases you can run your editor as normal. However, if you are using an in
 
 > To do this just open your editor while you are in the nix-shell like:
 
-```
-[nix-shell:vim my_file.rs
-```
-
----
-
-## Build Your First DNA
-
-### Your first app
-
-The hc tool can generate the basics of a new Holochain app.<br>
-hc is available from the previous step.
-
-> If you are using nix-shell, enter it before continuing.
-
-The command to generate a new app is <code>hc init</code><br>
-Let’s create a new app called <code>my_first_app</code>
-
-To do this with hc, run:
-
-```
-hc init my_first_app
-```
-
-> Note: If you get this <code>Error: directory is not empty</code>, it’s because the <code>my_first_app</code> directory already exists. To remove it, simply run <code>rm -fr my_first_app</code>.
-
-The basic structure of a Holochain project is now in the “my_first_app” folder. Explore it in a file browser or text editor.
-
-Once you have a feel for what was created, try generating a "zome."
-A “zome” is what we call the source code of a Holochain app.
-
-First, make sure your terminal is working from the <code>my_first_app</code> folder.
-
-Run the following to move to the apps directory:
-
-```
-cd my_first_app
-```
-
-To generate a zome, run the following command:
-
-```
-hc generate zomes/my_zome
-```
-
-This will add a Rust project into the <code>zomes/my_zome</code> sub-folder.
-You can now open the generated code in a text editor and start building!
-
-The generated zomes come with a simple automated test suite.
-The tests can be found in <code>my_first_app/test/index.js</code>.
-The tests can be run with the test command:
-
-```
-hc test
-```
-
-To learn more about the hc tool, run the help command:
-
-```
-hc help
-```
-
----
+!!! note "Run in `nix-shell https://holochain.love`"
+    ```
+    vim my_file.rs
+    ```
 
 ## Next Steps
 
-1. **Read through the [Holochain Core Concepts](../concepts/).**
-2. Learn more about Holochain development in the [Guidebook](../guide/welcome/).
-3. Learn more about Rust in Holochain [API Reference Documentation](../api/), [Crates.io](https://crates.io/search?q=Holochain), and the [Rust book](https://doc.rust-lang.org/book/).
-4. Learn more about Nix as a dev dependency and why we’re using it in the [Holonix documentation](https://github.com/holochain/holonix).
+1. __Read through the [Holochain Core Concepts](../concepts/).__
+2. __Start the [hello holo tutorial](../tutorials/coreconcepts/hello_holo)__
+3. __Create a [new app](../create-new-app)__
+4. Learn more about Holochain development in the [Guidebook](../guide/welcome/).
+5. Learn more about Rust in Holochain [API Reference Documentation](../api/), [Crates.io](https://crates.io/search?q=Holochain), and the [Rust book](https://doc.rust-lang.org/book/).
+6. Learn more about Nix as a dev dependency and why we’re using it in the [Holonix documentation](https://github.com/holochain/holonix).
 
 <script>
 function rudrSwitchTab(rudr_tab_id, rudr_tab_content) {
