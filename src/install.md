@@ -37,7 +37,7 @@
 <p>We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:</p>
 
 ```
-curl https://nixos.org/nix/install
+curl https://nixos.org/nix/install | sh
 ```
 
 <p>Check that it installed correctly:</p>

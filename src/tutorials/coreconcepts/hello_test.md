@@ -182,9 +182,11 @@ orchestrator.run();
 \#S:CHECK=javascript
 
 Now in the `hello_helo` directory, run the test like this:
-```bash
-$ hc test
-```
+
+!!! note "Run in `nix-shell https://holochain.love`"
+    ```bash
+    $ hc test
+    ```
 
 This will compile and run the test scenario you just wrote. You will see a lot of output. 
 
