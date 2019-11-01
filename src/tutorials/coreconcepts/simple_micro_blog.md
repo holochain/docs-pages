@@ -9,12 +9,12 @@
 
 !!! info "WIP"
     This article is currently a work in progress and subject to frequent change.  
-    See [changelog](../changelog) for details.
+    See [changelog](/docs/changelog) for details.
 
 Welcome to the Simple Micro blog tutorial in the Core Concepts tutorial series. The aim of this tutorial is to show how entries can be linked to each other in a Holochain app.  
 A link is simply a relationship between two entries. It's a useful way to find some data from something you already know. For example, you could link from your user's agent ID entry to their blog posts.
 
-You will be building on the previous [Hello World](hello_world) tutorial and making a super simple blog app. The app's users will be able to post a blog post and then retrieve other users' posts.
+You will be building on the previous [Hello World](../hello_world) tutorial and making a super simple blog app. The app's users will be able to post a blog post and then retrieve other users' posts.
 
 
 ## Add a Post
@@ -60,8 +60,6 @@ Up until this point all the validation has done is check that the data is in the
 
 One thing you might like to do is make sure the blog posts cannot be longer then some maximum length.
 
-> Can you think of a way a user could still have an entry with more than the maximum length?
-> _Hint: What if they `Modify`?_
 
 Use a match statement to check the entry when it's created:
 ```rust
@@ -85,10 +83,13 @@ Simply check if the message is less than or equal to the maximum or return an er
             },
 ```
 
+> Can you think of a way a user could still have an entry with more than the maximum length?
+> _Hint: What if they `Modify`?_
+
 The user needs some way of finding which posts belong to an agent.  
 In Holochain we use links to associate data to something known.  
 The following creates a link from the agents address to a post.  
-Every agent has a unique address and you will so how to find it later.  
+Every agent has a unique address and you will see how to find it later.  
 
 Add the link _from_ the `%agent_id`:
 ```rust
@@ -96,7 +97,7 @@ Add the link _from_ the `%agent_id`:
                 from!(
                    "%agent_id",
 ```
-Later you will use the link's type to find all the links on this anchor.
+Later you will use the link's _type_ to find all the links on this anchor.
 
 Set it to `author_post`:
 ```rust
@@ -184,7 +185,7 @@ The user will submit an agents address through the UI and then a list of posts w
 Later you will see how they will get hold of an agents address.  
 
 
-Add a public function that takes an author address and returns a [vector](https://doc.rust-lang.org/std/vec/struct.Vec.html) of posts:
+Add a public function that takes an author's agent address and returns a [vector](https://doc.rust-lang.org/std/vec/struct.Vec.html) of posts:
 
 ```rust
 #[zome_fn("hc_public")]
@@ -194,7 +195,7 @@ fn retrieve_posts(agent_address: Address) -> ZomeApiResult<Vec<Post>> {
 Retrieve all the `author_post` links from the agent's address that is passed in.
 This function should return a vector of Post structs. Luckily you can use the convenient `get_links_and_load_type` function to do all this.
 
-Links with _exactly_ the type of `author_post` (instead of a fuzzy _regex_ search) and any tag are returned:
+Return a list of links with _exactly_ the type of `author_post` (instead of a fuzzy _regex_ search) and any tag.
 ```rust
     hdk::utils::get_links_and_load_type(
         &agent_address,
@@ -434,14 +435,19 @@ This is the same setup as the previous tutorial.
 
 #### Terminal one
 
+!!! warning "Only for local:"
+    Only do this if you are running a local copy of sim2h server.  
+    Otherwise skip this step.
+
 Run the sim2h server
+
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
     sim2h_server -p 9001
     ```
 
 #### Terminal two 
-Package the dna and then update the hash 
+Package the dna and then update the hash:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
@@ -458,13 +464,13 @@ If you're feeling lazy I have provided a `sed` command to update the config file
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    sed -i "s/hash = '.*/hash = 'QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG'/g" conductor-config-agent1.toml
+    sed -i "s/hash = '.*/hash = 'QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG'/g" conductor-config-alice.toml
     ```
 
 Run Alice's conductor:
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    holochain -c conductor-config-agent1.toml
+    holochain -c conductor-config-alice.toml
     ```
 
 #### Terminal three
@@ -472,18 +478,18 @@ No need to compile again but you will need to update the hash in Bob's config fi
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    sed -i "s/hash = '.*/hash = 'QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG'/g" conductor-config-agent2.toml
+    sed -i "s/hash = '.*/hash = 'QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG'/g" conductor-config-bob.toml
     ```
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    holochain -c conductor-config-agent2.toml
+    holochain -c conductor-config-bob.toml
     ```
 Start the second conductor:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    holochain -c conductor-config-agent2.toml
+    holochain -c conductor-config-bob.toml
     ```
 
 #### Terminal four 
@@ -541,7 +547,7 @@ Copy Alice's agent id and try retrieving her posts from Bob's conductor:
 ![Retrieve Posts](../../../img/smb_retrieve_posts.png)
 
 !!! bug
-    There is currently a bug in the links implimentation that is preventing this from working.  
+    There is currently a bug in the links implementation that is preventing this last operation from working.  
     This is the nature of alpha software. We are working to solve this asap.
     See [this issue](https://github.com/holochain/holochain-rust/issues/1824) for more details.
 

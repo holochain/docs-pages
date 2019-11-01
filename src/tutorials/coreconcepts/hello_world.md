@@ -8,18 +8,19 @@
 
 !!! info "WIP"
     This article is currently a work in progress and subject to frequent change.  
-    See [changelog](../changelog) for details.
+    See [changelog](/docs/changelog) for details.
 
-Hello and welcome to the hello world tutorial. It's a little strange to do a hello world tutorial as the 5th tutorial, however that's because we really want to show the agent perspective of a Holochain app.
+Hello and welcome to the hello world tutorial. It's a little strange to do a hello world tutorial as the 5th tutorial, however that's because we really want to show the agent perspective of a Holochain app. This is the first time the agent will be interacting with the _world_.
 
 So far all the previous tutorials have had a local perspective of a single agent. However, the real power of Holochain comes from interacting with other agents.
 
 With that in mind let's try to share some data between two agents. To achieve this you will run two conductors, Alice and Bob.  
-Then add an entry to Alice's local chain. Finally, retrieve that same entry from Bob's instance.
+Then add an entry to Alice's local chain.  
+Finally, retrieve that same entry from Bob's instance.
 
 ## Make your entry public 
 
-So far the only entry you have had has been private. If you want your users to be able to share some data then you can set the entry to public in the definition.
+So far the only entry you have had has been private. You want your users to be able to share data then you can set the entry to public in the definition.
 
 Open up your `zomes/hello/code/src/lib.rs` file.
 
@@ -114,7 +115,7 @@ Now run the test and make sure it passes:
 
 ## Switch to the Holochain conductor
 
-Now it would be cool to see this happen for real outside of a test. Up till now you have only used `hc run` to run a single conductor. However, in order to have two separate conductors communicate on one machine, we need to use the `holochain` cli tool.  
+Now it would be cool to see this happen for real, outside of a test. Up till now you have only used `hc run` to run a single conductor. However, in order to have two separate conductors communicate on one machine, we need to use the `holochain` cli tool.  
 This takes a bit of setting up.
 
 !!! tip "hc run vs holochain"
@@ -126,7 +127,7 @@ Use `hc keygen` in your nix-shell to generate a key for each agent:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    hc keygen -n -p agent1.key
+    hc keygen -n -p alice.key
     ```
 
 !!! success "This will output something similar to the following:"
@@ -136,23 +137,23 @@ Use `hc keygen` in your nix-shell to generate a key for each agent:
     Succesfully created new agent keystore.
 
     Public address: HcScjdwyq86W3w5y3935jKTcs4x9H9Pev898Ui5J36Sr7TUzoRjMhoNb9fikqez
-    Keystore written to: agent1.key 
+    Keystore written to: alice.key 
 
     You can set this file in a conductor config as keystore_file for an agent.
     ```
 
 Take note of the `Public address`; you will need it later.
 
-Now run `hc keygen` again but copy the key store to agent2.key:
+Now run `hc keygen` again but copy the key store to bob.key:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    hc keygen -n -p agent2.key
+    hc keygen -n -p bob.key
     ```
 
 ### Create the conductor config file
 
-Create a new file in the root directory of your project called `conductor-config-agent1.toml`.
+Create a new file in the root directory of your project called `conductor-config-alice.toml`.
 
 Add an agent with ID `alice` and name it `Alice`:
 
@@ -161,18 +162,18 @@ Add an agent with ID `alice` and name it `Alice`:
 id = 'alice'
 name = 'Alice'
 ```
-Now point the keystore_file at `agent1.key` and the public_address is set to the `Public address` you generated before:
+Now point the keystore_file at `alice.key` and the public_address is set to the `Public address` you generated before:
 ```toml
-keystore_file = 'agent1.key'
+keystore_file = 'alice.key'
 public_address = 'HcScjdwyq86W3w5y3935jKTcs4x9H9Pev898Ui5J36Sr7TUzoRjMhoNb9fikqez'
-```
-Set your agent to a test agent. This makes it load faster:
-```toml
-test_agent = true
 ```
 
 > Your public address will be different to this one.
 
+Set your agent to a test agent. This makes it load faster:
+```toml
+test_agent = true
+```
 Next you need your DNA's hash:
 
 !!! note "Run in `nix-shell https://holochain.love`"
@@ -234,7 +235,7 @@ sim2h_url = 'wss://sim2h.holochain.org:9000'
 
 The easiest thing to do now is copy this config file and change a few lines:
 ```bash
-cp conductor-config-agent1.toml conductor-config-agent2.toml
+cp conductor-config-alice.toml conductor-config-bob.toml
 ```
 
 Change the names to Bob.
@@ -315,7 +316,12 @@ You going to need a few terminals to do this.
 
 #### Terminal one
 
+!!! warning "Only for local:"
+    Only do this if you are running a local copy of sim2h server.  
+    Otherwise skip this step.
+
 Run the sim2h server
+
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
     sim2h_server -p 9001
@@ -326,7 +332,7 @@ Start by running the conductor. It's a bit different this time; instead of `hc r
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    holochain -c conductor-config-agent1.toml
+    holochain -c conductor-config-alice.toml
     ```
 
 #### Terminal three
@@ -334,7 +340,7 @@ Start the second conductor:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    holochain -c conductor-config-agent2.toml
+    holochain -c conductor-config-bob.toml
     ```
 
 #### Terminal four 

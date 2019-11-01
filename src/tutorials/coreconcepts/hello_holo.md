@@ -47,6 +47,10 @@ Initialize a new app and enter the app directory:
 
 #### Compile 
 
+!!! tip "Run `hc` and `holochain` from root directory"
+    All `hc` and `holochain` commands should be run from the project root (ie. `cc_tuts/`).
+    Except of course `hc init` because the root doesn't exist at this point.
+
 It's an always good to frequently compile your app. That way you catch any mistakes early on. 
 
 Give it a go by asking `hc` to package your app:
