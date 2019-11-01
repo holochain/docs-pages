@@ -38,7 +38,7 @@ Let's see how this works with a very small address space:
 1. Alice lives at address 180. She publishes an entry and calculates that its address is 44.
 
 ![](https://i.imgur.com/WoKOxoQ.png)
-2. Alice's neighborhood goes from addresses 136 to 219. 44 is out of that range, so she asks her neighbor Bob to store it, because he's the closest person to 44 that she knows of. Bob says, "That's not in my neighborhood, but my neighbor Charlie is at address 72---try him."
+2. Alice's neighborhood goes from addresses 136 to 219. 44 is out of that range, so she asks her neighbor Bob to store it, because he's the closest person to 44 that she knows of. Bob says, "That's not in my neighborhood, but my neighbor Charlie is at address 72&mdash;try him."
 
 ![](https://i.imgur.com/uSzqqVZ.png)
 3. Alice asks Charlie to store it. His neighborhood goes from addresses 20 to 107, so he accepts it and tells her that he considers it valid.

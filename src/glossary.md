@@ -58,7 +58,7 @@ The [agent](#agent) who has [published](#publish) a [DHT entry](#dht-entry), as 
 
 #### Back end
 
-Synonymous with a collection of [DNA instances](#dna-instance) for a [hApp](#holochain-application-happ) --- the code that contains the base-level persistence and validation logic.
+Synonymous with a collection of [DNA instances](#dna-instance) for a [hApp](#holochain-application-happ) &mdash; the code that contains the base-level persistence and validation logic.
 
 #### Blockchain
 
@@ -304,7 +304,7 @@ A piece of [metadata](#metadata) connecting one [DHT entry](#dht-entry) to anoth
 
 #### Logical monotonicity
 
-Describes a set of facts in which the truth of prior facts are never negated by the addition of later facts. [CALM](#consistency-as-logical-monotonicity-calm) relies on functions that exhibit this property --- that is, [monotonically increasing functions](#monotonically-increasing-function).
+Describes a set of facts in which the truth of prior facts are never negated by the addition of later facts. [CALM](#consistency-as-logical-monotonicity-calm) relies on functions that exhibit this property &mdash; that is, [monotonically increasing functions](#monotonically-increasing-function).
 
 #### Membrane
 
@@ -444,7 +444,7 @@ A message emitted by a DNA, meant to be received and responded to a [client](#cl
 
 #### Source chain
 
-A [hash chain](#hash-chain) of actions taken by an [agent](#agent). For each [DHT](#distributed-hash-table-dht), every agent stores their own source chain as a record of [state changes](#state-change) they've made --- that is, [entries](#entry) they've committed.
+A [hash chain](#hash-chain) of actions taken by an [agent](#agent). For each [DHT](#distributed-hash-table-dht), every agent stores their own source chain as a record of [state changes](#state-change) they've made &mdash; that is, [entries](#entry) they've committed.
 
 #### Source chain entry
 
