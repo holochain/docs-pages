@@ -29,8 +29,8 @@ nav:
     - Hello Test Tutorial: 'tutorials/coreconcepts/hello_test.md'
     - Hello Gui Tutorial: 'tutorials/coreconcepts/hello_gui.md'
     - Hello Me Tutorial: 'tutorials/coreconcepts/hello_me.md'
-    - Hello World Tutorial: 'tutorials/coreconcepts/hello_world.md'
-    - Simple Micro Blog Tutorial: 'tutorials/coreconcepts/simple_micro_blog.md'
+    - Hello World Tutorial [WIP]: 'tutorials/coreconcepts/hello_world.md'
+    - Simple Micro Blog Tutorial [WIP]: 'tutorials/coreconcepts/simple_micro_blog.md'
   - Guidebook:
     - Welcome: 
       - 'guide/welcome.md'

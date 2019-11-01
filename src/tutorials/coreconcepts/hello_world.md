@@ -6,6 +6,10 @@
 \#S:EXTERNAL=html=hello_world.html=gui
 # Hello World
 
+!!! info "WIP"
+    This article is currently a work in progress and subject to frequent change.  
+    See [changelog](../changelog) for details.
+
 Hello and welcome to the hello world tutorial. It's a little strange to do a hello world tutorial as the 5th tutorial, however that's because we really want to show the agent perspective of a Holochain app.
 
 So far all the previous tutorials have had a local perspective of a single agent. However, the real power of Holochain comes from interacting with other agents.

@@ -7,6 +7,10 @@
 
 # Simple Micro Blog tutorial
 
+!!! info "WIP"
+    This article is currently a work in progress and subject to frequent change.  
+    See [changelog](../changelog) for details.
+
 Welcome to the Simple Micro blog tutorial in the Core Concepts tutorial series. The aim of this tutorial is to show how entries can be linked to each other in a Holochain app.  
 A link is simply a relationship between two entries. It's a useful way to find some data from something you already know. For example, you could link from your user's agent ID entry to their blog posts.
 
