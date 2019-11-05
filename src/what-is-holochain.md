@@ -19,4 +19,4 @@ We consider Holochain to be the Linux of distributed apps. It has powerful featu
 
 With Holochain, you can build better public network dApps, private and permissioned networks or dApps, and distributed apps that bridge the public-private model with multiple layers of permissions and governance. All of this is natively achieved using a consistent framework.
 
-** For more information, visit the [Holochain YouTube Channel](https://www.youtube.com/channel/UC9fNJMIQ9mQ4u9oyoVIqtDQ/playlists) and the [Holochain Blog](https://blog.holochain.org/). **
+__For more information, visit the [Holochain YouTube Channel](https://www.youtube.com/channel/UC9fNJMIQ9mQ4u9oyoVIqtDQ/playlists) and the [Holochain Blog](https://blog.holochain.org/).__

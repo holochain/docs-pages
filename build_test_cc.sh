@@ -20,7 +20,7 @@ echo "packaging: ${CONCEPT}"
 hc package
 if [ "${?}" -gt 0 ]; then
   echo ${CONCEPT}
-  exit 1
+  echo "${CONCEPT} failed to compile"
 fi
 #./update_hash.sh
 

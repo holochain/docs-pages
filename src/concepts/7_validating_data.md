@@ -10,12 +10,12 @@ If you're using our [Rust HDK](https://developer.holochain.org/api/latest/hdk/),
 
 The purpose of validation is to **empower a group of individuals to hold one another accountable to a shared agreement**. This is a pretty abstract claim, so let's break it down into a few categories. With validation rules, you can define:
 
-* **The shape of valid data**---upper/lower bounds on numbers, non-empty fields, or correctly formatted email addresses
-* **Rules of the game**---traditional games like Chess, or socioeconomic games like currencies, supply chains, and voting systems
-* **Write privileges**---enforcing permissions for [creating](../4_public_data_on_the_DHT), [updating, and removing](../6_modifyin_and_deleting_data) entries and links
-* **Entry membranes**---who's allowed to join the network
+* **The shape of valid data**&mdash;upper/lower bounds on numbers, non-empty fields, or correctly formatted email addresses
+* **Rules of the game**&mdash;traditional games like Chess, or socioeconomic games like currencies, supply chains, and voting systems
+* **Write privileges**&mdash;enforcing permissions for [creating](../4_public_data_on_the_DHT), [updating, and removing](../6_modifyin_and_deleting_data) entries and links
+* **Entry membranes**&mdash;who's allowed to join the network
 
-_Because every participant in this app holds a copy of the validation rules, everybody has the power to hold their peers to them._ As a user, you can refuse to participate in a fraudulent interaction. As a peer validator, you can blow the whistle on others who are committing fraud. When all these actions are aggregated, they allow a collection of individuals to form a self-policing network---a social organism with its own **immune system**.
+_Because every participant in this app holds a copy of the validation rules, everybody has the power to hold their peers to them._ As a user, you can refuse to participate in a fraudulent interaction. As a peer validator, you can blow the whistle on others who are committing fraud. When all these actions are aggregated, they allow a collection of individuals to form a self-policing network&mdash;a social organism with its own **immune system**.
 
 #### Learn more
 

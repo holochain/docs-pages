@@ -88,7 +88,7 @@ This is what ensures the integrity of the entire source chain. It points back to
 
 But _what if I want to tamper with my own source chain_? I have my private key, so I can throw away entries I don't like and forge new ones. This would be like buying a new journal, meticulously copying every entry up to the point that I wanted to make the change, then creating a new entry that didn't exist in my old journal. For a diary, this doesn't matter so much. But it gets serious when the journal holds things like financial transactions or ballots.
 
-Holochain's answer is simple---_somebody will notice_. More on that in the next concept!
+Holochain's answer is simple&mdash;_somebody will notice_. More on that in the next concept!
 
 ## Key takeaways
 

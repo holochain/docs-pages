@@ -12,7 +12,9 @@ nav:
     - Who is Holochain For?: who-is-holochain-for.md
     - Ready to Develop?: ready-to-develop.md
     - Install Holochain: install.md
+    - Create a New App: create-new-app.md
     - Get Involved: get-involved.md
+    - Glossary [WIP]: glossary.md
   - Core Concepts:
     - Introduction: 'concepts/index.md'
     - The basics: 'concepts/1_the_basics.md'
@@ -29,6 +31,8 @@ nav:
     - Hello Test Tutorial: 'tutorials/coreconcepts/hello_test.md'
     - Hello Gui Tutorial: 'tutorials/coreconcepts/hello_gui.md'
     - Hello Me Tutorial: 'tutorials/coreconcepts/hello_me.md'
+    - Hello World Tutorial [WIP]: 'tutorials/coreconcepts/hello_world.md'
+    - Simple Micro Blog Tutorial [WIP]: 'tutorials/coreconcepts/simple_micro_blog.md'
   - Guidebook:
     - Welcome:
       - 'guide/welcome.md'
@@ -191,3 +195,4 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.extra
+  - pymdownx.betterem
