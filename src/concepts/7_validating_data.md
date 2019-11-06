@@ -89,7 +89,7 @@ But it's annoying to hand-roll your own string parsing and deserialization code.
 * They should be **deterministic**: they should never return different results for one entry, regardless of who's validating it, when they're validating it, and what new information has been produced since it was published.
 * They should be **pure**: they shouldn't rely on any context such as time of day, the agent ID of the validator, or the current state of the DHT. This will help make them deterministic.
 * They should be **total**: they should define a result for the entire range of inputs---empty sets, negative numbers, and other base or edge cases should be accounted for.
-* For entries representing actions that affect a shared view of reality (such as votes on a ballot, or edits to a shared document), consider that nothing can be invalidated once it's been published and validated. But just as with [updating or deleting entries](../6_modifying_and_deleting_data), you can write new data that supersedes existing data.
+* Nothing can be invalidated once it's been published and validated. But just as with [updating or deleting entries](../6_modifying_and_deleting_data), you can write new data that supersedes existing data.
 
 ## Learn more
 
