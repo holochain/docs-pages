@@ -29,7 +29,7 @@ On top of Holochain is your application. Each application has a different flavor
 
 ![](https://i.imgur.com/ImkR73e.png)
 
-Let's put you inside the hole. You have agency&mdash;the power to receive information from your world and act on it. Together, your copy of the Holochain runtime and your application mediate between you and Holochain land. Your application defines a set of functions that define all the valid ways you can interact with it, and Holochain exposes those functions to you.
+Let's put you inside the hole. You have agency---the power to receive information from your world and act on it. Together, your copy of the Holochain runtime and your application mediate between you and Holochain land. Your application defines a set of functions that define all the valid ways you can interact with it, and Holochain exposes those functions to you.
 
 ![](https://i.imgur.com/Nvn4HIa.png)
 
