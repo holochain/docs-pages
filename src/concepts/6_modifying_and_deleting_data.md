@@ -45,14 +45,14 @@ This can break users' expectations. When a user asks a central service to delete
 
 In reality, this is true of anything you put on the internet. Even when a central database permanently deletes information, it can live on in caches, screenshots, public archives, reading-list apps, and people's minds.
 
-Here are some general guidelines for protecting user privacy:
+But because all public data is immutable on Holochain, here are some general guidelines for protecting user privacy:
 
-* As an app developer you can choose what to return to the UI. Your zome functions serve as a membrane around DHT data and can avoid retrieving entries that are marked obsolete.
-* Design your UI to communicate the permanent nature of information that users publish, so they can make responsible decisions.
+* Be choosy about what the DNA returns to the UI. Your zome functions serve as a membrane around DHT data and can avoid retrieving entries that are marked obsolete.
+* Design your UI to communicate the permanence of information that users publish, so they can make responsible decisions.
 
 Because data takes up space even when it's no longer live, be judicious about what you commit to the source chain and the DHT:
 
-* Consider using supporting databases such as a separate DHT, [IPFS](https://ipfs.io), [Dat](https://dat.foundation), or even a centralized service for large objects that have a short life.
+* For large objects that have a short life, consider storing data outside of the DHT: separate, short-lived DHTs, [IPFS](https://ipfs.io), [Dat](https://dat.foundation), or even a centralized service.
 * Commit updates to entries in batches, or store the deltas only rather than using the update function.
 
 ## Key takeaways
