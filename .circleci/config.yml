@@ -42,7 +42,7 @@ jobs:
           root: .
           paths:
             - docs/*
-            - docs/*
+            - build/*
    
   release:
     docker:
