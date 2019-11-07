@@ -164,7 +164,7 @@ theme:
     text: 'Work Sans'
     code: 'Roboto Mono'
   palette:
-    primary: 'white'
+    primary: 'indigo'
     accent: 'indigo'
   favicon: 'https://forum.holochain.org/uploads/default/original/1X/79f6577e3c8102e1f0caf8d2f43d4fcf472a3e34.png'
 

@@ -4,7 +4,7 @@ You can build almost any blockchain solution on Holochain, solutions that can ta
 
 Holochain has a “fat” UI, but a skinny back-end.
 
-## Use Holochain If 
+### Use Holochain If 
 
 * You want to empower your user communities to own their infrastructure without having to become system admins.
 * Your users want to own their data and have control over who accesses it.
