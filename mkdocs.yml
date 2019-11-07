@@ -150,8 +150,8 @@ nav:
       - (E) Zome: 'guide/zome.md'
       - (E) Source Chain: 'guide/source_chain.md'
       - Distributed Hash Table: 'guide/distributed_hash_table.md'
-  - API:
-    - API: api.md
+  - API: 
+    - API: 'https://docs.rs/hdk'
 
 
 # Theme
