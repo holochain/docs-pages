@@ -1,7 +1,7 @@
 # 04: Public data on the DHT
 
 <div class="coreconcepts-intro" markdown=1>
-Agents share their public keys, source chain headers, and public entries with their peers in a [**distributed hash table** (DHT)](https://en.wikipedia.org/wiki/Distributed_hash_table). This provides redundancy and availability for data and gives the network the power to detect corruption.
+Agents share their public keys, source chain headers, and public entries with their peers in a [**distributed hash table (DHT)](https://en.wikipedia.org/wiki/Distributed_hash_table)**. This distributed database provides redundancy and availability for data and gives the network the power to detect corruption.
 </div>
 
 <div class="coreconcepts-orientation" markdown=1>
@@ -22,9 +22,9 @@ If you're unsure of whether a distributed network can provide the same integrity
 
 Let's talk about your source chain again. It belongs to you, it lives in your own device, and you can choose to keep it private.
 
-However, the value of most apps comes from their ability to connect people to one another. Email, social media, and team collaboration tools wouldn't be very useful if you kept all your work to yourself. Data that lives on your machine is also not very available; as soon as you go offline, nobody else can access it. Most users don't want to run their own servers, so we need a way to make data public data stick around.
+However, the value of most apps comes from their ability to connect people to one another. Email, social media, and team collaboration tools wouldn't be very useful if you kept all your work to yourself. Data that lives on your machine is also not very available; as soon as you go offline, nobody else can access it. Most users don't want to run their own servers, so we need a way to make public data stick around.
 
-This is also the point where we run into integrity problems in a peer-to-peer system: when everybody is responsible for their own data, they can mess around with it any way they like. For a journal-based system, an agent could roll back a transaction or recall a vote and make it look like it never happened. In the last article we discovered that the signed source chain is resistant to third-party tampering, but not to tampering by its owner.
+This is also the point where we run into integrity problems in a peer-to-peer system: when everybody is responsible for their own data, they can mess around with it any way they like. In the last article we learned that the signed source chain is resistant to third-party tampering, but not to tampering by its owner. An agent could roll back a transaction or recall a vote and make it look like it never happened.
 
 And finally, forcing nodes to check the correctness of every piece of data they see seems inefficient. Surely we could speed things up for data that gets passed around a lot.
 
@@ -40,7 +40,7 @@ When you commit a private entry, it stays in your source chain but its header is
 
 ![](https://i.imgur.com/uWyEeby.png)
 
-Every DNA has its own private, [end-to-end encrypted](https://en.wikipedia.org/wiki/End-to-end_encryption) network of peers who [**gossip**](https://en.wikipedia.org/wiki/Gossip_protocol) with one another about new peers, new data entries, invalid data, and general network health.
+Every DNA has its own private, encrypted network of peers who [**gossip**](https://en.wikipedia.org/wiki/Gossip_protocol) with one another about new peers, new data entries, invalid data, and general network health.
 
 This network holds a distributed database of all public data. This database is called a [**distributed hash table (DHT)**](https://en.wikipedia.org/wiki/Distributed_hash_table), and is basically just a big key/value store. Each node holds a small **shard** of the DHT, so the burden of participation isn't painful.
 
@@ -81,7 +81,7 @@ Rosie learns that someone has published an interesting word whose address is M. 
 
 ## Resilience and availability
 
-The DHT stores multiple redundant copies of each entry, so the information is available even when its author or some of its validators are offline. This allows peers to access it whenever they need to.
+The DHT stores multiple redundant copies of each entry, so the information is available even when its author or some of its validators are offline. This allows others to access it whenever they need to.
 
 It also helps an application tolerate network disruptions. If your town experiences a natural disaster and is cut off from the internet, you and your neighbors can still use the app. The data you see might not be complete or up-to-date, but you can still interact with each other. You can even use the app when you're completely offline.
 
@@ -113,7 +113,7 @@ Before storing an entry or header, a validator checks that:
 2. The header is part of an unbroken, unmodified, unbranched source chain. This is what prevents you from rewriting your own history.
 3. The entry's content conforms to the [validation rules](../7_validating_data) defined in the DNA.
 
-If any one of these checks fails, the validator publishes a **warrant** This special piece of data holds the invalid entry as proof of the author's corruption. Other agents can use this information as grounds for defensive action. This is what creates Holochain's immune system.
+If any one of these checks fails, the validator broadcasts a **warrant** to its neighbors. This special piece of data holds the invalid entry as proof of the author's corruption, along with the author's signature proving their complicity. Other agents can use this information as grounds for defensive action. This is what creates Holochain's immune system.
 
 Let's see how this works. We'll continue the previous story, but this time we're in a DHT where the word "burger" is forbidden.
 
@@ -125,13 +125,13 @@ Alice publishes the phrase "veggie burger" (address V) and asks Walter to store 
 Walter sees that she's used the forbidden word and creates a warrant.
 
 3. ![](https://i.imgur.com/aXd7W7z.png)
-Walter shares the warrant with his neighbors, who confirm that the data is indeed invalid and share the warrant with their neighbors.
+Walter shares the warrant with Rosie and Zoe, who confirm that the data is indeed invalid and share the warrant with their neighbors.
 
 4. ![](https://i.imgur.com/JMU5sdz.png)
 As word gets around, all the nodes in the DHT add Alice to their block list. Eventually she's ejected from the entire network.
 </div>
 
-Using a hash as an address has a nice side benefit: entry addresses are random. Combined with random generation of node addresses, this means that a corrupt node would have to work very hard to craft an invalid entry with just the right address that would cause it to land in a neighborhood entirely controlled by colluding validators.
+Using a hash as an address has a nice side benefit: entry addresses are random. Combined with random generation of node addresses, this means that a corrupt node would have to work very hard to craft an invalid entry with just the right address to cause it to land in a validator neighborhood entirely controlled by their corrupt friends.
 
 The important thing is that the DHT _remembers what you've said in the past_, so it's very hard to go back on your word. It also speeds things up because you don't have to validate data that someone else has already validated. This is handy when, for instance, your DHT stores billions of financial interactions among millions of nodes---when your customer is standing at the checkout till, you don't want to have to walk back through their entire history of transactions with other parties, and _their_ transactions with yet more parties, just to make sure their account balance can handle a coffee purchase.
 
@@ -139,12 +139,11 @@ The important thing is that the DHT _remembers what you've said in the past_, so
 
 * Some source chain entries are marked as public. Nodes share these with their peers in a distributed database called the DHT.
 * Source chain headers of both public and private entries are also shared to the DHT.
-* An entry in a DHT is retrieved by its unique address, which is a hash of the entry's content.
-* Nodes take responsibility for an entry based on their addresses' nearness to the entry's address.
+* An entry in a DHT is retrieved by its unique address, which is the hash of the entry's content.
 * Holochain's DHT is a validating DHT that remembers the validation result of existing entries. This speeds things up for everyone and allows the detection of bad actors.
 * Holochain's DHT also detects agents' attempts to roll back their source chains and create alternate histories.
+* Validator nodes take responsibility for an entry based on their addresses' nearness to the entry's address. This helps to randomize validator selection.
 * News of bad actors is spread through warrants, special entries that carry evidence of corruption.
-* Validators are chosen randomly, based on a deterministic selection algorithm, to prevent collusion.
 * A DHT can set a resilience factor, or expected level of redundancy, for each entry.
 * A DHT tolerates network disruptions: it can keep operating as two separate networks and subsequently heal when the network is repaired.
 
