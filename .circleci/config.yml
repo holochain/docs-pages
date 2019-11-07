@@ -26,201 +26,11 @@ jobs:
       - persist_to_workspace:
           root: build
           paths:
-            - api/*
             - guide/*
             - docs/*
       - persist_to_workspace:
           root: .
           paths:
-            - docs/*
-
-  build-api:
-    docker:
-      - image: holochain/holonix:latest
-    steps:
-      - checkout
-      - attach_workspace:
-          at: build
-      #AUTOCACHE-RESTORE
-      - restore_cache:
-          key: -V1-build/api/v0.0.34-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.33-alpha6
-      - restore_cache:
-          key: -V1-build/api/v0.0.33-alpha5
-      - restore_cache:
-          key: -V1-build/api/v0.0.33-alpha4
-      - restore_cache:
-          key: -V1-build/api/v0.0.33-alpha3
-      - restore_cache:
-          key: -V1-build/api/v0.0.32-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.32-alpha2
-      - restore_cache:
-          key: -V1-build/api/v0.0.31-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.30-alpha6
-      - restore_cache:
-          key: -V1-build/api/v0.0.30-alpha5
-      - restore_cache:
-          key: -V1-build/api/v0.0.30-alpha4
-      - restore_cache:
-          key: -V1-build/api/v0.0.30-alpha3
-      - restore_cache:
-          key: -V1-build/api/0.0.30-alpha1
-      - restore_cache:
-          key: -V1-build/api/0.0.30-alpha2
-      - restore_cache:
-          key: -V1-build/api/0.0.29-alpha1
-      - restore_cache:
-          key: -V1-build/api/0.0.29-alpha2
-      - restore_cache:
-          key: -V1-build/api/0.0.28-alpha1
-      - restore_cache:
-          key: -V1-build/api/0.0.27-alpha1
-      - restore_cache:
-          key: -V1-build/api/0.0.26-alpha1
-      - restore_cache:
-          key: -V1-build/api/0.0.25-alpha1
-      - restore_cache:
-          key: -V1-build/api/0.0.24-alpha2
-      - restore_cache:
-          key: -V1-build/api/0.0.24-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.23-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.22-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.21-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.20-alpha3
-      - restore_cache:
-          key: -V1-build/api/v0.0.19-alpha1
-      - restore_cache:
-          key: -V1-build/api/v0.0.18-alpha1
-      #AUTOCACHE-RESTORE
-      - run:
-          name: Build api docs 
-          command: nix-shell https://holochain.love --run './build_api.sh'
-      #AUTOCACHE-SAVE
-      - save_cache:
-          key: -V1-build/api/v0.0.34-alpha1
-          paths:
-            - "build/api/v0.0.34-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.33-alpha6
-          paths:
-            - "build/api/v0.0.33-alpha6"
-      - save_cache:
-          key: -V1-build/api/v0.0.33-alpha5
-          paths:
-            - "build/api/v0.0.33-alpha5"
-      - save_cache:
-          key: -V1-build/api/v0.0.33-alpha4
-          paths:
-            - "build/api/v0.0.33-alpha4"
-      - save_cache:
-          key: -V1-build/api/v0.0.33-alpha3
-          paths:
-            - "build/api/v0.0.33-alpha3"
-      - save_cache:
-          key: -V1-build/api/v0.0.32-alpha1
-          paths:
-            - "build/api/v0.0.32-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.32-alpha2
-          paths:
-            - "build/api/v0.0.32-alpha2"
-      - save_cache:
-          key: -V1-build/api/v0.0.31-alpha1
-          paths:
-            - "build/api/v0.0.31-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.30-alpha6
-          paths:
-            - "build/api/v0.0.30-alpha6"
-      - save_cache:
-          key: -V1-build/api/v0.0.30-alpha5
-          paths:
-            - "build/api/v0.0.30-alpha5"
-      - save_cache:
-          key: -V1-build/api/v0.0.30-alpha4
-          paths:
-            - "build/api/v0.0.30-alpha4"
-      - save_cache:
-          key: -V1-build/api/v0.0.30-alpha3
-          paths:
-            - "build/api/v0.0.30-alpha3"
-      - save_cache:
-          key: -V1-build/api/0.0.30-alpha1
-          paths:
-            - "build/api/0.0.30-alpha1"
-      - save_cache:
-          key: -V1-build/api/0.0.30-alpha2
-          paths:
-            - "build/api/0.0.30-alpha2"
-      - save_cache:
-          key: -V1-build/api/0.0.29-alpha1
-          paths:
-            - "build/api/0.0.29-alpha1"
-      - save_cache:
-          key: -V1-build/api/0.0.29-alpha2
-          paths:
-            - "build/api/0.0.29-alpha2"
-      - save_cache:
-          key: -V1-build/api/0.0.28-alpha1
-          paths:
-            - "build/api/0.0.28-alpha1"
-      - save_cache:
-          key: -V1-build/api/0.0.27-alpha1
-          paths:
-            - "build/api/0.0.27-alpha1"
-      - save_cache:
-          key: -V1-build/api/0.0.26-alpha1
-          paths:
-            - "build/api/0.0.26-alpha1"
-      - save_cache:
-          key: -V1-build/api/0.0.25-alpha1
-          paths:
-            - "build/api/0.0.25-alpha1"
-      - save_cache:
-          key: -V1-build/api/0.0.24-alpha2
-          paths:
-            - "build/api/0.0.24-alpha2"
-      - save_cache:
-          key: -V1-build/api/0.0.24-alpha1
-          paths:
-            - "build/api/0.0.24-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.23-alpha1
-          paths:
-            - "build/api/v0.0.23-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.22-alpha1
-          paths:
-            - "build/api/v0.0.22-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.21-alpha1
-          paths:
-            - "build/api/v0.0.21-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.20-alpha3
-          paths:
-            - "build/api/v0.0.20-alpha3"
-      - save_cache:
-          key: -V1-build/api/v0.0.19-alpha1
-          paths:
-            - "build/api/v0.0.19-alpha1"
-      - save_cache:
-          key: -V1-build/api/v0.0.18-alpha1
-          paths:
-            - "build/api/v0.0.18-alpha1"
-      #AUTOCACHE-SAVE
-      - persist_to_workspace:
-          root: build
-          paths:
-            - api/*
-            - guide/*
             - docs/*
 
   build-mkdocs:
@@ -239,7 +49,6 @@ jobs:
       - persist_to_workspace:
           root: build
           paths:
-            - api/*
             - guide/*
             - docs/*
       - persist_to_workspace:
@@ -268,29 +77,22 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build-api:
-          requires:
-            - generate_and_test
-          filters:
-            branches:
-              only: master
-      - build-mkdocs:
-          requires:
-            - build-api
-            - generate_and_test
-          filters:
-            branches:
-              only: master
       - generate_and_test:
           filters:
             branches:
               only: 
                 - develop
                 - master
+      - build-mkdocs:
+          requires:
+            - generate_and_test
+          filters:
+            branches:
+              only: master
       - release:
           requires:
-            - build-api
             - build-mkdocs
+            - generate_and_test
           filters:
             branches:
               only: master 
