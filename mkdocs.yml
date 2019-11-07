@@ -3,8 +3,6 @@ site_name: Holochain Docs
 # Repository
 repo_url: https://github.com/holochain/docs-pages
 
-docs_dir: src
-
 # Navigation
 nav:
   - Get Started:
