@@ -43,6 +43,15 @@ Here's what happens in a node-to-node message exchange. Let's use a silent aucti
 4. Bob's conductor sends the callback's return value back to Alice's conductor.
 5. Alice's conductor returns the acknowledgement message to the `place_bid` function, which then records it on her source chain as proof of Bob's acknowledgement.
 
+## Key takeaways
+
+* Node-to-node messaging is a direct, end-to-end encrypted channel between two agents.
+* You message agents by their agent IDs; Holochain resolves the ID to the agent's IP address.
+* Node-to-node messaging can be used for any data exchange that needs to be private, synchronous, ephemeral, or immediate.
+* Node-to-node messaging can also facilitate agent-to-agent function calls, allowing one agent to 'delegate' their agency to another.
+* A message cycle starts with the initiator sending a message, followed by the recipient handling the message and sending a response to the initiator.
+* The message cycle blocks execution on the sender's side until they receive a response or the request times out.
+
 ## Learn more
 
 * [HDK Reference: `send` function](https://developer.holochain.org/api/v0.0.34-alpha1/hdk/api/fn.send.html)

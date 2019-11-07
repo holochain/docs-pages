@@ -33,7 +33,7 @@ Holochain is the engine that moves data around, validates it, and takes action b
 
 Some entries can be quite computationally expensive to validate. In a currency app, for example, the validity of a transaction rests on the account balances of both transacting parties, which is the sum of all their prior transactions. But the validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people they transacted with, and so on and so on. The data is deeply interconnected; it could take forever to call up every single transaction and validate it. This is annoying when you're waiting in a checkout line.
 
-But the DHT offers a shortcut: it remembers the validation results of existing entries. You can just ask the validators of the parties' previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those, and so on. As long as you trust a decent portion of your peers to be following the same rules as you, the validity the most recent entry 'proves' the validity of all the entries before it.
+But the DHT offers a shortcut: it remembers the validation results of existing entries. You can just ask the validators of the parties' previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those, and so on. As long as you trust a decent portion of your peers to be following the same rules as you, the validity of the most recent entry 'proves' the validity of all the entries before it.
 
 ## Validation flow: success and failure
 
@@ -51,7 +51,7 @@ When you **commit an entry**, your Holochain conductor is responsible for making
 3. The `publish_post` function gets her agent ID, combines it with the message and timestamp, and asks the conductor to `commit` it as an entry of type `post`.
 4. Alice's conductor calls the DNA's validation function for the `post` entry type.
 5. If her message is 140 characters or less and has a timestamp and author ID, the entry is valid. Her conductor commits the entry to her source chain, publishes it to the DHT, and returns the new entry's address to the `publish_post` function.
-6. If her message is 141 characters or more or is missing one of the extra fields, the validation function returns an error message. The conductor passes this message back to the `publish_post` function.
+6. If her message is 141 characters or more, or is missing one of the extra fields, the validation function returns an error message. The conductor passes this message back to the `publish_post` function.
 7. The function handles the validation result by returning it to the UI for processing.
 
 This isn't all that different from how form validation works in a client/server architecture.
@@ -71,7 +71,7 @@ When your node **receives an entry for validation**, the flow is very different.
 
 The purpose of validation is to **empower a group of individuals to hold one another accountable to a shared set of rules**. This is a pretty abstract claim, so let's break it down into a few categories. With validation rules, you can define:
 
-* **Access membranes**---validation rules on the **agent ID entry** control who's allowed to join a DNA's network and see its data.
+* **Access membranes**---validation rules on the **agent ID entry** govern who's allowed to join a DNA's network and see its data.
 * **The shape of valid data**---validation rules on **entry and link types that hold data** can enforce upper/lower bounds on numbers, string lengths, non-empty fields, or correctly formatted email addresses
 * **Rules of the game**---validation rules on **entry and links types that hold details about an action** can make sure chess moves, transactions, property transfers, and votes are legitimate.
 * **Privileges**---validation rules on **[create](../4_public_data_on_the_DHT), [update, or remove](../6_modifying_and_deleting_data) actions** on entries and links can define who gets to do what.
@@ -90,6 +90,21 @@ But it's annoying to hand-roll your own string parsing and deserialization code.
 * They should be **pure**: they shouldn't rely on any context such as time of day, the agent ID of the validator, or the current state of the DHT. This will help make them deterministic.
 * They should be **total**: they should define a result for the entire range of inputs---empty sets, negative numbers, and other base or edge cases should be accounted for.
 * Nothing can be invalidated once it's been published and validated. But just as with [updating or deleting entries](../6_modifying_and_deleting_data), you can write new data that supersedes existing data.
+
+## Key takeaways
+
+* Validation supports intrinsic data integrity, which upholds the security of a Holochain app.
+* Validation rules are the most important part of a Holochain DNA, as they define the core domain logic that define the 'rules of the game'.
+* Validation rules can cover an agent's entry into an application, the shape and content of data, rules for interaction, and permissions.
+* The result of a validation function should be an unambiguous indication of whether an agent is playing by the rules. They prove whether the author has hacked their software to produce invalid entries.
+* If the validation of entries depends on historical data, existing validation results can speed up the process.
+* An author validates all their entries before committing it to their source chain or publishing it to the DHT.
+* All public entries on the DHT are subject to third-party validation before they're stored. This validation uses the same rules that the author used at commit time.
+* Validation rules are functions that analyze the content of an entry and return either success or an error message.
+* When an entry is found to be invalid, the validator produces and shares a warrant, which proves that the author is producing corrupt data.
+* Agents can use warrants as grounds for blocking all communication with a corrupt agent.
+* Validation functions should be deterministic, pure, and total.
+* An entry can't be found invalid once it's been validated, but new data can be produced to supersede obsolete data.
 
 ## Learn more
 
