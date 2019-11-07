@@ -1,9 +1,14 @@
 \#S:MODE=test
 \#S:EXTERNAL=javascript=hello_holo.js=test
 # Hello Holo Tutorial
-
 Let's begin with the classic Hello ~~World~~ Holo tutorial!
 You will see it's super easy to create a distributed application with Holochain.
+
+## What will you learn
+How to create a Holochain zome, compile it into a DNA, and run it in the Holochain conductor.
+Then how to
+
+## Why it matters
 
 ### Setup
 
@@ -345,3 +350,7 @@ Enter the following request, which will call the `hello_holo` function and retur
     ```
 
 Congratulations&mdash;you have created your first distributed Holochain application! :rocket:
+
+## Key takeaways
+
+## Learn more
