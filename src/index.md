@@ -1,32 +1,34 @@
-title: Holochain Developer Documentation
+title: Get Started - Holochain Docs
 
 # Get Started with Holochain
 
-<span style="font-size: 1rem;">Holochain enables you to build truly serverless web applications—no infrastructure to support, no databases to secure.</span>
+Welcome to the Holochain Developer Documentation! We hope to guide you along your journey so that you gain a better understanding of Holochain, and are able to build your first distributed application.
 
-<div class="h-tile-container">
-	<div class="h-tile tile-started">
-		<a href="install">
-			<h3>Install Holochain</h3>
-			<p>Read through our quick start guide and install Holochain.</p>
+### Start your Holochain journey
+
+<div class="h-tile-container home-tiles">
+	<div class="h-tile tile-hero">
+		<a href="install" style="background-image:url(img/tile-1.jpg);">
+			<h2>Install Holochain</h2>
+			<p>Quick start guide</p>
 		</a>
 	</div>
-	<div class="h-tile tile-concepts">
-		<a href="concepts">
-			<h3>Core Concepts</h3>
-			<p>Our Core Concepts introduce you to the basics of Holochain.</p>
+	<div class="h-tile tile-hero">
+		<a href="concepts" style="background-image:url(img/tile-2.jpg);">
+			<h2>Core Concepts</h2>
+			<p>Introducing Holochain basics</p>
 		</a>
 	</div>
-	<div class="h-tile tile-tutorials">
-		<a href="tutorials/coreconcepts">
-			<h3>Tutorials</h3>
-			<p>A set of tutorials to take you through building applications.</p>
+	<div class="h-tile tile-hero">
+		<a href="tutorials/coreconcepts" style="background-image:url(img/tile-3.jpg);">
+			<h2>Tutorials</h2>
+			<p>Let's build an application</p>
 		</a>
 	</div>
-	<div class="h-tile tile-guidebook">
-		<a href="guide/welcome">
-			<h3>Guidebook</h3>
-			<p>Our guidebook offers a deeper understanding of Holochain.</p>
+	<div class="h-tile tile-hero">
+		<a href="glossary" style="background-image:url(img/tile-4.jpg);">
+			<h2>Glossary</h2>
+			<p>Holochain definitions</p>
 		</a>
 	</div>
-</div> 
+</div>
