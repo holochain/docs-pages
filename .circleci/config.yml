@@ -6,10 +6,8 @@ jobs:
 
     steps:
       - checkout
-      - attach_workspace:
-          at: build
       - restore_cache:
-          key: -V1-cc_tuts
+          key: -V2-cc_tuts
       - run:
           name: Get single_source 
           command: nix-shell https://holochain.love --run 'cargo install single_source' 
@@ -20,18 +18,14 @@ jobs:
           name: Run all tests
           command: nix-shell https://holochain.love --run './run_all_tests.sh' 
       - save_cache:
-          key: -V1-cc_tuts
+          key: -V2-cc_tuts
           paths:
             - "cc_tuts"
-      - persist_to_workspace:
-          root: build
-          paths:
-            - guide/*
-            - docs/*
       - persist_to_workspace:
           root: .
           paths:
             - docs/*
+            - build/docs/*
 
   build-mkdocs:
     docker:
@@ -41,19 +35,13 @@ jobs:
       - checkout
       - attach_workspace:
           at: . 
-      - attach_workspace:
-          at: build
       - run:
           name: Build mkdocs 
           command: mkdocs build -d build/docs
       - persist_to_workspace:
-          root: build
-          paths:
-            - guide/*
-            - docs/*
-      - persist_to_workspace:
           root: .
           paths:
+            - docs/*
             - docs/*
    
   release:
@@ -61,8 +49,6 @@ jobs:
           - image: circleci/node:8
     steps:
       - checkout
-      - attach_workspace:
-          at: build/
       - attach_workspace:
           at: . 
       - run:
