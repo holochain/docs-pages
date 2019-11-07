@@ -1,8 +1,8 @@
-# Create a new app
-These are the command you will need when creating a new application.
+# Create a New App
+These are the commands you will need when creating a new application.
 
 ### Initialize a new app
-Make sure you have completed the [install guide](install).
+Make sure you have completed the [Install Guide](../install).
 
 Enter the `nix-shell`
 ```
