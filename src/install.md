@@ -204,8 +204,8 @@ In most cases you can run your editor as normal. However, if you are using an in
 ## Next Steps
 
 1. __Read through the [Holochain Core Concepts](../concepts/).__
-2. __Start the [hello holo tutorial](../tutorials/coreconcepts/hello_holo)__
-3. __Create a [new app](../create-new-app)__
+2. __Start the [Hello Holo Tutorial](../tutorials/coreconcepts/hello_holo)__
+3. __Create a [New App](../create-new-app)__
 4. Learn more about Holochain development in the [Guidebook](../guide/welcome/).
 5. Learn more about Rust in Holochain [API Reference Documentation](../api/), [Crates.io](https://crates.io/search?q=Holochain), and the [Rust book](https://doc.rust-lang.org/book/).
 6. Learn more about Nix as a dev dependency and why we’re using it in the [Holonix documentation](https://github.com/holochain/holonix).
