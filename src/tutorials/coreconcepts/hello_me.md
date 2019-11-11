@@ -8,16 +8,18 @@
 Welcome back to another tutorial in the Core Concepts series. 
 
 The app we have built so far returns a constant value however for more complex applications it would be useful to be able to store some data.  
-Today you will learn how to do this by adding an entry type to your zome. Remember an entry is a piece of data in your source chain that has been validated.
-
-We will add the following:
-
-1. Add a `person` entry type that stores information about a person.
-2. Expose the public function `create_person` for your UI to create and store a person entry.
-3. Expose a public function `retrieve_person` for your UI to retrieve a person entry.
-4. Add the UI components to interact with these functions.
 
 This tutorial builds on the [previous](../hello_gui) tutorial so go back and complete that if you haven't already.
+
+### What will you learn
+Learn how to add an entry type to your zome. 
+An entry is a piece of data in your source chain that has been validated.
+How to define and validate an entry type that represents a person. Then how to create and read this data through zome calls.
+You will also setup tests and your GUI.
+
+### Why it matters
+Storing data is at the core of Holochain. 
+The most valuable job Holochain does is ensuring agents handle and store data according to the rules of you application.
 
 ## Test first
 
@@ -717,3 +719,13 @@ You should see somehting like this:
 
 Well done! You have stored and retrieved data from a private source chain all using a GUI.
 
+## Key takeaways
+- Entrys can be defined using Rust types.
+- Entry definitions tell holochain about the data it can hold and how to validate it.
+- Once an entry is commited this can never be undone and any other agent running the same DNA will always commit an entry that has passed validation. _(This means validation must be deterministic)_
+- The zome returns entries in the JSON format.
+
+## Learn more
+- [JSON](http://www.json.org/)
+- [Struct](https://doc.rust-lang.org/book/ch05-00-structs.html)
+- [CALM](http://bloom-lang.net/calm/)

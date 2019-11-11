@@ -14,9 +14,14 @@ Hello and welcome to the hello world tutorial. It's a little strange to do a hel
 
 So far all the previous tutorials have had a local perspective of a single agent. However, the real power of Holochain comes from interacting with other agents.
 
-With that in mind let's try to share some data between two agents. To achieve this you will run two conductors, Alice and Bob.  
+## What will you learn
+You will learn how to share data between two agents. To achieve this you will run two conductors, Alice and Bob.  
 Then add an entry to Alice's local chain.  
 Finally, retrieve that same entry from Bob's instance.
+
+## Why it matters
+Holochain applications are all about creating cooperation between multiple agents. 
+By sharing data amoung the agents you can validate each others entries.
 
 ## Make your entry public 
 
@@ -392,3 +397,13 @@ Copy the address from the Alice tab and retrieve the person entry:
 ![Retrieve Alice's person from Bob's conductor](../../../img/hw_retrieve_person.png)
 
 Hooray! Alice and Bob are now able to share data on the DHT
+
+## Key takeaways
+- Entries need to be explicitly marked public or they will only be commited to an agents local chain.
+- A public entry will be passed to other agents via gossip, validated and held.
+- Another agent can retieve your public entries.
+
+## Learn more
+- [DHT](https://www.educative.io/edpresso/what-is-a-distributed-hash-table)
+- [Hash Chain](https://www.techopedia.com/definition/32920/hash-chain)
+- [Consensus](https://holo.host/faq/how-does-holochain-manage-consensus-data-integrity/)
