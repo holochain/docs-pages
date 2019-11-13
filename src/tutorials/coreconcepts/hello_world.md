@@ -10,6 +10,9 @@
     This article is currently a work in progress and subject to frequent change.  
     See [changelog](/docs/changelog) for details.
 
+!!! tip "Time & Level"
+    Time: ~2 hours | Level: Beginner
+
 Hello and welcome to the hello world tutorial. It's a little strange to do a hello world tutorial as the 5th tutorial, however that's because we really want to show the agent perspective of a Holochain app. This is the first time the agent will be interacting with the _world_.
 
 So far all the previous tutorials have had a local perspective of a single agent. However, the real power of Holochain comes from interacting with other agents.

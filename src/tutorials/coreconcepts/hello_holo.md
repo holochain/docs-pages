@@ -1,6 +1,10 @@
 \#S:MODE=test
 \#S:EXTERNAL=javascript=hello_holo.js=test
 # Hello Holo Tutorial
+
+!!! tip "Time & Level"
+    Time: ~2 hours | Level: Beginner
+
 Let's begin with the classic Hello ~~World~~ Holo tutorial!
 You will see it's super easy to create a distributed application with Holochain.
 

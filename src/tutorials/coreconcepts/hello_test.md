@@ -3,6 +3,9 @@
 \#S:EXTERNAL=javascript=hello_test.js=test
 # Hello Test Tutorial
 
+!!! tip "Time & Level"
+    Time: ~1 hours | Level: Beginner
+
 Welcome to the Hello Test tutorial. Today you will be learning how to test your Holochain apps. This tutorial will add to the previous [Hello Holo](../hello_holo) tutorial, so make sure you do that one first.
 
 ### What will you learn

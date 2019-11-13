@@ -4,6 +4,9 @@
 
 # Hello GUI
 
+!!! tip "Time & Level"
+    Time: ~1 hours | Level: Beginner
+
 Welcome to the first GUI tutorial. So far you have interacted with your zome using `curl` or `hc test`, but that's not as nice as having a GUI. 
 
 ### What will you learn

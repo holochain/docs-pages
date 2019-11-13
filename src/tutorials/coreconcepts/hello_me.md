@@ -5,6 +5,9 @@
 \#S:EXTERNAL=javascript=hello_me.js=test
 # Hello Me
 
+!!! tip "Time & Level"
+    Time: ~4 hours | Level: Beginner
+
 Welcome back to another tutorial in the Core Concepts series. 
 
 The app we have built so far returns a constant value however for more complex applications it would be useful to be able to store some data.  
