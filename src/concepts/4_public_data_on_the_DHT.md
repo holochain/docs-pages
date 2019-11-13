@@ -1,7 +1,7 @@
 # 04: Public data on the DHT
 
 <div class="coreconcepts-intro" markdown=1>
-Agents share their public keys, source chain headers, and public entries with their peers in a [**distributed hash table (DHT)](https://en.wikipedia.org/wiki/Distributed_hash_table)**. This distributed database provides redundancy and availability for data and gives the network the power to detect corruption.
+Agents share their public keys, source chain headers, and public entries with their peers in a [**distributed hash table (DHT)**](https://en.wikipedia.org/wiki/Distributed_hash_table). This distributed database provides redundancy and availability for data and gives the network the power to detect corruption.
 </div>
 
 <div class="coreconcepts-orientation" markdown=1>
@@ -89,7 +89,7 @@ The author of an app can specify the desired data redundancy level. This is call
 
 Let's see how this plays out in the real world.
 
-<div class="coreconcepts-storysequence" markdown="1">
+<div class="coreconcepts-storysequence" markdown=1>
 ![](https://i.imgur.com/vQ6pstS.png)
 1. An island is connected to the mainland by a radio link. They communicate with each other using a Holochain app.
 
@@ -113,27 +113,11 @@ Before storing an entry or header, a validator checks that:
 2. The header is part of an unbroken, unmodified, unbranched source chain. This is what prevents you from rewriting your own history.
 3. The entry's content conforms to the [validation rules](../7_validating_data) defined in the DNA.
 
-If any one of these checks fails, the validator broadcasts a **warrant** to its neighbors. This special piece of data holds the invalid entry as proof of the author's corruption, along with the author's signature proving their complicity. Other agents can use this information as grounds for defensive action. This is what creates Holochain's immune system.
+If any one of these checks fails, the validator marks the entry as invalid and spreads news about the agent's activity to its neighbors. This is what creates Holochain's immune system.
 
-Let's see how this works. We'll continue the previous story, but this time we're in a DHT where the word "burger" is forbidden.
+Using a hash as an address has a nice side benefit: entry addresses are random. Node addresses are also random, which means that validator selection is impartial and resistant to collusion. It also distributes the data load fairly evenly around the DHT.
 
-<div class="coreconcepts-storysequence" markdown="1">
-1. ![](https://i.imgur.com/eRWkfln.png)
-Alice publishes the phrase "veggie burger" (address V) and asks Walter to store it.
-
-2. ![](https://i.imgur.com/anF40dW.png)
-Walter sees that she's used the forbidden word and creates a warrant.
-
-3. ![](https://i.imgur.com/aXd7W7z.png)
-Walter shares the warrant with Rosie and Zoe, who confirm that the data is indeed invalid and share the warrant with their neighbors.
-
-4. ![](https://i.imgur.com/JMU5sdz.png)
-As word gets around, all the nodes in the DHT add Alice to their block list. Eventually she's ejected from the entire network.
-</div>
-
-Using a hash as an address has a nice side benefit: entry addresses are random. Combined with random generation of node addresses, this means that a corrupt node would have to work very hard to craft an invalid entry with just the right address to cause it to land in a validator neighborhood entirely controlled by their corrupt friends.
-
-The important thing is that the DHT _remembers what you've said in the past_, so it's very hard to go back on your word. It also speeds things up because you don't have to validate data that someone else has already validated. This is handy when, for instance, your DHT stores billions of financial interactions among millions of nodes---when your customer is standing at the checkout till, you don't want to have to walk back through their entire history of transactions with other parties, and _their_ transactions with yet more parties, just to make sure their account balance can handle a coffee purchase.
+The important thing is that the DHT _remembers what you've published_, so it's very hard to go back on your word. Validation is a very important part of a DNA---perhaps the most important part. We'll talk more about it in a later chapter.
 
 ## Key takeaways
 
@@ -142,7 +126,7 @@ The important thing is that the DHT _remembers what you've said in the past_, so
 * An entry in a DHT is retrieved by its unique address, which is the hash of the entry's content.
 * Holochain's DHT is a validating DHT that remembers the validation result of existing entries. This speeds things up for everyone and allows the detection of bad actors.
 * Holochain's DHT also detects agents' attempts to roll back their source chains and create alternate histories.
-* Validator nodes take responsibility for an entry based on their addresses' nearness to the entry's address. This helps to randomize validator selection.
+* Any node can be randomly selected to validate and hold an entry, based on their address' nearness to the entry's address. This helps to randomize validator selection.
 * News of bad actors is spread through warrants, special entries that carry evidence of corruption.
 * A DHT can set a resilience factor, or expected level of redundancy, for each entry.
 * A DHT tolerates network disruptions: it can keep operating as two separate networks and subsequently heal when the network is repaired.

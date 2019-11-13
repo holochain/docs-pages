@@ -46,7 +46,7 @@ Your conductor generates and stores all your key pairs in an encrypted, password
 
 The next stone in the pillar is a chronological journal of every piece of data the user has created. Only the user has the authority to write to it, because it lives on their device and each entry must be signed by their private key. This journal is called a **source chain**, because every piece of data in a Holochain app (**hApp**) starts its life here.
 
-Data is stored in the source chain as **entries**, individual pieces of string content. Each entry has a **type** that distinguishes its purpose, like an object-oriented class or database table schema.
+Data is stored in the source chain as **entries**, individual pieces of string content. Each entry has a **type** that distinguishes its purpose, like an object-oriented class or database table schema. As with a traditional database, you can define entry types to hold data (such as profile information, messages, or content) or actions (such as chess moves, transactions, or votes).
 
 This journal starts with two special system entries called 'genesis' entries:
 

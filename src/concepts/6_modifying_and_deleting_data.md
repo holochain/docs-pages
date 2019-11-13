@@ -22,9 +22,9 @@ Immutable public data is a surprising feature of Holochain and many other distri
 
 Data in a Holochain app is immutable for a few reasons:
 
-* The user's **source chain** is immutable because most apps will require a full audit history in order to validate new entries.
+* The user's **source chain** is immutable because many apps will require a full audit history in order to validate new entries.
 * The **DHT** is immutable for a similar reason; it needs to witness users' activity to detect attempts to modify their source chains.
-* The DHT is also immutable because it greatly simplifies and speeds up data syncing. Mutable distributed databases often require complex syncing protocols that reduce performance.
+* The DHT is also immutable because it makes data syncing faster, simpler, and more reliable. Mutable distributed databases often require complex coordination protocols that reduce performance.
 
 But developers expect to be able to do CRUD (create, read, update, delete) as a basic feature of a database; this is an important part of most apps. So how do we do this on Holochain?
 
@@ -41,11 +41,11 @@ When you try to retrieve a DHT entry or link that's been removed, Holochain will
 
 ## Handling privacy concerns and storage constraints
 
-This can break users' expectations. When a user asks a central service to delete information they'd rather people not know about, they trust the service to be able to wipe it out completely---or at least stop displaying it. But when all data is public, nothing can truly be deleted.
+This can break users' expectations. When you asks a central service to delete information you'd rather people not know about, you trust the service to wipe it out completely---or at least stop displaying it. But when your data is shared publicly, you can't control what other people do with it.
 
-In reality, this is true of anything you put on the internet. Even when a central database permanently deletes information, it can live on in caches, screenshots, public archives, reading-list apps, and people's minds.
+In reality, this is true of anything you put on the internet. Even when a central database permanently deletes information, it can live on in caches, backups, screenshots, public archives, reading-list apps, and people's minds.
 
-But because all public data is immutable on Holochain, here are some general guidelines for protecting user privacy:
+Holochain is a little different because it's explicit about data immutability. Here are some guidelines for wielding this tool wisely:
 
 * Be choosy about what the DNA returns to the UI. Your zome functions serve as a membrane around DHT data and can avoid retrieving entries that are marked obsolete.
 * Design your UI to communicate the permanence of information that users publish, so they can make responsible decisions.
@@ -53,7 +53,7 @@ But because all public data is immutable on Holochain, here are some general gui
 Because data takes up space even when it's no longer live, be judicious about what you commit to the source chain and the DHT:
 
 * For large objects that have a short life, consider storing data outside of the DHT: separate, short-lived DHTs, [IPFS](https://ipfs.io), [Dat](https://dat.foundation), or even a centralized service.
-* Commit updates to entries in batches, or store the deltas only rather than using the update function.
+* Commit updates to entries in batches, or ignore the built-in update function and commit deltas instead.
 
 ## Key takeaways
 
