@@ -8,7 +8,7 @@ Welcome to the Holochain Core Concepts! Here we'll introduce you to the basics o
 
 We've written this introduction for programmers, CTOs, and other technically-oriented people. It's a bit like a choose-your-own-adventure story:
 
-**If you're in a hurry** and need to find out if Holochain is a good fit for your project, you can just read the articles---or even just the intro paragraph at the top of each article.
+**If you're in a hurry** and need to find out if Holochain is a good fit for your project, you can just read the articles---or, if you're in a real hurry, just read the intro paragraph at the top and the key takeaways at the bottom.
 
 **If you're a programmer** and want to see the concepts come to life, follow the [tutorials](../tutorials/coreconcepts/). Each tutorial is quick---you'll be creating a running app in anywhere from a few minutes to a few hours. Code samples are written in [Rust](https://www.rust-lang.org/).
 
