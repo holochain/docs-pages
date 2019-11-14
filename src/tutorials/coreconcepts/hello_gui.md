@@ -100,6 +100,10 @@ Once that is all up and running, you can fire up a simple server:
     ```bash
     python -m SimpleHTTPServer
     ```
+    Or if you use python 3 use this command instead:
+    ```bash
+    python -m http.server
+    ```
 
 And go have a look in your browser at `http://0.0.0.0:8000/`. You will see something like this:
 
