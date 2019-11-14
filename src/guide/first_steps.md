@@ -442,7 +442,7 @@ from the root directory. This will compile the Rust to WebAssembly and produce a
 
 ## Writing tests
 
-The testing framework is built on JavaScript around Tape.js and allows for writing single agent and muti-agent tests using javascript async/await syntax.
+The testing framework is built on JavaScript around Tape.js and allows for writing single agent and multi-agent tests using javascript async/await syntax.
 Opening up the `test/index.js` file you will see a skeleton test file already created:
 
 ```javascript

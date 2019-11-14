@@ -2,10 +2,20 @@
 \#S:EXTERNAL=javascript=hello_holo.js=test
 # Hello Holo Tutorial
 
+!!! tip "Time & Level"
+    Time: ~2 hours | Level: Beginner
+
 Let's begin with the classic Hello ~~World~~ Holo tutorial!
 You will see it's super easy to create a distributed application with Holochain.
 
-### Setup
+### What will you learn
+How to create a Holochain zome with a callable function, compile it into a DNA, and run it in the Holochain conductor.
+Once it's running you will learn how to call a zome function using curl.
+
+### Why it matters
+This tutorial helps you get orientated with the basics of a hApp. These are the fundamental parts you will be building on later so it's important to get understand them clearly.
+
+## Setup
 
 1. Complete the [installation guide](https://developer.holochain.org/start.html). This will give you an app development environment including the Holochain developer tool `hc`.
 2. Open up a terminal (command prompt in Windows).
@@ -345,3 +355,11 @@ Enter the following request, which will call the `hello_holo` function and retur
     ```
 
 Congratulations&mdash;you have created your first distributed Holochain application! :rocket:
+
+### Key takeaways
+- A zome is compiled down to webassembly and run by the Holochain conductor.
+- You can call public zome functions through the conductor using http.
+
+### Learn more
+- [Curl](https://curl.haxx.se/docs/manpage.html)
+- [Webassembly](https://webassembly.org/)
