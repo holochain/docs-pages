@@ -6,7 +6,7 @@
 
 ![](https://i.imgur.com/91Hclc7.jpg)
 
-You'll remember from the [section on validation](../7_validating_data) and one of its tutorials that write access can be managed with validation rules. But we didn't say anything about read access. Why is that?
+You'll remember from the [section on validation](../7_validation) and one of its tutorials that write access can be managed with validation rules. But we didn't say anything about read access. Why is that?
 
 In a Holochain application, data is either **private** to your source chain or **public** on the DHT. This is a pretty coarse distinction; do we feel comfortable sharing our data with everyone on the network? Who's allowed into that public space anyway?
 

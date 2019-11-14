@@ -28,32 +28,32 @@ We've written this introduction for programmers, CTOs, and other technically-ori
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="3_private_data">
+        <a href="3_source_chain">
             <h4>03: Private data <span>(local source chain)</span></h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="4_public_data_on_the_dht">
+        <a href="4_dht">
             <h4>04: Public data <span>(DHT)</span></h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="5_linking_data_together">
+        <a href="5_links">
             <h4>05: Linking data together</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="6_modifying_and_deleting_data">
+        <a href="6_crud_operations">
             <h4>06: Modifying and deleting data</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="7_validating_data">
+        <a href="7_validation">
             <h4>07: Validating data</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="8_sending_messages_directly_to_peers">
+        <a href="8_node_to_node_messaging">
             <h4>08: Sending messages directly to peers</h4>
         </a>
     </div>

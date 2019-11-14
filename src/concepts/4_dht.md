@@ -111,7 +111,7 @@ Before storing an entry or header, a validator checks that:
 
 1. The entry's signature is correct.
 2. The header is part of an unbroken, unmodified, unbranched source chain. This is what prevents you from rewriting your own history.
-3. The entry's content conforms to the [validation rules](../7_validating_data) defined in the DNA.
+3. The entry's content conforms to the [validation rules](../7_validation) defined in the DNA.
 
 If any one of these checks fails, the validator marks the entry as invalid and spreads news about the agent's activity to its neighbors. This is what creates Holochain's immune system.
 

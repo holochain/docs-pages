@@ -26,8 +26,8 @@ Let's review what we've covered so far.
 
 1. Holochain is a framework for building apps that let peers directly share data without needing the protective oversight of a central server.
 2. How does it do this? You may recall, from [way back at the beginning](../1_the_basics) of this series, that Holochain's two pillars are **intrinsic data integrity** and **peer replication/validation**. The first pillar defines what valid data looks like, and the second pillar uses the rules of the first pillar to protect users and the whole network.
-3. We said that each type of [**app entry**](../3_private_data#source-chain-your-own-data-store) can contain any sort of string data whose correctness is determined by custom **validation rules**.
-4. Then we showed how [**peer validators**](../4_public_data_on_the_DHT#a-cloud-of-witnesses) use those rules to analyze entries and spread news of bad actors.
+3. We said that each type of [**app entry**](../3_source_chain#source-chain-your-own-data-store) can contain any sort of string data whose correctness is determined by custom **validation rules**.
+4. Then we showed how [**peer validators**](../4_dht#a-cloud-of-witnesses) use those rules to analyze entries and spread news of bad actors.
 
 Holochain is the engine that moves data around, validates it, and takes action based on validation results. Your DNA is simply a collection of functions for creating data and validation rules for checking that data. But those two things are critical to the success of your app, because they define the membranes of safety between user and DHT. Well-designed validation rules protect everyone, and buggy validation rules leave them vulnerable.
 
@@ -37,7 +37,7 @@ But the DHT offers a shortcut: it remembers the validation results of existing e
 
 ## Validation flow: success and failure
 
-A validation function returns either true or false, with an optional error description. It's called in two different scenarios, each with different consequences. We'll carry on with the [DHT illustrations from chapter 4](../4_public_data_on_the_DHT/#a-cloud-of-witnesses), but let's add a simple validation rule: there's an entry of type `word` whose validation rule says that it can only contain one word.
+A validation function returns either true or false, with an optional error description. It's called in two different scenarios, each with different consequences. We'll carry on with the [DHT illustrations from chapter 4](../4_dht/#a-cloud-of-witnesses), but let's add a simple validation rule: there's an entry of type `word` whose validation rule says that it can only contain one word.
 
 ### Authoring
 
@@ -127,7 +127,7 @@ The purpose of validation is to **empower a group of individuals to hold one ano
 * **Access membranes**---validation rules on the **agent ID entry** govern who's allowed to join a DNA's network and see its data.
 * **The shape of valid data**---validation rules on **entry and link types that hold data** can check for properly structured data, upper/lower bounds on numbers, string lengths, non-empty fields, or correctly formatted content
 * **Rules of the game**---validation rules on **entry and links types that hold details about an action** can make sure chess moves, transactions, property transfers, and votes are legitimate.
-* **Privileges**---validation rules on **[create](../4_public_data_on_the_DHT), [update, or remove](../6_modifying_and_deleting_data) actions** on entries and links can define who gets to do what.
+* **Privileges**---validation rules on **[create](../4_dht), [update, or remove](../6_crud_operations) actions** on entries and links can define who gets to do what.
 
 ## How validation rules are defined
 
@@ -139,7 +139,7 @@ But if your entry holds structured data such as JSON, it's annoying to hand-roll
 
 Validation functions **return a boolean value**, meant to be used as clear evidence that an agent has tampered with their Holochain software. This means they aren't appropriate for soft things like codes of conduct that usually require human approval. They should be [**deterministic**](https://en.wikipedia.org/wiki/Deterministic_algorithm) and [**pure**](https://en.wikipedia.org/wiki/Pure_function) so that the result for a given commit doesn't change based on who validated it, when they validated it, or what new information was available to them at validation time.
 
-Nothing can be invalidated once it's been published and validated. But just as with [updating or deleting entries](../6_modifying_and_deleting_data), you can write new data that supersedes existing data.
+Nothing can be invalidated once it's been published and validated. But just as with [updating or deleting entries](../6_crud_operations), you can write new data that supersedes existing data.
 
 ## Key takeaways
 
