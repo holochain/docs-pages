@@ -11,11 +11,20 @@
     This article is currently a work in progress and subject to frequent change.  
     See [changelog](/docs/changelog) for details.
 
+!!! tip "Time & Level"
+    Time: ~3 hours | Level: Beginner
+
 Welcome to the Simple Micro blog tutorial in the Core Concepts tutorial series. The aim of this tutorial is to show how entries can be linked to each other in a Holochain app.  
 A link is simply a relationship between two entries. It's a useful way to find some data from something you already know. For example, you could link from your user's agent ID entry to their blog posts.
 
 You will be building on the previous [Hello World](../hello_world) tutorial and making a super simple blog app. The app's users will be able to post a blog post and then retrieve other users' posts.
 
+## What will you learn
+In this tutorial you will learn how to attach entries to an agents address using links and then retrieve a list of those entries back from another agent.
+
+## Why it matters
+Links are vital to locating entries. The only way to find an entry is to know it's hash, however most of the time an agent will not know the hash of all the entries it needs.
+To allow agents to find entries you can create a link between something the agent does know and the unknown entry.
 
 ## Add a Post
 
@@ -552,3 +561,8 @@ Copy Alice's agent id and try retrieving her posts from Bob's conductor:
     See [this issue](https://github.com/holochain/holochain-rust/issues/1824) for more details.
 
 Congratulations you have created a simple blog hApp running on a decentralized network :smiley:
+
+## Key takeaways
+- Entries are only located via their hash.
+- Two identical entires will have the same hash and be treated as the same entry.
+- Links create a connection between something you know and something you don't.

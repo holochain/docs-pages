@@ -131,6 +131,8 @@ a { transition: .3s; }
 .forum p .learn { color: #b748ff; }
 .forum p .discuss { color: #5c5cff; }
 .forum p .collaborate { color: #139caa; }
+.forum p a { text-decoration: none; }
+.forum p a:hover { color: #FFF; }
 .tile-container { display: flex; flex-wrap: wrap; }
 .tile { width: 50%; padding: 20px; box-sizing: border-box; }
 .tile a { color: #FFF; text-decoration: none; display: block; padding: 0 0 0 10px; border-left: 3px solid rgba(255,255,255,.2); }

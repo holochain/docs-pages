@@ -4,7 +4,17 @@
 
 # Hello GUI
 
-Welcome to the first GUI tutorial. So far you have interacted with your zome using `curl` or `hc test`, but that's not as nice as having a GUI. Today you will learn how to interact with a Holochain app using a super simple web page.
+!!! tip "Time & Level"
+    Time: ~1 hours | Level: Beginner
+
+Welcome to the first GUI tutorial. So far you have interacted with your zome using `curl` or `hc test`, but that's not as nice as having a GUI. 
+
+### What will you learn
+Today you will learn how to interact with a Holochain app using a super simple web page. 
+Using a websocket connection data will be passed to and from a javascript / html web page.
+
+### Why it matters
+It's likely you will want to write a GUI for your future applications and it's helpful to see how to connect a frontend to your backend zome. This is not the only way to write a GUI for a Holochain app but it should be familiar if you ar e used to web front ends.
 
 ## Create the HTML page
 
@@ -89,6 +99,10 @@ Once that is all up and running, you can fire up a simple server:
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     python -m SimpleHTTPServer
+    ```
+    Or if you use python 3 use this command instead:
+    ```bash
+    python -m http.server
     ```
 
 And go have a look in your browser at `http://0.0.0.0:8000/`. You will see something like this:
@@ -321,3 +335,11 @@ Now press the **Say Hello** button and you get your response:
 ![](https://i.imgur.com/mDBaVlD.png)
 
 Well done! You have a working GUI that can talk to your Holochain app.
+
+## Key takeaways
+- You can use regular web front ends to connect to a conductor over websocket.
+- The simplest web front end requires javascript and HTML.
+- Zome functions are callable from the GUI in a similar way to curl.
+
+## Learn more
+- [Websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
