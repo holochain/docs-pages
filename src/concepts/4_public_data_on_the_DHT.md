@@ -24,9 +24,9 @@ Let's talk about your source chain again. It belongs to you, it lives in your ow
 
 However, the value of most apps comes from their ability to connect people to one another. Email, social media, and team collaboration tools wouldn't be very useful if you kept all your work to yourself. Data that lives on your machine is also not very available; as soon as you go offline, nobody else can access it. Most users don't want to run their own servers, so we need a way to make public data stick around.
 
-This is also the point where we run into integrity problems in a peer-to-peer system: when everybody is responsible for their own data, they can mess around with it any way they like. In the last article we learned that the signed source chain is resistant to third-party tampering, but not to tampering by its owner. An agent could roll back a transaction or recall a vote and make it look like it never happened.
+This is also the point where we run into integrity problems in a peer-to-peer system: when everybody is responsible for their own data, they can mess around with it any way they like. In the last article we learned that the signed source chain is resistant to third-party tampering, but not to tampering by its owner. An agent could erase a transaction or a vote and make it look like it never happened.
 
-And finally, forcing nodes to check the correctness of every piece of data they see seems inefficient. Surely we could speed things up for data that gets passed around a lot.
+And finally, it seems inefficient to make each node to check the correctness of every piece of data they engage with. Surely we could speed things up if we know that multiple people are accessing the same piece of data.
 
 ## The distributed hash table, a public data store
 
@@ -40,7 +40,7 @@ When you commit a private entry, it stays in your source chain but its header is
 
 ![](https://i.imgur.com/uWyEeby.png)
 
-Every DNA has its own private, encrypted network of peers who [**gossip**](https://en.wikipedia.org/wiki/Gossip_protocol) with one another about new peers, new data entries, invalid data, and general network health.
+Every DNA has its own private, encrypted network of peers who [**gossip**](https://en.wikipedia.org/wiki/Gossip_protocol) with one another about new peers, new data entries, invalid data, and network health.
 
 This network holds a distributed database of all public data. This database is called a [**distributed hash table (DHT)**](https://en.wikipedia.org/wiki/Distributed_hash_table), and is basically just a big key/value store. Each node holds a small **shard** of the DHT, so the burden of participation isn't painful.
 
