@@ -1,4 +1,4 @@
-# 05: Linking data together
+# 05. Links: connecting DHT data together
 
 <div class="coreconcepts-intro" markdown="1">
 Entries on the DHT are connected to each other via one-way **links**. This allows you to create a graph database on the DHT to make information easy to discover.

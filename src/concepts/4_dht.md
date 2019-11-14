@@ -1,4 +1,4 @@
-# 04: Public data on the DHT
+# 04. The DHT: a public distributed database
 
 <div class="coreconcepts-intro" markdown=1>
 Agents share their public keys, source chain headers, and public entries with their peers in a [**distributed hash table (DHT)**](https://en.wikipedia.org/wiki/Distributed_hash_table). This distributed database provides redundancy and availability for data and gives the network the power to detect corruption.

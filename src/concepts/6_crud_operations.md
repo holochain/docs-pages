@@ -1,4 +1,4 @@
-# 06: Modifying and deleting data
+# 06. CRUD operations: modifying and deleting data
 
 <div class="coreconcepts-intro" markdown="1">
 Holochain allows agents to mutate immutable data by publishing special **remove** and **update** entries.
