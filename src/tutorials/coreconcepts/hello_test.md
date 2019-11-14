@@ -3,9 +3,17 @@
 \#S:EXTERNAL=javascript=hello_test.js=test
 # Hello Test Tutorial
 
+!!! tip "Time & Level"
+    Time: ~1 hours | Level: Beginner
+
 Welcome to the Hello Test tutorial. Today you will be learning how to test your Holochain apps. This tutorial will add to the previous [Hello Holo](../hello_holo) tutorial, so make sure you do that one first.
 
+### What will you learn
+You will learn how to use the try-o-rama testing library to test you app.
+
+### Why it matters
 Testing is a really important part of building higher quality apps but it's also a an excellent way to think through how your app will be used.
+
 
 ## Understand the tests
 
@@ -199,3 +207,11 @@ This will compile and run the test scenario you just wrote. You will see a lot o
     ```
 
 Congratulations; you have tested your first Holochain app. Look at you go! :sparkles: 
+
+## Key takeaways
+- Testing is done through the tests folder and uses the try-o-rama testing javascript framework.
+- Tests are arranged into scenarios and run by the conductor.
+
+## Learn more
+- [try-o-rama](https://github.com/holochain/try-o-rama)
+- [tape](https://github.com/substack/tape)
