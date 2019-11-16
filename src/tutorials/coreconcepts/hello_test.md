@@ -103,7 +103,17 @@ const config = {
   },
 };
 ```
-\#S:HIDE
+\#S:INCLUDE
+```diff
+- const conductorConfig = {
++ const config = {
+
+    instances: {
+-     myInstanceName: Config.dna(dnaPath, 'scaffold-test')
++     cc_tuts: Config.dna(dnaPath, 'cc_tuts'),
+   }
+ }
+```
 ```javascript
 const config = {
   instances: {
