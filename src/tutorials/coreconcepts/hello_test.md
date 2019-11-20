@@ -96,7 +96,8 @@ const orchestrator = new Orchestrator({
 });
 ```
 ```diff
-const config = {
+-const conductorConfig = {
++const config = {
   instances: {
 -    myInstanceName: Config.dna(dnaPath, 'scaffold-test')
 +    cc_tuts: Config.dna(dnaPath, 'cc_tuts'),
@@ -118,7 +119,7 @@ Remove the following section:
 
 \#S:SKIP
 
-!!! note "Remove this:
+!!! note "Remove this:"
     ```javascript
     orchestrator.registerScenario("description of example test", async (s, t) => {
 
@@ -189,7 +190,7 @@ orchestrator.run();
 
 \#S:CHECK=javascript
 
-Now in the `hello_helo` directory, run the test like this:
+Now in the `cc_tuts` directory, run the test like this:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
