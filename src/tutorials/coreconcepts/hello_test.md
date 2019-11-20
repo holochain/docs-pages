@@ -190,7 +190,7 @@ orchestrator.run();
 
 \#S:CHECK=javascript
 
-Now in the `hello_helo` directory, run the test like this:
+Now in the `cc_tuts` directory, run the test like this:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
