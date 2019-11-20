@@ -120,6 +120,7 @@ Remove the following section:
 \#S:SKIP
 
 !!! note "Remove this:"
+    
     ```javascript
     orchestrator.registerScenario("description of example test", async (s, t) => {
 
