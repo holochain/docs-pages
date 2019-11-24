@@ -33,7 +33,7 @@ Holochain is the engine that moves data around, validates it, and takes action b
 
 Some entries can be computationally expensive to validate. In a currency app, for example, the validity of a transaction rests on the account balances of both transacting parties, which is the sum of all their prior transactions. The validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people with whom they transacted, and so on and so on. The data is deeply interconnected; it could take forever to call up every single transaction and validate it, which is inconvenient when all you want to do is buy a cup of coffee and get to work.
 
-The DHT offers a shortcut—-it remembers the validation results of existing entries. You can ask the validators of the parties' previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those and so on. As long as you trust a significant portion of your peers to be following the same rules as you, the validitation result of the most recent entry 'proves' the validity of all the entries before it.
+The DHT offers a shortcut—--it remembers the validation results of existing entries. You can ask the validators of the parties' previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those and so on. As long as you trust a significant portion of your peers to be following the same rules as you, the validitation result of the most recent entry 'proves' the validity of all the entries before it.
 
 ## Validation flow: success and failure
 
