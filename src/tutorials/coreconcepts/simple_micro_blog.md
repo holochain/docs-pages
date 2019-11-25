@@ -443,16 +443,11 @@ function retrieve_posts() {
 This is the same setup as the previous tutorial.
 
 #### Terminal one
-
-!!! warning "Only for local:"
-    Only do this if you are running a local copy of sim2h server.  
-    Otherwise skip this step.
-
 Run the sim2h server
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    sim2h_server -p 9001
+    sim2h_server -p 9000
     ```
 
 #### Terminal two 

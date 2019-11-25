@@ -97,6 +97,13 @@ Your test should look like this:
 
 \#S:CHECK=javascript=test
 
+### Run sim2h
+Again you will need to run the sim2h server in a seperate terminal window:
+
+!!! note "Run in `nix-shell https://holochain.love`"
+    ```bash
+    sim2h_server -p 9000
+    ```
 
 ### Run the test
 
@@ -234,12 +241,8 @@ Finally add the sim2h network connection:
 ```toml
 [network]
 type = 'sim2h'
-sim2h_url = 'wss://sim2h.holochain.org:9000'
+sim2h_url = 'wss://localhost:9000'
 ```
-
-!!! warning "Public server"
-    The above sim2h server is a public server. It has not been secured and should never be used in production.
-    You can also run your own local server.
 
 The easiest thing to do now is copy this config file and change a few lines:
 ```bash
@@ -323,16 +326,11 @@ Now the fun part, where you get to play with what you just wrote.
 You going to need a few terminals to do this.
 
 #### Terminal one
-
-!!! warning "Only for local:"
-    Only do this if you are running a local copy of sim2h server.  
-    Otherwise skip this step.
-
 Run the sim2h server
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    sim2h_server -p 9001
+    sim2h_server -p 9000
     ```
 
 #### Terminal two 

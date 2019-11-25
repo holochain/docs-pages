@@ -103,8 +103,16 @@ This is the actual result we want at the end of the test. Check that the entry a
 
 orchestrator.run()
 ```
-### Running the test
 
+### Run sim2h
+Again you will need to run the sim2h server in a seperate terminal window:
+
+!!! note "Run in `nix-shell https://holochain.love`"
+    ```bash
+    sim2h_server -p 9000
+    ```
+
+### Running the test
 Your test should now look like this:
 
 \#S:CHECK=javascript=test

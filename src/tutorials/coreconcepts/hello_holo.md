@@ -31,6 +31,10 @@ vagrant ssh
 nix-shell https://holochain.love
 ```
 
+!!! tip "Nix Shell"
+    Throughout these tutorials you will see commands marked `Run in nix-shell https://holochain.love`.  
+    You should keep the nix-shell open and run these commands in it. Don't reopen nix-shell for every command.
+
 ## Initializing your new app
 
 Pick a new home for all your future Holochain applications to live. Something like  `home_directory/holochain/`.

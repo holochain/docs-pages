@@ -74,7 +74,7 @@ Change the network to sim2h:
 -    network: 'memory',  
 +    network: {
 +      type: 'sim2h',
-+      sim2h_url: 'wss://sim2h.holochain.org:9000',
++      sim2h_url: 'wss://localhost:9000',
 +    },
 ```
 ```javascript
@@ -187,6 +187,17 @@ Check that the result matches what you expected:
 ```javascript
 orchestrator.run();
 ```
+## Run sim2h
+Before you can run the tests you need to run the sim2h server locally.
+This is the switchboard that does the routing that will eventually not be neccassary but is useful for development.
+To run the server open up a new nix-shell in a different terminal and run this command:
+
+
+!!! note "Run in `nix-shell https://holochain.love`"
+    ```bash
+    sim2h_server -p 9000
+    ```
+
 ## Run the test
 
 \#S:CHECK=javascript
