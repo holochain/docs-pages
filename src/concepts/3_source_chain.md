@@ -8,7 +8,7 @@ Each user in a Holochain network creates and stores their own data in a journal 
 ## What you'll learn
 
 1. [How agent identities are created](#agent-identity)
-2. [The source chain: Your own data store](#source-chain-your-own-data-store)
+2. [The source chain: your own data store](#source-chain-your-own-data-store)
 3. [Detecting third-party tampering](#detecting-third-party-tampering)
 
 ## Why it matters
