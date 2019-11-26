@@ -1,4 +1,4 @@
-# 01. The basics: what is Holochain?
+# 01. The Basics: What is Holochain?
 
 <div class="coreconcepts-intro" markdown=1>
 Holochain is an open-source development framework and networking protocol. It allows you to create **truly serverless applications** with high levels of **security, reliability, and performance**. Every user runs the application on their own device, creates and stores their own data, and talks directly to other users.
