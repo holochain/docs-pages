@@ -65,7 +65,7 @@ To make sure this has happened, add this line to the end of the scenario:
   await s.consistency();
 ```
 
-> This one line says a lot about the nature of a Holochain application. The word `await` shows that we are in an asynchronous world and want to wait for consistency to be achieved. What kind of situation might lead to this line remaining incomplete? _Hint: Think about networks that might not be perfect._
+> This one line says a lot about the nature of a Holochain application. The word `await` shows that we are in an asynchronous world and want to wait for consistency to be achieved. What kind of situation might lead to this line never returning? _Hint: Think about networks that might not be perfect._
 
 Get Bob to retrieve Alice's person using the same address she did when she created the entry: 
 
