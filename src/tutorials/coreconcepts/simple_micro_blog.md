@@ -21,11 +21,11 @@ A link is simply a relationship between two entries. It's a useful way to find s
 You will be building on the previous [Hello World](../hello_world) tutorial and creating a simple microblog app. The app's users will be able to post to a blog post and retrieve other users' posts.
 
 ## What will you learn
-In this tutorial, you will learn how to attach entries to an agents address using links and then retrieve a list of those entries back from another agent.
+In this tutorial, you will learn how to attach entries to an agent's address using links and retrieve a list of those entries back from another agent.
 
 ## Why it matters
-Links are vital to locating entries. The only way to find an entry is to know it's hash, however most of the time an agent will not know the hash of all the entries it needs.
-To allow agents to find entries you can create a link between something the agent does know and the unknown entry.
+Links are vital to locating entries. The only way to find an entry is to know its hash. However, most of the time, an agent will not know the hash of all the entries it needs.
+To allow agents to find entries, you create links between something the agent does know and the unknown entries.
 
 ## Add a Post
 
@@ -560,5 +560,5 @@ Congratulations! You have created a simple blog hApp running on a decentralized 
 
 ## Key takeaways
 - Entries are only located via their hash.
-- Two identical entires will have the same hash and be treated as the same entry.
+- Two identical entries will have the same hash and be treated as the same entry.
 - Links create a connection between something you know and something you don't.
