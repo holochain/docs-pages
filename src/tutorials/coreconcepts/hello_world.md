@@ -27,7 +27,7 @@ By sharing data among the agents, you can validate each others entries.
 
 ## Make your entry public 
 
-So far, the only entries you have had have been private. If you want your users to be able to share data, then you can set the entry to public in the definition.
+So far, the only entries you have had have been private. If you want your users to be able to share data, then you can set the entry to 'public' in the definition.
 
 Open up your `zomes/hello/code/src/lib.rs` file.
 
@@ -53,14 +53,13 @@ Change the entry sharing to `Sharing::Public`:
 
 ## Add Bob to the test
 
-Previously, you wrote a test where Alice made a few zome calls and verified the results. You can now use Bob in your tests to interact with Alice to verify test that the entries can be shared between agents running the same DNA.
+Previously, you wrote a test where Alice made a few zome calls and verified the results. You can now use Bob in your tests to interact with Alice to verify that the entries can be shared between agents running the same DNA.
 
 The aim here is for Alice to create a person, which Bob can then retrieve.
 
 Open up your `test/index.js` file.
 
-Before Bob can retrieve Alice's person, Bob will need to be able to see the person that Alice committed. 
-This goes back to an idea that will come up a lot in Holochain---eventual consistency. In a nutshell, an Agent that is connected to the same network as another agent will eventually come into agreement on what data exists.
+Before Bob can retrieve Alice's person, Bob will need to be able to see the person that Alice committed. This goes back to an idea that will come up a lot in Holochain---eventual consistency. In a nutshell, an Agent that is connected to the same network as another agent will eventually come into agreement on what data exists.
 
 To make sure this has happened, add this line to the end of the scenario:
 ```javascript
@@ -209,7 +208,7 @@ hash = 'QmPMMqNsbNqf3Hbizwwi6gDKw2nnSvpJQyHLG2SMYCCU8R'
 id = 'hc-run-dna'
 ```
 
-Create the test instance with the 'alice' agent:
+Create the test instance with the 'Alice' agent:
 
 ```toml
 [[instances]]
