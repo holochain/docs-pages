@@ -17,7 +17,7 @@ nix-shell https://holochain.love
 ## Run from project root 
 
 !!! tip
-    All the following commands should be run from the project root (ie. `my_new_app/`).
+    The following commands should all be run from the project root (e.g., `my_new_app/`).
     ```
     cd my_new_app
     ```
@@ -49,7 +49,7 @@ nix-shell https://holochain.love
     ```
 
 ### Run a Holochain conductor
-You will need to create a config file. See the [hello_world](tutorials/coreconcepts/hello_world) tutorial for an example of this.
+You will need to create a config file. See the [hello_world](tutorials/coreconcepts/hello_world) tutorial for an example.
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
