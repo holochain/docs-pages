@@ -22,8 +22,7 @@ You will learn how to share data between two agents. To achieve, this you will r
 Then, add an entry to Alice's local chain. Finally, retrieve that entry from Bob's instance.
 
 ## Why it matters
-Holochain applications are about creating cooperation between multiple agents. 
-By sharing data among the agents, you can validate each others entries.
+Holochain applications are about creating cooperation between multiple agents; by sharing data among the agents, you can validate one another's entries.
 
 ## Make your entry public 
 
@@ -398,9 +397,9 @@ Copy the address from the Alice tab and retrieve the person entry:
 Hooray! Alice and Bob are now able to share data on the DHT.
 
 ## Key takeaways
-- Entries need to be explicitly marked public or they will only be commited to an agents local chain.
+- Entries need to be explicitly marked public or they will only be committed to an agent's local chain.
 - A public entry will be passed to other agents via gossip, validated and held.
-- Another agent can retieve your public entries.
+- Another agent can retrieve your public entries.
 
 ## Learn more
 - [DHT](https://www.educative.io/edpresso/what-is-a-distributed-hash-table)
