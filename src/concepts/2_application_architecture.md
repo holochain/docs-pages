@@ -7,7 +7,7 @@ Applications built with Holochain are highly **modular**. This makes it easy to 
 <div class="coreconcepts-orientation" markdown=1>
 ## What you'll learn
 
-1. [Agent-centric integrity: inside, outside, and in-between](#agent-centric-integrity-inside-outside-and-in-between)
+1. [Agent-centric integrity: inside, outside, and in between](#agent-centric-integrity-inside-outside-and-in-between)
 2. [Layers of the application stack](#layers-of-the-application-stack)
 
 ## Why it matters
