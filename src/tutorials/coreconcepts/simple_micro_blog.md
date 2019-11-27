@@ -551,11 +551,6 @@ Copy Alice's agent ID and try retrieving her posts from Bob's conductor:
 
 ![Retrieve Posts](../../../img/smb_retrieve_posts.png)
 
-!!! bug
-    There is currently a bug in the links implementation that prevents this last operation from working.  
-    This is the nature of alpha software, and we are working to solve it ASAP.
-    See [this issue](https://github.com/holochain/holochain-rust/issues/1824) for more details.
-
 Congratulations! You have created a simple blog hApp running on a decentralized network. :smiley:
 
 ## Key takeaways
