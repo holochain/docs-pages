@@ -7,20 +7,20 @@
 !!! tip "Time & Level"
     Time: ~1 hours | Level: Beginner
 
-Welcome to the first GUI tutorial. So far you have interacted with your zome using `curl` or `hc test`, but that's not as nice as having a GUI. 
+Welcome to the first GUI tutorial. So far, you have interacted with your zome using `curl` or `hc test`, but that's not as nice as having a GUI. 
 
 ### What will you learn
-Today you will learn how to interact with a Holochain app using a super simple web page. 
-Using a websocket connection data will be passed to and from a javascript / html web page.
+Today, you will learn how to interact with a Holochain app using a simple web page. 
+Using a WebSocket connection, data will be passed to and from a JavaScript/HTML web page.
 
 ### Why it matters
-It's likely you will want to write a GUI for your future applications and it's helpful to see how to connect a frontend to your backend zome. This is not the only way to write a GUI for a Holochain app but it should be familiar if you ar e used to web front ends.
+It's likely you will want to write a GUI for your future applications, so it's helpful to see how to connect a front end to your back end zome. This is not the only way to write a GUI for a Holochain app, but it should be familiar if you're used to web front ends.
 
 ## Create the HTML page
 
-You will need somewhere for all your GUI code to live. This will be a different piece of software to your Holochain zome code. So choose somewhere outside your Holochain application.
+You will need somewhere for all your GUI code to live. This will be a different piece of software to your Holochain zome code so choose somewhere outside your Holochain application.
 
-Create a folder for our GUI to live in:
+Create a folder for the GUI to live in:
 
 ```bash
 cd holochain/coreconcepts
@@ -28,7 +28,7 @@ mkdir gui
 cd gui
 ```
 
-Create a new file called `index.html` in your favourite editor. It should live at `gui/index.html`. Start by adding a simple HTML template to `index.html`.
+Create a new file called `index.html` in your favorite editor. It should live at `gui/index.html`. Start by adding a simple HTML template to `index.html`.
 
 Add this modern template:
 
@@ -48,13 +48,13 @@ Add this modern template:
 </html>
 ```
 
-Inside the `<body>` tag add a button:
+Inside the `<body>` tag, add a button:
 
 ```html
   <button type="button">Say Hello</button>
 ```
 
-To make things a bit nicer on the eyes you can add the `water.css` stylesheet.
+To make things a bit easier on the eyes, you can add the `water.css` stylesheet.
 
 Add this water.css link inside the `<head>` tag:
 
@@ -89,7 +89,7 @@ Add this water.css link inside the `<head>` tag:
     </html>
     ```
 
-Enter the `nix-shell` to make sure you have all the dependencies available:
+Enter the `nix-shell` to make sure you have all the available dependencies:
 ```bash
 nix-shell https://holochain.love
 ```
@@ -100,24 +100,24 @@ Once that is all up and running, you can fire up a simple server:
     ```bash
     python -m SimpleHTTPServer
     ```
-    Or if you use python 3 use this command instead:
+    Or if you use Python 3, use this command instead:
     ```bash
     python -m http.server
     ```
 
-And go have a look in your browser at `http://0.0.0.0:8000/`. You will see something like this:
+Go have a look in your browser at `http://0.0.0.0:8000/`. You will see something like this:
 
 ![](https://i.imgur.com/Tfjd2ZX.png)
 
 ## hc-web-client
 
-Time to communicate with the app that you built in the previous tutorials. To make this easy you can use the [hc-web-client](https://github.com/holochain/hc-web-client). It's Holochain's JavaScript library that helps you easily setup a [WebSocket](https://en.wikipedia.org/wiki/WebSocket) connection to your app.
+It's time to communicate with the app you built in the previous tutorials. To make this easy, you can use the [hc-web-client](https://github.com/holochain/hc-web-client). It's Holochain's JavaScript library that helps you easily set up a [WebSocket](https://en.wikipedia.org/wiki/WebSocket) connection to your app.
 
 > #### Why WebSocket instead of HTTP?
 >
-> Having a WebSocket connection open allows your app to send messages to your GUI. While we are not doing that today, it's good to get familiar with this process.
+> Having an open WebSocket connection allows your app to send messages to your GUI. While we are not doing that today, it's good to get familiar with the process.
 
-To make this process easy we have precompiled a version of the hc-web-client for you.
+To make this process is easy, we have precompiled a version of the hc-web-client for you.
 
 Download it [here](/assets/files/hc-web-client.zip), then unzip it and stick it in the root of your GUI directory:
 ```bash
@@ -129,7 +129,7 @@ gui/hc-web-client/hc-web-client-0.5.1.browser.min.js
 gui/hc-web-client/hc-web-client-0.5.1.browser.min.js.map
 ```
 
-Once that's done you can easily link to the compiled js file by adding this `script` tag inside your `body` tag:
+Once that's done, you can easily link to the compiled js file by adding this `script` tag inside your `body` tag:
 
 ```html
     <script
@@ -140,7 +140,7 @@ Once that's done you can easily link to the compiled js file by adding this `scr
 
 ## Call the zome function
 
-Now that you have linked the hc-web-client.js library you can make a simple zome call with some vanilla JavaScript.
+Now that you have linked the hc-web-client.js library, you can make a simple zome call with some vanilla JavaScript.
 
 Add this function inside your `<body>` tag:
 \#S:INCLUDE,MODE=gui
@@ -163,7 +163,7 @@ Add a `hello()` JavaScript function so you can call it from your HTML:
       function hello() {
 ```
 
-Wait for Holochain to connect and then make a zome call:
+Wait for Holochain to connect, and then make a zome call:
 
 ```javascript
         holochain_connection.then(({callZome, close}) => {
@@ -239,14 +239,14 @@ Add this button inside the `<body>` tag:
     </html>
     ```
 
-To make a call from the GUI, your Holochain app must be running. So open up a new terminal window, navigate to the app you built in the previous tutorials, and enter the nix-shell:
+Your Holochain app must be running to make a call from the GUI. So open up a new terminal window, navigate to the app you built in the previous tutorials, and enter the nix-shell:
 
 ```bash
 cd holochain/core_concepts/cc_tuts
 nix-shell https://holochain.love
 ```
 
-Now run your app:
+Now, run your app:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     Package the app:
@@ -259,27 +259,27 @@ Now run your app:
     ```
 
 ## Make a zome call
-In your other terminal window (the one with the GUI code), start the `SimpleHTTPServer` if it's not still running:
+In your other terminal window, the one with the GUI code, start the `SimpleHTTPServer` if it's not still running:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     python -m SimpleHTTPServer
     ```
 
-Open up your browser and head to `0.0.0.0:8000` (or refresh the page if it's already open). The page will look the same.
+Open your browser and head to `0.0.0.0:8000` (or refresh the page if it's already open). The page will look the same.
 
-Open you your developer console and click the button. 
+Open your developer console and click the button. 
 You should see something like this:
 
 ![](https://i.imgur.com/vhTaH0W.png)
 
-> I'm using Firefox so this might look a little different depending on your browser
+> I'm using Firefox, so this might look a little different depending on your browser.
 
-Woohoo! You have made a call to your Holochain app using a GUI.
+Woo-hoo! You've made a call to your Holochain app using a GUI.
 
 ## Render the output
 
-It would be nicer to see the result of the `hello_holo` call on the page. So let's add a somewhere to show it.
+It would be nicer to see the result of the `hello_holo` call on the page, so let's add somewhere to show it.
 
 Add the following HTML below the button:
 
@@ -289,7 +289,7 @@ Add the following HTML below the button:
 
 The `id="output"` is what we will use to update this element from a JavaScript function.
 
-Add the following lines below you `hello` function.
+Add the following lines below your `hello` function.
 
 Add an `show_output` function that takes the result:
 
@@ -297,7 +297,7 @@ Add an `show_output` function that takes the result:
       function show_output(result) {
 ```
 
-Get the element that you'll be inserting the output into:
+Get the element into which you'll be inserting the output into:
 
 ```javascript
         var span = document.getElementById('output');
@@ -326,20 +326,20 @@ Finally, update the `hello` function to call your new `show_output` function ins
 
 ## Test the output works
 
-Head over to `0.0.0.0:8000` in your web browser (you might need to refresh) and you should see this:
+Head over to `0.0.0.0:8000` in your web browser (you might need to refresh), and you should see this:
 
 ![](https://i.imgur.com/FMxeMx0.png)
 
-Now press the **Say Hello** button and you get your response:
+Now, press the **Say Hello** button and you get your response:
 
 ![](https://i.imgur.com/mDBaVlD.png)
 
 Well done! You have a working GUI that can talk to your Holochain app.
 
 ## Key takeaways
-- You can use regular web front ends to connect to a conductor over websocket.
-- The simplest web front end requires javascript and HTML.
+- You can use regular, web front ends to connect to a conductor over WebSocket.
+- The simplest web front end requires JavaScript and HTML.
 - Zome functions are callable from the GUI in a similar way to curl.
 
 ## Learn more
-- [Websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+- [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
