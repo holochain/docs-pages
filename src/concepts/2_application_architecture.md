@@ -7,7 +7,7 @@ Applications built with Holochain are highly **modular**. This makes it easy to 
 <div class="coreconcepts-orientation" markdown=1>
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
-1. [Agent-centric integrity: inside, outside, and in-between](#agent-centric-integrity-inside-outside-and-in-between)
+1. [Agent-centric integrity: inside, outside, and in between](#agent-centric-integrity-inside-outside-and-in-between)
 2. [Layers of the application stack](#layers-of-the-application-stack)
 
 ### <i class="far fa-atom"></i> Why it matters
@@ -15,7 +15,7 @@ Applications built with Holochain are highly **modular**. This makes it easy to 
 A good understanding of the components of the tech stack will equip you to architect a well-structured, maintainable application. Because Holochain is probably different from what you're used to, it's good to shift your thinking early.
 </div>
 
-## Agent-centric integrity: inside, outside, and in-between
+## Agent-centric integrity: inside, outside, and in between
 
 Before we talk about the tech stack, let's talk about donuts. That's a good way to start, isn't it?
 
@@ -61,7 +61,7 @@ All DNAs are hosted in the user's **conductor**, a runtime that sandboxes and ex
 Each conductor is a **node** in a peer-to-peer network of agents using the same app. Each DNA in the hApp has its own separate private network and distributed data store. The conductor handles communication and data sharing between nodes.
 </div>
 
-The clean separation between functional components and architectural layers gives you and your users a lot of flexibility. You can mix and match pieces, creating rich experiences that augment, rely on, or replace existing pieces. This empowers people to take ownership of their experience.
+Functional components and architectural layers both enjoy clean separation. You can mix and match, augment, or replace existing pieces. This gives you a lot of flexibility and empowers your users to take ownership of their experience.
 
 ## Key takeaways
 
@@ -69,10 +69,10 @@ You can see that Holochain is different from typical application stacks. Here's 
 
 * Each user has their own copy of the application's front end (client), back end (DNAs), and server (conductor).
 * The conductor sandboxes the DNA code, mediating all access to the device's resources, including networking and storage.
-* All code is executed on the behalf, and from the perspective of the individual user.
+* All code is executed on behalf, and from the perspective, of the individual user.
 * Users communicate and share data directly with one another rather than through a central server or blockchain validator network.
 * Holochain is opinionated about data---it handles all storage and retrieval. (We'll learn about why and how in the next three articles.)
-* Persistence logic and core business logic are mixed together in your DNA, because at its heart, Holochain is a framework for data validation. However, you usually don't need much code in your DNA---just enough to encode the 'rules of the game.'
+* Persistence logic and core business logic are mixed together in your DNA, because at its heart, Holochain is a framework for data validation. However, you usually don't need much code in your DNA---just enough to encode the 'rules of the game'.
 * As with microservices, Holochain lends itself to combining small, reusable components into large applications.
 
 ## Learn more

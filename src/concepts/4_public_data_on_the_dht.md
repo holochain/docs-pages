@@ -20,7 +20,7 @@ If you're unsure whether a distributed network can provide the same integrity, p
 
 ## Self-owned data isn't enough
 
-Let's talk about your source chain again. It belongs to you, lives in your device, and you can choose to keep it private.
+Let's talk about your source chain again. It belongs to you, it lives in your device, and you can choose to keep it private.
 
 However, the value of most apps comes from their ability to connect people to one another. Email, social media, and team collaboration tools wouldn't be very useful if you kept all your work to yourself. Data that lives on your machine is also not very available---as soon as you go offline, nobody else can access it. Most users don't want to run their own servers, so there needs to be a way to make public data stick around.
 
@@ -46,7 +46,7 @@ This network holds a distributed database of all public data called a [**distrib
 
 ## Finding peers and data in a distributed database
 
-Distributed databases have a performance problem---unless you have time to talk to each node, it's very hard to find the data you're looking for. Here's how DHTs handle this:
+Distributed databases have a performance problem: unless you have time to talk to each node, it's very hard to find the data you're looking for. Here's how DHTs handle this:
 
 1. They give each node a random address.
 2. When an entry is created, they calculate the hash of its content. This becomes its address or key.
@@ -64,7 +64,7 @@ Let's see how this works with a very small address space in which the addresses 
 Alice lives at address A. Her neighbors to the left are Diana and Fred, and her neighbors to the right are Zoe and Walter.
 
 2. ![](https://i.imgur.com/48bQ0ca.png)
-Alice creates an entry containing the word "molecule," whose address is M.
+Alice creates an entry containing the word "molecule", whose address is M.
 
 3. ![](https://i.imgur.com/RSI668H.png)
 Of all of Alice's neighbors, Fred is closest to that address, so she asks him to store it. Fred isn't responsible for that address, so he tells Alice about his neighbor Louise.
@@ -105,7 +105,7 @@ Let's see how this plays out in the real world.
 
 ## A cloud of witnesses
 
-When we [laid out the basics of Holochain](../1_the_basics), we said that the second pillar of trust is **peer validation**. When a node is asked to store an entry, it doesn't _just_ store it---;it also checks the entry for validity. As the entry is passed to more nodes in its neighborhood, it gathers more signatures attesting to its validity. As more randomly chosen witnesses validate it, its trustworthiness and the accountability of its author are strengthened.
+When we [laid out the basics of Holochain](../1_the_basics), we said that the second pillar of trust is **peer validation**. When a node is asked to store an entry, it doesn't _just_ store it---it also checks it for validity. As the entry is passed to more nodes in its neighborhood, it gathers more signatures attesting to its validity.
 
 Before storing an entry or header, a validator checks that:
 

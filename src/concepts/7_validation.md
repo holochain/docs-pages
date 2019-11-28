@@ -25,13 +25,13 @@ Data validation rules are the core of a Holochain app. They deserve the bulk of 
 Let's review what we've covered so far.
 
 1. Holochain is a framework for building apps that let peers directly share data without needing the protective oversight of a central server.
-2. How does it do this? You may recall from [the beginning](../1_the_basics) of this series that Holochain's two pillars are **intrinsic data integrity** and **peer replication/validation**. The first pillar defines what valid data looks like while the second pillar uses the rules of the first pillar to protect users and the whole network.
+2. How does it do this? You may recall from [the beginning](../1_the_basics) of this series that Holochain's two pillars are **intrinsic data integrity** and **peer replication/validation**. The first pillar defines what valid data looks like, while the second pillar uses the rules of the first pillar to protect users and the whole network.
 3. We said that each type of [**app entry**](../3_source_chain#source-chain-your-own-data-store) can contain any sort of string data whose correctness is determined by custom **validation rules**.
-4. We then showed how [**peer validators**](../4_dht#a-cloud-of-witnesses) use those rules to analyze entries and spread the news about bad actors.
+4. We then showed how [**peer validators**](../4_dht#a-cloud-of-witnesses) use those rules to analyze entries and spread news about bad actors.
 
-Holochain is the engine that moves data around, validates it, and takes action based on validation results. Your DNA is simply a collection of functions for creating data and validation rules for checking that data. Those two things are critical to the success of your app because they define the membranes of safety between the user and DHT. Well designed validation rules protect everyone, while buggy validation rules leave them vulnerable.
+Holochain is the engine that moves data around, validates it, and takes action based on validation results. Your DNA is simply a collection of functions for creating data and validation rules for checking that data. Those two things are critical to the success of your app because they define the membranes of safety between the user and DHT. Well-designed validation rules protect everyone, while buggy validation rules leave them vulnerable.
 
-Some entries can be computationally expensive to validate. In a currency app, for example, the validity of a transaction rests on the account balances of both transacting parties, which is the sum of all their prior transactions. The validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people with whom they transacted, and so on and so on. The data is deeply interconnected; it could take forever to call up every single transaction and validate it, which is inconvenient when all you want to do is buy a cup of coffee and get to work.
+Some entries can be computationally expensive to validate. In a currency app, for example, the validity of a transaction depends on the account balances of both transacting parties, which is the sum of all their prior transactions. The validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people they transacted with, and so on and so on. The data is deeply interconnected; it could take forever to call up every single transaction and validate it, which is inconvenient when all you want to do is buy a cup of coffee and get to work.
 
 The DHT offers a shortcut---it remembers the validation results of existing entries. You can ask the validators of the parties' previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those and so on. As long as you trust a significant portion of your peers to be following the same rules as you, the validitation result of the most recent entry 'proves' the validity of all the entries before it.
 
@@ -47,7 +47,7 @@ When you **commit an entry**, your Holochain conductor is responsible for making
 
 <div class="coreconcepts-storysequence" markdown="1">
 1. ![](https://i.imgur.com/NjhKg36.png)
-Alice calls the `publish_word` zome function with the string `"eggplant."` The function asks the conductor to `commit` it as an entry of type `word`.
+Alice calls the `publish_word` zome function with the string `"eggplant"`. The function asks the conductor to `commit` it as an entry of type `word`.
 
 2. ![](https://i.imgur.com/ArsWzay.png)
 Alice's conductor calls the DNA's validation function for the `word` entry type.
@@ -63,19 +63,19 @@ Her conductor commits the entry to her source chain, publishes it to the DHT, an
 
 <div class="coreconcepts-storysequence" markdown="1">
 1. ![](https://i.imgur.com/C1OF4DL.png)
-Alice calls the same zome function with the string `"orca whales."` Again, the function calls `commit`.
+Alice calls the same zome function with the string `"orca whales"`. Again, the function calls `commit`.
 
 2. ![](https://i.imgur.com/Bnd9cK6.png)
 Again, the conductor calls the validation function for the `word` entry type.
 
 3. ![](https://i.imgur.com/f86qKYD.png)
-This time, the validation function sees two words. It returns an `Err` containing the message, `"Must contain only one word."`
+This time, the validation function sees two words. It returns an `Err` containing the message `"Must contain only one word"`.
 
 4. ![](https://i.imgur.com/IgmJcRE.png)
-Instead of committing the entry, the conductor only passes this error message back to the waiting zome function.
+Instead of committing the entry, the conductor passes this error message back to the waiting zome function.
 </div>
 
-Author-side validation is similar to how data validation works in a traditional client/server app.
+You can see that author-side validation is similar to how data validation works in a traditional client/server app: if something is wrong, the business logic rejects it and asks the user to fix their data.
 
 ### Peer validation
 
@@ -131,24 +131,24 @@ The purpose of validation is to **empower a group of individuals to hold one ano
 
 ## How validation rules are defined
 
-If you're using our [Rust HDK](https://developer.holochain.org/api/latest/hdk/), your validation rule for any entry or link type is simply a function that takes a string, analyzes it, and returns a result (`Ok` or error message).
+The validation rule for any entry or link type is simply a function that takes a string, analyzes it, and returns a result (`Ok` or an error message).
 
-If your entry holds structured data such as JSON, however, it's annoying to hand-roll your own parsing code so the HDK lets you declare a validation function to accept a [struct](https://doc.rust-lang.org/rust-by-example/custom_types/structs.html) of your own creation. If it sees this sort of function, it'll automatically assume that the entry content is JSON and try to deserialize it into an instance of that struct. If it can't make the conversion, validation fails before your function is even called. This lets you forget about the low-level details and work with your app's native types.
+If your entry holds structured data such as JSON, however, it's annoying to hand-roll your own parsing code. The HDK lets you write a validation function that accepts a typed [struct](https://doc.rust-lang.org/rust-by-example/custom_types/structs.html) rather than a string. It'll automatically assume that the entry content is JSON and try to deserialize it into an instance of that struct. If it can't make the conversion, validation fails before your function is even called. This lets you forget about the low-level details and work with the native types that you've defined in your app.
 
 ## Guidelines for writing validation rules
 
-Validation functions **return a boolean value**, meant to be used as clear evidence that an agent has tampered with their Holochain software. This means they aren't appropriate for soft things, like codes of conduct, which usually require human approval. They should be [**deterministic**](https://en.wikipedia.org/wiki/Deterministic_algorithm) and [**pure**](https://en.wikipedia.org/wiki/Pure_function) so that the result for a given commit doesn't change based on who validated it, when they validated it, or what new information was available to them at validation time.
+Validation functions **return a boolean value**, meant to be used as clear evidence that an agent has tampered with their Holochain software. This means they aren't appropriate for soft things, like codes of conduct, which usually require human approval. They should be [**deterministic**](https://en.wikipedia.org/wiki/Deterministic_algorithm) and [**pure**](https://en.wikipedia.org/wiki/Pure_function) so that the result for a given commit doesn't change based on who validated it, when they validated it, or what information was available to them at validation time.
 
 Nothing can be invalidated once it's been published and validated, but just as with [updating or deleting entries](../6_crud_operations), you can write new data that supersedes existing data.
 
 ## Key takeaways
 
 * Validation supports intrinsic data integrity, which upholds the security of a Holochain app.
-* Validation rules are the most important part of a Holochain DNA, as they define the core domain logic that comprises the 'rules of the game.'
+* Validation rules are the most important part of a Holochain DNA, as they define the core domain logic that comprises the 'rules of the game'.
 * Validation rules can cover an agent's entry into an application, the shape and content of data, rules for interaction, and write permissions.
 * The result of a validation function is a clear yes/no result. It proves whether the author has hacked their software to produce invalid entries.
 * If the validity of an entry depends on existing entries, existing validation results on that data can speed up the process.
-* An author validates all their entries before committing the data to their source chain or publishing to the DHT.
+* An author validates their own entries before committing them to their source chain or publishing them to the DHT.
 * All public entries on the DHT are subject to third-party validation before they're stored. This validation uses the same rules that the author used at the time of commit.
 * Validation rules are functions that analyze the content of an entry and return either a success or error message.
 * When an entry is found to be invalid, the validator creates and shares a warrant, which proves that the author is writing corrupt data.

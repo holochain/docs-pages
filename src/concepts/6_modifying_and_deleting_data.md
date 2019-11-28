@@ -35,7 +35,7 @@ The answer is that we leave the old entries in place, write new entries, and add
 * ![](https://i.imgur.com/ji7oVPW.png) A **remove entry** instructs DHT validators to mark the original entry as deleted.
 
 * ![](https://i.imgur.com/sjzzntQ.png)
-An **update entry** carries updated data, instructs DHT validators to mark the original entry as updated, and has pointer to the new entry.
+An **update entry** carries updated data, and instructs DHT validators to mark the original entry as obsolete and point to the new entry.
 
 When you try to retrieve a DHT entry or link that's been removed, Holochain will give you an empty result. When you try to retrieve a DHT entry that's been updated, Holochain will traverse the chain of update pointers to the newest version, though your app can still retrieve the old entries if it chooses.
 
@@ -43,7 +43,7 @@ When you try to retrieve a DHT entry or link that's been removed, Holochain will
 
 This can break users' expectations. When you asks a central service to delete information you'd rather people not know, you're trusting the service to wipe it out completely---or at least stop displaying it. When your data is shared publicly, however, you can't control what other people do with it.
 
-In reality, this is true of anything you put on the internet. Even when a central database permanently deletes information, it can live on in caches, backups, screenshots, public archives, reading-list apps, and/or people's memories.
+In reality, this is true of anything you put on the internet. Even when a central database permanently deletes information, it can live on in caches, backups, screenshots, public archives, reading-list apps, and people's memories.
 
 Holochain is a little different because it's explicit about data immutability. Here are some guidelines for wielding this tool wisely:
 
@@ -52,8 +52,9 @@ Holochain is a little different because it's explicit about data immutability. H
 
 Because data takes up space even when it's no longer live, be judicious about what you commit to the source chain and the DHT:
 
-* For large objects that have a short life, consider storing data outside of the DHT---separate, in short-lived DHTs, [IPFS](https://ipfs.io), [Dat](https://dat.foundation), or even a centralized service.
-* Commit updates to entries in batches, or ignore the built-in update function and commit deltas instead.
+* For large objects that have a short life, consider storing data outside of the DHT in separate, short-lived DHTs, [IPFS](https://ipfs.io), [Dat](https://dat.foundation), a data store on the user's machine, or even a centralized service.
+* Commit large sets of small updates to entries in batches, or ignore the built-in update function and commit deltas instead.
+* For large entries with frequent but small changes, break the content into 'chunks' that align with natural content boundaries such as paragraphs in text, regions in images, or scenes in videos.
 
 ## Key takeaways
 

@@ -8,7 +8,7 @@ Each user in a Holochain network creates and stores their own data in a journal 
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [How agent identities are created](#agent-identity)
-2. [The source chain: your own data store](#source-chain-your-own-data-store)
+2. [Where user data is stored](#source-chain-your-own-data-store)
 3. [Detecting third-party tampering](#detecting-third-party-tampering)
 
 ### <i class="far fa-atom"></i> Why it matters
@@ -28,7 +28,7 @@ When you join a hApp's network, you create an identifier for yourself by generat
 
 * Identify yourself
 * Prove authorship of your data
-* Allow others to detect third-party tampering of your data 
+* Allow others to detect third-party tampering with your data
 * View data meant for your eyes only
 
 Your conductor generates and stores all your key pairs in an encrypted, password-protected file. This table shows how the public and private keys are used.
@@ -37,8 +37,9 @@ Your conductor generates and stores all your key pairs in an encrypted, password
 |-------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
 | • Stays **secret** on your device                                                                                                                     | • **Shared** with all your peers on the network                                         |
 | • Acts like a **password**---only you have it, and it's necessary for proving ownership of your public key                                            | • Acts like a **user ID**---uniquely identifies you to other users                      |
-| • Acts like a **royal seal**---creates impossible to forge, tamper-evident [digital signatures](https://en.wikipedia.org/wiki/Digital_signature) on your data | • Allows others to **verify the integrity** of your signatures                          |
+| • Acts like a **royal seal**---creates unforgeable, tamper-evident [digital signatures](https://en.wikipedia.org/wiki/Digital_signature) on your data | • Allows others to **verify the integrity** of your signatures                          |
 | • Acts like a **mailbox key**---opens messages sealed with your public key                                                                            | • Acts like a **mail slot**---allows others to encrypt and send data meant only for you |
+|                                                                                                                                                       |                                                                                         |
 
 ## Source chain: your own data store
 
@@ -55,7 +56,7 @@ This journal starts with two special system entries called 'genesis' entries:
 1. **The hash of the DNA**. Because the DNA constitutes the 'rules of play' for everyone in the app, this entry shows that you have seen and agree to abide by those rules.
 2. **Your agent ID**. This contains your public key as a record of your digital identity. The signatures on all subsequent entries must match this public key in order to be valid. This entry can also contain extra information necessary for gaining entry to the network, such as an invite code or proof of paid dues.
 
-After this comes the **app entries** or user data. As a developer, you define the format and custom **validation rules** for each type of app entry with which your DNA deals. They can contain anything that fits into a string, but most of the time you'll want them to contain JSON so they can have meaningful structure. Our SDK gives you the tools to automatically convert from Rust data structures to JSON and back again.
+After this comes the **app entries** or user data. As a developer, you define the format and **validation rules** for each type of app entry that your DNA deals with. An entry can contain anything that fits into a string, but most of the time you'll want to give it structure using JSON. Our SDK gives you the tools to automatically convert from Rust data structures to JSON and back again.
 
 Other special system entry types may show up, but we'll get to those later.
 
@@ -74,7 +75,7 @@ If the integrity of your data is so important, what might happen if a third part
 
 Like a signature written in ink, the signature guarantees that you created the entry. It's based on complex mathematics, so it's verifiable and impossible to forge. It's also only valid for that entry's content---if a third party modifies even a single character, the signature breaks.
 
-This lets us detect [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) on _entry data_, but it still doesn't tell us whether anyone has tampered with the _source chain_.
+This lets us detect [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) on _entry data_, but it still doesn't tell us whether anyone has tampered with the _order of entries_ in the source chain.
 
 Let's take a closer look at the header. Along with the signature, it includes the hash of the previous header, a timestamp, and the entry's type.
 
@@ -95,13 +96,13 @@ Holochain's answer is simple---_somebody will notice_. More on that in the next 
 * Holochain apps do not use logins or password databases.
 * Users create their own digital identifiers as cryptographic public/private key pairs. These two keys together prove their possession of their online identity.
 * Users share their public keys with other participants in the same app.
-* Users prove authorship of their data via impossible to forge digital signatures created with their private key. Third-party data tampering is detected by using the author’s public key to verify the signature.
+* Users prove authorship of their data via impossible-to-forge digital signatures created with their private key. Third-party data tampering is detected by using the author’s public key to verify the signature.
 * The user's source chain is a chronological record of all the data they've produced in an app. It lives on their device.
 * Data is stored in the source chain as individual strings called entries.
 * Every entry has a type.
 * The first two entries are called genesis entries, and are special system types that contain the DNA hash and the agent's public key.
 * JSON is a good way to give structure to your entry types.
-* The source chain is tamper evident; validators can detect third-party attempts to modify it.
+* The source chain is tamper-evident; validators can detect third-party attempts to modify it.
 
 ## Learn more
 

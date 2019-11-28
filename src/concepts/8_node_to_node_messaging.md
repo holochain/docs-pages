@@ -26,8 +26,8 @@ Holochain lets two peers directly exchange private messages with each other. Whe
 Node-to-node messaging is useful for things like:
 
 * **Private** data sharing, such as health records, shared encryption keys, or votes.
-* **Synchronous** interactions, such as negotiating a financial transaction with another party before publishing it to your source chains.
-* **Temporary** messages, such as [heartbeats](https://en.wikipedia.org/wiki/Heartbeat_(computing)), notifications, and search queries
+* **Synchronous** interactions, such as the negotiation of a financial transaction before it's published to the parties' source chains.
+* **Temporary** messages, such as [heartbeats](https://en.wikipedia.org/wiki/Heartbeat_(computing)) and notifications
 * **Immediate** communications, such as real-time game moves and collaborative editing.
 * **Delegating** your agency to another agent (i.e., allowing them to act on your behalf).
 
@@ -35,21 +35,21 @@ Node-to-node messaging is useful for things like:
 
 Holochain exposes a `send` function to the DNA to allow one agent to send a message to another, and expects the DNA to implement a `receive` callback to process received messages.
 
-Here's what happens in a node-to-node message exchange. Let's use a silent auction app as an example.
+Here's an example of what happens in a node-to-node message exchange, using a silent auction app.
 
-1. From within a zome function called `place_bid`, Alice creates a message that says, "$50 on the black velvet painting of a clown" and calls the `send` function. Message sending [blocks](https://en.wikipedia.org/wiki/Blocking_(computing)) the execution of the `place_bid` function.
+1. From within a zome function called `place_bid`, Alice creates a message that says, "$50 on the black velvet painting of a clown" and calls the `send` function. Message sending pauses or ['blocks'](https://en.wikipedia.org/wiki/Blocking_(computing)) the execution of the `place_bid` function.
 2. Alice's Holochain conductor uses the DHT to look up Bob's current IP address and sends the message to Bob's device.
-3. Bob's conductor calls a `receive` callback in his running DNA instance. It receives the message, registers Alice's bid as an entry on his source chain, and returns an acknowledgement message.
-4. Bob's conductor sends the callback's return value back to Alice's conductor.
-5. Alice's conductor returns an acknowledgement message to the `place_bid` function, which records it on her source chain as proof of Bob's acknowledgement.
+3. Bob's conductor calls a `receive` callback in his running DNA instance. It receives the message, registers Alice's bid as an entry on his source chain, and returns a response containing an acknowledgment of her registered bid.
+4. Bob's conductor sends the acknowledgement message back to Alice's conductor.
+5. Alice's conductor returns Bob's acknowledgement message to the `place_bid` function, which records the message on her own source chain so she can claim her painting later.
 
 ## Key takeaways
 
 * Node-to-node messaging is a direct, end-to-end encrypted channel between two agents.
 * You message agents according to their agent IDs; Holochain resolves the ID to the agent's IP address.
-* Node-to-node messaging can be used for any data exchange that needs to be private, synchronous, temporary, and/or immediate.
+* Node-to-node messaging can be used for any data exchange that needs to be private, synchronous, temporary, or immediate.
 * Node-to-node messaging can also facilitate agent-to-agent function calls, allowing one agent to 'delegate' their agency to another.
-* A message cycle starts with the initiator sending a message, followed by the recipient handling the message and sending the initiator a response.
+* In a message cycle, the initiator sends a message, then the recipient processes it with a handler function and sends the initiator a response.
 * The message cycle blocks execution on the sender's side until they receive a response or the request times out.
 
 ## Learn more
