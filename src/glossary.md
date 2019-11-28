@@ -32,7 +32,7 @@ A [distributed system](#distributed-system) that puts [agents](#agent) at the ce
 
 #### Agent address
 
-The address of an [agent ID](#agent-id) entry on the [DHT](#distributed-hash-table-dht), calculated from the agent's [public key](#public-key-cryptography). It is used in [node-to-node messaging](#node-to-node-messaging) and in choosing [validators](#validator) for [public entries](#public-entry).
+The address of an [agent ID](#agent-id) entry on the [DHT](#distributed-hash-table-dht), calculated from the agent's [public key](#public-key-cryptography). It is used in [node-to-node messaging](#node-to-node-message) and in choosing [validators](#validator) for [public entries](#public-entry).
 
 #### Agent ID
 
@@ -40,7 +40,7 @@ An [entry](#entry) near the beginning of an [agent](#agent)'s [source chain](#so
 
 #### Append-only
 
-Any data structure that can only be written to. Once written to, that data becomes 'immutable' (it can't be modified or deleted). An agent's [source chain](#source-chain) and the [DHT](#distributed-hash-table-dht) are both append-only.
+Any data structure that can only be written to. Once written, that data becomes 'immutable' (it can't be modified or deleted). An agent's [source chain](#source-chain) and the [DHT](#distributed-hash-table-dht) are both append-only.
 
 #### Application (app)
 
@@ -60,7 +60,7 @@ Synonymous with a collection of [DNA instances](#dna-instance) for a [hApp](#hol
 
 #### Blockchain
 
-A distributed system that promises [Byzantine fault tolerance](#byzantine-fault-tolerance-bft) by using a [coordination protocol](#coordination-protocol) to get all nodes to agree on a single, shared history of events. This history is stored as a [hash chain](#hash-chain) of 'blocks', or bundles of [state changes](#state-change). A blockchain can be public (anyone can join) or permissioned/private (membership is controlled). Public blockchains are usually [trustless](#trustless), ensuring tamper-resistance by making cheating more costly than honesty.
+A distributed system that promises [Byzantine fault tolerance](#byzantine-fault-tolerance-bft) by using a [coordination protocol](#coordination-protocol) to get all nodes to agree on a single, shared history of events. This history is stored as a [hash chain](#hash-chain) of 'blocks', or bundles of [state transitions](#state-transition). A blockchain can be public (anyone can join) or permissioned/private (membership is controlled). Public blockchains are usually [trustless](#trustless), ensuring tamper-resistance by making cheating more costly than honesty.
 
 #### Bridge
 
@@ -74,7 +74,7 @@ A connection between [DNA instances](#dna-instance) in one user's conductor, whi
 
 #### Byzantine fault tolerance (BFT)
 
-The ability of a [distributed system](#distributed-system) to reach [consistency](#consistency) despite 'Byzantine failures,' which are accidental or intentional corruption in [nodes](#node) or the networking transport between them.
+The ability of a [distributed system](#distributed-system) to reach [consistency](#consistency) despite 'Byzantine failures', which are accidental or intentional corruption in [nodes](#node) or the networking transport between them.
 
 #### Capability-based security
 
@@ -118,7 +118,7 @@ Any resource that is used by a group of agents, but is owned by none. In order t
 
 #### Conductor
 
-The service that lives on a user's device and hosts all of their [DNA instances](#dna-instance), stores the user's data, and connects the user's instances to other users' instances.
+The service that lives on a user's device and hosts all of their [DNA instances](#dna-instance), stores their data, and handles [network](#network) communication between their instances and other users' instances.
 
 #### Conductor API
 
@@ -152,7 +152,7 @@ Any storage system that gives a unique ID to each piece of data and allows it to
 
 #### Coordination protocol
 
-An algorithm that governs the synchronization of data in a [distributed system](#distributed-system) and aims to prevent or resolve data conflicts that happen when two [nodes](#node) are out of sync with each other. Any [state change](#state-change) that isn't [logically monotonic](#logical-monotonicity) needs a coordination protocol.
+An algorithm that governs the synchronization of data in a [distributed system](#distributed-system) and aims to prevent or resolve data conflicts that happen when two [nodes](#node) are out of sync with each other. Any [state transition](#state-transition) that isn't [logically monotonic](#logical-monotonicity) needs a coordination protocol.
 
 #### Core API
 
@@ -160,7 +160,7 @@ See [Holochain Core API](#holochain-core-api).
 
 #### Create, read, update, delete (CRUD)
 
-The four main operation an application needs to do with data. Even though all data structures in Holochain are [append-only](#append-only), data can still be updated or deleted by adding a new entry that marks the old data as obsolete.
+The four main operations an application needs to do with data. Even though all data structures in Holochain are [append-only](#append-only), data can still be updated or deleted by adding a new entry that marks the old data as obsolete.
 
 #### Decentralization
 
@@ -184,7 +184,7 @@ A collection of data stored collectively by many [nodes](#node) in a [distribute
 
 #### Distributed ledger technology (DLT)
 
-Any technology that involves many [nodes](#node) in a distributed system sharing an [append-only](#append-only) history of [state changes](#state-change) is a DLT. In Holochain, each [agent](#agent) stores their own history in their [source chain](#source-chain) and can share copies with [peers](#peer).
+Any technology that involves many [nodes](#node) in a distributed system sharing an [append-only](#append-only) history of [state transitions](#state-transition). [Blockchain](#blockchain) DLTs use a [global ledger](#global-ledger), whereas others use some form of [sharded](#sharding) or partially connected ledgers. Holochain is a sort of DLT in which each [agent](#agent) is responsible for their own ledger, called a [source chain](#source-chain).
 
 #### Distributed public key infrastructure (DPKI)
 
@@ -204,7 +204,7 @@ A particular Holochain [DNA](#dna) when it's bound to an [agent](#agent). DNA + 
 
 #### End-to-end encryption (E2EE)
 
-A channel between two nodes in a public network that allows them to transfer secret messages that cannot be decrypted by eavesdroppers. Holochain's [node-to-node messaging](#node-to-node-messaging) uses E2EE, as does [gossip](#gossip) between nodes.
+A channel between two nodes in a public network that allows them to transfer secret messages that cannot be decrypted by eavesdroppers. Holochain's [node-to-node messaging](#node-to-node-message) uses E2EE, as does [gossip](#gossip) between nodes.
 
 #### Entry
 
@@ -216,7 +216,7 @@ A specification for any sort of entry that a [DNA](#dna) should recognize and un
 
 #### Eventual consistency
 
-A promise made by distributed systems that optimize for availability over consistency (see [CAP theorem](#consistency-availability-partition-tolerance-cap-theorem)), meaning that given enough time, every [node](#node) ought to eventually reach [consistency](#consistency) with each other. _Strong_ eventual consistency means that nodes are _guaranteed_ to reach consistency without conflicts, which is possible for any system whose [state change](#state-change) functions adhere to the [CALM theorem](#consistency-as-logical-monotonicity-calm-theorem).
+A promise made by distributed systems that optimize for availability over consistency (see [CAP theorem](#consistency-availability-partition-tolerance-cap-theorem)), meaning that given enough time, every [node](#node) ought to eventually reach [consistency](#consistency) with each other. _Strong_ eventual consistency means that nodes are _guaranteed_ to reach consistency without conflicts, which is possible for any system whose [state transition](#state-transition) functions adhere to the [CALM theorem](#consistency-as-logical-monotonicity-calm-theorem).
 
 #### Front end
 
@@ -268,7 +268,7 @@ A collection of [DNAs](#dna) and a [client](#client) (or clients) that allow use
 
 #### Holochain Core
 
-The basic components of Holochain---the [conductor](#conductor), the [nucleus](#nucleus), and the [ribosome](#ribosome).
+The basic components of Holochain---the [conductor](#conductor), the [nucleus](#nucleus)/[ribosome](#ribosome), and the persistence and networking providers.
 
 #### Holochain Core API
 
@@ -296,7 +296,7 @@ Synonymous with [ledger](#ledger).
 
 #### Ledger
 
-A history of events or [state changes](#state-change). In [distributed ledger technology](#distributed-ledger-technology-dlt), ledgers are usually stored as [hash chains](#hash-chain), such as the [source chain](#source-chain) of a Holochain agent.
+A history of events or [state transitions](#state-transition). In [distributed ledger technology](#distributed-ledger-technology-dlt), ledgers are usually stored as [hash chains](#hash-chain), such as the [source chain](#source-chain) of a Holochain agent.
 
 #### Link
 
@@ -304,7 +304,7 @@ A piece of [metadata](#metadata) connecting one [DHT entry](#dht-entry) to anoth
 
 #### Logical monotonicity
 
-The property of a set of facts whereby the truth of prior facts are never negated by the addition of later facts. [CALM](#consistency-as-logical-monotonicity-calm) relies on functions that exhibit this property---that is, [monotonically increasing functions](#monotonically-increasing-function). For example, Holochain's source chain, DHT, and update/delete operations only add new entries without removing old ones.
+The property of a set of facts whereby the truth of prior facts are never negated by the addition of later facts. [CALM](#consistency-as-logical-monotonicity-calm) relies on functions that exhibit this property. For example, Holochain's source chain, DHT, and update/delete operations only add new entries without removing old ones.
 
 #### Membrane
 
@@ -312,7 +312,7 @@ One of two types of permeable boundary that allow appropriate access and disallo
 
 1. The layer of protection around an [agent](#agent)'s [DNA instance](#dna-instance), secured by [capability-based security](#capability-based-security), that prevents unauthorized access to the instance or its source chain data.
 
-2. A special [validation rule](#validation-rule) in a [DNA](#dna) that checks the [agent ID](#agent-id) entry and governs the [agent](#agent)'s ability to become part of the DNA's [network](#network).
+2. A special [validation rule](#validation-rule) in a [DNA](#dna) that checks the [agent ID](#agent-id) entry and determines the [agent](#agent)'s right to become part of the DNA's [network](#network).
 
 #### Metadata
 
@@ -344,7 +344,7 @@ An individual [agent](#agent) in a Holochain [network](#network) who has an [age
 
 #### Node-to-node message
 
-A direct, [end-to-end encrypted](#end-to-end encryption) exchange between two [nodes](#node) on a [network](#network).
+A direct, [end-to-end encrypted](#end-to-end-encryption) exchange between two [nodes](#node) on a [network](#network).
 
 #### Nucleus
 
@@ -406,15 +406,15 @@ A call that a [client](#client) makes to a [zome function](#zome-function) or [c
 
 #### RPC interface
 
-A network port that the [conductor](#conductor) exposes, allowing [clients](#client) to call the [conductor API](#conductor-api) or make [zome function calls](#zome-function-call) to running [DNA instances](#dna-instance). This interface only listens for local connections, so it can't be accessed over the internet.
+A network port that the [conductor](#conductor) exposes, allowing [clients](#client) to call the [conductor API](#conductor-api) or make [zome function](#zome-function) calls to running [DNA instances](#dna-instance). This interface only listens for local connections, so it can't be accessed over the internet.
 
 #### Resilience
 
-The level of a [network](#network)'s capacity to hold itself in integrity as [nodes](#node) leave and join, the network and dishonest nodes try to corrupt it.
+The level of a [network](#network)'s capacity to hold itself in integrity as [nodes](#node) leave, join, or attempt to attack it.
 
 #### Resilience factor
 
-A value set in the [DNA](#dna) that specifies the desired number of copies of a [DHT entry](#dht-entry) that should exist in a [DHT](#distributed-hash-table-dht). The [nodes](#node) in a [neighborhood](#neighborhood) responsible for an entry collectively work to make sure this factor is met at all times. As an example, for a resilience factor of 5, each entry is expected to exist on five nodes with 100% uptime, or ten nodes with 50% uptime. If an entry has reached [saturation](#saturation), it's met the resilience factor.
+A value set in the [DNA](#dna) that specifies the desired number of copies of an [entry](#dht-entry) that should exist in a [DHT](#distributed-hash-table-dht). The [nodes](#node) in a [neighborhood](#neighborhood) responsible for an entry collectively work to make sure this factor is met at all times. As an example, for a resilience factor of 5, each entry is expected to exist on five nodes with 100% uptime, or ten nodes with 50% uptime. If an entry has reached [saturation](#saturation), it's met the resilience factor.
 
 #### Ribosome
 
@@ -430,11 +430,11 @@ The state at which the peers holding a [DHT entry](#dht-entry) have satisfied th
 
 #### Scenario test
 
-An automated test that simulates real-life conditions involving multiple [agents](#agent) on a simulated or real [network](#network), used to test a [DNA](#dna)'s robustness to various failure modes.
+An automated test that simulates real-life conditions involving multiple [agents](#agent) on a simulated or real [network](#network), used to test a [DNA](#dna)'s tolerance of various failure modes.
 
 #### Sharding
 
-The process of reducing the processing and storage load of individual [nodes](#node) in a [distributed system](#distributed-system). While some sharded systems break data into discrete shards, Holochain's [DHT](#distributed-hash-table-dht) shards nodes into overlapping [neighborhoods](#neighborhood).
+A process of reducing the processing and storage load of individual [nodes](#node) in a [distributed system](#distributed-system) by distributing data and/or work among them. While some sharded systems separate nodes into discrete shards, Holochain's [DHT](#distributed-hash-table-dht) separates them into overlapping [neighborhoods](#neighborhood).
 
 #### Signal
 
@@ -442,11 +442,11 @@ A message emitted by a [DNA instance](#dna-instance), meant for a [client](#clie
 
 #### Source chain
 
-A [hash chain](#hash-chain) of data committed by by an [agent](#agent). For each [DHT](#distributed-hash-table-dht), every agent stores their own source chain as a record of the [state changes](#state-change) they've made---that is, the [entries](#entry) they've committed.
+A [hash chain](#hash-chain) of data committed by an [agent](#agent). For each [DHT](#distributed-hash-table-dht), every agent stores their own source chain as a record of the [state transitions](#state-transition) they've made---that is, the [entries](#entry) they've committed.
 
 #### Source chain entry
 
-An individual record stored on a [source chain](#source-chain), which may be a [private](#private-entry) or [public](#public-entry).
+An individual record stored on a [source chain](#source-chain), which may be [private](#private-entry) or [public](#public-entry).
 
 #### Source chain header
 
@@ -490,12 +490,8 @@ A low-level byte code that can be run on almost any platform, including the web 
 
 #### Zome
 
-A basic unit of modularity inside a [DNA](#dna). A zome defines [entry](#entry) types, [link](#link) types, [validation rules](#validation-rule), public [zome functions](#zome-function), and [init functions](#init-function).
+A basic unit of modularity inside a [DNA](#dna). A zome defines [entry](#entry-type) and [link](#link) types, [validation rules](#validation-rule), public [zome functions](#zome-function), [node-to-node message](#node-to-node-message) handlers, and [init functions](#init-function).
 
 #### Zome function
 
-A function, created by the author of a [zome](#zome), that allows a [client](#client) to take a particular action in a [DNA instance](#dna-instance). This includes data retrieval and storage, as well as node-to-node messaging. The zome functions act as a public API for the [zome](#zome), and can be called by another zome within the same [DNA](#dna), a [bridged](#bridge) DNA instance within the same [conductor](#conductor), or a [client](#client) via the conductor's [RPC interface](#rpc-interface).
-
-#### Zome function call
-
-The act of calling a [zome function](#zome-function).
+A function, created by the author of a [zome](#zome), that allows a [client](#client) to access the zome's functionality. This includes data retrieval and storage, as well as node-to-node messaging. The zome functions act as a public API for the [zome](#zome), and can be called by another zome within the same [DNA](#dna), a [bridged](#bridge) DNA instance within the same [conductor](#conductor), or a [client](#client) via the conductor's [RPC interface](#rpc-interface).
