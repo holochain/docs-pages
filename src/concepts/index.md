@@ -28,22 +28,22 @@ We've written this introduction for programmers, CTOs, and other technically ori
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="3_source_chain">
+        <a href="3_private_data">
             <h4>03. Source Chain</span></h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="4_dht">
+        <a href="4_public_data_on_the_dht">
             <h4>04. DHT</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="5_links">
+        <a href="5_linking_data_together">
             <h4>05. Links</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="6_crud_operations">
+        <a href="6_modifying_and_deleting_data">
             <h4>06. CRUD Operations</h4>
         </a>
     </div>

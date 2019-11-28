@@ -1,6 +1,10 @@
 # Who is Holochain For?
 
-### Holochain is a smart choice if...
+You can build almost any blockchain solution on Holochain, solutions that can talk to each other. Very little should be done in Holochain with respect to design. You can, and should, use your favorite language/framework for 90–95% of your application.
+
+Holochain has a “fat” UI, but a skinny back-end.
+
+### Holochain is a smart choice if:
 
 * Your application needs to be accessible despite unreliable network conditions or total loss of connectivity.
 * You want adaptive security that minimizes the impact of data breaches and automatically responds to attacks.
@@ -11,3 +15,7 @@
 * You’re exploring more ethical business models and want technology that makes it affordable to embody your values.
 * You’re ready to trade some control for technology that puts your users first.
 * You’ve tried blockchain, but found it slow, expensive, and hard to tweak for your governance and permissioning needs.
+
+<div class="h-button-container">
+	<a href="../install/" class="h-button">Install Holochain</a>
+</div>
