@@ -6,22 +6,22 @@
 !!! tip "Time & Level"
     Time: ~1 hours | Level: Beginner
 
-Welcome to the Hello Test tutorial. Today you will be learning how to test your Holochain apps. This tutorial will add to the previous [Hello Holo](../hello_holo) tutorial, so make sure you do that one first.
+Welcome to the Hello Test tutorial. Today, you will be learning how to test your Holochain apps. This tutorial will add to the previous [Hello Holo](../hello_holo) tutorial, so make sure you do it first.
 
 ### What will you learn
-You will learn how to use the try-o-rama testing library to test you app.
+You will learn how to use the Tryorama testing library to test you app.
 
 ### Why it matters
-Testing is a really important part of building higher quality apps but it's also a an excellent way to think through how your app will be used.
+Testing is a really important part of building higher-quality apps. It's also an excellent way to think through how your app will be used.
 
 
 ## Understand the tests
 
-When you ran `hc init` in the previous tutorial Holochain already generated some tests for you.
+When you ran `hc init` in the previous tutorial, Holochain generated some tests for you.
 
-The tests are written in JavaScript and use the Holochain testing framework [try-o-rama](https://github.com/holochain/try-o-rama), along with a popular test harness called [Tape](https://github.com/substack/tape). You can run them with [Node.JS](https://nodejs.org/en/), a runtime that lets you execute JavaScript in the terminal.
+The tests are written in JavaScript and use the Holochain testing framework [Tryorama](https://github.com/holochain/try-o-rama), along with a popular test harness called [Tape](https://github.com/substack/tape). You can run them with [Node.JS](https://nodejs.org/en/), a runtime that lets you execute JavaScript in the terminal.
 
-Open up the `cc_tuts/test/index.js` in your favourite text editor. Have a look through the code.
+Open up the `cc_tuts/test/index.js` in your favorite text editor. Have a look through the code.
 
 Imports required to do testing:
 \#S:INCLUDE
@@ -38,7 +38,7 @@ const {
 } = require('@holochain/try-o-rama');
 ```
 
-This is a catch-all error logger that will let you know if a `Promise` fails and there's no error handler to hear it. [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)s are a way of simplifying complex asynchronous code, and try-o-rama uses a lot of them.
+This is a catch-all error logger that will let you know if a `Promise` fails and there's no error handler to hear it. [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)s are a way of simplifying complex asynchronous code, and Tryorama uses a lot of them.
 
 ```javascript
 
@@ -48,13 +48,13 @@ process.on('unhandledRejection', error => {
 
 ```
 
-The path to your compiled DNA.
+The path to your compiled DNA:
 
 ```javascript
 const dnaPath = path.join(__dirname, "../dist/cc_tuts.dna.json")
 ```
 
-Setup a testing scenario.
+Set up a testing scenario.
 This creates two agents: Alice and Bob.
 
 \#S:SKIP
@@ -74,7 +74,7 @@ Change the network to sim2h:
 -    network: 'memory',  
 +    network: {
 +      type: 'sim2h',
-+      sim2h_url: 'wss://sim2h.holochain.org:9000',
++      sim2h_url: 'wss://localhost:9000',
 +    },
 ```
 ```javascript
@@ -96,7 +96,8 @@ const orchestrator = new Orchestrator({
 });
 ```
 ```diff
-const config = {
+-const conductorConfig = {
++const config = {
   instances: {
 -    myInstanceName: Config.dna(dnaPath, 'scaffold-test')
 +    cc_tuts: Config.dna(dnaPath, 'cc_tuts'),
@@ -118,7 +119,8 @@ Remove the following section:
 
 \#S:SKIP
 
-!!! note "Remove this:
+!!! note "Remove this:"
+    
     ```javascript
     orchestrator.registerScenario("description of example test", async (s, t) => {
 
@@ -138,7 +140,7 @@ Remove the following section:
     })
     ```
 
-This line will run the tests that you have set up.
+This line will run the tests you've set up.
 
 ```javascript
 orchestrator.run()
@@ -146,9 +148,9 @@ orchestrator.run()
 
 ## Create a test scenario
 
-Tests are organized by creating scenarios. Think of them as a series of actions that the user or group of users take when interacting with your app.
+Tests are organized by creating scenarios. Think of them as a series of actions that the user, or group of users, take when interacting with your app.
 
-For this test you simply want to get the Alice user to call the `hello_holo` zome function. Then check that you get the result `Hello Holo`.
+For this test you simply want to get the Alice user to call the `hello_holo` zome function and check that you get the result `Hello Holo`.
 
 !!! tip 
     The following lines go right before `orchestrator.run()`
@@ -164,7 +166,7 @@ Create the Alice and Bob agents (you will use Bob later):
 ```javascript
   const {alice, bob} = await s.players({alice: config, bob: config}, true);
 ```
-Make a call to the `hello_holo` Zome function, passing no arguments:
+Make a call to the `hello_holo` zome function, passing no arguments:
 ```javascript
   const result = await alice.call('cc_tuts', 'hello', 'hello_holo', {});
 ```
@@ -185,11 +187,22 @@ Check that the result matches what you expected:
 ```javascript
 orchestrator.run();
 ```
+## Run sim2h
+You will need to run the sim2h server locally before you can run the tests.
+This is the switchboard that does the routing, and will eventually be unneccassary, but is currently useful for development.
+To run the server, open up a new nix-shell in a different terminal and run this command:
+
+
+!!! note "Run in `nix-shell https://holochain.love`"
+    ```bash
+    sim2h_server -p 9000
+    ```
+
 ## Run the test
 
 \#S:CHECK=javascript
 
-Now in the `hello_helo` directory, run the test like this:
+Now, in the `cc_tuts` directory, run the test like this:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
@@ -206,12 +219,12 @@ This will compile and run the test scenario you just wrote. You will see a lot o
     # ok
     ```
 
-Congratulations; you have tested your first Holochain app. Look at you go! :sparkles: 
+Congratulations! You have tested your first Holochain app. Look at you go! :sparkles: 
 
 ## Key takeaways
-- Testing is done through the tests folder and uses the try-o-rama testing javascript framework.
-- Tests are arranged into scenarios and run by the conductor.
+- Testing is done through the tests folder and uses the Tryorama testing JavaScript framework.
+- Tests are arranged into scenarios and are run by the conductor.
 
 ## Learn more
-- [try-o-rama](https://github.com/holochain/try-o-rama)
-- [tape](https://github.com/substack/tape)
+- [Tryorama](https://github.com/holochain/try-o-rama)
+- [Tape](https://github.com/substack/tape)
