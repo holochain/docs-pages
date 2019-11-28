@@ -21,6 +21,7 @@ hc package
 if [ "${?}" -gt 0 ]; then
   echo ${CONCEPT}
   echo "${CONCEPT} failed to compile"
+  exit 1
 fi
 #./update_hash.sh
 
