@@ -1,19 +1,19 @@
-# 07. Validation: assuring data integrity
+# 07. Validation: Assuring Data Integrity
 
 <div class="coreconcepts-intro" markdown="1">
 Holochain DNAs specify **validation rules** for every type of entry or link. This empowers end-users to **check the integrity** of the data they see. When called upon to validate data, it allows them to identify corrupt peers and publish a **warrant** against them.
 </div>
 
 <div class="coreconcepts-orientation" markdown="1">
-## What you'll learn
+### <i class="fas fa-thunderstorm"></i> What you'll learn
 
-* [Why validation matters](#validation-the-beating-heart-of-holochain)
-* [What happens when validation fails](#validation-flow-success-and-failure)
-* [What validation rules can be used for](#use-cases-for-validation)
-* [How a validation rule is defined](#how-validation-rules-are-defined)
-* [What makes a good validation rule](#guidelines-for-writing-validation-rules)
+1. [Why validation matters](#validation-the-beating-heart-of-holochain)
+2. [What happens when validation fails](#validation-flow-success-and-failure)
+3. [What validation rules can be used for](#use-cases-for-validation)
+4. [How a validation rule is defined](#how-validation-rules-are-defined)
+5. [What makes a good validation rule](#guidelines-for-writing-validation-rules)
 
-## Why it matters
+### <i class="far fa-atom"></i> Why it matters
 
 Data validation rules are the core of a Holochain app. They deserve the bulk of your attention while you're writing your DNA.
 </div>

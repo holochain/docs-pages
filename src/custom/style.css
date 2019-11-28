@@ -99,6 +99,9 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 #apis .latest-api { width: 50%; padding-bottom: 20px; }
 #apis .latest-api a { font-size: 1rem; padding: .8rem; display: block; border: 1px solid #E7E7E7; box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05); position: relative; top: 0; color: rgba(0,0,0,.87) !important; transition: .3s; }
 #apis .latest-api a:after { content: ''; width: 100%; height: 5px; position: absolute; top: 0; left: 0; background: #00FFCE; }
+.heading-tile { margin: 1.7rem 0; padding: 20px 25px; display: block; border: 1px solid #E7E7E7; box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05); background-color: #3915ad; position: relative; background-size: cover; background-position: center; }
+.heading-tile * { margin: 0 !important; color: #FFF !important; }
+.md-typeset blockquote { border-left-color: rgba(0,0,0,.2); }
 
 .md-typeset .admonition, .md-typeset details { border: 1px solid #E7E7E7 !important; border-top: none !important; border-top: none !important; box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05); }
 
@@ -106,17 +109,24 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 	.md-content { margin-left: 13.8rem; }
 }
 
-/* Core concepts supporting CSS */
+/* Core Concepts */
 
-.md-typeset .coreconcepts-intro { font-size: 1.25rem; border-left: .2rem solid rgba(0,0,0,.26); padding-left: 0.6rem; }
-.md-typeset .coreconcepts-orientation { padding: 0.6rem; background: #F8F8F8; }
-.md-typeset .coreconcepts-orientation, .md-typeset .coreconcepts-orientation h2 { color: rgba(0,0,0,.54); }
+.md-typeset .coreconcepts-intro { font-size: .98rem; border-left: .2rem solid rgba(0,0,0,.2); padding-left: 0.6rem; font-weight: 500; line-height: 1.55; }
+.md-typeset .coreconcepts-intro p { letter-spacing: -.3px; }
+.md-typeset .coreconcepts-orientation { margin: 2.2rem 0; padding: 1.6rem 1.2rem 1.8rem; background: #F8F8F8; position: relative; }
 .md-typeset .coreconcepts-orientation :first-child { margin-top: 0; }
 .md-typeset .coreconcepts-orientation :last-child { margin-bottom: 0; }
-/* Please forgive the unusually specific selectors; this was my way of managing to stick with pure markdown inside the storysequence div */
+.md-typeset .coreconcepts-orientation h2, .md-typeset .coreconcepts-orientation h3 { position: relative; }
+.md-typeset .coreconcepts-orientation a { font-weight: 500; letter-spacing: -.3px; }
+.md-typeset .coreconcepts-orientation i { position: absolute; left: -40px; top: 13px; font-size: 28px; color: #3915ad; }
+.md-typeset .coreconcepts-orientation ol { margin-bottom: -12px; margin-left: 0; }
 .md-typeset .coreconcepts-storysequence > ol { margin-left: 0; }
 .md-typeset .coreconcepts-storysequence > ol > li { list-style: none; padding: 0.6rem; background: #F8F8F8; margin: 1rem 0; }
 .md-typeset .coreconcepts-storysequence > ol > li > img { margin-bottom: 1rem; }
+
+@media (max-width: 1600px) {
+	.md-typeset .coreconcepts-orientation i { left: -36px; top: 12px; font-size: 26px; }
+}
 
 /* Tables */
 

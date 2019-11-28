@@ -5,14 +5,14 @@ Entries on the DHT are connected to one another via one-way **links**. This allo
 </div>
 
 <div class="coreconcepts-orientation" markdown="1">
-## What you'll learn
+### <i class="fas fa-thunderstorm"></i> What you'll learn
 
-1. [Why it's hard to find data in a DHT](#the-difficult-task-of-looking-for-data-when-you-dont-know-what-youre-looking-for)
+1. [Why it's hard to find data in a DHT](#the-difficult-task-of-looking-for-data-especially-when-you-dont-know-what-youre-looking-for)
 2. [How turning it into a graph database makes it easy](#links-creating-a-distributed-graph-database)
 3. [Starting points you can use to discovere data](#starting-points-for-traversing-graphs)
 4. [How it looks like in real life](#case-study-a-music-sharing-app)
 
-## Why it matters
+### <i class="far fa-atom"></i> Why it matters
 
 DHTs and graph databases are different from familiar data stores, like relational databases, key/value stores, and document/object stores. Once you understand how they work, you'll be able to design a robust data model for your app that takes advantage of their strengths and avoids their weaknesses.
 </div>

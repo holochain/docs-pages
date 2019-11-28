@@ -5,13 +5,13 @@ Each user in a Holochain network creates and stores their own data in a journal 
 </div>
 
 <div class="coreconcepts-orientation" markdown=1>
-## What you'll learn
+### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [How agent identities are created](#agent-identity)
 2. [The source chain: your own data store](#source-chain-your-own-data-store)
 3. [Detecting third-party tampering](#detecting-third-party-tampering)
 
-## Why it matters
+### <i class="far fa-atom"></i> Why it matters
 
 When you understand how agents and their data are represented, you have the foundational knowledge for creating an appropriate user experience that takes advantage of Holochain's agent-centric design.
 </div>

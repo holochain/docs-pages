@@ -5,7 +5,7 @@ Agents share their public keys, source chain headers, and public entries with th
 </div>
 
 <div class="coreconcepts-orientation" markdown=1>
-## What you'll learn
+### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [The downsides and risks of self-owned data](#self-owned-data-isnt-enough)
 2. [How public data is stored](#the-distributed-hash-table-a-public-data-store)
@@ -13,7 +13,7 @@ Agents share their public keys, source chain headers, and public entries with th
 4. [What happens when the network goes down](#resilience-and-availability)
 5. [How public data is validated](#a-cloud-of-witnesses)
 
-## Why it matters
+### <i class="far fa-atom"></i> Why it matters
 
 If you're unsure whether a distributed network can provide the same integrity, performance, and uptime guarantees as a server-based system under your control, this article will give you a better picture of how Holochain addresses these issues. You'll also have a better understanding of how user data is stored, which will help you think about how to design your persistence layer.
 </div>
