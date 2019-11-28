@@ -3,6 +3,8 @@ site_name: Holochain Docs
 # Repository
 repo_url: https://github.com/holochain/docs-pages
 
+docs_dir: src
+
 # Navigation
 nav:
   - Get Started:
@@ -17,14 +19,14 @@ nav:
     - Glossary [WIP]: glossary.md
   - Core Concepts:
     - Introduction: 'concepts/index.md'
-    - The basics: 'concepts/1_the_basics.md'
-    - Application architecture: 'concepts/2_application_architecture.md'
-    - Source chain: 'concepts/3_source_chain.md'
+    - The Basics: 'concepts/1_the_basics.md'
+    - Application Architecture: 'concepts/2_application_architecture.md'
+    - Source Chain: 'concepts/3_source_chain.md'
     - DHT: 'concepts/4_dht.md'
     - Links: 'concepts/5_links.md'
-    - CRUD operations: 'concepts/6_crud_operations.md'
+    - CRUD Operations: 'concepts/6_crud_operations.md'
     - Validation: 'concepts/7_validation.md'
-    - Node-to-node messaging: 'concepts/8_node_to_node_messaging.md'
+    - Node-to-Node Messaging: 'concepts/8_node_to_node_messaging.md'
   - Tutorials:
     - Introduction: 'tutorials/coreconcepts/index.md'
     - Hello Holo Tutorial: 'tutorials/coreconcepts/hello_holo.md'

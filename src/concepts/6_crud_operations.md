@@ -5,13 +5,13 @@ Holochain allows agents to mutate immutable data by publishing special **remove*
 </div>
 
 <div class="coreconcepts-orientation" markdown="1">
-## What you'll learn
+### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Why you can't delete or modify DHT data in the usual way](#public-immutable-databases)
 2. [How to simulate mutability in an immutable database](#simulating-immutability)
 3. [Addressing concerns about privacy and storage requirements](#handling-privacy-concerns-and-storage-constraints)
 
-## Why it matters
+### <i class="far fa-atom"></i> Why it matters
 
 Immutable public data is a surprising feature of Holochain and many other distributed systems. It's important to understand the consequences in order to make informed design decisions that respect your users' privacy and storage space.
 </div>

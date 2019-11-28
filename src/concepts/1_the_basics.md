@@ -5,13 +5,13 @@ Holochain is an open-source development framework and networking protocol. It al
 </div>
 
 <div class="coreconcepts-orientation" markdown=1>
-## What you'll learn
+### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [The problem with centralized architectures](#the-problem-with-centralized-architectures)
 2. [Current solutions](#current-solutions)
 3. [How Holochain does things differently](#how-holochain-does-things-differently)
 
-## Why it matters
+### <i class="far fa-atom"></i> Why it matters
 
 You'll understand how Holochain is different from centralized architectures, and how this difference can make your applications more robust, secure, and affordable.
 </div>

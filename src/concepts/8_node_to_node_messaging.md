@@ -1,16 +1,16 @@
-# 08. Node-to-node messaging: communicate directly with peers
+# 08. Node-to-Node Messaging: Communicate Directly with Peers
 
 <div class="coreconcepts-intro" markdown="1">
 Peers can use encrypted **node-to-node messaging** to talk directly to each other without relying on the DHT. This is useful for off-the-record communications.
 </div>
 
 <div class="coreconcepts-orientation" markdown="1">
-## What you'll learn
+### <i class="fas fa-thunderstorm"></i> What you'll learn
 
-* [When node-to-node messaging makes sense](#node-to-node-messaging-immediate-temporary-data-exchange)
-* [How messaging works](#the-lifecycle-of-a-message)
+1. [When node-to-node messaging makes sense](#node-to-node-messaging-private-immediate-and-temporary-data-exchange)
+2. [How messaging works](#the-lifecycle-of-a-message)
 
-## Why it matters
+### <i class="far fa-atom"></i> Why it matters
 
 The source chain and the DHT aren't appropriate for all kinds of data exchange. Knowing about node-to-node messaging helps you decide which tool to use.
 </div>

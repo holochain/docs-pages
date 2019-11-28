@@ -19,17 +19,17 @@ We've written this introduction for programmers, CTOs, and other technically ori
 <div class="h-tile-container">
     <div class="h-tile tile-alt tile-concepts">
         <a href="1_the_basics">
-            <h4>01. The basics</h4>
+            <h4>01. The Basics</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="2_application_architecture">
-            <h4>02. Application architecture</h4>
+            <h4>02. Application Architecture</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="3_source_chain">
-            <h4>03. Source chain</span></h4>
+            <h4>03. Source Chain</span></h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
@@ -44,7 +44,7 @@ We've written this introduction for programmers, CTOs, and other technically ori
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="6_crud_operations">
-            <h4>06. CRUD operations</h4>
+            <h4>06. CRUD Operations</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
@@ -54,7 +54,7 @@ We've written this introduction for programmers, CTOs, and other technically ori
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="8_node_to_node_messaging">
-            <h4>08. Node-to-node messaging</h4>
+            <h4>08. Node-to-Node Messaging</h4>
         </a>
     </div>
 </div>
