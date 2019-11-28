@@ -69,16 +69,16 @@ workflows:
               only: 
                 - develop
                 - master
-      - build-mkdocs:
-          requires:
-            - generate_and_test
-          filters:
-            branches:
-              only: master
-      - release:
-          requires:
-            - build-mkdocs
-            - generate_and_test
-          filters:
-            branches:
-              only: master 
+#      - build-mkdocs:
+#          requires:
+#            - generate_and_test
+#          filters:
+#            branches:
+#              only: master
+#      - release:
+#          requires:
+#            - build-mkdocs
+#            - generate_and_test
+#          filters:
+#            branches:
+#              only: master 
