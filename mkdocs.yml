@@ -8,36 +8,37 @@ nav:
   - Get Started:
     - Introduction: index.md
     - Why Holochain?: why-holochain.md
-    - What is Holochain?: what-is-holochain.md
     - Who is Holochain For?: who-is-holochain-for.md
-    - Ready to Develop?: ready-to-develop.md
+    - What is Holochain?: what-is-holochain.md
     - Install Holochain: install.md
     - Create a New App: create-new-app.md
     - Get Involved: get-involved.md
-    - Glossary [WIP]: glossary.md
+    - Glossary: glossary.md
   - Core Concepts:
     - Introduction: 'concepts/index.md'
     - The Basics: 'concepts/1_the_basics.md'
     - Application Architecture: 'concepts/2_application_architecture.md'
-    - Private Data on Your Local Source Chain: 'concepts/3_private_data.md'
-    - Public Data on the DHT: 'concepts/4_public_data_on_the_DHT.md'
-    - Linking Data Together: 'concepts/5_linking_data_together.md'
-    - Modifying and Deleting Data: 'concepts/6_modifying_and_deleting_data.md'
+    - Source Chain: 'concepts/3_private_data.md'
+    - DHT: 'concepts/4_public_data_on_the_dht.md'
+    - Links: 'concepts/5_linking_data_together.md'
+    - CRUD Operations: 'concepts/6_modifying_and_deleting_data.md'
+    - Validation: 'concepts/7_validation.md'
+    - Node-to-Node Messaging: 'concepts/8_node_to_node_messaging.md'
   - Tutorials:
     - Introduction: 'tutorials/coreconcepts/index.md'
     - Hello Holo Tutorial: 'tutorials/coreconcepts/hello_holo.md'
     - Hello Test Tutorial: 'tutorials/coreconcepts/hello_test.md'
     - Hello Gui Tutorial: 'tutorials/coreconcepts/hello_gui.md'
     - Hello Me Tutorial: 'tutorials/coreconcepts/hello_me.md'
-    - Hello World Tutorial [WIP]: 'tutorials/coreconcepts/hello_world.md'
-    - Simple Micro Blog Tutorial [WIP]: 'tutorials/coreconcepts/simple_micro_blog.md'
+    - Hello World Tutorial: 'tutorials/coreconcepts/hello_world.md'
+    - Simple Micro Blog Tutorial: 'tutorials/coreconcepts/simple_micro_blog.md'
   - Guidebook:
-    - Welcome: 
+    - Welcome:
       - 'guide/welcome.md'
       - Overview: 'guide/overview.md'
       - How to contribute: 'guide/how_to_contribute.md'
     - Planning a dApp: 'guide/planning_a_dapp.md'
-    - Building Holochain Apps - Intro: 
+    - Building Holochain Apps - Intro:
       - 'guide/building_apps.md'
       - Intro to DNA - Configuration: 'guide/intro_to_dna_config.md'
       - Intro to DNA - Code: 'guide/intro_to_dna_code.md'
@@ -51,7 +52,7 @@ nav:
       - Updating from Proto to Rust: 'guide/alpha_migrate.md'
       - Built With Holochain: 'guide/built_with_holochain.md'
       - Building for Different Platforms: 'guide/building_for_different_platforms.md'
-    - Building Holochain Apps - Zome Code: 
+    - Building Holochain Apps - Zome Code:
       - 'guide/zome/welcome.md'
       - Build A To-Do App!: 'guide/first_steps.md'
       - Adding a Zome: 'guide/zome/adding_a_zome.md'
@@ -72,35 +73,35 @@ nav:
       - Emitting Signals: 'guide/zome/emitting_signals.md'
       - API DNA Variables: 'guide/zome/dna_variables.md'
       - List of API Functions: 'guide/zome/api_functions.md'
-    - Building Holochain Apps - Packaging: 
+    - Building Holochain Apps - Packaging:
       - 'guide/packaging.md'
       - .hcbuild Files: 'guide/build_files.md'
       - .hcignore Files: 'guide/hcignore_files.md'
-    - Building Holochain Apps - Testing: 
+    - Building Holochain Apps - Testing:
       - 'guide/intro_to_testing.md'
       - Running Tests: 'guide/running_tests.md'
       - Intro to holochain-nodejs: 'guide/intro_to_holochain_nodejs.md'
       - Configuration:
         - 'guide/testing_configuration.md'
         - Configuration Alternatives: 'guide/configuration_alternatives.md'
-      - Scenario Testing: 
+      - Scenario Testing:
         - 'guide/scenario_testing.md'
         - Setup: 'guide/scenario_testing_setup.md'
         - Running With Tape: 'guide/scenario_testing_running_tape.md'
         - Other Test Harnesses: 'guide/other_test_harnesses.md'
-      - DNA Instances: 
+      - DNA Instances:
         - 'guide/nodejs_dna_instances.md'
         - Calling Zome Functions: 'guide/nodejs_calling_zome_functions.md'
         - Handle Network Asynchronicity: 'guide/handling_async.md'
       - (E) Checking Results: 'guide/testing_checking_results.md'
       - Manually Manage the Conductor: 'guide/managing_the_conductor.md'
       - Access Instance Info: 'guide/access_instance_info.md'
-    - Running Holochain Apps: 
+    - Running Holochain Apps:
       - Conductors: 'guide/conductors.md'
-      - Development Conductor: 
+      - Development Conductor:
         - 'guide/development_conductor.md'
         - Configuring Networking: 'guide/hc_configuring_networking.md'
-      - Production Conductor: 
+      - Production Conductor:
         - 'guide/production_conductor.md'
         - Intro to TOML Config Files: 'guide/intro_to_toml_config.md'
         - Agents: 'guide/conductor_agents.md'
@@ -114,35 +115,35 @@ nav:
         - Networking: 'guide/conductor_networking.md'
         - Persistence Directory: 'guide/conductor_persistence_dir.md'
       - Intro to JSON-RPC Interfaces: 'guide/json_rpc_interfaces.md'
-      - Conductor JSON-RPC API: 
+      - Conductor JSON-RPC API:
         - 'guide/conductor_json_rpc_api.md'
         - HTTP: 'guide/json_rpc_http.md'
         - WebSockets: 'guide/json_rpc_websockets.md'
       - Conductor Admin: 'guide/conductor_admin.md'
     - Building Holochain Apps - User Interfaces: 'guide/apps_user_interfaces.md'
     - Building Holochain Apps - Bridging: 'guide/bridging.md'
-    - (E) Going Live with Holochain Apps: 
+    - (E) Going Live with Holochain Apps:
       - 'guide/live_hc_apps.md'
       - (E) Creating Versioned Releases: 'guide/creating_versioned_releases.md'
-    - (E) Building Holochain Apps - Advanced Topics: 
+    - (E) Building Holochain Apps - Advanced Topics:
       - 'guide/apps_advanced_topics.md'
       - Understanding JsonString: 'guide/json_string.md'
       - Building For Android: 'guide/building_for_android.md'
-    - (E) Extending Holochain: 
+    - (E) Extending Holochain:
       - 'guide/extending_holochain.md'
-      - (E) Embedding Holochain: 
+      - (E) Embedding Holochain:
         - 'guide/embedding_holochain.md'
         - (E) Core API: 'guide/core_api.md'
       - Key Management (DPKI): 'guide/dpki.md'
       - Naming conventions: 'guide/naming_conventions.md'
       - Writing a Development Kit (HDK': 'guide/writing_development_kit.md'
       - Implementing Zome API functions: 'guide/zome/implementation.md'
-      - Redux Architecture: 
+      - Redux Architecture:
         - 'guide/state_actions.md'
         - State actions: 'guide/state/actions.md'
       - State actors: 'guide/state/actors.md'
     - FAQ: 'guide/faq.md'
-    - (E) Glossary: 
+    - (E) Glossary:
       - 'guide/glossary.md'
       - (E) Agent: 'guide/agent.md'
       - (E) Keys: 'guide/keys.md'
@@ -150,7 +151,7 @@ nav:
       - (E) Zome: 'guide/zome.md'
       - (E) Source Chain: 'guide/source_chain.md'
       - Distributed Hash Table: 'guide/distributed_hash_table.md'
-  - API: 
+  - API:
     - API: 'https://docs.rs/hdk'
 
 
@@ -187,6 +188,7 @@ markdown_extensions:
       guess_lang: false
   - toc:
       permalink: true
+  - smarty
   - pymdownx.tilde
   - pymdownx.emoji
   - pymdownx.details

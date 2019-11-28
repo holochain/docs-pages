@@ -18,7 +18,7 @@ A DNA can specify a bridge dependency either:
 * **explicitly** by its **DNA hash**, or
 * **implicitly** by referencing one or more **traits** that it may implement.
 
-A trait is like a [contract](https://en.wikipedia.org/wiki/Design_by_contract), [interface, or protocol](https://en.wikipedia.org/wiki/Protocol_(object-oriented_programming)) from object-oriented programming. It specifies a collection of functionality that a zome is capable of. This gives users choice over their preferred implementations of DNAs with certain traits. An example that we'll explore in the next tutorial is a currency DNA that broadcasts transaction announcements into a microblogging DNA&mdash;as a user, you could swap the microblogging dependency with any DNA that advertises the ability to post a short status message.
+A trait is like a [contract](https://en.wikipedia.org/wiki/Design_by_contract), [interface, or protocol](https://en.wikipedia.org/wiki/Protocol_(object-oriented_programming)) from object-oriented programming. It specifies a collection of functionality that a zome is capable of. This gives users choice over their preferred implementations of DNAs with certain traits. An example that we'll explore in the next tutorial is a currency DNA that broadcasts transaction announcements into a microblogging DNA---as a user, you could swap the microblogging dependency with any DNA that advertises the ability to post a short status message.
 
 ## Further reading
 
