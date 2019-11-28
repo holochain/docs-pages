@@ -1,9 +1,5 @@
 # Who is Holochain For?
 
-You can build almost any blockchain solution on Holochain, solutions that can talk to each other. Very little should be done in Holochain with respect to design. You can, and should, use your favorite language/framework for 90–95% of your application.
-
-Holochain has a “fat” UI, but a skinny back-end.
-
 ### Holochain is a smart choice if:
 
 * Your application needs to be accessible despite unreliable network conditions or total loss of connectivity.
