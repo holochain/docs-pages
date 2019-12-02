@@ -9,18 +9,18 @@ Let's begin with the classic Hello ~~World~~ Holo tutorial!
 You will see it's super easy to create a distributed application with Holochain.
 
 ### What will you learn
-How to create a Holochain zome with a callable function, compile it into a DNA, and run it in the Holochain conductor.
-Once it's running you will learn how to call a zome function using curl.
+You'll learn how to create a Holochain zome with a callable function, compile it into a DNA, and run it in the Holochain conductor.
+Once it's running, you will learn how to call a zome function using curl.
 
 ### Why it matters
-This tutorial helps you get orientated with the basics of a hApp. These are the fundamental parts you will be building on later so it's important to get understand them clearly.
+This tutorial helps you get orientated to the basics of a hApp. These are the fundamental parts on which you will be building later, so it's important to have a clear and solid understanding.
 
 ## Setup
 
-1. Complete the [installation guide](https://developer.holochain.org/start.html). This will give you an app development environment including the Holochain developer tool `hc`.
+1. Complete the [installation guide](https://developer.holochain.org/start.html). It will give you an app development, environment including the Holochain developer tool `hc`.
 2. Open up a terminal (command prompt in Windows).
 3. Enter the development environment.  
-macOS/Linux (you'll remember this command from the installation tutorial):  
+macOS/Linux, you'll remember this command from the installation tutorial:  
 ```bash
 nix-shell https://holochain.love
 ```
@@ -32,14 +32,14 @@ nix-shell https://holochain.love
 ```
 
 !!! tip "Nix Shell"
-    Throughout these tutorials you will see commands marked `Run in nix-shell https://holochain.love`.  
-    You should keep the nix-shell open and run these commands in it. Don't reopen nix-shell for every command.
+    You will see commands marked `Run in nix-shell https://holochain.love` throughout these tutorials.  
+    You should keep the nix-shell open and run these commands in it---don't reopen nix-shell for every command.
 
 ## Initializing your new app
 
-Pick a new home for all your future Holochain applications to live. Something like  `home_directory/holochain/`.
+Pick a new home in which all your future Holochain applications will live. Something like  `home_directory/holochain/`.
 
-Then create a `core_concepts` folder for this tutorial series:
+Then, create a `core_concepts` folder for this tutorial series:
 
 ```bash
 cd ~
@@ -49,7 +49,7 @@ mkdir core_concepts
 cd core_concepts
 ``` 
 
-Time to put the holochain command line tool (`hc`) to work and make your app.
+It's time to put the Holochain command line tool (`hc`) to work and make your app.
 
 Initialize a new app and enter the app directory:
 
@@ -61,11 +61,10 @@ Initialize a new app and enter the app directory:
 
 #### Compile 
 
-!!! tip "Run `hc` and `holochain` from root directory"
-    All `hc` and `holochain` commands should be run from the project root (ie. `cc_tuts/`).
-    Except of course `hc init` because the root doesn't exist at this point.
+!!! tip "Run `hc` and `holochain` from root directory."
+    All `hc` and `holochain` commands should be run from the project root (e.g., `cc_tuts/`), except of course `hc init`, because the root doesn't exist at this point.
 
-It's an always good to frequently compile your app. That way you catch any mistakes early on. 
+It's always good to frequently compile your app to catch any mistakes early on. 
 
 Give it a go by asking `hc` to package your app:
 
@@ -74,7 +73,7 @@ Give it a go by asking `hc` to package your app:
     hc package
     ```
 
-Packaging your app means you are compiling the code into a DNA file and getting it ready to be run.
+'Packaging your app' means you are compiling the code into a DNA file and getting it ready to be run.
 
 
 !!! success "You should see a successful compilation like this:"
@@ -85,7 +84,7 @@ Packaging your app means you are compiling the code into a DNA file and getting 
 
 ## Generate a zome
 
-Your app doesn't really do too much right now because it needs a [zome](https://developer.holochain.org/guide/latest/zome/welcome.html). A zome is Holochain's way of organizing code into nice units that perform a certain task (like saying hello).
+Your app doesn't really do much right now because it needs a [zome](https://developer.holochain.org/guide/latest/zome/welcome.html). A zome is Holochain's way of organizing code into nice units that perform a certain task (like saying, "Hello").
 
 Generate a zome called `hello` inside the zome's folder:
 
@@ -123,11 +122,11 @@ Generate a zome called `hello` inside the zome's folder:
 
 #### Open the `lib.rs` file
 
-The zome is a [Rust](https://rust-lang.com) project and makes use of [macros](https://doc.rust-lang.org/book/ch19-06-macros.html#the-difference-between-macros-and-functions) so you can avoid writing a lot of boilerplate code. The main file you will be editing is `hello_hollo/zomes/code/src/lib.rs`.
+The zome is a [Rust](https://rust-lang.com) project and makes use of [macros](https://doc.rust-lang.org/book/ch19-06-macros.html#the-difference-between-macros-and-functions) to keep you from having to write a lot of boilerplate code. The main file you will be editing is: `hello_hollo/zomes/code/src/lib.rs`.
 
-Open up the `lib.rs` file in an editor and let's have a look at the generated code.
+Let's have a look at the generated code—--open up the `lib.rs` file in an editor.
 
-The following are all the imports. You are telling Rust, "hey, I need things from all these [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) in order to do my job."
+The following are all the imports. You are telling Rust, "Hey, I need things from all these [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) in order to do my job."
 
 \#S:INCLUDE
 ```rust
@@ -141,9 +140,9 @@ extern crate serde_json;
 extern crate holochain_json_derive;
 ```
 
-Next are the `use` statements. They are saying, "I want to use these specific things from the above crates."
-You only need a few items for this tutorial so go ahead and remove the others:
-\#S:SKIP
+The `use` statements are next. They are saying, "I want to use these specific things from the above crates."
+You only need a few items for this tutorial, so go ahead and remove the others:
+\#S:SKIP.
 ```diff
 #![feature(proc_macro_hygiene)]
 - #[macro_use]
@@ -175,7 +174,7 @@ use hdk::{
 
 use hdk_proc_macros::zome;
 ```
-You should be left with this:
+You should be left with:
 
 \#S:INCLUDE
 ```rust
@@ -198,7 +197,7 @@ Remove the following piece of code:
 - }
 ```
 
-The `my_zome` module is where all your zome code live. `#[zome]` is a [procedural macro](https://doc.rust-lang.org/reference/procedural-macros.html) that says that the following module defines all the things that Holochain should know about this zome. It saves you writing lots of code. 
+The `my_zome` module is where all your zome code lives. `#[zome]` is a [procedural macro](https://doc.rust-lang.org/reference/procedural-macros.html) that says that the following module defines all the things that Holochain should know about this zome. It saves you writing lots of code. 
 
 Change it to `hello_zome` for this tutorial series:
 
@@ -213,21 +212,21 @@ Change it to `hello_zome` for this tutorial series:
 mod hello_zome {
 ```
 
-The `init` function is run when a user starts the app for the first time. Every zome defines this function so it can do some initial setup tasks. In this zome it doesn't do anything.
+The `init` function is run when a user starts the app for the first time. Every zome defines this function so it can do some initial setup tasks, but in this zome it doesn't do anything.
 
 ```rust
     #[init]
     fn init() {
 ```
 
-Return success with the empty value `()`. In Rust `()` is called the [unit type](https://doc.rust-lang.org/std/primitive.unit.html) and is similar (though not identical) to a [void type](https://en.wikipedia.org/wiki/Void_type) in other languages.
+Return success with the empty value `()`. In Rust, `()` is called the [unit type](https://doc.rust-lang.org/std/primitive.unit.html) and is similar, though not identical, to a [void type](https://en.wikipedia.org/wiki/Void_type) in other languages.
 
 ```rust
         Ok(())
     }
 ```
 
-This required function is run at application start too, once by the new user and once by the existing peers. It checks that the user is allowed to join the network. In this case it gives everyone a free pass.
+This required function is run at application start too, once by the new user and once by the existing peers. It checks that the user is allowed to join the network. In this case, it gives everyone a free pass.
 
 \#S:INCLUDE
 ```rust
@@ -271,11 +270,11 @@ Remove the following template code:
 
 > #### A note about return values
 > 
-> You'll often see Rust functions returning some sort of [`Result`](https://doc.rust-lang.org/std/result/) value. This is a special Rust type that can either be `Ok(some_value)` to show that the function succeeded or `Err(some_error)` to report an error. All required Holochain functions, such as init and validators, are expected return a special result type called [`ZomeApiResult`](https://developer.holochain.org/api/latest/hdk/error/type.ZomeApiResult.html), which shuttles data back and forth between your app and the conductor. It also automatically converts data to JSON and back, so it makes sense to use it in your public functions too.
+> You'll often see Rust functions returning some sort of [`Result`](https://doc.rust-lang.org/std/result/) value. This is a special Rust type that can either be `Ok(some_value)` to show that the function succeeded or `Err(some_error)` to report an error. Required Holochain functions, like init and validators, are expected to return a special result type called [`ZomeApiResult`](https://developer.holochain.org/api/latest/hdk/error/type.ZomeApiResult.html), which shuttles data back and forth between your app and the conductor. It also automatically converts data to JSON and back, so it makes sense to use it in your public functions as well.
 
-## Add a function to say hello :)
+## Add a function to say "Hello" :)
 
-Now tell the zome to return `Hello Holo` from a public function.
+Now, tell the zome to return `Hello Holo` from a public function.
 
 Locate the `validate_agent` function:
 
@@ -297,7 +296,7 @@ Add the `hc_public` macro:
     #[zome_fn("hc_public")]
 ```
 
-The function `hello_holo` takes no arguments and returns a Holochain result type. We're also telling Holochain that if the result is `Ok` then it will contain a string.
+The function `hello_holo` takes no arguments and returns a Holochain result type. We're also telling Holochain that if the result is `Ok`, it will contain a string.
 
 Start the function:
 
@@ -305,7 +304,7 @@ Start the function:
     fn hello_holo() -> ZomeApiResult<String> {
 ```
 
-Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddness that just means "turn this [slice](https://doc.rust-lang.org/std/slice/) into a `String`":
+Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddness that just means "turn this [slice](https://doc.rust-lang.org/std/slice/) into a `String`:"
 
 ```rust
         Ok("Hello Holo".into())
@@ -321,7 +320,7 @@ Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddn
 
 \#S:CHECK=rust
 
-> If you do find any errors, remember to fix them before moving on. You can always get help on the [forum](https://forum.holochain.org/t/about-the-getting-started-category/167).
+> If you find errors, remember to fix them before moving on. You can always get help on the Holochain[forum](https://forum.holochain.org/t/about-the-getting-started-category/167).
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
@@ -330,7 +329,7 @@ Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddn
 
 ## Talk to your app through HTTP
 
-To interact with your application you can run it in HTTP mode.
+To interact with your application, you can run it in HTTP mode.
 
 Run your app in HTTP mode:
 !!! note "Run in `nix-shell https://holochain.love`"
@@ -338,7 +337,7 @@ Run your app in HTTP mode:
     hc run -i http
     ```
 
-You can send a [POST](https://en.wikipedia.org/wiki/POST_(HTTP)) message to your app using [curl](https://curl.haxx.se/), a little command for making HTTP requests. (It's included in the Holochain dev environment.)
+You can send a [POST](https://en.wikipedia.org/wiki/POST_(HTTP)) message to your app using [curl](https://curl.haxx.se/), a little command for making HTTP requests, which is included in the Holochain dev environment.
 
 You will need to open a new terminal window and enter the nix-shell again:
 
@@ -346,7 +345,7 @@ You will need to open a new terminal window and enter the nix-shell again:
 nix-shell https://holochain.love
 ```
 
-Enter the following request, which will call the `hello_holo` function and return the result:
+Enter the following request, which calls the `hello_holo` function and returns the result:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
@@ -358,12 +357,12 @@ Enter the following request, which will call the `hello_holo` function and retur
     {"jsonrpc":"2.0","result":"{\"Ok\":\"Hello Holo\"}","id":"0"}
     ```
 
-Congratulations&mdash;you have created your first distributed Holochain application! :rocket:
+Congratulations---you have created your first distributed Holochain application! :rocket:
 
 ### Key takeaways
-- A zome is compiled down to webassembly and run by the Holochain conductor.
-- You can call public zome functions through the conductor using http.
+- A zome is compiled down to WebAssembly and run by the Holochain conductor.
+- You can call public zome functions through the conductor using HTTP.
 
 ### Learn more
 - [Curl](https://curl.haxx.se/docs/manpage.html)
-- [Webassembly](https://webassembly.org/)
+- [WebAssembly](https://webassembly.org/)
