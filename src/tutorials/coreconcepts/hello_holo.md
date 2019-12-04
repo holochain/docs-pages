@@ -55,14 +55,15 @@ Initialize a new app and enter the app directory:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
-    hc init cc_tuts
-    cd cc_tuts 
+    hc init hello_holo
+    cd hello_holo
     ```
 
 #### Compile 
 
-!!! tip "Run `hc` and `holochain` from root directory."
-    All `hc` and `holochain` commands should be run from the project root (e.g., `cc_tuts/`), except of course `hc init`, because the root doesn't exist at this point.
+!!! tip "Run `hc` and `holochain` from root directory"
+    All `hc` and `holochain` commands should be run from the project root (ie. `hello_holo/`).
+    Except of course `hc init` because the root doesn't exist at this point.
 
 It's always good to frequently compile your app to catch any mistakes early on. 
 
@@ -106,11 +107,11 @@ Generate a zome called `hello` inside the zome's folder:
 !!! success "If all went well you should see:"
     ```bash
     > cargo build --release --target=wasm32-unknown-unknown --target-dir=target
-       Compiling hello v0.1.0 (/Users/username/holochain/core_concepts/hello_hollo/zomes/hello/code)
+       Compiling hello v0.1.0 (/Users/username/holochain/core_concepts/hello_holo/zomes/hello/code)
         Finished release [optimized] target(s) in 11.95s
     > cargo build --release --target=wasm32-unknown-unknown --target-dir=target
         Finished release [optimized] target(s) in 0.50s
-    Created DNA package file at "/Users/username/holochain/core_concepts/hello_hollo/dist/hello_hollo.dna.json"
+    Created DNA package file at "/Users/username/holochain/core_concepts/hello_holo/dist/hello_holo.dna.json"
     DNA hash: QmdNyxke1Z9Kunws4WUXHnt4cdKQnPogC7YPpfQx67fo1z
     ```
 
@@ -122,7 +123,7 @@ Generate a zome called `hello` inside the zome's folder:
 
 #### Open the `lib.rs` file
 
-The zome is a [Rust](https://rust-lang.com) project and makes use of [macros](https://doc.rust-lang.org/book/ch19-06-macros.html#the-difference-between-macros-and-functions) to keep you from having to write a lot of boilerplate code. The main file you will be editing is: `hello_hollo/zomes/code/src/lib.rs`.
+The zome is a [Rust](https://rust-lang.com) project and makes use of [macros](https://doc.rust-lang.org/book/ch19-06-macros.html#the-difference-between-macros-and-functions) so you can avoid writing a lot of boilerplate code. The main file you will be editing is `hello_holo/zomes/hello/code/src/lib.rs`.
 
 Let's have a look at the generated code—--open up the `lib.rs` file in an editor.
 
