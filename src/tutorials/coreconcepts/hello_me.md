@@ -8,25 +8,25 @@
 !!! tip "Time & Level"
     Time: ~4 hours | Level: Beginner
 
-Welcome back to another tutorial in the Core Concepts series. 
+Welcome to another tutorial in our Core Concepts series. 
 
-The app we have built so far returns a constant value however for more complex applications it would be useful to be able to store some data.  
+Currently, the app we've built returns a constant value, but it would be useful to be able to store data for more complex applications.  
 
-This tutorial builds on the [previous](../hello_gui) tutorial so go back and complete that if you haven't already.
+This tutorial builds on the [previous](../hello_gui) tutorial, so go back and complete it if you haven't already.
 
 ### What will you learn
-Learn how to add an entry type to your zome. 
-An entry is a piece of data in your source chain that has been validated.
-How to define and validate an entry type that represents a person. Then how to create and read this data through zome calls.
-You will also setup tests and your GUI.
+You'll learn how to add an entry type to your zome. 
+An entry is a piece of data in your source chain that's been validated.
+We'll also show you how to define and validate an entry type that represents a person, and to create and read this data through zome calls.
+You will also set up tests and your GUI.
 
 ### Why it matters
 Storing data is at the core of Holochain. 
-The most valuable job Holochain does is ensuring agents handle and store data according to the rules of you application.
+Holochain's most important job is ensuring agents handle and store data according to the rules of your application.
 
 ## Test first
 
-Start by writing a test so it's easy to see when your app is working:
+Start by writing a test to make it easy to see when your app is working:
 
 Open up `cc_tuts/test/index.js`.
 
@@ -55,11 +55,10 @@ orchestrator.registerScenario("Test hello holo", async (s, t) => {
   t.deepEqual(result, { Ok: 'Hello Holo' })
   
 ```
-The new tests go below `t.deepEqual(result, { Ok: 'Hello Holo' })`.
+The new tests go below `t.deepEqual(result, { Ok: 'Hello Holo' })` 
+The following test will create an entry with the name ‘Alice’, retrieve the same entry, and check that it has the name ‘Alice’.
 
-The following test will create an entry with the name "Alice", retrieve the same entry and check that it has the name "Alice".
-
-Add a call to the `create_person` function with a person whose name is Alice:
+Add a call to the `create_person` function with a person named Alice:
 
 ```javascript
   const create_result = await alice.call('cc_tuts', "hello", "create_person", {"person": { "name" : "Alice" }});
@@ -72,7 +71,7 @@ Check that the result of the call is Ok:
   const alice_person_address = create_result.Ok;
 ```
 
-Tell the test to wait for the dht to become consistent.
+Tell the test to wait for the DHT to become consistent.
 
 ```javascript
 
@@ -105,7 +104,7 @@ orchestrator.run()
 ```
 
 ### Run sim2h
-Again you will need to run the sim2h server in a seperate terminal window:
+Again, you will need to run the sim2h server in a separate terminal window:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
@@ -117,9 +116,9 @@ Your test should now look like this:
 
 \#S:CHECK=javascript=test
 
-Obviously these tests will fail right now. Can you guess what the first failure will be? Let's have a look.
+Obviously, right now, these tests will fail. Can you guess what the first failure will be? Let's have a look.
 
-Enter the nix-shell if you don't have it open already:
+Enter the nix-shell if you don't already have it open:
 
 ```bash
 nix-shell https://holochain.love
@@ -135,15 +134,15 @@ Run the test:
 !!! failure "The test fails on the create_person function because it doesn't exist yet:"
     `"Holochain Instance Error: Zome function 'create_person' not found in Zome 'hello'"`
 
-> Note that this test might actually get stuck because we haven't put in the required functions yet. Press `ctrl-c` to exit a stuck test.
+> Note: This test might actually get stuck because we haven't put in the required functions yet. Press `ctrl-c` to exit a stuck test.
 
 ## Add the entry
 
 Open up your `zomes/hello/code/src/lib.rs` file.  
-To add an entry into your source chain start by telling Holochain what kinds of entry exist.  
-First we'll create a [`struct`](https://doc.rust-lang.org/1.9.0/book/structs.html) to define the shape of the data.
+To add an entry to your source chain, begin by telling Holochain what kind of entry exists.  
+First, we'll create a [`struct`](https://doc.rust-lang.org/1.9.0/book/structs.html) to define the shape of the data.
 
-In a moment we will add a `Person` struct, but this is where to put it:
+We will add a `Person` struct in a moment, but this is where to put it:
 
 \#S:SKIP
 ```rust
@@ -153,7 +152,7 @@ In a moment we will add a `Person` struct, but this is where to put it:
 mod hello_zome {
 ```
 
-Add the following lines.
+Add the following lines:
 
 Allow this struct to be easily converted to and from JSON:
 
@@ -168,14 +167,14 @@ Represent a person as a struct:
 pub struct Person {
 ```
 
-Represent their name as a String:
+Represent their name as a string:
 
 ```rust
     name: String,
 }
 ```
 
-Look for the following lines inside the `hello_zome` mod.
+Look for the following lines inside the `hello_zome` mod:
 
 ```rust
 #[zome]
@@ -210,13 +209,13 @@ Add the `person_entry_def` function, which tells Holochain about the person entr
     fn person_entry_def() -> ValidatingEntryType {
 ```
 
-Add the `entry!` macro that lets you easily create a `ValidatingEntryType`:
+Add the `entry!` macro, which lets you easily create a `ValidatingEntryType`:
 
 ```rust
         entry!(
 ```
 
-Give it the same name as the `Person` struct, just to be consistent. Entry types are usually in lowercase.
+To be consistent, give it the same name as the `Person` struct. Entry types are usually in lowercase.
 
 Add the name and description of the entry:
 
@@ -241,7 +240,7 @@ Add the `validation_package` function that says what is needed to validate this 
 
 Add the `validation` function that validates this entry.
 
-It returns that this entry is always Ok as long as it fits the shape of the `Person` struct:
+As long as it fits the shape of the `Person` struct, it returns that this entry is always Ok:
 
 ```rust
             validation: | _validation_data: hdk::EntryValidationData<Person>| {
@@ -251,14 +250,14 @@ It returns that this entry is always Ok as long as it fits the shape of the `Per
     }
 ```
 
-Now you can create actual `person` entries and store them on your source chain.
+Now, you can create actual `person` entries and store them on your source chain.
 
-> __A note on validation:__
-> Validation is very important. It is the "rules of the game" for your Holochain app. It is meaningful to emphasize that although we are returning `Ok(())` that we are still validating that the data type checks as a `Person` with a `name` property containing a `String`. Essentially this rule says the person entry must be in this format.
+> __Note:__
+> Validation is very important. It's the "rules of the game" for your Holochain app. It is meaningful to emphasize that although we are returning `Ok(())`, we're still validating that the data type checks as a `Person` with a `name` property containing a `String`. Essentially, this rule says that the person entry must be in this format.
 
-### Add some `use` statements
+### Adding `use` statements
 
-In the above code we have used a few types and macros that are not mentioned anywhere else. So the Rust compiler doesn't know where to find them yet.
+In the above code, we just used a few types and macros that are not mentioned anywhere else, so the Rust compiler doesn't know where to find them yet.
 
 Add the following `use` statements:
 
@@ -307,9 +306,9 @@ use hdk_proc_macros::zome;
 
 ## Create a person
 
-Now you need a way for your UI to actually create a person entry. Holochain has a concept called `hc_public` which is a way of telling the runtime make this function available to call from outside this zome.
+You now need a way for your UI to actually create a person entry. Holochain has a concept called `hc_public`, which is a way of telling the runtime to make this function available to call from outside the zome.
 
-Add the following lines below the previous `person_entry_def` function.
+Add the following lines below the previous `person_entry_def` function:
 
 Add a public function that takes a `Person` and returns a result with an `Address`:
 
@@ -355,9 +354,9 @@ Check for compile errors again:
 
 ## Retrieve person
 
-Lastly you need a way for your UI to get a person entry back from the source chain.
+Lastly, you need a way for your UI to get a person entry back from the source chain.
 
-Add the following lines below the `create_person` function.
+Add the following lines below the `create_person` function:
 
 Add a public `retrieve_person` function that takes an `Address` and returns a `Person`:
 
@@ -377,7 +376,7 @@ Get the entry from your local storage, asking for it by address, and convert it 
 ```rust
 }
 ```
-> In Rust the last line is always returned. You do not need to explicitly say `return`. Just leave off the `;`.
+> In Rust, the last line is always returned---you do not need to explicitly say `return`---just leave off the `;`.
 
 ### Test
 
@@ -400,9 +399,9 @@ Instead of directly compiling, you can run the test you wrote at the start (the 
 
 ## UI
 
-Now that the backend is working you can modify the UI to interact with zome functions you created. First let's do some housekeeping and move the JavaScript from the previous tutorial into its own file.
+Now that the back end is working, you can modify the UI to interact with zome functions you created. First, let's do some housekeeping and move the JavaScript from the previous tutorial into its own file.
 
-Go to the GUI project folder that you created in the [Hello GUI](../hello_gui) tutorial:
+Go to the GUI project folder you created in the [Hello GUI](../hello_gui) tutorial:
 
 ```bash
 cd holochain/coreconcepts/gui
@@ -410,7 +409,7 @@ cd holochain/coreconcepts/gui
 
 Create a new `hello.js` file, open it in your favorite editor, and open the `index.html` alongside it.
 
-Move the everything inside the `<script>` tag into the `hello.js`:
+Move everything inside the `<script>` tag into the `hello.js`:
 
 \#S:SKIP,MODE=gui
 ```diff
@@ -459,7 +458,7 @@ Add the `src` attribute to the `<script>` tag:
 
 \#S:INCLUDE
 
-In your `index.html` start by adding the HTML elements to create a person.
+Start by adding the HTML elements to create a person in your `index.html`.
 
 Look for the previous 'say hello' elements.
 
@@ -527,7 +526,7 @@ Get the text box by its ID `name` and save the current text value into the name 
   const name = document.getElementById('name').value;
 ```
 
-Wait for the connection and then make a zome call:
+Wait for the connection; then make a zome call:
 
 ```javascript
   holochain_connection.then(({callZome, close}) => {
@@ -547,7 +546,7 @@ Call `create_person` in your `hello` zome and pass in the name variable as part 
 
 ### Run the server and open a browser
 
-Go ahead and test your first call.
+Let's test your first call.
 
 Open a new terminal window and enter the nix-shell:
 
@@ -563,7 +562,7 @@ Run the server:
     python -m SimpleHTTPServer
     ```
 
-In your other terminal window (the one with your backend code) package and run your zome:
+In your other terminal window, the one with your back end code, package and run your zome:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
@@ -577,16 +576,16 @@ Now that both your UI server and your Holochain conductor server are running, op
 
 ![](../../img/create_person_1.png)
 
-Open the developer console, enter your name, and press the "Submit Name" button. You should something similar to this:
+Open the developer console, enter your name, and press the "Submit Name" button. You should see something similar to this:
 
 ![](https://i.imgur.com/s20Oh6A.png)
 > The address you see will probably be different, because you typed in your own name.
 
 ### Show the new entry's address
 
-Now we're going to show the address on the page rather than the developer console.
+We're going to show the address on the page now, rather than the developer console.
 
-But first, a bit of refactoring. If you make the `show_ouput` function more generic, then you can reuse it for each element that shows the output for a zome function.
+First, a bit of refactoring---if you make the `show_ouput` function more generic, you can reuse it for each element that shows the output for a zome function.
 
 Pass in the element's ID so that the function can be reused:
 
@@ -637,13 +636,13 @@ function create_person() {
 
 ### Enter the browser
 
-Go back to your browser and refresh the page. This time when you enter your name and press __Submit Name__, you will see the address show up:
+Go back to your browser and refresh the page. This time, when you enter your name and press __Submit Name__, you will see the address show up:
 
 ![](../../img/create_person_2.png)
 
 ## Retrieve a person entry and show it in the UI
 
-Back in the `index.html` file now and under the create person section, add a new header:
+In the `index.html` file, under the create person section, add a new header:
 
 ```html
     <h3>Retrieve Person</h3>
@@ -683,7 +682,7 @@ Add a span with the ID `person_output` to display the person that is returned fr
 
 ### Go to your `hello.js` file
 
-Add the `retrieve_person` function to call the zome function of the same name and show its response:
+Add the `retrieve_person` function to call the zome function of the same name and show the response:
 
 ```javascript
 function retrieve_person() {
@@ -695,7 +694,7 @@ Get the value from the `address_in` text box:
   var address = document.getElementById('address_in').value;
 ```
 
-Wait for the connection and then make a zome call:
+Wait for the connection; then make a zome call:
 
 ```javascript
   holochain_connection.then(({callZome, close}) => {
@@ -711,7 +710,7 @@ Call the `retrieve_person` public zome function, passing in the address. Then pa
 }
 ```
 
-Add the `show_person` function. It is very similar to `show_output` except that you need to show the name.
+Add the `show_person` function. It is very similar to `show_output`, except that you need to show the name.
 
 ```javascript
 function show_person(result) {
@@ -724,16 +723,16 @@ function show_person(result) {
 \#S:CHECK=javascript=gui
 
 ### Enter the browser
-Finally go and test this out at `0.0.0.0:8000`.  
-You should see somehting like this:
+Finally, go and test this at `0.0.0.0:8000`.  
+You should see something like this:
 ![retrieving a person](../../img/create_person_3.png)
 
-Well done! You have stored and retrieved data from a private source chain all using a GUI.
+Well done! You have stored and retrieved data from a private source chain using a GUI!
 
 ## Key takeaways
-- Entrys can be defined using Rust types.
-- Entry definitions tell holochain about the data it can hold and how to validate it.
-- Once an entry is commited this can never be undone and any other agent running the same DNA will always commit an entry that has passed validation. _(This means validation must be deterministic)_
+- Entries can be defined using Rust types.
+- Entry definitions tell Holochain about the data it can hold and how to validate it.
+- Once an entry is committed this can never be undone, and any other agent running the same DNA will always commit an entry that has passed validation. _(This means validation must be deterministic.)_
 - The zome returns entries in the JSON format.
 
 ## Learn more
