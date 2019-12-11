@@ -36,7 +36,7 @@ The address of an [agent ID](#agent-id) entry on the [DHT](#distributed-hash-tab
 
 #### Agent ID
 
-An [entry](#entry) near the beginning of an [agent](#agent)'s [source chain](#source-chain) that identifies them and contains their [public key](#public-key-cryptography) and other identifying information. This entry becomes an agent's unique identifier in the app. The address of this entry is also the [agent's address](#agent-address) on the DHT.
+The second of the two [genesis entries](#genesis-entries) at the the beginning of an [agent](#agent)'s [source chain](#source-chain), which identifies them and contains their [public key](#public-key-cryptography) and other information, such as human-readable identifiers or credentials necessary for joining the DNA's network. This entry becomes an agent's unique identifier in the app. The address of this entry is also the [agent's address](#agent-address) on the DHT.
 
 #### Append-only
 
@@ -225,6 +225,13 @@ A promise made by distributed systems that optimize for availability over consis
 #### Front end
 
 Synonymous with [graphical user interface](#graphical-user-interface-gui).
+
+#### Genesis entries
+
+The two entries at the beginning of an [agent](#agent)'s [source chain](#source-chain) for a [DNA instance](#dna-instance), consisting of:
+
+1. The [DNA](#dna) hash, which shows that the agent has seen the network's rules and agrees to abide by them.
+2. The [agent ID](#agent-id) entry, which advertises the agent's [public key](#public-key-cryptography) and may also provide other identifications or credentials.
 
 #### Global consensus
 
