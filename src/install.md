@@ -32,6 +32,11 @@
 	<li><a href="https://apps.apple.com/us/app/xcode/id497799835?mt=12">xCode developer tools</a> (Mac only)</li>
 </ul>
 
+<h4>MacOS Catalina:</h4>
+
+Currently blocked: https://github.com/holochain/docs-pages/issues/149 (see here for workarounds)
+Fix pending: https://github.com/NixOS/nix/pull/3212
+
 <h3>Mac / Linux Environment Setup</h3>
 
 <p>We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:</p>
