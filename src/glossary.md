@@ -38,6 +38,10 @@ The address of an [agent ID](#agent-id) entry on the [DHT](#distributed-hash-tab
 
 The second of the two [genesis entries](#genesis-entries) at the the beginning of an [agent](#agent)'s [source chain](#source-chain), which identifies them and contains their [public key](#public-key-cryptography) and other information, such as human-readable identifiers or credentials necessary for joining the DNA's network. This entry becomes an agent's unique identifier in the app. The address of this entry is also the [agent's address](#agent-address) on the DHT.
 
+#### Anchor
+
+A data modelling pattern that allows application designers to simulate collections or tables on the [DHT](#distributed-hash-table-dht). A [base](#link-base) [entry type](#entry-type) is defined as containing a value, such as `"user_handles"`, `"city_names"`, or `"blog_posts_2019"`, and all relevant entries are [linked](#link) to it.
+
 #### Append-only
 
 Any data structure that can only be written to. Once written, that data becomes 'immutable' (it can't be modified or deleted). An agent's [source chain](#source-chain) and the [DHT](#distributed-hash-table-dht) are both append-only.
@@ -315,7 +319,23 @@ A history of events or [state transitions](#state-transition). In [distributed l
 
 #### Link
 
-A piece of [metadata](#metadata) connecting one [DHT entry](#dht-entry) to another. Each link has a defined type, as well as a 'tag' for storing arbitrary content.
+A piece of [metadata](#metadata) connecting one [DHT entry](#dht-entry) to another. Each link has a defined [type](#link-type), as well as a [tag](#link-tag).
+
+#### Link base
+
+The [DHT entry](#dht-entry) that a [link](#link) links from. The link is stored in the DHT as an [aspect](#aspect) attached to its base entry.
+
+#### Link tag
+
+An arbitrary piece of string content attached to a [link](#link). It can be used for things like describing the nature of the relation, containing a small portion of the target's data to avoid asking the [DHT](#distributed-hash-table-dht) to retrieve the full target entry, or serving as an index for filtering links.
+
+#### Link target
+
+The [DHT entry](#dht-entry) that a [link](#link) points to.
+
+#### Link type
+
+A specification for any sort of [link](#link) that a [DNA](#dna) should recognize and understand, similar to an [entry type](#entry-type). It defines the [base](#link-base) and [target](#link-target) [types](#entry-type) that the link is valid for, as well as a [validation rule](#validation-rule). Because links only exist on the [DHT](#distributed-hash-table-dht), all link types are public.
 
 #### Logical monotonicity
 
@@ -485,7 +505,7 @@ Holochain's [DHT](#distributed-hash-table-dht) design which creates an [immune s
 
 #### Validation rule
 
-A function that checks the correctness of an [entry](#entry). If validation fails, a [validator](#validator) can publish a [warrant](#warrant) proving that the entry's author has broken the 'rules of the game'.
+A function that checks the correctness of an [entry](#entry) or [link](#link). If validation fails, a [validator](#validator) can publish a [warrant](#warrant) proving that the entry's author has broken the 'rules of the game'.
 
 #### Validation signature
 
