@@ -43,7 +43,7 @@ Now, let's get into the details of how a Holochain app is put together. Holochai
 
 <div class="coreconcepts-storysequence" markdown=1>
 1. ![](https://i.imgur.com/VVAX0Jc.png)
-Code modules called **zomes** (short for chromosomes) define the core logic of your app. They validate, store, and retrieve data, in addition to initiating communications between users. They also expose a small set of **zome functions** as their public API. (This API isn't public in the usual sense; it can only be accessed by clients running on the user's machine.)
+Code modules called **zomes** (short for chromosomes) define the core logic of your app. They contain functions to initialize a user's account; store, validate, and retrieve data; and respond to messages from other users. You can expose some of these functions as the zome's API.
 
 2. ![](https://i.imgur.com/RMnObHc.png)
 One or more zomes are combined into a **DNA** that defines the basic functionality and 'rules of the game' for a portion of an application's functionality. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices). The running DNA instance is the user's personal **agent**---every piece of data that it creates or message it sends, it does so from the perspective of the user.
@@ -61,9 +61,10 @@ All DNAs are hosted in the user's **conductor**, a runtime that sandboxes and ex
 Each conductor is a **node** in a peer-to-peer network of agents using the same app. Each DNA in the hApp has its own separate private network and distributed data store. The conductor handles communication and data sharing between nodes.
 </div>
 
-Functional components and architectural layers both enjoy clean separation. You can mix and match, augment, or replace existing pieces. This gives you a lot of flexibility and empowers your users to take ownership of their experience.
+Functional components and architectural layers both enjoy clean separation. You can combine, augment, or replace existing pieces. This gives you a lot of flexibility and empowers your users to take ownership of their experience.
 
-All functions in your DNA start with a fresh memory state, which is wiped out once the function is finished. The only place that persistent state is kept is in the user's device storage. If you've written RESTful applications with frameworks like Django and PHP, this is a familiar pattern.
+!!! info
+    All functions in your DNA start with a fresh memory state which is cleared once the function is finished. The only place that persistent state is kept is in the user's device storage. If you've written applications with REST-friendly stacks like Django and PHP-FastCGI, or with [function-as-a-service](https://en.wikipedia.org/wiki/Function_as_a_service) platforms like AWS Lambda, you're probably familiar with this pattern.
 
 ## Key takeaways
 
@@ -74,6 +75,7 @@ You can see that Holochain is different from typical application stacks. Here's 
 * All code is executed on behalf, and from the perspective, of the individual user.
 * Users communicate and share data directly with one another rather than through a central server or blockchain validator network.
 * Holochain is opinionated about data---it handles all storage and retrieval. (We'll learn about why and how in the next three articles.)
+* DNA functions don't maintain any in-memory state between calls.
 * Persistence logic and core business logic are mixed together in your DNA, because at its heart, Holochain is a framework for data validation. However, you usually don't need much code in your DNA---just enough to encode the 'rules of the game'.
 * As with microservices, Holochain lends itself to combining small, reusable components into large applications.
 
