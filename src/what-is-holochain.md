@@ -23,9 +23,9 @@ The Holochain suite consists of:
 
 ## How do I build an application?
 
-Holochain's tools encourage the creation of application backends as collections of [microservice](https://en.wikipedia.org/wiki/Microservices)-like code packages, each with its own domain of responsibility. These packages are responsible for enforcing your application's core business logic. They define the public API with which clients interact, as well as the validation rules for data.
+Holochain's tools encourage the creation of application back ends as collections of [microservice](https://en.wikipedia.org/wiki/Microservices)-like code packages, each with its own domain of responsibility. These packages are responsible for enforcing your application's core business logic. They define the public API with which clients interact, as well as the validation rules for data.
 
-To build an application, you write back end code in any language that compiles to [WebAssembly](https://webassembly.org/) bytecode. Writing WASM by hand is challenging, so we've written a software development kit (SDK) for the [Rust programming language](https://rustlang.org). We do expect, however, to support more languages in the future!
+To build an application, you write back-end code in any language that compiles to [WebAssembly](https://webassembly.org/) bytecode. Writing WASM by hand is challenging, so we've written a software development kit (SDK) for the [Rust programming language](https://rustlang.org). We do expect, however, to support more languages in the future!
 
 You can write a UI for your application using any language, framework, and runtime you choose, as long as it can run on your users' devices and speak [JSON-RPC](https://en.wikipedia.org/wiki/JSON-RPC) over [WebSocket](https://en.wikipedia.org/wiki/WebSocket) to the user's locally running Holochain service.
 
@@ -41,7 +41,7 @@ We build Holochain with the [Rust programming language](https://rustlang.org). T
 
 ### Server-side frameworks?
 
-Holochain is similar to frameworks like Django, ASP.NET, Laravel, Express, and Ruby on Rails---it gives you the tools to write a full-featured 'back end' for your application.
+Holochain is similar to frameworks like Django, ASP.NET, Laravel, Express, and Ruby on Rails---it gives you the tools to write a full-featured back end for your application.
 
 Key differences:
 
@@ -96,14 +96,14 @@ Key differences:
 
 ### Serverless/lambda?
 
-Similarly to serverless offerings, you can use Holochain to deploy an application without provisioning or maintaining server infrastructure. Back end code consists of stateless functions that can call other functions and receive data from external services.
+Similarly to serverless offerings, you can use Holochain to deploy an application without provisioning or maintaining server infrastructure. Back-end code consists of stateless functions that can call other functions and receive data from external services.
 
 Key differences:
 
-* Holochain does not create a serverless abstraction on top of cloud servers---there are no servers at all. Instead, each user hosts both back end and front end code on their own device.
+* Holochain does not create a serverless abstraction on top of cloud servers---there are no servers at all. Instead, each user hosts both back-end and front-end code on their own device.
 * Public data is stored in a graph database engine provided by the Holochain runtime.
 * Functions are executed only when an individual user says so, and only its local state is affected.  This state may then be optionally published to the public graph database so it can be accessed by others.
-* Back end code is typically deployed to interested users as a package of functions. However, a function can call another function in another package if both packages are installed on one user's device.
+* Back-end code is typically deployed to interested users as a package of functions. However, a function can call another function in another package if both packages are installed on one user's device.
 
 ### BitTorrent, Dat, Git, GUN, IPFS, Secure Scuttlebutt, and other peer-to-peer (<abbr>P2P</abbr>) or distributed web (<abbr title="distributed web">DWeb</abbr>) technologies?
 
