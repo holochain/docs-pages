@@ -63,6 +63,8 @@ Each conductor is a **node** in a peer-to-peer network of agents using the same 
 
 Functional components and architectural layers both enjoy clean separation. You can mix and match, augment, or replace existing pieces. This gives you a lot of flexibility and empowers your users to take ownership of their experience.
 
+All functions in your DNA start with a fresh memory state, which is wiped out once the function is finished. The only place that persistent state is kept is in the user's device storage. If you've written RESTful applications with frameworks like Django and PHP, this is a familiar pattern.
+
 ## Key takeaways
 
 You can see that Holochain is different from typical application stacks. Here's a summary:
