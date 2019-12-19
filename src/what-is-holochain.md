@@ -107,7 +107,7 @@ Key differences:
 
 ### BitTorrent, Dat, Git, GUN, IPFS, Secure Scuttlebutt, and other peer-to-peer (<abbr>P2P</abbr>) or distributed web (<abbr title="distributed web">DWeb</abbr>) technologies?
 
-Holochain is part of a new breed of <abbr>P2P</abbr> <abbr>DWeb</abbr> technologies. It shares the 'agent-centric', offline-friendly, and cryptographically secure approaches of Dat, Git, IPFS, and Secure Scuttlebutt. As a full application development stack with built-in assumptions about user identity, data propagation, and data retrieval, it's most similar to Secure Scuttlebutt.
+Holochain is part of a new breed of <abbr>P2P</abbr> <abbr>DWeb</abbr> technologies. It builds an offline-friendly, 'agent-centric', peer-to-peer network on top of cryptographic primitives, similarly to Dat, Git, IPFS, and Secure Scuttlebutt. As a full application development stack with built-in assumptions about user identity, data propagation, and data retrieval, it's most similar to Secure Scuttlebutt.
 
 Key differences:
 
