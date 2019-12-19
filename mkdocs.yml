@@ -32,6 +32,11 @@ nav:
     - Hello Me Tutorial: 'tutorials/coreconcepts/hello_me.md'
     - Hello World Tutorial: 'tutorials/coreconcepts/hello_world.md'
     - Simple Micro Blog Tutorial: 'tutorials/coreconcepts/simple_micro_blog.md'
+  - Resources:
+    - Introduction: 'resources/index.md'
+    - hApp Bundle: 'resources/happ-bundle.md'
+    - Community Contributions:
+      - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
   - Guidebook:
     - Welcome:
       - 'guide/welcome.md'
