@@ -1,7 +1,7 @@
 # What is Holochain?
 
 <div class="coreconcepts-intro" markdown=1>
-Holochain is an **open-source framework** for developing microservices that run **peer-to-peer applications** entirely on the devices of the end-users' without central servers. It provides tools to:
+Holochain is an **open-source framework** for developing microservices that run **peer-to-peer applications** entirely on end-user devices without central servers. It provides tools to:
 
 * authenticate users and manage identity
 * enforce data integrity and business rules
@@ -14,7 +14,7 @@ Holochain is an **open-source framework** for developing microservices that run 
 The Holochain suite consists of:
 
 * a service to manage running applications and provide persistence and networking
-* a software development kit (SDK) written in Rust
+* a software development kit (SDK) written for Rust developers
 * a set of tools for application development and testing
 * a development environment
 * a collection of core apps and libraries
@@ -23,15 +23,15 @@ The Holochain suite consists of:
 
 ## How do I build an application?
 
-Holochain has a microservice architecture, meaning it is made up of self-contained processes that can be combined into any type of fully featured application.  These microservices are responsible for enforcing your application's core business rules. They define the public API with which clients interact, as well as the validation rules for data.
+Holochain's tools encourage the creation of application backends as collections of [microservice](https://en.wikipedia.org/wiki/Microservices)-like code packages, each with its own domain of responsibility. These packages are responsible for enforcing your application's core business logic. They define the public API with which clients interact, as well as the validation rules for data.
 
-To build an application, you would write microservices in any language that compiles to [WebAssembly](https://webassembly.org/) bytecode. Writing WASM by hand is challenging, so we've written a software development kit (SDK) for the [Rust programming language](https://rustlang.org). We do expect, however, to support more languages in the future!
+To build an application, you write back end code in any language that compiles to [WebAssembly](https://webassembly.org/) bytecode. Writing WASM by hand is challenging, so we've written a software development kit (SDK) for the [Rust programming language](https://rustlang.org). We do expect, however, to support more languages in the future!
 
-You can write clients for your application using any language, framework, and runtime you choose, as long as it can run on your users' devices and speak [JSON-RPC](https://en.wikipedia.org/wiki/JSON-RPC) over [WebSocket](https://en.wikipedia.org/wiki/WebSocket).
+You can write a UI for your application using any language, framework, and runtime you choose, as long as it can run on your users' devices and speak [JSON-RPC](https://en.wikipedia.org/wiki/JSON-RPC) over [WebSocket](https://en.wikipedia.org/wiki/WebSocket) to the user's locally running Holochain service.
 
 ## How do I deploy an application?
 
-Instead of provisioning and deploying your application on cloud instances, you will provide an installer for your users' devices. In the future, we'll also have an easy-to-use app store. Holochain's infrastructure scales with its user base, as each user brings their own resources and contributions to making the network more resilient.
+Instead of provisioning and deploying your application on cloud instances, you provide an installer for your users' devices. (In the future, we'll also have an easy-to-use app store.) Holochain's infrastructure scales with its user base, as each user brings enough resources for themselves and contributes a little extra to support network resilience.
 
 ## How is it built?
 
@@ -52,21 +52,21 @@ Key differences:
 
 ### Relational / <abbr title="structured query language">SQL</abbr> databases?
 
-Each Holochain application has its own separate data store, a <abbr title="distributed hash table">DHT</abbr>. Records in the DHT have a defined and enforced schema, similar to a table schema. Data in the DHT is stored differently from a SQL database.
+Each Holochain application has its own separate data store, a <abbr title="distributed hash table">DHT</abbr>. Records in the DHT have a defined and enforced schema, similar to a table schema.
 
-Key differences:
+Data in the DHT is stored differently from a SQL database, however. Key differences:
 
 * Data is held by the users of the app on their own devices.
-* Data propagation is eventually consistent. Not all users will see the exact same data at the same time.
-* All public data is visible to anyone with access to the application. However, users can store private data on their own devices, which can't be read by users of other applications.
+* Data propagation is [eventually consistent](https://en.wikipedia.org/wiki/Eventual_consistency). Not all users will see the exact same data at the same time.
+* All public data is visible to anyone with access to the application. However, users can also store some private data on their own devices.
 * Data is not stored in tables, but in individual entries that are retrieved by their unique ID.
 * Relations between entries are created with links, making the DHT more like a graph database than a relational database.
 * Currently, you can't perform column-based or relational queries like you can with SQL, although limited querying functionality can be built with entries and links. We intend to build more indexing and querying features in the future.
-* Each user authors their own data and stores it in a journal on their own device before publishing it to the DHT. This journal can also hold private entries that are not published to the DHT.
+* Each user writes data to a journal on their own device before publishing it to the DHT.
 
 ### NoSQL databases?
 
-Holochain's public graph database is similar to document stores such as MongoDB and Elastic, and key/value stores such as Redis. It's closest most resembles graph databases such as Neo4j, which makes it a good match for [<abbr title="Resource Description Framework">RDF</abbr>](https://www.w3.org/RDF/) data and [GraphQL](https://graphql.org/)- or [SPARQL](https://en.wikipedia.org/wiki/SPARQL)-based data access layers.
+Holochain's public graph database is similar to document stores such as MongoDB and Elastic, and key/value stores such as Redis. It most closely resembles graph databases such as Neo4j, which makes it a good match for [<abbr title="Resource Description Framework">RDF</abbr>](https://www.w3.org/RDF/) data and [GraphQL](https://graphql.org/)- or [SPARQL](https://en.wikipedia.org/wiki/SPARQL)-based data access layers.
 
 Key differences:
 
@@ -81,7 +81,7 @@ Holochain could be considered a DLT, since it has some technological and concept
 Key differences:
 
 * Holochain is not a platform or network, but a development framework (similar to Tendermint).
-* All code execution, data creation, and data storage happens via an individual user running their own node, rather than a "global computer."
+* All code execution, data creation, and data storage happens via an individual user running their own node, rather than a "global computer".
 * Unlike public blockchain platforms, each application has a private network and data store.
 * Applications can also define their own governance policies, permissioning systems, and consensus/consistency algorithms.
 * Applications living in separate networks are easy to connect together through a 'bridging' API.
@@ -100,19 +100,19 @@ Similarly to serverless offerings, you can use Holochain to deploy an applicatio
 
 Key differences:
 
-* Holochain does not provide a serverless abstraction over a cloud infrastructure---in fact, there are no servers at all. Instead, each user hosts both back end and front end code on their own device.
+* Holochain does not create a serverless abstraction on top of cloud servers---there are no servers at all. Instead, each user hosts both back end and front end code on their own device.
 * Public data is stored in a graph database engine provided by the Holochain runtime.
 * Functions are executed only when an individual user says so, and only its local state is affected.  This state may then be optionally published to the public graph database so it can be accessed by others.
 * Back end code is typically deployed to interested users as a package of functions. However, a function can call another function in another package if both packages are installed on one user's device.
 
-### BitTorrent, Dat, Git, IPFS, Secure Scuttlebutt, and other peer-to-peer (<abbr>P2P</abbr>) or distributed web (<abbr title="distributed web">DWeb</abbr>) technologies?
+### BitTorrent, Dat, Git, GUN, IPFS, Secure Scuttlebutt, and other peer-to-peer (<abbr>P2P</abbr>) or distributed web (<abbr title="distributed web">DWeb</abbr>) technologies?
 
 Holochain is part of a new breed of <abbr>P2P</abbr> <abbr>DWeb</abbr> technologies. It shares the 'agent-centric', offline-friendly, and cryptographically secure approaches of Dat, Git, IPFS, and Secure Scuttlebutt. As a full application development stack with built-in assumptions about user identity, data propagation, and data retrieval, it's most similar to Secure Scuttlebutt.
 
 Key differences:
 
 * Holochain is meant for application development, whereas BitTorrent, Dat, Git, and IPFS are simply data persistence and propagation layers on which applications can be built.
-* Holochain limits which tools may be used for authoring core validation logic, whereas Secure Scuttlebutt allows developers to use their favorite languages and frameworks.
+* Holochain is opinionated about back-end languages and frameworks, whereas Secure Scuttlebutt allows developers to choose their own.
 * Holochain is optimized for persistent identity, whereas BitTorrent and IPFS allow for some anonymity.
 
 ### What's next?
