@@ -197,7 +197,7 @@ To run the server, open up a new nix-shell in a different terminal and run this 
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
-    sim2h_server -p 9000
+    sim2h_server
     ```
 
 ## Run the test

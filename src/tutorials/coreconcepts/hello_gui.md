@@ -363,7 +363,7 @@ Enter the nix-shell if you haven't already and package / run the hApp.
 
 ## Test the output works
 
-Head over to `127.0.0.1:8000` in your web browser (you might need to refresh), and you should see this:
+Head over to `127.0.0.1:8888` in your web browser (you might need to refresh), and you should see this:
 
 ![](https://i.imgur.com/FMxeMx0.png)
 

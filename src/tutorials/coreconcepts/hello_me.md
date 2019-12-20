@@ -94,7 +94,7 @@ Again, you will need to run the sim2h server in a separate terminal window:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
-    sim2h_server -p 9000
+    sim2h_server
     ```
 
 ### Running the test
@@ -388,55 +388,6 @@ Go to the GUI project folder you created in the [Hello GUI](../hello_gui) tutori
 cd holochain/coreconcepts/gui
 ```
 
-Create a new `hello.js` file, open it in your favorite editor, and open the `index.html` alongside it.
-
-Move everything inside the `<script>` tag into the `hello.js`:
-
-\#S:SKIP,MODE=gui
-```diff
---- index.html
-<script type="text/javascript">
--    var holochain_connection = holochainclient.connect({ url: "ws://localhost:3401"});
--    
--    function hello() {
--      holochain_connection.then(({callZome, close}) => {
--        callZome('test-instance', 'hello', 'hello_holo')({"args": {} }).then((result) => update_span(result))
--      })
--    }
--    function show_output(result) {
--      var span = document.getElementById('output');
--      var output = JSON.parse(result);
--      span.textContent = ' ' + output.Ok;
--    }
-</script>
-
-+++ hello.js
-+var holochain_connection = holochainclient.connect({ url: "ws://localhost:3401"});
-+
-+function hello() {
-+  holochain_connection.then(({callZome, close}) => {
-+    callZome('test-instance', 'hello', 'hello_holo')({"args": {} }).then((result) => update_span(result))
-+  })
-+}
-+
-+function show_output(result) {
-+  var span = document.getElementById('output');
-+  var output = JSON.parse(result);
-+  span.textContent = ' ' + output.Ok;
-+}
-```
-
-
-Add the `src` attribute to the `<script>` tag:
-
-```html
-<script type="text/javascript" src="hello.js"></script>
-```
-<script id="asciicast-rJ2HMQsrkMnYMiqkW4txPU9F8" src="https://asciinema.org/a/rJ2HMQsrkMnYMiqkW4txPU9F8.js" async data-autoplay="true" data-loop="true"></script>
-
-## Create person UI widget
-
-
 \#S:INCLUDE
 
 Start by adding the HTML elements to create a person in your `index.html`.
@@ -531,29 +482,15 @@ Let's test your first call.
 
 Open a new terminal window and enter the nix-shell:
 
-```bash
-cd holochain/coreconcepts/gui
-nix-shell https://holochain.love
-```
-
-Run the server:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```bash
-    python -m SimpleHTTPServer
-    ```
-
-In your other terminal window, the one with your back end code, package and run your zome:
-
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
     ```bash
-    hc run -p 3401
+    hc run
     ```
 
-Now that both your UI server and your Holochain conductor server are running, open up a browser and go to `0.0.0.0:8000`. You should see the HTML elements you created:
+Now that both your UI server and your Holochain conductor server are running, open up a browser and go to `127.0.0.1:8888`. You should see the HTML elements you created:
 
 ![](../../img/create_person_1.png)
 
@@ -716,7 +653,7 @@ function show_person(result) {
 \#S:CHECK=javascript=gui
 
 ### Enter the browser
-Finally, go and test this at `0.0.0.0:8000`.  
+Finally, go and test this at `127.0.0.1:8888`.  
 You should see something like this:
 ![retrieving a person](../../img/create_person_3.png)
 
