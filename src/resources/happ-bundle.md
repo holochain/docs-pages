@@ -1,5 +1,7 @@
 # hApp Bundle
 
+A Holochain app is typically made from multiple DNAs that each provide a domain of functionality, similarly to microservices, along with a UI. A hApp bundle lets developers specify all the required components of an application, along with file locations, internal handles, and communication channels. This allows a user to install the hApp without needing to edit a config file.
+
 <div class="coreconcepts-orientation" markdown=1>
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
