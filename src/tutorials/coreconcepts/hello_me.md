@@ -35,31 +35,17 @@ This is how we left the testing scenario in the [Hello Test](../hello_test) tuto
 \#S:MODE=test
 \#S:SKIP
 ```javascript
-orchestrator.registerScenario("Test hello holo", async (s, t) => {
-  const { alice } = await s.players({alice: config}, true)
-  
-  const result = await alice.call('cc_tuts', "hello", "hello_holo", {});
+orchestrator.registerScenario('Test hello holo', async (s, t) => {
+  const {alice, bob} = await s.players({alice: config, bob: config}, true);
+  const result = await alice.call('cc_tuts', 'hello', 'hello_holo', {});
   t.ok(result.Ok);
   t.deepEqual(result, { Ok: 'Hello Holo' })
-  
-  // <---- Put your new tests here
-})
-```
-\#S:INCLUDE,HIDE
-```javascript
-orchestrator.registerScenario("Test hello holo", async (s, t) => {
-  const { alice } = await s.players({alice: config}, true)
-  
-  const result = await alice.call('cc_tuts', "hello", "hello_holo", {});
-  t.ok(result.Ok);
-  t.deepEqual(result, { Ok: 'Hello Holo' })
-  
 ```
 The new tests go below `t.deepEqual(result, { Ok: 'Hello Holo' })` 
 The following test will create an entry with the name ‘Alice’, retrieve the same entry, and check that it has the name ‘Alice’.
 
 Add a call to the `create_person` function with a person named Alice:
-
+\#S:INCLUDE
 ```javascript
   const create_result = await alice.call('cc_tuts', "hello", "create_person", {"person": { "name" : "Alice" }});
 ```
@@ -176,26 +162,20 @@ Represent their name as a string:
 
 Look for the following lines inside the `hello_zome` mod:
 
+\#S:SKIP
 ```rust
 #[zome]
 mod hello_zome {
 ```
-\#S:HIDE
-```rust
-    #[init]
-    fn init() {
-        Ok(())
-    }
 
-    #[validate_agent]
-    pub fn validate_agent(validation_data: EntryValidationData<AgentId>) {
-        Ok(())
-    }
-```
+\#S:INCLUDE
+\#S:EXTERNAL=rust=hello_me_2.rs
+
+\#S:SKIP
 ```rust
   /* --- Lines omitted -- */
   #[zome_fn("hc_public")]
-  fn hello_holo() -> ZomeApiResult<String> {
+  pub fn hello_holo() -> ZomeApiResult<String> {
       Ok("Hello Holo".into())
   }
 
@@ -203,6 +183,8 @@ mod hello_zome {
 ```
 
 Add the `person_entry_def` function, which tells Holochain about the person entry type:
+
+\#S:INCLUDE
 
 ```rust
     #[entry_def]
@@ -262,7 +244,7 @@ In the above code, we just used a few types and macros that are not mentioned an
 Add the following `use` statements:
 
 <script id="asciicast-Smv3xxADtSj8AExf3X9d3UApI" src="https://asciinema.org/a/Smv3xxADtSj8AExf3X9d3UApI.js" async data-autoplay="true"></script>
-
+\#S:CHANGE
 ```diff
 #![feature(proc_macro_hygiene)]
 +#[macro_use]
@@ -274,12 +256,11 @@ extern crate serde_derive;
 extern crate serde_json;
 +#[macro_use]
 extern crate holochain_json_derive;
-
 use hdk::{
 +    entry_definition::ValidatingEntryType,
     error::ZomeApiResult,
 };
-
++
 +use hdk::holochain_core_types::{
 +    entry::Entry,
 +    dna::entry_types::Sharing,
@@ -362,7 +343,7 @@ Add a public `retrieve_person` function that takes an `Address` and returns a `P
 
 ```rust
     #[zome_fn("hc_public")]
-    fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
+    pub fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
 ```
 
 Get the entry from your local storage, asking for it by address, and convert it to a Person type:
@@ -399,7 +380,7 @@ Instead of directly compiling, you can run the test you wrote at the start (the 
 
 ## UI
 
-Now that the back end is working, you can modify the UI to interact with zome functions you created. First, let's do some housekeeping and move the JavaScript from the previous tutorial into its own file.
+Now that the back end is working, you can modify the UI to interact with zome functions you created. 
 
 Go to the GUI project folder you created in the [Hello GUI](../hello_gui) tutorial:
 
@@ -425,7 +406,7 @@ Move everything inside the `<script>` tag into the `hello.js`:
 -    function show_output(result) {
 -      var span = document.getElementById('output');
 -      var output = JSON.parse(result);
--      span.textContent = " " + output.Ok;
+-      span.textContent = ' ' + output.Ok;
 -    }
 </script>
 
@@ -441,7 +422,7 @@ Move everything inside the `<script>` tag into the `hello.js`:
 +function show_output(result) {
 +  var span = document.getElementById('output');
 +  var output = JSON.parse(result);
-+  span.textContent = " " + output.Ok;
++  span.textContent = ' ' + output.Ok;
 +}
 ```
 
@@ -595,15 +576,23 @@ Pass in the element's ID so that the function can be reused:
 -  var span = document.getElementById('output');
 +  var el = document.getElementById(id);
   var output = JSON.parse(result);
+```
+It would also be nice to have some error checking.
+Add in a if statement that checks that `Ok` is not null:
+```diff
++  if (output.Ok) {
 -  span.textContent = ' ' + output.Ok;
-+  el.textContent = ' ' + output.Ok;
++    el.textContent = ' ' + output.Ok;
++  } else {
++    alert(output.Err.Internal);
++  }
 }
 
 function hello() {
   holochain_connection.then(({callZome, close}) => {
     callZome('test-instance', 'hello', 'hello_holo')({args: {}}).then(result =>
 -      show_output(result),
-+      show_output(result, id),
++      show_output(result, 'output'),
     );
   });
 }
@@ -716,7 +705,11 @@ Add the `show_person` function. It is very similar to `show_output`, except that
 function show_person(result) {
   var person = document.getElementById('person_output');
   var output = JSON.parse(result);
-  person.textContent = ' ' + output.Ok.name;
+  if (output.Ok) {
+    person.textContent = ' ' + output.Ok.name;
+  } else {
+    alert(output.Err.Internal);
+  }
 }
 ```
 
