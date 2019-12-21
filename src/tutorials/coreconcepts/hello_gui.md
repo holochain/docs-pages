@@ -23,7 +23,7 @@ You will need somewhere for all your GUI code to live. This will be a different 
 Create a folder for the GUI to live in:
 
 ```bash
-cd holochain/coreconcepts
+cd ~/holochain/core_concepts
 mkdir gui
 cd gui
 ```
