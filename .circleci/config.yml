@@ -50,7 +50,7 @@ jobs:
           command: nix-shell https://holochain.love --run 'cargo install single_source' 
       - run:
           name: Run all tests
-          command: ./test_install 
+          command: ./test_install.sh
 
   build-mkdocs:
     docker:
