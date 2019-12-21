@@ -24,25 +24,25 @@ The tests are written in JavaScript and use the Holochain testing framework [Try
 Open up the `cc_tuts/test/index.js` in your favorite text editor. Have a look through the code.
 
 Imports required to do testing:
+
 \#S:INCLUDE
 ```javascript
-const path = require('path');
-const tape = require('tape');
+/// NB: The try-o-rama config patterns are still not quite stabilized.
+/// See the try-o-rama README [https://github.com/holochain/try-o-rama]
+/// for a potentially more accurate example
 
-const {
-  Config,
-  Orchestrator,
-  tapeExecutor,
-  singleConductor,
-  combine,
-} = require('@holochain/try-o-rama');
+const path = require('path')
+const tape = require('tape')
+
+const { Orchestrator, Config, tapeExecutor, singleConductor, combine  } = require('@holochain/tryorama')
+
 ```
 
 This is a catch-all error logger that will let you know if a `Promise` fails and there's no error handler to hear it. [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)s are a way of simplifying complex asynchronous code, and Tryorama uses a lot of them.
 
 ```javascript
-
 process.on('unhandledRejection', error => {
+  // Will print "unhandledRejection err is not defined"
   console.error('got unhandledRejection:', error);
 });
 
@@ -52,99 +52,99 @@ The path to your compiled DNA:
 
 ```javascript
 const dnaPath = path.join(__dirname, "../dist/cc_tuts.dna.json")
+
 ```
 
 Set up a testing scenario.
 This creates two agents: Alice and Bob.
 
-\#S:SKIP
 
 ```javascript
 const orchestrator = new Orchestrator({
-  middleware: combine(singleConductor, tapeExecutor(tape)),
+  middleware: combine(
+    // squash all instances from all conductors down into a single conductor,
+    // for in-memory testing purposes.
+    // Remove this middleware for other "real" network types which can actually
+    // send messages across conductors
+    singleConductor,
+
+    // use the tape harness to run the tests, injects the tape API into each scenario
+    // as the second argument
+    tapeExecutor(require('tape'))
+  ),
+
   globalConfig: {
+    logger: true,
+    network: 'memory',  // must use singleConductor middleware if using in-memory network
+  },
+
+  // the following are optional:
+
+  waiter: {
+    softTimeout: 5000,
+    hardTimeout: 10000,
+  },
+})
+
+const conductorConfig = {
+  instances: {
+    myInstanceName: Config.dna(dnaPath, 'scaffold-test')
+  }
+}
 ```
+
+
+```
+\#S:CHANGE
 Disable logging:
 ```diff
 -    logger: true,
 +    logger: false,
 ```
 Change the network to sim2h:
+\#S:CHANGE
 ```diff
--    network: 'memory',  
+-    network: 'memory',  // must use singleConductor middleware if using in-memory network
 +    network: {
 +      type: 'sim2h',
 +      sim2h_url: 'wss://localhost:9000',
 +    },
 ```
-```javascript
-  },
-});
-```
 
-\#S:INCLUDE,HIDE
-```javascript
-const orchestrator = new Orchestrator({
-  middleware: combine(singleConductor, tapeExecutor(tape)),
-  globalConfig: {
-    logger: false,
-    network: {
-      type: 'sim2h',
-      sim2h_url: 'wss://sim2h.holochain.org:9000',
-    },
-  },
-});
-```
+\#S:CHANGE
 ```diff
 -const conductorConfig = {
 +const config = {
   instances: {
 -    myInstanceName: Config.dna(dnaPath, 'scaffold-test')
 +    cc_tuts: Config.dna(dnaPath, 'cc_tuts'),
-  },
-};
-```
-\#S:HIDE
-```javascript
-const config = {
-  instances: {
-    cc_tuts: Config.dna(dnaPath, 'cc_tuts'),
-  },
-};
-
+  }
+}
 ```
 This is the test that Holochain generated based on the `my_entry` struct and the zome functions that work with it. We removed them in our Hello Holo tutorial, so let's remove the test.
 
 Remove the following section:
 
-\#S:SKIP
-
-!!! note "Remove this:"
-    
-    ```javascript
-    orchestrator.registerScenario("description of example test", async (s, t) => {
-
-      const {alice, bob} = await s.players({alice: conductorConfig, bob: conductorConfig})
-
-      // Make a call to a Zome function
-      // indicating the function, and passing it an input
-      const addr = await alice.call("myInstanceName", "my_zome", "create_my_entry", {"entry" : {"content":"sample content"}})
-
-      // Wait for all network activity to
-      await s.consistency()
-
-      const result = await alice.call("myInstanceName", "my_zome", "get_my_entry", {"address": addr.Ok})
-
-      // check for equality of the actual and expected results
-      t.deepEqual(result, { Ok: { App: [ 'my_entry', '{"content":"sample content"}' ] } })
-    })
-    ```
-
-This line will run the tests you've set up.
-
-```javascript
-orchestrator.run()
+\#S:CHANGE
+```diff
+-orchestrator.registerScenario("description of example test", async (s, t) => {
+-
+-  const {alice, bob} = await s.players({alice: conductorConfig, bob: conductorConfig})
+-
+-  // Make a call to a Zome function
+-  // indicating the function, and passing it an input
+-  const addr = await alice.call("myInstanceName", "my_zome", "create_my_entry", {"entry" : {"content":"sample content"}})
+-
+-  // Wait for all network activity to
+-  await s.consistency()
+-
+-  const result = await alice.call("myInstanceName", "my_zome", "get_my_entry", {"address": addr.Ok})
+-
+-  // check for equality of the actual and expected results
+-  t.deepEqual(result, { Ok: { App: [ 'my_entry', '{"content":"sample content"}' ] } })
+})
 ```
+
 
 ## Create a test scenario
 
@@ -183,9 +183,11 @@ Check that the result matches what you expected:
   t.deepEqual(result, { Ok: 'Hello Holo' })
 })
 ```
-\#S:INCLUDE,HIDE
+
+This line will run the tests you've set up.
+
 ```javascript
-orchestrator.run();
+orchestrator.run()
 ```
 ## Run sim2h
 You will need to run the sim2h server locally before you can run the tests.
@@ -195,7 +197,7 @@ To run the server, open up a new nix-shell in a different terminal and run this 
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
-    sim2h_server -p 9000
+    sim2h_server
     ```
 
 ## Run the test
