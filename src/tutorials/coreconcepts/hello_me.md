@@ -1,7 +1,8 @@
 \#S:EXTERNAL=rust=hello_me.rs
+\#S:MODE=gui
 \#S:EXTERNAL=html=hello_me.html=gui
 \#S:EXTERNAL=javascript=hello_me_gui.js=gui
-\#S:EXTERNAL=javascript=hello_me_gui.js=gui2
+\#S:MODE=test
 \#S:EXTERNAL=javascript=hello_me.js=test
 # Hello Me
 
@@ -388,6 +389,7 @@ Go to the GUI project folder you created in the [Hello GUI](../hello_gui) tutori
 cd holochain/coreconcepts/gui
 ```
 
+\#S:MODE=gui
 \#S:INCLUDE
 
 Start by adding the HTML elements to create a person in your `index.html`.
@@ -439,8 +441,6 @@ Add a span with the id `address_output` so you can render the result of this cal
 
 \#S:CHECK=html=gui
 
-\#S:MODE=gui2
-
 ### Switch to your `hello.js` file
 
 
@@ -474,7 +474,7 @@ Call `create_person` in your `hello` zome and pass in the name variable as part 
 }
 ```
 
-\#S:CHECK=javascript=gui2
+\#S:CHECK=javascript=gui
 
 ### Run the server and open a browser
 
@@ -507,6 +507,7 @@ First, a bit of refactoring---if you make the `show_ouput` function more generic
 
 Pass in the element's ID so that the function can be reused:
 
+\#S:CHANGE
 ```diff
 -function show_output(result) {
 +function show_output(result, id) {
@@ -516,6 +517,7 @@ Pass in the element's ID so that the function can be reused:
 ```
 It would also be nice to have some error checking.
 Add in a if statement that checks that `Ok` is not null:
+\#S:CHANGE
 ```diff
 +  if (output.Ok) {
 -  span.textContent = ' ' + output.Ok;
@@ -524,16 +526,22 @@ Add in a if statement that checks that `Ok` is not null:
 +    alert(output.Err.Internal);
 +  }
 }
-
+```
+\#S:CHANGE
+```diff
 function hello() {
   holochain_connection.then(({callZome, close}) => {
-    callZome('test-instance', 'hello', 'hello_holo')({args: {}}).then(result =>
--      show_output(result),
-+      show_output(result, 'output'),
-    );
+    callZome(
+      'test-instance',
+      'hello',
+      'hello_holo',
+-    )({args: {}}).then(result => show_output(result));
++    )({args: {}}).then(result => show_output(result, 'output'));
   });
 }
-
+```
+\#S:CHANGE
+```diff
 function create_person() {
   const name = document.getElementById('name').value;
   holochain_connection.then(({callZome, close}) => {
@@ -544,21 +552,6 @@ function create_person() {
   });
 }
 ```
-
-\#S:HIDE,MODE=gui
-
-```javascript
-function create_person() {
-  const name = document.getElementById('name').value;
-  holochain_connection.then(({callZome, close}) => {
-    callZome('test-instance', 'hello', 'create_person')({
-      person: {name: name},
-    }).then(result => show_output(result, 'address_output'));
-  });
-}
-```
-
-<script id="asciicast-JU3iJOeyEnzCVGLKugBOq2PRn" src="https://asciinema.org/a/JU3iJOeyEnzCVGLKugBOq2PRn.js" async data-autoplay="true" data-loop="true"></script>
 
 ### Enter the browser
 

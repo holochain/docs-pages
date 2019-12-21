@@ -343,8 +343,6 @@ Finally, update the `hello` function to call your new `show_output` function ins
 +    )({args: {}}).then(result => show_output(result));
 ```
 
-<script id="asciicast-oTse2TbmFJImX9Ra04cUc7xRo" src="https://asciinema.org/a/oTse2TbmFJImX9Ra04cUc7xRo.js" async data-autoplay="true" data-loop="true"></script>
-
 \#S:CHECK=javascript=gui
 
 ## Run the bundle

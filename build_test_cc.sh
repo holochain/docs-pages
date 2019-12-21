@@ -30,6 +30,7 @@ echo "testing: ${CONCEPT}"
 timeout --preserve-status 120 hc test 
 if [ "${?}" -gt 0 ]; then
   echo "${CONCEPT} failed test"
+  exit 1
 fi
 
 cd ..

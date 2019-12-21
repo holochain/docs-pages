@@ -292,10 +292,6 @@ function get_agent_id() {
 
 Update the html for posts instead of persons:
 
-<script id="asciicast-VRgOq6rfYvXP5MpRFoIvOOvhv" src="https://asciinema.org/a/VRgOq6rfYvXP5MpRFoIvOOvhv.js" async data-autoplay="true" data-loop="true"></script>
-
-Update the headings and function calls:
-
 \#S:CHANGE
 ```diff
 -    <h3>Create a person</h3>
@@ -353,8 +349,6 @@ Use the `Date` object to give the current timestamp:
   });
 }
 ```
-<script id="asciicast-7TB7eDBA0sUS79hDzDSDaZgcP" src="https://asciinema.org/a/7TB7eDBA0sUS79hDzDSDaZgcP.js" async></script>
-
 ## Update the posts list dynamically
 
 Because the number of posts changes at runtime, you can update the empty list element from earlier to display them.
