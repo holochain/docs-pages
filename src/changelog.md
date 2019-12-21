@@ -5,8 +5,29 @@ Holochain is very fast moving software. We release frequently.
 The documentation aims to stay up to date with the latest release so sometimes there will be breaking changes and you will need to update your code.  
 We want this to be as easy as possible, so we have committed to documenting not just breaking changes but how to fix them.
 
+## 0.2.3 --> 0.2.4
+#### Introduction of bundles
+
+!!! info "This affects:"
+    All Core Concepts tutorials past hello_gui.
+
+We can now use bundle.toml files to allow `hc run` to serve our UI and work with sim2h.
+
+
+??? warning "Out of date:"
+    All the code to do with conductor-cofig.toml.
+    No longer need to run a python web server.
+    No longer need to run the holochain conductor directly.
+
+??? success "New:"
+    Run hc directly with sim2h and you can set the agent name:
+    ```bash
+    hc run --networked sim2h --agent-name Alice
+    ```
+    Need to have a bundle.toml file in the root directory that points to your UI if you have a UI.
+
 ## 0.1.* --> 0.2.*
-#### Introduction of try-o-rama.
+#### Introduction of tryorama.
 
 !!! info "This affects:"
     All Core Concepts tutorials.
