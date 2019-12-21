@@ -33,9 +33,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Get single_source 
-          command: cargo install single_source
-      - run:
           name: Run all release tests
           command: ./nix_test_release.sh
 
@@ -47,10 +44,10 @@ jobs:
       - checkout
       - run:
           name: Get single_source 
-          command: cargo install single_source
+          command: nix-shell https://holochain.love --run 'cargo install single_source' 
       - run:
           name: Run all tests
-          command: ./test_install.sh
+          command: nix-shell https://holochain.love --run './test_install.sh' 
 
   build-mkdocs:
     docker:
