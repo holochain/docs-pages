@@ -36,7 +36,7 @@ The address of an [agent ID](#agent-id) entry on the [DHT](#distributed-hash-tab
 
 #### Agent ID
 
-An [entry](#entry) near the beginning of an [agent](#agent)'s [source chain](#source-chain) that identifies them and contains their [public key](#public-key-cryptography) and other identifying information. This entry becomes an agent's unique identifier in the app. The address of this entry is also the [agent's address](#agent-address) on the DHT.
+The second of the two [genesis entries](#genesis-entries) at the the beginning of an [agent](#agent)'s [source chain](#source-chain), which identifies them and contains their [public key](#public-key-cryptography) and other information, such as human-readable identifiers or credentials necessary for joining the DNA's network. This entry becomes an agent's unique identifier in the app. The address of this entry is also the [agent's address](#agent-address) on the DHT.
 
 #### Append-only
 
@@ -174,6 +174,10 @@ The removal of identical entries in a [CAS](#content-addressable-store-cas). Mos
 
 Holochain's standard [DPKI](#distributed-public-key-infrastructure-dpki) library.
 
+#### Development conductor
+
+A Holochain [conductor](#conductor) used for running and testing a [hApp](#holochain-application-happ) during development.
+
 #### DHT entry
 
 A public [entry](#entry) that lives in the [DHT](#distributed-hash-table-dht). DHT entries are assigned to a [neighborhood](#neighborhood) of [validators](#validator), are [deduplicated](#deduplication), can have many authors, and have [metadata](#metadata) attached to them in [aspects](#aspect).
@@ -222,6 +226,13 @@ A promise made by distributed systems that optimize for availability over consis
 
 Synonymous with [graphical user interface](#graphical-user-interface-gui).
 
+#### Genesis entries
+
+The two entries at the beginning of an [agent](#agent)'s [source chain](#source-chain) for a [DNA instance](#dna-instance), consisting of:
+
+1. The [DNA](#dna) hash, which shows that the agent has seen the network's rules and agrees to abide by them.
+2. The [agent ID](#agent-id) entry, which advertises the agent's [public key](#public-key-cryptography) and may also provide other identifications or credentials.
+
 #### Global consensus
 
 Agreement among all [nodes](#node) in a [blockchain](#blockchain) on a single, shared [global ledger](#global-ledger). Holochain prefers 'local' consensus, both between interacting parties and among a small set of third-party [validators](#validator).
@@ -240,7 +251,11 @@ A [client](#client) that presents a visual, easy-to-understand way for a user to
 
 #### hApp bundle
 
-A package containing multiple DNA packages instantiated together to form the [back end](#back-end) for a [hApp](#holochain-application-happ), along with a UI package for the [front end](#front-end). [Holoscape](#holoscape) can install and run fully functional [applications](#application) from hApp bundles.
+One or more [DNA](#dna) packages, [bridge](#bridge) definitions between them, and an optional HTML-based UI package. Together they form a complete [hApp](#holochain-application-happ), both [back end](#back-end) and [front end](#front-end). These components are specified in a [hApp manifest](#happ-manifest) file, and can be packaged in a zip archive along with the manifest or downloaded separately from the internet.
+
+#### hApp manifest
+
+The file that specifies the components of a [hApp bundle](#happ-bundle). Supporting conductors, such as [Holoscape](#holoscape) and the Holochain [development conductor](#development-conductor), can install and run fully functional [applications](#application) from this file.
 
 #### Hash
 
