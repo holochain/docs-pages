@@ -5,7 +5,7 @@ Holochain is very fast moving software. We release frequently.
 The documentation aims to stay up to date with the latest release so sometimes there will be breaking changes and you will need to update your code.  
 We want this to be as easy as possible, so we have committed to documenting not just breaking changes but how to fix them.
 
-## 0.2.3 --> 0.2.4
+## 0.2.3 --> 0.3.0
 #### Introduction of bundles
 
 !!! info "This affects:"
