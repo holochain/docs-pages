@@ -1,37 +1,30 @@
-const path = require('path');
-const tape = require('tape');
+/// NB: The tryorama config patterns are still not quite stabilized.
+/// See the tryorama README [https://github.com/holochain/tryorama]
+/// for a potentially more accurate example
 
-const {
-  Config,
-  Orchestrator,
-  tapeExecutor,
-  singleConductor,
-  combine,
-  callSync,
-} = require('@holochain/try-o-rama');
+const path = require('path')
+
+const { Orchestrator, Config } = require('@holochain/tryorama')
 
 process.on('unhandledRejection', error => {
   // Will print "unhandledRejection err is not defined"
   console.error('got unhandledRejection:', error);
 });
 
+const dnaPath = path.join(__dirname, "../dist/cc_tuts.dna.json")
+
 const orchestrator = new Orchestrator({
   globalConfig: {
     logger: false,
     network: {
       type: 'sim2h',
-      sim2h_url: 'wss://sim2h.holochain.org:9000',
+      sim2h_url: 'wss://localhost:9000',
     },
   },
-  middleware: combine(singleConductor, tapeExecutor(tape)),
-});
+})
 
-const config = {
-  instances: {
-    cc_tuts: Config.dna('dist/cc_tuts.dna.json', 'cc_tuts'),
-  },
-};
-
+const dna = Config.dna(dnaPath, 'cc_tuts');
+const config = Config.gen({cc_tuts: dna});
 orchestrator.registerScenario('Test hello holo', async (s, t) => {
   const {alice, bob} = await s.players({alice: config, bob: config}, true);
   // Make a call to the `hello_holo` Zome function
