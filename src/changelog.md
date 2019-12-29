@@ -1,38 +1,41 @@
 # Changelog
 
-This page shows any breaking changes to our documentation and how to update your code to match.  
-Holochain is very fast moving software. We release frequently.  
-The documentation aims to stay up to date with the latest release so sometimes there will be breaking changes and you will need to update your code.  
-We want this to be as easy as possible, so we have committed to documenting not just breaking changes but how to fix them.
+This page shows any breaking changes to our Holochain documentation and how to update your code to match.
+Holochain Core is very fast moving software; we release often.
 
-## 0.2.3 --> 0.2.4
-#### Introduction of bundles
+The documentation aims to stay up to date with the latest release, so there are occasional breaking changes that will cause you to need to update your code.
+
+We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
+
+
+## 0.2.3 --> 0.3.0
+#### Introduction of hApp Bundle
 
 !!! info "This affects:"
-    All Core Concepts tutorials past hello_gui.
+    All Core Concepts tutorials past Hello Gui.
 
 We can now use bundle.toml files to allow `hc run` to serve our UI and work with sim2h.
 
 
 ??? warning "Out of date:"
-    All the code to do with conductor-cofig.toml.
-    No longer need to run a python web server.
-    No longer need to run the holochain conductor directly.
+    All code relating to conductor-cofig.toml.
+    You no longer need to run a python web server.
+    You no longer need to run the Holochain conductor directly.
 
 ??? success "New:"
-    Run hc directly with sim2h and you can set the agent name:
+    Run hc directly with sim2h and set the agent name:
     ```bash
     hc run --networked sim2h --agent-name Alice
     ```
-    Need to have a bundle.toml file in the root directory that points to your UI if you have a UI.
+    You need to have a bundle.toml file in the root directory that points to your UI (if you have a UI).
 
 ## 0.1.* --> 0.2.*
-#### Introduction of tryorama.
+#### Introduction of Tryorama.
 
 !!! info "This affects:"
     All Core Concepts tutorials.
 
-The testing framework has changed from Diorama to [try-o-rama](https://github.com/holochain/try-o-rama).
+The testing framework has changed from diorama to [tryorama](https://github.com/holochain/try-o-rama).
 
 ??? warning "Out of date code:"
     ```javascript
@@ -112,7 +115,7 @@ The testing framework has changed from Diorama to [try-o-rama](https://github.co
     ```
 
 ??? note "Notes:"
-    There's a lot of differences here but one thing to watch out for is you now need the instance name in the zome call.
+    There are a lot of differences here; but one thing to watch out for is that you now need the instance name in the zome call.
     ```diff
     - const result = await alice.call("hello", "hello_holo", {});
     + const result = await alice.call('cc_tuts', 'hello', 'hello_holo', {});
