@@ -149,15 +149,15 @@ You only need a few items for this tutorial, so go ahead and remove the others:
 extern crate hdk;
 extern crate hdk_proc_macros;
 extern crate serde;
-#[macro_use]
+- #[macro_use]
 extern crate serde_derive;
 extern crate serde_json;
 - #[macro_use]
 extern crate holochain_json_derive;
-use hdk::{
+- use hdk::{
 -     entry_definition::ValidatingEntryType,
-    error::ZomeApiResult,
-};
+-    error::ZomeApiResult,
+- };
 - use hdk::holochain_core_types::{
 -     entry::Entry,
 -     dna::entry_types::Sharing,
