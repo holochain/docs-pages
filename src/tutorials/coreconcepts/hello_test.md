@@ -33,7 +33,7 @@ Imports required to do testing:
 
 const path = require('path')
 
-const { Orchestrator, Config } = require('@holochain/tryorama')
+const { Orchestrator, Config, combine, singleConductor, localOnly, tapeExecutor } = require('@holochain/tryorama')
 
 ```
 
@@ -59,7 +59,23 @@ This creates two agents: Alice and Bob.
 
 
 ```javascript
-const orchestrator = new Orchestrator()
+const orchestrator = new Orchestrator({
+  middleware: combine(
+    // use the tape harness to run the tests, injects the tape API into each scenario
+    // as the second argument
+    tapeExecutor(require('tape')),
+
+    // specify that all "players" in the test are on the local machine, rather than
+    // on remote machines
+    localOnly,
+
+    // squash all instances from all conductors down into a single conductor,
+    // for in-memory testing purposes.
+    // Remove this middleware for other "real" network types which can actually
+    // send messages across conductors
+    singleConductor,
+  ),
+})
 
 const dna = Config.dna(dnaPath, 'scaffold-test')
 const conductorConfig = Config.gen({myInstanceName: dna})
@@ -71,8 +87,22 @@ Throughout this series we are using sim2h as our networking because this will be
 Add the sim2h networking to the test:
 \#S:CHANGE
 ```diff
--const orchestrator = new Orchestrator()
-+const orchestrator = new Orchestrator({
+const orchestrator = new Orchestrator({
+  middleware: combine(
+    // use the tape harness to run the tests, injects the tape API into each scenario
+    // as the second argument
+    tapeExecutor(require('tape')),
+
+    // specify that all "players" in the test are on the local machine, rather than
+    // on remote machines
+    localOnly,
+
+    // squash all instances from all conductors down into a single conductor,
+    // for in-memory testing purposes.
+    // Remove this middleware for other "real" network types which can actually
+    // send messages across conductors
+    singleConductor,
+  ),
 +  globalConfig: {
 +    logger: false,
 +    network: {
@@ -80,7 +110,7 @@ Add the sim2h networking to the test:
 +      sim2h_url: 'wss://localhost:9000',
 +    },
 +  },
-+})
+})
 ```
 Update the config to use the correct names for this tutorial series.
 \#S:CHANGE
