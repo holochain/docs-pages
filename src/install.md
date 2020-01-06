@@ -118,8 +118,12 @@ cd holochain-vagrant
 <p>Copy the basic, Holochain-optimised Vagrant file:</p>
 
 ```powershell
-wget
-https://gist.githubusercontent.com/thedavidmeister/8e92696538fe04cf6b44552e14d29195/raw/4dcb83b983e8dcd2f5db213b0cde5a533af556a6/Vagrantfile -outfile Vagrantfile
+wget https://gist.githubusercontent.com/thedavidmeister/8e92696538fe04cf6b44552e14d29195/raw/4dcb83b983e8dcd2f5db213b0cde5a533af556a6/Vagrantfile -outfile Vagrantfile
+```
+<p>Add the vagrant nixos plugin if you don't already have it:</p>
+
+```powershell
+vagrant plugin install vagrant-nixos-plugin
 ```
 
 <p>Download and boot the box:</p>
