@@ -46,7 +46,7 @@ test_tutorial hello_test &&
 test_tutorial hello_gui &&
 test_tutorial hello_me &&
 test_tutorial hello_world &&
-test_tutorial simple_mirco_blog 
+test_tutorial simple_micro_blog 
 
 
 

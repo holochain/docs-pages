@@ -40,7 +40,7 @@ orchestrator.registerScenario('Test hello holo', async (s, t) => {
   const {alice, bob} = await s.players({alice: config, bob: config}, true);
   const result = await alice.call('cc_tuts', 'hello', 'hello_holo', {});
   t.ok(result.Ok);
-  t.deepEqual(result, { Ok: 'Hello Holo' })
+  t.deepEqual(result, {Ok: 'Hello Holo'});
 ```
 The new tests go below `t.deepEqual(result, { Ok: 'Hello Holo' })` 
 The following test will create an entry with the name ‘Alice’, retrieve the same entry, and check that it has the name ‘Alice’.
@@ -48,7 +48,9 @@ The following test will create an entry with the name ‘Alice’, retrieve the 
 Add a call to the `create_person` function with a person named Alice:
 \#S:INCLUDE
 ```javascript
-  const create_result = await alice.call('cc_tuts', "hello", "create_person", {"person": { "name" : "Alice" }});
+  const create_result = await alice.call('cc_tuts', 'hello', 'create_person', {
+    person: {name: 'Alice'},
+  });
 ```
 
 Check that the result of the call is Ok:
@@ -62,14 +64,19 @@ Tell the test to wait for the DHT to become consistent.
 
 ```javascript
 
-  await s.consistency()
+  await s.consistency();
 
 ```
 
 Add a call to the `retrieve_person` function with the address from the last call:
 
 ```javascript
-  const retrieve_result = await alice.call('cc_tuts', "hello", "retrieve_person", {"address": alice_person_address });
+  const retrieve_result = await alice.call(
+    'cc_tuts',
+    'hello',
+    'retrieve_person',
+    {address: alice_person_address},
+  );
 ```
 
 Check that this call is Ok as well:
@@ -80,14 +87,13 @@ Check that this call is Ok as well:
 This is the actual result we want at the end of the test. Check that the entry at the address is indeed named `Alice`:
 
 ```javascript
-  t.deepEqual(retrieve_result, { Ok: {"name": "Alice"} })
+  t.deepEqual(retrieve_result, {Ok: {name: 'Alice'}});
 ```
 \#S:HIDE
 ```javascript
+});
 
-})
-
-orchestrator.run()
+orchestrator.run();
 ```
 
 ### Run sim2h

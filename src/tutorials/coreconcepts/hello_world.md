@@ -71,7 +71,12 @@ To make sure this has happened, add this line to the end of the scenario:
 Get Bob to retrieve Alice's person using the same address she did when she created the entry: 
 
 ```javascript
-  const bob_retrieve_result = await bob.call('cc_tuts', 'hello', 'retrieve_person', {'address': alice_person_address });
+  const bob_retrieve_result = await bob.call(
+    'cc_tuts',
+    'hello',
+    'retrieve_person',
+    {address: alice_person_address},
+  );
 ```
 
 The result is checked and stored:
@@ -84,12 +89,12 @@ The result is checked and stored:
 Finally, a deeper check makes sure the contents of the two persons match:
 
 ```javascript
-  t.deepEqual(bobs_person, { "name": "Alice"});
+  t.deepEqual(bobs_person, {name: 'Alice'});
 ```
 \#S:HIDE
 ```javascript
-})
-orchestrator.run()
+});
+orchestrator.run();
 ```
 Your test should look like this:
 

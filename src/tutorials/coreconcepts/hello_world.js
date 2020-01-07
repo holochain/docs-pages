@@ -2,16 +2,22 @@
 /// See the tryorama README [https://github.com/holochain/tryorama]
 /// for a potentially more accurate example
 
-const path = require('path')
+const path = require('path');
 
-const { Orchestrator, Config, combine, singleConductor, localOnly, tapeExecutor } = require('@holochain/tryorama')
+const {
+  Orchestrator,
+  Config,
+  combine,
+  localOnly,
+  tapeExecutor,
+} = require('@holochain/tryorama');
 
 process.on('unhandledRejection', error => {
   // Will print "unhandledRejection err is not defined"
   console.error('got unhandledRejection:', error);
 });
 
-const dnaPath = path.join(__dirname, "../dist/cc_tuts.dna.json")
+const dnaPath = path.join(__dirname, '../dist/cc_tuts.dna.json');
 
 const orchestrator = new Orchestrator({
   middleware: combine(
@@ -22,37 +28,41 @@ const orchestrator = new Orchestrator({
     // specify that all "players" in the test are on the local machine, rather than
     // on remote machines
     localOnly,
-
-    // squash all instances from all conductors down into a single conductor,
-    // for in-memory testing purposes.
-    // Remove this middleware for other "real" network types which can actually
-    // send messages across conductors
-    singleConductor,
   ),
-  globalConfig: {
-    logger: false,
-    network: {
-      type: 'sim2h',
-      sim2h_url: 'wss://localhost:9000',
-    },
-  },
-})
+});
 
 const dna = Config.dna(dnaPath, 'cc_tuts');
-const config = Config.gen({cc_tuts: dna});
+const config = Config.gen(
+  {
+    cc_tuts: dna,
+  },
+  {
+    network: {
+      type: 'sim2h',
+      sim2h_url: 'ws://localhost:9000',
+    },
+  },
+);
 orchestrator.registerScenario('Test hello holo', async (s, t) => {
   const {alice, bob} = await s.players({alice: config, bob: config}, true);
   const result = await alice.call('cc_tuts', 'hello', 'hello_holo', {});
   t.ok(result.Ok);
-  t.deepEqual(result, { Ok: 'Hello Holo' })
+  t.deepEqual(result, {Ok: 'Hello Holo'});
 
-  const create_result = await alice.call('cc_tuts', "hello", "create_person", {"person": { "name" : "Alice" }});
+  const create_result = await alice.call('cc_tuts', 'hello', 'create_person', {
+    person: {name: 'Alice'},
+  });
   t.ok(create_result.Ok);
   const alice_person_address = create_result.Ok;
 
-  await s.consistency()
+  await s.consistency();
 
-  const retrieve_result = await alice.call('cc_tuts', "hello", "retrieve_person", {"address": alice_person_address });
+  const retrieve_result = await alice.call(
+    'cc_tuts',
+    'hello',
+    'retrieve_person',
+    {address: alice_person_address},
+  );
   t.ok(retrieve_result.Ok);
-  t.deepEqual(retrieve_result, { Ok: {"name": "Alice"} })
+  t.deepEqual(retrieve_result, {Ok: {name: 'Alice'}});
 
