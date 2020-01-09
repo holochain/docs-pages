@@ -26,6 +26,28 @@ jobs:
           paths:
             - docs/*
             - build/docs/*
+  
+  test_release:
+    docker:
+      - image: holochain/holonix:latest
+    steps:
+      - checkout
+      - run:
+          name: Run all release tests
+          command: ./nix_test_release.sh
+
+
+  test_install:
+    docker:
+      - image: holochain/holonix:latest
+    steps:
+      - checkout
+      - run:
+          name: Get single_source 
+          command: nix-shell https://holochain.love --run 'cargo install single_source' 
+      - run:
+          name: Run all tests
+          command: nix-shell https://holochain.love --run './test_install.sh' 
 
   build-mkdocs:
     docker:
@@ -69,16 +91,14 @@ workflows:
               only: 
                 - develop
                 - master
-#      - build-mkdocs:
-#          requires:
-#            - generate_and_test
-#          filters:
-#            branches:
-#              only: master
-#      - release:
-#          requires:
-#            - build-mkdocs
-#            - generate_and_test
-#          filters:
-#            branches:
-#              only: master 
+      - test_install:
+          filters:
+            branches:
+              only: 
+                - develop
+                - master
+      - test_release:
+          filters:
+            branches:
+              only: 
+                - develop

@@ -29,3 +29,4 @@ source_md () {
 
 source_md "src/tutorials/coreconcepts/*" "docs/tutorials/coreconcepts"
 source_md "src/tutorials/starter_app/*" "docs/tutorials/starter_app"
+single_source md src/install.md docs/install.md

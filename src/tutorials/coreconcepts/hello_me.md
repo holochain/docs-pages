@@ -1,7 +1,8 @@
 \#S:EXTERNAL=rust=hello_me.rs
+\#S:MODE=gui
 \#S:EXTERNAL=html=hello_me.html=gui
 \#S:EXTERNAL=javascript=hello_me_gui.js=gui
-\#S:EXTERNAL=javascript=hello_me_gui.js=gui2
+\#S:MODE=test
 \#S:EXTERNAL=javascript=hello_me.js=test
 # Hello Me
 
@@ -35,33 +36,21 @@ This is how we left the testing scenario in the [Hello Test](../hello_test) tuto
 \#S:MODE=test
 \#S:SKIP
 ```javascript
-orchestrator.registerScenario("Test hello holo", async (s, t) => {
-  const { alice } = await s.players({alice: config}, true)
-  
-  const result = await alice.call('cc_tuts', "hello", "hello_holo", {});
+orchestrator.registerScenario('Test hello holo', async (s, t) => {
+  const {alice, bob} = await s.players({alice: config, bob: config}, true);
+  const result = await alice.call('cc_tuts', 'hello', 'hello_holo', {});
   t.ok(result.Ok);
-  t.deepEqual(result, { Ok: 'Hello Holo' })
-  
-  // <---- Put your new tests here
-})
-```
-\#S:INCLUDE,HIDE
-```javascript
-orchestrator.registerScenario("Test hello holo", async (s, t) => {
-  const { alice } = await s.players({alice: config}, true)
-  
-  const result = await alice.call('cc_tuts', "hello", "hello_holo", {});
-  t.ok(result.Ok);
-  t.deepEqual(result, { Ok: 'Hello Holo' })
-  
+  t.deepEqual(result, {Ok: 'Hello Holo'});
 ```
 The new tests go below `t.deepEqual(result, { Ok: 'Hello Holo' })` 
 The following test will create an entry with the name ‘Alice’, retrieve the same entry, and check that it has the name ‘Alice’.
 
 Add a call to the `create_person` function with a person named Alice:
-
+\#S:INCLUDE
 ```javascript
-  const create_result = await alice.call('cc_tuts', "hello", "create_person", {"person": { "name" : "Alice" }});
+  const create_result = await alice.call('cc_tuts', 'hello', 'create_person', {
+    person: {name: 'Alice'},
+  });
 ```
 
 Check that the result of the call is Ok:
@@ -75,14 +64,19 @@ Tell the test to wait for the DHT to become consistent.
 
 ```javascript
 
-  await s.consistency()
+  await s.consistency();
 
 ```
 
 Add a call to the `retrieve_person` function with the address from the last call:
 
 ```javascript
-  const retrieve_result = await alice.call('cc_tuts', "hello", "retrieve_person", {"address": alice_person_address });
+  const retrieve_result = await alice.call(
+    'cc_tuts',
+    'hello',
+    'retrieve_person',
+    {address: alice_person_address},
+  );
 ```
 
 Check that this call is Ok as well:
@@ -93,14 +87,13 @@ Check that this call is Ok as well:
 This is the actual result we want at the end of the test. Check that the entry at the address is indeed named `Alice`:
 
 ```javascript
-  t.deepEqual(retrieve_result, { Ok: {"name": "Alice"} })
+  t.deepEqual(retrieve_result, {Ok: {name: 'Alice'}});
 ```
 \#S:HIDE
 ```javascript
+});
 
-})
-
-orchestrator.run()
+orchestrator.run();
 ```
 
 ### Run sim2h
@@ -108,7 +101,7 @@ Again, you will need to run the sim2h server in a separate terminal window:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
-    sim2h_server -p 9000
+    sim2h_server
     ```
 
 ### Running the test
@@ -176,26 +169,20 @@ Represent their name as a string:
 
 Look for the following lines inside the `hello_zome` mod:
 
+\#S:SKIP
 ```rust
 #[zome]
 mod hello_zome {
 ```
-\#S:HIDE
-```rust
-    #[init]
-    fn init() {
-        Ok(())
-    }
 
-    #[validate_agent]
-    pub fn validate_agent(validation_data: EntryValidationData<AgentId>) {
-        Ok(())
-    }
-```
+\#S:INCLUDE
+\#S:EXTERNAL=rust=hello_me_2.rs
+
+\#S:SKIP
 ```rust
   /* --- Lines omitted -- */
   #[zome_fn("hc_public")]
-  fn hello_holo() -> ZomeApiResult<String> {
+  pub fn hello_holo() -> ZomeApiResult<String> {
       Ok("Hello Holo".into())
   }
 
@@ -203,6 +190,8 @@ mod hello_zome {
 ```
 
 Add the `person_entry_def` function, which tells Holochain about the person entry type:
+
+\#S:INCLUDE
 
 ```rust
     #[entry_def]
@@ -262,7 +251,7 @@ In the above code, we just used a few types and macros that are not mentioned an
 Add the following `use` statements:
 
 <script id="asciicast-Smv3xxADtSj8AExf3X9d3UApI" src="https://asciinema.org/a/Smv3xxADtSj8AExf3X9d3UApI.js" async data-autoplay="true"></script>
-
+\#S:CHANGE
 ```diff
 #![feature(proc_macro_hygiene)]
 +#[macro_use]
@@ -274,12 +263,11 @@ extern crate serde_derive;
 extern crate serde_json;
 +#[macro_use]
 extern crate holochain_json_derive;
-
 use hdk::{
 +    entry_definition::ValidatingEntryType,
     error::ZomeApiResult,
 };
-
++
 +use hdk::holochain_core_types::{
 +    entry::Entry,
 +    dna::entry_types::Sharing,
@@ -362,7 +350,7 @@ Add a public `retrieve_person` function that takes an `Address` and returns a `P
 
 ```rust
     #[zome_fn("hc_public")]
-    fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
+    pub fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
 ```
 
 Get the entry from your local storage, asking for it by address, and convert it to a Person type:
@@ -399,7 +387,7 @@ Instead of directly compiling, you can run the test you wrote at the start (the 
 
 ## UI
 
-Now that the back end is working, you can modify the UI to interact with zome functions you created. First, let's do some housekeeping and move the JavaScript from the previous tutorial into its own file.
+Now that the back end is working, you can modify the UI to interact with zome functions you created. 
 
 Go to the GUI project folder you created in the [Hello GUI](../hello_gui) tutorial:
 
@@ -407,55 +395,7 @@ Go to the GUI project folder you created in the [Hello GUI](../hello_gui) tutori
 cd holochain/coreconcepts/gui
 ```
 
-Create a new `hello.js` file, open it in your favorite editor, and open the `index.html` alongside it.
-
-Move everything inside the `<script>` tag into the `hello.js`:
-
-\#S:SKIP,MODE=gui
-```diff
---- index.html
-<script type="text/javascript">
--    var holochain_connection = holochainclient.connect({ url: "ws://localhost:3401"});
--    
--    function hello() {
--      holochain_connection.then(({callZome, close}) => {
--        callZome('test-instance', 'hello', 'hello_holo')({"args": {} }).then((result) => update_span(result))
--      })
--    }
--    function show_output(result) {
--      var span = document.getElementById('output');
--      var output = JSON.parse(result);
--      span.textContent = " " + output.Ok;
--    }
-</script>
-
-+++ hello.js
-+var holochain_connection = holochainclient.connect({ url: "ws://localhost:3401"});
-+
-+function hello() {
-+  holochain_connection.then(({callZome, close}) => {
-+    callZome('test-instance', 'hello', 'hello_holo')({"args": {} }).then((result) => update_span(result))
-+  })
-+}
-+
-+function show_output(result) {
-+  var span = document.getElementById('output');
-+  var output = JSON.parse(result);
-+  span.textContent = " " + output.Ok;
-+}
-```
-
-
-Add the `src` attribute to the `<script>` tag:
-
-```html
-<script type="text/javascript" src="hello.js"></script>
-```
-<script id="asciicast-rJ2HMQsrkMnYMiqkW4txPU9F8" src="https://asciinema.org/a/rJ2HMQsrkMnYMiqkW4txPU9F8.js" async data-autoplay="true" data-loop="true"></script>
-
-## Create person UI widget
-
-
+\#S:MODE=gui
 \#S:INCLUDE
 
 Start by adding the HTML elements to create a person in your `index.html`.
@@ -507,8 +447,6 @@ Add a span with the id `address_output` so you can render the result of this cal
 
 \#S:CHECK=html=gui
 
-\#S:MODE=gui2
-
 ### Switch to your `hello.js` file
 
 
@@ -542,7 +480,7 @@ Call `create_person` in your `hello` zome and pass in the name variable as part 
 }
 ```
 
-\#S:CHECK=javascript=gui2
+\#S:CHECK=javascript=gui
 
 ### Run the server and open a browser
 
@@ -550,29 +488,15 @@ Let's test your first call.
 
 Open a new terminal window and enter the nix-shell:
 
-```bash
-cd holochain/coreconcepts/gui
-nix-shell https://holochain.love
-```
-
-Run the server:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```bash
-    python -m SimpleHTTPServer
-    ```
-
-In your other terminal window, the one with your back end code, package and run your zome:
-
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc package
     ```
     ```bash
-    hc run -p 3401
+    hc run
     ```
 
-Now that both your UI server and your Holochain conductor server are running, open up a browser and go to `0.0.0.0:8000`. You should see the HTML elements you created:
+Now that both your UI server and your Holochain conductor server are running, open up a browser and go to `127.0.0.1:8888`. You should see the HTML elements you created:
 
 ![](../../img/create_person_1.png)
 
@@ -589,25 +513,41 @@ First, a bit of refactoring---if you make the `show_ouput` function more generic
 
 Pass in the element's ID so that the function can be reused:
 
+\#S:CHANGE
 ```diff
 -function show_output(result) {
 +function show_output(result, id) {
 -  var span = document.getElementById('output');
 +  var el = document.getElementById(id);
   var output = JSON.parse(result);
+```
+It would also be nice to have some error checking.
+Add in a if statement that checks that `Ok` is not null:
+\#S:CHANGE
+```diff
++  if (output.Ok) {
 -  span.textContent = ' ' + output.Ok;
-+  el.textContent = ' ' + output.Ok;
++    el.textContent = ' ' + output.Ok;
++  } else {
++    alert(output.Err.Internal);
++  }
 }
-
+```
+\#S:CHANGE
+```diff
 function hello() {
   holochain_connection.then(({callZome, close}) => {
-    callZome('test-instance', 'hello', 'hello_holo')({args: {}}).then(result =>
--      show_output(result),
-+      show_output(result, id),
-    );
+    callZome(
+      'test-instance',
+      'hello',
+      'hello_holo',
+-    )({args: {}}).then(result => show_output(result));
++    )({args: {}}).then(result => show_output(result, 'output'));
   });
 }
-
+```
+\#S:CHANGE
+```diff
 function create_person() {
   const name = document.getElementById('name').value;
   holochain_connection.then(({callZome, close}) => {
@@ -618,21 +558,6 @@ function create_person() {
   });
 }
 ```
-
-\#S:HIDE,MODE=gui
-
-```javascript
-function create_person() {
-  const name = document.getElementById('name').value;
-  holochain_connection.then(({callZome, close}) => {
-    callZome('test-instance', 'hello', 'create_person')({
-      person: {name: name},
-    }).then(result => show_output(result, 'address_output'));
-  });
-}
-```
-
-<script id="asciicast-JU3iJOeyEnzCVGLKugBOq2PRn" src="https://asciinema.org/a/JU3iJOeyEnzCVGLKugBOq2PRn.js" async data-autoplay="true" data-loop="true"></script>
 
 ### Enter the browser
 
@@ -716,14 +641,18 @@ Add the `show_person` function. It is very similar to `show_output`, except that
 function show_person(result) {
   var person = document.getElementById('person_output');
   var output = JSON.parse(result);
-  person.textContent = ' ' + output.Ok.name;
+  if (output.Ok) {
+    person.textContent = ' ' + output.Ok.name;
+  } else {
+    alert(output.Err.Internal);
+  }
 }
 ```
 
 \#S:CHECK=javascript=gui
 
 ### Enter the browser
-Finally, go and test this at `0.0.0.0:8000`.  
+Finally, go and test this at `127.0.0.1:8888`.  
 You should see something like this:
 ![retrieving a person](../../img/create_person_3.png)
 
