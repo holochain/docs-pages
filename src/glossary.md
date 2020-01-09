@@ -411,6 +411,10 @@ A highly [decentralized](#decentralization) [distributed system](#distributed-sy
 
 An [entry](#entry) which is stored on the [source chain](#source-chain), but not [published](#publish) to the [DHT](#distributed-hash-table-dht).
 
+#### Progenitor
+
+The first user to run a [DNA](#dna) and bootstrap its [DHT](#distributed-hash-table-dht). The progenitor usually has special responsibilities and privileges to set up necessary global DHT entries.
+
 #### Provenance
 
 A [public key](#public-key-cryptography) and a [public-key signature](#public-key-signature), stored as a piece of metadata on a [DHT entry](#dht-entry). It proves that an [agent](#agent) (represented by the public key) actually authored the entry (as proven by the signature) and allows anyone to verify that a third party hasn't tampered with it.

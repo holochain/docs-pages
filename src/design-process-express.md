@@ -128,7 +128,7 @@ Here are things to consider in your API design:
 * **What does each consumer need?** Most entry types should have functions to create, read, update, and delete entries, as well as retrieve collections and condensed stats on a collection.
 * **How do the users need to interact with each other?** For synchronous, real-time private interaction, you'll need to use node-to-node messaging and implement a message receive handler. With this you can create a sort of agent-to-agent API.
 * **When does your API consumer need to know about events in the DHT?** Your DNA can broadcast signals to the client, usually as a result of handling a node-to-node message.
-* **What should happen at application startup?** There is one required zome function, the [init callback](../glossary/#init-callback), that allows an agent to add entries to their source chain and the DHT the first time they run the DNA.
+* **What should happen at application startup?** What does the init function need to do when the [progenitor](../glossary/#progenitor) and subsequent users run the application for the first time?
 
 ## 6. Write your code
 
