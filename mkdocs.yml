@@ -12,6 +12,7 @@ nav:
     - What is Holochain?: what-is-holochain.md
     - Install Holochain: install.md
     - Create a New App: create-new-app.md
+    - Design Your App: design-process-express.md
     - Get Involved: get-involved.md
     - Glossary: glossary.md
   - Core Concepts:
