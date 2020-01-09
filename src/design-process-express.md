@@ -119,14 +119,14 @@ Now that you've defined the data model, it's time to define the functions that a
 
 * [**Zome functions**](../glossary/#zome-function), the 'public' API that the DNA exposes to the user's UI and bridged DNAs. One special zome function is required in every zome: the **init** function, which is executed by the conductor on first run.
 * [**Node-to-node messages**](../glossary/#node-to-node-message), an interface between agents in the DNA's network
-* [**Signals**](../glossary/#signal) that the DNA can broadcast to the user's UI in response to incoming messages
+* [**Signals**](../glossary/#signal) that the DNA broadcasts to the user's UI or middleware in response to internal events
 
 Here are things to consider in your API design:
 
 * **What is your application's essential logic?** Pare your DNA down to the bare essentials required for data manipulation, integrity, and interaction between peers; save the rest for the middleware and UI layers.
 * **Who needs to access your data?** Your API may be consumed by UIs, other zomes, and bridged DNAs.
 * **What does each consumer need?** Most entry types should have functions to create, read, update, and delete entries, as well as retrieve collections and condensed stats on a collection.
-* **How do the users need to interact with each other?** For synchronous, real-time private interaction, you'll need to use node-to-node messaging and implement a message receive handler. With this you can create a sort of agent-to-agent API.
+* **How do the users need to interact with each other?** What sorts of real-time or private messages do agents need to communicate with each other? They will need a handler to receive and process them. With this you can create a sort of agent-to-agent API.
 * **When does your API consumer need to know about events in the DHT?** Your DNA can broadcast signals to the client, usually as a result of handling a node-to-node message.
 * **What should happen at application startup?** What does the init function need to do when the [progenitor](../glossary/#progenitor) and subsequent users run the application for the first time?
 
