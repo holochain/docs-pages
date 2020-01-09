@@ -1,7 +1,5 @@
 // Connect
-var holochain_connection = holochainclient.connect({
-  url: 'ws://localhost:3401',
-});
+var holochain_connection = holochainclient.connect();
 
 // Render functions
 function show_output(result, id) {
@@ -11,28 +9,6 @@ function show_output(result, id) {
     el.textContent = ' ' + output.Ok;
   } else {
     alert(output.Err.Internal);
-  }
-}
-
-function show_person(result) {
-  var person = document.getElementById('person_output');
-  var output = JSON.parse(result);
-  person.textContent = ' ' + output.Ok.name;
-}
-
-function show_posts(result) {
-  var list = document.getElementById('posts_output');
-  list.innerHTML = '';
-  var output = JSON.parse(result);
-  if (!output.Ok) {
-    console.log(output);
-  }
-  var posts = output.Ok.sort((a, b) => a.timestamp - b.timestamp);
-  for (post of posts) {
-    var node = document.createElement('LI');
-    var textnode = document.createTextNode(post.message);
-    node.appendChild(textnode);
-    list.appendChild(node);
   }
 }
 
@@ -65,5 +41,9 @@ function retrieve_person() {
 function show_person(result) {
   var person = document.getElementById('person_output');
   var output = JSON.parse(result);
-  person.textContent = ' ' + output.Ok.name;
+  if (output.Ok) {
+    person.textContent = ' ' + output.Ok.name;
+  } else {
+    alert(output.Err.Internal);
+  }
 }

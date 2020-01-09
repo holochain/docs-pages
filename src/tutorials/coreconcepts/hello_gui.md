@@ -23,7 +23,7 @@ You will need somewhere for all your GUI code to live. This will be a different 
 Create a folder for the GUI to live in:
 
 ```bash
-cd holochain/coreconcepts
+cd ~/holochain/core_concepts
 mkdir gui
 cd gui
 ```
@@ -31,6 +31,7 @@ cd gui
 Create a new file called `index.html` in your favorite editor. It should live at `gui/index.html`. Start by adding a simple HTML template to `index.html`.
 
 Add this modern template:
+
 
 ```html
 <!DOCTYPE html>
@@ -48,10 +49,28 @@ Add this modern template:
 </html>
 ```
 
-Inside the `<body>` tag, add a button:
+\#S:INCLUDE,MODE=gui
+
+\#S:HIDE
 
 ```html
-  <button type="button">Say Hello</button>
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Hello GUI</title>
+    <meta name="description" content="GUI for a Holochain app" />
+  </head>
+
+  <body>
+```
+
+Inside the `<body>` tag, add a button that calls the hello function that we will add soon:
+
+```html
+  <button onclick="hello()" type="button">Say Hello</button>
 ```
 
 To make things a bit easier on the eyes, you can add the `water.css` stylesheet.
@@ -65,49 +84,14 @@ Add this water.css link inside the `<head>` tag:
     />
 ```
 
-## Run a simple server
-
-??? question "Your `index.html` should now look like:"
-    ```html
-    <!DOCTYPE html>
-
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-
-        <title>Hello GUI</title>
-        <meta name="description" content="GUI for a Holochain app" />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css"
-        />
-      </head>
-
-      <body>
-        <button type="button">Say Hello</button>
+\#S:EXTRA
+```html
       </body>
     </html>
-    ```
-
-Enter the `nix-shell` to make sure you have all the available dependencies:
-```bash
-nix-shell https://holochain.love
 ```
 
-Once that is all up and running, you can fire up a simple server:
+\#S:CHECK=html=gui
 
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```bash
-    python -m SimpleHTTPServer
-    ```
-    Or if you use Python 3, use this command instead:
-    ```bash
-    python -m http.server
-    ```
-
-Go have a look in your browser at `http://0.0.0.0:8000/`. You will see something like this:
-
-![](https://i.imgur.com/Tfjd2ZX.png)
 
 ## hc-web-client
 
@@ -142,131 +126,157 @@ Once that's done, you can easily link to the compiled js file by adding this `sc
 
 Now that you have linked the hc-web-client.js library, you can make a simple zome call with some vanilla JavaScript.
 
-Add this function inside your `<body>` tag:
-\#S:INCLUDE,MODE=gui
+Add this script tag inside your `<body>` tag:
 
 ```html
-    <script type="text/javascript">
+    <script type="text/javascript" src="hello.js"></script>
 ```
 
-Make a WebSocket connection to Holochain on port 3401:
+\#S:EXTRA
+```html
+      </body>
+    </html>
+```
 
+\#S:CHECK=html=gui
+
+
+## Write the function that calls your zome
+The hello function will connect to your app through WebSocket, call the hello zome function, and print the result to your browser's console.
+
+Create a file in the same directory as the `index.html` called `hello.js`.
+
+Add the following code to this file.
+
+Make a WebSocket connection to Holochain :
 ```javascript
-      var holochain_connection = holochainclient.connect({
-        url: 'ws://localhost:3401',
-      });
+var holochain_connection = holochainclient.connect();
 ```
 
 Add a `hello()` JavaScript function so you can call it from your HTML:
 
 ```javascript
-      function hello() {
+function hello() {
 ```
 
 Wait for Holochain to connect, and then make a zome call:
 
 ```javascript
-        holochain_connection.then(({callZome, close}) => {
+  holochain_connection.then(({callZome, close}) => {
 ```
 
 Call the `hello_holo` zome function in the `hello` zome running on the `test-instance` instance:
 
 ```javascript
-      callZome('test-instance', 'hello', 'hello_holo')({args: {}})
+    callZome(
+      'test-instance',
+      'hello',
+      'hello_holo',
 ```
 
 Log the result in the browser's console:
 
 ```javascript
-          .then((result) => console.log(result))
-        })
-      }
+    )({args: {}}).then(result => console.log(result));
+  });
+}
 ```
 
-Close the script tag:
+\#S:CHECK=javascript=gui
 
-```html
-    </script>
+
+## Setup a bundle file
+
+The Holochain CLI `hc` can run the conductor, your hApp and your GUI.
+All you need to do is setup a bundle file to specify where things are.
+
+Create a new file in your hApp's root folder `cc_tuts/` called `bundle.toml` and add the following lines.
+
+There's no bridges (connections between separate zomes) in our hApp so this is empty.
+```toml
+bridges = []
+
+```
+This is the one and only instance you need for this tutorial. 
+It contains the path to the dna and the hash (which needs to be updated as you make changes).
+```toml
+[[instances]]
+name = "cc_tuts"
+id = "__cc_tuts"
+dna_hash = "QmQMHnyGd43Yuwc2YUrHxBxPzJBhtTkD21ftgU2qkTQZcb"
+uri = "file:dist/cc_tuts.dna.json" 
+
+```
+This is the GUI setup.
+It points to the root folder of your GUI. 
+Mine is up one level (../) and in a folder called `gui`.
+You might need to edit this to match where you GUI lives (where the index.html is).
+```toml
+[[UIs]]
+name = "CC Tuts"
+id = "cc_tuts_ui"
+uri = "dir:../gui" 
+```
+This links the GUI to the dna.
+
+```toml
+[[UIs.instance_references]]
+ui_handle = "test-instance"
+instance_id = "__cc_tuts"
 ```
 
-This hello function will connect to your app through WebSocket on port `3401`, call the hello zome function, and print the result to your browser's console.
+??? question "Check your bundle.toml:"
+    ```toml
+    bridges = []
 
-Let's make your button call this function by adding an `onclick` event handler.
+    [[instances]]
+    name = "cc_tuts"
+    id = "__cc_tuts"
+    dna_hash = "QmQMHnyGd43Yuwc2YUrHxBxPzJBhtTkD21ftgU2qkTQZcb"
+    uri = "file:dist/cc_tuts.dna.json" 
 
-Add this button inside the `<body>` tag:
+    [[UIs]]
+    name = "CC Tuts"
+    id = "cc_tuts_ui"
+    uri = "dir:../gui" 
 
-```diff
--  <button type="button">Say Hello</button>
-+  <button onclick="hello()" type="button">Say Hello</button>
-```
-
-## Run your app
-
-??? question "Check your index.html:"
-    ```html
-    <!DOCTYPE html>
-
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-
-        <title>Hello GUI</title>
-        <meta name="description" content="GUI for a Holochain app" />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css"
-        />
-      </head>
-
-      <body>
-        <button onclick="hello()" type="button">Say Hello</button>
-        <script
-          type="text/javascript"
-          src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
-        ></script>
-        <script type="text/javascript">
-          var holochain_connection = holochainclient.connect({
-            url: 'ws://localhost:3401',
-          });
-          function hello() {
-            holochain_connection.then(({callZome, close}) => {
-          callZome('test-instance', 'hello', 'hello_holo')({args: {}})
-              .then((result) => console.log(result))
-            })
-          }
-        </script>
-      </body>
-    </html>
+    [[UIs.instance_references]]
+    ui_handle = "test-instance"
+    instance_id = "__cc_tuts"
     ```
 
-Your Holochain app must be running to make a call from the GUI. So open up a new terminal window, navigate to the app you built in the previous tutorials, and enter the nix-shell:
 
-```bash
-cd holochain/core_concepts/cc_tuts
-nix-shell https://holochain.love
-```
-
-Now, run your app:
+## Run the bundle
+Make sure you are in you hApp's directory `cc_tuts/` and not the GUI directory.
+Enter the nix-shell if you haven't already and package / run the hApp.
 
 !!! note "Run in `nix-shell https://holochain.love`"
     Package the app:
     ```bash
     hc package
     ```
-    Run the server on port 3401:
+    Run the conductor:
     ```bash
-    hc run -p 3401
+    hc run
     ```
+
+??? fail "Provided DNA hash does not match actual DNA hash!"
+    If you get this error it means you need to update the dna hash in the `bundle.toml` file.
+    You can get the hash with `hc hash`.
+    Here is a convenient script to do it automatically:
+    ```bash
+    #!/bin/bash
+    DNA_HASH=$(hc hash)
+    LEN_OUT=${#DNA_HASH}
+    echo ${DNA_HASH}
+    HASH=${DNA_HASH:$(expr $LEN_OUT - 46):$LEN_OUT}
+    sed -i "s/dna_hash = \".*/dna_hash = \"${HASH}\"/g" $1
+    ``` 
+    You can put this in a file called update_hash.sh and give it permission to run (`chmod 755 update_hash.sh`).
+    Then call `./update_hash.sh bundle.toml` to update the hash.
 
 ## Make a zome call
-In your other terminal window, the one with the GUI code, start the `SimpleHTTPServer` if it's not still running:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```bash
-    python -m SimpleHTTPServer
-    ```
-
-Open your browser and head to `0.0.0.0:8000` (or refresh the page if it's already open). The page will look the same.
+Open your browser and head to `127.0.0.1:8888` 
 
 Open your developer console and click the button. 
 You should see something like this:
@@ -287,46 +297,71 @@ Add the following HTML below the button:
     <div>Response: <span id="output"></span></div>
 ```
 
+
 The `id="output"` is what we will use to update this element from a JavaScript function.
 
-Add the following lines below your `hello` function.
+\#S:HIDE
+```html
+  </body>
+</html>
+```
+
+\#S:CHECK=html=gui
+
+## Add the show output function
+
+Back in the hello.js file add the following lines below your `hello` function.
 
 Add an `show_output` function that takes the result:
 
 ```javascript
-      function show_output(result) {
+function show_output(result) {
 ```
 
 Get the element into which you'll be inserting the output into:
 
 ```javascript
-        var span = document.getElementById('output');
+  var span = document.getElementById('output');
 ```
 
 Parse the zome function result as JSON:
 
 ```javascript
-        var output = JSON.parse(result);
+  var output = JSON.parse(result);
 ```
 
 Set the contents of the element to the zome function result:
 
 ```javascript
-        span.textContent = ' ' + output.Ok;
-      }
+  span.textContent = ' ' + output.Ok;
+}
 ```
-
+\#S:CHANGE
 Finally, update the `hello` function to call your new `show_output` function instead of `console.log()`.
 ```diff
--            result => console.log(result),
-+            result => show_output(result),
+-    )({args: {}}).then(result => console.log(result));
++    )({args: {}}).then(result => show_output(result));
 ```
 
-<script id="asciicast-oTse2TbmFJImX9Ra04cUc7xRo" src="https://asciinema.org/a/oTse2TbmFJImX9Ra04cUc7xRo.js" async data-autoplay="true" data-loop="true"></script>
+\#S:CHECK=javascript=gui
+
+## Run the bundle
+Make sure you are in you hApp's directory `cc_tuts/` and not the GUI directory.
+Enter the nix-shell if you haven't already and package / run the hApp.
+
+!!! note "Run in `nix-shell https://holochain.love`"
+    Package the app:
+    ```bash
+    hc package
+    ```
+    Run the conductor:
+    ```bash
+    hc run
+    ```
 
 ## Test the output works
 
-Head over to `0.0.0.0:8000` in your web browser (you might need to refresh), and you should see this:
+Head over to `127.0.0.1:8888` in your web browser (you might need to refresh), and you should see this:
 
 ![](https://i.imgur.com/FMxeMx0.png)
 

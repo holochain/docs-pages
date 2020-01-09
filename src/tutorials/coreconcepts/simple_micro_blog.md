@@ -54,17 +54,22 @@ pub struct Post {
 The post's entry definition starts off very similarly to the person's so that you can modify it.
 Update the `person` entry type definition to `post`:
 
-```rust
+\#S:CHANGE
+```diff
     #[entry_def]
-    fn post_entry_def() -> ValidatingEntryType {
+-    fn person_entry_def() -> ValidatingEntryType {
++    fn post_entry_def() -> ValidatingEntryType {
         entry!(
-            name: "post",
-            description: "A blog post",
+-            name: "person",
++            name: "post",
+-            description: "Person to say hello to",
++            description: "A blog post",
             sharing: Sharing::Public,
             validation_package: || {
                 hdk::ValidationPackageDefinition::Entry
             },
-            validation: | validation_data: hdk::EntryValidationData<Post>| {
+-            validation: | _validation_data: hdk::EntryValidationData<Person>| {
++            validation: | validation_data: hdk::EntryValidationData<Post>| {
 ```
 Up to this point, validation has only checked that the data is in the correct shape. However, a real application will usually need to validate its data more thoroughly.
 
@@ -156,37 +161,37 @@ The author's ID comes from a special constant `hdk::AGENT_ADDRESS`, which you ca
 Add a public `create_post` function that takes a message as a `String` and a timestamp as a `u64`:
 
 ```rust
-#[zome_fn("hc_public")]
-pub fn create_post(message: String, timestamp: u64) -> ZomeApiResult<Address> {
+    #[zome_fn("hc_public")]
+    pub fn create_post(message: String, timestamp: u64) -> ZomeApiResult<Address> {
 ```
 
 Create the `Post` using the message, timestamp, and author's address:
 ```rust
-    let post = Post {
-        message,
-        timestamp,
-        author_id: hdk::AGENT_ADDRESS.clone(),
-    };
+        let post = Post {
+            message,
+            timestamp,
+            author_id: hdk::AGENT_ADDRESS.clone(),
+        };
 ```
 
 Get this agent's address:
 ```rust
-    let agent_address = hdk::AGENT_ADDRESS.clone().into();
+        let agent_address = hdk::AGENT_ADDRESS.clone().into();
 ```
 
 Commit the post entry:
 ```rust
-    let entry = Entry::App("post".into(), post.into());
-    let address = hdk::commit_entry(&entry)?;
+        let entry = Entry::App("post".into(), post.into());
+        let address = hdk::commit_entry(&entry)?;
 ```
 Before, you defined the link from the agent's address to the post.
 
 This is where you actually make the link:
 ```rust
-    hdk::link_entries(&agent_address, &address, "author_post", "")?;
-    
-    Ok(address)
-}
+        hdk::link_entries(&agent_address, &address, "author_post", "")?;
+        
+        Ok(address)
+    }
 ```
 
 ## Retrieve all of a user's posts 
@@ -198,8 +203,8 @@ Later, you will see how they get an agent's address.
 Add a public function that takes an author's agent address and returns a [vector](https://doc.rust-lang.org/std/vec/struct.Vec.html) of posts:
 
 ```rust
-#[zome_fn("hc_public")]
-fn retrieve_posts(agent_address: Address) -> ZomeApiResult<Vec<Post>> {
+    #[zome_fn("hc_public")]
+    pub fn retrieve_posts(agent_address: Address) -> ZomeApiResult<Vec<Post>> {
 ```
 
 Retrieve all the `author_post` links attached to the agent's address.
@@ -207,12 +212,12 @@ This function should return a vector of Post structs. Luckily, you can use the c
 
 Return a list of links with _exactly_ the type of `author_post` (instead of a fuzzy _regex_ search) and any tag.
 ```rust
-    hdk::utils::get_links_and_load_type(
-        &agent_address,
-        LinkMatch::Exactly("author_post"),
-        LinkMatch::Any,
-    )
-}
+        hdk::utils::get_links_and_load_type(
+            &agent_address,
+            LinkMatch::Exactly("author_post"),
+            LinkMatch::Any,
+        )
+    }
 ```
 
 > Note: Because you've told Rust that this function is going to return a vector of posts, the compiler will tell `get_links_and_load_type` what type to use in the conversion.
@@ -220,12 +225,12 @@ Return a list of links with _exactly_ the type of `author_post` (instead of a fu
 
 We're using a new directive: `link::LinkMatch`. You'll need to add it to your `use` statements at the top of the file:
 
-\#S:SKIP
-```rust
+\#S:CHANGE
+```diff
 use hdk::holochain_core_types::{
     entry::Entry,
     dna::entry_types::Sharing,
-    link::LinkMatch,
++    link::LinkMatch,
 };
 ```
 
@@ -240,11 +245,19 @@ Add a public function that returns their `AGENT_ADDRESS`:
 
 \#S:INCLUDE
 ```rust
-#[zome_fn("hc_public")]
-fn get_agent_id() -> ZomeApiResult<Address> {
-    Ok(hdk::AGENT_ADDRESS.clone())
+    #[zome_fn("hc_public")]
+    pub fn get_agent_id() -> ZomeApiResult<Address> {
+        Ok(hdk::AGENT_ADDRESS.clone())
+    }
+```
+
+\#S:INCLUDE,HIDE
+```rust
 }
 ```
+
+\#S:CHECK=rust
+
 
 ## Show the agent's ID in the UI
 
@@ -257,12 +270,10 @@ The agent ID should update when the page loads and the WebSocket port that links
 Add an `onload` event to the body that will call the `get_agent_id` javascript function when the page loads:
 
 \#S:MODE=gui,INCLUDE
-```html
-  <body onload="get_agent_id()">
-```
-Add an element to render the agent's ID:
-```html
-    <div id="agent_id"></div>
+\#S:CHANGE
+```diff
+-  <body>
++  <body onload="get_agent_id()">
 ```
 
 Open up the `hello.js` file and add the `get_agent_id` function.  
@@ -276,32 +287,36 @@ function get_agent_id() {
   });
 }
 ```
-\#S:HIDE
-
-```html
-    <button onclick="hello()" type="button">Say Hello</button>
-    <div>Response: <span id="output"></span></div>
-```
 
 ## Update the create and retrieve elements for posts
 
 Update the html for posts instead of persons:
 
-<script id="asciicast-VRgOq6rfYvXP5MpRFoIvOOvhv" src="https://asciinema.org/a/VRgOq6rfYvXP5MpRFoIvOOvhv.js" async data-autoplay="true" data-loop="true"></script>
-
-Update the headings and function calls:
-```html
-    <h3>Create Post</h3>
-    <textarea id="post" placeholder="Enter a message :)"></textarea>
-    <button onclick="create_post()" type="button">Submit Post</button>
+\#S:CHANGE
+```diff
+-    <h3>Create a person</h3>
++    <h3>Create Post</h3>
+-    <input type="text" id="name" placeholder="Enter your name :)">
++    <textarea id="post" placeholder="Enter a message :)"></textarea>
+-    <button onclick="create_person()" type="button">Submit Name</button>
++    <button onclick="create_post()" type="button">Submit Post</button>
     <div>Address: <span id="address_output"></span></div>
-    <h3>Retrieve Post</h3>
-    <input type="text" id="address_in" placeholder="Enter the entry address" />
-    <button onclick="retrieve_posts()" type="button">Show Posts</button>
+-    <h3>Retrieve Person</h3>
++    <h3>Retrieve Post</h3>
+-    <input type="text" id="address_in" placeholder="Enter the entry address">
++    <input type="text" id="address_in" placeholder="Enter the agent id">
+-    <button onclick="retrieve_person()" type="button">Get Person</button>
++    <button onclick="retrieve_posts()" type="button">Show Posts</button>
+-    <div>Person: <span id="person_output"></span></div>
 ```
 Add an empty list to display the posts:
 ```html
     <ul id="posts_output"></ul>
+```
+Add an element to render the agent's ID:
+```html
+    <h3>Agent ID:</h3>
+    <div id="agent_id"></div>
 ```
 \#S:EXTERNAL=html=simple_micro_blog_p2.html=gui
 
@@ -311,43 +326,29 @@ Add an empty list to display the posts:
 ## Call `create_post` from JavaScript
 
 Update `create_person` to create posts instead:
+  });
+}
+\#S:CHANGE
 ```diff
-- function create_person() {
-+ function create_post() {
--   const name = document.getElementById('name').value;
-+   const message = document.getElementById('post').value;
+-function create_person() {
++function create_post() {
+-  const name = document.getElementById('name').value;
++  const message = document.getElementById('post').value;
 ```
 Use the `Date` object to give the current timestamp:
+\#S:CHANGE
 ```diff
-+   const timestamp = Date.now();
-   holochain_connection.then(({callZome, close}) => {
--     callZome('test-instance', 'hello', 'create_person')({
-+     callZome('test-instance', 'hello', 'create_post')({
--       person: {name: name},
-+       message: message,
-+       timestamp: timestamp,
--     }).then(result => show_output(result, id));
-+     }).then(result => show_output(result, 'address_output'));
-   });
- }
-```
-<script id="asciicast-7TB7eDBA0sUS79hDzDSDaZgcP" src="https://asciinema.org/a/7TB7eDBA0sUS79hDzDSDaZgcP.js" async></script>
-
-\#S:HIDE
-
-```javascript
-function create_post() {
-  const message = document.getElementById('post').value;
-  const timestamp = Date.now();
++  const timestamp = Date.now();
   holochain_connection.then(({callZome, close}) => {
-    callZome('test-instance', 'hello', 'create_post')({
-      message: message,
-      timestamp: timestamp,
+-    callZome('test-instance', 'hello', 'create_person')({
++    callZome('test-instance', 'hello', 'create_post')({
+-      person: {name: name},
++      message: message,
++      timestamp: timestamp,
     }).then(result => show_output(result, 'address_output'));
   });
 }
 ```
-
 ## Update the posts list dynamically
 
 Because the number of posts changes at runtime, you can update the empty list element from earlier to display them.
@@ -362,76 +363,40 @@ function display_posts(result) {
 Parse the posts JSON data and order them by time:
 ```javascript
   var output = JSON.parse(result);
-  var posts = output.Ok.sort((a, b) => a.timestamp - b.timestamp);
+  if (output.Ok) {
+      var posts = output.Ok.sort((a, b) => a.timestamp - b.timestamp);
 ```
 
 For each post add a `<li>` element that contains the post's message:
 ```javascript
-  for (post of posts) {
-    var node = document.createElement("LI");
-    var textnode = document.createTextNode(post.message);
-    node.appendChild(textnode);
-    list.appendChild(node);
+      for (post of posts) {
+        var node = document.createElement("LI");
+        var textnode = document.createTextNode(post.message);
+        node.appendChild(textnode);
+        list.appendChild(node);
+      }
+  } else {
+    alert(output.Err.Internal);
   }
-}
-```
-
-## Update the agent ID when the port is changed
-
-When the WebSocket port changes, the UI will be talking to a different conductor with a different agent ID.
-
-Update the agent's ID when this happens:
-```diff
-function update_port() {
-  const port = document.getElementById('port').value;
-  holochain_connection = holochainclient.connect({
-    url: 'ws://localhost:' + port,
-  });
-+  get_agent_id();
-}
-```
-\#S:HIDE
-```javascript
-function update_port() {
-  const port = document.getElementById('port').value;
-  holochain_connection = holochainclient.connect({
-    url: 'ws://localhost:' + port,
-  });
-  get_agent_id();
 }
 ```
 
 ## Retrieve an agent's posts
 
 To retrieve the posts, update the `retrieve_person` function, and call `display_posts`:
+\#S:CHANGE
 ```diff
-- function retrieve_person() {
-+ function retrieve_posts() {
+-function retrieve_person() {
++function retrieve_posts() {
   var address = document.getElementById('address_in').value;
   holochain_connection.then(({callZome, close}) => {
 -    callZome('test-instance', 'hello', 'retrieve_person')({
 +    callZome('test-instance', 'hello', 'retrieve_posts')({
-      agent_address: address,
+-      address: address,
++      agent_address: address,
 -    }).then(result => show_person(result, 'person_output'));
 +    }).then(result => display_posts(result));
   });
-}
-```
-
-\#S:HIDE
-```javascript
-function retrieve_posts() {
-  var address = document.getElementById('address_in').value;
-  holochain_connection.then(({callZome, close}) => {
-    callZome('test-instance', 'hello', 'retrieve_posts')({
-      agent_address: address,
-    }).then(result => display_posts(result));
-  });
-}
-```
-
-\#S:INCLUDE,HIDE
-```rust
 }
 ```
 
@@ -448,7 +413,7 @@ Run the sim2h server
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    sim2h_server -p 9000
+    sim2h_server
     ```
 
 #### Terminal two 
@@ -459,63 +424,26 @@ Package the DNA and then update the hash:
     hc package
     ```
 
-!!! check "Copy the DNA's hash:"
+!!! check "Copy the DNA's hash with `hc hash`:"
     ```
     DNA hash: QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG
     ```
-> Your hash will be different.
+> Your hash will be different but you need to update your `bundle.toml` file.
 
-If you're feeling lazy, I have provided a `sed` command to update the config file:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    sed -i "s/hash = '.*/hash = 'QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG'/g" conductor-config-alice.toml
-    ```
+If you're feeling lazy, I have provided a script in the [hello gui](../hello_gui) tutorial.
 
 Run Alice's conductor:
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    holochain -c conductor-config-alice.toml
+    hc run --networked sim2h --agent-name Alice
     ```
 
 #### Terminal three
-There's no need to compile again, but you will need to update the hash in Bob's config file:
+There's no need to compile again, but you will need to update the hash in Bob's bundle file.
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    sed -i "s/hash = '.*/hash = 'QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG'/g" conductor-config-bob.toml
-    ```
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    holochain -c conductor-config-bob.toml
-    ```
-Start the second conductor:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    holochain -c conductor-config-bob.toml
-    ```
-
-#### Terminal four 
-
-Go to the root folder of your GUI:
-
-Run the first UI on port `8001`:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    python -m SimpleHTTPServer 8001
-    ```
-#### Terminal five
-
-Still in the root folder of your GUI:
-
-Run the second UI on port `8002`:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    python -m SimpleHTTPServer 8002
+    hc run --networked sim2h --agent-name Bob
     ```
 
 ### Open up the browser
@@ -524,14 +452,11 @@ Open two tabs.
 
 #### Tab Alice
 
-Go to `0.0.0.0:8001`.
+Go to `127.0.0.1:8888`.
 
 #### Tab Bob 
 
-Go to `0.0.0.0:8002`.  
-Enter `3402` into the port text box and click update port.
-
-![Update the port to 3401](../../../img/bobs_port.png)
+Go to `127.0.0.1:8889`.
 
 #### Tab Alice
 

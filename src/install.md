@@ -20,7 +20,7 @@
 <h4>Hardware:</h4>
 
 <ul>
-	<li>8GB+ RAM (16GB+ recommended)</li>
+	<li>4GB+ RAM (16GB+ recommended)</li>
 	<li>4+ CPU (6+ CPU recommended)</li>
 	<li>30GB+ available disk space</li>
 	<li>Internet connection</li>
@@ -36,18 +36,25 @@
 
 <p>We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:</p>
 
+\#S:INCLUDE,MODE=linux
 ```
 curl https://nixos.org/nix/install | sh
 ```
 
+<p>You might need to run this command to get the environment setup:</p>
+
+```bash
+. ~/.nix-profile/etc/profile.d/nix.sh
+```
+
 <p>Check that it installed correctly:</p>
 
-```
-nix-env --version
+```bash
+nix-shell --version
 ```
 
 <p>You should see something like: </p>
-<code>nix-env (Nix) 2.2.2</code>
+<code>nix-shell (Nix) 2.3.1</code>
 
 <p>If you’d like to know more about NixOS and why we use it, you can <a href="../nix/">find information on Nix here</a>.</p>
 
@@ -60,7 +67,7 @@ nix-env --version
 <h4>Hardware:</h4>
 
 <ul>
-    <li>8GB+ RAM (16GB+ recommended)</li>
+    <li>4GB+ RAM (16GB+ recommended)</li>
     <li>4+ CPU (6+ CPU recommended)</li>
     <li>30GB+ available disk space</li>
     <li>Internet connection</li>
@@ -98,50 +105,54 @@ The basic process is the same for all systems.
 
 <p>Create a new folder:</p>
 
-```
+```powershell
 mkdir holochain-vagrant
 ```
 
 <p>Move into the new folder:</p>
 
-```
+```powershell
 cd holochain-vagrant
 ```
 
 <p>Copy the basic, Holochain-optimised Vagrant file:</p>
 
+```powershell
+wget https://gist.githubusercontent.com/thedavidmeister/8e92696538fe04cf6b44552e14d29195/raw/4dcb83b983e8dcd2f5db213b0cde5a533af556a6/Vagrantfile -outfile Vagrantfile
 ```
-wget
-https://gist.githubusercontent.com/thedavidmeister/8e92696538fe04cf6b44552e14d29195/raw/4dcb83b983e8dcd2f5db213b0cde5a533af556a6/Vagrantfile -outfile Vagrantfile
+<p>Add the vagrant nixos plugin if you don't already have it:</p>
+
+```powershell
+vagrant plugin install vagrant-nixos-plugin
 ```
 
 <p>Download and boot the box:</p>
 
-```
+```powershell
 vagrant up
 ```
 
 <p>SSH into the box:</p>
 
-```
+```powershell
 vagrant ssh
 ```
 
 <p>Move into the shared folder</p>
 
-```
+```powershell
 cd /vagrant
 ```
 
 <p>Check that it installed correctly:</p>
 
-```
-nix-env --version
+```powershell
+nix-shell --version
 ```
 
 !!! success "You should see something like:"
     ```
-    nix-env (Nix) 2.2.2
+    nix-shell (Nix) 2.2.2
     ```
 
 <p>If you’d like to know more about Nix and why we use it, you can <a href="../nix/">find information on Nix here</a>.</p>
@@ -154,8 +165,8 @@ nix-env --version
 ## Install Holochain Tools
 
 Now that you have installed Nix, you can run a development shell that contains all the prerequisites, including the correct Rust version and the Holochain tools. This shell won’t interfere with your current Rust installation. Run this command:
-
-```
+\#S:MODE=enter
+```bash
 nix-shell https://holochain.love
 ```
 
@@ -168,24 +179,25 @@ The first time you run this command it will take some time to download and build
 
 Test that Holochain is working by running:
 
+\#S:MODE=nix
 !!! note "Run in `nix-shell https://holochain.love`"
-    ```
+    ```bash
     hc --version
     ```
 
 !!! success "You should see some thing like:"
     ```
-    hc 0.0.35-alpha7
+    hc 0.0.41-alpha4
     ```
 
 !!! note "Run in `nix-shell https://holochain.love`"
-    ```
+    ```bash
     holochain --version
     ```
 
 !!! success "You should see:"
     ```
-    holochain 0.0.35-alpha7
+    holochain 0.0.41-alpha4
     ```
 
 ### Update/Uninstall

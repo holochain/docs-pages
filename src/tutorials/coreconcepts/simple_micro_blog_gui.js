@@ -1,7 +1,4 @@
-// Connect
-var holochain_connection = holochainclient.connect({
-  url: 'ws://localhost:3401',
-});
+var holochain_connection = holochainclient.connect();
 
 // Render functions
 function show_output(result, id) {
@@ -14,12 +11,6 @@ function show_output(result, id) {
   }
 }
 
-function show_person(result) {
-  var person = document.getElementById('person_output');
-  var output = JSON.parse(result);
-  person.textContent = ' ' + output.Ok.name;
-}
-
 // Zome calls
 
 function hello() {
@@ -27,5 +18,22 @@ function hello() {
     callZome('test-instance', 'hello', 'hello_holo')({args: {}}).then(result =>
       show_output(result, 'output'),
     );
+  });
+}
+
+function create_person() {
+  const name = document.getElementById('name').value;
+  holochain_connection.then(({callZome, close}) => {
+    callZome('test-instance', 'hello', 'create_person')({
+      person: {name: name},
+    }).then(result => show_output(result, 'address_output'));
+  });
+}
+function retrieve_person() {
+  var address = document.getElementById('address_in').value;
+  holochain_connection.then(({callZome, close}) => {
+    callZome('test-instance', 'hello', 'retrieve_person')({
+      address: address,
+    }).then(result => show_person(result, 'person_output'));
   });
 }

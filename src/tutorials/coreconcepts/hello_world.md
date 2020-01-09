@@ -32,6 +32,7 @@ Open up your `zomes/hello/code/src/lib.rs` file.
 
 Change the entry sharing to `Sharing::Public`:
 
+\#S:CHANGE
 ```diff
     fn person_entry_def() -> ValidatingEntryType {
         entry!(
@@ -70,7 +71,12 @@ To make sure this has happened, add this line to the end of the scenario:
 Get Bob to retrieve Alice's person using the same address she did when she created the entry: 
 
 ```javascript
-  const bob_retrieve_result = await bob.call('cc_tuts', 'hello', 'retrieve_person', {'address': alice_person_address });
+  const bob_retrieve_result = await bob.call(
+    'cc_tuts',
+    'hello',
+    'retrieve_person',
+    {address: alice_person_address},
+  );
 ```
 
 The result is checked and stored:
@@ -83,12 +89,12 @@ The result is checked and stored:
 Finally, a deeper check makes sure the contents of the two persons match:
 
 ```javascript
-  t.deepEqual(bobs_person, { "name": "Alice"});
+  t.deepEqual(bobs_person, {name: 'Alice'});
 ```
 \#S:HIDE
 ```javascript
-})
-orchestrator.run()
+});
+orchestrator.run();
 ```
 Your test should look like this:
 
@@ -99,7 +105,7 @@ Again, you will need to run the sim2h server in a seperate terminal window:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
-    sim2h_server -p 9000
+    sim2h_server
     ```
 
 ### Run the test
@@ -125,247 +131,48 @@ Now, run the test and make sure it passes:
     # ok
     ```
 
-## Switch to the Holochain conductor
-
-Now, it would be cool to see this happen for real, outside of a test. Up until now, you have only used `hc run` to run a single conductor. However, in order to have two separate conductors communicate on one machine, we need to use the `holochain` cli tool.  
-This takes a bit of setting up.
-
-!!! tip "hc run vs holochain"
-    `hc` and `holochain` are both conductors that host your apps on your users' machines. `hc run` is for testing and development, while `holochain` is for end users. It can host multiple instances of multiple DNAs for multiple users. Normally, Alice and Bob would be running instances of your app in their own conductors on their own machines. But for the purposes of this tutorial, it'll be a lot more convenient to try this on one machine so you don't have to worry about network setup---although, you can use multiple machines if you'd like.
-
-Before you can create the config file, you will need to generate keys for your agents.
-
-Use `hc keygen` in your nix-shell to generate a key for each agent:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    hc keygen -n -p alice.key
-    ```
-
-!!! success "This will output something similar to the following:"
-    ```
-    Generating keystore (this will take a few moments)...
-
-    Successfully created new agent keystore...
-
-    Public address: HcScjdwyq86W3w5y3935jKTcs4x9H9Pev898Ui5J36Sr7TUzoRjMhoNb9fikqez
-    Keystore written to: alice.key 
-
-    You can set this file in a conductor config as keystore_file for an agent.
-    ```
-
-Take note of the `Public address`---you will need it later.
-
-Now, run `hc keygen` again, but copy the key store to bob.key:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    hc keygen -n -p bob.key
-    ```
-
-### Create the conductor config file
-
-Create a new file in the root directory of your project called `conductor-config-alice.toml`.
-
-Add an agent with ID `alice` and name it `Alice`:
-
-```toml
-[[agents]]
-id = 'alice'
-name = 'Alice'
-```
-Now, point the keystore_file at `alice.key` with the public_address set to the `Public address` you generated before:
-```toml
-keystore_file = 'alice.key'
-public_address = 'HcScjdwyq86W3w5y3935jKTcs4x9H9Pev898Ui5J36Sr7TUzoRjMhoNb9fikqez'
-```
-
-> Your public address will be different to this one.
-
-Set your agent to 'test agent' to make it load faster:
-```toml
-test_agent = true
-```
-Next, you need your DNA's hash:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    hc hash 
-    ```
-
-!!! success "You will see something similar to this:"
-    ```
-    DNA hash: QmPMMqNsbNqf3Hbizwwi6gDKw2nnSvpJQyHLG2SMYCCU8R
-    ```
-
-Add the DNA to your config file with the hash you got above:
-
-```toml
-[[dnas]]
-file = 'dist/cc_tuts.dna.json'
-hash = 'QmPMMqNsbNqf3Hbizwwi6gDKw2nnSvpJQyHLG2SMYCCU8R'
-id = 'hc-run-dna'
-```
-
-Create the test instance with the 'Alice' agent:
-
-```toml
-[[instances]]
-agent = 'alice'
-dna = 'hc-run-dna'
-id = 'test-instance'
-
-[instances.storage]
-type = "memory"
-```
-
-Set up the WebSocket interface on socket `3401`:
-
-```toml
-[[interfaces]]
-admin = true
-id = 'websocket-interface'
-
-[[interfaces.instances]]
-id = 'test-instance'
-
-[interfaces.driver]
-port = 3401
-type = 'websocket'
-```
-
-Finally, add the sim2h network connection:
-```toml
-[network]
-type = 'sim2h'
-sim2h_url = 'wss://localhost:9000'
-```
-
-The easiest thing to do now is to copy this config file and change a few lines:
-```bash
-cp conductor-config-alice.toml conductor-config-bob.toml
-```
-
-Change the names to Bob.
-```diff
-[[agents]]
--id = 'alice'
-+ id = 'bob'
-- name = 'Alice'
-+ name = 'Bob'
-```
-Point to Bob's key file and use his public address from before:
-```diff
-- keystore_file = 'alice.key'
-+ keystore_file = 'bob.key'
-- public_address = 'HcScjdwyq86W3w5y3935jKTcs4x9H9Pev898Ui5J36Sr7TUzoRjMhoNb9fikqez'
-+ public_address = 'HcSCj4uMm999rT4B6kfgSYx6ONfg3misvoV76JI9J57KM89ejVf4uwhm7Mm6f7i'
-
-[[instances]]
-- agent = 'alice'
-+ agent = 'bob'
-dna = 'hc-run-dna'
-id = 'test-instance'
-```
-Change the UI WebSocket port to 3402:
-```diff
-[interfaces.driver]
-- port = 3401
-+ port = 3402
-type = 'websocket'
-```
-
-## Allow the UI to choose the conductor 
-
-To use two agents from the GUI, you need a way to specify which conductor the user wants to use. You can do this by setting the port for the WebSocket connection. 
-
-Open up `gui/index.html`.
-
-Add a text box and button in the UI to set the port:
-
-\#S:INCLUDE,MODE=gui
-
-```html
-    <input type="text" id="port" placeholder="Set websocket port" />
-    <button onclick="update_port()" type="button">update port</button>
-```
-\#S:HIDE
-
-```html
-    <script
-      type="text/javascript"
-      src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
-    ></script>
-    <script type="text/javascript" src="hello.js"></script>
-  </body>
-</html>
-```
-\#S:CHECK=html=gui
-
-
-Now, open `gui/hello.js`.
-
-Add an `update_port` function that resets the connection to the new port:
-```javascript
-function update_port() {
-  const port = document.getElementById('port').value;
-  holochain_connection = holochainclient.connect({
-    url: 'ws://localhost:' + port,
-  });
-}
-```
-
-\#S:CHECK=javascript=gui
-
 ## Run the app and two UIs
 
 Now, the fun part---you get to play with what you just wrote.  
 You're going to need a few terminals to do this.
+
+You will tell `hc` to use sim2h networking because you are actually 
+using two separate conductors in this tutorial.
+You will also need to give each conductor a different agent name.
 
 #### Terminal one
 Run the sim2h server.
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    sim2h_server -p 9000
+    sim2h_server
     ```
 
 #### Terminal two 
-Start by running the conductor. It's a bit different this time---instead of `hc run`, you'll use `holochain` directly:
+Start by running the conductor. Set the agent name to `Alice`.
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    holochain -c conductor-config-alice.toml
+    hc package
+    hc run --networked sim2h --agent-name Alice
     ```
+!!! check "Copy the DNA's hash with `hc hash`:"
+    ```
+    DNA hash: QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG
+    ```
+> Your hash will be different but you need to update your `bundle.toml` file.
+
+If you're feeling lazy, I have provided a script in the [hello gui](../hello_gui) tutorial.
 
 #### Terminal three
-Start the second conductor:
+Start the second conductor with agent name set to` Bob`:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    holochain -c conductor-config-bob.toml
+    hc package
+    hc run --networked sim2h --agent-name Alice
     ```
 
-#### Terminal four 
-
-Go to the root folder of your GUI:
-
-Run the first UI on port `8001`:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    python -m SimpleHTTPServer 8001
-    ```
-#### Terminal five
-
-Also in the root folder of your GUI:
-
-Run the second UI on port `8002`:
-
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    python -m SimpleHTTPServer 8002
-    ```
 
 ### Open up the browser
 
@@ -373,14 +180,11 @@ Open two tabs.
 
 #### Tab Alice
 
-Go to `0.0.0.0:8001`.
+Go to `127.0.0.1:8888`.
 
 #### Tab Bob 
 
-Go to `0.0.0.0:8002`.  
-Enter `3402` into the port text box and click 'update port.'
-
-![Update the port to 3401](../../../img/bobs_port.png)
+Go to `127.0.0.1:8889`.
 
 #### Tab Alice
 
