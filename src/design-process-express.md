@@ -14,9 +14,7 @@ You'll find this useful if you're a developer or software architect who has deci
 * What the design process looks like
 * Where Holochain app creation fits into the design process
 * The components you need to design
-* The agent-centric paradigm and how it affects your architectural choices
-* The building blocks of modularity you can use to separate and reuse functionality
-* How to design your authentication, authorization, and access control
+* The building blocks of modularity
 * How Holochain influences your data model
 * How to write a good validation rule
 * Where to put your application logic
@@ -24,7 +22,6 @@ You'll find this useful if you're a developer or software architect who has deci
 * How to connect a user interface or other client
 * The steps to scaffolding and writing your code
 * Available development and testing tools
-* How the application architecture design process fits into the larger design process
 
 ## Why it matters
 
@@ -56,7 +53,11 @@ There are already many good resources about the design process. We don't want to
 * Who is allowed to access or modify information? Are there different classes of privileges?
 * What credentials are needed in order to authorize an agent to join a network or write data?
 
-Each [DNA](../glossary/#dna) has its own [DHT](../glossary/#distributed-hash-table-dht) that is shared by all of its members but is inaccessible to others. You can use this feature to control access to data. The [agent ID](../glossary/#agent-id) [validation rule](../glossary/#validation-rule) allows you to restrict membership in a DHT by rejecting unauthorized agents. Within a DHT you can control write privileges through validation rules for entry and link types.
+There are three basic tools for controlling privileges:
+
+* Store **private user data** as [private entries](../glossary/#private-entry) on a user's [source chain](../glossary/#source-chain).
+* For **membership** and **read access**, use a [DNA](../glossary/#dna). Each [DNA](../glossary/#dna) has its own [DHT](../glossary/#distributed-hash-table-dht) in which all public data is visible to all of its members but is inaccessible to others. The [agent ID](../glossary/#agent-id) [validation rule](../glossary/#validation-rule) allows you to restrict membership in a DHT.
+* Within a DHT you can control **write privileges** through [validation rules](#4-create-validation-rules-for-your-entries-links-and-delete-update-actions) for entry and link types.
 
 ### 2. Plan your app's modules
 
