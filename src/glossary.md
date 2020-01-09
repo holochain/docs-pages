@@ -333,6 +333,10 @@ An arbitrary piece of string content attached to a [link](#link). It can be used
 
 The [DHT entry](#dht-entry) that a [link](#link) points to.
 
+#### Link tag
+
+A piece of content embedded in a [link](#link) that further describes the link beyond its [type](#link-type) or includes information about its [target](#link-target).
+
 #### Link type
 
 A specification for any sort of [link](#link) that a [DNA](#dna) should recognize and understand, similar to an [entry type](#entry-type). It defines the [base](#link-base) and [target](#link-target) [types](#entry-type) that the link is valid for, as well as a [validation rule](#validation-rule). Because links only exist on the [DHT](#distributed-hash-table-dht), all link types are public.
@@ -494,6 +498,10 @@ A modification of application state. In Holochain, state transitions begin life 
 #### Subconscious
 
 The 'base' [validation rules](#validation-rule) defined by the Holochain [nucleus](#nucleus) that check validity of [hashes](#hash) and [provenances](#provenance), as well as the integrity of each [agent](#agent)'s source chain.
+
+#### Trait
+
+A contract or interface that a [zome](#zome) is expected fulfill, consisting of a specification for a collection of [zome functions](#zome-function) and their input and return types. All zomes that promise to implement a trait are expected to supply functions that conform to the trait's specification. A [DNA](#dna) can require that a [bridged](#bridge) DNA supply certain traits, and the [conductor](#conductor) will make sure that this requirement is satisfied.
 
 #### Trustless
 
