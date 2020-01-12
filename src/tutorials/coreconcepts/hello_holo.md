@@ -1,5 +1,7 @@
 \#S:MODE=test
+\#S:INCLUDE
 \#S:EXTERNAL=javascript=hello_holo.js=test
+\#S:EXTERNAL=rust=hello_holo.rs
 # Hello Holo Tutorial
 
 !!! tip "Time & Level"
@@ -39,14 +41,14 @@ nix-shell https://holochain.love
 
 Pick a new home in which all your future Holochain applications will live. Something like  `home_directory/holochain/`.
 
-Then, create a `core_concepts` folder for this tutorial series:
+Then, create a `coreconcepts` folder for this tutorial series:
 
 ```bash
 cd ~
 mkdir holochain 
 cd holochain
-mkdir core_concepts
-cd core_concepts
+mkdir coreconcepts
+cd coreconcepts
 ``` 
 
 It's time to put the Holochain command line tool (`hc`) to work and make your app.
@@ -129,59 +131,38 @@ Let's have a look at the generated code—--open up the `lib.rs` file in an edit
 
 The following are all the imports. You are telling Rust, "Hey, I need things from all these [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) in order to do my job."
 
-\#S:INCLUDE
-```rust
-#![feature(proc_macro_hygiene)]
-extern crate hdk;
-extern crate hdk_proc_macros;
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
-extern crate holochain_json_derive;
-```
-
 The `use` statements are next. They are saying, "I want to use these specific things from the above crates."
 You only need a few items for this tutorial, so go ahead and remove the others:
-\#S:SKIP.
+\#S:CHANGE
 ```diff
 #![feature(proc_macro_hygiene)]
-- #[macro_use]
+-#[macro_use]
 extern crate hdk;
 extern crate hdk_proc_macros;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde_json;
-- #[macro_use]
+-#[macro_use]
 extern crate holochain_json_derive;
+
 use hdk::{
--     entry_definition::ValidatingEntryType,
+-    entry_definition::ValidatingEntryType,
     error::ZomeApiResult,
 };
-- use hdk::holochain_core_types::{
--     entry::Entry,
--     dna::entry_types::Sharing,
-- };
-
-- use hdk::holochain_json_api::{
--     json::JsonString,
--     error::JsonError
-- };
-
-- use hdk::holochain_persistence_api::{
+-use hdk::holochain_core_types::{
+-    entry::Entry,
+-    dna::entry_types::Sharing,
+-};
+-
+-use hdk::holochain_json_api::{
+-    json::JsonString,
+-    error::JsonError
+-};
+-
+-use hdk::holochain_persistence_api::{
 -    cas::content::Address
-- };
-
-use hdk_proc_macros::zome;
-```
-You should be left with:
-
-\#S:INCLUDE
-```rust
-use hdk::{
-    error::ZomeApiResult,
-};
+-};
 
 use hdk_proc_macros::zome;
 ```
@@ -190,7 +171,7 @@ There are a few sections of generated code that are not useful for this tutorial
 
 Remove the following piece of code:
 
-\#S:SKIP
+\#S:CHANGE
 ```diff
 - #[derive(Serialize, Deserialize, Debug, DefaultJson,Clone)]
 - pub struct MyEntry {
@@ -202,19 +183,15 @@ The `my_zome` module is where all your zome code lives. `#[zome]` is a [procedur
 
 Change it to `hello_zome` for this tutorial series:
 
+\#S:CHANGE
 ```diff
 #[zome]
 - mod my_zome {
 + mod hello_zome {
 ```
-\#S:INCLUDE,HIDE
-```rust
-#[zome]
-mod hello_zome {
-```
 
 The `init` function is run when a user starts the app for the first time. Every zome defines this function so it can do some initial setup tasks, but in this zome it doesn't do anything.
-
+\#S:SKIP
 ```rust
     #[init]
     fn init() {
@@ -229,7 +206,6 @@ Return success with the empty value `()`. In Rust, `()` is called the [unit type
 
 This required function is run at application start too, once by the new user and once by the existing peers. It checks that the user is allowed to join the network. In this case, it gives everyone a free pass.
 
-\#S:INCLUDE
 ```rust
     #[validate_agent]
     pub fn validate_agent(validation_data: EntryValidationData<AgentId>) {
@@ -238,8 +214,9 @@ This required function is run at application start too, once by the new user and
 ```
 
 Remove the following template code:
+\#S:INCLUDE
 
-\#S:SKIP
+\#S:CHANGE
 ```diff
 -      #[entry_def]
 -      fn my_entry_def() -> ValidatingEntryType {
@@ -302,7 +279,7 @@ The function `hello_holo` takes no arguments and returns a Holochain result type
 Start the function:
 
 ```rust
-    fn hello_holo() -> ZomeApiResult<String> {
+    pub fn hello_holo() -> ZomeApiResult<String> {
 ```
 
 Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddness that just means "turn this [slice](https://doc.rust-lang.org/std/slice/) into a `String`:"

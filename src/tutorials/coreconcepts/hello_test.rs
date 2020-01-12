@@ -22,7 +22,7 @@ mod hello_zome {
         Ok(())
     }
     #[zome_fn("hc_public")]
-    fn hello_holo() -> ZomeApiResult<String> {
+    pub fn hello_holo() -> ZomeApiResult<String> {
         Ok("Hello Holo".into())
     }
 }

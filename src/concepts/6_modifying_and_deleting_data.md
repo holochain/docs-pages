@@ -8,7 +8,7 @@ Holochain allows agents to mutate immutable data by publishing special **remove*
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Why you can't delete or modify DHT data in the usual way](#public-immutable-databases)
-2. [How to simulate mutability in an immutable database](#simulating-immutability)
+2. [How to simulate mutability in an immutable database](#simulating-mutability)
 3. [Addressing concerns about privacy and storage requirements](#handling-privacy-concerns-and-storage-constraints)
 
 ### <i class="far fa-atom"></i> Why it matters
@@ -28,7 +28,7 @@ Data in a Holochain app is immutable for a few reasons:
 
 However, developers expect to be able to do CRUD (create, read, update, delete) as a basic feature of a database; it's an important part of most apps. So how do we do it on Holochain?
 
-## Simulating immutability
+## Simulating mutability
 
 The answer is that we leave the old entries in place, write new entries, and add a piece of metadata onto the originals to indicate their status. Holochain features two special entry types to do this for you:
 
