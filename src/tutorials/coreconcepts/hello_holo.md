@@ -336,6 +336,10 @@ Enter the following request, which calls the `hello_holo` function and returns t
 
 Congratulations---you have created your first distributed Holochain application! :rocket:
 
+!!! success "Solution"
+    You can check the full solution to this tutorial on [here](https://github.com/freesig/cc_tuts/tree/hello_holo).
+
+
 ### Key takeaways
 - A zome is compiled down to WebAssembly and run by the Holochain conductor.
 - You can call public zome functions through the conductor using HTTP.

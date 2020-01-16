@@ -371,6 +371,9 @@ Now, press the **Say Hello** button and you get your response:
 
 Well done! You have a working GUI that can talk to your Holochain app.
 
+!!! success "Solution"
+    You can check the full solution to this tutorial on [here](https://github.com/freesig/cc_tuts/tree/hello_gui).
+
 ## Key takeaways
 - You can use regular, web front ends to connect to a conductor over WebSocket.
 - The simplest web front end requires JavaScript and HTML.

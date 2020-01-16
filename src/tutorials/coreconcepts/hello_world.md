@@ -200,6 +200,9 @@ Copy the address from the Alice tab and retrieve the person entry:
 
 Hooray! Alice and Bob are now able to share data on the DHT.
 
+!!! success "Solution"
+    You can check the full solution to this tutorial on [here](https://github.com/freesig/cc_tuts/tree/hello_world).
+
 ## Key takeaways
 - Entries need to be explicitly marked public or they will only be committed to an agent's local chain.
 - A public entry will be passed to other agents via gossip, validated and held.

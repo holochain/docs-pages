@@ -248,6 +248,9 @@ This will compile and run the test scenario you just wrote. You will see a lot o
 
 Congratulations! You have tested your first Holochain app. Look at you go! :sparkles: 
 
+!!! success "Solution"
+    You can check the full solution to this tutorial on [here](https://github.com/freesig/cc_tuts/tree/hello_test).
+
 ## Key takeaways
 - Testing is done through the tests folder and uses the Tryorama testing JavaScript framework.
 - Tests are arranged into scenarios and are run by the conductor.
