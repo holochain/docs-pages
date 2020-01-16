@@ -478,6 +478,9 @@ Copy Alice's agent ID and try retrieving her posts from Bob's conductor:
 
 Congratulations! You have created a simple blog hApp running on a decentralized network. :smiley:
 
+!!! success "Solution"
+    You can check the full solution to this tutorial on [here](https://github.com/freesig/cc_tuts/tree/simple_micro_blog).
+
 ## Key takeaways
 - Entries are only located via their hash.
 - Two identical entries will have the same hash and be treated as the same entry.

@@ -658,6 +658,9 @@ You should see something like this:
 
 Well done! You have stored and retrieved data from a private source chain using a GUI!
 
+!!! success "Solution"
+    You can check the full solution to this tutorial on [here](https://github.com/freesig/cc_tuts/tree/hello_me).
+
 ## Key takeaways
 - Entries can be defined using Rust types.
 - Entry definitions tell Holochain about the data it can hold and how to validate it.
