@@ -520,6 +520,9 @@ Pass in the element's ID so that the function can be reused:
 -  var span = document.getElementById('output');
 +  var el = document.getElementById(id);
   var output = JSON.parse(result);
+  ...
+-  span.textContent = ' ' + output.Ok;
++  el.textContent = ' ' + output.Ok; 
 ```
 It would also be nice to have some error checking.
 Add in a if statement that checks that `Ok` is not null:
