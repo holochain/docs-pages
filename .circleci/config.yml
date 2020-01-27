@@ -62,9 +62,8 @@ jobs:
           command: ./test_install.sh
 
   test_install_mac:
-    build:
-      macos:
-        xcode: 11.3.0
+    macos:
+      xcode: 11.3.0
     steps:
       - checkout
       - attach_workspace:
