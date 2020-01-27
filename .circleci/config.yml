@@ -48,7 +48,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - $HOME/.cargo/bin/
+            - .cargo/bin/
 
   test_install:
     docker:
