@@ -37,7 +37,7 @@ jobs:
           command: ./nix_test_release.sh
 
 
-  test_install:
+  prep_install_test:
     docker:
       - image: holochain/holonix:latest
     steps:
@@ -45,9 +45,33 @@ jobs:
       - run:
           name: Get single_source 
           command: nix-shell https://holochain.love --run 'cargo install single_source' 
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ~/.cargo/bin/
+
+  test_install:
+    docker:
+      - image: buildpack-deps:bionic
+    steps:
+      - checkout
+      - attach_workspace:
+          at: . 
       - run:
           name: Run all tests
-          command: nix-shell https://holochain.love --run './test_install.sh' 
+          command: ./test_install.sh
+
+  test_install_mac:
+    build:
+      macos:
+        xcode: 11.3.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: . 
+      - run:
+          name: Run all tests
+          command: ./test_install.sh
 
   build-mkdocs:
     docker:
@@ -91,7 +115,23 @@ workflows:
               only: 
                 - develop
                 - master
+      - prep_install_test:
+          filters:
+            branches:
+              only: 
+                - develop
+                - master
       - test_install:
+          requires:
+            - prep_install_test
+          filters:
+            branches:
+              only: 
+                - develop
+                - master
+      - test_install_mac:
+          requires:
+            - prep_install_test
           filters:
             branches:
               only: 
