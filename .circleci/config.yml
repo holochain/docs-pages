@@ -37,26 +37,16 @@ jobs:
           command: ./nix_test_release.sh
 
 
-  prep_install_test:
-    docker:
-      - image: holochain/holonix:latest
-    steps:
-      - checkout
-      - run:
-          name: Get single_source 
-          command: nix-shell https://holochain.love --run 'cargo install single_source' 
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .cargo/bin/
-
   test_install:
     docker:
-      - image: buildpack-deps:bionic
+      - image: buildpack-deps:rust
     steps:
       - checkout
       - attach_workspace:
           at: . 
+      - run:
+          name: Get single_source 
+          command: cargo install single_source
       - run:
           name: Run all tests
           command: ./test_install.sh
@@ -66,8 +56,9 @@ jobs:
       xcode: 11.3.0
     steps:
       - checkout
-      - attach_workspace:
-          at: . 
+      - run:
+          name: Install Rust
+          command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -S -- -y
       - run:
           name: Run all tests
           command: ./test_install.sh
@@ -114,23 +105,13 @@ workflows:
               only: 
                 - develop
                 - master
-      - prep_install_test:
-          filters:
-            branches:
-              only: 
-                - develop
-                - master
       - test_install:
-          requires:
-            - prep_install_test
           filters:
             branches:
               only: 
                 - develop
                 - master
       - test_install_mac:
-          requires:
-            - prep_install_test
           filters:
             branches:
               only: 
