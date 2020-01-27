@@ -39,7 +39,7 @@ jobs:
 
   test_install:
     docker:
-      - image: buildpack-deps:rust
+      - image: circleci/rust:latest
     steps:
       - checkout
       - attach_workspace:
