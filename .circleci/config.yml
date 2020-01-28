@@ -48,6 +48,9 @@ jobs:
           name: Get single_source 
           command: cargo install single_source
       - run:
+          name: remove sandbox
+          command: echo 'sandbox = false' > /etc/nix/nix.conf
+      - run:
           name: Run all tests
           command: ./test_install.sh
 
@@ -60,8 +63,8 @@ jobs:
           name: Install Rust
           command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
       - run:
-        name: remove sandbox
-        command: echo 'sandbox = false' > /etc/nix/nix.conf
+          name: remove sandbox
+          command: echo 'sandbox = false' > /etc/nix/nix.conf
       - run:
           name: Run all tests
           command: ./test_install.sh
