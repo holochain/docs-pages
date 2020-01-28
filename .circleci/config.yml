@@ -60,6 +60,9 @@ jobs:
           name: Install Rust
           command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
       - run:
+        name: remove sandbox
+        command: echo 'sandbox = false' > /etc/nix/nix.conf
+      - run:
           name: Run all tests
           command: ./test_install.sh
 
