@@ -58,7 +58,7 @@ jobs:
       - checkout
       - run:
           name: Install Rust
-          command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -S -- -y
+          command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
       - run:
           name: Run all tests
           command: ./test_install.sh
