@@ -49,10 +49,10 @@ jobs:
           command: cargo install single_source
       - run:
           name: remove sandbox
-          command: export USER=$(whoami) && sudo mkdir -p /nix /etc/nix && sudo chmod a+rwx /nix && sudo chmod a+rwx /etc/nix && sudo chown -R $USER:$USER /nix && sudo chown -R $USER:$USER /etc/nix && echo 'sandbox = false' > /etc/nix/nix.conf
+          command:  sudo mkdir -p /nix /etc/nix && sudo chmod a+rwx /nix && sudo chmod a+rwx /etc/nix && sudo chown -R $USER:$USER /nix && sudo chown -R $USER:$USER /etc/nix && echo 'sandbox = false' > /etc/nix/nix.conf
       - run:
           name: Run all tests
-          command: ./test_install.sh
+          command: export USER=$(whoami) && ./test_install.sh
 
   test_install_mac:
     macos:
@@ -70,7 +70,7 @@ jobs:
           command: export USER=$(whoami) && sudo mkdir -p /nix /etc/nix && sudo chmod a+rwx /nix && sudo chmod a+rwx /etc/nix && sudo chown -R $USER:$USER /nix && sudo chown -R $USER:$USER /etc/nix && echo 'sandbox = false' > /etc/nix/nix.conf
       - run:
           name: Run all tests
-          command: ./test_install.sh
+          command: export USER=$(whoami) && ./test_install.sh
 
   build-mkdocs:
     docker:
