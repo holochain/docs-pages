@@ -67,7 +67,7 @@ jobs:
           command: cargo install single_source
       - run:
           name: Run all tests
-          command: export USER=$(whoami) && ./test_install.sh
+          command: export USER=$(whoami) && ./test_install_mac.sh
 
   build-mkdocs:
     docker:
