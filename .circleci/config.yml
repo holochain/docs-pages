@@ -49,7 +49,7 @@ jobs:
           command: cargo install single_source
       - run:
           name: remove sandbox
-          command: chown -R $USER:$USER / && mkdir -p /nix /etc/nix && chmod a+rwx /nix && echo 'sandbox = false' > /etc/nix/nix.conf
+          command: sudo mkdir -p /nix /etc/nix && chmod a+rwx /nix && echo 'sandbox = false' > /etc/nix/nix.conf
       - run:
           name: Run all tests
           command: ./test_install.sh
@@ -64,7 +64,7 @@ jobs:
           command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
       - run:
           name: remove sandbox
-          command: chown -R $USER:$USER / && mkdir -p /nix /etc/nix && chmod a+rwx /nix && echo 'sandbox = false' > /etc/nix/nix.conf
+          command: sudo mkdir -p /nix /etc/nix && chmod a+rwx /nix && echo 'sandbox = false' > /etc/nix/nix.conf
       - run:
           name: Run all tests
           command: ./test_install.sh
