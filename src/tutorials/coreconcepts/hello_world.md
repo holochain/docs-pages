@@ -170,7 +170,7 @@ Start the second conductor with agent name set to `Bob`:
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
     hc package
-    hc run --networked sim2h --agent-name Bob
+    hc run --networked sim2h --agent-name Bob --port 8889
     ```
 
 
