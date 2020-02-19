@@ -165,12 +165,12 @@ Start by running the conductor. Set the agent name to `Alice`.
 If you're feeling lazy, I have provided a script in the [hello gui](../hello_gui) tutorial.
 
 #### Terminal three
-Start the second conductor with agent name set to` Bob`:
+Start the second conductor with agent name set to `Bob`:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
     hc package
-    hc run --networked sim2h --agent-name Alice
+    hc run --networked sim2h --agent-name Bob --port 8889
     ```
 
 
