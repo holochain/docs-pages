@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 rm -fr docs
 cp -r src docs
 rm -fr docs/tutorials/coreconcepts/*
