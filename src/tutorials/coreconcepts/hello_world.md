@@ -154,7 +154,6 @@ Start by running the conductor. Set the agent name to `Alice`.
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
     hc package
-    hc run --networked sim2h --agent-name Alice --port 8888
     ```
 !!! check "Copy the DNA's hash with `hc hash`:"
     ```
@@ -162,7 +161,13 @@ Start by running the conductor. Set the agent name to `Alice`.
     ```
 > Your hash will be different but you need to update your `bundle.toml` file.
 
-If you're feeling lazy, I have provided a script in the [hello gui](../hello_gui) tutorial.
+If you're feeling lazy, I have provided a script in the [hello gui](../hello_gui/#run-the-bundle) tutorial.
+
+!!! note "Run in `nix-shell https://holochain.love`"
+    ```
+    hc run --networked sim2h --agent-name Alice --port 8888
+    ```
+
 
 #### Terminal three
 Start the second conductor with agent name set to `Bob`:
