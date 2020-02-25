@@ -39,15 +39,35 @@ jobs:
 
   test_install:
     docker:
-      - image: holochain/holonix:latest
+      - image: circleci/rust:latest
+    steps:
+      - checkout
+      - attach_workspace:
+          at: . 
+      - run:
+          name: Get single_source 
+          command: cargo install single_source
+      - run:
+          name: remove sandbox
+          command:  sudo mkdir -p /nix /etc/nix && sudo chmod a+rwx /nix && sudo chmod a+rwx /etc/nix && sudo chown -R $USER:$USER /nix && sudo chown -R $USER:$USER /etc/nix && echo 'sandbox = false' > /etc/nix/nix.conf
+      - run:
+          name: Run all tests
+          command: export USER=$(whoami) && ./test_install.sh
+
+  test_install_mac:
+    macos:
+      xcode: 11.3.0
     steps:
       - checkout
       - run:
+          name: Install Rust
+          command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      - run:
           name: Get single_source 
-          command: nix-shell https://holochain.love --run 'cargo install single_source' 
+          command: cargo install single_source
       - run:
           name: Run all tests
-          command: nix-shell https://holochain.love --run './test_install.sh' 
+          command: export USER=$(whoami) && ./test_install_mac.sh
 
   build-mkdocs:
     docker:
