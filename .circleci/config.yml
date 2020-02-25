@@ -117,12 +117,6 @@ workflows:
               only: 
                 - develop
                 - master
-      - test_install_mac:
-          filters:
-            branches:
-              only: 
-                - develop
-                - master
       - test_release:
           filters:
             branches:

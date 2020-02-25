@@ -37,22 +37,7 @@
 <p>We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:</p>
 
 <h4>Catalina</h4>
-If you are using MacOS Catalina you will need to do the following work around.
-\#S:INCLUDE,MODE=mac
-```bash
-echo 'nix' | sudo tee -a /etc/synthetic.conf
-```
-<p>Then reboot </p>
-```bash
-sudo diskutil apfs addVolume disk1 APFSX Nix -mountpoint /nix
-sudo diskutil enableOwnership /nix
-sudo chflags hidden /nix
-echo "LABEL=Nix /nix apfs rw" | sudo tee -a /etc/fstab 
-```
-```bash
-sh <(curl https://nixos.org/nix/install) --daemon
-```
-<p>Then reboot again and continue from the `nix-shell --version` step down further.</p>
+If you are using MacOS Catalina you will need to do look into a work around. There is an active issue <a href="https://github.com/NixOS/nix/issues/2925"> here</a> that may help.
 
 \#S:INCLUDE,MODE=linux
 ```bash

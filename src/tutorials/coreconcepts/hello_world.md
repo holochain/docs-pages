@@ -154,7 +154,7 @@ Start by running the conductor. Set the agent name to `Alice`.
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
     hc package
-    hc run --networked sim2h --agent-name Alice
+    hc run --networked sim2h --agent-name Alice --port 8888
     ```
 !!! check "Copy the DNA's hash with `hc hash`:"
     ```
