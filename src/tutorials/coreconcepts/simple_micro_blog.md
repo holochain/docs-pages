@@ -435,7 +435,7 @@ If you're feeling lazy, I have provided a script in the [hello gui](../hello_gui
 Run Alice's conductor:
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    hc run --networked sim2h --agent-name Alice
+    hc run --networked sim2h --agent-name Alice --port 8888
     ```
 
 #### Terminal three
@@ -443,7 +443,7 @@ There's no need to compile again, but you will need to update the hash in Bob's 
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    hc run --networked sim2h --agent-name Bob
+    hc run --networked sim2h --agent-name Bob --port 8889
     ```
 
 ### Open up the browser
