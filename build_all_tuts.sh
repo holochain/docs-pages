@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 ~/.cargo/bin/single_source md src/tutorials/coreconcepts/hello_holo.md docs/tutorials/coreconcepts/hello_holo.md
 ~/.cargo/bin/single_source md src/tutorials/coreconcepts/hello_test.md docs/tutorials/coreconcepts/hello_test.md
