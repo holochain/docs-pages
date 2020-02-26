@@ -15,139 +15,134 @@
 
 <div class="tabcontent" id="content_1">
 
-<h3>System Requirements</h3>
+### System Requirements
 
-<h4>Hardware:</h4>
+#### Hardware:
 
-<ul>
-	<li>4GB+ RAM (16GB+ recommended)</li>
-	<li>4+ CPU (6+ CPU recommended)</li>
-	<li>30GB+ available disk space</li>
-	<li>Internet connection</li>
-</ul>
+* 4GB+ RAM (16GB+ recommended)
+* 4+ CPU (6+ CPU recommended)
+* 30GB+ available disk space
+* Internet connection
 
-<h4>Pre-Installed Software:</h4>
+#### Pre-Installed Software:
 
-<ul>
-	<li><a href="https://apps.apple.com/us/app/xcode/id497799835?mt=12">xCode developer tools</a> (Mac only)</li>
-</ul>
+* [xCode developer tools](https://apps.apple.com/us/app/xcode/id497799835?mt=12) (Mac only)
 
-<h3>Mac / Linux Environment Setup</h3>
+### Mac / Linux Environment Setup
 
-<p>We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:</p>
+We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:
 
-<h4>Catalina</h4>
-If you are using MacOS Catalina you will need to do look into a work around. There is an active issue <a href="https://github.com/NixOS/nix/issues/2925"> here</a> that may help.
+#### Catalina
+
+If you are using MacOS Catalina you will need to do look into a work around. There is an active issue [here](https://github.com/NixOS/nix/issues/2925) that may help.
 
 \#S:INCLUDE,MODE=linux
 ```bash
 curl https://nixos.org/nix/install | sh
 ```
 
-<p>You might need to run this command to get the environment setup:</p>
+You might need to run this command to get the environment setup:
 
 ```bash
 . ~/.nix-profile/etc/profile.d/nix.sh
 ```
 
-<p>Check that it installed correctly:</p>
+Check that it installed correctly:
 
 ```bash
 nix-shell --version
 ```
 
-<p>You should see something like: </p>
-<code>nix-shell (Nix) 2.3.1</code>
+You should see something like:
 
-<p>If you’d like to know more about NixOS and why we use it, you can <a href="../nix/">find information on Nix here</a>.</p>
+```bash
+nix-shell (Nix) 2.3.1
+```
+
+If you’d like to know more about NixOS and why we use it, you can [find information on Nix here](../nix/).
 
 </div>
 
 <div class="tabcontent" id="content_2" style="display:none;">
 
-<h3>System Requirements</h3>
+### System Requirements
 
-<h4>Hardware:</h4>
+#### Hardware:
 
-<ul>
-    <li>4GB+ RAM (16GB+ recommended)</li>
-    <li>4+ CPU (6+ CPU recommended)</li>
-    <li>30GB+ available disk space</li>
-    <li>Internet connection</li>
-</ul>
+* 4GB+ RAM (16GB+ recommended)
+* 4+ CPU (6+ CPU recommended)
+* 30GB+ available disk space
+* Internet connection
 
-<h4>Operating System & Software:</h4>
+#### Operating System & Software:
 
-<ul>
-    <li>Windows 8+</li>
-    <li>Powershell 2.0+</li>
-    <li><a href="https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.msi">Vagrant</a></li>
-    <li><a href="https://download.virtualbox.org/virtualbox/6.0.8/VirtualBox-6.0.8-130520-Win.exe">VirtualBox</a></li>
-    <li><a href="https://github.com/nix-community/vagrant-nixos-plugin">Vagrant nixos plugin</a></li>
-</ul>
+* Windows 8+
+* Powershell 2.0+
+* [Vagrant](https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.msi)
+* [VirtualBox](https://download.virtualbox.org/virtualbox/6.0.8/VirtualBox-6.0.8-130520-Win.exe)
+* [Vagrant nixos plugin](https://github.com/nix-community/vagrant-nixos-plugin)
 
-<h3>Windows Environment Setup</h3>
+### Windows Environment Setup
 
-<p>Holochain development uses the same tools across Mac, Windows, and Linux. However the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux.</p>
+Holochain development uses the same tools across Mac, Windows, and Linux. However the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux.
 
-<p>We expect this to change in the future. <a href="https://github.com/NixOS/nixpkgs/issues/30391">NixOS for Windows is in active development!</a></p>
+We expect this to change in the future. [NixOS for Windows is in active development!](https://github.com/NixOS/nixpkgs/issues/30391)
 
-<p>In the meantime, you will need to work with a virtual machine.</p>
+In the meantime, you will need to work with a virtual machine.
 
-<p>The process is similar to working with a local web server.<br>
-There are Holochain optimized options for both <a href="https://github.com/NixOS/nixpkgs/issues/30391">Docker</a> and <a href="https://github.com/NixOS/nixpkgs/issues/30391">Vagrant</a>.<br>
+The process is similar to working with a local web server.
+There are Holochain optimized options for both [Docker](https://github.com/NixOS/nixpkgs/issues/30391) and [Vagrant](https://github.com/NixOS/nixpkgs/issues/30391).<br>
 It is relatively simple to create custom setups with the official NixOS boxes.</p>
 
-<h4>This guide explains using NixOS with Vagrant/VirtualBox.</h4>
+#### This guide explains using NixOS with Vagrant/VirtualBox.
 
-<blockquote>
-Note:  <br>
-All these commands assume Windows powershell 2.0+.  <br>
-The basic process is the same for all systems.
-</blockquote>
+!!! note
+    All these commands assume Windows powershell 2.0+.
+    The basic process is the same for all systems.
 
-<p>Create a new folder:</p>
+Create a new folder:
 
 ```powershell
 mkdir holochain-vagrant
 ```
 
-<p>Move into the new folder:</p>
+Move into the new folder:
 
 ```powershell
 cd holochain-vagrant
 ```
 
-<p>Copy the basic, Holochain-optimised Vagrant file:</p>
+Copy the basic, Holochain-optimised Vagrant file:
 
 ```powershell
 wget https://gist.githubusercontent.com/thedavidmeister/8e92696538fe04cf6b44552e14d29195/raw/4dcb83b983e8dcd2f5db213b0cde5a533af556a6/Vagrantfile -outfile Vagrantfile
 ```
-<p>Add the vagrant nixos plugin if you don't already have it:</p>
+
+Add the vagrant nixos plugin if you don't already have it:
 
 ```powershell
 vagrant plugin install vagrant-nixos-plugin
 ```
 
-<p>Download and boot the box:</p>
+Download and boot the box:
 
 ```powershell
 vagrant up
 ```
 
-<p>SSH into the box:</p>
+SSH into the box:
 
 ```powershell
 vagrant ssh
 ```
 
-<p>Move into the shared folder</p>
+Move into the shared folder
 
 ```powershell
 cd /vagrant
 ```
 
-<p>Check that it installed correctly:</p>
+Check that it installed correctly:
 
 ```powershell
 nix-shell --version
@@ -158,8 +153,8 @@ nix-shell --version
     nix-shell (Nix) 2.2.2
     ```
 
-<p>If you’d like to know more about Nix and why we use it, you can <a href="../nix/">find information on Nix here</a>.</p>
-<p>If you’d like to know more the Windows / Vagrant setup you can <a href="../vagrant/">find information here</a>.</p>
+If you’d like to know more about Nix and why we use it, you can [find information on Nix here](../nix/).
+If you’d like to know more the Windows / Vagrant setup you can [find information here](../vagrant/).
 
 </div>
 
@@ -168,12 +163,13 @@ nix-shell --version
 ## Install Holochain Tools
 
 Now that you have installed Nix, you can run a development shell that contains all the prerequisites, including the correct Rust version and the Holochain tools. This shell won’t interfere with your current Rust installation. Run this command:
+
 \#S:MODE=enter
 ```bash
 nix-shell https://holochain.love
 ```
 
-The first time you run this command it will take some time to download and build, but it will be much faster the next time. 
+The first time you run this command it will take some time to download and build, but it will be much faster the next time.
 
 !!! info "When it’s complete, you will see a new prompt starting with:"
     ```
@@ -204,12 +200,14 @@ Test that Holochain is working by running:
     ```
 
 ### Update/Uninstall
+
 With nix-shell, you don’t need to worry about updating or uninstalling; when you enter the nix-shell, everything is the latest release and is then cleaned up when you exit.
 
 ### Editor
+
 In most cases you can run your editor as normal. However, if you are using an integrated developer environment or IDE that needs to communicate with the Holochain dependencies then you should launch it from inside the nix-shell.
 
-> To do this just open your editor while you are in the nix-shell like:
+To do this just open your editor while you are in the nix-shell like:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
@@ -234,12 +232,12 @@ function rudrSwitchTab(rudr_tab_id, rudr_tab_content) {
 		x[i].style.display = 'none'; // hide all tab content
 	}
 	document.getElementById(rudr_tab_content).style.display = 'block'; // display the content of the tab we need
- 
+
 	// now we get all tab menu items by class names (use the next code only if you need to highlight current tab)
 	var x = document.getElementsByClassName("tabmenu");
 	var i;
 	for (i = 0; i < x.length; i++) {
-		x[i].className = 'tabmenu'; 
+		x[i].className = 'tabmenu';
 	}
 	document.getElementById(rudr_tab_id).className = 'tabmenu active';
 }
