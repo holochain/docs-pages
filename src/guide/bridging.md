@@ -4,7 +4,7 @@ As you saw in [Building Apps](./building_apps.md) each **DNA** has a unique hash
 
 So if every app lives in an entirely separated world how can they talk to each other? This is where **bridging** comes into play.
 
-A **bridge** is a connector between two apps (or two versions of the same app, for that matter) that allows a synchronous bidirectional transfer of information between them.
+A **bridge** is a connector between two apps (or two versions of the same app, for that matter) that allows synchronous, bidirectional transfer of information between them. It's important to note that this bridge connects two DNA instances on one machine; therefore, all function calls using this bridge are done from the perspective of the agent, not the apps as a whole.
 
 To use a bridge, right now you need to configure a [production Holochain conductor](./production_conductor.md), at least two instances configured, along the lines of the following example setup (in a **conductor-config.toml** file):
 
