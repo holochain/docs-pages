@@ -54,4 +54,4 @@ Here's an example of what happens in a node-to-node message exchange, using a si
 
 ## Learn more
 
-* [HDK Reference: `send` function](https://developer.holochain.org/api/v0.0.34-alpha1/hdk/api/fn.send.html)
+* [HDK Reference: `send` function](https://docs.rs/hdk/latest/hdk/api/fn.send.html)
