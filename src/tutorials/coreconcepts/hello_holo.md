@@ -245,9 +245,8 @@ Remove the following template code:
 -     }
 ```
 
-> #### A note about return values
-> 
-> You'll often see Rust functions returning some sort of [`Result`](https://doc.rust-lang.org/std/result/) value. This is a special Rust type that can either be `Ok(some_value)` to show that the function succeeded or `Err(some_error)` to report an error. Required Holochain functions, like init and validators, are expected to return a special result type called [`ZomeApiResult`](https://developer.holochain.org/api/latest/hdk/error/type.ZomeApiResult.html), which shuttles data back and forth between your app and the conductor. It also automatically converts data to JSON and back, so it makes sense to use it in your public functions as well.
+!!! info "A note about return values"
+    You'll often see Rust functions returning some sort of [`Result`](https://doc.rust-lang.org/std/result/) value. This is a special Rust type that can either be `Ok(some_value)` to show that the function succeeded or `Err(some_error)` to report an error. Required Holochain functions, like init and validators, are expected to return a special result type called [`ZomeApiResult`](https://docs.rs/hdk/latests/hdk/error/type.ZomeApiResult.html), which shuttles data back and forth between your app and the conductor. It's a useful structure, so it makes sense to use it in the API functions you write as well.
 
 ## Add a function to say "Hello" :)
 
