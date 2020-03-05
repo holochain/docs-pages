@@ -23,7 +23,7 @@ You will need somewhere for all your GUI code to live. This will be a different 
 Create a folder for the GUI to live in:
 
 ```bash
-cd ~/holochain/core_concepts
+cd ~/holochain/coreconcepts
 mkdir gui
 cd gui
 ```
@@ -62,15 +62,6 @@ Add this modern template:
 
     <title>Hello GUI</title>
     <meta name="description" content="GUI for a Holochain app" />
-  </head>
-
-  <body>
-```
-
-Inside the `<body>` tag, add a button that calls the hello function that we will add soon:
-
-```html
-  <button onclick="hello()" type="button">Say Hello</button>
 ```
 
 To make things a bit easier on the eyes, you can add the `water.css` stylesheet.
@@ -83,6 +74,19 @@ Add this water.css link inside the `<head>` tag:
       href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css"
     />
 ```
+\#S:HIDE
+
+```html
+  </head>
+
+  <body>
+```
+Inside the `<body>` tag, add a button that calls the hello function that we will add soon:
+
+```html
+  <button onclick="hello()" type="button">Say Hello</button>
+```
+
 
 \#S:EXTRA
 ```html

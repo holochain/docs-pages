@@ -182,7 +182,6 @@ For this test you simply want to get the Alice user to call the `hello_holo` zom
 
 Register a test scenario that checks `hello_holo()` returns the correct value:
 
-orchestrator.run();
 \#S:INCLUDE
 ```javascript
 orchestrator.registerScenario('Test hello holo', async (s, t) => {
