@@ -159,8 +159,8 @@ Nothing can be invalidated once it's been published and validated, but just as w
 ## Learn more
 
 * [Guidebook: Validate Agent](../../guide/zome/validate_agent)
-* [HDK Reference: Entry validator callback](https://developer.holochain.org/api/v0.0.34-alpha1/hdk/entry_definition/struct.validatingentrytype#structfield.validator)
-* [HDK Reference: Link validator callback](https://developer.holochain.org/api/v0.0.34-alpha1/hdk/entry_definition/struct.validatinglinkdefinition#structfield.validator)
+* [HDK Reference: Entry validator callback](https://docs.rs/hdk/latest/hdk/entry_definition/struct.ValidatingEntryType.html#structfield.validator)
+* [HDK Reference: Link validator callback](https://docs.rs/hdk/latest/hdk/entry_definition/struct.ValidatingLinkDefinition.html#structfield.validator)
 * [Wikipedia: Deterministic algorithm](https://en.wikipedia.org/wiki/Deterministic_algorithm)
 * [Wikipedia: Pure function](https://en.wikipedia.org/wiki/Pure_function)
 * [Wikipedia: Total function](https://en.wikipedia.org/wiki/Partial_function#Total_function)
