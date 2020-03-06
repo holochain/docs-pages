@@ -31,7 +31,7 @@ function create_person() {
   });
 }
 function retrieve_person() {
-  var address = document.getElementById('address_in').value;
+  var address = document.getElementById('address_in').value.trim();
   holochain_connection.then(({callZome, close}) => {
     callZome('test-instance', 'hello', 'retrieve_person')({
       address: address,
