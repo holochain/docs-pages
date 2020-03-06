@@ -388,7 +388,7 @@ To retrieve the posts, update the `retrieve_person` function, and call `display_
 ```diff
 -function retrieve_person() {
 +function retrieve_posts() {
-  var address = document.getElementById('address_in').value;
+  var address = document.getElementById('address_in').value.trim();
   holochain_connection.then(({callZome, close}) => {
 -    callZome('test-instance', 'hello', 'retrieve_person')({
 +    callZome('test-instance', 'hello', 'retrieve_posts')({
