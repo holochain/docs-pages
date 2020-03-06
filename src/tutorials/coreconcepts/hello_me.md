@@ -616,7 +616,7 @@ function retrieve_person() {
 Get the value from the `address_in` text box:
 
 ```javascript
-  var address = document.getElementById('address_in').value;
+  var address = document.getElementById('address_in').value.trim();
 ```
 
 Wait for the connection; then make a zome call:
