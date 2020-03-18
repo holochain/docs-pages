@@ -2,33 +2,74 @@
 
 We use the NixOS toolkit to build consistent development, testing, and deployment environments for Holochain Core and apps.
 
-NixOS development tools run on many operating systems. NixOS is also the OS we use in our automated testing and our HoloPorts.
+The Nix package manager runs on many operating systems. NixOS is also the OS we use in our automated testing and our HoloPorts.
 
 The main components of the tooling for Holochain development are:
 
-* The [Rust](https://holochain.love) programming language
-* [NodeJS](https://holochain.love) and [npm](https://holochain.love)
+* The [Rust](https://rust-lang.org) programming language
+* [Node.JS](https://nodejs.org) and [npm](https://npmjs.com)
 * Cryptographic libraries
 * Common automations and scripts
 
 It is important that these remain consistent across compatible apps and the Holochain Core.
 
-The Holonix repository tracks standard, shared dependencies for all of the scenarios in which we use NixOS. Typically you won’t need to interact with Holonix directly.
+The Holonix repository tracks standard, shared dependencies for all of the scenarios in which we use NixOS. Typically you won’t need to interact with Holonix directly; all you need to do is [install Nix](https://nixos.org/nix/download.html) and start Holonix using the quick install command `nix-shell https://holochain.love`.
 
-The main Nix tool used in Holochain development workflows is <code>nix-shell</code>, a managed Bash shell that overlays a new environment and set of tools on top of your existing environment.
+The main Nix tool used in Holochain development workflows is `nix-shell`, a managed Bash shell that overlays a new environment and set of tools on top of your existing environment.
 
 Many popular package management tools only target a single OS. NixOS package management supports most OSes.
 
-The full suite of Nix tooling is broad and deep. There’s even a dedicated OS and functional programming language. Learn more with the [NixOS Wiki](https://nixos.wiki/wiki/Main_Page) or the [Pills](https://nixos.org/nixos/nix-pills/) Tutorial. The community IRC chat at <code>#nixos</code> on freenode is active and helpful.
+The full suite of Nix tooling is broad and deep. There’s even a dedicated OS and functional programming language. Learn more with the [NixOS Wiki](https://nixos.wiki/wiki/Main_Page) or the [Pills](https://nixos.org/nixos/nix-pills/) Tutorial. The community IRC chat at `#nixos` on freenode is active and helpful.
 
 ## nix-shell
 
-While working on Holochain, you will usually have an active <code>nix-shell</code> to run commands. All the extra dependencies and environment variables will be cleaned up automatically when you close the shell.
+While working on Holochain, you will usually have an active `nix-shell` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell --- environment variables, binaries, and libraries --- giving you a consistent development environment to build Holochain apps. On the initial run, and any time a component has been updated, it will take some time to download and build. It gets much faster on subsequent runs. All this setup will be cleaned up automatically when you close the shell.
 
-<code>nix-shell</code> will give you the latest releases every time you enter it. Nix is configured by <code>default.nix</code> files; these set all dependencies and variables that are added to your terminal.
+If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix-shell`. The files are cached locally on your machine, so they will not be re-downloaded or rebuilt the next time you enter the shell.
 
-You can extend the master <code>default.nix</code> file or use it directly from [https://holochain.love](https://holochain.love). Opening a shell from holochain.love downloads updates automatically. The initial run will take some time to download and build. It gets much faster on subsequent runs.
+## Three ways to install and enter the Holonix environment
 
-<code>nix-shell</code> cleans up everything it added when you exit. You need to re-enter the shell each time you want to work.
+Nix is configured by `default.nix` files. Running the command
 
-> Note: The files are cached locally on your machine, so they will not be re-downloaded or rebuilt the next time you enter the shell.
+```bash
+nix-shell <path_or_url_to_nix_config_file>
+```
+
+will configure the environment and enter the newly created shell for you.
+
+### The 'blessed' release --- always up-to-date with stable tools
+
+Holochain development is moving fast, so we regularly make breaking changes, introduce testing and debugging plumbing, and discover bugs. If you want a reasonably stable environment, stick with the blessed releases. They've gone through automated and manual testing and are considered ready for day-to-day use (though with a level of stability that you can expect from an alpha release).
+
+The website [https://holochain.love](https://holochain.love) always has the newest blessed `default.nix` file from the Holonix project, so all you need to do to install or update is enter your terminal and run:
+
+```bash
+nix-shell https://holochain.love
+```
+
+If we announce a new release and you would like to use it, remember to exit your nix-shell and re-enter it.
+
+### Unblessed releases
+
+If you need certain functionality sooner or just want to track the bleeding edge, you can use the `default.nix` file directly from the [Holonix repository](https://github.com/holochain/holonix). The `master` branch always installs the newest release of Holochain, whether blessed or unblessed. Here's how to use the unblessed release:
+
+```bash
+git clone https://github.com/holochain/holonix
+cd holonix
+nix-shell
+```
+
+Whenever you want to update to the newest release, just pull the newest changes on the master branch:
+
+```bash
+git pull
+nix-shell
+```
+
+### Per-project pinned releases
+
+Every DNA project you create with `hc init` has its own `default.nix` file that targets the version of Holochain and the HDK that it was created with. To start `nix-shell` with that specific version, go into the project directory and type:
+
+```bash
+nix-shell
+```
