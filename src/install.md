@@ -1,7 +1,7 @@
 # Install Holochain
 
 <div markdown="1" class="coreconcepts-intro">
-This guide will get you set up with the latest 'blessed' Holochain developer environment on macOS, Linux, and Windows. Blessed releases are reasonably stable, while in-between releases may have bugs or are meant for internal use. If you'd like to install an in-between release, read our [advanced guide](../nix/#unblessed-releases).
+This guide will get you set up with the latest 'blessed' Holochain developer environment on macOS, Linux, and Windows. Blessed releases are reasonably stable for daily hApp development, while in-between releases may have bugs or are meant for internal use. If you'd like to install an in-between release, read our [advanced guide](../nix/#unblessed-releases).
 </div>
 
 ## Hardware Requirements

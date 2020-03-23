@@ -11,19 +11,19 @@ The main components of the tooling for Holochain development are:
 * Cryptographic libraries
 * Common automations and scripts
 
-It is important that these remain consistent across compatible apps and the Holochain Core.
+It is important that these remain consistent across compatible apps and the Holochain Core, so you can get your work done without fighting package and compiler issues.
 
 The Holonix repository tracks standard, shared dependencies for all of the scenarios in which we use NixOS. Typically you won’t need to interact with Holonix directly; all you need to do is [install Nix](https://nixos.org/nix/download.html) and start Holonix using the quick install command `nix-shell https://holochain.love`.
 
 The main Nix tool used in Holochain development workflows is `nix-shell`, a managed Bash shell that overlays a new environment and set of tools on top of your existing environment.
 
-Many popular package management tools only target a single OS. NixOS package management supports most OSes.
+Many popular package management tools only target a single OS. Nix package management supports most OSes.
 
 The full suite of Nix tooling is broad and deep. There’s even a dedicated OS and functional programming language. Learn more with the [NixOS Wiki](https://nixos.wiki/wiki/Main_Page) or the [Pills](https://nixos.org/nixos/nix-pills/) Tutorial. The community IRC chat at `#nixos` on freenode is active and helpful.
 
 ## nix-shell
 
-While working on Holochain, you will usually have an active `nix-shell` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell --- environment variables, binaries, and libraries --- giving you a consistent development environment to build Holochain apps. On the initial run, and any time a component has been updated, it will take some time to download and build. It gets much faster on subsequent runs. All this setup will be cleaned up automatically when you close the shell.
+While working on Holochain, you will usually have an active `nix-shell` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell---environment variables, binaries, and libraries---giving you a consistent development environment to build Holochain apps. All this setup will be cleaned up automatically when you close the shell.
 
 If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix-shell`. The files are cached locally on your machine, so they will not be re-downloaded or rebuilt the next time you enter the shell.
 
@@ -35,9 +35,9 @@ Nix is configured by `default.nix` files. Running the command
 nix-shell <path_or_url_to_nix_config_file>
 ```
 
-will configure the environment and enter the newly created shell for you.
+will configure the environment and enter the newly created shell for you. On the initial run, and any time a component has been updated, it will take some time to download and build. It gets much faster on subsequent runs.
 
-### The 'blessed' release --- always up-to-date with stable tools
+### The 'blessed' release---always up-to-date with stable tools
 
 Holochain development is moving fast, so we regularly make breaking changes, introduce testing and debugging plumbing, and discover bugs. If you want a reasonably stable environment, stick with the blessed releases. They've gone through automated and manual testing and are considered ready for day-to-day use (though with a level of stability that you can expect from an alpha release).
 
@@ -58,6 +58,8 @@ git clone https://github.com/holochain/holonix
 cd holonix
 nix-shell
 ```
+
+If you don't specify a config file, `nix-shell` will always search the current directory.
 
 Whenever you want to update to the newest release, just pull the newest changes on the master branch:
 
