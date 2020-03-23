@@ -1,7 +1,7 @@
 # Install Holochain
 
 <div markdown="1" class="coreconcepts-intro">
-This guide will get you set up with the latest 'blessed' Holochain developer environment on macOS, Linux, and Windows. Blessed releases are reasonably stable, while in-between releases may have bugs or are meant for internal use. If you'd like to install an in-between release, read our [advanced guide](../nix/#unblessed-releases).
+This guide will get you set up with the latest 'blessed' Holochain developer environment on macOS, Linux, and Windows. Blessed releases are reasonably stable for daily hApp development, while in-between releases may have bugs or are meant for internal use. If you'd like to install an in-between release, read our [advanced guide](../nix/#unblessed-releases).
 </div>
 
 ## Hardware Requirements
@@ -24,7 +24,7 @@ This guide will get you set up with the latest 'blessed' Holochain developer env
     </div>
 </div>
 
-<div markdown="1" class="tabcontent" id="content_1">
+<div markdown="1" class="tabcontent" data-tabid="tab_1" id="content_1">
 
 ## Mac / Linux
 
@@ -73,7 +73,7 @@ If you’d like to know more about NixOS and why we use it, you can [find inform
 
 </div>
 
-<div markdown="1" class="tabcontent" id="content_2" style="display:none;">
+<div markdown="1" class="tabcontent" id="content_2" data-tabid="tab_2" style="display:none;">
 
 ## Windows
 
@@ -226,4 +226,36 @@ function rudrSwitchTab(rudr_tab_id, rudr_tab_content) {
     }
     document.getElementById(rudr_tab_id).className = 'tabmenu active';
 }
+
+// If there's a fragment identifier on the URL, switch to the correct tab.
+function switchToTabForFragmentIfNecessary() {
+    var fragment = window.location.hash.slice(1);
+    if (!fragment)
+        // Nothing to do.
+        return;
+
+    var target = document.getElementById(fragment);
+    if (!target)
+        // Invalid fragment identifier.
+        return;
+
+    var tabContainer = target.closest('.tabcontent');
+    if (!tabContainer)
+        // This content wasn't in a tab.
+        return;
+
+    var tabID = tabContainer.getAttribute('data-tabid');
+    var contentID = tabContainer.id;
+
+    // Make the tab active so you can see the linked content.
+    rudrSwitchTab(tabID, contentID);
+}
+
+// Switch to the correct tab if DOM is ready.
+if (document.readyState === 'interactive' || document.readyState === 'complete')
+    switchToTabForFragmentIfNecessary();
+
+// Otherwise, wait until document is loaded and try again.
+document.addEventListener('DOMContentLoaded', switchToTabForFragmentIfNecessary, false);
+
 </script>
