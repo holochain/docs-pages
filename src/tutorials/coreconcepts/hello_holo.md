@@ -144,10 +144,10 @@ Remove the following piece of code:
 
 \#S:CHANGE
 ```diff
-- #[derive(Serialize, Deserialize, Debug, DefaultJson,Clone)]
-- pub struct MyEntry {
--     content: String,
-- }
+-#[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
+-pub struct MyEntry {
+-    content: String,
+-}
 ```
 
 The `my_zome` module is where all your zome code lives. `#[zome]` is a [procedural macro](https://doc.rust-lang.org/reference/procedural-macros.html) that says that the following module defines all the things that Holochain should know about this zome. It saves you writing lots of code. 
@@ -157,8 +157,8 @@ Change it to `hello_zome` for this tutorial series:
 \#S:CHANGE
 ```diff
 #[zome]
-- mod my_zome {
-+ mod hello_zome {
+-mod my_zome {
++mod hello_zome {
 ```
 
 The `init` function is run when a user starts the app for the first time. Every zome defines this function so it can do some initial setup tasks, but in this zome it doesn't do anything.

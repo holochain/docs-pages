@@ -191,6 +191,10 @@ mod hello_zome {
 
 Add the `person_entry_def` function, which tells Holochain about the person entry type:
 
+\#S:HIDE,INCLUDE
+```rust
+
+```
 \#S:INCLUDE
 
 ```rust
@@ -244,52 +248,6 @@ Now, you can create actual `person` entries and store them on your source chain.
 > __Note:__
 > Validation is very important. It's the "rules of the game" for your Holochain app. It is meaningful to emphasize that although we are returning `Ok(())`, we're still validating that the data type checks as a `Person` with a `name` property containing a `String`. Essentially, this rule says that the person entry must be in this format.
 
-### Adding `use` statements
-
-In the above code, we just used a few types and macros that are not mentioned anywhere else, so the Rust compiler doesn't know where to find them yet.
-
-Add the following `use` statements:
-
-<script id="asciicast-Smv3xxADtSj8AExf3X9d3UApI" src="https://asciinema.org/a/Smv3xxADtSj8AExf3X9d3UApI.js" async data-autoplay="true"></script>
-\#S:CHANGE
-```diff
-#![feature(proc_macro_hygiene)]
-+#[macro_use]
-extern crate hdk;
-extern crate hdk_proc_macros;
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
-+#[macro_use]
-extern crate holochain_json_derive;
-use hdk::{
-+    entry_definition::ValidatingEntryType,
-    error::ZomeApiResult,
-};
-+
-+use hdk::holochain_core_types::{
-+    entry::Entry,
-+    dna::entry_types::Sharing,
-+};
-+
-+use hdk::holochain_json_api::{
-+    json::JsonString,
-+    error::JsonError,
-+};
-+
-+  use hdk::holochain_persistence_api::{
-+    cas::content::Address
-+};
-
-use hdk_proc_macros::zome;
-```
-
-\#S:EXTRA
-```
-    }
-```
-
 \#S:CHECK=rust
 
 ## Create a person
@@ -300,6 +258,10 @@ Add the following lines below the previous `person_entry_def` function:
 
 Add a public function that takes a `Person` and returns a result with an `Address`:
 
+\#S:HIDE,INCLUDE
+```rust
+
+```
 \#S:INCLUDE
 ```rust
     #[zome_fn("hc_public")]
@@ -348,6 +310,10 @@ Add the following lines below the `create_person` function:
 
 Add a public `retrieve_person` function that takes an `Address` and returns a `Person`:
 
+\#S:HIDE,INCLUDE
+```
+    }
+```
 ```rust
     #[zome_fn("hc_public")]
     pub fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
