@@ -195,6 +195,7 @@ Add the `person_entry_def` function, which tells Holochain about the person entr
 ```rust
 
 ```
+
 \#S:INCLUDE
 
 ```rust
@@ -252,6 +253,7 @@ Now, you can create actual `person` entries and store them on your source chain.
 ```rust
 }
 ```
+
 \#S:CHECK=rust
 
 ## Create a person
@@ -266,6 +268,7 @@ Add a public function that takes a `Person` and returns a result with an `Addres
 ```rust
 
 ```
+
 \#S:INCLUDE
 ```rust
     #[zome_fn("hc_public")]
@@ -297,6 +300,7 @@ Return the `Ok` result with the new person entry's address:
 ```
 }
 ```
+
 \#S:CHECK=rust
 
 Check for compile errors again:
@@ -318,6 +322,7 @@ Add a public `retrieve_person` function that takes an `Address` and returns a `P
 ```
 
 ```
+
 ```rust
     #[zome_fn("hc_public")]
     pub fn retrieve_person(address: Address) -> ZomeApiResult<Person> {
@@ -334,6 +339,7 @@ Get the entry from your local storage, asking for it by address, and convert it 
 ```rust
 }
 ```
+
 > In Rust, the last line is always returned---you do not need to explicitly say `return`---just leave off the `;`.
 
 ### Test
