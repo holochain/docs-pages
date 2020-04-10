@@ -128,41 +128,13 @@ The zome is a [Rust](https://rust-lang.com) project and makes use of [macros](ht
 
 Let's have a look at the generated code—--open up the `lib.rs` file in an editor.
 
-The following are all the imports. You are telling Rust, "Hey, I need things from all these [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) in order to do my job."
+The following lines import the Holochain HDK. You are telling Rust, "Hey, I need things from all these [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) in order to do my job."
 
-The `use` statements are next. They are saying, "I want to use these specific things from the above crates."
-You only need a few items for this tutorial, so go ahead and remove the others:
-\#S:CHANGE
+\#S:SKIP
 ```diff
 #![feature(proc_macro_hygiene)]
--#[macro_use]
-extern crate hdk;
-extern crate hdk_proc_macros;
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
--#[macro_use]
-extern crate holochain_json_derive;
 
-use hdk::{
--    entry_definition::ValidatingEntryType,
-    error::ZomeApiResult,
-};
--use hdk::holochain_core_types::{
--    entry::Entry,
--    dna::entry_types::Sharing,
--};
--
--use hdk::holochain_json_api::{
--    json::JsonString,
--    error::JsonError
--};
--
--use hdk::holochain_persistence_api::{
--    cas::content::Address
--};
-
+use hdk::prelude::*;
 use hdk_proc_macros::zome;
 ```
 
