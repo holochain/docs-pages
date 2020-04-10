@@ -248,6 +248,10 @@ Now, you can create actual `person` entries and store them on your source chain.
 > __Note:__
 > Validation is very important. It's the "rules of the game" for your Holochain app. It is meaningful to emphasize that although we are returning `Ok(())`, we're still validating that the data type checks as a `Person` with a `name` property containing a `String`. Essentially, this rule says that the person entry must be in this format.
 
+\#S:EXTRA
+```rust
+}
+```
 \#S:CHECK=rust
 
 ## Create a person
@@ -291,7 +295,7 @@ Return the `Ok` result with the new person entry's address:
 
 \#S:EXTRA
 ```
-    }
+}
 ```
 \#S:CHECK=rust
 
@@ -312,7 +316,7 @@ Add a public `retrieve_person` function that takes an `Address` and returns a `P
 
 \#S:HIDE,INCLUDE
 ```
-    }
+
 ```
 ```rust
     #[zome_fn("hc_public")]
