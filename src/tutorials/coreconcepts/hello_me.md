@@ -191,12 +191,10 @@ mod hello_zome {
 
 Add the `person_entry_def` function, which tells Holochain about the person entry type:
 
-\#S:HIDE,INCLUDE
+\#S:INCLUDE,HIDE
 ```rust
 
 ```
-
-\#S:INCLUDE
 
 ```rust
     #[entry_def]
@@ -251,7 +249,7 @@ Now, you can create actual `person` entries and store them on your source chain.
 
 \#S:EXTRA
 ```rust
-}
+    }
 ```
 
 \#S:CHECK=rust
@@ -298,7 +296,7 @@ Return the `Ok` result with the new person entry's address:
 
 \#S:EXTRA
 ```
-}
+    }
 ```
 
 \#S:CHECK=rust

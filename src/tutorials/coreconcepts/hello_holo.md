@@ -131,7 +131,7 @@ Let's have a look at the generated code—--open up the `lib.rs` file in an edit
 The following lines import the Holochain HDK. You are telling Rust, "Hey, I need things from all these [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) in order to do my job."
 
 \#S:SKIP
-```diff
+```rust
 #![feature(proc_macro_hygiene)]
 
 use hdk::prelude::*;
