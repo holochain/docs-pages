@@ -107,14 +107,14 @@ It's time to communicate with the app you built in the previous tutorials. To ma
 
 To make this process is easy, we have precompiled a version of the hc-web-client for you.
 
-Download it [here](/assets/files/hc-web-client.zip), then unzip it and stick it in the root of your GUI directory:
+Download it [here](/assets/files/hc-web-client-0.5.3.zip), then unzip it and stick it in the root of your GUI directory:
 ```bash
 unzip hc-web-client.zip
 ```
 The files should live here:
 ```
-gui/hc-web-client/hc-web-client-0.5.1.browser.min.js
-gui/hc-web-client/hc-web-client-0.5.1.browser.min.js.map
+gui/hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js
+gui/hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js.map
 ```
 
 Once that's done, you can easily link to the compiled js file by adding this `script` tag inside your `body` tag:
@@ -122,7 +122,7 @@ Once that's done, you can easily link to the compiled js file by adding this `sc
 ```html
     <script
       type="text/javascript"
-      src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
+      src="hc-web-client/hc-web-client-0.5.3.browser.min.js"
     ></script>
 ```
 
