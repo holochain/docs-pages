@@ -21,8 +21,8 @@ This tutorial helps you get orientated to the basics of a hApp. These are the fu
 
 1. Complete the [installation guide](https://developer.holochain.org/start.html). It will give you an app development, environment including the Holochain developer tool `hc`.
 2. Open up a terminal (command prompt in Windows).
-3. Enter the development environment.  
-macOS/Linux, you'll remember this command from the installation tutorial:  
+3. Enter the development environment.
+macOS/Linux, you'll remember this command from the installation tutorial:
 ```bash
 nix-shell https://holochain.love
 ```
@@ -34,7 +34,7 @@ nix-shell https://holochain.love
 ```
 
 !!! tip "Nix Shell"
-    You will see commands marked `Run in nix-shell https://holochain.love` throughout these tutorials.  
+    You will see commands marked `Run in nix-shell https://holochain.love` throughout these tutorials.
     You should keep the nix-shell open and run these commands in it---don't reopen nix-shell for every command.
 
 ## Initializing your new app
@@ -45,11 +45,11 @@ Then, create a `coreconcepts` folder for this tutorial series:
 
 ```bash
 cd ~
-mkdir holochain 
+mkdir holochain
 cd holochain
 mkdir coreconcepts
 cd coreconcepts
-``` 
+```
 
 It's time to put the Holochain command line tool (`hc`) to work and make your app.
 
@@ -58,15 +58,15 @@ Initialize a new app and enter the app directory:
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc init cc_tuts
-    cd cc_tuts 
+    cd cc_tuts
     ```
 
-#### Compile 
+#### Compile
 
 !!! tip "Run `hc` and `holochain` from root directory."
     All `hc` and `holochain` commands should be run from the project root (e.g., `cc_tuts/`), except of course `hc init`, because the root doesn't exist at this point.
 
-It's always good to frequently compile your app to catch any mistakes early on. 
+It's always good to frequently compile your app to catch any mistakes early on.
 
 Give it a go by asking `hc` to package your app:
 
@@ -116,7 +116,7 @@ Generate a zome called `hello` inside the zome's folder:
     DNA hash: QmdNyxke1Z9Kunws4WUXHnt4cdKQnPogC7YPpfQx67fo1z
     ```
 
-## Folder layout 
+## Folder layout
 
 #### Look at the folder layout
 
@@ -128,65 +128,37 @@ The zome is a [Rust](https://rust-lang.com) project and makes use of [macros](ht
 
 Let's have a look at the generated code—--open up the `lib.rs` file in an editor.
 
-The following are all the imports. You are telling Rust, "Hey, I need things from all these [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) in order to do my job."
+The following lines import the Holochain HDK. You are telling Rust, "Hey, I need things from all these [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) in order to do my job."
 
-The `use` statements are next. They are saying, "I want to use these specific things from the above crates."
-You only need a few items for this tutorial, so go ahead and remove the others:
-\#S:CHANGE
-```diff
+\#S:SKIP
+```rust
 #![feature(proc_macro_hygiene)]
--#[macro_use]
-extern crate hdk;
-extern crate hdk_proc_macros;
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
--#[macro_use]
-extern crate holochain_json_derive;
 
-use hdk::{
--    entry_definition::ValidatingEntryType,
-    error::ZomeApiResult,
-};
--use hdk::holochain_core_types::{
--    entry::Entry,
--    dna::entry_types::Sharing,
--};
--
--use hdk::holochain_json_api::{
--    json::JsonString,
--    error::JsonError
--};
--
--use hdk::holochain_persistence_api::{
--    cas::content::Address
--};
-
+use hdk::prelude::*;
 use hdk_proc_macros::zome;
 ```
 
-There are a few sections of generated code that are not useful for this tutorial. 
+There are a few sections of generated code that are not useful for this tutorial.
 
 Remove the following piece of code:
 
 \#S:CHANGE
 ```diff
-- #[derive(Serialize, Deserialize, Debug, DefaultJson,Clone)]
-- pub struct MyEntry {
--     content: String,
-- }
+-#[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
+-pub struct MyEntry {
+-    content: String,
+-}
 ```
 
-The `my_zome` module is where all your zome code lives. `#[zome]` is a [procedural macro](https://doc.rust-lang.org/reference/procedural-macros.html) that says that the following module defines all the things that Holochain should know about this zome. It saves you writing lots of code. 
+The `my_zome` module is where all your zome code lives. `#[zome]` is a [procedural macro](https://doc.rust-lang.org/reference/procedural-macros.html) that says that the following module defines all the things that Holochain should know about this zome. It saves you writing lots of code.
 
 Change it to `hello_zome` for this tutorial series:
 
 \#S:CHANGE
 ```diff
 #[zome]
-- mod my_zome {
-+ mod hello_zome {
+-mod my_zome {
++mod hello_zome {
 ```
 
 The `init` function is run when a user starts the app for the first time. Every zome defines this function so it can do some initial setup tasks, but in this zome it doesn't do anything.
@@ -231,14 +203,14 @@ Remove the following template code:
 -             }
 -         )
 -     }
-- 
+-
 -     #[zome_fn("hc_public")]
 -     fn create_my_entry(entry: MyEntry) -> ZomeApiResult<Address> {
 -         let entry = Entry::App("my_entry".into(), entry.into());
 -         let address = hdk::commit_entry(&entry)?;
 -         Ok(address)
 -     }
-- 
+-
 -     #[zome_fn("hc_public")]
 -     fn get_my_entry(address: Address) -> ZomeApiResult<Option<Entry>> {
 -         hdk::get_entry(&address)
@@ -292,7 +264,7 @@ Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddn
 }
 ```
 
-#### Compile 
+#### Compile
 
 \#S:CHECK=rust
 

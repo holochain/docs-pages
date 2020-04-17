@@ -1,6 +1,6 @@
 # Core Concepts Tutorials
 
-Welcome to the Core Concepts Tutorial Series. This is a set of tutorials that will take you through what you need to know to start building Holochain applications. They are designed to demonstrate the content of each [Core Concept](../../concepts/) Article. The tutorials are progressive, so it’s best to complete them in order. 
+Welcome to the Core Concepts Tutorial Series. This is a set of tutorials that will take you through what you need to know to start building Holochain applications. They are designed to demonstrate the content of each [Core Concept](../../concepts/) Article. The tutorials are progressive, so it’s best to complete them in order.
 
 Start your journey with [Hello Holo](hello_holo/).
 
