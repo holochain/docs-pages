@@ -128,41 +128,13 @@ The zome is a [Rust](https://rust-lang.com) project and makes use of [macros](ht
 
 Let's have a look at the generated code—--open up the `lib.rs` file in an editor.
 
-The following are all the imports. You are telling Rust, "Hey, I need things from all these [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) in order to do my job."
+The following lines import the Holochain HDK. You are telling Rust, "Hey, I need things from all these [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) in order to do my job."
 
-The `use` statements are next. They are saying, "I want to use these specific things from the above crates."
-You only need a few items for this tutorial, so go ahead and remove the others:
-\#S:CHANGE
-```diff
+\#S:SKIP
+```rust
 #![feature(proc_macro_hygiene)]
--#[macro_use]
-extern crate hdk;
-extern crate hdk_proc_macros;
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
--#[macro_use]
-extern crate holochain_json_derive;
 
-use hdk::{
--    entry_definition::ValidatingEntryType,
-    error::ZomeApiResult,
-};
--use hdk::holochain_core_types::{
--    entry::Entry,
--    dna::entry_types::Sharing,
--};
--
--use hdk::holochain_json_api::{
--    json::JsonString,
--    error::JsonError
--};
--
--use hdk::holochain_persistence_api::{
--    cas::content::Address
--};
-
+use hdk::prelude::*;
 use hdk_proc_macros::zome;
 ```
 
@@ -172,10 +144,10 @@ Remove the following piece of code:
 
 \#S:CHANGE
 ```diff
-- #[derive(Serialize, Deserialize, Debug, DefaultJson,Clone)]
-- pub struct MyEntry {
--     content: String,
-- }
+-#[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
+-pub struct MyEntry {
+-    content: String,
+-}
 ```
 
 The `my_zome` module is where all your zome code lives. `#[zome]` is a [procedural macro](https://doc.rust-lang.org/reference/procedural-macros.html) that says that the following module defines all the things that Holochain should know about this zome. It saves you writing lots of code.
@@ -185,8 +157,8 @@ Change it to `hello_zome` for this tutorial series:
 \#S:CHANGE
 ```diff
 #[zome]
-- mod my_zome {
-+ mod hello_zome {
+-mod my_zome {
++mod hello_zome {
 ```
 
 The `init` function is run when a user starts the app for the first time. Every zome defines this function so it can do some initial setup tasks, but in this zome it doesn't do anything.
@@ -231,14 +203,14 @@ Remove the following template code:
 -             }
 -         )
 -     }
-- 
+-
 -     #[zome_fn("hc_public")]
 -     fn create_my_entry(entry: MyEntry) -> ZomeApiResult<Address> {
 -         let entry = Entry::App("my_entry".into(), entry.into());
 -         let address = hdk::commit_entry(&entry)?;
 -         Ok(address)
 -     }
-- 
+-
 -     #[zome_fn("hc_public")]
 -     fn get_my_entry(address: Address) -> ZomeApiResult<Option<Entry>> {
 -         hdk::get_entry(&address)
