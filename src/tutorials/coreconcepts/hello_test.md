@@ -176,7 +176,7 @@ Tests are organized by creating scenarios. Think of them as a series of actions 
 
 For this test you simply want to get the Alice user to call the `hello_holo` zome function and check that you get the result `Hello Holo`.
 
-!!! tip 
+!!! tip
     The following lines go right before `orchestrator.run()`
 
 
@@ -235,7 +235,7 @@ Now, in the `cc_tuts` directory, run the test like this:
     $ hc test
     ```
 
-This will compile and run the test scenario you just wrote. You will see a lot of output. 
+This will compile and run the test scenario you just wrote. You will see a lot of output.
 
 !!! success "If everything went okay, then right at the end you will see:"
     ```
@@ -245,7 +245,7 @@ This will compile and run the test scenario you just wrote. You will see a lot o
     # ok
     ```
 
-Congratulations! You have tested your first Holochain app. Look at you go! :sparkles: 
+Congratulations! You have tested your first Holochain app. Look at you go! :sparkles:
 
 !!! success "Solution"
     You can check the full solution to this tutorial on [here](https://github.com/freesig/cc_tuts/tree/hello_test).
