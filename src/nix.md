@@ -51,21 +51,10 @@ If we announce a new release and you would like to use it, remember to exit your
 
 ### Unblessed releases
 
-If you need certain functionality sooner or just want to track the bleeding edge, you can use the `default.nix` file directly from the [Holonix repository](https://github.com/holochain/holonix). The `master` branch always installs the newest release of Holochain, whether blessed or unblessed. Here's how to use the unblessed release:
+If you need certain functionality sooner or just want to track the bleeding edge, you can use the `default.nix` file directly from the [Holonix repository](https://github.com/holochain/holonix). The `master` branch always contains the newest release of Holochain, whether blessed or unblessed. Here's how to use an unblessed release:
 
 ```bash
-git clone https://github.com/holochain/holonix
-cd holonix
-nix-shell
-```
-
-If you don't specify a config file, `nix-shell` will always search the current directory.
-
-Whenever you want to update to the newest release, just pull the newest changes on the master branch:
-
-```bash
-git pull
-nix-shell
+nix-shell https://github.com/holochain/holonix/archive/master.zip
 ```
 
 ### Per-project pinned releases
