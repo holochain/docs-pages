@@ -9,20 +9,20 @@
 !!! tip "Time & Level"
     Time: ~4 hours | Level: Beginner
 
-Welcome to another tutorial in our Core Concepts series. 
+Welcome to another tutorial in our Core Concepts series.
 
-Currently, the app we've built returns a constant value, but it would be useful to be able to store data for more complex applications.  
+Currently, the app we've built returns a constant value, but it would be useful to be able to store data for more complex applications.
 
 This tutorial builds on the [previous](../hello_gui) tutorial, so go back and complete it if you haven't already.
 
 ### What will you learn
-You'll learn how to add an entry type to your zome. 
+You'll learn how to add an entry type to your zome.
 An entry is a piece of data in your source chain that's been validated.
 We'll also show you how to define and validate an entry type that represents a person, and to create and read this data through zome calls.
 You will also set up tests and your GUI.
 
 ### Why it matters
-Storing data is at the core of Holochain. 
+Storing data is at the core of Holochain.
 Holochain's most important job is ensuring agents handle and store data according to the rules of your application.
 
 ## Test first
@@ -42,7 +42,7 @@ orchestrator.registerScenario('Test hello holo', async (s, t) => {
   t.ok(result.Ok);
   t.deepEqual(result, {Ok: 'Hello Holo'});
 ```
-The new tests go below `t.deepEqual(result, { Ok: 'Hello Holo' })` 
+The new tests go below `t.deepEqual(result, { Ok: 'Hello Holo' })`
 The following test will create an entry with the name ‘Alice’, retrieve the same entry, and check that it has the name ‘Alice’.
 
 Add a call to the `create_person` function with a person named Alice:
@@ -131,8 +131,8 @@ Run the test:
 
 ## Add the entry
 
-Open up your `zomes/hello/code/src/lib.rs` file.  
-To add an entry to your source chain, begin by telling Holochain what kind of entry exists.  
+Open up your `zomes/hello/code/src/lib.rs` file.
+To add an entry to your source chain, begin by telling Holochain what kind of entry exists.
 First, we'll create a [`struct`](https://doc.rust-lang.org/1.9.0/book/structs.html) to define the shape of the data.
 
 We will add a `Person` struct in a moment, but this is where to put it:
@@ -381,13 +381,13 @@ Instead of directly compiling, you can run the test you wrote at the start (the 
     ```bash
     # tests 5
     # pass  5
-    
+
     # ok
     ```
 
 ## UI
 
-Now that the back end is working, you can modify the UI to interact with zome functions you created. 
+Now that the back end is working, you can modify the UI to interact with zome functions you created.
 
 Go to the GUI project folder you created in the [Hello GUI](../hello_gui) tutorial:
 
@@ -652,7 +652,7 @@ function show_person(result) {
 \#S:CHECK=javascript=gui
 
 ### Enter the browser
-Finally, go and test this at `127.0.0.1:8888`.  
+Finally, go and test this at `127.0.0.1:8888`.
 You should see something like this:
 ![retrieving a person](../../img/create_person_3.png)
 

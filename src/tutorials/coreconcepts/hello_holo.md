@@ -21,8 +21,8 @@ This tutorial helps you get orientated to the basics of a hApp. These are the fu
 
 1. Complete the [installation guide](https://developer.holochain.org/start.html). It will give you an app development, environment including the Holochain developer tool `hc`.
 2. Open up a terminal (command prompt in Windows).
-3. Enter the development environment.  
-macOS/Linux, you'll remember this command from the installation tutorial:  
+3. Enter the development environment.
+macOS/Linux, you'll remember this command from the installation tutorial:
 ```bash
 nix-shell https://holochain.love
 ```
@@ -34,7 +34,7 @@ nix-shell https://holochain.love
 ```
 
 !!! tip "Nix Shell"
-    You will see commands marked `Run in nix-shell https://holochain.love` throughout these tutorials.  
+    You will see commands marked `Run in nix-shell https://holochain.love` throughout these tutorials.
     You should keep the nix-shell open and run these commands in it---don't reopen nix-shell for every command.
 
 ## Initializing your new app
@@ -45,11 +45,11 @@ Then, create a `coreconcepts` folder for this tutorial series:
 
 ```bash
 cd ~
-mkdir holochain 
+mkdir holochain
 cd holochain
 mkdir coreconcepts
 cd coreconcepts
-``` 
+```
 
 It's time to put the Holochain command line tool (`hc`) to work and make your app.
 
@@ -58,15 +58,15 @@ Initialize a new app and enter the app directory:
 !!! note "Run in `nix-shell https://holochain.love`"
     ```bash
     hc init cc_tuts
-    cd cc_tuts 
+    cd cc_tuts
     ```
 
-#### Compile 
+#### Compile
 
 !!! tip "Run `hc` and `holochain` from root directory."
     All `hc` and `holochain` commands should be run from the project root (e.g., `cc_tuts/`), except of course `hc init`, because the root doesn't exist at this point.
 
-It's always good to frequently compile your app to catch any mistakes early on. 
+It's always good to frequently compile your app to catch any mistakes early on.
 
 Give it a go by asking `hc` to package your app:
 
@@ -116,7 +116,7 @@ Generate a zome called `hello` inside the zome's folder:
     DNA hash: QmdNyxke1Z9Kunws4WUXHnt4cdKQnPogC7YPpfQx67fo1z
     ```
 
-## Folder layout 
+## Folder layout
 
 #### Look at the folder layout
 
@@ -166,7 +166,7 @@ use hdk::{
 use hdk_proc_macros::zome;
 ```
 
-There are a few sections of generated code that are not useful for this tutorial. 
+There are a few sections of generated code that are not useful for this tutorial.
 
 Remove the following piece of code:
 
@@ -178,7 +178,7 @@ Remove the following piece of code:
 - }
 ```
 
-The `my_zome` module is where all your zome code lives. `#[zome]` is a [procedural macro](https://doc.rust-lang.org/reference/procedural-macros.html) that says that the following module defines all the things that Holochain should know about this zome. It saves you writing lots of code. 
+The `my_zome` module is where all your zome code lives. `#[zome]` is a [procedural macro](https://doc.rust-lang.org/reference/procedural-macros.html) that says that the following module defines all the things that Holochain should know about this zome. It saves you writing lots of code.
 
 Change it to `hello_zome` for this tutorial series:
 
@@ -292,7 +292,7 @@ Return an `Ok` result that contains our greeting. `into()` is a bit of Rust oddn
 }
 ```
 
-#### Compile 
+#### Compile
 
 \#S:CHECK=rust
 

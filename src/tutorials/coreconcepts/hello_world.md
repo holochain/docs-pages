@@ -7,7 +7,7 @@
 # Hello World
 
 !!! info "WIP"
-    This article is currently a work in progress and subject to frequent change.  
+    This article is currently a work in progress and subject to frequent change.
     See the [changelog](/docs/changelog) for details.
 
 !!! tip "Time & Level"
@@ -18,13 +18,13 @@ Welcome to the hello world tutorial. It's a little strange to do a hello world t
 The previous tutorials have come from the local perspective of a single agent. However, the real power of Holochain comes from interacting with other agents.
 
 ## What will you learn
-You will learn how to share data between two agents. To achieve, this you will run two conductors---Alice and Bob.  
+You will learn how to share data between two agents. To achieve, this you will run two conductors---Alice and Bob.
 Then, add an entry to Alice's local chain. Finally, retrieve that entry from Bob's instance.
 
 ## Why it matters
 Holochain applications are about creating cooperation between multiple agents; by sharing data among the agents, you can validate one another's entries.
 
-## Make your entry public 
+## Make your entry public
 
 So far, the only entries you have had have been private. If you want your users to be able to share data, then you can set the entry to 'public' in the definition.
 
@@ -68,7 +68,7 @@ To make sure this has happened, add this line to the end of the scenario:
 
 > This one line says a lot about the nature of a Holochain application. The word `await` shows that we are in an asynchronous world and want to wait for consistency to be achieved. What kind of situation might lead to this line never returning? _Hint: Think about networks that might not be perfect._
 
-Get Bob to retrieve Alice's person using the same address she did when she created the entry: 
+Get Bob to retrieve Alice's person using the same address she did when she created the entry:
 
 ```javascript
   const bob_retrieve_result = await bob.call(
@@ -127,16 +127,16 @@ Now, run the test and make sure it passes:
     ```
     # tests 7
     # pass  7
-    
+
     # ok
     ```
 
 ## Run the app and two UIs
 
-Now, the fun part---you get to play with what you just wrote.  
+Now, the fun part---you get to play with what you just wrote.
 You're going to need a few terminals to do this.
 
-You will tell `hc` to use sim2h networking because you are actually 
+You will tell `hc` to use sim2h networking because you are actually
 using two separate conductors in this tutorial.
 You will also need to give each conductor a different agent name.
 
@@ -148,7 +148,7 @@ Run the sim2h server.
     sim2h_server
     ```
 
-#### Terminal two 
+#### Terminal two
 Start by running the conductor. Set the agent name to `Alice`.
 
 !!! note "Run in `nix-shell https://holochain.love`"
@@ -187,7 +187,7 @@ Open two tabs.
 
 Go to `127.0.0.1:8888`.
 
-#### Tab Bob 
+#### Tab Bob
 
 Go to `127.0.0.1:8889`.
 

@@ -8,13 +8,13 @@
 # Simple Microblog Tutorial
 
 !!! info "WIP"
-    This article is currently a work in progress and subject to frequent change.  
+    This article is currently a work in progress and subject to frequent change.
     See the [changelog](/docs/changelog) for details.
 
 !!! tip "Time & Level"
     Time: ~3 hours | Level: Beginner
 
-Welcome to the Simple Microblog tutorial, part of our Core Concepts tutorial series. The aim of this tutorial is to show how entries can be linked to each other in a Holochain app.  
+Welcome to the Simple Microblog tutorial, part of our Core Concepts tutorial series. The aim of this tutorial is to show how entries can be linked to each other in a Holochain app.
 
 A link is simply a relationship between two entries. It's a useful way to find some data from something you already know. For example, you could link from your user's agent ID entry to their blog posts.
 
@@ -101,10 +101,10 @@ Simply check that the message is less than or equal to the maximum, or return an
 > Can you think of a way a user could have an entry longer than the maximum length?
 > _Hint: What if they `Modify`?_
 
-The user needs some way of finding out which posts belong to an agent.  
-In Holochain we use links to associate data with something known.  
-The following creates a link from the agent's address to a post.  
-Every agent has a unique address and you will see how to find it later.  
+The user needs some way of finding out which posts belong to an agent.
+In Holochain we use links to associate data with something known.
+The following creates a link from the agent's address to a post.
+Every agent has a unique address and you will see how to find it later.
 
 Add the link _from_ the `%agent_id`:
 ```rust
@@ -140,7 +140,7 @@ Allow this link to be committed without checks:
 The entry definition tells Holochain what the data looks like and how to validate it. The next piece is a public function that the UI can use to create a new post.
 Take a moment to think about the ingredients that go into the `Post` structure: a message, a timestamp, and the author's ID.
 
-The message will come from the UI, so that's easy.  
+The message will come from the UI, so that's easy.
 For simplicity, the timestamp will come from the UI as well.
 
 !!! question "Question?"
@@ -189,15 +189,15 @@ Before, you defined the link from the agent's address to the post.
 This is where you actually make the link:
 ```rust
         hdk::link_entries(&agent_address, &address, "author_post", "")?;
-        
+
         Ok(address)
     }
 ```
 
-## Retrieve all of a user's posts 
-How do your users find all those posts?  
-The user will submit an agents address through the UI and a list of posts will be displayed. 
-Later, you will see how they get an agent's address.  
+## Retrieve all of a user's posts
+How do your users find all those posts?
+The user will submit an agents address through the UI and a list of posts will be displayed.
+Later, you will see how they get an agent's address.
 
 
 Add a public function that takes an author's agent address and returns a [vector](https://doc.rust-lang.org/std/vec/struct.Vec.html) of posts:
@@ -236,7 +236,7 @@ use hdk::holochain_core_types::{
 
 ## Get the agent's ID
 
-Users need a way to share their agent ID with others. 
+Users need a way to share their agent ID with others.
 For the sake of simplicity this app will rely on user sending their address to others outside of Holochain (we will cover messaging in a future tutorial).
 
 The user still needs a way to get their own address so they can give it to friends.
@@ -276,7 +276,7 @@ Add an `onload` event to the body that will call the `get_agent_id` javascript f
 +  <body onload="get_agent_id()">
 ```
 
-Open up the `hello.js` file and add the `get_agent_id` function.  
+Open up the `hello.js` file and add the `get_agent_id` function.
 Call the `get_agent_id` zome function that updates the `agent_id` element with the agent's address:
 ```javascript
 function get_agent_id() {
@@ -416,7 +416,7 @@ Run the sim2h server
     sim2h_server
     ```
 
-#### Terminal two 
+#### Terminal two
 Package the DNA and then update the hash:
 
 !!! note "Run in `nix-shell https://holochain.love`"
@@ -454,7 +454,7 @@ Open two tabs.
 
 Go to `127.0.0.1:8888`.
 
-#### Tab Bob 
+#### Tab Bob
 
 Go to `127.0.0.1:8889`.
 
