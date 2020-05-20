@@ -194,7 +194,7 @@ footer { margin-top: 30px; position: relative; z-index: 100; }
 .md-footer-nav .md-icon.md-footer-nav__button { margin-top: -.8rem; }
 
 .site-footer-global-nav__wrapper {
-	background: rgba(0, 0, 0, 0.75);
+	background: rgba(0, 0, 0, 0.65);
 	padding: 0;
 }
 .site-footer-global-nav {
