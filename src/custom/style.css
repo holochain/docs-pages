@@ -193,24 +193,23 @@ footer { margin-top: 30px; position: relative; z-index: 100; }
 .md-footer-nav__link--prev .md-footer-nav__direction { left: 0; right: auto; margin-left: 1rem; }
 .md-footer-nav .md-icon.md-footer-nav__button { margin-top: -.8rem; }
 
-.site-footer-global-nav {
-	padding: 2rem 0;
+.site-footer-global-nav__wrapper {
 	background: rgba(0, 0, 0, 0.75);
+}
+.site-footer-global-nav {
+	padding: 2rem 0.8rem;
 	font-size: 0.75rem;
 	position: relative;
 	color: rgba(255, 255, 255, 0.65);
-}
-.site-footer-global-nav__inner {
-	padding: 0;
 	margin: 0 .8rem;
+	display: flex;
 }
 .site-footer-global-nav__section {
-	width: 25%;
-	float: left;
+	flex-basis: 25%;
 }
 @media (max-width: 640px) {
     .site-footer-global-nav__section {
-        width: 50%;
+        flex-basis: 50%;
     }
 }
 .site-footer-global-nav ul {
