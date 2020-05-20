@@ -185,13 +185,41 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 /* Footer */
 
 footer { margin-top: 30px; position: relative; z-index: 100; }
-.md-footer-nav { padding: 2rem 0 0; background: #3915ad; }
-.md-footer-nav:before { content: ''; width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: url(https://developer.holochain.org/assets/home/hero-back.jpg); background-size: cover; background-position: 0 -890px; background-attachment: fixed; opacity: .6; }
+.md-footer:before { content: ''; width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: url(https://developer.holochain.org/assets/home/hero-back.jpg); background-size: cover; background-position: 0 -890px; background-attachment: fixed; z-index: -1; }
+.md-footer-nav { padding: 2rem 0 0; background: rgba(57, 21, 173, 0.6); }
 .md-footer-nav__link { font-weight: bold; padding: 1.2rem 0; }
 .md-footer-nav__direction { background: #00FFCE; color: #000; padding: 2px 12px; line-height: 2; font-size: .7rem; margin-top: -1.3rem; }
 .md-footer-nav__link--next .md-footer-nav__direction { right: 0; left: auto; margin-right: 1rem; }
 .md-footer-nav__link--prev .md-footer-nav__direction { left: 0; right: auto; margin-left: 1rem; }
 .md-footer-nav .md-icon.md-footer-nav__button { margin-top: -.8rem; }
+
+.site-footer-global-nav__wrapper {
+	background: rgba(0, 0, 0, 0.65);
+	padding: 0;
+}
+.site-footer-global-nav {
+	font-size: 0.75rem;
+	position: relative;
+	color: rgba(255, 255, 255, 0.65);
+	padding: 2rem .8rem;
+	display: flex;
+}
+.site-footer-global-nav__section {
+	flex-basis: 25%;
+}
+@media (max-width: 640px) {
+    .site-footer-global-nav__section {
+        flex-basis: 50%;
+    }
+}
+.site-footer-global-nav ul {
+	list-style: none;
+	padding-left: 0;
+}
+.site-footer-global-nav li {
+	margin: .25em 0;
+}
+
 
 /* Holochain Header */
 
@@ -203,11 +231,6 @@ footer { margin-top: 30px; position: relative; z-index: 100; }
 .h-nav li a { font-size: 16px; line-height: 50px; color: #FFF; text-decoration: none; font-weight: 400; position: relative; }
 .h-nav li img { width: 30px; height: auto; vertical-align: middle; margin-top: -3px; max-width: none; }
 .h-nav li.tab-developers a:after { content:''; width: 100%; height: 2px; background: rgba(255,255,255,.3); position: absolute; bottom: -1px; left: 0; }
-.h-icons { float: right; list-style: none; margin: 0; padding: 0; }
-.h-icons li { width: 18px; margin: 0 0 0 15px; padding: 0; line-height: 47px; float: left; }
-.h-icons li:first-child { width: auto; margin: 0 10px 0 0; line-height: 49px; }
-.h-icons li:first-child a { color: #FFF; font-size: 14px; font-weight: bold; letter-spacing: .4px; text-decoration: none; }
-.h-icons svg { fill: #FFF; vertical-align: middle; }
 .md-header { position: absolute !important; top: 50px; background: none !important; transition: none !important; }
 .md-header[data-md-state='shadow'] { background: #3915ad !important; }
 .md-header[data-md-state='shadow']:before { content: ''; width: 100%; height: 100%; background: #3915ad url(https://developer.holochain.org/assets/home/hero-back.jpg); background-size: cover; background-position: 0 -320px; position: absolute; top: 0; left: 0; opacity: .6; }
