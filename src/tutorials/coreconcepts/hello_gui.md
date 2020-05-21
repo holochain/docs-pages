@@ -109,7 +109,7 @@ To make this process is easy, we have precompiled a version of the hc-web-client
 
 Download it [here](/assets/files/hc-web-client-0.5.3.zip), then unzip it and stick it in the root of your GUI directory:
 ```bash
-unzip hc-web-client.zip
+unzip hc-web-client-0.5.3.zip
 ```
 The files should live here:
 ```
