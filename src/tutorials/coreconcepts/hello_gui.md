@@ -122,7 +122,7 @@ Once that's done, you can easily link to the compiled js file by adding this `sc
 ```html
     <script
       type="text/javascript"
-      src="hc-web-client/hc-web-client-0.5.3.browser.min.js"
+      src="hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js"
     ></script>
 ```
 
