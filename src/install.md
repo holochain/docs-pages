@@ -146,7 +146,7 @@ nix-shell --version
 
 !!! success "You should see something like:"
     ```
-    nix-shell (Nix) 2.3.1
+    nix-shell (Nix) 2.3.4
     ```
 
 If you’d like to know more about Nix and why we use it, you can <a href="../nix/">find information on Nix here</a>. If you’d like to know more the Windows / Vagrant setup you can <a href="../vagrant/">find information here</a>.
