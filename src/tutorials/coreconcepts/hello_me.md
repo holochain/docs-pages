@@ -503,8 +503,8 @@ Add in a if statement that checks that `Ok` is not null:
 \#S:CHANGE
 ```diff
 +  if (output.Ok) {
--  span.textContent = ' ' + output.Ok;
-+    el.textContent = ' ' + output.Ok;
+-  span.textContent = output.Ok;
++    el.textContent = output.Ok;
 +  } else {
 +    alert(output.Err.Internal);
 +  }
@@ -619,7 +619,7 @@ function show_person(result) {
   var person = document.getElementById('person_output');
   var output = JSON.parse(result);
   if (output.Ok) {
-    person.textContent = ' ' + output.Ok.name;
+    person.textContent = output.Ok.name;
   } else {
     alert(output.Err.Internal);
   }

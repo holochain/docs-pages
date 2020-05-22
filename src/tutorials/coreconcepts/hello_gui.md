@@ -337,7 +337,7 @@ Parse the zome function result as JSON:
 Set the contents of the element to the zome function result:
 
 ```javascript
-  span.textContent = ' ' + output.Ok;
+  span.textContent = output.Ok;
 }
 ```
 \#S:CHANGE
