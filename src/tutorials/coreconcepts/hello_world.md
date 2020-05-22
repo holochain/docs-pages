@@ -141,7 +141,7 @@ using two separate conductors in this tutorial.
 You will also need to give each conductor a different agent name.
 
 #### Terminal one
-Run the sim2h server.
+You should have the sim2h server already running after the test. If not, start it now.
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
@@ -161,7 +161,7 @@ Start by running the conductor. Set the agent name to `Alice`.
     ```
 > Your hash will be different but you need to update your `bundle.toml` file.
 
-If you're feeling lazy, I have provided a script in the [hello gui](../hello_gui/#run-the-bundle) tutorial.
+If you're feeling lazy, you can use the script in the [hello gui](../hello_gui/#run-the-bundle) tutorial.
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
@@ -174,7 +174,6 @@ Start the second conductor with agent name set to `Bob`:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
-    hc package
     hc run --networked sim2h --agent-name Bob --port 8889
     ```
 

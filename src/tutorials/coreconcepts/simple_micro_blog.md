@@ -302,7 +302,7 @@ Update the html for posts instead of persons:
 +    <button onclick="create_post()" type="button">Submit Post</button>
     <div>Address: <span id="address_output"></span></div>
 -    <h3>Retrieve Person</h3>
-+    <h3>Retrieve Post</h3>
++    <h3>Retrieve Posts</h3>
 -    <input type="text" id="address_in" placeholder="Enter the entry address">
 +    <input type="text" id="address_in" placeholder="Enter the agent id">
 -    <button onclick="retrieve_person()" type="button">Get Person</button>
@@ -430,7 +430,7 @@ Package the DNA and then update the hash:
     ```
 > Your hash will be different but you need to update your `bundle.toml` file.
 
-If you're feeling lazy, I have provided a script in the [hello gui](../hello_gui) tutorial.
+If you're feeling lazy, don't forget the script in the [hello gui](../hello_gui/#run-the-bundle) tutorial.
 
 Run Alice's conductor:
 !!! note "Run in `nix-shell https://holochain.love`"
@@ -439,7 +439,7 @@ Run Alice's conductor:
     ```
 
 #### Terminal three
-There's no need to compile again, but you will need to update the hash in Bob's bundle file.
+There's no need to recompile or update the DNA hash in the bundle file for Bob.
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
