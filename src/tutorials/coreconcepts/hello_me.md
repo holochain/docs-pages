@@ -412,7 +412,7 @@ Add a span with the id `address_output` so you can render the result of this cal
 ```
         <script
           type="text/javascript"
-          src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
+          src="hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js"
         ></script>
         <script type="text/javascript" src="hello.js"></script>
       </body>
@@ -572,7 +572,7 @@ Add a span with the ID `person_output` to display the person that is returned fr
 ```html
     <script
       type="text/javascript"
-      src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
+      src="hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js"
     ></script>
     <script type="text/javascript" src="hello.js"></script>
   </body>
