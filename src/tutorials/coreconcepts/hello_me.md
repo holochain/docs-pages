@@ -466,6 +466,9 @@ Open a new terminal window and enter the nix-shell:
     ```bash
     hc package
     ```
+
+    Copy the new DNA hash into your `bundle.toml` file; you can use the [update script from the previous tutorial](../hello_gui/#run-the-bundle). Then start up your hApp:
+
     ```bash
     hc run
     ```
