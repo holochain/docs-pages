@@ -316,13 +316,13 @@ The `id="output"` is what we will use to update this element from a JavaScript f
 
 Back in the hello.js file add the following lines below your `hello` function.
 
-Add an `show_output` function that takes the result:
+Add a `show_output` function that takes the result:
 
 ```javascript
 function show_output(result) {
 ```
 
-Get the element into which you'll be inserting the output into:
+Get the element into which you'll be inserting the output:
 
 ```javascript
   var span = document.getElementById('output');
