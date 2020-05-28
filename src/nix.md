@@ -57,6 +57,11 @@ If you need certain functionality sooner or just want to track the bleeding edge
 nix-shell https://github.com/holochain/holonix/archive/master.zip
 ```
 
+If you want to install a specific version of Holochain or the developer tools, it's a bit more tricky. You'll need to know the specific Holonix release version number that contains your desired tooling, and enter this command:
+
+```bash
+nix-shell https://github.com/holochain/holonix/archive/release-<x.x.x>.tar.gz
+
 ### Per-project pinned releases
 
 Every DNA project you create with `hc init` has its own `default.nix` file that targets the version of Holochain and the HDK that it was created with. To start `nix-shell` with that specific version, go into the project directory and type:
