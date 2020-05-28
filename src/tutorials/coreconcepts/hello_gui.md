@@ -109,7 +109,7 @@ To make this process is easy, we have precompiled a version of the hc-web-client
 
 Download it [here](/assets/files/hc-web-client-0.5.3.zip), then unzip it and stick it in the root of your GUI directory:
 ```bash
-unzip hc-web-client.zip
+unzip hc-web-client-0.5.3.zip
 ```
 The files should live here:
 ```
@@ -122,7 +122,7 @@ Once that's done, you can easily link to the compiled js file by adding this `sc
 ```html
     <script
       type="text/javascript"
-      src="hc-web-client/hc-web-client-0.5.3.browser.min.js"
+      src="hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js"
     ></script>
 ```
 
@@ -316,13 +316,13 @@ The `id="output"` is what we will use to update this element from a JavaScript f
 
 Back in the hello.js file add the following lines below your `hello` function.
 
-Add an `show_output` function that takes the result:
+Add a `show_output` function that takes the result:
 
 ```javascript
 function show_output(result) {
 ```
 
-Get the element into which you'll be inserting the output into:
+Get the element into which you'll be inserting the output:
 
 ```javascript
   var span = document.getElementById('output');
@@ -337,7 +337,7 @@ Parse the zome function result as JSON:
 Set the contents of the element to the zome function result:
 
 ```javascript
-  span.textContent = ' ' + output.Ok;
+  span.textContent = output.Ok;
 }
 ```
 \#S:CHANGE

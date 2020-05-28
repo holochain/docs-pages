@@ -412,7 +412,7 @@ Add a span with the id `address_output` so you can render the result of this cal
 ```
         <script
           type="text/javascript"
-          src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
+          src="hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js"
         ></script>
         <script type="text/javascript" src="hello.js"></script>
       </body>
@@ -466,6 +466,9 @@ Open a new terminal window and enter the nix-shell:
     ```bash
     hc package
     ```
+
+    Copy the new DNA hash into your `bundle.toml` file; you can use the [update script from the previous tutorial](../hello_gui/#run-the-bundle). Then start up your hApp:
+
     ```bash
     hc run
     ```
@@ -500,8 +503,8 @@ Add in a if statement that checks that `Ok` is not null:
 \#S:CHANGE
 ```diff
 +  if (output.Ok) {
--  span.textContent = ' ' + output.Ok;
-+    el.textContent = ' ' + output.Ok;
+-  span.textContent = output.Ok;
++    el.textContent = output.Ok;
 +  } else {
 +    alert(output.Err.Internal);
 +  }
@@ -569,7 +572,7 @@ Add a span with the ID `person_output` to display the person that is returned fr
 ```html
     <script
       type="text/javascript"
-      src="hc-web-client/hc-web-client-0.5.1.browser.min.js"
+      src="hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js"
     ></script>
     <script type="text/javascript" src="hello.js"></script>
   </body>
@@ -616,7 +619,7 @@ function show_person(result) {
   var person = document.getElementById('person_output');
   var output = JSON.parse(result);
   if (output.Ok) {
-    person.textContent = ' ' + output.Ok.name;
+    person.textContent = output.Ok.name;
   } else {
     alert(output.Err.Internal);
   }

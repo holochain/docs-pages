@@ -11,5 +11,5 @@ function hello() {
 function show_output(result) {
   var span = document.getElementById('output');
   var output = JSON.parse(result);
-  span.textContent = ' ' + output.Ok;
+  span.textContent = output.Ok;
 }

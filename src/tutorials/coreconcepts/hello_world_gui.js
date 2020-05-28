@@ -6,7 +6,7 @@ function show_output(result, id) {
   var el = document.getElementById(id);
   var output = JSON.parse(result);
   if (output.Ok) {
-    el.textContent = ' ' + output.Ok;
+    el.textContent = output.Ok;
   } else {
     alert(output.Err.Internal);
   }
@@ -42,7 +42,7 @@ function show_person(result) {
   var person = document.getElementById('person_output');
   var output = JSON.parse(result);
   if (output.Ok) {
-    person.textContent = ' ' + output.Ok.name;
+    person.textContent = output.Ok.name;
   } else {
     alert(output.Err.Internal);
   }
