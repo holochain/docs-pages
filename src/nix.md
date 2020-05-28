@@ -61,6 +61,7 @@ If you want to install a specific version of Holochain or the developer tools, i
 
 ```bash
 nix-shell https://github.com/holochain/holonix/archive/release-<x.x.x>.tar.gz
+```
 
 ### Per-project pinned releases
 
