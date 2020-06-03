@@ -182,8 +182,8 @@ Test that Holochain is working by running:
 
 !!! success "You should see something like:"
     ```
-    hc 0.0.48-alpha1
-    holochain 0.0.48-alpha1
+    hc 0.0.49-alpha1
+    holochain 0.0.49-alpha1
     ```
 
 ### Update/Uninstall
