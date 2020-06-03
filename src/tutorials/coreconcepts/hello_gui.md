@@ -107,11 +107,20 @@ It's time to communicate with the app you built in the previous tutorials. To ma
 
 To make this process is easy, we have precompiled a version of the hc-web-client for you.
 
-Download it [here](/assets/files/hc-web-client-0.5.3.zip), then unzip it and stick it in the root of your GUI directory:
+Download it [here](/assets/files/hc-web-client-0.5.3.zip) or run this command:
+
+```bash
+curl https://developer.holochain.org/assets/files/hc-web-client-0.5.3.zip > hc-web-client-0.5.3.zip
+```
+
+Then unzip it and stick it in the root of your GUI directory:
+
 ```bash
 unzip hc-web-client-0.5.3.zip
 ```
+
 The files should live here:
+
 ```
 gui/hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js
 gui/hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js.map

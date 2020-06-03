@@ -285,9 +285,7 @@ Run your app in HTTP mode:
     hc run -i http
     ```
 
-You can send a [POST](https://en.wikipedia.org/wiki/POST_(HTTP)) message to your app using [curl](https://curl.haxx.se/), a little command for making HTTP requests, which is included in the Holochain dev environment.
-
-You will need to open a new terminal window and enter the nix-shell again:
+You can send a [POST](https://en.wikipedia.org/wiki/POST_(HTTP)) message to your app using [curl](https://curl.haxx.se/), a little command for making HTTP requests. It's included in the Holochain dev environment, so if you don't have it installed in your machine, you can open a new terminal window and enter the nix-shell again:
 
 ```bash
 nix-shell https://holochain.love
