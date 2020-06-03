@@ -202,12 +202,15 @@ All you need to do is setup a bundle file to specify where things are.
 Create a new file in your hApp's root folder `cc_tuts/` called `bundle.toml` and add the following lines.
 
 There's no bridges (connections between separate zomes) in our hApp so this is empty.
+
 ```toml
 bridges = []
 
 ```
+
 This is the one and only instance you need for this tutorial.
 It contains the path to the dna and the hash (which needs to be updated as you make changes).
+
 ```toml
 [[instances]]
 name = "cc_tuts"
@@ -216,16 +219,20 @@ dna_hash = "QmS4GKPsTj6QZ1htuMqzv4gjapzeT92P5tHfyh7hZFejGV"
 uri = "file:dist/cc_tuts.dna.json"
 
 ```
+
 This is the GUI setup.
 It points to the root folder of your GUI.
 Mine is up one level (../) and in a folder called `gui`.
 You might need to edit this to match where you GUI lives (where the index.html is).
+
 ```toml
 [[UIs]]
 name = "CC Tuts"
 id = "cc_tuts_ui"
 uri = "dir:../gui"
+
 ```
+
 This links the GUI to the dna.
 
 ```toml
