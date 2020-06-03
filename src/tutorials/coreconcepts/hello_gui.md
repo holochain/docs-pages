@@ -216,7 +216,7 @@ It contains the path to the dna and the hash (which needs to be updated as you m
 [[instances]]
 name = "cc_tuts"
 id = "__cc_tuts"
-dna_hash = "QmQMHnyGd43Yuwc2YUrHxBxPzJBhtTkD21ftgU2qkTQZcb"
+dna_hash = "QmS4GKPsTj6QZ1htuMqzv4gjapzeT92P5tHfyh7hZFejGV"
 uri = "file:dist/cc_tuts.dna.json"
 
 ```
@@ -238,26 +238,7 @@ ui_handle = "test-instance"
 instance_id = "__cc_tuts"
 ```
 
-??? question "Check your bundle.toml:"
-    ```toml
-    bridges = []
-
-    [[instances]]
-    name = "cc_tuts"
-    id = "__cc_tuts"
-    dna_hash = "QmQMHnyGd43Yuwc2YUrHxBxPzJBhtTkD21ftgU2qkTQZcb"
-    uri = "file:dist/cc_tuts.dna.json"
-
-    [[UIs]]
-    name = "CC Tuts"
-    id = "cc_tuts_ui"
-    uri = "dir:../gui"
-
-    [[UIs.instance_references]]
-    ui_handle = "test-instance"
-    instance_id = "__cc_tuts"
-    ```
-
+\#S:CHECK=toml
 
 ## Run the bundle
 Make sure you are in you hApp's directory `cc_tuts/` and not the GUI directory.
