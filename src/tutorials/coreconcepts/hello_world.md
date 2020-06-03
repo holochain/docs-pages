@@ -140,6 +140,21 @@ You will tell `hc` to use sim2h networking because you are actually
 using two separate conductors in this tutorial.
 You will also need to give each conductor a different agent name.
 
+### Update the DNA hash in the bundle file
+
+Now that you've changed your DNA (even though it's a tiny change), it has a new hash. You'll need to update your `bundle.toml` file.
+
+!!! note "Run in `nix-shell https://holochain.love`"
+    ```
+    hc hash
+    ```
+
+    Copy the new DNA hash into your `bundle.toml` file; you can use the [update script from the GUI tutorial](../hello_gui/#run-the-bundle). Then start up your hApp:
+
+    ```bash
+    hc run
+    ```
+
 #### Terminal one
 You should have the sim2h server already running after the test. If not, start it now.
 
@@ -149,28 +164,17 @@ You should have the sim2h server already running after the test. If not, start i
     ```
 
 #### Terminal two
-Start by running the conductor. Set the agent name to `Alice`.
 
-!!! note "Run in `nix-shell https://holochain.love`"
-    ```
-    hc package
-    ```
-!!! check "Copy the DNA's hash with `hc hash`:"
-    ```
-    DNA hash: QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG
-    ```
-> Your hash will be different but you need to update your `bundle.toml` file.
-
-If you're feeling lazy, you can use the script in the [hello gui](../hello_gui/#run-the-bundle) tutorial.
+Now it's time to start a conductor for Alice.
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
     hc run --networked sim2h --agent-name Alice --port 8888
     ```
 
-
 #### Terminal three
-Start the second conductor with agent name set to `Bob`:
+
+Start a second coductor for Bob on a different port:
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```

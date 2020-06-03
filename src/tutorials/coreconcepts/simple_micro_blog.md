@@ -424,14 +424,11 @@ Package the DNA and then update the hash:
     hc package
     ```
 
-!!! check "Copy the DNA's hash with `hc hash`:"
-    ```
-    DNA hash: QmadwZXwcUccmjZGK5pkTzeSLB88NPBKajg3ZZkyE2hKkG
-    ```
-> Your hash will be different but you need to update your `bundle.toml` file.
+    Copy the new DNA hash into your `bundle.toml` file; you can use the [update script from the GUI tutorial](../hello_gui/#run-the-bundle). Then start up your hApp:
 
-If you're feeling lazy, don't forget the script in the [hello gui](../hello_gui/#run-the-bundle) tutorial.
-
+    ```bash
+    hc run
+    ```
 Run Alice's conductor:
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
