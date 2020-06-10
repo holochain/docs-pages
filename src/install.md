@@ -66,7 +66,7 @@ nix-shell --version
 You should see something like:
 
 ```
-nix-shell (Nix) 2.3.1
+nix-shell (Nix) 2.3.6
 ```
 
 If you’d like to know more about NixOS and why we use it, you can [find information on Nix here](../nix/).
