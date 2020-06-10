@@ -107,11 +107,16 @@ It's time to communicate with the app you built in the previous tutorials. To ma
 
 To make this process is easy, we have precompiled a version of the hc-web-client for you.
 
-Download it [here](/assets/files/hc-web-client-0.5.3.zip), then unzip it and stick it in the root of your GUI directory:
+Download it into the root of your GUI directory and unzip it:
+
 ```bash
+cd gui
+curl https://developer.holochain.org/assets/files/hc-web-client-0.5.3.zip > hc-web-client-0.5.3.zip
 unzip hc-web-client-0.5.3.zip
 ```
+
 The files should live here:
+
 ```
 gui/hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js
 gui/hc-web-client-0.5.3/hc-web-client-0.5.3.browser.min.js.map
@@ -197,30 +202,37 @@ All you need to do is setup a bundle file to specify where things are.
 Create a new file in your hApp's root folder `cc_tuts/` called `bundle.toml` and add the following lines.
 
 There's no bridges (connections between separate zomes) in our hApp so this is empty.
+
 ```toml
 bridges = []
 
 ```
+
 This is the one and only instance you need for this tutorial.
 It contains the path to the dna and the hash (which needs to be updated as you make changes).
+
 ```toml
 [[instances]]
 name = "cc_tuts"
 id = "__cc_tuts"
-dna_hash = "QmQMHnyGd43Yuwc2YUrHxBxPzJBhtTkD21ftgU2qkTQZcb"
+dna_hash = "QmS4GKPsTj6QZ1htuMqzv4gjapzeT92P5tHfyh7hZFejGV"
 uri = "file:dist/cc_tuts.dna.json"
 
 ```
+
 This is the GUI setup.
 It points to the root folder of your GUI.
 Mine is up one level (../) and in a folder called `gui`.
 You might need to edit this to match where you GUI lives (where the index.html is).
+
 ```toml
 [[UIs]]
 name = "CC Tuts"
 id = "cc_tuts_ui"
 uri = "dir:../gui"
+
 ```
+
 This links the GUI to the dna.
 
 ```toml
@@ -229,26 +241,7 @@ ui_handle = "test-instance"
 instance_id = "__cc_tuts"
 ```
 
-??? question "Check your bundle.toml:"
-    ```toml
-    bridges = []
-
-    [[instances]]
-    name = "cc_tuts"
-    id = "__cc_tuts"
-    dna_hash = "QmQMHnyGd43Yuwc2YUrHxBxPzJBhtTkD21ftgU2qkTQZcb"
-    uri = "file:dist/cc_tuts.dna.json"
-
-    [[UIs]]
-    name = "CC Tuts"
-    id = "cc_tuts_ui"
-    uri = "dir:../gui"
-
-    [[UIs.instance_references]]
-    ui_handle = "test-instance"
-    instance_id = "__cc_tuts"
-    ```
-
+\#S:CHECK=toml
 
 ## Run the bundle
 Make sure you are in you hApp's directory `cc_tuts/` and not the GUI directory.
