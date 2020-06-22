@@ -20,33 +20,24 @@ This tutorial helps you get orientated to the basics of a hApp. These are the fu
 ## Setup
 
 1. Complete the [installation guide](https://developer.holochain.org/start.html). It will give you an app development, environment including the Holochain developer tool `hc`.
-2. Open up a terminal (command prompt in Windows).
-3. Enter the development environment.
-macOS/Linux, you'll remember this command from the installation tutorial:
+2. Open up a terminal (if you're using Windows 10, make sure you open the Ubuntu terminal, not the command prompt or Powershell).
+3. Enter the development environment. You'll remember this command from the installation tutorial:
 ```bash
-nix-shell https://holochain.love
-```
-Windows (do this in the place where you installed Holochain):
-```cmd
-vagrant up
-vagrant ssh
 nix-shell https://holochain.love
 ```
 
 !!! tip "Nix Shell"
     You will see commands marked `Run in nix-shell https://holochain.love` throughout these tutorials.
-    You should keep the nix-shell open and run these commands in it---don't reopen nix-shell for every command.
+    You should keep the nix-shell open and run these commands in it---don't reopen nix-shell for every command unless the tutorial tells you to.
 
 ## Initializing your new app
 
-Pick a new home in which all your future Holochain applications will live. Something like  `home_directory/holochain/`.
+Pick a new home in which all your future Holochain applications will live. Something like  `~/holochain/`.
 
 Then, create a `coreconcepts` folder for this tutorial series:
 
 ```bash
-cd ~
-mkdir holochain
-cd holochain
+cd ~/holochain
 mkdir coreconcepts
 cd coreconcepts
 ```
