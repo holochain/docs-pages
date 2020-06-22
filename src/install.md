@@ -11,7 +11,7 @@ This guide will get you set up with the latest 'blessed' Holochain developer env
 * 30GB+ available disk space
 * Internet connection
 
-<div class="h-tile-container tile-tabs">
+<div class="h-tile-container h-tile-container-3 tile-tabs">
     <div class="h-tile">
         <a href="javascript:rudrSwitchTab('tab_1', 'content_1');" id="tab_1" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
             <h3><img src="/docs/custom/icon-apple.svg"> macOS</h3>
