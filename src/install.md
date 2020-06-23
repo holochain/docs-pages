@@ -18,7 +18,7 @@ This guide will get you set up with the latest 'blessed' Holochain developer env
         </a>
     </div>
     <div class="h-tile">
-        <a href="javascript:rudrSwitchTab('tab_2', 'content_2');" id="tab_2" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
+        <a href="javascript:rudrSwitchTab('tab_2', 'content_2');" id="tab_2" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
             <h3><img src="/docs/custom/icon-linux.svg" class="linux"> Linux</h3>
         </a>
     </div>
