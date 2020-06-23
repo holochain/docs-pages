@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.3.1 --> 0.3.2
+
+Simplified Holonix installation instructions for macOS and Windows.
+
 ## 0.3.0 --> 0.3.1
 
 New header and footer nav. That is all!
