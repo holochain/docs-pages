@@ -149,6 +149,7 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 .h-tile-container { width: calc(100% + 30px); margin-left: -15px; }
 .h-tile-container:after { content: ''; clear: both; display: block; }
 .h-tile { width: 50%; padding: 15px; float: left; box-sizing: border-box; }
+.h-tile-container-3 .h-tile { width: 33.3%; }
 .h-tile a { padding: 1.2rem; display: block; border: 1px solid #E7E7E7; box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05); position: relative; top: 0; color: rgba(0,0,0,.87) !important; transition: .3s; }
 .h-tile a:after { content: ''; width: 100%; height: 5px; position: absolute; top: 0; left: 0; background: #00FFCE; }
 .h-tile h2, .h-tile h3, .h-tile h4 { margin-top: 0; padding: 0; margin-bottom: 0; }

@@ -1,4 +1,4 @@
-# Install Holochain
+# Install The Holochain Developer Tools
 
 <div markdown="1" class="coreconcepts-intro">
 This guide will get you set up with the latest 'blessed' Holochain developer environment on macOS, Linux, and Windows. Blessed releases are reasonably stable for daily hApp development, while in-between releases may have bugs or are meant for internal use. If you'd like to install an in-between release, read our [advanced guide](../nix/#unblessed-releases).
@@ -11,36 +11,55 @@ This guide will get you set up with the latest 'blessed' Holochain developer env
 * 30GB+ available disk space
 * Internet connection
 
-<div class="h-tile-container tile-tabs">
+<div class="h-tile-container h-tile-container-3 tile-tabs">
     <div class="h-tile">
         <a href="javascript:rudrSwitchTab('tab_1', 'content_1');" id="tab_1" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
-            <h3><img src="/docs/custom/icon-apple.svg"> Mac + <img src="/docs/custom/icon-linux.svg" class="linux"> Linux</h3>
+            <h3><img src="/docs/custom/icon-apple.svg"> macOS</h3>
         </a>
     </div>
     <div class="h-tile">
         <a href="javascript:rudrSwitchTab('tab_2', 'content_2');" id="tab_2" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
-            <h3><img src="/docs/custom/icon-windows.svg"> Windows <span>or Vagrant/Docker</span></h3>
+            <h3><img src="/docs/custom/icon-linux.svg" class="linux"> Linux</h3>
+        </a>
+    </div>
+    <div class="h-tile">
+        <a href="javascript:rudrSwitchTab('tab_3', 'content_3');" id="tab_3" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+            <h3><img src="/docs/custom/icon-windows.svg"> Windows</h3>
         </a>
     </div>
 </div>
 
 <div markdown="1" class="tabcontent" data-tabid="tab_1" id="content_1">
 
-## Mac / Linux
+## macOS
 
-### macOS Requirements
-
-#### Pre-Installed Software
+### Pre-Installed Software
 
 * [XCode Developer Tools](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
 
-#### Special Notes on Catalina
+### Install the Nix Package Manager
 
-If you are using macOS Catalina you will need to do a workaround. There is an active issue [here](https://github.com/NixOS/nix/issues/2925) that may help.
+We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:
 
-### Linux Requirements
+#### macOS 10.15 Catalina
 
-None.
+\#S:SKIP
+```bash
+sh <(curl https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume
+```
+
+#### macOS 10.14 Mojave and earlier
+
+\#S:SKIP
+```bash
+curl https://nixos.org/nix/install | sh
+```
+
+</div>
+
+<div markdown="1" class="tabcontent" data-tabid="tab_2" id="content_2" style="display:none;">
+
+## Linux
 
 ### Install the Nix Package Manager
 
@@ -51,7 +70,42 @@ We use Nix toolkit to manage the installation of our dev tools. Install the Nix 
 curl https://nixos.org/nix/install | sh
 ```
 
-You might need to run this command to get the environment setup:
+</div>
+
+<div markdown="1" class="tabcontent" id="content_3" data-tabid="tab_3" style="display:none;">
+
+## Windows
+
+Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. If you have Windows 10, Linux is available via the Microsoft Store.
+
+### Requirements
+
+* Windows 10 with [May 2020 Update](https://support.microsoft.com/en-us/help/4028685/windows-10-get-the-update)
+
+### Older versions of Windows
+
+Windows 8 and earlier are not officially supported. We recommend that you install Linux in a virtual machine ([Ubuntu Linux](https://www.ubuntu.com/) in [VirtualBox](https://virtualbox.org) is a popular and user-friendly choice). Here is a [tutorial](https://itsfoss.com/install-linux-in-virtualbox/) to get you up and running.
+
+### Install Ubuntu Linux
+
+1. Make sure you're [up to date](https://support.microsoft.com/en-us/help/4028685/windows-10-get-the-update) with Windows 10 version 2004 or newer.
+2. [Install Windows Subsystem for Linux 2 (WSL2)](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
+3. Open the Microsoft Store app and search for Ubuntu 20.04 LTS.
+4. Install Ubuntu.
+5. Open the Start menu and click on Ubuntu 20.04 LTS. You should see a Linux terminal.
+
+### Install the Nix Package Manager
+
+Install the Nix package manager with this command:
+
+\#S:SKIP
+```bash
+curl https://nixos.org/nix/install | sh
+```
+
+</div>
+
+After installing Nix, you might need to run this command to get your terminal to recognize the newly installed commands:
 
 ```bash
 . ~/.nix-profile/etc/profile.d/nix.sh
@@ -69,89 +123,7 @@ You should see something like:
 nix-shell (Nix) 2.3.6
 ```
 
-If you’d like to know more about NixOS and why we use it, you can [find information on Nix here](../nix/).
-
-</div>
-
-<div markdown="1" class="tabcontent" id="content_2" data-tabid="tab_2" style="display:none;">
-
-## Windows
-
-### Requirements
-
-* Windows 8+
-* Powershell 2.0+
-* [Vagrant](https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.msi)
-* [VirtualBox](https://download.virtualbox.org/virtualbox/6.0.8/VirtualBox-6.0.8-130520-Win.exe)
-* [Vagrant nixos plugin](https://github.com/nix-community/vagrant-nixos-plugin)
-
-### Windows Environment Setup
-
-Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. We expect this to change in the future. [NixOS for Windows is in active development!](https://github.com/NixOS/nixpkgs/issues/30391) In the meantime, you will need to work with a virtual machine.
-
-The process is similar to working with a local web server. There are Holochain-optimized options for both [Docker](https://github.com/NixOS/nixpkgs/issues/30391) and [Vagrant](https://github.com/NixOS/nixpkgs/issues/30391).
-
-#### This guide explains using NixOS with Vagrant/VirtualBox.
-
-!!! note
-    All these commands assume Windows PowerShell 2.0+. The basic process is the same for both Windows 8 and Windows 10.
-
-Create a new folder:
-
-```powershell
-mkdir holochain-vagrant
-```
-
-Move into the new folder:
-
-```powershell
-cd holochain-vagrant
-```
-
-Copy the basic, Holochain-optimised Vagrant file:
-
-```powershell
-wget https://gist.githubusercontent.com/thedavidmeister/8e92696538fe04cf6b44552e14d29195/raw/4dcb83b983e8dcd2f5db213b0cde5a533af556a6/Vagrantfile -outfile Vagrantfile
-```
-
-Add the Vagrant NixOS plugin if you don't already have it:
-
-```powershell
-vagrant plugin install vagrant-nixos-plugin
-```
-
-Download and boot the box:
-
-```powershell
-vagrant up
-```
-
-SSH into the box:
-
-```powershell
-vagrant ssh
-```
-
-Move into the shared folder
-
-```powershell
-cd /vagrant
-```
-
-Check that it installed correctly:
-
-```powershell
-nix-shell --version
-```
-
-!!! success "You should see something like:"
-    ```
-    nix-shell (Nix) 2.3.5
-    ```
-
-If you’d like to know more about Nix and why we use it, you can <a href="../nix/">find information on Nix here</a>. If you’d like to know more the Windows / Vagrant setup you can <a href="../vagrant/">find information here</a>.
-
-</div>
+If you’d like to know more about Nix and why we use it, you can [find more information here](../nix/).
 
 ---
 
@@ -190,9 +162,11 @@ Test that Holochain is working by running:
 
 You don’t need to worry about updating or uninstalling. When you enter the nix-shell, it checks for the latest blessed release, downloads any updates, and then cleans up the configuration when you exit.
 
-### Editor
+### Using your text editor or IDE
 
-In most cases you can run your editor as normal. However, if you are using an editor integrated development environment (IDE) that needs to communicate with the Rust compiler, then you should launch it from inside the nix-shell. To do this, just open your editor while you are in the nix-shell like:
+In most cases you can run your editor as normal. However, if you are using a text editor or integrated development environment (IDE) that needs to communicate with the Rust compiler for real-time syntax checks, then you should launch it from inside the nix-shell. This is because Holonix comes with its own version of Rust that might be different from what you may already have installed.
+
+To do this, just open your editor from the command line while you are in the nix-shell (this example uses Vim):
 
 !!! note "Run in `nix-shell https://holochain.love`"
     ```
