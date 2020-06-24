@@ -45,14 +45,14 @@ We use Nix toolkit to manage the installation of our dev tools. Install the Nix 
 
 \#S:SKIP
 ```bash
-sh <(curl https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume
+sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume
 ```
 
 #### macOS 10.14 Mojave and earlier
 
 \#S:SKIP
 ```bash
-curl https://nixos.org/nix/install | sh
+sh <(curl -L https://nixos.org/nix/install)
 ```
 
 </div>
@@ -67,7 +67,7 @@ We use Nix toolkit to manage the installation of our dev tools. Install the Nix 
 
 \#S:INCLUDE,MODE=linux
 ```bash
-curl https://nixos.org/nix/install | sh
+sh <(curl -L https://nixos.org/nix/install)
 ```
 
 </div>
@@ -100,16 +100,16 @@ Install the Nix package manager with this command:
 
 \#S:SKIP
 ```bash
-curl https://nixos.org/nix/install | sh
+sh <(curl -L https://nixos.org/nix/install)
 ```
 
 </div>
 
-After installing Nix, you might need to run this command to get your terminal to recognize the newly installed commands:
+After installing Nix, log out of your user account and log in again. Or, to save work, run this command to get your terminal to recognize the newly installed commands:
 
 \#S:INCLUDE,MODE=linux
 ```bash
-. ~/.nix-profile/etc/profile.d/nix.sh
+. /nix/var/nix/profiles/default/etc/profile.d/nix.sh
 ```
 
 Check that it installed correctly:
