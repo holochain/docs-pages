@@ -107,6 +107,7 @@ curl https://nixos.org/nix/install | sh
 
 After installing Nix, you might need to run this command to get your terminal to recognize the newly installed commands:
 
+\#S:INCLUDE,mode=linux
 ```bash
 . ~/.nix-profile/etc/profile.d/nix.sh
 ```
