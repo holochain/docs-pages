@@ -109,7 +109,7 @@ After installing Nix, log out of your user account and log in again. Or, to save
 
 \#S:INCLUDE,MODE=linux
 ```bash
-. /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+. ~/.nix-profile/etc/profile.d/nix.sh
 ```
 
 Check that it installed correctly:
