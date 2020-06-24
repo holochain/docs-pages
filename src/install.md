@@ -105,7 +105,7 @@ sh <(curl -L https://nixos.org/nix/install)
 
 </div>
 
-After installing Nix, log out of your user account and log in again. Or, to save work, run this command to get your terminal to recognize the newly installed commands:
+After installing Nix, log out of your user account and log in again. Or, to save effort, run this command to get your terminal to recognize the newly installed commands:
 
 \#S:INCLUDE,MODE=linux
 ```bash

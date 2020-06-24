@@ -57,7 +57,7 @@ If you need certain functionality sooner or just want to track the bleeding edge
 nix-shell https://github.com/holochain/holonix/archive/master.zip
 ```
 
-If you want to install a specific version of Holochain or the developer tools, it's a bit more tricky because Holonix version numbers don't exactly correspond to the version numbers of the Holochain release htey contain. You'll need to find the specific Holonix version number (the [Dev Pulse blog](https://blog.holochain.org/tag/dev-pulse/) is a good source for this) and enter this command:
+If you want to install a specific version of Holochain or the developer tools, it's a bit more tricky because Holonix version numbers don't exactly correspond to the version numbers of the Holochain release they contain. You'll need to find the specific Holonix version number (the [Dev Pulse blog](https://blog.holochain.org/tag/dev-pulse/) is a good source for this) and enter this command:
 
 ```bash
 nix-shell https://github.com/holochain/holonix/archive/release-<x.x.x>.tar.gz
