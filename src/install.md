@@ -121,7 +121,7 @@ nix-shell --version
 You should see something like:
 
 ```
-nix-shell (Nix) 2.3.6
+nix-shell (Nix) 2.3.7
 ```
 
 If you’d like to know more about Nix and why we use it, you can [find more information here](../nix/).
