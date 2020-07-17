@@ -113,6 +113,7 @@ Download it into the root of your GUI directory and unzip it:
 cd gui
 curl https://developer.holochain.org/assets/files/hc-web-client-0.5.3.zip > hc-web-client-0.5.3.zip
 unzip hc-web-client-0.5.3.zip
+rm hc-web-client-0.5.3.zip
 ```
 
 The files should live here:
@@ -215,7 +216,7 @@ It contains the path to the dna and the hash (which needs to be updated as you m
 [[instances]]
 name = "cc_tuts"
 id = "__cc_tuts"
-dna_hash = "QmS4GKPsTj6QZ1htuMqzv4gjapzeT92P5tHfyh7hZFejGV"
+dna_hash = "QmS98Lf3xj516DdJB2T3DmzbAo9aW5oAiQ5bxDFpCFvQxv"
 uri = "file:dist/cc_tuts.dna.json"
 
 ```

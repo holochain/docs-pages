@@ -121,7 +121,7 @@ nix-shell --version
 You should see something like:
 
 ```
-nix-shell (Nix) 2.3.6
+nix-shell (Nix) 2.3.7
 ```
 
 If you’d like to know more about Nix and why we use it, you can [find more information here](../nix/).
@@ -155,8 +155,8 @@ Test that Holochain is working by running:
 
 !!! success "You should see something like:"
     ```
-    hc 0.0.49-alpha1
-    holochain 0.0.49-alpha1
+    hc 0.0.50-alpha4
+    holochain 0.0.50-alpha4
     ```
 
 ### Update/Uninstall
