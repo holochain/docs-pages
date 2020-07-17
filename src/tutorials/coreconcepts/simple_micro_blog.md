@@ -7,9 +7,6 @@
 
 # Simple Microblog Tutorial
 
-!!! bug "Bug warning"
-    Version 0.0.49 of Holochain, released 20 May 2020, has a bug that prevents links on agent IDs from propagating on the DHT. As such, you'll only be able to retrieve your own posts, not another agent's. A fix for this bug is coming soon!
-
 !!! info "WIP"
     This article is currently a work in progress and subject to frequent change.
     See the [changelog](/docs/changelog) for details.
