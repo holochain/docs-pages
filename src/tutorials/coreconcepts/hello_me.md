@@ -473,6 +473,8 @@ Open a new terminal window and enter the nix-shell:
     hc run
     ```
 
+    Your DNA hash will have changed, so you'll likely get the hash mismatch error again. [Follow the instructions from the last tutorial](../hello_gui/#run-the-bundle) to get it working.
+
 Now that both your UI server and your Holochain conductor server are running, open up a browser and go to `127.0.0.1:8888`. You should see the HTML elements you created:
 
 ![](../../img/create_person_1.png)
@@ -535,6 +537,8 @@ function create_person() {
   });
 }
 ```
+
+\#S:CHECK=javascript=gui
 
 ### Enter the browser
 
