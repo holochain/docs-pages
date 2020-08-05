@@ -149,11 +149,7 @@ Now that you've changed your DNA (even though it's a tiny change), it has a new 
     hc hash
     ```
 
-    Copy the new DNA hash into your `bundle.toml` file; you can use the [update script from the GUI tutorial](../hello_gui/#run-the-bundle). Then start up your hApp:
-
-    ```bash
-    hc run
-    ```
+    Copy the new DNA hash into your `bundle.toml` file; you can use the [update script from the GUI tutorial](../hello_gui/#run-the-bundle).
 
 #### Terminal one
 You should have the sim2h server already running after the test. If not, start it now.
