@@ -216,7 +216,7 @@ It contains the path to the dna and the hash (which needs to be updated as you m
 [[instances]]
 name = "cc_tuts"
 id = "__cc_tuts"
-dna_hash = "QmS98Lf3xj516DdJB2T3DmzbAo9aW5oAiQ5bxDFpCFvQxv"
+dna_hash = "QmdATqyBReFQh2bV8J3mPajRKSQ7CZpkZ2S251ypxoAbH6"
 uri = "file:dist/cc_tuts.dna.json"
 
 ```
