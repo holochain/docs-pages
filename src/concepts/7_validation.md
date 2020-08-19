@@ -27,7 +27,7 @@ Let's review what we've covered so far.
 1. Holochain is a framework for building apps that let peers directly share data without needing the protective oversight of a central server.
 2. How does it do this? You may recall from [the beginning](../1_the_basics) of this series that Holochain's two pillars are **intrinsic data integrity** and **peer replication/validation**. The first pillar defines what valid data looks like, while the second pillar uses the rules of the first pillar to protect users and the whole network.
 3. We said that each type of [**app entry**](../3_source_chain#source-chain-your-own-data-store) can contain any sort of string data whose correctness is determined by custom **validation rules**.
-4. We then showed how [**peer validators**](../4_dht#a-cloud-of-witnesses) use those rules to analyze entries and spread news about bad actors.
+4. We then showed how [**peer validators**](../4_public_data_on_the_dht#a-cloud-of-witnesses) use those rules to analyze entries and spread news about bad actors.
 
 Holochain is the engine that moves data around, validates it, and takes action based on validation results. Your DNA is simply a collection of functions for creating data and validation rules for checking that data. Those two things are critical to the success of your app because they define the membranes of safety between the user and DHT. Well-designed validation rules protect everyone, while buggy validation rules leave them vulnerable.
 
