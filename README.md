@@ -12,7 +12,8 @@ To run the server locally use:
 
 ```bash
 ./dev_build.sh
-```
+
+```https://github.com/holochain/docs-pages/issues/241#issue-689501132
 This will open a live reload server which is great for development. It will also build mkdocs and run single_source.
 However the netlify redirects will not work so you will need to go to `http://localhost:9000/docs/` to see the site.
 
