@@ -34,6 +34,9 @@ html { background: #f3f7fa; background-image: url(body-back.jpg); background-siz
 .holochain-rsm-guidance .content ul {
     font-size: 1.2rem;
     font-weight: 300;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 1em;
 }
 
 .holochain-rsm-guidance .content b,
