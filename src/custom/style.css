@@ -1,3 +1,33 @@
+/* RSM stuff -- get rid of this eventually */
+
+.rsm-banner {
+    position: relative;
+    width: 100%;
+    z-index: 1000;
+    margin-top: 50px;
+    background: #fa6;
+    padding: 1rem 0;
+}
+
+.rsm-banner p {
+    font-size: 1rem;
+    font-weight: normal;
+    padding-bottom: 0;
+    padding-right: 155px;
+}
+
+.rsm-banner-cta {
+    position: absolute;
+    right: 0;
+    font-size: 1rem;
+    top: -.75rem;
+}
+
+.rsm-banner-cta.rsm-banner-cta {
+    margin-top: 0 !important;
+}
+
+
 /* Font */
 
 .md-typeset h1, .md-typeset h2 { font-weight: 700; color: rgba(0,0,0,.87);  letter-spacing: -.5px; }
