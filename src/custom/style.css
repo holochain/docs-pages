@@ -4,29 +4,28 @@
     position: relative;
     width: 100%;
     z-index: 1000;
-    margin-top: 50px;
     background: #fa6;
     padding: 1rem 0;
 }
 
 .rsm-banner p {
-    font-size: 1rem;
+    font-size: .8rem;
     font-weight: normal;
-    padding-bottom: 0;
     padding-right: 155px;
+    margin: 0;
 }
 
 .rsm-banner-cta {
     position: absolute;
     right: 0;
-    font-size: 1rem;
-    top: -.75rem;
+    font-size: .8rem;
+    top: -.5rem;
+	background: #00FFCE;
+	color: #000;
+	padding: 2px 12px;
+	line-height: 2;
+	font-weight: bold;
 }
-
-.rsm-banner-cta.rsm-banner-cta {
-    margin-top: 0 !important;
-}
-
 
 /* Font */
 
