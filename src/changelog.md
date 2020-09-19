@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.3.4 --> 0.3.5
+
+Preparing for releasing Holochain RSM -- added warning banners and a provisional resource guide.
+
 ## 0.3.3 --> 0.3.4
 
 Updated for Holochain v0.0.51. No breaking changes.
