@@ -104,7 +104,7 @@ Generate a zome called `hello` inside the zome's folder:
     > cargo build --release --target=wasm32-unknown-unknown --target-dir=target
         Finished release [optimized] target(s) in 0.50s
     Created DNA package file at "/Users/username/holochain/coreconcepts/hello_hollo/dist/hello_hollo.dna.json"
-    DNA hash: QmTVcDkmNsoGDDbpx81zFr1RBKxMLWRBA7eNiiMtvxJJSF
+    DNA hash: QmfR7roRdUZASznWyW6bN7Rs8VKWXMcts4S14f2rCaqQGB
     ```
 
 ## Folder layout
