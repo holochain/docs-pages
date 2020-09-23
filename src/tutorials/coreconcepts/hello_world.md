@@ -63,10 +63,10 @@ Before Bob can retrieve Alice's person, Bob will need to be able to see the pers
 
 To make sure this has happened, add this line to the end of the scenario:
 ```javascript
-  await s.consistency();
+  await new Promise(r => setTimeout(r, 1000));
 ```
 
-> This one line says a lot about the nature of a Holochain application. The word `await` shows that we are in an asynchronous world and want to wait for consistency to be achieved. What kind of situation might lead to this line never returning? _Hint: Think about networks that might not be perfect._
+> This one line says a lot about the nature of a Holochain application. The word `await` shows that we are in an asynchronous world, so we want to wait for consistency to be achieved. What kind of situation might lead to this line not being sufficient? _Hint: Think about networks that might not be perfect._
 
 Get Bob to retrieve Alice's person using the same address she did when she created the entry:
 
