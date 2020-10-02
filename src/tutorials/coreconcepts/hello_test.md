@@ -156,7 +156,7 @@ Remove the following section:
 -  );
 -
 -  // Wait for all network activity to settle
--  await s.consistency();
+-  await new Promise(r => setTimeout(r, 1000));
 -
 -  const result = await bob.call('myInstanceName', 'my_zome', 'get_my_entry', {
 -    address: addr.Ok,
