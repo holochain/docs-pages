@@ -64,9 +64,12 @@ Tell the test to wait for the DHT to become consistent.
 
 ```javascript
 
-  await s.consistency();
+  await new Promise(r => setTimeout(r, 1000));
 
 ```
+
+!!! warning "Shouldn't I use `s.consistency()`?"
+    If this isn't the first time you've written a Tryorama scenario, you may remember the statement `await s.consistency()` which waited for the DHT to become consistent. We're not using this because, in the course of fixing another bug, the `s.consistency()` function was broken. We made the decision to not fix it now, but instead introduce better tools for consistency checking later. We're currently working on [a new Holochain](/holochain-rsm-guidance.html) and will not be backporting this fix to the soon-to-be-deprecated version that you're currently learning with.
 
 Add a call to the `retrieve_person` function with the address from the last call:
 

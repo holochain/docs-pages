@@ -55,7 +55,7 @@ orchestrator.registerScenario('Test hello holo', async (s, t) => {
   t.ok(create_result.Ok);
   const alice_person_address = create_result.Ok;
 
-  await s.consistency();
+  await new Promise(r => setTimeout(r, 1000));
 
   const retrieve_result = await alice.call(
     'cc_tuts',

@@ -61,7 +61,7 @@ orchestrator.registerScenario('Test hello holo', async (s, t) => {
   });
   t.ok(create_result.Ok);
 
-  await s.consistency();
+  await new Promise(r => setTimeout(r, 1000));
 
   const alice_address = alice.instance('cc_tuts').agentAddress;
 
@@ -80,7 +80,7 @@ orchestrator.registerScenario('Test hello holo', async (s, t) => {
   };
   t.deepEqual(alice_posts, [post]);
 
-  await s.consistency();
+  await new Promise(r => setTimeout(r, 1000));
 
   const bob_retrieve_result = await bob.call(
     'cc_tuts',
