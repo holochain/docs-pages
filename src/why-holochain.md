@@ -1,7 +1,7 @@
 # Why Holochain?
 
 <div class="coreconcepts-intro" markdown=1>
-Building with Holochain means you can design completely serverless applications that run on the devices of the users themselves. You get the performance and integrity of server-based applications with the resilience and user empowerment of distributed applications.
+Building with Holochain means you can design completely serverless applications that run on the devices of your users themselves. You get the performance and integrity of server-based applications with the resilience and user empowerment of distributed applications.
 </div>
 
 <div class="heading-tile" style="background-image:url(../img/tile-1.jpg);" markdown=1>
@@ -31,11 +31,11 @@ Apps live in separate networks, but can easily bridge to each other or to the ou
 
 ### Evolvable
 
-Holochain supports fast and agile development, letting you create microservices that can be swapped and updated at will. You don’t have to have the code or application logic absolutely perfect before launch. You can add or replace code bundles, gradually upgrading components without disruption. Forks are tools again, rather than weapons.
+Holochain supports fast and agile development, letting you create microservices that can be swapped and updated at will. You don’t have to have the code or application logic absolutely perfect before launch. You can add or replace code bundles, gradually upgrading components without disruption. Forks are tools again, not weapons.
 
 ### Fast and lean
 
-Holochain replaces global consensus with direct peer communication. Users run software on their own devices, replicating only the data they’re interested in, and reaching agreement at the speed of the internet. Meanwhile, a sophisticated immune system rapidly identifies and responds to network attacks.
+Holochain replaces global consensus with direct peer communication and peer witnessing. Users run your software on their own devices, replicating only the data they’re interested in, and reaching agreement at the speed of the internet. Meanwhile, a sophisticated immune system rapidly identifies and responds to network attacks.
 
 ### Flexible
 
