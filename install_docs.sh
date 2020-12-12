@@ -3,7 +3,7 @@
 ./create_docs.sh
 
 source_md () {
-  rm $2/* 
+  rm $2/*
   FILES=$(find $1 -maxdepth 0 -type f)
   for f in $FILES
   do
@@ -27,6 +27,5 @@ source_md () {
   done
 }
 
-source_md "src/tutorials/coreconcepts/*" "docs/tutorials/coreconcepts"
-source_md "src/tutorials/starter_app/*" "docs/tutorials/starter_app"
+#source_md "src/tutorials/coreconcepts/*" "docs/tutorials/coreconcepts"
 single_source md src/install.md docs/install.md

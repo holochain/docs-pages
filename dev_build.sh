@@ -16,10 +16,8 @@ rebuild_on_update() {
 	run_on_update docs/ "-I{} $build"
 }
 
-run_on_update src/tutorials/coreconcepts/ ./cc_tuts_build.sh
-run_on_update src/concepts ./dev_build_art.sh
+#run_on_update src/tutorials/coreconcepts/ ./cc_tuts_build.sh
 run_on_update src/ ./dev_build_misc_static.sh
-run_on_update src/tutorials/starter_app/ ./dev_build_ag.sh
 if [ "$1" == "sync" ]; then
 	rebuild_on_update
 	cd build && browser-sync start -s -f . --port 9000 --reload-delay 10000 --reload-debounce 10000
