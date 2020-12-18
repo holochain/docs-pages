@@ -1,6 +1,6 @@
 [build]
     publish = "/build"
-    command = "./create_docs.sh && mkdocs build -d build/docs"
+    command = "./create_docs.sh"
 
 [[redirects]]
     # This one redirects all non-existent pages to the redux dev docs,
