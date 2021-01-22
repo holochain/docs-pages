@@ -18,12 +18,13 @@ nav:
     - Introduction: 'concepts/index.md'
     - The Basics: 'concepts/1_the_basics.md'
     - Application Architecture: 'concepts/2_application_architecture.md'
-    - Source Chain: 'concepts/3_private_data.md'
-    - DHT: 'concepts/4_public_data_on_the_dht.md'
-    - Links: 'concepts/5_linking_data_together.md'
-    - CRUD Operations: 'concepts/6_modifying_and_deleting_data.md'
+    - Source Chain: 'concepts/3_source_chain.md'
+    - DHT: 'concepts/4_dht.md'
+    - Links and Paths: 'concepts/5_links_paths.md'
+    - CRUD Actions: 'concepts/6_crud_actions.md'
     - Validation: 'concepts/7_validation.md'
-    - Node-to-Node Messaging: 'concepts/8_node_to_node_messaging.md'
+    - Calls and Capabilities: 'concepts/8_calls_capabilities.md'
+    - Signals: 'concepts/9_signals.md'
   - Resources:
     - Introduction: 'resources/index.md'
     - Community Contributions:
