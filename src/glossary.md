@@ -566,7 +566,7 @@ A network port that the [conductor](#conductor) exposes, allowing [clients](#cli
 
 #### Required validations
 
-The number of [validation receipts](#validation-receipt) that an [element](#element) of a given [entry type](#entry-type) must have in order to be considered accepted by the [validation authorities](#validation-authority) and 'live' on the [DHT](#distributed-hash-table-dht). On initial [publish](#publish), the author of an element collects these receipts; thereafter, validation authorities gossip these receipts to each other.
+The number of [validation receipts](#validation-receipt) that an [element](#element) of a given [entry type](#entry-type) must have in order to be considered accepted by the [validation authorities](#validation-authority) and be 'live' on the [DHT](#distributed-hash-table-dht). On initial [publish](#publish), the author of an element collects these receipts; thereafter, validation authorities gossip these receipts to each other. If the author can't collect the required number of receipts, it'll try to republish to more authorities later.
 
 #### Resilience
 
