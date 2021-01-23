@@ -129,8 +129,16 @@ Now that you have installed Nix, you can install and run a development shell tha
 
 Use this one-liner to install Holonix:
 
+### Linux (and Windows 10 with WSL2)
+
 ```bash
 $(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix
+```
+
+### macOS
+
+```bash
+HN_NOSUDO=true $(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix
 ```
 
 Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new prompt starting with:
@@ -192,8 +200,16 @@ Any time you want to get the latest version of the dev tools, you can [follow th
 !!! Info "Making it easier to run"
     This is a hard command to remember, so you might want to add an alias for it as well:
 
+    ### Linux (and Windows 10 with WSL2)
+
     ```bash
     echo 'alias holonix-update=\'$(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
+    holonix-update
+    ```
+
+    ### macOS
+    ```bash
+    echo 'alias holonix-update=\'HN_NOSUDO=true $(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
     holonix-update
     ```
 
