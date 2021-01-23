@@ -1,7 +1,7 @@
 # Install The Holochain Developer Tools
 
 <div markdown="1" class="coreconcepts-intro">
-This guide will get you set up with the latest 'blessed' Holochain developer environment on macOS, Linux, and Windows. Blessed releases are reasonably stable for daily hApp development, while in-between releases may have bugs or are meant for internal use. If you'd like to install an in-between release, read our [advanced guide](../nix/#unblessed-releases).
+This guide will get you set up with the latest Holochain RSM developer environment on macOS, Linux, and Windows. Right now Holochain RSM is **alpha quality** and things are moving fast. Expect our APIs and SDKs to change and even break your app if you're keeping up with the latest changes. If you'd like to install something more stable, read our [advanced guide](../nix/).
 </div>
 
 ## Hardware Requirements
@@ -39,18 +39,16 @@ This guide will get you set up with the latest 'blessed' Holochain developer env
 
 ### Install the Nix Package Manager
 
-We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:
+We use the Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:
 
-#### macOS 10.15 Catalina
+#### macOS 10.15 Catalina and later
 
-\#S:SKIP
 ```bash
 sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume
 ```
 
 #### macOS 10.14 Mojave and earlier
 
-\#S:SKIP
 ```bash
 sh <(curl -L https://nixos.org/nix/install)
 ```
@@ -63,9 +61,8 @@ sh <(curl -L https://nixos.org/nix/install)
 
 ### Install the Nix Package Manager
 
-We use Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:
+We use the Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:
 
-\#S:INCLUDE,MODE=linux
 ```bash
 sh <(curl -L https://nixos.org/nix/install)
 ```
@@ -76,7 +73,7 @@ sh <(curl -L https://nixos.org/nix/install)
 
 ## Windows
 
-Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. If you have Windows 10, Linux is available via the Microsoft Store.
+Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. If you have Windows 10, Ubuntu Linux is available via the Microsoft Store.
 
 ### Requirements
 
@@ -84,7 +81,7 @@ Holochain development uses the same tools across Mac, Windows, and Linux. Howeve
 
 ### Older versions of Windows
 
-Windows 8 and earlier are not officially supported. We recommend that you install Linux in a virtual machine ([Ubuntu Linux](https://www.ubuntu.com/) in [VirtualBox](https://virtualbox.org) is a popular and user-friendly choice). Here is a [tutorial](https://itsfoss.com/install-linux-in-virtualbox/) to get you up and running.
+Windows 8 and earlier are not officially supported. We recommend that you install Linux in a virtual machine --- ([Ubuntu Linux](https://www.ubuntu.com/) in [VirtualBox](https://virtualbox.org) is a popular and user-friendly choice). Here is a [tutorial](https://itsfoss.com/install-linux-in-virtualbox/) to get you up and running.
 
 ### Install Ubuntu Linux
 
@@ -96,9 +93,8 @@ Windows 8 and earlier are not officially supported. We recommend that you instal
 
 ### Install the Nix Package Manager
 
-Install the Nix package manager with this command:
+One you see a Linux terminal, install the Nix package manager with this command:
 
-\#S:SKIP
 ```bash
 sh <(curl -L https://nixos.org/nix/install)
 ```
@@ -107,7 +103,6 @@ sh <(curl -L https://nixos.org/nix/install)
 
 After installing Nix, log out of your user account and log in again. Or, to save effort, run this command to get your terminal to recognize the newly installed commands:
 
-\#S:INCLUDE,MODE=linux
 ```bash
 . ~/.nix-profile/etc/profile.d/nix.sh
 ```
@@ -121,67 +116,100 @@ nix-shell --version
 You should see something like:
 
 ```
-nix-shell (Nix) 2.3.7
+nix-shell (Nix) 2.3.9
 ```
 
 If you’d like to know more about Nix and why we use it, you can [find more information here](../nix/).
 
 ---
 
-## Install Holochain Tools
+## Installing the Holochain dev tools
 
-Now that you have installed Nix, you can run a development shell that contains all the prerequisites, including the correct Rust and Node.js versions and the Holochain tools. This shell won’t interfere with your current system configuration. Run this command:
+Now that you have installed Nix, you can install and run a development shell that contains all the prerequisites, including the correct Rust and Node.js versions and the Holochain tools. This shell won’t interfere with your current system configuration.
 
-\#S:MODE=enter
+Use this one-liner to install Holonix:
+
 ```bash
-nix-shell https://holochain.love
+$(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix
 ```
 
-The first time you run this command it will take some time to download and build, but it will be much faster the next time.
+Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new prompt starting with:
 
-!!! info "When it’s complete, you will see a new prompt starting with:"
-    ```
-    [nix-shell:
-    ```
+```
+[nix-shell:
+```
 
-Test that Holochain is working by running:
+Test that you have Holochain and the dev tools by running:
 
-\#S:MODE=nix
-!!! note "Run in `nix-shell https://holochain.love`"
+```bash
+holochain --version
+dna-util --version
+```
+
+You should see something like this:
+
+```
+holochain 0.0.1
+dna-util 0.0.1
+```
+
+Once you `exit` the shell you'll be back to your usual system shell, with no Holochain-specific bits left behind.
+
+## Using the Holochain dev tools
+
+You can re-enter the Holonix shell with this command:
+
+```bash
+nix-shell ~/.holonix/shellDrv
+```
+
+!!! info "Making it easier to run"
+    You'll probably want multiple terminals open at a time, especially when testing. To save keystrokes, add an alias to your shell config:
+
     ```bash
-    hc --version
-    holochain --version
+    echo 'alias holonix=\'nix-shell ~/.holonix/shellDrv\' >> ~/.bashrc
     ```
 
-!!! success "You should see something like:"
-    ```
-    hc 0.0.52-alpha2
-    holochain 0.0.52-alpha2
-    ```
+    Close your terminal window, open it again, and you should be able to type `holonix` from now on.
 
-### Update/Uninstall
-
-You don’t need to worry about updating or uninstalling. When you enter the nix-shell, it checks for the latest blessed release, downloads any updates, and then cleans up the configuration when you exit.
-
-### Using your text editor or IDE
+### Using your favorite text editor or IDE
 
 In most cases you can run your editor as normal. However, if you are using a text editor or integrated development environment (IDE) that needs to communicate with the Rust compiler for real-time syntax checks, then you should launch it from inside the nix-shell. This is because Holonix comes with its own version of Rust that might be different from what you may already have installed.
 
 To do this, just open your editor from the command line while you are in the nix-shell (this example uses Vim):
 
-!!! note "Run in `nix-shell https://holochain.love`"
+```
+nix-shell ~/.holonix/shellDrv
+cd my_project
+vim my_file.rs
+```
+
+## Upgrading
+
+Any time you want to get the latest version of the dev tools, you can [follow the install procedure](#installing-the-holochain-dev-tools) again and it'll update you.
+
+!!! Info "Making it easier to run"
+    This is a hard command to remember, so you might want to add an alias for it as well:
+
+    ```bash
+    echo 'alias holonix-upgrade=\'$(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
     ```
-    vim my_file.rs
-    ```
+
+## Uninstalling
+
+You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But if you want to free up some space, you can delete the contents of `/nix/store` --- just make sure nobody or nothing else is using Nix on your computer first!
 
 ## Next Steps
 
-1. __Read through the [Holochain Core Concepts](../concepts/).__
-2. __Start the [Hello Holo Tutorial](../tutorials/coreconcepts/hello_holo)__
-3. __Create a [new app](../create-new-app)__
-4. Learn more about Holochain development in the [Guidebook](../guide/welcome/).
-5. Learn more about Rust and Holochain in the [API Reference Documentation](../api/), [Crates.io](https://crates.io/search?q=Holochain), and the [Rust book](https://doc.rust-lang.org/book/).
-6. Learn more about Nix as a dev requirement and why we’re using it in the [Holonix documentation](https://docs.holochain.love).
+1. Read through the [Holochain Core Concepts](../concepts/).
+2. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
+3. Take a look at the developer documentation.
+    * [Rust SDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk3/README.md)
+    * Rust SDK (run this command inside the Holonix shell):
+        ```bash
+        cargo doc --manifest-path=crates/hdk3/Cargo.toml --open
+        ```
+4. Join the discussion at the [developers' forum](https://forum.holochain.org).
 
 <script>
 function rudrSwitchTab(rudr_tab_id, rudr_tab_content) {
