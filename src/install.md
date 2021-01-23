@@ -168,6 +168,7 @@ nix-shell ~/.holonix/shellDrv
 
     ```bash
     echo 'alias holonix=\'nix-shell ~/.holonix/shellDrv\' >> ~/.bashrc
+    holonix
     ```
 
     Close your terminal window, open it again, and you should be able to type `holonix` from now on.
@@ -192,7 +193,8 @@ Any time you want to get the latest version of the dev tools, you can [follow th
     This is a hard command to remember, so you might want to add an alias for it as well:
 
     ```bash
-    echo 'alias holonix-upgrade=\'$(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
+    echo 'alias holonix-update=\'$(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
+    holonix-update
     ```
 
 ## Uninstalling
