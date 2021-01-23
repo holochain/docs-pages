@@ -16,7 +16,7 @@ Holochain is an open-source development framework and networking protocol. It al
 You'll understand how Holochain is different from centralized architectures, and how this difference can make your applications more robust, secure, and affordable.
 </div>
 
-![](../../../img/concepts/1.1-architecture-comparison.png)
+![](../../img/concepts/1.1-architecture-comparison.png)
 
 ## The problem with centralized architectures
 

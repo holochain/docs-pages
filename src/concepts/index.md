@@ -36,8 +36,8 @@ We’ve written this introduction for programmers, CTOs, and other technically o
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="5_links_paths">
-            <h4>5. Links and Paths</h4>
+        <a href="5_links_anchors">
+            <h4>5. Links and Anchors</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">

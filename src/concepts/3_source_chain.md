@@ -22,7 +22,7 @@ Let’s take a look at one single node and see what’s happening from the user�
 
 Back in [the basics](/concepts/1_the_basics), we said that one of Holochain's pillars is 'intrinsic data integrity.' The first stone in this pillar is [**public key cryptography**](https://en.wikipedia.org/wiki/Public-key_cryptography), which allows each user to create and authenticate their own identifier without a central password database. If you've ever used [SSH](https://en.wikipedia.org/wiki/Secure_Shell), you're already familiar with this.
 
-![](../../../img/concepts/3.1-key-generation.png)
+![](../../img/concepts/3.1-key-generation.png)
 
 When you join a hApp's network, you create an identifier for yourself by generating a **public/private key pair**. This key pair does a few things for you:
 
@@ -43,7 +43,7 @@ Are your key pairs are stored in an encrypted, password-protected key manager on
 
 ## Source chain: your own data store
 
-![](../../../img/concepts/3.2-source-chain-as-journal.png)
+![](../../img/concepts/3.2-source-chain-as-journal.png)
 
 The next stone in the pillar is a chronological journal of every action that the user has performed in their copy of the app—changing their public key; creating, updating, or deleting public or private data, linking data together, and more. Only the user has the authority to write to it; it lives on their device and each entry must be signed by their private key. This journal is called a **source chain** because every piece of data in an app has its source here.
 
@@ -51,8 +51,8 @@ The user’s actions are stored in the source chain as **elements**, which consi
 
 This journal starts with three special system elements:
 
-![](../../../img/concepts/3.3-genesis-elements-1-and-2.png)
-![](../../../img/concepts/3.4-genesis-element-3.png)
+![](../../img/concepts/3.3-genesis-elements-1-and-2.png)
+![](../../img/concepts/3.4-genesis-element-3.png)
 
 1. **The hash of the DNA**. Because the DNA’s executable code constitutes the ‘rules of the game’ for everyone in the app, this element shows that your Holochain runtime has seen and agrees to abide by those rules.
 2. **The agent’s ‘joining proof’**. When an agent tries to join this DNA’s peer-to-peer network, it shares this entry with the existing peers, who check it and determine whether the agent should be allowed to join. Examples: an invite code, an employee ID signed by the HR department, or a proof of paid subscription fees.
@@ -71,7 +71,7 @@ _An element on your source chain cannot be modified once it’s been committed._
 
 If the integrity of your data is so important, what might happen if a third party tried to mess with it en route to your true love or business partner? The answer is, _not much_. Let’s take a look at why.
 
-![](../../../img/concepts/3.5-commit.png)
+![](../../img/concepts/3.5-commit.png)
 
 1. When a function in the DNA wants to record a user action, it creates an element containing the details of that action.
 2. Then the conductor calls the DNA’s validation function for that element. If it fails validation, it returns an error to the client.
@@ -83,11 +83,11 @@ This lets us detect [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Ma
 
 Let's take a closer look at the header. Along with the signature, it includes the hash of the previous header, a timestamp, and the entry's type.
 
-![](../../../img/concepts/3.6-header)
+![](../../img/concepts/3.6-header)
 
 Let's look even more closely at that first line in the header.
 
-![](../../../img/concepts/3.7-prev-header-hash.png)
+![](../../img/concepts/3.7-prev-header-hash.png)
 
 This hash is the unique cryptographic ‘fingerprint’ for the previous element’s data. This is what ensures the integrity of the entire source chain. Each element points back to its previous entry. With a paper journal, it’s obvious when someone’s ripped out a page, glued a new page in, or taped a sheet of paper over an existing page. This chain of hashes is the digital equivalent: if anyone so much as modifies a single character in an element, all subsequent elements will be invalidated.
 

@@ -19,19 +19,19 @@ A good understanding of the components of the tech stack will equip you to archi
 
 Before we talk about the tech stack, let's talk about donuts. That's a good way to start, isn't it?
 
-![](../../../img/concepts/2.1-holonut)
+![](../../img/concepts/2.1-holonut)
 
 This is Holochain. Thanks to the magic of gluten, it has enough integrity to hold itself together. It separates the universe into two empty spaces---the hole and the space beyond.
 
-![](../../../img/concepts/2.2-holonut-icing.png)
+![](../../img/concepts/2.2-holonut-icing.png)
 
 On top of Holochain is your application. Each application has a different flavor.
 
-![](../../../img/concepts/2.3-holonut-inside.png)
+![](../../img/concepts/2.3-holonut-inside.png)
 
 Let’s put you inside the hole. You have agency—the power to receive information from your world and act on it. Together, your copy of the Holochain runtime and your application mediate between you and Holochain land. Your application defines a set of functions that define all the valid ways you can interact with it, and Holochain exposes those functions to you.
 
-![](../../../img/concepts/2.4-holonut-network.png)
+![](../../img/concepts/2.4-holonut-network.png)
 
 On the outside of the donut is a shared space; in it are the other people using the same application. Holochain mediates interactions with them too, shuttling information across space with the help of a computer network. Again, your app defines what it considers valid, on this side, through a set of rules that define what data should look like.
 
@@ -42,22 +42,22 @@ Holochain creates a ‘double membrane’ for each participant, bridging between
 Now, let’s get into the details of how a Holochain app is put together. Holochain apps (hApps) are made from loosely coupled components. Here’s how they are built:
 
 <div class="coreconcepts-storysequence" markdown=1>
-1. ![](../../../img/concepts/2.5-zome.png)
+1. ![](../../img/concepts/2.5-zome.png)
 A code module called a **zome** (short for chromosome) defines the core logic of your app. It exposes its public functions to the Holochain runtime. Some of these functions are required, such as data validation functions for each type of data the zome defines. Other functions are invented by the developer and define the zome’s public API.
 
-2. ![](../../../img/concepts/2.6-dna.png)
+2. ![](../../img/concepts/2.6-dna.png)
 One or more zomes are combined into a **DNA** that defines the basic functionality and ‘rules of the game’ for a portion of an application’s functionality. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices). The running DNA instance, or **cell**, is the user’s personal agent—every piece of data that it creates or message it sends, it does so from the perspective of the user.
 
-3. ![](../../../img/concepts/2.7-bridging)
+3. ![](../../img/concepts/2.7-bridging)
 A user’s cells can talk to each other’s APIs via **bridging**. This lets you compose them into a bundle of functionality that’s needed for a full-featured app.
 
-4. ![](../../../img/concepts/2.8-happ-bundle.png)
+4. ![](../../img/concepts/2.8-happ-bundle.png)
 A **client** on the user's device, such as a GUI or utility script, talks to the DNAs' APIs via a lightweight [remote procedure call (RPC)](https://en.wikipedia.org/wiki/Remote_procedure_call) interface. The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. This client and its DNAs make up a **hApp bundle**.
 
-5. ![](../../../img/concepts/2.9-conductor.png)
+5. ![](../../img/concepts/2.9-conductor.png)
 All DNAs are hosted in the user's **conductor**, a runtime that sandboxes and executes DNA code, manages data flow and storage, and handles connections between components of the stack. You can think of the conductor as a web application server. As with all the other components, it lives on each user’s device.
 
-6. ![](../../../img/concepts/2.10-network.png)
+6. ![](../../img/concepts/2.10-network.png)
 Each conductor is a **node** in a peer-to-peer network of agents using the same app. Each DNA in the hApp has its own separate private network and distributed data store. The conductor handles communication and data sharing between nodes.
 </div>
 
