@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.3.7 → 0.4.0
+
+Added content for Holochain RSM and removed all Holochain Redux-related content. New install guide, core concepts, and glossary.
+
 ## 0.3.6 → 0.3.7
 
 Bumped to Holochain v0.0.52-alpha2. More textual changes in the tutorials re: consistency checks.
