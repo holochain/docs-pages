@@ -50,11 +50,11 @@ Databases that spread their data among a bunch of machines have a performance pr
 
 1. Each agent gets their own DHT address, based on their public key. Each piece of data also gets its own DHT address, based on its hash. These addresses are just huge numbers, so they can be compared to each other. And because they’re derived directly from the data they represent, they can’t be forged or chosen at will.
 2. Each agent chooses the size of the DHT neighborhood they want to be an authority for, as a range to the left and right of them in the DHT’s address space. They commit to keeping track of all the peers and storing all the data whose addresses fall in that neighborhood.
-3. When an agent wants to publish or retrieve a piece of data, they need to figure out who is most likely to be an authority for its address.
+3. When an agent wants to publish or query a piece of data, they need to figure out who is most likely to be an authority for its address.
 4. The agent looks in their own list of peers and compares their addresses against the data’s address.
-5. The agent sends their publish or get request message to the top candidates.
-6. If any of those candidates are authorities for that address, they respond with the requested data or a confirmation of storage.
-7. If none of the candidates are authorities, they look in their own lists of peers and suggest peers who are more likely to be authorities. The agent then contacts those peers and the cycle repeats until the true authorities are found.
+5. The agent sends their publish or query message to a few of the top candidates.
+6. If any of those candidates are authorities for that address, they respond with a confirmation of storage (for publishing) or the requested data (for a query).
+7. If none of the candidates are authorities, they look in their own lists of peers and suggest peers who are more likely to be authorities. The agent then contacts those peers and the cycle repeats until authorities are found.
 8. If the request was a ‘publish’ request, the authorities ‘gossip’ the data to other authorities in their neighborhood to increase redundancy of the data.
 
 Every agent knows about its neighbors and a few faraway acquaintances. Using these connections, they can find any other agent in the DHT with just a few hops. This makes it fairly quick to find the right authorities for an address.
@@ -89,7 +89,7 @@ The DHT stores multiple redundant copies of each entry so that the information i
 
 It also helps an application tolerate network disruptions. If your town experiences a natural disaster and is cut off from the internet, you and your neighbors can still use the app. The data you see might not be complete or up to date, but it’s still accessible and you can still reach each other. You might even be able to use the app when you’re completely offline.
 
-Using their knowledge of their neighbours' uptime, cooperating agents work hard to keep at least one copy of each entry around at all times. They adjust their neighborhood size to ensure adequate coverage of the entire address space.
+Using information about their neighbors' uptime, cooperating agents work hard to keep at least one copy of each entry around at all times. They adjust their neighborhood size to ensure adequate coverage of the entire address space.
 
 Let’s see how this plays out in the real world.
 
@@ -98,7 +98,7 @@ Let’s see how this plays out in the real world.
 1. An island is connected to the mainland by a radio link. They communicate with each other using a Holochain app.
 
 ![](../../img/concepts/4.13-partition.png)
-2. A hurricane blows through and wipes out both radio towers. The islanders can’t talk to the mainlanders, and vice versa, so some DHT neighbours are unreachable. But everyone can still talk to their physical neighbors. None of the data is lost, but not all of it is available to each side.
+2. A hurricane blows through and wipes out both radio towers. The islanders can’t talk to the mainlanders, and vice versa, so some DHT neighbors are unreachable. But everyone can still talk to their physical neighbors. None of the data is lost, but not all of it is available to each side.
 
 ![](../../img/concepts/4.14-resilience-building.png)
 3. On both sides, all agents attempt to improve resilience by enlarging their neighborhoods. Meanwhile, they operate as usual, talking with one another and creating new entries.
@@ -131,10 +131,9 @@ The important thing is that the DHT _remembers what you’ve published_, so it�
 * A piece of data in a DHT is retrieved by its unique address, which is based on the data’s hash.
 * Each participant takes responsibility to be an authority for validating and storing a small portion of the public data in the DHT.
 * Holochain’s DHT is a validating DHT that remembers the validation result of existing entries. This speeds things up for everyone and allows the detection of bad actors.
-* Holochain’s DHT also detects agents’ attempts to roll back their source chains and create alternate histories.
+* Holochain’s DHT also detects agents’ attempts to modify their source chains.
 * Authority selection for a piece of data is random and enforced by all honest peers.
-* News of bad actors is spread through warrants, which are special pieces of data that carry signed evidence of rule-breaking.
-* An app can set a resilience factor, or expected level of DHT redundancy, for each entry type.
+* News of bad actors is spread through warrants, which are special validation results that attest that an agent has broken the rules.
 * A DHT tolerates network disruptions. It can keep operating as two separate networks and subsequently ‘heal’ when the network is repaired.
 
 ## Learn more

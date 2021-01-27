@@ -20,19 +20,19 @@ Web 2.0 flourished thanks in part to ‘mashups’, or publicly accessible APIs 
 
 ## Client, inter-zome, bridge, and remote calls: who can call whom
 
-There are four scenarios when a zome’s functions might be accessed. In every scenario, they’re just a [remote procedure call](https://en.wikipedia.org/wiki/Remote_procedure_call). You might remember from [Application Architecture](../1_application_architecture/) that all back-end functionality of a Holochain application is contained in the DNA, or rather, the individual zome libraries in the DNA. Any externally exposed functions in those libraries are exposed in turn by the host as the DNA's public API.
+There are four scenarios when a zome’s functions might be accessed. In every scenario, they’re just a [remote procedure call](https://en.wikipedia.org/wiki/Remote_procedure_call). You might remember from [Application Architecture](../2_application_architecture/) that all back-end functionality of a Holochain application is contained in the DNA, or rather, the individual zome libraries in the DNA. Any externally exposed functions in those libraries are exposed in turn by the host as the DNA's public API.
 
 ### Client call
 
 ![](../../img/concepts/8.2-client-call.png)
 
-An agent makes things happen in their cell by calling one of its public functions through the **app interface*, which is a WebSocket port that the conductor makes available on the agent's device. The thing making the calls is a client of some sort --- a GUI, a shell script, a long-running service, anything that can speak WebSocket. The important thing to remember is that, because the conductor only exposes the app interface on the local machine, the UI has to live on the local machine. This helps discourage anyone from impersonating the owner of the cell.
+An agent makes things happen in their cell by calling one of its public functions through the **app interface**, which is a WebSocket port that the conductor makes available on the agent's device. The thing making the calls is a client of some sort --- a GUI, a shell script, a long-running service, anything that can speak WebSocket. The important thing to remember is that, because the conductor only exposes the app interface on the local machine, the UI has to live on the local machine. This helps discourage anyone from impersonating the owner of the cell.
 
 ### Inter-zome call
 
 ![](../../img/concepts/8.3-inter-zome-call.png)
 
-Zomes may be libraries in one DNA, but they don’t have direct access to each other’s functions. They can still call them via the `call` host function.
+Although zomes are libraries in one DNA, they don’t have direct access to each other’s functions. They can still call each other, though, via the `call` host function.
 
 ### Bridge call
 
@@ -40,7 +40,7 @@ Zomes may be libraries in one DNA, but they don’t have direct access to each o
 
 A bridge call allows an agent's cells on one machine to communicate with each other. This is useful for combining the functionality of multiple DNAs into one app. Because Holochain is centered around the agent, it makes more sense to say “Alice’s app instances are talking to each other” than “app A is talking to app B”.
 
-As we've seen, a client can talk to cells too, and it could certainly bear the responsibility for connecting them together. But it can’t offer the same correctness guarantees that direct calls between cells can offer: the source chains of each cell are ‘locked’ for the duration of the call, and the conductor provides the assurance that the code that cell A thinks cell B is running is actually what it’s running. This means you can better reason about the state of each instance, which is important for things like financial transactions.
+As we've seen, a client can talk to cells too, and it could certainly bear the responsibility for connecting multiple cells together. But it can’t offer the same correctness guarantees that direct calls between cells can offer: the source chains of both cells are ‘locked’ for the duration of the call, and the conductor provides the assurance that the code that cell A thinks cell B is running is actually what it’s running. This means you can better reason about the state of each instance, which is important for things like financial transactions.
 
 ### Remote call
 
@@ -53,7 +53,7 @@ Alice and Bob can use this to do all sorts of useful things:
 * Alice can share off-the-record information with Bob, completely bypassing source chains and the DHT. The connection between the two of them is end-to-end encrypted and doesn’t involve any hops through other peers.
 * Bob can ask Alice for private data from her source chain.
 * Bob can send Alice timely updates on information that matters to both of them, such as chat notifications, heartbeats, game moves, or edits on a shared document (although [signals](../9_signals/) are usually more appropriate for this --- we'll talk about them in a later section).
-* Bob can also ask Alice for data from instances of other cells that she’s running and he isn’t — Alice acts as Bob’s bridge between the two DHTs.
+* Bob can also ask Alice for data from other cells that she’s running and he isn’t — Alice acts as Bob’s bridge between the two DHTs.
 * Alice and Bob can negotiate an agreement, such as a financial transaction or legal contract, because both of their source chains are ‘frozen’ at the moment of interaction.
 * Alice can delegate certain tasks to Bob, such as publishing blog posts under her name (see the example below). She can even 'sub-delegate' agency that others have delegated to her.
 
@@ -78,13 +78,13 @@ In order to use a transferable or assigned grant, a caller must have already rec
 There is one special case where capability tokens aren’t needed: the **author** capability. If the agent ID of the caller and the callee match, such as with calls between zomes in a DNA or cells whose agent IDs are the same, no explicit capability grant is needed.
 
 !!! info "Client calls are currently unprotected"
-    At time of writing, client zome calls aren't protected by capability-based security; the conductor simply applies the author capability to them. This will change in the near future, which means the clients you write will need to be able to get a capability grant from the agent in order to make calls!
+    At time of writing, client zome calls aren't protected by capability-based security; the conductor simply applies the author capability to them. This will change in the near future, which means the clients you write will need to be able to get a capability claim from the agent in order to make calls! We intend to make it easy for app developers though.
 
 ## The lifecycle of a call
 
 Here’s an example of how remote calls might work in a blog app that allows people to publish under someone else’s name.
 
-Alice is the world’s foremost authority on octopi who occasionally hires ghost writers to rewrite her articles in a more popular tone. Recently, she’s hired Bob to write a few articles about octopus camouflage. They both use the same blog DNA, whose functions include:
+Alice is the world’s foremost authority on octopi who occasionally hires ghost writers to write about her research in a more popular tone. Recently, she’s hired Bob to write a few articles about octopus camouflage. They both use the same blog DNA, whose functions include:
 
 * `publish_post`, which receives the text of a post, writes it to the user’s source chain, and publishes it to the DHT
 * `receive_publish_post_permission`, which takes a capability secret and a memo about why this permission is being granted, and records it as a capability claim on the source chain (this function is given an unrestricted capability at app install time, so anyone can call anyone else’s)
@@ -108,7 +108,7 @@ First, Alice needs to let Bob publish posts under her name. Here’s how she doe
 * Bridge calls let one of an agent’s cells call another of their cells, allowing sharing of functionality and data between apps.
 * Remote calling lets one agent call functions in another agent’s cell within the same DHT network.
 * Remote calling sets up a direct, end-to-end encrypted channel between two agents to pass the input parameters and return value.
-* You call agents according to their agent IDs; Holochain resolves the ID to the agent’s IP address.
+* You call another agent's functions by specifying their agent ID; Holochain resolves this ID to an IP address.
 * Remote calling can be used for any data exchange that needs to be private, synchronous, temporary, or timely.
 * Remote calling allows one agent to ‘delegate’ their agency to another.
 * An inter-zome, bridge, or remote call blocks execution on the caller’s side until they receive a response or the request times out.

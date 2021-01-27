@@ -1,4 +1,4 @@
-# 5. Links and Anchors: Connecting DHT Data Togethe
+# 5. Links and Anchors: Connecting DHT Data Together
 
 <div class="coreconcepts-intro" markdown="1">
 Entries on the DHT are connected to one another via one-way **links**. They allow you to create a graph database on the DHT, making information easy to discover. **Anchors** serve as starting points for link discovery.

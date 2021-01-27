@@ -1,6 +1,6 @@
 # 9. Signals: Communicating without waiting for a response
 
-<div class="coreconcepts-intro" markdown="1">A DNA usually only receives function calls from the outside world and returns a response. But a DNA can also push **signals** to a listening UI on the agent’s device, or another agent on the same DHT.
+<div class="coreconcepts-intro" markdown="1">A DNA usually only receives function calls from the outside world and returns a response. But a DNA can also push **signals** to a listening client on the agent’s device, or another agent on the same DHT.
 </div>
 
 <div class="coreconcepts-orientation" markdown="1">
@@ -21,7 +21,7 @@ Signals avoid the need for a client to regularly poll a zome function to retriev
 
 Most connected applications are heavily interactive. You expect information from others as much as you create your own information. Chat messages appear, notification badges change, documents show real-time updates from collaborators, your opponent moves her knight, and so on. This liveness is the heartbeat of the modern app.
 
-So far we’ve only described a DNA as a collection of functions that you can call. And it is. You can make your app feel fairly responsive by having the UI regularly poll a function such as 'get_messages_for_chat_channel`, but this feels old-fashioned and can hurt performance.
+So far we’ve only described a DNA as a collection of functions that you can call. And it is. You can make your app feel fairly responsive by having the UI regularly poll a function such as `get_messages_for_chat_channel`, but this feels old-fashioned and can hurt performance.
 
 **Signals** allow a cell to broadcast messages to clients or other cells. Just like [zome function calls](../8_calls_capabilities/), they take an input. But unlike zome function calls, they don't expect a response from the receiver. Like most other payloads, the input is just bytes and can contain any sort of data you like.
 

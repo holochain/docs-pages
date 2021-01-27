@@ -36,13 +36,13 @@ Holochain is the engine that allows peers to move data around, validate it, and 
 
 Some entries can be computationally expensive to validate. In a currency app, for example, the validity of a transaction depends on the account balances of both transacting parties, which is the sum of all their prior transactions. The validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people they transacted with, and so on and so on. The data is deeply interconnected; you don’t want to wait while the coffee shop's payment terminal interrogates half the town's economic history when you’re trying to buy a cup of coffee and get to work.
 
-The DHT offers a shortcut—it remembers the validation results of existing entries. You can ask the validators of the parties’ previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those and so on. As long as you trust a decent number of your peers to be playing by the rules, the validation result of the most recent entry ‘proves’ the validity of all the entries before it.
+The DHT offers a shortcut—it remembers the validation results of existing entries. You can ask the validators of the parties’ previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those and so on. As long as you trust a decent number of your peers to be playing by the rules, the validation results attached to the most recent entry ‘proves’ the validity of all the entries before it.
 
 You can also consult the agent activity authority for any peer you're unsure of. They hold a copy of any past evidence of malicious activity, along with a record of all of the peer's source chain headers that show whether they've tried to change their history.
 
 ## Validation flow: success and failure
 
-A validation rule is just a function that receives an element (and any supporting data necessary for validation) and returns success or failure. You'll remember that an element is an _action_, not a thing, so it consists of a header and possibly an entry.
+A validation rule is just a function that receives an element (and any supporting data necessary for validation) and returns success or failure. You'll remember that an element is an _action_, not a thing, so your function is validating whether the element's author should have performed that action .
 
 The validation function is called in two different scenarios, each with different consequences:
 
@@ -65,7 +65,7 @@ Alice calls the `publish_word` zome function with the string `"eggplant"`. The f
 2. ![](../../img/concepts/7.3-validate.png)
 After the function has finished, Alice’s conductor takes this element and calls the DNA’s validation function for the `word` entry type.
 
-3. ![](../../img/concepts/7.4-validation-succes.png)
+3. ![](../../img/concepts/7.4-validation-success.png)
 The validation function sees only one word, so it returns `Valid`.
 
 4. ![](../../img/concepts/7.5-persist-and-publish.png)
@@ -140,7 +140,7 @@ The purpose of validation is to **empower a group of individuals to hold one ano
 * **Access membranes**---validation rules on the **agent ID entry** govern who's allowed to join a DNA's network and see its data.
 * **The shape of valid data**---validation rules on **entry and link types that hold data** can check for properly structured data, upper/lower bounds on numbers, string lengths, non-empty fields, or correctly formatted content.
 * **Rules of the game**---validation rules on **connected graph data** can make sure chess moves, transactions, property transfers, and votes are legitimate.
-* **Privileges**---validation rules on **[create](../4_dht), [update, or remove](../6_crud_actions) actions** on entries and links can define who gets to do what.
+* **Privileges**---validation rules that focus on the type of action (**[create](../4_dht), [update, or remove](../6_crud_actions)**) can define who gets to do what.
 
 ## How validation rules are defined
 
@@ -159,7 +159,7 @@ Data can also be retrieved from the DHT to support validation. Once it’s done 
 
 All actions (create, update, delete) on all entry types (app entries, agent ID entries, and capability grants/claims) can have different validation functions, which follow a ‘cascade’ of specificity. Holochain calls all the matching validation functions it can find for an entry type, starting with the most specific, until one of them returns an error. The cascade for entries looks like this:
 
-1. `validate_<action>_entry_<entry_type>` for specific actions on specific app entry types (e.g., `validate_update_entry_word` will be called for all update actions for entries of type ‘word’)
+1. `validate_<action>_entry_<entry_type>` for specific actions on specific app entry types (e.g., `validate_update_entry_word` will be called for all update actions for entries of type `word`)
 2. `validate_<action>_entry` for specific actions on all app entry types produced by the current zome
 3. `validate_<action>` for specific actions on all app entry types produced by the current zome, as well as any system entry type produced by any zome in the DNA
 4. `validate` for all actions on all app entry types produced by the current zome, as well as any system entry type produced by any zome in the DNA
@@ -173,11 +173,11 @@ Links also have their own validation functions, `validate_create_link` and `vali
 
 ## Guidelines for writing validation rules
 
-Validation functions **return a boolean value**, meant to be used as clear evidence that an agent has tampered with their Holochain software. They should be [**deterministic**](https://en.wikipedia.org/wiki/Deterministic_algorithm) and [**pure**](https://en.wikipedia.org/wiki/Pure_function) so that the result for a given commit doesn't change based on who validated it, when they validated it, or what information was available to them at validation time. And nothing should ever be invalidated once it's been published and validated. As mentioned before, an element contains an action taken by an agent, so the validation function's job is to decide whether they ought to have taken the action _at that point in time_. This means validation functions aren't appropriate for soft things, like codes of conduct, which usually require human approval. 
+Validation functions **return a boolean value**, meant to be used as clear evidence that an agent has tampered with their Holochain software. They should be [**deterministic**](https://en.wikipedia.org/wiki/Deterministic_algorithm) and [**pure**](https://en.wikipedia.org/wiki/Pure_function) so that the result for a given commit doesn't change based on who validated it, when they validated it, or what information was available to them at validation time. And nothing should ever be invalidated once it's been published and validated. As mentioned before, an element contains an action taken by an agent, so the validation function's job is to decide whether they ought to have taken the action _at that point in time_. This means validation functions aren't appropriate for soft things, like codes of conduct, which usually require human discretion. 
 
-If an agent is committing an element to their source chain that depends on DHT data, it's **their job to collect and explicitly reference those dependencies** at commit time. The validation function doesn't need to revalidate those dependencies, though; Holochain will use its own heuristics to determine the trustworthiness of other validators' claims when it retrieves the data.
+If an agent is committing an element to their source chain that depends on DHT data, it's **their job to make sure those references exist at commit time and explicitly reference them**. The validation function doesn't need to revalidate those dependencies, though; Holochain will use its own heuristics to determine the trustworthiness of other validators' claims when it retrieves the data.
 
-When validating an element whose validity depends on other data on the DHT, be careful to not introduce subtle sources of non-determinism. The DHT is 'eventually consistent', which means that data either definitively exists or hasn't been seen yet. Without a consensus protocol, there's no way to determine that a piece of data definitively _doesn't_ exist. This is true for both _element data_ (entries and headers) and _metadata_. However, with metadata the situation is trickier still --- since it doesn't have a hash, there's no way to prove that it definitively _exists_ either. Therefore, any element that depends on metadata should explicitly reference the hash of the _element that created the metadata_.
+When validating an element whose validity depends on other data on the DHT, be careful to not introduce subtle sources of non-determinism. The DHT is 'eventually consistent', which means that data either definitively exists or hasn't been seen yet. Without a consensus protocol, there's no way to determine that a piece of data definitively _doesn't_ exist. This is true for both _element data_ (entries and headers) and _metadata_ (links, CRUD actions, and author headers). However, with metadata the situation is trickier still. A of metadata on a base should be treated not as a complete entity that definitively exists, but as a potentially incomplete collection. Look for a specific item rather than scanning the list for fuzzy matches.
 
 For element data that can't be retrieved, the validation function should return 'unresolved dependencies' rather than a validation failure. This signals that the function hasn't failed; it's just waiting for the data to appear.
 
@@ -187,7 +187,7 @@ For element data that can't be retrieved, the validation function should return 
 * Validation supports intrinsic data integrity, which upholds the security of a Holochain app.
 * Validation rules can cover an agent's entry into an application, the shape and content of data, rules for interaction, and write permissions.
 * The result of a validation function is a clear yes/no result. It proves whether the author has hacked their software to produce invalid entries.
-* If the validity of an entry depends on existing entries, existing validation results on that data can speed up the process.
+* If the validity of an entry depends on existing entries, you can generally trust in the existing validation results on those dependencies rather than revalidating them.
 * An author validates their own entries before committing them to their source chain or publishing them to the DHT.
 * All public entries on the DHT are subject to third-party validation before they're stored. This validation uses the same rules that the author used at the time of commit.
 * Validation rules are functions that analyze the content of an entry and return either a success or error message.

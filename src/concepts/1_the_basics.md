@@ -1,7 +1,7 @@
 # 1. The Basics: What is Holochain?
 
 <div class="coreconcepts-intro" markdown=1>
-Holochain is an open-source development framework and networking protocol. It allows you to create **truly serverless applications** with high levels of **security, reliability, and performance**. Every user runs the application on their own device, creates and stores their own data, and talks directly to other users. The security of the application is supported by both cryptography and peer accountability.
+Holochain is an open-source application development framework and peer-to-peer networking protocol. It allows you to create **truly serverless applications** with high levels of **security, reliability, and performance**. Every user runs the application on their own device, creates and stores their own data, and talks directly to other users. The security of the application is supported by both cryptography and peer accountability.
 </div>
 
 <div class="coreconcepts-orientation" markdown=1>
@@ -33,13 +33,13 @@ Cloud hosting platforms offer [horizontal scaling](https://en.wikipedia.org/wiki
 
 [Serverless computing](https://en.wikipedia.org/wiki/Serverless_computing) liberates you from those details and lets you focus on the core of your application --- just choose the ingredients, link them together with functions, and press play. However, it is just an abstraction; it still runs on rented hardware with recurring costs and central failure points.
 
-Distributed computing efforts, like [blockchain](https://en.wikipedia.org/wiki/Blockchain), attempt to solve these problems by creating a network of participants who all hold a public, global data set. Each user helps maintain the availability and integrity of the data. Centralized vulnerabilities are eliminated. However, it’s costly to replicate, check, and come to consensus on the contents of the data set, sometimes by design. This hurts performance and creates waste. It also leads to centralization—participants are separated into ‘full nodes’ who have the computer power, reputation, or capital to participate, and ‘light clients’ who have to ask the full nodes to do things for them, often in exchange for fees. _To our thinking, this begins to sound like client/server all over again._
+Distributed computing efforts, like [blockchain](https://en.wikipedia.org/wiki/Blockchain), attempt to solve these problems by creating a network of participants who all hold identical copies of a public, global data set. Each participant helps maintain the availability and integrity of the data. Centralized vulnerabilities are eliminated. However, it’s costly to replicate, check, and come to consensus on the contents of the data set, sometimes by design. This hurts performance and creates waste. It also leads to centralization—participants are separated into ‘full nodes’ who have the computer power, reputation, or capital to participate, and ‘light clients’ who have to ask the full nodes to do things for them, often in exchange for fees. _To our thinking, this begins to sound like client/server all over again._
 
 ## How Holochain does things differently
 
-Holochain approaches the problem from a different set of assumptions. Reality offers a great model—agents in the physical world interact with each other just fine without an absolute, ordered, total view of all events. We don’t need a server or global public ledger.
+Holochain approaches the problem from a different starting point. Reality offers a great model—agents in the physical world interact with each other just fine without an absolute, ordered, total view of all events. We don’t need a server or global public ledger.
 
-We start with users, not servers or data, as the primary system component. The application is modeled from the user perspective, which we call **agent-centric computing**. Empowered by the Holochain runtime, each user runs their own copy of the back end code, controls their identity, and stores their own private and public data. An encrypted peer-to-peer network for each app means that users can find each other and communicate directly.
+We start with users, not servers or data, as the primary system component. The application is modeled from the user perspective, which we call **agent-centric computing**. Empowered by the Holochain runtime, each user runs their own copy of the back end code, controls their identity, and stores their own private and public data. An encrypted peer-to-peer network for each app means that users can find each other and communicate.
 
 Then we ask what sort of data integrity guarantees people need in order to interact meaningfully and safely with one another. Half of the problem is already solved—because everyone has the ‘rules of the game’ in their copy of the code, they can verify that their peers are playing the game correctly just by looking at the data they create. On top of this, we add cryptography to prove authorship and detect tampering.
 
@@ -51,7 +51,7 @@ So we add another pillar: **peer witnessing**. Each piece of public data is witn
 
 These simple building blocks create something surprisingly robust—a multicellular social organism with a memory and an immune system. It mimics the way that biological systems have managed to thrive in the face of novel threats for millions of years.
 
-The foundation of Holochain is simple, but the consequences of our design can lead to new challenges. However, most of the solutions can be found in the experiences of real life, which is already agent-centric. Additionally, some of the trickier problems of distributed computing are handled by Holochain itself at the ‘subconscious’ layer. All you need to do is think about your application logic and the validation rules for your data.
+While the foundation of Holochain is simple, the consequences of our design can lead to new challenges. But most of the solutions can be found in the experiences of real life, which is already agent-centric. Additionally, some of the trickier problems of distributed computing are handled by Holochain itself at the ‘subconscious’ layer. All you need to do is think about your application logic and the validation rules for your data.
 
 ## Key takeaways
 

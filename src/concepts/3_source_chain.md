@@ -20,7 +20,7 @@ When you understand how agents and their data are represented, you have the foun
 
 Let’s take a look at one single node and see what’s happening from the user’s perspective.
 
-Back in [the basics](/concepts/1_the_basics), we said that one of Holochain's pillars is 'intrinsic data integrity.' The first stone in this pillar is [**public key cryptography**](https://en.wikipedia.org/wiki/Public-key_cryptography), which allows each user to create and authenticate their own identifier without a central password database. If you've ever used [SSH](https://en.wikipedia.org/wiki/Secure_Shell), you're already familiar with this.
+Back in [the basics](..//1_the_basics/), we said that one of Holochain's pillars is 'intrinsic data integrity.' The first stone in this pillar is [**public key cryptography**](https://en.wikipedia.org/wiki/Public-key_cryptography), which allows each user to create and authenticate their own identifier without a central password database. If you've ever used [SSH](https://en.wikipedia.org/wiki/Secure_Shell), you're already familiar with this.
 
 ![](../../img/concepts/3.1-key-generation.png)
 
@@ -36,7 +36,7 @@ Are your key pairs are stored in an encrypted, password-protected key manager on
 |                                                                      Private Key                                                                      |                                        Public Key                                       |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
 | • Stays **secret** on your device                                                                                                                     | • **Shared** with all your peers on the network                                         |
-| • Acts like a **password**---only you have it, and it's necessary for proving ownership of your identity                                            | • Acts like a **user ID**---uniquely identifies you to other users                      |
+| • Acts like a **password**---only you have it, and it's necessary for proving ownership of your public key                                            | • Acts like a **user ID**---uniquely identifies you to other users                      |
 | • Acts like a **royal seal**---creates unforgeable, tamper-evident [digital signatures](https://en.wikipedia.org/wiki/Digital_signature) on your data | • Allows others to **verify the integrity** of your signatures                          |
 | • Acts like a **mailbox key**---opens messages sealed with your public key                                                                            | • Acts like a **mail slot**---allows others to encrypt and send you data that only you can unlock |
 |                                                                                                                                                       |                                                                                         |
@@ -45,7 +45,7 @@ Are your key pairs are stored in an encrypted, password-protected key manager on
 
 ![](../../img/concepts/3.2-source-chain-as-journal.png)
 
-The next stone in the pillar is a chronological journal of every action that the user has performed in their copy of the app—changing their public key; creating, updating, or deleting public or private data, linking data together, and more. Only the user has the authority to write to it; it lives on their device and each entry must be signed by their private key. This journal is called a **source chain** because every piece of data in an app has its source here.
+The next stone in the pillar is a chronological journal of every action that the user has performed in their copy of the app—changing their public key, creating, updating, or deleting public or private data, linking data together, and more. Only the user has the authority to write to it; it lives on their device and each entry must be signed by their private key. This journal is called a **source chain** because every piece of data in an app has its source here.
 
 The user’s actions are stored in the source chain as **elements**, which consist of a **header** (we’ll get to that later) and usually some sort of binary data (an **entry**). Each entry has a **type** that distinguishes its purpose, similar to an object-oriented class or database table schema. As with a traditional database, you can define entry types for whatever you need to record—things (such as user profiles, messages, or pictures) or actions (such as chess moves, transactions, or votes).
 
@@ -77,9 +77,9 @@ If the integrity of your data is so important, what might happen if a third part
 2. Then the conductor calls the DNA’s validation function for that element. If it fails validation, it returns an error to the client.
 3. If validation is successful, the conductor signs the element with the user’s private key and writes it onto the end of their source chain.
 
-Like a real-life signature, this cryptographic signature proves that it was you who created the element. It’s based on cryptographic math, so it’s verifiable and impossible to forge. It’s also only valid for the contents of that element—if a third party modifies even a single character of the signed data, the signature no longer matches. It’s like a fingerprint for the data, combined with the author’s own fingerprint.
+Like a real-life signature, this cryptographic signature proves that it was you who created the element. It’s based on cryptographic math, so it’s verifiable and impossible to forge. It’s also only valid for the contents of that element—if a third party modifies even a single character of the signed data, the signature no longer matches. It’s like a fingerprint for the data, combined with the author’s own royal seal.
 
-This lets us detect [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) on _element_ data_, but it still doesn't tell us whether anyone has tampered with the _order of elements_ in the source chain.
+This lets us detect [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) on _element_ data, but it still doesn't tell us whether anyone has tampered with the _order of elements_ in the source chain.
 
 Let's take a closer look at the header. Along with the signature, it includes the hash of the previous header, a timestamp, and the entry's type.
 

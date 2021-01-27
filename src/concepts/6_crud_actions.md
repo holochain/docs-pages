@@ -1,13 +1,13 @@
 # 6. CRUD Actions: Modifying and Deleting Data
 
 <div class="coreconcepts-intro" markdown="1">
-Holochain allows agents to mutate immutable data by publishing special **remove** and **update** actions to the DHT.
+Holochain allows agents to mutate immutable data by publishing special **delete** and **update** actions to the DHT.
 </div>
 
 <div class="coreconcepts-orientation" markdown="1">
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
-1. [Why you can't delete or modify DHT data in the usual way](#public-immutable-databases)
+1. [Why you can't delete or modify DHT data](#public-immutable-databases)
 2. [How to simulate mutability in an immutable database](#simulating-mutability)
 3. [Addressing concerns about privacy and storage requirements](#handling-privacy-concerns-and-storage-constraints)
 
@@ -38,25 +38,27 @@ Here are all the mutation actions an agent can perform:
     * **Update** also creates a new entry, but marks an existing new-entry action as updated.
 * **Delete** marks an existing new-entry action as dead.
 * **Create link** creates a new link.
-* **Delete link** marks an existing create-link as dead.
-* **Redirect** acts as a 'canonical' update, overriding all other updates and pointing to a new header or entry.
+* **Delete link** marks an existing create-link action as dead.
+* **Redirect** (not yet implemented) acts as a 'canonical' update, overriding all other updates and causing the old new-entry action's address to resolve to the new one.
 * **Withdraw header** (not yet implemented) marks an existing header as dead, allowing an author to reverse a mistakenly published action.
 * **Purge entry** (not yet implemented) directs a DHT authority to erase an entry from their store, which is useful for removing immoral content or honoring right-to-be-forgotten requests.
 
 In every case where an action 'modifies' old data, it's simply sending a piece of metadata to be attached to the old data. The old data still exists; it just has a different status. The only exception is purge.
 
-All the DHT does is accumulate all these actions and present them to the application. This gives you some versatility in deciding how to manage conflicting contributions from many agents. The only exception is redirect, which forces a canonical resolution of conflicts.
+All the DHT does is accumulate all these actions and present them to the application. This gives you some versatility in deciding how to manage conflicting contributions from many agents. The only exception is redirect, which forces a canonical resolution of conflicting updates.
 
-It's also important to note that an update or delete action doesn't operate on entries or links---it operates on _the actions that called them into existence_. That means you have to specify a header hash, not just an entry hash. This prevents clashes between identical entries written by different authors at different times, such as Alice and Bob both writing the message “hello”. That entry exists in one place in the DHT, but it will have two new-entry actions attached to it, each of which can be updated or deleted independently. In the case of deletes, an entry or link isn't dead until all the headers that created it are also dead. Again, purge is the only exception; it operates on entries.
+It's also important to note that an update or delete action doesn't operate on entries or links---it operates on _the actions that called them into existence_. That means you have to specify a header hash, not just an entry hash. In the case of deletes, an entry or link isn't dead until all the headers that created it are also dead. Again, purge is the only exception; it operates on entries.
+
+This prevents clashes between identical entries written by different authors at different times, such as Alice and Bob both writing the message “hello”. That entry exists in one place in the DHT, but it will have two new-entry actions attached to it, each of which can be updated or deleted independently. Taking entry and header together, they can be considered two separate pieces of data. 
 
 ## Handling privacy concerns and storage constraints
 
-You’ve seen how deletes and updates don’t actually remove data; they just add a piece of metadata that changes its status. Even with the future withdraw and purge actions, all they are is a polite request for other peers to remove data from their stores. This can break users’ expectations. When you ask a central service to delete information you’d rather people not know, you’re trusting the service to wipe it out completely—or at least stop displaying it. When your data is shared publicly, however, you can’t control what other people do with it.
+You’ve seen how deletes and updates don’t actually remove data; they just add a piece of metadata that changes its status. Even with the future withdraw and purge actions, all they are is a polite request that other peers remove data from their stores. This can break users’ expectations. When you ask a central service to delete information you’d rather people not know, you’re trusting the service to wipe it out completely—or at least stop displaying it. When your data is shared publicly, however, you can’t control what other people do with it.
 
-In a sense, this is true of anything you put on the internet. Even when a central database permanently deletes information, it can live on in caches, backups, screenshots, public archives, reading-list apps, and people’s memories. Holochain just makes it easier to share and persist data. Privacy is all about creating friction around the sharing of data, so your responsibility as a designer is to create appropriate levels of friction. Here are some guidelines:
+In a sense, this is true of anything you put on the internet. Even when a central database permanently deletes information, it can live on in caches, backups, screenshots, public archives, reading-list apps, and people’s memories. Holochain just makes it easier to share and persist data. Privacy is all about creating friction against data sharing, so your responsibility as a designer is to create appropriate levels of friction. Here are some guidelines:
 
-* Be careful about what the DNA returns to the UI. Your zome functions serve as the API to the DHT’s data and can filter out old data. This doesn’t completely prevent people from accessing it, but it does increase friction.
-* Design your UI to communicate the permanence of the information users publish so they can make responsible decisions.
+* Be careful about what the DNA returns to the UI. Your zome functions serve as the API to the DHT’s data and can filter out old data. This doesn’t completely prevent people from accessing it, but it does force them to work against the system.
+* Design your UI to communicate the permanence of the information users publish so they can make responsible decisions about what they choose to share.
 
 Because data takes up space even when it’s no longer live, be judicious about what you commit to the source chain and the DHT.
 

@@ -43,16 +43,16 @@ Now, let’s get into the details of how a Holochain app is put together. Holoch
 
 <div class="coreconcepts-storysequence" markdown=1>
 1. ![](../../img/concepts/2.5-zome.png)
-A code module called a **zome** (short for chromosome) defines the core logic of your app. It exposes its public functions to the Holochain runtime. Some of these functions are required, such as data validation functions for each type of data the zome defines. Other functions are invented by the developer and define the zome’s public API.
+A code module called a **zome** (short for chromosome) defines the core logic of your app. It exposes its public functions to the Holochain runtime. Some of these functions are required, such as validation functions for each type of data the zome defines. Other functions are invented by the developer and define the zome’s public API.
 
 2. ![](../../img/concepts/2.6-dna.png)
 One or more zomes are combined into a **DNA** that defines the basic functionality and ‘rules of the game’ for a portion of an application’s functionality. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices). The running DNA instance, or **cell**, is the user’s personal agent—every piece of data that it creates or message it sends, it does so from the perspective of the user.
 
-3. ![](../../img/concepts/2.7-bridging)
-A user’s cells can talk to each other’s APIs via **bridging**. This lets you compose them into a bundle of functionality that’s needed for a full-featured app.
+3. ![](../../img/concepts/2.7-bridging.png)
+A user’s cells can talk to each other’s APIs via **bridging**. This lets you compose them into a bundle of functionality that’s needed for a full-featured app, which we call a **DNA bundle**.
 
 4. ![](../../img/concepts/2.8-happ-bundle.png)
-A **client** on the user's device, such as a GUI or utility script, talks to the DNAs' APIs via a lightweight [remote procedure call (RPC)](https://en.wikipedia.org/wiki/Remote_procedure_call) interface. The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. This client and its DNAs make up a **hApp bundle**.
+A **client** on the user's device, such as a GUI or utility script, talks to the DNAs' APIs via a lightweight [remote procedure call (RPC)](https://en.wikipedia.org/wiki/Remote_procedure_call) interface. The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. This client and its DNAs make up an application.
 
 5. ![](../../img/concepts/2.9-conductor.png)
 All DNAs are hosted in the user's **conductor**, a runtime that sandboxes and executes DNA code, manages data flow and storage, and handles connections between components of the stack. You can think of the conductor as a web application server. As with all the other components, it lives on each user’s device.
@@ -70,17 +70,17 @@ Functional components and architectural layers both enjoy clean separation. You 
 
 You can see that Holochain is different from typical application stacks. Here's a summary:
 
-* An application consists of a client and a hApp bundle (a collection of isolated services called DNAs which in turn are composed of code modules called zomes).
-* Each user has their own copy of the client, hApp bundle, and Holochain runtime (conductor).
+* An application consists of a client and a DNA bundle (a collection of isolated services called DNAs which in turn are composed of code modules called zomes).
+* Each user has their own copy of the client, DNA bundle, and Holochain runtime (conductor).
 * The conductor sandboxes the DNA code, mediating all access to the device’s resources, including networking and storage.
 * All code is executed on behalf, and from the perspective, of the individual user.
 * Users communicate and share data directly with one another rather than through a central server or blockchain validator network.
 * Holochain is opinionated about data—it handles all storage and retrieval. (We’ll learn about why and how in the next three articles.)
 * DNA functions don’t maintain any in-memory state between calls.
-* Persistence logic and core business logic are mixed together in your DNA, because at its heart, Holochain is a framework for data validation. However, you usually don’t need much code in your DNA—just enough to encode the ‘rules of the game’ for your application.
+* Persistence logic and core business logic are mixed together in your DNA, because at its heart, Holochain is a framework for data validation. However, you usually don’t need a lot of your business logic in your DNA—just enough to encode the ‘rules of the game’ for your application.
 * As with microservices, Holochain lends itself to combining small, reusable components into large applications.
 
 ## Learn more
 
 * [Holochain: Reinventing Applications](https://medium.com/holochain/holochain-reinventing-applications-d2ac1e4f25ef)
-* [The Holo vision: Serverless 2.0](https://medium.com/holochain/the-holo-vision-serverless-2-0-c0b294e753ba)
+* [The Holo vision: Serverless 2.0](https://medium.com/holochain/the-holo-vision-serverless-2-0-c0b294e753ba)he foundation of Holochain is simple, but the consequences of our design can lead to new challenges. H

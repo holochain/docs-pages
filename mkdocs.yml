@@ -20,7 +20,7 @@ nav:
     - Application Architecture: 'concepts/2_application_architecture.md'
     - Source Chain: 'concepts/3_source_chain.md'
     - DHT: 'concepts/4_dht.md'
-    - Links and Paths: 'concepts/5_links_paths.md'
+    - Links and Anchors: 'concepts/5_links_anchors.md'
     - CRUD Actions: 'concepts/6_crud_actions.md'
     - Validation: 'concepts/7_validation.md'
     - Calls and Capabilities: 'concepts/8_calls_capabilities.md'
