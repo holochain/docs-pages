@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Install The Holochain Developer Tools
 
 <div markdown="1" class="coreconcepts-intro">
@@ -13,23 +18,23 @@ This guide will get you set up with the latest Holochain RSM developer environme
 
 <div class="h-tile-container h-tile-container-3 tile-tabs">
     <div class="h-tile">
-        <a href="javascript:rudrSwitchTab('tab_1', 'content_1');" id="tab_1" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
+        <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
             <h3><img src="/docs/custom/icon-apple.svg"> macOS</h3>
         </a>
     </div>
     <div class="h-tile">
-        <a href="javascript:rudrSwitchTab('tab_2', 'content_2');" id="tab_2" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+        <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
             <h3><img src="/docs/custom/icon-linux.svg" class="linux"> Linux</h3>
         </a>
     </div>
     <div class="h-tile">
-        <a href="javascript:rudrSwitchTab('tab_3', 'content_3');" id="tab_3" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+        <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
             <h3><img src="/docs/custom/icon-windows.svg"> Windows</h3>
         </a>
     </div>
 </div>
 
-<div markdown="1" class="tabcontent" data-tabid="tab_1" id="content_1">
+<div markdown="1" class="tabcontent tab_macos" id="content_macos">
 
 ## macOS
 
@@ -55,7 +60,7 @@ sh <(curl -L https://nixos.org/nix/install)
 
 </div>
 
-<div markdown="1" class="tabcontent" data-tabid="tab_2" id="content_2" style="display:none;">
+<div markdown="1" class="tabcontent content_linux" data-tabid="tab_linux" style="display:none;">
 
 ## Linux
 
@@ -69,11 +74,14 @@ sh <(curl -L https://nixos.org/nix/install)
 
 </div>
 
-<div markdown="1" class="tabcontent" id="content_3" data-tabid="tab_3" style="display:none;">
+<div markdown="1" class="tabcontent content_windows" data-tabid="tab_windows" style="display:none;">
 
 ## Windows
 
-Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. If you have Windows 10, Ubuntu Linux is available via the Microsoft Store.
+Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. If you have Windows 10, you have two options:
+
+* **Install Linux in a virtual machine**
+* **Help us 
 
 ### Requirements
 
@@ -101,6 +109,7 @@ sh <(curl -L https://nixos.org/nix/install)
 
 </div>
 
+<div markdown="1" class="tabcontent content_linux content_macos" style="display:none;">
 After installing Nix, log out of your user account and log in again. Or, to save effort, run this command to get your terminal to recognize the newly installed commands:
 
 ```bash
@@ -129,17 +138,17 @@ Now that you have installed Nix, you can install and run a development shell tha
 
 Use this one-liner to install Holonix:
 
-### Linux (and Windows 10 with WSL2)
-
+<div markdown="1" class="tabcontent content_linux" style="display:none;">
 ```bash
 $(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix
 ```
+</div>
 
-### macOS
-
+<div markdown="1" class="tabcontent content_macos" style="display:none;">
 ```bash
 HN_NOSUDO=true $(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix
 ```
+</div>
 
 Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new prompt starting with:
 
@@ -200,22 +209,23 @@ Any time you want to get the latest version of the dev tools, you can [follow th
 !!! Info "Making it easier to run"
     This is a hard command to remember, so you might want to add an alias for it as well:
 
-    ### Linux (and Windows 10 with WSL2)
-
+<div markdown="1" class="tabcontent content_linux" style="display:none;">
     ```bash
     echo 'alias holonix-update=\'$(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
     holonix-update
-    ```
+</div>    ```
 
-    ### macOS
+<div markdown="1" class="tabcontent content_macos" style="display:none;">
     ```bash
     echo 'alias holonix-update=\'HN_NOSUDO=true $(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
     holonix-update
     ```
+</div>
 
 ## Uninstalling
 
 You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But if you want to free up some space, you can delete the contents of `/nix/store` --- just make sure nobody or nothing else is using Nix on your computer first!
+</div>
 
 ## Next Steps
 
@@ -223,21 +233,21 @@ You usually don't need to uninstall anything, because `nix-shell` leaves your fa
 2. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
 3. Take a look at the developer documentation.
     * [Rust SDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk3/README.md)
-    * Rust SDK (run this command inside the Holonix shell):
+    * Rust SDK reference (run this command inside the Holonix shell):
         ```bash
         cargo doc --manifest-path=crates/hdk3/Cargo.toml --open
         ```
 4. Join the discussion at the [developers' forum](https://forum.holochain.org).
 
 <script>
-function rudrSwitchTab(rudr_tab_id, rudr_tab_content) {
+function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
     // first of all we get all tab content blocks (I think the best way to get them by class names)
     var x = document.getElementsByClassName("tabcontent");
     var i;
     for (i = 0; i < x.length; i++) {
         x[i].style.display = 'none'; // hide all tab content
     }
-    document.getElementById(rudr_tab_content).style.display = 'block'; // display the content of the tab we need
+    document.getElementsByClassName(rudr_tab_content).style.display = 'block'; // display the content of the tab we need
 
     // now we get all tab menu items by class names (use the next code only if you need to highlight current tab)
     var x = document.getElementsByClassName("tabmenu");
@@ -269,7 +279,7 @@ function switchToTabForFragmentIfNecessary() {
     var contentID = tabContainer.id;
 
     // Make the tab active so you can see the linked content.
-    rudrSwitchTab(tabID, contentID);
+    rudrSwitchContent(tabID, contentID);
 }
 
 // Switch to the correct tab if DOM is ready.
