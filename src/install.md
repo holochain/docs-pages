@@ -198,8 +198,8 @@ function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
     for (i = 0; i < all_content.length; i++) {
         all_content[i].style.display = 'none'; // hide all tab content
     }
-    var active_content = document.getElementsByClassName(rudr_tab_content)
-    for (i = 0; i < active_content.length; i ++>) {
+    var active_content = document.getElementsByClassName(rudr_tab_content);
+    for (i = 0; i < active_content.length; i ++) {
         active_content[i].style.display = 'block'; // display the content we need
     }
 
