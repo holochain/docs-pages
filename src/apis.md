@@ -1,6 +1,6 @@
 # Holochain Programming References
 
-!!! warn
+!!! warning "Under construction"
     This part of the documentation is under construction. For now we've provided some provisional resources.
 
 ## Rust SDK (also known as the HDK, or Holochain Development Kit)
