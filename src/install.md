@@ -210,7 +210,7 @@ function switchToTabForFragmentIfNecessary() {
     if (!fragment) {
         // Nothing to do. Make sure the default tab's content is visible.
         var active_tab = document.querySelectorAll('.tabmenu.active')[0];
-        rudrSwitchContent(active_tab.id, active_tab.attr('data-contentclass'))
+        rudrSwitchContent(active_tab.id, active_tab.getAttribute('data-contentclass'))
         return;
     }
 
