@@ -78,9 +78,9 @@ sh <(curl -L https://nixos.org/nix/install)
 
 ## Windows
 
-Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. We recommend installing Linux in a virtual machine and using the <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" onclick="window.open(this.href,'_self'); return false;">Linux instructions</a>. [Ubuntu Linux](https://www.ubuntu.com/) in [VirtualBox](https://virtualbox.org) is a popular and user-friendly choice; here is a [tutorial](https://itsfoss.com/install-linux-in-virtualbox/) to get you up and running.
+Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. We recommend **installing Linux in a virtual machine** and using the <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" onclick="window.open(this.href,'_self'); return false;">Linux instructions</a>. [Ubuntu Linux](https://www.ubuntu.com/) in [VirtualBox](https://virtualbox.org) is a popular and user-friendly choice; here is a [tutorial](https://itsfoss.com/install-linux-in-virtualbox/) to get you up and running.
 
-If you have **Windows 10 with [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10)**, Ubuntu Linux is available via the Microsoft Store. Right now we're not supporting this method, because we've seen some compilation bugs, but if you wanted to try the following steps we'd be grateful if you shared your results on the [Holochain developers' forum](https://forum.holochain.org).
+If you have **Windows 10 with [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10)**, Ubuntu Linux is available via the Microsoft Store. Right now we're **not supporting this method**, because we've seen some compilation issues, but if you wanted to try the following steps we'd be grateful if you shared your results on the [Holochain developers' forum](https://forum.holochain.org).
 
 ### Requirements
 
