@@ -18,17 +18,17 @@ This guide will get you set up with the latest Holochain RSM developer environme
 
 <div class="h-tile-container h-tile-container-3 tile-tabs">
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" data-contentclass="content-linux" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
+        <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" data-contentclass="content_linux" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
             <h3><img src="/docs/custom/icon-linux.svg" class="linux"> Linux</h3>
         </a>
     </div>
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content-macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+        <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content_macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
             <h3><img src="/docs/custom/icon-apple.svg"> macOS</h3>
         </a>
     </div>
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content-windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+        <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
             <h3><img src="/docs/custom/icon-windows.svg"> Windows</h3>
         </a>
     </div>
