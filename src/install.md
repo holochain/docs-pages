@@ -104,7 +104,7 @@ sh <(curl -L https://nixos.org/nix/install)
 
 </div>
 
-<div markdown="1" class="tabcontent content_linux content_macos" style="display:none;">
+<div markdown="1" class="tabcontent content_linux content_macos content_windows" style="display:none;">
 After installing Nix, log out of your user account and log in again. Or, to save effort, run this command to get your terminal to recognize the newly installed commands:
 
 ```bash
@@ -174,6 +174,8 @@ You can re-enter the Holonix shell with this command:
 ```bash
 nix-shell ~/.holonix/shellDrv
 ```
+
+</div>
 
 ## Next Steps
 
