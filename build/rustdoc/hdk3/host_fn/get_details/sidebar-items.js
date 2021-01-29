@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_details","Get an element from the hash AND the details for the entry or header hash passed in. Returns None if the entry/header does not exist. The details returned are a contextual mix of elements and header hashes, see below."]]});

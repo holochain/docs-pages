@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["KEY_REF_BYTES","Key refs are the same length as the keys themselves. The key ref is just a sha256 of the key. There are no benefits, only downsides, to having either a larger or smaller set of outputs (ref size) vs. the set of inputs (key size)."]],"struct":[["XSalsa20Poly1305KeyRef",""]],"type":[["SecretBoxKeyRef",""]]});

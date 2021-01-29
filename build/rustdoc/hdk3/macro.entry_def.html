@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `entry_def` macro in crate `hdk3`."><meta name="keywords" content="rust, rustlang, rust-lang, entry_def"><title>hdk3::entry_def - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../ayu.css" disabled ><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc macro"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../hdk3/index.html'><div class='logo-container rust-logo'><img src='../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>hdk3</a></p><script>window.sidebarCurrent = {name: 'entry_def', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/hdk3/guest_callback/entry_defs.rs.html#40-185' title='goto source code'>[src]</a></span><span class='in-band'>Macro <a href='index.html'>hdk3</a>::<wbr><a class="macro" href=''>entry_def</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><div class="example-wrap"><pre class="rust macro">
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">entry_def</span> {
+    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">def</span>:<span class="ident">expr</span> ) <span class="op">=</span><span class="op">&gt;</span> { ... };
+}</pre></div>
+</div><div class='docblock'><p>Implements a whole lot of sane defaults for a struct or enum that should behave as an entry.
+All the entry def fields are available as dedicated methods on the type and matching From impls
+are provided for each. This allows for both Foo::entry_def() and EntryDef::from(Foo::new())
+style logic which are both useful in different scenarios.</p>
+<p>For example, the Foo::entry_def() style works best in the entry_defs callback as it doesn't
+require an instantiated Foo in order to get the definition.
+On the other hand, EntryDef::from(Foo::new()) works better when e.g. using create_entry() as
+an instance of Foo already exists and we need the entry def id back for creates and updates.</p>
+<p>If you don't want to use the macro you can simply implement similar fns youself.</p>
+<p>This is not a trait at the moment, it could be in the future but for now these functions and
+impls are just a loose set of conventions.</p>
+<p>It's actually entirely possible to interact with core directly without any of these.
+e.g. create_entry() is just building a tuple of EntryDefId and Entry::App under the hood.</p>
+<p>This requires that TryFrom and TryInto SerializedBytes is implemented for the entry type,
+which implies that serde::Serialize and serde::Deserialize is also implemented.
+These can all be derived and there is an attribute macro that both does the default defines.</p>
+<p>e.g. the following are equivalent</p>
+
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
+<span class="attribute">#[<span class="ident">hdk_entry</span>(<span class="ident">id</span> <span class="op">=</span> <span class="string">&quot;foo&quot;</span>, <span class="ident">visibility</span> <span class="op">=</span> <span class="string">&quot;private&quot;</span>, <span class="ident">required_validations</span> <span class="op">=</span> <span class="number">6</span>, )]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Foo</span>;</pre></div>
+
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">SerializedBytes</span>, <span class="ident">serde</span>::<span class="ident">Serialize</span>, <span class="ident">serde</span>::<span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Foo</span>;
+<span class="macro">entry_def</span><span class="macro">!</span>(<span class="ident">Foo</span> <span class="ident">EntryDef</span> {
+  <span class="ident">id</span>: <span class="string">&quot;foo&quot;</span>.<span class="ident">into</span>(),
+  <span class="ident">visibility</span>: <span class="ident">EntryVisibility</span>::<span class="ident">Private</span>,
+  ..<span class="ident">Default</span>::<span class="ident">default</span>()
+});</pre></div>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "hdk3";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `create_cap_grant` fn in crate `hdk3`."><meta name="keywords" content="rust, rustlang, rust-lang, create_cap_grant"><title>hdk3::capability::create_cap_grant::create_cap_grant - Rust</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc fn"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../hdk3/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='../../index.html'>hdk3</a>::<wbr><a href='../index.html'>capability</a>::<wbr><a href='index.html'>create_cap_grant</a></p><script>window.sidebarCurrent = {name: 'create_cap_grant', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../../src/hdk3/capability/create_cap_grant.rs.html#83-88' title='goto source code'>[src]</a></span><span class='in-band'>Function <a href='../../index.html'>hdk3</a>::<wbr><a href='../index.html'>capability</a>::<wbr><a href='index.html'>create_cap_grant</a>::<wbr><a class="fn" href=''>create_cap_grant</a></span></h1><pre class='rust fn'>pub fn create_cap_grant(<br>&nbsp;&nbsp;&nbsp;&nbsp;cap_grant_entry: <a class="type" href="../../../hdk3/prelude/entry/type.CapGrantEntry.html" title="type hdk3::prelude::entry::CapGrantEntry">CapGrantEntry</a><br>) -&gt; <a class="type" href="../../../hdk3/map_extern/type.ExternResult.html" title="type hdk3::map_extern::ExternResult">ExternResult</a>&lt;<a class="type" href="../../../hdk3/prelude/type.HeaderHash.html" title="type hdk3::prelude::HeaderHash">HeaderHash</a>&gt;</pre><div class='docblock'><p>Create a CapGrant on the grantor's chain.</p>
+<p>When an agent wants to expose externs to be called remotely by other agents they need to select
+a security model and probably generate a secret.</p>
+<p>The input needs to evalute to a <code>ZomeCallCapGrant</code> struct which defines the tag, access and
+granted zome/function pairs. The access is a <code>CapAccess</code> enum with variants <code>Unrestricted</code>,
+<code>Transferable</code>, and <code>Assigned</code>.</p>
+<p>The tag is an arbitrary <code>String</code> the developer or users can use to categorise and administer
+grants committed to the chain. The tag should also match the <code>CapClaim</code> tags committed on the
+recipient chain when a <code>CapGrant</code> is committed and shared.</p>
+<p>Provided the grant author agent is online:</p>
+<ul>
+<li>The author always has access to all their own extern calls, bypassing <code>CapAccess</code></li>
+<li>Unrestricted access means any external agent can call the extern</li>
+<li>Transferable access means any external agent with a valid secret can call the extern</li>
+<li>Assigned access means only explicitly approved agents with a valid secret can call the extern</li>
+</ul>
+<p>All logic runs on the author agent's machine against their own source chain:</p>
+<ul>
+<li>New entries are committed to the author's chain with the author's signature</li>
+<li>Signals are emmitted to the author's system and GUI</li>
+<li>The author must be online from the perspective of the caller</li>
+<li>The author can chain <code>call_remote</code> back to the caller or any other agent</li>
+</ul>
+<p>The happ developer needs to plan carefully to ensure auditability and accountability is
+maintained for all writes and network calls if this is important to the integrity of the happ.</p>
+<p>Multiple CapGrant entries can be relevant to a single attempted zome call invocation.
+The most specific and strict CapGrant that validates will be used. For example, if a user
+provided a valid transferable secret to a function that is currently unrestricted, the zome
+call will be executed with the stricter transferable access.</p>
+<p>@todo this is more relevant when partial application exists in the future
+@todo predictably disambiguate multiple CapGrants of the same specificity</p>
+<p>CapGrant entries can be updated and deleted in the same way as standard app entries.
+The CRUD model for CapGrants is much simpler than app entries:</p>
+<ul>
+<li>versions are always local to a single source chain so partitions can never happen</li>
+<li>updates function like delete+create so that old grants are immediately revoked by a new grant</li>
+<li>deletes immediately revoke the referenced grant</li>
+<li>version histories are linear so there can never be a branching history of updates and deletes</li>
+</ul>
+<p>@todo ensure linear history in sys validation</p>
+<p>Secrets must be unique across all grants and claims in a source chain and should be generated
+using the <code>generate_cap_secret</code> function that sources the correct number of cryptographically
+strong random bytes from the host.</p>
+<p>@todo ensure uniqueness of secrets in sys validation</p>
+<p>If <em>any</em> CapGrant is valid for a zome call invocation it will execute. Given that secrets must
+be unique across all grants and claims this is easy to ensure for assigned and transferable
+access. Special care is required for Unrestricted grants as several may apply to a single
+extern at one time, or may apply in addition to a stricter grant. In this case, revoking a
+stricter grant, or failing to revoke all Unrestricted grants will leave the function open.</p>
+<p>@todo administration functions to query active grants</p>
+<p>There is an apparent &quot;chicken or the egg&quot; situation where CapGrants are required for remote
+agents to call externs, so how does an agent request a grant in the first place?
+The simplest pattern is for agents to create an extern dedicated to assess incoming grant
+requests and to apply <code>Unrestricted</code> access to it during the zome's <code>init</code> callback.
+If Alice wants access to Bob's <code>foo</code> function she first grants Bob <code>Assigned</code> access to her own
+<code>accept_foo_grant</code> extern and sends her grant's secret to Bob's <code>issue_foo_grant</code> function. Bob
+receives Alice's request and, if he is willing to grant Alice access, he commits Alice's secret
+as a <code>CapClaim</code> to his chain. Bob then generates a new secret and commits it in a <code>CapGrant</code>
+for <code>foo</code>, most likely explicitly <code>Assigned</code> to Alice, and sends his secret and Alice's secret
+to Alice's <code>accept_foo_grant</code> extern. Alice checks her grant, which matches Bob's public key
+and the secret Bob received from her, then she commits a new CapClaim including the secret that
+Bob generated. Now Alice can call <code>foo</code> on Bob's machine any time he is online, and because all
+the secrets are <code>Assigned</code> Bob can track and update exactly who has access to his externs.</p>
+<p>@see ZomeCallCapGrant
+@see CapAccess
+@see create_cap_claim
+@see generate_cap_secret</p>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "hdk3";</script><script src="../../../main.js"></script><script defer src="../../../search-index.js"></script></body></html>

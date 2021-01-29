@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `capability` mod in crate `hdk3`."><meta name="keywords" content="rust, rustlang, rust-lang, capability"><title>hdk3::prelude::capability - Rust</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../hdk3/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a><p class='location'>Module capability</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'><a href='../../index.html'>hdk3</a>::<wbr><a href='../index.html'>prelude</a></p><script>window.sidebarCurrent = {name: 'capability', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span></span><span class='in-band'>Module <a href='../../index.html'>hdk3</a>::<wbr><a href='../index.html'>prelude</a>::<wbr><a class="mod" href=''>capability</a></span></h1><div class='docblock'><p>Capability Grants and Claims</p>
+<p>This module provides a custom system for defining application-specific
+capabilities, and allowing others to access those capabilities in a
+fine-grained manner. The Grantor of a capability can receive requests from
+a Claimant, and if the claim provides the right criteria, the Grantor will
+perform the task specified by the capability and respond to the Claimant.</p>
+<p>Capabilities come with three possible degrees of access control:</p>
+<ul>
+<li>Unrestricted: anybody can exercise this capability</li>
+<li>Transferable: a secret must be provided, but anybody with the secret may
+exercise the capability</li>
+<li>Assigned: Like Transferable, but there is a list of approved AgentPubKeys,
+and requests from any other agents are ignored.</li>
+</ul>
+<p>Capabilities are declared by a Grantor via a <strong><code>CapGrant</code></strong>. <code>CapGrant</code>s
+are not directly committed to a source chain, but can be constructed from
+certain source chain entries. They define a certain bit of functionality,
+as well as the access controls which determine who may exercise the granted
+functionality.</p>
+<p>Capabilites are exercised by other agents via a <strong><code>CapClaim</code></strong> which they
+commit to their source chain as a private entry. This struct contains the
+information needed to refer to the capability as well as the secret needed
+to send to the Grantor.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table><tr class='module-item'><td><a class="struct" href="struct.CapClaim.html" title='hdk3::prelude::capability::CapClaim struct'>CapClaim</a></td><td class='docblock-short'><p>System entry to hold a capability token claim for use as a caller.
+Stored by a claimant so they can remember what's necessary to exercise
+this capability by sending the secret to the grantor.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.CapSecret.html" title='hdk3::prelude::capability::CapSecret struct'>CapSecret</a></td><td class='docblock-short'><p>A CapSecret is used by a caller to prove to a callee access to a committed CapGrant.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.CurryPayloads.html" title='hdk3::prelude::capability::CurryPayloads struct'>CurryPayloads</a></td><td class='docblock-short'><p>@todo Ability to forcibly curry payloads into functions that are called with a claim.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.ZomeCallCapGrant.html" title='hdk3::prelude::capability::ZomeCallCapGrant struct'>ZomeCallCapGrant</a></td><td class='docblock-short'><p>The entry for the ZomeCall capability grant.
+This data is committed to the callee's source chain as a private entry.
+The remote calling agent must provide a secret and we source their pubkey from the active
+network connection. This must match the strictness of the CapAccess.</p>
+</td></tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table><tr class='module-item'><td><a class="enum" href="enum.CapAccess.html" title='hdk3::prelude::capability::CapAccess enum'>CapAccess</a></td><td class='docblock-short'><p>Represents access requirements for capability grants.</p>
+</td></tr><tr class='module-item'><td><a class="enum" href="enum.CapGrant.html" title='hdk3::prelude::capability::CapGrant enum'>CapGrant</a></td><td class='docblock-short'><p>Represents a <em>potentially</em> valid access grant to a zome call.
+Zome call response will be Unauthorized without a valid grant.</p>
+</td></tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table><tr class='module-item'><td><a class="constant" href="constant.CAP_SECRET_BITS.html" title='hdk3::prelude::capability::CAP_SECRET_BITS constant'>CAP_SECRET_BITS</a></td><td class='docblock-short'><p>The number of bits we want for a comfy secret.</p>
+</td></tr><tr class='module-item'><td><a class="constant" href="constant.CAP_SECRET_BYTES.html" title='hdk3::prelude::capability::CAP_SECRET_BYTES constant'>CAP_SECRET_BYTES</a></td><td class='docblock-short'><p>The number of bytes we want for a comfy secret.</p>
+</td></tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table><tr class='module-item'><td><a class="type" href="type.CapSecretBytes.html" title='hdk3::prelude::capability::CapSecretBytes type'>CapSecretBytes</a></td><td class='docblock-short'><p>A fixed size array of bytes that a secret must be.</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.GrantedFunction.html" title='hdk3::prelude::capability::GrantedFunction type'>GrantedFunction</a></td><td class='docblock-short'><p>a single zome/function pair</p>
+</td></tr><tr class='module-item'><td><a class="type" href="type.GrantedFunctions.html" title='hdk3::prelude::capability::GrantedFunctions type'>GrantedFunctions</a></td><td class='docblock-short'><p>A collection of zome/function pairs</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "hdk3";</script><script src="../../../main.js"></script><script defer src="../../../search-index.js"></script></body></html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `create_link` fn in crate `hdk3`."><meta name="keywords" content="rust, rustlang, rust-lang, create_link"><title>hdk3::host_fn::create_link::create_link - Rust</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc fn"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../hdk3/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='../../index.html'>hdk3</a>::<wbr><a href='../index.html'>host_fn</a>::<wbr><a href='index.html'>create_link</a></p><script>window.sidebarCurrent = {name: 'create_link', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+                <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../../../src/hdk3/host_fn/create_link.rs.html#58-67' title='goto source code'>[src]</a></span><span class='in-band'>Function <a href='../../index.html'>hdk3</a>::<wbr><a href='../index.html'>host_fn</a>::<wbr><a href='index.html'>create_link</a>::<wbr><a class="fn" href=''>create_link</a></span></h1><pre class='rust fn'>pub fn create_link&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="../../../hdk3/prelude/struct.LinkTag.html" title="struct hdk3::prelude::LinkTag">LinkTag</a>&gt;&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;base_address: <a class="type" href="../../../hdk3/prelude/type.EntryHash.html" title="type hdk3::prelude::EntryHash">EntryHash</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;target_address: <a class="type" href="../../../hdk3/prelude/type.EntryHash.html" title="type hdk3::prelude::EntryHash">EntryHash</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;tag: T<br>) -&gt; <a class="type" href="../../../hdk3/map_extern/type.ExternResult.html" title="type hdk3::map_extern::ExternResult">ExternResult</a>&lt;<a class="type" href="../../../hdk3/prelude/type.HeaderHash.html" title="type hdk3::prelude::HeaderHash">HeaderHash</a>&gt;</pre><div class='docblock'><p>Create a link from a base entry to a target entry, with an optional tag.</p>
+<p>Links represent the general idea of relationships between entries.</p>
+<p>Links are different from the tree of CRUD relationships:</p>
+<p>Links:</p>
+<ul>
+<li>reference two entries (base and target) not headers</li>
+<li>there is only one way to create a link, validation logic depends on only the base+target+tag</li>
+<li>can represent circular references because only entry hashes are needed</li>
+<li>support arbitrary bytes of data (i.e. &quot;tag&quot;) that can be read or used to filter gets</li>
+<li>deletes always point to a <em>specific</em> link creation event, not the link itself</li>
+<li>model dynamic sets of or relationships between things</li>
+<li>can reference any entry regardless of type (e.g. posts can link to comments)</li>
+<li>cannot reference other links or crud headers (@todo maybe we can do this in the future)</li>
+</ul>
+<p>Note: There is a hard limit of 400 bytes of data for the tag as it is used as an lmdb key.</p>
+<p>Crud:</p>
+<ul>
+<li>creates reference a single entry</li>
+<li>updates and deletes reference create/update elements by both their entry+header</li>
+<li>creates, updates and deletes all have different functions, network ops and validation logic</li>
+<li>is cryptographically guaranteed to be a DAG (not-circular) because they include headers</li>
+<li>model &quot;mutability&quot; for a single thing/identity in an immutable/append-only way</li>
+<li>only reference other entries of the same entry type (e.g. comments can <em>not</em> update posts)</li>
+</ul>
+<p>@see get_details and get for more information about CRUD
+@see get_links and get_link_details for more information about filtering by tag</p>
+<p>Generally links and CRUDs <em>do not interact</em> beyond the fact that links need entry hashes to
+reference for the base and target to already exist due to a prior create or update.
+The entry value only needs to exist on the DHT for the link to validate, it doesn't need to be
+live and can have any combination of valid/invalid crud headers.
+i.e. if you use link_entries! to create relationships between two entries, then update_entry
+on the base, the links will still only be visible to get_link(s_details)! against the original
+base, there is no logic to &quot;bring forward&quot; links to the updated entry because:</p>
+<ul>
+<li>as per CRUD tree docs there is no &quot;one size fits all&quot; way to walk a tree of CRUDs</li>
+<li>links point at entries not headers so all create/update/delete information is in headers</li>
+<li>links are very generic and could even represent a comment thread against a specific revision
+such as those found against individual updates in a wiki/CMS tool so they need to stay where
+they were explicitly placed</li>
+<li>it would actually be pretty crazy at the network layer to be gossiping links around to chase
+the &quot;current revision&quot; even if you could somehow unambiguously define &quot;current revision&quot;</li>
+</ul>
+<p>This can be frustrating if you want &quot;get all the links&quot; for an entry but also be tracking your
+revision history somehow.
+A simple pattern to workaround this is to create an immutable (updates and deletes are invalid)
+&quot;identity&quot; entry that links reference and is referenced as a field on the entry struct of each
+create/update header.
+If you have the hash of the identity entry you can get all the links, if you have the entry or
+header hash for any of the creates or updates you can lookup the identity entry hash out of the
+body of the create/update entry.</p>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "hdk3";</script><script src="../../../main.js"></script><script defer src="../../../search-index.js"></script></body></html>

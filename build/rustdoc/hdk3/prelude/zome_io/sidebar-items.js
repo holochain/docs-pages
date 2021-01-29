@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["HostFnApiError","Anything that can go wrong while calling a HostFnApi method"],["ZomeCallResponse","Response to a zome call."]],"struct":[["ExternIO",""]],"trait":[["HostFnApiT",""]]});

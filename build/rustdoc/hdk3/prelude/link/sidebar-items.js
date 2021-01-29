@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["CreateLinkInput","Zome IO inner type for link creation."],["GetLinksInput",""],["Link",""],["LinkDetails","CreateLinks with and DeleteLinks on them `[CreateLink, [DeleteLink]]`"],["LinkTag","Opaque tag for the link applied at the app layer, used to differentiate between different semantics and validation rules for different links"],["Links",""]]});

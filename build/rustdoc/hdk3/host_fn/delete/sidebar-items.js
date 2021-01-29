@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["delete","General that can delete any entry type."]]});

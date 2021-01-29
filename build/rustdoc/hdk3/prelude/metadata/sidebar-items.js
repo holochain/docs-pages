@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Details","Return type for get_details calls. HeaderHash returns an Element. EntryHash returns an Entry."],["EntryDhtStatus","The status of an [Entry] in the Dht"]],"struct":[["ElementDetails","A specific Element with any deletes This is all the metadata available for an element."],["EntryDetails","An Entry with all it's metadata."]]});

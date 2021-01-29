@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["NONCE_BYTES",""]],"struct":[["XSalsa20Poly1305Nonce",""]],"type":[["SecretBoxNonce",""]]});

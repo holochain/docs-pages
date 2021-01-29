@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["remote_signal","Remote SignalSend a signal to a list of other agents. This will send the data as an [AppSignal] to this zome for all the agents supplied."]]});

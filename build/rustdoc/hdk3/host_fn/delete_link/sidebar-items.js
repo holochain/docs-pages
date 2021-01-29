@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["delete_link","Delete a specific link creation element by its header."]]});

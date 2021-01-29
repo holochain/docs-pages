@@ -7,3 +7,4 @@ build/site
 .cargo
 # Local Netlify folder
 .netlify
+target

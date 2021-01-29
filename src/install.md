@@ -175,12 +175,10 @@ Read through our [advanced installation guide](../install-advanced/) for tips an
 1. Read through the [Holochain Core Concepts](../concepts/).
 2. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
 3. Take a look at the developer documentation.
-    * [Rust SDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk3/README.md)
-    * Rust SDK reference (run this command inside the Holonix shell):
-        ```bash
-        cargo doc --manifest-path=crates/hdk3/Cargo.toml --open
-        ```
-4. Join the discussion at the [developers' forum](https://forum.holochain.org).
+    * [SDK and API references](/docs/references/)
+    * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk3/README.md)
+4. Start [building your own DNAs](https://github.com/holochain/holochain/blob/develop/docs/build_tutorial.md#1-write-your-zomes).
+5. Join the discussion at the [developers' forum](https://forum.holochain.org).
 
 <script>
 function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {

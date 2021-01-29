@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["create_x25519_keypair","Generate a new x25519 keypair in lair from entropy. Only the pubkey is returned from lair because the secret key never leaves lair. @todo ability to export secrets from lair in encrypted format to send to other agents."]]});

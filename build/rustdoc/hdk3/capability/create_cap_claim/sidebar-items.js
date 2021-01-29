@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["create_cap_claim","Create a CapClaim on the local source chain."]]});
