@@ -6,7 +6,7 @@ hide:
 # Install The Holochain Developer Tools
 
 <div markdown="1" class="coreconcepts-intro">
-This guide will get you set up with the latest Holochain RSM developer environment on macOS, Linux, and Windows. Right now Holochain RSM is **alpha quality** and things are moving fast. Expect our APIs and SDKs to change and even break your app if you're keeping up with the latest changes. If you'd like to install something more stable, read our [advanced guide](../nix/).
+This guide will get you set up with the latest Holochain RSM developer environment on macOS, Linux, and Windows. Right now Holochain RSM is **alpha quality** and things are moving fast. Expect our APIs and SDKs to change and even break your app if you're keeping up with the latest changes. If you like choices, read our [advanced guide](../install-advanced/).
 </div>
 
 ## Hardware Requirements
@@ -175,64 +175,18 @@ You can re-enter the Holonix shell with this command:
 nix-shell ~/.holonix/shellDrv
 ```
 
-!!! info "Making it easier to run"
-    You'll probably want multiple terminals open at a time, especially when testing. To save keystrokes, add an alias to your shell config:
-
-    ```bash
-    echo 'alias holonix=\'nix-shell ~/.holonix/shellDrv\' >> ~/.bashrc
-    holonix
-    ```
-
-    Close your terminal window, open it again, and you should be able to type `holonix` from now on.
-
-### Using your favorite text editor or IDE
-
-In most cases you can run your editor as normal. However, if you are using a text editor or integrated development environment (IDE) that needs to communicate with the Rust compiler for real-time syntax checks, then you should launch it from inside the nix-shell. This is because Holonix comes with its own version of Rust that might be different from what you may already have installed.
-
-To do this, just open your editor from the command line while you are in the nix-shell (this example uses Vim):
-
-```
-nix-shell ~/.holonix/shellDrv
-cd my_project
-vim my_file.rs
-```
-
-## Upgrading
-
-Any time you want to get the latest version of the dev tools, you can [follow the install procedure](#installing-the-holochain-dev-tools) again and it'll update you.
-
-!!! Info "Making it easier to run"
-    This is a hard command to remember, so you might want to add an alias for it as well:
-
-<div markdown="1" class="tabcontent content_linux content_windows" style="display:none;">
-    ```bash
-    echo 'alias holonix-update=\'$(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
-    holonix-update
-</div>    ```
-
-<div markdown="1" class="tabcontent content_macos" style="display:none;">
-    ```bash
-    echo 'alias holonix-update=\'HN_NOSUDO=true $(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
-    holonix-update
-    ```
-</div>
-
-## Uninstalling
-
-You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But if you want to free up some space, you can delete the contents of `/nix/store` --- just make sure nobody or nothing else is using Nix on your computer first!
-</div>
-
 ## Next Steps
 
-1. Read through the [Holochain Core Concepts](../concepts/).
-2. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
-3. Take a look at the developer documentation.
+1. Read through our [advanced installation guide](../install-advanced/) for tips and tricks on making your development environment easier to work with.
+2. Read through the [Holochain Core Concepts](../concepts/).
+3. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
+4. Take a look at the developer documentation.
     * [Rust SDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk3/README.md)
     * Rust SDK reference (run this command inside the Holonix shell):
         ```bash
         cargo doc --manifest-path=crates/hdk3/Cargo.toml --open
         ```
-4. Join the discussion at the [developers' forum](https://forum.holochain.org).
+5. Join the discussion at the [developers' forum](https://forum.holochain.org).
 
 <script>
 function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
