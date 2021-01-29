@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Redirecting to legacy Holochain Redux developer docs...</title>
+    <script>
+        expected_path = window.location.hash.substr(2);
+        url_to_redirect_to = 'https://redux.developer.holochain.org/' + expected_path;
+        setTimeout(function() { window.location = url_to_redirect_to }, 5000);
+    </script>
+</head>
+<body>
+    <h1>Redirecting to legacy Holochain Redux developer docs...</h1>
+    <p>The page <code>/<script>document.write(expected_path)</script></code> may have existed on this site once upon a time, but it no longer does. We're guessing you're trying to access a resource meant for the previous version of Holochain, called Holochain Redux.</p>
+    <p>If you'd like to visit this URL on the Holochain Redux site, click the link below. Or you can wait for five seconds and be redirected automatically!</p>
+    <h2><script>document.write('<a href="' + url_to_redirect_to + '">' + url_to_redirect_to + '</a>')</script></h2>
+</body>
+</html>

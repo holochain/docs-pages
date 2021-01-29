@@ -41,27 +41,32 @@
                 <h1>Holochain RSM Guidance</h1>
 
                 <div class="intro">
-                    <p>On 15 September 2020 we <a href="https://medium.com/h-o-l-o/a-big-leap-forward-for-holochain-holo-2efaaa54ed08">unveiled a new Holochain</a>, which we’re currently calling <a href="https://github.com/holochain/holochain">Holochain RSM</a> (Refactored State Model). This documentation site is for the <b>previous version</b>, now called <a href="https://github.com/holochain/holochain-rust">Holochain Redux</a>, and will be <b>deprecated</b> when RSM is released. The documentation will be gradually rewritten for RSM; in the meantime, we’ve indicated places where the information in this documentation will become obsolete.</p>
-                    <p>This guidance page supports both existing and new developers in learning more.</p>
+                    <p>On 15 September 2020 we <a href="https://medium.com/h-o-l-o/a-big-leap-forward-for-holochain-holo-2efaaa54ed08">unveiled a new Holochain</a>, which we’re currently calling <a href="https://github.com/holochain/holochain">Holochain RSM</a> (Refactored State Model).</p>
+                    <p><strong>Holochain RSM has surpassed the previous version in both features and stability. We encourage all new and existing developers to start using it today.</strong></p>
+                    <p>This documentation site is for the <b>new version</b>, and is gradually being rewritten. You can still access the documentation for Holochain Redux at <a href="__redux_url__">__redux_url__</a>.</p>
                 </div>
 
-                <h3>New developers</h3>
+                <h3>Resources</h3>
 
-                <p>Holochain RSM hasn’t been officially released, but it will be soon. We encourage you to wait until then. In the meantime, read the intro content on this website—it’s still relevant (and mostly accurate). Start with <a href="/docs/what-is-holochain/">What is Holochain</a> and <a href="/docs/why-holochain/">Why Holochain</a>, then read the <a href="/docs/concepts/">Core Concepts</a> while you keep the <a href="/docs/glossary/">Glossary</a> nearby.</p>
+                <p>As we rewrite the Holochain documentation, you can find some interim resources here:</p>
 
-                <h3>Existing developers</h3>
+                <ul>
+                    <li><a href="https://github.com/holochain/holochain/blob/develop/README.md#development-environment">Instructions on getting started with Holochain RSM</a></li>
+                    <li><a href="https://holochain-open-dev.github.io/blog/holochain-rsm-migration-guide/">Holochain RSM migration guide</a></li>
+                    <li><a href="https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md">README for the new HDK</a></li>
+                    <li><a href="https://github.com/holochain/holochain/blob/develop/docs/build_tutorial.md">Building your DNA</a></li>
+                    <li><a href="https://github.com/holochain/holochain-serialization/tree/develop/crates/holochain_serialized_bytes">Information and guidelines on serialising your data</a>, including entries and function parameters/returns</li>
+                    <li>The <a href="https://github.com/holochain/holochain/tree/develop/crates/test_utils/wasm/wasm_workspace">test suite</a>, currently the best place for examples of how to use the API and HDK</li>
+                    <li><a href="https://github.com/holochain/holochain/tree/develop/crates/dna_util">`dna_util` command reference</a></li>
+                </ul>
 
-                <p>If you want to get yourself prepared for porting your Holochain app to RSM, here are some provisional resources:</p>
+                <h3>Further reading</h3>
+
+                <p>If you'd like to learn more about how Holochain RSM is different and why we chose to rewrite it from scratch, here's some light and heavy reading for you.</p>
 
                 <ul>
                     <li><a href="https://blog.holochain.org/announcing-and-unpacking-the-new-holochain/">Announcing and Unpacking the New Holochain</a></li>
                     <li><a href="https://github.com/holochain/holochain">Holochain RSM GitHub repository</a></li>
-                    <li><a href="https://github.com/holochain/holochain/blob/develop/README.md#development-environment">Instructions on getting started with Holochain RSM</a></li>
-                    <li><a href="https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md">README for the new HDK</a></li>
-                    <li><a href="https://github.com/holochain/holochain-serialization/tree/develop/crates/holochain_serialized_bytes">Information and guidelines on serialising your data</a>, including entries and function parameters/returns</li>
-                    <li><a href="https://github.com/holochain/holochain/blob/develop/docs/build_tutorial.md">Building your DNA</a></li>
-                    <li><a href="https://github.com/holochain/holochain/tree/develop/crates/dna_util">`dna_util` command reference</a></li>
-                    <li>The <a href="https://github.com/holochain/holochain/tree/develop/crates/test_utils/wasm/wasm_workspace">test suite</a>, currently the best place for examples of how to use the API and HDK</li>
                     <li><a href="https://holo.hackmd.io/iFrWEJ0TREqO6iF5iuDcSg?view">Holochain formal specification</a>, a ‘living document’ from the core devs (some details may be out of date)</li>
                 </ul>
 

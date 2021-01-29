@@ -1,18 +1,18 @@
 # Create a New App
+
 These are the commands you will need when creating a new application.
 
 ### Initialize a new app
-Make sure you have completed the [Install Guide](../install).
 
-Enter the `nix-shell`
-```
-nix-shell https://holochain.love
-```
+Make sure you have completed the [install guide](../install).
 
-!!! note "Run in `nix-shell https://holochain.love`"
+1. Enter the Nix shell.
+    ```bash
+    nix-shell ~/.holonix/shellDrv
     ```
-    hc init my_new_app
-    ```
+2. Download and unpack the Holo World sample DNA project.
+    ```bash
+    curl ??? | 
 
 ## Run from project root 
 

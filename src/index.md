@@ -20,15 +20,15 @@ Welcome to the Holochain Developer Documentation! We hope to guide you along you
 		</a>
 	</div>
 	<div class="h-tile tile-hero">
-		<a href="tutorials/coreconcepts" style="background-image:url(img/tile-3.jpg);">
-			<h2>Tutorials</h2>
-			<p>Let's build an application</p>
-		</a>
-	</div>
-	<div class="h-tile tile-hero">
 		<a href="glossary" style="background-image:url(img/tile-4.jpg);">
 			<h2>Glossary</h2>
 			<p>Holochain definitions</p>
+		</a>
+	</div>
+	<div class="h-tile tile-hero">
+		<a href="https://forum.holochain.org" style="background-image:url(img/tile-3.jpg);">
+			<h2>Forum</h2>
+			<p>Join the developer conversation</p>
 		</a>
 	</div>
 </div>
