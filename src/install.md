@@ -135,13 +135,13 @@ Use this one-liner to install Holonix:
 
 <div markdown="1" class="tabcontent content_linux content_windows" style="display:none;">
 ```bash
-$(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix
+$(nix-build https://holochain.love --no-link -A pkgs.holonix)/bin/holonix
 ```
 </div>
 
 <div markdown="1" class="tabcontent content_macos" style="display:none;">
 ```bash
-HN_NOSUDO=true $(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix
+HN_NOSUDO=true $(nix-build https://holochain.love --no-link -A pkgs.holonix)/bin/holonix
 ```
 </div>
 
