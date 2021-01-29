@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["MetadataRequest","Metadata that can be requested on a basis"]]});

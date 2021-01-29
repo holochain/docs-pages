@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Sign","Input structure for creating a signature."],["Signature","The raw bytes of a signature."],["VerifySignature","Mirror struct for Sign that includes a signature to verify against a key and data."]]});

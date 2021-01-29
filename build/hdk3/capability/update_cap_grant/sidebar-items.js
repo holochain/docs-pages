@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["update_cap_grant","Updates a CapGrant."]]});

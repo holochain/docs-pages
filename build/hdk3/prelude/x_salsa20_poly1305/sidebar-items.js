@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["data",""],["encrypted_data",""],["key_ref",""],["nonce",""],["x25519",""]],"struct":[["X25519XSalsa20Poly1305Decrypt",""],["X25519XSalsa20Poly1305Encrypt",""],["XSalsa20Poly1305Decrypt",""],["XSalsa20Poly1305Encrypt",""]]});

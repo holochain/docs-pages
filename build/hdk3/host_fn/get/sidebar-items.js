@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get","Gets an element for a given entry or header hash."]]});

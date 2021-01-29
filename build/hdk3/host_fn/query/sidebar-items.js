@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["query","Walks the source chain in reverse (latest to oldest) filtering by header and/or entry type"]]});

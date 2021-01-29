@@ -1,0 +1,1 @@
+initSidebarItems({"type":[["Bytes","simply alias whatever serde bytes is already doing for Vec"]]});

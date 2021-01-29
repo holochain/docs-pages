@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["CellId","The unique identifier for a Cell. Cells are uniquely determined by this pair - this pair is necessary and sufficient to refer to a cell in a conductor"]]});

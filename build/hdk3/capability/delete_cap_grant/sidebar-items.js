@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["delete_cap_grant","Deletes a CapGrant."]]});

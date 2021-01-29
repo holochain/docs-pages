@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["call","CallMake a Zome call in another Zome. The Zome can be in another Cell or the same Cell but must be installed on the same conductor."]]});

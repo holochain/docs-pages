@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["sign","Sign some data using the private key for the passed public key"]]});

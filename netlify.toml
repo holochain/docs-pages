@@ -2,6 +2,13 @@
     publish = "/build"
     command = "./create_docs.sh"
 
+
+[[redirects]]
+    # This is just for the nix guide, which is now called the advanced install guide.
+    from = "/docs/nix/"
+    to = "/docs/install-advanced/"
+    status = 301
+
 [[redirects]]
     # This one redirects all non-existent pages to the redux dev docs,
     # with an "are you sure?" page in between.
