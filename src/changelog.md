@@ -7,27 +7,39 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
-## 0.3.4 --> 0.3.5
+## 0.3.7 → 0.4.0
+
+Added content for Holochain RSM and removed all Holochain Redux-related content. New install guide, core concepts, and glossary.
+
+## 0.3.6 → 0.3.7
+
+Bumped to Holochain v0.0.52-alpha2. More textual changes in the tutorials re: consistency checks.
+
+## 0.3.5 → 0.3.6
+
+Bumped to Holochain v0.0.52. Changes in tutorial to fix `s.consistency()` no longer working.
+
+## 0.3.4 → 0.3.5
 
 Preparing for releasing Holochain RSM -- added warning banners and a provisional resource guide.
 
-## 0.3.3 --> 0.3.4
+## 0.3.3 → 0.3.4
 
 Updated for Holochain v0.0.51. No breaking changes.
 
-## 0.3.2 --> 0.3.3
+## 0.3.2 → 0.3.3
 
 Updated for Holochain v0.0.50 and Nix v2.3.7. No breaking changes.
 
-## 0.3.1 --> 0.3.2
+## 0.3.1 → 0.3.2
 
 Simplified Holonix installation instructions for macOS and Windows.
 
-## 0.3.0 --> 0.3.1
+## 0.3.0 → 0.3.1
 
 New header and footer nav. That is all!
 
-## 0.2.3 --> 0.3.0
+## 0.2.3 → 0.3.0
 #### Introduction of hApp Bundle
 
 !!! info "This affects:"
@@ -48,7 +60,7 @@ We can now use bundle.toml files to allow `hc run` to serve our UI and work with
     ```
     You need to have a bundle.toml file in the root directory that points to your UI (if you have a UI).
 
-## 0.1.* --> 0.2.*
+## 0.1.* → 0.2.*
 #### Introduction of Tryorama.
 
 !!! info "This affects:"

@@ -1,6 +1,0 @@
-/guide/* /docs/guide/welcome 301!
-/docs/api/ https://docs.rs/hdk 301!
-/api/index.html https://docs.rs/hdk 301!
-/api/latest/hdk/ https://docs.rs/hdk 301!
-/start /docs/install/ 301!
-/start.html /docs/install/ 301!

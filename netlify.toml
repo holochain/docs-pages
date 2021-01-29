@@ -1,0 +1,10 @@
+[build]
+    publish = "/build"
+    command = "./create_docs.sh"
+
+[[redirects]]
+    # This one redirects all non-existent pages to the redux dev docs,
+    # with an "are you sure?" page in between.
+    from = "/*"
+    to = "/redirect-to-redux-site.html#!:splat"
+    status = 302
