@@ -34,7 +34,7 @@ This guide will get you set up with the latest Holochain RSM developer environme
     </div>
 </div>
 
-<div markdown="1" class="tabcontent tab_macos" id="content_macos">
+<div markdown="1" class="tabcontent content_macos" data-tabid="tab_macos" style="display:none;>
 
 ## macOS
 
@@ -78,18 +78,13 @@ sh <(curl -L https://nixos.org/nix/install)
 
 ## Windows
 
-Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. If you have Windows 10, you have two options:
+Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. We recommend installing Linux in a virtual machine and using the <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" onclick="window.open(this.href,'_self'); return false;">Linux instructions</a>. [Ubuntu Linux](https://www.ubuntu.com/) in [VirtualBox](https://virtualbox.org) is a popular and user-friendly choice; here is a [tutorial](https://itsfoss.com/install-linux-in-virtualbox/) to get you up and running.
 
-* **Install Linux in a virtual machine**
-* **Help us 
+If you have **Windows 10 with [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10)**, Ubuntu Linux is available via the Microsoft Store. Right now we're not supporting this method, because we've seen some compilation bugs, but if you wanted to try the following steps we'd be grateful if you shared your results on the [Holochain developers' forum](https://forum.holochain.org).
 
 ### Requirements
 
 * Windows 10 with [May 2020 Update](https://support.microsoft.com/en-us/help/4028685/windows-10-get-the-update)
-
-### Older versions of Windows
-
-Windows 8 and earlier are not officially supported. We recommend that you install Linux in a virtual machine --- ([Ubuntu Linux](https://www.ubuntu.com/) in [VirtualBox](https://virtualbox.org) is a popular and user-friendly choice). Here is a [tutorial](https://itsfoss.com/install-linux-in-virtualbox/) to get you up and running.
 
 ### Install Ubuntu Linux
 
@@ -138,7 +133,7 @@ Now that you have installed Nix, you can install and run a development shell tha
 
 Use this one-liner to install Holonix:
 
-<div markdown="1" class="tabcontent content_linux" style="display:none;">
+<div markdown="1" class="tabcontent content_linux content_windows" style="display:none;">
 ```bash
 $(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix
 ```
@@ -170,7 +165,7 @@ holochain 0.0.1
 dna-util 0.0.1
 ```
 
-Once you `exit` the shell you'll be back to your usual system shell, with no Holochain-specific bits left behind.
+Once you `exit` the shell you'll be back to your usual system shell, with all Holochain-specific bits cleaned up.
 
 ## Using the Holochain dev tools
 
@@ -209,7 +204,7 @@ Any time you want to get the latest version of the dev tools, you can [follow th
 !!! Info "Making it easier to run"
     This is a hard command to remember, so you might want to add an alias for it as well:
 
-<div markdown="1" class="tabcontent content_linux" style="display:none;">
+<div markdown="1" class="tabcontent content_linux content_windows" style="display:none;">
     ```bash
     echo 'alias holonix-update=\'$(nix-build https://nightly.holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
     holonix-update
