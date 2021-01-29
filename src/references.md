@@ -3,9 +3,9 @@
 !!! warning "Under construction"
     This part of the documentation is under construction. For now we've provided some provisional resources.
 
-## Rust SDK (also known as the HDK, or Holochain Development Kit)
+## Rust HDK
 
-When you write a Holochain application, the part that lives in Holochain is called a [DNA](../concepts/2_application_architecture/#layers-of-the-application-stack). It runs in a WebAssembly sandbox and talks to the host, or conductor, through the host API. The HDK makes it easy for you to write your DNAs in the Rust programming language.
+When you write a Holochain application, the part that lives in Holochain is called a [DNA](../concepts/2_application_architecture/#layers-of-the-application-stack). It runs in a WebAssembly sandbox and talks to the host, or conductor, through the host API. The Rust HDK (Holochain Development Kit) makes it easy for you to write your DNAs in the Rust programming language.
 
 * **[HDK reference](/rustdoc/hdk3/)**
 * **[HDK introductory guide](https://github.com/holochain/holochain/blob/develop/crates/hdk3/README.md)**
