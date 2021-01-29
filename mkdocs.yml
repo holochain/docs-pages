@@ -14,6 +14,7 @@ nav:
     - Create a New App: create-new-app.md
     - Get Involved: get-involved.md
     - Glossary: glossary.md
+    - Advanced Installation Tips: install-advanced.md
   - Core Concepts:
     - Introduction: 'concepts/index.md'
     - The Basics: 'concepts/1_the_basics.md'
