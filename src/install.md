@@ -166,18 +166,21 @@ You can re-enter the Holonix shell with this command:
 nix-shell ~/.holonix/shellDrv
 ```
 
+### Going further
+
+Read through our [advanced installation guide](../install-advanced/) for tips and tricks on making your development environment easier to work with.
+
 ## Next Steps
 
-1. Read through our [advanced installation guide](../install-advanced/) for tips and tricks on making your development environment easier to work with.
-2. Read through the [Holochain Core Concepts](../concepts/).
-3. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
-4. Take a look at the developer documentation.
+1. Read through the [Holochain Core Concepts](../concepts/).
+2. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
+3. Take a look at the developer documentation.
     * [Rust SDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk3/README.md)
     * Rust SDK reference (run this command inside the Holonix shell):
         ```bash
         cargo doc --manifest-path=crates/hdk3/Cargo.toml --open
         ```
-5. Join the discussion at the [developers' forum](https://forum.holochain.org).
+4. Join the discussion at the [developers' forum](https://forum.holochain.org).
 
 <script>
 function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
