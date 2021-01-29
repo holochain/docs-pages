@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["InterfaceDriver","Configuration for interfaces, specifying the means by which an interface should be opened."]],"mod":[["conductor","This module is used to configure the conductor"]],"struct":[["AdminInterfaceConfig","Information neeeded to spawn an Admin interface"]]});

@@ -31,8 +31,7 @@ nav:
     - Community Contributions:
       - Holochain RSM Migration Guide: 'https://holochain-open-dev.github.io/blog/holochain-rsm-migration-guide/'
       - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
-  - API:
-    - API: 'https://docs.rs/hdk'
+  - APIs: 'apis.md'
 
 
 # Theme
