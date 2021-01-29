@@ -68,7 +68,19 @@ nix-shell https://holochain.love
 
 ## Uninstalling
 
-You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries on your device. If you want to free up some space, you can delete the contents of `/nix/store` --- just make sure nobody or nothing else is using Nix on your computer first!
+You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries on your device. If you want to free up some space, run these commands:
+
+```bash
+rm -rf ~/.holonix
+nix-collect-garbage -d
+```
+
+If you want to uninstall Nix as well, run these commands (you might need root privileges for the first line):
+
+```bash
+rm -rf /nix
+rm ~/.nix-profile
+```
 
 ## Using a specific version of the development tools
 
@@ -107,7 +119,7 @@ The main components of the tooling for Holochain development are:
 * Cryptographic libraries
 * Common automations and scripts
 
-It is important that these remain consistent across compatible apps and the Holochain Core, so you can get your work done without fighting package and compiler issues. And when it comes time to compile and distribute your application, it's **very important to have a deterministic build system** so the same DNA source code always results in the same hash.
+It is important that these remain consistent, so you can get your work done without fighting package and compiler issues. And when it comes time to compile and distribute your application, it's **very important to have a deterministic build system** so the same DNA source code always results in the same hash.
 
 The main Nix tool used in Holochain development workflows is `nix-shell`, a managed Bash shell that overlays a new environment and set of tools on top of your existing environment.
 

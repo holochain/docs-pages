@@ -18,20 +18,34 @@ This guide will get you set up with the latest Holochain RSM developer environme
 
 <div class="h-tile-container h-tile-container-3 tile-tabs">
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
-            <h3><img src="/docs/custom/icon-apple.svg"> macOS</h3>
-        </a>
-    </div>
-    <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+        <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" data-contentclass="content-linux" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
             <h3><img src="/docs/custom/icon-linux.svg" class="linux"> Linux</h3>
         </a>
     </div>
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+        <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content-macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+            <h3><img src="/docs/custom/icon-apple.svg"> macOS</h3>
+        </a>
+    </div>
+    <div class="h-tile">
+        <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content-windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
             <h3><img src="/docs/custom/icon-windows.svg"> Windows</h3>
         </a>
     </div>
+</div>
+
+<div markdown="1" class="tabcontent content_linux" data-tabid="tab_linux" style="display:none;">
+
+## Linux
+
+### Install the Nix Package Manager
+
+We use the Nix toolkit to manage the installation of our dev tools, so you can get to work without fighting compiler and package compatibility issues. Install the Nix package manager with this command:
+
+```bash
+sh <(curl -L https://nixos.org/nix/install)
+```
+
 </div>
 
 <div markdown="1" class="tabcontent content_macos" data-tabid="tab_macos" style="display:none;>
@@ -44,7 +58,7 @@ This guide will get you set up with the latest Holochain RSM developer environme
 
 ### Install the Nix Package Manager
 
-We use the Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:
+We use the Nix toolkit to manage the installation of our dev tools, so you can get to work without fighting compiler and package compatibility issues. Install the Nix package manager with this command:
 
 #### macOS 10.15 Catalina and later
 
@@ -53,20 +67,6 @@ sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-v
 ```
 
 #### macOS 10.14 Mojave and earlier
-
-```bash
-sh <(curl -L https://nixos.org/nix/install)
-```
-
-</div>
-
-<div markdown="1" class="tabcontent content_linux" data-tabid="tab_linux" style="display:none;">
-
-## Linux
-
-### Install the Nix Package Manager
-
-We use the Nix toolkit to manage the installation of our dev tools. Install the Nix package manager with this command:
 
 ```bash
 sh <(curl -L https://nixos.org/nix/install)
@@ -104,7 +104,6 @@ sh <(curl -L https://nixos.org/nix/install)
 
 </div>
 
-<div markdown="1" class="tabcontent content_linux content_macos content_windows" style="display:none;">
 After installing Nix, log out of your user account and log in again. Or, to save effort, run this command to get your terminal to recognize the newly installed commands:
 
 ```bash
@@ -133,22 +132,14 @@ Now that you have installed Nix, you can install and run a development shell tha
 
 Use this one-liner to install Holonix:
 
-<div markdown="1" class="tabcontent content_linux content_windows" style="display:none;">
 ```bash
 $(nix-build https://holochain.love --no-link -A pkgs.holonix)/bin/holonix
 ```
-</div>
 
-<div markdown="1" class="tabcontent content_macos" style="display:none;">
-```bash
-HN_NOSUDO=true $(nix-build https://holochain.love --no-link -A pkgs.holonix)/bin/holonix
-```
-</div>
-
-Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new prompt starting with:
+Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new prompt that looks like:
 
 ```
-[nix-shell:
+[nix-shell:~]$
 ```
 
 Test that you have Holochain and the dev tools by running:
@@ -174,8 +165,6 @@ You can re-enter the Holonix shell with this command:
 ```bash
 nix-shell ~/.holonix/shellDrv
 ```
-
-</div>
 
 ## Next Steps
 
@@ -212,12 +201,15 @@ function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
     document.getElementById(rudr_tab_id).className = 'tabmenu active';
 }
 
-// If there's a fragment identifier on the URL, switch to the correct tab.
+// If there's a fragment identifier on the URL, switch to the correct tab on startup.
 function switchToTabForFragmentIfNecessary() {
     var fragment = window.location.hash.slice(1);
-    if (!fragment)
-        // Nothing to do.
+    if (!fragment) {
+        // Nothing to do. Make sure the default tab's content is visible.
+        var active_tab = document.querySelectorAll('.tabmenu.active')[0];
+        rudrSwitchContent(active_tab.id, active_tab.attr('data-contentclass'))
         return;
+    }
 
     var target = document.getElementById(fragment);
     if (!target)
