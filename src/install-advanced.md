@@ -105,7 +105,7 @@ nix-shell
 
 Once you're in the shell, you can navigate to your project's working folder. This way you have all the versions of Holochain available to you locally and don't need to remember long URLs.
 
-## More Info on Nix
+## More info on Nix
 
 We use the Nix/NixOS toolkit to build consistent development, testing, and deployment environments for Holochain Core and apps. It consists of two systems:
 
