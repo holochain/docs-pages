@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.4.1 → 0.4.2
+
+Removed emoji feedback, updated what/why/who introductory material for RSM
+
 ## 0.4.0 → 0.4.1
 
 Added Rustdoc reference guides for the HDK, conductor APIs, and conductor config. Various other small changes.
