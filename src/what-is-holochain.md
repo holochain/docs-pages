@@ -62,7 +62,7 @@ Data in the DHT is stored differently from a SQL database, however. Key differen
 * Each user writes data to a journal on their own device before publishing it to the DHT.
 * Data is held by the users of the app on their own devices. Users store their own journals, as well as a small ammount of others' public data for redundancy.
 * Data propagation is [eventually consistent](https://en.wikipedia.org/wiki/Eventual_consistency). Not all users will see the exact same data at the same time.
-* All of an application's public data is visible to all users of that application, although users can also store private data on their own devices and grant access to others using [capability-based security](../concepts/8_calls_capabilities/)
+* All of an application's public data is visible to all users of that application, although users can also store private data on their own devices and grant access to others using [capability-based security](../concepts/8_calls_capabilities/).
 * Data is not stored in tables, but in individual entries that are retrieved by their unique ID.
 * Relations between entries are created with links, making the DHT more like a graph database than a relational database.
 * Currently, you can't perform column-based or relational queries like you can with SQL, although querying functionality can be built with entries and links. We intend to build more indexing and querying features in the future.
@@ -87,15 +87,16 @@ Key differences:
 * Each node stores its own ledger on its own device. This means that private data can be stored in the same application as public data.
 * Individuals take action in the system by running executable code on their own devices, which makes changes to their local ledger, rather than submitting requests to a global validator network.
 * Unlike public blockchain platforms, each application has a private network and distributed database.
-* Applications can each define their own governance policies, permissioning systems, and rules for data validity.* Only the parties in a transaction must come to consensus, rather than the whole network, and the transaction is then witnessed by a random selection of peer validators.
+* Applications can each define their own governance policies, permissioning systems, and rules for data validity.
+* Only the parties in a transaction must come to consensus, rather than the whole network, and the transaction is then witnessed by a random selection of peer validators.
 * A node running multiple applications can connect them together through a 'bridging' API.
 * Rather than coordinating global agreement through mining, staking, or <abbr title="Byzantine fault-tolerant">BFT</abbr> algorithms, Holochain reinforces trustworthiness of critical data via [peer validation](../concepts/1_the_basics/#how-holochain-does-things-differently). This makes attacks on data integrity statistically difficult.
 * Public data lives in the application's <abbr title="distributed hash table">DHT</abbr>, a semi-structured graph database, rather than a global ledger.
 * Holochain has built-in tools to anticipate and support hard forks.
 * Responsibility for data storage and validation is distributed among nodes via a selection algorithm that creates overlapping 'neighborhoods'. This reduces storage and compute requirements for individual nodes, making Holochain much lighter than blockchain.
-* Keys are unique to a node and can't be used on another node. Managing keys, including linking device keys to one identity, is supported by a built-in distributed <abbr title="public key infrastructure">PKI</abbr> dApp.
+* Keys are unique to a node and can't be used on another node. Managing keys, including linking device keys to one identity, is supported by a built-in distributed <abbr title="public key infrastructure">PKI</abbr> application.
 * Holochain doesn't natively support anonymity, but is instead optimized for accountability and long-lasting identities.
-* In addition to being a passive record of events like blockchain, Holochain also allows interaction among nodes, between one node and its UI, and among separate apps on one node, via 'push' methods such as [RPC and signals](../concepts/8_calls_capabilities/)
+* In addition to being a passive record of events like blockchain, Holochain also allows interaction among nodes, between one node and its UI, and among separate apps on one node, via 'push' methods such as [RPC and signals](../concepts/8_calls_capabilities/).
 
 ### Serverless, lambda, or function-as-a-service?
 
@@ -104,9 +105,9 @@ Similarly to serverless offerings, you can use Holochain to deploy an applicatio
 Key differences:
 
 * Holochain does not create a serverless abstraction on top of cloud servers---there are no servers at all. Instead, each user hosts both back-end and front-end code on their own device.
-* Public data is stored in a graph database engine provided by the Holochain runtime.
+* Public data is stored in a graph database provided by the Holochain runtime.
 * When a function changes state, only local state is affected. This state change may then be optionally published to the public graph database so it can be accessed by others.
-* Back-end code is typically deployed to interested users as a package of functions, called a [DNA](../concepts/2_application_architecture/), rather than individual functions. However, a function can call another function in another package if both packages are installed on the same user's device.
+* Back-end code is typically deployed to interested users as a package of functions, called a [DNA](../concepts/2_application_architecture/), rather than individual functions. However, a function can call a function in another package if both packages are installed on the same user's device.
 
 ### Other peer-to-peer (<abbr>P2P</abbr>) or distributed web (<abbr title="distributed web">DWeb</abbr>) technologies?
 
@@ -114,9 +115,9 @@ Holochain is one of an 'agent-centric' category of <abbr title="peer-to-peer">P2
 
 Key differences:
 
-* Holochain is meant for application development, whereas BitTorrent, Dat, Git, and IPFS are simply data persistence and propagation layers on which applications can be built.
+* Holochain, like Secure Scuttlebutt, is meant for application development, whereas BitTorrent, Dat, Git, and IPFS are simply data persistence and propagation layers on which applications can be built.
 * Holochain is both a protocol and an implementation, and is opinionated about back-end languages and frameworks. Most other stacks have simpler protocols which allow developers to build on implementations written in their favorite languages.
-* Holochain, like Secure Scuttlebutt, is optimized for long-lasting identity, whereas BitTorrent, Hypercore, and IPFS allow for more anonymity.
+* Holochain, like Secure Scuttlebutt and Hypercore, is optimized for long-lasting identity, whereas BitTorrent and IPFS allow for more anonymity via 'throwaway' keys.
 
 ### What's next?
 
@@ -125,5 +126,5 @@ As our ecosystem matures:
 * We'll release new core features and improve our SDK to support application developers.
 * We’ll build drop-in libraries for user and role management, authorization, fast querying, efficient data management, and more.
 * We'll create applications for private data backup, user profile management, source code management, and application package distribution.
-* We’ll launch an app store that allow users with the Holochain runtime to install, run, and update apps with just a few clicks.
+* We’ll launch an app store that allows users with the Holochain runtime to install, run, and update apps with just a few clicks.
 * We are building a distributed application hosting marketplace called [Holo hosting](https://holo.host) to connect traditional web users with Holochain applications.
