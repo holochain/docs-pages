@@ -210,7 +210,6 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 .h-feedback { padding-top: 15px; text-align: center; background: #FFF; box-sizing: border-box; overflow: hidden; position: relative; border-radius: 5px; }
 .h-feedback:after { content: ''; width: 100%; height: 5px; background: #FFF; position: absolute; bottom: 0; right: 0; }
 .h-feedback h4 { margin: 0 0 -33px; font-size: .65rem; }
-#emojicom-widget-inline { margin-bottom: -42px; transform: scale(.6); }
 
 /* Footer */
 
