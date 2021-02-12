@@ -8,7 +8,7 @@ Building with Holochain means you can design completely serverless applications 
 </div>
 
 <div class="heading-tile" style="background-image:url(../img/tile-1.jpg);" markdown=1>
-## For client/server folks
+## For cloud folks
 </div>
 
 ### Scalable
@@ -17,7 +17,7 @@ Performance scales linearly with new users, because everyone contributes useful 
 
 ### Resilient
 
-No server means no centralized failure points. The Holochain runtime takes care of connecting all the pieces that keep the application alive, from networking to authentication to redundnacy to threat response. Nodes communicate directly with each other using an end-to-end encrypted peer-to-peer protocol, maintaining redundancy and adapting quickly to failures and attacks. In short, Holochain is built for anti-fragility.
+No server means no centralized failure points. The Holochain runtime takes care of connecting all the pieces that keep the application alive, from networking to authentication to redundancy to threat response. Nodes communicate directly with each other using an end-to-end encrypted peer-to-peer protocol, collectively maintaining resilience and adapting quickly to outages and attacks. In short, Holochain is built for anti-fragility.
 
 ### Empowering
 
@@ -37,8 +37,8 @@ Holochain supports fast and agile development, letting you create microservice c
 
 ### Fast and lean
 
-Holochain replaces expensive global consensus with direct peer communication and peer validation. Users run your software on their own devices, replicating only the data they’re interested in, and reaching mutual agreement at the speed of the internet. Meanwhile, a sophisticated immune system rapidly identifies and responds to network attacks.
+Holochain replaces expensive global consensus with direct peer-to-peer communication, local consensus, and sharded validation. Users run your software on their own devices, replicating only the data they need (plus a small slice of their peers' data) and interacting at the speed of the internet. Meanwhile, a sophisticated immune system rapidly identifies and responds to network attacks.
 
 ### Flexible
 
-Holochain lets you build your distributed app your way. Public blockchain platforms impose one-size-fits-all solutions for data consistency, economics, governance, and access. Holochain isn’t a blockchain—it’s a framework for building interconnected public, private, and hybrid networks. With very few assumptions baked in, you’re free to design your network to suit your own needs.
+Holochain lets you build your distributed app your way. Public blockchain platforms impose one-size-fits-all solutions for data consistency, economics, governance, and access. Holochain isn’t a blockchain, and it isn't a platform—it’s a framework for building interconnected public, private, and hybrid networks. With very few assumptions baked in, you’re free to design your network to suit your own needs.
