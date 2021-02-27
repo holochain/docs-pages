@@ -133,10 +133,10 @@ Now that you have installed Nix, you can install and run a development shell tha
 Use this one-liner to install Holonix:
 
 ```bash
-$(nix-build https://holochain.love --no-link -A pkgs.holonix)/bin/holonix
+nix-shell https://holochain.love
 ```
 
-Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new prompt that looks like:
+It'll take a long time, because it needs to compile the Holochain binaries. (Don't worry; we're working on making it faster.) Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new bash prompt that looks like:
 
 ```
 [nix-shell:~]$
@@ -152,7 +152,7 @@ dna-util --version
 You should see something like this:
 
 ```
-holochain 0.0.1
+holochain 0.0.100
 dna-util 0.0.1
 ```
 
