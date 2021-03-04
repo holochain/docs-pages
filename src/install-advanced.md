@@ -36,7 +36,7 @@ vim my_file.rs
 
 ## Upgrading
 
-Any time you want to get the latest version of the dev tools, you can [follow the install procedure](../install/#installing-the-holochain-dev-tools) again and it'll update you.
+Any time you want to get the latest version of the dev tools, just `exit` the shell and enter it again; if there are any updates it'll automatically download them.
 
 ## Uninstalling
 
@@ -64,9 +64,9 @@ nix-shell https://github.com/holochain/archive/<tag>.tar.gz
 
 Note that Nix will have to compile all the binaries from source, so it'll take a long time. You'll also have to enter this same command every time you want that specific version (although it won't have to recompile on next run).
 
-### Keeping everything local
+### Keeping everything local / working offline
 
-If you find yourself needing to switch versions often, a faster method is to clone the Holochain repository, check out the release you want, and enter the nix shell from there:
+If you find yourself needing to switch versions often, or you work offline a lot, you can clone the Holochain repository, check out the release you want, and enter the nix shell from there. Take note of the argument `--argstr flavor happDev`; that's what gives you the development tools.
 
 ```bash
 git clone git@github.com:holochain/holochain.git
