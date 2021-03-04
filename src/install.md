@@ -158,11 +158,13 @@ Once you `exit` the shell you'll be back to your usual system shell, with all Ho
 
 ## Using the Holochain dev tools
 
-You can re-enter the Holonix shell with this command:
+You can re-enter the Holonix shell with the same command you used to install it:
 
 ```bash
-nix-shell ~/.holonix/shellDrv
+nix-shell https://holochain.love
 ```
+
+It will always keep you up to date with the newest stable version of Holochain and the dev tools. If you need to work offline, read the [advanced installation guide](#keeping-everything-local-working-offline).
 
 ### Going further
 
