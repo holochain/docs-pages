@@ -28,8 +28,8 @@ nav:
     - Signals: 'concepts/9_signals.md'
   - Resources:
     - Introduction: 'resources/index.md'
-    - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
     - Dependency Pinning Guide: 'resources/dependency-pinning-guide.md'
+    - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
     - Holochain RSM Migration Guide: 'https://holochain-open-dev.github.io/blog/holochain-rsm-migration-guide/'
   - References:
     - References: 'references.md'
