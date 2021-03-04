@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["x_salsa20_poly1305_decrypt","Libsodium secret-key authenticated encryption: secretbox_open"]]});

@@ -133,38 +133,38 @@ Now that you have installed Nix, you can install and run a development shell tha
 Use this one-liner to install Holonix:
 
 ```bash
-$(nix-build https://holochain.love --no-link -A pkgs.holonix)/bin/holonix
+nix-shell https://holochain.love
 ```
 
-Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new prompt that looks like:
+It'll take a long time, because it needs to compile the Holochain binaries. (Don't worry; we're working on making it faster.) Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new bash prompt that looks like:
 
 ```
 [nix-shell:~]$
 ```
 
-Test that you have Holochain and the dev tools by running:
+Test that you have Holochain by running:
 
 ```bash
 holochain --version
-dna-util --version
 ```
 
 You should see something like this:
 
 ```
-holochain 0.0.1
-dna-util 0.0.1
+holochain 0.0.100
 ```
 
 Once you `exit` the shell you'll be back to your usual system shell, with all Holochain-specific bits cleaned up.
 
 ## Using the Holochain dev tools
 
-You can re-enter the Holonix shell with this command:
+You can re-enter the Holonix shell with the same command you used to install it:
 
 ```bash
-nix-shell ~/.holonix/shellDrv
+nix-shell https://holochain.love
 ```
+
+It will always keep you up to date with the newest stable version of Holochain and the dev tools. If you need to work offline, read the [advanced installation guide](#keeping-everything-local-working-offline).
 
 ### Going further
 
@@ -176,7 +176,7 @@ Read through our [advanced installation guide](../install-advanced/) for tips an
 2. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
 3. Take a look at the developer documentation.
     * [SDK and API references](/docs/references/)
-    * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk3/README.md)
+    * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
 4. Start [building your own DNAs](https://github.com/holochain/holochain/blob/develop/docs/build_tutorial.md#1-write-your-zomes).
 5. Join the discussion at the [developers' forum](https://forum.holochain.org).
 

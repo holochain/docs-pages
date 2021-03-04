@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.4.2 → 0.4.3
+
+Added HDK dependency pinning guide, reverted install method to slow but constantly-updated; removed HDK docs and pointed to docs on docs.rs
+
 ## 0.4.1 → 0.4.2
 
 Removed emoji feedback, updated what/why/who introductory material for RSM

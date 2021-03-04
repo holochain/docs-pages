@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["verify_signature","Verify the passed signature and public key against the passed data"]]});

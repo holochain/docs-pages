@@ -27,11 +27,15 @@ nav:
     - Signals: 'concepts/9_signals.md'
   - Resources:
     - Introduction: 'resources/index.md'
-    - Community Contributions:
-      - Holochain RSM Migration Guide: 'https://holochain-open-dev.github.io/blog/holochain-rsm-migration-guide/'
-      - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
+    - Dependency Pinning Guide: 'resources/dependency-pinning-guide.md'
+    - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
+    - Holochain RSM Migration Guide: 'https://holochain-open-dev.github.io/blog/holochain-rsm-migration-guide/'
   - References:
-    - References: 'references.md'
+    - Introduction: 'references.md'
+    - HDK: 'https://docs.rs/hdk/0.0.100-alpha.1/hdk/'
+    - HDK introductory guide: 'https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md'
+    - Admin API: '/rustdoc/holochain_conductor_api/enum.AdminRequest.html'
+    - App API: '/rustdoc/holochain_conductor_api/enum.AppRequest.html'
 
 
 # Theme

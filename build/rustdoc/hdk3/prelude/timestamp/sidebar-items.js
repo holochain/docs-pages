@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Timestamp","A UTC timestamp for use in Holochain's headers."]]});

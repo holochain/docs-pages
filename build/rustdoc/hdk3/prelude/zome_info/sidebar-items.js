@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["ZomeInfo","The properties of the current dna/zome being called."]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["agent_info","Trivial wrapper for __agent_info host function. Agent info input struct is `()` so the function call simply looks like this:"]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["call_remote","Wrapper for __call_remote host function."]]});

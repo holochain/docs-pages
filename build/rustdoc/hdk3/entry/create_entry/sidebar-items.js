@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["create_entry","Create an app entry."]]});

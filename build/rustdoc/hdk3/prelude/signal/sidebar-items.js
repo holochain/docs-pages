@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["AppSignal","A signal emitted by an app via `emit_signal`"],["RemoteSignal","Remote signal many agents without waiting for responses."]]});

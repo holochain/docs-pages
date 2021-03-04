@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["AgentValidationPkg",""],["CloseChain",""],["Create",""],["CreateLink",""],["Delete",""],["DeleteLink",""],["HeaderBuilderCommon",""],["InitZomesComplete",""],["OpenChain",""],["Update",""]],"trait":[["HeaderBuilder","Builder for non-genesis Headers"]]});

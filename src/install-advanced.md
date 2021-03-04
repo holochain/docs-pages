@@ -11,12 +11,12 @@ This guide assumes that you've already followed the [quick installation guide](.
 
 ## Getting into Holonix faster and easier
 
-You might find it tedious to try to remember the command that gets you back into the Holonix development shell. `nix-shell ~/.holonix/shellDrv` isn't that intuitive, and when you're trying to open multiple terminals at a time for testing purposes it could get annoying.
+You might find it tedious to try to remember the command that gets you back into the Holonix development shell. `nix-shell https://holochain.love` isn't that intuitive, and when you're trying to open multiple terminals at a time for testing purposes it could get annoying.
 
 To save keystrokes, add an alias to your shell config:
 
 ```bash
-echo 'alias holonix=\'nix-shell ~/.holonix/shellDrv\' >> ~/.bashrc
+echo 'alias holonix=\'nix-shell https://holochain.love' >> ~/.bashrc
 holonix
 ```
 
@@ -29,46 +29,18 @@ In most cases you can run your editor as normal. However, if you are using a tex
 To do this, just open your editor from the command line while you are in the nix-shell (this example uses Vim):
 
 ```bash
-nix-shell ~/.holonix/shellDrv
+nix-shell https://holochain.love
 cd my_project
 vim my_file.rs
 ```
 
 ## Upgrading
 
-Any time you want to get the latest version of the dev tools, you can [follow the install procedure](#installing-the-holochain-dev-tools) again and it'll update you.
-
-### The faster and easier method
-
-Once again, this is a hard command to remember, so you might want to add an alias for it as well:
-
-#### Linux (or Windows 10 with WSL2)
-
-```bash
-echo 'alias holonix-update=\'$(nix-build https://holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
-holonix-update
-```
-
-#### macOS
-
-```bash
-echo 'alias holonix-update=\'HN_NOSUDO=true $(nix-build https://holochain.love --no-link -A pkgs.holonix)/bin/holonix\'' >> ~/.bashrc
-holonix-update
-```
-
-## Staying up to date all the time
-
-There's a trick you can use to keep yourself up to date with the newest release of all the Holochain tools. It takes a bit longer whenever there's something new, though, because it has to compile everything from source.
-
-Every time you want to enter the Holonix development environment, use this command:
-
-```bash
-nix-shell https://holochain.love
-```
+Any time you want to get the latest version of the dev tools, just `exit` the shell and enter it again; if there are any updates it'll automatically download them.
 
 ## Uninstalling
 
-You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries on your device. If you want to free up some space, run these commands:
+You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries and other packages on your device. If you want to free up some space, run these commands:
 
 ```bash
 rm -rf ~/.holonix
@@ -92,15 +64,15 @@ nix-shell https://github.com/holochain/archive/<tag>.tar.gz
 
 Note that Nix will have to compile all the binaries from source, so it'll take a long time. You'll also have to enter this same command every time you want that specific version (although it won't have to recompile on next run).
 
-### Keeping everything local
+### Keeping everything local / working offline
 
-If you find yourself needing to switch versions often, a faster method is to clone the Holochain repository, check out the release you want, and enter the nix shell from there:
+If you find yourself needing to switch versions often, or you work offline a lot, you can clone the Holochain repository, check out the release you want, and enter the nix shell from there. Take note of the argument `--argstr flavor happDev`; that's what gives you the development tools.
 
 ```bash
 git clone git@github.com:holochain/holochain.git
 cd holochain
 git checkout <tag>
-nix-shell
+nix-shell --argstr flavor happDev
 ```
 
 Once you're in the shell, you can navigate to your project's working folder. This way you have all the versions of Holochain available to you locally and don't need to remember long URLs.

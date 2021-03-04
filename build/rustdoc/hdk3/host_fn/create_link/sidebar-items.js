@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["create_link","Create a link from a base entry to a target entry, with an optional tag."]]});
