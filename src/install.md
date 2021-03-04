@@ -142,18 +142,16 @@ It'll take a long time, because it needs to compile the Holochain binaries. (Don
 [nix-shell:~]$
 ```
 
-Test that you have Holochain and the dev tools by running:
+Test that you have Holochain by running:
 
 ```bash
 holochain --version
-dna-util --version
 ```
 
 You should see something like this:
 
 ```
 holochain 0.0.100
-dna-util 0.0.1
 ```
 
 Once you `exit` the shell you'll be back to your usual system shell, with all Holochain-specific bits cleaned up.
