@@ -27,9 +27,9 @@ nav:
     - Signals: 'concepts/9_signals.md'
   - Resources:
     - Introduction: 'resources/index.md'
-    - Community Contributions:
-      - Holochain RSM Migration Guide: 'https://holochain-open-dev.github.io/blog/holochain-rsm-migration-guide/'
-      - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
+    - Dependency Pinning Guide: 'resources/dependency-pinning-guide.md'
+    - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
+    - Holochain RSM Migration Guide: 'https://holochain-open-dev.github.io/blog/holochain-rsm-migration-guide/'
   - References:
     - Introduction: 'references.md'
     - HDK: 'https://docs.rs/hdk/0.0.100-alpha.1/hdk/'
