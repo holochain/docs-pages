@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["ValidateLinkCallbackResult",""]],"struct":[["ValidateCreateLinkData",""],["ValidateDeleteLinkData",""]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["update_entry","Thin wrapper around update for app entries. The hash is the HeaderHash of the deleted element, the input is a TryInto."]]});

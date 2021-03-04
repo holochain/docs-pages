@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["XSalsa20Poly1305Data","Data that can be encrypted with secretbox."]],"type":[["BoxData",""],["SecretBoxData",""]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["generate_cap_secret","Generate a cryptographically strong CapSecret on the host."]]});

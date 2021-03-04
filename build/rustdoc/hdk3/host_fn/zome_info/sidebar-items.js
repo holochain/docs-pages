@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["zome_info","Get the zome information. There are no inputs to zome_info."]]});

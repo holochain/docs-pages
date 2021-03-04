@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["create_cap_claim",""],["create_cap_grant",""],["delete_cap_grant",""],["generate_cap_secret",""],["update_cap_grant",""]]});

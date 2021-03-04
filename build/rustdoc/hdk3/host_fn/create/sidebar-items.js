@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["create","General function that can create any entry type."]]});

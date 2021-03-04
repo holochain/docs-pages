@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["delete_entry","Alias to delete"]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["sys_time","Trivial wrapper to return the current system time from the host."]]});
