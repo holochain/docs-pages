@@ -4,6 +4,11 @@ This section lists additional published resources for Holochain developers. It w
 
 <div class="h-tile-container">
     <div class="h-tile tile-alt tile-concepts">
+        <a href="https://github.com/holochain/holochain/blob/develop/docs/build_tutorial.md" target="_blank">
+            <h4>DNA build tutorial</h4>
+        </a>
+    </div>
+    <div class="h-tile tile-alt tile-concepts">
         <a href="dependency-pinning-guide">
             <h4>Dependency Pinning Guide</h4>
         </a>
@@ -14,7 +19,7 @@ This section lists additional published resources for Holochain developers. It w
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="https://holochain-open-dev.github.io/blog/holochain-rsm-migration-guide/">
+        <a href="https://holochain-open-dev.github.io/blog/holochain-rsm-migration-guide/" target="_blank">
             <h4>Holochain RSM migration guide</h4>
         </a>
     </div>
