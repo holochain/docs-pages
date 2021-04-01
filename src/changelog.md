@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.4.3 → 0.4.4
+
+Changed installation URL to nightly.holochain.love; added some tips for retaining your preferred shell
+
 ## 0.4.2 → 0.4.3
 
 Added HDK dependency pinning guide, reverted install method to slow but constantly-updated; removed HDK docs and pointed to docs on docs.rs
