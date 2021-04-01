@@ -22,6 +22,14 @@ holonix
 
 Close your terminal window, open it again, and you should be able to type `holonix` from now on to get into the shell.
 
+### Using your favorite shell
+
+Many developers have their shell set up just the way they like it, whether a custom-formatted prompt or a completely different shell such as `zsh` and `fish`. If you don't want Holonix to clobber your carefully-crafted environment, try adding `--run $SHELL` to the end of your `nix-shell` command:
+
+```bash
+nix-shell https://nightly.holochain.love --run $SHELL
+```
+
 ### Using your favorite text editor or IDE
 
 In most cases you can run your editor as normal. However, if you are using a text editor or integrated development environment (IDE) that needs to communicate with the Rust compiler for real-time syntax checks, then you should launch it from inside the nix-shell. This is because Holonix comes with its own version of Rust that might be different from what you may already have installed.
