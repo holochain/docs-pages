@@ -133,7 +133,7 @@ Now that you have installed Nix, you can install and run a development shell tha
 Use this one-liner to install Holonix:
 
 ```bash
-nix-shell https://holochain.love
+nix-shell https://nightly.holochain.love
 ```
 
 It'll take a long time, because it needs to compile the Holochain binaries. (Don't worry; we're working on making it faster.) Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new bash prompt that looks like:
@@ -161,7 +161,7 @@ Once you `exit` the shell you'll be back to your usual system shell, with all Ho
 You can re-enter the Holonix shell with the same command you used to install it:
 
 ```bash
-nix-shell https://holochain.love
+nix-shell https://nightly.holochain.love
 ```
 
 It will always keep you up to date with the newest stable version of Holochain and the dev tools. If you need to work offline, read the [advanced installation guide](#keeping-everything-local-working-offline).

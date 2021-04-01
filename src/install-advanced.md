@@ -11,16 +11,24 @@ This guide assumes that you've already followed the [quick installation guide](.
 
 ## Getting into Holonix faster and easier
 
-You might find it tedious to try to remember the command that gets you back into the Holonix development shell. `nix-shell https://holochain.love` isn't that intuitive, and when you're trying to open multiple terminals at a time for testing purposes it could get annoying.
+You might find it tedious to try to remember the command that gets you back into the Holonix development shell. `nix-shell https://nightly.holochain.love` isn't that intuitive, and when you're trying to open multiple terminals at a time for testing purposes it could get annoying.
 
 To save keystrokes, add an alias to your shell config:
 
 ```bash
-echo 'alias holonix=\'nix-shell https://holochain.love' >> ~/.bashrc
+echo 'alias holonix=\'nix-shell https://nightly.holochain.love' >> ~/.bashrc
 holonix
 ```
 
 Close your terminal window, open it again, and you should be able to type `holonix` from now on to get into the shell.
+
+### Using your favorite shell
+
+Many developers have their shell set up just the way they like it, whether a custom-formatted prompt or a completely different shell such as `zsh` and `fish`. If you don't want Holonix to clobber your carefully-crafted environment, try adding `--run $SHELL` to the end of your `nix-shell` command:
+
+```bash
+nix-shell https://nightly.holochain.love --run $SHELL
+```
 
 ### Using your favorite text editor or IDE
 
@@ -29,7 +37,7 @@ In most cases you can run your editor as normal. However, if you are using a tex
 To do this, just open your editor from the command line while you are in the nix-shell (this example uses Vim):
 
 ```bash
-nix-shell https://holochain.love
+nix-shell https://nightly.holochain.love
 cd my_project
 vim my_file.rs
 ```

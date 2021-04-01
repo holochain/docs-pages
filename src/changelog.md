@@ -9,7 +9,7 @@ We want this to be as easy as possible, so we’ve committed to documenting not 
 
 ## 0.4.3 → 0.4.4
 
-Changed installation URL to nightly.holochain.love; added some tips for retaining your preferred shell
+Changed install URL to nightly.holochain.love; added some pro tips for developers who want to keep their preferred shell; removed RSM notice banner
 
 ## 0.4.2 → 0.4.3
 

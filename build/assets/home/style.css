@@ -1,35 +1,6 @@
 html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
 html { background: #f3f7fa; background-image: url(body-back.jpg); background-size: cover; background-position: center; background-attachment: fixed; }
 
-/* RSM stuff -- get rid of this eventually */
-
-.rsm-banner {
-    position: relative;
-    width: 100%;
-    z-index: 1000;
-    margin-top: 50px;
-    background: #fa6;
-    padding: 1rem 0;
-}
-
-.rsm-banner p {
-    font-size: 1rem;
-    font-weight: normal;
-    padding-bottom: 0;
-    padding-right: 155px;
-}
-
-.rsm-banner-cta {
-    position: absolute;
-    right: 0;
-    font-size: 1rem;
-    top: -.75rem;
-}
-
-.rsm-banner-cta.rsm-banner-cta {
-    margin-top: 0 !important;
-}
-
 .holochain-rsm-guidance .content p,
 .holochain-rsm-guidance .content ul {
     font-size: 1.2rem;
