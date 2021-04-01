@@ -4,8 +4,8 @@
     position: relative;
     width: 100%;
     z-index: 1000;
-    background: #fa6;
-    padding: 1rem 0;
+    background: rgba(255,255,255,0.65);
+    padding: 1rem 0;asefasfe
 }
 
 .rsm-banner p {
