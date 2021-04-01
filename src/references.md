@@ -7,7 +7,7 @@
 
 When you write a Holochain application, the part that lives in Holochain is called a [DNA](../concepts/2_application_architecture/#layers-of-the-application-stack). It runs in a WebAssembly sandbox and talks to the host, or conductor, through the host API. The Rust HDK (Holochain Development Kit) makes it easy for you to write your DNAs in the Rust programming language.
 
-* **[HDK reference (v0.0.100-alpha.1)](https://docs.rs/hdk/0.0.100-alpha.1/hdk/)**
+* **[HDK reference (v0.0.100)](https://docs.rs/hdk/0.0.100/hdk/)**
 * **[HDK introductory guide](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)**
 
 ## Conductor APIs
