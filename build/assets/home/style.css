@@ -8,7 +8,7 @@ html { background: #f3f7fa; background-image: url(body-back.jpg); background-siz
     width: 100%;
     z-index: 1000;
     margin-top: 50px;
-    background: #fa6;
+    background:  rgba(255,255,255,0.65);
     padding: 1rem 0;
 }
 
