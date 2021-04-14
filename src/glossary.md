@@ -332,7 +332,7 @@ In Holochain terms, synonymous with [graphical user interface](#graphical-user-i
 The four elements at the beginning of an [agent](#agent)'s [source chain](#source-chain), consisting of:
 
 1. The [DNA](#dna) hash, which shows that the agent has seen the network's rules and agrees to abide by them,
-2. The [joining proof](#joining-proof), which the agent presents as a claim that they should be allowed to join the DHT,
+2. The [membrane proof](#membrane-proof), which the agent presents as a claim that they should be allowed to join the DHT,
 3. The [agent ID](#agent-id), which advertises the agent's [public key](#public-key-cryptography),
 4. The [init complete element](#init-complete-element), which tells the conductor that all the DNA's [init callbacks](#init-callback) have completed successfully and the source chain is ready to write [app entries](#app-entry).
 
@@ -412,10 +412,6 @@ An [element](#element) that Holochain automatically writes to an [agent](#agent)
 
 Holochain's most basic strategy for guaranteeing data integrity. Data is considered valid or invalid based on the [DNA](#dna)'s [validation rules](#validation-rule), as well as Holochain's [subconscious](#subconscious) validation rules.
 
-#### Joining proof
-
-An [element](#element) written to an agent's [source chain](#source-chain) that proves they have permission to join a [DHT](#distributed-hash-table-dht), for example, an invite code or signed authorization from an existing member. The [DNA](#dna) for the DHT has a [validation function](#validation-function) that checks the validity of the joining proof; if agents validating the joining proof determine that it's invalid, they can refuse to communicate with the new agent. This is the [immune system](#immune-system)'s first line of defense against malicious actors.
-
 #### Journal
 
 Synonymous with [ledger](#ledger).
@@ -457,7 +453,11 @@ One of two types of permeable boundaries that allow or disallow access:
 
 1. The layer of protection around an [agent](#agent)'s [cell](#cell), secured by [capability-based security](#capability-based-security), that prevents unauthorized access to the cell's [zome functions](#zome-function), [source chain](#source-chain) data, or view of the [DHT](#distributed-hash-table-dht).
 
-2. A special [validation function](#validation-function) in a [DNA](#dna) that checks an agent's [joining proof](#joining-proof) and determines their right to become part of the DNA's [network](#network). If a joining proof is invalid, existing members of the network will refuse to talk to the new agent.
+2. A special [validation function](#validation-function) in a [DNA](#dna) that checks an agent's [membrane proof](#membrane-proof) and determines their right to become part of the DNA's [network](#network). If a joining proof is invalid, existing members of the network will refuse to talk to the new agent.
+
+#### Membrane proof
+
+An [element](#element) written to an agent's [source chain](#source-chain) that proves they have permission to join a [DHT](#distributed-hash-table-dht), for example, an invite code or signed authorization from an existing member. The [DNA](#dna) for the DHT has a [validation function](#validation-function) that checks the validity of the joining proof; if agents validating the joining proof determine that it's invalid, they can refuse to communicate with the new agent. This is the [immune system](#immune-system)'s first line of defense against malicious actors.
 
 #### Metadata
 
