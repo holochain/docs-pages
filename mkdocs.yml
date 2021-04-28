@@ -4,8 +4,6 @@ site_name: Holochain Docs
 nav:
   - Get Started:
     - Introduction: index.md
-    - Why Holochain?: why-holochain.md
-    - Who is Holochain For?: who-is-holochain-for.md
     - What is Holochain?: what-is-holochain.md
     - Install Holochain: install.md
     - Get Involved: get-involved.md
