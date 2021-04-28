@@ -2,6 +2,11 @@
     publish = "/build"
     command = "./create_docs.sh"
 
+[[redirects]]
+    # Once upon a time, we had a landing page and all the actual docs were in /docs.
+    from = "/docs/*"
+    to = "/:splat"
+    status = 301
 
 [[redirects]]
     # This is just for the nix guide, which is now called the advanced install guide.
