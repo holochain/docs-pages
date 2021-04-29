@@ -19,17 +19,17 @@ This guide will get you set up with the latest Holochain RSM developer environme
 <div class="h-tile-container h-tile-container-3 tile-tabs">
     <div class="h-tile">
         <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" data-contentclass="content_linux" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
-            <h3><img src="/docs/custom/icon-linux.svg" class="linux"> Linux</h3>
+            <h3><img src="../custom/icon-linux.svg" class="linux"> Linux</h3>
         </a>
     </div>
     <div class="h-tile">
         <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content_macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
-            <h3><img src="/docs/custom/icon-apple.svg"> macOS</h3>
+            <h3><img src="../custom/icon-apple.svg"> macOS</h3>
         </a>
     </div>
     <div class="h-tile">
         <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
-            <h3><img src="/docs/custom/icon-windows.svg"> Windows</h3>
+            <h3><img src="../custom/icon-windows.svg"> Windows</h3>
         </a>
     </div>
 </div>
@@ -175,7 +175,7 @@ Read through our [advanced installation guide](../install-advanced/) for tips an
 1. Read through the [Holochain Core Concepts](../concepts/).
 2. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
 3. Take a look at the developer documentation.
-    * [SDK and API references](/docs/references/)
+    * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
 4. Start [building your own DNAs](https://github.com/holochain/holochain/blob/develop/docs/build_tutorial.md#1-write-your-zomes).
 5. Join the discussion at the [developers' forum](https://forum.holochain.org).
