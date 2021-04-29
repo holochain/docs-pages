@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.4.4 → 0.4.5
+
+Removed the landing page and some markety content; moved all `/docs` URLs to the root fo the site; set up better redirects to the Holochain Redux developer documentation
+
 ## 0.4.3 → 0.4.4
 
 Changed install URL to nightly.holochain.love; added some pro tips for developers who want to keep their preferred shell; removed RSM notice banner
