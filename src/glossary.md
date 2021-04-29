@@ -80,6 +80,10 @@ The [agent](#agent) who has written and [signed](#public-key-signature) an [elem
 
 A [capability grant](#capability-grant) that allows anyone possessing the [source chain](#source-chain) [author](#author)'s private key to call any [zome function](#zome-function) in a [cell](#cell). The only callers that should possess this key are the agent's own [clients](#client) and other [bridged](#bridge) cells associated with the same [agent ID](#agent-id) in the same [conductor](#conductor).
 
+#### Authority
+
+A peer chosen to validate an operation that adds a piece of data to the [DHT](#distributed-hash-table-dht), whether that data is an [agent activity operation](#agent-activity-operation), [entry](#entry), [header](#header), or [metadata](#metadata).
+
 #### Back end
 
 When we're talking about Holochain, synonymous with one or more [DNAs](#dna) for a [hApp](#holochain-application-happ)---this is code that contains the base-level persistence and validation logic.
@@ -289,11 +293,15 @@ A package of executable code that defines the shared 'rules of the game' for a g
 
 #### DNA bundle
 
-One or more [DNA](#dna)s. Together they form the [back end](#back-end) for a complete [hApp](#holochain-application-happ). These components are specified in a [hApp manifest](#happ-manifest) file, and can be packaged in a zip archive along with the manifest or downloaded separately from the internet.
+The file that holds a complete [DNA](#dna), both executable [zomes](#zome) and metadata (see [DNA manifest](#dna-manifest) for details on this metadata).
 
 #### DNA instance
 
 See [cell](#cell).
+
+#### DNA manifest
+
+A file that specifies the components of a [DNA](#dna), including locations of compiled [zomes](#zome) and metadata such as a name, description, [hashspace UID](#hashspace-uid), and [properties](#dna-properties). This manifest can be used by a compilation tool to build a [DNA bundle](#dna-bundle).
 
 #### DNA properties
 
@@ -322,6 +330,14 @@ A specification for any sort of entry that a [DNA](#dna) should recognize and un
 #### Eventual consistency
 
 A promise made by distributed systems that optimize for availability over consistency (see [CAP theorem](#consistency-availability-partition-tolerance-cap-theorem)), meaning that given enough time, every [node](#node) ought to eventually reach [consistency](#consistency) with each other. _Strong_ eventual consistency means that nodes will eventually reach consistency _without conflicts_, which is possible for any system whose [state transition](#state-transition) functions adhere to the [CALM theorem](#consistency-as-logical-monotonicity-calm-theorem).
+
+#### Fork (DNA)
+
+To change a [DNA](#dna) in a way that doesn't alter its behavior, resulting in a new hash for the DNA that gives it a separate [DHT](#distributed-hash-table-dht). Forking is most easily done by passing a [hashspace UID](#hashspace-uid) at DNA installation time.
+
+#### Fork (source chain)
+
+To create alternate versions of one's history in an app by basing two [source chain](#source-chain) [elements](#element) on one parent element. Forking one's source chain is always an [invalid](#validation) action, detected at the [subconscious](#subconscious) level by the author's [agent activity](#agent-activity) authorities and addressed by both the subconscious and the [DNA](#dna)'s executable code ([zomes](#zome)).
 
 #### Front end
 
@@ -352,6 +368,10 @@ A protocol used by many [peer-to-peer](#peer-to-peer) networks to rapidly propag
 
 A [client](#client) that presents a visual, easy-to-understand way for a user to interact with a [cell](#cell) or collection of cells running in their [conductor](#conductor). As with any client of a Holochain application, the GUI usually runs on the same machine as the conductor.
 
+#### hApp bundle
+
+One or more [DNA](#dna)s, which together form the [back end](#back-end) for a complete [hApp](#holochain-application-happ). These components are specified in a [hApp manifest](#happ-manifest) file, and can be packaged in a zip archive along with the manifest or downloaded separately from the internet.
+
 #### Hash
 
 A unique 'fingerprint' for a piece of data, calculated by running the data through a special function. A hash can serve as a unique identifier for that data (such as with [addresses](#address) of [DHT entries](#dht-entry)) and makes it easy to retrieve data from a hash table and verify its integrity.
@@ -359,6 +379,10 @@ A unique 'fingerprint' for a piece of data, calculated by running the data throu
 #### Hash chain
 
 An [append-only](#append-only) data structure that can be used as a tamper-evident, sequential log of events, such as a [source chain](#source-chain) or [blockchain](#blockchain).
+
+#### Hashspace UID
+
+A unique ID, specified in a DNA bundle file or passed at DNA installation time, that [forks](#fork) the DNA without modifying any of its behavior. This can be used to create separate [DHTs](#distributed-hash-table-dht) that use the same set of rules.
 
 #### Header
 
@@ -653,7 +677,7 @@ A [new-entry action](#new-entry-action) that replaces another new-entry action, 
 
 #### Validating DHT
 
-Holochain's [DHT](#distributed-hash-table-dht) design which creates an [immune system](#immune-system) for the network. [Validation authorities](#validation-authority) are chosen at random, based on their [nearness](#nearness) to the [address](#address) of the [entry](#entry) being validated and the [store arcs](#store-arc) they claim authority for. If an entry fails validation, the validation authority publishes a [warrant](#warrant) against the entry's author.
+Holochain's [DHT](#distributed-hash-table-dht) design which creates an [immune system](#immune-system) for the network. [Validation authorities](#validation-authority) are chosen at random, based on their [nearness](#nearness) to the [address](#address) of the data being validated and the [store arcs](#store-arc) they claim authority for. If an entry fails validation, the validation authority publishes a [warrant](#warrant) against the entry's author.
 
 #### Validation authority
 
