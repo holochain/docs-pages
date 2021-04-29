@@ -48,7 +48,7 @@
             {{ config.site_name }}
           {% else %}
             <span class="md-header-nav__topic">
-              {{ config.site_name }} <span class="version"><a href="/docs/changelog" title="Changelog">v0.4.5</a></span>
+              {{ config.site_name }} <span class="version"><a href="/changelog" title="Changelog">v0.4.5</a></span>
             </span>
             <span class="md-header-nav__topic">
               {% if page and page.meta and page.meta.title %}
@@ -88,7 +88,7 @@
 
 // Concepts Class
 
-if (document.location.pathname.indexOf("/docs/concepts/") == 0) {
+if (document.location.pathname.indexOf("/concepts/") == 0) {
   document.body.className = "page-concepts";
 }
 

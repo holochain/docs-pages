@@ -33,5 +33,8 @@ The conductor has a few settings that can (and should) be configured via a YAML 
 
 There are two main binaries. You can run any of these on the command-line with the `--help` flag to get detailed documentation.
 
-* **`holochain`** is the Holochain runtime, or conductor.
-* **`dna-util`** combines a DNA manifest file and one or more compiled [zomes](../glossary/#zome) in WebAssembly bytecode into a DNA package.
+* **`holochain`** is the Holochain runtime, or [conductor](../glossary/#conductor).
+* **`hc`** is an all-purpose developer tool that:
+    * packages a [DNA manifest](../glossary/#dna-manifest) file and one or more [zomes](../glossary/#zome) (in WASM bytecode) into a [DNA bundle](../glossary/#dna-bundle)
+    * creates and executes conductor configurations for a hApp
+    * (more to come)

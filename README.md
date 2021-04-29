@@ -13,7 +13,7 @@ To run the server locally use:
 ```
 
 This will open a live reload server which is great for development. It will also build mkdocs.
-However the netlify redirects will not work so you will need to go to `http://localhost:9000/docs/` to see the site.
+However the netlify redirects will not work so you will need to go to `http://localhost:9000/` to see the site.
 
 If you want to test netlify redirects you can run:
 

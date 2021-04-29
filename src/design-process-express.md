@@ -182,11 +182,11 @@ You can implement your middleware and UI with any framework and platform that yo
 
 Now it's time to write your code! Here are the basic steps:
 
-1. [Install Holochain and the developer tools.](https://developer.holochain.org/docs/install/)
+1. [Install Holochain and the developer tools.](../install/)
 2. Create a folder for your project.
 3. Write a [hApp bundle](https://github.com/holochain/holoscape/tree/master/example-bundles) manifest file that defines all the necessary DNA instances and the bridges between them.
-4. [Create a folder for each of your DNAs.](https://developer.holochain.org/docs/create-new-app/#initialize-a-new-app)
-5. [Scaffold each of the DNA's zomes](https://developer.holochain.org/docs/create-new-app/#generate-a-new-zome) and write your code.
+4. [Create a folder for each of your DNAs.](../create-new-app/#initialize-a-new-app)
+5. [Scaffold each of the DNA's zomes](../create-new-app/#generate-a-new-zome) and write your code.
 6. Create a UI.
 
 You'll probably end up going back to the design stage occasionally as you discover consequences of one component's design that affect another component.
