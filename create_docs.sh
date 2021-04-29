@@ -2,4 +2,4 @@
 set -e
 rm -fr docs
 cp -r src docs
-mkdocs build -d build/docs
+mkdocs build -d build
