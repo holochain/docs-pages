@@ -80,10 +80,6 @@ The [agent](#agent) who has written and [signed](#public-key-signature) an [elem
 
 A [capability grant](#capability-grant) that allows anyone possessing the [source chain](#source-chain) [author](#author)'s private key to call any [zome function](#zome-function) in a [cell](#cell). The only callers that should possess this key are the agent's own [clients](#client) and other [bridged](#bridge) cells associated with the same [agent ID](#agent-id) in the same [conductor](#conductor).
 
-#### Authority
-
-A peer chosen to validate an operation that adds a piece of data to the [DHT](#distributed-hash-table-dht), whether that data is an [agent activity operation](#agent-activity-operation), [entry](#entry), [header](#header), or [metadata](#metadata).
-
 #### Back end
 
 When we're talking about Holochain, synonymous with one or more [DNAs](#dna) for a [hApp](#holochain-application-happ)---this is code that contains the base-level persistence and validation logic.
@@ -337,7 +333,7 @@ To change a [DNA](#dna) in a way that doesn't alter its behavior, resulting in a
 
 #### Fork (source chain)
 
-To create alternate versions of one's history in an app by basing two [source chain](#source-chain) [elements](#element) on one parent element. Forking one's source chain is always an [invalid](#validation) action, detected at the [subconscious](#subconscious) level by the author's [agent activity](#agent-activity) authorities and addressed by both the subconscious and the [DNA](#dna)'s executable code ([zomes](#zome)).
+To create alternate versions of one's history in an app by basing two [source chain](#source-chain) [elements](#element) on one parent element. Forking one's source chain is always an [invalid](#validation) action, detected at the [subconscious](#subconscious) level by the author's [agent activity](#agent-activity) [authorities](#validation-authority) and addressed by both the subconscious and the [DNA](#dna)'s executable code ([zomes](#zome)).
 
 #### Front end
 
