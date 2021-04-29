@@ -2,21 +2,69 @@
     publish = "/build"
     command = "./create_docs.sh"
 
+# These first rules are a bit fiddly -- we explicitly redirect URLs that we know should
+# point to the Redux docs, rather than redirecting to `/`, then to `/redirect-to-redux-site.html`,
+# which ends up breaking things on the Redux site side.
 [[redirects]]
-    # Once upon a time, we had a landing page and all the actual docs were in /docs.
+    from = "/docs/guide/*"
+    to = "/redirect-to-redux-site.html#!docs/guide/:splat"
+    # We may use this path for a new guidebook.
+    status = 302
+
+[[redirects]]
+    from = "/docs/tutorials/*"
+    to = "/redirect-to-redux-site.html#!docs/tutorials/:splat"
+    # Holding open the possibility of tutorials too.
+    status = 302
+
+[[redirects]]
+    from = "/docs/create-new-app/"
+    to = "/redirect-to-redux-site.html#!docs/create-new-app/"
+    status = 302
+
+[[redirects]]
+    from = "/resources/happ-bundle/"
+    to = "/redirect-to-redux-site.html#!docs/resources/happ-bundle/"
+    # There will eventually be a new hApp bundle format that will get documented,
+    # and I intend to put it under `/references`.
+    status = 302
+
+# Some of the core concepts' titles and URLs have changed,
+# but fortunately they map to new core concepts (sometimes roughly, sometimes exactly)
+# so let's redirect them.
+[[redirects]]
+    from = "/docs/concepts/3_private_data/"
+    to = "/concepts/3_source_chain/"
+    status = 301
+
+[[redirects]]
+    from = "/docs/concepts/4_public_data_on_the_dht/"
+    to = "/concepts/4_dht/"
+    status = 301
+
+[[redirects]]
+    from = "/docs/concepts/5_linking_data_together/"
+    to = "/concepts/5_links_anchors/"
+    status = 301
+
+[[redirects]]
+    from = "/docs/concepts/6_modifying_and_deleting_data/"
+    to = "/concepts/6_crud_actions/"
+    status = 301
+
+[[redirects]]
+    from = "/docs/concepts/8_node_to_node_messaging/"
+    to = "/concepts/8_calls_capabilities/"
+    status = 301
+
+# Once upon a time, we had a landing page and all the actual docs were in /docs.
+[[redirects]]
     from = "/docs/*"
     to = "/:splat"
     status = 301
 
+# This is just for the nix guide, which is now called the advanced install guide.
 [[redirects]]
-    # This is just for the nix guide, which is now called the advanced install guide.
     from = "/docs/nix/"
     to = "/docs/install-advanced/"
     status = 301
-
-[[redirects]]
-    # This one redirects all non-existent pages to the redux dev docs,
-    # with an "are you sure?" page in between.
-    from = "/*"
-    to = "/redirect-to-redux-site.html#!:splat"
-    status = 302
