@@ -39,9 +39,9 @@ theme:
   custom_dir: 'theme'
   feature:
     tabs: true
-  font:
-    text: 'Work Sans'
-    code: 'Roboto Mono'
+  # The fonts are hardcoded into main.html and style.css;
+  # Don't use this setting!
+  font: false
   palette:
     primary: 'indigo'
     accent: 'indigo'
