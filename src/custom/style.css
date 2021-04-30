@@ -6,25 +6,25 @@
   font-family: "URWForm";
   font-weight: 700;
   font-style: normal;
-  src: url('webFonts/URWFormBold/font.woff2') format('woff2'), url('webFonts/URWFormBold/font.woff') format('woff');
+  src: url('/assets/webFonts/URWFormBold/font.woff2') format('woff2'), url('/assets/webFonts/URWFormBold/font.woff') format('woff');
 }
 @font-face {
   font-family: "URWForm";
   font-weight: 700;
   font-style: italic;
-  src: url('webFonts/URWFormBoldItalic/font.woff2') format('woff2'), url('webFonts/URWFormBoldItalic/font.woff') format('woff');
+  src: url('/assets/webFonts/URWFormBoldItalic/font.woff2') format('woff2'), url('/assets/webFonts/URWFormBoldItalic/font.woff') format('woff');
 }
 @font-face {
   font-family: "URWForm";
   font-weight: 800;
   font-style: normal;
-  src: url('webFonts/URWFormExtraBold/font.woff2') format('woff2'), url('webFonts/URWFormExtraBold/font.woff') format('woff');
+  src: url('/assets/webFonts/URWFormExtraBold/font.woff2') format('woff2'), url('/assets/webFonts/URWFormExtraBold/font.woff') format('woff');
 }
 @font-face {
   font-family: "URWForm";
   font-weight: 800;
   font-style: italic;
-  src: url('webFonts/URWFormExtraBoldItalic/font.woff2') format('woff2'), url('webFonts/URWFormExtraBoldItalic/font.woff') format('woff');
+  src: url('/assets/webFonts/URWFormExtraBoldItalic/font.woff2') format('woff2'), url('/assets/webFonts/URWFormExtraBoldItalic/font.woff') format('woff');
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
