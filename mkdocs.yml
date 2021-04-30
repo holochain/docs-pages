@@ -39,9 +39,7 @@ theme:
   custom_dir: 'theme'
   feature:
     tabs: true
-  font:
-    text: 'Mulish'
-    code: 'Roboto Mono'
+  font: false
   palette:
     primary: 'indigo'
     accent: 'indigo'

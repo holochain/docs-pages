@@ -1,5 +1,10 @@
 /* Font */
 
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+* { font-family: Mulish; }
+
+h1, h2, h3, h4 { font-family: URWForm; font-weight: 800; }
+
 .md-typeset h1, .md-typeset h2 { font-weight: 700; color: rgba(0,0,0,.87);  letter-spacing: -.5px; }
 .md-typeset h3 { font-weight: bold; }
 .md-typeset blockquote, .md-typeset ol, .md-typeset p, .md-typeset ul { letter-spacing: -.25px; }
