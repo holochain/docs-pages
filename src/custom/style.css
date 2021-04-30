@@ -3,25 +3,25 @@
 /* @import must be at top of file, otherwise CSS will not work */
 @import url("//hello.myfonts.net/count/3e423c");
 @font-face {
-  font-family: "URWForm";
+  font-family: "URW Form";
   font-weight: 700;
   font-style: normal;
   src: url('/assets/webFonts/URWFormBold/font.woff2') format('woff2'), url('/assets/webFonts/URWFormBold/font.woff') format('woff');
 }
 @font-face {
-  font-family: "URWForm";
+  font-family: "URW Form";
   font-weight: 700;
   font-style: italic;
   src: url('/assets/webFonts/URWFormBoldItalic/font.woff2') format('woff2'), url('/assets/webFonts/URWFormBoldItalic/font.woff') format('woff');
 }
 @font-face {
-  font-family: "URWForm";
+  font-family: "URW Form";
   font-weight: 800;
   font-style: normal;
   src: url('/assets/webFonts/URWFormExtraBold/font.woff2') format('woff2'), url('/assets/webFonts/URWFormExtraBold/font.woff') format('woff');
 }
 @font-face {
-  font-family: "URWForm";
+  font-family: "URW Form";
   font-weight: 800;
   font-style: italic;
   src: url('/assets/webFonts/URWFormExtraBoldItalic/font.woff2') format('woff2'), url('/assets/webFonts/URWFormExtraBoldItalic/font.woff') format('woff');
@@ -31,7 +31,7 @@
 
 * { font-family: Mulish; }
 
-h1, h2, h3 { font-family: URWForm; font-weight: 800; }
+h1, h2, h3 { font-family: 'URW Form'; font-weight: 800; }
 
 .md-typeset h1, .md-typeset h2 { color: rgba(0,0,0,.87);  letter-spacing: -.5px; }
 .md-typeset h3 { font-weight: bold; }
