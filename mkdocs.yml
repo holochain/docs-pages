@@ -39,6 +39,8 @@ theme:
   custom_dir: 'theme'
   feature:
     tabs: true
+  # The fonts are hardcoded into main.html and style.css;
+  # Don't use this setting!
   font: false
   palette:
     primary: 'indigo'
