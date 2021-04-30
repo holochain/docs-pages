@@ -40,7 +40,7 @@ theme:
   feature:
     tabs: true
   font:
-    text: 'Work Sans'
+    text: 'Mulish'
     code: 'Roboto Mono'
   palette:
     primary: 'indigo'
