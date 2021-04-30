@@ -31,7 +31,7 @@
 
 * { font-family: Mulish; }
 
-h1, h2, h3, h4 { font-family: URWForm; font-weight: 800;}
+h1, h2, h3, h4 { font-family: URWForm; font-weight: 800; }
 
 .md-typeset h1, .md-typeset h2 { font-weight: 700; color: rgba(0,0,0,.87);  letter-spacing: -.5px; }
 .md-typeset h3 { font-weight: bold; }
