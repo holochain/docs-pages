@@ -177,7 +177,7 @@ Read through our [advanced installation guide](../install-advanced/) for tips an
 3. Take a look at the developer documentation.
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
-4. Start [building your own DNAs](https://github.com/holochain/holochain/blob/develop/docs/build_tutorial.md#1-write-your-zomes).
+4. Start [building your own DNAs](https://github.com/holochain/holochain-dna-build-tutorial).
 5. Join the discussion at the [developers' forum](https://forum.holochain.org).
 
 <script>
