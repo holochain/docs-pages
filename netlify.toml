@@ -63,8 +63,20 @@
     to = "/:splat"
     status = 301
 
+# Super old install URL; used to be incorrectly linked from the blog's CTAs.
+[[redirects]]
+    from = "/start.html"
+    to = "/install/"
+    status = 301
+
 # This is just for the nix guide, which is now called the advanced install guide.
 [[redirects]]
     from = "/docs/nix/"
-    to = "/docs/install-advanced/"
+    to = "/install-advanced/"
+    status = 301
+
+# The rrDHT paper got finalised, so let's redirect to the final copy.
+[[redirects]]
+    from = "/assets/files/RRDHT-draft-Nov-2019.pdf"
+    to = "/assets/files/RRDHT-whitepaper-final.pdf"
     status = 301
