@@ -173,12 +173,13 @@ Read through our [advanced installation guide](../install-advanced/) for tips an
 ## Next Steps
 
 1. Read through the [Holochain Core Concepts](../concepts/).
-2. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
-3. Take a look at the developer documentation.
+2. Build your development skills in the [Holochain Gym](https://holochain-gym.github.io/) (community-created).
+3. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
+4. Take a look at the developer documentation.
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
-4. Start [building your own DNAs](https://github.com/holochain/holochain-dna-build-tutorial).
-5. Join the discussion at the [developers' forum](https://forum.holochain.org).
+5. Start [building your own DNAs](https://github.com/holochain/holochain-dna-build-tutorial).
+6. Join the discussion at the [developers' forum](https://forum.holochain.org).
 
 <script>
 function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {

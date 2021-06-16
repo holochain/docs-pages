@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.5.0 → 0.5.1
+
+Added a link to the Holochain Gym.
+
 ## 0.4.6 → 0.5.0
 
 Added howto/readme links for developing/building for more places. Took the opportunity to bump a minor version, cuz that should've happened last time with the font changes.
