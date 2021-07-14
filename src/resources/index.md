@@ -10,7 +10,7 @@ This section lists additional published resources for Holochain developers. It w
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="https://github.com/holochain/holochain-dna-build-tutorial" target="_blank">
-            <h4>Example "First Holochain DNA" Repo With Instructions</h4>
+            <h4>Example "First hApp" Repo With Instructions</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
