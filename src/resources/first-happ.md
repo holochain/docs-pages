@@ -14,7 +14,7 @@ why it exists?
 
 how it relates to the Holochain engine?
 
-how it relatets to a Holochain DNA? and Zome?
+how it relates to a Holochain DNA? and Zome?
 
 how do you use it in your project? Cargo.toml
 
