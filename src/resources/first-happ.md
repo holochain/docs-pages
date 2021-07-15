@@ -30,6 +30,4 @@ what are the basic must-know things about it?
 - call_remote
 
 how to create a Zome function?
-
 how will a Zome function be called?
-
