@@ -174,7 +174,7 @@ Read through our [advanced installation guide](../install-advanced/) for tips an
 
 Holochain is currently in rapid development, which means newer versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://nightly.holochain.love` won't always work with existing hApp repositories.
 
-To solve this, repositories of hApp projects can use Nix to pin the appropriate Holochain version to work well for that hApp. To do this, the project ne to have a `default.nix` file in the root folder of the repository. [Here](https://github.com/holochain/happ-build-tutorial/blob/develop/default.nix) you can see an example of that file.
+To solve this, repositories of hApp projects can use Nix to pin the appropriate Holochain version to work well for that hApp. To do this, the project needs to have a `default.nix` file in the root folder of the repository. [Here](https://github.com/holochain/happ-build-tutorial/blob/develop/default.nix) you can see an example of that file.
 
 If you are trying to set up a repository that comes with a `default.nix` file, you must not be inside the `nix-shell` provided by https://nightly.holochain.love. Instead, simply navigate to the folder with the `default.nix` file and run:
 
