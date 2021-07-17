@@ -170,7 +170,7 @@ It will always keep you up to date with the newest stable version of Holochain a
 
 Read through our [advanced installation guide](../install-advanced/) for tips and tricks on making your development environment easier to work with.
 
-## Using nix-shell in a repository with a pinned Holochain version
+## Using Holochain in a repository with a pinned Holochain version
 
 Holochain is currently in rapid development, which means newer versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://nightly.holochain.love` won't always work with existing hApp repositories.
 
