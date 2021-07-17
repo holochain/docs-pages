@@ -49,20 +49,25 @@ Now, let’s get into the details of how a Holochain app is put together. Holoch
 A **client** on the user's device, such as a GUI or utility script, talks to a Holochain Conductor via a lightweight [remote procedure call (RPC)](https://en.wikipedia.org/wiki/Remote_procedure_call) interface. If using Websockets, the client can also receive "signals", transmitted from the Conductor, which are like live events and have many uses. The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. This client and its DNAs make up an application. For reasons that will be explained, a lot more of the business logic of your application might end up being written in the client than you're used to.
 
 2. ![](../../img/concepts/2.9-conductor.png)
-All "hApp"s, to which the client can make requests, are hosted in the user's **conductor**. It is the critical runtime that handles crytographic keys and cryptographic signing, sandboxes and executes hApp code, manages data flow and storage, and handles network connections both locally to clients, as well as remotely to peers. When the conductor receives a request from the client, it will check if it the arguments provided match with a hApp that's currently running in the conductor and route the request to the right hApp accordingly if so. In some ways, you can think of the conductor as a web application server, but one that runs on the local device. It is called the "conductor" because in one sense it ["leads the orchestra"](https://en.wikipedia.org/wiki/Conducting), and in another sense because it has good ["conductivity"](https://en.wikipedia.org/wiki/Electrical_conductor). hApps communicate with each other privately and securely in peer-to-peer networks thanks to the conductor. The conductor can manage more than one set of private/public key pairs, and aeach hApp can 
+All "hApp"s, to which the client can make requests, are hosted in the user's **conductor**. It is the critical runtime that handles crytographic keys and cryptographic signing, sandboxes and executes hApp code, manages data flow and storage, and handles network connections both locally to clients, as well as remotely to peers. When the conductor receives a request from the client, it will check if it the arguments provided match with a hApp that's currently running in the conductor and route the request to the right hApp accordingly if so. In some ways, you can think of the conductor as a web application server, but one that runs on the local device. It is called the "conductor" because in one sense it ["leads the orchestra"](https://en.wikipedia.org/wiki/Conducting), and in another sense because it has good ["conductivity"](https://en.wikipedia.org/wiki/Electrical_conductor). hApps communicate with each other privately and securely in peer-to-peer networks thanks to the conductor. The conductor can manage more than one set of private/public key pairs, and the same private/public key pair can be used with various hApps.
 ![](../../img/concepts/2.10-network.png)
 
 3. image here
+
+
 A **hApp or app** (depending on the context) allows a single end user or "agent" to easily install and manage a suite of functionality, such as "social chat", "accounting", and "project management", as if it were a single thing. A hApp will have a "slot" for each aspect of the overall intended functionality. When a client makes a request to a hApp through a conductor, it will have to specify which "slot" in the hApp it is calling into. The slot will be specified by either a slot "id" property, or a "Cell ID" (which will be explained). The hApp will have to be actively attached to an "app interface" within the conductor in order for it to be callable over an HTTP or Websocket networking port/interface.
 
 4. image here
-A *Cell** ...
+
+Each slot in a hApp does or can contain a **Cell**. Since a hApp has to be uniformly connected to a specific agent (via its keys), that means that each slice of functionality of the hApp, like "project management", is running as the same agent (via its keys). When we want to identify a Cell we use a pairing of the *hash that identifies the code that implements the "project management"* (the DNA), and the *public key which represents the agent*. 
+
+2. ![](../../img/concepts/2.6-dna.png)
+One or more zomes are combined into a **DNA** that defines the basic functionality and ‘rules of the game’ for a portion of an application’s functionality. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices). The running DNA instance, or **cell**, is the user’s personal agent—every piece of data that it creates or message it sends, it does so from the perspective of the user.
 
 1. ![](../../img/concepts/2.5-zome.png)
 A code module called a **zome** (short for chromosome) defines the core logic of your app. It exposes its public functions to the Holochain runtime. Some of these functions are required, such as validation functions for each type of data the zome defines. Other functions are invented by the developer and define the zome’s public API.
 
-2. ![](../../img/concepts/2.6-dna.png)
-One or more zomes are combined into a **DNA** that defines the basic functionality and ‘rules of the game’ for a portion of an application’s functionality. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices). The running DNA instance, or **cell**, is the user’s personal agent—every piece of data that it creates or message it sends, it does so from the perspective of the user.
+
 
 3. ![](../../img/concepts/2.7-bridging.png)
 A user’s cells can talk to each other’s APIs via **bridging**. This lets you compose them into a bundle of functionality that’s needed for a full-featured app, which we call an **"app" or "happ"** depending on the context.
