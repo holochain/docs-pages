@@ -170,7 +170,7 @@ It will always keep you up to date with the newest stable version of Holochain a
 
 Read through our [advanced installation guide](../install-advanced/) for tips and tricks on making your development environment easier to work with.
 
-## Setting up a repository with a pinned Holochain version
+## Using nix-shell in a repository with a pinned Holochain version
 
 Holochain is currently in rapid development, which means newer versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://nightly.holochain.love` won't always work with existing hApp repositories.
 
@@ -194,7 +194,7 @@ This will do the same exact process that `nix-shell https://nightly.holochain.lo
 4. Take a look at the developer documentation.
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
-5. Start [building your own DNAs](https://github.com/holochain/holochain-dna-build-tutorial).
+5. Start [building your first hApp](https://github.com/holochain/happ-build-tutorial).
 6. Join the discussion at the [developers' forum](https://forum.holochain.org).
 
 <script>
