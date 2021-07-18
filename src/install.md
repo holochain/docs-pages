@@ -170,6 +170,22 @@ It will always keep you up to date with the newest stable version of Holochain a
 
 Read through our [advanced installation guide](../install-advanced/) for tips and tricks on making your development environment easier to work with.
 
+## Using Holochain in a repository with a pinned Holochain version
+
+Holochain is currently in rapid development, which means newer versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://nightly.holochain.love` won't always work with existing hApp repositories.
+
+To solve this, repositories of hApp projects can use Nix to pin the appropriate Holochain version to work well for that hApp. To do this, the project needs to have a `default.nix` file in the root folder of the repository. [Here](https://github.com/holochain/happ-build-tutorial/blob/develop/default.nix) you can see an example of that file.
+
+If you are trying to set up a repository that comes with a `default.nix` file, you must not be inside the `nix-shell` provided by https://nightly.holochain.love. Instead, simply navigate to the folder with the `default.nix` file and run:
+
+```bash
+nix-shell .
+```
+
+This will do the same exact process that `nix-shell https://nightly.holochain.love` does, but will download the specific Holochain versions that that project is set up for. 
+
+> Note that this can take a long time to download and compile the binaries. In the future we should be able to make this quicker by adding a build cache so that you only need to download the already compiled binaries.
+
 ## Next Steps
 
 1. Read through the [Holochain Core Concepts](../concepts/).
@@ -178,7 +194,7 @@ Read through our [advanced installation guide](../install-advanced/) for tips an
 4. Take a look at the developer documentation.
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
-5. Start [building your own DNAs](https://github.com/holochain/holochain-dna-build-tutorial).
+5. Start [building your first hApp](https://github.com/holochain/happ-build-tutorial).
 6. Join the discussion at the [developers' forum](https://forum.holochain.org).
 
 <script>

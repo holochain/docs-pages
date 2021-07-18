@@ -10,7 +10,17 @@ This section lists additional published resources for Holochain developers. It w
     </div>
     <div class="h-tile tile-alt tile-concepts">
         <a href="https://github.com/holochain/holochain-dna-build-tutorial" target="_blank">
-            <h4>DNA build tutorial</h4>
+            <h4>Example "First hApp" Repo With Instructions</h4>
+        </a>
+    </div>
+    <div class="h-tile tile-alt tile-concepts">
+        <a href="https://github.com/holochain-open-dev/wiki/wiki" target="_blank">
+            <h4>Community Curated Wiki: help with how-tos and common blockers</h4>
+        </a>
+    </div>
+    <div class="h-tile tile-alt tile-concepts">
+        <a href="https://holochain-gym.github.io/developers/" target="_blank">
+            <h4>The Holochain Gym: Exercises to learn Holochain</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
@@ -21,11 +31,6 @@ This section lists additional published resources for Holochain developers. It w
     <div class="h-tile tile-alt tile-concepts">
         <a href="install-nixos-on-external-hdd">
             <h4>Install NixOS on External HDD</h4>
-        </a>
-    </div>
-    <div class="h-tile tile-alt tile-concepts">
-        <a href="https://holochain-open-dev.github.io/blog/holochain-rsm-migration-guide/" target="_blank">
-            <h4>Holochain RSM migration guide</h4>
         </a>
     </div>
 </div>
