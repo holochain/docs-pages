@@ -22,7 +22,6 @@ nav:
     - Signals: 'concepts/9_signals.md'
   - Resources:
     - Introduction: 'resources/index.md'
-    - Intro to hApp Development: 'resources/first-happ.md'
     - Dependency Pinning Guide: 'resources/dependency-pinning-guide.md'
     - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
   - References:
