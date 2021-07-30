@@ -22,7 +22,7 @@ If you’re unsure whether a distributed network can provide the same integrity,
 
 Let’s talk about your source chain again. It belongs to you, it lives in your device, and you can choose to keep it private.
 
-However, the value of most apps comes from their ability to connect people to one another. Email, social media, and team collaboration tools wouldn’t be very useful if you kept all your work to yourself. Data that lives on your machine is also not very available—as soon as you go offline, nobody else can access it. Most users don’t want to run their own servers, so there needs to be a way to make shared data stick around when its author isn't therea.
+However, the value of most apps comes from their ability to connect people to one another. Email, social media, and team collaboration tools wouldn’t be very useful if you kept all your work to yourself. Data that lives on your machine is also not very available—as soon as you go offline, nobody else can access it. Most users don’t want to run their own servers, so there needs to be a way to make shared data stick around when its author isn't there.
 
 This is also the point where we run into integrity problems in a peer-to-peer system. When everybody is responsible for creating their own data, they can mess around with it any way they like. In the last article, we learned that the signed source chain is resistant to third-party tampering, but not to tampering by its owner. They could erase a transaction or a vote and make it look like it never happened.
 
