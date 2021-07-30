@@ -39,22 +39,47 @@ Holochain creates a ‘double membrane’ for each participant, bridging between
 
 ## Layers of the application stack
 
-What’s important to understand about Holochain development is that Holochain is handling a LOT of things for you, and keeping your workload to provide a secure p2p app minimal. That’s why it’s a “p2p framework”. You write your hApp logic, relying on Holochain for things like data persistence and a peer-to-peer networking and communication layer, and get on with building your application and business logic.
+Holochain handles a lot of things for you, keeping your workload minimal. That’s why it’s a “p2p framework”. You rely on Holochain for things like data persistence and a peer-to-peer networking and communication layer, and get on with building your application and business logic.
 
-Now, let’s get into the details of how a Holochain app is put together. Holochain apps (hApps) are made from loosely coupled components. Here’s how they are built:
+Now, let’s get into the details of how a Holochain app is put together. Holochain apps (hApps) are made from loosely coupled components. Here’s how they are built.
 
-<div class="coreconcepts-storysequence" markdown=1>
+### At a glance
 
-1. ![](../../img/concepts/2.8-happ-bundle.png)
-A **client** on the user's device, such as a GUI or utility script, talks to a "Holochain Conductor" via a lightweight [remote procedure call (RPC)](https://en.wikipedia.org/wiki/Remote_procedure_call) interface. If using Websockets, the client can also receive "signals", transmitted from the Conductor, which are like live events and have many uses. The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. This client and its related "hApp" make up a complete application. For reasons that will be explained, a lot more of the business logic of your application might end up being written in the client than you're used to. Since a "conductor" can be handling many things at once, when a client makes a request, it will have to specify with precision where to route the request. It has to pass things known as a Cell ID, a Zome name, and a function name, along with the actual input payload. The function is embedded within a "Zome" embedded within a "Cell" (which is in a hApp). We will walk through these layers now.
+Let's introduce all the terms first, so you're familiar with how they fit together when you encounter them. The **client** talks with the **conductor**, which runs multiple **hApps**. Each hApp is made of one or more **cells**, which are running instances of **DNAs**, which in turn are made of one more executable **zome** modules.
 
-2. ![](../../img/concepts/2.9-conductor.png)
-All "hApp"s to which the client can make requests are hosted in the user's **conductor**. It is the critical runtime that sandboxes and executes hApp code, handles crytographic keys and cryptographic signing, manages data flow and storage, and handles network connections both locally to clients, as well as remotely to peers. When the conductor receives a request from the client, it will check if the arguments provided match with a hApp that's currently running in the conductor and route the request to the right hApp accordingly if so. In some ways, you can think of the conductor as a web application server, but one that runs on the local device. It is called the "conductor" because in one sense it ["leads the orchestra"](https://en.wikipedia.org/wiki/Conducting), and in another sense because it has good ["conductivity"](https://en.wikipedia.org/wiki/Electrical_conductor). hApps communicate with each other privately and securely in peer-to-peer networks thanks to the conductor. The conductor can manage more than one set of private/public key pairs, and the same private/public key pair can be used with various hApps.
+All clear? Let's dig in.
+
+### Client
+
+![](../../img/concepts/2.8-happ-bundle.png)
+
+A **client** on the user's device, such as a GUI or utility script, talks to the Holochain conductor and its running hApps via [remote procedure calls (RPCs)](https://en.wikipedia.org/wiki/Remote_procedure_call) over [WebSocket](https://en.wikipedia.org/wiki/WebSocket). A hApp can also send [signals](../9_signals/) back to the client; signals are useful for real-time events.
+
+The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. This client and its related hApp make up a complete application. A lot more of the business logic of your application might end up being written in the client than you're used to, and we'll explain why later.
+
+### Conductor
+
+![](../../img/concepts/2.9-conductor.png)
+
+The hApp is hosted in the user's **conductor**. It's the runtime that sandboxes and executes hApp code, handles crytographic keys and signing, manages data flow and storage, and handles network connections both locally to clients and remotely to peers. When the conductor receives a function call from the client or another agent on the network, it routes it to the executable code in the proper hApp.
+
+In some ways, you can think of the conductor as a web application server, but one that runs on every user's device. It is called the conductor because in one sense it ["leads the orchestra"](https://en.wikipedia.org/wiki/Conducting), and in another sense because it has good ["conductivity"](https://en.wikipedia.org/wiki/Electrical_conductor).
+
+hApps communicate with each other privately and securely in peer-to-peer networks thanks to the conductor. The conductor can manage more than one set of private/public key pairs, and the same private/public key pair can be used with various hApps.
+
+### hApp
+
 ![](../../img/concepts/2.10-network.png)
 
-3. image here. A **hApp or app** (depending on the context) allows a single end user or "agent" to easily install and manage a suite of functionality, such as "social chat", "accounting", and "project management", as if it were a single thing. A hApp will have a "slot" for each aspect of the overall intended functionality. When a client makes a request to a hApp through a conductor, it will have to specify which "slot" in the hApp it is calling into, which is accomplished by passing the *id of the "Cell"* which occupies the slot. The hApp will have to be actively attached to an "app interface" within the conductor in order for it to be callable over an HTTP or Websocket networking port/interface.
+A Holochain application or **hApp** allows a single user or **agent** to easily install and manage a suite of functionality, such as chat, accounting, or project management. A hApp is often made of multiple DNAs, each providing an aspect of functionality, and it has a **slot** for each. You can think of these components as [microservices](https://en.wikipedia.org/wiki/Microservices).
 
-4. image here. Things known as **Cell**s occupy slots in a hApp. Since a hApp has to be uniformly connected to a specific agent (via its keys), that means that each slice of functionality of the hApp, like "project management", is running as the same agent (via its keys). Each Cell acts as a user’s personal agent — every piece of data that it creates or message it sends, it does so from the perspective of the agent. When we make a request from the client, we need to specify the id of a Cell. A Cell ID is a pairing of the *hash that identifies the bundle of code that implements the "project management"* (the DNA), and the *public key which represents the agent*. 
+You can specify , which lets you create multiple private spaces 
+
+#### Cell
+
+**Cell**s occupy slots in a hApp. Each cell is a combination of a user's unique cryptographic key (their **agent ID**) and a running DNA. Within one user's instance of a hApp, all cells share the same agent ID.  Each cell acts as the user’s personal agent --- every piece of data that it creates or message it sends, it does so from the perspective of that agent.
+
+When a client calls a function in a hApp, it specifies the **cell ID**, which is the hash of the DNA plus the agent ID.
 
 5. ![](../../img/concepts/2.6-dna.png)
 A bundle of properties and source code for a unit of a hApp like "project management" is called a **DNA** and serves as the ‘rules of the game’ against which peers can do peer-to-peer validation and 'enforcement'. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices). Due to the properties of cryptographic hashing, even the slightest alteration in this bundle either in the code or in the properties will change the hash, and thus form an entirely separate peer-to-peer network than the unaltered version. Thus defining a DNA must be done with great precision. Apart from the section of the bundle that is 'properties' or metadata, the DNA is made up of submodules in which the actual functions are written into code, known as Zomes. A DNA will have 1 or more Zomes, where each Zome has a given name, for example "chatter", associated with some raw code.
