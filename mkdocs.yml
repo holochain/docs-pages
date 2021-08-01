@@ -26,7 +26,7 @@ nav:
     - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
   - References:
     - Introduction: 'references.md'
-    - HDK: 'https://docs.rs/hdk/0.0.100/hdk/'
+    - HDK: 'https://docs.rs/hdk/0.0.102/hdk/'
     - HDK introductory guide: 'https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md'
     - Admin API: '/rustdoc/holochain_conductor_api/enum.AdminRequest.html'
     - App API: '/rustdoc/holochain_conductor_api/enum.AppRequest.html'
