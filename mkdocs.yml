@@ -54,6 +54,11 @@ extra_css:
 extra_javascript:
   - 'custom/prism.js'
 
+extra:
+  analytics:
+    provider: 'google_analytics_v4'
+    measurement_id: 'G-3FKEN0NBXY'
+
 google_analytics:
   - 'UA-131226536-4'
   - 'auto'
