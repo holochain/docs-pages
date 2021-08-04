@@ -26,7 +26,7 @@
   src: url('/assets/webFonts/URWFormExtraBoldItalic/font.woff2') format('woff2'), url('/assets/webFonts/URWFormExtraBoldItalic/font.woff') format('woff');
 }
 
-* { font-family: Mulish; }
+body { font-family: Mulish; }
 
 h1, h2, h3 { font-family: 'URW Form'; font-weight: 800 !important; }
 
