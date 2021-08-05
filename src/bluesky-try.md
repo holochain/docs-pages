@@ -18,8 +18,9 @@ If you want to get started writing an application with Holochain, go to the [hom
 
 ## Users
 
-If you want to see what a Holochain application feels like to use, here are some that you can try:
+If you want to see what a Holochain application feels like to use, here are some that you can try. Holochain is **made for human interaction**, so you'll get the most rewarding experience if you try them with a friend.
 
 * [Register](https://register.holo.host/elemental) to be an alpha tester for [Elemental Chat](https://elemental-chat.holo.host/), a proof-of-concept chat application built with Holochain and hosted on the [Holo network](https://holo.host) (Note: There is a wait list.)
-* Download [Acorn](https://github.com/h-be/acorn), a collaborative planning app. If you want to join a public workspace, try the project invitation secret `residual improvise landfall bogus degraded`. (Warning: it' s an unmoderated space, so don't be surprised if you see weird stuff there.)
-* If you don't mind the command line, download the latest [Holochain Launcher and Elemental Chess](https://github.com/holochain/launcher/releases/) and play against a friend. (Launcher is still pre-alpha, so you may encounter some bugs.)
+* If you are on Linux or Mac, download [Acorn](https://github.com/h-be/acorn/releases/tag/v0.5.1-alpha), a collaborative planning app. If you want to join a public workspace, try the project invitation secret `residual improvise landfall bogus degraded`. (Warning: it's an unmoderated space, so don't be surprised if you see weird stuff there.)
+* If you are on Linux or Mac, download the latest [Holochain Launcher and Elemental Chess](https://github.com/holochain/launcher/releases/) and play against a friend. (Launcher is still pre-alpha, so you may encounter some bugs.)
+* If you are on Windows (or Mac or Linux) download [Snapmail](https://github.com/glassbeadsoftware/snapmail-release/releases/tag/v0.0.5), a local first mail client for intranet messaging.
