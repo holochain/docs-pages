@@ -45,61 +45,47 @@ Now, let’s get into the details of how a Holochain app is put together. Holoch
 
 ### At a glance
 
-Let's introduce all the terms first, so you're familiar with how they fit together when you encounter them. The **client** talks with the **conductor**, which runs multiple **hApps**. Each hApp is made of one or more **cells**, which are running instances of **DNAs**, which in turn are made of one more executable **zome** modules.
+Let's introduce all the terms first, so you're familiar with how they fit together when you encounter them. The **client** talks with the **conductor**, which runs multiple **hApps**. Each hApp is made of one or more **cells**, which are active instances of **DNAs**, which in turn are made of one more executable **zome** modules.
 
 All clear? Let's dig in.
 
 ### Client
 
-![](../../img/concepts/2.8-happ-bundle.png)
-
 A **client** on the user's device, such as a GUI or utility script, talks to the Holochain conductor and its running hApps via [remote procedure calls (RPCs)](https://en.wikipedia.org/wiki/Remote_procedure_call) over [WebSocket](https://en.wikipedia.org/wiki/WebSocket). A hApp can also send [signals](../9_signals/) back to the client; signals are useful for real-time events.
 
-The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. This client and its related hApp make up a complete application. A lot more of the business logic of your application might end up being written in the client than you're used to, and we'll explain why later.
+The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. One hApp can have multiple clients, and one client can talk to multiple hApps. You can even make a headless client, like a shell script or scheduled task. This client and its related hApp make up a complete application. A lot more of the business logic of your application might end up being written in the client than you're used to, and we'll explain why later.
 
 ### Conductor
-
-![](../../img/concepts/2.9-conductor.png)
 
 The hApp is hosted in the user's **conductor**. It's the runtime that sandboxes and executes hApp code, handles crytographic keys and signing, manages data flow and storage, and handles network connections both locally to clients and remotely to peers. When the conductor receives a function call from the client or another agent on the network, it routes it to the executable code in the proper hApp.
 
 In some ways, you can think of the conductor as a web application server, but one that runs on every user's device. It is called the conductor because in one sense it ['leads the orchestra'](https://en.wikipedia.org/wiki/Conducting), and in another sense because it has good ['conductivity'](https://en.wikipedia.org/wiki/Electrical_conductor).
 
-hApps communicate with each other privately and securely in peer-to-peer networks thanks to the conductor. The conductor can manage more than one set of private/public key pairs, and the same private/public key pair can be used with various hApps.
+hApps communicate with each other privately and securely in peer-to-peer networks thanks to the conductor. The conductor can manage more than one set of private/public key pairs, representing either different people or different identities for the same person, and the same key pair can be used with more than one hApp.
 
 ### hApp
 
-![](../../img/concepts/2.10-network.png)
-
-A Holochain application or **hApp** allows a single user or **agent** to easily install and manage a suite of functionality, such as chat, accounting, or project management. A hApp is often made of multiple DNAs, each providing an aspect of functionality, and it has a **slot** for each.
-
-Some slots can be filled with multiple cells **cloned** from the same DNA. This is useful for creating separate spaces inside a single hApp --- individual project workspaces or private chat channels, for example.
+A Holochain application or **hApp** allows a person to easily install and manage a suite of functionality, such as chat, accounting, or project management. A hApp is often made of multiple components, each providing an aspect of functionality, and it has a **slot** for each.
 
 ### Cell
 
-**Cells** occupy slots in a hApp. Each cell is a combination of a user's unique cryptographic key (their **agent ID**) and a running DNA. Within one user's instance of a hApp, all cells share the same agent ID.  Each cell acts as the user’s personal agent --- every piece of data that it creates or message it sends, it does so from the perspective of that agent.
+**Cells** occupy slots in a hApp. Each cell is a combination of a person's unique cryptographic key pair (their **agent ID**) and a DNA. Within one person's instance of a hApp, all cells share the same agent ID. Each cell acts as the person’s personal agent --- every piece of data that it creates or message it sends, it does so from the perspective of that agent.
 
-Each cell stores its own agent history and is a member of a separate, isolated network within the hApp with its own data store.
+Each cell stores its own agent history and is a member of an isolated network along with other cells that share the same DNA. This is useful for creating separate spaces inside a single hApp --- individual project workspaces or private chat channels, for example.
 
-When a client calls a function in a hApp, it specifies the **cell ID**, which is the hash of the DNA plus the agent ID, along with the zome name, function name, and of course the input payload.
+When a client calls a function in a hApp, it specifies the **cell ID**, which is the hash of the DNA plus the agent ID, along with the zome name, function name, and function input payload.
 
 ### DNA
 
-A bundle of executable code that makes a unit of functionality in a hApp is called a **DNA**. It serves as the ‘rules of the game’ against which peers can do peer-to-peer validation and 'enforcement'. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices).
+A bundle of executable code that makes a unit of functionality in a hApp is called a **DNA**. It serves as the ‘rules of the game’ against which peers can do validation and enforcement. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices).
 
-The DNA is made of one or more executable code submodules called zomes, each with its own name like `profile` or `chat`. It also contains metadata such as a name and description, along with an arbitrary unique ID and **properties** (constants that the executable code can access in order to change its behavior).
-
-The unique ID and properties can be changed either in a text editor, at installation time, or at cloning time. Due to the properties of cryptographic hashing, even the slightest alteration of either the code, properties, or unique ID will change the hash, forming a cell with an entirely new history and peer-to-peer network. This means that you should introduce changes very carefully.
+The DNA can also contain metadata: a name, description, unique ID, and **properties**. The unique ID and properties can be changed either in a text editor or at installation time. The executable code can use the properties to change its runtime behavior (similar to environment variables). The unique ID, on the other hand, can be changed to **clone** a DNA, creating a cell with identical functionality but an entirely separate history, network, and shared database. In fact, even the slightest alteration of any part of the DNA will do this. This means that you should consider changes wisely.
 
 ### Zome
 
 ![](../../img/concepts/2.5-zome.png)
 
-A raw code module is called a **zome** (short for chromosome) and defines core business logic. It can expose functions publicly to the conductor. Some of these functions are like 'hooks' called automatically by Holochain, such as an initialization function or validation functions related to data types defined in the zome. Other functions are invented by the developer, have arbitrary names, and define the zome’s public API.
-
-</div>
-
-Functional components and architectural layers both enjoy clean separation. You can combine, augment, or replace existing pieces. This gives you a lot of flexibility and can even empower your users to take ownership of their experience.
+A DNA is made of one or more executable code modules called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. A zome defines core business logic, exposing its functions to the conductor. Some of these functions are 'hooks' called automatically by Holochain, such as an initialization function or validation functions related to data types defined in the zome. Other functions are invented by the developer, have arbitrary names, and define the zome’s public API.
 
 !!! info
     All functions in your DNA start with a fresh memory state which is cleared once the function is finished. The only place that persistent state is kept is in the user's personal data journal. If you've written applications with REST-friendly stacks like Django and PHP-FastCGI, or with [function-as-a-service](https://en.wikipedia.org/wiki/Function_as_a_service) platforms like AWS Lambda, you're probably familiar with this pattern.
