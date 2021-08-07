@@ -79,7 +79,9 @@ When a client calls a function in a hApp, it specifies the **cell ID**, which is
 
 A bundle of executable code that makes a unit of functionality in a hApp is called a **DNA**. It serves as the ‘rules of the game’ against which peers can do validation and enforcement. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices).
 
-The DNA can also contain metadata: a name, description, unique ID, and **properties**. The unique ID and properties can be changed either in a text editor or at installation time. The executable code can use the properties to change its runtime behavior (similar to environment variables). The unique ID, on the other hand, can be changed to **clone** a DNA, creating a cell with identical functionality but an entirely separate history, network, and shared database. In fact, even the slightest alteration of any part of the DNA will do this. This means that you should consider changes wisely.
+The DNA can also contain metadata: a name, description, unique ID, and **properties**. The unique ID and properties can be changed either in a text editor or at installation time. The executable code can use the properties to change its runtime behavior (similar to environment variables). The unique ID, on the other hand, can be changed to **clone** a DNA, creating a cell with identical functionality but an entirely separate history, network, and shared database.
+
+In fact, even the slightest alteration of any part of the DNA will do this. Consider source code changes carefully, because each modification will require some sort of migration strategy to move data from the old network of cells to the new one.
 
 ### Zome
 
