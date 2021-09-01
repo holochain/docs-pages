@@ -66,9 +66,9 @@ In fact, even the slightest alteration of any part of the DNA will do this. Cons
 
 ![](../../img/concepts/2.5-zome.png)
 
-A DNA is made of one or more executable code modules called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. The zomes define the core business logic in a DNA, exposing their functions to the conductor. Some of these functions are 'hooks' called automatically by Holochain, such as an initialization function or validation functions related to data types defined in the zome.
+The executable code modules in a DNA are called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. The zomes define the core business logic in a DNA, exposing their functions to the conductor. Some of these functions are 'hooks' called automatically by Holochain, such as an initialization function or validation functions related to data types defined in the zome.
 
-Other functions are invented by the developer, have arbitrary names, and define the zome’s public API. The conductor [makes this API available](../8_calls_capabilities/) to other zomes within the DNA, other DNAs within the hApp, and, as mentioned earlier, to clients running on the participant's machine and other agents on the DNA's network.
+Other functions are invented by the developer, have arbitrary names, and define the zome’s public API. The conductor [makes this API available](../8_calls_capabilities/) to other zomes within the DNA, other DNAs within the hApp, and, as mentioned earlier, clients running on the participant's machine and other agents on the DNA's network. The developer can give a participant the ability to control access to their cell's API via [capabilities](../8_calls_capabilities/).
 
 !!! info
     All functions in your DNA start with a fresh memory state which is cleared once the function is finished. The only place that persistent state is kept is in the user's personal data journal. If you've written applications with REST-friendly stacks like Django and PHP-FastCGI, or with [function-as-a-service](https://en.wikipedia.org/wiki/Function_as_a_service) platforms like AWS Lambda, you're probably familiar with this pattern.
