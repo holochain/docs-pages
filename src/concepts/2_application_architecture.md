@@ -91,5 +91,4 @@ You can see that Holochain is different from typical application stacks. Here's 
 
 ## Learn more
 
-* [Holochain: Reinventing Applications](https://medium.com/holochain/holochain-reinventing-applications-d2ac1e4f25ef)
-* [The Holo vision: Serverless 2.0](https://medium.com/holochain/the-holo-vision-serverless-2-0-c0b294e753ba)he foundation of Holochain is simple, but the consequences of our design can lead to new challenges.
+If you want to go from theory to practice, you can learn hands-on how applications talk to hApps by reading and following the [hApp client call tutorial](https://github.com/holochain/happ-client-call-tutorial), which has examples in Typescript and Rust.
