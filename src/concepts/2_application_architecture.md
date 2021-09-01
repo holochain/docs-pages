@@ -39,29 +39,31 @@ Holochain creates a ‘double membrane’ for each participant, bridging between
 
 ## Layers of the application stack
 
-Holochain handles a lot of things for you, keeping your workload minimal. That’s why it’s a “p2p framework”. You rely on Holochain for things like data persistence and a peer-to-peer networking and communication layer, and get on with building your application and business logic.
+Holochain handles a lot of things for you, keeping your workload minimal. That’s why we call it a framework. You rely on Holochain for things like data persistence and a peer-to-peer networking and communication layer, and get on with building your application and business logic.
 
-Now, let’s get into the details of how a Holochain app is put together. Holochain apps (hApps) are made from loosely coupled components. Here’s how they are built.
+Now, let’s get into the details of all the components of a Holochain app, and how they fit together.
 
 ### At a glance
 
-Let's introduce all the terms first, so you're familiar with how they fit together when you encounter them. The **client** talks with the **conductor**, which runs multiple **hApps**. Each hApp is made of one or more **cells**, which are active instances of **DNAs**, which in turn are made of one more executable **zome** modules.
+First of all, the term 'user' doesn't feel quite right for Holochain, where each person actually runs the application on their device, helping to build the shared infrastructure that keeps the application alive. Let's call them a 'participant' instead.
 
-All clear? Let's dig in.
+Now let's quickly introduce all the terms, so you're familiar with them when you encounter them. A **client** running on a participant's device talks with their **conductor**, which runs multiple **hApps**. Each hApp is made of one or more **cells**, which are the live instances of **DNAs** that run on behalf of the participant. These DNAs, in turn, are made of one more executable **zome** modules.
+
+All clear? Don't worry; it'll make more sense as we dig in.
 
 ### Client
 
-A **client** on the user's device, such as a GUI or utility script, talks to the Holochain conductor and its running hApps via [remote procedure calls (RPCs)](https://en.wikipedia.org/wiki/Remote_procedure_call) over [WebSocket](https://en.wikipedia.org/wiki/WebSocket). A hApp can also send [signals](../9_signals/) back to the client; signals are useful for real-time events.
+A **client** on the participant's device, such as a GUI or utility script, talks to their Holochain conductor and its running hApps via [remote procedure calls (RPCs)](https://en.wikipedia.org/wiki/Remote_procedure_call) over [WebSocket](https://en.wikipedia.org/wiki/WebSocket). A hApp can also send [signals](../9_signals/) back to the client; signals are useful for real-time event notifications.
 
 The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. One hApp can have multiple clients, and one client can talk to multiple hApps. You can even make a headless client, like a shell script or scheduled task. This client and its related hApp make up a complete application. A lot more of the business logic of your application might end up being written in the client than you're used to, and we'll explain why later.
 
 ### Conductor
 
-The hApp is hosted in the user's **conductor**. It's the runtime that sandboxes and executes hApp code, handles crytographic keys and signing, manages data flow and storage, and handles network connections both locally to clients and remotely to peers. When the conductor receives a function call from the client or another agent on the network, it routes it to the executable code in the proper hApp.
+The hApp is hosted in the participant's **conductor**. It's the runtime that sandboxes and executes hApp code, handles crytographic keys and signing, manages data flow and storage, and handles connections both locally to clients and remotely to peers. When the conductor receives a function call from the client or another agent on the network, it routes it to the executable code in the proper hApp.
 
-In some ways, you can think of the conductor as a web application server, but one that runs on every user's device. It is called the conductor because in one sense it ['leads the orchestra'](https://en.wikipedia.org/wiki/Conducting), and in another sense because it has good ['conductivity'](https://en.wikipedia.org/wiki/Electrical_conductor).
+In some ways, you can think of the conductor as a web application server, but one that runs on every participant's device. It is called the conductor because in one sense it ['leads the orchestra'](https://en.wikipedia.org/wiki/Conducting), and in another sense because it has good ['conductivity'](https://en.wikipedia.org/wiki/Electrical_conductor).
 
-hApps communicate with each other privately and securely in peer-to-peer networks thanks to the conductor. The conductor can manage more than one set of private/public key pairs, representing either different people or different identities for the same person, and the same key pair can be used with more than one hApp.
+Participants in a hApp communicate with each other privately and securely in peer-to-peer networks thanks to the conductor. The conductor can manage more than one set of private/public key pairs, representing either different people or different identities for the same person, and the same key pair can be used with more than one hApp.
 
 ### hApp
 
@@ -69,7 +71,7 @@ A Holochain application or **hApp** allows a person to easily install and manage
 
 ### Cell
 
-**Cells** occupy slots in a hApp. Each cell is a combination of a person's unique cryptographic key pair (their **agent ID**) and a DNA. Within one person's instance of a hApp, all cells share the same agent ID. Each cell acts as the person’s personal agent --- every piece of data that it creates or message it sends, it does so from the perspective of that agent.
+**Cells** occupy slots in a hApp. Each cell is a combination of a participant's unique cryptographic key pair (their **agent ID**) and a DNA. Within one participant's instance of a hApp, all cells share the same agent ID. Each cell acts as the participant's personal **agent** --- every piece of data that it creates or message it sends, it does so from the perspective of that agent.
 
 Each cell stores its own agent history and is a member of an isolated network along with other cells that share the same DNA. This is useful for creating separate spaces inside a single hApp --- individual project workspaces or private chat channels, for example.
 
@@ -77,17 +79,19 @@ When a client calls a function in a hApp, it specifies the **cell ID**, which is
 
 ### DNA
 
-A bundle of executable code that makes a unit of functionality in a hApp is called a **DNA**. It serves as the ‘rules of the game’ against which peers can do validation and enforcement. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices).
+A bundle of executable code that makes a unit of functionality in a hApp is called a **DNA**. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices) that creates a data access and integrity layer around personal and shared data. It serves as the ‘rules of the game’ against which peers can do validation and enforcement.
 
-The DNA can also contain metadata: a name, description, unique ID, and **properties**. The unique ID and properties can be changed either in a text editor or at installation time. The executable code can use the properties to change its runtime behavior (similar to environment variables). The unique ID, on the other hand, can be changed to **clone** a DNA, creating a cell with identical functionality but an entirely separate history, network, and shared database.
+The DNA can also contain metadata: a name, description, unique ID, and **properties**. The unique ID and properties can be changed either in a text editor or at installation time. The unique ID, on the other hand, can be changed to **clone** a DNA, creating a new cell with identical functionality but an entirely separate history, network, and shared database. The properties, on the other hand, can also be changed to clone a DNA, but also direct the executable code to change the new cell's runtime behavior (similar to configuration parameters). 
 
-In fact, even the slightest alteration of any part of the DNA will do this. Consider source code changes carefully, because each modification will require some sort of migration strategy to move data from the old network of cells to the new one.
+In fact, even the slightest alteration of any part of the DNA will do this. Consider source code changes carefully, because each modification will create a new DNA with a new cells interacting in a separate network. This may require some sort of migration strategy to move or access old data.
 
 ### Zome
 
 ![](../../img/concepts/2.5-zome.png)
 
-A DNA is made of one or more executable code modules called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. A zome defines core business logic, exposing its functions to the conductor. Some of these functions are 'hooks' called automatically by Holochain, such as an initialization function or validation functions related to data types defined in the zome. Other functions are invented by the developer, have arbitrary names, and define the zome’s public API.
+A DNA is made of one or more executable code modules called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. The zomes define the core business logic in a DNA, exposing their functions to the conductor. Some of these functions are 'hooks' called automatically by Holochain, such as an initialization function or validation functions related to data types defined in the zome.
+
+Other functions are invented by the developer, have arbitrary names, and define the zome’s public API. The conductor [makes this API available](../8_calls_capabilities/) to other zomes within the DNA, other DNAs within the hApp, and, as mentioned earlier, to clients running on the participant's machine and other agents on the DNA's network.
 
 !!! info
     All functions in your DNA start with a fresh memory state which is cleared once the function is finished. The only place that persistent state is kept is in the user's personal data journal. If you've written applications with REST-friendly stacks like Django and PHP-FastCGI, or with [function-as-a-service](https://en.wikipedia.org/wiki/Function_as_a_service) platforms like AWS Lambda, you're probably familiar with this pattern.
@@ -111,4 +115,4 @@ You can see that Holochain is different from typical application stacks. Here's 
 ## Learn more
 
 * [Holochain: Reinventing Applications](https://medium.com/holochain/holochain-reinventing-applications-d2ac1e4f25ef)
-* [The Holo vision: Serverless 2.0](https://medium.com/holochain/the-holo-vision-serverless-2-0-c0b294e753ba)he foundation of Holochain is simple, but the consequences of our design can lead to new challenges. H
+* [The Holo vision: Serverless 2.0](https://medium.com/holochain/the-holo-vision-serverless-2-0-c0b294e753ba)he foundation of Holochain is simple, but the consequences of our design can lead to new challenges.
