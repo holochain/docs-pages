@@ -7,35 +7,12 @@ Applications built with Holochain are highly **modular**. This makes it easy to 
 <div class="coreconcepts-orientation" markdown=1>
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
-1. [Agent-centric integrity: inside, outside, and in between](#agent-centric-integrity-inside-outside-and-in-between)
-2. [Layers of the application stack](#layers-of-the-application-stack)
+1. [Layers of the application stack](#layers-of-the-application-stack)
 
 ### <i class="far fa-atom"></i> Why it matters
 
 A good understanding of the components of the tech stack will equip you to architect a well-structured, maintainable application. Because Holochain is probably different from what you're used to, it's good to shift your thinking early.
 </div>
-
-## Agent-centric integrity: inside, outside, and in between
-
-Before we talk about the tech stack, let's talk about donuts. That's a good way to start, isn't it?
-
-![](../../img/concepts/2.1-holonut)
-
-This is Holochain. Thanks to the magic of gluten, it has enough integrity to hold itself together. It separates the universe into two empty spaces---the hole and the space beyond.
-
-![](../../img/concepts/2.2-holonut-icing.png)
-
-On top of Holochain is your application. Each application has a different flavor.
-
-![](../../img/concepts/2.3-holonut-inside.png)
-
-Let’s put you inside the hole. You have agency—the power to receive information from your world and act on it. Together, your copy of the Holochain runtime and your application mediate between you and Holochain land. Your application defines a set of functions that define all the valid ways you can interact with it, and Holochain exposes those functions to you.
-
-![](../../img/concepts/2.4-holonut-network.png)
-
-On the outside of the donut is a shared space; in it are the other people using the same application. Holochain mediates interactions with them too, shuttling information across space with the help of a computer network. Again, your app defines what it considers valid, on this side, through a set of rules that define what data should look like.
-
-Holochain creates a ‘double membrane’ for each participant, bridging between their world and the digital space they share with others. It ensures the integrity of information passing through both the inside and the outside. This lets people safely do the things that are important to them, without having to depend on a central authority.
 
 ## Layers of the application stack
 
