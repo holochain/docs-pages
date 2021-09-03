@@ -19,13 +19,21 @@ A good understanding of the components of the tech stack will equip you to archi
 
 Perhaps Holochain's most important difference is that applications are completely centered around the individual --- and networks of individuals. The purpose of a Holochain application is to create a network of individuals, interacting freely with each other, playing by a shared set of rules. This is possible because everyone, whether human or bot, is **running their own copy of the application** and connecting directly to their peers.
 
+![Four participants, running the same hApp, communicating directly with each other using their copy of the hApp.](../../img/concepts/2.1-mutual-execution.png)
+
 So the term 'user' doesn't feel quite right for Holochain, where the ones who use the application are also the ones who keep it alive. Let's call them 'agents' --- or better yet, 'participants'.
 
 How do you know other participants are playing by the same rules as you? As we explored in [The Basics](../1_the_basics/#how-holochain-does-things-differently), all you have to do is look at the data they create and share. If their data doesn't pass your copy of the rules, they're playing a different game and you should ignore them.
 
+![Two participants, one of whom has secret modified their copy of the hApp and is trying to get the honest participant to accept bad data. THe honest participant is protected from the bad data.](../../img/concepts/2.2-honesty-as-data-integrity.png)
+
 These data integrity rules create a membrane between a participant and her peers. They define what data she can and can't create, and they help her recognize rule-breakers.
 
+![Four participants using a hApp. A membrane surrounds one participant's hApp, allowing her to safely produce and accept good data, and reject bad data.](../../img/concepts/2.3-data-integrity-membrane.png)
+
 There's another membrane, which sits between a participant and her copy of the application. The application's public functions define the processes that can be used to access, interpret, and create data, as well as communicate other participants and applications. Her copy of the application makes those functions available to any client on her machine that wants to act for her. It also makes them available to her peers so she can delegate some of her agency to them. The application developer can also give her tools to control access to these functions, using [capability-based security](../8_calls_capabilities/).
+
+![One participant's copy of the hApp. A membrane surrounds her hApp. On her device, three clients are successfully calling the hApp's functions while a malware is rejected. From the network, two peers try to call her hApp's functions; one succeds while another fails.](../../img/concepts/2.4-process-membrane.png)
 
 ## Layers of the application stack
 
@@ -48,6 +56,8 @@ A **client** on the participant's device, such as a GUI or utility script, talks
 The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. One hApp can have multiple clients, and one client can talk to multiple hApps. You can even make a headless client, like a shell script or scheduled task. This client and its related hApp make up a complete application. A lot more of the business logic of your application might end up being written in the client than you're used to, and we'll explain why later.
 
 ### Conductor
+
+![A participant's conductor hosts multiple hApps for her, mediating the connections between the hApp and her clients, as well betwee then hApp and other participants' conductors running the same hApp.](../../img/concepts/2.6-conductor.png)
 
 The hApp is hosted in the participant's **conductor**. It's the runtime that sandboxes and executes hApp code, handles crytographic signing, manages data flow and storage, and handles connections both locally to clients and remotely to peers. When the conductor receives a function call, it routes it to the proper hApp.
 
@@ -73,6 +83,8 @@ When a client calls a function in a hApp, it specifies the **cell ID**, which is
 
 ### DNA
 
+![A cell containing a DNA.](../../img/concepts/2.9-dna-in-cell.png)
+
 A bundle of executable code that makes a unit of functionality in a hApp is called a **DNA**. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices) that creates a data access and integrity layer around personal and shared data. It serves as the ‘rules of the game’ against which peers can do validation and enforcement.
 
 The DNA can also contain metadata: a name, description, unique ID, and **properties**. The unique ID and properties can be changed either in a text editor or at installation time. The unique ID, on the other hand, can be changed to **clone** a DNA, creating a new cell with identical functionality but an entirely separate history, network, and shared database. The properties, on the other hand, can also be changed to clone a DNA, but also direct the executable code to change the new cell's runtime behavior (similar to configuration parameters). 
@@ -81,7 +93,7 @@ In fact, even the slightest alteration of any part of the DNA will do this. Cons
 
 ### Zome
 
-![](../../img/concepts/2.5-zome.png)
+![A close-up of a DNA, showing multiple executable zome modules exposing their public functions.](../../img/concepts/2.10-zomes-in-dna.png)
 
 The executable code modules in a DNA are called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. The zomes define the core business logic in a DNA, exposing their functions to the conductor. Some of these functions are 'hooks' called automatically by Holochain, such as an initialization function or validation functions related to data types defined in the zome.
 
