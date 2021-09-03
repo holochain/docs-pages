@@ -41,23 +41,29 @@ All clear? Don't worry; it'll make more sense as we dig in.
 
 ### Client
 
+![Three clients --- a GUI, a bot running on a schedule, and a shell script --- call a hApp's functions and receive signals from it.](../../img/concepts/2.5-client.png)
+
 A **client** on the participant's device, such as a GUI or utility script, talks to their Holochain conductor and its running hApps via [remote procedure calls (RPCs)](https://en.wikipedia.org/wiki/Remote_procedure_call) over [WebSocket](https://en.wikipedia.org/wiki/WebSocket). A hApp can also send [signals](../9_signals/) back to the client; signals are useful for real-time event notifications.
 
 The client is like the front end of a traditional app and can be written with whatever language, toolkit, or framework you like. One hApp can have multiple clients, and one client can talk to multiple hApps. You can even make a headless client, like a shell script or scheduled task. This client and its related hApp make up a complete application. A lot more of the business logic of your application might end up being written in the client than you're used to, and we'll explain why later.
 
 ### Conductor
 
-The hApp is hosted in the participant's **conductor**. It's the runtime that sandboxes and executes hApp code, handles crytographic keys and signing, manages data flow and storage, and handles connections both locally to clients and remotely to peers. When the conductor receives a function call from the client or another agent on the network, it routes it to the executable code in the proper hApp.
+The hApp is hosted in the participant's **conductor**. It's the runtime that sandboxes and executes hApp code, handles crytographic signing, manages data flow and storage, and handles connections both locally to clients and remotely to peers. When the conductor receives a function call, it routes it to the proper hApp.
 
 In some ways, you can think of the conductor as a web application server, but one that runs on every participant's device. It is called the conductor because in one sense it ['leads the orchestra'](https://en.wikipedia.org/wiki/Conducting), and in another sense because it has good ['conductivity'](https://en.wikipedia.org/wiki/Electrical_conductor).
-
++
 Participants in a hApp communicate with each other privately and securely in peer-to-peer networks thanks to the conductor. The conductor can manage more than one set of private/public key pairs, representing either different people or different identities for the same person, and the same key pair can be used with more than one hApp.
 
 ### hApp
 
+![A hApp with slots ready to be populated by cells.](../../img/concepts/2.7-happ.png)
+
 A Holochain application or **hApp** allows a person to easily install and manage a suite of functionality, such as chat, accounting, or project management. A hApp is often made of multiple components, each providing an aspect of functionality, and it has a **slot** for each.
 
 ### Cell
+
+![A hApp with each of its slots populated by zero, one, or more matching cells.](../../img/concepts/2.8-cells-in-slots.png)
 
 **Cells** occupy slots in a hApp. Each cell is a combination of a participant's unique cryptographic key pair (their **agent ID**) and a DNA. Within one participant's instance of a hApp, all cells share the same agent ID. Each cell acts as the participant's personal **agent** --- every piece of data that it creates or message it sends, it does so from the [perspective of that agent](../3_source_chain/).
 
