@@ -93,7 +93,9 @@ In fact, even the slightest alteration of any part of the DNA will cause a cell 
 
 ![A close-up of a DNA, showing multiple executable zome modules exposing their public functions.](../../img/concepts/2.9-zomes-in-dna.png)
 
-The executable code modules in a DNA are called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. The zomes define the core business logic in a DNA, exposing their functions to the conductor. Some of these functions are 'hooks' that Holochain calls automatically, such as an initialization function or validation functions related to data types defined in the zome.
+The executable code modules in a DNA are called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. The zomes define the core business logic in a DNA, exposing their functions to the conductor.
+
+Some of these functions are 'hooks' that Holochain calls automatically, such as an initialization function or validation functions related to data types defined in the zome.
 
 Other functions are invented by the developer, have arbitrary names, and define the zome’s public API. The conductor [makes this API available](../8_calls_capabilities/) to other zomes within the DNA, other DNAs within the hApp, and, as mentioned earlier, clients running on the participant's machine and other agents on the DNA's network. The developer can give a participant the ability to control access to their cell's API via [capabilities](../8_calls_capabilities/).
 
