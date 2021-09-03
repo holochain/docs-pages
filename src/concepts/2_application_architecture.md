@@ -104,6 +104,19 @@ All of these functions are run from the perspective of the individual participan
 !!! info
     All functions in your DNA start with a fresh memory state which is cleared once the function is finished. The only place that persistent state is kept is in the user's personal data journal. If you've written applications with REST-friendly stacks like Django and PHP-FastCGI, or with [function-as-a-service](https://en.wikipedia.org/wiki/Function_as_a_service) platforms like AWS Lambda, you're probably familiar with this pattern.
 
+## In summary
+
+![The entire stack of one participant's hApp. See following text for full image description.](../../img/concepts/2.11-whole-stack.png)
+
+That's the entire stack of a Holochain hApp. Let's review, this time from the inside out:
+
+1. A **zome** is a module that contains executable code and exposes some of its functions as an API.
+2. One or more zomes are bundled into a **DNA**, which defines the full set of rules for a specific set of functionality.
+3. A DNA comes alive as a **cell**, running on behalf of a participant.
+4. One or more cells are slotted into a **hApp**, which is like a collection of microservices that make up the back end of an entire application.
+5. A participant's **conductor** hosts the hApps she uses, mediating local and network access to them.
+6. The participant's **clients** access the hApp via the conductor's local RPC interface, while the conductor allows the hApp to communicate with other participants' copies of the hApp running in their conductors.
+
 ## Key takeaways
 
 You can see that Holochain is different from typical application stacks. Here's a summary:
