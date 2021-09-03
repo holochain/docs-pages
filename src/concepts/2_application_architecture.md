@@ -29,7 +29,7 @@ These data integrity rules create a membrane between a participant and her peers
 
 ![Four participants using a hApp. A membrane surrounds one participant's hApp, allowing her to safely produce and accept good data, and reject bad data.](../../img/concepts/2.2-data-integrity-membrane.png)
 
-There's another membrane, which sits between a participant and her copy of the application. The application's public functions define the processes that can be used to access, interpret, and create data, as well as communicate other participants and applications. Her copy of the application makes those functions available to any client on her machine that wants to act for her. It also makes them available to her peers so she can delegate some of her agency to them. The application developer can also give her tools to control access to these functions, using [capability-based security](../8_calls_capabilities/).
+There's another membrane, which sits between a participant and her copy of the application. The application's public functions define the processes that can be used to access, interpret, and create data, as well as communicate with other participants and applications. Her copy of the application makes those functions available to any client on her machine that wants to act for her. It also makes them available to her peers so she can delegate some of her agency to them. The application developer can give her tools to control access to these functions, using [capability-based security](../8_calls_capabilities/).
 
 ![One participant's copy of the hApp. A membrane surrounds her hApp. On her device, three clients are successfully calling the hApp's functions while a malware is rejected. From the network, two peers try to call her hApp's functions; one succeds while another fails.](../../img/concepts/2.3-process-membrane.png)
 
@@ -60,7 +60,7 @@ The client is like the front end of a traditional app and can be written with wh
 The hApp is hosted in the participant's **conductor**. It's the runtime that sandboxes and executes hApp code, handles crytographic signing, manages data flow and storage, and handles connections both locally to clients and remotely to peers. When the conductor receives a function call, it routes it to the proper hApp.
 
 In some ways, you can think of the conductor as a web application server, but one that runs on every participant's device. It is called the conductor because in one sense it ['leads the orchestra'](https://en.wikipedia.org/wiki/Conducting), and in another sense because it has good ['conductivity'](https://en.wikipedia.org/wiki/Electrical_conductor).
-+
+
 Participants in a hApp communicate with each other privately and securely in peer-to-peer networks thanks to the conductor. The conductor can manage more than one set of private/public key pairs, representing either different people or different identities for the same person, and the same key pair can be used with more than one hApp.
 
 ### hApp
@@ -85,15 +85,15 @@ When a client calls a function in a hApp, it specifies the **cell ID**, which is
 
 A bundle of executable code that makes a unit of functionality in a hApp is called a **DNA**. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices) that creates a data access and integrity layer around personal and shared data. It serves as the ‘rules of the game’ against which peers can do validation and enforcement.
 
-The DNA can also contain metadata: a name, description, unique ID, and **properties**. The unique ID and properties can be changed either in a text editor or at installation time. The unique ID, on the other hand, can be changed to **clone** a DNA, creating a new cell with identical functionality but an entirely separate history, network, and shared database. The properties, on the other hand, can also be changed to clone a DNA, but also direct the executable code to change the new cell's runtime behavior (similar to configuration parameters). 
+The DNA can also contain metadata: a name, description, unique ID, and **properties**. The unique ID and properties can be changed either in a text editor or at installation time. The unique ID can be changed to **clone** a DNA, creating a new cell with identical functionality but an entirely separate history, network, and shared database. The properties, on the other hand, can also be changed to clone a DNA, but also direct the DNA's executable code to change the new cell's runtime behavior (similar to configuration parameters). 
 
-In fact, even the slightest alteration of any part of the DNA will do this. Consider source code changes carefully, because each modification will create a new DNA with a new cells interacting in a separate network. This may require some sort of migration strategy to move or access data between old and new cells, which means that you should introduce changes carefully.
+In fact, even the slightest alteration of any part of the DNA will cause a cell to be cloned. Consider source code and configuration changes carefully, because each modification will create a new DNA with a new cell interacting in a separate network. This may require some sort of migration strategy to move or access data between old and new cells, which means that you should introduce changes carefully.
 
 ### Zome
 
 ![A close-up of a DNA, showing multiple executable zome modules exposing their public functions.](../../img/concepts/2.9-zomes-in-dna.png)
 
-The executable code modules in a DNA are called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. The zomes define the core business logic in a DNA, exposing their functions to the conductor. Some of these functions are 'hooks' called automatically by Holochain, such as an initialization function or validation functions related to data types defined in the zome.
+The executable code modules in a DNA are called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. The zomes define the core business logic in a DNA, exposing their functions to the conductor. Some of these functions are 'hooks' that Holochain calls automatically, such as an initialization function or validation functions related to data types defined in the zome.
 
 Other functions are invented by the developer, have arbitrary names, and define the zome’s public API. The conductor [makes this API available](../8_calls_capabilities/) to other zomes within the DNA, other DNAs within the hApp, and, as mentioned earlier, clients running on the participant's machine and other agents on the DNA's network. The developer can give a participant the ability to control access to their cell's API via [capabilities](../8_calls_capabilities/).
 
@@ -109,9 +109,9 @@ All of these functions are run from the perspective of the individual participan
 That's the entire stack of a Holochain hApp. Let's review, this time from the inside out:
 
 1. A **zome** is a module that contains executable code and exposes some of its functions as an API.
-2. One or more zomes are bundled into a **DNA**, which defines the full set of rules for a specific set of functionality.
+2. One or more zomes are bundled into a **DNA**, which is like a microservice that defines all the rules for a specific set of functionality.
 3. A DNA comes alive as a **cell**, running on behalf of a participant.
-4. One or more cells are slotted into a **hApp**, which is like a collection of microservices that make up the back end of an entire application.
+4. One or more cells are slotted into a **hApp**, which makes up an application's back end.
 5. A participant's **conductor** hosts the hApps she uses, mediating local and network access to them.
 6. The participant's **clients** access the hApp via the conductor's local RPC interface, while the conductor allows the hApp to communicate with other participants' copies of the hApp running in their conductors.
 
