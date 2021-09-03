@@ -12,7 +12,7 @@
 
 ### <i class="far fa-atom"></i> Why it matters
 
-Signals avoid the need for a client to regularly poll a zome function to retrieve new data, making UIs much more responsive and performant. They can also trigger automatic actions without the intervention of an agent.
+Signals avoid the need for a client to regularly poll a zome function to retrieve new data, making UIs much more responsive and performant. They can also trigger automatic actions in a cell or client without needing human intervention.
 </div>
 
 ![](../../img/concepts/9.1-signals.png)
