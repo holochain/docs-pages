@@ -7,12 +7,25 @@ Applications built with Holochain are highly **modular**. This makes it easy to 
 <div class="coreconcepts-orientation" markdown=1>
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
-1. [Layers of the application stack](#layers-of-the-application-stack)
+1. [Agent-centricity](#agent-centricity)
+2. [Layers of the application stack](#layers-of-the-application-stack)
 
 ### <i class="far fa-atom"></i> Why it matters
 
 A good understanding of the components of the tech stack will equip you to architect a well-structured, maintainable application. Because Holochain is probably different from what you're used to, it's good to shift your thinking early.
 </div>
+
+## Agent-centricity
+
+Perhaps Holochain's most important difference is that applications are completely centered around the individual --- and networks of individuals. The purpose of a Holochain application is to create a network of individuals, interacting freely with each other, playing by a shared set of rules. This is possible because everyone, whether human or bot, is **running their own copy of the application** and connecting directly to their peers.
+
+So the term 'user' doesn't feel quite right for Holochain, where the ones who use the application are also the ones who keep it alive. Let's call them 'agents' --- or better yet, 'participants'.
+
+How do you know other participants are playing by the same rules as you? As we explored in [The Basics](../1_the_basics/#how-holochain-does-things-differently), all you have to do is look at the data they create and share. If their data doesn't pass your copy of the rules, they're playing a different game and you should ignore them.
+
+These data integrity rules create a membrane between a participant and her peers. They define what data she can and can't create, and they help her recognize rule-breakers.
+
+There's another membrane, which sits between a participant and her copy of the application. The application's public functions define the processes that can be used to access, interpret, and create data, as well as communicate other participants and applications. Her copy of the application makes those functions available to any client on her machine that wants to act for her. It also makes them available to her peers so she can delegate some of her agency to them. The application developer can also give her tools to control access to these functions, using [capability-based security](../8_calls_capabilities/).
 
 ## Layers of the application stack
 
@@ -21,8 +34,6 @@ Holochain handles a lot of things for you, keeping your workload minimal. Thatâ€
 Now, letâ€™s get into the details of all the components of a Holochain app, and how they fit together.
 
 ### At a glance
-
-First of all, the term 'user' doesn't feel quite right for Holochain, where each person actually runs the application on their device, helping to build the shared infrastructure that keeps the application alive. Let's call them a 'participant' instead.
 
 Now let's quickly introduce all the terms, so you're familiar with them when you encounter them. A **client** running on a participant's device talks with their **conductor**, which runs multiple **hApps**. Each hApp is made of one or more **cells**, which are the live instances of **DNAs** that run on behalf of the participant. These DNAs, in turn, are made of one more executable **zome** modules.
 
