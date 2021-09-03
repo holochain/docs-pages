@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.5.2 → 0.5.3
+
+Lots of edits to the Core Concepts, mostly #2 (Application Architecture).
+
 ## 0.5.1 → 0.5.2
 
 Added Google Analytics v4.
