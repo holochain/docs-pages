@@ -81,6 +81,8 @@ The executable code modules in a DNA are called **zomes** (short for chromosomes
 
 Other functions are invented by the developer, have arbitrary names, and define the zome’s public API. The conductor [makes this API available](../8_calls_capabilities/) to other zomes within the DNA, other DNAs within the hApp, and, as mentioned earlier, clients running on the participant's machine and other agents on the DNA's network. The developer can give a participant the ability to control access to their cell's API via [capabilities](../8_calls_capabilities/).
 
+All of these functions are run from the perspective of the individual participant. When a client on Alice's computer calls a function that writes data, it calls that function in her own cell, writing data to her personal store. Unlike with cloud and blockchain, there is no objective, global-level actor. Things happen only when someone causes them to happen.
+
 !!! info
     All functions in your DNA start with a fresh memory state which is cleared once the function is finished. The only place that persistent state is kept is in the user's personal data journal. If you've written applications with REST-friendly stacks like Django and PHP-FastCGI, or with [function-as-a-service](https://en.wikipedia.org/wiki/Function_as_a_service) platforms like AWS Lambda, you're probably familiar with this pattern.
 
