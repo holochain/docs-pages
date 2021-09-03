@@ -1,7 +1,7 @@
 # 10. Migration: Updating A Network To a New Set of Rules
 
 !!! note
-    This page describes an unimplemented feature.
+    This page describes an unimplemented feature. In the meantime, you can implement it yourself by defining your own open and close chain entry types (if needed) and writing migration routines that connect to the old cell to access or import old data.
 
 <div class="coreconcepts-intro" markdown=1>
 Holochain lets users **migrate** from one DNA to a new one without central coordination, permitting seamless application updates in peer-to-peer networks.
@@ -38,7 +38,7 @@ Since then, smart contract developers have been careful to write their code to a
 
 ## Migration in Holochain
 
-Recognising that software will need to be upgraded, but wanting to leave users free to choose which upgrades they adopt, Holochain attempts to make upgrades safe and easy. And because each application lives in its own isolated network and each user controls their own source chain, people can choose to remain or upgrade with a minimum of disruption to unrelated data.
+Recognising that software will need to be upgraded, but wanting to leave users free to choose whether to adopt an upgrade, Holochain attempts to make upgrades safe and easy. And because each application lives in its own isolated network and each user controls their own source chain, people can make their own choice with a minimum of disruption to unrelated data.
 
 ### Closing down the old cell
 
