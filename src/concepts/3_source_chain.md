@@ -31,7 +31,7 @@ When you join a hApp's network, you create an identifier for yourself by generat
 * It allows others to detect third-party tampering with your data.
 * It allows others to encrypt and send you data that only you can decrypt.
 
-Are your key pairs are stored in an encrypted, password-protected key manager on your device. This table shows how the public and private keys are used.
+Your key pairs are stored in an encrypted, password-protected key manager on your device. This table shows how the public and private keys are used.
 
 |                                                                      Private Key                                                                      |                                        Public Key                                       |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
