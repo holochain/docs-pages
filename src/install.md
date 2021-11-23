@@ -130,13 +130,31 @@ If you’d like to know more about Nix and why we use it, you can [find more inf
 
 Now that you have installed Nix, you can install and run a development shell that contains all the prerequisites, including the correct Rust and Node.js versions and the Holochain tools. This shell won’t interfere with your current system configuration.
 
-Use this one-liner to install Holonix:
+### Optional: configure Cachix for faster load times
+
+To significantly speed up the load times for the next step you can make use of our Cachix instance.
+If you don't it'll take a long time, because it needs to compile the Holochain binaries.
+
+Please try the following command to set up the cache.
+
+With a recent enough Nix you can use this ad-hoc command:
+
+```bash
+nix run -f https://cachix.org/api/v1/install cachix -c cachix use holochain-ci
+```
+
+If does not work your version of Nix might be outdated. In this case please try steps 2 and 3 from [the documentation on cachix.org](https://app.cachix.org/cache/holochain-ci).
+
+### Load Holonix
+
+Use this one-liner to load Holonix:
 
 ```bash
 nix-shell https://holochain.love
 ```
 
-It'll take a long time, because it needs to compile the Holochain binaries. (Don't worry; we're working on making it faster.) Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new bash prompt that looks like:
+Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal.
+You will see a new bash prompt that looks like:
 
 ```
 [nix-shell:~]$
@@ -158,7 +176,7 @@ Once you `exit` the shell you'll be back to your usual system shell, with all Ho
 
 ## Using the Holochain dev tools
 
-You can re-enter the Holonix shell with the same command you used to install it:
+You can re-enter the Holonix shell with the same command you used initially:
 
 ```bash
 nix-shell https://holochain.love
