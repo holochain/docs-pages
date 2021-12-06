@@ -70,7 +70,7 @@ Sometimes you might want to target a specific version of Holochain --- for insta
 nix-shell https://github.com/holochain/archive/<tag>.tar.gz
 ```
 
-Note that Nix will have to compile all the binaries from source, so it'll take a long time. You'll also have to enter this same command every time you want that specific version (although it won't have to recompile on next run).
+Note that, on first run, nix will have to download and cache all the packages for this version, and even compile them if the version is old enough. This might take a long time.
 
 ### Keeping everything local / working offline
 
@@ -109,4 +109,4 @@ The full suite of Nix tooling is broad and deep. There’s even a dedicated prog
 
 While working on Holochain, you will usually have an active `nix-shell` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell---environment variables, Rust toolchains, binaries, libraries, and development tools---giving you a consistent development environment to build Holochain apps. All this setup will be cleaned up automatically when you close the shell.
 
-If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix-shell`. The packages are built and cached locally on your machine, so they will not be rebuilt the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use our quick install guide or the [Holochain repo cloning method](#keeping-everything-local), they're cached on your machine, but the ['staying up to date all the time'](#staying-up-to-date-all-the-time) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
+If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix-shell`. The packages are cached locally on your machine, so they will be ready the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use the [Holochain repo cloning method](#keeping-everything-local), they're cached on your machine too, but the ['quick install'](../install/) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
