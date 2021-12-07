@@ -11,12 +11,12 @@ This guide assumes that you've already followed the [quick installation guide](.
 
 ## Getting into Holonix faster and easier
 
-You might find it tedious to try to remember the command that gets you back into the Holonix development shell. `nix-shell https://nightly.holochain.love` isn't that intuitive, and when you're trying to open multiple terminals at a time for testing purposes it could get annoying.
+You might find it tedious to try to remember the command that gets you back into the Holonix development shell. `nix-shell https://holochain.love` isn't that intuitive, and when you're trying to open multiple terminals at a time for testing purposes it could get annoying.
 
 To save keystrokes, add an alias to your shell config:
 
 ```bash
-echo 'alias holonix=\'nix-shell https://nightly.holochain.love' >> ~/.bashrc
+echo 'alias holonix=\'nix-shell https://holochain.love' >> ~/.bashrc
 holonix
 ```
 
@@ -27,7 +27,7 @@ Close your terminal window, open it again, and you should be able to type `holon
 Many developers have their shell set up just the way they like it, whether a custom-formatted prompt or a completely different shell such as `zsh` and `fish`. If you don't want Holonix to clobber your carefully-crafted environment, try adding `--run $SHELL` to the end of your `nix-shell` command:
 
 ```bash
-nix-shell https://nightly.holochain.love --run $SHELL
+nix-shell https://holochain.love --run $SHELL
 ```
 
 ### Using your favorite text editor or IDE
@@ -37,7 +37,7 @@ In most cases you can run your editor as normal. However, if you are using a tex
 To do this, just open your editor from the command line while you are in the nix-shell (this example uses Vim):
 
 ```bash
-nix-shell https://nightly.holochain.love
+nix-shell https://holochain.love
 cd my_project
 vim my_file.rs
 ```
@@ -70,7 +70,7 @@ Sometimes you might want to target a specific version of Holochain --- for insta
 nix-shell https://github.com/holochain/archive/<tag>.tar.gz
 ```
 
-Note that Nix will have to compile all the binaries from source, so it'll take a long time. You'll also have to enter this same command every time you want that specific version (although it won't have to recompile on next run).
+Note that, on first run, nix will have to download and cache all the packages for this version, and even compile them if the version is old enough. This might take a long time.
 
 ### Keeping everything local / working offline
 
@@ -109,4 +109,4 @@ The full suite of Nix tooling is broad and deep. There’s even a dedicated prog
 
 While working on Holochain, you will usually have an active `nix-shell` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell---environment variables, Rust toolchains, binaries, libraries, and development tools---giving you a consistent development environment to build Holochain apps. All this setup will be cleaned up automatically when you close the shell.
 
-If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix-shell`. The packages are built and cached locally on your machine, so they will not be rebuilt the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use our quick install guide or the [Holochain repo cloning method](#keeping-everything-local), they're cached on your machine, but the ['staying up to date all the time'](#staying-up-to-date-all-the-time) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
+If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix-shell`. The packages are cached locally on your machine, so they will be ready the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use the [Holochain repo cloning method](#keeping-everything-local), they're cached on your machine too, but the ['quick install'](../install/) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
