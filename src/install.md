@@ -130,13 +130,31 @@ If you’d like to know more about Nix and why we use it, you can [find more inf
 
 Now that you have installed Nix, you can install and run a development shell that contains all the prerequisites, including the correct Rust and Node.js versions and the Holochain tools. This shell won’t interfere with your current system configuration.
 
-Use this one-liner to install Holonix:
+### Optional: configure Cachix for faster load times
+
+To significantly speed up the load times for the next step you can make use of our Cachix instance.
+If you don't it'll take a long time, because it needs to compile the Holochain binaries.
+
+Please try the following command to set up the cache.
+
+With a recent enough Nix you can use this ad-hoc command:
 
 ```bash
-nix-shell https://nightly.holochain.love
+nix run -f https://cachix.org/api/v1/install cachix -c cachix use holochain-ci
 ```
 
-It'll take a long time, because it needs to compile the Holochain binaries. (Don't worry; we're working on making it faster.) Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal. You will see a new bash prompt that looks like:
+If does not work your version of Nix might be outdated. In this case please try steps 2 and 3 from [the documentation on cachix.org](https://app.cachix.org/cache/holochain-ci).
+
+### Load Holonix
+
+Use this one-liner to load Holonix:
+
+```bash
+nix-shell https://holochain.love
+```
+
+Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal.
+You will see a new bash prompt that looks like:
 
 ```
 [nix-shell:~]$
@@ -158,10 +176,10 @@ Once you `exit` the shell you'll be back to your usual system shell, with all Ho
 
 ## Using the Holochain dev tools
 
-You can re-enter the Holonix shell with the same command you used to install it:
+You can re-enter the Holonix shell with the same command you used initially:
 
 ```bash
-nix-shell https://nightly.holochain.love
+nix-shell https://holochain.love
 ```
 
 It will always keep you up to date with the newest stable version of Holochain and the dev tools. If you need to work offline, read the [advanced installation guide](#keeping-everything-local-working-offline).
@@ -172,17 +190,17 @@ Read through our [advanced installation guide](../install-advanced/) for tips an
 
 ## Using Holochain in a repository with a pinned Holochain version
 
-Holochain is currently in rapid development, which means newer versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://nightly.holochain.love` won't always work with existing hApp repositories.
+Holochain is currently in rapid development, which means newer versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` won't always work with existing hApp repositories.
 
 To solve this, repositories of hApp projects can use Nix to pin the appropriate Holochain version to work well for that hApp. To do this, the project needs to have a `default.nix` file in the root folder of the repository. [Here](https://github.com/holochain/happ-build-tutorial/blob/develop/default.nix) you can see an example of that file.
 
-If you are trying to set up a repository that comes with a `default.nix` file, you must not be inside the `nix-shell` provided by https://nightly.holochain.love. Instead, simply navigate to the folder with the `default.nix` file and run:
+If you are trying to set up a repository that comes with a `default.nix` file, you must not be inside the `nix-shell` provided by https://holochain.love. Instead, simply navigate to the folder with the `default.nix` file and run:
 
 ```bash
 nix-shell .
 ```
 
-This will do the same exact process that `nix-shell https://nightly.holochain.love` does, but will download the specific Holochain versions that that project is set up for. 
+This will do the same exact process that `nix-shell https://holochain.love` does, but will download the specific Holochain versions that that project is set up for.
 
 > Note that this can take a long time to download and compile the binaries. In the future we should be able to make this quicker by adding a build cache so that you only need to download the already compiled binaries.
 
