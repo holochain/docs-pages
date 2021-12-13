@@ -207,12 +207,13 @@ This will do the same exact process that `nix-shell https://holochain.love` does
 ## Next Steps
 
 1. Read through the [Holochain Core Concepts](../concepts/).
-2. Build your development skills in the [Holochain Gym](https://holochain-gym.github.io/) (community-created).
-3. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
-4. Take a look at the developer documentation.
+2. Try [building and running a sample hApp](https://github.com/holochain/happ-build-tutorial).
+3. [Scaffold your own hApp](https://github.com/holochain/scaffolding) using our RAD tool.
+3. Build your development skills in the [Holochain Gym](https://holochain-gym.github.io/) (community-created).
+4. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
+5. Take a look at the developer documentation.
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
-5. Start [building your first hApp](https://github.com/holochain/happ-build-tutorial).
 6. Join the discussion at the [developers' forum](https://forum.holochain.org).
 
 <script>
