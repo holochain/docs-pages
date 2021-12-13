@@ -119,7 +119,7 @@ nix-shell --version
 You should see something like:
 
 ```
-nix-shell (Nix) 2.3.9
+nix-shell (Nix) 2.5.0
 ```
 
 If you’d like to know more about Nix and why we use it, you can [find more information here](../install-advanced/#more-info-on-nix).
@@ -169,7 +169,7 @@ holochain --version
 You should see something like this:
 
 ```
-holochain 0.0.100
+holochain 0.0.119
 ```
 
 Once you `exit` the shell you'll be back to your usual system shell, with all Holochain-specific bits cleaned up.
