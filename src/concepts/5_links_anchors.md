@@ -21,7 +21,7 @@ DHTs and graph databases are different from familiar data stores, like relationa
 
 ![](../../img/concepts/5.1-links.png)
 
-Deriving addresses directly from your the content of your data has some advantages—you can ignore the physical location of data and ask for it by its address. This means no more broken URLs. It also means that a malicious actor can't sneak something nasty into the data they're serving you---if it doesn't match the hash, it's been tampered with.
+Deriving addresses directly from the content of your data has some advantages—you can ignore the physical location of data and ask for it by its address. This means no more broken URLs. It also means that a malicious actor can't sneak something nasty into the data they're serving you---if it doesn't match the hash, it's been tampered with.
 
 It does, however, make it hard to find the data you’re looking for. Addresses are just random numbers, which doesn’t give you much of a clue about the content that lives there. If everything were all on one machine, you could quickly scan through the data itself and find what you're looking for. But that would get pretty slow on a distributed system, where everyone has a little bit of the whole data set.
 
