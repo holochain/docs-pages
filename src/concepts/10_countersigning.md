@@ -25,9 +25,9 @@ If you're familiar with client/server or blockchain architectures, you might be 
 
 It might sound messy, but it's how the real world works. When we're busy about our day, we don't constantly check a public "record of everything everyone did" to make sure we're not getting in each other's way. We just do things. And when we want to coordinate our actions with other people, we arrange it with them directly, sharing information with them so we can can all reach a clear agreement.
 
-We think that, for the vast majority of applications[*](#disagreements-over-countersigning) involving transactions, this is all that's needed.
+We believe that, for the vast majority of applications involving transactions, this is all that's needed.
 
-Holochain lets you do this through **countersigning**. Through this process, two or more parties synchronize the states of their source chains at the same time. There's a lot that could go wrong in this process, so that's why it's built into the framework rather than being something you have to build yourself.
+Holochain lets you do this through **countersigning**. In this process, two or more parties synchronize the states of their source chains at the same time. There's a lot that could go wrong in this process, so that's why it's built into the framework rather than being something you have to build yourself.
 
 ## The countersigning process
 
