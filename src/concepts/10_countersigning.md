@@ -16,7 +16,7 @@ Without a global ledger, there's no global consensus in a Holochain application.
 
 ### Why it matters
 
-A lot of human interactions involve formal transactions of one sort of another. These are usually conducted in a peer-to-peer way --- that is, as an exchange of information among the people who are directly involved. Payments, legal agreements, property transfers, and even chess moves require parties to reach a **shared understanding** of the states of one another's worlds, then coordinate a **shared change** to those states. Because this is such a common pattern, we built it right into Holochain.
+A lot of human interactions involve formal transactions of one sort or another. These are usually conducted in a peer-to-peer way --- that is, as an exchange of information among the people who are directly involved. Payments, legal agreements, property transfers, and even chess moves require parties to reach a **shared understanding** of the states of one another's worlds, then coordinate a **shared change** to those states. Because this is such a common pattern, we built it right into Holochain.
 </div>
 
 ## Agreement versus consensus
@@ -27,7 +27,7 @@ It might sound messy, but it's how the real world works. When we're busy about o
 
 We believe that, for the vast majority of applications involving transactions, this is all that's needed.
 
-Holochain lets you do this through **countersigning**. In this process, two or more parties synchronize the states of their source chains at the same time. There's a lot that could go wrong in this process, so that's why it's built into the framework rather than being something you have to build yourself.
+Holochain lets you do this through **countersigning**. In this process, two or more parties synchronize the states of their source chains at the same time. There's a lot that could go wrong in this process, so that's why it's built into the framework rather than being something you have to build yourself. The human negotiation steps, and some of the data transfer steps, are left for you to build however you like. But the core of the functionality --- the steps that ensure safety for everyone, as well as all the data structures --- are all provided.
 
 ## The countersigning process
 
@@ -36,39 +36,38 @@ In order to safely coordinate the writing of a single new element to both of the
 1. Lock their source chains at a certain point,
 2. Check that the write will be valid from both their perspective and the other party's,
 3. Write the element to their source chains and publish it in a way that lets them back out if something goes wrong,
-4. Wait for the other party to do so, and
-5. Complete the write if everything's successful, or back out and unlock their chains if it's not.
+4. Wait for the other party to do the same thing, and
+5. Complete the write if everything's successful, or back out if it's not, and unlock their source chains.
 
 Here's a more in-depth look at this process. Keep in mind that it's meant to be an automated process, finished within a few seconds while Alice and Bob are both online. Any human agreement (such as negotiating meeting times, contract terms, or transaction details) should happen beforehand.
 
 1. Alice creates a **preflight request** containing:
+
     * The parties involved (her and Bob)
-    * The eventual hash of the entry that will be countersigned
+    * The hash of the entry that will eventually be countersigned
     * The time window in which the countersigning must complete
     * A stub of the header to go along with the entry, which contains its action type and entry type (currently create-entry and update-entry actions can be countersigned; in the future delete-entry, create-link, and delete-link actions will be too)
     * Optional application data
 
-2. Alice sends the preflight request to Bob for approval. (You can implement this any way you like, but a [remote call](../8_calls_capabilities/) is probably the most reliable.)
+2. Alice sends the preflight request to Bob for approval. (You can implement this any way you like, but a [remote call](../8_calls_capabilities/) is probably the most reliable.) At this stage, Bob could use his history with alice, or the optional application data, to determine whether the request is even relevant to him.
 
-3. Bob tries to accept the preflight request. At this point, he doesn't know or care what he's being asked to countersign (although his previous interactions with Alice, and the optional application data, will likely give him a clue). All he's doing is checking whether he can safely lock his chain from now until the end of the time window Alice specified and create an element with Alice's specified start time. Bob's source chain is now locked.
+3. Bob tries to accept the preflight request. At this point, he doesn't know or care what he's being asked to countersign. All he's doing is checking whether he can safely lock his chain from now until the end of the time window Alice specified and create an element with Alice's specified start time --- that is, whether his source chain is at risk of having a timestamp that's too far in the past or future. If everything looks good, the conductor locks Bob's source chain.
 
-4. If Holochain has checked that Bob's current state lets him participate in the countersigning, it produces a **preflight response**, containing a signature on the request and Bob's current locked source chain point. Bob sends the preflight response back to Alice.
+4. Bob's conductor produces a **preflight response**, containing a signature on the request and the point at which Bob's source chain is currently locked. Bob sends the preflight response back to Alice.
 
 5. Alice receives Bob's preflight response, then tries to accept the request herself. Now her own source chain is locked, and she has two preflight responses --- Bob's and her own.
 
-6. Alice compiles both the preflight responses into a **countersigning session data** structure, containing the original agreed-upon preflight request and all the responses. She shares it with Bob.
+6. Alice compiles both the preflight responses into a **countersigning session data** structure, containing the original agreed-upon preflight request and all the responses. She shares it with Bob (again, this could be done with a remote call).
 
-7. Alice and Bob both create the entry to be countersigned on their own machines, using information they've previously shared with each other (remember, the preflight was simply an attempt to lock both chains for a time window). Then they attempt to commit the entry, along with the countersigning session data structure.
+7. Alice and Bob both create the entry to be countersigned on their own machines, using information they've previously shared with each other (remember, the preflight was simply an agreement to lock their source chains). Then they attempt to commit the entry, which includes the countersigning session data structure and the application data.
 
 8. At this point the conductor takes over completely. As with any commit, it attempts to validate the new element. But with a countersigned element, the conductor validates it multiple times --- once from the perspective of each party. This is possible because the countersigning session data structure contains the current states of all signing parties' source chains. Alice can't construct a signature for Bob's header, but she can construct the rest of the header and validate it.
 
-9. Once validation is finished, Alice and Bob both publish the new element, with their own header, to the DHT --- but only to the entry authorities. Because the entry hash is the same for both of them, it'll go to the same set of authorities.
+9. Once validation is finished, Alice and Bob both 'pre-publish' the new element, with their own header, to the DHT --- but only to the entry authorities. This shows their intention to fully commit the element once they see each other do the same. Because the entry hash is the same for both of them, it'll go to the same set of authorities. At this point the data only exists temporarily on the DHT.
 
-10. Once those authorities have collected all headers, they send the full header set to both Alice and Bob. (If Alice and Bob reach the end of the time window without receiving this header set, however, their conductors roll back and unlock their source chains as if nothing had happened.)
+10. Once those authorities have collected all headers, they send the full header set to both Alice and Bob. (If Alice and Bob reach the end of the time window without receiving this header set, however, their conductors discard the new element and unlock their source chains as if nothing had happened. Likewise, the authorities discard the pre-published data. There is no built-in feature to retry an expired session, but it could be built into the application)
 
-11. When Alice and Bob's conductors each receive the full header set, they finally commit the element to their source chains. This causes information to be published to the header authorities and agent activity authorities, creating a full record on the DHT of all parts of the transaction.
-
-12. Alice and Bob's source chains are now unlocked.
+11. When Alice and Bob's conductors each receive the full header set, they finally commit the element to their source chains and unlock them. This causes information to be published to the element, header, and agent activity authorities, creating a permanent record on the DHT of all parts of the transaction.
 
 ## What about double spending?
 
@@ -87,9 +86,9 @@ But, as we've mentioned, that's not the job of countersigning. Countersigning me
 * All participating counterparties must be online for the entire countersigning session.
 * Countersigning begins with the sharing of a preflight, in which one party proposes a session time window, the hash of the entry to be signed, and the list of signers.
 * Countersigning proceeds from preflight to the session once all counterparties have seen each other's preflight signatures as an expression of intent to participate.
-* Before writing the new element to their source chain, each party pre-publishes their header for the element to the DHT, expressing their commitment to write the element.
+* Before writing the new element to their source chain, each party pre-publishes their header for the element to the DHT, expressing their commitment to write the element to their source chain if all the others do as well.
 * Once the DHT peers have collected the full list of headers, they broadcast them to all parties.
-* Once a party receives all counterparties, headers, they commit the new element to their own source chain and publish it.
-* If a countersigning session times out before a party receives all counterparties' headers, they may abandon the session.
-* A party's source chain is locked for the entire countersigning session time window, until they see all counterparties headers or the session times out.
+* Once a party receives all counterparties' headers, they commit the new element to their own source chain and publish it to the DHT permanently.
+* If a countersigning session times out before a party receives all counterparties' headers, they may abandon the session. The DHT peers will also discard the pre-published entry and headers.
+* A party's source chain is locked for the entire countersigning session time window, until the session succeeds or times out.
 * Countersigning is not for preventing double-spends; it's only for atomically synchronizing a single write to multiple source chains.
