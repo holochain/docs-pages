@@ -61,7 +61,7 @@ Alice and Bob can use this to do all sorts of useful things:
 
 At first sight, this seems pretty risky. Giving your agency away to someone else seems like it should be protected somehow --- which it is.
 
-Holochain uses a variation of [capability-based security](https://wikipedia.org/wiki/Capability_based_security) to protect a cell’s exposed zome functions. In this model, one agent is in complete control of a resource but can delegate control to another agent via public functions protected by 'capability tokens'. While traditional capability-based security doesn't care who's making the call as long as they can produce the token, we’ve expanded that model a little bit:
+Holochain uses a variation of [capability-based security](https://wikipedia.org/wiki/Capability-based_security) to protect a cell’s exposed zome functions. In this model, one agent is in complete control of a resource but can delegate control to another agent via public functions protected by 'capability tokens'. While traditional capability-based security doesn't care who's making the call as long as they can produce the token, we’ve expanded that model a little bit:
 
 * ![](../../img/concepts/8.6-unrestricted-capability.png)
 An **unrestricted** capability lets anybody call a function without producing a token.
