@@ -60,14 +60,6 @@ sh <(curl -L https://nixos.org/nix/install)
 
 We use the Nix toolkit to manage the installation of our dev tools, so you can get to work without fighting compiler and package compatibility issues. Install the Nix package manager with this command:
 
-#### macOS 10.15 Catalina and later
-
-```bash
-sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume
-```
-
-#### macOS 10.14 Mojave and earlier
-
 ```bash
 sh <(curl -L https://nixos.org/nix/install)
 ```
