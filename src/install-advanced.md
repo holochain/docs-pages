@@ -48,7 +48,7 @@ Any time you want to get the latest version of the dev tools, just `exit` the sh
 
 ## Uninstalling
 
-You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries and other packages on your device. If you want to free up some space, run these commands:
+You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries and other packages on your device. On macOS it adds users and a user group too. If you want to free up some space, run these commands:
 
 ```bash
 rm -rf ~/.holonix
@@ -61,6 +61,7 @@ If you want to uninstall Nix as well, run these commands (you might need root pr
 rm -rf /nix
 rm ~/.nix-profile
 ```
+[Detailed uninstallation instructions for macOS](https://gist.github.com/chriselsner/3ebe962a4c4bd1f14d39897fc5619732#uninstalling-nix)
 
 ## Using a specific version of the development tools
 
