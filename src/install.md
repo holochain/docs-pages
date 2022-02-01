@@ -124,12 +124,12 @@ If you don't use Cachix, nix-shells will take around 20-30 min for every version
 Run the following commands to set up the cache:
 
 ```bash
-nix-env -iA cachix -f https://cachix.org/api/v1/install
-cachix use holochain-ci
+nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz -p cachix --run "cachix use holochain-ci"
 ```
 
 ## Using the Holochain dev tools
-You can use the Holochain dev tools in two ways, either by creating a nix file which specifies the Holochain version or by using a link that points to a current version. Usually Holochain projects define a specific Holochain version that they're running on and compatible with, just like Rust crates or NPM packages are included in a project with a particular version. If you  want play around with Holochain and the dev tools, you can use the link with an ad-hoc nix-shell.
+
+You can use the Holochain dev tools in two ways, either by [creating a nix file](#using-holochain-with-a-pinned-holochain-version) which specifies the Holochain version or by using a URL that points to the most recent release. Usually Holochain projects define a specific Holochain version that they're running on and compatible with, just like Rust crates or NPM packages are included in a project with a particular version. If you  want play around with Holochain and the dev tools, you can use the URL with an ad-hoc nix-shell.
 ### Ad-hoc nix-shells with a current version of Holochain dev tools
 
 Use this one-liner to load Holonix:
@@ -166,6 +166,7 @@ nix-shell https://holochain.love
 ```
 
 It will always keep you up to date with the newest stable version of Holochain and the dev tools.
+
 ### Using Holochain with a pinned Holochain version
 
 Holochain is currently in rapid development, which means newer versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` won't always work with existing hApp repositories or even breaks a hApp you were working on.
@@ -175,10 +176,13 @@ To solve this, repositories of hApp projects can use Nix to pin the appropriate 
 ```bash
 nix-shell
 ```
+
 This command looks for a `default.nix` file in the current folder and will create the environment as specified.
 
 #### Example default.nix file
+
 This is a minimal `default.nix` file to use a specific version of Holochain:
+
 ```nix
 let
   holonixPath = (import ./nix/sources.nix).holonix; # points to the current state of the Holochain repository
@@ -189,18 +193,23 @@ let
 in nixpkgs.mkShell {
   inputsFrom = [ holonix.main ];
   packages = with nixpkgs; [
+    niv
+
     # any additional packages needed for this project, e. g. Nodejs
   ];
 }
 ```
 #### Upgrading Holochain in default.nix
+
 All you need to do to upgrade the version of Holochain in your project is run
+
 ```bash
-nix-shell -p niv --run "niv update ..."
+nix-shell --run "niv update"
 ```
 ### Advanced usage
 
 Read through our [advanced installation guide](../install-advanced/) for tips and tricks on making your development environment easier to work with, or what to do in case you need to work offline.
+
 ## Next Steps
 
 1. Read through the [Holochain Core Concepts](../concepts/).
