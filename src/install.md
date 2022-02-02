@@ -199,6 +199,7 @@ in nixpkgs.mkShell {
   ];
 }
 ```
+
 #### Upgrading Holochain in default.nix
 
 All you need to do to upgrade the version of Holochain in your project is run
@@ -206,6 +207,7 @@ All you need to do to upgrade the version of Holochain in your project is run
 ```bash
 nix-shell --run "niv update"
 ```
+
 ### Advanced usage
 
 Read through our [advanced installation guide](../install-advanced/) for tips and tricks on making your development environment easier to work with, or what to do in case you need to work offline.
