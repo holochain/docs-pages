@@ -194,15 +194,20 @@ in nixpkgs.mkShell {
   inputsFrom = [ holonix.main ];
   packages = with nixpkgs; [
     niv
-
     # any additional packages needed for this project, e. g. Nodejs
   ];
 }
 ```
 
-#### Upgrading Holochain in default.nix
+#### Upgrading Holochain referenced in default.nix
 
-All you need to do to upgrade the version of Holochain in your project is run
+If you want to be in a position to automatically upgrade your project to the most recent version of Holochain, you need to initalize a tool called `niv` after setting up your project.
+
+```bash
+nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz -p niv --run "niv init && niv drop nixpkgs && niv drop niv && niv add -b main holochain/holonix"
+```
+
+`niv` serves as an easy way to manage dependency. Once it's initalized, all you need to do to upgrade Holochain to the most recent version in your project is run
 
 ```bash
 nix-shell --run "niv update"
