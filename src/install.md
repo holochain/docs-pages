@@ -171,17 +171,26 @@ It will always keep you up to date with the newest stable version of Holochain a
 
 Holochain is currently in rapid development, which means newer versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` won't always work with existing hApp repositories or even breaks a hApp you were working on.
 
-To solve this, repositories of hApp projects can use Nix to pin the appropriate Holochain version to work well for that hApp. To do this, the project needs to have a `default.nix` file in the root folder of the repository. You must not be inside the `nix-shell` provided by https://holochain.love. Instead, simply navigate to the folder with the `default.nix` file and run:
+To solve this, hApp projects can use Nix to pin a compatible Holochain version. The project needs to have a `default.nix` file in the root folder of the repository. Don't run this from inside the `nix-shell` provided by https://holochain.love. Instead, simply navigate to the project's root folder where the `default.nix` file needs to be and run:
 
 ```bash
 nix-shell
 ```
 
-This command looks for a `default.nix` file in the current folder and will create the environment as specified.
+This command looks for a `default.nix` file in the current folder and will create the specified environment.
 
-#### Example default.nix file
+#### Initialize a project for easy Holochain version upgrades
 
-This is a minimal `default.nix` file to use a specific version of Holochain:
+If you want to automatically upgrade your project to the most recent version of Holochain, you need to initalize a tool called `niv` for your project.
+
+```bash
+nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz -p niv --run "niv init && niv drop nixpkgs && niv drop niv && niv add -b main holochain/holonix"
+```
+
+Executing this command creates a new folder named `nix` with 2 files that `niv` needs to retrieve the revision of the latest Holochain version.
+
+Next you need to add a `default.nix` file as a Nix configuration of your development environment, including Holochain as a dependency.
+This is a minimal `default.nix` file with a specific version of Holochain:
 
 ```nix
 let
@@ -199,19 +208,27 @@ in nixpkgs.mkShell {
 }
 ```
 
-#### Upgrading Holochain referenced in default.nix
+Now you can enter the Nix shell with your development environment by running the command `nix-shell`. Once it's finished you have the Holochain commands at your disposal.
 
-If you want to be in a position to automatically upgrade your project to the most recent version of Holochain, you need to initalize a tool called `niv` after setting up your project.
+#### Upgrading to the latest version of Holochain
 
-```bash
-nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz -p niv --run "niv init && niv drop nixpkgs && niv drop niv && niv add -b main holochain/holonix"
+When the time has come to upgrade your hApp to the latest version of Holochain, you first have to set the version id in `default.nix`. E. g.
+
+```nix
+...
+  holonix = import (holonixPath) {
+    holochainVersionId = "v0_0_127";
+  };
+...
 ```
 
-`niv` serves as an easy way to manage dependency. Once it's initalized, all you need to do to upgrade Holochain to the most recent version in your project is run
+Then all you have to do is execute
 
 ```bash
 nix-shell --run "niv update"
 ```
+
+After the update completes, you can exit the Nix shell by running `exit` and re-enter it via `nix-shell`. The updated version of Holochain will be downloaded and made available in the result Nix shell.
 
 ### Advanced usage
 
