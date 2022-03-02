@@ -130,6 +130,7 @@ nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz
 ## Using the Holochain dev tools
 
 You can use the Holochain dev tools in two ways, either by [creating a nix file](#using-holochain-with-a-pinned-holochain-version) which specifies the Holochain version or by using a URL that points to the most recent release. Usually Holochain projects define a specific Holochain version that they're running on and compatible with, just like Rust crates or NPM packages are included in a project with a particular version. If you  want play around with Holochain and the dev tools, you can use the URL with an ad-hoc nix-shell.
+
 ### Ad-hoc nix-shells with a current version of Holochain dev tools
 
 Use this one-liner to load Holonix:
