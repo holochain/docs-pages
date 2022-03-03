@@ -229,7 +229,7 @@ nix-shell --run "niv update"
 nix-shell --run "hn-versions"
 ```
 
-3. Set the `holochainVersionid` accordingly:
+3. Set the `holochainVersionId` accordingly:
 
 ```nix
 ...
