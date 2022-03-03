@@ -239,7 +239,7 @@ nix-shell --run "hn-versions"
 ...
 ```
 
-Now you can `exit` the Nix shell and re-enter it via `nix-shell`. The updated version of Holochain will be downloaded and made available in the resulting Nix shell.
+The next time you enter your hApp development environment using `nix-shell`, the updated version of Holochain will be downloaded and made available in the resulting Nix shell.
 
 > Keep in mind that the Holonix repo includes Nix configurations for the last ~ 5 versions of Holochain. That means that if you keep updating its revision using `niv`, you will have to augment the Holochain version id in `default.nix` sooner or later too.
 
