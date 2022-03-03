@@ -188,7 +188,7 @@ If you want to automatically upgrade your project to the most recent version of 
 nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz -p niv --run "niv init && niv drop nixpkgs && niv drop niv && niv add -b main holochain/holonix"
 ```
 
-Executing this command creates a new folder named `nix` with 2 files that `niv` needs to retrieve the revision of the latest Holochain version.
+Executing this command creates a new folder named `nix` with 2 files that `niv` needs to retrieve the revision of the latest Holonix version.
 
 Next you need to add a `default.nix` file as a Nix configuration of your development environment, including Holochain as a dependency.
 This is a minimal `default.nix` file with a specific version of Holochain:
@@ -211,9 +211,25 @@ in nixpkgs.mkShell {
 
 Now you can enter the Nix shell with your development environment by running the command `nix-shell`. Once it's finished you have the Holochain commands at your disposal.
 
-#### Upgrading to the latest version of Holochain
+> niv initializes and updates to the latest revision of the Holonix repository. As every revision contains configurations for several previous versions of Holochain, you need to explicitly define the exact version of Holochain you want to use. In other words, niv does not set a Holochain version; it's defined in `default.nix`.
 
-When the time has come to upgrade your hApp to the latest version of Holochain, you first have to set the version id in `default.nix`. E. g.
+#### Upgrading the Holochain version
+
+When the time has come to upgrade your hApp to a newer version of Holochain, there are 3 steps to follow:
+
+1. Update the Holonix revision using `niv`:
+
+```bash
+nix-shell --run "niv update"
+```
+
+2. Run `hn-versions` to see which versions of Holochain are available:
+
+```bash
+nix-shell --run "hn-versions"
+```
+
+3. Set the `holochainVersionid` accordingly:
 
 ```nix
 ...
@@ -223,13 +239,9 @@ When the time has come to upgrade your hApp to the latest version of Holochain, 
 ...
 ```
 
-Then all you have to do is execute
+Now you can `exit` the Nix shell and re-enter it via `nix-shell`. The updated version of Holochain will be downloaded and made available in the resulting Nix shell.
 
-```bash
-nix-shell --run "niv update"
-```
-
-After the update completes, you can exit the Nix shell by running `exit` and re-enter it via `nix-shell`. The updated version of Holochain will be downloaded and made available in the result Nix shell.
+> Keep in mind that the Holonix repo includes Nix configurations for the last ~ 5 versions of Holochain. That means that if you keep updating its revision using `niv`, you will have to augment the Holochain version id in `default.nix` sooner or later too.
 
 ### Advanced usage
 
