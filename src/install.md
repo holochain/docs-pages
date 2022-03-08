@@ -219,25 +219,25 @@ When the time has come to upgrade your hApp to a newer version of Holochain, the
 
 1. Update the Holonix revision using `niv`:
 
-```bash
-nix-shell --run "niv update"
-```
+    ```bash
+    nix-shell --run "niv update"
+    ```
 
 2. Run `hn-versions` to see which versions of Holochain are available:
 
-```bash
-nix-shell --run "hn-versions"
-```
+    ```bash
+    nix-shell --run "hn-versions"
+    ```
 
 3. Set the `holochainVersionId` accordingly:
 
-```nix
-...
-  holonix = import (holonixPath) {
-    holochainVersionId = "v0_0_127";
-  };
-...
-```
+    ```nix
+    ...
+    holonix = import (holonixPath) {
+        holochainVersionId = "v0_0_127";
+    };
+    ...
+    ```
 
 The next time you enter your hApp development environment using `nix-shell`, the updated version of Holochain will be downloaded and made available in the resulting Nix shell.
 
