@@ -6,6 +6,7 @@ nav:
     - Introduction: index.md
     - What is Holochain?: what-is-holochain.md
     - Install Holochain: install.md
+    - hApp Setup: happ-setup.md
     - Get Involved: get-involved.md
     - Glossary: glossary.md
     - Advanced Installation Tips: install-advanced.md
