@@ -90,6 +90,8 @@ It will create a new folder named "my-app" in the current directory. Inside that
 
 You can enter the Holochain nix-shell and immediately start developing your hApp.
 
+> Internally, the `hn-init` command is an alias for a sub command of the scaffolding tool: `holochain-create init`.
+
 ### Create a new hApp using the GUI
 
 If you already know the data structure of your hApp or prefer a visual way of defining the hApp's entries, you can create the new hApp using a GUI.
