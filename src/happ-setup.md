@@ -100,7 +100,7 @@ When you're done setting up the hApp in this graphical way, all files will be pr
 
 ## Running a deployed hApp
 
-At some stage in the app development you'll want to deploy your hApp for others to use it. If you've created the hApp with the scaffolding tools, all you need to do to package is is run
+At some stage in the app development you'll want to deploy your hApp for others to use it. If you've created the hApp with the scaffolding tools, all you need to do to package is run
 
 ```bash
 npm run package
