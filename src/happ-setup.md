@@ -31,7 +31,7 @@ It will create a new folder named "my-app" in the current directory. Inside that
 - a Vuejs skeleton frontend hooked up to the DNA
 - npm scripts for developing, testing, building and packaging the hApp
 
-> The generated file structure is the recommended layout for hApps.
+*The generated file structure is the recommended layout for hApps.*
 
 ```bash
 ├── Cargo.toml
