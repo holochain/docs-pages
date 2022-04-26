@@ -5,7 +5,12 @@ hide:
 
 ## Scaffolding a new hApp
 
-Commands that serve to set up a new Holochain app (hApp) are at your fingertips. There are two ways in which you can create a new hApp: generate an empty project or use a GUI to describe your app's structure and then generate it. **All of the following commands need to be run from a Holochain nix-shell.**
+Commands to set up a new Holochain app (hApp) are at your fingertips. There are two ways in which you can create one:
+
+1. generate an empty project or
+2. use a GUI to describe your app's structure and then generate it.
+
+**All of the following commands need to be run from a Holochain nix-shell.** [Steps to set up such a nix-shell](../install/#using-holochain-with-a-pinned-holochain-version/).
 
 ### Create an empty project
 
