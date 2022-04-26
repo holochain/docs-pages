@@ -245,7 +245,7 @@ The next time you enter your hApp development environment using `nix-shell`, the
 
 ### Holochain inspection commands
 
-Built into Holochain are a few commands that give insight about versions of Holochain components.
+Built into Holochain and holonix are a few commands that give insight about versions of Holochain components.
 
 ```bash
  hn-introspect
