@@ -9,7 +9,7 @@ We want this to be as easy as possible, so we’ve committed to documenting not 
 
 ## 0.5.5 → 0.5.6
 
-Add section for `hn-*` commands.
+Add new page on how to scaffold new hApps and how to run hApp binaries.
 
 ## 0.5.4 → 0.5.5
 
