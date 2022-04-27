@@ -113,4 +113,4 @@ At some stage in the app development you'll want to deploy your hApp for others 
 npm run package
 ```
 
-The app bundle ending in `.webhapp` will be available in the project root's `workdir` folder. Now you can deploy it to a place where users can download it. In order to install and run the hApp, there's a GUI for administrating apps on a computer. It's called the Holochain Launcher. To download and use it, refer to https://github.com/holochain/launcher.
+The app bundle ending in `.webhapp` will be available in the project root's `workdir` folder. Now you can deploy it to a place where users can download it. In order to install and run the hApp, there's a GUI for administrating apps on a computer. It's called the Holochain Launcher. To download and use it, refer to <https://github.com/holochain/launcher>.
