@@ -42,10 +42,6 @@ cd my_project
 vim my_file.rs
 ```
 
-## Upgrading
-
-Any time you want to get the latest version of the dev tools, just `exit` the shell and enter it again; if there are any updates it'll automatically download them.
-
 ## Uninstalling
 
 You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries and other packages on your device. On macOS it adds users and a user group too. If you want to free up some space, run these commands:

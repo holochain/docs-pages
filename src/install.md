@@ -243,7 +243,54 @@ The next time you enter your hApp development environment using `nix-shell`, the
 
 > Keep in mind that the Holonix repo includes Nix configurations for the last ~ 5 versions of Holochain. That means that if you keep updating its revision using `niv`, you will have to augment the Holochain version id in `default.nix` sooner or later too.
 
-### Advanced usage
+### Holochain inspection commands
+
+Built into Holochain and holonix are a few commands that give insight about versions of Holochain components.
+
+```bash
+ hn-introspect
+```
+
+This command displays versioning information about Holochain's main components as well as Rust and Cargo. The output looks like this:
+
+```bash
+List of applications and their version information
+
+v0_0_131
+- hc-0.0.32-dev.0: https://github.com/holochain/holochain/tree/holochain-0.0.131
+- holochain-0.0.131: https://github.com/holochain/holochain/tree/holochain-0.0.131
+- kitsune-p2p-tx2-proxy-0.0.21: https://github.com/holochain/holochain/tree/holochain-0.0.131
+- lair-keystore-0.0.9: https://github.com/holochain/lair/tree/v0.0.9
+
+- rustc: rustc 1.58.1 (db9d1b20b 2022-01-20)
+- cargo fmt: rustfmt 1.4.38-stable (db9d1b20 2022-01-20)
+- cargo clippy: clippy 0.1.58 (db9d1b20 2022-01-20)
+```
+
+Another Holochain command that inspects the platform information and outputs the compatible HDK version is
+
+```bash
+holochain --build-info
+```
+
+A sample output of this command looks like this (JSON formmatted using `jq`):
+
+```json
+{
+  "git_info": null,
+  "cargo_pkg_version": "0.0.131",
+  "hdk_version_req": "0.0.126",
+  "timestamp": "2022-04-10T05:55:04.525835Z",
+  "hostname": "Mac-1649560170558.local",
+  "host": "x86_64-apple-darwin",
+  "target": "x86_64-apple-darwin",
+  "rustc_version": "rustc 1.58.1 (db9d1b20b 2022-01-20)",
+  "rustflags": "",
+  "profile": "release"
+}
+```
+
+### Advanced installation guide
 
 Read through our [advanced installation guide](../install-advanced/) for tips and tricks on making your development environment easier to work with, or what to do in case you need to work offline.
 
@@ -251,7 +298,7 @@ Read through our [advanced installation guide](../install-advanced/) for tips an
 
 1. Read through the [Holochain Core Concepts](../concepts/).
 2. Try [building and running a sample hApp](https://github.com/holochain/happ-build-tutorial).
-3. [Scaffold your own hApp](https://github.com/holochain/scaffolding) using our RAD tool.
+3. [Scaffold your own hApp](../happ-setup/#scaffolding-a-new-happ) using our RAD tool.
 3. Build your development skills in the [Holochain Gym](https://holochain-gym.github.io/) (community-created).
 4. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
 5. Take a look at the developer documentation.
