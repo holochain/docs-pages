@@ -60,4 +60,9 @@ We’ve written this introduction for programmers, CTOs, and other technically o
             <h4>9. Signals</h4>
         </a>
     </div>
+    <div class="h-tile tile-alt tile-concepts">
+        <a href="10_migration">
+            <h4>10. Migration</h4>
+        </a>
+    </div>
 </div>
