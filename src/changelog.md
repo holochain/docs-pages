@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.5.6 → 0.5.7
+
+Add new page for using the simulated and connected Holochain Playground.
+
 ## 0.5.5 → 0.5.6
 
 Add new page on how to scaffold new hApps and how to run hApp binaries.
