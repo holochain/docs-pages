@@ -9,6 +9,7 @@ Regardless of your experience level as a developer, we encourage you to get invo
 
 ### Connect and contribute
 
+* Discuss everything related to Holochain and hApp development in the [DEV.HC channel on Discord](https://discord.gg/MwPvM4Vffg)
 * Contribute to the conversation on our [Holochain Developer Forum](https://forum.holochain.org/)
 * Sign up for the [Holochain Blog](http://blog.holochain.org#subscribe) to stay up to date
 * Follow us on social media ([Facebook](https://www.facebook.com/holochain.design) and [Twitter](https://twitter.com/holochain))
