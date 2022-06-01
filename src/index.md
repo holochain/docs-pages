@@ -33,7 +33,7 @@ Welcome to the Holochain Developer Documentation! We hope to guide you along you
 	</div>
 	<div class="h-tile tile-hero">
 		<a href="https://discord.gg/MwPvM4Vffg" style="background-image:url(img/tile-5.jpg);">
-			<h2>DEV.HC</h2>
+			<h2>Chat</h2>
 			<p>Discuss Holochain on Discord</p>
 		</a>
 	</div>
