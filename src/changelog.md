@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.5.7 → 0.5.8
+
+Add new page for setting up a development environment without Holonix.
+
 ## 0.5.6 → 0.5.7
 
 Add new page for using the simulated and connected Holochain Playground.

@@ -6,6 +6,7 @@ hide:
 ## Holochain Learning Resources
 
 There's a Playground available to visually explore Holochain's inner workings. Further there's a series of hands-on tutorials to understand and practice core concepts of Holochain, called the Holochain Gym.
+To get started developing hApps, there are tutorials for writing your first hApp and client.
 
 ### Playground
 
@@ -33,3 +34,8 @@ The Holochain Gym is a practical approach to learning Holochain's concepts. In a
 Check it out at <https://holochain-gym.github.io>.
 
 ![](../img/holochain-gym.jpg)
+
+### hApp Build Tutorials
+
+Write your first hApp with this kickstart tutorial on [how to build a hApp](https://github.com/holochain/happ-build-tutorial).
+Once built, you can see how to call it from a client following this [hApp client call tutorial](https://github.com/holochain/happ-client-call-tutorial).
