@@ -6,6 +6,7 @@ nav:
     - Introduction: index.md
     - What is Holochain?: what-is-holochain.md
     - Install Holochain: install.md
+    - Install Holochain w/o Holonix: install-without-holonix.md
     - hApp Setup: happ-setup.md
     - Learning: learning.md
     - Get Involved: get-involved.md
