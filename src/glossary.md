@@ -561,7 +561,7 @@ A range of [DHT addresses](#dht-address) for which an [agent](#agent) knows a su
 
 #### Record
 
-The data structure that holds an [action](#action) in an [agent](#agent)'s [source chain](#source-chain). Some records are a combination of [action](#action) and [entry](#entry), such as [new-entry actions](#new-entry-action), while others contain all their data inside the record.
+The data structure that holds an [action](#action) in an [agent](#agent)'s [source chain](#source-chain). Some records are a combination of [action](#action) and [entry](#entry), such as [new-entry actions](#new-entry-action), while others contain all their data inside the action.
 
 #### Record data
 
