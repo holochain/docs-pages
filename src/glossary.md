@@ -8,7 +8,7 @@ As you go through our documentation, you'll probably find some unfamiliar terms,
 
 #### Action
 
-Everything an [agent](#agent) does in an [application](#application) is expressed as a series of actions, recorded on their [source chain](#source-chain) as a series of [elements](#element). That is, when the source chain records a piece of data, it's more accurate to say that it's recording the agent's _act_ of creating it.
+A piece of data that represents a [record](#record) on an [agent](#agent)'s [source chain](#source-chain). Everything an [agent](#agent) does in an [application](#application) is expressed as one or multiple actions, recorded on their [source chain](#source-chain) as one or multiple [records](#record). That is, when the source chain records a piece of data, it's more accurate to say that it's recording the agent's _act_ of creating it. Actions link to the hash of their previous action, which creates a tamper-evident [journal](#journal) or [ledger](#ledger) of all their actions in an application.
 
 #### Address
 
@@ -30,11 +30,11 @@ The power of an [agent](#agent) to act in their environment.
 
 #### Agent activity
 
-Records of all the [source chain](#source-chain) [headers](#header) that an agent has published, along with any [warrants](#warrant) against them for malicious activity. An agent's [neighbors](#neighbor), as [peers](#peer) whose [agent addresses](#agent-address) are [near](#nearness) to theirs, are the [validation authorities](#validation-authority) for their agent activity data.
+Records of all the [source chain](#source-chain) [actions](#action) that an agent has published, along with any [warrants](#warrant) against them for malicious activity. An agent's [neighbors](#neighbor), as [peers](#peer) whose [agent addresses](#agent-address) are [near](#nearness) to theirs, are the [validation authorities](#validation-authority) for their agent activity data.
 
 #### Agent activity operation
 
-A [DHT operation](#dht-operation) produced by the author of a [source chain](#source-chain) [element](#element), notifying the [validation authorities](#validation-authority) for the author's [agent ID entry](#agent-id-entry) that they've published something.
+A [DHT operation](#dht-operation) produced by the author of a [source chain](#source-chain) [record](#record), notifying the [validation authorities](#validation-authority) for the author's [agent ID entry](#agent-id-entry) that they've published something.
 
 #### Agent-centric
 
@@ -50,7 +50,7 @@ The public key of an [agent](#agent). It serves as their unique ID in any [DHT](
 
 #### Agent ID entry
 
-The entry associated with the third of the four [genesis elements](#genesis-elements) at the the beginning of an [agent](#agent)'s [source chain](#source-chain), which contains their [agent ID](#agent-id). The address of this entry is also the [agent's address](#agent-address) on the DHT.
+The entry associated with the third of the four [genesis records](#genesis-records) at the the beginning of an [agent](#agent)'s [source chain](#source-chain), which contains their [agent ID](#agent-id). The address of this entry is also the [agent's address](#agent-address) on the DHT.
 
 #### Append-only
 
@@ -58,7 +58,7 @@ Any data structure that can only be written to. Once written, that data becomes 
 
 #### App entry
 
-An entity that holds application data. On the DHT, an app entry is created for every [new entry operation](#new-entry-operation), and [validation authorities](#validation-authority) who hold the entry also hold the [headers](#header) of all [agents](#agent) who have published that exact same entry as [metadata](#metadata), along with other metadata such as [links](#link). App entries are [deduplicated](#deduplication) but individual agents' writes of those entries are distinguished by their headers.
+An entity that holds application data. On the DHT, an app entry is created for every [new entry operation](#new-entry-operation), and [validation authorities](#validation-authority) who hold the entry also hold the [actions](#action) of all [agents](#agent) who have published that exact same entry as [metadata](#metadata), along with other metadata such as [links](#link). App entries are [deduplicated](#deduplication) but individual agents' writes of those entries are distinguished by their actions.
 
 #### Application (app)
 
@@ -70,11 +70,11 @@ A [capability grant](#capability-grant) that only allows specified [agents](#age
 
 #### Atomic commit
 
-The guarantee that all [source chain](#source-chain) [commits](#commit) performed in one [zome function](#call) will succeed or fail together, similar to a database transaction. Failure can be caused by [validation](#validation) failure for an individual [element](#element) or a hardware I/O failure. It can also be caused by a prior atomic commit finishing and advancing the source chain [state](#state-transition) while the current function call is running, that is, between the time that the conductor creaetd the current function's [workspace](#workspace) and the time that it attempted to persist its own changes to the source chain.
+The guarantee that all [source chain](#source-chain) [commits](#commit) performed in one [zome function](#call) will succeed or fail together, similar to a database transaction. Failure can be caused by [validation](#validation) failure for an individual [record](#record) or a hardware I/O failure. It can also be caused by a prior atomic commit finishing and advancing the source chain [state](#state-transition) while the current function call is running, that is, between the time that the conductor creaetd the current function's [workspace](#workspace) and the time that it attempted to persist its own changes to the source chain.
 
 #### Author
 
-The [agent](#agent) who has written and [signed](#public-key-signature) an [element](#element) to their source chain.
+The [agent](#agent) who has written and [signed](#public-key-signature) a [record](#record) to their source chain.
 
 #### Author grant
 
@@ -158,7 +158,7 @@ A specific [client/server](configuratin) in which computing power is [decentrali
 
 #### Commit
 
-The act of adding an [element](#element) to a [source chain](#source-chain).
+The act of adding a [record](#record) to a [source chain](#source-chain).
 
 #### Commons
 
@@ -212,7 +212,7 @@ A [new-entry action](#new-entry-action) that, when published to the [DHT](#distr
 
 #### Create-link action
 
-An [action](#action) that, when published to the [DHT](#distributed-hash-table-dht), causes a [link](#link) from one piece of [element data](#element-data) to another to be available to other DHT members.
+An [action](#action) that, when published to the [DHT](#distributed-hash-table-dht), causes a [link](#link) from one piece of [record data](#record-data) to another to be available to other DHT members.
 
 #### Create, read, update, delete (CRUD)
 
@@ -220,16 +220,16 @@ The four main [actions](#action) an application needs to do with data. Even thou
 
 #### CRUD action
 
-An [element](#element) that expresses a [CRUD](#create-read-update-delete-crud) operation on a piece of data or metadata. [Create-entry](#create-entry-action), [update-entry](#update-entry), [delete-entry](#delete-entry-action), [create-link](#create-link-action), and [delete-link](#delete-link-action) actions are all CRUD actions.
+A [record](#record) that expresses a [CRUD](#create-read-update-delete-crud) operation on a piece of data or metadata. [Create-entry](#create-entry-action), [update-entry](#update-entry), [delete-entry](#delete-entry-action), [create-link](#create-link-action), and [delete-link](#delete-link-action) actions are all CRUD actions.
 
 #### Dead data
 
 As no data in a Holochain [DHT](#distributed-hash-table-dht) or [agent's](#agent) [source chain](#source-chain) are ever deleted, existing data must be marked as no longer active. Dead data takes four forms:
 
-1. A [new-entry action](#new-entry-action) header that has been marked as deleted by a [delete-entry action](#delete-entry-action).
-2. A [create-link action](#create-link-action) header that has been marked as deleted by a [delete-link action](#delete-link-action).
-3. An [entry](#entry) whose new-entry action headers have all been marked as deleted.
-4. A [link](#link) whose create-link action headers have all been marked as deleted.
+1. A [new-entry action](#new-entry-action) action that has been marked as deleted by a [delete-entry action](#delete-entry-action).
+2. A [create-link action](#create-link-action) action that has been marked as deleted by a [delete-link action](#delete-link-action).
+3. An [entry](#entry) whose new-entry action actions have all been marked as deleted.
+4. A [link](#link) whose create-link action actions have all been marked as deleted.
 
 #### Decentralization
 
@@ -237,7 +237,7 @@ The act of removing central points of control. Many [distributed systems](#distr
 
 #### Deduplication
 
-The removal of identical entries in a [CAS](#content-addressable-storage-cas). Most CASes, including Holochain's [DHT](#distributed-hash-table-dht), deduplicate content automatically. Holochain's DHT does, however, disambiguate between individual _writes_ of an [entry](#entry) by storing the [authors'](#author) [headers](#header) alongside it as [metadata](#metadata).
+The removal of identical entries in a [CAS](#content-addressable-storage-cas). Most CASes, including Holochain's [DHT](#distributed-hash-table-dht), deduplicate content automatically. Holochain's DHT does, however, disambiguate between individual _writes_ of an [entry](#entry) by storing the [authors'](#author) [actions](#action) alongside it as [metadata](#metadata).
 
 #### DeepKey
 
@@ -245,26 +245,26 @@ Holochain's default implementation of a [DPKI](#distributed-public-key-infrastru
 
 #### Delete-entry action
 
-An [action](#action) that, when published to the DHT, causes a [new-entry action](#new-entry-action)'s [header](#header) to be marked as [dead](#dead). If all such headers that caused an [entry](#entry) to be published are marked as dead, the entry itself will also be marked as dead.
+An [action](#action) that, when published to the DHT, causes a [new-entry action](#new-entry-action)'s [action](#action) to be marked as [dead](#dead). If all such actions that caused an [entry](#entry) to be published are marked as dead, the entry itself will also be marked as dead.
 
 #### Delete-link action
 
-An [action](#action) that, when published to the DHT, causes a [create-link action](#create-link-action)'s [header](#header) to be marked as [dead](#dead). If all create-link elements that caused a [link](#link) to be published are marked as dead, the link itself will also be marked as dead.
+An [action](#action) that, when published to the DHT, causes a [create-link action](#create-link-action)'s [action](#action) to be marked as [dead](#dead). If all create-link records that caused a [link](#link) to be published are marked as dead, the link itself will also be marked as dead.
 
 #### DHT address
 
-The unique ID of a piece of [element data](#element-data) ([entry](#entry), [header](#header), or [agent](#agent)) on the [DHT](#distributed-hash-table-dht). Every piece of data has an address that is generated directly from its content, usually by a [hash](#hash) function. This makes the DHT a [content-addressable storage](#content-addressable-storage-cas) system.
+The unique ID of a piece of [record data](#record-data) ([entry](#entry), [action](#action), or [agent](#agent)) on the [DHT](#distributed-hash-table-dht). Every piece of data has an address that is generated directly from its content, usually by a [hash](#hash) function. This makes the DHT a [content-addressable storage](#content-addressable-storage-cas) system.
 
 #### DHT data
 
-A piece of data that lives in the [DHT](#distributed-hash-table-dht). DHT data is assigned to a [neighborhood](#neighborhood) of [validation authorities](#validation-authority) based on the base [address](#address) of the [DHT operation](#dht-operation) that expresses its creation, and is [deduplicated](#deduplication). All DHT data is either [element data](#element-data) with an address of its own, or [metadata](#metadata) attached to a piece of element data.
+A piece of data that lives in the [DHT](#distributed-hash-table-dht). DHT data is assigned to a [neighborhood](#neighborhood) of [validation authorities](#validation-authority) based on the base [address](#address) of the [DHT operation](#dht-operation) that expresses its creation, and is [deduplicated](#deduplication). All DHT data is either [record data](#record-data) with an address of its own, or [metadata](#metadata) attached to a piece of record data.
 
 #### DHT operation
 
-A unit of [gossip](#gossip) that communicates a request to a [validation authority](#validation-authority) to transform the data they hold in some way. Each DHT operation has a base [address](#address) and gets sent to the DHT authorities for that address. For each type of [element](#element)/[action](#action), an [author](#author) produces one or more DHT operations. For example, a [create-entry action](#create-entry-action) for a [public entry](#public-entry) produces three DHT operations:
+A unit of [gossip](#gossip) that communicates a request to a [validation authority](#validation-authority) to transform the data they hold in some way. Each DHT operation has a base [address](#address) and gets sent to the DHT authorities for that address. For each type of [record](#record)/[action](#action), an [author](#author) produces one or more DHT operations. For example, a [create-entry action](#create-entry-action) for a [public entry](#public-entry) produces three DHT operations:
 
-* One to publish the [header](#header), which is sent to the authorities for the header's address for validation and storage,
-* One to publish the entry itself, which is sent to the authorities for the entry's address along with a copy of the header, and
+* One to publish the [action](#action), which is sent to the authorities for the action's address for validation and storage,
+* One to publish the entry itself, which is sent to the authorities for the entry's address along with a copy of the action, and
 * One to register [agent activity](#agent-activity-operation), which is sent to the authorities for the author's agent ID (that is, the author's [neighbors](#neighbor)).
 
 #### Distributed hash table (DHT)
@@ -307,21 +307,13 @@ Arbitrary data that affects the operation of the [DNA](#dna). A user can specify
 
 A channel between two nodes in a public network that allows them to transfer secret messages that cannot be decrypted by eavesdroppers. Holochain's node-to-node [gossip](#gossip), [remote calls](#remote-call), and [proxy relay](#proxy-relay) use E2EE (currently [QUIC](https://en.wikipedia.org/wiki/QUIC) with TLS encryption).
 
-#### Element
-
-The data structure that holds an [action](#action) in an [agent](#agent)'s [source chain](#source-chain). Some elements are a combination of [header](#header) and [entry](#entry), such as [new-entry actions](#new-entry-action), while others contain all their data inside the header.
-
-#### Element data
-
-Any piece of [address](#address)able data that can (though doesn't need to) be published to the [DHT](#distributed-hash-table-dht). Element data consists of anything contained in an [element](#element) --- that is, a [header](#header) or an [entry](#entry), which are stored by separate [validation authorities](#validation-authority) on the DHT. This is in contrast to [metadata](#metadata), which is attached to a piece of element data.
-
 #### Entry
 
-A basic unit of user data in a Holochain app. Each entry has its own defined [entry type](#entry-type). When an agent commits an entry, it is combined with a [header](#header) into an [element](#element) that expresses a [new-entry action](#new-entry-action). Then it is written to their [source chain](#source-chain) as a record of the action having taken place. An entry can be [public](#public-entry) or [private](#private-entry); if it's public, it's also [published](#publish) to the [DHT](#distributed-hash-table-dht). There are [app entries](#app-entry) whose purpose and structure are defined by the [DNA](#dna) developer, and there are special [system entries](#system-entry) such as an [agent ID entry](#agent-id-entry).
+A basic unit of user data in a Holochain app. Each entry has its own defined [entry type](#entry-type). When an agent commits an entry, it is combined with an [action](#action) into a [record](#record) that expresses a [new-entry action](#new-entry-action). Then it is written to their [source chain](#source-chain) as a record of the action having taken place. An entry can be [public](#public-entry) or [private](#private-entry); if it's public, it's also [published](#publish) to the [DHT](#distributed-hash-table-dht). There are [app entries](#app-entry) whose purpose and structure are defined by the [DNA](#dna) developer, and there are special [system entries](#system-entry) such as an [agent ID entry](#agent-id-entry).
 
 #### Entry type
 
-A specification for any sort of entry that a [DNA](#dna) should recognize and understand, similar to an <abbr title="object-oriented programming">OOP</abbr> class or database table schema. It can specify whether entries of its type should be [public](#public-entry) or [private](#private-entry), and how many [required validations](#required-validation) should exist. DNA developers create their own entry types for the data their app needs to store, and can write [validation functions](#validation-function) for [elements](#element) that [create, update, or delete](#create-read-update-delete-crud) entries of those types.
+A specification for any sort of entry that a [DNA](#dna) should recognize and understand, similar to an <abbr title="object-oriented programming">OOP</abbr> class or database table schema. It can specify whether entries of its type should be [public](#public-entry) or [private](#private-entry), and how many [required validations](#required-validation) should exist. DNA developers create their own entry types for the data their app needs to store, and can write [validation functions](#validation-function) for [records](#record) that [create, update, or delete](#create-read-update-delete-crud) entries of those types.
 
 #### Eventual consistency
 
@@ -333,20 +325,20 @@ To change a [DNA](#dna) in a way that doesn't alter its behavior, resulting in a
 
 #### Fork (source chain)
 
-To create alternate versions of one's history in an app by basing two [source chain](#source-chain) [elements](#element) on one parent element. Forking one's source chain is always an [invalid](#validation) action, detected at the [subconscious](#subconscious) level by the author's [agent activity](#agent-activity) [authorities](#validation-authority) and addressed by both the subconscious and the [DNA](#dna)'s executable code ([zomes](#zome)).
+To create alternate versions of one's history in an app by basing two [source chain](#source-chain) [records](#record) on one parent record. Forking one's source chain is always an [invalid](#validation) action, detected at the [subconscious](#subconscious) level by the author's [agent activity](#agent-activity) [authorities](#validation-authority) and addressed by both the subconscious and the [DNA](#dna)'s executable code ([zomes](#zome)).
 
 #### Front end
 
 In Holochain terms, synonymous with [graphical user interface](#graphical-user-interface-gui) or, more generally, [client](#client).
 
-#### Genesis elements
+#### Genesis records
 
-The four elements at the beginning of an [agent](#agent)'s [source chain](#source-chain), consisting of:
+The four records at the beginning of an [agent](#agent)'s [source chain](#source-chain), consisting of:
 
 1. The [DNA](#dna) hash, which shows that the agent has seen the network's rules and agrees to abide by them,
 2. The [membrane proof](#membrane-proof), which the agent presents as a claim that they should be allowed to join the DHT,
 3. The [agent ID](#agent-id), which advertises the agent's [public key](#public-key-cryptography),
-4. The [init complete element](#init-complete-element), which tells the conductor that all the DNA's [init callbacks](#init-callback) have completed successfully and the source chain is ready to write [app entries](#app-entry).
+4. The [init complete record](#init-complete-record), which tells the conductor that all the DNA's [init callbacks](#init-callback) have completed successfully and the source chain is ready to write [app entries](#app-entry).
 
 #### Global consensus
 
@@ -380,13 +372,9 @@ An [append-only](#append-only) data structure that can be used as a tamper-evide
 
 A unique ID, specified in a DNA bundle file or passed at DNA installation time, that [forks](#fork) the DNA without modifying any of its behavior. This can be used to create separate [DHTs](#distributed-hash-table-dht) that use the same set of rules.
 
-#### Header
-
-A piece of data that represents an [element](#element) on an [agent](#agent)'s [source chain](#source-chain). Headers link to the hash of their previous header, which creates a tamper-evident [journal](#journal) or [ledger](#ledger) of all their [actions](#action) in an application.
-
 #### History
 
-The sequence of [actions](#action) taken by an [agent](#agent), recorded as [elements](#element) in their [source chain](#source-chain).
+The sequence of [actions](#action) taken by an [agent](#agent), recorded as [records](#records) in their [source chain](#source-chain).
 
 #### Holo
 
@@ -424,9 +412,9 @@ A property of Holochain's [validating DHT](#validating-dht), whereby healthy [no
 
 A function in a [DNA](#dna) that the [nucleus](#nucleus) calls when an [agent](#agent) starts a [cell](#cell) for the first time. This can be used to set up initial [source chain](#source-chain) [#state](#state-transition), etc.
 
-#### Init complete element
+#### Init complete record
 
-An [element](#element) that Holochain automatically writes to an [agent](#agent)'s [source chain](#source-chain) to indicate that all of a [DNA](#dna)'s [init callbacks](#init-callback) have successfully run and their [cell](#cell) is ready to use.
+A [record](#record) that Holochain automatically writes to an [agent](#agent)'s [source chain](#source-chain) to indicate that all of a [DNA](#dna)'s [init callbacks](#init-callback) have successfully run and their [cell](#cell) is ready to use.
 
 #### Intrinsic data integrity
 
@@ -446,7 +434,7 @@ A piece of [metadata](#metadata) connecting one [address](#address) on the [DHT]
 
 #### Link base
 
-The [address](#address) of the [element data](#element-data) on the DHT that a [link](#link) links from.
+The [address](#address) of the [record data](#record-data) on the DHT that a [link](#link) links from.
 
 #### Link tag
 
@@ -454,7 +442,7 @@ An arbitrary piece of data, stored with a [link](#link), that contains applicati
 
 #### Link target
 
-The [address](#address) of the [element data](#element-data) on the DHT that a [link](#link) links to. Link targets have no metadata pointing back to the [base](#link-base), and therefore have no knowledge that they're being linked to.
+The [address](#address) of the [record data](#record-data) on the DHT that a [link](#link) links to. Link targets have no metadata pointing back to the [base](#link-base), and therefore have no knowledge that they're being linked to.
 
 #### Live data
 
@@ -477,11 +465,11 @@ One of two types of permeable boundaries that allow or disallow access:
 
 #### Membrane proof
 
-An [element](#element) written to an agent's [source chain](#source-chain) that proves they have permission to join a [DHT](#distributed-hash-table-dht), for example, an invite code or signed authorization from an existing member. The [DNA](#dna) for the DHT has a [validation function](#validation-function) that checks the validity of the joining proof; if agents validating the joining proof determine that it's invalid, they can refuse to communicate with the new agent. This is the [immune system](#immune-system)'s first line of defense against malicious actors.
+A [record](#record) written to an agent's [source chain](#source-chain) that proves they have permission to join a [DHT](#distributed-hash-table-dht), for example, an invite code or signed authorization from an existing member. The [DNA](#dna) for the DHT has a [validation function](#validation-function) that checks the validity of the joining proof; if agents validating the joining proof determine that it's invalid, they can refuse to communicate with the new agent. This is the [immune system](#immune-system)'s first line of defense against malicious actors.
 
 #### Metadata
 
-Supplementary data attached to a piece of [element data](#element-data) on a [DHT](#distributed-hash-table-dht). All element data ([entries](#entry) and [headers](#header)) can have [links](#link) and [CRUD status](#crud-status) as metadata, while entries can also have copies of the headers that express the [new-entry actions](#new-entry-action) that created them. An [agent ID entry](#agent-id-entry) can also have [agent activity](#agent-activity) records and [warrants](#warrant).
+Supplementary data attached to a piece of [record data](#record-data) on a [DHT](#distributed-hash-table-dht). All record data ([entries](#entry) and [actions](#action)) can have [links](#link) and [CRUD status](#crud-status) as metadata, while entries can also have copies of the actions that express the [new-entry actions](#new-entry-action) that created them. An [agent ID entry](#agent-id-entry) can also have [agent activity](#agent-activity) records and [warrants](#warrant).
 
 #### Microservice
 
@@ -509,7 +497,7 @@ In Holochain terms, a collection of [nodes](#node) [gossiping](#gossip) with eac
 
 #### New-entry action
 
-Any [action](#action) that produces a new entry, either a [create-entry](#create-entry-action) or [update-entry](#update-entry-action) action. If the entry's [type](#entry-type) is [public](#public-entry), the entry will be published to the [DHT](#distributed-hash-table-dht) along with its [header](#header). If the entry's type is [private](#private-entry), only the header is published.
+Any [action](#action) that produces a new entry, either a [create-entry](#create-entry-action) or [update-entry](#update-entry-action) action. If the entry's [type](#entry-type) is [public](#public-entry), the entry will be published to the [DHT](#distributed-hash-table-dht) along with its [action](#action). If the entry's type is [private](#private-entry), only the action is published.
 
 #### Node
 
@@ -557,7 +545,7 @@ A way for agents to share their public keys, prove their authenticity, and revok
 
 #### Public-key signature
 
-The hash of a piece of data, encrypted with a private key. It can be decrypted by anyone who has a copy of the public key, which allows them to verify authorship of the signed data. In Holochain, the [author](#author) of any [element data](#element-data) that gets published to the [DHT](#distributed-hash-table-dht) attaches their signature to each of the [DHT operations](#dht-operation) they produce, to prove authorship and allow third-party tampering to be detected by others.
+The hash of a piece of data, encrypted with a private key. It can be decrypted by anyone who has a copy of the public key, which allows them to verify authorship of the signed data. In Holochain, the [author](#author) of any [record data](#record-data) that gets published to the [DHT](#distributed-hash-table-dht) attaches their signature to each of the [DHT operations](#dht-operation) they produce, to prove authorship and allow third-party tampering to be detected by others.
 
 #### Public/private key pair
 
@@ -565,11 +553,19 @@ See [public-key cryptography](#public-key-cryptography).
 
 #### Publish
 
-The act of converting an [element](#element) into one or more [DHT operations](#dht-operation) and sending them to the respective [validation authorities](#validation-authority) for [validation](#validation), transformation into [element data](#element-data) and storage. This happens after it has passed the author's own copy of the [validation rules](#validation-rule). The validation authorities who are responsible for that entry's [address](#address) receive it, validate it, and if it's valid, store a copy of it and pass a [validation receipt](#validation-receipt) back to the author.
+The act of converting a [record](#record) into one or more [DHT operations](#dht-operation) and sending them to the respective [validation authorities](#validation-authority) for [validation](#validation), transformation into [record data](#record-data) and storage. This happens after it has passed the author's own copy of the [validation rules](#validation-rule). The validation authorities who are responsible for that entry's [address](#address) receive it, validate it, and if it's valid, store a copy of it and pass a [validation receipt](#validation-receipt) back to the author.
 
 #### Query arc
 
 A range of [DHT addresses](#dht-address) for which an [agent](#agent) knows a sufficient number of [peers](#peer) who collectively have fault-tolerant coverage (see [saturation](#saturation)) of that range. An agent knows that they can request [DHT data](#dht-data) from anyone within this query arc and get a reasonably authoritative answer (making allowances for [eventual consistency](#eventual-consistency)). This query arc is a looser [neighborhood](#neighborhood) than a [store arc](#store-arc).
+
+#### Record
+
+The data structure that holds an [action](#action) in an [agent](#agent)'s [source chain](#source-chain). Some records are a combination of [action](#action) and [entry](#entry), such as [new-entry actions](#new-entry-action), while others contain all their data inside the record.
+
+#### Record data
+
+Any piece of [address](#address)able data that can (though doesn't need to) be published to the [DHT](#distributed-hash-table-dht). Record data consists of anything contained in a [record](#record) --- that is, an [action](#action) or an [entry](#entry), which are stored by separate [validation authorities](#validation-authority) on the DHT. This is in contrast to [metadata](#metadata), which is attached to a piece of record data.
 
 #### Remote call
 
@@ -586,7 +582,7 @@ A network port that the [conductor](#conductor) exposes, allowing [clients](#cli
 
 #### Required validations
 
-The number of [validation receipts](#validation-receipt) that an [element](#element) of a given [entry type](#entry-type) must have in order to be considered accepted by the [validation authorities](#validation-authority) and be 'live' on the [DHT](#distributed-hash-table-dht). On initial [publish](#publish), the author of an element collects these receipts; thereafter, validation authorities gossip these receipts to each other. If the author can't collect the required number of receipts, it'll try to republish to more authorities later.
+The number of [validation receipts](#validation-receipt) that a [record](#record) of a given [entry type](#entry-type) must have in order to be considered accepted by the [validation authorities](#validation-authority) and be 'live' on the [DHT](#distributed-hash-table-dht). On initial [publish](#publish), the author of an record collects these receipts; thereafter, validation authorities gossip these receipts to each other. If the author can't collect the required number of receipts, it'll try to republish to more authorities later.
 
 #### Resilience
 
@@ -618,11 +614,11 @@ A message emitted by a [cell](#cell), meant for a [client](#client) to receive a
 
 #### Source chain
 
-A [hash chain](#hash-chain) of [elements](#element) committed by an [agent](#agent). Every agent has a separate source chain for each of the [cells](#cell) they're running, which stores all of the [actions](#action) they've taken in that cell.
+A [hash chain](#hash-chain) of [records](#record) committed by an [agent](#agent). Every agent has a separate source chain for each of the [cells](#cell) they're running, which stores all of the [actions](#action) they've taken in that cell.
 
 #### State transition
 
-A modification of application state. In Holochain, all state transitions are recorded as [elements](#element) in an [agent](#agent)'s [source chain](#source-chain) that represent the [actions](#action) of [creating, updating, and deleting](#create-read-update-delete-crud) data and metadata. If the data is meant to be [public](#public-entry), they are then [published](#publish) to the [DHT](#distributed-hash-table-dht) as a set of [DHT operations](#dht-operation) that are sent to the appropriate [validation authorities](#validation-authority) for [validation](#validation), processing, and storage.
+A modification of application state. In Holochain, all state transitions are recorded as [records](#record) in an [agent](#agent)'s [source chain](#source-chain) that represent the [actions](#action) of [creating, updating, and deleting](#create-read-update-delete-crud) data and metadata. If the data is meant to be [public](#public-entry), they are then [published](#publish) to the [DHT](#distributed-hash-table-dht) as a set of [DHT operations](#dht-operation) that are sent to the appropriate [validation authorities](#validation-authority) for [validation](#validation), processing, and storage.
 
 #### Subconscious
 
@@ -685,7 +681,7 @@ Any executable code that checks data for validity. Validation rules can either b
 
 #### Validation function
 
-A function in an application's [DNA](#dna) that contains the validation rules for an [element](#element). This function allows every [agent](#agent) to check the correctness of data they see. If a [validation authority](#validation-authority) is performing validation on an element and finds that it's invalid, they can publish a [warrant](#warrant) proving that the element's author has broken the 'rules of the game'.
+A function in an application's [DNA](#dna) that contains the validation rules for a [record](#record). This function allows every [agent](#agent) to check the correctness of data they see. If a [validation authority](#validation-authority) is performing validation on a record and finds that it's invalid, they can publish a [warrant](#warrant) proving that the record's author has broken the 'rules of the game'.
 
 #### Validation signature
 
