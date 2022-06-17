@@ -29,7 +29,7 @@ However, developers expect CRUD (create, read, update, delete) to be a basic fea
 
 ## Simulating mutability
 
-You might remember from [a few pages back](../3_source_chain/) that we described each element as an ‘action’, not a thing. When you create, update, or delete a piece of data, you’re actually recording the _act of doing it_. (This is called [event sourcing](https://martinfowler.com/eaaDev/EventSourcing.html), if you’re interested.)
+You might remember from [a few pages back](../3_source_chain/) that we described each record as an ‘action’, not a thing. When you create, update, or delete a piece of data, you’re actually recording the _act of doing it_. (This is called [event sourcing](https://martinfowler.com/eaaDev/EventSourcing.html), if you’re interested.)
 
 Here are all the mutation actions an agent can perform:
 
@@ -40,16 +40,16 @@ Here are all the mutation actions an agent can perform:
 * **Create link** creates a new link.
 * **Delete link** marks an existing create-link action as dead.
 * **Redirect** (not yet implemented) acts as a 'canonical' update, overriding all other updates and causing the old new-entry action's address to resolve to the new one.
-* **Withdraw header** (not yet implemented) marks an existing header as dead, allowing an author to reverse a mistakenly published action.
+* **Withdraw action** (not yet implemented) marks an existing action as dead, allowing an author to reverse a mistakenly published action.
 * **Purge entry** (not yet implemented) directs a DHT authority to erase an entry from their store, which is useful for removing immoral content or honoring right-to-be-forgotten requests.
 
 In every case where an action 'modifies' old data, it's simply sending a piece of metadata to be attached to the old data. The old data still exists; it just has a different status. The only exception is purge.
 
 All the DHT does is accumulate all these actions and present them to the application. This gives you some versatility in deciding how to manage conflicting contributions from many agents. The only exception is redirect, which forces a canonical resolution of conflicting updates.
 
-It's also important to note that an update or delete action doesn't operate on entries or links---it operates on _the actions that called them into existence_. That means you have to specify a header hash, not just an entry hash. In the case of deletes, an entry or link isn't dead until all the headers that created it are also dead. Again, purge is the only exception; it operates on entries.
+It's also important to note that an update or delete action doesn't operate on entries or links---it operates on _the actions that called them into existence_. That means you have to specify an action hash, not just an entry hash. In the case of deletes, an entry or link isn't dead until all the actions that created it are also dead. Again, purge is the only exception; it operates on entries.
 
-This prevents clashes between identical entries written by different authors at different times, such as Alice and Bob both writing the message “hello”. That entry exists in one place in the DHT, but it will have two new-entry actions attached to it, each of which can be updated or deleted independently. Taking entry and header together, they can be considered two separate pieces of data. 
+This prevents clashes between identical entries written by different authors at different times, such as Alice and Bob both writing the message “hello”. That entry exists in one place in the DHT, but it will have two new-entry actions attached to it, each of which can be updated or deleted independently. Taking entry and action together, they can be considered two separate pieces of data. 
 
 ## Handling privacy concerns and storage constraints
 
