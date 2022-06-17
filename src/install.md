@@ -64,6 +64,16 @@ We use the Nix toolkit to manage the installation of our dev tools, so you can g
 sh <(curl -L https://nixos.org/nix/install)
 ```
 
+#### Apple silicon ⚠️
+
+*Currently we support Holonix on Apple silicon computers with M1/M2 chips (aarch64) ***only in Intel (x86_64) compatibility mode***. This mode requires [Rosetta 2](https://support.apple.com/en-us/HT211861) to be installed.*
+
+*Enter an x86_64 shell before executing all commands on this page:*
+
+```bash
+arch -x86_64 $SHELL
+```
+
 </div>
 
 <div markdown="1" class="tabcontent content_windows" data-tabid="tab_windows" style="display:none;">
@@ -96,6 +106,8 @@ sh <(curl -L https://nixos.org/nix/install)
 
 </div>
 
+### Verify Nix installation
+
 After installing Nix, close the terminal and open a new one.
 
 Check that Nix is correctly installed:
@@ -111,8 +123,6 @@ nix-shell (Nix) 2.6.0
 ```
 
 If you’d like to know more about Nix and why we use it, you can [find more information here](../install-advanced/#more-info-on-nix).
-
----
 
 ## Configure Cachix to use pre-built binaries of Holochain
 
@@ -188,6 +198,8 @@ If you want to automatically upgrade your project to the most recent version of 
 nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz -p niv --run "niv init && niv drop nixpkgs && niv drop niv && niv add -b main holochain/holonix"
 ```
 
+⚠️ [Run in x86_64 mode on Apple silicon machines](#apple-silicon) ⚠️
+
 Executing this command creates a new folder named `nix` with 2 files that `niv` needs to retrieve the revision of the latest Holonix version.
 
 Next you need to add a `default.nix` file as a Nix configuration of your development environment, including Holochain as a dependency.
@@ -214,6 +226,8 @@ Now you can enter the Nix shell with your development environment by running the
 > niv initializes and updates to the latest revision of the Holonix repository. As every revision contains configurations for several previous versions of Holochain, you need to explicitly define the exact version of Holochain you want to use. In other words, niv does not set a Holochain version; it's defined in `default.nix`.
 
 #### Upgrading the Holochain version
+
+⚠️ [Run in x86_64 mode on Apple silicon machines](#apple-silicon) ⚠️
 
 When the time has come to upgrade your hApp to a newer version of Holochain, there are 3 steps to follow:
 
