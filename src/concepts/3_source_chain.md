@@ -87,7 +87,7 @@ Let's take a closer look at the action. Along with the signature, it includes th
 
 Let's look even more closely at that first line in the action.
 
-![](../../img/concepts/3.7-prev-action-hash.png)
+![](../../img/concepts/3.7-prev-action.png)
 
 This hash is the unique cryptographic ‘fingerprint’ for the previous record’s data. This is what ensures the integrity of the entire source chain. Each record points back to its previous entry. With a paper journal, it’s obvious when someone’s ripped out a page, glued a new page in, or taped a sheet of paper over an existing page. This chain of hashes is the digital equivalent: if anyone so much as modifies a single character in a record, all subsequent records will be invalidated.
 
