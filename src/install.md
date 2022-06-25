@@ -68,7 +68,7 @@ sh <(curl -L https://nixos.org/nix/install)
 
 *Currently we support Holonix on Apple silicon computers with M1/M2 chips (aarch64) ***only in Intel (x86_64) compatibility mode***. This mode requires [Rosetta 2](https://support.apple.com/en-us/HT211861) to be installed.*
 
-*Enter an x86_64 shell before executing all commands on this page:*
+*Enter an x86_64 shell before executing any command on this page:*
 
 ```bash
 arch -x86_64 $SHELL
