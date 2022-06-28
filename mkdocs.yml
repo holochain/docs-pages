@@ -57,7 +57,7 @@ extra_javascript:
   - 'custom/prism.js'
 
 extra:
-  google_analytics_v4: 'G-3FKEN0NBXY'
+  google_analytics_v4: 'GTM-WGCFJ46'
 
 google_analytics:
   - 'UA-131226536-4'
