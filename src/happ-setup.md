@@ -17,8 +17,15 @@ Commands to set up a new Holochain app (hApp) are at your fingertips. There are 
 The command to set up a new empty project is
 
 ```bash
-hn-init
+npm init @holochain
 ```
+
+### Create a new hApp using the GUI
+
+This offers a visual way of defining the hApp's entries, you can create the new hApp using a GUI. You can also just proceed without editing anything and click 'Scaffold App' to generate your project folders and switch to editing in an IDE.
+
+The resulting hApp is laid out as printed above. A web app is executed and opens in the default web browser. It provides controls to add DNAs and Zomes, and to add and configure
+field name and types of your hApp's entry definitions. Further you can choose between different templates for the hApp's UI.
 
 It will create a new folder named "my-app" in the current directory. Inside that new folder there's a number of files and folders:
 
@@ -28,7 +35,7 @@ It will create a new folder named "my-app" in the current directory. Inside that
 - a DNA with one Zome
 - configuration files to bundle DNA, hApp and Web hApp (UI + hApp)
 - Tryorama setup for e2e tests of the DNA
-- a Vuejs skeleton frontend hooked up to the DNA
+- a Vuejs (or Svelte or LIT) skeleton frontend hooked up to the DNA
 - npm scripts for developing, testing, building and packaging the hApp
 
 *The generated file structure is the recommended layout for hApps.*
@@ -89,21 +96,6 @@ It will create a new folder named "my-app" in the current directory. Inside that
 ```
 
 You can enter the Holochain nix-shell and immediately start developing your hApp.
-
-> Internally, the `hn-init` command is an alias for a sub command of the scaffolding tool: `holochain-create init`.
-
-### Create a new hApp using the GUI
-
-If you already know the data structure of your hApp or prefer a visual way of defining the hApp's entries, you can create the new hApp using a GUI.
-
-```bash
-holochain-create
-```
-
-The resulting hApp is laid out as printed above. A web app is executed and opens in the default web browser. It provides controls to add DNAs and Zomes, and to add and configure
-field name and types of your hApp's entry definitions. Further you can choose between different templates for the hApp's UI.
-
-When you're done setting up the hApp in this graphical way, all files will be produced in the folder "my-app".
 
 ## Running a deployed hApp
 
