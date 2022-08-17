@@ -4,8 +4,8 @@ This section lists additional published resources for Holochain developers. It w
 
 <div class="h-tile-container">
     <div class="h-tile tile-alt tile-concepts">
-        <a href="https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md" target="_blank">
-            <h4>Rust HDK introductory guide</h4>
+        <a href="https://docs.rs/hdk/latest" target="_blank">
+            <h4>HDK reference</h4>
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
