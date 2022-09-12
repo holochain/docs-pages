@@ -34,8 +34,3 @@ The Holochain Gym is a practical approach to learning Holochain's concepts. In a
 Check it out at <https://holochain-gym.github.io>.
 
 ![](../img/holochain-gym.jpg)
-
-### hApp Build Tutorials
-
-Write your first hApp with this kickstart tutorial on [how to build a hApp](https://github.com/holochain/happ-build-tutorial).
-Once built, you can see how to call it from a client following this [hApp client call tutorial](https://github.com/holochain/happ-client-call-tutorial).

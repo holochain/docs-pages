@@ -9,16 +9,6 @@ This section lists additional published resources for Holochain developers. It w
         </a>
     </div>
     <div class="h-tile tile-alt tile-concepts">
-        <a href="https://github.com/holochain/happ-build-tutorial" target="_blank">
-            <h4>Example "First hApp" Repo With Instructions</h4>
-        </a>
-    </div>
-    <div class="h-tile tile-alt tile-concepts">
-        <a href="https://github.com/holochain/happ-client-call-tutorial" target="_blank">
-            <h4>"How To Call Your hApp" Explainer & Tutorial</h4>
-        </a>
-    </div>
-    <div class="h-tile tile-alt tile-concepts">
         <a href="https://github.com/holochain-open-dev/wiki/wiki" target="_blank">
             <h4>Community Curated Wiki: help with how-tos and common blockers</h4>
         </a>
