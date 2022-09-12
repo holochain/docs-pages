@@ -311,8 +311,7 @@ Read through our [advanced installation guide](../install-advanced/) for tips an
 ## Next Steps
 
 1. Read through the [Holochain Core Concepts](../concepts/).
-2. Try [building and running a sample hApp](https://github.com/holochain/happ-build-tutorial).
-3. [Scaffold your own hApp](../happ-setup/#scaffolding-a-new-happ) using our RAD tool.
+2. [Scaffold your own hApp](../happ-setup/#scaffolding-a-new-happ) using our RAD tool.
 3. Learn Holochain development interactively with community-created [Learning Resources](../learning/).
 4. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
 5. Take a look at the developer documentation.
