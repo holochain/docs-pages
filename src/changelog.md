@@ -7,6 +7,10 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.5.9 → 0.5.10
+
+Point all links to HDK and Conductor API to docs.rs resources.
+
 ## 0.5.8 → 0.5.9
 
 Add instructions for Apple aarch64 computers.
