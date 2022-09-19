@@ -6,7 +6,6 @@ hide:
 ## Holochain Learning Resources
 
 There's a Playground available to visually explore Holochain's inner workings. Further there's a series of hands-on tutorials to understand and practice core concepts of Holochain, called the Holochain Gym.
-To get started developing hApps, there are tutorials for writing your first hApp and client.
 
 ### Playground
 
