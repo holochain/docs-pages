@@ -38,5 +38,5 @@ from the crate registry. At first the required Rust toolchain and features are i
 ```
 cargo install holochain -f
 cargo install holochain_cli -f
-cargo install lair_keystore -f --version '^0.0'
+cargo install lair_keystore -f
 ```
