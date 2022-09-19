@@ -1,5 +1,5 @@
 ---
-name: Incorect information
+name: Incorrect information
 about: Something in our documentation is incorrect
 title: ''
 labels: ''
