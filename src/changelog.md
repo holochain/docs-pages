@@ -7,6 +7,11 @@ The documentation aims to stay up to date with the latest release, so there are 
 
 We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
 
+## 0.5.12
+
+- Remove one overlooked reference to outdated hApp build tutorial.
+- Unpin lair version in instructions to install Holochain without Nix.
+
 ## 0.5.11
 
 Remove links to deprecated hApp build tutorial.
