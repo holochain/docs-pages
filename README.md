@@ -1,26 +1,19 @@
 # Docs
 
-This repo builds the documentation for developer.holochain.org.
+This repo builds the documentation for developer.holochain.org. 
+
+## Requirements / Setup
+
+- Python3
+- Pip
+- MkDocs: https://www.mkdocs.org/user-guide/installation/
+- Install the rest of the requiements. Run `pip install -r requirements.txt` 
 
 ## Local Development
 
-To run the server locally use:
+To buld the docs run: 
+`./create_docs.sh`
 
-> This requires browser-sync `npm install -g browser-sync`.
+If you want to see the results locally you need a web server. We will probably set up project tooling for this soon.
 
-```bash
-./dev_build.sh
-```
-
-This will open a live reload server which is great for development. It will also build mkdocs.
-However the netlify redirects will not work so you will need to go to `http://localhost:9000/` to see the site.
-
-If you want to test netlify redirects you can run:
-
-> This requires netlify cli `npm install netlify-cli -g`.
-
-```bash
-./dev_build_netlify.sh
-```
-
-But you will have to manually reload pages.
+In the mean-time Live Server works pretty well https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer.
