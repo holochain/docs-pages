@@ -7,7 +7,7 @@ This repo builds the documentation for developer.holochain.org.
 - Python3
 - Pip
 - MkDocs: https://www.mkdocs.org/user-guide/installation/
-- Install the rest of the requiements. Run `pip install -r requirements.txt` 
+- Install the rest of the requirements. Run `pip install -r requirements.txt` 
 
 ## Local Development
 
