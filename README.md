@@ -11,9 +11,10 @@ This repo builds the documentation for developer.holochain.org.
 
 ## Local Development
 
+To run a live session that will auto-update (watch) the output run:
+`.serve_docs.sh`
+Currently this still requires a browser reload. 
+
+
 To buld the docs run: 
 `./create_docs.sh`
-
-If you want to see the results locally you need a web server. We will probably set up project tooling for this soon.
-
-In the mean-time Live Server works pretty well https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer.
