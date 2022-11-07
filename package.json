@@ -1,0 +1,58 @@
+{
+  "name": "holochain-docs-pages",
+  "version": "1.0.0",
+  "description": "11ty project for generating the Holochain documentation",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build:web": "ELEVENTY_ENV=production npx @11ty/eleventy",
+    "serve:web": "ELEVENTY_ENV=development npx @11ty/eleventy --serve",
+    "serve:web-prod": "ELEVENTY_ENV=production BROWERSYNC=off npx @11ty/eleventy --serve",
+    "debug:web": "DEBUG=Eleventy* ELEVENTY_ENV=development npx @11ty/eleventy --serve",
+    "build:sass": "npx sass src/scss:styles-compiled",
+    "watch:sass": "npx sass --watch src/scss:styles-compiled",
+    "post:css": "npx postcss styles-compiled/site.css > styles-compiled/site.min.css",
+    "min:js": "npx uglify-js _site/scripts/main.bundled.js --output _site/scripts/main.min.js",
+    "build:js": "tsc --build",
+    "watch:js": "tsc --build --watch",
+    "bundle:js": "rollup -c rollup.config.js",
+    "dev": "npm run build:sass && npm run build:js && npm-run-all -p serve:web watch:sass watch:js",
+    "dev-no-js": "npm run build:sass && npm-run-all -p serve:web watch:sass",
+    "build": "npm-run-all -s clean:site build:sass post:css clean:js build:js bundle:js build:web",
+    "serve-as-prod": "npm-run-all -s clean:site build:sass post:css clean:js build:js bundle:js serve:web-prod",
+    "clean:js": "rm -rf client-side-compiled",
+    "clean:css": "rm -rf styles-compiled",
+    "clean:site": "rm -rf _site",
+    "clean": "npm-run-all clean:site clean:js clean:css",
+    "update-browserlist": "npx browserslist@latest --update-db"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holochain/docs-pages.git"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/holochain/docs-pages/issues"
+  },
+  "homepage": "https://github.com/holochain/docs-pages#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0-canary.16",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
+    "@types/lunr": "^2.3.4",
+    "autoprefixer": "^10.4.13",
+    "cssnano": "^5.1.14",
+    "html-to-text": "^8.2.1",
+    "lunr": "^2.3.9",
+    "markdown-it-attrs": "^4.1.4",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.18",
+    "postcss-cli": "^10.0.0",
+    "rollup": "^3.2.5",
+    "sass": "^1.56.0",
+    "typescript": "^4.8.4",
+    "uglify-js": "^3.17.4"
+  }
+}
