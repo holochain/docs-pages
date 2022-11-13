@@ -17,7 +17,7 @@
     "min:js": "npx uglify-js _site/scripts/main.bundled.js --output _site/scripts/main.min.js",
     "build:js": "tsc --build",
     "watch:js": "tsc --build --watch",
-    "bundle:js": "rollup -c rollup.config.js",
+    "bundle:js": "rollup -c rollup.config.mjs",
     "dev": "npm run build:sass && npm run build:js && npm-run-all -p serve:web watch:sass watch:js",
     "dev-no-js": "npm run build:sass && npm-run-all -p serve:web watch:sass",
     "build": "npm-run-all -s clean:site build:sass post:css clean:js build:js bundle:js build:web",
