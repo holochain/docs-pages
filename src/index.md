@@ -1,4 +1,6 @@
+---
 title: Get Started - Holochain Docs
+---
 
 # Get Started with Holochain
 
