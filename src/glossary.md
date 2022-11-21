@@ -576,6 +576,10 @@ A [remote procedure call](#remote-procedure-call) that one agent's [cell](#cell)
 1. A call that a [client](#client) makes to a [zome function](#zome-function) or [conductor admin API](#conductor-admin-api) function over a local socket interface.
 2. A [remote call](#remote-call) between [agents](#agent) in a [network](#network).
 
+#### Remote signal
+
+A [signal](#signal) that one [cell](#cell) sends to another cell within a [network](#network) that they belong to. The receiver's cell processes the signal by implementing a special [zome function](#zome-function) with the name `recv_remote_signal`.
+
 #### RPC interface
 
 A network port that the [conductor](#conductor) exposes, allowing [clients](#client) to call the [conductor admin API](#conductor-admin-api) or make [zome function](#zome-function) calls to running [cells](#cell). This interface only listens for local connections, so it can't be accessed over the internet.
@@ -610,7 +614,7 @@ A process of reducing the processing and storage load of individual [nodes](#nod
 
 #### Signal
 
-A message emitted by a [cell](#cell), meant for a [client](#client) to receive and act upon.
+A message emitted by a [cell](#cell) for another piece of code to act on, either a locally running [client](#client) or a [remote](#remote-signal) cell within the same [network](#network).
 
 #### Source chain
 
