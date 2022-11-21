@@ -614,7 +614,7 @@ A process of reducing the processing and storage load of individual [nodes](#nod
 
 #### Signal
 
-A message emitted by a [cell](#cell) for another piece of code to act on, either a locally running [client](#client) or a [remote](#remote-signal) cell within the same [network](#network).
+A message emitted by a [cell](#cell) for another piece of code to act on, either a locally running [client](#client) or a [remote](#remote-signal) cell within the same [network](#network). Signals are 'fire-and-forget'; they are not persisted to any [source chain](#source-chain) or the [DHT](#dht) and will be lost and not retried if they don't reach the intended recipient(s).
 
 #### Source chain
 
