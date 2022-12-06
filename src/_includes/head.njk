@@ -1,0 +1,11 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+
+  {% if site.environment == "production" %}
+  <link rel="stylesheet" href="/styles/site.min.css" />
+  {% else %}
+  <link rel="stylesheet" href="/styles/site.css" />
+  {% endif %}
+</head>
