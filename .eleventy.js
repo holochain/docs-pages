@@ -1,7 +1,9 @@
+const { EleventyRenderPlugin } = require("@11ty/eleventy");
+
 const markdownItAttrs = require("markdown-it-attrs");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 
-// const registerExtensions = require("./11ty-extensions");
+const registerExtensions = require("./11ty-extensions");
 
 module.exports = function(eleventyConfig) {
   
@@ -19,11 +21,13 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.setUseGitIgnore(false);
   eleventyConfig.setDataDeepMerge(false);
 
+  eleventyConfig.addPlugin(EleventyRenderPlugin);
   eleventyConfig.addPlugin(syntaxHighlight);
+
 
   eleventyConfig.amendLibrary("md", (mdLib) => mdLib.use(markdownItAttrs));
 
-  //registerExtensions(eleventyConfig);
+  registerExtensions(eleventyConfig);
     
   return {
     dir: {
