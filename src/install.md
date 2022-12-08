@@ -1,13 +1,14 @@
 ---
+title: Install the Holochain Developer Tools
 hide:
   - toc
 ---
 
 # Install the Holochain Developer Tools
 
-<div markdown="1" class="coreconcepts-intro">
+::: coreconcepts-intro
 This guide will get you set up with the latest Holochain developer environment on macOS, Linux, and Windows. Right now Holochain is **alpha quality** and things are moving fast. Expect our APIs and SDKs to change and even break your app if you're keeping up with the latest changes. If you like tinkering, read our [advanced guide](../install-advanced/).
-</div>
+:::
 
 ## Hardware Requirements
 

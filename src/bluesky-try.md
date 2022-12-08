@@ -1,12 +1,13 @@
 # Welcome, bluesky fans!
 
-<div class="coreconcepts-intro" markdown=1>
+::: coreconcepts-intro
+
 Holochain is a development framework for building peer-to-peer applications. We take a different approach from traditional cloud and blockchain, starting with the agency of individual users and working outward. Holochain applications are secure, scalable, private, and offline-friendly. We invite you to try Holochain out and report your experience back to the bluesky working group.
 
 [Learn more at holochain.org](https://holochain.org/)
 
 **_Ready to try Holochain?_**
-</div>
+:::
 
 ## Developers
 

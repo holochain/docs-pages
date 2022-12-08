@@ -1,10 +1,10 @@
 # Designing A Holochain Application (the express version)
 
-<div class="coreconcepts-intro" markdown=1>
+::: coreconcepts-intro
 So you've decided to create a Holochain app. Now you're wondering, _Where do I start? How do I know I'm on the right track? What do I need to remember in my design? This guide is a very brief orientation to the process of designing a Holochain app.
-</div>
+:::
 
-<div class="coreconcepts-orientation" markdown=1>
+::: coreconcepts-orientation" markdown=1>
 ## Who this guide is for
 
 You'll find this useful if you're a developer or software architect who has decided to create a Holochain application but isn't sure where to start.
@@ -27,7 +27,7 @@ You'll find this useful if you're a developer or software architect who has deci
 ## Why it matters
 
 A disciplined process of generating a design for your application will give you confidence that you've addressed all the components you need to address.
-</div>
+:::
 
 ## The design process
 
