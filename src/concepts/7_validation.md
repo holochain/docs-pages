@@ -58,7 +58,7 @@ When you **commit an entry**, your Holochain conductor is responsible for making
 
 #### Valid entry
 
-<div class="coreconcepts-storysequence" markdown="1">
+::: coreconcepts-storysequence
 1. ![](../../img/concepts/7.2-commit.png)
 Alice calls the `publish_word` zome function with the string `"eggplant"`. The function commits that word to her source chain. The conductor ‘stages’ the commit in the function’s scratch space and returns the creation action’s record hash to the `publish_word` function. The function continues executing and passes a return value back to the conductor, which holds onto it for now.
 
@@ -70,11 +70,11 @@ The validation function sees only one word, so it returns `Valid`.
 
 4. ![](../../img/concepts/7.5-persist-and-publish.png)
 Her conductor commits the entry to her source chain, clears out the scratch space, and passes the `publish_word` function’s return value back to the client. The new record is then published to the DHT.
-</div>
+:::
 
 #### Invalid entry
 
-<div class="coreconcepts-storysequence" markdown="1">
+::: coreconcepts-storysequence
 1. ![](../../img/concepts/7.6-commit.png)
 Alice calls the same zome function with the string `"orca whales"`. Again, the function calls `create_entry` and the commit is staged to the scratch space.
 
@@ -86,7 +86,7 @@ This time, the validation function sees two words. It returns `Invalid("too many
 
 4. ![](../../img/concepts/7.9-return-error.png)
 Instead of committing the entry, the conductor passes this error message back to the client instead of whatever the `publish_word` function’s return value was.
-</div>
+:::
 
 You can see that author-side validation is similar to how data validation works in a traditional client/server app: if something is wrong, the business logic rejects it and asks the user to fix it.
 
@@ -98,7 +98,7 @@ Here are the two scenarios above from the perspective of the DHT.
 
 #### Valid entry
 
-<div class="coreconcepts-storysequence" markdown="1">
+::: coreconcepts-storysequence
 1. ![](../../img/concepts/7.10-gossip-to-authorities.png)
 As authorities for the address `E`, Diana and Fred receive a copy of Alice’s `"eggplant"` entry for validation and storage.
 
@@ -110,13 +110,13 @@ The entry is valid, so they store it in their personal shard of the DHT, along w
 
 4. ![](../../img/concepts/7.13-respond-validation-receipts.png)
 They both send a copy of their receipts back to Alice. Later on, they share the entry and their validation receipts with their neighbors for resilience.
-</div>
+:::
 
 #### Invalid entry
 
 Let's say Alice has taken off her guard rails---she's hacked her Holochain software to bypass the validation rules.
 
-<div class="coreconcepts-storysequence" markdown="1">
+::: coreconcepts-storysequence
 1. ![](../../img/concepts/7.14-gossip-to-authorities.png)
 Norman and Rosie receive a copy of Alice's `"orca whales"` entry.
 
@@ -131,7 +131,7 @@ In addition to sharing the warrant with their neighbors, Norman and Rosie also s
 
 5. ![](../../img/concepts/7.18-ejection.png)
 Eventually, everyone knows that Alice is a ‘bad actor’ who has hacked her app. They all ignore her whenever she tries to talk to them, which effectively ejects her from the DHT.
-</div>
+:::
 
 ## Use cases for validation
 

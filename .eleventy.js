@@ -31,6 +31,7 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItAttrs);
     mdLib.use(markdownItContainer, "coreconcepts-intro");
     mdLib.use(markdownItContainer, "coreconcepts-orientation");
+    mdLib.use(markdownItContainer, "coreconcepts-storysequence");
   });
 
   registerExtensions(eleventyConfig);

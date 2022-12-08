@@ -56,7 +56,7 @@ Anchors are just built from entries and links, like anything else in Holochain, 
 !!! note
     Take note of the arrowheads below; you'll see that most are bi-directional, which means there are actually two separate links going in opposite directions. Hard-coded anchors are the exception because they don't need to be discovered.
 
-<div class="coreconcepts-storysequence" markdown="1">
+::: coreconcepts-storysequence
 1. ![](../../img/concepts/5.2-alice.png)
 Alice is a singer/songwriter who excels at the ukulele and wants to share her music with the world. She joins the app and chooses to register the username “@alice_ukulele”. She checks if it’s already been taken by calculating its address and looking for an existing username DHT entry with that address.
 
@@ -80,7 +80,7 @@ Those genres are already linked to an “_all_genres_” anchor, another hard-co
 
 8. ![](../../img/concepts/5.9-graph-database.png)
 Alice’s entries, now linked to one another and other existing entries on the DHT, form a graph that allows listeners to discover her and her music from a number of different starting points.
-</div>
+:::
 
 ## Key takeaways
 
