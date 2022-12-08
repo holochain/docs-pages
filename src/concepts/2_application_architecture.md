@@ -1,10 +1,9 @@
 # 2. Application Architecture
 
-<div class="coreconcepts-intro" markdown=1>
+::: coreconcepts-intro
 Applications built with Holochain are highly **modular**. This makes it easy to share code and [compose](https://en.wikipedia.org/wiki/Composability) smaller pieces together into larger wholes. Each functional part of a Holochain application, called a **DNA**, has its own business rules, isolated peer-to-peer network, and shared database.
-</div>
 
-<div class="coreconcepts-orientation" markdown=1>
+::: coreconcepts-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Agent-centricity](#agent-centricity)
@@ -13,7 +12,7 @@ Applications built with Holochain are highly **modular**. This makes it easy to 
 ### <i class="far fa-atom"></i> Why it matters
 
 A good understanding of the components of the tech stack will equip you to architect a well-structured, maintainable application. Because Holochain is probably different from what you're used to, it's good to shift your thinking early.
-</div>
+:::
 
 ## Agent-centricity
 

@@ -3,7 +3,7 @@
 !!! note
     Some of the features described on this page are currently in development or unimplemented.
 
-<div class="coreconcepts-intro" markdown=1>
+::: coreconcepts-intro
 Holochain is an **open-source framework** for developing microservices that run **peer-to-peer applications** entirely on end-user devices without central servers. It provides tools to:
 
 * authenticate users and manage identity
@@ -20,7 +20,6 @@ The Holochain suite consists of:
 * a software development kit (SDK) written for Rust developers
 * a set of tools for application development and testing
 * a development environment
-</div>
 
 ## How do I build an application?
 

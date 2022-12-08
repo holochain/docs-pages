@@ -1,10 +1,10 @@
 # 3. The Source Chain: A Personal Data Journal
 
-<div class="coreconcepts-intro" markdown=1>
+::: coreconcepts-intro
 Each user in a Holochain network creates and stores their own data in a journal called a **source chain**. Each journal entry is cryptographically signed by its author and is immutable once written.
-</div>
+:::
 
-<div class="coreconcepts-orientation" markdown=1>
+::: coreconcepts-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [How agent identities are created](#agent-identity)
@@ -14,7 +14,7 @@ Each user in a Holochain network creates and stores their own data in a journal 
 ### <i class="far fa-atom"></i> Why it matters
 
 When you understand how agents and their data are represented, you have the foundational knowledge for creating an appropriate user experience that takes advantage of Holochain’s agent-centric design.
-</div>
+:::
 
 ## Agent identity
 

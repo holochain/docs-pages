@@ -5,9 +5,9 @@ hide:
 
 # Advanced installation guide, tips and tricks
 
-<div markdown="1" class="coreconcepts-intro">
+::: coreconcepts-intro
 This guide assumes that you've already followed the [quick installation guide](../install/) and want something more. It describes how to make it faster to get into the Holonix shell, explains how to install more or less stable versions of Holochain, and discusses why we use nix-shell in the first place.
-</div>
+:::
 
 ## Getting into Holonix faster and easier
 

@@ -1,10 +1,10 @@
 # 4. The DHT: A Shared, Distributed Graph Database
 
-<div class="coreconcepts-intro" markdown=1>
+::: coreconcepts-intro
 Agents share records of their actions, including any data meant to be shared with the group, in a  [**distributed hash table (DHT)**](https://en.wikipedia.org/wiki/Distributed_hash_table). This database provides redundancy and availability for data and gives the network the power to detect corruption.
-</div>
+:::
 
-<div class="coreconcepts-orientation" markdown=1>
+::: coreconcepts-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [The downsides and risks of self-owned data](#self-owned-data-isnt-enough)
@@ -16,7 +16,7 @@ Agents share records of their actions, including any data meant to be shared wit
 ### <i class="far fa-atom"></i> Why it matters
 
 If you’re unsure whether a distributed network can provide the same integrity, performance, and uptime guarantees as a server-based system under your control, this article will give you a better picture of how Holochain addresses these issues. You’ll also have a better understanding of how user data is stored, which will help you think about how to design your persistence layer.
-</div>
+:::
 
 ## Self-owned data isn't enough
 

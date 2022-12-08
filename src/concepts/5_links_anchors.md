@@ -1,10 +1,10 @@
 # 5. Links and Anchors: Connecting DHT Data Together
 
-<div class="coreconcepts-intro" markdown="1">
+::: coreconcepts-intro
 Entries on the DHT are connected to one another via one-way **links**. They allow you to create a graph database on the DHT, making information easy to discover. **Anchors** serve as starting points for link discovery.
-</div>
+:::
 
-<div class="coreconcepts-orientation" markdown="1">
+::: coreconcepts-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Why it's hard to find data in a DHT](#the-difficulty-of-looking-for-data-especially-when-you-dont-know-what-youre-looking-for)
@@ -15,7 +15,7 @@ Entries on the DHT are connected to one another via one-way **links**. They allo
 ### <i class="far fa-atom"></i> Why it matters
 
 DHTs and graph databases are different from familiar data stores, like relational databases, key/value stores, and document/object stores. Once you understand how they work, you'll be able to design a robust data model for your app that takes advantage of their strengths and avoids their weaknesses.
-</div>
+:::
 
 ## The difficulty of looking for data (especially when you don't know what you're looking for)
 

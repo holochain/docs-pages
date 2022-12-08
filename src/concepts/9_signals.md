@@ -1,9 +1,10 @@
 # 9. Signals: Communicating without waiting for a response
 
-<div class="coreconcepts-intro" markdown="1">A DNA usually only receives function calls from the outside world and returns a response. But a DNA can also push **signals** to a listening client on the agent’s device, or another agent on the same DHT.
-</div>
+::: coreconcepts-intro
+A DNA usually only receives function calls from the outside world and returns a response. But a DNA can also push **signals** to a listening client on the agent’s device, or another agent on the same DHT.
+:::
 
-<div class="coreconcepts-orientation" markdown="1">
+::: coreconcepts-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [When signals are useful](#when-are-signals-useful)
@@ -13,7 +14,7 @@
 ### <i class="far fa-atom"></i> Why it matters
 
 Signals avoid the need for a client to regularly poll a zome function to retrieve new data, making UIs much more responsive and performant. They can also trigger automatic actions in a cell or client without needing human intervention.
-</div>
+:::
 
 ![](../../img/concepts/9.1-signals.png)
 

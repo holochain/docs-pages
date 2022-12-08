@@ -1,10 +1,10 @@
 # 8. Calls and Capabilities: Communicate With Other Components And Peers
 
-<div class="coreconcepts-intro" markdown="1">
+::: coreconcepts-intro
 Application components can **call a DNA's functions**. On one agent’s device, clients can call functions in cells, and cells in the same conductor can call each other’s functions. Within one DHT, cells can call other agent’s cells, allowing agents to delegate their agency to others.
-</div>
+:::
 
-<div class="coreconcepts-orientation" markdown="1">
+::: coreconcepts-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Who can call whose functions](#client-inter-zome-bridge-and-remote-calls-who-can-call-whom)
@@ -14,7 +14,7 @@ Application components can **call a DNA's functions**. On one agent’s device, 
 ### <i class="far fa-atom"></i> Why it matters
 
 Web 2.0 flourished thanks in part to ‘mashups’, or publicly accessible APIs that allowed apps and services to use each other’s data. Holochain enables a richer sharing of functionality and data between apps, anchoring the experience in the end-user’s agency. This increases application development velocity and encourages the development of standard, shared component libraries. Remote calls, on the other hand, allow agents in one app to interact privately without publishing any data to the DHT.
-</div>
+:::
 
 ![](../../img/concepts/8.1-calls.png)
 

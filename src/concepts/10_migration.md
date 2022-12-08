@@ -3,11 +3,11 @@
 !!! note
     This page describes an unimplemented feature. In the meantime, you can implement it yourself by defining your own open and close chain entry types (if needed) and writing migration routines that connect to the old cell to access or import old data.
 
-<div class="coreconcepts-intro" markdown=1>
+::: coreconcepts-intro
 Holochain lets users **migrate** from one DNA to a new one without central coordination, permitting seamless application updates in peer-to-peer networks.
-</div>
+:::
 
-<div class="coreconcepts-orientation" markdown=1>
+::: coreconcepts-orientation
 ### What you'll learn
 
 1. [How upgrades are handled in cloud and blockchain](#the-migration-landscape-cloud-and-blockchain)
@@ -16,7 +16,7 @@ Holochain lets users **migrate** from one DNA to a new one without central coord
 ### Why it matters
 
 Software is always changing. Stakeholders request new features, and bugs are a fact of life. While cloud-based deployments offer clean, global software upgrades supported by migration routines in popular software frameworks, distributed ledger frameworks are more brittle, sometimes forcing developers to choose between a ['hard fork'](https://www.investopedia.com/terms/h/hard-fork.asp) of the underlying network or compromising user autonomy by retiring existing code for all users. Holochain strives for a balance, offering the simplicity of built-in migration routines while leaving users free to make their own choices.
-</div>
+:::
 
 ## The migration landscape: cloud and blockchain
 

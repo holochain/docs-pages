@@ -1,10 +1,10 @@
 # 7. Validation: Assuring Data Integrity
 
-<div class="coreconcepts-intro" markdown="1">
+::: coreconcepts-intro
 Holochain DNAs specify **validation rules** for every type of entry or link. This empowers agents to check the integrity of the data they see. When called upon to validate data, it allows them to identify corrupt peers and publish a **warrant** against them.
-</div>
+:::
 
-<div class="coreconcepts-orientation" markdown="1">
+::: coreconcepts-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Why validation matters](#validation-the-beating-heart-of-holochain)
@@ -17,7 +17,7 @@ Holochain DNAs specify **validation rules** for every type of entry or link. Thi
 ### <i class="far fa-atom"></i> Why it matters
 
 Data validation rules are the core of a Holochain app. They deserve the bulk of your attention while you're writing your DNA.
-</div>
+:::
 
 ![](../../img/concepts/7.1-validation.png)
 
