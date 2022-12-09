@@ -1,4 +1,6 @@
-# Welcome, bluesky fans!
+---
+title: Welcome, bluesky fans!
+---
 
 ::: coreconcepts-intro
 

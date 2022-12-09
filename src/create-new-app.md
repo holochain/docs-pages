@@ -1,4 +1,6 @@
-# Create a New App
+---
+title: Create a New App
+---
 
 These are the commands you will need when creating a new application.
 

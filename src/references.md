@@ -1,3 +1,7 @@
+---
+title: Holochain Programming References
+---
+
 # Holochain Programming References
 
 !!! warning "Under construction"

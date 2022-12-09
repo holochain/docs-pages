@@ -1,4 +1,6 @@
-# Changelog
+---
+title: Changelog
+---
 
 This page shows any breaking changes to our Holochain documentation and how to update your code to match.
 Holochain Core is very fast moving software; we release often.
