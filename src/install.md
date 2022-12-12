@@ -14,21 +14,21 @@ hide:
 
 <div class="h-tile-container h-tile-container-3 tile-tabs">
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" data-contentclass="content_linux" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
+        <!-- <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" data-contentclass="content_linux" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;"> -->
             <h3><img src="../custom/icon-linux.svg" class="linux"> Linux</h3>
-        </a>
+        <!-- </a> -->
     </div>
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content_macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+        <!-- <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content_macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;"> -->
             <h3><img src="../custom/icon-apple.svg"> macOS</h3>
             <h4>Not Yet Supported</h4>
-        </a>
+        <!-- </a> -->
     </div>
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+        <!-- <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;"> -->
             <h3><img src="../custom/icon-windows.svg"> Windows</h3>
             <h4>Not Yet Supported</h4>
-        </a>
+        <!-- </a> -->
     </div>
 </div>
 
@@ -46,7 +46,7 @@ sh <(curl -L https://nixos.org/nix/install)
 
 </div>
 
-<div markdown="1" class="tabcontent content_macos" data-tabid="tab_macos" style="display:none;>
+<!-- <div markdown="1" class="tabcontent content_macos" data-tabid="tab_macos" style="display:none;> -->
 
 <!-- ## macOS
 
@@ -145,7 +145,7 @@ nix-shell https://holochain.love --run "hc scaffold example forum"
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
 6. Join the discussion in the [HC.dev discord](https://forum.holochain.org).
-</div>
+
 
 <script>
 function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
