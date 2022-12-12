@@ -132,7 +132,7 @@ Type the following at the command line:
 nix-shell https://holochain.love --run "hc scaffold example forum"
 ```
 
-Select the UI framework you prefer.
+When prompted, select the UI framework you prefer.
 
 
 When the project setup completes the following commands to run the Holochain app:
