@@ -6,8 +6,9 @@ nav:
     - Introduction: index.md
     - What is Holochain?: what-is-holochain.md
     - Install Holochain: install.md
-    - Install Holochain w/o Holonix: install-without-holonix.md
     - Project Structure: happ-setup.md
+    # - Advanced Scaffolding: scaffold-webapp.md
+    - Install Holochain w/o Holonix: install-without-holonix.md
     - Learning: learning.md
     - Get Involved: get-involved.md
     - Glossary: glossary.md
