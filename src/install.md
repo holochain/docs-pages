@@ -132,8 +132,21 @@ Type the following at the command line:
 nix-shell https://holochain.love --run "hc scaffold example forum"
 ```
 
+Select the UI framework you prefer.
 
-### Next Step: Explore the [project structure](../hApp-setup/) of your Holochain Forum example hApp
+
+When the project setup completes the following commands to run the Holochain app:
+
+```
+cd forum
+```
+```
+nix-shell --run "npm install && npm start"
+```
+
+### Next Step: 
+Explore the [project structure](../hApp-setup/) of your Holochain Forum example hApp
+
 
 ## Learn More
 
