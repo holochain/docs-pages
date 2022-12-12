@@ -32,8 +32,8 @@ hide:
     </div>
 </div>
 
-<div markdown="1" class="tabcontent content_linux" data-tabid="tab_linux" style="display:none;">
-
+<!-- <div markdown="1" class="tabcontent content_linux" data-tabid="tab_linux" style="display:none;">
+</div> -->
 ## Install Holochain on Linux
 
 ### Install the Nix Package Manager
@@ -43,8 +43,6 @@ At a command line:
 ```bash
 sh <(curl -L https://nixos.org/nix/install)
 ```
-
-</div>
 
 <!-- <div markdown="1" class="tabcontent content_macos" data-tabid="tab_macos" style="display:none;> -->
 
