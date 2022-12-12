@@ -7,11 +7,11 @@ nav:
     - What is Holochain?: what-is-holochain.md
     - Install Holochain: install.md
     - Install Holochain w/o Holonix: install-without-holonix.md
-    - hApp Setup: happ-setup.md
+    - Project Structure: happ-setup.md
     - Learning: learning.md
     - Get Involved: get-involved.md
     - Glossary: glossary.md
-    - Advanced Installation Tips: install-advanced.md
+    - Advanced Installation Guide: install-advanced.md
   - Core Concepts:
     - Introduction: 'concepts/index.md'
     - The Basics: 'concepts/1_the_basics.md'
