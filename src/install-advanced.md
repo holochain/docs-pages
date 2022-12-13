@@ -172,3 +172,42 @@ The full suite of Nix tooling is broad and deep. There’s even a dedicated prog
 While working on Holochain, you will usually have an active `nix-shell` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell---environment variables, Rust toolchains, binaries, libraries, and development tools---giving you a consistent development environment to build Holochain apps. All this setup will be cleaned up automatically when you close the shell.
 
 If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix-shell`. The packages are cached locally on your machine, so they will be ready the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use the [Holochain repo cloning method](#keeping-everything-local), they're cached on your machine too, but the ['quick install'](../install/) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
+
+## Install Holochain without Holonix
+
+In case you don't want to use Holonix to set up your development environment, here are steps provided to install Holochain binaries directly
+from the crate registry. At first the required Rust toolchain and features are installed, followed by the actual Holochain dependencies.
+
+> Holonix is the recommended way to set up your development environment.  
+**We don't provide support for installing Holochain without Holonix.**
+
+### Ubuntu-based Linux distributions
+
+#### Install Rust toolchain
+
+* [Rust toolchain installation](https://www.rust-lang.org/tools/install)
+* Install target to build WebAssembly binaries
+    ```bash
+    rustup target add wasm32-unknown-unknown
+    ```
+* Linux build tools
+    ```bash
+    sudo apt-get install build-essential
+    ```
+* OpenSSL
+    ```bash
+    sudo apt-get install libssl-dev
+    ```
+* Build dependency for Cargo libraries
+    ```bash
+    sudo apt-get install pkg-config
+    ```
+
+#### Install Holochain dependencies
+
+```
+cargo install holochain -f
+cargo install holochain_cli -f
+cargo install lair_keystore -f
+```
+
