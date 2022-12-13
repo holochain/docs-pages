@@ -9,7 +9,7 @@ nav:
     - Project Structure: happ-setup.md
     # - Advanced Scaffolding: scaffold-webapp.md
     - Install Holochain w/o Holonix: install-without-holonix.md
-    - Learning: learning.md
+    # - Learning: learning.md
     - Get Involved: get-involved.md
     - Glossary: glossary.md
     - Advanced Installation Guide: install-advanced.md
