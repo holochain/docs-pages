@@ -12,7 +12,7 @@ nav:
     - Get Involved: get-involved.md
     - Glossary: glossary.md
     - Advanced Installation Guide: install-advanced.md
-      - Install Holochain w/o Holonix: install-without-holonix.md
+    - Install Holochain w/o Holonix: install-without-holonix.md
   - Core Concepts:
     - Introduction: 'concepts/index.md'
     - The Basics: 'concepts/1_the_basics.md'
