@@ -168,12 +168,11 @@ Explore the [project structure](../hApp-setup/) of your Holochain Forum example 
 
 1. Dive into the [Holochain Core Concepts](../concepts/).
 2. Read through our [advanced installation guide](../install-advanced/)  
-3. Explore Holochain development interactively with community-created [Learning Resources](../learning/).
-4. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
-5. Take a look at the developer documentation.
+3. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
+4. Take a look at the developer documentation.
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
-6. Join the discussion in the [HC.dev discord](https://forum.holochain.org).
+5. Join the discussion in the [HC.dev discord](https://discord.gg/k55DS5dmPH).
 
 
 <script>
