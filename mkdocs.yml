@@ -4,7 +4,7 @@ site_name: Holochain Docs
 nav:
   - Get Started:
     - Introduction: index.md
-    - What is Holochain?: what-is-holochain.md
+    # - What is Holochain?: what-is-holochain.md
     - Install Holochain: install.md
     - Project Structure: happ-setup.md
     # - Advanced Scaffolding: scaffold-webapp.md
