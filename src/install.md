@@ -38,14 +38,14 @@ hide:
         <!-- <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content_macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;"> -->
         <div id="tab_macos" data-contentclass="content_macos" class="tabmenu not-link" >
             <h3><img src="../custom/icon-apple.svg"> macOS</h3>
-            <h4>Not Yet Supported</h4>
+            <h4>Support Coming Soon</h4>
         </div>
     </div>
     <div class="h-tile">
         <!-- <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;"> -->
         <div id="tab_windows" data-contentclass="content_windows" class="tabmenu not-link">
             <h3><img src="../custom/icon-windows.svg"> Windows</h3>
-            <h4>Not Yet Supported</h4>
+            <h4>Support Coming Soon</h4>
         </div>
     </div>
 </div>
