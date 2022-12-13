@@ -45,7 +45,7 @@ vim my_file.rs
 
 ### Using Holochain with a pinned Holochain version
 
-Holochain is currently in rapid development, which means newer versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` won't always work with existing hApp repositories or even breaks a hApp you were working on.
+Holochain is in a Beta release, where each point release is supported for at least 6 months. However, devs may want to pin to other development releases which are under more rapid change. These developement versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` may not support the features you require for your development work.
 
 To solve this, hApp projects can use Nix to pin a compatible Holochain version. The project needs to have a `default.nix` file in the root folder of the repository. Don't run this from inside the `nix-shell` provided by https://holochain.love. Instead, simply navigate to the project's root folder where the `default.nix` file needs to be and run:
 
