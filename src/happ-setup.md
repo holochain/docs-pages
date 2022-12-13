@@ -32,8 +32,6 @@ When you use the Scaffolding Tool to generate your sample project, it will creat
 │           │       └── src
 │           │           ├── all_posts.rs
 │           │           ├── comment.rs
-│           │           ├── creator_to_comments.rs
-│           │           ├── creator_to_posts.rs
 │           │           ├── lib.rs
 │           │           └── post.rs
 │           └── integrity
@@ -41,8 +39,6 @@ When you use the Scaffolding Tool to generate your sample project, it will creat
 │                   ├── Cargo.toml
 │                   └── src
 │                       ├── comment.rs
-│                       ├── creator_to_comments.rs
-│                       ├── creator_to_posts.rs
 │                       ├── lib.rs
 │                       └── post.rs
 ├── nix
