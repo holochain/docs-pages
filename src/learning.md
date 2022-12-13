@@ -2,6 +2,7 @@
 hide:
   - toc
 ---
+## The content on this page is not maintained and the resources have not been updated work with the latest Holochain releases.
 
 ## Holochain Learning Resources
 
