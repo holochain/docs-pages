@@ -57,8 +57,6 @@ This command looks for a `default.nix` file in the current folder and will creat
 
 #### Upgrading the Holochain version
 
-⚠️ [Run in x86_64 mode on Apple silicon machines](#apple-silicon) ⚠️
-
 When the time has come to upgrade your hApp to a newer version of Holochain, there are 3 steps to follow:
 
 1. Update the Holonix revision using `niv`:
