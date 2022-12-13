@@ -22,7 +22,7 @@ Welcome to the Holochain Developer Documentation! We hope to guide you along you
 	<div class="h-tile tile-hero">
 		<a href="happ-setup" style="background-image:url(img/tile-3.jpg);">
 			<h2>Project Structure</h2>
-			<p>Understanding Holochain hApp Code</p>
+			<p>Understanding Holochain Code</p>
 		</a>
 	</div>
 	<!-- <div class="h-tile tile-hero">
