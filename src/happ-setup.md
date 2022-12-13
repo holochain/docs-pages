@@ -3,31 +3,9 @@ hide:
   - toc
 ---
 
-## Scaffolding a new hApp
+## Understanding the Project Structure of your Scaffolded hApp
 
-Commands to set up a new Holochain app (hApp) are at your fingertips. There are two ways in which you can create one:
-
-1. generate an empty project or
-2. use a GUI to describe your app's structure and then generate it.
-
-**All of the following commands need to be run from a Holochain nix-shell.** [Steps to set up such a nix-shell](../install/#using-holochain-with-a-pinned-holochain-version).
-
-### Create an empty project
-
-The command to set up a new empty project is
-
-```bash
-npm init @holochain
-```
-
-### Create a new hApp using the GUI
-
-This offers a visual way of defining the hApp's entries, you can create the new hApp using a GUI. You can also just proceed without editing anything and click 'Scaffold App' to generate your project folders and switch to editing in an IDE.
-
-The resulting hApp is laid out as printed above. A web app is executed and opens in the default web browser. It provides controls to add DNAs and Zomes, and to add and configure
-field name and types of your hApp's entry definitions. Further you can choose between different templates for the hApp's UI.
-
-It will create a new folder named "my-app" in the current directory. Inside that new folder there's a number of files and folders:
+When you use the Scaffolding Tool to generate your sample project, it will create a new folder with the app name in the current directory. Inside that new folder there's a number of files and folders:
 
 - initialized git repository
 - initialized npm package
