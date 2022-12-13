@@ -12,23 +12,41 @@ hide:
 * 30GB+ available disk space
 * High Speed Internet connection
 
-<div class="h-tile-container h-tile-container-3 tile-tabs">
+<!-- This style block is temp fix while non-linux docs are disabled-->
+<style>
+    .h-tile .not-link {
+        padding: 1.2rem;
+        display: block;
+        border: 1px solid #e7e7e7;
+        box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05);
+        position: relative;
+        top: 0;
+        color: rgba(0,0,0,.87) !important;
+        transition: .3s;
+    }
+</style>
+
+<!-- Inline styling is temp fix while non-linux docs are disabled-->
+<div class="h-tile-container h-tile-container-3 tile-tabs" style="display: flex;">
     <div class="h-tile">
         <!-- <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" data-contentclass="content_linux" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;"> -->
+        <a id="tab_linux" data-contentclass="content_linux" class="tabmenu active" style="display: block; height: 100%;">
             <h3><img src="../custom/icon-linux.svg" class="linux"> Linux</h3>
-        <!-- </a> -->
+        </a>
     </div>
     <div class="h-tile">
         <!-- <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content_macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;"> -->
+        <div id="tab_macos" data-contentclass="content_macos" class="tabmenu not-link" >
             <h3><img src="../custom/icon-apple.svg"> macOS</h3>
             <h4>Not Yet Supported</h4>
-        <!-- </a> -->
+        </div>
     </div>
     <div class="h-tile">
         <!-- <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;"> -->
+        <div id="tab_windows" data-contentclass="content_windows" class="tabmenu not-link">
             <h3><img src="../custom/icon-windows.svg"> Windows</h3>
             <h4>Not Yet Supported</h4>
-        <!-- </a> -->
+        </div>
     </div>
 </div>
 
@@ -159,59 +177,59 @@ Explore the [project structure](../hApp-setup/) of your Holochain Forum example 
 
 
 <script>
-function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
-    // first of all we get all tab content blocks (I think the best way to get them by class names)
-    var all_content = document.getElementsByClassName("tabcontent");
-    var i;
-    for (i = 0; i < all_content.length; i++) {
-        all_content[i].style.display = 'none'; // hide all tab content
-    }
-    var active_content = document.getElementsByClassName(rudr_tab_content);
-    for (i = 0; i < active_content.length; i ++) {
-        active_content[i].style.display = 'block'; // display the content we need
-    }
+// function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
+//     // first of all we get all tab content blocks (I think the best way to get them by class names)
+//     var all_content = document.getElementsByClassName("tabcontent");
+//     var i;
+//     for (i = 0; i < all_content.length; i++) {
+//         all_content[i].style.display = 'none'; // hide all tab content
+//     }
+//     var active_content = document.getElementsByClassName(rudr_tab_content);
+//     for (i = 0; i < active_content.length; i ++) {
+//         active_content[i].style.display = 'block'; // display the content we need
+//     }
 
-    // now we get all tab menu items by class names (use the next code only if you need to highlight current tab)
-    var tabs = document.getElementsByClassName("tabmenu");
-    var i;
-    for (i = 0; i < tabs.length; i++) {
-        tabs[i].className = 'tabmenu';
-    }
-    document.getElementById(rudr_tab_id).className = 'tabmenu active';
-}
+//     // now we get all tab menu items by class names (use the next code only if you need to highlight current tab)
+//     var tabs = document.getElementsByClassName("tabmenu");
+//     var i;
+//     for (i = 0; i < tabs.length; i++) {
+//         tabs[i].className = 'tabmenu';
+//     }
+//     document.getElementById(rudr_tab_id).className = 'tabmenu active';
+// }
 
-// If there's a fragment identifier on the URL, switch to the correct tab on startup.
-function switchToTabForFragmentIfNecessary() {
-    var fragment = window.location.hash.slice(1);
-    if (!fragment) {
-        // Nothing to do. Make sure the default tab's content is visible.
-        var active_tab = document.querySelectorAll('.tabmenu.active')[0];
-        rudrSwitchContent(active_tab.id, active_tab.getAttribute('data-contentclass'))
-        return;
-    }
+// // If there's a fragment identifier on the URL, switch to the correct tab on startup.
+// function switchToTabForFragmentIfNecessary() {
+//     var fragment = window.location.hash.slice(1);
+//     if (!fragment) {
+//         // Nothing to do. Make sure the default tab's content is visible.
+//         var active_tab = document.querySelectorAll('.tabmenu.active')[0];
+//         rudrSwitchContent(active_tab.id, active_tab.getAttribute('data-contentclass'))
+//         return;
+//     }
 
-    var target = document.getElementById(fragment);
-    if (!target)
-        // Invalid fragment identifier.
-        return;
+//     var target = document.getElementById(fragment);
+//     if (!target)
+//         // Invalid fragment identifier.
+//         return;
 
-    var tabContainer = target.closest('.tabcontent');
-    if (!tabContainer)
-        // This content wasn't in a tab.
-        return;
+//     var tabContainer = target.closest('.tabcontent');
+//     if (!tabContainer)
+//         // This content wasn't in a tab.
+//         return;
 
-    var tabID = tabContainer.getAttribute('data-tabid');
-    var contentID = tabContainer.id;
+//     var tabID = tabContainer.getAttribute('data-tabid');
+//     var contentID = tabContainer.id;
 
-    // Make the tab active so you can see the linked content.
-    rudrSwitchContent(tabID, contentID);
-}
+//     // Make the tab active so you can see the linked content.
+//     rudrSwitchContent(tabID, contentID);
+// }
 
-// Switch to the correct tab if DOM is ready.
-if (document.readyState === 'interactive' || document.readyState === 'complete')
-    switchToTabForFragmentIfNecessary();
+// // Switch to the correct tab if DOM is ready.
+// if (document.readyState === 'interactive' || document.readyState === 'complete')
+//     switchToTabForFragmentIfNecessary();
 
-// Otherwise, wait until document is loaded and try again.
-document.addEventListener('DOMContentLoaded', switchToTabForFragmentIfNecessary, false);
+// // Otherwise, wait until document is loaded and try again.
+// document.addEventListener('DOMContentLoaded', switchToTabForFragmentIfNecessary, false);
 
 </script>
