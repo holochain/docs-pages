@@ -24,10 +24,10 @@ nav:
     - Validation: 'concepts/7_validation.md'
     - Calls and Capabilities: 'concepts/8_calls_capabilities.md'
     - Signals: 'concepts/9_signals.md'
-  - Resources:
-    - Introduction: 'resources/index.md'
-    - Dependency Pinning Guide: 'resources/dependency-pinning-guide.md'
-    - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
+  # - Resources:
+  #   - Introduction: 'resources/index.md'
+  #   - Dependency Pinning Guide: 'resources/dependency-pinning-guide.md'
+  #   - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
   - References:
     - Introduction: 'references.md'
     - HDK: 'https://docs.rs/hdk/latest/'
