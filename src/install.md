@@ -160,7 +160,7 @@ cd forum
 nix-shell --run "npm install && npm start"
 ```
 
-### Next Step: 
+### Next Step 
 Explore the [project structure](../hApp-setup/) of your Holochain Forum example hApp
 
 
