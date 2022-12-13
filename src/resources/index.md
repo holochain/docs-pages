@@ -8,11 +8,11 @@ This section lists additional published resources for Holochain developers. It w
             <h4>HDK reference</h4>
         </a>
     </div>
-    <div class="h-tile tile-alt tile-concepts">
+    <!-- <div class="h-tile tile-alt tile-concepts">
         <a href="https://github.com/holochain-open-dev/wiki/wiki" target="_blank">
             <h4>Community Curated Wiki: help with how-tos and common blockers</h4>
         </a>
-    </div>
+    </div> -->
     <!-- <div class="h-tile tile-alt tile-concepts">
         <a href="https://holochain-gym.github.io/developers/" target="_blank">
             <h4>The Holochain Gym: Exercises to learn Holochain</h4>
