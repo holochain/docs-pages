@@ -97,12 +97,20 @@ It will create a new folder named "my-app" in the current directory. Inside that
 
 You can enter the Holochain nix-shell and immediately start developing your hApp.
 
-## Running a deployed hApp
+## Distribute and Run your hApp
 
-At some stage in the app development you'll want to deploy your hApp for others to use it. If you've created the hApp with the scaffolding tools, all you need to do to package is run
+At some stage in the app development you'll want to deploy your hApp for others to use it. For this, you will need to package it into a `.webhapp` file that contains both the backend and the front-end code of your hApp.
+
+If you've created the hApp with the `hc scaffold` cli tool, all you need to do is:
 
 ```bash
 npm run package
 ```
 
-The app bundle ending in `.webhapp` will be available in the project root's `workdir` folder. Now you can deploy it to a place where users can download it. In order to install and run the hApp, there's a GUI for administrating apps on a computer. It's called the Holochain Launcher. To download and use it, refer to <https://github.com/holochain/launcher>.
+The app bundle ending in `.webhapp` will be available in the project root's `workdir` folder. Now you can deploy it to a place where users can download it or directly share it with peers you want to use it with.
+
+To run a `.webhapp` file on your computer, Holochain provides the Holochain Launcher, a graphical user interface to install, run and administrate Holochain apps.
+
+[Download Holochain Launcher](https://github.com/holochain/launcher/releases)
+
+To publicly share your bundled hApp via the Holochain Launcher, follow the [instructions](https://github.com/holochain/launcher#publishing-a-webhapp-to-the-devhub) in the README of the Holochain Launcher.
