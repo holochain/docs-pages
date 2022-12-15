@@ -8,9 +8,8 @@
             <ul class="h-nav">
                 <li class="tab-home h-hide"><a href="https://holochain.org/" onclick="window.open(this.href,'_self'); return false;"><img src="https://forum.holochain.org/uploads/default/original/1X/79f6577e3c8102e1f0caf8d2f43d4fcf472a3e34.png"> Holochain.org</a></li>
                 <li class="tab-developers"><a href="https://developer.holochain.org/" onclick="window.open(this.href,'_self'); return false;">Developers</a></li>
-                <li class="tab-forum"><a href="https://forum.holochain.org/" onclick="window.open(this.href,'_self'); return false;">Forum</a></li>
+                <li class="tab-forum"><a href="https://discord.gg/k55DS5dmPH" onclick="window.open(this.href,'_self'); return false;">Discord</a></li>
                 <li class="tab-blog"><a href="https://blog.holochain.org/" onclick="window.open(this.href,'_self'); return false;">Blog</a></li>
-                <li class="tab-events"><a href="https://forum.holochain.org/c/events/22" onclick="window.open(this.href,'_self'); return false;">Events</a></li>
             </ul>
         </div>
     </div>
@@ -50,9 +49,9 @@
           {% if config.site_name == page.title %}
             {{ config.site_name }}
           {% else %}
-            <span class="md-header-nav__topic">
+            <!-- <span class="md-header-nav__topic">
               {{ config.site_name }} <span class="version"><a href="/changelog" title="Changelog">v0.5.12</a></span>
-            </span>
+            </span> -->
             <span class="md-header-nav__topic">
               {% if page and page.meta and page.meta.title %}
                 {{ page.meta.title }}

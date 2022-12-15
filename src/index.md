@@ -21,26 +21,26 @@ Welcome to the Holochain Developer Documentation! We hope to guide you along you
 	</div>
 	<div class="h-tile tile-hero">
 		<a href="happ-setup" style="background-image:url(img/tile-3.jpg);">
-			<h2>hApp Setup</h2>
-			<p>Writing and running Holochain apps</p>
+			<h2>Project Structure</h2>
+			<p>Understand Holochain App Code</p>
 		</a>
 	</div>
-	<div class="h-tile tile-hero">
+	<!-- <div class="h-tile tile-hero">
 		<a href="learning" style="background-image:url(img/tile-4.jpg);">
 			<h2>Learning</h2>
 			<p>Holochain Learning Resources</p>
 		</a>
-	</div>
+	</div> -->
 	<div class="h-tile tile-hero">
 		<a href="https://discord.gg/MwPvM4Vffg" style="background-image:url(img/tile-5.jpg);">
 			<h2>Chat</h2>
 			<p>Discuss Holochain on Discord</p>
 		</a>
 	</div>
-	<div class="h-tile tile-hero">
+	<!-- <div class="h-tile tile-hero">
 		<a href="https://forum.holochain.org" style="background-image:url(img/tile-6.jpg);">
 			<h2>Forum</h2>
 			<p>Join the Holochain forum</p>
 		</a>
-	</div>
+	</div> -->
 </div>
