@@ -7,17 +7,16 @@ function copyCodeBlockClickHandler(e: Event) {
 function addCopyButtonsToCodeSections() {
   const codeElms = document.querySelectorAll('pre > code:not(.no-copy-button)');
   
-  // console.log(codeElms);
-
   codeElms.forEach((codeEl: Element) => {
-    console.log(codeEl);
     const preEl = codeEl.parentElement!;
-    
-    const copyButton = document.createElement("button");
-    copyButton.textContent = "Copy";
-    copyButton.addEventListener("click", copyCodeBlockClickHandler);
+    const copyButtonFrag = document.querySelector<HTMLTemplateElement>("#copy-button-template")?.content.cloneNode(true);
 
-    preEl.appendChild(copyButton);
+    if (copyButtonFrag) {
+      preEl.appendChild(copyButtonFrag);
+      const btnEl = preEl.querySelector<HTMLButtonElement>("button[data-purpose]");
+      console.log(btnEl);
+      btnEl?.addEventListener("click", copyCodeBlockClickHandler);
+    }
   });
 }
 
