@@ -1,3 +1,4 @@
+
 .h-tile-container, .home-tiles, .h-tile, .tile-hero,
 .coreconcepts-intro,
 .coreconcepts-orientation,
@@ -9,4 +10,33 @@
 
 .fas, .fa-thunderstorm, .fa-atom {
   color: red;
+}
+
+@mixin admonitionTitle($admonitionBg) {
+  .admonition-title {
+    //outline: black solid 1px;
+    background-color: $admonitionBg;
+    margin: 0 -.6rem;
+    padding: .4rem .6rem .4rem 2rem;
+    border-bottom: .05rem solid rgba(68,138,255,.1);
+    font-weight: 700;
+  }
+}
+
+.admonition {
+  outline: black solid 1px;
+  margin: 1.5625em 0;
+  padding: 0 .6rem;
+  border-radius: .1rem;
+  // font-size: .64rem;
+  overflow: auto;
+
+  &.tip {
+    @include admonitionTitle(rgba(0, 191, 165, 0.1));
+  }
+
+  &.note {
+    @include admonitionTitle(rgba(68, 138, 255, 0.1));
+  }
+
 }
