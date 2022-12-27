@@ -1,4 +1,6 @@
-# Get Involved
+---
+title: Get Involved
+---
 
 Regardless of your experience level as a developer, we encourage you to get involved and stay connected. Here are a few ways to start:
 

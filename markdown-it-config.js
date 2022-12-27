@@ -3,7 +3,8 @@ const markdownItContainer = require("markdown-it-container");
 
 const admonitionRegex = {
   "tip": /^tip\s+(.*)$/,
-  "note": /^note\s+(.*)$/
+  "note": /^note\s+(.*)$/,
+  "info": /^info\s+(.*)$/,
 };
 
 const renderAdmonition = (name, tokens, idx) => {
@@ -29,6 +30,10 @@ const renderNote = (tokens, idx) => {
   return renderAdmonition("note", tokens, idx);
 };
 
+const renderInfo = (tokens, idx) => {
+  return renderAdmonition("info", tokens, idx);
+};
+
 /**
  * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js 
  * @param {*} eleventyConfig 
@@ -39,9 +44,11 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "coreconcepts-intro");
     mdLib.use(markdownItContainer, "coreconcepts-orientation");
     mdLib.use(markdownItContainer, "coreconcepts-storysequence");
+    mdLib.use(markdownItContainer, "h-author");
     
     mdLib.use(markdownItContainer, "tip", { marker: "!", render: renderTip });
     mdLib.use(markdownItContainer, "note", { marker: "!", render: renderNote });
+    mdLib.use(markdownItContainer, "info", { marker: "!", render: renderInfo });
   });
  
 }

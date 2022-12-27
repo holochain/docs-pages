@@ -1,4 +1,6 @@
-# 8. Calls and Capabilities: Communicate With Other Components And Peers
+---
+title: "8. Calls and Capabilities: Communicate With Other Components And Peers"
+---
 
 ::: coreconcepts-intro
 Application components can **call a DNA's functions**. On one agent’s device, clients can call functions in cells, and cells in the same conductor can call each other’s functions. Within one DHT, cells can call other agent’s cells, allowing agents to delegate their agency to others.

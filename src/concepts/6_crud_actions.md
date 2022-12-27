@@ -1,4 +1,6 @@
-# 6. CRUD Actions: Modifying and Deleting Data
+---
+title: "6. CRUD Actions: Modifying and Deleting Data"
+---
 
 ::: coreconcepts-intro
 Holochain allows agents to mutate immutable data by publishing special **delete** and **update** actions to the DHT.

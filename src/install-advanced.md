@@ -1,9 +1,8 @@
 ---
+title: Advanced installation guide, tips and tricks
 hide:
   - toc
 ---
-
-# Advanced installation guide, tips and tricks
 
 ::: coreconcepts-intro
 This guide assumes that you've already followed the [quick installation guide](../install/) and want something more. It describes how to make it faster to get into the Holonix shell, explains how to install more or less stable versions of Holochain, and discusses why we use nix-shell in the first place.
@@ -41,6 +40,7 @@ nix-shell https://holochain.love
 cd my_project
 vim my_file.rs
 ```
+
 ## Using a specific version of the development tools
 
 ### Using Holochain with a pinned Holochain version
@@ -203,7 +203,7 @@ from the crate registry. At first the required Rust toolchain and features are i
 
 #### Install Holochain dependencies
 
-```
+```bash
 cargo install holochain -f
 cargo install holochain_cli -f
 cargo install lair_keystore -f

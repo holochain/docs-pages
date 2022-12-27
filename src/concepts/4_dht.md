@@ -1,4 +1,6 @@
-# 4. The DHT: A Shared, Distributed Graph Database
+---
+title: "4. The DHT: A Shared, Distributed Graph Database"
+---
 
 ::: coreconcepts-intro
 Agents share records of their actions, including any data meant to be shared with the group, in a  [**distributed hash table (DHT)**](https://en.wikipedia.org/wiki/Distributed_hash_table). This database provides redundancy and availability for data and gives the network the power to detect corruption.

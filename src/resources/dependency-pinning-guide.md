@@ -1,4 +1,6 @@
-# Dependency Pinning Guide
+---
+title: Dependency Pinning Guide
+---
 
 This guide tells you how to 'pin' versions of the Holochain HDK during hApp development so you're guaranteed to have a consistent build environment for compiling DNAs. This is helpful because, if you use our 'official' releases of Holonix (see the [quick install guide](../../install/)) you'll be updated automatically, and projects compiled with older versions of Holochain might break. Additionally, slight changes in the Rust compiler might mean that your compiled DNA ends up with a totally different hash on recompilation, even when the source code hasn't changed. This would cause a 'fork' in your network, which isn't good.
 

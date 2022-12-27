@@ -1,4 +1,6 @@
-# What is Holochain?
+---
+title: What is Holochain?
+---
 
 ## The content on this page is not maintained and may not be relevant for the latest releases of Holochain. 
 

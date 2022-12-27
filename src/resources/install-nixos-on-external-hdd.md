@@ -1,15 +1,20 @@
-# Install NixOS on External HDD
+---
+title: Install NixOS on External HDD
+---
 
-<div class="h-author" markdown=1>
+::: h-author
 <a href="https://github.com/newprometheus">
+
 Contributed by newprometheus
 ![](https://avatars3.githubusercontent.com/u/54076776?s=100)
+
 </a>
-</div>
+:::
 
 First, use the 64-bit minimal installation CD. This is available on the [NixOS downloads page](https://nixos.org/nixos/download.html). Copy it to an external HDD, which I connected to my laptop over a Sabrent cable. I also used Rufus.exe to make a bootable HDD. **Note: This will erase anything that was on the external HDD.**
 
 <br>
+
 ![](../img/nixos-rufus.png)
 <br>
 
@@ -42,7 +47,7 @@ Having internet access during an OS install can be handy to pull in configs. In 
 
 If you can’t just plug an Ethernet cable into your computer, you may want to use WiFi. To make that happen, enter the following commands:
 
-```
+```bash
 -- Generates the actual key used to authenticate on your WPA secured network
 # wpa_passphrase $SSID $PASSPHRASE > /etc/wpa_supplicant.conf
  
@@ -60,7 +65,7 @@ As I understand it, a UEFI boot device requires a GUID partition table (GPT). Th
 
 To start, we’ll delete any existing partitions and start with a clean slate:
 
-```
+```bash
 -- Identify the disk to install NixOS on - something like /dev/nvme0n1 or /dev/sda.
 -- We'll refer to it as $DISK.
 # lsblk
@@ -90,7 +95,7 @@ We can now create the partitions we need, an EFI boot partition and an LVM parti
 
 This code block assumes we’re still at a gdisk prompt.
 
-```
+```bash
 -- Create the EFI boot partition
 Command: n
 Partition number: 1
@@ -119,7 +124,7 @@ Note: Our boot partition won’t be encrypted. I can’t think of a reason why y
 
 In our example below, we’re creating a swap space the same size as our RAM (16 GB) and filling the rest of the disk with our root file system. You might want to tweak these sizes for your machine.
 
-```
+```bash
 -- You will be asked to enter your passphrase - DO NOT FORGET THIS
 # cryptsetup luksFormat $LVM_PARTITION
  
@@ -148,7 +153,7 @@ In our example below, we’re creating a swap space the same size as our RAM (16
 
 In the snippet below, `$BOOT_PARTITION` refers to the boot partition created above—something like `/dev/sda1`.
 
-```
+```bash
 -- Create a FAT32 filesystem on our boot partition
 # mkfs.vfat -n boot $BOOT_PARTITION
  
@@ -168,7 +173,7 @@ We’re almost there. It’s now time to mount the partitions we’ve created, p
 
 The snippet below uses `$BOOT_PARTITION` as a placeholder for the UEFI boot partition we created earlier. This was the first partition on the disk and will probably be something like `/dev/sda1` or `/dev/nvme0n1p1`.
 
-```
+```bash
 # mount /dev/nixos-vg/root /mnt
 # mkdir /mnt/boot
 # mount $BOOT_PARTITION /mnt/boot
@@ -176,7 +181,7 @@ The snippet below uses `$BOOT_PARTITION` as a placeholder for the UEFI boot part
 
 Now that we have filesystems we can write to, let’s generate our initial config.
 
-```
+```bash
 # nixos-generate-config --root /mnt
 ```
 
@@ -186,14 +191,14 @@ NixOS is primarily configured by `/etc/nixos/configuration.nix`. Given that our 
 
 If anything is broken in your config, installation will fail and you’ll see an error message to help diagnose your problem. Furthermore, because NixOS is the way it is, you can radically reconfigure your system later, knowing that you can fall back to a known working configuration. When you’re confident everything works, clean up packages you no longer need. In short, don’t stress too much about installing and configuring everything down to the smallest detail. It’s fine to start with a small, but working, system and build it up as you learn what you want.
 
-```
+```bash
 -- Vim 4 life! Or, you know, use `nano` or whatever else you might prefer.
 vim /mnt/etc/nixos/configuration.nix
 ```
 
 It’s critical that we tell NixOS we have a LUKS encrypted partition that needs to be decrypted before we can access any LVM partitions. To do that:
 
-```
+```bash
 boot.initrd.luks.devices = [
   { 
     name = "root";
@@ -205,19 +210,19 @@ boot.initrd.luks.devices = [
 
 NixOS also needs to know that we’re using EFI; however, in my case, this was correctly configured automatically.
 
-```
+```bash
 boot.loader.systemd-boot.enable = true;
 ```
 
 I also used Network Manager and its associated applet to manage my networking. If you’d like to do the same, add the following, as well as the applet package mentioned below:
 
-```
+```bash
 networking.networkmanager.enable = true;
 ```
 
 In addition to these core configuration items, you might want to install some packages to get you started. Your NixOS install will be very bare without them. Packages can be specified as additional configuration items, and there should be a commented-out section of configuration that you can uncomment and edit. For example, a fairly modest set of packages would look something like this:
 
-```
+```bash
 environment.systemPackages = (with pkgs; [
   firefox
   git
@@ -239,7 +244,7 @@ As the comment in the configuration file tells you, you can search for packages 
 
 The last thing I’ll call out is ‘specifying your user.’ It’s not a good idea to use `root` all the time, so to create your user and add/uncomment something like the following:
 
-```
+```bash
 users.extraUsers.holochain = {
   createHome = true;
   extraGroups = ["wheel" "video" "audio" "disk" "networkmanager"];
@@ -262,7 +267,7 @@ Configuration files may vary between NixOS versions, so be sure to check that th
 
 Once you’re happy with your configuration, we can pull the trigger on an install.
 
-```
+```bash
 # nixos-install
 -- IT'LL ASK YOU FOR YOUR ROOT PASSWORD NOW - DON'T FORGET IT
 # reboot
@@ -272,7 +277,7 @@ Go get a coffee while everything installs, and hopefully you’ll reboot to your
 
 If something has gone wrong, don’t worry. You can always boot back into the installation media, mount your partitions, update the configuration, and install again. To mount existing partitions, you’ll need to decrypt the LVM partition and activate its volume group.
 
-```
+```bash
 # cryptsetup luksOpen $LVM_PARTITION nixos-enc
 # lvscan
 # vgchange -ay

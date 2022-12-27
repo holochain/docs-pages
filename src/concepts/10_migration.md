@@ -1,4 +1,6 @@
-# 10. Migration: Updating A Network To a New Set of Rules
+---
+title: "10. Migration: Updating A Network To a New Set of Rules"
+---
 
 !!! note
     This page describes an unimplemented feature. In the meantime, you can implement it yourself by defining your own open and close chain entry types (if needed) and writing migration routines that connect to the old cell to access or import old data.

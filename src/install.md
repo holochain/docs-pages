@@ -1,10 +1,8 @@
 ---
-title: Install the Holochain Developer Tools
+title: Get Started Developing with Holochain
 hide:
   - toc
 ---
-
-# Get Started Developing with Holochain
 
 ## Hardware Requirements
 
@@ -131,7 +129,7 @@ nix-shell --version
 
 You should see something like:
 
-```
+```bash
 nix-shell (Nix) 2.6.0
 ```
 
@@ -145,7 +143,7 @@ nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz
 
 Type the following at the command line:
 
-```
+```bash
 nix-shell https://holochain.love --run "hc scaffold example forum"
 ```
 
@@ -154,10 +152,11 @@ When prompted, select the UI framework you prefer.
 
 When the project setup completes, type the following commands to run the Holochain app:
 
-```
+```bash
 cd forum
 ```
-```
+
+```bash
 nix-shell --run "npm install && npm start"
 ```
 

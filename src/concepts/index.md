@@ -1,6 +1,6 @@
-title: Holochain Core Concepts - Holochain Docs
-
-# Holochain Core Concepts
+---
+title: Holochain Core Concepts
+---
 
 Welcome to Holochain Core Concepts! Here we’ll introduce you to the basics of Holochain, a framework and network protocol for building secure distributed applications. Holochain is different from what you may be used to, but we’ll go at a comfortable pace, building on things you already know.
 

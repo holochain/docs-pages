@@ -1,4 +1,6 @@
-# Resources
+---
+title: Resources
+---
 
 This section lists additional published resources for Holochain developers. It will be updated with new resources as the Holochain ecosystem grows.
 

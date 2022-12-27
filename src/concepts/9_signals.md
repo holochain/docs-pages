@@ -1,4 +1,6 @@
-# 9. Signals: Communicating without waiting for a response
+---
+title: "9. Signals: Communicating without waiting for a response"
+---
 
 ::: coreconcepts-intro
 A DNA usually only receives function calls from the outside world and returns a response. But a DNA can also push **signals** to a listening client on the agent’s device, or another agent on the same DHT.

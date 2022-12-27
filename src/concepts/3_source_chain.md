@@ -1,4 +1,6 @@
-# 3. The Source Chain: A Personal Data Journal
+---
+title: "3. The Source Chain: A Personal Data Journal"
+---
 
 ::: coreconcepts-intro
 Each user in a Holochain network creates and stores their own data in a journal called a **source chain**. Each journal entry is cryptographically signed by its author and is immutable once written.

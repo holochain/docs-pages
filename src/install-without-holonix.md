@@ -1,9 +1,8 @@
 ---
+title: Install Holochain without Holonix
 hide:
   - toc
 ---
-
-# Install Holochain without Holonix
 
 In case you don't want to use Holonix to set up your development environment, here are steps provided to install Holochain binaries directly
 from the crate registry. At first the required Rust toolchain and features are installed, followed by the actual Holochain dependencies.
@@ -35,7 +34,7 @@ from the crate registry. At first the required Rust toolchain and features are i
 
 ### Install Holochain dependencies
 
-```
+```bash
 cargo install holochain -f
 cargo install holochain_cli -f
 cargo install lair_keystore -f
