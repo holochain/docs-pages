@@ -160,7 +160,7 @@ cd forum
 nix-shell --run "npm install && npm start"
 ```
 
-NOTE: If you try running this and get a blank string when you run npm start, execute it like this:
+NOTE: If you try running this and get a blank screen when you run npm start, execute it like this:
 ```
 WEBKIT_DISABLE_COMPOSITING_MODE=1 npm start
 ```
