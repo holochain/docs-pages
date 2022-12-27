@@ -28,7 +28,7 @@ cd my_new_app
 ### Generate a new Zome 
 
 !!! note Run in `nix-shell https://holochain.love`
-```
+```bash
 hc generate zomes/my_zome rust-proc
 ```
 !!!
@@ -36,7 +36,7 @@ hc generate zomes/my_zome rust-proc
 ### Package an app 
 
 !!! note Run in `nix-shell https://holochain.love`
-```
+```bash
 hc package
 ```
 !!!
@@ -44,13 +44,13 @@ hc package
 ### Run a testing Holochain conductor
 
 !!! note Run in `nix-shell https://holochain.love`
-```
+```bash
 hc run
 ```
 !!!
 
 !!! note Run in `nix-shell https://holochain.love`
-```
+```bash
 hc test
 ```
 !!!
@@ -59,7 +59,7 @@ hc test
 You will need to create a config file. See the [hello_world](tutorials/coreconcepts/hello_world) tutorial for an example.
 
 !!! note Run in `nix-shell https://holochain.love`
-```
+```bash
 holochain -c conductor-config.toml
 ```
 !!!
@@ -67,7 +67,7 @@ holochain -c conductor-config.toml
 ### Learn more
 
 !!! note Run in `nix-shell https://holochain.love`
-```
+```bash
 hc help 
 holochain --help 
 ```
