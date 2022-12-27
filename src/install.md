@@ -160,6 +160,12 @@ cd forum
 nix-shell --run "npm install && npm start"
 ```
 
+NOTE: If you try running this and get a blank string when you run npm start, execute it like this:
+```
+WEBKIT_DISABLE_COMPOSITING_MODE=1 npm start
+```
+There is a known issue we are working to resolve, but this should work for now.
+
 ### Next Step 
 Explore the [project structure](../hApp-setup/) of your Holochain Forum example hApp
 
