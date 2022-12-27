@@ -12,4 +12,14 @@ html, body {
 body {
   //Almost certainly wrong
   padding: 20px; 
+
+
+
+  pre[class*="language-"] {
+    display: flex;
+
+    button.copy-to-clipboard {
+      margin-left: auto;
+    }
+  }
 }
