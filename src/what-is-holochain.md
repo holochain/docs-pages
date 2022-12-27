@@ -1,7 +1,6 @@
 # What is Holochain?
 
-!!! note
-    Some of the features described on this page are currently in development or unimplemented.
+## The content on this page is not maintained and may not be relevant for the latest releases of Holochain. 
 
 ::: coreconcepts-intro
 Holochain is an **open-source framework** for developing microservices that run **peer-to-peer applications** entirely on end-user devices without central servers. It provides tools to:
