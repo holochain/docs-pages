@@ -1,0 +1,9 @@
+
+/* Code Fence styling */
+pre[class*="language-"] {
+  display: flex;
+
+  button.copy-to-clipboard {
+    margin-left: auto;
+  }
+}

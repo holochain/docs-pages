@@ -9,18 +9,26 @@ html, body {
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
-  //Almost certainly wrong
-  padding: 20px; 
+  
+  @import 'header';
+  @import 'widgets';
 
-  @import 'navigation';
-
-
-  pre[class*="language-"] {
-    display: flex;
-
-    button.copy-to-clipboard {
-      margin-left: auto;
-    }
+  .content-container {
+    margin: 0 auto;
+    max-width: 1000px;
   }
+
+  #page-content-wrap {
+
+    //Almost certainly wrong
+    // padding: 20px; 
+
+  }
+
+  
 }

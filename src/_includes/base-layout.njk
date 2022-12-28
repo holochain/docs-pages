@@ -5,8 +5,14 @@
   <body>
     {% include "header.njk" %}
 
-    {{ content | safe }}
+    {% block abovePageWrap %}{% endblock %}
 
+    <div id="page-content-wrap" class="content-container">
+    {{ content | safe }}
+    </div>
+
+    {% block belowPageWrap %}{% endblock %}
+    
     {% include "footer.njk" %}
     {% include "templates.njk" %}
   </body>
