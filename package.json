@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/holochain/docs-pages#readme",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0-canary.18",
+    "@11ty/eleventy": "^2.0.0-canary.23",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
     "@types/lunr": "^2.3.4",
     "@types/markdown-it": "^12.2.3",
