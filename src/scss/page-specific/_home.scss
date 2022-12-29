@@ -1,8 +1,13 @@
 
 &.home-page {
-  .home-tiles {
+  #home-tiles {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
+
+    .tile-hero {
+      color: white;
+      padding: 20px;
+    }
   }
 }
