@@ -1,5 +1,5 @@
-const IconShortcodes = require("./icon-shortcodes");
+const LayoutBlockShortcodes = require("./layout-block-shortcodes");
 
 module.exports = function(eleventyConfig) {
-  IconShortcodes(eleventyConfig);
+  LayoutBlockShortcodes(eleventyConfig);
 }
