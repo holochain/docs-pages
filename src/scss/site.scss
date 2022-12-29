@@ -7,6 +7,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 a {
@@ -14,7 +15,9 @@ a {
 }
 
 body {
-  
+  display: flex;
+  flex-direction: column;
+
   @import 'header';
   @import 'widgets';
 
@@ -24,11 +27,19 @@ body {
   }
 
   #page-content-wrap {
-
+    flex: 1 0 auto;
     //Almost certainly wrong
     // padding: 20px; 
-
   }
 
-  
+  #page-footer {
+    flex-shrink: 0;
+    min-height: 200px;
+    background: #3915ad url(/assets/hero-back.jpg);
+    background-size: cover;
+    background-position: 0 -890px; 
+    background-attachment: fixed; 
+  }
+
+  @import 'page-specific/home';
 }
