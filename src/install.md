@@ -1,5 +1,6 @@
 ---
 title: Get Started Developing with Holochain
+layout: base-layout.njk
 hide:
   - toc
 ---

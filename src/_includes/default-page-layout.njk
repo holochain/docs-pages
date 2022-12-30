@@ -1,8 +1,13 @@
 ---
 layout: base-layout.njk 
 ---
-<div class="left-side-bar">
-{% renderlayoutblock 'leftSideBar' %}
-{% endrenderlayoutblock %}
+<div class="default-page-layout">
+  <div class="left-side-bar">
+  {% renderlayoutblock 'leftSideBar' %}
+    Nav Stuff over here
+  {% endrenderlayoutblock %}
+  </div>
+  <div class="main-area">
+  {{ content | safe }}
+  </div>
 </div>
-{{ content | safe }}

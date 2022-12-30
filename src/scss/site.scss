@@ -30,6 +30,12 @@ body {
     flex: 1 0 auto;
     //Almost certainly wrong
     // padding: 20px; 
+
+    // two section content, left side bar, main chunk on right.
+    .default-page-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+    }
   }
 
   #page-footer {
