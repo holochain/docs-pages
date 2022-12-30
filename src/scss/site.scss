@@ -1,3 +1,5 @@
+@import 'values';
+
 @import 'debug';
 
 * {
@@ -41,10 +43,8 @@ body {
   #page-footer {
     flex-shrink: 0;
     min-height: 200px;
-    background: #3915ad url(/assets/hero-back.jpg);
-    background-size: cover;
-    background-position: 0 -890px; 
-    background-attachment: fixed; 
+    background: #29DDD3;
+    color: white; 
   }
 
   @import 'page-specific/home';

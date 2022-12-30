@@ -1,8 +1,5 @@
 #page-header {
-  background: #3915ad url(/assets/hero-back.jpg);
-  background-size: cover;
-  background-position: 0 -320px; 
-  background-attachment: fixed; 
+  background: $header-gradiant;
   padding: 10px auto;
   color: white;
 
