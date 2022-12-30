@@ -1,0 +1,8 @@
+---
+layout: base-layout.njk 
+---
+<div class="left-side-bar">
+{% renderlayoutblock 'leftSideBar' %}
+{% endrenderlayoutblock %}
+</div>
+{{ content | safe }}

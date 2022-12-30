@@ -1,5 +1,6 @@
 ---
 title: Get Started - Holochain Docs
+layout: base-layout.njk
 pageStyleId: home-page
 ---
 
