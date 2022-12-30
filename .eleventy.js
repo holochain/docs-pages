@@ -23,6 +23,10 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(EleventyRenderPlugin);
   eleventyConfig.addPlugin(syntaxHighlight);
 
+  eleventyConfig.setServerOptions({
+    showAllHosts: true
+  });
+
   configMarkdownIt(eleventyConfig);
   registerExtensions(eleventyConfig);
     
