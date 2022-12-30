@@ -22,7 +22,7 @@ const renderAdmonition = (name, tokens, idx) => {
 
 const renderTip = (tokens, idx) => {
   const result = renderAdmonition("tip", tokens, idx);
-  console.log(result);
+  // console.log(result);
   return result;
 };
 
