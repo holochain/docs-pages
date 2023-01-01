@@ -1,3 +1,5 @@
+{% from "widgets/svg-icons.njk" import discordMarkIcon, homeIcon, githubLogo %}
+
 <div id="page-header">
   <div class="content-container">    
     <nav id="top-nav">
@@ -6,9 +8,9 @@
       </a>
 
       <div id="other-nav">
-        <a href="/">Developers</a>
-        <a href="https://discord.gg/k55DS5dmPH">Discord</a>
-        <a href="https://blog.holochain.org">Blog</a>
+        <a href="/">{{ homeIcon() }}</a>
+        <a href="https://discord.gg/k55DS5dmPH">{{ discordMarkIcon() }}</a>
+        <a href="https://github.com/holochain/holochain" alt="Holochain GitHub">{{ githubLogo() }}</a>
       </div>
     </nav>
 

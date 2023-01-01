@@ -1,24 +1,23 @@
+$top-nav-img-height: 30px;
+
 #page-header {
   background: $header-gradiant;
   padding: 10px;
   color: white;
 
   #top-nav {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 30px;
+    display: flex;
+    justify-content: space-between;
 
     a {
       color: white;
     }
 
-    #home-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      
+    #home-link {      
+      height: $top-nav-img-height;
+
       img {
-        height: 30px;
+        height: $top-nav-img-height;
       }
     }
 
@@ -26,6 +25,14 @@
       display: flex;
       align-items: center;
       gap: 10px;
+
+      a {
+        height: $top-nav-img-height;
+
+        svg {
+          height: $top-nav-img-height;
+        }
+      }
     }
 
 
