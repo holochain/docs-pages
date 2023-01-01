@@ -5,13 +5,13 @@
   <body class="{{ pageStyleId }}">
     {% include "header.njk" %}
 
-    {% block abovePageWrap %}{% endblock %}
+    {% renderlayoutblock "abovePageWrap" %}{% endrenderlayoutblock %}
 
     <div id="page-content-wrap" class="content-container">
     {{ content | safe }}
     </div>
 
-    {% block belowPageWrap %}{% endblock %}
+    {% renderlayoutblock "belowPageWrap" %}{% endrenderlayoutblock %}
     
     {% include "footer.njk" %}
     {% include "templates.njk" %}
