@@ -1,6 +1,6 @@
 #page-header {
   background: $header-gradiant;
-  padding: 10px auto;
+  padding: 10px;
   color: white;
 
   #top-nav {
@@ -18,7 +18,7 @@
       gap: 10px;
       
       img {
-        width: 60px;
+        height: 30px;
       }
     }
 
