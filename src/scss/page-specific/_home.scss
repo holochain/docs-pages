@@ -5,7 +5,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 40px;
 
-    .tile-hero, .link-tile {
+    .link-tile {
       @include cardBase;
     }
   }
