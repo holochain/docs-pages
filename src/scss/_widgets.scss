@@ -37,3 +37,19 @@ pre[class*="language-"] {
   }
 
 }
+
+@mixin cardBase($head-space: 120px) {
+  border-radius: 0.3125rem;
+  box-shadow: .25rem .25rem 3.125rem rgba(#000,.25);
+  color: $main-text-color;
+  
+  padding: 20px;
+
+  .head-space {
+    height: $head-space;
+  }
+
+  h2 {
+    font-size: $bigger-font-size;
+  }
+}
