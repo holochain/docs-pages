@@ -55,6 +55,25 @@ nix-shell
 
 This command looks for a `default.nix` file in the current folder and will create the specified environment.
 
+If you've used the scaffolding tool, it will create a `default.nix` file in your project folder for you. If you're starting from an empty folder instead, this snippet is a good start (replace `v0_1_0-beta-rc_2` with your preferred [Holochain version](https://github.com/holochain/holochain/releases), supstituting `_` for `.` as in the example).
+
+```nix
+let
+  holonixPath = (import ./nix/sources.nix).holonix; # points to the current state of the Holochain repository
+  holonix = import (holonixPath) {
+    holochainVersionId = "v0_1_0-beta-rc_2"; # specifies the Holochain version
+  };
+  nixpkgs = holonix.pkgs;
+in nixpkgs.mkShell {
+  inputsFrom = [ holonix.main ];
+  packages = with nixpkgs; [
+    niv
+    nodejs-18_x
+    # any additional packages needed for this project, e. g. Nodejs
+  ];
+}
+```
+
 #### Upgrading the Holochain version
 
 When the time has come to upgrade your hApp to a newer version of Holochain, there are 3 steps to follow:
