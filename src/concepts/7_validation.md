@@ -38,16 +38,16 @@ Some entries can be computationally expensive to validate. In a currency app, fo
 
 The DHT offers a shortcut—it remembers the validation results of existing entries. You can ask the validators of the parties’ previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those and so on. As long as you trust a decent number of your peers to be playing by the rules, the validation results attached to the most recent entry ‘proves’ the validity of all the entries before it.
 
-You can also consult the agent activity authority for any peer you're unsure of. They hold a copy of any past evidence of malicious activity, along with a record of all of the peer's source chain headers that show whether they've tried to change their history.
+You can also consult the agent activity authority for any peer you're unsure of. They hold a copy of any past evidence of malicious activity, along with a record of all of the peer's source chain actions that show whether they've tried to change their history.
 
 ## Validation flow: success and failure
 
-A validation rule is just a function that receives an element (and any supporting data necessary for validation) and returns success or failure. You'll remember that an element is an _action_, not a thing, so your function is validating whether the element's author should have performed that action .
+A validation rule is just a function that receives a record (and any supporting data necessary for validation) and returns success or failure. You'll remember that a record is an _action_, not a thing, so your function is validating whether the record's author should have performed that action.
 
 The validation function is called in two different scenarios, each with different consequences:
 
-* When an agent first authors an element,
-* When an authority receives an element for validation.
+* When an agent first authors a record,
+* When an authority receives a record for validation.
 
 We’ll carry on with the DHT illustrations from chapter 4 to show what happens when data is written, but let’s add a simple validation rule: the “word” entry type has a validation rule that says that it can only contain one word.
 
@@ -60,16 +60,16 @@ When you **commit an entry**, your Holochain conductor is responsible for making
 
 <div class="coreconcepts-storysequence" markdown="1">
 1. ![](../../img/concepts/7.2-commit.png)
-Alice calls the `publish_word` zome function with the string `"eggplant"`. The function commits that word to her source chain. The conductor ‘stages’ the commit in the function’s scratch space and returns the creation action’s element hash to the `publish_word` function. The function continues executing and passes a return value back to the conductor, which holds onto it for now.
+Alice calls the `publish_word` zome function with the string `"eggplant"`. The function commits that word to her source chain. The conductor ‘stages’ the commit in the function’s scratch space and returns the creation action’s record hash to the `publish_word` function. The function continues executing and passes a return value back to the conductor, which holds onto it for now.
 
 2. ![](../../img/concepts/7.3-validate.png)
-After the function has finished, Alice’s conductor takes this element and calls the DNA’s validation function for the `word` entry type.
+After the function has finished, Alice’s conductor takes this record and calls the DNA’s validation function for the `word` entry type.
 
 3. ![](../../img/concepts/7.4-validation-success.png)
 The validation function sees only one word, so it returns `Valid`.
 
 4. ![](../../img/concepts/7.5-persist-and-publish.png)
-Her conductor commits the entry to her source chain, clears out the scratch space, and passes the `publish_word` function’s return value back to the client. The new element is then published to the DHT.
+Her conductor commits the entry to her source chain, clears out the scratch space, and passes the `publish_word` function’s return value back to the client. The new record is then published to the DHT.
 </div>
 
 #### Invalid entry
@@ -144,11 +144,11 @@ The purpose of validation is to **empower a group of individuals to hold one ano
 
 ## How validation rules are defined
 
-A validation rule is simply a callback function in your zome code that takes an element and any supporting data required to validate it, analyzes it, and returns a result. The supporting data is called a **validation package**, and it can consist of any prior source chain data necessary to validate the element. The required validation package contents are specified per entry type and can be one of:
+A validation rule is simply a callback function in your zome code that takes a record and any supporting data required to validate it, analyzes it, and returns a result. The supporting data is called a **validation package**, and it can consist of any prior source chain data necessary to validate the record. The required validation package contents are specified per entry type and can be one of:
 
 * Nothing,
-* The **full chain** up to the element,
-* **All chain elements of the same type** up to the element,
+* The **full chain** up to the record,
+* **All chain records of the same type** up to the record,
 * A **custom package** generated by a special function of your own creation.
 
 Data can also be retrieved from the DHT to support validation. Once it’s done its work, the validation function can return one of three values:
@@ -173,13 +173,13 @@ Links also have their own validation functions, `validate_create_link` and `vali
 
 ## Guidelines for writing validation rules
 
-Validation functions **return a boolean value**, meant to be used as clear evidence that an agent has tampered with their Holochain software. They should be [**deterministic**](https://en.wikipedia.org/wiki/Deterministic_algorithm) and [**pure**](https://en.wikipedia.org/wiki/Pure_function) so that the result for a given commit doesn't change based on who validated it, when they validated it, or what information was available to them at validation time. And nothing should ever be invalidated once it's been published and validated. As mentioned before, an element contains an action taken by an agent, so the validation function's job is to decide whether they ought to have taken the action _at that point in time_. This means validation functions aren't appropriate for soft things, like codes of conduct, which usually require human discretion. 
+Validation functions **return a boolean value**, meant to be used as clear evidence that an agent has tampered with their Holochain software. They should be [**deterministic**](https://en.wikipedia.org/wiki/Deterministic_algorithm) and [**pure**](https://en.wikipedia.org/wiki/Pure_function) so that the result for a given commit doesn't change based on who validated it, when they validated it, or what information was available to them at validation time. And nothing should ever be invalidated once it's been published and validated. As mentioned before, a record contains an action taken by an agent, so the validation function's job is to decide whether they ought to have taken the action _at that point in time_. This means validation functions aren't appropriate for soft things, like codes of conduct, which usually require human discretion. 
 
-If an agent is committing an element to their source chain that depends on DHT data, it's **their job to make sure those references exist at commit time and explicitly reference them**. The validation function doesn't need to revalidate those dependencies, though; Holochain will use its own heuristics to determine the trustworthiness of other validators' claims when it retrieves the data.
+If an agent is committing a record to their source chain that depends on DHT data, it's **their job to make sure those references exist at commit time and explicitly reference them**. The validation function doesn't need to revalidate those dependencies, though; Holochain will use its own heuristics to determine the trustworthiness of other validators' claims when it retrieves the data.
 
-When validating an element whose validity depends on other data on the DHT, be careful to not introduce subtle sources of non-determinism. The DHT is [eventually consistent](../../glossary/#eventual-consistency), and that means that data either _definitively exists_ or _hasn't been seen yet_ --- there's no way to determine that a piece of data definitively _doesn't_ exist.
+When validating a record whose validity depends on other data on the DHT, be careful to not introduce subtle sources of non-determinism. The DHT is [eventually consistent](../../glossary/#eventual-consistency), and that means that data either _definitively exists_ or _hasn't been seen yet_ --- there's no way to determine that a piece of data definitively _doesn't_ exist.
 
-For element data that can't be retrieved, the validation function should return 'unresolved dependencies' rather than a validation failure. This signals that the function hasn't failed; it's just waiting for the data to appear.
+For record data that can't be retrieved, the validation function should return 'unresolved dependencies' rather than a validation failure. This signals that the function hasn't failed; it's just waiting for the data to appear.
 
 ## Key takeaways
 

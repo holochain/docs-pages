@@ -32,11 +32,11 @@ And finally, in cases where the validity of a given piece of data depends on a b
 
 ![](../../img/concepts/4.1-network.png)
 
-In a Holochain network, you share your source chain headers and public entries with a random selection of your peers, who witness, validate, and hold copies of them.
+In a Holochain network, you share your source chain actions and public entries with a random selection of your peers, who witness, validate, and hold copies of them.
 
 ![](../../img/concepts/4.2-public-entry-commit.png)
 
-When you commit an element with private data, the entry data stays in your source chain, but its header is still shared.
+When you commit a record with private data, the entry data stays in your source chain, but its action is still shared.
 
 ![](../../img/concepts/4.3-private-entry-commit.png)
 
@@ -111,11 +111,11 @@ Let’s see how this plays out in the real world.
 
 When we [laid out the basics of Holochain](../1_the_basics/), we said that the second pillar of trust is **peer validation**. When a node is asked to store an entry, it doesn't _just_ store it---it also checks it for validity. As the entry is passed to more nodes in its neighborhood, it gathers more signatures attesting to its validity.
 
-There are up to three authorities for each source chain element.
+There are up to three authorities for each source chain record.
 
-* The **entry authority**, whose address is in the neighborhood of the entry’s address, checks the contents of the entry data to make sure it’s properly formed and conforms to the validation rules for the entry type. (Some elements, like link creations and deletions, don’t have any entry data.)
-* The **header authority**, whose address is in the neighborhood of the header’s address, checks the contents of the header to make sure the previous header exists on the DHT and the header’s sequence ID and timestamp are higher than that of the previous header.
-* The **agent activity authority**, whose address is in the neighborhood of the element’s author (that is, they’re the author’s neighbors), receives a copy of the header and checks that it doesn’t conflict with another header — that is, the author isn’t trying to modify their history by publishing an alternate one.
+* The **entry authority**, whose address is in the neighborhood of the entry’s address, checks the contents of the entry data to make sure it’s properly formed and conforms to the validation rules for the entry type. (Some records, like link creations and deletions, don’t have any entry data.)
+* The **action authority**, whose address is in the neighborhood of the action’s address, checks the contents of the action to make sure the previous action exists on the DHT and the action’s sequence ID and timestamp are higher than that of the previous action.
+* The **agent activity authority**, whose address is in the neighborhood of the record’s author (that is, they’re the author’s neighbors), receives a copy of the action and checks that it doesn’t conflict with another action — that is, the author isn’t trying to modify their history by publishing an alternate one.
 
 All three authorities check the signature on the data they receive to make sure it hasn’t been modified in transit and it belongs to the agent that claims to have authored it. If the signature check fails, the data is rejected.
 
@@ -127,7 +127,7 @@ The important thing is that the DHT _remembers what you’ve published_, so it�
 
 ## Key takeaways
 
-* Source chain entries can be private (kept on the user’s device) or public (shared with the group). Source chain headers are always public. Participants share these with their peers in a distributed database called the DHT.
+* Source chain entries can be private (kept on the user’s device) or public (shared with the group). Source chain actions are always public. Participants share these with their peers in a distributed database called the DHT.
 * A piece of data in a DHT is retrieved by its unique address, which is based on the data’s hash.
 * Each participant takes responsibility to be an authority for validating and storing a small portion of the public data in the DHT.
 * Holochain’s DHT is a validating DHT that remembers the validation result of existing entries. This speeds things up for everyone and allows the detection of bad actors.

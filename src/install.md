@@ -3,54 +3,68 @@ hide:
   - toc
 ---
 
-# Install The Holochain Developer Tools
-
-<div markdown="1" class="coreconcepts-intro">
-This guide will get you set up with the latest Holochain RSM developer environment on macOS, Linux, and Windows. Right now Holochain RSM is **alpha quality** and things are moving fast. Expect our APIs and SDKs to change and even break your app if you're keeping up with the latest changes. If you like tinkering, read our [advanced guide](../install-advanced/).
-</div>
+# Get Started Developing with Holochain
 
 ## Hardware Requirements
 
-* 4GB+ RAM (16GB+ recommended)
-* 4+ CPU (6+ CPU recommended)
+* 8GB+ RAM (16GB+ recommended)
+* 4+ cores CPU (6+ cores recommended)
 * 30GB+ available disk space
-* Internet connection
+* High Speed Internet connection
 
-<div class="h-tile-container h-tile-container-3 tile-tabs">
+<!-- This style block is temp fix while non-linux docs are disabled-->
+<style>
+    .h-tile .not-link {
+        padding: 1.2rem;
+        display: block;
+        border: 1px solid #e7e7e7;
+        box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05);
+        position: relative;
+        top: 0;
+        color: rgba(0,0,0,.87) !important;
+        transition: .3s;
+    }
+</style>
+
+<!-- Inline styling is temp fix while non-linux docs are disabled-->
+<div class="h-tile-container h-tile-container-3 tile-tabs" style="display: flex;">
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" data-contentclass="content_linux" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;">
+        <!-- <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" data-contentclass="content_linux" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;"> -->
+        <a id="tab_linux" data-contentclass="content_linux" class="tabmenu active" style="display: block; height: 100%;">
             <h3><img src="../custom/icon-linux.svg" class="linux"> Linux</h3>
         </a>
     </div>
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content_macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+        <!-- <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content_macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;"> -->
+        <div id="tab_macos" data-contentclass="content_macos" class="tabmenu not-link" >
             <h3><img src="../custom/icon-apple.svg"> macOS</h3>
-        </a>
+            <h4>Support Coming Soon</h4>
+        </div>
     </div>
     <div class="h-tile">
-        <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;">
+        <!-- <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;"> -->
+        <div id="tab_windows" data-contentclass="content_windows" class="tabmenu not-link">
             <h3><img src="../custom/icon-windows.svg"> Windows</h3>
-        </a>
+            <h4>Support Coming Soon</h4>
+        </div>
     </div>
 </div>
 
-<div markdown="1" class="tabcontent content_linux" data-tabid="tab_linux" style="display:none;">
-
-## Linux
+<!-- <div markdown="1" class="tabcontent content_linux" data-tabid="tab_linux" style="display:none;">
+</div> -->
+## Install Holochain on Linux
 
 ### Install the Nix Package Manager
 
-We use the Nix toolkit to manage the installation of our dev tools, so you can get to work without fighting compiler and package compatibility issues. Install the Nix package manager with this command:
+At a command line:
 
 ```bash
 sh <(curl -L https://nixos.org/nix/install)
 ```
 
-</div>
+<!-- <div markdown="1" class="tabcontent content_macos" data-tabid="tab_macos" style="display:none;> -->
 
-<div markdown="1" class="tabcontent content_macos" data-tabid="tab_macos" style="display:none;>
-
-## macOS
+<!-- ## macOS
 
 ### Pre-Installed Software
 
@@ -60,16 +74,18 @@ sh <(curl -L https://nixos.org/nix/install)
 
 We use the Nix toolkit to manage the installation of our dev tools, so you can get to work without fighting compiler and package compatibility issues. Install the Nix package manager with this command:
 
-#### macOS 10.15 Catalina and later
-
-```bash
-sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume
-```
-
-#### macOS 10.14 Mojave and earlier
-
 ```bash
 sh <(curl -L https://nixos.org/nix/install)
+```
+
+#### Apple silicon ⚠️
+
+*Currently we support Holonix on Apple silicon computers with M1/M2 chips (aarch64) ***only in Intel (x86_64) compatibility mode***. This mode requires [Rosetta 2](https://support.apple.com/en-us/HT211861) to be installed.*
+
+*Enter an x86_64 shell before executing any command on this page:*
+
+```bash
+arch -x86_64 $SHELL
 ```
 
 </div>
@@ -102,15 +118,11 @@ One you see a Linux terminal, install the Nix package manager with this command:
 sh <(curl -L https://nixos.org/nix/install)
 ```
 
-</div>
+</div> -->
 
-After installing Nix, log out of your user account and log in again. Or, to save effort, run this command to get your terminal to recognize the newly installed commands:
+After installing Nix, close the terminal and open a new one.
 
-```bash
-. ~/.nix-profile/etc/profile.d/nix.sh
-```
-
-Check that it installed correctly:
+Check that Nix is correctly installed:
 
 ```bash
 nix-shell --version
@@ -119,157 +131,104 @@ nix-shell --version
 You should see something like:
 
 ```
-nix-shell (Nix) 2.5.0
+nix-shell (Nix) 2.6.0
 ```
 
-If you’d like to know more about Nix and why we use it, you can [find more information here](../install-advanced/#more-info-on-nix).
-
----
-
-## Installing the Holochain dev tools
-
-Now that you have installed Nix, you can install and run a development shell that contains all the prerequisites, including the correct Rust and Node.js versions and the Holochain tools. This shell won’t interfere with your current system configuration.
-
-### Optional: configure Cachix for faster load times
-
-To significantly speed up the load times for the next step you can make use of our Cachix instance.
-If you don't it'll take a long time, because it needs to compile the Holochain binaries.
-
-Please try the following command to set up the cache.
-
-With a recent enough Nix you can use this ad-hoc command:
+Run the following commands to set up the cache:
 
 ```bash
-nix run -f https://cachix.org/api/v1/install cachix -c cachix use holochain-ci
+nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz -p cachix --run "cachix use holochain-ci"
 ```
 
-If does not work your version of Nix might be outdated. In this case please try steps 2 and 3 from [the documentation on cachix.org](https://app.cachix.org/cache/holochain-ci).
+## Scaffold Your First Holochain App
 
-### Load Holonix
-
-Use this one-liner to load Holonix:
-
-```bash
-nix-shell https://holochain.love
-```
-
-Once this is finished, you'll be in the Holonix shell with all the developer tools at your disposal.
-You will see a new bash prompt that looks like:
+Type the following at the command line:
 
 ```
-[nix-shell:~]$
+nix-shell https://holochain.love --run "hc scaffold example forum"
 ```
 
-Test that you have Holochain by running:
+When prompted, select the UI framework you prefer.
 
-```bash
-holochain --version
-```
 
-You should see something like this:
+When the project setup completes, type the following commands to run the Holochain app:
 
 ```
-holochain 0.0.119
+cd forum
+```
+```
+nix-shell --run "npm install && WEBKIT_DISABLE_COMPOSITING_MODE=1 npm start"
 ```
 
-Once you `exit` the shell you'll be back to your usual system shell, with all Holochain-specific bits cleaned up.
+### Next Step 
+Explore the [project structure](../hApp-setup/) of your Holochain Forum example hApp
 
-## Using the Holochain dev tools
 
-You can re-enter the Holonix shell with the same command you used initially:
+## Learn More
 
-```bash
-nix-shell https://holochain.love
-```
-
-It will always keep you up to date with the newest stable version of Holochain and the dev tools. If you need to work offline, read the [advanced installation guide](#keeping-everything-local-working-offline).
-
-### Going further
-
-Read through our [advanced installation guide](../install-advanced/) for tips and tricks on making your development environment easier to work with.
-
-## Using Holochain in a repository with a pinned Holochain version
-
-Holochain is currently in rapid development, which means newer versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` won't always work with existing hApp repositories.
-
-To solve this, repositories of hApp projects can use Nix to pin the appropriate Holochain version to work well for that hApp. To do this, the project needs to have a `default.nix` file in the root folder of the repository. [Here](https://github.com/holochain/happ-build-tutorial/blob/develop/default.nix) you can see an example of that file.
-
-If you are trying to set up a repository that comes with a `default.nix` file, you must not be inside the `nix-shell` provided by https://holochain.love. Instead, simply navigate to the folder with the `default.nix` file and run:
-
-```bash
-nix-shell .
-```
-
-This will do the same exact process that `nix-shell https://holochain.love` does, but will download the specific Holochain versions that that project is set up for.
-
-> Note that this can take a long time to download and compile the binaries. In the future we should be able to make this quicker by adding a build cache so that you only need to download the already compiled binaries.
-
-## Next Steps
-
-1. Read through the [Holochain Core Concepts](../concepts/).
-2. Try [building and running a sample hApp](https://github.com/holochain/happ-build-tutorial).
-3. [Scaffold your own hApp](https://github.com/holochain/scaffolding) using our RAD tool.
-3. Build your development skills in the [Holochain Gym](https://holochain-gym.github.io/) (community-created).
-4. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
-5. Take a look at the developer documentation.
+1. Dive into the [Holochain Core Concepts](../concepts/).
+2. Read through our [advanced installation guide](../install-advanced/)  
+3. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
+4. Take a look at the developer documentation.
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
-6. Join the discussion at the [developers' forum](https://forum.holochain.org).
+5. Join the discussion in the [HC.dev discord](https://discord.gg/k55DS5dmPH).
+
 
 <script>
-function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
-    // first of all we get all tab content blocks (I think the best way to get them by class names)
-    var all_content = document.getElementsByClassName("tabcontent");
-    var i;
-    for (i = 0; i < all_content.length; i++) {
-        all_content[i].style.display = 'none'; // hide all tab content
-    }
-    var active_content = document.getElementsByClassName(rudr_tab_content);
-    for (i = 0; i < active_content.length; i ++) {
-        active_content[i].style.display = 'block'; // display the content we need
-    }
+// function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
+//     // first of all we get all tab content blocks (I think the best way to get them by class names)
+//     var all_content = document.getElementsByClassName("tabcontent");
+//     var i;
+//     for (i = 0; i < all_content.length; i++) {
+//         all_content[i].style.display = 'none'; // hide all tab content
+//     }
+//     var active_content = document.getElementsByClassName(rudr_tab_content);
+//     for (i = 0; i < active_content.length; i ++) {
+//         active_content[i].style.display = 'block'; // display the content we need
+//     }
 
-    // now we get all tab menu items by class names (use the next code only if you need to highlight current tab)
-    var tabs = document.getElementsByClassName("tabmenu");
-    var i;
-    for (i = 0; i < tabs.length; i++) {
-        tabs[i].className = 'tabmenu';
-    }
-    document.getElementById(rudr_tab_id).className = 'tabmenu active';
-}
+//     // now we get all tab menu items by class names (use the next code only if you need to highlight current tab)
+//     var tabs = document.getElementsByClassName("tabmenu");
+//     var i;
+//     for (i = 0; i < tabs.length; i++) {
+//         tabs[i].className = 'tabmenu';
+//     }
+//     document.getElementById(rudr_tab_id).className = 'tabmenu active';
+// }
 
-// If there's a fragment identifier on the URL, switch to the correct tab on startup.
-function switchToTabForFragmentIfNecessary() {
-    var fragment = window.location.hash.slice(1);
-    if (!fragment) {
-        // Nothing to do. Make sure the default tab's content is visible.
-        var active_tab = document.querySelectorAll('.tabmenu.active')[0];
-        rudrSwitchContent(active_tab.id, active_tab.getAttribute('data-contentclass'))
-        return;
-    }
+// // If there's a fragment identifier on the URL, switch to the correct tab on startup.
+// function switchToTabForFragmentIfNecessary() {
+//     var fragment = window.location.hash.slice(1);
+//     if (!fragment) {
+//         // Nothing to do. Make sure the default tab's content is visible.
+//         var active_tab = document.querySelectorAll('.tabmenu.active')[0];
+//         rudrSwitchContent(active_tab.id, active_tab.getAttribute('data-contentclass'))
+//         return;
+//     }
 
-    var target = document.getElementById(fragment);
-    if (!target)
-        // Invalid fragment identifier.
-        return;
+//     var target = document.getElementById(fragment);
+//     if (!target)
+//         // Invalid fragment identifier.
+//         return;
 
-    var tabContainer = target.closest('.tabcontent');
-    if (!tabContainer)
-        // This content wasn't in a tab.
-        return;
+//     var tabContainer = target.closest('.tabcontent');
+//     if (!tabContainer)
+//         // This content wasn't in a tab.
+//         return;
 
-    var tabID = tabContainer.getAttribute('data-tabid');
-    var contentID = tabContainer.id;
+//     var tabID = tabContainer.getAttribute('data-tabid');
+//     var contentID = tabContainer.id;
 
-    // Make the tab active so you can see the linked content.
-    rudrSwitchContent(tabID, contentID);
-}
+//     // Make the tab active so you can see the linked content.
+//     rudrSwitchContent(tabID, contentID);
+// }
 
-// Switch to the correct tab if DOM is ready.
-if (document.readyState === 'interactive' || document.readyState === 'complete')
-    switchToTabForFragmentIfNecessary();
+// // Switch to the correct tab if DOM is ready.
+// if (document.readyState === 'interactive' || document.readyState === 'complete')
+//     switchToTabForFragmentIfNecessary();
 
-// Otherwise, wait until document is loaded and try again.
-document.addEventListener('DOMContentLoaded', switchToTabForFragmentIfNecessary, false);
+// // Otherwise, wait until document is loaded and try again.
+// document.addEventListener('DOMContentLoaded', switchToTabForFragmentIfNecessary, false);
 
 </script>

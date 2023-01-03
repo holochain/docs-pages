@@ -57,7 +57,7 @@ The client is like the front end of a traditional app and can be written with wh
 
 ![A participant's conductor hosts multiple hApps for her, mediating the connections between the hApp and her clients, as well betwee then hApp and other participants' conductors running the same hApp.](../../img/concepts/2.5-conductor.png)
 
-The hApp is hosted in the participant's **conductor**. It's the runtime that sandboxes and executes hApp code, handles crytographic signing, manages data flow and storage, and handles connections both locally to clients and remotely to peers. When the conductor receives a function call, it routes it to the proper hApp.
+The hApp is hosted in the participant's **conductor**. It's the runtime that sandboxes and executes hApp code, handles cryptographic signing, manages data flow and storage, and handles connections both locally to clients and remotely to peers. When the conductor receives a function call, it routes it to the proper hApp.
 
 In some ways, you can think of the conductor as a web application server, but one that runs on every participant's device. It is called the conductor because in one sense it ['leads the orchestra'](https://en.wikipedia.org/wiki/Conducting), and in another sense because it has good ['conductivity'](https://en.wikipedia.org/wiki/Electrical_conductor).
 
@@ -132,7 +132,3 @@ You can see that Holochain is different from typical application stacks. Here's 
 * Zomes don’t maintain any in-memory state between calls; state is maintained in the history of the cell that contains the zome.
 * Persistence logic and core business logic are mixed together in your DNA, because at its heart, Holochain is a framework for data validation. However, you usually don’t need a lot of your business logic in your DNA—just enough to encode the ‘rules of the game’ for your application.
 * As with microservices, Holochain lends itself to combining small, reusable components into large applications.
-
-## Learn more
-
-If you want to go from theory to practice, you can learn hands-on how applications talk to hApps by reading and following the [hApp client call tutorial](https://github.com/holochain/happ-client-call-tutorial), which has examples in Typescript and Rust.

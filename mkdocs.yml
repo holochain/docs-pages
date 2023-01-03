@@ -4,11 +4,15 @@ site_name: Holochain Docs
 nav:
   - Get Started:
     - Introduction: index.md
-    - What is Holochain?: what-is-holochain.md
+    # - What is Holochain?: what-is-holochain.md
     - Install Holochain: install.md
+    - Project Structure: happ-setup.md
+    # - Advanced Scaffolding: scaffold-webapp.md
+    # - Learning: learning.md
     - Get Involved: get-involved.md
     - Glossary: glossary.md
-    - Advanced Installation Tips: install-advanced.md
+    - Advanced Installation Guide: install-advanced.md
+    # - Install Holochain w/o Holonix: install-without-holonix.md
   - Core Concepts:
     - Introduction: 'concepts/index.md'
     - The Basics: 'concepts/1_the_basics.md'
@@ -20,14 +24,13 @@ nav:
     - Validation: 'concepts/7_validation.md'
     - Calls and Capabilities: 'concepts/8_calls_capabilities.md'
     - Signals: 'concepts/9_signals.md'
-  - Resources:
-    - Introduction: 'resources/index.md'
-    - Dependency Pinning Guide: 'resources/dependency-pinning-guide.md'
-    - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
+  # - Resources:
+  #   - Introduction: 'resources/index.md'
+  #   - Dependency Pinning Guide: 'resources/dependency-pinning-guide.md'
+  #   - Install NixOS on External HDD: 'resources/install-nixos-on-external-hdd.md'
   - References:
     - Introduction: 'references.md'
-    - HDK: 'https://docs.rs/hdk/0.0.102/hdk/'
-    - HDK introductory guide: 'https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md'
+    - HDK: 'https://docs.rs/hdk/latest/'
     - Admin API: '/rustdoc/holochain_conductor_api/enum.AdminRequest.html'
     - App API: '/rustdoc/holochain_conductor_api/enum.AppRequest.html'
 
@@ -54,7 +57,7 @@ extra_javascript:
   - 'custom/prism.js'
 
 extra:
-  google_analytics_v4: 'G-3FKEN0NBXY'
+  google_analytics_v4: 'GTM-WGCFJ46'
 
 google_analytics:
   - 'UA-131226536-4'

@@ -41,17 +41,99 @@ nix-shell https://holochain.love
 cd my_project
 vim my_file.rs
 ```
+## Using a specific version of the development tools
 
-## Upgrading
+### Using Holochain with a pinned Holochain version
 
-Any time you want to get the latest version of the dev tools, just `exit` the shell and enter it again; if there are any updates it'll automatically download them.
+Holochain is in a Beta release, where each point release is supported for at least 6 months. However, devs may want to pin to other development releases which are under more rapid change. These developement versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` may not support the features you require for your development work.
+
+To solve this, hApp projects can use Nix to pin a compatible Holochain version. The project needs to have a `default.nix` file in the root folder of the repository. Don't run this from inside the `nix-shell` provided by https://holochain.love. Instead, simply navigate to the project's root folder where the `default.nix` file needs to be and run:
+
+```bash
+nix-shell
+```
+
+This command looks for a `default.nix` file in the current folder and will create the specified environment.
+
+#### Upgrading the Holochain version
+
+When the time has come to upgrade your hApp to a newer version of Holochain, there are 3 steps to follow:
+
+1. Update the Holonix revision using `niv`:
+
+    ```bash
+    nix-shell --run "niv update"
+    ```
+
+2. Run `hn-versions` to see which versions of Holochain are available:
+
+    ```bash
+    nix-shell --run "hn-versions"
+    ```
+
+3. Set the `holochainVersionId` accordingly:
+
+    ```nix
+    ...
+    holonix = import (holonixPath) {
+        holochainVersionId = "v0_0_127";
+    };
+    ...
+    ```
+
+The next time you enter your hApp development environment using `nix-shell`, the updated version of Holochain will be downloaded and made available in the resulting Nix shell.
+
+> Keep in mind that the Holonix repo includes Nix configurations for the last ~ 5 versions of Holochain. That means that if you keep updating its revision using `niv`, you will have to augment the Holochain version id in `default.nix` sooner or later too.
+### Holochain inspection commands
+
+Built into Holochain and holonix are a few commands that give insight about versions of Holochain components.
+
+```bash
+ hn-introspect
+```
+
+This command displays versioning information about Holochain's main components as well as Rust and Cargo. The output looks like this:
+
+```bash
+List of applications and their version information
+v0_0_131
+- hc-0.0.32-dev.0: https://github.com/holochain/holochain/tree/holochain-0.0.131
+- holochain-0.0.131: https://github.com/holochain/holochain/tree/holochain-0.0.131
+- kitsune-p2p-tx2-proxy-0.0.21: https://github.com/holochain/holochain/tree/holochain-0.0.131
+- lair-keystore-0.0.9: https://github.com/holochain/lair/tree/v0.0.9
+- rustc: rustc 1.58.1 (db9d1b20b 2022-01-20)
+- cargo fmt: rustfmt 1.4.38-stable (db9d1b20 2022-01-20)
+- cargo clippy: clippy 0.1.58 (db9d1b20 2022-01-20)
+```
+
+Another Holochain command that inspects the platform information and outputs the compatible HDK version is
+
+```bash
+holochain --build-info
+```
+
+A sample output of this command looks like this (JSON formmatted using `jq`):
+
+```json
+{
+  "git_info": null,
+  "cargo_pkg_version": "0.0.131",
+  "hdk_version_req": "0.0.126",
+  "timestamp": "2022-04-10T05:55:04.525835Z",
+  "hostname": "Mac-1649560170558.local",
+  "host": "x86_64-apple-darwin",
+  "target": "x86_64-apple-darwin",
+  "rustc_version": "rustc 1.58.1 (db9d1b20b 2022-01-20)",
+  "rustflags": "",
+  "profile": "release"
+}
+```
 
 ## Uninstalling
 
-You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries and other packages on your device. If you want to free up some space, run these commands:
+You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries and other packages on your device. On macOS it adds users and a user group too. If you want to free up some space, run these commands:
 
 ```bash
-rm -rf ~/.holonix
 nix-collect-garbage -d
 ```
 
@@ -61,29 +143,7 @@ If you want to uninstall Nix as well, run these commands (you might need root pr
 rm -rf /nix
 rm ~/.nix-profile
 ```
-
-## Using a specific version of the development tools
-
-Sometimes you might want to target a specific version of Holochain --- for instance, when you're working on an application that was compiled with an older version of the <abbr title="Holochain development kit">HDK</abbr> that's incompatible with the version of Holochain you have installed. This is where Nix really shines: you can set up an environment containing all the tools that target the older version while leaving your current installation alone. Simply [find the release tag](https://github.com/holochain/holochain/tags) of the version of Holochain you're looking for (we don't yet have release tags, but that will change soon) and enter this command in your project's working folder:
-
-```bash
-nix-shell https://github.com/holochain/archive/<tag>.tar.gz
-```
-
-Note that, on first run, nix will have to download and cache all the packages for this version, and even compile them if the version is old enough. This might take a long time.
-
-### Keeping everything local / working offline
-
-If you find yourself needing to switch versions often, or you work offline a lot, you can clone the Holochain repository, check out the release you want, and enter the nix shell from there. Take note of the argument `--argstr flavor happDev`; that's what gives you the development tools.
-
-```bash
-git clone git@github.com:holochain/holochain.git
-cd holochain
-git checkout <tag>
-nix-shell --argstr flavor happDev
-```
-
-Once you're in the shell, you can navigate to your project's working folder. This way you have all the versions of Holochain available to you locally and don't need to remember long URLs.
+[Detailed uninstallation instructions for macOS](https://gist.github.com/chriselsner/3ebe962a4c4bd1f14d39897fc5619732#uninstalling-nix)
 
 ## More info on Nix
 
@@ -110,3 +170,42 @@ The full suite of Nix tooling is broad and deep. There’s even a dedicated prog
 While working on Holochain, you will usually have an active `nix-shell` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell---environment variables, Rust toolchains, binaries, libraries, and development tools---giving you a consistent development environment to build Holochain apps. All this setup will be cleaned up automatically when you close the shell.
 
 If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix-shell`. The packages are cached locally on your machine, so they will be ready the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use the [Holochain repo cloning method](#keeping-everything-local), they're cached on your machine too, but the ['quick install'](../install/) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
+
+## Install Holochain without Holonix
+
+In case you don't want to use Holonix to set up your development environment, here are steps provided to install Holochain binaries directly
+from the crate registry. At first the required Rust toolchain and features are installed, followed by the actual Holochain dependencies.
+
+> Holonix is the recommended way to set up your development environment.  
+**We don't provide support for installing Holochain without Holonix.**
+
+### Ubuntu-based Linux distributions
+
+#### Install Rust toolchain
+
+* [Rust toolchain installation](https://www.rust-lang.org/tools/install)
+* Install target to build WebAssembly binaries
+    ```bash
+    rustup target add wasm32-unknown-unknown
+    ```
+* Linux build tools
+    ```bash
+    sudo apt-get install build-essential
+    ```
+* OpenSSL
+    ```bash
+    sudo apt-get install libssl-dev
+    ```
+* Build dependency for Cargo libraries
+    ```bash
+    sudo apt-get install pkg-config
+    ```
+
+#### Install Holochain dependencies
+
+```
+cargo install holochain -f
+cargo install holochain_cli -f
+cargo install lair_keystore -f
+```
+

@@ -2,8 +2,7 @@
 _site
 holochain-rust
 docs
-build/docs
-build/site
+build
 .cargo
 # Local Netlify folder
 .netlify
