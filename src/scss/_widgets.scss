@@ -38,11 +38,20 @@ pre[class*="language-"] {
 
 }
 
-@mixin cardBase($head-space: 120px) {
+/* Card Stuff */
+
+@mixin cardBase() {
   border-radius: 0.3125rem;
   box-shadow: .25rem .25rem 3.125rem rgba(#000,.25);
   color: $main-text-color;
-  background: linear-gradient(180deg,#4720e3,#b748ff 68.44%);
+
+  h2 {
+    font-size: $bigger-font-size;
+  }
+}
+
+@mixin cardAddGradientTop($background, $head-space: 120px) {
+  background: $background;
 
   .content-wrapper {
     background-color: white;
@@ -50,8 +59,23 @@ pre[class*="language-"] {
     margin-top: $head-space;
     padding: 20px;
   }
+}
 
-  h2 {
-    font-size: $bigger-font-size;
+@mixin hoverMove() {
+  transform: translate(0);
+  transition: transform .25s;
+
+  &:hover {
+    transform: translate(.25rem, -.25rem);
+  }
+}
+
+a.link-tile {
+  @include cardBase;
+  @include cardAddGradientTop($blue-to-light-purple-grad);
+  @include hoverMove;
+
+  &.blue-purple-top {
+    @include cardAddGradientTop($blue-to-light-blue-grad);
   }
 }

@@ -2,9 +2,13 @@ $header-gradiant: linear-gradient(90deg,#4720e3,#345ede 32.81%,#0dddd3);
 
 $main-text-color: black;
 
-//font sizes vars
+// font sizes vars
 $footer-smaller-font-size: .65rem;
 $extra-smaller-font-size: .6875rem;
 $smaller-font-size: .75rem;
 $primary-font-size: 1rem;
 $bigger-font-size: 1.125rem;
+
+/* Gradients */ 
+$blue-to-light-purple-grad: linear-gradient(180deg,#4720e3,#b748ff 68.44%);
+$blue-to-light-blue-grad: linear-gradient(180deg,#415bed,#13d0d7 44.86%);

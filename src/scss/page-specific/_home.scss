@@ -3,10 +3,6 @@
   #home-tiles {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
-
-    .link-tile {
-      @include cardBase;
-    }
+    gap: 80px;
   }
 }
