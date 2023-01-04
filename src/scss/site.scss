@@ -23,13 +23,12 @@ body {
 
   .content-container {
     margin: 0 auto;
+    width: 90%;
     max-width: 1000px;
   }
 
   #page-content-wrap {
     flex: 1 0 auto;
-    //Almost certainly wrong
-    // padding: 20px; 
 
     // two section content, left side bar, main chunk on right.
     .default-page-layout {
