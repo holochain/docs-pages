@@ -21,3 +21,18 @@ function addCopyButtonsToCodeSections() {
 }
 
 addCopyButtonsToCodeSections();
+
+function setUpMenuToggle() {
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.hamburger-activate');
+
+  const openedClassName = "opened";
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const isOpen = btn.classList.contains(openedClassName);
+      btn.classList.toggle(openedClassName, !isOpen);
+      btn.setAttribute("aria-expanded", isOpen.toString());
+    })
+  }) 
+}
+
+setUpMenuToggle();

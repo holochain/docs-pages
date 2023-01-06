@@ -24,7 +24,7 @@ body {
   .content-container {
     margin: 0 auto;
     width: 90%;
-    max-width: 1000px;
+    max-width: $default-max-content-width;
   }
 
   #page-content-wrap {

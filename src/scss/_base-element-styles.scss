@@ -6,3 +6,10 @@ a {
     height: 100%;
   }
 }
+
+button {
+  &.clear-btn {
+    border: none;
+    background: none;
+  }
+}
