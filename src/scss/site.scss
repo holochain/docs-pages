@@ -24,7 +24,10 @@ body {
   .content-container {
     margin: 0 auto;
     width: 90%;
-    max-width: $default-max-content-width;
+
+    @media screen and (min-width: 1340px) {
+      max-width: $default-max-content-width;
+    }
   }
 
   #page-content-wrap {
@@ -40,7 +43,7 @@ body {
   #page-footer {
     flex-shrink: 0;
     min-height: 200px;
-    background: #29DDD3;
+    background: #4820e3;
     color: white; 
   }
 
