@@ -1,23 +1,21 @@
 
 &.install {
   #tiles {
-    display: flex;
-    gap: 80px;
+    display: grid;
+    gap: 20px;
 
     .tile {
-      width: 20%;
       padding: 1.2rem;
       border: 1px solid #e7e7e7;
       box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05);
-      
+
       img.os-img {
         height: 21px;
       }
-      
     }
 
-    @media (min-width: 900px) {
-      grid-template-columns: 1fr 1fr;
+    @media (min-width: $mobile-width) {
+      grid-template-columns: 1fr 1fr 1fr;
     }
   }
 }
