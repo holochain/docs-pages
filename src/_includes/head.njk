@@ -3,6 +3,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title }}</title>
 
+  <style>
+    // Protect against initial flash of unstyled content
+    img {
+      width: 24px;
+    }
+  </style>
+
   {% if site.environment == "production" %}
   <link rel="stylesheet" href="/styles/site.min.css" />
   {% else %}

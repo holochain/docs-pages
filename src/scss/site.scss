@@ -1,3 +1,8 @@
+// Remove the initial css guard rails
+img {
+  width: unset;
+}
+
 @import 'values';
 @import 'fonts';
 @import 'base-element-styles';
@@ -48,4 +53,5 @@ body {
   }
 
   @import 'page-specific/home';
+  @import 'page-specific/install';
 }
