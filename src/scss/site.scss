@@ -43,14 +43,28 @@ body {
       display: grid;
       grid-template-columns: 1fr 300px;
       gap: 20px;
+      position: relative;
+
+      .side-bar {
+        .side-bar-inner {
+          background-color: #f7f7f7;
+          position: fixed;
+          padding-right: 999px;
+          margin-right: -999px;
+          margin-bottom: 0;
+          margin-top: 0;
+          height: calc(100% - $footer-large-screen-height);
+        }
+      }
     }
   }
 
   #page-footer {
     flex-shrink: 0;
-    min-height: 200px;
+    height: $footer-large-screen-height;
     background: #4820e3;
-    color: white; 
+    color: white;
+    z-index: 1;
   }
 
   @import 'page-specific/home';

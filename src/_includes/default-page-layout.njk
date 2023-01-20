@@ -5,9 +5,11 @@ layout: base-layout.njk
   <div class="main-area">
   {{ content | safe }}
   </div>
-  <div class="left-side-bar">
-  {% renderlayoutblock 'leftSideBar' %}
+  <div class="side-bar">
+  <div class="side-bar-inner">
+  {% renderlayoutblock 'sideBar' %}
     Nav Stuff over here
   {% endrenderlayoutblock %}
+  </div>
   </div>
 </div>
