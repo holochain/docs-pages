@@ -46,6 +46,7 @@
     "autoprefixer": "^10.4.13",
     "cssnano": "^5.1.14",
     "html-to-text": "^8.2.1",
+    "json5": "^2.2.3",
     "lunr": "^2.3.9",
     "markdown-it-attrs": "^4.1.4",
     "markdown-it-container": "^3.0.0",

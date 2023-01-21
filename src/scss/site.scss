@@ -59,13 +59,7 @@ body {
     }
   }
 
-  #page-footer {
-    flex-shrink: 0;
-    height: $footer-large-screen-height;
-    background: #4820e3;
-    color: white;
-    z-index: 1;
-  }
+  @import 'footer';
 
   @import 'page-specific/home';
   @import 'page-specific/install';

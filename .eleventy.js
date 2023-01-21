@@ -1,3 +1,6 @@
+// Setup JSON5 so require can parse json5 data files
+require("json5/lib/register");
+
 const { EleventyRenderPlugin } = require("@11ty/eleventy");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 

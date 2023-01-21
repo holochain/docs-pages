@@ -1,3 +1,27 @@
 <div id="page-footer">
-  
+  <nav>
+  {% for col in navigation.footerNav.columns %}
+  <div class="nav-column">
+    {% if col.title %}
+    <h2>{{ col.title }}</h2>
+    {% endif %}
+    
+    <ul>
+    {% for link in col.links %}
+    {% set classAttr = 'class='+ link.class if link.class else '' %}
+      <li>
+        {% if link.image %}
+        <a href="{{link.url}}" title="{{link.title}}" {{ 'target=_blank' if link.external }} {{ classAttr }}>
+          <img src="{{link.image}}" />
+        </a>
+        {% else %}
+        <a href="{{link.url}}" {{ 'target=_blank' if link.external }} {{ classAttr }}>{{link.title}}</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+
+  </div>
+  {% endfor %}
+  </nav>
 </div>
