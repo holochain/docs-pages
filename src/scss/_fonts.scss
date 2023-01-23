@@ -33,14 +33,27 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-/* Default application */
 
-body { 
-  font-family: Mulish;
-  font-size: $fs-primary;
-}
+// global font sizes vars
+$fs-extra-smaller: 11rem; //.6875 of default font
+$fs-smaller: 12rem; //.75 of default font
+$fs-primary: 16rem;
+$fs-bigger: 18rem;
 
-h1, h2, h3 { 
-  font-family: 'URW Form'; 
-  font-weight: 800; 
+// local font sizes
+$fs-footer-col-header: 14rem;
+$fs-footer-smaller: $fs-smaller;
+
+html {
+  font-size: 6.2%;
+  
+  body { 
+    font-family: Mulish;
+    font-size: $fs-primary;
+  }
+  
+  h1, h2, h3 { 
+    font-family: 'URW Form'; 
+    font-weight: 800; 
+  }
 }

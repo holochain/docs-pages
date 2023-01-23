@@ -2,15 +2,7 @@ $header-gradiant: linear-gradient(90deg,#4720e3,#345ede 32.81%,#0dddd3);
 
 $main-text-color: black;
 
-// global font sizes vars
-$fs-extra-smaller: .6875rem;
-$fs-smaller: .75rem;
-$fs-primary: 1rem;
-$fs-bigger: 1.125rem;
-
-// local font sizes
-$fs-footer-col-header: .875rem;
-$fs-footer-smaller: .65rem;
+// Font sizes defined in _fonts
 
 /* Gradients */ 
 $blue-to-light-purple-grad: linear-gradient(180deg,#4720e3,#b748ff 68.44%);

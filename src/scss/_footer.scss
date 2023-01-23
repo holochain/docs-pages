@@ -2,7 +2,7 @@
 #page-footer {
   flex-shrink: 0;
   //height: $footer-large-screen-height;
-  padding: 3.1875rem 0 2.5625rem;
+  padding: 50rem 0 40rem;
   background: #4820e3;
   color: white;
   z-index: 1;
@@ -29,8 +29,8 @@
   
             &.hc-logo-link {
               display: inline-block;
-              margin-bottom: .75rem;
-              width: 8.125rem;
+              margin-bottom: 12rem;
+              width: 130rem;
   
               img {
                 max-width: 100%;
@@ -39,15 +39,15 @@
             
             // Off site icon
             &[target="_blank"]:not(.no-away) {
-              padding-right: .9375rem;
+              padding-right: 15rem;
               display: inline-block;
               position: relative;
               &:after {
                 transition: .25s;
                 position: absolute;
                 content: "";
-                width: .5625rem;
-                height: .625rem;
+                width: 9rem;
+                height: 10rem;
                 background-image: url("data:image/svg+xml,%3Csvg width='9' height='10' viewBox='0 0 9 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.58211 0H5.70405C5.47328 0 5.28626 0.187021 5.28626 0.417788C5.28626 0.648555 5.47328 0.835576 5.70405 0.835576H7.61992L3.51989 4.9356C3.35665 5.09874 3.35665 5.36332 3.51989 5.52646C3.60146 5.60803 3.70842 5.64887 3.81527 5.64887C3.92213 5.64887 4.02908 5.60803 4.11066 5.52646L8.16432 1.47269V3.29575C8.16432 3.52652 8.35135 3.71354 8.58211 3.71354C8.81288 3.71354 8.9999 3.52652 8.9999 3.29575V0.417788C8.9999 0.187021 8.81288 0 8.58211 0Z' fill='white'/%3E%3Cpath d='M7.13711 4.20733C6.90635 4.20733 6.71933 4.39435 6.71933 4.62512V7.92127C6.71933 8.07227 6.5918 8.19979 6.4408 8.19979H1.1141C0.9631 8.19979 0.835576 8.07227 0.835576 7.92127V2.59457C0.835576 2.44357 0.9631 2.31604 1.1141 2.31604H4.42189C4.65266 2.31604 4.83968 2.12902 4.83968 1.89826C4.83968 1.66749 4.65266 1.48047 4.42189 1.48047H1.1141C0.499761 1.48047 0 1.98023 0 2.59457V7.92127C0 8.53561 0.499761 9.03537 1.1141 9.03537H6.4408C7.05514 9.03537 7.5549 8.53561 7.5549 7.92127V4.62512C7.5549 4.39445 7.36788 4.20733 7.13711 4.20733Z' fill='white'/%3E%3C/svg%3E%0A");
                 right: 0;
                 top: 0;
@@ -58,6 +58,12 @@
             }
   
           }
+        }
+      }
+
+      &.about-column {
+        a {
+          font-weight: 500;
         }
       }
     }
