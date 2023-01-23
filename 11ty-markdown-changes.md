@@ -25,3 +25,7 @@
 
 ## Code Fences
   - Include language (i.e.: `bash`) always.
+
+
+## Items to add to README
+- using callMacroByName
