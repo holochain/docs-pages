@@ -1,18 +1,24 @@
-$header-gradiant: linear-gradient(90deg,#4720e3,#345ede 32.81%,#0dddd3);
-
+/* Colors */
 $main-text-color: black;
+$cl-footer-bg: #162550;
 
 // Font sizes defined in _fonts
 
-/* Gradients */ 
-$blue-to-light-purple-grad: linear-gradient(180deg,#4720e3,#b748ff 68.44%);
-$blue-to-light-blue-grad: linear-gradient(180deg,#415bed,#13d0d7 44.86%);
+// Spacing 
+$sp-icon-list-gap: 16rem;
 
 /* Breakpoints & Widths */
 $default-max-content-width: 1200px;
 $mobile-width: 900px;
 // Tablet width? Do we care?
 
-
 /* Explicit heights */
 $footer-large-screen-height: 200px;
+
+
+/* Gradients */
+$header-gradiant: linear-gradient(90deg,#4720e3,#345ede 32.81%,#0dddd3); 
+$blue-to-light-purple-grad: linear-gradient(180deg,#4720e3,#b748ff 68.44%);
+$blue-to-light-blue-grad: linear-gradient(180deg,#415bed,#13d0d7 44.86%);
+
+

@@ -1,23 +1,37 @@
+{% from "widgets/svg-icons.njk" import discordMarkIcon, twitterLogo, githubLogo %}
+
 <div id="page-footer">
   <nav class="content-container">
   {% for col in navigation.footerNav.columns %}
-  <div class="nav-column">
+  <div class="nav-column {{col.class}}">
     {% if col.title %}
     <h2>{{ col.title }}</h2>
     {% endif %}
     
     <ul>
     {% for link in col.links %}
-    {% set classAttr = 'class='+ link.class if link.class else '' %}
+      {% set classAttr = 'class='+ link.class if link.class else '' %}
       <li>
-        {% if link.image %}
-        <a href="{{link.url}}" title="{{link.title}}" {{ 'target=_blank' if link.external }} {{ classAttr }}>
-          <img src="{{link.image}}" />
-        </a>
-        {% else %}
-        <a href="{{link.url}}" {{ 'target=_blank' if link.external }} {{ classAttr }}>{{link.title}}</a>
-        {% endif %}
-      </li>
+      {% if link.type === "icon-list" %}
+        <ul class="{{ link.class }}">
+        {% for childLink in link.links %}
+          <li>
+            <a href="{{ childLink.url }}" {{ 'target=_blank' if childLink.external }} {{'class='+ childLink.class if childLink.class}} >
+              {{ callMacroByName(childLink.svgSnippet) }}
+            </a>
+          </li>
+        {% endfor %}
+        </ul>
+      {% else %}
+          {% if link.image %}
+          <a href="{{link.url}}" title="{{link.title}}" {{ 'target=_blank' if link.external }} {{ classAttr }}>
+            <img src="{{link.image}}" />
+          </a>
+          {% else %}
+          <a href="{{link.url}}" {{ 'target=_blank' if link.external }} {{ classAttr }}>{{link.title}}</a>
+          {% endif %}
+      {% endif %}
+        </li>
     {% endfor %}
     </ul>
 

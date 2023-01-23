@@ -1,6 +1,7 @@
 {
   columns: [
     {
+      class: "about-column",
       links: [
         { title: "Holochain.org", url: "https://www.holochain.org/", image: "/assets/img/logo_light-2x.png", class:"hc-logo-link", external: true },
         { title: "Roadmap", url: "https://www.holochain.org/roadmap", external: true },
@@ -8,6 +9,16 @@
         { title: "Dev Portal", url: "/" },
         { title: "Contact Us", url: "https://www.holochain.org/contact", external: true },
         { title: "Holo", url: "https://holo.host/", external: true },
+        {
+          type: "icon-list",
+          class: "icon-list",
+          links: [
+            { title: "Holochain on GitHub", url: "https://github.com/holochain", svgSnippet: "githubLogo", class:"no-away", external: true },
+            { title: "Holochain on Discord", url: "https://discord.com/invite/k55DS5dmPH", svgSnippet: "discordMarkIcon", class:"no-away", external: true },
+            { title: "Holochain on YouTube", url: "https://www.youtube.com/channel/UC9fNJMIQ9mQ4u9oyoVIqtDQ", svgSnippet: "githubLogo", class:"no-away", external: true },
+            { title: "Holochain on Twitter", url: "https://twitter.com/holochain", svgSnippet: "twitterLogo", class:"no-away", external: true },
+          ]
+        },
       ]
     },
     

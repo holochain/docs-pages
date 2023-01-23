@@ -1,9 +1,10 @@
+$footer-nav-img-height: 14rem;
 
 #page-footer {
   flex-shrink: 0;
   //height: $footer-large-screen-height;
   padding: 50rem 0 40rem;
-  background: #4820e3;
+  background: $cl-footer-bg;
   color: white;
   z-index: 1;
 
@@ -57,6 +58,23 @@
               }
             }
   
+          }
+        }
+
+        &.icon-list {
+          display: flex;
+          gap: $sp-icon-list-gap;
+          margin-top: $sp-icon-list-gap;
+
+          li {
+
+            a {
+              height: $footer-nav-img-height;
+      
+              svg {
+                height: $footer-nav-img-height;
+              }
+            }
           }
         }
       }
