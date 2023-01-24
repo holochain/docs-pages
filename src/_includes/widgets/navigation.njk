@@ -1,0 +1,17 @@
+@{% macro mainNavTree(mainNav) %}
+  
+  <ul>
+    {% for topLink in mainNav.links %}
+      <li>
+        <a href="{{ topLink.url }}">{{ topLink.title }}</a>
+        {% if topLink.hasChildren %}
+          <ul>
+            {% for childLink in topLink.children %}
+            <li><a href="{{ childLink.url }}">{{ childLink.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}

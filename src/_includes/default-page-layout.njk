@@ -1,6 +1,7 @@
 ---
 layout: base-layout.njk 
 ---
+{% from "widgets/navigation.njk" import mainNavTree %}
 <div class="default-page-layout">
   <div class="main-area">
   {{ content | safe }}
@@ -8,7 +9,7 @@ layout: base-layout.njk
   <div class="side-bar">
   <div class="side-bar-inner">
   {% renderlayoutblock 'sideBar' %}
-    Nav Stuff over here
+    {{ mainNavTree(navigation.mainNav) }}
   {% endrenderlayoutblock %}
   </div>
   </div>

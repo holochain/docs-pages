@@ -1,0 +1,18 @@
+{
+  links: [
+    { title: "Quickstart Guide", url: "/install", class:"", external: false },
+    { title: "Get Building", url: "/", class:"", external: false, children: [] },
+    { title: "Core Concepts", url: "/concepts/", class:"", external: false, children: [
+        { title: "The Basics", url: "/concepts/1_the_basics/", class:"", external: false },
+        { title: "Application Architecture", url: "/concepts/2_application_architecture/", class:"", external: false },
+        { title: "Source Chain", url: "/concepts/3_source_chain/", class:"", external: false },
+        { title: "DHT", url: "/concepts/4_dht/", class:"", external: false },
+        { title: "Links and Anchors", url: "/concepts/5_links_anchors/", class:"", external: false },
+        { title: "CRUD Actions", url: "/concepts/6_crud_actions/", class:"", external: false },
+        { title: "Validation", url: "/concepts/7_validation/", class:"", external: false },
+        { title: "Calls and Capabilities", url: "/concepts/8_calls_capabilities/", class:"", external: false },
+        { title: "Signals", url: "/concepts/9_signals/", class:"", external: false },
+      ] 
+    },
+  ]
+}
