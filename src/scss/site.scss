@@ -48,12 +48,12 @@ body {
       .side-bar {
         .side-bar-inner {
           background-color: #f7f7f7;
-          position: fixed;
+          // position: fixed;
           padding-right: 999px;
           margin-right: -999px;
           margin-bottom: 0;
           margin-top: 0;
-          height: calc(100% - $footer-large-screen-height);
+          height: 100%;
         }
       }
     }
