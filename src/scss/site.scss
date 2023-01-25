@@ -25,6 +25,7 @@ body {
 
   @import 'header';
   @import 'widgets';
+  @import 'navigation';
 
   .content-container {
     margin: 0 auto;
@@ -54,6 +55,10 @@ body {
           margin-bottom: 0;
           margin-top: 0;
           height: 100%;
+
+          nav {
+            @include navBarList;
+          }
         }
       }
     }

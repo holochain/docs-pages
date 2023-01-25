@@ -1,0 +1,13 @@
+@mixin navBarList() {
+  ul {
+    list-style: none;
+
+    &.nav-top-level {
+
+      ul.nav-child-level {
+        //display: none;
+
+      }
+    }
+  }
+}

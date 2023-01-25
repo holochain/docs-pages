@@ -1,11 +1,11 @@
 @{% macro mainNavTree(mainNav) %}
-  
-  <ul>
+<nav id="main-nav">
+  <ul class="nav-top-level">
     {% for topLink in mainNav.links %}
-      <li>
+      <li class="selected">
         <a href="{{ topLink.url }}">{{ topLink.title }}</a>
         {% if topLink.hasChildren %}
-          <ul>
+          <ul class="nav-child-level">
             {% for childLink in topLink.children %}
             <li><a href="{{ childLink.url }}">{{ childLink.title }}</a></li>
             {% endfor %}
@@ -14,4 +14,5 @@
       </li>
     {% endfor %}
   </ul>
+</nav>
 {% endmacro %}
