@@ -6,7 +6,7 @@
     {% include "header.njk" %}
     {% renderlayoutblock "abovePageWrap" %}{% endrenderlayoutblock %}
     <div id="page-content-wrap" class="content-container">
-      <h1>{{ title }}</h1>
+      {# <h1>{{ title }}</h1> #}
       {{ content | safe }}
     </div>
     {% renderlayoutblock "belowPageWrap" %}{% endrenderlayoutblock %}

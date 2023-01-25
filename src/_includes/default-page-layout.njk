@@ -4,7 +4,8 @@ layout: base-layout.njk
 {% from "widgets/navigation.njk" import mainNavTree %}
 <div class="default-page-layout">
   <div class="main-area">
-  {{ content | safe }}
+    <h1>{{ title }}</h1>
+    {{ content | safe }}
   </div>
   <div class="side-bar">
   <div class="side-bar-inner">
