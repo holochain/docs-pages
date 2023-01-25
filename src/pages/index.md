@@ -8,4 +8,4 @@ Welcome to the Holochain Developer Documentation! We hope to guide you along you
 
 ### Start your Holochain journey
 
-{% renderFile "src/_includes/widgets/home-tiles.njk" %}
+{% renderFile "src/pages/_includes/widgets/home-tiles.njk" %}
