@@ -13,12 +13,25 @@ function cleanUpNav(mainNav) {
   }
 }
 
+function findTopLinkRecordFor(url) {
+  return mainNav.links.find((l) => {
+    const isPage = l.url === url;
+    const isChildPage = l?.children?.some((cl) => cl.url === url);
+    return isPage || isChildPage;
+  });
+}
 
+const headerNavObj = { 
+  ...headerNav,
+  getActiveParentLink(pageUrlRendering) {
+    return findTopLinkRecordFor(pageUrlRendering);
+  }
+ };
 
 module.exports = {
   footerNav: {
     columns: footerLinks.columns
   },
   mainNav: cleanUpNav(mainNav),
-  headerNav
+  headerNav: headerNavObj
 }

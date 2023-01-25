@@ -33,6 +33,12 @@ header#page-header {
         li {
           margin-right: 24rem;
           font-weight: 600;
+          padding-bottom: 6rem;
+          border-bottom: 2px solid transparent;
+
+          &[data-is-current-parent] {
+            border-bottom-color: $cl-brand-purple;
+          }
         }
       }
     }

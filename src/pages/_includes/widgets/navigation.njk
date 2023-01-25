@@ -17,11 +17,12 @@
 </nav>
 {% endmacro %}
 
-@{% macro headerNavList(headerNavData) %}
+@{% macro headerNavList(headerNavData, page) %}
+{% set activeParent = headerNavData.getActiveParentLink(page.url) %}
 <nav id="header-nav">
   <ul>
     {% for link in headerNavData.links %}
-      <li>
+      <li {% if link.url == activeParent.url %} data-is-current-parent="true" {% endif %} >
         <a href="{{ link.url }}">{{ link.title }}</a>
       </li>
     {% endfor %}
