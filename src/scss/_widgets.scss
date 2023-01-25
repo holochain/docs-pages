@@ -43,7 +43,7 @@ pre[class*="language-"] {
 @mixin cardBase() {
   border-radius: 5rem;
   box-shadow: 4rem 4rem 50rem rgba(#000,.25);
-  color: $main-text-color;
+  color: $cl-main-text;
 
   h2 {
     font-size: $fs-bigger;
