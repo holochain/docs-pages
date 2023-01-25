@@ -1,8 +1,8 @@
-@{% macro mainNavTree(mainNav) %}
+@{% macro mainNavTree(mainNavData) %}
 <nav id="main-nav">
   <ul class="nav-top-level">
-    {% for topLink in mainNav.links %}
-      <li class="selected">
+    {% for topLink in mainNavData.links %}
+      <li>
         <a href="{{ topLink.url }}">{{ topLink.title }}</a>
         {% if topLink.hasChildren %}
           <ul class="nav-child-level">
@@ -11,6 +11,18 @@
             {% endfor %}
           </ul>
         {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endmacro %}
+
+@{% macro headerNavList(headerNavData) %}
+<nav id="header-nav">
+  <ul>
+    {% for link in headerNavData.links %}
+      <li>
+        <a href="{{ link.url }}">{{ link.title }}</a>
       </li>
     {% endfor %}
   </ul>

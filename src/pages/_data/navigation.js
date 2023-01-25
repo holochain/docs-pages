@@ -1,5 +1,6 @@
 const footerLinks = require("./navigation/footerLinks.json5");
 const mainNav = require("./navigation/mainNav.json5");
+const headerNav = require("./navigation/headerNav.json5");
 
 // console.log(mainNav);
 function cleanUpNav(mainNav) {
@@ -18,5 +19,6 @@ module.exports = {
   footerNav: {
     columns: footerLinks.columns
   },
-  mainNav: cleanUpNav(mainNav)
+  mainNav: cleanUpNav(mainNav),
+  headerNav
 }

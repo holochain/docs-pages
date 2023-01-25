@@ -1,0 +1,8 @@
+{
+  links: [
+    { title: "Quickstart Guide", url: "/install", class:"" },
+    { title: "Get Building", url: "/get-building/", class:"" },
+    { title: "Core Concepts", url: "/concepts/", class:"" },
+    { title: "References", url: "/references", class:"" },
+  ]
+}
