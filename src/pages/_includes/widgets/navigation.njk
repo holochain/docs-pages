@@ -1,3 +1,5 @@
+{% from "widgets/svg-icons.njk" import downArrowHead %}
+
 @{% macro mainNavTree(mainNavData, page) %}
 {% set activeParent = mainNavData.getActiveParentLink(page.url) %}
 <nav id="main-nav">
@@ -8,6 +10,7 @@
         <a href="{{ topLink.url }}">
           <span>
             {{ topLink.title }}
+            {{ downArrowHead() }}
           </span>
         </a>
         {% if topLink.hasChildren %}

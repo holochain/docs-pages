@@ -12,8 +12,14 @@
         color: #5B5477;
 
         span {
+          display: inline-flex;
+          align-items: flex-end;
           padding-left: 4px;
           border-left: 4px solid transparent;
+
+          svg {
+            margin: 0 0 6px 6px;
+          }
         }
       }
 

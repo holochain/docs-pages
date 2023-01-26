@@ -1,6 +1,6 @@
-{% macro mdiChevronUp() %}
-<svg style="width:24px;height:24px" viewBox="0 0 24 24">
-    <path fill="currentColor" d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" />
+{% macro downArrowHead(strokeColor = "currentcolor") %}
+<svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M7.05962 0.706721L7.29289 0.94L4 4.23289L0.707107 0.94L0.940385 0.706721L3.64683 3.40727L4 3.75967L4.35317 3.40727L7.05962 0.706721Z" fill="#5B5477" stroke="{{ strokeColor }}"/>
 </svg>
 {% endmacro %}
 
