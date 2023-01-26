@@ -142,6 +142,10 @@ nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz
 
 ## Scaffold Your First Holochain App
 
+!!! info "Tool is coming soon!"
+    The Scaffolding Tool is being updated to Beta 0.1.0 and will be ready for use no later than February 9th.
+    Follow Holochain on [Twitter](https://twitter.com/holochain) or join our [Discord](https://discord.gg/MwPvM4Vffg) for up-to-date announcements.
+
 Type the following at the command line:
 
 ```
@@ -157,7 +161,7 @@ When the project setup completes, type the following commands to run the Holocha
 cd forum
 ```
 ```
-nix-shell --run "npm install && WEBKIT_DISABLE_COMPOSITING_MODE=1 npm start"
+nix-shell --run "npm install && npm start"
 ```
 
 ### Next Step 

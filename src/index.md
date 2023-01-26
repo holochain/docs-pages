@@ -1,8 +1,8 @@
 title: Get Started - Holochain Docs
 
-# Get Started with Holochain
+# Holochain has released Beta 0.1.0 and is ready for developers!
 
-Welcome to the Holochain Developer Documentation! We hope to guide you along your journey so that you gain a better understanding of Holochain, and are able to build your first distributed application.
+Welcome to the Holochain Developer Portal! We invite you to install Holochain and begin building your own distributed application. Feedback is always welcome!
 
 ### Start your Holochain journey
 
@@ -22,7 +22,7 @@ Welcome to the Holochain Developer Documentation! We hope to guide you along you
 	<div class="h-tile tile-hero">
 		<a href="happ-setup" style="background-image:url(img/tile-3.jpg);">
 			<h2>Project Structure</h2>
-			<p>Understand Holochain App Code</p>
+			<p>Understand Holochain app code</p>
 		</a>
 	</div>
 	<!-- <div class="h-tile tile-hero">
@@ -33,8 +33,8 @@ Welcome to the Holochain Developer Documentation! We hope to guide you along you
 	</div> -->
 	<div class="h-tile tile-hero">
 		<a href="https://discord.gg/MwPvM4Vffg" style="background-image:url(img/tile-5.jpg);">
-			<h2>Chat</h2>
-			<p>Discuss Holochain on Discord</p>
+			<h2>Get Involved</h2>
+			<p>Connect with community on Discord</p>
 		</a>
 	</div>
 	<!-- <div class="h-tile tile-hero">
