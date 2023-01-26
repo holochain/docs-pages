@@ -15,9 +15,9 @@ function cleanUpNav(mainNav) {
 
 function findTopLinkRecordFor(url) {
   return mainNav.links.find((l) => {
-    const isPage = l.url === url;
-    const isChildPage = l?.children?.some((cl) => cl.url === url);
-    return isPage || isChildPage;
+    if (l.url === url) { return true; }
+
+    return l?.children?.some((cl) => cl.url === url);
   });
 }
 

@@ -1,6 +1,6 @@
 {
   links: [
-    { title: "Quickstart Guide", url: "/install", class:"", external: false },
+    { title: "Quickstart Guide", url: "/install/", class:"", external: false },
     { title: "Get Building", url: "/get-building/", class:"", children: [
         { title: "Scaffold a Forum App", url: "/get-building/scaffold-forum-app/" },
         { title: "Scaffold your Custom App", url: "/get-building/scaffold-your-custom-app/" },
@@ -19,7 +19,7 @@
         { title: "Signals", url: "/concepts/9_signals/", class: "" },
       ] 
     },
-    { title: "References", url: "/references", class:"", children: [
+    { title: "References", url: "/references/", class:"", children: [
         { title: "HDK (Rust)", url: "https://docs.rs/hdk", class:"", external: true },
         { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", class:"", external: true },
         { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", class:"", external: true },
