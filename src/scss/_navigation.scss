@@ -1,12 +1,53 @@
 @mixin navBarList() {
-  ul {
-    list-style: none;
+  nav#main-nav {
+    padding: 18px 34px;
 
-    &.nav-top-level {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
 
-      ul.nav-child-level {
-        //display: none;
+      // Default for all links in tree
+      a {
+        color: #5B5477;
 
+        span {
+          padding-left: 4px;
+          border-left: 4px solid transparent;
+        }
+      }
+
+      li {
+        &[data-is-current-parent="true"] {
+          > a {
+            color: black;
+            font-weight: 700;
+          }
+        }
+        
+        &[aria-current="page"] {
+          > a {
+            color: black;
+            font-weight: 700;
+
+            span {
+              border-left-color: $cl-main-nav-current;
+
+            }
+          }
+        }
+      }
+
+      &.nav-top-level {
+        > li > a {
+          padding: 6px 0;
+          text-transform: uppercase;
+        }
+
+        ul.nav-child-level {
+          //display: none;
+
+        }
       }
     }
   }
