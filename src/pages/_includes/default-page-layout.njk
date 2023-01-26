@@ -10,7 +10,7 @@ layout: base-layout.njk
   <div class="side-bar">
   <div class="side-bar-inner">
   {% renderlayoutblock 'sideBar' %}
-    {{ mainNavTree(navigation.mainNav) }}
+    {{ mainNavTree(navigation.mainNav, page) }}
   {% endrenderlayoutblock %}
   </div>
   </div>

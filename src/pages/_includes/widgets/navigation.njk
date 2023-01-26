@@ -1,13 +1,17 @@
-@{% macro mainNavTree(mainNavData) %}
+@{% macro mainNavTree(mainNavData, page) %}
+{% set activeParent = mainNavData.getActiveParentLink(page.url) %}
 <nav id="main-nav">
   <ul class="nav-top-level">
     {% for topLink in mainNavData.links %}
-      <li>
+      <li {% if topLink.url == activeParent.url %} data-is-current-parent="true" {% endif %} 
+        {% if topLink.url == page.url %} aria-current="page" {% endif %} >
         <a href="{{ topLink.url }}">{{ topLink.title }}</a>
         {% if topLink.hasChildren %}
           <ul class="nav-child-level">
             {% for childLink in topLink.children %}
-            <li><a href="{{ childLink.url }}">{{ childLink.title }}</a></li>
+            <li {% if childLink.url == page.url %} aria-current="page" {% endif %}>
+              <a href="{{ childLink.url }}">{{ childLink.title }}</a>
+            </li>
             {% endfor %}
           </ul>
         {% endif %}
