@@ -1,6 +1,6 @@
 ---
 title: Get Started Developing with Holochain
-layout: base-layout.njk
+layout: default-page-layout.njk
 pageStyleId: install
 ---
 

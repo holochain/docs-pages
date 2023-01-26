@@ -2,6 +2,7 @@
 /* Code Fence styling */
 pre[class*="language-"] {
   display: flex;
+  max-width: 60vw;
 
   button.copy-to-clipboard {
     margin-left: auto;
