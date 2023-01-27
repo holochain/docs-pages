@@ -1,6 +1,6 @@
 {
   links: [
-    { title: "Quickstart Guide", url: "/install/", class:"", external: false },
+    { title: "Get Started", url: "/install/", class:"", external: false },
     { title: "Get Building", url: "/get-building/", class:"", children: [
         { title: "Scaffold a Forum App", url: "/get-building/scaffold-forum-app/" },
         { title: "Scaffold your Custom App", url: "/get-building/scaffold-your-custom-app/" },
