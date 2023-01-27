@@ -1,4 +1,4 @@
-$top-nav-img-height: 16rem;
+$top-nav-img-height: 24rem;
 $cl-header-bar-primary: black;
 
 header#page-header {
@@ -7,7 +7,7 @@ header#page-header {
   #page-header-top {
     display: grid;
     grid-template-columns: auto 1fr;
-    font-size: 14rem;
+    font-size: 18rem;
     padding: 18px 0;
 
     #logo-space {
@@ -34,7 +34,7 @@ header#page-header {
 
         li {
           margin-right: 24rem;
-          font-weight: 600;
+          font-weight: 400;
           padding-bottom: 6rem;
           border-bottom: 2px solid transparent;
 
