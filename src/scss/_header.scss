@@ -5,8 +5,8 @@ header#page-header {
   background-color: white;
   
   #page-header-top {
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
+    justify-content: space-between;
     font-size: 18rem;
     padding: 18px 0;
 
@@ -14,8 +14,6 @@ header#page-header {
       display: flex;
       flex-direction: column;
 
-      // margin: 20px 0 10px 0;
-      
       #home-link {
         img {
           height: $top-nav-img-height;
@@ -33,7 +31,7 @@ header#page-header {
         list-style-type: none;
 
         li {
-          margin-right: 24rem;
+          margin-left: 24rem;
           font-weight: 400;
           padding-bottom: 6rem;
           border-bottom: 2px solid transparent;
