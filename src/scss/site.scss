@@ -36,26 +36,13 @@ body {
     }
   }
 
+
   #page-content-wrap {
     flex: 1 0 auto;
 
-    // two section content, left side bar, main chunk on right.
-    .default-page-layout {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 20px;
-      position: relative;
-      height: 100%;
-
-      .side-bar {
-        background-color: #f7f7f7;
-        margin-bottom: 0;
-        margin-top: 0;
-        height: 100%;
-
-        @include navBarList;
-      }
-    }
+    // two section content, right side bar, main chunk on left.
+    @import 'page-specific/default-page-type';
+    
   }
 
   @import 'footer';

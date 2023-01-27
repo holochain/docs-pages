@@ -2,6 +2,8 @@ $top-nav-img-height: 16rem;
 $cl-header-bar-primary: black;
 
 header#page-header {
+  background-color: white;
+  
   #page-header-top {
     display: grid;
     grid-template-columns: auto 1fr;
