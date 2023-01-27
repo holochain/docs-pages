@@ -10,7 +10,10 @@
       // Default for all links in tree
       a {
         color: #5B5477;
+        display: block;
 
+        // Add a span so that we can use the border to indicate current page and 
+        //   control the size of the indicator independent of the box size of the a tag
         span {
           display: inline-flex;
           align-items: flex-end;
@@ -45,12 +48,16 @@
 
       &.nav-top-level {
         > li > a {
-          padding: 6px 0;
+          padding: 8px 0;
           text-transform: uppercase;
         }
 
         ul.nav-child-level {
           display: none;
+
+          a {
+            padding: 3px 0 4px 12px;
+          }
         }
 
         li[data-is-current-parent="true"] {
