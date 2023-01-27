@@ -35,9 +35,14 @@ header#page-header {
           font-weight: 400;
           padding-bottom: 6rem;
           border-bottom: 2px solid transparent;
+          transition: border-bottom-color .25s;
 
           &[data-is-current-parent] {
             border-bottom-color: $cl-brand-purple;
+          }
+          
+          &:hover {
+            border-bottom-color: $cl-brand-green;
           }
         }
       }
