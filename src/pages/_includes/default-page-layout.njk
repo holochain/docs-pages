@@ -8,10 +8,8 @@ layout: base-layout.njk
     {{ content | safe }}
   </div>
   <div class="side-bar">
-  <div class="side-bar-inner">
-  {% renderlayoutblock 'sideBar' %}
-    {{ mainNavTree(navigation.mainNav, page) }}
-  {% endrenderlayoutblock %}
-  </div>
+    {% renderlayoutblock 'sideBar' %}
+      {{ mainNavTree(navigation.mainNav, page) }}
+    {% endrenderlayoutblock %}
   </div>
 </div>
