@@ -3,7 +3,7 @@
     {
       class: "about-column",
       links: [
-        { title: "Holochain.org", url: "https://www.holochain.org/", image: "/assets/img/logo_light-2x.png", class:"hc-logo-link", external: true },
+        { title: "Holochain.org", url: "https://www.holochain.org/", image: "/assets/img/logo_light-2x.png", class:"hc-logo-link no-away", external: true },
         { title: "Roadmap", url: "https://www.holochain.org/roadmap", external: true },
         { title: "Our Blog", url: "https://blog.holochain.org/", external: true },
         { title: "Dev Portal", url: "/" },

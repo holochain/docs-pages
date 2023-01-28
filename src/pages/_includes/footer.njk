@@ -10,13 +10,14 @@
     
     <ul>
     {% for link in col.links %}
-      {% set classAttr = 'class='+ link.class if link.class else '' %}
+      {% set classAttr = 'class="'+ link.class + '"' if link.class else '' %}
       <li>
       {% if link.type === "icon-list" %}
         <ul class="{{ link.class }}">
         {% for childLink in link.links %}
+          {% set childClassAttr = 'class="'+ childLink.class + '"' if childLink.class else '' %}
           <li>
-            <a href="{{ childLink.url }}" {{ 'target=_blank' if childLink.external }} {{'class='+ childLink.class if childLink.class}} >
+            <a href="{{ childLink.url }}" {{ 'target=_blank' if childLink.external }} {{ childClassAttr | safe }} >
               {{ callMacroByName(childLink.svgSnippet) }}
             </a>
           </li>
@@ -24,11 +25,11 @@
         </ul>
       {% else %}
           {% if link.image %}
-          <a href="{{link.url}}" title="{{link.title}}" {{ 'target=_blank' if link.external }} {{ classAttr }}>
+          <a href="{{link.url}}" title="{{link.title}}" {{ 'target=_blank' if link.external }} {{ classAttr | safe }}>
             <img src="{{link.image}}" />
           </a>
           {% else %}
-          <a href="{{link.url}}" {{ 'target=_blank' if link.external }} {{ classAttr }}>{{link.title}}</a>
+          <a href="{{link.url}}" {{ 'target=_blank' if link.external }} {{ classAttr | safe }}>{{link.title}}</a>
           {% endif %}
       {% endif %}
         </li>
