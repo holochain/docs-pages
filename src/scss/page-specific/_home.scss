@@ -1,5 +1,16 @@
 
 &.home-page {
+  position: relative;
+  
+  #page-bg {
+    position: absolute;
+    right: 0;
+    top: 830px;
+  }
+
+  hr {
+    width: 90%;
+  }
 
   #greeting {
     flex-shrink: 0;
@@ -65,5 +76,16 @@
     @media (min-width: 900px) {
       grid-template-columns: 1fr 1fr;
     }
+  }
+
+  #qualities {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 60px;
+    margin: 80px 200px 80px 0;
+  }
+
+  hr#last {
+    margin-bottom: 100px;
   }
 }
