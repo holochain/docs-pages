@@ -73,10 +73,13 @@ pre[class*="language-"] {
 
 a.link-tile {
   @include cardBase;
-  @include cardAddGradientTop($blue-to-light-purple-grad);
   @include hoverMove;
 
   &.blue-purple-top {
+    @include cardAddGradientTop($blue-to-light-purple-grad);
+  }
+
+  &.blue-light-blue-top {
     @include cardAddGradientTop($blue-to-light-blue-grad);
   }
 }
