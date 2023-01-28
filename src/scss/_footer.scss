@@ -1,4 +1,5 @@
 $footer-nav-img-height: 14rem;
+$footer-nav-header-to-links: 14rem;
 
 #page-footer {
   flex-shrink: 0;
@@ -16,10 +17,13 @@ $footer-nav-img-height: 14rem;
     .nav-column {
       h2 {
         font-size: $fs-footer-col-header;
+        margin-bottom: $footer-nav-header-to-links;
+        margin-top: 0;
       }
 
       ul {
         padding: 0;
+        margin: 0;
         
         li {
           list-style: none;
@@ -30,11 +34,13 @@ $footer-nav-img-height: 14rem;
   
             &.hc-logo-link {
               display: inline-block;
-              margin-bottom: 12rem;
               width: 130rem;
-  
+              // Unclear why this 4 pixel fudge is needed. Figure out
+              margin-bottom: $footer-nav-header-to-links - 4;
+              
               img {
-                max-width: 100%;
+                // max-width: 100%;
+                height: 20rem;
               }
             }
             
