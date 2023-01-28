@@ -1,4 +1,12 @@
 
+// Applicable to an a or button element
+.btn {
+  padding: 8rem 16rem;
+  border: 2px solid currentColor;
+  border-radius: 5px;
+  color: currentColor;
+}
+
 a {
   text-decoration: none;
   color: $cl-main-text;

@@ -1,8 +1,47 @@
 
+
+
 &.home-page {
+  
+
+  #greeting {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    color: white;
+    padding: 19px 0 60px;
+    // height: 300px;
+
+    &-bg {
+      background-color: black;
+      position: absolute;
+      top: 0; bottom: 0; right: 0; left: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 32rem;
+      margin-bottom: 16px;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .btn {
+      background-color: white;
+      color: black;
+      margin-top: 32px;
+    }
+  }
+
   #home-tiles {
     display: grid;
     gap: 80px;
+    margin: 38px auto;
 
     @media (min-width: 900px) {
       grid-template-columns: 1fr 1fr;
