@@ -1,8 +1,5 @@
 
-
-
 &.home-page {
-  
 
   #greeting {
     flex-shrink: 0;
@@ -12,7 +9,6 @@
     position: relative;
     color: white;
     padding: 19px 0 60px;
-    // height: 300px;
 
     &-bg {
       background-color: black;
@@ -40,12 +36,14 @@
 
   #home-tiles {
     display: grid;
-    gap: 80px;
+    gap: 70px;
     margin: 38px auto;
+    padding: 20px 50px;
     color: black;
 
     .home-tile {
       .content-wrapper {
+        padding-left: 40px;
         display: flex;
         align-items: center;
 
