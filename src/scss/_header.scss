@@ -8,7 +8,7 @@ header#page-header {
     display: flex;
     justify-content: space-between;
     font-size: 18rem;
-    padding: 18px 0;
+    padding: 24px 0 20px;
 
     #logo-space {
       display: flex;
@@ -17,6 +17,7 @@ header#page-header {
       #home-link {
         img {
           height: $top-nav-img-height;
+          padding-left: 2px;
         }
       }
     }
@@ -29,6 +30,7 @@ header#page-header {
       ul {
         display: flex;
         list-style-type: none;
+        margin-bottom: -17px;
 
         li {
           margin-left: 24rem;
