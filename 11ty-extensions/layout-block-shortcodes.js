@@ -25,7 +25,7 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPairedShortcode('renderlayoutblock', function(content, name) {
     //console.log('renderlayoutblock', name, this.page);
-    
+  
     return getLayoutContent(name, this.page, content);
   });
 
@@ -39,5 +39,6 @@ module.exports = function(eleventyConfig) {
     //console.log('layoutblock', this.page);
     
     storeLayoutContent(name, this.page, content);
+    return '';
   });
 }
