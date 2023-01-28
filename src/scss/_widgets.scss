@@ -46,8 +46,12 @@ pre[class*="language-"] {
   box-shadow: 4rem 4rem 50rem rgba(#000,.25);
   color: $cl-main-text;
 
-  h2 {
-    font-size: $fs-bigger;
+  .content-wrapper {
+    padding: 20px;
+    
+    h2 {
+      font-size: $fs-bigger;
+    }
   }
 }
 
@@ -58,7 +62,7 @@ pre[class*="language-"] {
     background-color: white;
     clip-path: polygon(17% 0,100% 55%,100% 100%,0 100%,0 15%);
     margin-top: $head-space;
-    padding: 20px;
+    
   }
 }
 

@@ -1,18 +1,34 @@
+{% from "widgets/svg-icons.njk" import rocketshipIcon, craneIcon, toolPanelIcon, personReadingIcon %}
 <div id="home-tiles">
-    {% linkTile "install", "blue-light-blue-top" %}
-      <h2>Install Holochain</h2>
-      <p>Quick start guide</p>
+    {% linkTile "install", "home-tile" %}
+      {{ rocketshipIcon() }}
+      <div class="text-wrapper">
+        <h2>Quick start guide</h2>
+        <p>Install Holochain</p>
+      </div>
     {% endlinkTile %}
-    {% linkTile "concepts", "blue-purple-top" %}
-      <h2>Core Concepts</h2>
-      <p>Introducing Holochain basics</p>
+
+    {% linkTile "concepts", "home-tile" %}
+      {{ craneIcon() }}
+      <div class="text-wrapper">
+        <h2>Core Concepts</h2>
+        <p>Introducing Holochain basics</p>
+      </div>
     {% endlinkTile %}
-    {% linkTile "happ-setup", "blue-purple-top" %}
-      <h2>Project Structure</h2>
-      <p>Understand Holochain App Code</p>
+    
+    {% linkTile "happ-setup", "home-tile" %}
+      {{ toolPanelIcon() }}
+      <div class="text-wrapper">
+        <h2>Project Structure</h2>
+        <p>Understand Holochain App Code</p>
+      </div>
     {% endlinkTile %}
-    {% linkTile "https://discord.gg/MwPvM4Vffg", "blue-light-blue-top" %}
-      <h2>Chat</h2>
-      <p>Discuss Holochain on Discord</p>
+
+    {% linkTile "https://discord.gg/MwPvM4Vffg", "home-tile" %}
+      {{ personReadingIcon() }}
+      <div class="text-wrapper">
+        <h2>Chat</h2>
+        <p>Discuss Holochain on Discord</p>
+      </div>
     {% endlinkTile %}
 </div>
