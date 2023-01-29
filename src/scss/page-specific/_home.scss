@@ -73,7 +73,7 @@
       }
     }
 
-    @media (min-width: 900px) {
+    @include mq-full {
       grid-template-columns: 1fr 1fr;
     }
   }

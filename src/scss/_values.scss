@@ -24,3 +24,14 @@ $blue-to-light-purple-grad: linear-gradient(180deg,#4720e3,#b748ff 68.44%);
 $blue-to-light-blue-grad: linear-gradient(180deg,#415bed,#13d0d7 44.86%);
 
 
+@mixin mq-full {
+  @media screen and (min-width: $mobile-width) {
+    @content;
+  }
+}
+
+@mixin mq-mobile {
+  @media screen and (max-width: $mobile-width) {
+    @content;
+  }
+}

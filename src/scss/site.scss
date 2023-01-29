@@ -23,8 +23,8 @@ body {
   display: flex;
   flex-direction: column;
 
-  @import 'header';
   @import 'widgets';
+  @import 'header';
   @import 'navigation';
 
   .content-container {
