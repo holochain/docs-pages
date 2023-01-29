@@ -5,10 +5,10 @@
   border: 2px solid currentColor;
   border-radius: 5px;
   color: currentColor;
+  text-decoration: none;
 }
 
 a {
-  text-decoration: none;
   color: $cl-main-text;
 
   svg {

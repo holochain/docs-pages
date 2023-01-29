@@ -31,6 +31,7 @@ $footer-nav-header-to-links: 14rem;
           a {
             color: white;
             font-size: $fs-footer-smaller;
+            text-decoration: none;
   
             &.hc-logo-link {
               display: inline-block;

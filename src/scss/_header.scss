@@ -10,6 +10,10 @@ header#page-header {
     font-size: 18rem;
     padding: 24px 0 20px;
 
+    a {
+      text-decoration: none;
+    }
+
     #logo-space {
       display: flex;
       flex-direction: column;
