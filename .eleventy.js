@@ -30,6 +30,8 @@ module.exports = function(eleventyConfig) {
     showAllHosts: true
   });
 
+  eleventyConfig.setWatchThrottleWaitTime(100);
+
   configMarkdownIt(eleventyConfig);
   registerExtensions(eleventyConfig);
     
