@@ -10,7 +10,9 @@
         <a href="{{ topLink.url }}">
           <span>
             {{ topLink.title }}
+            {% if topLink.hasChildren %}
             {{ downArrowHead() }}
+            {% endif %}
           </span>
         </a>
         {% if topLink.hasChildren %}
