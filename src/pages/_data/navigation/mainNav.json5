@@ -1,39 +1,34 @@
 {
   links: [
-    { title: "Get Started", url: "/install/", class:"", external: false },
-    { title: "Get Building", url: "/get-building/", class:"", children: [
-        { title: "Scaffold a Forum App", url: "/get-building/scaffold-forum-app/" },
+    { title: "Get Started", url: "/install/", children: [
+        { title: "Project Structure", url: "/happ-setup/" }
+      ]
+    },
+    { title: "Get Building", url: "/get-building/", children: [
         { title: "Scaffold your Custom App", url: "/get-building/scaffold-your-custom-app/" },
         { title: "Distribute your App", url: "/get-building/distribute-your-app/" },
+        { title: "Advanced Installation Guide", url: "/install-advanced/" },
       ] 
     },
-    { title: "Core Concepts", url: "/concepts/", class:"", children: [
-        { title: "The Basics", url: "/concepts/1_the_basics/", class:"" },
-        { title: "Application Architecture", url: "/concepts/2_application_architecture/", class:"" },
-        { title: "Source Chain", url: "/concepts/3_source_chain/", class:"" },
-        { title: "DHT", url: "/concepts/4_dht/", class:"" },
-        { title: "Links and Anchors", url: "/concepts/5_links_anchors/", class: "" },
-        { title: "CRUD Actions", url: "/concepts/6_crud_actions/", class: "" },
-        { title: "Validation", url: "/concepts/7_validation/", class: ""  },
-        { title: "Calls and Capabilities", url: "/concepts/8_calls_capabilities/", class: "" },
-        { title: "Signals", url: "/concepts/9_signals/", class: "" },
+    { title: "Core Concepts", url: "/concepts/", children: [
+        { title: "The Basics", url: "/concepts/1_the_basics/" },
+        { title: "Application Architecture", url: "/concepts/2_application_architecture/" },
+        { title: "Source Chain", url: "/concepts/3_source_chain/" },
+        { title: "DHT", url: "/concepts/4_dht/" },
+        { title: "Links and Anchors", url: "/concepts/5_links_anchors/" },
+        { title: "CRUD Actions", url: "/concepts/6_crud_actions/" },
+        { title: "Validation", url: "/concepts/7_validation/"  },
+        { title: "Calls and Capabilities", url: "/concepts/8_calls_capabilities/" },
+        { title: "Signals", url: "/concepts/9_signals/" },
       ] 
     },
-    { title: "References", url: "/references/", class:"", children: [
-        { title: "HDK (Rust)", url: "https://docs.rs/hdk", class:"", external: true },
-        { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", class:"", external: true },
-        { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", class:"", external: true },
-        { title: "CLI", url: "", class:"", external: true },
-        { title: "Glossary", url: "/glossary", class:"", external: true },
+    { title: "References", url: "/references/", children: [
+        { title: "HDK (Rust)", url: "https://docs.rs/hdk", external: true },
+        { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
+        { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
+        { title: "CLI", url: "", external: true },
+        { title: "Glossary", url: "/glossary/", external: true },
       ] 
     },
-
-    { title: "In Depth", url: "/in-depth", class:"", children: [
-        { title: "Project Structure", url: "", class:"" },
-        { title: "Advanced Installation Guide", url: "install-advanced" },
-        { title: "Breakout items from Advanced Installation", url: "" },
-      ] 
-    },
-
   ]
 }
