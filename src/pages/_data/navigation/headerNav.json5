@@ -1,8 +1,9 @@
 {
   links: [
-    { title: "Get Started", url: "/install/", class:"" },
+    { title: "Quick Start", url: "/install/", class:"" },
     { title: "Get Building", url: "/get-building/", class:"" },
     { title: "Core Concepts", url: "/concepts/", class:"" },
     { title: "References", url: "/references/", class:"" },
+    { title: "Get Involved", url: "/get-involved/", class:"" },
   ]
 }

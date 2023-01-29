@@ -1,6 +1,6 @@
 {
   links: [
-    { title: "Get Started", url: "/install/", children: [
+    { title: "Quick Start", url: "/install/", children: [
         { title: "Project Structure", url: "/happ-setup/" }
       ]
     },
@@ -30,5 +30,6 @@
         { title: "Glossary", url: "/glossary/", external: true },
       ] 
     },
+    { title: "Get Involved", url: "/get-involved/" },
   ]
 }
