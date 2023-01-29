@@ -82,10 +82,17 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 60px;
+    padding-left: 50px;
     margin: 80px 200px 80px 0;
   }
 
-  hr#last {
-    margin-bottom: 100px;
+  hr {
+    background-color: #CECCD8;
+    border: 0;
+    height: 1px;
+
+    &#last {
+      margin-bottom: 200px;
+    }
   }
 }
