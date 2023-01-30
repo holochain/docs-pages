@@ -5,7 +5,7 @@ $cl-sidebar-bg: #f7f7f7;
   display: grid;
   
   //Mobile set up default
-  grid-template-columns: minmax(0, 1fr) 420px;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: min-content 1fr min-content;
   grid-template-areas: 
     "header header"
