@@ -10,7 +10,8 @@ $cl-sidebar-bg: #f7f7f7;
 .default-page-layout {
   background-color: white;
   display: grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  //grid-template-columns: 1fr 420px;
   gap: 50px;
   position: relative;
   height: 100%;
