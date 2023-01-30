@@ -2,6 +2,12 @@
 &.home-page {
   position: relative;
   
+  grid-template-areas: 
+    "header header"
+    "greeting greeting"
+    "mainArea mainArea"
+    "footer footer";
+  
   #page-bg {
     position: absolute;
     right: 0;
@@ -13,6 +19,7 @@
   }
 
   #greeting {
+    grid-area: greeting;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
@@ -95,6 +102,12 @@
 
     &#last {
       margin-bottom: 200px;
+    }
+  }
+
+  @include mq-full {
+    .side-bar {
+      display: none;
     }
   }
 }
