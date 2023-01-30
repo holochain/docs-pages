@@ -17,13 +17,16 @@ header#page-header {
 
     #logo-space {
       display: flex;
-      flex-direction: column;
 
       #home-link {
         img {
           height: $top-nav-img-height;
-          padding-left: 2px;
+          padding: 0 10px 0 2px;
         }
+      }
+
+      @include mq-full {
+        flex-direction: column;
       }
     }
 
