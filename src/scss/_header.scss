@@ -68,14 +68,15 @@ header#page-header {
 
   #page-header-bar {
     background: $header-gradiant;
-    padding: 10px $sz-mobile-hor-padding;
+    padding: 8px;
     color: $cl-header-bar-primary;
     display: flex;
     justify-content: space-between;
 
     #other-nav {
       margin-left: auto;
-      display: flex;
+      //Sets to flex in mq-full
+      display: none;
       align-items: center;
       gap: 10px;
 
@@ -90,6 +91,10 @@ header#page-header {
 
     @include mq-full {
       padding: 10px $sz-full-hor-padding;
+
+      #other-nav {
+        display: flex;
+      }
     }
   }
 }
