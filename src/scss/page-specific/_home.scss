@@ -20,8 +20,8 @@
 
   #greeting {
     grid-area: greeting;
-    flex-shrink: 0;
-    display: flex;
+    // Will be set to flex by mq-full
+    display: none;
     flex-direction: column;
     align-items: center;
     position: relative;
@@ -106,6 +106,10 @@
   }
 
   @include mq-full {
+    #greeting {
+      display: flex;
+    }
+
     .side-bar {
       display: none;
     }
