@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build:web": "ELEVENTY_ENV=production npx @11ty/eleventy",
-    "serve:web": "ELEVENTY_ENV=development npx @11ty/eleventy --serve",
+    "serve:web": "ELEVENTY_ENV=development npx @11ty/eleventy --serve --incremental",
     "serve:web-prod": "ELEVENTY_ENV=production BROWERSYNC=off npx @11ty/eleventy --serve",
     "debug:web": "DEBUG=Eleventy* ELEVENTY_ENV=development npx @11ty/eleventy --serve",
     "build:sass": "npx sass src/scss:styles-compiled",

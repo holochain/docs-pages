@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="en">
-  {% include "head.njk" %}
+  {% include "parts/head.njk" %}
 
-  <body class="{{ pageStyleId }}">
-    {% include "header.njk" %}
+  <body class="{{ pageStyleId }} {{ layoutId }}">
+    {% include "parts/header.njk" %}
     {% renderlayoutblock "abovePageWrap" %}{% endrenderlayoutblock %}
-    <div id="page-content-wrap" class="content-container">
-      {{ content | safe }}
-    </div>
+
+    {{ content | safe }}
+    
     {% renderlayoutblock "belowPageWrap" %}{% endrenderlayoutblock %}
     
-    {% include "footer.njk" %}
-    {% include "templates.njk" %}
+    {% include "parts/footer.njk" %}
+    {% include "parts/templates.njk" %}
     {% include "widgets/unsupported-brower-warning.njk" %}
   </body>
 </html>

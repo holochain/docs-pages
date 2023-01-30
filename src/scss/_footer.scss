@@ -2,9 +2,8 @@ $footer-nav-img-height: 14rem;
 $footer-nav-header-to-links: 14rem;
 
 #page-footer {
-  flex-shrink: 0;
-  //height: $footer-large-screen-height;
-  padding: 50rem 0 40rem;
+  grid-area: footer;
+  padding: 50rem $sz-mobile-hor-padding 40rem;
   background: $cl-footer-bg;
   color: white;
   z-index: 1;
@@ -13,6 +12,8 @@ $footer-nav-header-to-links: 14rem;
     display: flex;
     justify-content: space-between;
     color: white;
+    flex-wrap: wrap;
+    gap: 20px;
 
     .nav-column {
       h2 {
@@ -92,5 +93,9 @@ $footer-nav-header-to-links: 14rem;
         }
       }
     }
+  }
+
+  @include mq-full {
+    padding: 50rem $sz-full-hor-padding 40rem;
   }
 }

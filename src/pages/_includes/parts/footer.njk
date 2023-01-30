@@ -1,7 +1,7 @@
 {% from "widgets/svg-icons.njk" import discordMarkIcon, twitterLogo, githubLogo, youtubeMarkIcon %}
 
 <div id="page-footer">
-  <nav class="content-container">
+  <nav>
   {% for col in navigation.footerNav.columns %}
   <div class="nav-column {{col.class}}">
     {% if col.title %}

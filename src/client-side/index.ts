@@ -34,7 +34,7 @@ function setUpMenuToggle() {
       btn.setAttribute("aria-expanded", isOpen.toString());
 
       // Handle the desired effect
-      const sideBarEl = document.querySelector<HTMLElement>(".default-page-layout .side-bar");
+      const sideBarEl = document.querySelector<HTMLElement>(".default-page-type .side-bar");
       sideBarEl?.classList.toggle("show", !isOpen);
       
     })

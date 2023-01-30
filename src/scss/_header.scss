@@ -2,13 +2,14 @@ $top-nav-img-height: 24rem;
 $cl-header-bar-primary: black;
 
 header#page-header {
+  grid-area: header;
   background-color: white;
   
   #page-header-top {
     display: flex;
     justify-content: space-between;
     font-size: 18rem;
-    padding: 24px 0 20px;
+    padding: 24px $sz-mobile-hor-padding 20px;
 
     a {
       text-decoration: none;
@@ -16,13 +17,16 @@ header#page-header {
 
     #logo-space {
       display: flex;
-      flex-direction: column;
 
       #home-link {
         img {
           height: $top-nav-img-height;
-          padding-left: 2px;
+          padding: 0 10px 0 2px;
         }
+      }
+
+      @include mq-full {
+        flex-direction: column;
       }
     }
 
@@ -58,23 +62,24 @@ header#page-header {
       }
     }
 
-    @include hamburgerMenu(); 
+    @include hamburgerMenu();
+
+    @include mq-full {
+      padding: 24px $sz-full-hor-padding 20px;
+    }
   }
 
   #page-header-bar {
     background: $header-gradiant;
-    padding: 10px 0;
+    padding: 8px;
     color: $cl-header-bar-primary;
     display: flex;
     justify-content: space-between;
 
-    & > .content-container {
-      display: flex;
-    }
-
     #other-nav {
       margin-left: auto;
-      display: flex;
+      //Sets to flex in mq-full
+      display: none;
       align-items: center;
       gap: 10px;
 
@@ -84,6 +89,14 @@ header#page-header {
         svg {
           height: $top-nav-img-height;
         }
+      }
+    }
+
+    @include mq-full {
+      padding: 10px $sz-full-hor-padding;
+
+      #other-nav {
+        display: flex;
       }
     }
   }
