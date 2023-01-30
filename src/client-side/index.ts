@@ -28,9 +28,15 @@ function setUpMenuToggle() {
   const openedClassName = "opened";
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
+      // Handle button change
       const isOpen = btn.classList.contains(openedClassName);
       btn.classList.toggle(openedClassName, !isOpen);
       btn.setAttribute("aria-expanded", isOpen.toString());
+
+      // Handle the desired effect
+      const sideBarEl = document.querySelector<HTMLElement>(".default-page-layout .side-bar");
+      sideBarEl?.classList.toggle("show", !isOpen);
+      
     })
   }) 
 }
