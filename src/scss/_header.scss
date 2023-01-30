@@ -2,6 +2,7 @@ $top-nav-img-height: 24rem;
 $cl-header-bar-primary: black;
 
 header#page-header {
+  grid-area: header;
   background-color: white;
   
   #page-header-top {
@@ -58,19 +59,19 @@ header#page-header {
       }
     }
 
-    @include hamburgerMenu(); 
+    @include hamburgerMenu();
+
+    @include mq-full {
+      padding: 24px $sz-full-margin 20px;
+    }
   }
 
   #page-header-bar {
     background: $header-gradiant;
-    padding: 10px 0;
+    padding: 10px $sz-full-margin;
     color: $cl-header-bar-primary;
     display: flex;
     justify-content: space-between;
-
-    & > .content-container {
-      display: flex;
-    }
 
     #other-nav {
       margin-left: auto;

@@ -1,27 +1,51 @@
 $cl-sidebar-bg: #f7f7f7;
 
-// create an overall background gradient 
-// with the nav bar color on the right so
-// it extends out to the far edge.
-@at-root body.default-page-type {
-  background: linear-gradient(to right, white, white 60%, $cl-sidebar-bg 60%);
-}
-
-.default-page-layout {
+&.default-page-type {
   background-color: white;
   display: grid;
+  
+  //Mobile set up default
   grid-template-columns: minmax(0, 1fr) 420px;
-  //grid-template-columns: 1fr 420px;
-  gap: 50px;
-  position: relative;
-  height: 100%;
+  grid-template-rows: min-content 1fr min-content;
+  grid-template-areas: 
+    "header header"
+    "mainArea mainArea"
+    "footer footer";
+  
+  .main-area {
+    grid-area: mainArea;
+    background-color: white;
+    padding-left: $sz-full-margin;
+  }
 
   .side-bar {
+    grid-area: mainArea;
+    z-index: -1;
     background-color: $cl-sidebar-bg;
     margin-bottom: 0;
     margin-top: 0;
     height: 100%;
 
     @include navBarList;
+
+    &.show {
+      z-index: unset;
+    }
   }
+
+  @include mq-full {
+    grid-template-columns: minmax(0, 1fr) 420px;
+    grid-template-areas: 
+      "header header"
+      "mainArea sideBar"
+      "footer footer";
+    column-gap: 50px;
+    
+
+    .side-bar {
+      grid-area: sideBar;
+      z-index: unset;
+    }
+  }
+
 }

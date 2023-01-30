@@ -2,12 +2,12 @@
 <html lang="en">
   {% include "parts/head.njk" %}
 
-  <body class="{{ pageStyleId }}">
+  <body class="{{ pageStyleId }} {{ layoutId }}">
     {% include "parts/header.njk" %}
     {% renderlayoutblock "abovePageWrap" %}{% endrenderlayoutblock %}
-    <div id="page-content-wrap" class="content-container">
-      {{ content | safe }}
-    </div>
+
+    {{ content | safe }}
+    
     {% renderlayoutblock "belowPageWrap" %}{% endrenderlayoutblock %}
     
     {% include "parts/footer.njk" %}

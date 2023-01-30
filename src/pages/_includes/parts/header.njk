@@ -2,7 +2,7 @@
 {% from "widgets/assorted-bits.njk" import hamburgerButton %}
 {% from "widgets/navigation.njk" import headerNavList %}
 <header id="page-header">
-  <div id="page-header-top" class="content-container">
+  <div id="page-header-top">
     <div id="logo-space">
       <a href="https://holochain.org" id="home-link" target="_blank">
         <img src="/assets/img/holochain-logo-black-1300.png" alt="Holochain.org">
@@ -15,12 +15,9 @@
   </div>
 
   <div id="page-header-bar">
-    <div class="content-container">
-
-      <nav id="other-nav">
-        <a href="https://discord.gg/k55DS5dmPH">{{ discordMarkIcon() }}</a>
-        <a href="https://github.com/holochain/holochain" alt="Holochain GitHub">{{ githubLogo() }}</a>
-      </nav>
-    </div>
+    <nav id="other-nav">
+      <a href="https://discord.gg/k55DS5dmPH">{{ discordMarkIcon() }}</a>
+      <a href="https://github.com/holochain/holochain" alt="Holochain GitHub">{{ githubLogo() }}</a>
+    </nav>
   </div>
 </header>

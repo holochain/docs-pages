@@ -1,16 +1,13 @@
 ---
 layout: base-layout.njk
-pageStyleId: default-page-type
+layoutId: default-page-type
 ---
 {% from "widgets/navigation.njk" import mainNavTree %}
-<div class="default-page-layout">
-  <div class="main-area">
-    <h1>{{ title }}</h1>
-    {{ content | safe }}
-  </div>
-  <div class="side-bar">
-    {% renderlayoutblock 'sideBar' %}
-      {{ mainNavTree(navigation.mainNav, page) }}
-    {% endrenderlayoutblock %}
-  </div>
+
+<div class="main-area">
+  <h1>{{ title }}</h1>
+  {{ content | safe }}
+</div>
+<div class="side-bar">
+  {{ mainNavTree(navigation.mainNav, page) }}
 </div>

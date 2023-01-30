@@ -2,9 +2,8 @@ $footer-nav-img-height: 14rem;
 $footer-nav-header-to-links: 14rem;
 
 #page-footer {
-  flex-shrink: 0;
-  //height: $footer-large-screen-height;
-  padding: 50rem 0 40rem;
+  grid-area: footer;
+  padding: 50rem $sz-full-margin 40rem;
   background: $cl-footer-bg;
   color: white;
   z-index: 1;
