@@ -15,7 +15,7 @@ $cl-sidebar-bg: #f7f7f7;
   .main-area {
     grid-area: mainArea;
     background-color: white;
-    padding-left: $sz-full-margin;
+    padding: 0 $sz-mobile-hor-padding;
   }
 
   .side-bar {
@@ -29,7 +29,7 @@ $cl-sidebar-bg: #f7f7f7;
     @include navBarList;
 
     &.show {
-      z-index: unset;
+      z-index: 1;
     }
   }
 
@@ -41,6 +41,9 @@ $cl-sidebar-bg: #f7f7f7;
       "footer footer";
     column-gap: 50px;
     
+    .main-area {
+      padding: 0 0 0 $sz-full-hor-padding;
+    }
 
     .side-bar {
       grid-area: sideBar;
