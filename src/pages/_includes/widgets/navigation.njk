@@ -5,18 +5,22 @@
 <nav id="main-nav">
   <ul class="nav-top-level">
     {% for topLink in mainNavData.links %}
-      <li {% if topLink.url == activeParent.url %} data-is-current-parent="true" {% endif %} 
+      {% set isCurrentParent = topLink.url == activeParent.url %}
+      <li {% if isCurrentParent %} data-is-current-parent="true" {% endif %} 
         {% if topLink.url == page.url %} aria-current="page" {% endif %} >
         <a href="{{ topLink.url }}">
           <span>
             {{ topLink.title }}
-            {% if topLink.hasChildren %}
-            {{ downArrowHead() }}
-            {% endif %}
           </span>
         </a>
         {% if topLink.hasChildren %}
-          <ul class="nav-child-level">
+        <button class="clear-btn" data-children-opener >
+          {{ downArrowHead() }}
+        </button>
+        {% endif %}
+
+        {% if topLink.hasChildren %}
+          <ul class="nav-child-level {% if isCurrentParent %}open{% endif %}">
             {% for childLink in topLink.children %}
             <li {% if childLink.url == page.url %} aria-current="page" {% endif %}>
               <a href="{{ childLink.url }}">

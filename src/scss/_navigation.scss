@@ -10,7 +10,7 @@
       // Default for all links in tree
       a {
         color: #5B5477;
-        display: block;
+        display: inline-block;
 
         // Add a span so that we can use the border to indicate current page and 
         //   control the size of the indicator independent of the box size of the a tag
@@ -47,9 +47,15 @@
       }
 
       &.nav-top-level {
-        > li > a {
-          padding: 8px 0;
-          text-transform: uppercase;
+        > li {
+          > a {
+            padding: 8px 0;
+            text-transform: uppercase;
+          }
+
+          button {
+            cursor: pointer;
+          }
         }
 
         ul.nav-child-level {
@@ -58,13 +64,17 @@
           a {
             padding: 3px 0 4px 12px;
           }
-        }
 
-        li[data-is-current-parent="true"] {
-          ul.nav-child-level {
+          &.open {
             display: block;
           }
         }
+
+        // li[data-is-current-parent="true"] {
+        //   ul.nav-child-level {
+        //     display: block;
+        //   }
+        // }
       }
     }
   }
