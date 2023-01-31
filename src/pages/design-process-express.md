@@ -40,7 +40,7 @@ There are already many good resources about the design process. We don't want to
 3. **Design**: Come up with a few possible solutions to the problem, guided by your analysis. Challenge the validity of your designs This is where UX can offer guidance; it asks, "why does the user care about this solution, how does it help solve their problem, and what is it like to use it?"
 4. **Implement**: Build the thing. Create prototypes; write code.
 5. **Test**: Get your product into the hands of users; allow them to challenge your assumptions and solutions. Accept feedback and use it to improve your product.
-6. **Maintain**: Devote energy to supporting and improving your offeing.
+6. **Maintain**: Devote energy to supporting and improving your offering.
 
 This process seems clear and linear, but in the daily reality of creating your product it becomes blurry, circular, and sometimes even recursive. It's hard to avoid analysis in the observation phase; the implementation phase uncovers new constraints and provokes a new analysis/design phase; and the testing phase leads to new observations. You may go through several cycles of design, implementation, and testing at increasing levels of fidelity, from paper prototypes to clickable GUIs to throwaway code to production-ready code to release version 2 and beyond.
 
@@ -66,7 +66,7 @@ Now it's time to create the architecture of your application.
 
 Start by asking what sorts of information should be public, privileged, or private, and what determines a user's privilege to read or write this information.
 
-* **Who is allowed to join your application's network?** Existing members of a DHT accept and reject new members by [validiating](../glossary/#validation-rule) their [agent ID](../glossary/#agent-id) entry.
+* **Who is allowed to join your application's network?** Existing members of a DHT accept and reject new members by [validating](../glossary/#validation-rule) their [agent ID](../glossary/#agent-id) entry.
 * **What credentials do they need to provide in order to gain access?** The agent ID entry contains the user's public key and any extra information needed to grant entry.
 * **Who is responsible for distributing and vouching for those credentials?** Validators need to know how to determine whether a credential is valid. How does the app define a valid credential---a signature from a single authority or an existing member of the network, a third-party verifier, or a hard-coded list of pre-approved public keys?
 * **Do you need to break your back-end into separate DHTs for fine-grained read access?** When a user becomes a member of a network, they're allowed to read all of its public data, so you may need to create a DNA for each class of access privileges.

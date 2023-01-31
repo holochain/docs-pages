@@ -5,23 +5,10 @@ hide:
 ---
 
 ::: coreconcepts-intro
-This guide assumes that you've already followed the [quick installation guide](../install/) and want something more. It describes how to make it faster to get into the Holonix shell, explains how to install more or less stable versions of Holochain, and discusses why we use nix-shell in the first place.
+This guide assumes that you've already followed the [quick installation guide](../install/) and want something more. It describes how to use your default shell and preferred code editor with Nix, explains how to install more or less stable versions of Holochain, and discusses why we use nix-shell in the first place.
 :::
 
-## Getting into Holonix faster and easier
-
-You might find it tedious to try to remember the command that gets you back into the Holonix development shell. `nix-shell https://holochain.love` isn't that intuitive, and when you're trying to open multiple terminals at a time for testing purposes it could get annoying.
-
-To save keystrokes, add an alias to your shell config:
-
-```bash
-echo 'alias holonix=\'nix-shell https://holochain.love' >> ~/.bashrc
-holonix
-```
-
-Close your terminal window, open it again, and you should be able to type `holonix` from now on to get into the shell.
-
-### Using your favorite shell
+### Using your default shell
 
 Many developers have their shell set up just the way they like it, whether a custom-formatted prompt or a completely different shell such as `zsh` and `fish`. If you don't want Holonix to clobber your carefully-crafted environment, try adding `--run $SHELL` to the end of your `nix-shell` command:
 
@@ -45,7 +32,7 @@ vim my_file.rs
 
 ### Using Holochain with a pinned Holochain version
 
-Holochain is in a Beta release, where each point release is supported for at least 6 months. However, devs may want to pin to other development releases which are under more rapid change. These developement versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` may not support the features you require for your development work.
+Holochain is in a Beta release, where each point release is supported for at least 6 months. However, devs may want to pin to other development releases which are under more rapid change. These development versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` may not support the features you require for your development work.
 
 To solve this, hApp projects can use Nix to pin a compatible Holochain version. The project needs to have a `default.nix` file in the root folder of the repository. Don't run this from inside the `nix-shell` provided by https://holochain.love. Instead, simply navigate to the project's root folder where the `default.nix` file needs to be and run:
 
@@ -112,7 +99,7 @@ Another Holochain command that inspects the platform information and outputs the
 holochain --build-info
 ```
 
-A sample output of this command looks like this (JSON formmatted using `jq`):
+A sample output of this command looks like this (JSON formatted using `jq`):
 
 ```json
 {
@@ -128,22 +115,6 @@ A sample output of this command looks like this (JSON formmatted using `jq`):
   "profile": "release"
 }
 ```
-
-## Uninstalling
-
-You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries and other packages on your device. On macOS it adds users and a user group too. If you want to free up some space, run these commands:
-
-```bash
-nix-collect-garbage -d
-```
-
-If you want to uninstall Nix as well, run these commands (you might need root privileges for the first line):
-
-```bash
-rm -rf /nix
-rm ~/.nix-profile
-```
-[Detailed uninstallation instructions for macOS](https://gist.github.com/chriselsner/3ebe962a4c4bd1f14d39897fc5619732#uninstalling-nix)
 
 ## More info on Nix
 
@@ -169,11 +140,27 @@ The full suite of Nix tooling is broad and deep. There’s even a dedicated prog
 
 While working on Holochain, you will usually have an active `nix-shell` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell---environment variables, Rust toolchains, binaries, libraries, and development tools---giving you a consistent development environment to build Holochain apps. All this setup will be cleaned up automatically when you close the shell.
 
-If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix-shell`. The packages are cached locally on your machine, so they will be ready the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use the [Holochain repo cloning method](#keeping-everything-local), they're cached on your machine too, but the ['quick install'](../install/) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
+If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix-shell`. The packages are cached locally on your machine, so they will be ready the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use the Holochain repo cloning method, they're cached on your machine too, but the ['quick install'](../install/) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
+
+## Uninstalling Nix
+
+You usually don't need to uninstall anything, because `nix-shell` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries and other packages on your device. On macOS it adds users and a user group too. If you want to free up some space, run these commands:
+
+```bash
+nix-collect-garbage -d
+```
+
+If you want to uninstall Nix as well, run these commands (you might need root privileges for the first line):
+
+```bash
+rm -rf /nix
+rm ~/.nix-profile
+```
+[Detailed uninstallation instructions for macOS](https://gist.github.com/chriselsner/3ebe962a4c4bd1f14d39897fc5619732#uninstalling-nix)
 
 ## Install Holochain without Holonix
 
-In case you don't want to use Holonix to set up your development environment, here are steps provided to install Holochain binaries directly
+In case you don't want to use Holonix to set up your development environment, here are the steps provided to install Holochain binaries directly
 from the crate registry. At first the required Rust toolchain and features are installed, followed by the actual Holochain dependencies.
 
 > Holonix is the recommended way to set up your development environment.  
