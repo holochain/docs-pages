@@ -15,7 +15,7 @@ First, use the 64-bit minimal installation CD. This is available on the [NixOS d
 
 <br>
 
-![](../img/nixos-rufus.png)
+![](/assets/img/nixos-rufus.png)
 <br>
 
 Make sure that the size of the bootable partition is around 3 GB and that the rest of the HDD is free. (Sorry the picture of Rufus is in German!)

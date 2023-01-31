@@ -17,7 +17,7 @@ The playground provides a visual representation of Holochain's data structures. 
 At <https://holochain-playground.github.io> you can access a simulation of a Holochain application,
 investigate all aspects of stored data and propagation, and configure the views of the simulation according to your interest.
 
-![](../img/playground-simulator.jpg)
+![](/assets/img/playground-simulator.jpg)
 
 #### Connected
 
@@ -33,4 +33,4 @@ The Holochain Gym is a practical approach to learning Holochain's concepts. In a
 
 Check it out at <https://holochain-gym.github.io>.
 
-![](../img/holochain-gym.jpg)
+![](/assets/img/holochain-gym.jpg)
