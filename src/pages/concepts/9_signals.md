@@ -18,7 +18,7 @@ A DNA usually only receives function calls from the outside world and returns a 
 Signals avoid the need for a client to regularly poll a zome function to retrieve new data, making UIs much more responsive and performant. They can also trigger automatic actions in a cell or client without needing human intervention.
 :::
 
-![](../../img/concepts/9.1-signals.png)
+![](/assets/img/concepts/9.1-signals.png)
 
 ## When are signals useful?
 
@@ -34,7 +34,7 @@ There are two kinds of signals. One goes to the user; the other goes to other ag
 
 ### Local signals
 
-![](../../img/concepts/9.2-client-signal.png)
+![](/assets/img/concepts/9.2-client-signal.png)
 
 When a UI or other client wants to keep up to date on something without initiating any action, they can listen for local signals on the same WebSocket connection they use to make zome and admin calls. The DNA can emit these signals as part of a zome function or other callback. For instance, in [Calls and Capabilities](../8_calls_capabilities/) Bob wants to ask Alice to give him permission to ghost-write on her behalf. Alice needs to know about his outstanding request, so the function that receives permission requests can emit a signal to her UI saying “please check this request and take action on it”.
 
@@ -42,7 +42,7 @@ You would typically use this in functions that are not called by a client, such 
 
 ### Remote signals
 
-![](../../img/concepts/9.3-remote-signal.png)
+![](/assets/img/concepts/9.3-remote-signal.png)
 
 Not every peer-to-peer interaction on the DHT needs a response. In cases where Bob doesn’t need to know whether his message was received, he can simply send a signal rather than making a remote call.
 

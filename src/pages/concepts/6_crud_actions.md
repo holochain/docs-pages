@@ -18,7 +18,7 @@ Holochain allows agents to mutate immutable data by publishing special **delete*
 Immutable public data is a surprising feature of Holochain and many other distributed systems. It's important to understand the consequences in order to make informed design decisions that respect your users' privacy and storage space.
 :::
 
-![](../../img/concepts/6.1-crud.png)
+![](/assets/img/concepts/6.1-crud.png)
 
 ## Public, immutable databases
 
