@@ -32,7 +32,7 @@ vim my_file.rs
 
 ### Using Holochain with a pinned Holochain version
 
-Holochain is in a Beta release, where each point release is supported for at least 6 months. However, devs may want to pin to other development releases which are under more rapid change. These developement versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` may not support the features you require for your development work.
+Holochain is in a Beta release, where each point release is supported for at least 6 months. However, devs may want to pin to other development releases which are under more rapid change. These development versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` may not support the features you require for your development work.
 
 To solve this, hApp projects can use Nix to pin a compatible Holochain version. The project needs to have a `default.nix` file in the root folder of the repository. Don't run this from inside the `nix-shell` provided by https://holochain.love. Instead, simply navigate to the project's root folder where the `default.nix` file needs to be and run:
 
@@ -99,7 +99,7 @@ Another Holochain command that inspects the platform information and outputs the
 holochain --build-info
 ```
 
-A sample output of this command looks like this (JSON formmatted using `jq`):
+A sample output of this command looks like this (JSON formatted using `jq`):
 
 ```json
 {
@@ -160,7 +160,7 @@ rm ~/.nix-profile
 
 ## Install Holochain without Holonix
 
-In case you don't want to use Holonix to set up your development environment, here are steps provided to install Holochain binaries directly
+In case you don't want to use Holonix to set up your development environment, here are the steps provided to install Holochain binaries directly
 from the crate registry. At first the required Rust toolchain and features are installed, followed by the actual Holochain dependencies.
 
 > Holonix is the recommended way to set up your development environment.  

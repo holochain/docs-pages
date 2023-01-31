@@ -59,7 +59,7 @@ Each Holochain application has its own separate data store, a <abbr title="distr
 Data in the DHT is stored differently from a SQL database, however. Key differences:
 
 * Each user writes data to a journal on their own device before publishing it to the DHT.
-* Data is held by the users of the app on their own devices. Users store their own journals, as well as a small ammount of others' public data for redundancy.
+* Data is held by the users of the app on their own devices. Users store their own journals, as well as a small amount of others' public data for redundancy.
 * Data propagation is [eventually consistent](https://en.wikipedia.org/wiki/Eventual_consistency). Not all users will see the exact same data at the same time.
 * All of an application's public data is visible to all users of that application, although users can also store private data on their own devices and grant access to others using [capability-based security](../concepts/8_calls_capabilities/).
 * Data is not stored in tables, but in individual entries that are retrieved by their unique ID.

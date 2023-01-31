@@ -46,7 +46,7 @@ The public key of an [agent](#agent). It serves as their unique ID in any [DHT](
 
 #### Agent ID entry
 
-The entry associated with the third of the four [genesis records](#genesis-records) at the the beginning of an [agent](#agent)'s [source chain](#source-chain), which contains their [agent ID](#agent-id). The address of this entry is also the [agent's address](#agent-address) on the DHT.
+The entry associated with the third of the four [genesis records](#genesis-records) at the beginning of an [agent](#agent)'s [source chain](#source-chain), which contains their [agent ID](#agent-id). The address of this entry is also the [agent's address](#agent-address) on the DHT.
 
 #### Append-only
 
@@ -66,7 +66,7 @@ A [capability grant](#capability-grant) that only allows specified [agents](#age
 
 #### Atomic commit
 
-The guarantee that all [source chain](#source-chain) [commits](#commit) performed in one [zome function](#call) will succeed or fail together, similar to a database transaction. Failure can be caused by [validation](#validation) failure for an individual [record](#record) or a hardware I/O failure. It can also be caused by a prior atomic commit finishing and advancing the source chain [state](#state-transition) while the current function call is running, that is, between the time that the conductor creaetd the current function's [workspace](#workspace) and the time that it attempted to persist its own changes to the source chain.
+The guarantee that all [source chain](#source-chain) [commits](#commit) performed in one [zome function](#call) will succeed or fail together, similar to a database transaction. Failure can be caused by [validation](#validation) failure for an individual [record](#record) or a hardware I/O failure. It can also be caused by a prior atomic commit finishing and advancing the source chain [state](#state-transition) while the current function call is running, that is, between the time that the conductor created the current function's [workspace](#workspace) and the time that it attempted to persist its own changes to the source chain.
 
 #### Author
 
@@ -390,7 +390,7 @@ The basic components of Holochain---the [conductor](#conductor), the [nucleus](#
 
 #### Holochain host API
 
-The set of core functions that Holochain's [nucleus](#nucleus) makes available to a [ribosome](#ribosome), so the ribosome can in turm make them available to a running [cell](#cell). These functions allow the DNA to access and manipulate an [agent](#agent)'s [source chain](#source-chain), run cryptographic functions, retrieve and publish [DHT data](#dht-data), [bridge](#bridge) to the agent's other cells, and make [remote calls](#remote-call) to their [peers](#peer).
+The set of core functions that Holochain's [nucleus](#nucleus) makes available to a [ribosome](#ribosome), so the ribosome can in turn make them available to a running [cell](#cell). These functions allow the DNA to access and manipulate an [agent](#agent)'s [source chain](#source-chain), run cryptographic functions, retrieve and publish [DHT data](#dht-data), [bridge](#bridge) to the agent's other cells, and make [remote calls](#remote-call) to their [peers](#peer).
 
 #### Holo Host
 
@@ -705,4 +705,4 @@ A basic unit of modularity inside a [DNA](#dna). A zome defines a package of [en
 
 #### Zome function
 
-A function, created by the developer of a [zome](#zome), that allows external code to to access the zome's functionality, including writing to the agent's [source chain](#source-chain), reading from the [DHT](#distributed-hash-table-dht), making [remote calls](#remote-call) to other agents' zome functions or [bridged](#bridge) [cells](#cell), performing cryptographic functions, or sending [signals](#signal) to listening [clients](#client). The zome functions act as a public API for the [zome](#zome), and can be called by another zome within the same [DNA](#dna), a [bridged](#bridge) DNA instance within the same [conductor](#conductor), a [client](#client) via the conductor's [RPC interface](#rpc-interface), or a [peer](#peer) in the [network](#network) via a [remote call](#remote-call). An agent can control access to their functions via [capability grants](#capability-grant).
+A function, created by the developer of a [zome](#zome), that allows external code to access the zome's functionality, including writing to the agent's [source chain](#source-chain), reading from the [DHT](#distributed-hash-table-dht), making [remote calls](#remote-call) to other agents' zome functions or [bridged](#bridge) [cells](#cell), performing cryptographic functions, or sending [signals](#signal) to listening [clients](#client). The zome functions act as a public API for the [zome](#zome), and can be called by another zome within the same [DNA](#dna), a [bridged](#bridge) DNA instance within the same [conductor](#conductor), a [client](#client) via the conductor's [RPC interface](#rpc-interface), or a [peer](#peer) in the [network](#network) via a [remote call](#remote-call). An agent can control access to their functions via [capability grants](#capability-grant).
