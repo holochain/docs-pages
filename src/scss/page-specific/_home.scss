@@ -9,9 +9,14 @@
     "footer footer";
   
   #page-bg {
+    display: none;
     position: absolute;
     right: 0;
     top: 830px;
+
+    @include mq-full {
+      display: block;
+    }
   }
 
   hr {
@@ -89,10 +94,15 @@
 
   #qualities {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 60px;
-    padding-left: 50px;
-    margin: 80px 200px 80px 0;
+    padding: 0 $sz-mobile-hor-padding;
+    
+    @include mq-full {
+      grid-template-columns: 1fr 1fr 1fr;
+      padding: 0 $sz-full-hor-padding;
+      margin: 80px 200px 80px 0;
+    }
   }
 
   hr {
