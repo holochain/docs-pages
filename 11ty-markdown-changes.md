@@ -17,6 +17,7 @@
     words words
     :::
     ```
+    If you need to nest containers add an additional `:` on each outer layer.
 
 ## Admonitions
   - Do NOT indent contents of Admonitions
