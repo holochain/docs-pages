@@ -1,11 +1,18 @@
-
-// Applicable to an a or button element
-.btn {
+@mixin btn-base($color: currentColor) {
   padding: 8rem 16rem;
   border: 2px solid currentColor;
   border-radius: 5px;
-  color: currentColor;
+  color: $color;
   text-decoration: none;
+
+  &:hover {
+    background-color: $cl-brand-green;
+  }
+}
+
+// Applicable to an a or button element
+.btn {
+  @include btn-base;
 }
 
 a {

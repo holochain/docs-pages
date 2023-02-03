@@ -51,9 +51,14 @@
     }
 
     .btn {
+      @include btn-base(black);
       background-color: white;
-      color: black;
       margin-top: 32px;
+      border-color: black;
+
+      &:hover {
+        color: white;
+      }
     }
   }
 
