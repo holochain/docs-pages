@@ -10,8 +10,10 @@
       padding: 0;
 
       // Default for all links in tree
+      $link-color: #5B5477;
+
       a {
-        color: #5B5477;
+        color: $link-color;
         display: inline-block;
 
         // Add a span so that we can use the border to indicate current page and 
@@ -26,6 +28,8 @@
             margin: 0 0 6px 6px;
           }
         }
+
+        @include offsiteLinkIcon($link-color, $top: 10rem);
       }
 
       li {
