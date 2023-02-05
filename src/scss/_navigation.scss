@@ -1,4 +1,6 @@
 @mixin navBarList() {
+  $current-page-highlight-padding: 10px;
+  
   nav#main-nav {
     padding: 18px 34px;
 
@@ -17,7 +19,7 @@
         span {
           display: inline-flex;
           align-items: flex-end;
-          padding-left: 4px;
+          padding-left: $current-page-highlight-padding;
           border-left: 4px solid transparent;
 
           svg {
