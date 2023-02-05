@@ -27,20 +27,20 @@ pageStyleId: install
 
 <!-- Inline styling is temp fix while non-linux docs are disabled-->
 <div id="tiles" >
-    <div class="tile">
+    <div class="tile active">
         <!-- <a href="javascript:rudrSwitchContent('tab_linux', 'content_linux');" id="tab_linux" data-contentclass="content_linux" class="tabmenu active" onclick="window.open(this.href,'_self'); return false;"> -->
         <a id="tab_linux" data-contentclass="content_linux" class="tabmenu active">
             <h3><img src="/assets/img/icon-linux.svg" class="linux os-img"> Linux</h3>
         </a>
     </div>
-    <div class="tile">
+    <div class="tile disabled">
         <!-- <a href="javascript:rudrSwitchContent('tab_macos', 'content_macos');" id="tab_macos" data-contentclass="content_macos" class="tabmenu" onclick="window.open(this.href,'_self'); return false;"> -->
         <div id="tab_macos" data-contentclass="content_macos" class="tabmenu not-link" >
             <h3><img src="/assets/img/icon-apple.svg" class="os-img"> macOS</h3>
             <h4>Support Coming Soon</h4>
         </div>
     </div>
-    <div class="tile">
+    <div class="tile disabled">
         <!-- <a href="javascript:rudrSwitchContent('tab_windows', 'content_windows');" id="tab_windows" data-contentclass="content_windows" class="tabmenu" onclick="window.open(this.href,'_self'); return false;"> -->
         <div id="tab_windows" data-contentclass="content_windows" class="tabmenu not-link">
             <h3><img src="/assets/img/icon-windows.svg" class="os-img"> Windows</h3>
