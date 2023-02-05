@@ -8,7 +8,7 @@
       {% set isCurrentParent = topLink.url == activeParent.url %}
       <li {% if isCurrentParent %} data-is-current-parent="true" {% endif %} 
         {% if topLink.url == page.url %} aria-current="page" {% endif %} >
-        <a href="{{ topLink.url }}">
+        <a href="{{ topLink.url }}" {{ 'target=_blank' if topLink.external }}>
           <span>
             {{ topLink.title }}
           </span>
@@ -23,7 +23,7 @@
           <ul class="nav-child-level {% if isCurrentParent %}open{% endif %}">
             {% for childLink in topLink.children %}
             <li {% if childLink.url == page.url %} aria-current="page" {% endif %}>
-              <a href="{{ childLink.url }}">
+              <a href="{{ childLink.url }}" {{ 'target=_blank' if childLink.external }} >
                 <span>
                   {{ childLink.title }}
                 </span>
