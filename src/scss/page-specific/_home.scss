@@ -12,7 +12,7 @@
     display: none;
     position: absolute;
     right: 0;
-    top: 830px;
+    top: 930px;
 
     @include mq-full {
       display: block;
@@ -71,6 +71,7 @@
 
     .home-tile {
       text-decoration: none;
+      background-color: white;
       
       .content-wrapper {
         padding-left: 40px;
