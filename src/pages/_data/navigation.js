@@ -30,7 +30,7 @@ const headerNavObj = {
 
 module.exports = {
   footerNav: {
-    columns: footerLinks.columns
+    ...footerLinks
   },
   mainNav: mainNavObj,
   headerNav: headerNavObj

@@ -9,68 +9,91 @@ $footer-nav-header-to-links: 14rem;
   z-index: 1;
 
   nav {
-    display: flex;
-    justify-content: space-between;
-    color: white;
-    flex-wrap: wrap;
-    gap: 20px;
 
-    .nav-column {
-      h2 {
-        font-size: $fs-footer-col-header;
-        margin-bottom: $footer-nav-header-to-links;
-        margin-top: 0;
+    ul {
+      padding: 0;
+      margin: 0;
+      
+      li {
+        list-style: none;
+        
+        a {
+          color: white;
+          font-size: $fs-footer-smaller;
+          text-decoration: none;
+
+          &.hc-logo-link {
+            margin-right: 30px;
+
+            img {
+              height: 20rem;
+            }
+          }
+          
+          //@include offsiteLinkIcon;
+        }
       }
+
+      &.icon-list {
+        display: flex;
+        gap: $sp-icon-list-gap;
+
+        li {
+
+          a {
+            height: $footer-nav-img-height;
+            display: block;
+    
+            svg {
+              height: $footer-nav-img-height;
+            }
+          }
+        }
+      }
+    }
+
+    #page-footer-columns {
+      display: flex;
+      justify-content: space-between;
+      color: white;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 100px;
+      
+      .nav-column {
+        max-width: 15%;
+
+        h2 {
+          font-size: $fs-footer-col-header;
+          margin-bottom: $footer-nav-header-to-links;
+          margin-top: 0;
+        }
+  
+        &.about-column {
+          a {
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    hr {
+      margin: 0 auto;
+      width: calc(100% - 4px);
+    }
+
+    #page-footer-bottom {
+      margin-top: 16px;
 
       ul {
-        padding: 0;
-        margin: 0;
-        
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+
         li {
-          list-style: none;
-          
-          a {
-            color: white;
-            font-size: $fs-footer-smaller;
-            text-decoration: none;
-  
-            &.hc-logo-link {
-              display: inline-block;
-              width: 130rem;
-              // Unclear why this 4 pixel fudge is needed. Figure out
-              margin-bottom: $footer-nav-header-to-links - 4;
-              
-              img {
-                // max-width: 100%;
-                height: 20rem;
-              }
-            }
-            
-            @include offsiteLinkIcon;
+          &:last-child {
+            margin-left: auto;
           }
-        }
-
-        &.icon-list {
-          display: flex;
-          gap: $sp-icon-list-gap;
-          margin-top: $sp-icon-list-gap;
-
-          li {
-
-            a {
-              height: $footer-nav-img-height;
-      
-              svg {
-                height: $footer-nav-img-height;
-              }
-            }
-          }
-        }
-      }
-
-      &.about-column {
-        a {
-          font-weight: 500;
         }
       }
     }

@@ -1,29 +1,7 @@
 {
-  columns: [
+  columns: [    
     {
-      class: "about-column",
-      links: [
-        { title: "Holochain.org", url: "https://www.holochain.org/", image: "/assets/img/logo_light-2x.png", class:"hc-logo-link no-away", external: true },
-        { title: "Roadmap", url: "https://www.holochain.org/roadmap", external: true },
-        { title: "Our Blog", url: "https://blog.holochain.org/", external: true },
-        { title: "Dev Portal", url: "/" },
-        { title: "Contact Us", url: "https://www.holochain.org/contact", external: true },
-        { title: "Holo", url: "https://holo.host/", external: true },
-        {
-          type: "icon-list",
-          class: "icon-list",
-          links: [
-            { title: "Holochain on GitHub", url: "https://github.com/holochain", svgSnippet: "githubLogo", class:"no-away", external: true },
-            { title: "Holochain on Discord", url: "https://discord.com/invite/k55DS5dmPH", svgSnippet: "discordMarkIcon", class:"no-away", external: true },
-            { title: "Holochain on YouTube", url: "https://www.youtube.com/channel/UC9fNJMIQ9mQ4u9oyoVIqtDQ", svgSnippet: "youtubeMarkIcon", class:"no-away", external: true },
-            { title: "Holochain on Twitter", url: "https://twitter.com/holochain", svgSnippet: "twitterLogo", class:"no-away", external: true },
-          ]
-        },
-      ]
-    },
-    
-    {
-      title: "Develop",
+      title: "Developers",
       links: [
         { title: "Install Holochain", url: "/install/" },
         { title: "Core Concepts", url: "/concepts/" },
@@ -34,7 +12,7 @@
     },
 
     {
-      title: "What it Can Do",
+      title: "References",
       links: [
         { title: "Energy", url: "https://www.holochain.org/projects#energy_project", external: true },
         { title: "Currencies", url: "https://www.holochain.org/projects#currencies_project", external: true },
@@ -44,7 +22,7 @@
     },
 
     {
-      title: "Engage",
+      title: "Community",
       links: [
         { title: "Learn", url: "/" },
         { title: "Build", url: "/install/" },
@@ -65,5 +43,25 @@
         { title: "Privacy Policy", url: "https://www.holochain.org/privacy-policy", external: true },
       ]
     }
-  ]
+  ],
+
+  bottomRow: 
+  {
+    links: [
+      { title: "Holochain.org", url: "https://www.holochain.org/", image: "/assets/img/logo_light-2x.png", class:"hc-logo-link no-away", external: true },
+      { title: "Privacy", url: "https://www.holochain.org/roadmap", external: true },
+      { title: "|" },
+      { title: "Terms of Use", url: "https://blog.holochain.org/", external: true },
+      {
+        type: "icon-list",
+        class: "icon-list",
+        links: [
+          { title: "Holochain on Discord", url: "https://discord.com/invite/k55DS5dmPH", svgSnippet: "discordMarkIcon", class:"no-away", external: true },
+          { title: "Holochain on GitHub", url: "https://github.com/holochain", svgSnippet: "githubLogo", class:"no-away", external: true },
+          { title: "Holochain on YouTube", url: "https://www.youtube.com/channel/UC9fNJMIQ9mQ4u9oyoVIqtDQ", svgSnippet: "youtubeMarkIcon", class:"no-away", external: true },
+          { title: "Holochain on Twitter", url: "https://twitter.com/holochain", svgSnippet: "twitterLogo", class:"no-away", external: true },
+        ]
+      },
+    ]
+  },
 }
