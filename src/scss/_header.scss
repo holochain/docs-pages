@@ -41,18 +41,28 @@ header#page-header {
         margin-bottom: -17px;
 
         li {
-          margin-left: 24rem;
-          font-weight: 400;
-          padding-bottom: 6rem;
-          border-bottom: 2px solid transparent;
-          transition: border-bottom-color .25s;
+          min-width: 130px;
+
+          a {
+            margin-left: 24rem;
+            font-weight: 400;
+            font-variation-settings: "wght" 400;
+            padding-bottom: 6rem;
+            border-bottom: 2px solid transparent;
+            transition: all .75s;
+          }
 
           &[data-is-current-parent] {
-            border-bottom-color: $cl-brand-purple;
+            a {
+              border-bottom-color: $cl-brand-purple;
+            }
           }
           
           &:hover {
-            border-bottom-color: $cl-brand-green;
+            a {
+              border-bottom-color: $cl-brand-green;
+              font-variation-settings: "wght" 700;
+            }
           }
         }
       }
