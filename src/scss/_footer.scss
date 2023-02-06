@@ -34,8 +34,6 @@ $footer-nav-header-to-links: 14rem;
             }
           }
 
-          
-          
           //@include offsiteLinkIcon;
         }
       }
@@ -77,6 +75,10 @@ $footer-nav-header-to-links: 14rem;
   
         &.newsletter {
           max-width: 200px;
+
+          p {
+            margin-bottom: 20px;
+          }
         }
       }
     }
@@ -101,7 +103,7 @@ $footer-nav-header-to-links: 14rem;
         > li {
           a.hc-logo-link {
             img {
-              height: 20rem;
+              height: 30rem;
             }
           }
 
