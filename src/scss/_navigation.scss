@@ -15,6 +15,7 @@
       a {
         color: $link-color;
         display: inline-block;
+        transition: all .75s;
 
         // Add a span so that we can use the border to indicate current page and 
         //   control the size of the indicator independent of the box size of the a tag
@@ -30,6 +31,11 @@
         }
 
         @include offsiteLinkIcon($link-color, $top: 10rem);
+
+        &:hover {
+          font-variation-settings: "wght" 700;
+          color: black;
+        }
       }
 
       li {
