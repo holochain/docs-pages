@@ -1,11 +1,14 @@
 ---
 layout: base-layout.njk
 layoutId: default-page-type
+surpressH1InLayout: false
 ---
 {% from "widgets/navigation.njk" import mainNavTree %}
 
 <div class="main-area">
+  {% if not surpressH1InLayout %}
   <h1>{{ title }}</h1>
+  {% endif %}
   {{ content | safe }}
 </div>
 <div class="side-bar">
