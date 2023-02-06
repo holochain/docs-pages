@@ -34,13 +34,7 @@ $footer-nav-header-to-links: 14rem;
             }
           }
 
-          &.hc-logo-link {
-            margin-right: 30px;
-
-            img {
-              height: 20rem;
-            }
-          }
+          
           
           //@include offsiteLinkIcon;
         }
@@ -73,7 +67,6 @@ $footer-nav-header-to-links: 14rem;
       margin-bottom: 100px;
       
       .nav-column {
-        max-width: 15%;
 
         h2 {
           color: $cl-other-green;
@@ -82,10 +75,8 @@ $footer-nav-header-to-links: 14rem;
           margin-top: 0;
         }
   
-        &.about-column {
-          a {
-            font-weight: 500;
-          }
+        &.newsletter {
+          max-width: 200px;
         }
       }
     }
@@ -100,14 +91,37 @@ $footer-nav-header-to-links: 14rem;
     #page-footer-bottom {
       margin-top: 16px;
 
-      ul {
+      > ul {
         display: flex;
+        flex-wrap: wrap;
         gap: 10px;
         align-items: flex-start;
+        justify-content: center;
 
-        li {
+        > li {
+          a.hc-logo-link {
+            img {
+              height: 20rem;
+            }
+          }
+
           &:last-child {
-            margin-left: auto;
+            margin-top: 20px;
+          }
+        }
+      }
+
+      @include mq-full {
+        > ul {
+          > li {
+            a.hc-logo-link {
+              margin-right: 30px;
+            }
+
+            &:last-child {
+              margin-top: 0;
+              margin-left: auto;
+            }
           }
         }
       }
