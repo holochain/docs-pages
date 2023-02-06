@@ -1,5 +1,5 @@
 ---
-title: "5. Links and Anchors: Connecting DHT Data Together"
+title: "Links and Anchors: Connecting DHT Data Together"
 ---
 
 ::: coreconcepts-intro

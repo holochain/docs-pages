@@ -1,5 +1,5 @@
 ---
-title: "8. Calls and Capabilities: Communicate With Other Components And Peers"
+title: "Calls and Capabilities: Communicate With Other Components And Peers"
 ---
 
 ::: coreconcepts-intro

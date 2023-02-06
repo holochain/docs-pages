@@ -1,5 +1,5 @@
 ---
-title: "6. CRUD Actions: Modifying and Deleting Data"
+title: "CRUD Actions: Modifying and Deleting Data"
 ---
 
 ::: coreconcepts-intro

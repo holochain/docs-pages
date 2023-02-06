@@ -1,5 +1,5 @@
 ---
-title: 2. Application Architecture
+title: Application Architecture
 ---
 
 ::: coreconcepts-intro

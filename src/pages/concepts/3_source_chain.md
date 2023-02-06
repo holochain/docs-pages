@@ -1,5 +1,5 @@
 ---
-title: "3. The Source Chain: A Personal Data Journal"
+title: "The Source Chain: A Personal Data Journal"
 ---
 
 ::: coreconcepts-intro

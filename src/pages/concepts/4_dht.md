@@ -1,5 +1,5 @@
 ---
-title: "4. The DHT: A Shared, Distributed Graph Database"
+title: "The DHT: A Shared, Distributed Graph Database"
 ---
 
 ::: coreconcepts-intro

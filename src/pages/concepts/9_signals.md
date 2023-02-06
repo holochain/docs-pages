@@ -1,5 +1,5 @@
 ---
-title: "9. Signals: Communicating without waiting for a response"
+title: "Signals: Communicating without waiting for a response"
 ---
 
 ::: coreconcepts-intro

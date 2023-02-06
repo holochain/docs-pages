@@ -1,5 +1,5 @@
 ---
-title: "7. Validation: Assuring Data Integrity"
+title: "Validation: Assuring Data Integrity"
 ---
 
 ::: coreconcepts-intro

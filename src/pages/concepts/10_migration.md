@@ -1,5 +1,5 @@
 ---
-title: "10. Migration: Updating A Network To a New Set of Rules"
+title: "Migration: Updating A Network To a New Set of Rules"
 ---
 
 !!! note

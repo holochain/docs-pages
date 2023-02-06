@@ -5,13 +5,11 @@
       ]
     },
     { title: "Get Building", url: "/get-building/", children: [
-        { title: "Scaffold your Custom App", url: "/get-building/scaffold-your-custom-app/" },
         { title: "Distribute your App", url: "/get-building/distribute-your-app/" },
         { title: "Advanced Installation Guide", url: "/install-advanced/" },
       ] 
     },
-    { title: "Core Concepts", url: "/concepts/", children: [
-        { title: "The Basics", url: "/concepts/1_the_basics/" },
+    { title: "Core Concepts", url: "/concepts/1_the_basics/", children: [
         { title: "Application Architecture", url: "/concepts/2_application_architecture/" },
         { title: "Source Chain", url: "/concepts/3_source_chain/" },
         { title: "DHT", url: "/concepts/4_dht/" },

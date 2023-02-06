@@ -1,5 +1,5 @@
 ---
-title: "1. The Basics: What is Holochain?"
+title: "Holochain Core Concepts: What is Holochain?"
 ---
 
 ::: coreconcepts-intro
