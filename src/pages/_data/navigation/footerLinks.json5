@@ -42,6 +42,14 @@
         { title: "Holochain Foundation", url: "https://www.holochain.org/foundation", external: true },
         { title: "Privacy Policy", url: "https://www.holochain.org/privacy-policy", external: true },
       ]
+    },
+
+    {
+      title: "Newsletter",
+      links: [
+        { title: "<p>Subscribe to the Holochain newsletter to hear about updates and events.</p>" },
+        { title: "Subscribe", url: "https://www.holochain.org/foundation", class: "btn", external: true },    
+      ]
     }
   ],
 

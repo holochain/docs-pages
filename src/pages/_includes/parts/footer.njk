@@ -2,10 +2,21 @@
 
 {% macro footerLink(link) %}
   {% set classAttr = 'class="'+ link.class + '"' if link.class else '' %}
+    {% if link.image %}
+      <a href="{{ link.url }}" title="{{ link.title }}" {{ 'target=_blank' if link.external }} {{ classAttr | safe }}>
+        <img src="{{ link.image }}" />
+      </a>
+    {% else %}
+      <a href="{{ link.url }}" {{ 'target=_blank' if link.external }} {{ classAttr | safe }}>{{ link.title }}</a>
+    {% endif %}
+{% endmacro %}
+
+{% macro footerElement(d) %}
+  {% set classAttr = 'class="'+ d.class + '"' if d.class else '' %}
   <li>
-  {% if link.type === "icon-list" %}
-    <ul class="{{ link.class }}">
-    {% for childLink in link.links %}
+  {% if d.type === "icon-list" %}
+    <ul class="{{ d.class }}">
+    {% for childLink in d.links %}
       {% set childClassAttr = 'class="'+ childLink.class + '"' if childLink.class else '' %}
       <li>
         <a href="{{ childLink.url }}" {{ 'target=_blank' if childLink.external }} {{ childClassAttr | safe }} >
@@ -14,17 +25,11 @@
       </li>
     {% endfor %}
     </ul>
+  {% elif d.url %}
+    {{ footerLink(d) }}
   {% else %}
-      {% if link.image %}
-      <a href="{{ link.url }}" title="{{ link.title }}" {{ 'target=_blank' if link.external }} {{ classAttr | safe }}>
-        <img src="{{ link.image }}" />
-      </a>
-      {% elif link.url  %}
-      <a href="{{ link.url }}" {{ 'target=_blank' if link.external }} {{ classAttr | safe }}>{{ link.title }}</a>
-      {% else %}
-      {# Just some text #}
-      <span>{{ link.title }}</span>
-      {% endif %}
+    {# Just some text #}
+    {{ d.title | safe }}
   {% endif %}
   </li>
 {% endmacro %}
@@ -40,19 +45,11 @@
         
         <ul>
         {% for link in col.links %}
-          {{ footerLink(link) }}
+          {{ footerElement(link) }}
         {% endfor %}
         </ul>
       </div>
     {% endfor %}
-
-      <div class="nav-column">
-        <h2>Newsletter</h2>
-        <p>
-          Subscribe to the Holochain newsletter to hear about updates and events.
-        </p>
-        <a href="" class="btn">Subscribe</a>
-      </div>
     </div>
     
     <hr>
@@ -60,7 +57,7 @@
     <div id="page-footer-bottom">
       <ul>
       {% for link in navigation.footerNav.bottomRow.links %}
-        {{ footerLink(link) }}
+        {{ footerElement(link) }}
       {% endfor %}
       </ul>
     </div>
