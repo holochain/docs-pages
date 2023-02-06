@@ -1,7 +1,7 @@
 
 &.home-page {
   position: relative;
-  
+  grid-template-rows: min-content min-content 1fr min-content;
   grid-template-areas: 
     "header header"
     "greeting greeting"
