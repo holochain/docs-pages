@@ -25,7 +25,7 @@
         { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
         { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
         { title: "CLI", url: "", external: true },
-        { title: "Glossary", url: "/glossary/", external: true },
+        { title: "Glossary", url: "/glossary/" },
       ] 
     },
     { title: "Get Involved", url: "/get-involved/" },
