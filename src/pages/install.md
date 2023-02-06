@@ -130,7 +130,7 @@ nix-shell --version
 You should see something like:
 
 ```bash
-nix-shell (Nix) 2.6.0
+nix-shell (Nix) 2.13.2
 ```
 
 Run the following commands to set up the cache:
@@ -161,7 +161,11 @@ cd forum
 ```
 
 ```bash
-nix-shell --run "npm install && npm start"
+nix-shell 
+```
+
+```bash
+npm install && npm start
 ```
 
 ### Next Step 
