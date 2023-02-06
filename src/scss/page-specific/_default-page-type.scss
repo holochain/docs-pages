@@ -14,7 +14,7 @@ $cl-sidebar-bg: #f7f7f7;
   
   .main-area {
     grid-area: mainArea;
-    //background-color: white;
+    background-color: white;
     padding: 0 $sz-mobile-hor-padding;
   }
 
@@ -42,6 +42,7 @@ $cl-sidebar-bg: #f7f7f7;
     column-gap: 50px;
     
     .main-area {
+      background-color: transparent;
       padding: 0 0 0 $sz-full-hor-padding;
     }
 
