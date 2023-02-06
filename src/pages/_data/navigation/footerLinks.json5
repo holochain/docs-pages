@@ -3,10 +3,9 @@
     {
       title: "Developers",
       links: [
-        { title: "Install Holochain", url: "/install/" },
+        { title: "Quick Start", url: "/install/" },
+        { title: "Get Building", url: "/get-building/" },
         { title: "Core Concepts", url: "/concepts/" },
-        { title: "Glossary", url: "/glossary/" },
-        { title: "GitHub", url: "https://github.com/holochain/holochain", external: true },
         { title: "References", url: "/references/" },
       ]
     },
@@ -14,38 +13,41 @@
     {
       title: "References",
       links: [
-        { title: "Energy", url: "https://www.holochain.org/projects#energy_project", external: true },
-        { title: "Currencies", url: "https://www.holochain.org/projects#currencies_project", external: true },
-        { title: "Social Impact", url: "https://www.holochain.org/projects#social_impact_project", external: true },
-        { title: "Local Economies", url: "https://www.holochain.org/projects#local_economies_project", external: true },
+        { title: "HDK (Rust)", url: "https://docs.rs/hdk", external: true },
+        { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
+        { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
+        { title: "CLI", url: "#", external: true },
+        { title: "Glossary", url: "/glossary/", external: true },
       ]
     },
 
     {
       title: "Community",
       links: [
-        { title: "Learn", url: "/" },
-        { title: "Build", url: "/install/" },
         { title: "Discord", url: "https://discord.com/invite/k55DS5dmPH", external: true },
-        { title: "Events", url: "https://discord.com/channels/919686143581253632/919686143581253638", external: true },
-        { title: "Community", url: "https://www.holochain.org/get-involved/", external: true },
+        { title: "GitHub", url: "https://github.com/holochain/holochain", external: true },
+        { title: "Holochain on Twitter", url: "https://twitter.com/holochain", svgSnippet: "twitterLogo", class:"no-away", external: true },
+        { title: "Reddit", url: "https://www.reddit.com/r/holochain/", external: true },
+        { title: "Code of Conduct", url: "https://www.holochain.org/get-involved/", external: true },
+        { title: "Get Involved", url: "/get-involved/" },
       ]
     },
 
     {
       title: "About",
       links: [
-        { title: "Our Team", url: "https://www.holochain.org/foundation#contributors", external: true },
-        { title: "Holochain Story", url: "https://www.holochain.org/foundation", external: true },
-        { title: "Cryptographic Autonomy License", url: "https://opensource.org/licenses/CAL-1.0", external: true },
-        { title: "How to use Holochain logo", url: "https://www.holochain.org/intellectual-property", external: true },
-        { title: "Holochain Foundation", url: "https://www.holochain.org/foundation", external: true },
-        { title: "Privacy Policy", url: "https://www.holochain.org/privacy-policy", external: true },
+        { title: "Holochain", url: "https://www.holochain.org/", external: true },
+        { title: "Holo.host", url: "https://www.holo.host", external: true },
+        { title: "Technical Papers", url: "#", external: true },
+        { title: "Roadmap", url: "https://www.holochain.org/roadmap", external: true },
+        { title: "Blog", url: "https://blog.holochain.org/", external: true },
+        { title: "Jobs", url: "https://www.holochain.org/foundation", external: true },
       ]
     },
 
     {
       title: "Newsletter",
+      class: "newsletter",
       links: [
         { title: "<p>Subscribe to the Holochain newsletter to hear about updates and events.</p>" },
         { title: "Subscribe", url: "https://www.holochain.org/foundation", class: "btn", external: true },    
