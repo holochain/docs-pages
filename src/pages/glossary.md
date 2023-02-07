@@ -150,6 +150,10 @@ A highly [centralized](#centralization) [distributed system](#distributed-system
 
 The act of modifying the properties of [DNA](#dna) at installation time in order to change its hash and create an isolated [network](#network) and [DHT](#distributed-hash-table-dht). This allows users to enjoy a private space using existing rules without creating a DNA from scratch.
 
+#### Close chain action
+
+An [action](#action) in a [source chain](#source-chain) in which an [agent](#agent) marks the source chain as closed to new writes, and points to the DNA of the new [cell](#cell) which replaces the closed one. This action is recorded as part of a [migration](#migration) from one [DNA](#dna) to another.
+
 #### Cloud
 
 A specific [client/server](configuratin) in which computing power is [decentralized](#decentralization) but agency is [centralized](#centralization).
@@ -485,6 +489,10 @@ Supplementary data attached to a piece of [record data](#record-data) on a [DHT]
 
 An application architecture pattern that encourages small, single-purpose [back end](#back-end) services. Holochain [DNAs](#dna) can be seen as microservices that combine to form a fully featured [hApp](#holochain-application-happ).
 
+#### Migration
+
+The act of moving data and activity from one version of an application to another. In a Holochain application, each individual [agent](#agent) performs their own migration from one [cell](#cell) to a new one, terminating the [source chain](#source-chain) in their old cell with a [close chain action](#close-chain-action) and beginning the new source chain with an [open chain action](#open-chain-action).
+
 #### M-of-N signing
 
 An extension to [countersigning](#countersigning), in which a number of optional witnesses are also involved as [counterparties](#counterparty) signing the session, a majority of which must sign in order for the session to complete. One optional witness must also be nominated as the session's [enzyme](#enzyme).
@@ -520,6 +528,10 @@ An individual [agent](#agent) in a Holochain [network](#network) who has an [age
 #### Nucleus
 
 The core of Holochain. With the help of the [ribosome](#ribosome), it governs data flow between the [conductor](#conductor) and a [cell](#cell) and enforces the [subconscious](#subconscious) [validation rules](#validation-rule).
+
+#### Open chain action
+
+An [action](#action) in a [source chain](#source-chain) in which an [agent](#agent) marks the source chain as a continuation of another source chain in a [closed](#close-chain-action) [cell](#cell), and points to the DNA of the new [cell](#cell) which this one replaces. This action is recorded as part of a [migration](#migration) from one [DNA](#dna) to another.
 
 #### Participant
 
