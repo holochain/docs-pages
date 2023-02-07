@@ -1,12 +1,12 @@
 {
   links: [
-    { title: "Quick Start", url: "/install/", children: [
-        { title: "Project Structure", url: "/happ-setup/" }
+    { title: "Quick Start", url: "/quick-start/", children: [
+        { title: "Project Structure", url: "/quick-start/happ-setup/" }
       ]
     },
     { title: "Get Building", url: "/get-building/", children: [
         { title: "Distribute your App", url: "/get-building/distribute-your-app/" },
-        { title: "Advanced Installation Guide", url: "/install-advanced/" },
+        { title: "Advanced Installation Guide", url: "/get-building/install-advanced/" },
       ] 
     },
     { title: "Core Concepts", url: "/concepts/1_the_basics/", children: [
