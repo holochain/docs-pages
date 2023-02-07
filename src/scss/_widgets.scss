@@ -27,11 +27,12 @@ pre[class*="language-"] {
     border-radius: 0.5em;
     border: #46454a;
   }
+
   pre[class*="language-bash"] {
     color: black;
   }
-  }
-  span.token .parameter .value{
+
+  span.token, span.parameter, span.value{
     color: $cl-brand-purple;
   }
 }
