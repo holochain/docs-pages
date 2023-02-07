@@ -6,8 +6,9 @@ $cl-sidebar-bg: #f7f7f7;
   
   //Mobile set up default
   grid-template-columns: 1fr;
-  grid-template-rows: min-content 1fr min-content;
+  grid-template-rows: [r1-start] min-content [r1-end r2-start] 44px [r2-end r3-start] 1fr [r3-end r4-start] min-content [r4-end];
   grid-template-areas: 
+    "header"
     "header"
     "mainArea"
     "footer";
@@ -33,12 +34,27 @@ $cl-sidebar-bg: #f7f7f7;
     }
   }
 
+  .header-full-bg {
+    display: none;
+    //background-color: black;
+    background: $header-gradiant;
+    grid-area: r2-start / vp-left / r2-end / vp-right;
+    z-index: -1;
+  }
+
+  .footer-full-bg {
+    display: none;
+    background-color: black;
+    grid-area: r4-start / vp-left / r4-end / vp-right;
+  }
+
   @include mq-full {
-    grid-template-columns: minmax(0, 1fr) 420px;
+    grid-template-columns: [vp-left] 1fr minmax(0, 1000px) 420px 1fr [vp-right];
     grid-template-areas: 
-      "header header"
-      "mainArea sideBar"
-      "footer footer";
+      "... header header ..."
+      "... header header ..."
+      "... mainArea sideBar ..."
+      "... footer footer ...";
     column-gap: 50px;
     
     .main-area {
@@ -49,6 +65,10 @@ $cl-sidebar-bg: #f7f7f7;
     .side-bar {
       grid-area: sideBar;
       z-index: unset;
+    }
+
+    .header-full-bg, .footer-full-bg {
+      display: block;
     }
   }
 
