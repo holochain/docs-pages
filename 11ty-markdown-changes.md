@@ -33,3 +33,6 @@
 
 ## Open in new window 
 - add {target=_blank} after link markdown parens
+
+## Button for link
+- add {.btn-purple} after link markdown parens
