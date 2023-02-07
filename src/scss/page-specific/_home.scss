@@ -53,13 +53,7 @@
     .btn {
       //TODO: Create a standard reverse-btn 
       @include btn-base(black);
-      background-color: white;
       margin-top: 32px;
-      border-color: black;
-
-      &:hover {
-        color: white;
-      }
     }
   }
 

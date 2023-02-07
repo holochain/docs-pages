@@ -9,21 +9,26 @@ ul, ol {
   }
 }
 
-@mixin btn-base($color: currentColor) {
+@mixin btn-base($color: currentColor, $bg-color: white, $hover-color: white, $hover-bg-color: $cl-brand-green) {
   padding: 8rem 16rem;
-  border: 2px solid currentColor;
   border-radius: 5px;
   color: $color;
+  background-color: $bg-color;
   text-decoration: none;
 
   &:hover {
-    background-color: $cl-brand-green;
+    color: $hover-color;
+    background-color: $hover-bg-color;
   }
 }
 
 // Applicable to an a or button element
 .btn {
   @include btn-base;
+}
+
+.btn-purple {
+  @include btn-base(white, $cl-brand-purple, $cl-brand-purple, $cl-gray);
 }
 
 a {
