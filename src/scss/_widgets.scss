@@ -12,10 +12,19 @@
 pre[class*="language-"] {
   display: flex;
   align-items: flex-start;
+  background-color: $cl-gray;
+  padding: .3em .5em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: .3em;
+  line-height: 2;
 
   button.copy-to-clipboard {
     margin-left: auto;
     padding: 6px;
+    margin-top: 0.4em;
+    border-radius: 0.5em;
+    border: #46454a;
   }
 }
 
