@@ -15,7 +15,7 @@ $cl-sidebar-bg: #f7f7f7;
   .main-area {
     grid-area: mainArea;
     background-color: white;
-    padding: 0 $sz-mobile-hor-padding;
+    padding: 0 $sz-mobile-hor-padding 20px;
   }
 
   .side-bar {
@@ -43,7 +43,7 @@ $cl-sidebar-bg: #f7f7f7;
     
     .main-area {
       background-color: transparent;
-      padding: 0 0 0 $sz-full-hor-padding;
+      padding: 0 0 30px $sz-full-hor-padding;
     }
 
     .side-bar {
