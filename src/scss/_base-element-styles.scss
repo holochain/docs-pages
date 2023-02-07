@@ -1,3 +1,9 @@
+img {
+  width: unset;
+  max-width: 100%;
+}
+
+
 @mixin btn-base($color: currentColor) {
   padding: 8rem 16rem;
   border: 2px solid currentColor;
