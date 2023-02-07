@@ -198,11 +198,15 @@ Any storage system that gives a unique ID to each piece of data and allows it to
 
 #### Coordination protocol
 
-An algorithm that governs the synchronization of data in a [distributed system](#distributed-system) and aims to prevent or resolve data conflicts that happen when two [nodes](#node) are out of sync with each other. Any [state transition](#state-transition) that isn't [logically monotonic](#logical-monotonicity) needs a coordination protocol. In Holochain, [counterparty signing](#counterparty-signing) is a simple coordination protocol between two or more agents who want to reach agreement with each other.
+An algorithm that governs the synchronization of data in a [distributed system](#distributed-system) and aims to prevent or resolve data conflicts that happen when two [nodes](#node) are out of sync with each other. Any [state transition](#state-transition) that isn't [logically monotonic](#logical-monotonicity) needs a coordination protocol. In Holochain, [countersigning](#countersigning) is a simple coordination protocol between two or more agents who want to reach agreement with each other.
 
-#### Counterparty signing
+#### Counterparty
 
-A simple [coordination protocol](#coordination-protocol) between two [agents](#agent) in a Holochain [DHT](#distributed-hash-table-dht) in which they agree to lock their respective [source chain](#source-chain) [states](#state-transition), reach [consistency](#consistency) on the contents of each other's source chain, and sign one single shared entry which they then [commit](#commit) to their source chains. Counterparty signing is not yet directly supported by Holochain but will be in the future.
+An agent involved in a [countersigning](#countersigning) session.
+
+#### Countersigning
+
+A simple [coordination protocol](#coordination-protocol) between two or more [agents](#agent) in a Holochain [DHT](#distributed-hash-table-dht) in which they agree to lock their respective [source chain](#source-chain) [states](#state-transition), reach [consistency](#consistency) on the contents of each other's source chain, and sign one single shared entry which they then [commit](#commit) to their source chains. An [enzyme](#enzyme) and optional [M-of-N signers](#m-of-n-signing) can also be involved in the transaction for further corroboration, enabling [lightweight consensus](#lightweight-consensus).
 
 #### Create-entry action
 
@@ -313,6 +317,10 @@ A basic unit of user data in a Holochain app. Each entry has its own defined [en
 
 A specification for any sort of entry that a [DNA](#dna) should recognize and understand, similar to an <abbr title="object-oriented programming">OOP</abbr> class or database table schema. It can specify whether entries of its type should be [public](#public-entry) or [private](#private-entry), and how many [required validations](#required-validation) should exist. DNA developers create their own entry types for the data their app needs to store, and can write [validation functions](#validation-function) for [records](#record) that [create, update, or delete](#create-read-update-delete-crud) entries of those types.
 
+#### Enzyme
+
+An agent involved in a [countersigning](#countersigning) session who has been nominated to witness the session -- that is, to collect, sign, and redistribute full sets of signatures from all [counterparties](#counterparty), including themselves. An enzyme can also be one of a set of optional [M-of-N signers](#m-of-n-signing) in the session.
+
 #### Eventual consistency
 
 A promise made by distributed systems that optimize for availability over consistency (see [CAP theorem](#consistency-availability-partition-tolerance-cap-theorem)), meaning that given enough time, every [node](#node) ought to eventually reach [consistency](#consistency) with each other. _Strong_ eventual consistency means that nodes will eventually reach consistency _without conflicts_, which is possible for any system whose [state transition](#state-transition) functions adhere to the [CALM theorem](#consistency-as-logical-monotonicity-calm-theorem).
@@ -340,7 +348,7 @@ The four records at the beginning of an [agent](#agent)'s [source chain](#source
 
 #### Global consensus
 
-Agreement among all [nodes](#node) in a [blockchain](#blockchain) on a single, shared [global ledger](#global-ledger). Holochain prefers 'local' consensus, both between interacting parties using [counterparty signatures](#counterparty-signature) and among a small set of third-party [validation authorities](#validation-authority).
+Agreement among all [nodes](#node) in a [blockchain](#blockchain) on a single, shared [global ledger](#global-ledger). Holochain prefers 'local' consensus, both between interacting parties using [countersigning](#countersigning) and among a small set of third-party [validation authorities](#validation-authority).
 
 #### Global ledger
 
@@ -426,6 +434,10 @@ Synonymous with [ledger](#ledger).
 
 A history of events or [state transitions](#state-transition). In [distributed ledger technology](#distributed-ledger-technology-dlt), ledgers are usually stored as [hash chains](#hash-chain), such as a Holochain [agent](#agent)'s [source chain](#source-chain).
 
+#### Lightweight consensus
+
+An informal term for a Holochain application pattern in which the ownership of scarce resources are tracked and protected from conflicting ownership claims by establishing a set of trusted nodes as [M-of-N signers](#m-of-n-signing), a majority of whom witness every [countersigned](#countersigned) transaction.
+
 #### Link
 
 A piece of [metadata](#metadata) connecting one [address](#address) on the [DHT](#distributed-hash-table-dht) to another. Each link has a [tag](#link-tag) for storing arbitrary content and is stored in the DHT at its [base](#link-base)'s [address](#address).
@@ -472,6 +484,10 @@ Supplementary data attached to a piece of [record data](#record-data) on a [DHT]
 #### Microservice
 
 An application architecture pattern that encourages small, single-purpose [back end](#back-end) services. Holochain [DNAs](#dna) can be seen as microservices that combine to form a fully featured [hApp](#holochain-application-happ).
+
+#### M-of-N signing
+
+An extension to [countersigning](#countersigning), in which a number of optional witnesses are also involved as [counterparties](#counterparty) signing the session, a majority of which must sign in order for the session to complete. One optional witness must also be nominated as the session's [enzyme](#enzyme).
 
 #### Mutual sovereignty
 
