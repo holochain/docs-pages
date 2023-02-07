@@ -5,12 +5,12 @@ $cl-sidebar-bg: #f7f7f7;
   display: grid;
   
   //Mobile set up default
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: min-content 1fr min-content;
   grid-template-areas: 
-    "header header"
-    "mainArea mainArea"
-    "footer footer";
+    "header"
+    "mainArea"
+    "footer";
   
   .main-area {
     grid-area: mainArea;
