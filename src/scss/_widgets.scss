@@ -47,7 +47,7 @@ pre[class*="language-"] {
     @include admonitionTitle(rgba(68, 138, 255, 0.1));
   }
   
-  &.learn {
+  &.info {
     background-color: #f7f7f7;
     border-radius: 5rem;
     outline: none;

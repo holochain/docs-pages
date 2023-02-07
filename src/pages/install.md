@@ -168,7 +168,7 @@ npm install && npm start
 Explore the [project structure](../hApp-setup/) of your Holochain Forum example hApp
 
 
-```!!! learn 
+```!!! info 
 #### Learn More —>
 1. Dive into the [Holochain Core Concepts](../concepts/).
 2. Read through our [advanced installation guide](../install-advanced/)  
