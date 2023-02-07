@@ -141,10 +141,6 @@ nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz
 
 ## Scaffold Your First Holochain App
 
-!!! info "Tool is coming soon!"
-    The Scaffolding Tool is being updated to Beta 0.1.0 and will be ready for use no later than February 9th.
-    Follow Holochain on [Twitter](https://twitter.com/holochain) or join our [Discord](https://discord.gg/MwPvM4Vffg) for up-to-date announcements.
-
 Type the following at the command line:
 
 ```bash
@@ -172,8 +168,8 @@ npm install && npm start
 Explore the [project structure](../hApp-setup/) of your Holochain Forum example hApp
 
 
-## Learn More
-
+!!! info 
+#### Learn More —>
 1. Dive into the [Holochain Core Concepts](../concepts/).
 2. Read through our [advanced installation guide](../install-advanced/)  
 3. Learn more about Rust in the [Rust book](https://doc.rust-lang.org/book/).
@@ -181,7 +177,7 @@ Explore the [project structure](../hApp-setup/) of your Holochain Forum example 
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
 5. Join the discussion in the [HC.dev discord](https://discord.gg/k55DS5dmPH).
-
+!!!
 
 <script>
 // function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
