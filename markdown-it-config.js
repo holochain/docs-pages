@@ -34,6 +34,10 @@ const renderInfo = (tokens, idx) => {
   return renderAdmonition("info", tokens, idx);
 };
 
+const renderLearn = (tokens, idx) => {
+  return renderAdmonition("learn", tokens, idx);
+};
+
 /**
  * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js 
  * @param {*} eleventyConfig 
@@ -49,6 +53,7 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "tip", { marker: "!", render: renderTip });
     mdLib.use(markdownItContainer, "note", { marker: "!", render: renderNote });
     mdLib.use(markdownItContainer, "info", { marker: "!", render: renderInfo });
+    mdLib.use(markdownItContainer, "learn", { marker: "!", render: renderLearn });
   });
  
 }
