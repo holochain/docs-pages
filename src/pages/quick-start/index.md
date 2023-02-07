@@ -164,7 +164,9 @@ nix-shell
 npm install && npm start
 ```
 
-### Next Step [Explore the project structure](../hApp-setup/){.btn-purple} 
+### Next Step 
+
+[Explore project structure](../project-structure/){.btn-purple} 
 
 !!! learn
 #### Learn More —>
