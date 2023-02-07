@@ -18,13 +18,21 @@ pre[class*="language-"] {
   overflow: auto;
   border-radius: .3em;
   line-height: 2;
+  color: black;
 
   button.copy-to-clipboard {
     margin-left: auto;
     padding: 6px;
-    margin-top: 0.4em;
+    margin-top: 0.3em;
     border-radius: 0.5em;
     border: #46454a;
+  }
+  pre[class*="language-bash"] {
+    color: black;
+  }
+  }
+  span.token .parameter .value{
+    color: $cl-brand-purple;
   }
 }
 
