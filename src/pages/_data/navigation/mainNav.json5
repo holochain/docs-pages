@@ -1,12 +1,12 @@
 {
   links: [
-    { title: "Quick Start", url: "/install/", children: [
-        { title: "Project Structure", url: "/happ-setup/" }
+    { title: "Quick Start", url: "/quick-start/", children: [
+        { title: "Project Structure", url: "/quick-start/project-structure/" }
       ]
     },
     { title: "Get Building", url: "/get-building/", children: [
         { title: "Distribute your App", url: "/get-building/distribute-your-app/" },
-        { title: "Advanced Installation Guide", url: "/install-advanced/" },
+        { title: "Advanced Installation Guide", url: "/get-building/install-advanced/" },
       ] 
     },
     { title: "Core Concepts", url: "/concepts/1_the_basics/", children: [
@@ -25,7 +25,7 @@
         { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
         { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
         { title: "CLI", url: "", external: true },
-        { title: "Glossary", url: "/glossary/" },
+        { title: "Glossary", url: "/references/glossary/" },
       ] 
     },
     { title: "Get Involved", url: "/get-involved/" },
