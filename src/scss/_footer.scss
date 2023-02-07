@@ -95,11 +95,13 @@ $footer-nav-header-to-links: 14rem;
       margin-top: 16px;
 
       > ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        align-items: flex-start;
-        justify-content: center;
+        display: grid;
+        justify-items: center;
+        grid-template-columns: 1fr repeat(3, max-content) 1fr;
+        grid-template-areas: 
+        "... hc-logo hc-logo hc-logo ..."
+        "... privacy sep tou ..."
+        "... icons icons icons ...";
 
         > li {
           a.hc-logo-link {
@@ -107,6 +109,12 @@ $footer-nav-header-to-links: 14rem;
               height: 30rem;
             }
           }
+
+          &:nth-child(1) { grid-area: hc-logo; }
+          &:nth-child(2) { grid-area: privacy; }
+          &:nth-child(3) { grid-area: sep; }
+          &:nth-child(4) { grid-area: tou; }
+          &:nth-child(5) { grid-area: icons; }
 
           &:last-child {
             margin-top: 20px;
@@ -116,6 +124,12 @@ $footer-nav-header-to-links: 14rem;
 
       @include mq-full {
         > ul {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          align-items: flex-start;
+          justify-content: center;
+
           > li {
             a.hc-logo-link {
               margin-right: 30px;
