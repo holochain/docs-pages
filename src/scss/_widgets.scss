@@ -46,6 +46,12 @@ pre[class*="language-"] {
   &.note {
     @include admonitionTitle(rgba(68, 138, 255, 0.1));
   }
+  
+  &.learn {
+    background-color: #f7f7f7;
+    border-radius: 5rem;
+    outline: none;
+  }
 
 }
 
