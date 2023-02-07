@@ -3,6 +3,11 @@ img {
   max-width: 100%;
 }
 
+ul, ol {
+  li {
+    margin-bottom: 6px;
+  }
+}
 
 @mixin btn-base($color: currentColor) {
   padding: 8rem 16rem;
