@@ -30,3 +30,6 @@
 
 ## Items to add to README
 - using callMacroByName
+
+## Open in new window 
+- add {target=_blank} after link markdown parens
