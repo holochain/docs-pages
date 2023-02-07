@@ -102,8 +102,9 @@ Other functions are invented by the developer, have arbitrary names, and define 
 
 All of these functions are run from the perspective of the individual participant. When a client on Alice's computer calls a function that writes data, it calls that function in her own cell, writing data to her personal store. Unlike with cloud and blockchain, there is no objective, global-level actor. Things happen only when someone causes them to happen.
 
-!!! info
-    All functions in your DNA start with a fresh memory state which is cleared once the function is finished. The only place that persistent state is kept is in the user's personal data journal. If you've written applications with REST-friendly stacks like Django and PHP-FastCGI, or with [function-as-a-service](https://en.wikipedia.org/wiki/Function_as_a_service) platforms like AWS Lambda, you're probably familiar with this pattern.
+!!! info "DNA Memory State"
+All functions in your DNA start with a fresh memory state which is cleared once the function is finished. The only place that persistent state is kept is in the user's personal data journal. If you've written applications with REST-friendly stacks like Django and PHP-FastCGI, or with [function-as-a-service](https://en.wikipedia.org/wiki/Function_as_a_service) platforms like AWS Lambda, you're probably familiar with this pattern.
+!!!
 
 ## In summary
 
