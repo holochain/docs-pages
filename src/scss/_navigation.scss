@@ -39,6 +39,8 @@
       }
 
       li {
+        margin-bottom: unset;
+
         &[data-is-current-parent="true"] {
           > a {
             color: black;
