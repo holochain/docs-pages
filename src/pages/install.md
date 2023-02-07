@@ -168,7 +168,7 @@ npm install && npm start
 Explore the [project structure](../hApp-setup/) of your Holochain Forum example hApp
 
 
-!!! learn 
+```!!! learn 
 #### Learn More —>
 1. Dive into the [Holochain Core Concepts](../concepts/).
 2. Read through our [advanced installation guide](../install-advanced/)  
@@ -177,7 +177,7 @@ Explore the [project structure](../hApp-setup/) of your Holochain Forum example 
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)
 5. Join the discussion in the [HC.dev discord](https://discord.gg/k55DS5dmPH).
-`!!!`
+```
 
 <script>
 // function rudrSwitchContent(rudr_tab_id, rudr_tab_content) {
