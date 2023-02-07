@@ -36,7 +36,6 @@ $cl-sidebar-bg: #f7f7f7;
 
   .header-full-bg {
     display: none;
-    //background-color: black;
     background: $header-gradiant;
     grid-area: r2-start / vp-left / r2-end / vp-right;
     z-index: -1;
@@ -48,8 +47,15 @@ $cl-sidebar-bg: #f7f7f7;
     grid-area: r4-start / vp-left / r4-end / vp-right;
   }
 
+  .sidebar-right-bg {
+    display: none;
+    background-color: $cl-sidebar-bg;
+    grid-area: r3-start / sidebar-end / r3-end / vp-right;
+    z-index: -1;
+  }
+
   @include mq-full {
-    grid-template-columns: [vp-left] 1fr minmax(0, 1000px) 420px 1fr [vp-right];
+    grid-template-columns: [vp-left] 1fr minmax(0, 1000px) [sidebar-end] 420px [sidebar-end] 1fr [vp-right];
     grid-template-areas: 
       "... header header ..."
       "... header header ..."
@@ -67,7 +73,7 @@ $cl-sidebar-bg: #f7f7f7;
       z-index: unset;
     }
 
-    .header-full-bg, .footer-full-bg {
+    .header-full-bg, .footer-full-bg, .sidebar-right-bg {
       display: block;
     }
   }
