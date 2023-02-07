@@ -1,6 +1,6 @@
 {
   links: [
-    { title: "Quick Start", url: "/install/", class:"" },
+    { title: "Quick Start", url: "/quick-start/", class:"" },
     { title: "Get Building", url: "/get-building/", class:"" },
     { title: "Core Concepts", url: "/concepts/", class:"" },
     { title: "References", url: "/references/", class:"" },
