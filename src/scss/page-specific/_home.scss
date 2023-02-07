@@ -1,12 +1,12 @@
 
 &.home-page {
   position: relative;
-  grid-template-rows: min-content min-content 1fr min-content;
   grid-template-areas: 
-    "header header"
-    "greeting greeting"
-    "mainArea mainArea"
-    "footer footer";
+    "... header header ..."
+    "... header header ..."
+    "greeting greeting greeting greeting"
+    "... mainArea mainArea ..."
+    "... footer footer ...";
   
   #page-bg {
     display: none;
@@ -127,7 +127,7 @@
       display: flex;
     }
 
-    .side-bar {
+    .side-bar, .sidebar-right-bg {
       display: none;
     }
   }

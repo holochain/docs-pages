@@ -6,7 +6,11 @@ $cl-sidebar-bg: #f7f7f7;
   
   //Mobile set up default
   grid-template-columns: 1fr;
-  grid-template-rows: [r1-start] min-content [r1-end r2-start] 44px [r2-end r3-start] 1fr [r3-end r4-start] min-content [r4-end];
+  grid-template-rows: [header-start] min-content 
+                      [header-cl-bar-start] 44px 
+                      [header-cl-bar-end main-r1-start] min-content 
+                      [main-r2-start] 1fr 
+                      [main-end footer-start] min-content [footer-end];
   grid-template-areas: 
     "header"
     "header"
@@ -37,20 +41,20 @@ $cl-sidebar-bg: #f7f7f7;
   .header-full-bg {
     display: none;
     background: $header-gradiant;
-    grid-area: r2-start / vp-left / r2-end / vp-right;
+    grid-area: header-cl-bar-start / vp-left / header-cl-bar-end / vp-right;
     z-index: -1;
   }
 
   .footer-full-bg {
     display: none;
     background-color: black;
-    grid-area: r4-start / vp-left / r4-end / vp-right;
+    grid-area: footer-start / vp-left / footer-end / vp-right;
   }
 
   .sidebar-right-bg {
     display: none;
     background-color: $cl-sidebar-bg;
-    grid-area: r3-start / sidebar-end / r3-end / vp-right;
+    grid-area: main-r1-start / sidebar-end / main-end / vp-right;
     z-index: -1;
   }
 
