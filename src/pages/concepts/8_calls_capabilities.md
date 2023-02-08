@@ -18,7 +18,7 @@ Application components can **call a DNA's functions**. On one agent’s device, 
 Web 2.0 flourished thanks in part to ‘mashups’, or publicly accessible APIs that allowed apps and services to use each other’s data. Holochain enables a richer sharing of functionality and data between apps, anchoring the experience in the end-user’s agency. This increases application development velocity and encourages the development of standard, shared component libraries. Remote calls, on the other hand, allow agents in one app to interact privately without publishing any data to the DHT.
 :::
 
-![](/assets/img/concepts/8.1-calls.png)
+![](/assets/img/concepts/8.1-calls.png) {.sz70p}
 {.center}
 
 ## Client, inter-zome, bridge, and remote calls: who can call whom
