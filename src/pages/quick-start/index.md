@@ -58,7 +58,7 @@ pageStyleId: install
 At a command line:
 
 ```bash
-sh <(curl -L https://nixos.org/nix/install)
+sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
 
 <!-- <div markdown="1" class="tabcontent content_macos" data-tabid="tab_macos" style="display:none;> -->
@@ -133,7 +133,7 @@ You should see something like:
 nix-shell (Nix) 2.13.2
 ```
 
-Run the following commands to set up the cache:
+Run the following command to set up the cache for precompiled Holochain executables:
 
 ```bash
 nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-21.11.tar.gz -p cachix --run "cachix use holochain-ci"
