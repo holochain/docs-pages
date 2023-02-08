@@ -46,6 +46,7 @@ button {
   }
 }
 
+/* Utility Classes */
 .left {
   text-align: left;
 }
@@ -56,4 +57,12 @@ button {
 
 .right {
   text-align: right;
+}
+
+img {
+  @for $p from 1 through 20 {
+    &.sz#{$p}0p {
+      max-width: $p * 10%;
+    } 
+  }
 }

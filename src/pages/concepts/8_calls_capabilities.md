@@ -18,7 +18,7 @@ Application components can **call a DNA's functions**. On one agent’s device, 
 Web 2.0 flourished thanks in part to ‘mashups’, or publicly accessible APIs that allowed apps and services to use each other’s data. Holochain enables a richer sharing of functionality and data between apps, anchoring the experience in the end-user’s agency. This increases application development velocity and encourages the development of standard, shared component libraries. Remote calls, on the other hand, allow agents in one app to interact privately without publishing any data to the DHT.
 :::
 
-![](/assets/img/concepts/8.1-calls.png)
+![](/assets/img/concepts/8.1-calls.png){.sz50p}
 
 ## Client, inter-zome, bridge, and remote calls: who can call whom
 
@@ -81,7 +81,7 @@ In order for others to call one of their functions, the callee first has to gran
 
 In order to use a transferable or assigned grant, a caller must have already received a capability secret, which they can then save to their own source chain as a capability claim entry. Any time they want to call a function, they retrieve this entry and pass the secret along with the function call.
 
-![](/assets/img/concepts/8.9-author-capability.png)
+![](/assets/img/concepts/8.9-author-capability.png){.sz50p}
 {.center}
 
 There is one special case where capability tokens aren’t needed: the **author** capability. If the agent ID of the caller and the callee match, such as with calls between zomes in a DNA or cells whose agent IDs are the same, no explicit capability grant is needed.
