@@ -35,6 +35,7 @@ There are two main binaries. You can run any of these on the command-line with t
 * **`holochain`** is the Holochain runtime, or [conductor](../glossary/#conductor).
 * **`hc`** is an all-purpose developer tool that:
     * packages a [DNA manifest](../glossary/#dna-manifest) file and one or more [zomes](../glossary/#zome) (in WASM bytecode) into a [DNA bundle](../glossary/#dna-bundle)
-    * creates and executes conductor configurations for a hApp
-    * (more to come)
+    * packages one or more DNAs into a hApp
+    * manages sandboxed Holochain conductors
+    * see [holochain_cli docs](https://docs.rs/holochain_cli/latest/holochain_cli){target=_blank} for more info
 * **`lair-keystore`** is Holochain's [keystore](https://github.com/holochain/lair){target=_blank} for generating and signing with cryptographically secure keys. Use this command for initialization, configuration, and running of a Lair keystore.
