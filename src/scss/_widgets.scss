@@ -23,9 +23,16 @@ pre[class*="language-"] {
   button.copy-to-clipboard {
     margin-left: auto;
     padding: 6px;
-    margin-top: 0.3em;
     border-radius: 0.5em;
-    border: #46454a;
+    border: 1px solid #46454a;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:active {
+      background: $cl-gray;
+    }
   }
 
   [class*="language-"] {
