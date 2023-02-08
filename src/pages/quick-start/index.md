@@ -13,13 +13,11 @@ pageStyleId: install
 
 ## Install Holochain on Linux, macOS and Windows
 
-### Prerequisite for Windows: WSL (Windows Subsystem for Linux)
+### Prerequisite for Windows: WSL2
 
-Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. Linux can be run under **Windows with [WSL](https://learn.microsoft.com/en-us/windows/wsl/install){target=_blank}**.
+Holochain development uses the same tools across Mac, Windows, and Linux. However, the Nix toolkit, which we use to install and manage those tools, only works natively on Mac and Linux. Linux can be run under Windows with [WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install){target=_blank}.
 
-Once WSL is set up, install Ubuntu by running the following commands:
-
-1. 
+_Holochain is supported for the Ubuntu distribution under WSL2._
 
 ### Install the Nix Package Manager
 
@@ -59,20 +57,7 @@ nix-shell https://holochain.love --run "hc scaffold example forum"
 
 When prompted, select the UI framework you prefer.
 
-
-When the project setup completes, type the following commands to run the Holochain app:
-
-```bash
-cd forum
-```
-
-```bash
-nix-shell 
-```
-
-```bash
-npm install && npm start
-```
+_After completing the project setup, the scaffolding tool will output the commands to run the Holochain app._
 
 ### Next Step 
 
