@@ -28,6 +28,7 @@ pre[class*="language-"] {
 
     &:hover {
       cursor: pointer;
+      background-color: lighten($color: $cl-gray, $amount: 20);
     }
 
     &:active {
