@@ -45,6 +45,7 @@ Run the following command to set up the cache for precompiled Holochain executab
 
 ```bash
 nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-22.11.tar.gz -p cachix --run "cachix use holochain-ci"
+sudo --preserve-env=PATH $(which nix) run nixpkgs/nixos-22.11#cachix --extra-experimental-features nix-command --extra-experimental-features flakes -- use holochain-ci
 ```
 
 ## Scaffold Your First Holochain App
