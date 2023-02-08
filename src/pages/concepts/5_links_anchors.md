@@ -104,11 +104,14 @@ Alice’s entries, now linked to one another and other existing entries on the D
 * An anchor is an entry whose address is easy to calculate because its value is easy to discover, such as a username or hard-coded app constant.
 * Holochain's built in anchors implementation lets you create hierarchies of linked path components.
 
+
+!!! learn 
 ## Learn more
 
 * [Wikipedia: Graph database](https://en.wikipedia.org/wiki/Graph_database)
 * [Wikipedia: Linked data](https://en.wikipedia.org/wiki/Linked_data), an application of linking to the web
 * [Wikipedia: Resource Description Framework](https://en.wikipedia.org/wiki/Resource_Description_Framework), a standard for linking semantic data on the web
+!!!
 
 ### Next Up 
 
