@@ -74,6 +74,7 @@ Holochain uses a variation of [capability-based security](https://wikipedia.org/
 {.center}
 
 An **unrestricted** capability lets anybody call a function without producing a token.
+
 ![](/assets/img/concepts/8.7-transferrable-capability.png)
 {.center}
 
