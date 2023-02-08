@@ -57,8 +57,10 @@
     }
   }
 
-  .main-area {
-    padding: 0 70px;
+  @media screen and (min-width: 500px) {
+    .main-area {
+      padding: 0 70px;
+    }
   }
 
   #home-tiles {
