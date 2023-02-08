@@ -66,7 +66,7 @@
         type: "icon-list",
         class: "icon-list",
         links: [
-          { title: "Holochain on Mastodon", url: "", svgSnippet: "mastodonIcon", class:"no-away", external: true },
+          // { title: "Holochain on Mastodon", url: "", svgSnippet: "mastodonIcon", class:"no-away", external: true },
           { title: "Holochain on Reddit", url: "https://www.reddit.com/r/holochain/", svgSnippet: "redditIcon", class:"no-away", external: true },
           { title: "Holochain on Discord", url: "https://discord.com/invite/k55DS5dmPH", svgSnippet: "discordMarkIcon", class:"no-away", external: true },
           { title: "Holochain on GitHub", url: "https://github.com/holochain", svgSnippet: "githubLogo", class:"no-away", external: true },
