@@ -206,7 +206,7 @@ a.link-tile {
   bottom: 0;
   left: 0;
   right: 0;
-
+  z-index: 1;
   background-color: rgba(#000,.25);
 
   &-close {

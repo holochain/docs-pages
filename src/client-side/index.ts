@@ -82,5 +82,9 @@ function openModalIFrame(url:string) {
   }
 }
 
+document.querySelector<HTMLButtonElement>(".take-the-survey")?.addEventListener("click", (e) => {
+  e.preventDefault(); 
+  openModalIFrame("https://form.typeform.com/to/AL0HFFy8"); 
+});
 // openModalIFrame("https://form.typeform.com/to/AL0HFFy8");
 //openModalIFrame("https://en.wikipedia.org/wiki/Address_bar");

@@ -50,7 +50,7 @@
       class: "newsletter",
       links: [
         { title: "<p>We want to keep improving the developer experience You can help us by answering 5 questions.</p>" },
-        { title: "Take the Survey", url: "https://www.holochain.org/foundation", class: "btn", external: true },    
+        { title: "Take the Survey", url: "#", class: "btn take-the-survey", external: true },    
       ]
     }
   ],
