@@ -106,7 +106,7 @@ Alice’s entries, now linked to one another and other existing entries on the D
 
 
 !!! learn 
-## Learn more
+#### Learn more
 
 * [Wikipedia: Graph database](https://en.wikipedia.org/wiki/Graph_database)
 * [Wikipedia: Linked data](https://en.wikipedia.org/wiki/Linked_data), an application of linking to the web
