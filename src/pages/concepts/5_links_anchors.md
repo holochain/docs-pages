@@ -55,8 +55,9 @@ Anchors are just built from entries and links, like anything else in Holochain, 
 
 ## Case study: a music sharing app
 
-!!! note
+!!! note "Take Note"
     Take note of the arrowheads below; you'll see that most are bi-directional, which means there are actually two separate links going in opposite directions. Hard-coded anchors are the exception because they don't need to be discovered.
+!!!
 
 ::: coreconcepts-storysequence
 1. ![](/assets/img/concepts/5.2-alice.png)
@@ -102,4 +103,4 @@ Alice’s entries, now linked to one another and other existing entries on the D
 
 ### Next Up 
 
-[Explore CRUD actions —>](./6_crud_actions/){.btn-purple} 
+[Explore CRUD actions —>](../6_crud_actions/){.btn-purple} 

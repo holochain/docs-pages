@@ -65,11 +65,14 @@ At first sight, this seems pretty risky. Giving your agency away to someone else
 
 Holochain uses a variation of [capability-based security](https://wikipedia.org/wiki/Capability_based_security) to protect a cell’s exposed zome functions. In this model, one agent is in complete control of a resource but can delegate control to another agent via public functions protected by 'capability tokens'. While traditional capability-based security doesn't care who's making the call as long as they can produce the token, we’ve expanded that model a little bit:
 
-* ![](/assets/img/concepts/8.6-unrestricted-capability.png)
+![](/assets/img/concepts/8.6-unrestricted-capability.png)
+
 An **unrestricted** capability lets anybody call a function without producing a token.
-* ![](/assets/img/concepts/8.7-transferrable-capability.png)
+![](/assets/img/concepts/8.7-transferrable-capability.png)
+
 A **transferable** capability lets anybody who presents a valid capability token call a function (this is identical to traditional capability-based security).
-* ![](/assets/img/concepts/8.8-assigned-capability.png)
+![](/assets/img/concepts/8.8-assigned-capability.png)
+
 An **assigned** capability only allows agents with a valid capability token _and the right agent ID_ to call a function.
 
 In order for others to call one of their functions, the callee first has to grant access to that function. They do this by writing a **capability grant entry** to their source chain that specifies the function name, the access level, and any optional information depending on the access level (a random capability token and/or a list of assignees). After that, Holochain will automatically check the credentials of any incoming function call to make sure they match an existing grant. When a grantor wants to revoke or modify access, they simply delete or update that grant entry.
@@ -77,10 +80,12 @@ In order for others to call one of their functions, the callee first has to gran
 In order to use a transferable or assigned grant, a caller must have already received a capability secret, which they can then save to their own source chain as a capability claim entry. Any time they want to call a function, they retrieve this entry and pass the secret along with the function call.
 
 ![](/assets/img/concepts/8.9-author-capability.png)
+
 There is one special case where capability tokens aren’t needed: the **author** capability. If the agent ID of the caller and the callee match, such as with calls between zomes in a DNA or cells whose agent IDs are the same, no explicit capability grant is needed.
 
 !!! info "Client calls are currently unprotected"
-    At time of writing, client zome calls aren't protected by capability-based security; the conductor simply applies the author capability to them. This will change in the near future, which means the clients you write will need to be able to get a capability claim from the agent in order to make calls! We intend to make it easy for app developers though.
+At time of writing, client zome calls aren't protected by capability-based security; the conductor simply applies the author capability to them. This will change in the near future, which means the clients you write will need to be able to get a capability claim from the agent in order to make calls! We intend to make it easy for app developers though.
+!!!
 
 ## The lifecycle of a call
 
@@ -119,4 +124,4 @@ First, Alice needs to let Bob publish posts under her name. Here’s how she doe
 
 ### Next Up 
 
-[Explore signals —>](./9_signals/){.btn-purple} 
+[Explore signals —>](../9_signals/){.btn-purple} 

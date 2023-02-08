@@ -77,4 +77,4 @@ Because data takes up space even when it’s no longer live, be judicious about 
 
 ### Next Up 
 
-[Explore validation —>](./7_validation/){.btn-purple} 
+[Explore validation —>](../7_validation/){.btn-purple} 

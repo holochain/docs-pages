@@ -60,4 +60,4 @@ We also hope to introduce DHT signals, so an agent can subscribe to a base DHT a
 
 ### Next Up 
 
-[Explore migration strategies —>](./10_migration/){.btn-purple} 
+[Explore migration strategies —>](../10_migration/){.btn-purple} 
