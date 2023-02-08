@@ -1,7 +1,3 @@
-[build]
-    publish = "/build"
-    command = "./create_docs.sh"
-
 # These first rules are a bit fiddly -- we explicitly redirect URLs that we know should
 # point to the Redux docs, rather than redirecting to `/`, then to `/redirect-to-redux-site.html`,
 # which ends up breaking things on the Redux site side.

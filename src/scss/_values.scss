@@ -1,0 +1,44 @@
+/* Colors */
+$cl-brand-purple: #8719F6;
+$cl-brand-green: #0EDDD3;
+$cl-other-green: #74FAD2;
+$cl-gray: #d0d0d7;
+
+/* Usage colors */
+$cl-main-text: black;
+$cl-footer-bg: black;
+
+// Font sizes defined in _fonts
+
+// Spacing 
+$sp-icon-list-gap: 16rem;
+
+/* Breakpoints & Widths */
+$default-max-content-width: 1200px;
+$mobile-width: 900px;
+// Tablet width? Do we care?
+
+$sz-full-hor-padding: 70px;
+$sz-mobile-hor-padding: 30px;
+
+/* Explicit heights */
+$footer-large-screen-height: 200px;
+
+
+/* Gradients */
+$header-gradiant: linear-gradient(90deg,#4720e3,#345ede 32.81%,#0dddd3); 
+$blue-to-light-purple-grad: linear-gradient(180deg,#4720e3,#b748ff 68.44%);
+$blue-to-light-blue-grad: linear-gradient(180deg,#415bed,#13d0d7 44.86%);
+
+
+@mixin mq-full {
+  @media screen and (min-width: $mobile-width) {
+    @content;
+  }
+}
+
+@mixin mq-mobile {
+  @media screen and (max-width: $mobile-width) {
+    @content;
+  }
+}

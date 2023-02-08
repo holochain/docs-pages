@@ -1,0 +1,113 @@
+$top-nav-img-height: 24rem;
+$cl-header-bar-primary: black;
+
+header#page-header {
+  grid-area: header;
+  
+  #page-header-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18rem;
+    padding: 24px $sz-mobile-hor-padding 20px;
+
+    a {
+      text-decoration: none;
+    }
+
+    #logo-space {
+      display: flex;
+
+      #home-link {
+        img {
+          height: $top-nav-img-height;
+          padding: 0 10px 0 2px;
+        }
+      }
+
+      @include mq-full {
+        flex-direction: column;
+      }
+    }
+
+    #header-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      ul {
+        display: flex;
+        list-style-type: none;
+        margin-bottom: -17px;
+
+        li {
+          min-width: 130px;
+
+          a {
+            margin-left: 24rem;
+            font-weight: 400;
+            font-variation-settings: "wght" 400;
+            padding-bottom: 6rem;
+            border-bottom: 2px solid transparent;
+            transition: all .75s;
+          }
+
+          &[data-is-current-parent] {
+            a {
+              border-bottom-color: $cl-brand-purple;
+            }
+          }
+          
+          &:hover {
+            a {
+              border-bottom-color: $cl-brand-green;
+              font-variation-settings: "wght" 700;
+            }
+          }
+        }
+      }
+
+      @include mq-mobile {
+        display: none;
+      }
+    }
+
+    @include hamburgerMenu();
+
+    @include mq-full {
+      padding: 24px $sz-full-hor-padding 20px;
+    }
+  }
+
+  #page-header-bar {
+    background: $header-gradiant;
+    padding: 8px;
+    color: $cl-header-bar-primary;
+    display: flex;
+    justify-content: space-between;
+
+    #other-nav {
+      margin-left: auto;
+      //Sets to flex in mq-full
+      display: none;
+      align-items: center;
+      gap: 10px;
+
+      a {
+        height: $top-nav-img-height;
+
+        svg {
+          height: $top-nav-img-height;
+        }
+      }
+    }
+
+    @include mq-full {
+      background: none;
+      padding: 10px $sz-full-hor-padding;
+
+      #other-nav {
+        display: flex;
+      }
+    }
+  }
+}

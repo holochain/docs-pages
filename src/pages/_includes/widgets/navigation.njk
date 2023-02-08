@@ -1,0 +1,52 @@
+{% from "widgets/svg-icons.njk" import downArrowHead %}
+
+@{% macro mainNavTree(mainNavData, page) %}
+{% set activeParent = mainNavData.getActiveParentLink(page.url) %}
+<nav id="main-nav">
+  <ul class="nav-top-level">
+    {% for topLink in mainNavData.links %}
+      {% set isCurrentParent = topLink.url == activeParent.url %}
+      <li {% if isCurrentParent %} data-is-current-parent="true" {% endif %} 
+        {% if topLink.url == page.url %} aria-current="page" {% endif %} >
+        <a href="{{ topLink.url }}" {{ 'target=_blank' if topLink.external }}>
+          <span>
+            {{ topLink.title }}
+          </span>
+        </a>
+        {% if topLink.hasChildren %}
+        <button class="clear-btn" data-children-opener >
+          {{ downArrowHead() }}
+        </button>
+        {% endif %}
+
+        {% if topLink.hasChildren %}
+          <ul class="nav-child-level {% if isCurrentParent %}open{% endif %}">
+            {% for childLink in topLink.children %}
+            <li {% if childLink.url == page.url %} aria-current="page" {% endif %}>
+              <a href="{{ childLink.url }}" {{ 'target=_blank' if childLink.external }} >
+                <span>
+                  {{ childLink.title }}
+                </span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endmacro %}
+
+@{% macro headerNavList(headerNavData, page) %}
+{% set activeParent = headerNavData.getActiveParentLink(page.url) %}
+<nav id="header-nav">
+  <ul>
+    {% for link in headerNavData.links %}
+      <li {% if link.url == activeParent.url %} data-is-current-parent="true" {% endif %} >
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endmacro %}

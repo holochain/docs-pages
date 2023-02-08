@@ -1,0 +1,65 @@
+{% from "widgets/svg-icons.njk" import discordMarkIcon, twitterLogo, githubLogo, youtubeMarkIcon, redditIcon, mastodonIcon %}
+
+{% macro footerLink(link) %}
+  {% set classAttr = 'class="'+ link.class + '"' if link.class else '' %}
+    {% if link.image %}
+      <a href="{{ link.url }}" title="{{ link.title }}" {{ 'target=_blank' if link.external }} {{ classAttr | safe }}>
+        <img src="{{ link.image }}" />
+      </a>
+    {% else %}
+      <a href="{{ link.url }}" {{ 'target=_blank' if link.external }} {{ classAttr | safe }}>{{ link.title }}</a>
+    {% endif %}
+{% endmacro %}
+
+{% macro footerElement(d) %}
+  {% set classAttr = 'class="'+ d.class + '"' if d.class else '' %}
+  <li>
+  {% if d.type === "icon-list" %}
+    <ul class="{{ d.class }}">
+    {% for childLink in d.links %}
+      {% set childClassAttr = 'class="'+ childLink.class + '"' if childLink.class else '' %}
+      <li>
+        <a href="{{ childLink.url }}" {{ 'target=_blank' if childLink.external }} {{ childClassAttr | safe }} >
+          {{ callMacroByName(childLink.svgSnippet) }}
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+  {% elif d.url %}
+    {{ footerLink(d) }}
+  {% else %}
+    {# Just some text #}
+    {{ d.title | safe }}
+  {% endif %}
+  </li>
+{% endmacro %}
+
+<div id="page-footer">
+  <nav>
+    <div id="page-footer-columns">
+    {% for col in navigation.footerNav.columns %}
+      <div class="nav-column {{col.class}}">
+        {% if col.title %}
+        <h2>{{ col.title }}</h2>
+        {% endif %}
+        
+        <ul>
+        {% for link in col.links %}
+          {{ footerElement(link) }}
+        {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+    </div>
+    
+    <hr>
+
+    <div id="page-footer-bottom">
+      <ul>
+      {% for link in navigation.footerNav.bottomRow.links %}
+        {{ footerElement(link) }}
+      {% endfor %}
+      </ul>
+    </div>
+  </nav>
+</div>

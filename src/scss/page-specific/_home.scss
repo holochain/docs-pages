@@ -1,0 +1,136 @@
+
+&.home-page {
+  position: relative;
+  grid-template-areas: 
+    "... header header ..."
+    "... header header ..."
+    "greeting greeting greeting greeting"
+    "... mainArea mainArea ..."
+    "... footer footer ...";
+  
+  #page-bg {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 930px;
+
+    @include mq-full {
+      display: block;
+    }
+  }
+
+  hr {
+    width: 90%;
+  }
+
+  #greeting {
+    grid-area: greeting;
+    // Will be set to flex by mq-full
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    color: white;
+    padding: 19px 0 60px;
+
+    &-bg {
+      background-color: black;
+      position: absolute;
+      top: 0; bottom: 0; right: 0; left: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 32rem;
+      margin-bottom: 16px;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .btn {
+      //TODO: Create a standard reverse-btn 
+      @include btn-base(black);
+      margin-top: 32px;
+    }
+  }
+
+  @media screen and (min-width: 500px) {
+    .main-area {
+      padding: 0 70px;
+    }
+  }
+
+  #home-tiles {
+    display: grid;
+    gap: 30px;
+    padding: 30px 0;
+    color: black;
+
+    .home-tile {
+      text-decoration: none;
+      background-color: white;
+      
+      .content-wrapper {
+        padding-left: 40px;
+        display: flex;
+        align-items: center;
+
+        .text-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
+          margin-left: 24px;
+
+          h2 {
+            border-bottom: 2px solid $cl-brand-purple;
+            margin: 0;
+            font-size: 28rem;
+          }
+        }
+      }
+    }
+
+    @include mq-full {
+      gap: 70px;
+      grid-template-columns: 1fr 1fr;
+      padding: 60px 50px;
+    }
+  }
+
+  #qualities {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 60px;
+    padding: 0 $sz-mobile-hor-padding;
+    
+    @include mq-full {
+      grid-template-columns: 1fr 1fr 1fr;
+      padding: 0 $sz-full-hor-padding;
+      margin: 80px 200px 80px 0;
+    }
+  }
+
+  hr {
+    background-color: #CECCD8;
+    border: 0;
+    height: 1px;
+
+    &#last {
+      margin-bottom: 200px;
+    }
+  }
+
+  @include mq-full {
+    #greeting {
+      display: flex;
+    }
+
+    .side-bar, .sidebar-right-bg {
+      display: none;
+    }
+  }
+}

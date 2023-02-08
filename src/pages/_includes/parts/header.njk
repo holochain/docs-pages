@@ -1,0 +1,26 @@
+{% from "widgets/svg-icons.njk" import discordMarkIcon, homeIcon, githubLogo %}
+{% from "widgets/assorted-bits.njk" import hamburgerButton %}
+{% from "widgets/navigation.njk" import headerNavList %}
+<header id="page-header">
+  <div id="page-header-top">
+    <div id="logo-space">
+      <a href="https://holochain.org" id="home-link" target="_blank">
+      <picture>
+        <source srcset="/assets/img/holochain-logo-black-1300.png" media="(min-width: 900px)">
+        <img src="/assets/img/holochain-logo-small.png" alt="Holochain.org">
+      </picture>
+      </a>
+      <a href="/">Developer Portal</a>
+    </div>
+    
+    {{ headerNavList(navigation.headerNav, page) }}
+    {{ hamburgerButton() }}
+  </div>
+
+  <div id="page-header-bar">
+    <nav id="other-nav">
+      <a href="https://discord.gg/k55DS5dmPH">{{ discordMarkIcon() }}</a>
+      <a href="https://github.com/holochain/holochain" alt="Holochain GitHub">{{ githubLogo() }}</a>
+    </nav>
+  </div>
+</header>

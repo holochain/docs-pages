@@ -1,0 +1,58 @@
+/* Imports */
+
+@import url("//hello.myfonts.net/count/3e423c");
+@font-face {
+  font-family: "URW Form";
+  font-weight: 700;
+  font-style: normal;
+  src: url('/assets/webFonts/URWFormBold/font.woff2') format('woff2'), 
+        url('/assets/webFonts/URWFormBold/font.woff') format('woff');
+}
+@font-face {
+  font-family: "URW Form";
+  font-weight: 700;
+  font-style: italic;
+  src: url('/assets/webFonts/URWFormBoldItalic/font.woff2') format('woff2'), 
+        url('/assets/webFonts/URWFormBoldItalic/font.woff') format('woff');
+}
+@font-face {
+  font-family: "URW Form";
+  font-weight: 800;
+  font-style: normal;
+  src: url('/assets/webFonts/URWFormExtraBold/font.woff2') format('woff2'), 
+        url('/assets/webFonts/URWFormExtraBold/font.woff') format('woff');
+}
+@font-face {
+  font-family: "URW Form";
+  font-weight: 800;
+  font-style: italic;
+  src: url('/assets/webFonts/URWFormExtraBoldItalic/font.woff2') format('woff2'), 
+      url('/assets/webFonts/URWFormExtraBoldItalic/font.woff') format('woff');
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+// global font sizes vars
+$fs-extra-smaller: 13rem;
+$fs-smaller: 14rem;
+$fs-primary: 18rem;
+$fs-bigger: 20rem;
+
+// local font sizes
+$fs-footer-col-header: 14rem;
+$fs-footer-smaller: $fs-smaller;
+
+html {
+  font-size: 6.2%;
+  
+  body { 
+    font-family: Mulish;
+    font-size: $fs-primary;
+  }
+  
+  h1, h2, h3, h4 { 
+    font-family: 'URW Form'; 
+    font-weight: 800; 
+  }
+}

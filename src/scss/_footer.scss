@@ -1,0 +1,171 @@
+$footer-nav-img-height: 14rem;
+$footer-nav-header-to-links: 14rem;
+
+#page-footer {
+  grid-area: footer;
+  padding: 50rem $sz-mobile-hor-padding 40rem;
+  background: $cl-footer-bg;
+  color: white;
+  z-index: 1;
+
+  nav {
+    font-size: $fs-footer-smaller;
+
+    ul {
+      padding: 0;
+      margin: 0;
+      
+      li {
+        list-style: none;
+        margin-bottom: unset;
+        
+        a {
+          color: white;
+          text-decoration: none;
+
+          &.btn {
+            //TODO: Create a standard reverse-btn 
+            @include btn-base(black);
+            background-color: white;
+            margin-top: 32px;
+            border-color: black;
+      
+            &:hover {
+              color: white;
+            }
+          }
+
+          //@include offsiteLinkIcon;
+        }
+      }
+
+      &.icon-list {
+        display: flex;
+        gap: $sp-icon-list-gap;
+
+        li {
+
+          a {
+            height: $footer-nav-img-height;
+            display: block;
+    
+            svg {
+              height: $footer-nav-img-height;
+            }
+          }
+        }
+      }
+    }
+
+    #page-footer-columns {
+      display: grid;
+      grid-template-columns: repeat(1, max-content);
+      justify-content: center;
+
+      color: white;
+      row-gap: 30px;
+      margin: 0 auto;
+      margin-bottom: 100px;
+      
+      .nav-column {
+        h2 {
+          color: $cl-other-green;
+          font-size: $fs-footer-col-header;
+          margin-bottom: $footer-nav-header-to-links;
+          margin-top: 0;
+        }
+  
+        &.newsletter {
+          max-width: 200px;
+
+          p {
+            margin-bottom: 20px;
+          }
+        }
+      }
+
+      @media screen and (min-width: 500px) {
+        grid-template-columns: repeat(6, 1fr);
+        justify-items: center;
+        
+        .nav-column {
+          &:nth-child(1) { grid-area: 1 / 1 / 2 / 3; }
+          &:nth-child(2) { grid-area: 1 / 3 / 2 / 5; }
+          &:nth-child(3) { grid-area: 1 / 5 / 2 / 7; }
+          &:nth-child(4) { grid-area: 2 / 1 / 3 / 4; }
+          &:nth-child(5) { grid-area: 2 / 4 / 3 / 7; }
+        }
+      }
+
+      @include mq-full {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+    }
+
+    hr {
+      margin: 0 auto;
+      width: calc(100% - 4px);
+      background-color: rgba($cl-gray, 0.5);
+      color: transparent;
+    }
+
+    #page-footer-bottom {
+      margin-top: 16px;
+
+      > ul {
+        display: grid;
+        justify-items: center;
+        grid-template-columns: 1fr repeat(3, max-content) 1fr;
+        grid-template-areas: 
+        "... hc-logo hc-logo hc-logo ..."
+        "... privacy sep tou ..."
+        "... icons icons icons ...";
+
+        > li {
+          a.hc-logo-link {
+            img {
+              height: 30rem;
+            }
+          }
+
+          &:nth-child(1) { grid-area: hc-logo; }
+          &:nth-child(2) { grid-area: privacy; }
+          &:nth-child(3) { grid-area: sep; }
+          &:nth-child(4) { grid-area: tou; }
+          &:nth-child(5) { grid-area: icons; }
+
+          &:last-child {
+            margin-top: 20px;
+          }
+        }
+      }
+
+      @include mq-full {
+        > ul {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          align-items: center;
+          justify-content: center;
+
+          > li {
+            a.hc-logo-link {
+              margin-right: 30px;
+            }
+
+            &:last-child {
+              margin-top: 0;
+              margin-left: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include mq-full {
+    padding: 50rem $sz-full-hor-padding 40rem;
+  }
+}

@@ -1,0 +1,68 @@
+img {
+  width: unset;
+  max-width: 100%;
+}
+
+ul, ol {
+  li {
+    margin-bottom: 6px;
+  }
+}
+
+@mixin btn-base($color: currentColor, $bg-color: white, $hover-color: white, $hover-bg-color: $cl-brand-green) {
+  padding: 8rem 16rem;
+  border-radius: 5px;
+  color: $color;
+  background-color: $bg-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $hover-color;
+    background-color: $hover-bg-color;
+  }
+}
+
+// Applicable to an a or button element
+.btn {
+  @include btn-base;
+}
+
+.btn-purple {
+  @include btn-base(white, $cl-brand-purple, $cl-brand-purple, $cl-gray);
+}
+
+a {
+  color: $cl-main-text;
+
+  svg {
+    height: 100%;
+  }
+}
+
+button {
+  &.clear-btn {
+    border: none;
+    background: none;
+  }
+}
+
+/* Utility Classes */
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+img {
+  @for $p from 1 through 20 {
+    &.sz#{$p}0p {
+      max-width: $p * 10%;
+    } 
+  }
+}

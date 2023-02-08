@@ -1,0 +1,85 @@
+$cl-sidebar-bg: #f7f7f7;
+
+&.default-page-type {
+  background-color: white;
+  display: grid;
+  
+  //Mobile set up default
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: [header-start] min-content 
+                      [header-cl-bar-start] 44px 
+                      [header-cl-bar-end main-r1-start] min-content 
+                      [main-r2-start] 1fr 
+                      [main-end footer-start] min-content [footer-end];
+  grid-template-areas: 
+    "header"
+    "header"
+    "mainArea"
+    "footer";
+  
+  .main-area {
+    grid-area: mainArea;
+    background-color: white;
+    padding: 0 $sz-mobile-hor-padding 20px;
+  }
+
+  .side-bar {
+    grid-area: mainArea;
+    z-index: -1;
+    background-color: $cl-sidebar-bg;
+    margin-bottom: 0;
+    margin-top: 0;
+    height: 100%;
+
+    @include navBarList;
+
+    &.show {
+      z-index: 1;
+    }
+  }
+
+  .header-full-bg {
+    display: none;
+    background: $header-gradiant;
+    grid-area: header-cl-bar-start / vp-left / header-cl-bar-end / vp-right;
+    z-index: -1;
+  }
+
+  .footer-full-bg {
+    display: none;
+    background-color: black;
+    grid-area: footer-start / vp-left / footer-end / vp-right;
+  }
+
+  .sidebar-right-bg {
+    display: none;
+    background-color: $cl-sidebar-bg;
+    grid-area: main-r1-start / sidebar-end / main-end / vp-right;
+    z-index: -1;
+  }
+
+  @include mq-full {
+    grid-template-columns: [vp-left] 1fr minmax(0, 1000px) [sidebar-end] 420px [sidebar-end] 1fr [vp-right];
+    grid-template-areas: 
+      "... header header ..."
+      "... header header ..."
+      "... mainArea sideBar ..."
+      "... footer footer ...";
+    column-gap: 50px;
+    
+    .main-area {
+      background-color: transparent;
+      padding: 0 0 30px $sz-full-hor-padding;
+    }
+
+    .side-bar {
+      grid-area: sideBar;
+      z-index: unset;
+    }
+
+    .header-full-bg, .footer-full-bg, .sidebar-right-bg {
+      display: block;
+    }
+  }
+
+}
