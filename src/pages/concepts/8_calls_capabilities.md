@@ -65,13 +65,13 @@ At first sight, this seems pretty risky. Giving your agency away to someone else
 
 Holochain uses a variation of [capability-based security](https://wikipedia.org/wiki/Capability_based_security) to protect a cell’s exposed zome functions. In this model, one agent is in complete control of a resource but can delegate control to another agent via public functions protected by 'capability tokens'. While traditional capability-based security doesn't care who's making the call as long as they can produce the token, we’ve expanded that model a little bit:
 
-* ![](/assets/img/concepts/8.6-unrestricted-capability.png)
+![](/assets/img/concepts/8.6-unrestricted-capability.png)
 
 An **unrestricted** capability lets anybody call a function without producing a token.
-* ![](/assets/img/concepts/8.7-transferrable-capability.png)
+![](/assets/img/concepts/8.7-transferrable-capability.png)
 
 A **transferable** capability lets anybody who presents a valid capability token call a function (this is identical to traditional capability-based security).
-* ![](/assets/img/concepts/8.8-assigned-capability.png)
+![](/assets/img/concepts/8.8-assigned-capability.png)
 
 An **assigned** capability only allows agents with a valid capability token _and the right agent ID_ to call a function.
 
