@@ -88,7 +88,7 @@ In order for others to call one of their functions, the callee first has to gran
 
 In order to use a transferable or assigned grant, a caller must have already received a capability secret, which they can then save to their own source chain as a capability claim entry. Any time they want to call a function, they retrieve this entry and pass the secret along with the function call.
 
-![](/assets/img/concepts/8.9-author-capability.png){.sz50p}
+![](/assets/img/concepts/8.9-author-capability.png)
 {.center}
 
 There is one special case where capability tokens aren’t needed: the **author** capability. If the agent ID of the caller and the callee match, such as with calls between zomes in a DNA or cells whose agent IDs are the same, no explicit capability grant is needed.
