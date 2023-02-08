@@ -57,20 +57,7 @@ nix-shell https://holochain.love --run "hc scaffold example forum"
 
 When prompted, select the UI framework you prefer.
 
-
-When the project setup completes, type the following commands to run the Holochain app:
-
-```bash
-cd forum
-```
-
-```bash
-nix-shell 
-```
-
-```bash
-npm install && npm start
-```
+_After completing the project setup, the scaffolding tool will output the commands to run the Holochain app._
 
 ### Next Step 
 
