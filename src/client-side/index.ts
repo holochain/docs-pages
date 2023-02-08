@@ -62,3 +62,25 @@ function setupNavHandlers() {
 }
 
 setupNavHandlers();
+
+function openModalIFrame(url:string) {
+  const template = document.querySelector<HTMLTemplateElement>('#modal-iframe-template');
+
+  const frag =  template?.content.cloneNode(true) as DocumentFragment;
+  console.log(frag)
+  if (frag) {
+    const div = frag.querySelector(".modal-iframe");
+    const iframe = frag.querySelector<HTMLIFrameElement>(".modal-iframe iframe");
+    const closeBtn = frag.querySelector<HTMLButtonElement>(".modal-iframe .modal-iframe-close");
+    if (div && iframe && closeBtn) {
+      iframe.src = url;
+      closeBtn.addEventListener("click", (e) => {
+        document.querySelector(".modal-iframe")?.remove();
+      });
+      document.body.appendChild(frag);
+    }
+  }
+}
+
+// openModalIFrame("https://form.typeform.com/to/AL0HFFy8");
+//openModalIFrame("https://en.wikipedia.org/wiki/Address_bar");

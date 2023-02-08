@@ -1,3 +1,14 @@
+{% from "widgets/svg-icons.njk" import mdiClose %}
 <template id="copy-button-template">
 <button data-purpose="copy-to-clipboard" class="copy-to-clipboard" title="Copy to Clipboard" >Copy</button>
+</template>
+
+<template id="modal-iframe-template">
+  <div class="modal-iframe">
+    <button class="modal-iframe-close clear-btn">
+      {{ mdiClose() }}
+    </button>
+
+    <iframe src="" frameborder="0"></iframe>
+  </div>
 </template>

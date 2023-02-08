@@ -199,3 +199,30 @@ a.link-tile {
     }
   }
 }
+
+.modal-iframe {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background-color: rgba(#000,.25);
+
+  &-close {
+    position: absolute;
+    right: calc(10vw - 55px);
+    top: calc(10vh - 45px);
+    background-color: white;
+    padding: 10px;
+    border-radius: 100px;
+    height: 44px;
+    cursor: pointer;
+  }
+
+  iframe {
+    margin: 10vh 10vw;
+    width: 80vw;
+    height: 80vh;
+  }
+}
