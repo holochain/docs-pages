@@ -5,7 +5,7 @@ title: Get Building
 In Quick Start you installed Holochain and built a templated forum application. Here you will use the Scaffold tool to build your own application and learn the basic commands for using the scaffold.
 
 !!! note Pre-requisite
-- Holochain installed as per [Quick Start](../quick-start/index)
+Holochain installed as per [Quick Start](../quick-start/index)
 !!! 
 
 ## Scaffold a Custom Holochain Application
