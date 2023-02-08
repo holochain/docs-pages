@@ -71,7 +71,9 @@ An **unrestricted** capability lets anybody call a function without producing a 
 ![](/assets/img/concepts/8.7-transferrable-capability.png)
 
 A **transferable** capability lets anybody who presents a valid capability token call a function (this is identical to traditional capability-based security).
+
 ![](/assets/img/concepts/8.8-assigned-capability.png)
+{.center}
 
 An **assigned** capability only allows agents with a valid capability token _and the right agent ID_ to call a function.
 
@@ -80,6 +82,7 @@ In order for others to call one of their functions, the callee first has to gran
 In order to use a transferable or assigned grant, a caller must have already received a capability secret, which they can then save to their own source chain as a capability claim entry. Any time they want to call a function, they retrieve this entry and pass the secret along with the function call.
 
 ![](/assets/img/concepts/8.9-author-capability.png)
+{.center}
 
 There is one special case where capability tokens aren’t needed: the **author** capability. If the agent ID of the caller and the callee match, such as with calls between zomes in a DNA or cells whose agent IDs are the same, no explicit capability grant is needed.
 

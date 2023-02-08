@@ -27,12 +27,21 @@
 ## Code Fences
   - Include language (i.e.: `bash`) always.
 
+## Open in new window 
+- add `{target=_blank}` after link markdown parens
+
+## Button for link
+- add `{.btn-purple}` after link markdown parens
+
+## Center an Image
+```
+![](/assets/img/concepts/8.8-assigned-capability.png)
+{.center}
+```
+Note: The new line after the image is required to put the class in the enclosing <p>
 
 ## Items to add to README
 - using callMacroByName
 
-## Open in new window 
-- add {target=_blank} after link markdown parens
 
-## Button for link
-- add {.btn-purple} after link markdown parens
+
