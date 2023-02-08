@@ -64,3 +64,7 @@ While the foundation of Holochain is simple, the consequences of our design can 
 * There is no single global database; data comes from many individual sources.
 * Each user of an app also participates in building the app’s infrastructure, supplying their own compute and storage resources and taking responsibility for validating and storing a small portion of other users’ data.
 * The whole is greater than the sum of its parts—many agents, playing by simple rules, combine to form a social organism that maintains its own health.
+
+### Next Up 
+
+[Explore the app architecture —>](./2_application_architecture/){.btn-purple} 

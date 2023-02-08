@@ -204,3 +204,7 @@ For record data that can't be retrieved, the validation function should return '
 * [Wikipedia: Pure function](https://en.wikipedia.org/wiki/Pure_function)
 * [Wikipedia: Total function](https://en.wikipedia.org/wiki/Partial_function#Total_function)
 * [Wikipedia: Monotonicity of entailment](https://en.wikipedia.org/wiki/Monotonicity_of_entailment), a useful principle for writing validation functions that update entries without invalidating old ones
+
+### Next Up 
+
+[Explore calls & capabilities —>](./8_calls_capabilities/){.btn-purple} 

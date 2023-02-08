@@ -143,3 +143,7 @@ The important thing is that the DHT _remembers what you’ve published_, so it�
 * [Wikipedia: Gossip protocol](https://en.wikipedia.org/wiki/Gossip_protocol)
 * [Wikipedia: Distributed hash table](https://en.wikipedia.org/wiki/Distributed_hash_table)
 * [Wikipedia: Peer-to-peer](https://en.wikipedia.org/wiki/Peer-to-peer)
+
+### Next Up 
+
+[Explore links & anchors —>](./5_links_anchors/){.btn-purple} 

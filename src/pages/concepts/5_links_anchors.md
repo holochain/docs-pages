@@ -99,3 +99,7 @@ Alice’s entries, now linked to one another and other existing entries on the D
 * [Wikipedia: Graph database](https://en.wikipedia.org/wiki/Graph_database)
 * [Wikipedia: Linked data](https://en.wikipedia.org/wiki/Linked_data), an application of linking to the web
 * [Wikipedia: Resource Description Framework](https://en.wikipedia.org/wiki/Resource_Description_Framework), a standard for linking semantic data on the web
+
+### Next Up 
+
+[Explore CRUD actions —>](./6_crud_actions/){.btn-purple} 

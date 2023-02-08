@@ -116,3 +116,7 @@ Holochain's answer is simple---_somebody will notice_. More on that in the next 
 * [Wikipedia: Hash chain](https://en.wikipedia.org/wiki/Hash_chain)
 * [Wikipedia: Public key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography)
 * [Wikipedia: Man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)
+
+### Next Up 
+
+[Explore the DHT —>](./4_dht/){.btn-purple} 

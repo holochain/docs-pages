@@ -134,3 +134,7 @@ You can see that Holochain is different from typical application stacks. Here's 
 * Zomes don’t maintain any in-memory state between calls; state is maintained in the history of the cell that contains the zome.
 * Persistence logic and core business logic are mixed together in your DNA, because at its heart, Holochain is a framework for data validation. However, you usually don’t need a lot of your business logic in your DNA—just enough to encode the ‘rules of the game’ for your application.
 * As with microservices, Holochain lends itself to combining small, reusable components into large applications.
+
+### Next Up 
+
+[Explore the source chain —>](./3_source_chain/){.btn-purple} 

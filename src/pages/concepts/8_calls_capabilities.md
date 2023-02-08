@@ -116,3 +116,7 @@ First, Alice needs to let Bob publish posts under her name. Here’s how she doe
 * An inter-zome, bridge, or remote call blocks execution on the caller’s side until they receive a response or the request times out.
 * All calls are covered by capability-based security, which consists of a grant created by the callee, who shares a capability secret for the caller to use whenever they want to make a call.
 * In Holochain’s capability model, unrestricted and assigned capabilities allow for more or less permissivity than the traditional capability model.
+
+### Next Up 
+
+[Explore signals —>](./9_signals/){.btn-purple} 
