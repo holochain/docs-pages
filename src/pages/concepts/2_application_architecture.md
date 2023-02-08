@@ -66,13 +66,13 @@ Participants in a hApp communicate with each other privately and securely in pee
 
 ### hApp
 
-![A hApp with slots ready to be populated by cells.](/assets/img/concepts/2.6-happ.png){.sz80p} {.center}
+![A hApp with slots ready to be populated by cells.](/assets/img/concepts/2.6-happ.png){.sz60p} {.center}
 
 A Holochain application or **hApp** allows a person to easily install and manage a suite of functionality, such as chat, accounting, or project management. A hApp is often made of multiple components, each providing an aspect of functionality, and it has a **slot** for each.
 
 ### Cell
 
-![A hApp with each of its slots populated by zero, one, or more matching cells.](/assets/img/concepts/2.7-cells-in-slots.png){.sz80p} {.center}
+![A hApp with each of its slots populated by zero, one, or more matching cells.](/assets/img/concepts/2.7-cells-in-slots.png){.sz60p} {.center}
 
 **Cells** occupy slots in a hApp. Each cell is a combination of a participant's unique cryptographic key pair (their **agent ID**) and a DNA. Within one participant's instance of a hApp, all cells share the same agent ID. Each cell acts as the participant's personal **agent** --- every piece of data that it creates or message it sends, it does so from the [perspective of that agent](../3_source_chain/).
 
