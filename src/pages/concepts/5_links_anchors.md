@@ -21,7 +21,7 @@ DHTs and graph databases are different from familiar data stores, like relationa
 
 ## The difficulty of looking for data (especially when you don't know what you're looking for)
 
-![](/assets/img/concepts/5.1-links.png)
+![](/assets/img/concepts/5.1-links.png){.sz80p} {.center}
 
 Deriving addresses directly from the content of your data has some advantages—you can ignore the physical location of data and ask for it by its address. This means no more broken URLs. It also means that a malicious actor can't sneak something nasty into the data they're serving you---if it doesn't match the hash, it's been tampered with.
 
@@ -59,29 +59,38 @@ Anchors are just built from entries and links, like anything else in Holochain, 
     Take note of the arrowheads below; you'll see that most are bi-directional, which means there are actually two separate links going in opposite directions. Hard-coded anchors are the exception because they don't need to be discovered.
 !!!
 
-::: coreconcepts-storysequence
-1. ![](/assets/img/concepts/5.2-alice.png)
+::: coreconcepts-storysequence 
+
+![](/assets/img/concepts/5.2-alice.png){.sz80p} {.center}
+
 Alice is a singer/songwriter who excels at the ukulele and wants to share her music with the world. She joins the app and chooses to register the username “@alice_ukulele”. She checks if it’s already been taken by calculating its address and looking for an existing username DHT entry with that address.
 
-2. ![](/assets/img/concepts/5.3-alice-username.png)
+![](/assets/img/concepts/5.3-alice-username.png){.sz80p} {.center}
+
 That entry doesn’t exist, so she publishes it and links it to her agent address. Now, users who know her username can find her agent address.
 
-3. ![](/assets/img/concepts/5.4-usernames-anchor.png)
+![](/assets/img/concepts/5.4-usernames-anchor.png){.sz80p} {.center}
+
 Alice wants to show up in the public directory of artists, so she links her username entry to the “_all_users_” anchor, a string constant that's hard-coded into the app. Now people can discover her username by retrieving all the links on "_all_users".
 
-4. ![](/assets/img/concepts/5.5-alice-album.png)
+![](/assets/img/concepts/5.5-alice-album.png){.sz80p} {.center}
+
 Alice creates an entry for her debut EP album and links it to her agent address. Now listeners who know her agent address can find the albums she’s published.
 
-5. ![](/assets/img/concepts/5.6-album-tracks.png)
+![](/assets/img/concepts/5.6-album-tracks.png){.sz80p} {.center}
+
 She uploads all the tracks and links them to the album entry.
 
-6. ![](/assets/img/concepts/5.7-album-genres.png)
-She wants people to be able to find her album by genre, so she selects or creates three applicable genre tags (they’re anchors too) and links her album to them.
+![](/assets/img/concepts/5.7-album-genres.png){.sz80p} {.center}
 
-7. ![](/assets/img/concepts/5.8-genres-anchor.png)
+ She wants people to be able to find her album by genre, so she selects or creates three applicable genre tags (they’re anchors too) and links her album to them.
+
+![](/assets/img/concepts/5.8-genres-anchor.png){.sz80p} {.center}
+
 Those genres are already linked to an “_all_genres_” anchor, another hard-coded constant. Listeners can query this anchor to get the full list of genres.
 
-8. ![](/assets/img/concepts/5.9-graph-database.png)
+![](/assets/img/concepts/5.9-graph-database.png)
+
 Alice’s entries, now linked to one another and other existing entries on the DHT, form a graph that allows listeners to discover her and her music from a number of different starting points.
 :::
 
@@ -95,11 +104,14 @@ Alice’s entries, now linked to one another and other existing entries on the D
 * An anchor is an entry whose address is easy to calculate because its value is easy to discover, such as a username or hard-coded app constant.
 * Holochain's built in anchors implementation lets you create hierarchies of linked path components.
 
-## Learn more
+
+!!! learn 
+#### Learn more
 
 * [Wikipedia: Graph database](https://en.wikipedia.org/wiki/Graph_database)
 * [Wikipedia: Linked data](https://en.wikipedia.org/wiki/Linked_data), an application of linking to the web
 * [Wikipedia: Resource Description Framework](https://en.wikipedia.org/wiki/Resource_Description_Framework), a standard for linking semantic data on the web
+!!!
 
 ### Next Up 
 
