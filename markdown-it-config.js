@@ -1,5 +1,6 @@
 const markdownItAttrs = require("markdown-it-attrs");
 const markdownItContainer = require("markdown-it-container");
+const markdownItAnchor = require("markdown-it-anchor");
 
 const admonitionRegex = {
   "tip": /^tip\s+(.*)$/,
@@ -45,6 +46,7 @@ const renderLearn = (tokens, idx) => {
 module.exports = function(eleventyConfig) {
   eleventyConfig.amendLibrary("md", (mdLib) => {
     mdLib.use(markdownItAttrs);
+    mdLib.use(markdownItAnchor, { tabIndex: false });
     mdLib.use(markdownItContainer, "coreconcepts-intro");
     mdLib.use(markdownItContainer, "coreconcepts-orientation");
     mdLib.use(markdownItContainer, "coreconcepts-storysequence");
