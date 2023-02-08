@@ -67,4 +67,4 @@ While the foundation of Holochain is simple, the consequences of our design can 
 
 ### Next Up 
 
-[Explore the app architecture —>](./2_application_architecture/){.btn-purple} 
+[Explore the app architecture —>](../2_application_architecture/){.btn-purple} 
