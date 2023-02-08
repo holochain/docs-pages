@@ -46,11 +46,11 @@
     },
 
     {
-      title: "Newsletter",
+      title: "Dev UX",
       class: "newsletter",
       links: [
-        { title: "<p>Subscribe to the Holochain newsletter to hear about updates and events.</p>" },
-        { title: "Subscribe", url: "https://www.holochain.org/foundation", class: "btn", external: true },    
+        { title: "<p>We want to keep improving the developer experience You can help us by answering 5 questions.</p>" },
+        { title: "Take the Survey", url: "https://www.holochain.org/foundation", class: "btn", external: true },    
       ]
     }
   ],
