@@ -166,7 +166,7 @@ npm install && npm start
 
 ### Next Step 
 
-[Explore project structure —>](/project-structure/){.btn-purple} 
+[Explore project structure —>](./project-structure){.btn-purple} 
 
 !!! learn
 #### Learn More
