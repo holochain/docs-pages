@@ -3,9 +3,9 @@
     {
       title: "Developers",
       links: [
-        { title: "Quick Start", url: "/install/" },
+        { title: "Quick Start", url: "/quick-start/" },
         { title: "Get Building", url: "/get-building/" },
-        { title: "Core Concepts", url: "/concepts/" },
+        { title: "Core Concepts", url: "/concepts/1_the_basics/" },
         { title: "References", url: "/references/" },
       ]
     },
