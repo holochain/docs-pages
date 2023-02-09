@@ -45,7 +45,7 @@ nix-shell (Nix) 2.13.2
 Run the following command to set up the cache for precompiled Holochain executables:
 
 ```bash
-sudo --preserve-env=PATH $(which nix) run nixpkgs/nixos-22.11#cachix --extra-experimental-features nix-command --extra-experimental-features flakes -- use holochain-ci
+sudo --preserve-env=PATH $(which nix) run nixpkgs/nixos-22.11#cachix --extra-experimental-features nix-command --extra-experimental-features flakes -- use holochain-ci -m root-nixconf && sudo pkill nix-daemon
 ```
 
 ## Scaffold Your First Holochain App

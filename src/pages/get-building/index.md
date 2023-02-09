@@ -67,7 +67,7 @@ You should then see: OUTPUT:
 DNA "todo" scaffolded!
 
 Add new zomes to your DNA with:
-
+```bash
   hc scaffold zome
 ```
 DNAs are comprised of code modules, we call zomes.  A DNA should have at least two zomes, and *integrity zome* which declares your DNAs data structures and validation code, and a *coordinator zome* which contains, among other things, the API functions your UI will call to access your DNA. 
@@ -111,6 +111,7 @@ In our To-do happ every to-do item is stored as an entry so let's add new entry 
 ```bash
   hc scaffold entry-type
 ```
+
 You should see: OUTPUT
 ```bash
 ✔ Entry type name (snake_case): ·
@@ -171,9 +172,9 @@ Entry type "todo_item" scaffolded!
 Add new collections for that entry type with:
 
   hc scaffold collection
-```
+
   
-  The final step is create a collection that shows all of Todo items you have created.
+The final step is create a collection that shows all of Todo items you have created.
 
 To create a collection type:
 ```bash
