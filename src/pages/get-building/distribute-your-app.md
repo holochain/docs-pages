@@ -20,6 +20,6 @@ To bundle manually and for extended details on Web-hApps, refer to the packaging
 
 Holochain provides the Holochain Launcher, a graphical user interface, to install, run and administrate hApps. [Download Holochain Launcher](https://github.com/holochain/launcher/releases)
 
-To publicly share your bundled hApp through the Holochain Launcher, follow the [instructions on how to publish it to the DevHub](https://github.com/holochain/launcher#publishing-a-webhapp-to-the-devhub) in the README of the Holochain Launcher.
+To publicly share your bundled hApp through the Holochain Launcher, follow the [instructions on how to publish it to the DevHub](https://github.com/holochain/launcher#publishing-and-updating-an-app-in-the-devhub) in the README of the Holochain Launcher.
 
-Another option is to install a hApp locally from an app bundle on the file system ([1.b) in the Launcher README](https://github.com/holochain/launcher#installing-a-happ)). Other users will need to obtain the bundled app file and install it to their Launcher.
+Another option is to [install a hApp locally from an app bundle on the file system](https://github.com/holochain/launcher#installing-a-holochain-app-happ). Other users will need to obtain the bundled app file and install it to their Launcher.

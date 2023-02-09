@@ -9,6 +9,11 @@
 }
 
 /* Code Fence styling */
+
+pre button.copy-to-clipboard {
+  display: none;
+}
+
 pre[class*="language-"] {
   display: flex;
   align-items: flex-start;
@@ -21,11 +26,20 @@ pre[class*="language-"] {
   color: black;
 
   button.copy-to-clipboard {
+    display: block;
     margin-left: auto;
     padding: 6px;
-    margin-top: 0.3em;
     border-radius: 0.5em;
-    border: #46454a;
+    border: none;
+
+    &:hover {
+      cursor: pointer;
+      background-color: lighten($color: $cl-gray, $amount: 20);
+    }
+
+    &:active {
+      background: $cl-gray;
+    }
   }
 
   [class*="language-"] {
@@ -35,6 +49,18 @@ pre[class*="language-"] {
   span.token, span.parameter, span.value{
     color: $cl-brand-purple;
   }
+
+}
+
+/* Inline code */
+code {
+	padding: .1em .15em;
+	border-radius: .4em;
+	white-space: normal;
+  background-color: #d0d7d3;
+  color: #2E9FD9;
+  box-sizing: border-box;
+  font-size: 90%;
 }
 
 /* Admonitions */

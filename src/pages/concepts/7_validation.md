@@ -179,7 +179,7 @@ Validation functions **return a boolean value**, meant to be used as clear evide
 
 If an agent is committing a record to their source chain that depends on DHT data, it's **their job to make sure those references exist at commit time and explicitly reference them**. The validation function doesn't need to revalidate those dependencies, though; Holochain will use its own heuristics to determine the trustworthiness of other validators' claims when it retrieves the data.
 
-When validating a record whose validity depends on other data on the DHT, be careful to not introduce subtle sources of non-determinism. The DHT is [eventually consistent](../../glossary/#eventual-consistency), and that means that data either _definitively exists_ or _hasn't been seen yet_ --- there's no way to determine that a piece of data definitively _doesn't_ exist.
+When validating a record whose validity depends on other data on the DHT, be careful to not introduce subtle sources of non-determinism. The DHT is [eventually consistent](../../references/glossary/#eventual-consistency), and that means that data either _definitively exists_ or _hasn't been seen yet_ --- there's no way to determine that a piece of data definitively _doesn't_ exist.
 
 For record data that can't be retrieved, the validation function should return 'unresolved dependencies' rather than a validation failure. This signals that the function hasn't failed; it's just waiting for the data to appear.
 
