@@ -25,13 +25,12 @@ Type our hApp's name using snake_casing: `super_todos`.
 You should then see: 
 ```bash
 ? Choose UI framework: ›
-❯ Vanilla
-  Vue
+❯ Vue
   Svelte
   Lit
 ```
 
-Use the arrow keys to select a UI framework for your front-end and then press <enter> (or just choose `Vanilla` for plain JavaScript with no UI framework).  
+Use the arrow keys to select a UI framework for your front-end and then press <enter>.  
   
 For this example choose `Svelte` and press <enter>
 You should then see: 
@@ -246,13 +245,15 @@ You should then see:
 Collection "my_todos" scaffolded!
 ```
   
-You have now scaffolded your first holochain hApp!  To see it in action type:
+You have now scaffolded your first holochain hApp. To see it in action type:
 
 ```bash
 npm start
 ```
 
-After some compilation time you should see a browser window opened with the plaground (our live Holochain state inspector) running in it, followed by the `hc-launch` tool opening your rendering your hApp.
+After some compilation time you should see a browser window opened with the playground (our live Holochain state inspector) running in it, followed by the `hc-launch` tool opening your hApp in two windows for you to test with.
+
+As y
 
 !!! learn 
 #### Learn More ——>
