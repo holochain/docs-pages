@@ -6,7 +6,7 @@ Regardless of your experience level as a developer, we encourage you to get invo
 
 ### Jump in and get your feet wet
 
-* Read through our [Core Concepts](./concepts/1_the_basics/)
+* Read through our [Core Concepts](/concepts/1_the_basics/)
 * Track development progress with the biweekly [Holochain Dev Pulse](https://blog.holochain.org/tag/dev-pulse/){target=_blank}
 
 ### Connect and contribute
