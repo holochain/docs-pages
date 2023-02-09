@@ -65,8 +65,7 @@ sudo systemctl stop nix-daemon.service
 Mac
 
 ```bash
-launchctl stop system/org.nixos.nix-daemon
-launchctl start system/org.nixos.nix-daemon
+sudo launchctl stop system/org.nixos.nix-daemon; sudo launchctl start system/org.nixos.nix-daemon
 ````
 
 
