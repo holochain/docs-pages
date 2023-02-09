@@ -21,7 +21,7 @@ You should then see:
 ? App name (no whitespaces): 
 ```
 
-Type your hApp's name using snake_casing, e. g. super_todos.
+Type our hApp's name using snake_casing: `super_todos`.
 You should then see: 
 ```bash
 ? Choose UI framework: ›
@@ -44,20 +44,26 @@ You should then see:
 
 Choose `Yes` and press <enter>
 
-You should then see `Initializing..` with some details of what is being added, followed by instructions of next steps for setting up the development environment for your hApp and continuing to scaffold more of its elements.  Follow those instructions by typing each of these commands:
+You should then see `Setting up nix development environment...` with some details of what is being added, followed by instructions of next steps for setting up the development environment for your hApp and continuing to scaffold more of its elements.  Let's follow those instructions.  First, enter the hApp project directory: 
 
 ```bash
 cd super_todos
 ```
+Now fire up the nix development shell (which makes all scaffolding tools as well as the Holochain binaries directly available from the command-line) with:
 ```bash
-nix-shell
+nix develop
 ```
-and
+You should see: 
+```
+Holochain development shell spawned. Type exit to leave.
+```
+
+Finally we need to install the `npm` dependencies with:
 ```bash
 npm install
 ```
 
-  Now lets continue scaffolding your happ by creating a new DNA with:
+Now lets continue scaffolding our happ by creating a new DNA using the scaffolding tool which is now directly available in the shell.  Type:
 ```bash
 hc scaffold dna
 ```
@@ -66,19 +72,15 @@ You should then see :
 ? DNA name (snake_case): 
 ```
 
-Many hApps have just one DNA, so in this case you might type: `todo`
-You should then see: :
+Many hApps have just one DNA, so in this case you can just type: `todo`
+You should then see:
 ```bash
 DNA "todo" scaffolded!
 ```
 
-Add new zomes to your DNA with:
-```bash
-  hc scaffold zome
-```
 DNAs are comprised of code modules, we call zomes.  A DNA should have at least two zomes, and *integrity zome* which declares your DNAs data structures and validation code, and a *coordinator zome* which contains, among other things, the API functions your UI will call to access your DNA. 
 
-Create your DNA's first zome with:
+Create our DNA's first zomes with:
 
 ```bash
 hc scaffold zome
@@ -116,7 +118,7 @@ Press `y` again.
 
 You will then see `Coordinator zome "todo" scaffolded!` along with output from the intial downloading and setting up of the Holochain rust hdk.  Followed by instructions for adding your first entry type.
 
-  Now we get to the really exciting part!  In the next steps you will specify your data model, and the Scaffolding tool will automatically add both zome and UI code to your hApp.
+Now we get to the really exciting part!  In the next steps you will specify our data model, and the Scaffolding tool will automatically add both zome and UI code to our hApp.
 
 In our To-do happ every to-do item is stored as an entry so let's add new entry definitions with:
 ```bash
@@ -148,7 +150,7 @@ Which fields should the entry contain?
   Vector of...
 ```
 
-The scaffolding tool is smart about adding different data type fields to your entry.  For our example we will just have two, a text field describing the todo item, and a boolean to check-off when it is done.  So, press <enter> to select `String`.
+The scaffolding tool is smart about adding different data type fields to your entry.  For our example we will just have two, a text field describing the todo item, and a boolean to check- when it is done.  So, press <enter> to select `String`.
 
 You should see: 
 ```bash
@@ -156,15 +158,36 @@ You should see:
 ```
 
 type `description`
+
 You should then see: 
+```
+? Should this field be visible in the UI? (y/n) ›
+```
+press `y`
+
+You should then see:
+```
+? Choose widget to render this field: ›
+❯ TextArea
+  TextField
+```
+press `y` to choose a `TextArea` because we want the description to be able to be multi-lines.
+
+You should then see:
 ```bash
 ? Add another field to the entry? (y/n) ›
 ```
 
 press `y`
+
 This will again display the filed type list.  Use the arrow keys to select `bool` and press <enter>
-You should again see the `FIeld name:` question.  Type `done` and press <enter>.
-You should again see  the question to add another field.  This time press `n`
+You should again see the `Field name:` question.  
+
+Type `done` and press <enter>.
+
+You should again see the question to show the field in the UI and choose the widget types.  Press `y` and choose `Checkbox`
+
+You should once again see the question to add another field.  This time press `n`
 
 You should then see: 
 ```bash
@@ -189,13 +212,7 @@ You should then see:
 Entry type "todo_item" scaffolded!
 ```
 
-Add new collections for that entry type with:
-
-```bash
-hc scaffold collection
-```
-  
-The final step is create a collection that shows all of Todo items you have created.
+The final step is create a collection that can be used to render all of to-do items that useers create.
 
 To create a collection type:
 ```bash
@@ -229,13 +246,13 @@ You should then see:
 Collection "my_todos" scaffolded!
 ```
   
-  You have now scaffolded your first holochain hApp!  To see it in action type:
+You have now scaffolded your first holochain hApp!  To see it in action type:
 
 ```bash
-npm run start
+npm start
 ```
 
-After some compilation time you should see the `hc-launch` tool rendering your hApp.
+After some compilation time you should see a browser window opened with the plaground (our live Holochain state inspector) running in it, followed by the `hc-launch` tool opening your rendering your hApp.
 
 !!! learn 
 #### Learn More ——>
