@@ -30,47 +30,12 @@ vim my_file.rs
 
 ## Using a specific version of the development tools
 
-### Using Holochain with a pinned Holochain version
+!!! note Coming soon!
 
-Holochain is in a Beta release, where each point release is supported for at least 6 months. However, devs may want to pin to other development releases which are under more rapid change. These development versions introduce new features and breaking changes. This means that it's likely that the version that you get with `nix-shell https://holochain.love` may not support the features you require for your development work.
+Steps how to use Holochain with a pinned Holochain version and upgrade it
+!!!
 
-To solve this, hApp projects can use Nix to pin a compatible Holochain version. The project needs to have a `default.nix` file in the root folder of the repository. Don't run this from inside the `nix-shell` provided by https://holochain.love. Instead, simply navigate to the project's root folder where the `default.nix` file needs to be and run:
 
-```bash
-nix-shell
-```
-
-This command looks for a `default.nix` file in the current folder and will create the specified environment.
-
-#### Upgrading the Holochain version
-
-When the time has come to upgrade your hApp to a newer version of Holochain, there are 3 steps to follow:
-
-1. Update the Holonix revision using `niv`:
-
-    ```bash
-    nix-shell --run "niv update"
-    ```
-
-2. Run `hn-versions` to see which versions of Holochain are available:
-
-    ```bash
-    nix-shell --run "hn-versions"
-    ```
-
-3. Set the `holochainVersionId` accordingly:
-
-    ```nix
-    ...
-    holonix = import (holonixPath) {
-        holochainVersionId = "v0_0_127";
-    };
-    ...
-    ```
-
-The next time you enter your hApp development environment using `nix-shell`, the updated version of Holochain will be downloaded and made available in the resulting Nix shell.
-
-> Keep in mind that the Holonix repo includes Nix configurations for the last ~ 5 versions of Holochain. That means that if you keep updating its revision using `niv`, you will have to augment the Holochain version id in `default.nix` sooner or later too.
 ### Holochain inspection commands
 
 Built into Holochain and holonix are a few commands that give insight about versions of Holochain components.
