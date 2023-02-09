@@ -42,18 +42,40 @@ You should see something like:
 nix-shell (Nix) 2.13.2
 ```
 
-Run the following command to set up the cache for precompiled Holochain executables:
+Temporarily allow new nix features
 
 ```bash
-sudo --preserve-env=PATH $(which nix) run nixpkgs/nixos-22.11#cachix --extra-experimental-features nix-command --extra-experimental-features flakes -- use holochain-ci
+export NIX_CONFIG="extra-experimental-features = nix-command flakes"
 ```
+
+Run the following commands to set up the cache for precompiled Holochain executables:
+
+```bash
+sudo --preserve-env=PATH nix run nixpkgs/nixos-22.11#cachix -- use holochain-ci -m root-nixconf
+```
+
+Stop the nix-daemon so it will restart and load the new settings:
+
+Linux:
+
+```bash
+sudo systemctl stop nix-daemon.service
+```
+
+Mac
+
+```bash
+launchctl stop system/org.nixos.nix-daemon
+launchctl start system/org.nixos.nix-daemon
+````
+
 
 ## Scaffold Your First Holochain App
 
 Type the following at the command line:
 
 ```bash
-nix-shell https://holochain.love --run "hc scaffold example forum"
+nix run github:holochain/holochain#hc-scaffold -- example forum
 ```
 
 When prompted, select the UI framework you prefer.
