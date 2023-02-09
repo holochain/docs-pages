@@ -237,7 +237,8 @@ npm run start
 
 After some compilation time you should see the `hc-launch` tool rendering your hApp.
 
-!!! learn Learn More ——>
+!!! learn 
+####Learn More ——>
 
 - Find all the links to Rust docs, HDKs and APIs in [References](../references/).
 - Seeing strange language in these steps look up the words in the [Glossary](../references/glossary.md).
