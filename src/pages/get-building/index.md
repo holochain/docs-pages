@@ -54,7 +54,7 @@ Now fire up the nix development shell (which makes all scaffolding tools as well
 nix develop
 ```
 You should see: 
-```
+```bash
 Holochain development shell spawned. Type exit to leave.
 ```
 
