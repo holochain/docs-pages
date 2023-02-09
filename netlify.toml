@@ -89,3 +89,5 @@
     to = "/concepts/1_the_basics/"
     # Keeping this as a 302 in case we decide we want a front page again.
     status = 302
+
+# This comment does absolutely nothing and can be deleted.
