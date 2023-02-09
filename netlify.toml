@@ -62,7 +62,7 @@
 # Super old install URL; used to be incorrectly linked from the blog's CTAs.
 [[redirects]]
     from = "/start.html"
-    to = "/install/"
+    to = "/quick-start/"
     status = 301
 
 # This is just for the nix guide, which is now called the advanced install guide.
@@ -76,3 +76,16 @@
     from = "/assets/files/RRDHT-draft-Nov-2019.pdf"
     to = "/assets/files/RRDHT-whitepaper-final.pdf"
     status = 301
+    
+# The quick start guide used to live at /install/
+[[redirects]]
+    from = "/install/"
+    to = "/quick-start/"
+    status = 301
+
+# The front page for the core concepts has been removed.
+[[redirects]]
+    from = "/concepts/"
+    to = "/concepts/1_the_basics/"
+    # Keeping this as a 302 in case we decide we want a front page again.
+    status = 302
