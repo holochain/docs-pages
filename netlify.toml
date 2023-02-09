@@ -82,3 +82,10 @@
     from = "/install/"
     to = "/quick-start/"
     status = 301
+
+# The front page for the core concepts has been removed.
+[[redirects]]
+    from = "/concepts/"
+    to = "/concepts/1_the_basics/"
+    # Keeping this as a 302 in case we decide we want a front page again.
+    status = 302
