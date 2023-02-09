@@ -160,13 +160,13 @@ You should see:
 type `description`
 
 You should then see: 
-```
+```bash
 ? Should this field be visible in the UI? (y/n) ›
 ```
 press `y`
 
 You should then see:
-```
+```bash
 ? Choose widget to render this field: ›
 ❯ TextArea
   TextField
