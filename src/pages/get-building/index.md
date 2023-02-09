@@ -13,7 +13,7 @@ In Quick Start you installed Holochain and built a templated forum application. 
 For this example we will scaffold the canonical example, a To-do hApp.
 
 Run the holochain scaffolding tool by typing in your terminal:
-```
+```bash
 nix-shell https://holochain.love --run "hc scaffold web-app"
 ```
 You should then see: OUTPUT
@@ -42,19 +42,19 @@ Choose `Yes` and press <enter>
 
 You should then see `Initializing..` with some details of what is being added, followed by instructions of next steps for setting up the development environment for your hApp and continuing to scaffold more of its elements.  Follow those instructions by typing each of these commands:
 
-```
+```bash
 cd super_todos
 ```
-```
+```bash
 nix-shell
 ```
 and
-```
+```bash
 npm install
 ```
 
   Now lets continue scaffolding your happ by creating a new DNAwith:
-```
+```bash
 hc scaffold dna
 ```
 You should then see OUTPUT:
@@ -67,14 +67,14 @@ You should then see: OUTPUT:
 DNA "todo" scaffolded!
 
 Add new zomes to your DNA with:
-
+```bash
   hc scaffold zome
 ```
 DNAs are comprised of code modules, we call zomes.  A DNA should have at least two zomes, and *integrity zome* which declares your DNAs data structures and validation code, and a *coordinator zome* which contains, among other things, the API functions your UI will call to access your DNA. 
 
 Create your DNA's first zome with:
 
-```
+```bash
 hc scaffold zome
 ```
 You should then see: OUTPUT
@@ -108,9 +108,9 @@ You will then see `Coordinator zome "todo" scaffolded!` along with output from t
   Now we get to the really exciting part!  In the next steps you will specify your data model, and the Scaffolding tool will automatically add both zome and UI code to your hApp.
 
 In our To-do happ every to-do item is stored as an entry so let's add new entry definitions with:
-```
+
   hc scaffold entry-type
-```
+
 You should see: OUTPUT
 ```
 ✔ Entry type name (snake_case): ·
@@ -171,12 +171,12 @@ Entry type "todo_item" scaffolded!
 Add new collections for that entry type with:
 
   hc scaffold collection
-```
+
   
-  The final step is create a collection that shows all of Todo items you have created.
+The final step is create a collection that shows all of Todo items you have created.
 
 To create a collection type:
-```
+```bash
   hc scaffold collection
 ```
 You should then see: OUTPUT
@@ -208,7 +208,7 @@ Collection "my_todos" scaffolded!
   
   You have now scaffolded your first holochain hApp!  To see it in action type:
 
-```
+```bash
 npm run start
 ```
 

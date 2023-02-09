@@ -8,6 +8,10 @@
 	@return $string;
 }
 
+pre button.copy-to-clipboard {
+  display: none;
+}
+
 /* Code Fence styling */
 pre[class*="language-"] {
   display: flex;
@@ -21,6 +25,7 @@ pre[class*="language-"] {
   color: black;
 
   button.copy-to-clipboard {
+    display: block;
     margin-left: auto;
     padding: 6px;
     border-radius: 0.5em;
