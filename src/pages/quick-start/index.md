@@ -54,18 +54,19 @@ Run the following commands to set up the cache for precompiled Holochain executa
 sudo --preserve-env=PATH nix run nixpkgs/nixos-22.11#cachix -- use holochain-ci -m root-nixconf
 ```
 
-Stop the nix-daemon so it will restart and load the new settings:
+Ensure the nix-daemon will load the new settings:
 
-Linux:
+##### Linux (it will start back automatically after stopping)
 
 ```bash
 sudo systemctl stop nix-daemon.service
 ```
 
-Mac
+##### Mac
 
 ```bash
-sudo launchctl stop system/org.nixos.nix-daemon; sudo launchctl start system/org.nixos.nix-daemon
+sudo launchctl stop system/org.nixos.nix-daemon
+sudo launchctl start system/org.nixos.nix-daemon
 ````
 
 
