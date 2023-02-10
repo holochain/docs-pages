@@ -18,10 +18,6 @@ The flake-based one-liner to get you an ad-hoc Holonix shell looks like this:
 nix develop github:holochain/holochain#holonix
 ```
 
-#### A little history
-
-This feature was requested and discussed as early as [2021-04-08 via holonix#215](https://github.com/holochain/holonix/issues/215), even before it was merged into [Nix Release 2.4 as a stable feature on 2021-11-01](https://nixos.org/manual/nix/unstable/release-notes/rl-2.4.html#release-24-2021-11-01).
-
 #### Enabling Flake features on your system
 
 At the time of writing, these features are still considered experimental and require being enabled. This happens either ad-hoc on the command itself or permanently via Nix's configuration.
