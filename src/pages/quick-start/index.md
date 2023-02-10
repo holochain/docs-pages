@@ -33,7 +33,7 @@ bash <(curl https://holochain.github.io/holochain/setup.sh)
 Type the following at the command line:
 
 ```bash
-nix-shell https://holochain.love --run "hc scaffold example forum"
+nix run github:holochain/holochain#hc-scaffold -- example forum
 ```
 
 When prompted, select the UI framework you prefer.
