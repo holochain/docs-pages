@@ -14,7 +14,7 @@ For this example we will scaffold the canonical example, a To-do hApp.
 
 Run the holochain scaffolding tool by typing in your terminal:
 ```bash
-nix-shell https://holochain.love --run "hc scaffold web-app"
+nix run github:/holochain/holochain#hc-scaffold -- web-app"
 ```
 You should then see: 
 ```text
