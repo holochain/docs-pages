@@ -10,7 +10,7 @@ ul, ol {
 }
 
 @mixin btn-base($color: currentColor, $bg-color: white, $hover-color: white, $hover-bg-color: $cl-brand-green) {
-  padding: 8rem 16rem;
+  padding: 8px 16px;
   border-radius: 5px;
   color: $color;
   background-color: $bg-color;

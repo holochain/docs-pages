@@ -1,4 +1,4 @@
-$top-nav-img-height: 24rem;
+$top-nav-img-height: 24px;
 $cl-header-bar-primary: black;
 
 header#page-header {
@@ -7,7 +7,7 @@ header#page-header {
   #page-header-top {
     display: flex;
     justify-content: space-between;
-    font-size: 18rem;
+    font-size: 18px;
     padding: 24px $sz-mobile-hor-padding 20px;
 
     a {
@@ -43,10 +43,10 @@ header#page-header {
           min-width: 130px;
 
           a {
-            margin-left: 24rem;
+            margin-left: 24px;
             font-weight: 400;
             font-variation-settings: "wght" 400;
-            padding-bottom: 6rem;
+            padding-bottom: 6px;
             border-bottom: 2px solid transparent;
             transition: all .75s;
           }
