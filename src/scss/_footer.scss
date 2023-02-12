@@ -1,9 +1,9 @@
-$footer-nav-img-height: 14rem;
-$footer-nav-header-to-links: 14rem;
+$footer-nav-img-height: 14px;
+$footer-nav-header-to-links: 14px;
 
 #page-footer {
   grid-area: footer;
-  padding: 50rem $sz-mobile-hor-padding 40rem;
+  padding: 50px $sz-mobile-hor-padding 40px;
   background: $cl-footer-bg;
   color: white;
   z-index: 1;
@@ -126,7 +126,7 @@ $footer-nav-header-to-links: 14rem;
         > li {
           a.hc-logo-link {
             img {
-              height: 30rem;
+              height: 30px;
             }
           }
 
@@ -166,6 +166,6 @@ $footer-nav-header-to-links: 14rem;
   }
 
   @include mq-full {
-    padding: 50rem $sz-full-hor-padding 40rem;
+    padding: 50px $sz-full-hor-padding 40px;
   }
 }
