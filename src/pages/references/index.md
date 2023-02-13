@@ -19,6 +19,10 @@ For both of these APIs, you make an RPC call sending a MessagePack-serialized re
 
 * **[Admin API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html){target=_blank}**
 * **[App API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html){target=_blank}**
+
+For ergonomic interaction with those two API's there are two client implementations: One in JavaScript and one in Rust. If you intend to
+develop Holochain Apps with a web-based UI, **it is likely that all you'll ever need is the [JavaScript client](https://www.npmjs.com/package/@holochain/client){target=_blank}**.
+
 * **[Holochain client JavaScript](https://github.com/holochain/holochain-conductor-api){target=_blank}**
 * **[Holochain client Rust](https://github.com/holochain/holochain-client-rust){target=_blank}**
 
@@ -30,7 +34,7 @@ The conductor has a few settings that can (and should) be configured via a YAML 
 
 ## Binaries
 
-There are two main binaries. You can run any of these on the command-line with the `--help` flag to get detailed documentation.
+There are three main binaries. You can run any of these on the command-line with the `--help` flag to get detailed documentation.
 
 * **`holochain`** is the Holochain runtime, or [conductor](./glossary/#conductor).
 * **`hc`** is an all-purpose developer tool that:
