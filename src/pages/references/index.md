@@ -34,7 +34,7 @@ The conductor has a few settings that can (and should) be configured via a YAML 
 
 ## Binaries
 
-There are two main binaries. You can run any of these on the command-line with the `--help` flag to get detailed documentation.
+There are three main binaries. You can run any of these on the command-line with the `--help` flag to get detailed documentation.
 
 * **`holochain`** is the Holochain runtime, or [conductor](./glossary/#conductor).
 * **`hc`** is an all-purpose developer tool that:
