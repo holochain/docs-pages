@@ -168,7 +168,7 @@ inputs = {
     holochain-flake = {
       url = "github:holochain/holochain";
       inputs.versions.url = "github:holochain/holochain?dir=versions/0_1";
-      inputs.versions.inputs.holochain.url = "github:holochain/holochain/<whichever-git-branch-tag-or-commit>";
+      inputs.holochain.url = "github:holochain/holochain/<whichever-git-branch-tag-or-commit>";
     };
 ...
 ```
