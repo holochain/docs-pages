@@ -94,13 +94,33 @@ The act of joining an application's [DHT](#distributed-hash-table-dht). Bootstra
 
 A service which keeps track of lists of [transport addresses](#transport-address) for peers, segregated by [DNA](#dna) [hash](#hash). When an agent wants to [bootstrap](#bootstrapping) into an application's [DHT](#distributed-hash-table-dht), they ask the bootstrapping service for a list of existing peers and make individual connections to them.
 
-#### Bridge
+#### Bridge call
 
-A connection between [cells](#cell) in one user's [conductor](#conductor), which allows one cell to call the [zome functions](#zome-function) of another cell.
+A [zome call](#zome-call) made between [cells](#cell) in one [agent](#agent)'s [conductor](#conductor), which allows cells to access each other's public APIs.
+
+#### Bundling
+
+The act of packaging:
+
+1. one or more [zomes](#zome) into a [DNA bundle](#dna-bundle),
+2. one or more DNA bundles into a [hApp bundle](#happ-bundle), or
+3. a hApp bundle and a UI into a [web hApp](#web-happ).
 
 #### Byzantine fault tolerance (BFT)
 
 The ability of a [distributed system](#distributed-system) to reach [consistency](#consistency) despite 'Byzantine failures', which are data corruptions caused by accidental or intentional faults in [nodes](#node) or the networking transport between them.
+
+#### Callback
+
+A private [zome function](#zome-function) with a reserved name, only callable by the conductor during a lifecycle event. The callbacks are as follows:
+
+* [Integrity zomes](#integrity-zome)
+    * [Entry types](#entry-types-callback)
+    * [Link types](#link-types-callback)
+    * [Validation function](#validation-function)
+* [Coordinator zomes](#coordinator-zome)
+    * [Init](#init-callback)
+    * [Post-commit](#post-commit-callback)
 
 #### Capability
 
@@ -200,6 +220,19 @@ Any storage system that gives a unique ID to each piece of data and allows it to
 
 An algorithm that governs the synchronization of data in a [distributed system](#distributed-system) and aims to prevent or resolve data conflicts that happen when two [nodes](#node) are out of sync with each other. Any [state transition](#state-transition) that isn't [logically monotonic](#logical-monotonicity) needs a coordination protocol. In Holochain, [countersigning](#countersigning) is a simple coordination protocol between two or more agents who want to reach agreement with each other.
 
+#### Coordinator zome
+
+A [zome](#zome) that defines [zome functions](#zome-function). Arbitrary public zome functions give a DNA [DNA](#dna) its API which mediates interactions between [clients](#client) and a [cell](#cell) instantiated from the DNA, while arbitrary private zome functions can be [scheduled](#scheduling), and special private zome functions with reserved names handle lifecycle events such as [cell initialization](#init-callback) and [source chain commits](#post-commit-callback). Zome functions in a coordinator zome have access to most of the [host API](#holochain-host-api), including the ability to:
+
+* write to the [source chain](#source-chain) of the [agent](#agent) running the [cell](#cell) (with the exception of the post-commit callback),
+* read from the source chain of the agent running the cell or the [DHT](#distributed-hash-table-dht) that the cell belongs to,
+* make [remote calls](#remote-call) to the public functions of other agents' cells,
+* make [bridge calls](#bridge-call) to the public functions of the cells within an agent's [conductor](#conductor),
+* send [signals](#signal) to listening clients, or
+* perform cryptographic operations.
+
+As they are not considered [DNA modifiers](#dna-modifiers), a DNA's coordinator zomes can be added and removed without affecting the [DNA hash](#dna-hash).
+
 #### Counterparty
 
 An agent involved in a [countersigning](#countersigning) session.
@@ -293,17 +326,25 @@ A package of executable code that defines the shared 'rules of the game' for a g
 
 The file that holds a complete [DNA](#dna), both executable [zomes](#zome) and metadata (see [DNA manifest](#dna-manifest) for details on this metadata).
 
+#### DNA hash
+
+The cryptographic hash of all of the properties of a [DNA](#dna) considered to be [DNA modifiers](#dna-modifiers). The DNA hash serves as the unique ID for a DNA's [network](#network).
+
 #### DNA instance
 
 See [cell](#cell).
 
 #### DNA manifest
 
-A file that specifies the components of a [DNA](#dna), including locations of compiled [zomes](#zome) and metadata such as a name, description, [hashspace UID](#hashspace-uid), and [properties](#dna-properties). This manifest can be used by a compilation tool to build a [DNA bundle](#dna-bundle).
+A file that specifies the components of a [DNA](#dna), including locations of compiled [zomes](#zome) and metadata such as a name, description, [network seed](#network-seed), [properties](#dna-properties), and [origin time](#origin-time). This manifest can be used by the [`hc`](#hc) compilation tool to build a [DNA bundle](#dna-bundle).
+
+#### DNA modifiers
+
+All properties of a DNA which affect its hash --- that is, its [integrity zomes](#integrity-zome), [properties](#dna-properties), [network seed](#network-seed), and [origin time](#origin-time).
 
 #### DNA properties
 
-Arbitrary data that affects the operation of the [DNA](#dna). A user can specify properties at DNA installation time, which causes the DNA to be [cloned](#clone-dna) if the user-specified properties are different from the default properties. The executable code can then access those properties to change its behavior, similar to configuration files or environment variables. This is a simple way of allowing separate [networks](#network) of users to enjoy isolated and slightly modified experiences using a set of base rules.
+Arbitrary data that affects the operation of the [DNA](#dna). A user can specify properties at DNA installation time, which causes the DNA to be [cloned](#clone-dna) if the user-specified properties are different from the default properties. The executable code can then access those properties to change its behavior, similar to configuration files or environment variables. This is a simple way of allowing separate [networks](#network) of users to enjoy isolated and slightly modified experiences using a set of base rules. The DNA properties are considered [DNA modifiers](#dna-modifiers).
 
 #### End-to-end encryption (E2EE)
 
@@ -315,11 +356,19 @@ A basic unit of user data in a Holochain app. Each entry has its own defined [en
 
 #### Entry type
 
-A specification for any sort of entry that a [DNA](#dna) should recognize and understand, similar to an <abbr title="object-oriented programming">OOP</abbr> class or database table schema. It can specify whether entries of its type should be [public](#public-entry) or [private](#private-entry), and how many [required validations](#required-validation) should exist. DNA developers create their own entry types for the data their app needs to store, and can write [validation functions](#validation-function) for [records](#record) that [create, update, or delete](#create-read-update-delete-crud) entries of those types.
+A specification for any sort of entry that a [DNA](#dna) should recognize and understand, similar to an <abbr title="object-oriented programming">OOP</abbr> class or database table schema. It can specify whether entries of its type should be [public](#public-entry) or [private](#private-entry), and how many [required validations](#required-validation) should exist. DNA developers create their own entry types for the data their app needs to store, and can write [validation functions](#validation-function) for [operations](#operation) that [create, update, or delete](#create-read-update-delete-crud) entries of those types.
+
+#### Entry types callback
+
+A private [zome function](#zome-function) in an [integrity zome](#integrity-zome) that yields all the entry types defined in the zome's schema. This callback is called by the [conductor](#conductor) at [DNA](#dna) installation time.
 
 #### Enzyme
 
 An agent involved in a [countersigning](#countersigning) session who has been nominated to witness the session -- that is, to collect, sign, and redistribute full sets of signatures from all [counterparties](#counterparty), including themselves. An enzyme can also be one of a set of optional [M-of-N signers](#m-of-n-signing) in the session.
+
+#### Ephemeral schedule
+
+A schedule on which a [scheduler function](#scheduler-function) is directed to run. A scheduler function called on an ephemeral schedule only runs once after a defined delay, and unlike a [recurring schedule](#recurring-schedule) does not survive through stops and starts of a [cell](#cell).
 
 #### Eventual consistency
 
@@ -327,7 +376,7 @@ A promise made by distributed systems that optimize for availability over consis
 
 #### Fork (DNA)
 
-To change a [DNA](#dna) in a way that doesn't alter its behavior, resulting in a new hash for the DNA that gives it a separate [DHT](#distributed-hash-table-dht). Forking is most easily done by passing a [hashspace UID](#hashspace-uid) at DNA installation time.
+To change a [DNA](#dna) in a way that doesn't alter its behavior, resulting in a new hash for the DNA that gives it a separate [DHT](#distributed-hash-table-dht). Forking is most easily done by passing a [network seed](#network-seed) at DNA installation time.
 
 #### Fork (source chain)
 
@@ -364,7 +413,7 @@ A [client](#client) that presents a visual, easy-to-understand way for a user to
 
 #### hApp bundle
 
-One or more [DNA](#dna)s, which together form the [back end](#back-end) for a complete [hApp](#holochain-application-happ). These components are specified in a [hApp manifest](#happ-manifest) file, and can be packaged in a zip archive along with the manifest or downloaded separately from the internet.
+One or more [DNA](#dna)s, which together form the [back end](#back-end) for a complete [hApp](#holochain-application-happ). These components are specified in a [hApp manifest](#happ-manifest) file, and can be packaged in a zip archive along with the manifest or downloaded separately from the internet. A hApp can also be bundled with a web-based UI to become a [web hApp](#web-happ).
 
 #### Hash
 
@@ -374,9 +423,9 @@ A unique 'fingerprint' for a piece of data, calculated by running the data throu
 
 An [append-only](#append-only) data structure that can be used as a tamper-evident, sequential log of events, such as a [source chain](#source-chain) or [blockchain](#blockchain).
 
-#### Hashspace UID
+#### hc
 
-A unique ID, specified in a DNA bundle file or passed at DNA installation time, that [forks](#fork) the DNA without modifying any of its behavior. This can be used to create separate [DHTs](#distributed-hash-table-dht) that use the same set of rules.
+A command-line tool for [scaffolding](#scaffolding), [bundling](#bundling), testing, and running [hApps](#holochain-application-happ).
 
 #### History
 
@@ -416,11 +465,15 @@ A property of Holochain's [validating DHT](#validating-dht), whereby healthy [no
 
 #### Init callback
 
-A function in a [DNA](#dna) that the [nucleus](#nucleus) calls when an [agent](#agent) starts a [cell](#cell) for the first time. This can be used to set up initial [source chain](#source-chain) [#state](#state-transition), etc.
+A function in a [DNA](#dna) that the [nucleus](#nucleus) calls when an [agent](#agent) starts a [cell](#cell) for the first time, and after they have joined the DNA's [network](#network). This can be used to set up initial [source chain](#source-chain) [#state](#state-transition), etc.
 
 #### Init complete record
 
 A [record](#record) that Holochain automatically writes to an [agent](#agent)'s [source chain](#source-chain) to indicate that all of a [DNA](#dna)'s [init callbacks](#init-callback) have successfully run and their [cell](#cell) is ready to use.
+
+#### Integrity zome
+
+A [zome](#zome) that defines a data schema. It does this through three specially named [zome functions](#zome-function): one that yields a set of entry types, one that yields a set of link types, and a [validation function](#validation-function) that receives an [operation](#dht-operation) produced by a [source chain](#source-chain) [action](#action) (either one [authored](#author) by the [agent](#agent) running the function or one received for [DHT](#dht) storage as part of an agent's role as a [validation authority](#validation-authority)) and yields a true, false, or indeterminate answer. A validation function can also validate system actions such as the [membrane proof](#membrane-proof) and [capability grants](#capability-grant). All integrity zomes are considered [DNA modifiers](#dna-modifiers), as they define the [DNA](#dna)'s core set of agreements about the nature of data that can be validly produced by any agent in the [network](#network). Although an integrity zome cannot produce data, [coordinator zomes](#coordinator-zome) within the same DNA can produce data that whose schema it defines.
 
 #### Intrinsic data integrity
 
@@ -440,11 +493,11 @@ An informal term for a Holochain application pattern in which the ownership of s
 
 #### Link
 
-A piece of [metadata](#metadata) connecting one [address](#address) on the [DHT](#distributed-hash-table-dht) to another. Each link has a [tag](#link-tag) for storing arbitrary content and is stored in the DHT at its [base](#link-base)'s [address](#address).
+A piece of [metadata](#metadata) connecting one [address](#address) on the [DHT](#distributed-hash-table-dht) to another. Each link can have a [tag](#link-tag) for storing arbitrary content and is stored in the DHT at its [base](#link-base)'s [address](#address).
 
 #### Link base
 
-The [address](#address) of the [record data](#record-data) on the DHT that a [link](#link) links from.
+The [address](#address) that a [link](#link) links from. The base usually points to the address of a piece of [record data](#record-data) on the same [DHT](#dht), but can also point to an external hash-based address or even left unspecified.
 
 #### Link tag
 
@@ -452,7 +505,15 @@ An arbitrary piece of data, stored with a [link](#link), that contains applicati
 
 #### Link target
 
-The [address](#address) of the [record data](#record-data) on the DHT that a [link](#link) links to. Link targets have no metadata pointing back to the [base](#link-base), and therefore have no knowledge that they're being linked to.
+The [address](#address) that a [link](#link) points to. As with the [base](#link-base), a target can point to the address of a piece of [record data](#record-data) on the same DHT, but can also point to something external or left unspecified. The target addresses of links within the same DHT do not automatically have any metadata pointing back to the [base](#link-base), and therefore by default have no knowledge that they're being pointed to.
+
+#### Link type
+
+A specification for a [link](#link) defined in an [integrity zome](#integrity-zome) that a [DNA](#dna) should recognise and understand, similar to a foreign reference in a database table schema. DNA developers create their own link types for the data their app needs to store, and can write [validation functions](#validation-function) for [operations](#operation) that [create, update, or delete](#create-read-update-delete-crud) links of those types.
+
+#### Link types callback
+
+A private [zome function](#zome-function) in an [integrity zome](#integrity-zome) that yields all the link types defined in the zome's schema. This callback is called by the [conductor](#conductor) at [DNA](#dna) installation time.
 
 #### Live data
 
@@ -509,6 +570,10 @@ A range of [DHT addresses](#dht-address) about which a [node](#node) knows every
 
 In Holochain terms, a collection of [nodes](#node) [gossiping](#gossip) with each other to form a [validating DHT](#validating-dht), aiding in data storage and retrieval, [validation](#validation), and peer discovery. Each [DNA](#dna) has a separate network.
 
+#### Network seed
+
+An optional string, specified in a [DNA bundle](#dna-bundle) file or passed at DNA installation time, that modifies the [DNA's hash](#dna-hash) without modifying any of its behavior. This can be used to create a unique [network](#network) shared by all [agents](#agent) who use the same network seed. A network seed is considered a [DNA modifier](#dna-modifiers).
+
 #### New-entry action
 
 Any [action](#action) that produces a new entry, either a [create-entry](#create-entry-action) or [update-entry](#update-entry-action) action. If the entry's [type](#entry-type) is [public](#public-entry), the entry will be published to the [DHT](#distributed-hash-table-dht) along with its [action](#action). If the entry's type is [private](#private-entry), only the action is published.
@@ -520,6 +585,10 @@ An individual [agent](#agent) in a Holochain [network](#network) who has an [age
 #### Nucleus
 
 The core of Holochain. With the help of the [ribosome](#ribosome), it governs data flow between the [conductor](#conductor) and a [cell](#cell) and enforces the [subconscious](#subconscious) [validation rules](#validation-rule).
+
+#### Origin time
+
+A timestamp deemed to be the 'birthdate' of a [DNA](#dna). It defines the earliest valid timestamp for any data on any [source chain](#source-chain) of any [cell](#cell) in the DNA's [network](#network), and helps make gossip more efficient. Origin time is considered a [DNA modifier](#dna-modifier).
 
 #### Participant
 
@@ -536,6 +605,10 @@ The act of finding peers to communicate with. Initial discovery is done by [boot
 #### Peer-to-peer
 
 Describes any highly [decentralized](#decentralization) [distributed system](#distributed-system) in which [nodes](#node) talk directly to one another without the intermediation of a [server](#client-server) or other type of [central](#centralization) node.
+
+#### Post-commit callback
+
+A private callback defined in a [coordinator zome](#coordinator-zome) that receives every [record](#record) [committed](#commit) by that zome after another [zome function](#zome-function) has successfully committed them. A post-commit callback is a normal zome function in every respect, except that it can't make commits of its own.
 
 #### Private entry
 
@@ -581,6 +654,10 @@ The data structure that holds an [action](#action) in an [agent](#agent)'s [sour
 
 Any piece of [address](#address)able data that can (though doesn't need to) be published to the [DHT](#distributed-hash-table-dht). Record data consists of anything contained in a [record](#record) --- that is, an [action](#action) or an [entry](#entry), which are stored by separate [validation authorities](#validation-authority) on the DHT. This is in contrast to [metadata](#metadata), which is attached to a piece of record data.
 
+#### Recurring schedule
+
+A schedule on which a [scheduler function](#scheduler-function) is directed to run. A recurring schedule specifies a time interval, similar to a UNIX cronjob or Windows scheduled task. Unlike an [ephemeral schedule](#ephemeral-schedule), functions running on a recurring schedule survive through [cell](#cell) stops and starts.
+
 #### Remote call
 
 A [remote procedure call](#remote-procedure-call) that one agent's [cell](#cell) makes to [the zome functions](#zome-function) of another agent's cell within a [network](#network). The callee controls access to their zome functions via [capability-based security](#capability-based-security).
@@ -617,6 +694,14 @@ The state at which there are enough [peers](#peer) holding a piece of [DHT data]
 #### Scenario test
 
 An automated test that simulates real-life conditions involving multiple [agents](#agent) on a simulated or real [network](#network), used to test a [DNA](#dna)'s tolerance of various failure modes. [Tryorama](#tryorama) is used to write scenario tests in JavaScript.
+
+#### Scheduler function
+
+A private [zome function](#zome-function) (that is, a function which is not exposed as part of a [DNA](#dna)'s public API) which another zome function can direct to be called on an [ephemeral](#ephemeral-schedule) or [recurring schedule](#recurring-schedule). A scheduler function only receives a schedule and can only return a schedule (either a new one or the same one); any state information must be retrieved from the [source chain](#source-chain) of the [agent](#agent) on which the [cell](#cell) is running, or from the [DHT](#dht) which the cell is a part of.
+
+#### Scheduling
+
+The act of directing a [scheduler function](#scheduler-function) to be called later, either [ephemerally](#ephemeral-schedule) or on a [recurring schedule](#recurring-schedule).
 
 #### Sharding
 
@@ -697,6 +782,8 @@ Any executable code that checks data for validity. Validation rules can either b
 
 A function in an application's [DNA](#dna) that contains the validation rules for a [record](#record). This function allows every [agent](#agent) to check the correctness of data they see. If a [validation authority](#validation-authority) is performing validation on a record and finds that it's invalid, they can publish a [warrant](#warrant) proving that the record's author has broken the 'rules of the game'.
 
+A validation function has only limited access to the [host API](#holochain-host-api), restricted to retrieval of deterministic [DHT](#dht) data and selected cryptographic functions.
+
 #### Validation signature
 
 A [public-key signature](#public-key-signature) created by the [validation-authority](#validation-authority) of a piece of [DHT data](#dht-data), attesting to its validity according to the [validation rules](#validation-rule) in the app.
@@ -713,14 +800,24 @@ A [validation signature](#validation-signature) that attests that a piece of [DH
 
 A low-level byte code format that can be run on almost any platform, including the web browser. Holochain expects [DNAs](#dna) to be compiled to WebAssembly so the [ribosome](#ribosome) can execute them. See [WebAssembly website](https://webassembly.org/).
 
+#### Web hApp
+
+A [hApp](#holochain-application-happ) [bundled](#bundling) with a web-based UI.
+
 #### Workspace
 
 A snapshot of an agent's cell [state](#state-transition), that is, their [source chain](#source-chain), taken at the start of a [zome function](#zome-function) call. All [commits](#commit) are staged to this workspace and not written to the source chain until the function completes and validation succeeds for all commits (see [atomic commit](#atomic-commit)).
 
 #### Zome
 
-A basic unit of modularity inside a [DNA](#dna). A zome defines a package of [entry types](#entry-type), [validation functions](#validation-functions), [zome functions](#zome-function), and [init functions](#init-function).
+A basic unit of modularity inside a [DNA](#dna). A zome defines a package of [zome functions](#zome-function) and can be either an [integrity](#integrity-zome) or [coordinator zome](#coordinator-zome).
 
 #### Zome function
 
-A function, created by the developer of a [zome](#zome), that allows external code to access the zome's functionality, including writing to the agent's [source chain](#source-chain), reading from the [DHT](#distributed-hash-table-dht), making [remote calls](#remote-call) to other agents' zome functions or [bridged](#bridge) [cells](#cell), performing cryptographic functions, or sending [signals](#signal) to listening [clients](#client). The zome functions act as a public API for the [zome](#zome), and can be called by another zome within the same [DNA](#dna), a [bridged](#bridge) DNA instance within the same [conductor](#conductor), a [client](#client) via the conductor's [RPC interface](#rpc-interface), or a [peer](#peer) in the [network](#network) via a [remote call](#remote-call). An agent can control access to their functions via [capability grants](#capability-grant).
+A function, created by the developer of a [zome](#zome), that allows external code to access the zome's functionality. A zome function can be:
+
+* a private callback with a reserved name, callable only by the [conductor](#conductor) at certain [lifecycle events](#callback),
+* a private [scheduler function](#scheduler-function) with an arbitrary name, callable only by the conductor, or
+* a public function that defines part of the zome's API, made available to other [cells](#cell) or a [client](#client) and defined in a coordinator zome.
+
+An agent can control access to the public zome functions in their cell via [capability grants](#capability-grant).
