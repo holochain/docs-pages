@@ -1,5 +1,5 @@
 ---
-title: Advanced Holonix Guide and Nix Knowledge
+title: Dev Tools Setup: Advanced Holonix Guide and Nix Knowledge
 hide:
   - toc
 ---
@@ -27,7 +27,7 @@ nix develop github:holochain/holochain#holonix
 ```
 #### Enabling Flake features on your system
 
-At the time of writing, these features are still considered experimental and require being enabled. This happens either ad-hoc on the command itself or permanently via Nix's configuration.
+At the time of writing, flakes are still considered an experimental in the nix world and thus require being enabled. This happens either ad-hoc on the command itself or permanently via Nix's configuration.
 
 If you've completed the [quick installation guide](../install/), including the scaffolding example, then you'll likely already had the scaffolding configure it for you via the file at _~/.config/nix/nix.conf_.
 
@@ -78,8 +78,8 @@ In the root directory of your app's code, you will either find the scaffolded on
 In principle a flake implements a function that produces a set of _outputs_ from a given set of _inputs_, keeping the side-effects to an absolute minimum if not at zero.
 
 #### `inputs`
-As one of its named `holochain-flake`, this flake references the Holochain Github repository. This input will look for a `flake.nix` in the default branch of the remote repository.
-The `versions` input of the `holochain-flake` is explicitly specified to track the _0_1_ series, which refers to Holochain's Beta 0.1 and its compatible tools.
+This flake declares one input named `holochain-flake` that the Holochain Github repository. This input will look for a `flake.nix` in the default branch of the remote repository.
+The `versions` input of the `holochain-flake` input is explicitly specified to track the _0_1_ series, which refers to Holochain's Beta 0.1 and its compatible tools.
 
 The flake follows (think inherits) the `nixpkgs` input of the `holochain-flake` input. This ensures that your development environment passes all the same buildinputs to the component packages, giving you very high chances to make use of our Cachix binary cache.
 
@@ -89,7 +89,7 @@ To find the names of the packages you're interested in, the [nixos.org package s
 
 ### `flake.lock` file
 
-Once the `flake.nix` is created, the lockfile can be initiliazed by running `nix flake udpate`.
+Once the `flake.nix` is created (and added to the git repo), the lockfile can be initiliazed by running `nix flake udpate`.
 The resulting `flake.lock` records pinned references to all the `inputs` at the given point in time, in our case to the the `holochain-flake` and of all its inputs transitively; altogether keeping track of all the dependencies of your app's development environment.
 
 ### A Gotcha with Flakes and Git
@@ -161,7 +161,7 @@ A sample output of this command looks like this (JSON formatted using `jq` i.e. 
 
 ### Using a specific version of the development tools
 
-You can override the inputs of the like this for example, which picks a different version of the `holochain` component, which includes the conductor and the `hc` CLI tool:
+Here's an example of how to override the inputs of the flake to pick a different version of the `holochain` component, which includes the `holochain` conductor binary and the `hc` CLI tool:
 
 ```nix
 inputs = {
@@ -187,7 +187,7 @@ nix develop github:holochain/holochain#holonix --command "$SHELL"
 
 ### Using your favorite text editor or IDE
 
-In most cases you can run your editor as normal. However, if you are using a text editor or integrated development environment (IDE) that needs to communicate with the Rust compiler for real-time syntax checks, then you should launch it from inside the `nix develop`. This is because Holonix comes with its own version of Rust that might be different from what you may already have installed.
+In most cases you can run your editor as you normally would. However, if you are using a text editor or integrated development environment (IDE) that needs to communicate with the Rust compiler for real-time syntax checks, then you should launch it from inside the `nix develop`. This is because Holonix comes with its own version of Rust that might be different from what you may already have installed.
 
 To do this, just open your editor from the command line while you are in the `nix develop` (this example uses Vim):
 
