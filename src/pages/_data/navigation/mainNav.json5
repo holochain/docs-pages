@@ -6,8 +6,9 @@
     },
     { title: "Get Building", url: "/get-building/", children: [
         { title: "Distribute your App", url: "/get-building/distribute-your-app/" },
-        { title: "Advanced Installation Guide", url: "/get-building/install-advanced/" },
-      ] 
+        { title: "Dev Tools Setup", url: "/get-building/install-advanced/" },
+        { title: "Setup without Nix", url: "/get-building/install-without-nix/" },
+      ]
     },
     { title: "Core Concepts", url: "/concepts/1_the_basics/", children: [
         { title: "Application Architecture", url: "/concepts/2_application_architecture/" },
@@ -18,7 +19,7 @@
         { title: "Validation", url: "/concepts/7_validation/"  },
         { title: "Calls and Capabilities", url: "/concepts/8_calls_capabilities/" },
         { title: "Signals", url: "/concepts/9_signals/" },
-      ] 
+      ]
     },
     { title: "References", url: "/references/", children: [
         { title: "HDK (Rust)", url: "https://docs.rs/hdk", external: true },
@@ -26,7 +27,7 @@
         { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
         { title: "CLI", url: "https://github.com/holochain/holochain/tree/main/crates/hc", external: true },
         { title: "Glossary", url: "/references/glossary/" },
-      ] 
+      ]
     },
     { title: "Get Involved", url: "/get-involved/" },
   ]

@@ -1,14 +1,22 @@
 ---
-title: Advanced installation guide, tips and tricks
+title: Dev Tools Setup
 hide:
   - toc
 ---
 
 ::: coreconcepts-intro
-This guide assumes that you've already followed the [quick installation guide](../install/) and want something more. It describes how to use your default shell and preferred code editor with Nix, explains how to install more or less stable versions of Holochain, and discusses why we use `nix develop` the first place.
+This guide assumes that you've already followed the [quick installation guide](../install/) and want to learn more about the set up. It describes how to manually recreate and maintain the development environment, use your default shell and preferred code editor with Nix, explains how to install specific versions of Holochain, and discusses why we use `nix develop` in the first place.
 :::
 
-### Holonix's usage of [Nix's Flake](https://nixos.wiki/wiki/Flakes) features
+## Holonix - the Holochain app development environment
+
+Each Holochain application repository will contain its own setup of the development environment.
+If you use the scaffolding to generate the project structure, this will already be taken care of in the scaffolded directory.
+
+If you want to learn more about how this setup works and how to create it manually and how to maintain it, please find all the information below.
+
+
+### Holonix' usage of [Nix' Flakes](https://nixos.wiki/wiki/Flakes) features
 
 As of [holochain#1863](https://github.com/holochain/holochain/pull/1863) Holonix is implemented as Holochain's [flake.nix](https://github.com/holochain/holochain/blob/develop/flake.nix) output named _#holonix_ a.k.a. _devShells.${system}.holonix_.
 
@@ -17,10 +25,9 @@ The flake-based one-liner to get you an ad-hoc Holonix shell looks like this:
 ```shell
 nix develop github:holochain/holochain#holonix
 ```
-
 #### Enabling Flake features on your system
 
-At the time of writing, these features are still considered experimental and require being enabled. This happens either ad-hoc on the command itself or permanently via Nix's configuration.
+At the time of writing, flakes are still considered an experimental in the nix world and thus require being enabled. This happens either ad-hoc on the command itself or permanently via Nix's configuration.
 
 If you've completed the [quick installation guide](../install/), including the scaffolding example, then you'll likely already had the scaffolding configure it for you via the file at _~/.config/nix/nix.conf_.
 
@@ -33,35 +40,84 @@ echo "extra-experimental-features = nix-command flakes" >> ~/.config/nix/nix.con
 
 To learn more, please see the [Enable flakes section on the NixOS Wiki](https://nixos.wiki/wiki/Flakes#Enable_flakes).
 
-### Using your default `$SHELL`
+### The anatomy of a `flake.nix`
 
-Many developers have their shell set up just the way they like it, whether a custom-formatted prompt or a completely different shell such as `zsh` and `fish`. If you don't want Holonix to clobber your carefully-crafted environment, try adding `--command $SHELL` to the end of your `nix develop` command:
+In the root directory of your app's code, you will either find the scaffolded one, or you can manually create the `flake.nix` file. Here's an example `flake.nix` that is inspired by the scaffolding template:
 
-```shell
-nix develop github:holochain/holochain#holonix --command "$SHELL"
+```nix
+{
+  description = "Flake for Holochain app development";
+
+  inputs = {
+    holochain-flake = {
+      url = "github:holochain/holochain";
+      inputs.versions.url = "github:holochain/holochain?dir=versions/0_1";
+    };
+
+    nixpkgs.follows = "holochain-flake/nixpkgs";
+  };
+
+  outputs = inputs @ { ... }:
+    inputs.holochain-flake.inputs.flake-parts.lib.mkFlake { inherit inputs; }
+    {
+        systems = builtins.attrNames inputs.holochain-flake.devShells;
+        perSystem = { config, pkgs, system, ... }: {
+            devShells.default = pkgs.mkShell {
+                inputsFrom = [
+                    inputs.holochain-flake.devShells.${system}.holonix
+                ];
+                packages = [
+                    pkgs.nodejs-18_x
+                ];
+            };
+        };
+    };
+}
 ```
 
-### Using your favorite text editor or IDE
+In principle a flake implements a function that produces a set of _outputs_ from a given set of _inputs_, keeping the side-effects to an absolute minimum if not at zero.
 
-In most cases you can run your editor as normal. However, if you are using a text editor or integrated development environment (IDE) that needs to communicate with the Rust compiler for real-time syntax checks, then you should launch it from inside the `nix develop`. This is because Holonix comes with its own version of Rust that might be different from what you may already have installed.
+#### `inputs`
+This flake declares one input named `holochain-flake` that the Holochain Github repository. This input will look for a `flake.nix` in the default branch of the remote repository.
+The `versions` input of the `holochain-flake` input is explicitly specified to track the _0_1_ series, which refers to Holochain's Beta 0.1 and its compatible tools.
 
-To do this, just open your editor from the command line while you are in the `nix develop` (this example uses Vim):
+The flake follows (think inherits) the `nixpkgs` input of the `holochain-flake` input. This ensures that your development environment passes all the same buildinputs to the component packages, giving you very high chances to make use of our Cachix binary cache.
 
-```shell
-nix develop github:holochain/holochain#holonix
-cd my_project
-vim my_file.rs
+#### `outputs`
+In the `outputs` set, this flake composes a devShell that inherits its inputs from the `holonix` devShell and adds the NodeJS package.
+To find the names of the packages you're interested in, the [nixos.org package search](https://search.nixos.org/packages?channel=unstable&) can be used.
+
+### `flake.lock` file
+
+Once the `flake.nix` is created (and added to the git repo), the lockfile can be initiliazed by running `nix flake udpate`.
+The resulting `flake.lock` records pinned references to all the `inputs` at the given point in time, in our case to the the `holochain-flake` and of all its inputs transitively; altogether keeping track of all the dependencies of your app's development environment.
+
+### A Gotcha with Flakes and Git
+
+The behavior of `nix` commands that rely on a `flake.nix` as its input such as `nix develop` can be counterintuitive in a git repository.
+
+Specifically, if the `flake.nix` is not tracked in git, the command will fail altogether with a message that it cannot find a `flake.nix` file. Even though by design, this is a [known UX issue in Nix](https://github.com/NixOS/nix/issues/6642).
+
+The simple solution to is to `git add flake.*` after your initial creation of your flake if you manually create a repository. In case of scaffolding a repository this is taken care of by the scaffolding process for you.
+
+#### Updating the component versions
+
+Each time the following command is run, it looks up the most recent revisions of the inputs and locks them in the `flake.lock` file.
+
+```
+$ nix flake update
 ```
 
-## Using a specific version of the development tools
+If you want to only update a specific input, you can use the following command. Here it shows updating only the _holochain_ input:
 
-!!! note Coming soon!
+```shell
+$ nix flake lock --update-input holochain
+```
 
-Steps how to use Holochain with a pinned Holochain version and upgrade it
-!!!
+_Note that if your directory is a git repository it is recommended to `git commit flake.lock` to ensure consistency between the development environment and your app's source code._
 
 
-### Holochain inspection commands
+### Holonix inspection commands
 
 Built into Holochain and holonix are a few commands that give insight about versions of Holochain components.
 
@@ -101,6 +157,44 @@ A sample output of this command looks like this (JSON formatted using `jq` i.e. 
   "rustflags": "",
   "profile": "release"
 }
+```
+
+### Using a specific version of the development tools
+
+Here's an example of how to override the inputs of the flake to pick a different version of the `holochain` component, which includes the `holochain` conductor binary and the `hc` CLI tool:
+
+```nix
+inputs = {
+    holochain-flake = {
+      url = "github:holochain/holochain";
+      inputs.versions.url = "github:holochain/holochain?dir=versions/0_1";
+      inputs.holochain.url = "github:holochain/holochain/<whichever-git-branch-tag-or-commit>";
+    };
+...
+```
+
+You can override the versions of four different Holochain components: `holochain`, `lair`, `launcher`, and `scaffolding`. The `inputs.versions.url` field points to a file in the `holochain/holochain` GitHub repo containing versions of each of these, which are known to be mutually compatible. As you can see in the snippet above, the URLs of any of those components can be overridden. Take a look at the [versions file](https://github.com/holochain/holochain/blob/develop/versions/0_1/flake.nix) for an example of how we specify their URLs using Git tags.
+
+_Note that by specifying custom component URLs, you will probably get a binary cache miss when entering the shell, and it will have to compile the custom component versions ad-hoc._
+
+### Using your default `$SHELL`
+
+Many developers have their shell set up just the way they like it, whether a custom-formatted prompt or a completely different shell such as `zsh` and `fish`. If you don't want Holonix to clobber your carefully-crafted environment, try adding `--command $SHELL` to the end of your `nix develop` command:
+
+```shell
+nix develop github:holochain/holochain#holonix --command "$SHELL"
+```
+
+### Using your favorite text editor or IDE
+
+In most cases you can run your editor as you normally would. However, if you are using a text editor or integrated development environment (IDE) that needs to communicate with the Rust compiler for real-time syntax checks, then you should launch it from inside the `nix develop`. This is because Holonix comes with its own version of Rust that might be different from what you may already have installed.
+
+To do this, just open your editor from the command line while you are in the `nix develop` (this example uses Vim):
+
+```shell
+nix develop github:holochain/holochain#holonix
+cd my_project
+vim my_file.rs
 ```
 
 ## More info on Nix
@@ -144,46 +238,3 @@ rm -rf /nix
 rm ~/.nix-profile
 ```
 [Detailed uninstallation instructions for macOS](https://gist.github.com/chriselsner/3ebe962a4c4bd1f14d39897fc5619732#uninstalling-nix)
-
-## Install Holochain without Holonix
-
-In case you don't want to use Holonix to set up your development environment, here are the steps provided to install Holochain binaries directly
-from the crate registry. At first the required Rust toolchain and features are installed, followed by the actual Holochain dependencies.
-
-> Holonix is the recommended way to set up your development environment.
-**We don't provide support for installing Holochain without Holonix.**
-
-### Ubuntu-based Linux distributions
-
-#### Install the Rust toolchain and build dependencies
-
-1. Follow the official [Rust toolchain installation](https://www.rust-lang.org/tools/install)
-1. Install the required target to build WebAssembly binaries
-    ```bash
-    rustup target add wasm32-unknown-unknown
-    ```
-1. Linux build tools
-    ```bash
-    sudo apt-get install build-essential
-    ```
-1. OpenSSL
-    ```bash
-    sudo apt-get install libssl-dev
-    ```
-1. Build dependency for Cargo libraries
-    ```bash
-    sudo apt-get install pkg-config
-    ```
-
-#### Install Holochain binaries
-
-The following commands will compile and install the binaries into your user's profile.
-It will overwrite any pre-existing binaries, also in the case where its already the latest version.
-
-```bash
-cargo install --force holochain
-cargo install --force holochain_cli
-cargo install --force lair_keystore
-cargo install --force holochain_cli_launch
-cargo install --force holochain_scaffolding_cli
-```
