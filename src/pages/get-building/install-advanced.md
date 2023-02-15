@@ -1,5 +1,5 @@
 ---
-title: Dev Tools Setup: Advanced Holonix Guide and Nix Knowledge
+title: Dev Tools Setup
 hide:
   - toc
 ---

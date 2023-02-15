@@ -1,5 +1,5 @@
 ---
-title: Develop without Nix (currently unsupported)
+title: Setup without Nix (currently unsupported)
 hide:
   - toc
 ---
