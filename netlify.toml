@@ -82,6 +82,12 @@
     from = "/install/"
     to = "/quick-start/"
     status = 301
+    
+# Glossary has been moved to the references path.
+[[redirects]]
+    from = "/glossary/"
+    to = "/references/glossary/"
+    status = 301
 
 # The front page for the core concepts has been removed.
 [[redirects]]
