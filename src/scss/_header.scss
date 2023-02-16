@@ -16,6 +16,7 @@ header#page-header {
 
     #logo-space {
       display: flex;
+      flex-shrink: 0;
 
       #home-link {
         img {
@@ -36,11 +37,14 @@ header#page-header {
 
       ul {
         display: flex;
+        // column-gap: 20px;
+        justify-content: flex-end;
         list-style-type: none;
         margin-bottom: -17px;
 
         li {
-          min-width: 130px;
+          //min-width: 130px;
+          flex-shrink: 0;
 
           a {
             margin-left: 24px;

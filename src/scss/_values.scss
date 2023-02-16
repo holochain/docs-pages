@@ -18,7 +18,8 @@ $default-max-content-width: 1200px;
 $mobile-width: 900px;
 // Tablet width? Do we care?
 
-$sz-full-hor-padding: 70px;
+// $sz-full-hor-padding: 70px;
+$sz-full-hor-padding: 0px;
 $sz-mobile-hor-padding: 30px;
 
 /* Explicit heights */
@@ -33,6 +34,13 @@ $blue-to-light-blue-grad: linear-gradient(180deg,#415bed,#13d0d7 44.86%);
 
 @mixin mq-full {
   @media screen and (min-width: $mobile-width) {
+    @content;
+  }
+}
+
+/* Still a full computer but a smallish one  */
+@mixin mq-smallish {
+  @media screen and (max-width: $default-max-content-width) {
     @content;
   }
 }
