@@ -54,22 +54,22 @@ $cl-sidebar-bg: #f7f7f7;
   .sidebar-right-bg {
     display: none;
     background-color: $cl-sidebar-bg;
-    grid-area: main-r1-start / sidebar-end / main-end / vp-right;
+    grid-area: main-r1-start / sidebar-begin / main-end / vp-right;
     z-index: -1;
   }
 
   @include mq-full {
-    grid-template-columns: [vp-left] 1fr minmax(0, 1000px) [sidebar-end] 420px [sidebar-end] 1fr [vp-right];
+    grid-template-columns: [vp-left] minmax(20px, 1fr) minmax(0, 1000px) [sidebar-begin] 420px [sidebar-end] minmax(20px, 1fr) [vp-right];
     grid-template-areas: 
       "... header header ..."
       "... header header ..."
       "... mainArea sideBar ..."
       "... footer footer ...";
-    column-gap: 50px;
-    
+    //column-gap: 50px;
+
     .main-area {
       background-color: transparent;
-      padding: 0 0 30px $sz-full-hor-padding;
+      padding: 0 50px 30px $sz-full-hor-padding;
     }
 
     .side-bar {
