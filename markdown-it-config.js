@@ -2,15 +2,12 @@ const markdownItAttrs = require("markdown-it-attrs");
 const markdownItContainer = require("markdown-it-container");
 const markdownItAnchor = require("markdown-it-anchor");
 
-const admonitionRegex = {
-  "tip": /^tip\s+(.*)$/,
-  "note": /^note\s+(.*)$/,
-  "info": /^info\s+(.*)$/,
-  "learn": /^learn\s+(.*)$/,
-};
+function generateAdmonitionTitleRegex(admonitionName) {
+  return new RegExp("^" + admonitionName + "\\s+(.*)$");
+}
 
 const renderAdmonition = (name, tokens, idx) => {
-  var titleMatcher = tokens[idx].info.trim().match(admonitionRegex[name]);
+  const titleMatcher = tokens[idx].info.trim().match(generateAdmonitionTitleRegex(name));
   const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1);
   const title = titleMatcher ? titleMatcher[1] : (nameCapitalized);
 
