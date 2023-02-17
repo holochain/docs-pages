@@ -2,6 +2,8 @@ const markdownItAttrs = require("markdown-it-attrs");
 const markdownItContainer = require("markdown-it-container");
 const markdownItAnchor = require("markdown-it-anchor");
 
+/* Start Admonition code */
+
 function generateAdmonitionTitleRegex(admonitionName) {
   return new RegExp("^" + admonitionName + "\\s+(.*)$");
 }
@@ -11,6 +13,7 @@ const renderAdmonition = (name, tokens, idx) => {
   const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1);
   const title = titleMatcher ? titleMatcher[1] : (nameCapitalized);
 
+  //If the opening tag
   if(tokens[idx].nesting === 1) {
     const titleTag = title ? `<p class='admonition-title'>${ title }</p>` : '';
     return `<div class="admonition ${name}">${titleTag}` + '\n\n';
@@ -27,6 +30,9 @@ const renderAdmonition = (name, tokens, idx) => {
 function composeGenericRenderFunc(admonitionName) {
   return function(tokens, idx) { return renderAdmonition(admonitionName, tokens, idx); }
 }
+
+/* End Admonition code */
+
 
 /**
  * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js 
