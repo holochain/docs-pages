@@ -6,6 +6,7 @@ const admonitionRegex = {
   "tip": /^tip\s+(.*)$/,
   "note": /^note\s+(.*)$/,
   "info": /^info\s+(.*)$/,
+  "learn": /^learn\s+(.*)$/,
 };
 
 const renderAdmonition = (name, tokens, idx) => {
@@ -21,23 +22,14 @@ const renderAdmonition = (name, tokens, idx) => {
   }
 };
 
-const renderTip = (tokens, idx) => {
-  const result = renderAdmonition("tip", tokens, idx);
-  // console.log(result);
-  return result;
-};
-
-const renderNote = (tokens, idx) => {
-  return renderAdmonition("note", tokens, idx);
-};
-
-const renderInfo = (tokens, idx) => {
-  return renderAdmonition("info", tokens, idx);
-};
-
-const renderLearn = (tokens, idx) => {
-  return renderAdmonition("learn", tokens, idx);
-};
+/**
+ * Wires up a generic markdownItContainer render function for a specified admonition.
+ * @param {string} admonitionName The "tag" of the admonition to be rendered
+ * @returns render function for the admonition type that works with markdownItContainer
+ */
+function composeGenericRenderFunc(admonitionName) {
+  return function(tokens, idx) { return renderAdmonition(admonitionName, tokens, idx); }
+}
 
 /**
  * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js 
@@ -52,10 +44,10 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "coreconcepts-storysequence");
     mdLib.use(markdownItContainer, "h-author");
     
-    mdLib.use(markdownItContainer, "tip", { marker: "!", render: renderTip });
-    mdLib.use(markdownItContainer, "note", { marker: "!", render: renderNote });
-    mdLib.use(markdownItContainer, "info", { marker: "!", render: renderInfo });
-    mdLib.use(markdownItContainer, "learn", { marker: "!", render: renderLearn });
+    mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericRenderFunc("tip") });
+    mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericRenderFunc("note") });
+    mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericRenderFunc("info") });
+    mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericRenderFunc("learn") });
   });
  
 }
