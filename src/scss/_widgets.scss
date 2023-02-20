@@ -96,6 +96,8 @@ code {
   }
 
   &.learn {
+    @include admonitionTitle(transparent);
+
     background-color: #f7f7f7;
     border-radius: 5px;
     outline: none;
@@ -104,7 +106,12 @@ code {
       display: flex;
       gap: 12px;
       align-items: flex-start;
+      border: none;
       @include addLearnIcon;
+
+      &::before {
+        margin-top: 2px;
+      }
     }
   }
 
