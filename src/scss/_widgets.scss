@@ -99,6 +99,13 @@ code {
     background-color: #f7f7f7;
     border-radius: 5px;
     outline: none;
+
+    .admonition-title {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      @include addLearnIcon;
+    }
   }
 
 }
