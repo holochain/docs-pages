@@ -1,0 +1,50 @@
+---
+title: Oops!
+permalink: 404.html
+layout: ""
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if site.environment == "production" %}
+    <link rel="stylesheet" href="/styles/site.min.css" />
+    {% else %}
+    <link rel="stylesheet" href="/styles/site.css" />
+    {% endif %}
+    <title>{{ title }}</title>
+    <style>
+      body {
+        align-items: center;
+        justify-content: center;
+      }
+
+      h1 {
+        font-size: 36px;
+        margin: 0;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+      
+      p {
+        max-width: 300px;
+        font-size: 18px;
+        text-align: center;
+      }
+
+      a {
+        margin-top: 28px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <h2>404 - Page not found</h2>
+    <p>The page you are looking for might have been removed, had it’s name changed, or is temporarily unavailable.</p>
+    <a href="/" class="btn-green-outline">Go to Homepage</a>
+  </body>
+</html>
