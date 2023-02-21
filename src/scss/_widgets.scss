@@ -66,12 +66,12 @@ code {
 /* Admonitions */
 @mixin admonitionTitle($admonitionBg) {
   .admonition-title {
-    //outline: black solid 1px;
     background-color: $admonitionBg;
     margin: 0 -9.6px;
     padding: 6.4px 9.6px 6.4px 32px;
     border-bottom: .8px solid rgba(68,138,255,.1);
     font-weight: 700;
+    @content;
   }
 }
 
@@ -80,32 +80,54 @@ code {
   margin: 25px 0;
   padding: 0 9.6px;
   border-radius: 1.6px;
-  // font-size: 10px;
   overflow: auto;
+  background-color: white;
+
+  > * {
+    margin-top: 0;
+  }
+
+  > ol, > ul {
+    ol, ul {
+      padding-left: 20px;
+    }
+  }
 
   &.tip {
     @include admonitionTitle(rgba(0, 191, 165, 0.1));
   }
 
   &.note {
-    @include admonitionTitle(rgba(68, 138, 255, 0.1));
+    @include admonitionTitle(rgba(68, 138, 255, 0.1)) {
+      padding-top: 10px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      @include addPencilIcon();
+    }
   }
   
   &.info {
-    @include admonitionTitle(rgba(68, 138, 255, 0.1));
+    @include admonitionTitle(rgba(68, 138, 255, 0.1)){
+      padding-top: 10px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      border: none;
+      @include addInfoIcon;
+    }
   }
 
   &.learn {
-    @include admonitionTitle(transparent);
-
     background-color: #f7f7f7;
     border-radius: 5px;
     outline: none;
 
-    .admonition-title {
+    @include admonitionTitle(transparent) {
+      padding-top: 10px;
       display: flex;
       gap: 12px;
-      align-items: flex-start;
+
       border: none;
       @include addLearnIcon;
 
