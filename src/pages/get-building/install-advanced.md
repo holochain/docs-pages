@@ -5,31 +5,31 @@ hide:
 ---
 
 ::: coreconcepts-intro
-This guide assumes that you've already followed the [quick installation guide](../install/) and want to learn more about the set up. It describes how to manually recreate and maintain the development environment, use your default shell and preferred code editor with Nix, explains how to install specific versions of Holochain, and discusses why we use `nix develop` in the first place.
+This guide assumes that you've already followed the [quick installation guide](../install/) and want to learn more about the setup. It describes how to manually recreate and maintain the development environment, use your default shell and preferred code editor with Nix, or install specific versions of Holochain, and explains why we use `nix develop` in the first place.
 :::
 
-## Holonix - the Holochain app development environment
+## Holonix, the Holochain app development environment
 
 Each Holochain application repository will contain its own setup of the development environment.
 If you use the scaffolding to generate the project structure, this will already be taken care of in the scaffolded directory.
 
 If you want to learn more about how this setup works and how to create it manually and how to maintain it, please find all the information below.
 
+### Holonix's usage of [Nix's Flakes](https://nixos.wiki/wiki/Flakes) features
 
-### Holonix' usage of [Nix' Flakes](https://nixos.wiki/wiki/Flakes) features
-
-As of [holochain#1863](https://github.com/holochain/holochain/pull/1863) Holonix is implemented as Holochain's [flake.nix](https://github.com/holochain/holochain/blob/develop/flake.nix) output named _#holonix_ a.k.a. _devShells.${system}.holonix_.
+As of [holochain#1863](https://github.com/holochain/holochain/pull/1863) Holonix is implemented as Holochain's [`flake.nix`](https://github.com/holochain/holochain/blob/develop/flake.nix) output named `#holonix` a.k.a. `devShells.${system}.holonix`.
 
 The flake-based one-liner to get you an ad-hoc Holonix shell looks like this:
 
 ```shell
 nix develop github:holochain/holochain#holonix
 ```
+
 #### Enabling Flake features on your system
 
 At the time of writing, flakes are still considered an experimental in the nix world and thus require being enabled. This happens either ad-hoc on the command itself or permanently via Nix's configuration.
 
-If you've completed the [quick installation guide](../install/), then the install script will have already configured this for you via the file at _~/.config/nix/nix.conf_.
+If you've completed the [quick installation guide](../install/), then the install script will have already configured this for you via the file at `~/.config/nix/nix.conf`.
 
 To manually configure it via this file you can run the following commands:
 
@@ -78,12 +78,13 @@ In the root directory of your app's code, you will either find the scaffolded on
 In principle a flake implements a function that produces a set of _outputs_ from a given set of _inputs_, keeping the side-effects to an absolute minimum if not at zero.
 
 #### `inputs`
-This flake declares one input named `holochain-flake` that the Holochain Github repository. This input will look for a `flake.nix` in the default branch of the remote repository.
-The `versions` input of the `holochain-flake` input is explicitly specified to track the _0_1_ series, which refers to Holochain's Beta 0.1 and its compatible tools.
 
-The flake follows (think inherits) the `nixpkgs` input of the `holochain-flake` input. This ensures that your development environment passes all the same buildinputs to the component packages, giving you very high chances to make use of our Cachix binary cache.
+This flake declares one input named `holochain-flake` that the Holochain Github repository. This input will look for a `flake.nix` in the default branch of the remote repository. The `versions` input of the `holochain-flake` input is explicitly specified to track the _0_1_ series, which refers to Holochain's Beta 0.1 and its compatible tools.
+
+The flake follows (think _inherits_) the `nixpkgs` input of the `holochain-flake` input. This ensures that your development environment passes all the same buildinputs to the component packages, giving you very high chances to make use of our Cachix binary cache.
 
 #### `outputs`
+
 In the `outputs` set, this flake composes a devShell that inherits its inputs from the `holonix` devShell and adds the NodeJS package.
 To find the names of the packages you're interested in, the [nixos.org package search](https://search.nixos.org/packages?channel=unstable&) can be used.
 
@@ -94,9 +95,9 @@ The resulting `flake.lock` records pinned references to all the `inputs` at the 
 
 ### A Gotcha with Flakes and Git
 
-The behavior of `nix` commands that rely on a `flake.nix` as its input such as `nix develop` can be counterintuitive in a git repository.
+The behavior of `nix` commands that rely on a `flake.nix` as its input such as `nix develop` can be counterintuitive in a Git repository.
 
-Specifically, if the `flake.nix` is not tracked in git, the command will fail altogether with a message that it cannot find a `flake.nix` file. Even though by design, this is a [known UX issue in Nix](https://github.com/NixOS/nix/issues/6642).
+Specifically, if the `flake.nix` is not tracked in Git, the command will fail altogether with a message that it cannot find a `flake.nix` file. Even though by design, this is a [known UX issue in Nix](https://github.com/NixOS/nix/issues/6642).
 
 The simple solution to is to `git add flake.*` after your initial creation of your flake if you manually create a repository. In case of scaffolding a repository this is taken care of by the scaffolding process for you.
 
@@ -114,8 +115,7 @@ If you want to only update a specific input, you can use the following command. 
 $ nix flake lock --update-input holochain
 ```
 
-_Note that if your directory is a git repository it is recommended to `git commit flake.lock` to ensure consistency between the development environment and your app's source code._
-
+_Note that if your directory is a Git repository it is recommended to `git commit flake.lock` to ensure consistency between the development environment and your app's source code._
 
 ### Holonix inspection commands
 
@@ -219,9 +219,9 @@ The full suite of Nix tooling is broad and deep. There’s even a dedicated prog
 
 ### `nix develop`
 
-While working on Holochain, you will usually have an active `nix develop` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell - environment variables, Rust toolchains, binaries, libraries, and development tools - giving you a consistent development environment to build Holochain apps. The shell environment is only set up in the current shell session, and will be reset automatically when you `exit` the shell.
+While working on Holochain, you will usually have an active `nix develop` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell --- environment variables, Rust toolchains, binaries, libraries, and development tools --- giving you a consistent development environment to build Holochain apps. The shell environment is only set up in the current shell session, and will be reset automatically when you `exit` the shell.
 
-If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix develop` in each new instance. The packages are cached locally on your machine, so they will be ready the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use the Holochain repo cloning method, they're cached on your machine too, but the ['quick install'](../install/) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
+If you want to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix develop` shell in each new instance. The packages are cached locally on your machine, so they will be ready the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use the Holochain repo cloning method, they're cached on your machine too, but the ['quick install'](../install/) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
 
 ## Uninstalling Nix
 
