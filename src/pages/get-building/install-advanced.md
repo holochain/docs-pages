@@ -194,7 +194,7 @@ To do this, just open your editor from the command line while you are in the `ni
 ```shell
 nix develop github:holochain/holochain#holonix
 cd my_project
-code my_file.rs
+codium my_file.rs
 ```
 
 ## More info on Nix
