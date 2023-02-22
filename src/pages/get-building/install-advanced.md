@@ -5,7 +5,7 @@ hide:
 ---
 
 ::: coreconcepts-intro
-This guide assumes that you've already followed the [quick installation guide](../install/) and want to learn more about the setup. It describes how to manually recreate and maintain the development environment, use your default shell and preferred code editor with Nix, or install specific versions of Holochain, and explains why we use `nix develop` in the first place.
+This guide assumes that you've already followed the [quick installation guide](../../install/) and want to learn more about the setup. It describes how to manually recreate and maintain the development environment, use your default shell and preferred code editor with Nix, or install specific versions of Holochain, and explains why we use `nix develop` in the first place.
 :::
 
 ## Holonix, the Holochain app development environment
@@ -29,7 +29,7 @@ nix develop github:holochain/holochain#holonix
 
 At the time of writing, flakes are still considered an experimental in the nix world and thus require being enabled. This happens either ad-hoc on the command itself or permanently via Nix's configuration.
 
-If you've completed the [quick installation guide](../install/), then the install script will have already configured this for you via the file at `~/.config/nix/nix.conf`.
+If you've completed the [quick installation guide](../../install/), then the install script will have already configured this for you via the file at `~/.config/nix/nix.conf`.
 
 To manually configure it via this file you can run the following commands:
 
