@@ -16,9 +16,9 @@ const renderAdmonition = (name, tokens, idx) => {
   //If the opening tag
   if(tokens[idx].nesting === 1) {
     const titleTag = title ? `<p class='admonition-title'>${ title }</p>` : '';
-    return `<div class="admonition ${name}">${titleTag}` + '\n\n';
+    return `<div class="admonition ${name}">${titleTag}` + '\n\n<div class="admonition-content">';
   } else {
-    return '\n</div>\n';
+    return '\n</div></div>\n';
   }
 };
 
