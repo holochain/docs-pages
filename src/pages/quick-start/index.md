@@ -20,7 +20,7 @@ The Nix package manager, which we use to install and manage Holochain developmen
 _Holochain is supported for the Ubuntu distribution under WSL2._
 !!!
 
-### Install the Nix Package Manager & set up Holochain binary cache
+### Install the Nix Package Manager and set up Holochain binary cache
 
 At a command line:
 
