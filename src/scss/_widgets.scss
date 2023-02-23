@@ -67,9 +67,9 @@ code {
 @mixin admonitionTitle($admonitionBg) {
   .admonition-title {
     background-color: $admonitionBg;
-    margin: 0 -9.6px;
-    padding: 6.4px 9.6px 6.4px 32px;
+    padding: 6.4px 9.6px 6.4px 16px;
     border-bottom: .8px solid rgba(68,138,255,.1);
+    margin-top: 0;
     font-weight: 700;
     @content;
   }
@@ -78,18 +78,21 @@ code {
 .admonition {
   outline: black solid 1px;
   margin: 25px 0;
-  padding: 0 9.6px;
   border-radius: 1.6px;
   overflow: auto;
   background-color: white;
 
-  > * {
-    margin-top: 0;
-  }
+  &-content {
+    padding: 0 16px;
 
-  > ol, > ul {
-    ol, ul {
-      padding-left: 20px;
+    > * {
+      margin-top: 0;
+    }
+  
+    > ol, > ul {
+      ol, ul {
+        padding-left: 20px;
+      }
     }
   }
 
@@ -98,7 +101,7 @@ code {
   }
 
   &.note {
-    @include admonitionTitle(rgba(68, 138, 255, 0.1)) {
+    @include admonitionTitle(rgba($cl-other-green, 0.2)) {
       padding-top: 10px;
       display: flex;
       gap: 12px;
@@ -108,7 +111,7 @@ code {
   }
   
   &.info {
-    @include admonitionTitle(rgba(68, 138, 255, 0.1)){
+    @include admonitionTitle(rgba($cl-other-green, 0.2)){
       padding-top: 10px;
       display: flex;
       gap: 12px;
@@ -124,7 +127,9 @@ code {
     outline: none;
 
     @include admonitionTitle(transparent) {
-      padding-top: 10px;
+      padding-top: 20px;
+      padding-left: 20px;
+      margin-bottom: 0;
       display: flex;
       gap: 12px;
 
@@ -134,6 +139,10 @@ code {
       &::before {
         margin-top: 2px;
       }
+    }
+
+    .admonition-content {
+      padding-left: 32px;
     }
   }
 

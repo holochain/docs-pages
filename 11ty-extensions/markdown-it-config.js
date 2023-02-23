@@ -40,6 +40,7 @@ function composeGenericRenderFunc(admonitionName) {
  */
 module.exports = function(eleventyConfig) {
   eleventyConfig.amendLibrary("md", (mdLib) => {
+    //Configure markdown-it plugins
     mdLib.use(markdownItAttrs);
     mdLib.use(markdownItAnchor, { tabIndex: false });
     mdLib.use(markdownItContainer, "coreconcepts-intro");
@@ -47,6 +48,7 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "coreconcepts-storysequence");
     mdLib.use(markdownItContainer, "h-author");
     
+    // Admonitions
     mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericRenderFunc("tip") });
     mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericRenderFunc("note") });
     mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericRenderFunc("info") });
