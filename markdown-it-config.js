@@ -45,6 +45,8 @@ const renderLearn = (tokens, idx) => {
  */
 module.exports = function(eleventyConfig) {
   eleventyConfig.amendLibrary("md", (mdLib) => {
+    mdLib.set({ typographer: true });
+    
     mdLib.use(markdownItAttrs);
     mdLib.use(markdownItAnchor, { tabIndex: false });
     mdLib.use(markdownItContainer, "coreconcepts-intro");
