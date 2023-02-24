@@ -40,6 +40,8 @@ function composeGenericRenderFunc(admonitionName) {
  */
 module.exports = function(eleventyConfig) {
   eleventyConfig.amendLibrary("md", (mdLib) => {
+    mdLib.set({ typographer: true });
+    
     //Configure markdown-it plugins
     mdLib.use(markdownItAttrs);
     mdLib.use(markdownItAnchor, { tabIndex: false });
