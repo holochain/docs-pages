@@ -267,8 +267,7 @@ You now have a fully functionall Holochain app up and running!
 
 Next steps might include creating a collection of all ToDo items, not just the ones you created, and adding UI to see them.  Enjoy and get building!
 
-!!! learn 
-#### Learn More ——>
+!!! learn Learn More ——>
 
 - Find all the links to Rust docs, HDKs and APIs in [References](../references/).
 - Seeing strange language in these steps look up the words in the [Glossary](../references/glossary.md).
