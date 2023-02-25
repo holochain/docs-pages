@@ -170,7 +170,7 @@ You should then see:
 ❯ TextArea
   TextField
 ```
-press `y` to choose a `TextArea` because we want the description to be able to be multi-lines.
+press `<enter>` to choose a `TextArea` because we want the description to be able to be multi-lines.
 
 You should then see:
 ```text
@@ -248,7 +248,7 @@ The windows should not quite be very exciting yet, because we haven't edited the
 
 So lets follow those hints:
 
-1. Open the Svelete hApp file in `ui/App.svelete` and add two imports at the top:
+1. Open the Svelte hApp file in `ui/src/App.svelte` and add two imports near the top, just below `<script lang="ts">`:
 ```typescript
 import MyTodos from './todos/todos/MyTodos.svelte';
 import CreateTodoItem from './todos/todos/CreateTodoItem.svelte';
@@ -263,7 +263,7 @@ Save the file, and you should see that the windows have been updated to show som
 
 <img src="/assets/img/scaffolded_todos.png">
 
-You now have a fully functionall Holochain app up and running!
+You now have a fully functional Holochain app up and running!
 
 Next steps might include creating a collection of all ToDo items, not just the ones you created, and adding UI to see them.  Enjoy and get building!
 
