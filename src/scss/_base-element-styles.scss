@@ -27,6 +27,11 @@ ul, ol {
   @include btn-base;
 }
 
+.btn-green-outline {
+  @include btn-base;
+  border: $cl-brand-green solid 1px;
+}
+
 .btn-purple {
   @include btn-base(white, $cl-brand-purple, $cl-brand-purple, $cl-gray);
 }

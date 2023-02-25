@@ -4,7 +4,6 @@ require("json5/lib/register");
 const { EleventyRenderPlugin } = require("@11ty/eleventy");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 
-const configMarkdownIt = require("./markdown-it-config");
 const registerExtensions = require("./11ty-extensions");
 
 module.exports = function(eleventyConfig) {
@@ -32,7 +31,6 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.setWatchThrottleWaitTime(100);
 
-  configMarkdownIt(eleventyConfig);
   registerExtensions(eleventyConfig);
     
   return {

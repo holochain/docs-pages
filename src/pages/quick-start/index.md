@@ -64,8 +64,7 @@ _After completing the project setup, the scaffolding tool will output the comman
 
 [Explore project structure —>](./project-structure){.btn-purple} 
 
-!!! learn
-#### Learn More
+!!! learn Learn More
 1. Dive into the [Holochain Core Concepts](../concepts/).
 2. Take a look at the developer documentation.
     * [SDK and API references](../references/)
