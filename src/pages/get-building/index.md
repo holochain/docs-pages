@@ -17,13 +17,13 @@ Run the holochain scaffolding tool by typing in your terminal:
 nix-shell https://holochain.love --run "hc scaffold web-app"
 ```
 You should then see: 
-```
+```text
 ? App name (no whitespaces): 
 ```
 
 Type our hApp's name using snake_casing: `super_todos`.
 You should then see: 
-```
+```text
 ? Choose UI framework: ›
 ❯ Vue
   Svelte
@@ -35,7 +35,7 @@ Use the arrow keys to select a UI framework for your front-end and then press `<
 For this example choose `Svelte` and press `<enter>`
 You should then see: 
 
-```
+```text
 ? Do you want to set up the holonix development environment for this project? ›
 ❯ Yes (recommended)
   No
@@ -53,7 +53,7 @@ Now fire up the nix development shell (which makes all scaffolding tools as well
 nix develop
 ```
 You should see: 
-```
+```text
 Holochain development shell spawned. Type exit to leave.
 ```
 
@@ -67,13 +67,13 @@ Now lets continue scaffolding our happ by creating a new DNA using the scaffoldi
 hc scaffold dna
 ```
 You should then see :
-```
+```text
 ? DNA name (snake_case): 
 ```
 
 Many hApps have just one DNA, so in this case you can just type: `todos`
 You should then see:
-```
+```text
 DNA "todos" scaffolded!
 ```
 
@@ -85,7 +85,7 @@ Create our DNA's first zomes with:
 hc scaffold zome
 ```
 You should then see: 
-```
+```text
 ? What do you want to scaffold? ›
 ❯ Integrity/coordinator zome-pair (recommended)
   Only an integrity zome
@@ -94,21 +94,21 @@ You should then see:
 
 Press `<enter>` to select `Integrity/coordinator zome-pair`
 You should then see: 
-```
+```text
 ? Enter coordinator zome name (snake_case):
  (The integrity zome will automatically be named '{name of coordinator zome}_integrity')
 ```
 
 Type in a name for the zome.  In this case we can just use the same name as the DNA `todos`
 You should then see: 
-```
+```text
 ? Scaffold integrity zome in folder "dnas/todos/zomes/integrity/"? (y/n) ›
 ```
 
 Press `y` (the `n` option is for advanced users who may have set up a different folder structure)
 
 You should then see: 
-```
+```text
 Integrity zome "todo_integrity" scaffolded!
 ? Scaffold coordinator zome in "dnas/todos/zomes/coordinator/"? (y/n) ›
 ```
@@ -116,7 +116,7 @@ Integrity zome "todo_integrity" scaffolded!
 Again, press `y`
 
 You will then see 
-```
+```text
 Coordinator zome "todos" scaffolded! 
 ```
 along with output from the intial downloading and setting up of the Holochain rust hdk.  Followed by instructions for adding your first entry type.
@@ -129,7 +129,7 @@ In our To-do happ every to-do item is stored as an entry so let's add new entry 
 ```
 
 You should see: 
-```
+```text
 ✔ Entry type name (snake_case): ·
 ```
 
@@ -139,7 +139,7 @@ todo_item
 ```
 
 You should then see: 
-```
+```text
 Which fields should the entry contain?
 
 ? Choose field type: ›
@@ -161,7 +161,7 @@ The scaffolding tool is smart about adding different data type fields to your en
 So, press `<enter>` to select `String`.
 
 You should see: 
-```
+```text
 ? Field name: › 
 ```
 
@@ -171,13 +171,13 @@ description
 ```
 
 You should then see: 
-```
+```text
 ? Should this field be visible in the UI? (y/n) ›
 ```
 press `y`
 
 You should then see:
-```
+```text
 ? Choose widget to render this field: ›
 ❯ TextArea
   TextField
@@ -185,14 +185,14 @@ You should then see:
 press `<enter>` to choose `TextArea` because we want the description to be able to be multi-lines.
 
 You should then see:
-```
+```text
 ? Add another field to the entry? (y/n) ›
 ```
 
 press `n`
 
 You should then see: 
-```
+```text
 ? Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)? ›
 ✔ Update
 ✔ Delete
@@ -201,7 +201,7 @@ You should then see:
 The scaffolding tool can add zome and UI functions for updating and deleting entries.  In the case of our todo app we want to be able to do both, which is the default, so just press `<enter>`
 
 You should then see: 
-```
+```text
 ? Should a link from the original entry be created when this entry is updated? ›
 ❯ Yes (more storage cost but better read performance, recommended)
   No (less storage cost but worse read performance)
@@ -210,18 +210,18 @@ You should then see:
 Because Holochain stores data in append only source-chains, updating requires choosing a strategy of how to find updated data.   The scaffolding tool allows you to choose between two strategies, one where updates are only linked to the previous version, and one where there is also a link added to the original entry for each update.  For this use case either strategy would work fine, so press `<enter>` to choose the default. 
 
 You should then see: 
-```
+```text
 Entry type "todo_item" scaffolded!
 ```
 
-The final step is to create a collection that can be used to render all of to-do items that users create.
+The final step is to create a collection that can be used to render all of the to-do items that users create.
 
 To create a collection type:
 ```bash
   hc scaffold collection
 ```
 You should then see: 
-```
+```text
 Collection name (snake_case, eg. "all_posts"): › 
 ```
 
@@ -232,7 +232,7 @@ my_todos
 and press `<enter>`
 
 You should then see: 
-```
+```text
 ? Which type of collection should be scaffolded? ›
 ❯ Global (get all entries of the selected entry types)
   By author (get entries of the selected entry types that a given author has created)
@@ -240,7 +240,7 @@ You should then see:
 Use the arrow key to select `By author` and press `<enter>`.
   
   You should then see: 
-```
+```text
 ? Which entry type should be collected? ›
 ❯ TodoItem
 ```
@@ -248,7 +248,7 @@ Use the arrow key to select `By author` and press `<enter>`.
 press `<enter>`
 
 You should then see: 
-```
+```text
 Collection "my_todos" scaffolded!
 ```
   
@@ -269,7 +269,7 @@ So lets follow those hints:
 import MyTodos from './todos/todos/MyTodos.svelte';
 import CreateTodoItem from './todos/todos/CreateTodoItem.svelte';
 ```
-2. Replace the "EDIT ME! Add the components of your app here." text there with:
+2. Replace the "EDIT ME! Add the components of your app here." text (about halfway down the page of the App.svelte file) with:
 ```html
 <CreateTodoItem></CreateTodoItem>
 <MyTodos author={client.myPubKey}></MyTodos>
