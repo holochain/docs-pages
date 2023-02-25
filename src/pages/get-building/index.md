@@ -17,7 +17,7 @@ Run the holochain scaffolding tool by typing in your terminal:
 nix-shell https://holochain.love --run "hc scaffold web-app"
 ```
 You should then see: 
-```text
+```
 ? App name (no whitespaces): 
 ```
 
