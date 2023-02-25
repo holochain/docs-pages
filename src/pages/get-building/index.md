@@ -4,9 +4,8 @@ title: Get Building
 
 In Quick Start you installed Holochain and built a templated forum application. Here you will use the Scaffold tool to build your own application and learn the basic commands for using the scaffold.
 
-!!! note Pre-requisite
-Holochain installed as per [Quick Start](../quick-start/index)
-!!! 
+| :exclamation:  note Pre-requisite: Holochain installed as per [Quick Start](../quick-start/index) |
+|--------------------------------------------------------------|
 
 ## Scaffold a Custom Holochain Application
 
@@ -30,9 +29,8 @@ You should then see:
   Lit
 ```
 
-Use the arrow keys to select a UI framework for your front-end and then press `<enter>`.  
+Use the arrow keys to select `Svelte` as the UI framework and then press `<enter>`
   
-For this example choose `Svelte` and press `<enter>`
 You should then see: 
 
 ```text
@@ -43,7 +41,7 @@ You should then see:
 
 Choose `Yes` and press `<enter>`
 
-You should then see `Setting up nix development environment...` with some details of what is being added, followed by instructions of next steps for setting up the development environment for your hApp and continuing to scaffold more of its elements.  Let's follow those instructions.  First, enter the hApp project directory: 
+You should then see `Setting up nix development environment...` with some details of what is being added, followed by instructions of next steps for setting up the development environment for your hApp and continuing to scaffold more of its elements.  Let's follow those instructions.  First, enter the hApp project directory by typing: 
 
 ```bash
 cd super_todos
@@ -71,13 +69,17 @@ You should then see :
 ? DNA name (snake_case): 
 ```
 
-Many hApps have just one DNA, so in this case you can just type: `todos`
+Many hApps have just one DNA, so in this case you can just type: 
+```bash
+todos
+```
+
 You should then see:
 ```text
 DNA "todos" scaffolded!
 ```
 
-DNAs are comprised of code modules, we call zomes.  A DNA should have at least two zomes, and *integrity zome* which declares your DNAs data structures and validation code, and a *coordinator zome* which contains, among other things, the API functions your UI will call to access your DNA. 
+DNAs are comprised of code modules, we call zomes.  A DNA should have at least two zomes, an *integrity zome* which declares your DNAs data structures and validation code, and a *coordinator zome* which contains, among other things, the API functions your UI will call to access your DNA. 
 
 Create our DNA's first zomes with:
 
@@ -99,7 +101,11 @@ You should then see:
  (The integrity zome will automatically be named '{name of coordinator zome}_integrity')
 ```
 
-Type in a name for the zome.  In this case we can just use the same name as the DNA `todos`
+Type in a name for the zome.  In this case we can just use the same name as the DNA 
+```bash
+todos
+```
+
 You should then see: 
 ```text
 ? Scaffold integrity zome in folder "dnas/todos/zomes/integrity/"? (y/n) ›
@@ -119,7 +125,7 @@ You will then see
 ```text
 Coordinator zome "todos" scaffolded! 
 ```
-along with output from the intial downloading and setting up of the Holochain rust hdk.  Followed by instructions for adding your first entry type.
+along with output from the intial downloading and setting up of the Holochain rust hdk, followed by instructions for adding your first entry type.
 
 Now we get to the really exciting part!  In the next steps you will specify our data model, and the Scaffolding tool will automatically add both zome and UI code to our hApp.
 
@@ -158,7 +164,7 @@ Which fields should the entry contain?
 
 The scaffolding tool is smart about adding different data type fields to your entry.  For our example we will just have a text field describing the todo item.  
 
-So, press `<enter>` to select `String`.
+So, use the up and down arrows to select `String` and press `<enter>`
 
 You should see: 
 ```text
@@ -182,7 +188,7 @@ You should then see:
 ❯ TextArea
   TextField
 ```
-press `<enter>` to choose `TextArea` because we want the description to be able to be multi-lines.
+Select `TextArea` because we want the description to be able to be multi-line and press `<enter>`
 
 You should then see:
 ```text
@@ -225,7 +231,7 @@ You should then see:
 Collection name (snake_case, eg. "all_posts"): › 
 ```
 
-Type in: 
+Type: 
 ```bash
 my_todos
 ```
@@ -260,7 +266,7 @@ npm start
 
 After some compilation time you should see a browser window opened with the playground (our live Holochain state inspector) running in it, followed by two windows (opened by the `hc-launch` tool).  These windows simulate two separate agents running our application.
 
-The windows should not quite be very exciting yet, because we haven't edited the hApp to use the generated UI elements, but what you see on the screen should be some hints on how to proceed.
+The windows should not be very exciting yet, because we haven't edited the hApp to use the generated UI elements, but what you see on the screen should be some hints on how to proceed.
 
 So lets follow those hints:
 
@@ -284,8 +290,8 @@ You now have a fully functional Holochain app up and running!
 Next steps might include creating a collection of all ToDo items, not just the ones you created, and adding UI to see them.  Enjoy and get building!
 
 !!! learn Learn More ——>
-
 - Find all the links to Rust docs, HDKs and APIs in [References](../references/).
-- Seeing strange language in these steps look up the words in the [Glossary](../references/glossary.md).
-- Go deep to understand how Holochain works in the [Core Concepts](../concepts/).
-!!!
+- Seeing strange language in these steps look up the words in the [Glossary](../references/glossary.md). |
+- Go deep to understand how Holochain works in the [Core Concepts](../concepts/).!!!
+
+
