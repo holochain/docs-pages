@@ -1,7 +1,7 @@
 const markdownItAttrs = require("markdown-it-attrs");
 const markdownItContainer = require("markdown-it-container");
 const markdownItAnchor = require("markdown-it-anchor");
-const slugify = require('@sindresorhus/slugify');
+const slugify = require('slugify');
 
 /* Start Admonition code */
 
