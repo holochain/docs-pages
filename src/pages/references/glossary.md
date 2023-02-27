@@ -356,7 +356,7 @@ A [client](#client) that presents a visual, easy-to-understand way for a user to
 
 #### hApp bundle
 
-One or more [DNA](#dna)s, which together form the [back end](#back-end) for a complete [hApp](#holochain-application-h-app). These components are specified in a [hApp manifest](#h-app-manifest) file, and can be packaged in a zip archive along with the manifest or downloaded separately from the internet.
+One or more [DNA](#dna)s, which together form the [back end](#back-end) for a complete [hApp](#holochain-application-h-app). These components are specified in a [hApp bundle's](#h-app-bundle) manifest file, and can be packaged in a zip archive along with the manifest or downloaded separately from the internet.
 
 #### Hash
 
@@ -467,7 +467,7 @@ A [record](#record) written to an agent's [source chain](#source-chain) that pro
 
 #### Metadata
 
-Supplementary data attached to a piece of [record data](#record-data) on a [DHT](#distributed-hash-table-dht). All record data ([entries](#entry) and [actions](#action)) can have [links](#link) and [CRUD status](#crud-status) as metadata, while entries can also have copies of the actions that express the [new-entry actions](#new-entry-action) that created them. An [agent ID entry](#agent-id-entry) can also have [agent activity](#agent-activity) records and [warrants](#warrant).
+Supplementary data attached to a piece of [record data](#record-data) on a [DHT](#distributed-hash-table-dht). All record data ([entries](#entry) and [actions](#action)) can have [links](#link) and [CRUD](#crud-action) status as metadata, while entries can also have copies of the actions that express the [new-entry actions](#new-entry-action) that created them. An [agent ID entry](#agent-id-entry) can also have [agent activity](#agent-activity) records and [warrants](#warrant).
 
 #### Microservice
 
@@ -567,7 +567,7 @@ Any piece of [address](#address)able data that can (though doesn't need to) be p
 
 #### Remote call
 
-A [remote procedure call](#remote-procedure-call) that one agent's [cell](#cell) makes to [the zome functions](#zome-function) of another agent's cell within a [network](#network). The callee controls access to their zome functions via [capability-based security](#capability-based-security).
+A [remote procedure call](#remote-procedure-call-rpc) that one agent's [cell](#cell) makes to [the zome functions](#zome-function) of another agent's cell within a [network](#network). The callee controls access to their zome functions via [capability-based security](#capability-based-security).
 
 #### Remote procedure call (RPC)
 

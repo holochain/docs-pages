@@ -29,7 +29,7 @@ nix develop github:holochain/holochain#holonix
 
 At the time of writing, flakes are still considered an experimental in the nix world and thus require being enabled. This happens either ad-hoc on the command itself or permanently via Nix's configuration.
 
-If you've completed the [quick installation guide](../install/), including the scaffolding example, then you'll likely already had the scaffolding configure it for you via the file at _~/.config/nix/nix.conf_.
+If you've completed the [quick installation guide](/quick-start/), including the scaffolding example, then you'll likely already had the scaffolding configure it for you via the file at _~/.config/nix/nix.conf_.
 
 To manually configure it via this file you can run the following commands:
 

@@ -271,5 +271,5 @@ Next steps might include creating a collection of all ToDo items, not just the o
 
 - Find all the links to Rust docs, HDKs and APIs in [References](/references/).
 - Seeing strange language in these steps look up the words in the [Glossary](/references/glossary/).
-- Go deep to understand how Holochain works in the [Core Concepts](/concepts/).
+- Go deep to understand how Holochain works in the [Core Concepts](/concepts/1_the_basics/).
 !!!

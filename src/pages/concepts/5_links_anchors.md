@@ -9,7 +9,7 @@ Entries on the DHT are connected to one another via one-way **links**. They allo
 ::: coreconcepts-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
-1. [Why it's hard to find data in a DHT](#the-difficulty-of-looking-for-data-especially-when-you-dont-know-what-you-re-looking-for)
+1. [Why it's hard to find data in a DHT](#the-difficulty-of-looking-for-data-especially-when-you-don-t-know-what-you-re-looking-for)
 2. [How linked data makes discovery easy](#links-creating-a-distributed-graph-database)
 3. [Starting points you can use to discover data](#starting-points-for-traversing-graphs)
 4. [How it looks in real life](#case-study-a-music-sharing-app)
