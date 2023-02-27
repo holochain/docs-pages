@@ -3,7 +3,7 @@
 package = "netlify-plugin-checklinks"
     [plugins.inputs]
     entryPoints = [
-        "/index.html",
+        "*.html",
     ]
 
     recursive = true
