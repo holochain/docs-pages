@@ -152,7 +152,7 @@ The act of modifying the properties of [DNA](#dna) at installation time in order
 
 #### Cloud
 
-A specific [client/server](configuratin) in which computing power is [decentralized](#decentralization) but agency is [centralized](#centralization).
+A specific [client/server](#client-server) configuration in which computing power is [decentralized](#decentralization) but agency is [centralized](#centralization).
 
 #### Commit
 

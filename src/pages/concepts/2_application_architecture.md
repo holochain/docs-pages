@@ -88,7 +88,7 @@ A bundle of executable code that makes a unit of functionality in a hApp is call
 
 The DNA can also contain metadata: a name, description, unique ID, and **properties**. The unique ID and properties can be changed either in a text editor or at installation time. The unique ID can be changed to **clone** a DNA, creating a new cell with identical functionality but an entirely separate history, network, and shared database. The properties, on the other hand, can also be changed to clone a DNA, but also direct the DNA's executable code to change the new cell's runtime behavior (similar to configuration parameters). 
 
-In fact, even the slightest alteration of any part of the DNA will cause a cell to be cloned. Consider source code and configuration changes carefully, because each modification will create a new DNA with a new cell interacting in a separate network. This may require some sort of [migration](../concepts/10_migration/) strategy to move or access data between old and new cells.
+In fact, even the slightest alteration of any part of the DNA will cause a cell to be cloned. Consider source code and configuration changes carefully, because each modification will create a new DNA with a new cell interacting in a separate network. This may require some sort of [migration](/concepts/10_migration/) strategy to move or access data between old and new cells.
 
 ### Zome
 
