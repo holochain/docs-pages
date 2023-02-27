@@ -5,7 +5,7 @@ hide:
 ---
 
 ::: coreconcepts-intro
-This guide assumes that you've already followed the [quick installation guide](../install/) and want to learn more about the set up. It describes how to manually recreate and maintain the development environment, use your default shell and preferred code editor with Nix, explains how to install specific versions of Holochain, and discusses why we use `nix develop` in the first place.
+This guide assumes that you've already followed the [quick installation guide](/quick-start/) and want to learn more about the set up. It describes how to manually recreate and maintain the development environment, use your default shell and preferred code editor with Nix, explains how to install specific versions of Holochain, and discusses why we use `nix develop` in the first place.
 :::
 
 ## Holonix - the Holochain app development environment
