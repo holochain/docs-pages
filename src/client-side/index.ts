@@ -61,7 +61,7 @@ function setupNavHandlers() {
       clickedChildLevel?.classList.toggle("open", !currentStateOpen);
 
       // Handle the arrow direction
-      const openedButtons = document.querySelectorAll("main-nav ul.nav-top-level > li > button.up-arrow");
+      const openedButtons = document.querySelectorAll("#main-nav ul.nav-top-level > li > button.up-arrow");
       openedButtons.forEach((btn) => btn.classList.remove("up-arrow"));
       btn.classList.toggle("up-arrow", !currentStateOpen);
     });
