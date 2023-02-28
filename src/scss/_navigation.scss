@@ -58,12 +58,6 @@
             }
           }
         }
-      
-        button.up-arrow {
-          svg {
-            transform: rotateZ(180deg);
-          }
-        }
       }
 
       &.nav-top-level {
@@ -75,6 +69,16 @@
 
           button {
             cursor: pointer;
+
+            svg {
+              transition: all 0.25s;
+            }
+
+            &.up-arrow {
+              svg {
+                transform: rotateZ(180deg);
+              }
+            }
           }
         }
 
@@ -89,12 +93,6 @@
             display: block;
           }
         }
-
-        // li[data-is-current-parent="true"] {
-        //   ul.nav-child-level {
-        //     display: block;
-        //   }
-        // }
       }
     }
   }
