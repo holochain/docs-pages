@@ -52,11 +52,18 @@ setUpMenuToggle();
 function setupNavHandlers() {
   document.querySelectorAll<HTMLButtonElement>("button[data-children-opener]").forEach((btn) => {
     btn.addEventListener("click", (e: Event) => {
+      // Handle the open/close state
       const openedChildLevels = document.querySelectorAll("ul.nav-child-level.open");
       const clickedChildLevel = btn.parentElement?.querySelector("ul.nav-child-level");
-      const currentState = clickedChildLevel?.classList.contains("open");
+      const currentStateOpen = clickedChildLevel?.classList.contains("open");
+
       openedChildLevels.forEach((ul) => ul.classList.remove("open"));
-      clickedChildLevel?.classList.toggle("open", !currentState);
+      clickedChildLevel?.classList.toggle("open", !currentStateOpen);
+
+      // Handle the arrow direction
+      const openedButtons = document.querySelectorAll("main-nav ul.nav-top-level > li > button.up-arrow");
+      openedButtons.forEach((btn) => btn.classList.remove("up-arrow"));
+      btn.classList.toggle("up-arrow", !currentStateOpen);
     });
   });
 }
