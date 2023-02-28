@@ -1,4 +1,4 @@
-$top-nav-img-height: 24rem;
+$top-nav-img-height: 24px;
 $cl-header-bar-primary: black;
 
 header#page-header {
@@ -7,7 +7,7 @@ header#page-header {
   #page-header-top {
     display: flex;
     justify-content: space-between;
-    font-size: 18rem;
+    font-size: 18px;
     padding: 24px $sz-mobile-hor-padding 20px;
 
     a {
@@ -16,6 +16,7 @@ header#page-header {
 
     #logo-space {
       display: flex;
+      flex-shrink: 0;
 
       #home-link {
         img {
@@ -36,17 +37,20 @@ header#page-header {
 
       ul {
         display: flex;
+        // column-gap: 20px;
+        justify-content: flex-end;
         list-style-type: none;
         margin-bottom: -17px;
 
         li {
-          min-width: 130px;
+          //min-width: 130px;
+          flex-shrink: 0;
 
           a {
-            margin-left: 24rem;
+            margin-left: 24px;
             font-weight: 400;
             font-variation-settings: "wght" 400;
-            padding-bottom: 6rem;
+            padding-bottom: 6px;
             border-bottom: 2px solid transparent;
             transition: all .75s;
           }

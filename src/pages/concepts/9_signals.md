@@ -57,3 +57,7 @@ As signals don't receive a response, there's no way to tell whether the recipien
 Signals are a fairly simple construct right now, and it's likely that your app will have complex performance or security requirements that mean not all signals should be broadcast everywhere. We intend to introduce a [publish/subscribe](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) model to signals so that clients and remote cells can ask to receive certain messages and not others, while DNA code can approve or reject those requests.
 
 We also hope to introduce DHT signals, so an agent can subscribe to a base DHT address and receive information about new [links](../5_links_anchors/), [CRUD actions](../6_crud_actions/), or publish headers on that address.
+
+### Next Up 
+
+[Explore migration strategies —>](../10_migration/){.btn-purple} 

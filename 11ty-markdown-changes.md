@@ -27,12 +27,28 @@
 ## Code Fences
   - Include language (i.e.: `bash`) always.
 
+## Open in new window 
+- add `{target=_blank}` after link markdown parens
+
+## Button for link
+- add `{.btn-purple}` after link markdown parens
+
+## Center an Image
+```
+![](/assets/img/concepts/8.8-assigned-capability.png)
+{.center}
+```
+Note: The new line after the image is required to put the class in the enclosing `<p>`
+
+## Tweak the size of an image
+Obviously it would be optimal to actually resize the image. But you can tweak the max-width with the classes
+`sz10p` (10%) through `sz200p` (200%)
+```
+![](/assets/img/concepts/8.1-calls.png){.sz50p}
+```
 
 ## Items to add to README
 - using callMacroByName
 
-## Open in new window 
-- add {target=_blank} after link markdown parens
 
-## Button for link
-- add {.btn-purple} after link markdown parens
+

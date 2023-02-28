@@ -13,12 +13,16 @@ When you write a Holochain application, the part that lives in Holochain is call
 The conductor exposes two RPC APIs over WebSocket interfaces:
 
 * The **admin API** lets application front-ends control the conductor to install DNAs, create agent IDs, combine a DNA and an agent ID into a running cell, and activate application RPC interfaces.
-* The **app API** lets front-ends call a running [cell](../glossary/#cell)'s functions and get information on the [DNA bundle](../glossary/#dna-bundle) that the cell belongs to.
+* The **app API** lets front-ends call a running [cell](./glossary/#cell)'s functions and get information on the [DNA bundle](./glossary/#dna-bundle) that the cell belongs to.
 
-For both of these APIs, you make an RPC call sending a MessagePack-serialized request to the conductor over WebSocket and listening for a response. On the interface that exposes the app API, you can also listen for [**signals**](../glossary/#signal) broadcast by cells.
+For both of these APIs, you make an RPC call sending a MessagePack-serialized request to the conductor over WebSocket and listening for a response. On the interface that exposes the app API, you can also listen for [**signals**](./glossary/#signal) broadcast by cells.
 
 * **[Admin API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html){target=_blank}**
 * **[App API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html){target=_blank}**
+
+For ergonomic interaction with those two API's there are two client implementations: One in JavaScript and one in Rust. If you intend to
+develop Holochain Apps with a web-based UI, **it is likely that all you'll ever need is the [JavaScript client](https://www.npmjs.com/package/@holochain/client){target=_blank}**.
+
 * **[Holochain client JavaScript](https://github.com/holochain/holochain-conductor-api){target=_blank}**
 * **[Holochain client Rust](https://github.com/holochain/holochain-client-rust){target=_blank}**
 
@@ -30,11 +34,12 @@ The conductor has a few settings that can (and should) be configured via a YAML 
 
 ## Binaries
 
-There are two main binaries. You can run any of these on the command-line with the `--help` flag to get detailed documentation.
+There are three main binaries. You can run any of these on the command-line with the `--help` flag to get detailed documentation.
 
-* **`holochain`** is the Holochain runtime, or [conductor](../glossary/#conductor).
+* **`holochain`** is the Holochain runtime, or [conductor](./glossary/#conductor).
 * **`hc`** is an all-purpose developer tool that:
-    * packages a [DNA manifest](../glossary/#dna-manifest) file and one or more [zomes](../glossary/#zome) (in WASM bytecode) into a [DNA bundle](../glossary/#dna-bundle)
-    * creates and executes conductor configurations for a hApp
-    * (more to come)
+    * packages a [DNA manifest](./glossary/#dna-manifest) file and one or more [zomes](./glossary/#zome) (in WASM bytecode) into a [DNA bundle](./glossary/#dna-bundle)
+    * packages one or more DNAs into a hApp
+    * manages sandboxed Holochain conductors
+    * see [holochain_cli docs](https://docs.rs/holochain_cli/latest/holochain_cli){target=_blank} for more info
 * **`lair-keystore`** is Holochain's [keystore](https://github.com/holochain/lair){target=_blank} for generating and signing with cryptographically secure keys. Use this command for initialization, configuration, and running of a Lair keystore.

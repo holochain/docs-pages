@@ -24,7 +24,7 @@ Let’s take a look at one single node and see what’s happening from the user�
 
 Back in [the basics](..//1_the_basics/), we said that one of Holochain's pillars is 'intrinsic data integrity.' The first stone in this pillar is [**public key cryptography**](https://en.wikipedia.org/wiki/Public-key_cryptography), which allows each user to create and authenticate their own identifier without a central password database. If you've ever used [SSH](https://en.wikipedia.org/wiki/Secure_Shell), you're already familiar with this.
 
-![](/assets/img/concepts/3.1-key-generation.png)
+![](/assets/img/concepts/3.1-key-generation.png){.sz60p} {.center}
 
 When you join a hApp's network, you create an identifier for yourself by generating a **public/private key pair**. This key pair does a few things for you:
 
@@ -45,7 +45,7 @@ All your key pairs are stored in an encrypted, password-protected key manager on
 
 ## Source chain: your own data store
 
-![](/assets/img/concepts/3.2-source-chain-as-journal.png)
+![](/assets/img/concepts/3.2-source-chain-as-journal.png){.sz60p} {.center}
 
 The next stone in the pillar is a chronological journal of every action that the user has performed in their copy of the app—changing their public key, creating, updating, or deleting public or private data, linking data together, and more. Only the user has the authority to write to it; it lives on their device and each entry must be signed by their private key. This journal is called a **source chain** because every piece of data in an app has its source here.
 
@@ -53,8 +53,8 @@ The user’s actions are stored in the source chain as **records**, which consis
 
 This journal starts with three special system records:
 
-![](/assets/img/concepts/3.3-genesis-records-1-and-2.png)
-![](/assets/img/concepts/3.4-genesis-record-3.png)
+![](/assets/img/concepts/3.3-genesis-records-1-and-2.png){.sz60p} {.center}
+![](/assets/img/concepts/3.4-genesis-record-3.png){.sz60p} {.center}
 
 1. **The hash of the DNA**. Because the DNA’s executable code constitutes the ‘rules of the game’ for everyone in the app, this record shows that your Holochain runtime has seen and agrees to abide by those rules.
 2. **The agent’s ‘joining proof’**. When an agent tries to join this DNA’s peer-to-peer network, it shares this entry with the existing peers, who check it and determine whether the agent should be allowed to join. Examples: an invite code, an employee ID signed by the HR department, or a proof of paid subscription fees.
@@ -73,7 +73,7 @@ _A record on your source chain cannot be modified once it’s been committed._ T
 
 If the integrity of your data is so important, what might happen if a third party tried to mess with it en route to your true love or business partner? The answer is, _not much_. Let’s take a look at why.
 
-![](/assets/img/concepts/3.5-commit.png)
+![](/assets/img/concepts/3.5-commit.png){.sz60p} {.center}
 
 1. When a function in the DNA wants to record a user action, it creates a record containing the details of that action.
 2. Then the conductor calls the DNA’s validation function for that record. If it fails validation, it returns an error to the client.
@@ -85,11 +85,11 @@ This lets us detect [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Ma
 
 Let's take a closer look at the action. Along with the signature, it includes the hash of the previous action, a timestamp, and the entry's type.
 
-![](/assets/img/concepts/3.6-action)
+![](/assets/img/concepts/3.6-action.png)
 
 Let's look even more closely at that first line in the action.
 
-![](/assets/img/concepts/3.7-prev-action.png)
+![](/assets/img/concepts/3.7-prev-action.png){.sz60p} {.center}
 
 This hash is the unique cryptographic ‘fingerprint’ for the previous record’s data. This is what ensures the integrity of the entire source chain. Each record points back to its previous entry. With a paper journal, it’s obvious when someone’s ripped out a page, glued a new page in, or taped a sheet of paper over an existing page. This chain of hashes is the digital equivalent: if anyone so much as modifies a single character in a record, all subsequent records will be invalidated.
 
@@ -116,3 +116,7 @@ Holochain's answer is simple---_somebody will notice_. More on that in the next 
 * [Wikipedia: Hash chain](https://en.wikipedia.org/wiki/Hash_chain)
 * [Wikipedia: Public key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography)
 * [Wikipedia: Man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)
+
+### Next Up 
+
+[Explore the DHT —>](../4_dht/){.btn-purple} 

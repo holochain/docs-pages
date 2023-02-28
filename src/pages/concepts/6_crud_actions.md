@@ -75,3 +75,6 @@ Because data takes up space even when it’s no longer live, be judicious about 
 * Because this may surprise users, developers have a responsibility to inform them of the permanence of data and protect them from negative consequences.
 * In the future we intend to introduce actions that request the actual deletion of data, as well as canonical redirects.
 
+### Next Up 
+
+[Explore validation —>](../7_validation/){.btn-purple} 

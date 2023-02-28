@@ -9,7 +9,7 @@ Agents share records of their actions, including any data meant to be shared wit
 ::: coreconcepts-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
-1. [The downsides and risks of self-owned data](#self-owned-data-isnt-enough)
+1. [The downsides and risks of self-owned data](#self-owned-data-isn-t-enough)
 2. [How public data is stored](#the-distributed-hash-table-a-public-data-store)
 3. [How nodes store and retrieve data in a distributed database](#finding-peers-and-data-in-a-distributed-database)
 4. [What happens when the network falls apart](#resilience-and-availability)
@@ -143,3 +143,7 @@ The important thing is that the DHT _remembers what you’ve published_, so it�
 * [Wikipedia: Gossip protocol](https://en.wikipedia.org/wiki/Gossip_protocol)
 * [Wikipedia: Distributed hash table](https://en.wikipedia.org/wiki/Distributed_hash_table)
 * [Wikipedia: Peer-to-peer](https://en.wikipedia.org/wiki/Peer-to-peer)
+
+### Next Up 
+
+[Explore links & anchors —>](../5_links_anchors/){.btn-purple} 

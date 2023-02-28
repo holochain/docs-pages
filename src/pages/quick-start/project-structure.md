@@ -9,7 +9,7 @@ When you use the Scaffolding Tool to generate your sample project, it will creat
 
 - a .gitignore file
 - initialized npm workspace
-- default.nix configuration for the Holochain nix-shell
+- flake.nix and flake.lock configuration for the Holochain devShell
 - a DNA "forum" with one Zome "posts"
 - configuration files to bundle DNA, hApp and Web hApp (UI + hApp)
 - Tryorama setup for e2e tests of the DNA
@@ -20,7 +20,8 @@ When you use the Scaffolding Tool to generate your sample project, it will creat
 
 ```bash
 ├── Cargo.toml
-├── default.nix
+├── flake.nix
+├── flake.lock
 ├── dnas
 │   └── forum
 │       ├── workdir
@@ -81,4 +82,4 @@ When you use the Scaffolding Tool to generate your sample project, it will creat
 20 directories, 43 files
 ```
 
-You can enter the Holochain nix-shell and immediately start developing your hApp.
+You can enter the Holonix devShell and immediately start developing your hApp.

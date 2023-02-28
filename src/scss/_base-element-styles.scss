@@ -10,7 +10,7 @@ ul, ol {
 }
 
 @mixin btn-base($color: currentColor, $bg-color: white, $hover-color: white, $hover-bg-color: $cl-brand-green) {
-  padding: 8rem 16rem;
+  padding: 8px 16px;
   border-radius: 5px;
   color: $color;
   background-color: $bg-color;
@@ -25,6 +25,11 @@ ul, ol {
 // Applicable to an a or button element
 .btn {
   @include btn-base;
+}
+
+.btn-green-outline {
+  @include btn-base;
+  border: $cl-brand-green solid 1px;
 }
 
 .btn-purple {
@@ -43,5 +48,26 @@ button {
   &.clear-btn {
     border: none;
     background: none;
+  }
+}
+
+/* Utility Classes */
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+img {
+  @for $p from 1 through 20 {
+    &.sz#{$p}0p {
+      max-width: $p * 10%;
+    } 
   }
 }
