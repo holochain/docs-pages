@@ -76,7 +76,7 @@ The [agent](#agent) who has written and [signed](#public-key-signature) a [recor
 
 #### Author grant
 
-A [capability grant](#capability-grant) that allows anyone possessing the [source chain](#source-chain) [author](#author)'s private key to call any [zome function](#zome-function) in a [cell](#cell). The only callers that should possess this key are the agent's own [clients](#client) and other [bridged](#bridge) cells associated with the same [agent ID](#agent-id) in the same [conductor](#conductor).
+A [capability grant](#capability-grant) that allows anyone possessing the [source chain](#source-chain) [author](#author)'s private key to call any [zome function](#zome-function) in a [cell](#cell). The only callers that should possess this key are the agent's own [clients](#client) and other [bridged](#bridge-call) cells associated with the same [agent ID](#agent-id) in the same [conductor](#conductor).
 
 #### Back end
 
@@ -96,15 +96,15 @@ A service which keeps track of lists of [transport addresses](#transport-address
 
 #### Bridge call
 
-A [zome call](#zome-call) made between [cells](#cell) in one [agent](#agent)'s [conductor](#conductor), which allows cells to access each other's public APIs.
+A [zome function](#zome-function) call made between [cells](#cell) in one [agent](#agent)'s [conductor](#conductor), which allows cells to access each other's public APIs.
 
 #### Bundling
 
 The act of packaging:
 
 1. one or more [zomes](#zome) into a [DNA bundle](#dna-bundle),
-2. one or more DNA bundles into a [hApp bundle](#happ-bundle), or
-3. a hApp bundle and a UI into a [web hApp](#web-happ).
+2. one or more DNA bundles into a [hApp bundle](#h-app-bundle), or
+3. a hApp bundle and a UI into a [web hApp](#web-h-app).
 
 #### Byzantine fault tolerance (BFT)
 
@@ -148,7 +148,7 @@ A secret series of bytes for a [capability grant](#capability-grant), created by
 
 #### Capability subject
 
-The entity that is given permission to access a resource via [capability-based security](#capability-based-security). In Holochain, this can be a [client](#client) or [bridged](#bridge) [cell](#cell) on the user's machine, or it can be another [agent](#agent) making a [remote call](#remote-call).
+The entity that is given permission to access a resource via [capability-based security](#capability-based-security). In Holochain, this can be a [client](#client) or [bridged](#bridge-call) [cell](#cell) on the user's machine, or it can be another [agent](#agent) making a [remote call](#remote-call).
 
 #### Cell
 
@@ -356,7 +356,7 @@ A basic unit of user data in a Holochain app. Each entry has its own defined [en
 
 #### Entry type
 
-A specification for any sort of entry that a [DNA](#dna) should recognize and understand, similar to an <abbr title="object-oriented programming">OOP</abbr> class or database table schema. It can specify whether entries of its type should be [public](#public-entry) or [private](#private-entry), and how many [required validations](#required-validations) should exist. DNA developers create their own entry types for the data their app needs to store, and can write [validation functions](#validation-function) for [operations](#operation) that [create, update, or delete](#create-read-update-delete-crud) entries of those types.
+A specification for any sort of entry that a [DNA](#dna) should recognize and understand, similar to an <abbr title="object-oriented programming">OOP</abbr> class or database table schema. It can specify whether entries of its type should be [public](#public-entry) or [private](#private-entry), and how many [required validations](#required-validations) should exist. DNA developers create their own entry types for the data their app needs to store, and can write [validation functions](#validation-function) for [operations](#dht-operation) that [create, update, or delete](#create-read-update-delete-crud) entries of those types.
 
 #### Entry types callback
 
@@ -413,7 +413,7 @@ A [client](#client) that presents a visual, easy-to-understand way for a user to
 
 #### hApp bundle
 
-One or more [DNA](#dna)s, which together form the [back end](#back-end) for a complete [hApp](#holochain-application-h-app). These components are specified in a [hApp bundle's](#h-app-bundle) manifest file, and can be packaged in a zip archive along with the manifest or downloaded separately from the internet. A hApp can also be bundled with a web-based UI to become a [web hApp](#web-h-app).
+One or more [DNA](#dna)s, which together form the [back end](#back-end) for a complete [hApp](#holochain-application-h-app). These components are specified in a hApp bundle's manifest file, and can be packaged in a zip archive along with the manifest or downloaded separately from the internet. A hApp can also be bundled with a web-based UI to become a [web hApp](#web-h-app).
 
 #### Hash
 
@@ -425,7 +425,7 @@ An [append-only](#append-only) data structure that can be used as a tamper-evide
 
 #### hc
 
-A command-line tool for [scaffolding](#scaffolding), [bundling](#bundling), testing, and running [hApps](#holochain-application-happ).
+A command-line tool for [scaffolding](#scaffolding), [bundling](#bundling), testing, and running [hApps](#holochain-application-h-app).
 
 #### History
 
@@ -449,7 +449,7 @@ The basic components of Holochain---the [conductor](#conductor), the [nucleus](#
 
 #### Holochain host API
 
-The set of core functions that Holochain's [nucleus](#nucleus) makes available to a [ribosome](#ribosome), so the ribosome can in turn make them available to a running [cell](#cell). These functions allow the DNA to access and manipulate an [agent](#agent)'s [source chain](#source-chain), run cryptographic functions, retrieve and publish [DHT data](#dht-data), [bridge](#bridge) to the agent's other cells, and make [remote calls](#remote-call) to their [peers](#peer).
+The set of core functions that Holochain's [nucleus](#nucleus) makes available to a [ribosome](#ribosome), so the ribosome can in turn make them available to a running [cell](#cell). These functions allow the DNA to access and manipulate an [agent](#agent)'s [source chain](#source-chain), run cryptographic functions, retrieve and publish [DHT data](#dht-data), [bridge](#bridge-call) to the agent's other cells, and make [remote calls](#remote-call) to their [peers](#peer).
 
 #### Holo Host
 
@@ -473,7 +473,7 @@ A [record](#record) that Holochain automatically writes to an [agent](#agent)'s 
 
 #### Integrity zome
 
-A [zome](#zome) that defines a data schema. It does this through three specially named [zome functions](#zome-function): one that yields a set of entry types, one that yields a set of link types, and a [validation function](#validation-function) that receives an [operation](#dht-operation) produced by a [source chain](#source-chain) [action](#action) (either one [authored](#author) by the [agent](#agent) running the function or one received for [DHT](#dht) storage as part of an agent's role as a [validation authority](#validation-authority)) and yields a true, false, or indeterminate answer. A validation function can also validate system actions such as the [membrane proof](#membrane-proof) and [capability grants](#capability-grant). All integrity zomes are considered [DNA modifiers](#dna-modifiers), as they define the [DNA](#dna)'s core set of agreements about the nature of data that can be validly produced by any agent in the [network](#network). Although an integrity zome cannot produce data, [coordinator zomes](#coordinator-zome) within the same DNA can produce data that whose schema it defines.
+A [zome](#zome) that defines a data schema. It does this through three specially named [zome functions](#zome-function): one that yields a set of entry types, one that yields a set of link types, and a [validation function](#validation-function) that receives an [operation](#dht-operation) produced by a [source chain](#source-chain) [action](#action) (either one [authored](#author) by the [agent](#agent) running the function or one received for [DHT](#distributed-hash-table-dht) storage as part of an agent's role as a [validation authority](#validation-authority)) and yields a true, false, or indeterminate answer. A validation function can also validate system actions such as the [membrane proof](#membrane-proof) and [capability grants](#capability-grant). All integrity zomes are considered [DNA modifiers](#dna-modifiers), as they define the [DNA](#dna)'s core set of agreements about the nature of data that can be validly produced by any agent in the [network](#network). Although an integrity zome cannot produce data, [coordinator zomes](#coordinator-zome) within the same DNA can produce data that whose schema it defines.
 
 #### Intrinsic data integrity
 
@@ -489,7 +489,7 @@ A history of events or [state transitions](#state-transition). In [distributed l
 
 #### Lightweight consensus
 
-An informal term for a Holochain application pattern in which the ownership of scarce resources are tracked and protected from conflicting ownership claims by establishing a set of trusted nodes as [M-of-N signers](#m-of-n-signing), a majority of whom witness every [countersigned](#countersigned) transaction.
+An informal term for a Holochain application pattern in which the ownership of scarce resources are tracked and protected from conflicting ownership claims by establishing a set of trusted nodes as [M-of-N signers](#m-of-n-signing), a majority of whom witness every [countersigned](#countersigning) transaction.
 
 #### Link
 
@@ -497,7 +497,7 @@ A piece of [metadata](#metadata) connecting one [address](#address) on the [DHT]
 
 #### Link base
 
-The [address](#address) that a [link](#link) links from. The base usually points to the address of a piece of [record data](#record-data) on the same [DHT](#dht), but can also point to an external hash-based address or even left unspecified.
+The [address](#address) that a [link](#link) links from. The base usually points to the address of a piece of [record data](#record-data) on the same [DHT](#distributed-hash-table-dht), but can also point to an external hash-based address or even left unspecified.
 
 #### Link tag
 
@@ -509,7 +509,7 @@ The [address](#address) that a [link](#link) points to. As with the [base](#link
 
 #### Link type
 
-A specification for a [link](#link) defined in an [integrity zome](#integrity-zome) that a [DNA](#dna) should recognise and understand, similar to a foreign reference in a database table schema. DNA developers create their own link types for the data their app needs to store, and can write [validation functions](#validation-function) for [operations](#operation) that [create, update, or delete](#create-read-update-delete-crud) links of those types.
+A specification for a [link](#link) defined in an [integrity zome](#integrity-zome) that a [DNA](#dna) should recognise and understand, similar to a foreign reference in a database table schema. DNA developers create their own link types for the data their app needs to store, and can write [validation functions](#validation-function) for [operations](#dht-operation) that [create, update, or delete](#create-read-update-delete-crud) links of those types.
 
 #### Link types callback
 
@@ -588,7 +588,7 @@ The core of Holochain. With the help of the [ribosome](#ribosome), it governs da
 
 #### Origin time
 
-A timestamp deemed to be the 'birthdate' of a [DNA](#dna). It defines the earliest valid timestamp for any data on any [source chain](#source-chain) of any [cell](#cell) in the DNA's [network](#network), and helps make gossip more efficient. Origin time is considered a [DNA modifier](#dna-modifier).
+A timestamp deemed to be the 'birthdate' of a [DNA](#dna). It defines the earliest valid timestamp for any data on any [source chain](#source-chain) of any [cell](#cell) in the DNA's [network](#network), and helps make gossip more efficient. Origin time is considered a [DNA modifier](#dna-modifiers).
 
 #### Participant
 
@@ -691,13 +691,17 @@ The programming language currently used to build Holochain Core and [DNAs](#dna)
 
 The state at which there are enough [peers](#peer) holding a piece of [DHT data](#dht-data) to make sure it's reliably available to anyone who asks for it (see [resilience](#resilience)).
 
+#### Scaffolding
+
+The act of generating application code from generic templates and app-specific specifications using a tool built for the purpose. Holochain's [scaffolding tool](https://github.com/holochain/scaffolding) can generate [zome](#zome), test, and UI code.
+
 #### Scenario test
 
 An automated test that simulates real-life conditions involving multiple [agents](#agent) on a simulated or real [network](#network), used to test a [DNA](#dna)'s tolerance of various failure modes. [Tryorama](#tryorama) is used to write scenario tests in JavaScript.
 
 #### Scheduler function
 
-A private [zome function](#zome-function) (that is, a function which is not exposed as part of a [DNA](#dna)'s public API) which another zome function can direct to be called on an [ephemeral](#ephemeral-schedule) or [recurring schedule](#recurring-schedule). A scheduler function only receives a schedule and can only return a schedule (either a new one or the same one); any state information must be retrieved from the [source chain](#source-chain) of the [agent](#agent) on which the [cell](#cell) is running, or from the [DHT](#dht) which the cell is a part of.
+A private [zome function](#zome-function) (that is, a function which is not exposed as part of a [DNA](#dna)'s public API) which another zome function can direct to be called on an [ephemeral](#ephemeral-schedule) or [recurring schedule](#recurring-schedule). A scheduler function only receives a schedule and can only return a schedule (either a new one or the same one); any state information must be retrieved from the [source chain](#source-chain) of the [agent](#agent) on which the [cell](#cell) is running, or from the [DHT](#distributed-hash-table-dht) which the cell is a part of.
 
 #### Scheduling
 
@@ -786,7 +790,7 @@ Any executable code that checks data for validity. Validation rules can either b
 
 A function in an application's [DNA](#dna) that contains the validation rules for a [record](#record). This function allows every [agent](#agent) to check the correctness of data they see. If a [validation authority](#validation-authority) is performing validation on a record and finds that it's invalid, they can publish a [warrant](#warrant) proving that the record's author has broken the 'rules of the game'.
 
-A validation function has only limited access to the [host API](#holochain-host-api), restricted to retrieval of deterministic [DHT](#dht) data and selected cryptographic functions.
+A validation function has only limited access to the [host API](#holochain-host-api), restricted to retrieval of deterministic [DHT](#distributed-hash-table-dht) data and selected cryptographic functions.
 
 #### Validation signature
 
@@ -806,7 +810,7 @@ A low-level byte code format that can be run on almost any platform, including t
 
 #### Web hApp
 
-A [hApp](#holochain-application-happ) [bundled](#bundling) with a web-based UI.
+A [hApp](#holochain-application-h-app) [bundled](#bundling) with a web-based UI.
 
 #### Workspace
 

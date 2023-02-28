@@ -58,6 +58,6 @@ Signals are a fairly simple construct right now, and it's likely that your app w
 
 We also hope to introduce DHT signals, so an agent can subscribe to a base DHT address and receive information about new [links](../5_links_anchors/), [CRUD actions](../6_crud_actions/), or publish headers on that address.
 
-### Next Up 
+### Next Up
 
-[Explore migration strategies —>](../10_migration/){.btn-purple} 
+[Learn about countersigning —>](../10_countersigning/){.btn-purple} 
