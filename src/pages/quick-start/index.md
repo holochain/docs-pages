@@ -65,7 +65,7 @@ _After completing the project setup, the scaffolding tool will output the comman
 [Explore project structure —>](./project-structure){.btn-purple} 
 
 !!! learn Learn More
-1. Dive into the [Holochain Core Concepts](../concepts/).
+1. Dive into the [Holochain Core Concepts](../concepts/1_the_basics/).
 2. Take a look at the developer documentation.
     * [SDK and API references](../references/)
     * [Rust HDK overview](https://github.com/holochain/holochain/blob/develop/crates/hdk/README.md)

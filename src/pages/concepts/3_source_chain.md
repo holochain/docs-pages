@@ -85,7 +85,7 @@ This lets us detect [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Ma
 
 Let's take a closer look at the action. Along with the signature, it includes the hash of the previous action, a timestamp, and the entry's type.
 
-![](/assets/img/concepts/3.6-action)
+![](/assets/img/concepts/3.6-action.png)
 
 Let's look even more closely at that first line in the action.
 
