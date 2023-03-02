@@ -137,4 +137,4 @@ You can see that Holochain is different from typical application stacks. Here's 
 
 ### Next Up 
 
-[Explore the source chain --->](../3_source_chain/){.btn-purple} 
+[Explore the source chain  →](../3_source_chain/){.btn-purple} 

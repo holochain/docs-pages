@@ -146,4 +146,4 @@ The important thing is that the DHT _remembers what you've published_, so it's v
 
 ### Next Up 
 
-[Explore links & anchors --->](../5_links_anchors/){.btn-purple} 
+[Explore links & anchors  →](../5_links_anchors/){.btn-purple} 

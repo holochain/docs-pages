@@ -207,4 +207,4 @@ For record data that can't be retrieved, the validation function should return '
 
 ### Next Up 
 
-[Explore calls & capabilities --->](../8_calls_capabilities/){.btn-purple} 
+[Explore calls & capabilities  →](../8_calls_capabilities/){.btn-purple} 

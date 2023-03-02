@@ -135,4 +135,4 @@ First, Alice needs to let Bob publish posts under her name. Here's how she does 
 
 ### Next Up 
 
-[Explore signals --->](../9_signals/){.btn-purple} 
+[Explore signals  →](../9_signals/){.btn-purple} 

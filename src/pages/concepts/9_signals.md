@@ -60,4 +60,4 @@ We also hope to introduce DHT signals, so an agent can subscribe to a base DHT a
 
 ### Next Up
 
-[Learn about countersigning --->](../10_countersigning/){.btn-purple} 
+[Learn about countersigning  →](../10_countersigning/){.btn-purple} 
