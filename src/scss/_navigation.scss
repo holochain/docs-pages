@@ -16,6 +16,7 @@
         color: $link-color;
         display: inline-block;
         transition: all .75s;
+        text-decoration: none;
 
         // Add a span so that we can use the border to indicate current page and 
         //   control the size of the indicator independent of the box size of the a tag
