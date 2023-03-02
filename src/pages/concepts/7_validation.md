@@ -28,17 +28,17 @@ Data validation rules are the core of a Holochain app. They deserve the bulk of 
 Let's review what we've covered so far.
 
 1. Holochain is a framework for building apps that let peers directly share data without needing the protective oversight of a central server.
-2. Holochain’s two pillars of integrity are [intrinsic data validity and peer witnessing](../1_the_basics/#how-holochain-does-things-differently). The first defines what correct data looks like, while the second uses the strength of many eyes to detect discrepancies and changes.
+2. Holochain's two pillars of integrity are [intrinsic data validity and peer witnessing](../1_the_basics/#how-holochain-does-things-differently). The first defines what correct data looks like, while the second uses the strength of many eyes to detect discrepancies and changes.
 3. Each type of app entry can contain any sort of binary data whose correctness is determined by validation rules written into the application.
 4. Peer validators use those rules to analyze entries and spread news about bad actors, triggering an immune response in the network.
 
-Holochain is the engine that allows peers to move data around, validate it, and take action based on validation results. **Your DNA is simply a collection of functions for creating, accessing, and validating data.** The design of these functions is critical to the success of your app because they define the membranes of safety between the user and the stuff she receives from others via the DHT. An agent’s running DNA prevents her from creating invalid data and protects her from accepting other people’s invalid data. Well-designed validation rules protect everyone, while buggy validation rules leave them vulnerable.
+Holochain is the engine that allows peers to move data around, validate it, and take action based on validation results. **Your DNA is simply a collection of functions for creating, accessing, and validating data.** The design of these functions is critical to the success of your app because they define the membranes of safety between the user and the stuff she receives from others via the DHT. An agent's running DNA prevents her from creating invalid data and protects her from accepting other people's invalid data. Well-designed validation rules protect everyone, while buggy validation rules leave them vulnerable.
 
 ## 'Remembering' validation results
 
-Some entries can be computationally expensive to validate. In a currency app, for example, the validity of a transaction depends on the account balances of both transacting parties, which is the sum of all their prior transactions. The validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people they transacted with, and so on and so on. The data is deeply interconnected; you don’t want to wait while the coffee shop's payment terminal interrogates half the town's economic history when you’re trying to buy a cup of coffee and get to work.
+Some entries can be computationally expensive to validate. In a currency app, for example, the validity of a transaction depends on the account balances of both transacting parties, which is the sum of all their prior transactions. The validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people they transacted with, and so on and so on. The data is deeply interconnected; you don't want to wait while the coffee shop's payment terminal interrogates half the town's economic history when you're trying to buy a cup of coffee and get to work.
 
-The DHT offers a shortcut—it remembers the validation results of existing entries. You can ask the validators of the parties’ previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those and so on. As long as you trust a decent number of your peers to be playing by the rules, the validation results attached to the most recent entry ‘proves’ the validity of all the entries before it.
+The DHT offers a shortcut --- it remembers the validation results of existing entries. You can ask the validators of the parties' previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those and so on. As long as you trust a decent number of your peers to be playing by the rules, the validation results attached to the most recent entry 'proves' the validity of all the entries before it.
 
 You can also consult the agent activity authority for any peer you're unsure of. They hold a copy of any past evidence of malicious activity, along with a record of all of the peer's source chain actions that show whether they've tried to change their history.
 
@@ -51,7 +51,7 @@ The validation function is called in two different scenarios, each with differen
 * When an agent first authors a record,
 * When an authority receives a record for validation.
 
-We’ll carry on with the DHT illustrations from chapter 4 to show what happens when data is written, but let’s add a simple validation rule: the “word” entry type has a validation rule that says that it can only contain one word.
+We'll carry on with the DHT illustrations from chapter 4 to show what happens when data is written, but let's add a simple validation rule: the "word" entry type has a validation rule that says that it can only contain one word.
 
 
 ### Authoring
@@ -62,16 +62,16 @@ When you **commit an entry**, your Holochain conductor is responsible for making
 
 ::: coreconcepts-storysequence
 1. ![](/assets/img/concepts/7.2-commit.png)
-Alice calls the `publish_word` zome function with the string `"eggplant"`. The function commits that word to her source chain. The conductor ‘stages’ the commit in the function’s scratch space and returns the creation action’s record hash to the `publish_word` function. The function continues executing and passes a return value back to the conductor, which holds onto it for now.
+Alice calls the `publish_word` zome function with the string `"eggplant"`. The function commits that word to her source chain. The conductor 'stages' the commit in the function's scratch space and returns the creation action's record hash to the `publish_word` function. The function continues executing and passes a return value back to the conductor, which holds onto it for now.
 
 2. ![](/assets/img/concepts/7.3-validate.png)
-After the function has finished, Alice’s conductor takes this record and calls the DNA’s validation function for the `word` entry type.
+After the function has finished, Alice's conductor takes this record and calls the DNA's validation function for the `word` entry type.
 
 3. ![](/assets/img/concepts/7.4-validation-success.png)
 The validation function sees only one word, so it returns `Valid`.
 
 4. ![](/assets/img/concepts/7.5-persist-and-publish.png)
-Her conductor commits the entry to her source chain, clears out the scratch space, and passes the `publish_word` function’s return value back to the client. The new record is then published to the DHT.
+Her conductor commits the entry to her source chain, clears out the scratch space, and passes the `publish_word` function's return value back to the client. The new record is then published to the DHT.
 :::
 
 #### Invalid entry
@@ -87,14 +87,14 @@ Again, the conductor calls the validation function for the `word` entry type.
 This time, the validation function sees two words. It returns `Invalid("too many words")`.
 
 4. ![](/assets/img/concepts/7.9-return-error.png)
-Instead of committing the entry, the conductor passes this error message back to the client instead of whatever the `publish_word` function’s return value was.
+Instead of committing the entry, the conductor passes this error message back to the client instead of whatever the `publish_word` function's return value was.
 :::
 
 You can see that author-side validation is similar to how data validation works in a traditional client/server app: if something is wrong, the business logic rejects it and asks the user to fix it.
 
 ### Peer validation
 
-When an authority **receives an entry for validation**, the flow is very different. The authority doesn’t just assume that the author has already validated the data; they could easily have hacked their conductor to bypass validation rules. It’s the authority’s duty and right to treat every piece of data as suspect until they can personally verify it. Fortunately, they have their own copy of the validation rules.
+When an authority **receives an entry for validation**, the flow is very different. The authority doesn't just assume that the author has already validated the data; they could easily have hacked their conductor to bypass validation rules. It's the authority's duty and right to treat every piece of data as suspect until they can personally verify it. Fortunately, they have their own copy of the validation rules.
 
 Here are the two scenarios above from the perspective of the DHT.
 
@@ -102,10 +102,10 @@ Here are the two scenarios above from the perspective of the DHT.
 
 ::: coreconcepts-storysequence
 1. ![](/assets/img/concepts/7.10-gossip-to-authorities.png)
-As authorities for the address `E`, Diana and Fred receive a copy of Alice’s `"eggplant"` entry for validation and storage.
+As authorities for the address `E`, Diana and Fred receive a copy of Alice's `"eggplant"` entry for validation and storage.
 
 2. ![](/assets/img/concepts/7.11-authorities-validate.png)
-Their conductors call the `word` entry type’s validation function.
+Their conductors call the `word` entry type's validation function.
 
 3. ![](/assets/img/concepts/7.12-hold.png)
 The entry is valid, so they store it in their personal shard of the DHT, along with their **validation receipts** attesting its validity.
@@ -116,7 +116,7 @@ They both send a copy of their receipts back to Alice. Later on, they share the 
 
 #### Invalid entry
 
-Let's say Alice has taken off her guard rails---she's hacked her Holochain software to bypass the validation rules.
+Let's say Alice has taken off her guard rails --- she's hacked her Holochain software to bypass the validation rules.
 
 ::: coreconcepts-storysequence
 1. ![](/assets/img/concepts/7.14-gossip-to-authorities.png)
@@ -129,10 +129,10 @@ Their conductors call the validation function.
 The entry is invalid. They create, sign, and store a **warrant** (a validation receipt that claims the entry is invalid).
 
 4. ![](/assets/img/concepts/7.17-gossip-warrant.png)
-In addition to sharing the warrant with their neighbors, Norman and Rosie also share it with Alice’s agent ID authorities — that is, her neighbors. Now anyone who wants to check up on her can contact those authorities, ask for warrants, and choose to refuse contact with her.
+In addition to sharing the warrant with their neighbors, Norman and Rosie also share it with Alice's agent ID authorities --- that is, her neighbors. Now anyone who wants to check up on her can contact those authorities, ask for warrants, and choose to refuse contact with her.
 
 5. ![](/assets/img/concepts/7.18-ejection.png)
-Eventually, everyone knows that Alice is a ‘bad actor’ who has hacked her app. They all ignore her whenever she tries to talk to them, which effectively ejects her from the DHT.
+Eventually, everyone knows that Alice is a 'bad actor' who has hacked her app. They all ignore her whenever she tries to talk to them, which effectively ejects her from the DHT.
 :::
 
 ## Use cases for validation
@@ -153,25 +153,25 @@ A validation rule is simply a callback function in your zome code that takes a r
 * **All chain records of the same type** up to the record,
 * A **custom package** generated by a special function of your own creation.
 
-Data can also be retrieved from the DHT to support validation. Once it’s done its work, the validation function can return one of three values:
+Data can also be retrieved from the DHT to support validation. Once it's done its work, the validation function can return one of three values:
 
 * **Valid**,
 * **Invalid**, with a description of what was invalid,
-* **Unresolved dependencies**, with a list of the addresses of data it couldn’t retrieve from the DHT.
+* **Unresolved dependencies**, with a list of the addresses of data it couldn't retrieve from the DHT.
 
-All actions (create, update, delete) on all entry types (app entries, agent ID entries, and capability grants/claims) can have different validation functions, which follow a ‘cascade’ of specificity. Holochain calls all the matching validation functions it can find for an entry type, starting with the most specific, until one of them returns an error. The cascade for entries looks like this:
+All actions (create, update, delete) on all entry types (app entries, agent ID entries, and capability grants/claims) can have different validation functions, which follow a 'cascade' of specificity. Holochain calls all the matching validation functions it can find for an entry type, starting with the most specific, until one of them returns an error. The cascade for entries looks like this:
 
 1. `validate_<action>_entry_<entry_type>` for specific actions on specific app entry types (e.g., `validate_update_entry_word` will be called for all update actions for entries of type `word`)
 2. `validate_<action>_entry` for specific actions on all app entry types produced by the current zome
 3. `validate_<action>` for specific actions on all app entry types produced by the current zome, as well as any system entry type produced by any zome in the DNA
 4. `validate` for all actions on all app entry types produced by the current zome, as well as any system entry type produced by any zome in the DNA
 
-For instance, you could have two validation functions for the “word” entry type:
+For instance, you could have two validation functions for the "word" entry type:
 
 1. `validate_create_entry_word` checks that the entry only contains one word.
-2. `validate_create_entry` checks general write permissions for all app entry types, including the “word” type.
+2. `validate_create_entry` checks general write permissions for all app entry types, including the "word" type.
 
-Links also have their own validation functions, `validate_create_link` and `validate_delete_link`, which are called for any links produced by the current zome. Because links don’t have a type, if you want to apply different validation rules to different types of link, your function will have to switch on different kinds of link based on the base, target, and tag.
+Links also have their own validation functions, `validate_create_link` and `validate_delete_link`, which are called for any links produced by the current zome. Because links don't have a type, if you want to apply different validation rules to different types of link, your function will have to switch on different kinds of link based on the base, target, and tag.
 
 ## Guidelines for writing validation rules
 

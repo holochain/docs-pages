@@ -36,9 +36,9 @@ There's another membrane, which sits between a participant and her copy of the a
 
 ## Layers of the application stack
 
-Holochain handles a lot of things for you, keeping your workload minimal. That’s why we call it a framework. You rely on Holochain for things like data persistence and a peer-to-peer networking and communication layer, and get on with building your application and business logic.
+Holochain handles a lot of things for you, keeping your workload minimal. That's why we call it a framework. You rely on Holochain for things like data persistence and a peer-to-peer networking and communication layer, and get on with building your application and business logic.
 
-Now, let’s get into the details of all the components of a Holochain app, and how they fit together.
+Now, let's get into the details of all the components of a Holochain app, and how they fit together.
 
 ### At a glance
 
@@ -84,7 +84,7 @@ When a client calls a function in a hApp, it specifies the **cell ID**, which is
 
 ![A cell containing a DNA.](/assets/img/concepts/2.8-dna-in-cell.png){.sz80p} {.center}
 
-A bundle of executable code that makes a unit of functionality in a hApp is called a **DNA**. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices) that creates a data access and integrity layer around personal and shared data. It serves as the ‘rules of the game’ against which peers can do validation and enforcement.
+A bundle of executable code that makes a unit of functionality in a hApp is called a **DNA**. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices) that creates a data access and integrity layer around personal and shared data. It serves as the 'rules of the game' against which peers can do validation and enforcement.
 
 The DNA can also contain metadata: a name, description, unique ID, and **properties**. The unique ID and properties can be changed either in a text editor or at installation time. The unique ID can be changed to **clone** a DNA, creating a new cell with identical functionality but an entirely separate history, network, and shared database. The properties, on the other hand, can also be changed to clone a DNA, but also direct the DNA's executable code to change the new cell's runtime behavior (similar to configuration parameters). 
 
@@ -98,7 +98,7 @@ The executable code modules in a DNA are called **zomes** (short for chromosomes
 
 Some of these functions are 'hooks' that Holochain calls automatically, such as an initialization function or validation functions related to data types defined in the zome.
 
-Other functions are invented by the developer, have arbitrary names, and define the zome’s public API. The conductor [makes this API available](../8_calls_capabilities/) to other zomes within the DNA, other DNAs within the hApp, and, as mentioned earlier, clients running on the participant's machine and other agents on the DNA's network. The developer can give a participant the ability to control access to their cell's API via [capabilities](../8_calls_capabilities/).
+Other functions are invented by the developer, have arbitrary names, and define the zome's public API. The conductor [makes this API available](../8_calls_capabilities/) to other zomes within the DNA, other DNAs within the hApp, and, as mentioned earlier, clients running on the participant's machine and other agents on the DNA's network. The developer can give a participant the ability to control access to their cell's API via [capabilities](../8_calls_capabilities/).
 
 All of these functions are run from the perspective of the individual participant. When a client on Alice's computer calls a function that writes data, it calls that function in her own cell, writing data to her personal store. Unlike with cloud and blockchain, there is no objective, global-level actor. Things happen only when someone causes them to happen.
 
@@ -125,14 +125,14 @@ You can see that Holochain is different from typical application stacks. Here's 
 
 * An application consists of a client and a hApp (a collection of separate microservices called DNAs which in turn are composed of code modules called zomes).
 * The hApp runs in the conductor, Holochain's application server or runtime.
-* The conductor sandboxes the DNA code, mediating all access to the device’s resources, including networking and storage.
+* The conductor sandboxes the DNA code, mediating all access to the device's resources, including networking and storage.
 * Each user has their own copy of the client, hApp, and conductor.
 * All code is executed on behalf, and from the perspective, of the individual user.
 * A DNA is instantiated into a cell for each user on their device. Each cell has a separate history and belongs to a separate private network.
 * Users communicate and share data directly with one another rather than through a central server or blockchain validator network.
-* Holochain is opinionated about data --- it handles all storage and retrieval. (We’ll learn about why and how in the next three articles.)
-* Zomes don’t maintain any in-memory state between calls; state is maintained in the history of the cell that contains the zome.
-* Persistence logic and core business logic are mixed together in your DNA, because at its heart, Holochain is a framework for data validation. However, you usually don’t need a lot of your business logic in your DNA—just enough to encode the ‘rules of the game’ for your application.
+* Holochain is opinionated about data --- it handles all storage and retrieval. (We'll learn about why and how in the next three articles.)
+* Zomes don't maintain any in-memory state between calls; state is maintained in the history of the cell that contains the zome.
+* Persistence logic and core business logic are mixed together in your DNA, because at its heart, Holochain is a framework for data validation. However, you usually don't need a lot of your business logic in your DNA --- just enough to encode the 'rules of the game' for your application.
 * As with microservices, Holochain lends itself to combining small, reusable components into large applications.
 
 ### Next Up 

@@ -4,13 +4,13 @@ title: Holochain Core Concepts
 
 DEPRECATED
 
-Welcome to Holochain Core Concepts! Here we’ll introduce you to the basics of Holochain, a framework and network protocol for building secure distributed applications. Holochain is different from what you may be used to, but we’ll go at a comfortable pace, building on things you already know.
+Welcome to Holochain Core Concepts! Here we'll introduce you to the basics of Holochain, a framework and network protocol for building secure distributed applications. Holochain is different from what you may be used to, but we'll go at a comfortable pace, building on things you already know.
 
 ## Who is this introduction for?
 
-We’ve written this introduction for programmers, CTOs, and other technically oriented people. It’s a bit like a choose-your-own-adventure story.
+We've written this introduction for programmers, CTOs, and other technically oriented people. It's a bit like a choose-your-own-adventure story.
 
-**If you’re in a hurry**, and want to find out if Holochain is a good fit for your project, you can just read the articles—or if you’re in a _real_ hurry, read the intro paragraph at the top and the key takeaways at the bottom.
+**If you're in a hurry**, and want to find out if Holochain is a good fit for your project, you can just read the articles --- or if you're in a _real_ hurry, read the intro paragraph at the top and the key takeaways at the bottom.
 
 **If you want to dig deep**, each article has links to further reading.
 

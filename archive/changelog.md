@@ -7,7 +7,7 @@ Holochain Core is very fast moving software; we release often.
 
 The documentation aims to stay up to date with the latest release, so there are occasional breaking changes that will cause you to need to update your code.
 
-We want this to be as easy as possible, so we’ve committed to documenting not just the breaking changes, but the fixes as well.
+We want this to be as easy as possible, so we've committed to documenting not just the breaking changes, but the fixes as well.
 
 ## 0.5.12
 

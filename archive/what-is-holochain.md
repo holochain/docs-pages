@@ -44,7 +44,7 @@ We build Holochain with the [Rust programming language](https://rustlang.org). T
 
 ### Server-side frameworks?
 
-Holochain is similar to frameworks like Django, ASP.NET, Laravel, Express, and Ruby on Rails---it gives you the tools to write a full-featured back end for your application.
+Holochain is similar to frameworks like Django, ASP.NET, Laravel, Express, and Ruby on Rails --- it gives you the tools to write a full-featured back end for your application.
 
 Key differences:
 
@@ -104,7 +104,7 @@ Similarly to serverless offerings, you can use Holochain to deploy an applicatio
 
 Key differences:
 
-* Holochain does not create a serverless abstraction on top of cloud servers---there are no servers at all. Instead, each user hosts both back-end and front-end code on their own device.
+* Holochain does not create a serverless abstraction on top of cloud servers --- there are no servers at all. Instead, each user hosts both back-end and front-end code on their own device.
 * Public data is stored in a graph database provided by the Holochain runtime.
 * When a function changes state, only local state is affected. This state change may then be optionally published to the public graph database so it can be accessed by others.
 * Back-end code is typically deployed to interested users as a package of functions, called a [DNA](../concepts/2_application_architecture/), rather than individual functions. However, a function can call a function in another package if both packages are installed on the same user's device.
@@ -124,7 +124,7 @@ Key differences:
 As our ecosystem matures:
 
 * We'll release new core features and improve our SDK to support application developers.
-* We’ll build drop-in libraries for user and role management, authorization, fast querying, efficient data management, and more.
+* We'll build drop-in libraries for user and role management, authorization, fast querying, efficient data management, and more.
 * We'll create applications for private data backup, user profile management, source code management, and application package distribution.
-* We’ll launch an app store that allows users with the Holochain runtime to install, run, and update apps with just a few clicks.
+* We'll launch an app store that allows users with the Holochain runtime to install, run, and update apps with just a few clicks.
 * We are building a distributed application hosting marketplace called [Holo hosting](https://holo.host) to connect traditional web users with Holochain applications.

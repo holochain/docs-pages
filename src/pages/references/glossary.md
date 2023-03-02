@@ -484,7 +484,7 @@ A collection of [DNAs](#dna) in a [hApp bundle](#h-app-bundle) and optionally a 
 
 #### Holochain Core
 
-The basic components of Holochain---the [conductor](#conductor), the [ribosome](#ribosome), and the storage and networking layers.
+The basic components of Holochain --- the [conductor](#conductor), the [ribosome](#ribosome), and the storage and networking layers.
 
 #### Holochain host API
 

@@ -68,7 +68,7 @@ Start by asking what sorts of information should be public, privileged, or priva
 
 * **Who is allowed to join your application's network?** Existing members of a DHT accept and reject new members by [validating](../glossary/#validation-rule) their [agent ID](../glossary/#agent-id) entry.
 * **What credentials do they need to provide in order to gain access?** The agent ID entry contains the user's public key and any extra information needed to grant entry.
-* **Who is responsible for distributing and vouching for those credentials?** Validators need to know how to determine whether a credential is valid. How does the app define a valid credential---a signature from a single authority or an existing member of the network, a third-party verifier, or a hard-coded list of pre-approved public keys?
+* **Who is responsible for distributing and vouching for those credentials?** Validators need to know how to determine whether a credential is valid. How does the app define a valid credential --- a signature from a single authority or an existing member of the network, a third-party verifier, or a hard-coded list of pre-approved public keys?
 * **Do you need to break your back-end into separate DHTs for fine-grained read access?** When a user becomes a member of a network, they're allowed to read all of its public data, so you may need to create a DNA for each class of access privileges.
 * **What kinds of data is a user [allowed to create, update, or delete](#3-6-create-validation-rules-for-your-entries-links-and-delete-update-actions)?** While reads are unrestricted within a network, writes are controlled through validation rules that can be applied differently for different types of data or classes of user.
 * **What kinds of data should be [private](../glossary/#private-entry)?** A user can store private data on their source chain and share it with other users via encrypted [node-to-node messaging](../glossary/#node-to-node-message).
@@ -102,7 +102,7 @@ Instead we're going to focus on how Holochain's architecture affects your decisi
 
 [Entry type](../glossary/#entry-type) definitions are the heart of your application's data model. They're similar to table schemas or <abbr title="object-oriented programming">OOP</abbr> classes, allowing you to define what makes an entry of a given type meaningful. Entry content is just [UTF-8](https://en.wikipedia.org/wiki/UTF-8) string data, and we recommend storing your data as JSON to give it structure. You can use Holochain's Rust SDK lets you use Rust's [disciplined yet expressive type system](https://tonyarcieri.com/a-quick-tour-of-rusts-type-system-part-1-sum-types-a-k-a-tagged-unions) to define data structures that are automatically converted to JSON and back.
 
-This process is similar to any data modelling exercise. You start by naming all the 'nouns' in your applications---user profiles, documents, collections, messages, comments, game moves, transaction steps, etc. Then you add 'adjectives'---required or optional fields and their data types. The key Holochain-related things to think about are:
+This process is similar to any data modelling exercise. You start by naming all the 'nouns' in your applications --- user profiles, documents, collections, messages, comments, game moves, transaction steps, etc. Then you add 'adjectives'---required or optional fields and their data types. The key Holochain-related things to think about are:
 
 * **[Headers](../glossary/#source-chain-header) already contain some useful data**, including the author's address and a timestamp.
 * **The DHT [deduplicates](../glossary/#deduplication/) identical entries**. Sometimes this is what you want; sometimes it isn't. For instance, the word "hello" is not the same as Alice saying "hello" at 17:30 UTC yesterday, nor is Alice's message the same as me saying the same thing at 04:26 PST last Tuesday. For a chat application, you want them to be separate entries so that when Alice deletes her "hello" she doesn't delete everyone else's "hello".
@@ -126,7 +126,7 @@ If entry type definitions are the heart of your application's data model, [link 
 
 Even though we're introducing it late in the process, validation is the essence of your app. It's how you define the 'rules of the game', the domain logic that allows agents to play fairly and discern whether their peers are doing the same.
 
-You're already halfway done with your validation rules---when you designed your entry and link types, you gave your data some structure that the Rust SDK will automatically check for you. If an entry passes this check, your validation function has a chance to perform further checks.
+You're already halfway done with your validation rules --- when you designed your entry and link types, you gave your data some structure that the Rust SDK will automatically check for you. If an entry passes this check, your validation function has a chance to perform further checks.
 
 Here are things you can validate:
 
@@ -197,10 +197,10 @@ You'll probably end up going back to the design stage occasionally as you discov
 
 Your application's tests fall into two buckets:
 
-* **Unit** tests exercise one component in isolation. They should be guided by your application design---the actions that each function is expected to perform. Rust has [built-in support for unit testing](https://doc.rust-lang.org/book/ch11-01-writing-tests.html).
+* **Unit** tests exercise one component in isolation. They should be guided by your application design --- the actions that each function is expected to perform. Rust has [built-in support for unit testing](https://doc.rust-lang.org/book/ch11-01-writing-tests.html).
 * **Integration** tests ensure that the entire application works as expected. Holochain's integration testing tool is [Tryorama](https://github.com/holochain/tryorama/), which lets you create and run automated [scenario test](../glossary/#scenario-test) scripts involving multiple agents and various network conditions.
 
-Your tests should ensure correct functionality, but they should also be tied to the real user needs you identified in the larger design---does the application actually implement the solution as expected?
+Your tests should ensure correct functionality, but they should also be tied to the real user needs you identified in the larger design --- does the application actually implement the solution as expected?
 
 ## 6. Maintain
 
