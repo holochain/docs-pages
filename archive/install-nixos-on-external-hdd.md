@@ -59,7 +59,7 @@ It is much easier if you can connect your computer with a LAN cable while instal
 
 ### Partitioning
 
-**This process will wipe anything on the disk**—consider yourself warned!
+**This process will wipe anything on the disk**---consider yourself warned!
 
 As I understand it, a UEFI boot device requires a GUID partition table (GPT). Therefore, we'll be using `gdisk` instead of the venerable `fdisk`. If you're installing on a system that doesn't use UEFI, you can do a similar job with `fdisk`.
 

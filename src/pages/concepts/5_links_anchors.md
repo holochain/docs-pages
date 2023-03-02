@@ -113,4 +113,4 @@ Alice's entries, now linked to one another and other existing entries on the DHT
 
 ### Next Up 
 
-[Explore CRUD actions —>](../6_crud_actions/){.btn-purple} 
+[Explore CRUD actions --->](../6_crud_actions/){.btn-purple} 

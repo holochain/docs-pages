@@ -119,4 +119,4 @@ Holochain's answer is simple --- _somebody will notice_. More on that in the nex
 
 ### Next Up 
 
-[Explore the DHT —>](../4_dht/){.btn-purple} 
+[Explore the DHT --->](../4_dht/){.btn-purple} 
