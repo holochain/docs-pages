@@ -7,6 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
+    "build:search-index": "npx pagefind --source _site --glob \"**/*.html\"",
     "build:web": "ELEVENTY_ENV=production npx @11ty/eleventy",
     "serve:web": "ELEVENTY_ENV=development npx @11ty/eleventy --serve --incremental",
     "serve:web-prod": "ELEVENTY_ENV=production BROWERSYNC=off npx @11ty/eleventy --serve",
@@ -41,6 +42,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0-beta.3",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
+    "@sindresorhus/slugify": "1.1.2",
     "@types/lunr": "^2.3.4",
     "@types/markdown-it": "^12.2.3",
     "autoprefixer": "^10.4.13",
@@ -56,8 +58,10 @@
     "postcss-cli": "^10.0.0",
     "rollup": "^3.2.5",
     "sass": "^1.56.0",
-    "@sindresorhus/slugify": "1.1.2",
     "typescript": "^4.8.4",
     "uglify-js": "^3.17.4"
+  },
+  "dependencies": {
+    "pagefind": "^0.12.0"
   }
 }
