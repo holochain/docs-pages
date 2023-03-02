@@ -824,7 +824,7 @@ A range of [DHT addresses](#dht-address) for which an [agent](#agent) claims [au
 Any [action](#action) meant for Holochain's internal use. A system action can be one of:
 
 * [Init complete](#init-complete-action),
-* [Open/close chain](#open-close-chain-action), or
+* [Open/close chain](#open-close-chain-actions), or
 * Any action that manipulates a [system entry](#system-entry).
 
 #### System entry
