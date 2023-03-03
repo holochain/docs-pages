@@ -52,7 +52,7 @@ The next stone in the pillar is a chronological journal of every action that the
 
 The user's actions are stored in the source chain as **records**, which consist of an **action** (we'll get to that later) and usually some sort of binary data (an **entry**). Each entry has a **type** that distinguishes its purpose, similar to an object-oriented class or database table schema definition.
 
-It's most helpful to think of an action as just that --- the _act of changing application state_. So instead of thinking of a source chain record as "a chat message", for instance, you could think of it as recording "the act of adding a chat message to your history". So while it's useful for noun-like things like messages and images, it is also well-suited to things like real-time document edits, game moves, and transactions. This will become more obvious when you learn the names of different action types in the section on [CRUD](../6_crud/) --- things like 'create-link' and 'delete-entry'.
+It's most helpful to think of an action as just that --- the _act of changing application state_. So instead of thinking of a source chain record as "a chat message", for instance, you could think of it as recording "the act of adding a chat message to your history". So while it's useful for noun-like things like messages and images, it is also well-suited to things like real-time document edits, game moves, and transactions. This will become more obvious when you learn the names of different action types in the section on [CRUD](../6_crud_actions/) --- things like 'create-link' and 'delete-entry'.
 
 This journal starts with four special system records:
 
