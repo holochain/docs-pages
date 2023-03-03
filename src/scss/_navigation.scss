@@ -16,6 +16,7 @@
         color: $link-color;
         display: inline-block;
         transition: all .75s;
+        text-decoration: none;
 
         // Add a span so that we can use the border to indicate current page and 
         //   control the size of the indicator independent of the box size of the a tag
@@ -69,6 +70,16 @@
 
           button {
             cursor: pointer;
+
+            svg {
+              transition: all 0.25s;
+            }
+
+            &.up-arrow {
+              svg {
+                transform: rotateZ(180deg);
+              }
+            }
           }
         }
 
@@ -83,12 +94,6 @@
             display: block;
           }
         }
-
-        // li[data-is-current-parent="true"] {
-        //   ul.nav-child-level {
-        //     display: block;
-        //   }
-        // }
       }
     }
   }
