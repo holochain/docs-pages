@@ -41,17 +41,24 @@ Here are all the mutation actions an agent can perform:
 * **Delete** marks an existing new-entry action as dead.
 * **Create link** creates a new link.
 * **Delete link** marks an existing create-link action as dead.
-* **Redirect** (not yet implemented) acts as a 'canonical' update, overriding all other updates and causing the old new-entry action's address to resolve to the new one.
 * **Withdraw action** (not yet implemented) marks an existing action as dead, allowing an author to reverse a mistakenly published action.
 * **Purge entry** (not yet implemented) directs a DHT authority to erase an entry from their store, which is useful for removing immoral or illegal content or honoring right-to-be-forgotten requests.
 
 In almost every case where an action 'modifies' old data, it's simply sending a piece of metadata to be attached to the old data. The old data still exists; it just has a different status. The only exception is 'purge entry', which permits a DHT authority to truly delete the data.
 
-All the DHT does is accumulate all these actions and present them to the application. This gives you some versatility in deciding how to manage conflicting contributions from many agents. The only exception is redirect, which forces a canonical resolution of conflicting updates.
+All the DHT does is accumulate all these actions and present them to the application. This gives you some versatility in deciding how to manage conflicting contributions from many agents.
 
 It's also important to note that an update or delete action doesn't operate on entries or links --- it operates on _the actions that called them into existence_. That means you have to specify an action hash, not just an entry hash. In the case of deletes, an entry or link isn't dead until all the actions that created it are also dead. (Again, 'purge entry' is the only exception; it operates directly on entries.)
 
 This prevents clashes between attempts to delete identical entries written by different authors at different times, such as Alice and Bob both writing the message "hello". That entry exists in one place in the DHT, but it will have two new-entry actions attached to it, each of which can be updated or deleted independently. If an entry and an action are considered one unit of data, there are really two pieces of data at that address --- one for each entry/action pair.
+
+### Resolving conflicts in a conflict-free database
+
+You may be thinking, if an entry can accumulate multiple update and delete actions, which is the _right_ one? The answer is that it's up to your application to decide. You may want to preserve all revisions and show them as a tree, allowing people to follow whichever path they prefer. You may want to write a simple conflict-resolution mechanism into your getter functions, such as "the earliest one wins" or "deletes always override updates". Or you may want to incorporate automatic merge functions that apply all updates to the thing being updated, such as a [conflict-free replicated data type (CRDT_](https://crdt.tech/).
+
+You'll also want to decide whether the primary units of data in your DHT are _entries_ or _actions_ (that is, entry plus author plus timestamp). There are appropriate places to use each, but that's beyond the reach of this introduction.
+
+In the future, Holochain may allow the developer to define CRDT-like automatic conflict-resolution strategies that collapse multiple CRUD actions into a consistent, canonical view of a piece of DHT data.
 
 ## Handling privacy concerns and storage constraints
 
@@ -73,10 +80,11 @@ Additionally, because data takes up space even when it's no longer live, be judi
 * All data in the source chain and DHT is immutable once it's written. Nothing is ever deleted.
 * It's useful to be able to modify data, so Holochain offers delete and update actions that simulate mutability by adding status-changing metadata to existing data.
 * Because this may surprise users, developers have a responsibility to inform them of the permanence of data and protect them from negative consequences.
-* In the future we intend to introduce actions that request the actual deletion of data, as well as canonical redirects.
+* In the future we intend to introduce actions that request the actual deletion of data, as well as automated conflict-resolution features.
 
 
 !!! learn Learn more
+* [CRDT.tech](https://crdt.tech/), an informational site about conflict-free replicated data types.
 * [Holochain and Privacy](https://youtu.be/5watvYlDH4A), a brief YouTube video introducing what privacy looks like from a Holochain perspective.
 * [Exploring Co-Design Considerations for Embedding Privacy in Holochain Apps, A Value Sensitive Design Perspective](https://dialnet.unirioja.es/servlet/articulo?codigo=8036267), Paul d'Aoust, Oliver Burmeister, Alisha Fernando, Anwaar Ulhaq, Kirsten Wahlstrom. A paper that explores the system primitives of Holochain and how they affect user privacy, with recommendations from the disciplines of Privacy by Design and Participatory Design.
 
