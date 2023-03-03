@@ -11,7 +11,8 @@ Each participant in a Holochain network creates and stores their own data in a j
 
 1. [How agent identities are created](#agent-identity)
 2. [Where user data is stored](#source-chain-your-own-data-store)
-3. [Detecting third-party tampering](#detecting-third-party-tampering)
+3. [How writes are handled](#concurrency-atomic-commits-and-source-chain-lifecycle-events)
+4. [Detecting third-party tampering](#detecting-third-party-tampering)
 
 ### <i class="far fa-atom"></i> Why it matters
 
