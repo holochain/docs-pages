@@ -119,13 +119,13 @@ When an agent shares a source chain record with authorities on the network, they
 
 Let's see what happens when a simple 'create entry' record is published to the DHT.
 
-* A **store entry** operation, containing the entry bytes and the create-entry action header, goes to the **entry authorities** whose arcs cover the entry hash. When it's integrated, the authorities will hold the entry data at that base, along with metadata that contains the action header.
-* A **store action** operation, containing the create-entry action header, goes to the **action authorities** whose arcs cover the action hash. When it's integrated, the authorities will hold the action header at that base.
-* An **register agent activity** operation, containing the create-entry action header, goes to the **agent activity authorities** whose arcs cover the author's public key. When it's integreated, the authorities will hold the action header along with all prior action headers.
+* A **store entry** operation, containing both the entry blob and the create-entry action header, goes to the **entry authorities** whose arcs cover the entry hash. When it's integrated, the authorities will hold the entry data at that base, along with metadata that contains the action header.
+* A **store record** operation, containing the action header, goes to the **record authorities** whose arcs cover the action header's hash. When it's integrated, the authorities will hold the action header at that base.
+* An **register agent activity** operation, containing the action header, goes to the **agent activity authorities** whose arcs cover the author's public key. When it's integreated, the authorities will hold the action header along with all prior action headers.
 
 All three authorities check the signature on the data they receive to make sure it hasn't been modified in transit and it belongs to the agent that claims to have authored it. If the signature check fails, the data is rejected.
 
-After this first check, the authorities runs the data through the proper system and app-level **validation rules**, then sign the result and return it to the author as a **validation receipt**. If the result shows that validation failed, the authorities record a **warrant** that contains evidence of malicious behavior. They can use that warrant to take action against the rule-breaker, such as refusing to communicate with them and deleting all their data, and they can also present that warrant to others as a warning and an explanation of why they're not holding the data. This is what creates Holochain's immune system.
+After this first check, the authorities runs the data through the proper system and app-level **validation rules**, then sign the result and return it to the author as a **validation receipt**. If the result shows that validation failed, the authorities produce a **warrant** that contains evidence of malicious behavior. They can use that warrant to justify taking action against the rule-breaker, such as refusing to communicate with them and deleting all their data, and they can also present that warrant to others as a warning and an explanation of why they're not holding the data. This is what creates Holochain's immune system.
 
 Using cryptographically random data (public keys and hashes) as addresses has a couple benefits. First, validator selection is impartial, resistant to collusion, and enforced by all honest participants. Second, the data load is also spread fairly evenly around the DHT.
 
