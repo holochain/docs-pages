@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "11ty project for generating the Holochain documentation",
   "main": "index.js",
+  "engines": {
+    "node": ">=14"
+  },
   "directories": {
     "doc": "docs"
   },
