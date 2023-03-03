@@ -24,7 +24,7 @@
     "bundle:js": "rollup -c rollup.config.mjs",
     "dev": "npm run build:sass && npm run build:js && npm-run-all -p serve:web watch:sass watch:js",
     "dev-no-js": "npm run build:sass && npm-run-all -p serve:web watch:sass",
-    "build": "npm-run-all -s clean:site build:sass post:css clean:js build:js bundle:js build:web",
+    "build": "npm-run-all -s clean:site build:sass post:css clean:js build:js bundle:js build:web build:search-index",
     "serve-as-prod": "npm-run-all -s clean:site build:sass post:css clean:js build:js bundle:js serve:web-prod",
     "clean:js": "rm -rf client-side-compiled",
     "clean:css": "rm -rf styles-compiled",
