@@ -9,10 +9,7 @@ pageStyleId: search
 
 <div id="search"></div>
 <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        new PagefindUI({ element: "#search", showImages: false });
-        setTimeout(() => {
-            window.document.querySelector("#search .pagefind-ui__search-input").focus();
-        }, 400);
-    });
+  window.addEventListener('DOMContentLoaded', (event) => {
+    setupPagefindUI();
+  });
 </script>

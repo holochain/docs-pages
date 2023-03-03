@@ -95,3 +95,17 @@ document.querySelector<HTMLButtonElement>(".take-the-survey")?.addEventListener(
 });
 // openModalIFrame("https://form.typeform.com/to/AL0HFFy8");
 //openModalIFrame("https://en.wikipedia.org/wiki/Address_bar");
+
+declare var PagefindUI: any;
+
+function setupPagefindUI() {
+  new PagefindUI({ 
+    element: "#search", 
+    showImages: false 
+  });
+  
+
+  setTimeout(() => {
+      window.document.querySelector<HTMLInputElement>("#search .pagefind-ui__search-input")?.focus();
+  }, 400);
+}
