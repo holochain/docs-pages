@@ -75,6 +75,11 @@ Additionally, because data takes up space even when it's no longer live, be judi
 * Because this may surprise users, developers have a responsibility to inform them of the permanence of data and protect them from negative consequences.
 * In the future we intend to introduce actions that request the actual deletion of data, as well as canonical redirects.
 
+
+!!! learn Learn more
+* [Holochain and Privacy](https://youtu.be/5watvYlDH4A), a brief YouTube video introducing what privacy looks like from a Holochain perspective.
+* [Exploring Co-Design Considerations for Embedding Privacy in Holochain Apps, A Value Sensitive Design Perspective](https://dialnet.unirioja.es/servlet/articulo?codigo=8036267), Paul d'Aoust, Oliver Burmeister, Alisha Fernando, Anwaar Ulhaq, Kirsten Wahlstrom. A paper that explores the system primitives of Holochain and how they affect user privacy, with recommendations from the disciplines of Privacy by Design and Participatory Design.
+
 ### Next Up 
 
 [Explore validation  →](../7_validation/){.btn-purple}
