@@ -1,13 +1,7 @@
 .DS_Store
 _site
-holochain-rust
-docs
-build
-.cargo
 # Local Netlify folder
 .netlify
-target
-
 
 # Logs
 logs
