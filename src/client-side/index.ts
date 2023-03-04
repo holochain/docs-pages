@@ -103,21 +103,32 @@ function setupPagefindUI() {
     element: "#search", 
     showImages: false,
     processTerm(term: string) {
-      console.log(term);
-
       //store the search term 
-      if(term && term.length > 2) {
-        const url = new URL(window.location.toString());
-        url.searchParams.set("pagefind-search", term);
-        history.pushState({}, "", url);
-      }
+      updateSearchQueryString(term);
 
       return term;
     }
   });
   
-
   setTimeout(() => {
-      window.document.querySelector<HTMLInputElement>("#search .pagefind-ui__search-input")?.focus();
+    const searchInput = window.document.querySelector<HTMLInputElement>("#search .pagefind-ui__search-input");
+    // Clear the query string if it is empty
+    searchInput?.addEventListener("input", () => {
+      if (searchInput?.value === "") {
+        updateSearchQueryString("");
+      }
+    })
+    
+    searchInput?.focus();
   }, 400);
+
+  function updateSearchQueryString(term: string) {
+    const url = new URL(window.location.toString());
+    if (term.trim() == "") {
+      url.searchParams.delete("pagefind-search");
+    } else {
+      url.searchParams.set("pagefind-search", term);
+    }
+    history.pushState({}, "", url);
+  }
 }
