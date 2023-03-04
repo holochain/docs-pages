@@ -101,7 +101,19 @@ declare var PagefindUI: any;
 function setupPagefindUI() {
   new PagefindUI({ 
     element: "#search", 
-    showImages: false 
+    showImages: false,
+    processTerm(term: string) {
+      console.log(term);
+
+      //store the search term 
+      if(term && term.length > 2) {
+        const url = new URL(window.location.toString());
+        url.searchParams.set("pagefind-search", term);
+        history.pushState({}, "", url);
+      }
+
+      return term;
+    }
   });
   
 
