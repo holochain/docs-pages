@@ -113,7 +113,3 @@ While this requires more network chatter, it can tolerate more hardware and netw
 * Optional witnesses can be added to the session, a majority of whom must also sign it, and one of whom must be an enzyme.
 * Countersigning is not for preventing double-spends; it's only for atomically synchronizing a single write to multiple source chains.
 * Enzymatic countersigning and M-of-N optional signers can be used to create various forms of robust witnessing and lightweight consensus.
-
-### Next Up
-
-[Find out how to make your app reactive to system events  →](../11_lifecycle_events/){.btn-purple} 
