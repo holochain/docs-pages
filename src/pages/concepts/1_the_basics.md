@@ -18,7 +18,7 @@ Holochain is an open-source application development framework and peer-to-peer n
 You'll understand how Holochain is different from centralized architectures, and how this difference can make your applications more robust, secure, and affordable.
 :::
 
-![](/assets/img/concepts/1.1-architecture-comparison.png)
+![](/assets/img/concepts/1.1-architecture-comparison.png){.sz80p} {.center}
 
 ## The problem with centralized architectures
 

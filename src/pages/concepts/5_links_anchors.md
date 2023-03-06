@@ -98,7 +98,7 @@ Now she wants people to be able to find her album by genre, so she selects or cr
 
 Those genres are already linked to an "_all_genres_" anchor, another hard-coded constant. Listeners can query this anchor to get the full list of genres.
 
-![](/assets/img/concepts/5.9-graph-database.png)
+![](/assets/img/concepts/5.9-graph-database.png){.sz80p} {.center}
 
 Alice's entries, now linked to one another and other existing entries on the DHT, form a graph that allows listeners to discover her and her music from a number of different starting points.
 :::
