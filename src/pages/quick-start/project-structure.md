@@ -1,9 +1,8 @@
 ---
+title: Understand Holochain App Code
 hide:
   - toc
 ---
-
-## Understand Holochain App Code
 
 When you use the Scaffolding Tool to generate your sample project, it will create a new folder with the app name in the current directory. Inside that new folder there's a number of files and folders:
 
