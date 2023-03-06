@@ -202,12 +202,12 @@ If the self-check fails, the cell fails to be created and the rest of the cells 
 * When an operation is found to be invalid, the validator creates a warrant, which attests that the author is writing corrupt data.
 * Agents can use warrants as grounds for blocking communication with a corrupt agent and deleting their data.
 
-## Learn more
-
+!!! learn Learn more
 * [Wikipedia: Deterministic algorithm](https://en.wikipedia.org/wiki/Deterministic_algorithm)
 * [Wikipedia: Pure function](https://en.wikipedia.org/wiki/Pure_function)
 * [Wikipedia: Total function](https://en.wikipedia.org/wiki/Partial_function#Total_function)
 * [Wikipedia: Monotonicity of entailment](https://en.wikipedia.org/wiki/Monotonicity_of_entailment), a useful principle for writing validation functions that update entries without invalidating old ones
+!!!
 
 ### Next Up 
 

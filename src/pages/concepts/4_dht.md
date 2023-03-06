@@ -157,11 +157,11 @@ The important thing is that the DHT _remembers what you've published_, so it's v
 * Possessing a warrant lets a peer justify taking action against the subject of the warrant, such as blocking them or deleting stored data they've authored.
 * A DHT tolerates network disruptions. It can keep operating as two separate networks and subsequently 'heal' when the network is repaired.
 
-## Learn more
-
+!!! learn Learn more
 * [Wikipedia: Gossip protocol](https://en.wikipedia.org/wiki/Gossip_protocol)
 * [Wikipedia: Distributed hash table](https://en.wikipedia.org/wiki/Distributed_hash_table)
 * [Wikipedia: Peer-to-peer](https://en.wikipedia.org/wiki/Peer-to-peer)
+!!!
 
 ### Next Up 
 
