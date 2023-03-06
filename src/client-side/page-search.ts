@@ -13,7 +13,7 @@ function setupPagefindUI() {
     }
   });
   
-  setTimeout(() => {
+  // setTimeout(() => {
     const searchInput = window.document.querySelector<HTMLInputElement>("#search .pagefind-ui__search-input");
     const pagefindSearchQString = (new URL(window.location.toString())).searchParams.get(PagefindSearchKey);
     
@@ -26,15 +26,15 @@ function setupPagefindUI() {
       if (searchInput?.value === "") {
         updateSearchQueryString("");
       }
-    })
+    });
     
     // Clear the query string if clear button clicked
     window.document.querySelector<HTMLButtonElement>("#search .pagefind-ui__search-clear")?.addEventListener("click", () => {
       updateSearchQueryString("");
-    })
+    });
     
     searchInput?.focus();
-  }, 400);
+  // }, 400);
 
   function updateSearchQueryString(term: string) {
     const url = new URL(window.location.toString());
