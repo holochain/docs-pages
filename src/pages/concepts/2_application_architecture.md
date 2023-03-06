@@ -105,7 +105,7 @@ Consider source code and configuration changes carefully, because each modificat
 
 Coordinator zomes aren't subject to the same strict rules, and can be swapped for new ones in a running cell. Care must still be taken, however, because each participant is free to swap coordinator zomes as they like (or more realistically, as the hApp developer gives them the power to do), so an entire network of cells isn't guaranteed to be running the same coordinator code.
 
-!!! info "DNA Memory State"
+!!! info DNA Memory State
 All functions in your DNA start with a fresh memory state which is cleared once the function is finished. The only place that persistent state is kept is in the participant's personal data journal. If you've written applications with REST-friendly stacks like Django and PHP-FastCGI, or with [function-as-a-service](https://en.wikipedia.org/wiki/Function_as_a_service) platforms like AWS Lambda, you're probably familiar with this pattern.
 !!!
 
