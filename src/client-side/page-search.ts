@@ -28,6 +28,11 @@ function setupPagefindUI() {
       }
     })
     
+    // Clear the query string if clear button clicked
+    window.document.querySelector<HTMLButtonElement>("#search .pagefind-ui__search-clear")?.addEventListener("click", () => {
+      updateSearchQueryString("");
+    })
+    
     searchInput?.focus();
   }, 400);
 
