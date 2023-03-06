@@ -57,7 +57,8 @@ It's most helpful to think of an action as just that --- the _act of changing ap
 This journal starts with four special system records:
 
 ![](/assets/img/concepts/3.3-genesis-records-1-and-2.png){.sz60p} {.center}
-![](/assets/img/concepts/3.4-genesis-record-3.png){.sz60p} {.center}
+
+![](/assets/img/concepts/3.4-genesis-records-3-and-4.png){.sz60p} {.center}
 
 1. The **DNA hash**. Because the DNA's executable code constitutes the 'rules of the game' for everyone in the app, this record shows that your Holochain runtime has seen and agrees to abide by those rules.
 2. The agent's **membrane proof**. When a cell tries to join this DNA's peer-to-peer network, it shares this entry with the existing peers, who check it and determine whether the cell should be allowed to join. Examples: an invite code, an employee ID signed by the HR department, or a proof of paid subscription fees.
