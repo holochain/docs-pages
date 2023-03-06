@@ -1,5 +1,8 @@
+/** Query string parameter name holding the current search */
+const PagefindSearchKey = "pagefind-search";
+
 function setupPagefindUI() {
-  new PagefindUI({ 
+  const pagefindUIInstance = new PagefindUI({ 
     element: "#search", 
     showImages: false,
     processTerm(term: string) {
@@ -12,6 +15,12 @@ function setupPagefindUI() {
   
   setTimeout(() => {
     const searchInput = window.document.querySelector<HTMLInputElement>("#search .pagefind-ui__search-input");
+    const pagefindSearchQString = (new URL(window.location.toString())).searchParams.get(PagefindSearchKey);
+    
+    if (pagefindSearchQString) {
+      pagefindUIInstance.triggerSearch(pagefindSearchQString);
+    }
+
     // Clear the query string if it is empty
     searchInput?.addEventListener("input", () => {
       if (searchInput?.value === "") {
@@ -25,9 +34,9 @@ function setupPagefindUI() {
   function updateSearchQueryString(term: string) {
     const url = new URL(window.location.toString());
     if (term.trim() == "") {
-      url.searchParams.delete("pagefind-search");
+      url.searchParams.delete(PagefindSearchKey);
     } else {
-      url.searchParams.set("pagefind-search", term);
+      url.searchParams.set(PagefindSearchKey, term);
     }
     history.pushState({}, "", url);
   }
