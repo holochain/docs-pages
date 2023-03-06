@@ -59,13 +59,13 @@ We recommend **anchors** as a useful pattern for creating starting points on the
 Anchors are just built from entries and links, like anything else in Holochain, but they're part of the SDK so you don't have to roll your own implementation. Our implementation also lets you create 'paths', hierarchies of linked anchors, which are great for product categories, filesystems, search indexes, and more.
 
 !!! note Links to (and from) nowhere
-    Neither the base nor the target of a link need to have any data stored at their address. This means that you can point to data that lives on another content-addressed database, such as IPFS, Secure Scuttlebutt, or a blockchain, and you can use the hash of such external resources as your link base, a sort of 'placeholder' for an external reference. It also means that anchors take up very little space, as nobody actually needs to write an anchor entry to their source chains or publish it to the DHT. Instead, you can just calculate the anchor string's hash and store links at that address.
+Neither the base nor the target of a link need to have any data stored at their address. This means that you can point to data that lives on another content-addressed database, such as IPFS, Secure Scuttlebutt, or a blockchain, and you can use the hash of such external resources as your link base, a sort of 'placeholder' for an external reference. It also means that anchors take up very little space, as nobody actually needs to write an anchor entry to their source chains or publish it to the DHT. Instead, you can just calculate the anchor string's hash and store links at that address.
 !!!
 
 ## Case study: a music sharing app
 
 !!! note Links aren't bidirectional
-    Take note of the arrowheads below; you'll see that many are bidirectional, but links are unidirectional. This means two links must be created, in opposite directions to each other.
+Take note of the arrowheads below; you'll see that many are bidirectional, but links are unidirectional. This means two links must be created, in opposite directions to each other.
 !!!
 
 ::: coreconcepts-storysequence 
