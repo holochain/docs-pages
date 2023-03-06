@@ -14,7 +14,8 @@
           </span>
         </a>
         {% if topLink.hasChildren %}
-        <button class="clear-btn" data-children-opener >
+        <button class="clear-btn {{ "up-arrow" if isCurrentParent }}" 
+            data-children-opener >
           {{ downArrowHead() }}
         </button>
         {% endif %}
