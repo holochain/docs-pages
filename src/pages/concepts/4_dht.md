@@ -34,15 +34,15 @@ And finally, in cases where the validity of a given piece of data depends on a b
 
 ## The distributed hash table, a public data store
 
-![](/assets/img/concepts/4.1-network.png)
+![](/assets/img/concepts/4.1-network.png){.sz80p} {.center}
 
 In a Holochain network, you share your source chain actions and public entries with a random selection of your peers, who witness, validate, and hold copies of them.
 
-![](/assets/img/concepts/4.2-public-entry-commit.png)
+![](/assets/img/concepts/4.2-public-entry-commit.png){.sz80p} {.center}
 
 When you commit a record with private data, the entry data stays in your source chain, but its action header is still shared.
 
-![](/assets/img/concepts/4.3-private-entry-commit.png)
+![](/assets/img/concepts/4.3-private-entry-commit.png){.sz80p} {.center}
 
 Every DNA has its own private, encrypted network of peers who [**gossip**](https://en.wikipedia.org/wiki/Gossip_protocol) with one another about new peers, new data, integrity breaches, and network health.
 
@@ -63,29 +63,37 @@ Databases that spread their data among a bunch of machines have a performance pr
 
 Every agent knows about all of its closest neighbors and a few faraway acquaintances. Using these connections, they can find any other agent in the DHT with just a few hops. This makes it fairly quick to find the right authorities for an address.
 
-![](/assets/img/concepts/4.4-address-space-and-neighborhoods.png)
+![](/assets/img/concepts/4.4-address-space-and-neighborhoods.png){.sz80p} {.center}
 
 Let's see how this works with a very small address space. Instead of public keys and hashes, we're just going to use letters of the alphabet.
 
-<div class="coreconcepts-storysequence" markdown=1>
-1. ![](/assets/img/concepts/4.5-alice-neighborhood.png)
+::: coreconcepts-storysequence
+
+![](/assets/img/concepts/4.5-alice-neighborhood.png){.sz80p} {.center}
+
 Alice lives at address A. Her neighbors to the left are Diana and Fred, and her neighbors to the right are Zoe and Walter.
 
-2. ![](/assets/img/concepts/4.7-alice-publish-address-calculation.png)
+![](/assets/img/concepts/4.7-alice-publish-address-calculation.png){.sz80p} {.center}
+
 Alice creates an entry containing the word "molecule", whose address is M.
 
-3. ![](/assets/img/concepts/4.8-authority-resolution.png)
+![](/assets/img/concepts/4.8-authority-resolution.png){.sz80p} {.center}
+
 Of all of Alice's neighbors, Fred is closest to that address, so she asks him to store it. Fred hasn't claimed authority for that address, so he tells Alice about his neighbor Louise.
 
-3. ![](/assets/img/concepts/4.9-gossip-publish.png)
+![](/assets/img/concepts/4.9-gossip-publish.png){.sz80p} {.center}
+
 Alice shares the entry with Louise, who agrees to store it because her neighborhood covers M.
 
-4. ![](/assets/img/concepts/4.10-gossip-resilience.png)
+![](/assets/img/concepts/4.10-gossip-resilience.png){.sz80p} {.center}
+
 Louise shares it with her neighbor, Norman, in case she goes offline.
 
-5. ![](/assets/img/concepts/4.11-retrieval.png)
+![](/assets/img/concepts/4.11-retrieval.png){.sz80p} {.center}
+
 Rosie is a word collector who learns that an interesting new word lives at address is M. She asks her neighbor, Norman, if he has it. Louise has already given him a copy, so he delivers it to Rosie.
-</div>
+
+:::
 
 ## Resilience and availability
 
@@ -97,19 +105,25 @@ Using information about their neighbors' uptime, cooperating agents work hard to
 
 Let's see how this plays out in the real world.
 
-<div class="coreconcepts-storysequence" markdown=1>
-![](/assets/img/concepts/4.12-healthy-network.png)
-1. An island is connected to the mainland by a radio link. They communicate with each other using a Holochain app.
+::: coreconcepts-storysequence
 
-![](/assets/img/concepts/4.13-partition.png)
-2. A hurricane blows through and wipes out both radio towers. The islanders can't talk to the mainlanders, and vice versa, so some DHT neighbors are unreachable. But everyone can still talk to their physical neighbors. None of the data is lost, but not all of it is available to each side.
+![](/assets/img/concepts/4.12-healthy-network.png){.sz80p} {.center}
 
-![](/assets/img/concepts/4.14-resilience-building.png)
-3. On both sides, all agents attempt to improve resilience by enlarging their arcs. Meanwhile, they operate as usual, talking with one another and creating new data.
+An island is connected to the mainland by a radio link. They communicate with each other using a Holochain app.
 
-![](/assets/img/concepts/4.15-partition-healing.png)
-4. The radio towers are rebuilt, the network partition heals, and new data syncs up across the DHT. At this point everyone has the option of shrinking their arc sizes and prune overly redundant data (although experience has shown them that it might be best to overcompensate in case another hurricane comes around).
-</div>
+![](/assets/img/concepts/4.13-partition.png){.sz80p} {.center}
+
+A hurricane blows through and wipes out both radio towers. The islanders can't talk to the mainlanders, and vice versa, so some DHT neighbors are unreachable. But everyone can still talk to their physical neighbors. None of the data is lost, but not all of it is available to each side.
+
+![](/assets/img/concepts/4.14-resilience-building.png){.sz80p} {.center}
+
+On both sides, all agents attempt to improve resilience by enlarging their arcs. Meanwhile, they operate as usual, talking with one another and creating new data.
+
+![](/assets/img/concepts/4.15-partition-healing.png){.sz80p} {.center}
+
+The radio towers are rebuilt, the network partition heals, and new data syncs up across the DHT. At this point everyone has the option of shrinking their arc sizes and prune overly redundant data (although experience has shown them that it might be best to overcompensate in case another hurricane comes around).
+
+:::
 
 ## A cloud of witnesses
 
