@@ -28,7 +28,7 @@ At a command line:
 bash <(curl https://holochain.github.io/holochain/setup.sh)
 ```
 
-### Scaffold Your First Holochain App
+### Scaffold An Example Holochain App
 
 Type the following at the command line:
 
