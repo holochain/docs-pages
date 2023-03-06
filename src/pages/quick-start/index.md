@@ -11,7 +11,7 @@ pageStyleId: install
 * 30GB+ available disk space
 * High Speed Internet connection
 
-## Holochain on Linux, macOS and Windows
+## Install the Holochain Dev Environment
 
 !!! note Prerequisite for Windows: WSL2
 
