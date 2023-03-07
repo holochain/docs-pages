@@ -4,37 +4,27 @@ const PagefindSearchKey = "pagefind-search";
 function setupPagefindUI() {
   const pagefindUIInstance = new PagefindUI({ 
     element: "#search", 
-    showImages: false,
-    processTerm(term: string) {
-      //store the search term 
-      updateSearchQueryString(term);
-
-      return term;
-    }
+    showImages: false
   });
   
-  // setTimeout(() => {
-    const searchInput = window.document.querySelector<HTMLInputElement>("#search .pagefind-ui__search-input");
-    const pagefindSearchQString = (new URL(window.location.toString())).searchParams.get(PagefindSearchKey);
-    
-    if (pagefindSearchQString) {
-      pagefindUIInstance.triggerSearch(pagefindSearchQString);
-    }
+  const searchInput = window.document.querySelector<HTMLInputElement>("#search .pagefind-ui__search-input");
+  const pagefindSearchQString = (new URL(window.location.toString())).searchParams.get(PagefindSearchKey);
+  
+  if (pagefindSearchQString) {
+    pagefindUIInstance.triggerSearch(pagefindSearchQString);
+  }
 
-    // Clear the query string if it is empty
-    searchInput?.addEventListener("input", () => {
-      if (searchInput?.value === "") {
-        updateSearchQueryString("");
-      }
-    });
-    
-    // Clear the query string if clear button clicked
-    window.document.querySelector<HTMLButtonElement>("#search .pagefind-ui__search-clear")?.addEventListener("click", () => {
-      updateSearchQueryString("");
-    });
-    
-    searchInput?.focus();
-  // }, 400);
+  // Clear the query string if it is empty
+  searchInput?.addEventListener("input", () => {
+    updateSearchQueryString(searchInput.value);
+  });
+  
+  // Clear the query string if clear button clicked
+  window.document.querySelector<HTMLButtonElement>("#search .pagefind-ui__search-clear")?.addEventListener("click", () => {
+    updateSearchQueryString("");
+  });
+  
+  searchInput?.focus();
 
   function updateSearchQueryString(term: string) {
     const url = new URL(window.location.toString());
