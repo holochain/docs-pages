@@ -15,8 +15,17 @@ function setupPagefindUI() {
   }
 
   // Clear the query string if it is empty
-  searchInput?.addEventListener("input", () => {
-    updateSearchQueryString(searchInput.value);
+  searchInput?.addEventListener("input", (e: Event) => {
+    if (searchInput.value === "") {
+      updateSearchQueryString("");
+    }
+  });
+  
+  // if the Enter key is clicked then append the search to the QueryString
+  searchInput?.addEventListener("keydown", (e: KeyboardEvent) => {
+    if (e.code === "Enter") {
+      updateSearchQueryString(searchInput.value);
+    }
   });
   
   // Clear the query string if clear button clicked
