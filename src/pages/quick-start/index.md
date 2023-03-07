@@ -11,7 +11,7 @@ pageStyleId: install
 * 30GB+ available disk space
 * High Speed Internet connection
 
-## Holochain on Linux, macOS and Windows
+## Install the Holochain Dev Environment
 
 !!! note Prerequisite for Windows: WSL2
 
@@ -20,7 +20,7 @@ The Nix package manager, which we use to install and manage Holochain developmen
 _Holochain is supported for the Ubuntu distribution under WSL2._
 !!!
 
-### Install the Nix Package Manager & set up Holochain binary cache
+### Install the Nix Package Manager and set up Holochain binary cache
 
 At a command line:
 
@@ -28,7 +28,7 @@ At a command line:
 bash <(curl https://holochain.github.io/holochain/setup.sh)
 ```
 
-### Scaffold Your First Holochain App
+### Scaffold An Example Holochain App
 
 Type the following at the command line:
 
