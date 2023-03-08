@@ -1,3 +1,15 @@
+# Enable broken link checking in Netlify CI
+[[plugins]]
+package = "netlify-plugin-checklinks"
+    [plugins.inputs]
+    entryPoints = [
+        "*.html",
+    ]
+
+    recursive = true
+    pretty = true
+    checkExternal = false
+
 # These first rules are a bit fiddly -- we explicitly redirect URLs that we know should
 # point to the Redux docs, rather than redirecting to `/`, then to `/redirect-to-redux-site.html`,
 # which ends up breaking things on the Redux site side.

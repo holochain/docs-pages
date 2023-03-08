@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/holochain/docs-pages#readme",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0-beta.3",
+    "@11ty/eleventy": "^2.0.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
     "@types/lunr": "^2.3.4",
     "@types/markdown-it": "^12.2.3",
@@ -56,6 +56,7 @@
     "postcss-cli": "^10.0.0",
     "rollup": "^3.2.5",
     "sass": "^1.56.0",
+    "@sindresorhus/slugify": "1.1.2",
     "typescript": "^4.8.4",
     "uglify-js": "^3.17.4"
   }

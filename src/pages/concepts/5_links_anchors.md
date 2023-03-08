@@ -9,7 +9,7 @@ Entries on the DHT are connected to one another via one-way **links**. They allo
 ::: coreconcepts-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
-1. [Why it's hard to find data in a DHT](#the-difficulty-of-looking-for-data-especially-when-you-dont-know-what-youre-looking-for)
+1. [Why it's hard to find data in a DHT](#the-difficulty-of-looking-for-data-especially-when-you-don-t-know-what-you-re-looking-for)
 2. [How linked data makes discovery easy](#links-creating-a-distributed-graph-database)
 3. [Starting points you can use to discover data](#starting-points-for-traversing-graphs)
 4. [How it looks in real life](#case-study-a-music-sharing-app)
@@ -55,7 +55,7 @@ Anchors are just built from entries and links, like anything else in Holochain, 
 
 ## Case study: a music sharing app
 
-!!! note "Take Note"
+!!! note Take Note
     Take note of the arrowheads below; you'll see that most are bi-directional, which means there are actually two separate links going in opposite directions. Hard-coded anchors are the exception because they don't need to be discovered.
 !!!
 
@@ -105,9 +105,7 @@ Alice’s entries, now linked to one another and other existing entries on the D
 * Holochain's built in anchors implementation lets you create hierarchies of linked path components.
 
 
-!!! learn 
-#### Learn more
-
+!!! learn Learn more
 * [Wikipedia: Graph database](https://en.wikipedia.org/wiki/Graph_database)
 * [Wikipedia: Linked data](https://en.wikipedia.org/wiki/Linked_data), an application of linking to the web
 * [Wikipedia: Resource Description Framework](https://en.wikipedia.org/wiki/Resource_Description_Framework), a standard for linking semantic data on the web
