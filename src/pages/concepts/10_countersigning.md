@@ -20,6 +20,8 @@ Although there's no global consensus in a Holochain application, it's sometimes 
 A lot of human interactions involve formal transactions of one sort or another. These are usually conducted in a peer-to-peer way --- that is, as an exchange of information among the people who are directly involved. Payments, legal agreements, property transfers, and even chess moves require parties to reach a **shared understanding** of the states of one another's worlds, then coordinate a **shared change** to those states. Because this is such a common pattern, we built it right into Holochain.
 :::
 
+![](/assets/img/concepts/10.1-countersigning.png){.sz80p} {.center}
+
 ## Agreement versus consensus
 
 If you're familiar with client/server or blockchain architectures, you might be surprised that Holochain doesn't attempt to maintain a consensus about global state. As you saw when you learned about the [source chain](../3_source_chain/), each participant is responsible for their own local state.
@@ -43,35 +45,70 @@ In order to safely coordinate the writing of a single new action to both of thei
 
 Here's a more in-depth look at this process. Keep in mind that it's meant to be an automated process, finished within a few seconds while Alice and Bob are both online. Any human agreement (such as negotiating meeting times, contract terms, or transaction amount) should happen beforehand.
 
-1. Alice creates a **preflight request** containing:
+::: coreconcepts-storysequence
+
+![](/assets/img/concepts/10.2-entry-exchange.png){.sz80p} {.center}
+
+Alice and Bob exchange the details needed to create the entry that will be countersigned.
+
+![](/assets/img/concepts/10.3-preflight.png){.sz80p} {.center}
+
+Alice creates a **preflight request** containing:
 
     * The parties involved (her and Bob in this case)
-    * The hash of the entry that will eventually be countersigned (the entry data having been exchanged beforehand)
+    * The hash of the entry that will be countersigned
     * The time window in which the countersigning must complete
     * A stub of the action to go along with the entry, which contains its action type and entry type (currently create-entry and update-entry actions can be countersigned; in the future delete-entry, create-link, and delete-link actions can be too)
     * Optional arbitrary application data
 
-2. Alice sends the preflight request to Bob for approval. (You can implement this any way you like, but a [remote call](../8_calls_capabilities/) is probably the most reliable.) At this stage, Bob could use his history with Alice, or the optional application data, to determine whether the request is something he wants to accept. Acceptance could be automated, or it could request Bob's intervention via a signal to his UI.
+![](/assets/img/concepts/10.4-preflight-send.png){.sz80p} {.center}
 
-3. Bob's conductor attempts to accept the preflight request, which involves checking whether it is possible to write a countersigned record (that is, there are no incomplete countersigning sessions or pending source chain writes, and Alice's specified time window doesn't conflict with Bob's system clock). If everything looks good, Bob's conductor locks his source chain.
+Alice sends the preflight request to Bob for approval. (You can implement this any way you like, but a [remote call](../8_calls_capabilities/) is probably the most reliable.) At this stage, Bob could use his history with Alice, or the optional application data, to determine whether the request is something he wants to accept. Acceptance could be automated, or it could request Bob's intervention via a signal to his UI.
 
-4. Bob's conductor produces a **preflight response**, containing his signature on the request and the record ID at which his source chain is currently locked. Bob sends this preflight response back to Alice.
+![](/assets/img/concepts/10.5-preflight-inspection.png){.sz80p} {.center}
 
-5. Alice receives Bob's preflight response, then tries to accept the request and generate a preflight response herself. Now her own source chain is locked as well.
+Bob's conductor attempts to accept the preflight request, which involves checking whether it is possible to write a countersigned record (that is, there are no incomplete countersigning sessions or pending source chain writes, and Alice's specified time window doesn't conflict with Bob's system clock). If everything looks good, Bob's conductor locks his source chain.
 
-6. Alice compiles both the preflight responses into a **countersigning session data** structure, containing the original agreed-upon preflight request and all the responses. She shares it with Bob (again, this could be done with a remote call).
+![](/assets/img/concepts/10.6-bob-lock.png){.sz80p} {.center}
 
-7. Alice and Bob both create the entry to be countersigned on their own machines, using information they've previously shared with each other (remember, the preflight was simply an agreement to lock their source chains). Then they attempt to commit the entry, which includes both the countersigning session data structure and the application data itself.
+Bob's conductor produces a **preflight response**, containing his signature on the request and the record ID at which his source chain is currently locked. Bob sends this preflight response back to Alice.
 
-8. At this point Alice and Bob's conductors take over completely; there's no involvement needed from either humans or cells. As with any commit, they attempt to validate the new action. But with a countersigned action, the conductor validates it multiple times --- once from the perspective of each party. This is possible because Alice and Bob both have the same countersigning session data structure, which contains the current states of both of their source chains. 
+![](/assets/img/concepts/10.7-alice-lock.png){.sz80p} {.center}
 
-9. Once validation is finished, Alice and Bob both 'pre-publish' the operations generated by the new action to the DHT --- but only the ['store entry' operation](../4_dht/#a-cloud-of-witnesses). The authorities collect the data but don't integrate it into their DHT shards; they are simply waiting until they see both Alice and Bob's signed actions. They're involved as witnesses to the process.
+Alice receives Bob's preflight response, then tries to generate a preflight response herself from the request she created. Now her own source chain is locked as well.
 
-10. Once those authorities have collected all actions, they send the full set of action headers back to both Alice and Bob. (However, if Alice and Bob reach the end of the time window without receiving this action set, their conductors discard the new action and unlock their source chains as if nothing had happened. Likewise, the authorities discard the pre-published data if they don't collect all the required signatures within the time window. There is no built-in feature to retry an expired session, but it could be built into the application.)
+![](/assets/img/concepts/10.8-countersigning-session.png){.sz80p} {.center}
 
-11. When Alice and Bob's conductors each receive the full set of action headers, they finally commit the action to their source chains and unlock them. This behaves as a proper publish, causing operations to be sent to the entry, record, and agent activity authorities and creating a permanent record on the DHT of all parts of the transaction.
+Alice compiles both the preflight responses into a **countersigning session data** structure, containing the original agreed-upon preflight request and all the responses. She shares it with Bob (again, this could be done with a remote call).
+
+![](/assets/img/concepts/10.9-trial-commit.png){.sz80p} {.center}
+
+Alice and Bob both create the entry to be countersigned on their own machines, which contains both the countersigning session data structure and the app data they'd previously agreed on. Then they do a trial run of committing the entry.
+
+![](/assets/img/concepts/10.10-validate.png){.sz80p} {.center}
+
+At this point Alice and Bob's conductors take over completely from the cells. As with any commit, they attempt to validate the new action. But with a countersigned action, the conductor validates it multiple times --- once from the perspective of each party. This is possible because Alice and Bob both have the same countersigning session data structure, which contains the current states of both of their source chains. If either of them had neglected to check whether the commit was valid for the other party's chain, DHT validating authorities could [warrant them](../7_validation/#invalid-entry).
+
+![](/assets/img/concepts/10.11-authorities-collect.png){.sz80p} {.center}
+
+Once validation is  finished, Alice and Bob both do a trial run of publishing the operations generated by the new action to the DHT --- but only the ['store entry' operations](../4_dht/#a-cloud-of-witnesses). The authorities collect the data but don't integrate it into their DHT shards; right now they're simply acting as witnesses, waiting until they hear from both Alice and Bob.
+
+![](/assets/img/concepts/10.12-authorities-distribute.png){.sz80p} {.center}
+
+Once the authorities have collected the data from both Alice and Bob, they send the full set of action headers back to both of them.
+
+!!! info Timeouts
+If Alice and Bob reach the end of the time window without receiving this action set, their conductors discard the new action and unlock their source chains as if nothing had happened. Likewise, the authorities discard the pre-published data if they don't collect all the required signatures within the time window. There is no built-in feature to retry an expired session, but it could be built into the application.
+!!!
+
+![](/assets/img/concepts/10.13-commit-and-publish.png){.sz80p} {.center}
+
+When Alice and Bob's conductors each receive the full set of action headers, they finally unlock their source chains, commit the actions, and publish the resulting operations to the DHT as normal, thus creating a permanent, public record of all parts of the transaction.
+:::
 
 ## Enzymatic countersigning
+
+![](/assets/img/concepts/10.14-enzyme.png){.sz80p} {.center}
 
 Normally, counterparties publish their actions to a DHT neighbourhood and hope that there are enough honest and reliable agents there to collect and return a full set of signed actions to everyone. But this can lead to dishonest DHT authorities withholding a complete set of signatures, then publishing them later when a counterparty has given up. If the counterparty has moved on and written new records to her source chain, this makes it appear as if she's forked her source chain.
 
@@ -92,6 +129,8 @@ For reasonably safe environments, this is likely to discourage forks simply beca
 If your application needs something more, you can build in strategies to discourage, prevent, or detect a double-spend attempt as it's happening. The simplest of these is to nominate an enzyme as a 'trusted notary', a witness whose job is to record agents' histories on its source chain and look for forks --- similar to agent activity authorities, but with the benefit of the determinism of a single source chain. Essentially, the enzyme becomes a consensus-maker.
 
 ## M-of-N optional witnesses
+
+![](/assets/img/concepts/10.15-m-of-n-witnesses.png){.sz80p} {.center}
 
 Countersigning agents can also nominate **optional witnesses** to sign the transaction. This can be used to create a 'lightweight consensus', in which a majority of trusted witnesses must confirm, before signing, that no counterparty is attempting to fork their source chain. One of the witnesses must be an enzyme who collects all the required and optional signatures.
 
