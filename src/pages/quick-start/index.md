@@ -15,7 +15,7 @@ pageStyleId: install
 
 !!! note Prerequisite for Windows: WSL2
 
-The Nix package manager, which we use to install and manage Holochain development tools, only supports Mac and Linux. Linux can be run under Windows with [WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install){target=_blank}.
+The Nix package manager, which we use to install and manage Holochain development tools, only supports Mac and Linux. Please install Linux under Windows with [WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install){target=_blank}.
 
 _Holochain is supported for the Ubuntu distribution under WSL2._
 !!!
