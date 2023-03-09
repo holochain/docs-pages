@@ -37,11 +37,11 @@ Holochain is the engine that allows peers to move data around, validate it, and 
 
 ## 'Remembering' validation results
 
-Some entries can be computationally expensive to validate. In a currency app, for example, the validity of a transaction depends on the account balances of both transacting parties, which is the sum of all their prior transactions. The validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people they transacted with, and so on and so on. The data is deeply interconnected; you don't want to wait while the coffee shop's payment terminal interrogates half the town's economic history when you're just trying to buy a cup of coffee and you're already to work.
+Some entries can be computationally expensive to validate. In a currency app, for example, the validity of a transaction depends on the account balances of both transacting parties, which is the sum of all their prior transactions. The validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people they transacted with, and so on and so on. The data is deeply interconnected; you don't want to wait while the coffee shop's payment terminal interrogates half the town's economic history when you're just trying to buy a cup of coffee and you're already late for work.
 
 The DHT offers a shortcut --- it remembers the validation results of existing entries. You can ask the validation authorities for the parties' previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those and so on. As long as you trust a decent number of your peers to be playing by the rules, the validation results attached to the most recent entry 'proves' the validity of all the entries before it.
 
-For evidence of attempts to You can also consult the agent activity authority for any peer you're unsure of. They may or hold a copy of any past evidence of malicious activity, along with a record of all of the peer's source chain actions that show whether they've tried to change their history.
+For evidence of attempts to fork a chain, you can also consult the agent activity authority for any peer you're unsure of. They hold a record of all of the peer's source chain actions that show whether they've tried to change their history.
 
 ## How validation rules are defined
 
@@ -139,7 +139,7 @@ Their conductors call the appropriate validation function.
 
 ![](/assets/img/concepts/7.12-hold.png){.sz80p} {.center}
 
-The operation is valid, so they store the entry and action header in their personal shard of the DHT, along with their **validation receipts** attesting its validity.
+The operation is valid, so they store the entry and action header in their personal shard of the DHT, along with their **validation receipts** attesting their validity.
 
 ![](/assets/img/concepts/7.13-respond-validation-receipts.png){.sz80p} {.center}
 
@@ -198,11 +198,11 @@ Soft things which normally require human discretion, like content moderation and
 
 ## Final note: genesis self-check
 
-There is one more pseudo-validation function you should know about: the **genesis self-check**. As with validation functions, you define this callback in your integrity zomes. Its job is to 'pre-validate' an agent's membrane proof before she joins a network, to prevent her from accidentally committing a membrane proof that woud bar her from the network forever.
+There is one more pseudo-validation function you should know about: the **genesis self-check**. As with validation functions, you define this callback in your integrity zomes. Its job is to 'pre-validate' an agent's membrane proof before she joins a network, to prevent her from accidentally committing a membrane proof that would bar her from participating in the network forever.
 
 This function exists because the validity of a membrane proof may depend on DHT data --- for instance, it may contain the hash of a signed entry from a group's administrator that grants the newcomer access to the network. But the newcomer can't know whether her membrane proof will pass validation before she joins the network, because she can't access that data yet. So this function is meant to verify as much as it can without network access.
 
-If the self-check fails, the cell fails to be created and the rest of the cells in the hApp are disabled. Then an error is passed back to the system that's trying to install the app (usually this is the [Holochain Launcher](https://github.com/holochain/launcher), which will then show an error message to the user).
+If the self-check fails, the cell fails to be created and the rest of the cells in the hApp are disabled. Then an error is passed back to the system that's trying to install the app (usually this is the [Holochain Launcher](https://github.com/holochain/launcher), which will then show an error message to the user.
 
 ## Key takeaways
 

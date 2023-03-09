@@ -57,7 +57,7 @@ Alice and Bob can use this to do all sorts of useful things:
 * Bob can send Alice timely updates on information that matters to both of them, such as presence indicators or notifications of new records on his source chain (although [signals](../9_signals/) are usually more appropriate for these --- we'll talk about them in a later section).
 * Bob can also ask Alice for data from other cells that she's running and he isn't --- Alice acts as a mediator between the two DHTs.
 * Alice and Bob can negotiate an agreement using [countersigning](../10_countersigning/), such as a financial transaction or legal contract, because both of their source chains are 'frozen' at the moment of interaction.
-* Alice can give Bob the power to perform certain, such as publishing blog posts under her name (see the example below). She can even 'sub-delegate' agency that others have delegated to her.
+* Alice can give Bob the power to perform certain tasks, such as publishing blog posts under her name (see the example below). She can even 'sub-delegate' agency that others have delegated to her.
 
 ## How to secure functions against unauthorized use
 
@@ -89,7 +89,7 @@ There is one special case where capability tokens aren't needed: the **author ca
 
 It's recommended that the least permissive capability should be granted to a caller. A client may be running in one of a few different contexts, each with different appropriate strategies for granting capabilities:
 
-* If the client is **embedded** into the same executable as the conductor, as with the [Holochain Launcher](https://github.com/holochain/launcher) or an Electron app that includes the conductor, the executable will have access to the signing capabilities of the author private key and can take advantage of the author grant.
+* If the client is **embedded** into the same executable as the conductor, as with the [Holochain Launcher](https://github.com/holochain/launcher) or an Electron app that includes the conductor, the executable will have access to the signing capabilities of the author's private key and can take advantage of the author grant.
 * If the client is **separate** from the conductor, such as a page spawned in the participant's web browser, it can either generate and store its own key pair, ask the conductor to authorize it, and use it to sign all zome calls; or it can ask the conductor to generate a transferrable grant and store the capability secret.
 
 ## The lifecycle of a call

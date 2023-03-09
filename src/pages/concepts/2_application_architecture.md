@@ -36,7 +36,7 @@ There's another membrane, which sits between a participant and her copy of the a
 
 ## Layers of the application stack
 
-Holochain handles a lot of things for you, keeping your development workload minimal and mostly focused on the problems you need to salf. That's why we call it a framework. You rely on Holochain for things like data persistence and a peer-to-peer networking layer, and get on with building your application and business logic.
+Holochain handles a lot of things for you, keeping your development workload minimal and mostly focused on the problems you need to solve. That's why we call it a framework. You rely on Holochain for things like data persistence and a peer-to-peer networking layer, and get on with building your application and business logic.
 
 Now, let's get into the details of all the components of a Holochain app, and how they fit together.
 
@@ -101,7 +101,7 @@ There are two kinds of zomes:
 
 All of these functions are run from the perspective of the individual participant. When a client on Alice's computer calls a function that writes data, it calls that function in her own cell, writing data to her personal store. Unlike with cloud and blockchain, there is no objective, global-level third party. Things happen only when someone causes them to happen on their own machine.
 
-Consider source code and configuration changes carefully, because each modification to an integrity zome will create a new DNA with new cells interacting in a separate network. This may require some sort of migration strategy to move or access data between old and new cells.
+Consider source code and configuration changes carefully, because each modification to an integrity zome will result in a new DNA with new cells interacting in a separate network. This may require some sort of migration strategy to move or access data between old and new cells.
 
 Coordinator zomes aren't subject to the same strict rules, and can be swapped for new ones in a running cell. Care must still be taken, however, because each participant is free to swap coordinator zomes as they like (or more realistically, as the hApp developer gives them the power to do), so an entire network of cells isn't guaranteed to be running the same coordinator code.
 
@@ -115,7 +115,7 @@ All functions in your DNA start with a fresh memory state which is cleared once 
 
 That's the entire stack of a Holochain hApp. Let's review, this time from the inside out:
 
-1. A **zome** is a module that contains executable code and exposes some of its functions as an API. **Integrity zomes** define data types, while **coordinator zomes** define core business logic.
+1. A **zome** is a module that contains executable code and exposes some of its functions as an API. **Integrity zomes** define data types, while **coordinator zomes** define business logic.
 2. One or more zomes are bundled into a **DNA**, which is like a microservice that defines all the rules for a specific set of functionality.
 3. A DNA comes alive as a **cell**, running on behalf of a participant.
 4. One or more cells are slotted into a **hApp**, which makes up an application's back end.
@@ -137,7 +137,7 @@ You can see that Holochain is different from typical application stacks. Here's 
 * Users communicate and share data directly with one another rather than through a central server or blockchain validator network.
 * Holochain is opinionated about data --- it handles all storage and retrieval. (We'll learn about why and how in the next three articles.)
 * Zomes don't maintain any in-memory state between calls; state is maintained in the history of the cell that contains the zome.
-* At its heart, Holochain is a framework for validating and manipulating shared data. However, you usually don't need a lot of your business logic in your DNA --- just enough to encode the 'rules of the game' for your application.
+* At its heart, Holochain is a framework for manipulating and validating shared data. However, you usually don't need a lot of your business logic in your DNA --- just enough to encode the 'rules of the game' for your application.
 * As with microservices, Holochain lends itself to combining small, reusable components into large applications.
 
 ### Next Up 

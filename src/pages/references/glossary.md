@@ -185,7 +185,7 @@ A highly [centralized](#centralization) [distributed system](#distributed-system
 
 #### Cloning
 
-The act of modifying one or more [DNA modifiers](#dna-modifiers) at DNA installation time in order to change its [hash](#dna-hash) and optionally its behavior via [DNA properties](#dna-properties), thus creating an isolated [network](#network) and [DHT](#distributed-hash-table-dht) for that clone. This allows all [agents](#agent) who have applied the same modifications to enjoy a private shared space using existing rules without creating a DNA from scratch.
+The act of creating a copy of an existing cell by duplicating it and changing one or more [DNA modifiers](#dna-modifiers) in order to obtain a distinct DNA [hash](#dna-hash) and optionally its behavior via [DNA properties](#dna-properties), thus creating an isolated [network](#network) and [DHT](#distributed-hash-table-dht) for the resulting clone cell. This allows all [agents](#agent) who have created clone cells with the same modifications to enjoy a private shared space using existing rules without creating a DNA from scratch. An example is a message application with channels, where a clone cell represents a channel.
 
 #### Cloud
 
@@ -218,7 +218,7 @@ This API is typically only accessed by application management software such as t
 The [RPC interface](#rpc-interface) that a [conductor](#conductor) exposes, which allows [clients](#client) to:
 
 * call the public zome functions of any [cell](#cell) within a given [hApp](#holochain-application-h-app),
-* get info on the app itself and the [DNAs](#dna) and cells within the hApp,
+* get info on the app itself and the cells within the hApp,
 * [clone](#cloning) cells within the happ, and
 * disable cloned cells.
 
@@ -504,11 +504,11 @@ A property of Holochain's [validating DHT](#validating-dht), whereby healthy [no
 
 #### Init callback
 
-A function in a [DNA](#dna) that the [conductor](#conductor) calls when an [agent](#agent) starts a [cell](#cell) for the first time, and after they have joined the DNA's [network](#network). This can be used to set up initial [source chain](#source-chain) [#state](#state-transition), etc.
+A function in a [DNA](#dna) that the [conductor](#conductor) executes when an [agent](#agent) calls a [cell](#cell) for the first time, and after they have joined the DNA's [network](#network). This can be used to set up initial [source chain](#source-chain) [#state](#state-transition), etc.
 
 #### Init complete action
 
-A [record](#record) that Holochain automatically writes to an [agent's](#agent) [source chain](#source-chain) to indicate that the [init callbacks](#init-callback) in all of a [DNA's](#dna) [zomes](#zome) have successfully run and the [cell](#cell) is ready to use.
+An [action](#action) that Holochain automatically writes to an [agent's](#agent) [source chain](#source-chain) to indicate that the [init callbacks](#init-callback) in all of a [DNA's](#dna) [zomes](#zome) have successfully run.
 
 #### Integrity zome
 
@@ -577,7 +577,7 @@ A Holochain application design pattern, in which one [DHT](#distributed-hash-tab
 
 #### Logical monotonicity
 
-The property of a set of facts whereby the truth of prior facts are never negated by the addition of later facts. [CALM](#consistency-as-logical-monotonicity-calm-theorem) relies on functions that exhibit this property. For example, Holochain's [source chain](#source-chain), [DHT](#distributed-hash-table-dht) only add new data without removing old data, simulating deletions and modifications ([CRUD](#create-read-update-delete-crud)) by recording actions which override the status of, but don't remove, the data they refer to.
+The property of a set of facts whereby the truth of prior facts are never negated by the addition of later facts. [CALM](#consistency-as-logical-monotonicity-calm-theorem) relies on functions that exhibit this property. For example, Holochain's [source chain](#source-chain) and [DHT](#distributed-hash-table-dht) only add new data without removing old data, simulating deletions and modifications ([CRUD](#create-read-update-delete-crud)) by recording actions which override the status of, but don't remove, the data they refer to.
 
 #### Membrane
 
@@ -624,7 +624,7 @@ See [neighborhood](#neighborhood).
 
 #### Neighborhood
 
-A range of [DHT addresses](#dht-address) about which a [node](#node) attempts to everything they ought to know. Neighbors collectively support the [resilience](#resilience) of all [DHT data](#dht-data) whose [address](#dht-address) is within their respective [storage arcs](#storage-arc) by storing and [validating](#validation-rule) it and [gossiping](#gossip) it to all [neighbors](#neighbor) with whom their storage arcs overlap.
+A range of [DHT addresses](#dht-address) about which a [node](#node) attempts to know everything they ought to know. Neighbors collectively support the [resilience](#resilience) of all [DHT data](#dht-data) whose [address](#dht-address) is within their respective [storage arcs](#storage-arc) by storing and [validating](#validation-rule) it and [gossiping](#gossip) it to all [neighbors](#neighbor) with whom their storage arcs overlap.
 
 <!--- removed because query arcs don't exist yet -- They also have a wider neighbourhood of nodes they can talk to to receive authoritative data, defined by their [query arc](#query-arc). -->
 
@@ -634,7 +634,7 @@ In Holochain terms, a collection of [nodes](#node) [gossiping](#gossip) with eac
 
 #### Network seed
 
-An optional string, specified in a [DNA bundle](#dna-bundle) file or passed at DNA installation time, that modifies the [DNA's hash](#dna-hash) without modifying any of its behavior. This can be used to create a unique [network](#network) shared by all [agents](#agent) who use the same network seed. Hence, a network seed is considered a [DNA modifier](#dna-modifiers).
+An optional string, specified in a [DNA bundle](#dna-bundle) file or passed at [cell](#cell) [cloning](#cloning) time, that modifies the [DNA's hash](#dna-hash) without modifying any of its behavior. This can be used to create a unique [network](#network) shared by all [agents](#agent) who use the same network seed. Hence, a network seed is considered a [DNA modifier](#dna-modifiers).
 
 #### New-entry action
 
@@ -646,7 +646,7 @@ An individual [agent](#agent) in a Holochain [network](#network) who has an [age
 
 #### Open/close chain actions
 
-[System actions](#system-action) that track the continuity of an [agent's](#agent) participation across multiple [source chains](#source-chain). An close chain action marks a source chain as closed and points to a new source chain (either in the same or another [DHT](#distributed-hash-table-dht)) that continues the agent's activity, while an open chain action marks a source chain as a continuation of a prior source chain.
+[System actions](#system-action) that track the continuity of an [agent's](#agent) participation across multiple [source chains](#source-chain). A close chain action marks a source chain as closed and points to a new source chain (either in the same or another [DHT](#distributed-hash-table-dht)) that continues the agent's activity, while an open chain action marks a source chain as a continuation of a prior source chain.
 
 #### Origin time
 
@@ -807,13 +807,13 @@ A [hash chain](#hash-chain) of [records](#record) committed by an [agent](#agent
 
 #### State transition
 
-A modification of application state. In Holochain, all state transitions are initially created as [records](#record) in an [agent's](#agent) [source chain](#source-chain) that represent the [actions](#action) of [creating, updating, and deleting](#create-read-update-delete-crud) data and metadata, as well as of system-level actions such as [capability grants](#capability-grant). A state transition then yields one or more [operations](#dht-operation) that are then [published](#publish) to the [DHT](#distributed-hash-table-dht), that is, they are sent to the appropriate [validation authorities](#validation-authority), who then apply those operations to their own DHT [shard](#sharding), which causes a state transition for the [base](#base) to which the operation applies.
+A modification of application state. In Holochain, all state transitions are initially created as [records](#record) in an [agent's](#agent) [source chain](#source-chain) that represent the [actions](#action) of [creating, updating, and deleting](#create-read-update-delete-crud) data and metadata, as well as of system-level actions such as [capability grants](#capability-grant). A state transition further yields one or more [operations](#dht-operation) that are then [published](#publish) to the [DHT](#distributed-hash-table-dht), that is, they are sent to the appropriate [validation authorities](#validation-authority), who then apply those operations to their own DHT [shard](#sharding), which causes a state transition for the [base](#base) to which the operation applies.
 
 #### Subconscious
 
 The 'base' [validation rules](#validation-rule) defined by Holochain that check validity of [DHT operations](#dht-operation) and the integrity of each [agent's](#agent) [source chain](#source-chain).
 
-#### storage arc
+#### Storage arc
 
 A range of [DHT addresses](#dht-address) for which an [agent](#agent) claims [authority](#validation-authority) --- that is, responsibility to [validate](#validation-rule), store, [gossip](#gossip), and serve all [DHT data](#dht-data) whose addresses fall within the arc.
 

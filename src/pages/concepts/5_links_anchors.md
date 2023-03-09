@@ -54,7 +54,7 @@ What sorts of 'known' things can you use as starting points?
 
 First of all, Alice and Bob can just share addresses with each other. This could happen via email, business card, or pigeon post, but this is a networked technology we're talking about so it'd be nice to use Holochain itself for address sharing. The problem is that Alice and Bob don't know each other's addresses yet, so we're still at square one.
 
-We recommend **anchors** as a useful pattern for creating starting points on the DHT's graph database. An anchor is just a small chunk of data on the DHT, usually a string, that serves as bases to attach a lot of links to. An anchor's value can be easy for humans to share and type, such as a username or hashtag, or it can be baked into the application as a string constant. The important thing is that anchors should be easy to locate.
+We recommend **anchors** as a useful pattern for creating starting points on the DHT's graph database. An anchor is just a small chunk of data on the DHT, usually a string, that serves as a basis to attach a lot of links to. An anchor's value can be easy for humans to share and type, such as a username or hashtag, or it can be baked into the application as a string constant. The important thing is that anchors should be easy to locate.
 
 Anchors are just built from entries and links, like anything else in Holochain, but they're part of the SDK so you don't have to roll your own implementation. Our implementation also lets you create 'paths', hierarchies of linked anchors, which are great for product categories, filesystems, search indexes, and more.
 

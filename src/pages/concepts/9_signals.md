@@ -16,7 +16,7 @@ A DNA usually only receives function calls from the outside world and returns a 
 
 ### <i class="far fa-atom"></i> Why it matters
 
-Signals eliminate the need for a client to regularly poll a zome function to retrieve new data, making UIs much more responsive and performant. They can also trigger automatic actions in a cell or client without needing human intervention.
+Signals reduce the need for a client to regularly poll a zome function to retrieve new data, making UIs much more responsive and performant. They can also trigger automatic actions in a cell or client without needing human intervention.
 :::
 
 ![](/assets/img/concepts/9.1-signals.png){.sz80p} {.center}

@@ -78,7 +78,7 @@ _A record on a source chain cannot be modified once it's been committed._ This i
 
 Multiple zome function calls can be made at one time, and each of them can read or write data as needed. The source chain state that the function sees is a snapshot from the beginning of function execution, however, so it won't see writes made by the other call. And if two calls try to write to the agent's source chain at once, the first one to finish will succeed and the second will fail, telling the caller that the source chain top has moved. The caller can then give up or try again until the call succeeds.
 
-If the ordering of records doesn't matter, the function can be written to use **relaxed chain ordering** -- that is, if it fails to write, the conductor will try the write again, adding the new records onto the end of the updated chain. (This is similar to [rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing) in Git.)
+If the ordering of records doesn't matter, the function can be written to use **relaxed chain ordering** -- that is, if it fails to write, the conductor will try the write again, adding the new records onto the end of the updated chain. (This is similar to [rebasing in Git.](https://git-scm.com/book/en/v2/Git-Branching-Rebasing))
 
 When a zome function writes more than one record to a source chain, it all happens **atomically** --- that is, all the commits succeed or fail together. If one atomic commit fails because of a moved source chain top or a validation failure, it won't leave the source chain in an inconsistent state.
 
