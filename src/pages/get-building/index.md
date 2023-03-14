@@ -8,7 +8,7 @@ In Quick Start you installed Holochain and built a templated forum application. 
 Holochain installed as per [Quick Start](../quick-start/index)
 !!! 
 
-## Scaffold a Custom Holochain Application
+## Scaffold a custom Holochain application
 
 For this example we will scaffold the canonical example, a to-do hApp.
 
