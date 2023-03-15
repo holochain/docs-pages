@@ -38,7 +38,7 @@ nix develop github:holochain/holochain -c $SHELL -c "holochain --version"
 
 If you see
 
-```bash
+```text
 Holochain development shell spawned. Type exit to leave.
 holochain <VERSION_NUMBER>
 ```
