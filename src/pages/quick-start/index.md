@@ -28,6 +28,23 @@ At a command line:
 bash <(curl https://holochain.github.io/holochain/setup.sh)
 ```
 
+### Verify installation
+
+In a new shell session, type:
+
+```bash
+nix develop github:holochain/holochain -c $SHELL -c "holochain --version"
+```
+
+If you see
+
+```text
+Holochain development shell spawned. Type exit to leave.
+holochain <VERSION_NUMBER>
+```
+
+the Holochain Dev Environment is set up successfully.
+
 ### Scaffold An Example Holochain App
 
 Type the following at the command line:
