@@ -4,9 +4,9 @@
 {% set activeParent = mainNavData.getActiveParentLink(page.url) %}
 <nav id="main-nav">
   <ul class="nav-top-level">
-    {# <li id="mobile-search">
+    <li id="mobile-search">
       <a href="/search" title="Search the site">{{ mdiSearch() }}</a>
-    </li> #}
+    </li>
     {% for topLink in mainNavData.links %}
       {% set isCurrentParent = topLink.url == activeParent.url %}
       <li {% if isCurrentParent %} data-is-current-parent="true" {% endif %} 
