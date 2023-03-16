@@ -5,9 +5,13 @@ function copyCodeBlockClickHandler(e: Event) {
 }
 
 function addCopyButtonsToCodeSections() {
-  const codeElms = document.querySelectorAll('pre > code:not(.no-copy-button)');
-  
+  const codeElms = document.querySelectorAll('pre > code');
   codeElms.forEach((codeEl: Element) => {
+    // If there is a no-copy-button class as an ancestor anywhere then don't add button
+    if (codeEl.closest('.no-copy-button')) {
+      return;
+    }
+
     const preEl = codeEl.parentElement!;
     const copyButtonFrag = document.querySelector<HTMLTemplateElement>("#copy-button-template")?.content.cloneNode(true);
 

@@ -28,7 +28,7 @@ const renderAdmonition = (name, tokens, idx) => {
  * @param {string} admonitionName The "tag" of the admonition to be rendered
  * @returns render function for the admonition type that works with markdownItContainer
  */
-function composeGenericRenderFunc(admonitionName) {
+function composeGenericAdmonitionRenderFunc(admonitionName) {
   return function(tokens, idx) { return renderAdmonition(admonitionName, tokens, idx); }
 }
 
@@ -50,12 +50,13 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "coreconcepts-orientation");
     mdLib.use(markdownItContainer, "coreconcepts-storysequence");
     mdLib.use(markdownItContainer, "h-author");
+    mdLib.use(markdownItContainer, "no-copy-button");
     
     // Admonitions
-    mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericRenderFunc("tip") });
-    mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericRenderFunc("note") });
-    mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericRenderFunc("info") });
-    mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericRenderFunc("learn") });
+    mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericAdmonitionRenderFunc("tip") });
+    mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericAdmonitionRenderFunc("note") });
+    mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericAdmonitionRenderFunc("info") });
+    mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
   });
  
 }
