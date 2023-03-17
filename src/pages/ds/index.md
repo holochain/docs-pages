@@ -7,4 +7,4 @@ pageStyleId: design-system
 
 A collection of design elements used in the Dev Portal for referenence and UX review. Not intended to be linked to in public sources.
 
-[Code Fences](code-fences)
+[Code Fences](./code-fences/)
