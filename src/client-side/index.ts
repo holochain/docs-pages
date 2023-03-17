@@ -5,6 +5,8 @@ function copyCodeBlockClickHandler(e: Event) {
 }
 
 function addCopyButtonsToCodeSections() {
+  const copyButtonTemplate = document.querySelector<HTMLTemplateElement>("#copy-button-template");
+
   const codeElms = document.querySelectorAll('pre > code');
   codeElms.forEach((codeEl: Element) => {
     // If there is a no-copy-button class as an ancestor anywhere then don't add button
@@ -12,14 +14,17 @@ function addCopyButtonsToCodeSections() {
       return;
     }
 
-    const preEl = codeEl.parentElement!;
-    const copyButtonFrag = document.querySelector<HTMLTemplateElement>("#copy-button-template")?.content.cloneNode(true);
-
+    const copyButtonFrag = copyButtonTemplate?.content.cloneNode(true);
+    
     if (copyButtonFrag) {
-      preEl.appendChild(copyButtonFrag);
-      const btnEl = preEl.querySelector<HTMLButtonElement>("button[data-purpose]");
-      console.log(btnEl);
-      btnEl?.addEventListener("click", copyCodeBlockClickHandler);
+      const preEl = codeEl.parentElement!;
+      // insert the copyButtonFrag right before the code fence
+      preEl.parentElement?.insertBefore(copyButtonFrag, preEl);
+      const codeFenceWrapper = preEl.previousElementSibling!;
+      // move the preEl into the new Node
+      codeFenceWrapper.appendChild(preEl);
+      const btnEl = codeFenceWrapper.querySelector<HTMLButtonElement>("button[data-purpose]")!;
+      btnEl.addEventListener("click", copyCodeBlockClickHandler);
     }
   });
 }
