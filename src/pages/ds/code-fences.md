@@ -28,10 +28,10 @@ Multiple line
 
 ### Without Copy button
 
-To surpress the copy buttom you can wrap the code block in a `::: no-copy-button` container
+To surpress the copy buttom you can wrap the code block in a `::: output-block` container
 
 Single line
-::: no-copy-button
+::: output-block
 ```bash
 nix run github:/holochain/holochain#hc-scaffold -- web-app
 ```

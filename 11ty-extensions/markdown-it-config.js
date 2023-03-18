@@ -50,7 +50,7 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "coreconcepts-orientation");
     mdLib.use(markdownItContainer, "coreconcepts-storysequence");
     mdLib.use(markdownItContainer, "h-author");
-    mdLib.use(markdownItContainer, "no-copy-button");
+    mdLib.use(markdownItContainer, "output-block");
     
     // Admonitions
     mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericAdmonitionRenderFunc("tip") });

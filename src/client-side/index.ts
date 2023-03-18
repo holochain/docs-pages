@@ -9,8 +9,8 @@ function addCopyButtonsToCodeSections() {
 
   const codeElms = document.querySelectorAll('pre > code');
   codeElms.forEach((codeEl: Element) => {
-    // If there is a no-copy-button class as an ancestor anywhere then don't add button
-    if (codeEl.closest('.no-copy-button')) {
+    // If there is a output-block class as an ancestor anywhere then don't add button
+    if (codeEl.closest('.output-block')) {
       return;
     }
 
