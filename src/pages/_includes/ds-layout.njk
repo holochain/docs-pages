@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+  {% include "parts/head.njk" %}
+
+  <body class="{{ pageStyleId }} {{ layoutId }}">
+    <div class="main-area">
+      <h1>{{ title }}</h1>
+      {{ content | safe }}
+    </div>
+
+    {% include "parts/templates.njk" %}
+  </body>
+</html>

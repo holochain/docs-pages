@@ -26,6 +26,7 @@
 
 ## Code Fences
   - Include language (i.e.: `bash`) always.
+  - If you want to surpress the copy button wrap the code block in a `::: output-block` container
 
 ## Open in new window 
 - add `{target=_blank}` after link markdown parens
