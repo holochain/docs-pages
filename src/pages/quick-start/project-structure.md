@@ -4,13 +4,9 @@ hide:
   - toc
 ---
 
-<<<<<<< Updated upstream
-When you use the Scaffolding Tool to generate your sample project, it will create a new folder with the app name in the current directory. Inside that new folder there's a number of files and folders:
-=======
 ## Understand Holochain App Code
 
-When you use the scaffolding tool to generate your sample project, it will create a new folder with the app name in the current directory. Inside that new folder there's a number of files and folders:
->>>>>>> Stashed changes
+When you use the scaffolding tool to generate your sample project, it will create a new directory with the app name in the current directory. Inside that new directory there's a number of files and directories:
 
 - a .gitignore file
 - initialized npm workspace
