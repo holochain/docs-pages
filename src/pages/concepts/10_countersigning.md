@@ -30,7 +30,7 @@ It might sound messy, but it's how the real world works. When we're busy about o
 
 We believe that, for the vast majority of applications involving transactions, this --- plus validation by a selection of random witnesses --- is all that's needed.
 
-Holochain lets you do this through **countersigning**. In this process, two or more parties agree on the contents of a single entry, then write that entry to all of their chains within an agreed-upon time period. It's hard to manage the communication necessary for reaching a reasonable level of atomicity, so that's why it's built into the framework rather than being something you have to build yourself. The human negotiation steps beforehand, and some of the data transfer steps, are left for you to build however you like. But the core of the functionality --- the steps that do their best to make the commit atomic for everyone's source chains, as well as all the data structures that facilitate the process --- are all provided.
+Holochain lets you do this through **countersigning**. In this process, two or more parties agree on the contents of a single entry, then write that entry to all of their chains within an agreed-upon time period. It's hard to manage the communication necessary for reaching a reasonable level of atomicity, so that's why it's built into the framework rather than being something you have to build yourself. The human agreement on the content beforehand, and some of the data transfer steps, are left for you to build however you like. But the core of the functionality --- the steps that do their best to make the commit atomic for everyone's source chains, as well as all the data structures that facilitate the process --- are all provided.
 
 ## The countersigning process
 
