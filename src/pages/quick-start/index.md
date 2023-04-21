@@ -33,7 +33,7 @@ bash <(curl https://holochain.github.io/holochain/setup.sh)
 In a new shell session, type:
 
 ```bash
-nix develop github:holochain/holochain -c $SHELL -c "holochain --version"
+nix run --refresh -j0 -vv github:holochain/holochain#hc-scaffold -- --version
 ```
 
 If you see
