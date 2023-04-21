@@ -39,11 +39,18 @@ nix run --refresh -j0 -vv github:holochain/holochain#hc-scaffold -- --version
 If you see
 
 ```text
-Holochain development shell spawned. Type exit to leave.
-holochain <VERSION_NUMBER>
+holochain_scaffolding_cli <version_number>
 ```
 
-the Holochain Dev Environment is set up successfully.
+at the end of the output, the Holochain Dev Environment is set up successfully.
+
+An output similar to
+
+```bash
+downloading 'https://holochain-ci.cachix.org/nar/2494efcf4b57407d4544b2443122002004debe4e546b4e8921881e28128721c9.nar.zst'...
+```
+
+indicates that the Cachix binary cache is configured correctly.
 
 ### Scaffold An Example Holochain App
 
