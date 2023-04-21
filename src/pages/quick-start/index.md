@@ -36,21 +36,19 @@ In a new shell session, type:
 nix run --refresh -j0 -vv github:holochain/holochain#hc-scaffold -- --version
 ```
 
-If you see
+If you see something similar to
 
 ```text
-holochain_scaffolding_cli <version_number>
-```
-
-at the end of the output, the Holochain Dev Environment is set up successfully.
-
-An output similar to
-
-```bash
+downloading 'https://api.github.com/repos/holochain/holochain/commits/HEAD'...
+evaluating file '/nix/store/41rxf7zlw8nwd4xxi4ja210a9y6fa4ph-source/flake.nix'
+this path will be fetched (4.75 MiB download, 15.10 MiB unpacked):
+  /nix/store/siiy4qyihjndzhsaj97g54zcvzkv5l54-hc-scaffold-<VERSION_NUMBER>
+copying path '/nix/store/siiy4qyihjndzhsaj97g54zcvzkv5l54-hc-scaffold-<VERSION_NUMBER>' from 'https://holochain-ci.cachix.org'...
 downloading 'https://holochain-ci.cachix.org/nar/2494efcf4b57407d4544b2443122002004debe4e546b4e8921881e28128721c9.nar.zst'...
+holochain_scaffolding_cli <VERSION_NUMBER>
 ```
 
-indicates that the Cachix binary cache is configured correctly.
+at the end of the output, the Holochain Dev Environment anc Cachix binary cache are set up successfully.
 
 ### Scaffold An Example Holochain App
 
