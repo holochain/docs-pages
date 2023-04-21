@@ -3,7 +3,7 @@ title: "Validation: Assuring Data Integrity"
 ---
 
 ::: coreconcepts-intro
-Holochain DNAs can specify **validation rules** for DHT operations. This empowers agents to check the integrity of the data they see. When called upon to validate data, it allows them to identify corrupt peers, author a **warrant** against them as proof of their actions, and take action against them.
+Holochain DNAs can specify **validation rules** for DHT operations. This empowers agents to check the integrity of the data they see. When called upon to validate data, it allows them to identify corrupt peers, author a **warrant** against them as proof of their actions, and take personal defensive action against them.
 :::
 
 ::: coreconcepts-orientation
@@ -15,7 +15,7 @@ Holochain DNAs can specify **validation rules** for DHT operations. This empower
 4. [When validation happens](#the-lifecycle-s-of-a-validation)
 5. [What validation rules can be used for](#use-cases-for-validation)
 6. [What makes a good validation rule](#guidelines-for-writing-validation-rules)
-7. [How to pre-validate a membrane proof before joining a network](#final-note-genesis-self-check)
+7. [How and when to deal with things that can't be handled by validation](#things-that-aren-t-quite-validation-but-almost-are)
 
 ### <i class="far fa-atom"></i> Why it matters
 
@@ -29,28 +29,30 @@ Data validation rules are the core of a Holochain app. They deserve the bulk of 
 Let's review what we've covered so far.
 
 1. Holochain is a framework for building apps that let peers directly share data without needing the protective oversight of a central server.
-2. Holochain's two pillars of integrity are [intrinsic data validity and peer witnessing](../1_the_basics/#how-holochain-does-things-differently). The first defines what correct data looks like, while the second uses the strength of many eyes to detect discrepancies.
+2. Holochain's two pillars of integrity are [intrinsic data validity and peer witnessing](../1_the_basics/#how-holochain-does-things-differently). The first defines what correct data looks like, while the second uses the strength of many eyes to rapidly detect corruption and reduce the overall burden of validation.
 3. Each type of app entry and link can contain any sort of binary data whose correctness is determined by validation rules written into the application.
-4. Peer validators use those rules to analyze entries and spread news about bad actors, triggering an immune response in the network.
+4. Peer validators use those rules to analyze entries, flag bad actors, and trigger personal defensive action such as blocking the corrupt agent.
 
-Holochain is the engine that allows peers to move data around, validate it, and take action based on validation results. **Your DNA is mainly a collection of functions for creating, accessing, and validating data.** The design of these functions is critical to the success of your app because they define the membranes of safety between a participant and the stuff she receives from others via the DHT. Her running DNA --- her cell --- prevents her from creating invalid data and defends her from the consequences of people's invalid data. Well-designed validation rules protect everyone, while buggy validation rules leave them vulnerable.
+Holochain is the engine that allows peers to move data around, validate it, and take action based on validation results. **Your DNA is mainly a collection of functions for creating, accessing, and validating data.** The design of these functions is critical to the success of your app because they define the membranes of safety between a participant and the stuff she receives from others via the DHT. Her running DNA --- her cell --- prevents her from creating invalid data and defends her from the consequences of other people's invalid data. Well-designed validation rules protect everyone, while buggy validation rules leave them vulnerable.
 
 ## 'Remembering' validation results
 
-Some entries can be computationally expensive to validate. In a currency app, for example, the validity of a transaction depends on the account balances of both transacting parties, which is the sum of all their prior transactions. The validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people they transacted with, and so on and so on. The data is deeply interconnected; you don't want to wait while the coffee shop's payment terminal interrogates half the town's economic history when you're just trying to buy a cup of coffee and you're already late for work.
+Some entries can be computationally expensive to validate. In a currency app, for example, the validity of a transaction depends on the account balances of both transacting parties, which is the sum of all their prior transactions. The validity of each of those transactions depends on the account balance at the time, plus the validity of the account balance of the people they transacted with, and so on and so on. The data is deeply interconnected; you don't want to wait while the coffee shop's payment terminal interrogates half the town's economic history when you're just trying to buy a coffee and get to work.
 
-The DHT offers a shortcut --- it remembers the validation results of existing entries. You can ask the validation authorities for the parties' previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those and so on. As long as you trust a decent number of your peers to be playing by the rules, the validation results attached to the most recent entry 'proves' the validity of all the entries before it.
+The DHT offers a shortcut --- it remembers the validation results of existing entries. You can ask the validation authorities for the parties' previous transactions if they detected any problems. You can assume that they have done the same thing for the transaction prior to those, and so on. As long as you trust a decent number of your peers to be playing by the rules, the validation results attached to the most recent entry 'proves' the validity of all the entries before it.
 
-For evidence of attempts to fork a chain, you can also consult the agent activity authority for any peer you're unsure of. They hold a record of all of the peer's source chain actions that show whether they've tried to change their history.
+The result of a validation, if it was able to complete, is stored as a **validation receipt**. A failed validation receipt is also called a **warrant**. If a participant asks an authority for a piece of data that happens to be invalid, the authority can return the warrant in place of the actual data.
+
+While this works for finding the validity of one _particular_ entry or action, a participant might have a reason to find out if another participant has ever produced _any_ invalid data, Un the future, Holochain may allow them to consult the agent activity authorities for that peer and get all warrants at once.
 
 ## How validation rules are defined
 
-A validation rule is simply a callback function in an integrity zome code that takes an operation, analyzes it, and returns either success or failure. You'll remember that an operation encapsulates the details of an _action_, not a thing, so this function is validating whether the action's author should have performed it. The function has access to the author's source chain and the DHT, so it can also base its result on context such as the author's history or data that others have created.
+A validation rule is simply a callback function in an integrity zome code that takes an operation, analyzes it, and returns a validation result. You'll remember that an operation encapsulates the details of an _action_, not a thing, so this function is validating whether the action's author should have performed it. The function has access to the author's source chain and the DHT, so it can also base its result on context such as the author's history or any data that the action may reference.
 
 The entry and link types defined in an integrity zome go hand-in-hand with the validation function defined in that same zome; that is, the validation function should cover all the operations produced by the act of creating, updating, or deleting entries and links of those types.
 
 !!! warning Non-determinism in validation functions
-Entries and action headers can be retrieved by hash, as can entire sequences of a source chain. But collections such as links on a base or full agent activity reports can't be retrieved, because they change over time and would lead to non-determinism in validation results. This would cause different validation authorities to give different answers, leading to disagreement on the validity of an operation.
+Entries and action can be retrieved by hash, as can entire sequences of a source chain. But collections such as links on a base or full agent activity reports can't be retrieved, because they change over time and would lead to non-determinism in validation results. This would cause different validation authorities to give different answers, leading to disagreement on the validity of an operation.
 
 Other sources of non-determinism, such as conductor host API functions that retrieve the time, read the cell owner's own state, generate a random number, or call a zome function in another cell, are disallowed for the same reason.
 !!!
@@ -59,7 +61,7 @@ Once it's done its work, the validation function can return one of three values:
 
 * **Valid**,
 * **Invalid**, with a description of what was invalid,
-* **Unresolved dependencies**, with a list of the addresses of data it couldn't retrieve from the DHT. (If the conductor fails to retrieve data, it'll short-circuit execution of the validation function, return this value, and schedule the validation for retry later.)
+* **Unresolved dependencies**, with a list of the addresses of dependencies that it couldn't retrieve from the DHT. (If the conductor fails to retrieve data, it'll short-circuit execution of the validation function, return this value, and schedule the validation for retry later.)
 
 All operations on CRUD actions whose entry or link types are defined in an integrity zome share a single validation function within that zome. Within this function, you can use branching logic to handle different operation types on different entry or link types.
 
@@ -72,11 +74,11 @@ Validation functions are called in two different scenarios, each with different 
 * When an agent first authors a record and attempts to produce DHT operations from it, and
 * When an authority receives an operation for validation.
 
-We'll carry on with the DHT illustrations from chapter 4 to show what happens when data is written, but let's add a simple validation rule: the `word` entry type has a validation rule that says that it can't contain spaces.
+We'll carry on with the DHT illustrations from chapter 4 to show what happens when data is written, but let's add a simple validation rule: there's a `word` entry type that has a validation rule that says that it can't contain spaces.
 
 ### Authoring
 
-When you **commit a record**, your Holochain conductor is responsible for making sure you're playing by the rules. This protects you from publishing any invalid data that could make you look like a bad actor.
+When you **commit a record**, your conductor is responsible for making sure you're playing by the rules. This protects you from publishing any invalid data that could make you look like a bad actor.
 
 #### Valid entry
 
@@ -87,11 +89,11 @@ Alice calls the `publish_word` zome function with the string `"eggplant"`. The f
 
 ![](/assets/img/concepts/7.3-validate.png){.sz80p} {.center}
 
-After the function has finished, Alice's conductor [converts this record into operations](../4_dht/#a-cloud-of-witnesses), looks up the integrity zome that defines the `word` entry type, and calls that zome's validation function on each of them.
+After the function has finished, Alice's conductor [converts this record into DHT operations](../4_dht/#a-cloud-of-witnesses), looks up the integrity zome that defines the `word` entry type, and calls that zome's validation function on each of the operations.
 
 ![](/assets/img/concepts/7.4-validation-success.png){.sz80p} {.center}
 
-The validation function sees only one word, so it returns `Valid`.
+The validation function simply checks that the entry data contained in the action is only one word long, returning `Valid`.
 
 ![](/assets/img/concepts/7.5-persist-and-publish.png){.sz80p} {.center}
 
@@ -118,11 +120,11 @@ This time, the validation function sees two words. It returns `Invalid("too many
 Instead of committing the entry, the conductor passes this error message back to the client instead of whatever the `publish_word` function's return value was.
 :::
 
-You can see that author-side validation is similar to how data validation works in a traditional client/server app: if something is wrong, the business logic rejects it and asks the user to fix it.
+You can see that author-side validation is similar to how data validation works in a traditional client/server app: if something is wrong, the validation logic sends an error message back to the application logic, which can handle it as it sees fit (for example, parsing the error and asking the user to fix the invalid fields).
 
 ### Peer validation
 
-When an authority **receives an entry for validation**, the flow is very different. The authority doesn't just assume that the author has already validated the data; she could easily have hacked her conductor to bypass validation rules. It's the authority's duty and right to treat every piece of data as suspect until they can personally verify it. Fortunately, they have their own copy of the validation rules.
+When an authority **receives an entry for validation**, the flow is different. The authority doesn't just assume that the author has already validated the data; she could easily have hacked her conductor to bypass validation rules. It's the authority's duty and right to treat every piece of data as suspect until they can personally verify it. Fortunately, they have their own copy of the validation rules.
 
 Here are the two scenarios above from the perspective of a DHT authority.
 
@@ -131,7 +133,7 @@ Here are the two scenarios above from the perspective of a DHT authority.
 ::: coreconcepts-storysequence
 ![](/assets/img/concepts/7.10-gossip-to-authorities.png){.sz80p} {.center}
 
-As authorities for the address `E`, Diana and Fred receive a copy the DHT operation that produces the `"eggplant"` entry.
+As authorities for the address `E`, Diana and Fred receive a copy of a store-entry operation that stores the `"eggplant"` entry at that address.
 
 ![](/assets/img/concepts/7.11-authorities-validate.png){.sz80p} {.center}
 
@@ -139,7 +141,7 @@ Their conductors call the appropriate validation function.
 
 ![](/assets/img/concepts/7.12-hold.png){.sz80p} {.center}
 
-The operation is valid, so they store the entry and action header in their personal shard of the DHT, along with their **validation receipts** attesting their validity.
+The operation is valid, so they store the entry and action in their personal DHT stores, along with their **validation receipts** attesting its validity.
 
 ![](/assets/img/concepts/7.13-respond-validation-receipts.png){.sz80p} {.center}
 
@@ -147,7 +149,7 @@ They both send a copy of their receipts back to Alice. Later on, they share the 
 :::
 
 !!! note Multiple operations for each action
-You may remember from our exploration of the DHT that the 'store entry' operation is only one of three produced by the action that Alice committed to her chain. The 'store record' and 'register agent activity' operations are validated by other authorities, and the validation function may contain slightly different logic for each of them based on the nature of the operation --- for instance, the 'store record' authority may only validate whether the author has been granted permission to add new words to the DHT.
+You may remember from our [exploration of the DHT](../4_dht/) that the 'store entry' operation is only one of three produced by the action that Alice committed to her chain. The 'store record' and 'register agent activity' operations are validated by other authorities, and the validation function may contain slightly different logic for each of them based on the nature of the operation --- for instance, the 'store record' authority may not care about the number of words in the entry, but may care whether the author has been granted permission to add new words to the DHT. Ultimately, all authorities can retrieve all record data for an operation, along with all source chain data preceding that record, but it may make sense to distribute the work in ways that are appropriate for each operation.
 !!!
 
 #### Invalid entry
@@ -174,6 +176,11 @@ Norman and Rosie add Alice to their permanent block lists and remove her data fr
 ![](/assets/img/concepts/7.18-ejection.png){.sz80p} {.center}
 
 Eventually, everyone knows that Alice is a 'bad actor' who has hacked her app. They all ignore her whenever she tries to talk to them, which effectively ejects her from the DHT.
+
+!!! info What happens when an agent receives a warrant instead of data?
+Currently only validation authorities permanently block authors for invalid data; a future release of Holochain will also allow non-authorities to store a warrant they've received and use it as justification for taking personal defensive action against the warranated agent. This will likely look like challenging the warranted agent to produce the potentially invalid data on first contact, then blocking them if the data is indeed valid or warranting the authority if the data is valid and the warrant is erroneous.
+!!!
+
 :::
 
 ## Use cases for validation
@@ -196,13 +203,27 @@ If an agent is committing a record to their source chain that depends on DHT dat
 
 Soft things which normally require human discretion, like content moderation and code-of-conduct enforcement, are also challenging to encode unambiguously, especially when they lack the context in which the interaction is happening. In the future, coordinator zomes will be able to create revocable app-level warrants that can be used to non-definitively block an agent from a network. This is also useful for non-threat scenarios, for instance in cases where an employee resigns from a company on good terms and needs to be removed from the company's applications.
 
-## Final note: genesis self-check
+## Things that aren't quite validation but almost are
 
-There is one more pseudo-validation function you should know about: the **genesis self-check**. As with validation functions, you define this callback in your integrity zomes. Its job is to 'pre-validate' an agent's membrane proof before she joins a network, to prevent her from accidentally committing a membrane proof that would bar her from participating in the network forever.
+There are certain validation-like things that either fall outside the constraints of determinism necessary for validation functions, or are similar to validation but don't result in an immune response.
 
-This function exists because the validity of a membrane proof may depend on DHT data --- for instance, it may contain the hash of a signed entry from a group's administrator that grants the newcomer access to the network. But the newcomer can't know whether her membrane proof will pass validation before she joins the network, because she can't access that data yet. So this function is meant to verify as much as it can without network access.
+### Genesis self-check
+
+A **genesis self-check** function can be defined in your integrity zomes. Its job is to 'pre-validate' an agent's membrane proof before she joins a network, to prevent her from accidentally committing a membrane proof that would forever bar her from joining the network.
+
+This function exists because it may require DHT access to fully check the validity of a membrane proof, but the newcomer isn't yet part of the network when they attempt to publish their membrame proof action. So this function verifies as much as it can without network access.
 
 If the self-check fails, the cell fails to be created and the rest of the cells in the hApp are disabled. Then an error is passed back to the system that's trying to install the app (usually this is the [Holochain Launcher](https://github.com/holochain/launcher), which will then show an error message to the user.
+
+### Source chain forks
+
+We discussed this situation, in which an agent attempts to create two parallel histories, in the [section on the DHT](../4_dht/#detecting-attempts-to-rewrite-history) and their attempt is recorded by the agent activity authorities. It's not quite deterministic validation, because authorities who haven't yet seen the parallel chains will rightly judge their view of the source chain to be valid. In fact, even for the authority who _can_ see the parallel chains, each one may be internally valid; it's the presence of the two that isn't allowed.
+
+In the future, Holochain may support temporarily blocking agents who fork their source chains, but this will need to be done cautiously as forks may also be caused by innocent behavior such as restoring one's hard drive from a backup that didn't contain the most recent source chain records.
+
+### Application-level blocking
+
+Some reasons for ejecting an agent from a network simply shouldn't be encoded in a validation function, either because they require human discretion, would need too much processing power to validate properly, or aren't the result of an invalid action. These can include things like an employee's departure from a company, behavior that violates a community's code of conduct, or disturbing images and videos. These **application-level blocks** can also be temporary, so they can be lifted if someone is to be reinstated into a network. Holochain's host SDK provides **block** and **unblock** functions for these purposes, and you can use these functions to build 'soft' immune responses.
 
 ## Key takeaways
 
@@ -214,18 +235,23 @@ If the self-check fails, the cell fails to be created and the rest of the cells 
 * If all data upon which a validation depends can be retrieved, the result of a validation function is a clear yes/no result. It proves whether the author has hacked their software to produce invalid entries.
 * If some data dependencies can't be retrieved from the DHT, the conductor will fail with an 'unresolved dependencies' error and try again later.
 * If the validity of an operation depends on existing DHT data, a validating agent can generally trust in the existing validation results on those dependencies instead of having to revalidate them.
-* Validation rules are functions that analyze the content of an entry and return either a success or error message.
+* Validation rules are functions that analyze the content of an operation and return either a success or error message, or 'unresolved dependencies' if not all of the data the operation depends on can be retrieved.
 * Validation functions are deterministic and pure, and should also cover all possible input values.
 * When an operation is found to be invalid, the validator creates a warrant, which attests that the author is writing corrupt data.
 * Agents can use warrants as grounds for blocking communication with a corrupt agent and deleting their data.
+* Some scenarios can't be covered by validation:
+    * Membrane self-checking occurs before an agent joins a network, so it may comprise a reduced set of checks that don't involve dependencies from the DHT.
+    * Source chain forks are non-deterministic, so they can only be detected, not warranted against.
+    * Application-level blocking and unblocking can be used to provide an immune-like response when there are non-deterministic or non-adversarial reasons for blocking an agent.
 
 !!! learn Learn more
 * [Wikipedia: Deterministic algorithm](https://en.wikipedia.org/wiki/Deterministic_algorithm)
 * [Wikipedia: Pure function](https://en.wikipedia.org/wiki/Pure_function)
 * [Wikipedia: Total function](https://en.wikipedia.org/wiki/Partial_function#Total_function)
 * [Wikipedia: Monotonicity of entailment](https://en.wikipedia.org/wiki/Monotonicity_of_entailment), a useful principle for writing validation functions that update entries without invalidating old ones
+* [Wikipedia: Byzantine fault](https://en.wikipedia.org/wiki/Byzantine_fault), describing the nature of failures among nodes in a distributed computing system
 !!!
 
-### Next Up 
+### Next Up
 
-[Explore calls & capabilities  →](../8_calls_capabilities/){.btn-purple} 
+[Explore calls & capabilities →](../8_calls_capabilities/){.btn-purple}

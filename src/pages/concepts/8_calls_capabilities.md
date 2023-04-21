@@ -3,7 +3,7 @@ title: "Calls and Capabilities: Communicate With Other Components And Peers"
 ---
 
 ::: coreconcepts-intro
-Application components can **call a cell's functions**. On one agent's device, clients can call functions in cells, and cells in the same conductor can call each other's functions. Within one DHT, cells can call other agent's cells, allowing agents to delegate their agency to others.
+Application components can **call a cell's functions**. On one agent's device, clients can call functions in cells, and cells in the same conductor can call each other's functions. Within one DHT, cells can call other agents' cells, allowing agents to delegate their agency to others.
 :::
 
 ::: coreconcepts-orientation
@@ -22,7 +22,7 @@ Web 2.0 flourished thanks in part to 'mashups', applications that combined the f
 
 ## Client, inter-zome, bridge, and remote calls: who can call whom
 
-You might remember from [Application Architecture](../2_application_architecture/) that all back-end functionality of a Holochain application is contained in the DNA, or rather, the individual zome libraries in the DNA. Any externally exposed functions in those libraries, specifically the **coordinator zomes**, are exposed in turn by the conductor as the cell's public API. There are four scenarios when this API might be accessed. In every scenario, it's considered a [remote procedure call](https://en.wikipedia.org/wiki/Remote_procedure_call). 
+You might remember from [Application Architecture](../2_application_architecture/) that all back-end functionality of a Holochain application is contained in the DNA, or rather, the individual zome libraries in the DNA. Any externally exposed functions in those libraries, specifically the **coordinator zomes**, are exposed in turn by the conductor as the cell's public API. There are four scenarios when this API might be accessed. In every scenario, it could be considered a [remote procedure call](https://en.wikipedia.org/wiki/Remote_procedure_call).
 
 ### Client call
 
@@ -40,9 +40,9 @@ Although zomes are libraries in one DNA, they don't have direct access to each o
 
 ![](/assets/img/concepts/8.4-bridge-call.png){.sz80p} {.center}
 
-A bridge call allows different cells in an agent's hApp to communicate with each other. This works only on the agent's device, and is useful for combining the functionality of multiple DNAs into one app. Because Holochain is centered around the agent, it makes more sense to say "Alice's app components are talking to each other" than "app A is talking to app B".
+A bridge call allows different cells in a hApp to communicate with each other. This works only within a conductor, not across a network, and is useful for combining the functionality of multiple DNAs into one app. Because Holochain is centered around the agent, it makes more sense to say "Alice's app components are talking to each other" than "app A is talking to app B".
 
-As we've seen, a client can talk to cells too, and it could certainly bear the responsibility for connecting multiple cells together. But it can't offer the same correctness guarantees or convenience that direct calls between cells can offer: the source chains of both cells are 'locked' for the duration of the call, and the conductor provides the assurance that the code that cell A thinks cell B is running is actually what it's running. This means you can better reason about the state of each cell, which is important for things like financial transactions.
+As we've seen, a client can talk to cells too, and it could certainly take responsibility for bridging functionality between cells. But it can't offer the same correctness guarantees or convenience that direct calls between cells can offer: the source chains of both cells are 'locked' for the duration of the call, and the conductor provides the assurance that the code that cell A thinks cell B is running is actually what it's running. This means you can better reason about the state of each cell, which is important for things like financial transactions.
 
 ### Remote call
 
@@ -71,11 +71,11 @@ An **unrestricted** capability lets anybody call a function without producing a 
 
 ![](/assets/img/concepts/8.7-transferrable-capability.png){.sz80p} {.center}
 
-A **transferable** capability lets anybody who presents a valid capability token call a function (this is identical to traditional capability-based security).
+A **transferable** capability lets anybody call a function if they can present a valid capability token (this is identical to traditional capability-based security).
 
 ![](/assets/img/concepts/8.8-assigned-capability.png){.sz80p} {.center}
 
-An **assigned** capability only allows agents with a valid capability token to call a function, but only if they've signed the call with a certain public key.
+An **assigned** capability only allows agents with a valid capability token to call a function, but only if they've signed the call with a recognized public key.
 
 In order for others to call one of their functions, the callee first has to grant access to that function. They do this by writing a **capability grant entry** to their source chain that specifies the function name, the access level, and any optional information depending on the access type (a random capability token and/or a list of assignees). After that, Holochain will automatically check the credentials of any incoming function call to make sure they match an existing grant. When a grantor wants to revoke or modify access, they simply delete or update that grant entry.
 
@@ -83,11 +83,11 @@ In order to use a transferable or assigned grant, a caller must have already rec
 
 ![](/assets/img/concepts/8.9-author-capability.png){.sz80p} {.center}
 
-There is one special case where capability tokens aren't needed: the **author capability**. If the agent ID of the caller and the callee match, such as with calls between zomes in a single DNA or cells in a single hApp, no explicit capability grant is needed.
+There is one special case: if the public key of the caller and the callee match, such as with calls between zomes in a single DNA, cells in a single hApp, or UIs hosted in the Holochain Launcher, the conductor applies the **author** grant and no explicit capability grant is needed.
 
 ### Giving a client a capability
 
-It's recommended that the least permissive capability should be granted to a caller. A client may be running in one of a few different contexts, each with different appropriate strategies for granting capabilities:
+It's recommended that a minimally permissive capability should be granted to a caller. A caller may be running in one of a few different contexts, each with different appropriate strategies for granting capabilities:
 
 * If the client is **embedded** into the same executable as the conductor, as with the [Holochain Launcher](https://github.com/holochain/launcher) or an Electron app that includes the conductor, the executable will have access to the signing capabilities of the author's private key and can take advantage of the author grant.
 * If the client is **separate** from the conductor, such as a page spawned in the participant's web browser, it can either generate and store its own key pair, ask the conductor to authorize it, and use it to sign all zome calls; or it can ask the conductor to generate a transferrable grant and store the capability secret.
@@ -118,19 +118,19 @@ First, Alice needs to let Bob publish posts under her name. Here's how she does 
 * Client calls let a client call a cell's functions. Both client and cell need to be on the same device.
 * Inter-zome calls let one zome call another zome's functions within one agent's cell.
 * Bridge calls let one of an agent's cells call another of their cells, allowing sharing of functionality and data between apps.
-* Remote calling lets one agent call functions in another agent's cell within the same DHT network.
+* Remote calling lets one agent call functions in another agent's cell within the same DNA's network.
 * Remote calling sets up a direct, end-to-end encrypted channel between two agents to exchange the input parameters and return value.
 * One agent calls another agent's functions by specifying their agent ID; Holochain resolves this ID to a network transport address.
 * Remote calling can be used for any data exchange that needs to be private, synchronous, temporary, or timely.
 * Remote calling allows one agent to 'delegate' their agency to another.
 * An inter-zome, bridge, or remote call blocks execution on the caller's side until they receive a response or the request times out.
-* All calls are covered by capability-based security, which consists of a grant created by the callee, who shares a capability secret for the caller to use whenever they want to make a call.
+* All calls are covered by capability-based security, which consists of a grant created by the callee, who shares a capability secret (when applicable) for the caller to use whenever they want to make a call.
 * In Holochain's capability model, unrestricted and assigned capabilities allow for more or less permissivity than the traditional capability model.
 
 !!! learn Learn more
 * [Wikipedia: Principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege)
 !!!
 
-### Next Up 
+### Next Up
 
-[Explore signals  →](../9_signals/){.btn-purple} 
+[Explore signals →](../9_signals/){.btn-purple}
