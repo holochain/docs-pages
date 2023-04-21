@@ -36,7 +36,7 @@ In a new shell session type:
 nix run --refresh -j0 -v github:holochain/holochain#hc-scaffold -- --version
 ```
 
-Look out for binaries being copied from `holochain-ci.cachix`. It proves that the Cachix bindary
+Look out for binaries being copied from `holochain-ci.cachix`. It proves that the Cachix binary
 cache is configured correctly.
 
 If you see a scaffolding version like
