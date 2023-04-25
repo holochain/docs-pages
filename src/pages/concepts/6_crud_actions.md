@@ -40,14 +40,12 @@ Here are all the mutation actions an agent can perform:
 * **Delete entry** marks an existing new-entry action as dead.
 * **Create link** creates a new link.
 * **Delete link** marks an existing create-link action as dead.
-* **Withdraw action** (not yet implemented) marks an existing action as dead, allowing an author to reverse a mistakenly published action.
-* **Purge entry** (not yet implemented) directs a DHT authority to erase an entry from their store, which is useful for removing immoral or illegal content or honoring right-to-be-forgotten requests.
 
-In almost every case where an action 'modifies' old data, it's simply sending a piece of metadata to be attached to the old data. The old data still exists; it just has a different status. (The only exceptions are the last two, which permit a DHT authority to truly delete their copy of the targeted data.)
+In almost every case where an action 'modifies' old data, it's simply sending a piece of metadata to be attached to the old data. The old data still exists; it just has a different status.
 
 All the DHT does is accumulate all these actions and present them to the application. This gives you some versatility in deciding how to manage conflicting contributions from many agents, such as diverging updates on one text document.
 
-It's also important to note that an update or delete action doesn't operate on entries or links --- it operates on _the actions that called them into existence_. That means you have to specify an action hash, not just an entry hash. In the case of deletes, an entry or link isn't dead until all the actions that created it are also dead. <!-- (Again, 'purge entry' is the only exception; it operates directly on entries.) -->
+It's also important to note that an update or delete action doesn't operate on entries or links --- it operates on _the actions that called them into existence_. That means you have to specify an action hash, not just an entry hash. In the case of deletes, an entry or link isn't dead until all the actions that created it are also dead.
 
 This prevents clashes between attempts to delete identical entries written by different authors at different times, such as Alice and Bob both writing the message "hello". That entry exists in one place in the DHT, but it will have two new-entry actions attached to it, each of which can be updated or deleted independently.
 
@@ -61,7 +59,7 @@ In the future, Holochain may allow you to define CRDT-like automatic conflict-re
 
 ## Handling privacy concerns and storage constraints
 
-You've seen how deletes and updates don't actually remove data; they just add a piece of metadata that changes its status. Even the future withdraw and purge actions will merely be polite requests to remove data. This can go against users' expectations. When you ask a central service to delete information you'd rather people not know, you're trusting the service to wipe it out completely --- or at least stop displaying it. When your data is shared publicly, however, you can't control what other people do with it.
+You've seen how deletes and updates don't actually remove data; they just add a piece of metadata that changes its status. This can go against users' expectations. When you ask a central service to delete information you'd rather people not know, you're trusting the service to wipe it out completely --- or at least stop displaying it. When your data is shared publicly, however, you can't control what other people do with it.
 
 In a sense, this is true of anything you put on the internet. Even when a central database permanently deletes information, it can live on in caches, backups, screenshots, public archives, reading-list apps, and people's memories. Privacy is all about applying friction to data sharing, so your responsibility as a designer is to create appropriate levels of friction. Here are some guidelines:
 
@@ -73,6 +71,8 @@ Additionally, because data takes up space even when it's no longer live, be judi
 * For large objects that have a short life, consider storing data outside of the DHT in separate, short-lived DHTs, [IPFS](https://ipfs.io), [Dat](https://dat.foundation), a data store on the user's machine outside of Holochain, or even a centralized service.
 * If an entry might have many small updates to it in a short time, queue them up and write them in one action. Or ignore the built-in update feature and commit updates as diffs instead.
 * For large blobs with frequent but small changes, break the content into 'chunks' that align with natural content boundaries such as paragraphs in text, regions in images, or scenes in videos, then commit these chunks in separate actions. This can help with deduplicating storage for portions of a blob that changes infrequently or appears in many blobs.
+
+Finally, data that's invalid (we'll learn about that in the [next section](../7_validation/)) can be removed by a DHT node that's elected to validate and store it. And in the future Holochain will permit nodes to 'purge' the data they're storing, for reasons other than invalidity, such as in response to right-to-be-forgotten requests, or flagging of immoral content, or simply because the data takes up too much space.
 
 ## Key takeaways
 
