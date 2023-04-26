@@ -30,20 +30,26 @@ bash <(curl https://holochain.github.io/holochain/setup.sh)
 
 ### Verify installation
 
-In a new shell session, type:
+In a new shell session type:
 
 ```bash
-nix develop github:holochain/holochain -c $SHELL -c "holochain --version"
+nix run --refresh -j0 -v github:holochain/holochain#hc-scaffold -- --version
 ```
 
-If you see
+Look out for binaries being copied from `holochain-ci.cachix`. It proves that the Cachix binary
+cache is configured correctly. If it works, there will be lines like this:
 
 ```text
-Holochain development shell spawned. Type exit to leave.
-holochain <VERSION_NUMBER>
+downloading 'https://holochain-ci.cachix.org/nar/<some-hash>.nar.zst'...
 ```
 
-the Holochain Dev Environment is set up successfully.
+The Holochain Dev Environment is configured successfully on your system if you see a scaffolding version like
+
+```text
+holochain_scaffolding_cli x.y.z
+```
+
+at the end of the output.
 
 ### Scaffold An Example Holochain App
 
