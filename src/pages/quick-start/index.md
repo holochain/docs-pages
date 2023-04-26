@@ -49,7 +49,7 @@ If you see a scaffolding version like
 holochain_scaffolding_cli x.y.z
 ```
 
-at the end of the output, the Holochain Dev Environment is set up successfully.
+If all of the above signals are positive, your system has been successfully prepared for the Holochain Dev Environment.
 
 ### Scaffold An Example Holochain App
 
