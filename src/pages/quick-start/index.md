@@ -43,7 +43,7 @@ cache is configured correctly. If it works, there will be lines like this:
 downloading 'https://holochain-ci.cachix.org/nar/<some-hash>.nar.zst'...
 ```
 
-The Holochain Dev Environment is configured successfully on your system, if you see a scaffolding version like
+The Holochain Dev Environment is configured successfully on your system if you see a scaffolding version like
 
 ```text
 holochain_scaffolding_cli x.y.z
