@@ -37,10 +37,11 @@ nix run --refresh -j0 -v github:holochain/holochain#hc-scaffold -- --version
 ```
 
 Look out for binaries being copied from `holochain-ci.cachix`. It proves that the Cachix binary
-cache is configured correctly. If it works, there will be lines that look something like this:
+cache is configured correctly. If it works, there will be lines like this:
 
 ```text
 downloading 'https://holochain-ci.cachix.org/nar/<some-hash>.nar.zst'...
+```
 
 If you see a scaffolding version like
 
