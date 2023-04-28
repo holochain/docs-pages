@@ -12,6 +12,17 @@
       // Default for all links in tree
       $link-color: #5B5477;
 
+
+      #mobile-search {
+        svg {
+          height: 24px;
+        }
+
+        @include mq-full {
+          display: none;
+        }
+      }
+
       a {
         color: $link-color;
         display: inline-block;

@@ -49,7 +49,7 @@
       title: "Dev UX",
       class: "newsletter",
       links: [
-        { title: "<p>We want to keep improving the developer experience You can help us by answering 5 questions.</p>" },
+        { title: "<p>We want to keep improving the developer experience. You can help us by answering 6 questions.</p>" },
         { title: "Take the Survey", url: "#", class: "btn take-the-survey", external: true },    
       ]
     }

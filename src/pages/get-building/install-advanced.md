@@ -84,7 +84,7 @@ The `versions` input of the `holochain-flake` input is explicitly specified to t
 The flake follows (think inherits) the `nixpkgs` input of the `holochain-flake` input. This ensures that your development environment passes all the same buildinputs to the component packages, giving you very high chances to make use of our Cachix binary cache.
 
 #### `outputs`
-In the `outputs` set, this flake composes a devShell that inherits its inputs from the `holonix` devShell and adds the NodeJS package.
+In the `outputs` set, this flake composes a dev shell that inherits its inputs from the `holonix` dev shell and adds the NodeJS package.
 To find the names of the packages you're interested in, the [nixos.org package search](https://search.nixos.org/packages?channel=unstable&) can be used.
 
 ### `flake.lock` file

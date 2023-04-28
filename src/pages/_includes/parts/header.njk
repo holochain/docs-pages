@@ -1,4 +1,4 @@
-{% from "widgets/svg-icons.njk" import discordMarkIcon, homeIcon, githubLogo %}
+{% from "widgets/svg-icons.njk" import discordMarkIcon, homeIcon, githubLogo, mdiSearch %}
 {% from "widgets/assorted-bits.njk" import hamburgerButton %}
 {% from "widgets/navigation.njk" import headerNavList %}
 <header id="page-header">
@@ -19,8 +19,9 @@
 
   <div id="page-header-bar">
     <nav id="other-nav">
-      <a href="https://discord.gg/k55DS5dmPH">{{ discordMarkIcon() }}</a>
-      <a href="https://github.com/holochain/holochain" alt="Holochain GitHub">{{ githubLogo() }}</a>
+      <a href="/search" title="Search the site">{{ mdiSearch() }}</a>
+      <a href="https://discord.gg/k55DS5dmPH" target="_blank" title="Holochain on Discord">{{ discordMarkIcon() }}</a>
+      <a href="https://github.com/holochain/holochain" target="_blank" title="Holochain GitHub">{{ githubLogo() }}</a>
     </nav>
   </div>
 </header>

@@ -10,22 +10,13 @@
 
 /* Code Fence styling */
 
-pre button.copy-to-clipboard {
-  display: none;
-}
-
-pre[class*="language-"] {
-  display: flex;
-  align-items: flex-start;
-  background-color: $cl-gray;
-  padding: .3em .5em;
-  margin: .5em 0;
-  overflow: auto;
-  border-radius: .3em;
-  line-height: 2;
-  color: black;
+.copy-to-clipboard-wrapper {
+  position: relative;
 
   button.copy-to-clipboard {
+    position: absolute;
+    right: 5px;
+    top: 5px;
     display: block;
     margin-left: auto;
     padding: 6px;
@@ -41,6 +32,18 @@ pre[class*="language-"] {
       background: $cl-gray;
     }
   }
+}
+
+pre[class*="language-"] {
+  display: flex;
+  align-items: flex-start;
+  background-color: $cl-gray;
+  padding: .3em .5em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: .3em;
+  line-height: 2;
+  color: black;
 
   [class*="language-"] {
     color: black;

@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "11ty project for generating the Holochain documentation",
   "main": "index.js",
+  "engines": {
+    "node": ">=14"
+  },
   "directories": {
     "doc": "docs"
   },
   "scripts": {
+    "build:search-index": "npx pagefind --source _site --glob \"**/*.html\"",
     "build:web": "ELEVENTY_ENV=production npx @11ty/eleventy",
     "serve:web": "ELEVENTY_ENV=development npx @11ty/eleventy --serve --incremental",
     "serve:web-prod": "ELEVENTY_ENV=production BROWERSYNC=off npx @11ty/eleventy --serve",
@@ -20,7 +24,7 @@
     "bundle:js": "rollup -c rollup.config.mjs",
     "dev": "npm run build:sass && npm run build:js && npm-run-all -p serve:web watch:sass watch:js",
     "dev-no-js": "npm run build:sass && npm-run-all -p serve:web watch:sass",
-    "build": "npm-run-all -s clean:site build:sass post:css clean:js build:js bundle:js build:web",
+    "build": "npm-run-all -s clean:site build:sass post:css clean:js build:js bundle:js build:web build:search-index",
     "serve-as-prod": "npm-run-all -s clean:site build:sass post:css clean:js build:js bundle:js serve:web-prod",
     "clean:js": "rm -rf client-side-compiled",
     "clean:css": "rm -rf styles-compiled",
@@ -41,10 +45,12 @@
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
+    "@sindresorhus/slugify": "1.1.2",
     "@types/lunr": "^2.3.4",
     "@types/markdown-it": "^12.2.3",
     "autoprefixer": "^10.4.13",
     "cssnano": "^5.1.14",
+    "html-minifier": "^4.0.0",
     "html-to-text": "^8.2.1",
     "json5": "^2.2.3",
     "lunr": "^2.3.9",
@@ -54,10 +60,14 @@
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.18",
     "postcss-cli": "^10.0.0",
+    "posthtml": "^0.16.6",
+    "posthtml-noopener": "^1.0.5",
     "rollup": "^3.2.5",
     "sass": "^1.56.0",
-    "@sindresorhus/slugify": "1.1.2",
     "typescript": "^4.8.4",
     "uglify-js": "^3.17.4"
+  },
+  "dependencies": {
+    "pagefind": "^0.12.0"
   }
 }

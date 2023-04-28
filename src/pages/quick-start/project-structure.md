@@ -1,15 +1,16 @@
 ---
+title: Understand Holochain App Code
 hide:
   - toc
 ---
 
 ## Understand Holochain App Code
 
-When you use the Scaffolding Tool to generate your sample project, it will create a new folder with the app name in the current directory. Inside that new folder there's a number of files and folders:
+When you use the scaffolding tool to generate your sample project, it will create a new directory with the app name in the current directory. Inside that new directory there's a number of files and directories:
 
 - a .gitignore file
 - initialized npm workspace
-- flake.nix and flake.lock configuration for the Holochain devShell
+- flake.nix and flake.lock configuration for the Holochain dev shell
 - a DNA "forum" with one Zome "posts"
 - configuration files to bundle DNA, hApp and Web hApp (UI + hApp)
 - Tryorama setup for e2e tests of the DNA
@@ -82,4 +83,4 @@ When you use the Scaffolding Tool to generate your sample project, it will creat
 20 directories, 43 files
 ```
 
-You can enter the Holonix devShell and immediately start developing your hApp.
+You can enter the Holonix dev shell and immediately start developing your hApp.
