@@ -1,3 +1,15 @@
+# Enable broken link checking in Netlify CI
+[[plugins]]
+package = "netlify-plugin-checklinks"
+    [plugins.inputs]
+    entryPoints = [
+        "*.html",
+    ]
+
+    recursive = true
+    pretty = true
+    checkExternal = false
+
 [[headers]]
   for = "/*"
   [headers.values]
@@ -81,13 +93,13 @@
     from = "/assets/files/RRDHT-draft-Nov-2019.pdf"
     to = "/assets/files/RRDHT-whitepaper-final.pdf"
     status = 301
-
+    
 # The quick start guide used to live at /install/
 [[redirects]]
     from = "/install/"
     to = "/quick-start/"
     status = 301
-
+    
 # Glossary has been moved to the references path.
 [[redirects]]
     from = "/glossary/"
