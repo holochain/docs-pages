@@ -81,7 +81,7 @@ Finally, a scheduled function is 'infallible', which means it can't return an er
 
 **Where**: coordinator zomes
 
-This is a special public zome function made for receiving [remote signals](../9_signals/#remote-signals) from other peers on the same network. It receives the signal payload as its only parameter. As with any public zome function, you can set access privileges using [capabilities](../7_calls_capabilities/#how-to-secure-functions-against-unauthorized-use) to prevent abuse.
+This is a special public zome function made for receiving [remote signals](../9_signals/#remote-signals) from other peers on the same network. It receives the signal payload as its only parameter. As with any public zome function, you can set access privileges using [capabilities](../8_calls_capabilities/#how-to-secure-functions-against-unauthorized-use) to prevent abuse.
 
 !!! info What's really going on with remote signals
 Behind the scenes, a remote signal is just a [remote call](../8_calls_capabilities/#remote-call) to the `recv_remote_signal` zome function. The conductor treats this function specially, not waiting for a response from the remote end.
