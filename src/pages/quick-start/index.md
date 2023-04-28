@@ -11,7 +11,7 @@ pageStyleId: install
 * 30GB+ available disk space
 * High Speed Internet connection
 
-## Install the Holochain Dev Environment
+## Step 1: Install the Holochain Dev Environment
 
 !!! note Prerequisite for Windows: WSL2
 
@@ -40,22 +40,35 @@ If you see
 
 ```text
 Holochain development shell spawned. Type exit to leave.
-holochain <VERSION_NUMBER>
+holochain &lt;VERSION_NUMBER&gt;
 ```
 
 the Holochain Dev Environment is set up successfully.
 
-### Scaffold An Example Holochain App
+## Step 2: Scaffold an run the "Hello World" Holochain App
 
-Type the following at the command line:
+When getting started seeing a simple, but fully-functional app can be very helpful.  
+You can scaffold the equivalent of "hello world", but for a distributed multi-agent world, 
+by type the following at the command line:
 
 ```bash
-nix run github:holochain/holochain#hc-scaffold -- example forum
+nix run github:holochain/holochain#hc-scaffold -- example hello-world
 ```
 
-When prompted, select the UI framework you prefer.
+The scaffolding app should print out these instructions:
 
-_After completing the project setup, the scaffolding tool will output the commands to run the Holochain app._
+```bash
+  cd hello-world
+  nix develop 
+  npm install
+  npm start
+```
+
+When you follow them, you should see two windows pop up representing two agents, both of which
+will have published a "Hello World" entry to the network, and when you click on the "get hellos"
+button, you should be able to see the hellos:
+
+[insert pic.]
 
 ### Next Step 
 
