@@ -20,6 +20,7 @@
         { title: "Calls and Capabilities", url: "/concepts/8_calls_capabilities/" },
         { title: "Signals", url: "/concepts/9_signals/" },
         { title: "Countersigning", url: "/concepts/10_countersigning/" },
+        { title: "Lifecycle Events", url: "/concepts/11_lifecycle_events/" },
       ]
     },
     { title: "References", url: "/references/", children: [
