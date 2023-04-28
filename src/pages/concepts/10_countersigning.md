@@ -159,4 +159,4 @@ If your application needs something more, you can build in strategies to discour
 
 ### Next Up
 
-[Learn about lifecycle events →](..//){.btn-purple}
+[Learn about lifecycle events →](../11_lifecycle_events/){.btn-purple}
