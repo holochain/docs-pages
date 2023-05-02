@@ -1,6 +1,19 @@
 {
   links: [
-    { title: "Get Started", url: "/get-started/" },
+    { title: "Get Started", url: "/get-started/", children: [
+        { title: "Application Architecture", url: "/get-started/#1-introduction-to-holochain" },
+        { title: "Installing Holochain", url: "/get-started/#2-installing-holochain-developer-environment" },
+        { title: "Scaffold a Simple “Hello, World!” Holochain Application", url: "/get-started/#3-scaffold-a-simple-hello-world-holochain-application" },
+        { title: "Understanding the Layout of a Holochain Application", url: "/get-started/#4-understanding-the-layout-of-a-holochain-application" },
+        { title: "Scaffold a Custom Holochain Application", url: "/get-started/#5-scaffold-a-custom-holochain-application" },
+        { title: "Built to Beautiful: adjusting our User Interface", url: "/get-started/#6-built-to-beautiful-adjusting-our-user-interface" },
+        { title: "Manually Creating additional Components of a Holochain Application", url: "/get-started/#7-manually-creating-additional-components-of-a-holochain-application" },
+        { title: "Testing Your Holochain Application", url: "/get-started/#8-testing-your-holochain-application" },
+        { title: "Integrating with a Frontend User Interface", url: "/get-started/#9-integrating-with-a-frontend-user-interface" },
+        { title: "Conclusion", url: "/get-started/#10-conclusion" },
+        { title: "Further Exploration and Resources", url: "/get-started/#11-further-exploration-and-resources" },
+      ] 
+    },
     { title: "Core Concepts", url: "/concepts/1_the_basics/", children: [
         { title: "Application Architecture", url: "/concepts/2_application_architecture/" },
         { title: "Source Chain", url: "/concepts/3_source_chain/" },

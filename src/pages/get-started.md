@@ -5,34 +5,6 @@ pageStyleId: get-started
 ---
 
 Welcome to the Getting Started with Holochain guide! This guide will walk you through the process of creating a simple forum application using Holochain. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
-### Table of Contents
-
-1. Introduction to Holochain 
-2. Installing Holochain 
-    1. Hardware Requirements
-    2. Windows Prerequisite: WSL2
-    3. Install the Nix Package Manager and Set Up Holochain Binary Cache
-    4. Verify Installation
-3. Scaffold a Hello World Holochain Application
-    1. Quick Create
-4. Understanding the Layout of a Holochain Application 
-5. Zero to Built: Creating a Forum App
-    1. Scaffold a Custom Holochain Application
-    2. Set Up the Developer Environment
-    3. Scaffold a DNA
-    4. Scaffold a Zome
-    5. Scaffold Entry Types
-    6. Scaffold Links
-    7. Scaffold a Collection
-    8. Integrate the Generated UI Elements
-    9. Run the Application
-6. Built to Beautiful: adjusting our User Interface
-7. Deploying Your Holochain Application
-    1. Packaging Your Application
-    2. Configuring the Conductor
-    3. Running Your Application
-8. Testing Your Holochain Application
-    1. Creating Test Scenarios
 
 #### How to Use this Guide
 Follow this guide step by step. All steps are essential to create the example applications. No additional code or steps are needed.
@@ -210,6 +182,7 @@ npm install
 ```
 Now you're ready to continue scaffolding your forum application.
 
+### 6. Built to Beautiful: adjusting our User Interface
 #### 6.3. Scaffold a DNA
 
 Create a new DNA using the scaffolding tool:
@@ -581,7 +554,7 @@ network:
         proxy_url: "kitsune-quic://0.0.0.0:0"
 ```
 
-### 7.3. Running Your Application
+#### 7.3. Running Your Application
 
 To run your Holochain application, navigate to the my_forum_app/conductor directory and run the following command:
 ```
@@ -668,7 +641,7 @@ async fn test_create_and_get_threads() {
 }
 ```
 
-8.3. Running Tests
+#### 8.3. Running Tests
 
 To run the tests, navigate to the my_forum_app directory and run the following command:
 
@@ -691,10 +664,11 @@ Now that you have a basic understanding of Holochain development, you can contin
 For more information and resources, visit the official Holochain developer documentation: https://developer.holochain.org/
 
 
-9. Integrating with a Frontend User Interface
+### 9. Integrating with a Frontend User Interface
 
 To create a more user-friendly experience, you can integrate your Holochain application with a frontend user interface. In this section, we'll discuss how to create a basic web frontend for your forum application using React.
-9.1. Setting up the React Application
+
+#### 9.1. Setting up the React Application
 
 First, install Node.js and npm on your system if you haven't already. Then, install the create-react-app package globally using the following command:
 
@@ -709,7 +683,7 @@ create-react-app forum_frontend
 ```
 
 This will create a new directory named forum_frontend with a basic React application.
-9.2. Installing the Holochain Conductor API
+#### 9.2. Installing the Holochain Conductor API
 
 To interact with your Holochain application, you'll need to install the @holochain/conductor-api package. Navigate to the forum_frontend directory and run the following command:
 
@@ -717,7 +691,7 @@ To interact with your Holochain application, you'll need to install the @holocha
 npm install @holochain/conductor-api
 ```
 
-9.3. Creating the Frontend Components
+#### 9.3. Creating the Frontend Components
 
 Now, create the necessary components for your forum frontend. For the sake of simplicity, we'll create a basic layout with a form for creating new threads and a list of existing threads.
 
@@ -820,7 +794,7 @@ export default App;
 
 Make sure to replace `YOUR_WEBSOCKET_PORT` with the actual port number where your Holochain conductor WebSocket is running.
 
-### 9.4. Running the Frontend Application
+#### 9.4. Running the Frontend Application
 
 To start your frontend application, navigate to the `forum_frontend` directory and run the following command:
 
@@ -830,16 +804,17 @@ npm start
 
 This will start a development server and open your web browser to `http://localhost:3000`. You should now see your forum application's frontend interface, where you can create new threads and view existing ones.
 
-## 10. Conclusion
+### 10. Conclusion
 
 You've now built a basic forum application using Holochain, complete with a frontend user interface. You've learned how to create and deploy a Holochain application, understand its layout, work with core concepts, and integrate it with a web frontend.
 
 As you continue your Holochain development journey, you can explore more advanced topics and techniques to build more complex and feature-rich applications. Good luck, and happy coding!
 
-11. Further Exploration and Resources
+### 11. Further Exploration and Resources
 
 Now that you have successfully built a basic forum application using Holochain and integrated it with a frontend, you may want to explore more advanced topics and techniques to further enhance your application or create new ones. Here are some resources and ideas to help you get started:
-11.1. Holochain Developer Documentation
+
+#### 11.1. Holochain Developer Documentation
 
 The official Holochain developer documentation is a valuable resource for deepening your understanding of Holochain concepts, techniques, and best practices. Be sure to explore the documentation thoroughly:
 
@@ -847,7 +822,7 @@ The official Holochain developer documentation is a valuable resource for deepen
     Core concepts: https://developer.holochain.org/docs/concepts/
     API reference: https://developer.holochain.org/docs/api/
 
-11.2. Advanced Topics
+#### 11.2. Advanced Topics
 
 Here are some advanced topics to consider as you continue your Holochain development journey:
 
@@ -856,7 +831,7 @@ Here are some advanced topics to consider as you continue your Holochain develop
     Holochain bridges: Understand how to connect multiple Holochain applications and create bridges between them.
     Optimizing performance and scalability: Investigate techniques for optimizing the performance and scalability of your Holochain applications, including efficient data structures, sharding, and caching.
 
-11.3. Community Resources
+#### 11.3. Community Resources
 
 The Holochain community is an excellent source of support, inspiration, and collaboration. Consider engaging with the community to further your learning and development:
 
@@ -864,7 +839,7 @@ The Holochain community is an excellent source of support, inspiration, and coll
     Holochain GitHub repositories: https://github.com/holochain
     Holochain Discord server: https://holo.host/discord
 
-11.4. Example Applications and Tutorials
+#### 11.4. Example Applications and Tutorials
 
 Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
 
