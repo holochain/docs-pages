@@ -6,7 +6,7 @@ In Quick Start you installed Holochain and built a templated forum application. 
 
 !!! note Pre-requisite
 Holochain installed as per [Quick Start](../quick-start/index)
-!!! 
+!!!
 
 ## Scaffold a custom Holochain application
 
@@ -18,14 +18,14 @@ Run the holochain scaffolding tool by typing in your terminal:
 nix run github:/holochain/holochain#hc-scaffold -- web-app
 ```
 
-You should then see: 
+You should then see:
 
 ```text
-? App name (no whitespaces): 
+? App name (no whitespaces):
 ```
 
 Type our hApp's name using snake_casing: `super_todos`.
-You should then see: 
+You should then see:
 
 ```text
 ? Choose UI framework: ›
@@ -59,7 +59,7 @@ Now fire up the nix development shell (which makes all scaffolding tools as well
 nix develop
 ```
 
-You should see: 
+You should see:
 
 ```text
 Holochain development shell spawned. Type exit to leave.
@@ -80,7 +80,7 @@ hc scaffold dna
 You should then see:
 
 ```text
-? DNA name (snake_case): 
+? DNA name (snake_case):
 ```
 
 Many hApps have just one DNA, so in this case you can just type: `todos`
@@ -142,7 +142,7 @@ In our to-do hApp every to-do item is stored as an entry. So let's add new entry
   hc scaffold entry-type
 ```
 
-You should see: 
+You should see:
 
 ```bash
 ✔ Entry type name (snake_case): ·
@@ -173,7 +173,7 @@ The scaffolding tool is smart about adding different data type fields to your en
 You should see:
 
 ```text
-? Field name: › 
+? Field name: ›
 ```
 
 Enter the name `description`.
@@ -230,10 +230,10 @@ To create a collection, type:
   hc scaffold collection
 ```
 
-You should then see: 
+You should then see:
 
 ```text
-Collection name (snake_case, eg. "all_posts"): › 
+Collection name (snake_case, eg. "all_posts"): ›
 ```
 
 Enter `my_todos` and press `<enter>`.

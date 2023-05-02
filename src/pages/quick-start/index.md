@@ -63,9 +63,9 @@ When prompted, select the UI framework you prefer.
 
 _After completing the project setup, the scaffolding tool will output the commands to run the Holochain app._
 
-### Next Step 
+### Next Step
 
-[Explore project structure —>](./project-structure){.btn-purple} 
+[Explore project structure →](./project-structure){.btn-purple}
 
 !!! learn Learn More
 1. Dive into the [Holochain Core Concepts](../concepts/1_the_basics/).
