@@ -1,7 +1,6 @@
 {
   links: [
-    { title: "Quick Start", url: "/quick-start/", class:"" },
-    { title: "Get Building", url: "/get-building/", class:"" },
+    { title: "Get Started", url: "/get-started/", class:"" },
     { title: "Core Concepts", url: "/concepts/1_the_basics/", class:"" },
     { title: "References", url: "/references/", class:"" },
     { title: "Get Involved", url: "/get-involved/", class:"" },
