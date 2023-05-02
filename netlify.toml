@@ -113,4 +113,15 @@ package = "netlify-plugin-checklinks"
     # Keeping this as a 302 in case we decide we want a front page again.
     status = 302
 
+# Quick start and Get Building being superceded by Get Started.
+[[redirects]]
+    from = "/quick-start/"
+    to = "/get-started/"
+    status = 301
+
+[[redirects]]
+    from = "/get-building/"
+    to = "/get-started/"
+    status = 301
+
 # This comment does absolutely nothing and can be deleted.
