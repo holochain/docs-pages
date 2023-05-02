@@ -67,7 +67,7 @@ Holochain is supported for the Ubuntu distribution under WSL2.
 Once you've ensured that your system meets the hardware requirements and set up WSL2 on Windows or a dual boot Linux OS (if applicable), you can proceed with the installation of the Nix package manager and Holochain binary cache.
 
 Open a [command line terminal](https://hackmd.io/c15fobj9QtmOuEuiNAkaQA) and run the following command by pasting or typing the following text in and hitting **<enter>**:
-```
+```bash
 $ bash <(curl https://holochain.github.io/holochain/setup.sh)
 ```
 This command downloads the setup script and runs it, installing the Nix package manager and setting up the Holochain binary cache.
@@ -75,11 +75,11 @@ This command downloads the setup script and runs it, installing the Nix package 
 #### 2.4. Verify Installation
 
 To verify that the Holochain development environment is installed correctly, open a new shell session and run the following command:
-```
+```bash
 $ nix develop github:holochain/holochain -c $SHELL -c "holochain --version"
 ```
 If you see the following output:
-```
+```bash
 Holochain development shell spawned. Type exit to leave.
 ```
 Congratulations! The Holochain development environment is now set up successfully on your system.
@@ -90,11 +90,12 @@ In this section, we'll use Holochain's scaffolding tool to generate a simple "He
 
 When getting started, seeing a simple, but fully-functional app can be very helpful.  
 You can have Holochain's scaffold tool generate a "hello world" application (but for a distributed multi-agent world), by typing the following in your command line terminal:
-```       
+```bash
 nix run github:holochain/holochain#hc-scaffold -- example hello-world
-```   
-The scaffolding app should print out these instructions:
 ```
+
+The scaffolding app should print out these instructions:
+```bash
   cd hello-world
   nix develop 
   npm install
@@ -164,17 +165,17 @@ First, let's use the scaffolding tool to generate the basic folders and files fo
 
 #### 5.1. Scaffolding a hApp
 To start, run the following command in your terminal:
-```
+```bash
 nix run github:/holochain/holochain#hc-scaffold -- web-app
 ```
 
 You should then see:
-```
+```bash
 ? App name (no whitespaces): 
 ```
 
 Enter the name of your forum application using snake_case. Let's enter: 
-```
+```bash
 my_forum_app. 
 ```
 
@@ -189,12 +190,13 @@ Next, you'll be asked if you want to set up the Holonix development environment 
 Choose **"Yes (recommended)"** and press **<enter>**.
 
 You should see `Setting up nix development environment...` along with some details of what is being added. Follow the instructions to set up the development environment for your hApp and continue to scaffold more of its elements. First, enter the hApp project directory::
-```
+
+```bash
 cd my_forum_app
 ```
 Now, fire up the nix development shell, which makes all scaffolding tools and the Holochain binaries directly available from the command line:
 
-```
+```bash
 nix develop
 ```
 You should see:
@@ -203,7 +205,7 @@ Holochain development shell spawned. Type exit to leave.
 
 Next, install the npm dependencies with:
 
-```
+```bash
 npm install
 ```
 Now you're ready to continue scaffolding your forum application.
