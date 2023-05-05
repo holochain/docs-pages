@@ -46,14 +46,26 @@ This command downloads the setup script and runs it, installing the Nix package 
 
 #### 2.4. Verify Installation
 
-To verify that the Holochain development environment is installed correctly, open a new shell session and run the following command:
+In a new shell session type:
+
 ```bash
-$ nix develop github:holochain/holochain -c $SHELL -c "holochain --version"
+nix run --refresh -j0 -v github:holochain/holochain#hc-scaffold -- --version
 ```
-If you see the following output:
-```bash
-Holochain development shell spawned. Type exit to leave.
+
+Look out for binaries being copied from `holochain-ci.cachix`:
+
+```text
+downloading 'https://holochain-ci.cachix.org/nar/<some-hash>.nar.zst'...
 ```
+
+It proves that the Cachix binary cache is configured correctly.
+
+At the end of the output a scaffolding CLI version should be printed:
+
+```text
+holochain_scaffolding_cli x.y.z
+```
+
 Congratulations! The Holochain development environment is now set up successfully on your system.
 
 
