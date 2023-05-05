@@ -556,14 +556,11 @@ admin_interfaces:
       type: websocket
       port: 0
 network:
-  network_type: quic_bootstrap
+  bootstrap_service: https://bootstrap.holo.host
   transport_pool:
-    - type: proxy
-      sub_transport:
-        type: quic
-      proxy_config:
-        type: remote_proxy_client
-        proxy_url: "kitsune-quic://0.0.0.0:0"
+    - type: webrtc
+      signal_url: wss://signal.holotest.net
+  network_type: quic_bootstrap
 ```
 
 #### 7.3. Running Your Application
