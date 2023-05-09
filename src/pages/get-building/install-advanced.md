@@ -49,9 +49,10 @@ In the root directory of your app's code, you will either find the scaffolded on
   description = "Flake for Holochain app development";
 
   inputs = {
+    versions.url = "github:holochain/holochain?dir=versions/0_1";
     holochain-flake = {
       url = "github:holochain/holochain";
-      inputs.versions.url = "github:holochain/holochain?dir=versions/0_1";
+      inputs.versions.follows = "versions";
     };
 
     nixpkgs.follows = "holochain-flake/nixpkgs";
@@ -165,9 +166,10 @@ Here's an example of how to override the inputs of the flake to pick a different
 
 ```nix
 inputs = {
+    versions.url = "github:holochain/holochain?dir=versions/0_1";
     holochain-flake = {
       url = "github:holochain/holochain";
-      inputs.versions.url = "github:holochain/holochain?dir=versions/0_1";
+      inputs.versions.follows = "versions";
       inputs.holochain.url = "github:holochain/holochain/<whichever-git-branch-tag-or-commit>";
     };
 ...
