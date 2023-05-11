@@ -371,11 +371,11 @@ See [cell](#cell).
 
 #### DNA manifest
 
-A file that specifies the components of a [DNA](#dna), including locations of compiled [zomes](#zome) and metadata such as a name, description, [network seed](#network-seed), [properties](#dna-properties), and [origin time](#origin-time). This manifest can be used by the [`hc`](#hc) tool to build a [DNA bundle](#dna-bundle).
+A file that specifies the components of a [DNA](#dna), including locations of compiled [zomes](#zome) and metadata such as a name, description, [network seed](#network-seed), [properties](#dna-properties), [origin time](#origin-time), and [quantum time](#quantum-time). This manifest can be used by the [`hc`](#hc) tool to build a [DNA bundle](#dna-bundle).
 
 #### DNA modifiers
 
-All properties of a DNA which affect its hash --- that is, its [integrity zomes](#integrity-zome), [properties](#dna-properties), [network seed](#network-seed), and [origin time](#origin-time).
+All properties of a DNA which affect its hash --- that is, its [integrity zomes](#integrity-zome), [properties](#dna-properties), [network seed](#network-seed), [origin time](#origin-time), and [quantum time](#quantum-time).
 
 #### DNA properties
 
@@ -724,6 +724,10 @@ See [public-key cryptography](#public-key-cryptography).
 #### Publish
 
 To convert a [record](#record) into one or more [DHT operations](#dht-operation) and send them to the respective [validation authorities](#validation-authority) for [validation](#validation-rule), transformation into [record data](#record-data), and storage. This happens after it has passed the author's own copy of the [validation rules](#validation-rule). The validation authorities who are responsible for that entry's [address](#address) receive it, validate it, and if it's valid, store a copy of it and pass a [validation receipt](#validation-receipt) back to the author.
+
+#### Quantum time
+
+A value specified in the [DNA manifest](#dna-manifest) that defines the smallest time window for which two peers will compare a subset of the data they're each holding during a round of [DHT](#distributed-hash-table-dht) synchronization. The quantum time is a [DNA modifier](#dna-modifiers), and with the [origin time](#origin-time) affects the way in which peers [gossip](#gossip).
 
 <!---
 removed because query arcs don't actually exist yet
