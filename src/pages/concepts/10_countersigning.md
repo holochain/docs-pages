@@ -126,7 +126,7 @@ A countersigning session initiator can also nominate **optional witnesses** to s
 
 While this requires more network chatter, it can tolerate more hardware and network failure than a single enzyme. Although an enzyme is still required, the enzyme role (and, for that matter, the mandatory signers) could be rotated among the pool of witnesses.
 
-One use of this is transactions that require multiple signing authorities, similar to a bank account requiring two signatures on all cheques. to Another use is a 'lightweight consensus', in which a majority of trusted witnesses must confirm, before signing, that no counterparty is attempting to fork their source chain and no scarce resource is being allocated to two entities at the same time.
+One use of this is transactions that require multiple signing authorities, similar to a bank account requiring two signatures on all cheques. Another use is a 'lightweight consensus', in which a majority of trusted witnesses must confirm, before signing, that no counterparty is attempting to fork their source chain and no scarce resource is being allocated to two entities at the same time.
 
 ## What about double spending?
 

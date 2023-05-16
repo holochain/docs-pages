@@ -28,7 +28,7 @@ The power of an [agent](#agent) to act in their environment.
 
 #### Agent activity
 
-Records of all the [source chain](#source-chain) [actions](#action) that an agent has published, along with any [warrants](#warrant) against them for malicious activity. 
+Records of all the [source chain](#source-chain) [actions](#action) that an agent has published, along with any [warrants](#warrant) against them for malicious activity.
 
 #### Agent activity operation
 
@@ -274,7 +274,7 @@ A simple [coordination protocol](#coordination-protocol) between two or more [ag
 
 #### Create-entry action
 
-A [new-entry action](#new-entry-action) that causes an [entry](#entry) to be made available to other [DHT](#distributed-hash-table-dht) members (unless the entry is [private](#private-entry), in which case only a record of its creation is published). 
+A [new-entry action](#new-entry-action) that causes an [entry](#entry) to be made available to other [DHT](#distributed-hash-table-dht) members (unless the entry is [private](#private-entry), in which case only a record of its creation is published).
 
 #### Create-link action
 
@@ -371,11 +371,11 @@ See [cell](#cell).
 
 #### DNA manifest
 
-A file that specifies the components of a [DNA](#dna), including locations of compiled [zomes](#zome) and metadata such as a name, description, [network seed](#network-seed), [properties](#dna-properties), and [origin time](#origin-time). This manifest can be used by the [`hc`](#hc) tool to build a [DNA bundle](#dna-bundle).
+A file that specifies the components of a [DNA](#dna), including locations of compiled [zomes](#zome) and metadata such as a name, description, [network seed](#network-seed), [properties](#dna-properties), [origin time](#origin-time), and [quantum time](#quantum-time). This manifest can be used by the [`hc`](#hc) tool to build a [DNA bundle](#dna-bundle).
 
 #### DNA modifiers
 
-All properties of a DNA which affect its hash --- that is, its [integrity zomes](#integrity-zome), [properties](#dna-properties), [network seed](#network-seed), and [origin time](#origin-time).
+All properties of a DNA which affect its hash --- that is, its [integrity zomes](#integrity-zome), [properties](#dna-properties), [network seed](#network-seed), [origin time](#origin-time), and [quantum time](#quantum-time).
 
 #### DNA properties
 
@@ -724,6 +724,14 @@ See [public-key cryptography](#public-key-cryptography).
 #### Publish
 
 To convert a [record](#record) into one or more [DHT operations](#dht-operation) and send them to the respective [validation authorities](#validation-authority) for [validation](#validation-rule), transformation into [record data](#record-data), and storage. This happens after it has passed the author's own copy of the [validation rules](#validation-rule). The validation authorities who are responsible for that entry's [address](#address) receive it, validate it, and if it's valid, store a copy of it and pass a [validation receipt](#validation-receipt) back to the author.
+
+#### Quantized gossip
+
+In Holochain's [DHT](#distributed-hash-table-dht), the practice of synchronizing data held by two [validation authorities](#validation-authority) by first agreeing on a two-dimensional window to compare lists of respectively held [DHT operations](#dht-operation). This window is fitted to one or more cells in a grid, in which the horizontal axis is the DHT's [address space](#address-space) and the vertical axis is the time since the [DNA](#dna)'s [origin time](#origin-time), quantized by the [quantum time](#quantum-time). As every DHT operation has both an address and a timestamp, it can be located on the grid. This technique is used to increase speed and reduce payload size of [gossip](#gossip) rounds.
+
+#### Quantum time
+
+A value specified in the [DNA manifest](#dna-manifest) that defines the smallest time window for which two peers will compare a subset of the data they're each holding during a round of [DHT](#distributed-hash-table-dht) synchronization. The quantum time is a [DNA modifier](#dna-modifiers), and with the [origin time](#origin-time) affects the way in which peers [gossip](#gossip). All peers in a network must agree on the [quantized gossip](#quantized-gossip) parameters they use in order to gossip DHT data successfully with one another.
 
 <!---
 removed because query arcs don't actually exist yet

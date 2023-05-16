@@ -84,7 +84,15 @@ As a bundle of running code, a cell exposes the functions you write as its publi
 
 The bundle of executable code running in a cell is called a **DNA**. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices) that creates an access and integrity layer around personal and shared data. It serves as the 'rules of the game' against which peers can do validation and enforcement. Each DNA implements the code that fills a particular role in a hApp.
 
-The DNA can also contain metadata: a name, description, **network seed**, **properties**, and **origin time**. These can be changed either in a text editor or at installation time. When the network seed is changed, it **clones** a DNA, creating a new cell with identical functionality but an entirely separate history, network, and shared database. Properties can affect the new cell's runtime behavior (similar to configuration parameters or environment variables), and changes to properties also clone the DNA. Finally, the origin time sets a genesis date for all the activity in the network.
+The DNA can also contain metadata: a name, description, **network seed**, **properties**, **origin time**, and **quantum time**. These can be changed either in a text editor or at installation time. When the network seed is changed, it **clones** a DNA, creating a new cell with identical code but an entirely separate history, network, and shared database. Properties can affect the new cell's runtime behavior (similar to configuration parameters or environment variables), and changes to properties also cause the DNA to be cloned. Finally, the origin and quantum times affect the way that the network is going to exchange data.
+
+!!! info More on origin and quantum times
+A pair of peers in the network exchange data by agreeing on the the size of a window of data to exchange, where the width is a range of data addresses (the data stored by a network is addressed by 32-bit numbers) and the height is a range of time that the data was written. Then they compare the list of addresses of all the data they each have within this window, and ask each other for the data they're missing. The width and height are both 'quantized' into a grid, and all peers on the network need to agree on the shape of this grid in order to exchange information. That's why it's defined in the DNA.
+
+The origin time defines the earliest possible timestamp that data can have, or in other words the earliest date for which peers will try to create a window, while the quantum time defines the smallest window size. All windows are 'snapped' to a grid whose time axis starts at the origin time and whose units are a multiple of the quantum time.
+
+You generally don't need to worry about setting or changing values for the origin and quantum times in a DNA. The defaults set by the scaffolding tool are usually good enough. But if you find your network isn't synchronizing its data as efficiently as you like, it might be useful to play with these values.
+!!!
 
 !!! info A clarification on cells and DNAs
 If you're finding it hard to keep cells and DNAs separate in your mind, remember that a DNA _provides the code for_ a cell, while a cell _is a running instance_ of a DNA, bound to an agent ID. Otherwise, what can be said of a DNA can also be said of a cell.
