@@ -559,7 +559,7 @@ network:
   bootstrap_service: https://bootstrap.holo.host
   transport_pool:
     - type: webrtc
-      signal_url: wss://signal.holotest.net
+      signal_url: wss://signal.holo.host
   network_type: quic_bootstrap
 ```
 
