@@ -25,15 +25,22 @@ const renderAdmonition = (name, tokens, idx) => {
 
 const renderDetailsBlock = (tokens, idx) => {
   const titleMatcher = tokens[idx].info.trim().match(generateAdmonitionTitleRegex("details"));
-  const title = titleMatcher ? titleMatcher[1] : "Details";
+  const submittedTitle = titleMatcher ? titleMatcher[1] : "";
+  const blockId = slugify(submittedTitle);
+  const title = submittedTitle ?? "Details";
 
   //If the opening tag
   if(tokens[idx].nesting === 1) {
-    return `<details><summary>${ title }</summary>` + '\n\n';
+    const idAttr = blockId ? ` id="${blockId}"` : '';
+    return `<details><summary ${idAttr}>${ title }</summary>` + '\n\n';
   } else {
     return '\n</details>\n';
   }
 };
+
+function composeDetailsRenderFunc() {
+  return function(tokens, idx) { return renderDetailsBlock(tokens, idx); }
+}
 
 /**
  * Wires up a generic markdownItContainer render function for a specified admonition.
@@ -70,7 +77,7 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericAdmonitionRenderFunc("info") });
     mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
     
-    mdLib.use(markdownItContainer, "details", { marker: "!", render: function(tokens, idx) { return renderDetailsBlock(tokens, idx)} });
+    mdLib.use(markdownItContainer, "details", { marker: "!", render: composeDetailsRenderFunc() });
   });
  
 }
