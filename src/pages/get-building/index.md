@@ -269,9 +269,9 @@ After some compilation time you should see a browser window opened with the play
 
 The windows should not be very exciting yet, because we haven't edited the hApp to use the generated UI elements, but what you see on the screen should be some hints on how to proceed.
 
-So let's follow those hints:
+So let's follow those hints. Switch to a code editor for these steps:
 
-1. Open the Svelte hApp file in `ui/src/App.svelte` and add two imports near the top, just below `<script lang="ts">`:
+1. In the code editor, open the Svelte hApp file `ui/src/App.svelte` and add two imports near the top, just below `<script lang="ts">`:
 
     ```typescript
     import MyTodos from './todos/todos/MyTodos.svelte';
