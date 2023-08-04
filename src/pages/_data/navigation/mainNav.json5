@@ -7,6 +7,7 @@
     { title: "Get Building", url: "/get-building/", children: [
         { title: "Distribute your App", url: "/get-building/distribute-your-app/" },
         { title: "Dev Tools Setup", url: "/get-building/install-advanced/" },
+        { title: "Holochain Upgrade 0.1 -> 0.2", url: "/get-building/upgrade-holochain/" },
         { title: "Setup without Nix", url: "/get-building/install-without-nix/" },
       ]
     },
