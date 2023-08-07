@@ -18,7 +18,7 @@ or follow the recommended format printed under [Dev Tools Setup](../install-adva
 In the root folder of the hApp that should be upgraded, execute the following command in a terminal:
 
 ```shell
-nix run nixpkgs#gnused -- -i 's/dir=versions\/0_1/dir=versions\/0_2/g' flake.nix && nix flake update && nix develop
+nix run nixpkgs#gnused -- -i 's/dir=versions\/0_1/dir=versions\/0_2/g' flake.nix
 ```
 
 Alternatively open `flake.nix` in an editor. It should look like this:
@@ -65,4 +65,16 @@ The `flake.nix` for Holochain version 0.2 looks like this:
   };
   ...
 }
+```
+
+**Before building the dev shell, make sure to update the flake's input sources:**
+
+```shell
+nix flake update
+```
+
+Now you can build and execute the dev shell:
+
+```shell
+nix develop
 ```
