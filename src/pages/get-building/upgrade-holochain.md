@@ -67,7 +67,7 @@ The `flake.nix` for Holochain version 0.2 looks like this:
 }
 ```
 
-**Before building the dev shell, make sure to update the flake's input sources:**
+Before building the dev shell, **make sure to update the flake's input sources:**
 
 ```shell
 nix flake update
