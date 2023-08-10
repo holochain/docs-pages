@@ -51,12 +51,10 @@ holochain_scaffolding_cli x.y.z
 
 at the end of the output.
 
-!!! note Workaround for Cachix issues
+!!! note Workaround for caching issues
 
 Sometimes the binaries you need will not be in cachix and you will get an error that looks something like:
-> ```
 > unable to start any build; either increase '--max-jobs' or enable remote builds
-> ```
 
 This is an open issue that we are working on resolving. As a workaround you build the binaries yourself by 
 using the following command instead of the one provided above:
