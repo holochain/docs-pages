@@ -51,6 +51,22 @@ holochain_scaffolding_cli x.y.z
 
 at the end of the output.
 
+!!! note Workaround for Cachix issues
+
+Sometimes the binaries you need will not be in cachix and you will get an error that looks something like:
+> unable to start any build; either increase '--max-jobs' or enable remote builds
+
+This is an open issue that we are working on resolving. As a workaround you build the binaries yourself by 
+using the following command instead of the one provided above:
+
+```
+nix run --refresh -j4 -v github:holochain/holochain#hc-scaffold -- --version
+```
+
+This will allow Nix to build on your machine as required, rather than assuming pre-built binaries can be downloaded. Please be aware that building from source will take some time!
+
+!!!
+
 ### Scaffold An Example Holochain App
 
 Type the following at the command line:
