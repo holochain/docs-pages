@@ -2003,7 +2003,7 @@ There are two main ways to go about this: Either distribute your app within an e
 
 #### 7.1 End-user runtime
 
-Holochain's official end-user runtime is the [Holochain Launcher](github.com/holochain/launcher). It allows end-users to install apps of any developers from a built-in app store or from the file system and run them.
+Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows end-users to install apps of any developers from a built-in app store or from the file system and run them.
 
 The Holochain Launcher expects apps of either `.happ` file format for apps without UI, or `.webhapp` file format for apps with UI. The forum project that you created with the scaffolding tool contains the `npm` command `npm run package`, which will automatically package your app into the required `.webhapp` format.
 
