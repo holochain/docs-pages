@@ -54,7 +54,7 @@ at the end of the output.
 !!! note Workaround for Cachix issues
 
 Sometimes the binaries you need will not be in cachix and you will get an error that looks something like:
-> ```text 
+> ```
 > unable to start any build; either increase '--max-jobs' or enable remote builds
 > ```
 
