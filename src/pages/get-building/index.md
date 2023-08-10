@@ -18,7 +18,7 @@ Welcome to the Getting Started with Holochain guide! This guide provides a detai
 1. [Introduction to Holochain](#1-introduction-to-holochain)
 2. [Installing Holochain development environment](#2-installing-holochain-development-environment)  
 2.1. [Hardware requirements](#2-1-hardware-requirements)  
-2.2. [Windows prerequisite WSL2](#2-2-windows-prerequisite-wsl2)  
+2.2. [Windows prerequisite WSL2](#2-2-windows-prerequisite-wsl-2)  
 2.3. [Set up development environment](#2-3-set-up-development-environment)  
 2.4. [Verify installation](#2-4-verify-installation)  
 3. [Scaffold a Hello World Holochain Application](#3-scaffold-a-simple-hello-world-holochain-application)
@@ -30,7 +30,7 @@ Welcome to the Getting Started with Holochain guide! This guide provides a detai
   5.4. [Scaffold a DNA](#5-4-scaffold-a-dna)  
         * [About DNAs](#about-dnas)  
   5.5. [Scaffold a Zome](#5-5-scaffold-a-zome)  
-        * [Integrity Zomes & Coordinator Zomes](#integrity-zomes-amp-coordinator-zomes)  
+        * [Integrity Zomes & Coordinator Zomes](#integrity-zomes-and-coordinator-zomes)  
         * [Source Chains](#source-chains)  
   5.6. [Scaffold Entry Types](#5-6-scaffold-entry-types)  
         * [Entry Types](#entry-types)  
@@ -38,11 +38,11 @@ Welcome to the Getting Started with Holochain guide! This guide provides a detai
         * [Creating a Link when Updating an Entry](#creating-a-link-when-updating-an-entry)  
   5.7. [Scaffold Link Types](#5-7-scaffold-link-types)  
         * [Source Chains, Entries, and Actions](#source-chains-entries-and-actions)  
-        * [Bidrectional = Make Two Links](#bidirectional--make-two-links)  
+        * [Bidrectional = Make Two Links](#bidirectional-make-two-links)  
         * [How Links are Stored and Retrieved in a Holochain App](#how-links-are-stored-and-retrieved-in-a-holochain-app)  
   5.8. [Scaffold a Collection](#5-8-scaffold-a-collection)  
   5.9. [Integrate the Generated UI Elements](#5-9-integrate-the-generated-ui-elements)  
-        * [Detailed Breakdown of App.svelte](#detailed-breakdown-of-appsvelte)  
+        * [Detailed Breakdown of App.svelte](#detailed-breakdown-of-app-svelte)  
 
 TODO (Matt's best guess at this):  
 6. Creating Validation Rules  
@@ -235,7 +235,7 @@ The good news is that the Holochain scaffold tool will do a lot of the heavy lif
 
 First, let's use the scaffolding tool to generate the basic folders and files for our hApp.
 
-#### 5.1. Scaffolding a hApp
+#### 5.1. Scaffolding a hApp { #5-1-scaffolding-a-happ }
 
 To start, run the following command in your terminal:
 
@@ -375,7 +375,7 @@ A DNA directory is where we will put the content that defines the rules of our a
 <details>
 <summary>
 
-### About DNAs
+### About DNAs { #about-dnas }
 
 </summary>
 
