@@ -1365,8 +1365,8 @@ Go ahead and try to add `AllPosts` on your own. We need to
 1) import the component's source file and
 2) add its renderer to the `<main>` section. Once you are done, continue below.
 
-In the <script> section, did you add something like
-```
+In the `<script>` section, did you add something like
+```js
 import AllPosts from './forum/posts/AllPosts.svelte'
 ```
 
@@ -1422,7 +1422,7 @@ Let's go look at our AllPosts file. Open that file with:
 $ code ui/src/forum/posts/AllPosts.svelte
 ```
 
-If we look at the <script> section of AllPosts, one of the things we can see is that the scaffold tool already imported the PostDetail component into that AllPosts.svelte file. In the html section, the PostDetail component is used to display each post. For each post, the post's hash is passed as a property to the PostDetail component. 
+If we look at the `<script>` section of AllPosts, one of the things we can see is that the scaffold tool already imported the PostDetail component into that AllPosts.svelte file. In the html section, the PostDetail component is used to display each post. For each post, the post's hash is passed as a property to the PostDetail component. 
 
 So let's go take a look at PostDetail.svelte and see what it is doing with that hash.
 
@@ -1524,7 +1524,7 @@ async function fetchPost() {
 
 ```
 
-In the <script> section, we don't see any other svelte components imported yet. However, the scaffold tool has declared several variables including postHash, client, loading, error, record, and post.
+In the `<script>` section, we don't see any other svelte components imported yet. However, the scaffold tool has declared several variables including postHash, client, loading, error, record, and post.
 
 The postHash property is exported, which means it's a value that should be provided by the parent component. The component throws an error if this property is not provided when the PostDetail component is mounted.
 
@@ -1533,7 +1533,7 @@ The fetchPost function is called when the component is mounted, with postHash as
 In the HTML section, a loading spinner is shown if loading is true, and an error message is shown if there is an error. If there's no error and loading is completed, the post's details (title and content) are displayed.
 
 We've been trying to find the right place to enable us to add the CreateComment functionality to a post. This is going to be our place.   
-Import the `CreateComment` component by it adding the following line just below the other imports at the top of the <script> section:
+Import the `CreateComment` component by it adding the following line just below the other imports at the top of the `<script>` section:
 
 ```
 import CreateComment from './CreateComment.svelte'
