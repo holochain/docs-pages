@@ -15,12 +15,12 @@ Welcome to the Getting Started with Holochain guide! This guide provides a detai
 ### Table of contents
 
 
-1. [Introduction to Holochain](#1-introduction-&-assumptions)
+1. [Introduction to Holochain](#1-introduction-to-holochain)
 2. [Installing Holochain development environment](#2-installing-holochain-development-environment)  
-  2.1. [Hardware requirements](#2-1-hardware-requirements)  
-  2.2. [Windows prerequisite: WSL2](#2-2-windows-prerequisite-wsl2)  
-  2.3. [Set up development environment](#2-3-set-up-development-environment)  
-  2.4. [Verify installation](#2-4-verify-installation)  
+2.1. [Hardware requirements](#2-1-hardware-requirements)  
+2.2. [Windows prerequisite WSL2](#2-2-windows-prerequisite-wsl2)  
+2.3. [Set up development environment](#2-3-set-up-development-environment)  
+2.4. [Verify installation](#2-4-verify-installation)  
 3. [Scaffold a Hello World Holochain Application](#3-scaffold-a-simple-hello-world-holochain-application)
 4. [Understanding the Layout of a Holochain Application](#4-understanding-the-layout-of-a-holochain-application)
 5. [Zero to Built: Creating a Forum App](#5-zero-to-built-creating-a-forum-app)  
@@ -61,7 +61,7 @@ Follow this guide step by step. All steps are essential to create the example ap
 
 * The examples below use `$` to represent your terminal prompt in a UNIX-like OS.  Note that on your OS the prompt may have been customized to appear differently.
 
-### 1. Introduction & Assumptions
+### 1. Introduction to Holochain
 
 * We assume that you are reading this guide because your are a developer new to Holochain but interested in actually building peer-to-peer distributed applications using a framework that is agent-centric, that provides intrinsic data integrity, is scalable, and when deployed, end-user code runs just on the devices of the participants without relying on centralized servers or blockchain tokens or other points of centralized control.  
 * We assume that you've at least skimmed [Holochain's Core Concepts](https://developer.holochain.org/concepts/1_the_basics/) or are ready to pop over there when needed.  
@@ -81,7 +81,7 @@ Before you install the Holochain Developer Environtment, make sure your system m
 * 30GB+ available disk space
 * High-speed internet connection
 
-#### 2.2. Windows prerequisite: WSL2
+#### 2.2. Windows prerequisite WSL2
 
 For Windows users, please note that the Nix package manager, which is used to install and manage Holochain development tools, only supports macOS and Linux. You will need to [install Linux under Windows with WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) (recommended) or dual boot a Linux Operating System, alongside your [Windows 10](https://www.freecodecamp.org/news/how-to-dual-boot-windows-10-and-ubuntu-linux-dual-booting-tutorial/) or [Windows 11](https://www.xda-developers.com/dual-boot-windows-11-linux/) OS to proceed.
 
