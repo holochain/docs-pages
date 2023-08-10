@@ -15,7 +15,7 @@ Welcome to the Getting Started with Holochain guide! This guide provides a detai
 ### Table of contents
 
 
-1. [Introduction to Holochain](#1-introduction-to-holochain)
+1. [Introduction to Holochain](#1-introduction-&-assumptions)
 2. [Installing Holochain development environment](#2-installing-holochain-development-environment)  
   2.1. [Hardware requirements](#2-1-hardware-requirements)  
   2.2. [Windows prerequisite: WSL2](#2-2-windows-prerequisite-wsl2)  
