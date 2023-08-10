@@ -53,18 +53,10 @@ at the end of the output.
 
 !!! note Workaround for caching issues
 
-Sometimes the binaries you need will not be in cachix and you will get an error that looks something like:
+Sometimes the pre-built binaries for your system will not be in cachix and you will get an error that looks something like:
 > "unable to start any build; either increase '--max-jobs' or enable remote builds"
 
-This is an open issue that we are working on resolving. As a workaround you build the binaries yourself by 
-using the following command instead of the one provided above:
-
-```bash
-nix run --refresh -j4 -v github:holochain/holochain#hc-scaffold -- --version
-```
-
-This will allow Nix to build on your machine as required, rather than assuming pre-built binaries can be downloaded. Please be aware that building from source will take some time!
-
+This is an open issue that we are working on resolving. For now, you can skip this step and continue to the next one which will mean building Holochain tools on your machine. Nix will take care of this for you but it will take longer than downloading from the cache.
 !!!
 
 ### Scaffold An Example Holochain App
