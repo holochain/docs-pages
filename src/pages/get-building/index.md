@@ -157,12 +157,7 @@ For now, make use of:
 * `cd <folder_name>` to navigate into a particular sub-folder, and
 * `cd ..` to navigate back up to a parent folder.
 
-<details>
-<summary>
-
-### Scaffolded application structure
-
-</summary>
+!!! details Scaffolded application structure
 
 This table includes everything in the `hello-world/` folder as well as details of the contents of the `dnas/` subfolder since that makes up the bulk of the "Holochain" part of an application. For certain working folders, like `node_modules/`, `target/`, `tests/`, and `ui/`, the table only contains a high-level overview.
 
@@ -204,7 +199,7 @@ This table includes everything in the `hello-world/` folder as well as details o
 
 These files and folders make up the structure of a Holochain application, with the main logic defined in the zomes (in the `dnas/<dna>/zomes/` folders) and the user interface defined in the `ui/` folder. The manifest files bring all the Holochain and UI assets together, allowing the `hc` tool to bundle them into a single hApp file ready for distribution.
 
-</details>
+!!!
 
 ### 5. Zero to built: creating a forum app
 
@@ -324,12 +319,7 @@ We've already scaffolded a new web app!
 
 Next up, we are going to start creating one of the most important building blocks in a Holochain app: a DNA.
 
-<details>
-<summary>
-
-### Scaffolding subcommands
-
-</summary>
+!!! details Scaffolding subcommands
 
 To get an overview of the subcommands that hc scaffold makes available to us, let's enter:
 
@@ -361,7 +351,7 @@ SUBCOMMANDS:
     web-app       Scaffold a new, empty web app
     zome          Scaffold one or multiple zomes into an existing DNA
 ```
-</details>
+!!!
 
 !!! info "Backing out of a mistake"
 A quick note: if while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the scaffold by using \<Ctrl-c\> on Linux or \<Command-c\> on macOS**.
@@ -371,12 +361,7 @@ A quick note: if while scaffolding some part of your hApp, you realize you've ma
 
 A DNA folder is where we will put the code that defines the rules of our application. We are going to stay in the `my_forum_app/` root folder of our hApp and, with some simple commands, the scaffold tool will do much of the creation of relevant folders and files for us.
 
-<details>
-<summary>
-
-### About DNAs
-
-</summary>
+!!! details About DNAs
 
 #### Why do we use the term DNA?
 
@@ -410,7 +395,7 @@ This is similar to the way in which multiple DNA communities coexist in biologic
 
 When it comes to hApps, this lets us play coherent games with one another at the DNA level, while also participating in adjacent coherent games with others as well. That means that applications are not one-size-fits-all. You can choose to combine different bits of functionality in interesting and even novel ways.
 
-</details>
+!!!
 
 For now, let's create a new DNA using the scaffolding tool by entering:
 
@@ -461,12 +446,7 @@ You should then see:
   Only a coordinator zome
 ```
 
-<details>
-<summary>
-
-### Integrity zomes and coordinator zomes
-
-</summary>
+!!! details Integrity zomes and coordinator zomes
 
 #### Integrity zomes
 
@@ -485,7 +465,7 @@ At the same time, a community will want to be able to improve the ways in which 
 * Holochain's coordinator zome API receives frequent updates while the integrity zome API is fairly stable, and
 * coordinator zomes can be added to or removed from a DNA at runtime without affecting the DNA's hash.
 
-</details>
+!!!
 
 For this app, we are going to want both an integrity zome and a coordinator zome, so use the arrow keys to select:
 
@@ -530,12 +510,7 @@ Once that is all done, our hApp skeleton will have filled out a bit. Before we s
 
 If you aren't yet familiar with Holochain's concept of a source chain, check out [The Source Chain: A Personal Data Journal](https://developer.holochain.org/concepts/3_source_chain/).
 
-<details>
-<summary>
-
-### Source chains, actions, and entries
-
-</summary>
+!!! details Source chains, actions, and entries
 
 #### Source chain
 
@@ -565,7 +540,7 @@ Unlike a centralized application, we aren't just going to add this data into som
 
 The bits of shared information that all the peers in a network are holding are collectively called a distributed hash table, or DHT. We'll explain more about the DHT later.
 
-</details>
+!!!
 
 Now it is time to start defining the structure and validation rules for data within our application.
 
@@ -573,12 +548,7 @@ Now it is time to start defining the structure and validation rules for data wit
 
 An entry type is a fundamental building block used to define the structure and validation rules for data within a distributed application. Each entry type corresponds to a specific kind of data that can be stored, shared, and validated within the application.
 
-<details>
-<summary>
-
-### Entry types and validation
-
-</summary>
+!!! details Entry types and validation
 
 An entry type is just a label, an identifier for a certain type of data that your DNA deals with. But it serves as something to attach validation rules to in your integrity zome, and those rules are what give an entry type its meaning. They take the form of code in a function that gets called any time something is about to be stored, and because they're just code, they can validate all sorts of things. Here are a few key examples:
 
@@ -590,7 +560,7 @@ An entry type is just a label, an identifier for a certain type of data that you
 
 * **Contextual conditions**: Another consequence of the source chain is that an entry can be validated based on the agent's history --- for instance, to prevent currency transactions beyond a credit limit or disallow more than two comments per minute to discourage spam. An entry can also point to other entries upon which it depends, and the data from those entries can be used in its validation.
 
-</details>
+!!!
 
 We will want to create two entry types for our `posts` integrity zome: **`post`** and **`comment`**. Posts will have a `title` field and a `content` field. Comments will have a `comment_content` field and a way of indicating which post they are a comment on.
 
@@ -697,12 +667,7 @@ At this point you should see:
 
 Go ahead and select `Yes` by pressing **\<enter\>**.
 
-<details>
-<summary>
-
-### CRUD (create, read, update, delete)
-
-</summary>
+!!! details CRUD (create, read, update, delete)
 
 #### Mutating immutable data and improving performance
 
@@ -724,7 +689,7 @@ Similarly, when a public entry is published, it becomes accessible to other agen
 
 **Developers decide whether to let the scaffolding tool generate `update_<entry_type>` and `delete_<entry_type>` functions based on their specific application requirements**. More details in the Core Concepts section on [CRUD](https://developer.holochain.org/concepts/6_crud_actions/).
 
-</details>
+!!!
 
 Next, you should see:
 
@@ -809,12 +774,7 @@ Add new collections for that entry type with:
     hc scaffold collection
 ```
 
-<details>
-<summary>
-
-### Hashes and other identifiers
-
-</summary>
+!!! details Hashes and other identifiers
 
 There are two kinds of unique identifiers or 'addresses' in Holochain: **hashes** for data and **public keys** for agents.
 
@@ -863,7 +823,7 @@ Whereas `EntryHash` is used to uniquely identify, store, and efficiently retriev
 
 You can check out the Core Concepts to dive a bit deeper into [how the distributed hash table helps](https://developer.holochain.org/concepts/4_dht/) to not only make these entries and actions available but helps to ensure that agents haven't gone back to try and change their own histories after the fact. But for now, let's dive into links.
 
-</details>
+!!!
 
 #### 5.7. Scaffold link types
 
@@ -932,12 +892,7 @@ You should then see:
 
 Press `y` to make the link bidirectional.
 
-<details>
-<summary>
-
-### Bidirectional = make two links
-
-</summary>
+!!! details Bidirectional = make two links
 
 Making the link type bidirectional tells the scaffolding tool to **also create a link type from a comment to the post** that it is responding to, along with code to create a link of that type whenever a comment is created. Links in Holochain aren't actually bidirectional. But to gain that functionality, we simply create two links, one in each direction.
 
@@ -945,7 +900,7 @@ With a link type from a comment to a post, if an agent has a comment, they can f
 
 We can think of this as a comment-to-post link type.
 
-</details>
+!!!
 
 Next you should see:
 
@@ -999,12 +954,7 @@ In short, links enable us to build a graph of references from one piece of conte
 
 By linking from known things to unknown things, we enable the efficient discovery and retrieval of related content in our hApp.
 
-<details>
-<summary>
-
-### How links are stored and retrieved in a Holochain app
-
-</summary>
+!!! details How links are stored and retrieved in a Holochain app
 
 **Storage**: When an agent creates a link between two entries, a "create link" action is written to their source chain. A link is so small that there's no entry for the action. It simply contains the address of the base, the address of the target, the link type (which describes the relationship), and an optional tag which contains a small amount of application-specific information. The base and target can be any sort of DHT address --- an `EntryHash`, an `ActionHash`, or an `AgentPubKey`. But they can also be the hash of a piece of data that doesn't even exist in the DHT.
 
@@ -1012,7 +962,7 @@ After storing the action in the local source chain, the agent then publishes the
 
 **Lookup**: To look up and retrieve links in a Holochain app, agents can perform a `get_links` query on a base DHT address. This operation involves asking the DHT peers responsible for that address for any link metadata of a given link type attached to it, with an optional "starts-with" query on the link tag. The peers return a list of links matching the query, which contain the addresses of the targets, and the link types and tags. The agent can then retrieve the actual target data by performing a [`get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) query on the target address, which may be an `EntryHash`, `ActionHash`, or `AgentPubKey` (or an empty result, in the case of data that doesn't exist on the DHT).
 
-</details>
+!!!
 
 #### 5.8. Scaffold a collection
 
@@ -1068,12 +1018,7 @@ These instructions are telling us that if we want to include this component in t
 
 In the next section, we will begin working with our `.svelte` files to control our UI.
 
-<details>
-<summary>
-
-### How a collection is implemented
-
-</summary>
+!!! details How a collection is implemented
 
 We already explored how links make data in the DHT discoverable by connecting known DHT base addresses to unknown addresses. Essentially every address becomes an anchor point to hang a collection of links from.
 
@@ -1091,7 +1036,7 @@ The examples of granular collections and type-ahead search indexes breaks up tho
 
 The scaffolding tool doesn't have any feature for building anchors and trees beyond simple one-anchor collections, but if you'd like to know more, you can read the Core Concepts section on [Links and Anchors](developer.holochain.org/concepts/5_links_anchors/) and the SDK reference for [`hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) and [`anchor`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/index.html).
 
-</details>
+!!!
 
 #### 5.9. Integrate the generated UI elements
 
@@ -1266,12 +1211,7 @@ import CreateTodo from './todos/todos/CreateTodo.svelte';
 </style>
 ```
 
-<details>
-<summary>
-
-### Detailed breakdown of `App.svelte`
-
-</summary>
+!!! details Detailed breakdown of `App.svelte`
 
 #### `<script>` section:
 
@@ -1294,7 +1234,7 @@ import CreateTodo from './todos/todos/CreateTodo.svelte';
 * This section is a template for the CSS styles that get applied to the HTML in the `<main>` section of the component. You can also use reactive variables here, and the styling will update whenever the variables change.
 * The scaffolded styles set the component up with some basic layout to make it readable at small and large window sizes.
 
-</details>
+!!!
 
 At the top of the file, there is a list of import scripts.
 
@@ -1341,12 +1281,7 @@ and then press the "Create Post" button.
 
 We don't see any change in our conductor windows. We will need to add some more UI components to actually _see_ posts. But if we take a look at our Holochain Playground window, we can see that a new entry has been created. If we click the "App" element that we've created in Alice's source chain, it will pull up some details in the Entry Contents section, including the Title and Content of our entry. Note the hash of that entry (top of the Entry Contents window). Then click on the Create Action that is pointing toward that App entry in the source chain. If we look back at the contents window, we will see that it is now sharing Action Contents. And if we look down the list a bit, we will see the entry hash of the entry for our first post.
 
-<details>
-<summary>
-
-### Relationships in a source chain versus relationships in the DHT
-
-</summary>
+!!! details Relationships in a source chain versus relationships in the DHT
 
 At this point, in our DHT graph it should look like we have two different agents and then a separate floating entry and action. But we know that the new post is associated with a source chain which is associated with an agent. So why aren't they connected on the DHT?
 
@@ -1354,7 +1289,7 @@ A source chain merely serves as a history of one agent's attempts to manipulate 
 
 For the purpose of this hApp, we're not interested in agent-to-posts relationships, so it's fine that they're not linked. But if you wanted to create a page that showed all posts by an author, that's when you might want to scaffold that link type. `hc scaffold collection` will do this for you if you choose a by-author collection, along with generating a `get_posts_by_author` function, if you choose to create a collection by author rather than a global one.
 
-</details>
+!!!
 
 Let's add the UI component that will actually let our users see things that have been posted. That's `AllPosts`.
 
