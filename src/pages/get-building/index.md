@@ -44,6 +44,7 @@ Welcome to the Getting Started with Holochain guide! This guide will walk you th
     9. [Integrate the generated UI elements](#5-9-integrate-the-generated-ui-elements)
         * [Detailed breakdown of `App.svelte`](#detailed-breakdown-of-appsvelte)
         * [Relationships in a source chain versus relationships in the DHT](#relationships-in-a-source-chain-versus-relationships-in-the-dht)
+{.outline-list}
 
 #### How to use this guide
 
