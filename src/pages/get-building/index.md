@@ -709,13 +709,13 @@ Go ahead and select `Yes` by pressing **\<enter\>**.
 
 In short, the above choice is about how changes get dealt with when a piece of content is updated.
 
-Because all data in a Holochain application is immutable once it's written, we don't just go changing existing content, because that would break the integrity of the agent's source chain as well as the data already in the DHT. So instead we add metadata to the original data, indicating that people should now look elsewhere for the data or consider it deleted. This is produced by "update entry" and "delete entry" source chain actions.
+Because all data in a Holochain application is immutable once it's written, we don't just go changing existing content, because that would break the integrity of the agent's source chain as well as the data already in the DHT. So instead we add metadata to the original data, indicating that people should now look elsewhere for the data or consider it deleted. This is produced by `UpdateEntry` and `DeleteEntry` source chain actions.
 
-For an "update entry" action, the original "create entry" or "update entry" action and its entry content on the DHT get a "replaced by" pointer to the new "update entry" action and its entry content.
+For an `UpdateEntry` action, the original "create entry" or `UpdateEntry` action and its entry content on the DHT get a "replaced by" pointer to the new `UpdateEntry` action and its entry content.
 
 When the scaffolding tool asks you whether to create a link from the original entry, it's not talking about this pointer. Instead, it's talking about an extra piece of metadata that points to the _very newest_ entry. If an entry were to get updated, and that update were updated, and this were repeated three more times, anyone trying to retrieve the entry would have to query the DHT five times before they finally found the newest revision. This extra link, which is not a built-in feature, 'jumps' them past the entire chain of updates at the cost of a bit of extra storage. The scaffolding tool will generate all the extra code needed to write and read this metadata in its update and read functions.
 
-For a "delete entry" action, the original action and its entry content are simply marked as deleted. In the cases of both updating and deleting, all original data is still accessible if the application needs it.
+For a `DeleteEntry` action, the original action and its entry content are simply marked as deleted. In the cases of both updating and deleting, all original data is still accessible if the application needs it.
 
 #### CRUD functions
 
@@ -825,42 +825,42 @@ To ensure data integrity and facilitate efficient data retrieval, each entry is 
 
 Holochain uses a hash function called blake2b. You can play with [an online blake2b hash generator](https://toolkitbay.com/tkb/tool/BLAKE2b_512) to see how changing content a tiny bit alters the hash. Try hashing `hi` and then `Hi` and compare their hashes.
 
-#### EntryHash
+#### `EntryHash`
 
-If we hash an entry, we will generate its **EntryHash**. The EntryHash serves the following purposes:
+If we hash an entry, we will generate its **`EntryHash`**. The `EntryHash` serves the following purposes:
 
 * **Uniqueness:** The cryptographic hashing function ensures that each entry has a unique hash value, which helps to differentiate it from other entries on the network.
-* **Integrity verification:** `Hi` will always generate that same hash no matter who runs it through the hashing function. So when an entry is retrieved, its hash can be recalculated and compared with the stored EntryHash to ensure that a third party hasn't tampered with the data.
-* **Efficient lookup:** The EntryHash is used as a key (essentially an address) in the network's storage system, called a distributed hash table (DHT), enabling efficient and decentralized storage and retrieval of entries.
-* **Collusion resistance:** The network peers who take responsibility for validating and storing an entry are chosen randomly based on the similarity of their IDs to the EntryHash. It would take a huge amount of computing power to generate a hash that would fall under the responsibility of a colluding peer.
+* **Integrity verification:** `Hi` will always generate that same hash no matter who runs it through the hashing function. So when an entry is retrieved, its hash can be recalculated and compared with the stored `EntryHash` to ensure that a third party hasn't tampered with the data.
+* **Efficient lookup:** The `EntryHash` is used as a key (essentially an address) in the network's storage system, called a distributed hash table (DHT), enabling efficient and decentralized storage and retrieval of entries.
+* **Collusion resistance:** The network peers who take responsibility for validating and storing an entry are chosen randomly based on the similarity of their IDs to the `EntryHash`. It would take a huge amount of computing power to generate a hash that would fall under the responsibility of a colluding peer.
 
-When you want to retrieve an entry, you can simply search for the corresponding EntryHash in the DHT, without needing to know who's storing it or what it contains. In essence, you retrieve content by asking others for it by ID. Your Holochain runtime reaches out to the (multiple) peers in the network responsible for that EntryHash, and one or more of those peers then serve the entry to you.
+When you want to retrieve an entry, you can simply search for the corresponding `EntryHash` in the DHT, without needing to know who's storing it or what it contains. In essence, you retrieve content by asking others for it by ID. Your Holochain runtime reaches out to the (multiple) peers in the network responsible for that `EntryHash`, and one or more of those peers then serve the entry to you.
 
-This is a key part of what enables Holochain applications to provide reliable access to data even when some peers are occasionally dropping offline. Each entry will have multiple peers making copies available on the network, so even if some devices drop off the network, you will usually still be able to retrieve a file from one of the other peers that is holding on to a copy. In fact, as devices responsible for serving a range of EntryHashes and their associated entries drop off the network, other backups of that content start getting made (on other devices) to improve the availability of data.
+This is a key part of what enables Holochain applications to provide reliable access to data even when some peers are occasionally dropping offline. Each entry will have multiple peers making copies available on the network, so even if some devices drop off the network, you will usually still be able to retrieve a file from one of the other peers that is holding on to a copy. In fact, as devices responsible for serving a range of `EntryHash`es and their associated entries drop off the network, other backups of that content start getting made (on other devices) to improve the availability of data.
 
 This also helps ensure the integrity of the data in the DHT. Because multiple random peers are called on to validate and store an entry, it's more likely that at least one honest peer will report a problem with an entry's integrity when you request it.
 
-#### ActionHash
+#### `ActionHash`
 
-If, instead, we hash an action (the metadata about a state change) we call the result an **ActionHash**.
+If, instead, we hash an action (the metadata about a state change) we call the result an **`ActionHash`**.
 
-ActionHashes play a similar role to EntryHashes. However, because they contain different metadata, it helps to disambiguate identical entries written at different times by different agents. If ten different people in our Forum hApp write `Hi` as a post, the EntryHash of each of those posts will be identical (since the content is identical), but each ActionHash will be unique, because the Action includes not only the EntryHash of the associated ("Hi") entry, but also the Agent's public key, the ActionHash of the previous Action, and a timestamp.
+`ActionHash`es play a similar role to `EntryHash`es. However, because they contain different metadata, it helps to disambiguate identical entries written at different times by different agents. If ten different people in our Forum hApp write `Hi` as a post, the `EntryHash` of each of those posts will be identical (since the content is identical), but each `ActionHash` will be unique, because the Action includes not only the `EntryHash` of the associated ("Hi") entry, but also the Agent's public key, the `ActionHash` of the previous Action, and a timestamp.
 
-#### AgentPubKey
+#### `AgentPubKey`
 
 **Each agent in a network is identified by their cryptographic public key**, a unique number that's mathematically related to a private number that they hold on their machine. Public-key cryptography is a little complex for this guide -- it's enough to know that your private key signs your source chain actions, and those signatures paired with your public key allow others to verify that you are the one who authored those actions.
 
-An AgentPubKey isn't a hash, but it's the same length, and it's unique just like a hash. So it can be used as a way of referring to an agent, like a user ID.
+An `AgentPubKey` isn't a hash, but it's the same length, and it's unique just like a hash. So it can be used as a way of referring to an agent, like a user ID.
 
 #### Summary
 
-Whereas EntryHash is used to uniquely identify, store, and efficiently retrieve an entry from the DHT, ActionHash is used to uniquely identify, store, and retrieve the action (metadata), which can provide information about the history and context of any associated entry (including what action preceded it). ActionHashes are also what enable any participant to retrieve and reconstruct the continuous sequence of actions (and any associated entries) in another agent's source chain.
+Whereas `EntryHash` is used to uniquely identify, store, and efficiently retrieve an entry from the DHT, `ActionHash` is used to uniquely identify, store, and retrieve the action (metadata), which can provide information about the history and context of any associated entry (including what action preceded it). `ActionHash`es are also what enable any participant to retrieve and reconstruct the continuous sequence of actions (and any associated entries) in another agent's source chain.
 
-**Use EntryHash when** you want to link to or retrieve the actual content or data (e.g., when linking to a category in a forum application).
+**Use `EntryHash` when** you want to link to or retrieve the actual content or data (e.g., when linking to a category in a forum application).
 
-**Use ActionHash when** you want to link to or retrieve the authorship or history of an entry (e.g., when distinguishing between two posts with identical content or retrieving the author of a post).
+**Use `ActionHash` when** you want to link to or retrieve the authorship or history of an entry (e.g., when distinguishing between two posts with identical content or retrieving the author of a post).
 
-**Use AgentPubKey when** you want to link to an agent (such as associating a profile or icon with them) or retrieve information about their history (such as scanning their source chain for posts and comments).
+**Use `AgentPubKey` when** you want to link to an agent (such as associating a profile or icon with them) or retrieve information about their history (such as scanning their source chain for posts and comments).
 
 You can check out the Core Concepts to dive a bit deeper into [how the distributed hash table helps](https://developer.holochain.org/concepts/4_dht/) to not only make these entries and actions available but helps to ensure that agents haven't gone back to try and change their own histories after the fact. But for now, let's dive into links.
 
@@ -868,7 +868,7 @@ You can check out the Core Concepts to dive a bit deeper into [how the distribut
 
 #### 5.7. Scaffold link types
 
-We can request content by asking peers for ActionHashes or EntryHashes, but how do we find out which ActionHash or EntryHash to ask for?
+We can request content by asking peers for `ActionHash`es or `EntryHash`es, but how do we find out which `ActionHash` or `EntryHash` to ask for?
 
 Links can help us with that.
 
@@ -876,7 +876,7 @@ Links are a mechanism to establish relationships between identifiers, enabling e
 
 For our forum application, we'll want to create a couple of types of links.
 
-Let's create a link-type from a post to a comment. If we have a post, we will be able to use links of this type to find all of the comments that have been made on that post. This pattern makes use of ActionHashes to navigate to Actions, queries the content of those Actions, then uses the EntryHashes referenced in them to request the entry content of the comments themselves. We can think of this as a post-to-comment link type.
+Let's create a link-type from a post to a comment. If we have a post, we will be able to use links of this type to find all of the comments that have been made on that post. This pattern makes use of `ActionHash`es to navigate to Actions, queries the content of those Actions, then uses the `EntryHash`es referenced in them to request the entry content of the comments themselves. We can think of this as a post-to-comment link type.
 
 Run the following command:
 
@@ -923,7 +923,7 @@ Again, you will see:
   EntryHash
 ```
 
-Press **\<enter\>** to select `ActionHash(recommended)`
+Press **\<enter\>** to select `ActionHash (recommended)`
 
 You should then see:
 
@@ -1007,11 +1007,11 @@ By linking from known things to unknown things, we enable the efficient discover
 
 </summary>
 
-**Storage**: When an agent creates a link between two entries, a "create link" action is written to their source chain. A link is so small that there's no entry for the action. It simply contains the address of the base, the address of the target, the link type (which describes the relationship), and an optional tag which contains a small amount of application-specific information. The base and target can be any sort of DHT address --- EntryHash, an ActionHash, or an AgentPubKey. But they can also be the hash of a piece of data that doesn't even exist in the DHT.
+**Storage**: When an agent creates a link between two entries, a "create link" action is written to their source chain. A link is so small that there's no entry for the action. It simply contains the address of the base, the address of the target, the link type (which describes the relationship), and an optional tag which contains a small amount of application-specific information. The base and target can be any sort of DHT address --- an `EntryHash`, an `ActionHash`, or an `AgentPubKey`. But they can also be the hash of a piece of data that doesn't even exist in the DHT.
 
 After storing the action in the local source chain, the agent then publishes the link to the DHT, where it goes to the peers who are responsible for storing the base address and gets attached to the address as metadata.
 
-**Lookup**: To look up and retrieve links in a Holochain app, agents can perform a `get_links` query on a base DHT address. This operation involves asking the DHT peers responsible for that address for any link metadata of a given link type attached to it, with an optional "starts-with" query on the link tag. The peers return a list of links matching the query, which contain the addresses of the targets, and the link types and tags. The agent can then retrieve the actual target data by performing a [`get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) query on the target address, which may be an EntryHash, ActionHash, or AgentPubKey (or an empty result, in the case of data that doesn't exist on the DHT).
+**Lookup**: To look up and retrieve links in a Holochain app, agents can perform a `get_links` query on a base DHT address. This operation involves asking the DHT peers responsible for that address for any link metadata of a given link type attached to it, with an optional "starts-with" query on the link tag. The peers return a list of links matching the query, which contain the addresses of the targets, and the link types and tags. The agent can then retrieve the actual target data by performing a [`get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) query on the target address, which may be an `EntryHash`, `ActionHash`, or `AgentPubKey` (or an empty result, in the case of data that doesn't exist on the DHT).
 
 </details>
 
