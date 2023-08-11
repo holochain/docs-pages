@@ -1,16 +1,10 @@
 ---
-title: Get Building
+title: Get Started
 ---
-
-In Quick Start you installed Holochain and built a templated forum application. Here you will use the scaffolding tool to build your own application and learn the basic commands for using the scaffold.
-
-!!! note Pre-requisite
-Holochain installed as per [Quick Start](../quick-start/index)
-!!!
 
 # Getting Started with Holochain
 
-Welcome to the Getting Started with Holochain guide! This guide will walk you through the process of creating a simple forum application using Holochain. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
+Welcome to the Getting Started with Holochain guide! This guide will walk you through the process of installing the Holochain development tools and creating a simple forum application. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
 
 ### Table of contents
 
@@ -53,8 +47,9 @@ Follow this guide step by step. All steps are essential to create the example ap
 * The examples below use `$` to represent your terminal prompt in a UNIX-like OS, though it may have been customized in your OS to appear differently.
 * We assume that you are reading this guide because your are a developer new to Holochain but interested in actually building peer-to-peer distributed applications using a framework that is agent-centric, that provides intrinsic data integrity, is scalable, and when deployed, end-user code runs just on the devices of the participants without relying on centralized servers or blockchain tokens or other points of centralized control.
 * We assume that you've at least skimmed [Holochain's Core Concepts](https://developer.holochain.org/concepts/1_the_basics/) or are ready to pop over there when needed.
-* Because Holochain's DNA's are written in Rust, we assume you have at least a basic familiarity with the language.  Note, however, that Holochain DNAs rarely need to take advantage of the more complicated aspects of the language, so don't let Rust's learning curve scare you.
-* We also assume that you have basic familiarity with the Unix or Windows command-line.
+* Because Holochain's DNA's are written in Rust, we assume you have at least a basic familiarity with the language. Note, however, that this guide will take you through everything you need to do, step-by-step, so you can follow the steps and learn Rust later. Additionally, Holochain DNAs rarely need to take advantage of the more complicated aspects of the language, so don't let Rust's learning curve scare you.
+    * If you're new to Rust, you can start your learning journey by reading chapters 1 to 11 in the [Rust Book](https://doc.rust-lang.org/book/) and doing the accompanying [Rustlings exercises](https://github.com/rust-lang/rustlings/).
+* We also assume that you have basic familiarity with the Unix command line.
 
 ### 1. Introduction to Holochain
 
@@ -99,7 +94,7 @@ In a new terminal session type:
 $ nix run --refresh -j0 -v github:holochain/holochain#hc-scaffold -- --version
 ```
 
-Look out for binaries being copied from `holochain-ci.cachix`:
+Look out for binaries being copied from `holochain-ci.cachix.org`:
 
 ```text
 downloading 'https://holochain-ci.cachix.org/nar/<some-hash>.nar.zst'...
@@ -107,7 +102,7 @@ downloading 'https://holochain-ci.cachix.org/nar/<some-hash>.nar.zst'...
 
 It proves that the binary cache is configured correctly.
 
-At the end of the output, the version string for Holochain's scaffolding CLI should be printed:
+At the end of the output, Holochain's scaffolding tool should print its version string:
 
 ```text
 holochain_scaffolding_cli x.y.z
@@ -1035,7 +1030,7 @@ Hierarchical paths serve another useful purpose. On the DHT, where every node is
 
 The examples of granular collections and type-ahead search indexes breaks up those anchors into increasingly smaller branches, so that each leaf node in the tree only has to store a small number of links.
 
-The scaffolding tool doesn't have any feature for building anchors and trees beyond simple one-anchor collections, but if you'd like to know more, you can read the Core Concepts section on [Links and Anchors](developer.holochain.org/concepts/5_links_anchors/) and the SDK reference for [`hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) and [`anchor`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/index.html).
+The scaffolding tool doesn't have any feature for building anchors and trees beyond simple one-anchor collections, but if you'd like to know more, you can read the Core Concepts section on [Links and Anchors](https://developer.holochain.org/concepts/5_links_anchors/) and the SDK reference for [`hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) and [`anchor`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/index.html).
 
 !!!
 
