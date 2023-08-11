@@ -68,7 +68,7 @@ Before you install the Holochain development environtment, make sure your system
 * 30GB+ available disk space
 * High-speed internet connection
 
-#### 2.2. Windows prerequisite: WSL2
+#### 2.2. Windows prerequisite: WSL2 {#2-2-windows-prerequisite-wsl2}
 
 For Windows users, please note that the Nix package manager, which is used to install and manage Holochain development environment, only supports macOS and Linux. You will need to [install Linux under Windows with WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) (recommended) or dual boot a Linux Operating System, alongside your [Windows 10](https://www.freecodecamp.org/news/how-to-dual-boot-windows-10-and-ubuntu-linux-dual-booting-tutorial/) or [Windows 11](https://www.xda-developers.com/dual-boot-windows-11-linux/) OS to proceed.
 
@@ -217,7 +217,7 @@ The good news is that the Holochain scaffold tool will do a lot of the heavy lif
 
 First, let's use the scaffolding tool to generate the basic folders and files for our hApp.
 
-#### 5.1. Scaffolding a hApp
+#### 5.1. Scaffolding a hApp {#5-1-scaffolding-a-happ}
 
 To start, run the following command in your terminal:
 
@@ -357,7 +357,7 @@ A quick note: if while scaffolding some part of your hApp, you realize you've ma
 
 A DNA folder is where we will put the code that defines the rules of our application. We are going to stay in the `my_forum_app/` root folder of our hApp and, with some simple commands, the scaffold tool will do much of the creation of relevant folders and files for us.
 
-!!! details About DNAs
+!!! details About DNAs {#about-dnas}
 
 #### Why do we use the term DNA?
 
