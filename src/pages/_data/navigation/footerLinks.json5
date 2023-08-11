@@ -1,10 +1,9 @@
 {
-  columns: [    
+  columns: [
     {
       title: "Developers",
       links: [
-        { title: "Quick Start", url: "/quick-start/" },
-        { title: "Get Building", url: "/get-building/" },
+        { title: "Get Started", url: "/get-started/" },
         { title: "Core Concepts", url: "/concepts/1_the_basics/" },
         { title: "References", url: "/references/" },
       ]
@@ -50,12 +49,12 @@
       class: "newsletter",
       links: [
         { title: "<p>We want to keep improving the developer experience. You can help us by answering 6 questions.</p>" },
-        { title: "Take the Survey", url: "#", class: "btn take-the-survey", external: true },    
+        { title: "Take the Survey", url: "#", class: "btn take-the-survey", external: true },
       ]
     }
   ],
 
-  bottomRow: 
+  bottomRow:
   {
     links: [
       { title: "Holochain.org", url: "https://www.holochain.org/", image: "/assets/img/logo_light-2x.png", class:"hc-logo-link no-away", external: true },

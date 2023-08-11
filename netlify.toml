@@ -93,13 +93,13 @@ package = "netlify-plugin-checklinks"
     from = "/assets/files/RRDHT-draft-Nov-2019.pdf"
     to = "/assets/files/RRDHT-whitepaper-final.pdf"
     status = 301
-    
+
 # The quick start guide used to live at /install/
 [[redirects]]
     from = "/install/"
-    to = "/quick-start/"
+    to = "/get-started/"
     status = 301
-    
+
 # Glossary has been moved to the references path.
 [[redirects]]
     from = "/glossary/"
@@ -112,5 +112,16 @@ package = "netlify-plugin-checklinks"
     to = "/concepts/1_the_basics/"
     # Keeping this as a 302 in case we decide we want a front page again.
     status = 302
+
+# Shuffled some things around August 2023
+[[redirects]]
+    from = "/get-building/*"
+    to = "/get-started/:splat"
+    status = 301
+
+[[redirects]]
+    from = "/quick-start/"
+    to = "/get-started/"
+    status = 301
 
 # This comment does absolutely nothing and can be deleted.
