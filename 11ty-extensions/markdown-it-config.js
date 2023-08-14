@@ -34,6 +34,20 @@ function composeGenericAdmonitionRenderFunc(admonitionName) {
 
 /* End Admonition code */
 
+/* Start Details Block code */
+
+const renderDetailsBlock = (tokens, idx) => {
+  const summary = tokens[idx].info.trim().match(/^details\s+(.*)$/);
+
+  if(tokens[idx].nesting === 1) {
+    const summaryTag = summary ? `<summary>${ summary[1] }</summary>` : '';
+    return `<details class="details">${summaryTag}` + '\n\n<div class="details-content">';
+  } else {
+    return '\n</div></details>\n';
+  }
+};
+
+/* End Details Block code */
 
 /**
  * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js 
@@ -57,6 +71,9 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericAdmonitionRenderFunc("note") });
     mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericAdmonitionRenderFunc("info") });
     mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
+
+    // Details block
+    mdLib.use(markdownItContainer, "details", { marker: "!", render: renderDetailsBlock });
   });
  
 }
