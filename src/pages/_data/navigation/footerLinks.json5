@@ -5,12 +5,12 @@
       links: [
         { title: "Get Started", url: "/get-started/" },
         { title: "Core Concepts", url: "/concepts/1_the_basics/" },
-        { title: "References", url: "/references/" },
+        { title: "Resources", url: "/references/" },
       ]
     },
 
     {
-      title: "References",
+      title: "Resources",
       links: [
         { title: "HDK (Rust)", url: "https://docs.rs/hdk", external: true },
         { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
