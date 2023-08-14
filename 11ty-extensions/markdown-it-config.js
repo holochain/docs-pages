@@ -36,16 +36,26 @@ function composeGenericAdmonitionRenderFunc(admonitionName) {
 
 /* Start Details Block code */
 
-const renderDetailsBlock = (tokens, idx) => {
-  const summary = tokens[idx].info.trim().match(/^details\s+(.*)$/);
+function composeAttributeString(token) {
+  return token.attrs ? token.attrs.reduce((acc, attr) => acc + ` ${attr[0]}="${attr[1]}"`, "") : "";
+}
 
+const renderDetailsBlock = (tokens, idx) => {
   if(tokens[idx].nesting === 1) {
+    const summary = tokens[idx].info.trim().match(/^details\s+(.*)$/);
+    const attrString = composeAttributeString(tokens[idx]);
+
     const summaryTag = summary ? `<summary>${ summary[1] }</summary>` : '';
-    return `<details class="details">${summaryTag}` + '\n\n<div class="details-content">';
+    return `<details ${attrString}>${summaryTag}` + '\n\n<div class="details-content">';
   } else {
     return '\n</div></details>\n';
   }
 };
+
+const validateDetailsBlock = (params) => {
+  const validationResults = params.trim().match(/^details\s+(.*)$/);
+  return validationResults;
+}
 
 /* End Details Block code */
 
@@ -73,7 +83,7 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
 
     // Details block
-    mdLib.use(markdownItContainer, "details", { marker: "!", render: renderDetailsBlock });
+    mdLib.use(markdownItContainer, "details", { marker: "!", render: renderDetailsBlock, validate: validateDetailsBlock });
   });
  
 }
