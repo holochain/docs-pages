@@ -6,40 +6,6 @@ title: Get Started
 
 Welcome to the Getting Started with Holochain guide! This guide will walk you through the process of installing the Holochain development tools and creating a simple forum application. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
 
-### Table of contents
-
-1. [Introduction to Holochain](#1-introduction-to-holochain)
-2. [Installing Holochain development environment](#2-installing-holochain-development-environment)
-    1. [Hardware requirements](#2-1-hardware-requirements)
-    2. [Windows prerequisite: WSL2](#2-2-windows-prerequisite-wsl2)
-    3. [Set up development environment](#2-3-set-up-development-environment)
-    4. [Verify installation](#2-4-verify-installation)
-3. [Scaffold a Hello World Holochain application](#3-scaffold-a-simple-hello-world-holochain-application)
-4. [Understanding the layout of a Holochain application](#4-understanding-the-layout-of-a-holochain-application)
-5. [Zero to built: creating a forum app](#5-zero-to-built-creating-a-forum-app)
-    1. [Scaffold a custom Holochain application](#5-1-scaffolding-a-happ)
-    2. [Select user interface framework](#5-2-select-user-interface-framework)
-    3. [Set up Holonix development environment](#5-3-set-up-holonix-development-environment)
-    4. [Scaffold a DNA](#5-4-scaffold-a-dna)
-        * [About DNAs](#about-dnas)
-    5. [Scaffold a zome](#5-5-scaffold-a-zome)
-        * [Integrity zomes and coordinator zomes](#integrity-zomes)
-        * [Source chains, actions, and entries](#source-chain)
-    6. [Scaffold entry types](#5-6-scaffold-entry-types)
-        * [Entry types and validation](#entry-types-and-validation)
-        * [CRUD (create, read, update, delete)](#crud-create-read-update-delete)
-        * [Hashes and other identifiers](#hashes-and-other-identifiers)
-        * [Creating a link when updating an entry](#creating-a-link-when-updating-an-entry)
-    7. [Scaffold link types](#5-7-scaffold-link-types)
-        * [Bidrectional = make two links](#bidirectional--make-two-links)
-        * [How links are stored and retrieved in a Holochain app](#how-links-are-stored-and-retrieved-in-a-holochain-app)
-    8. [Scaffold a collection](#5-8-scaffold-a-collection)
-        * [How a collection is created](#how-a-collection-is-created)
-    9. [Integrate the generated UI elements](#5-9-integrate-the-generated-ui-elements)
-        * [Detailed breakdown of `App.svelte`](#detailed-breakdown-of-appsvelte)
-        * [Relationships in a source chain versus relationships in the DHT](#relationships-in-a-source-chain-versus-relationships-in-the-dht)
-{.outline-list}
-
 #### How to use this guide
 
 Follow this guide step by step. All steps are essential to create the example applications. No additional code or steps are needed.
