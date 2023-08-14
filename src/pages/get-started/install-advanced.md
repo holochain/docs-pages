@@ -5,7 +5,7 @@ hide:
 ---
 
 ::: coreconcepts-intro
-This guide assumes that you've already followed the [quick installation guide](/quick-start/) and want to learn more about the set up. It describes how to manually recreate and maintain the development environment, use your default shell and preferred code editor with Nix, explains how to install specific versions of Holochain, and discusses why we use `nix develop` in the first place.
+This guide assumes that you've already followed the [quick installation guide](/get-started/) and want to learn more about the set up. It describes how to manually recreate and maintain the development environment, use your default shell and preferred code editor with Nix, explains how to install specific versions of Holochain, and discusses why we use `nix develop` in the first place.
 :::
 
 ## Holonix - the Holochain app development environment
@@ -29,7 +29,7 @@ nix develop github:holochain/holochain#holonix
 
 At the time of writing, flakes are still considered an experimental in the nix world and thus require being enabled. This happens either ad-hoc on the command itself or permanently via Nix's configuration.
 
-If you've completed the [quick installation guide](/quick-start/), including the scaffolding example, then you'll likely already had the scaffolding configure it for you via the file at _~/.config/nix/nix.conf_.
+If you've completed the [quick installation guide](/get-started/), including the scaffolding example, then you'll likely already had the scaffolding configure it for you via the file at _~/.config/nix/nix.conf_.
 
 To manually configure it via this file you can run the following commands:
 
@@ -223,7 +223,7 @@ The full suite of Nix tooling is broad and deep. There's even a dedicated progra
 
 While working on Holochain, you will usually have an active `nix develop` to run commands. This shell overlays Holochain-specific configuration on top of your existing shell - environment variables, Rust toolchains, binaries, libraries, and development tools - giving you a consistent development environment to build Holochain apps. The shell environment is only set up in the current shell session, and will be reset automatically when you `exit` the shell.
 
-If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix develop` in each new instance. The packages are cached locally on your machine, so they will be ready the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use the Holochain repo cloning method, they're cached on your machine too, but the ['quick install'](/quick-start/) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
+If you want to re-enter the shell to do more work, or create multiple terminals to work in, you'll need to re-enter the `nix develop` in each new instance. The packages are cached locally on your machine, so they will be ready the next time you enter the shell. You do need to get the package configuration files from somewhere, though. If you use the Holochain repo cloning method, they're cached on your machine too, but the ['quick install'](/get-started/) and ['using a specific version'](#using-a-specific-version-of-the-development-tools) methods require an internet connection every time you want to enter the shell.
 
 ## Uninstalling Nix
 
