@@ -1,14 +1,15 @@
 # Enable broken link checking in Netlify CI
-[[plugins]]
-package = "netlify-plugin-checklinks"
-    [plugins.inputs]
-    entryPoints = [
-        "*.html",
-    ]
+# Disabling for now so I can configure per environment.
+# [[plugins]]
+# package = "netlify-plugin-checklinks"
+#     [plugins.inputs]
+#     entryPoints = [
+#         "*.html",
+#     ]
 
-    recursive = true
-    pretty = true
-    checkExternal = false
+#     recursive = true
+#     pretty = true
+#     checkExternal = false
 
 [[headers]]
   for = "/*"
