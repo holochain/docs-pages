@@ -26,7 +26,6 @@ The contents of the details tag after the summary tag is wrapped in a div with a
 Can wrap around code fences to prevent Copy buttons form being added to the code block. See [Code Fences](../code-fences/) for details.
 
 ## Admonitions
-Note: these don't support attribute blocks yet.
 
 - ### Tip
   #### No Title

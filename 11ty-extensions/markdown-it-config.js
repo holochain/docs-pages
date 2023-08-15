@@ -3,6 +3,20 @@ const markdownItContainer = require("markdown-it-container");
 const markdownItAnchor = require("markdown-it-anchor");
 const slugify = require('@sindresorhus/slugify');
 
+/**
+ * Composes the attributes string for an html tag from the markdown-it-container token and default attributes
+ * @param {*} token token from markdown-it-container
+ * @param {*} defaultAttrs attributes to be merged in with token.attrs
+ * @returns attributes string for the html tag
+ */
+function composeAttributeString(token, defaultAttrs ={}) {
+  //convert token.attrs to an object and merge with defaultAttrs
+  const attrs = token.attrs ? token.attrs.reduce((acc, attr) => { acc[attr[0]] = attr[1]; return acc; }, {}) : {};
+  const mergedAttrs = Object.assign({}, defaultAttrs, attrs);
+  
+  return Object.keys(mergedAttrs).reduce((acc, key) => acc + ` ${key}="${mergedAttrs[key]}"`, "");
+}
+
 /* Start Admonition code */
 
 function generateAdmonitionTitleRegex(admonitionName) {
@@ -17,7 +31,9 @@ const renderAdmonition = (name, tokens, idx) => {
   //If the opening tag
   if(tokens[idx].nesting === 1) {
     const titleTag = title ? `<p class='admonition-title'>${ title }</p>` : '';
-    return `<div class="admonition ${name}">${titleTag}` + '\n\n<div class="admonition-content">';
+    const attrString = composeAttributeString(tokens[idx], { class: `admonition ${name}` });
+
+    return `<div ${attrString}>${titleTag}` + '\n\n<div class="admonition-content">';
   } else {
     return '\n</div></div>\n';
   }
@@ -36,9 +52,6 @@ function composeGenericAdmonitionRenderFunc(admonitionName) {
 
 /* Start Details Block code */
 
-function composeAttributeString(token) {
-  return token.attrs ? token.attrs.reduce((acc, attr) => acc + ` ${attr[0]}="${attr[1]}"`, "") : "";
-}
 
 const renderDetailsBlock = (tokens, idx) => {
   if(tokens[idx].nesting === 1) {
