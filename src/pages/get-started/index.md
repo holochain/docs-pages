@@ -60,17 +60,21 @@ $ nix run --refresh -j0 -v github:holochain/holochain#hc-scaffold -- --version
 
 Look out for binaries being copied from `holochain-ci.cachix.org`:
 
+::: output-block
 ```text
 downloading 'https://holochain-ci.cachix.org/nar/<some-hash>.nar.zst'...
 ```
+:::
 
 It proves that the binary cache is configured correctly.
 
 At the end of the output, Holochain's scaffolding tool should print its version string:
 
+::: output-block
 ```text
 holochain_scaffolding_cli x.y.z
 ```
+:::
 
 Congratulations! The Holochain development environment is now set up successfully on your system.
 
@@ -191,9 +195,11 @@ $ nix run github:/holochain/holochain#hc-scaffold -- web-app
 
 You should then see:
 
+::: output-block
 ```text
 ? App name (no whitespaces):
 ```
+:::
 
 Enter the name of your forum application using snake_case. Let's enter:
 
@@ -215,9 +221,11 @@ Choose **Yes (recommended)** and press <kbd>Enter</kbd>.
 
 You should see:
 
+::: output-block
 ```text
 Setting up nix development environment...
 ```
+:::
 
 along with some details of what is being added. Follow the instructions to set up the development environment for your hApp and continue to scaffold more of its elements.
 
@@ -243,9 +251,11 @@ $ nix develop
 
 You should see:
 
+::: output-block
 ```text
 Holochain development shell spawned. Type exit to leave.
 ```
+:::
 
 As it says, if at any time, you want to leave the nix development shell, you can type `exit`. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again. But for now, let's install the Node Package Manager (npm) dependencies with:
 
@@ -257,6 +267,7 @@ These dependencies are used by various tools and assets --- the scaffolded tests
 
 When that finishes, we should see some text that ends with something like:
 
+::: output-block
 ```text
 added 371 packages, and audited 374 packages in 1m
 
@@ -264,6 +275,7 @@ added 371 packages, and audited 374 packages in 1m
     run 'npm fund' for details
 found 0 vulnerabilities
 ```
+:::
 
 If you see something like that, you've successfully downloaded all the dependencies.
 
@@ -289,6 +301,7 @@ $ hc scaffold --help
 
 We should see something like:
 
+::: output-block
 ```text
 holochain_scaffolding_cli 0.1.8
 The list of subcommands for `hc scaffold`
@@ -311,6 +324,7 @@ SUBCOMMANDS:
     web-app       Scaffold a new, empty web app
     zome          Scaffold one or multiple zomes into an existing DNA
 ```
+:::
 !!!
 
 !!! info Backing out of a mistake
@@ -365,9 +379,11 @@ $ hc scaffold dna
 
 You should then see:
 
+::: output-block
 ```text
 ? DNA name (snake_case):
 ```
+:::
 
 We need to enter a name for the DNA. Let's use:
 
@@ -377,11 +393,13 @@ forum
 
 You should then see:
 
+::: output-block
 ```text
 DNA "forum" scaffolded!
 Add new zomes to your DNA with:
     hc scaffold zome
 ```
+:::
 
 Success! Inside of our `dnas/` folder, the scaffolding tool generated a `forum/` folder and, inside of that, the folders and files that any DNA needs. At this point we have a skeleton structure for our `forum` DNA. As we take the next steps, the scaffolding tool will make additions and edits to some of those folders and files based on our instructions.
 
@@ -399,12 +417,14 @@ $ hc scaffold zome
 
 You should then see:
 
+::: output-block
 ```text
 ? What do you want to scaffold? ›
 ❯ Integrity/coordinator zome-pair (recommended)
   Only an integrity zome
   Only a coordinator zome
 ```
+:::
 
 !!! details Integrity zomes and coordinator zomes
 
@@ -429,18 +449,22 @@ At the same time, a community will want to be able to improve the ways in which 
 
 For this app, we are going to want both an integrity zome and a coordinator zome, so use the arrow keys to select:
 
+::: output-block
 ```text
 Integrity/coordinator zome-pair
 ```
+:::
 
 and press <kbd>Enter</kbd>.
 
 You should then see:
 
+::: output-block
 ```text
 ? Enter coordinator zome name (snake_case):
  (The integrity zome will automatically be named '{name of coordinator zome}_integrity')
 ```
+:::
 
 Enter the name:
 
@@ -456,6 +480,7 @@ Press <kbd>Y</kbd> for both prompts.
 
 As that runs (which will take a moment as the scaffold makes changes to various files) you should then see:
 
+::: output-block
 ```text
 Coordinator zome "posts" scaffolded!
 Updating crates.io index
@@ -465,6 +490,7 @@ Downloaded (a bunch of downloaded files ... then)
 Add new entry definitions to your zome with:
     hc scaffold entry-type
 ```
+:::
 
 Once that is all done, our hApp skeleton will have filled out a bit. Before we scaffold the next piece, let's give a little context for how content is "spoken into being" when a participant publishes a post in a forum hApp.
 
@@ -534,9 +560,11 @@ $ hc scaffold entry-type
 
 You should then see:
 
+::: output-block
 ```text
 ✔ Entry type name (snake_case):
 ```
+:::
 
 Enter the name:
 
@@ -546,6 +574,7 @@ post
 
 You should then see:
 
+::: output-block
 ```text
 Which fields should the entry contain?
 
@@ -564,6 +593,7 @@ Which fields should the entry contain?
   Option of...
   Vector of...
 ```
+:::
 
 The scaffold tool is prompting us to add fields to the `post` entry type.
 
@@ -587,9 +617,11 @@ A `TextField` is a single-line input field designed for capturing shorter pieces
 
 When you see:
 
+::: output-block
 ```text
 ?Add another field to the entry?(y/n)
 ```
+:::
 
 press <kbd>Y</kbd>.
 
@@ -601,29 +633,35 @@ A `TextArea` is a multi-line input field that allows users to enter larger block
 
 After adding the title and description fields, press <kbd>N</kbd> when asked if you want to add another field. Next, you should see:
 
+::: output-block
 ```text
 Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
 ✔ Update
 ✔ Delete
 ```
+:::
 
 The scaffolding tool can add zome and UI functions for updating and deleting entries. In this case, we want authors to be able to update posts, but not delete them, so let's use the arrow keys and the spacebar to ensure that Update has a check and that Delete does not. It should look like this:
 
+::: output-block
 ```text
 Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
 ✔ Update
   Delete
 ```
+:::
 
 Then press <kbd>Enter</kbd>.
 
 At this point you should see:
 
+::: output-block
 ```text
 ? Should a link from the original entry be created when this entry is updated? ›
 ❯ Yes (more storage cost but better read performance, recommended)
   No (less storage cost but worse read performance)
 ```
+:::
 
 Go ahead and select `Yes` by pressing <kbd>Enter</kbd>.
 
@@ -653,6 +691,7 @@ Similarly, when a public entry is published, it becomes accessible to other agen
 
 Next, you should see:
 
+::: output-block
 ```text
 Entry type "post" scaffolded!
 
@@ -660,6 +699,7 @@ Add new collections for that entry type with:
 
     hc scaffold collection
 ```
+:::
 
 We'll dive into links in a moment, but first let's create the **`comment`** entry type.
 
@@ -692,17 +732,21 @@ For this next field we want to create a field that will help us associate each p
 
 We are going to use the arrow keys to select `ActionHash` as the field type. After hitting <kbd>Enter</kbd>, we should see:
 
+::: output-block
 ```text
 ? Should a link from this field be created when this entry is created? (y/n) ›
 ```
+:::
 
 Go ahead and press <kbd>Y</kbd> to accept creating a link. This creates a pointer from the original post that comment is replying to.
 
 Next you will see:
 
+::: output-block
 ```text
 ✔ Which entry type is this field referring to?
 ```
+:::
 
 Press <kbd>Enter</kbd> to accept the suggested entry type `Post`.
 
@@ -716,16 +760,19 @@ Press <kbd>N</kbd> to decline adding another field to the entry.
 
 Then use the arrow keys to deselect Update, but leave Delete selected. It should look as follows:
 
+::: output-block
 ```text
 Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
   Update
 ✔ Delete
 ```
+:::
 
 Once that is done, press <kbd>Enter</kbd> to generate a delete function for the **`comment`** entry type.
 
 You should then see:
 
+::: output-block
 ```text
 Entry type "comment" scaffolded!
 
@@ -733,6 +780,7 @@ Add new collections for that entry type with:
 
     hc scaffold collection
 ```
+:::
 
 !!! details Hashes and other identifiers
 
@@ -805,25 +853,30 @@ $ hc scaffold link-type
 
 You should see:
 
+::: output-block
 ```text
 ? Link from which entry type? ›
 ❯ Post
   Comment
   Agent
 ```
+:::
 
 Select `Post`, then you should see:
 
+::: output-block
 ```text
 ? Reference this entry type with its entry hash or its action hash?
 ❯ ActionHash (recommended)
   EntryHash
 ```
+:::
 
 Select `ActionHash` and press <kbd>Enter</kbd>.
 
 Then you should see:
 
+::: output-block
 ```text
 ? Link to which entry type? ›
 ❯ Post
@@ -831,24 +884,29 @@ Then you should see:
   Agent
   [None]
 ```
+:::
 
 Use the arrow keys to select `Comment` and press <kbd>Enter</kbd>.
 
 Again, you will see:
 
+::: output-block
 ```text
 ? Reference this entry type with its entry hash or its action hash? ›
 ❯ ActionHash (recommended)
   EntryHash
 ```
+:::
 
 Press <kbd>Enter</kbd> to select `ActionHash (recommended)`
 
 You should then see:
 
+::: output-block
 ```text
 ? Should the link be bidirectional? (y/n) ›
 ```
+:::
 
 Press <kbd>Y</kbd> to make the link bidirectional.
 
@@ -864,17 +922,21 @@ We can think of this as a comment-to-post link type.
 
 Next you should see:
 
+::: output-block
 ```text
 ? Can the link be deleted? (y/n) ›
 ```
+:::
 
 Hit `y` to allow the link to be deleted.
 
 You should then see:
 
+::: output-block
 ```text
 Link type scaffolded!
 ```
+:::
 
 Links allow us to create paths that agents can follow to find associated content. We've created two separate link types --- one pointing from a post to a comment (`PostToComments`) and another pointing from a comment to a post (`CommentToPosts`). If we want to see some of that code, we can take a look at the `lib.rs` file in that zome by entering:
 
@@ -934,9 +996,11 @@ $ hc scaffold collection
 
 You should then see:
 
+::: output-block
 ```text
 Collection name (snake_case, eg. "all_posts"): ›
 ```
+:::
 
 Enter:
 
@@ -946,24 +1010,31 @@ all_posts
 
 and press <kbd>Enter</kbd>. You should then see:
 
+::: output-block
 ```text
 ? Which type of collection should be scaffolded? ›
 ❯ Global (get all entries of the selected entry types)
   By author (get entries of the selected entry types that a given author has created)
 ```
+:::
 
 Select **`Global`** and press <kbd>Enter</kbd>. You should then see:
 
+::: output-block
 ```text
 ? Which entry type should be collected? ›
 ❯ Post
   Comment
 ```
+:::
 
 Select **`Post`** and press <kbd>Enter</kbd>. You should then see:
 
+::: output-block
 ```text
 Collection "all_posts" scaffolded!
+```
+:::
 
 At first, the UI for this application is empty. If you want the newly scaffolded collection to be the entry point for its UI, import the element in `ui/src/App.svelte`:
 
@@ -1048,12 +1119,14 @@ $ ls ui/src/forum/posts/
 
 We should see nine different `.svelte` files, plus a `types.ts` file:
 
+::: output-block
 ```text
 AllPosts.svelte         CreatePost.svelte   PostsForComment.svelte
 CommentDetail.svelte    EditComment.svelte  types.ts
 CommentsForPost.svelte  EditPost.svelte
 CreateComment.svelte    PostDetail.svelte
 ```
+:::
 
 We will want to open files in the text editor or integrated development environment of our choice. If you don't yet have path commands for opening files in your prefered IDE, [this tutorial can help guide you through setting up path commands](https://hackmd.io/@oitz5O-qR2qrfRre3Kbv-Q/r1Z_Z6Qgrn).
 
