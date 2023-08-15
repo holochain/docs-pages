@@ -143,17 +143,6 @@ article img { display: table; margin-left: auto; margin-right: auto; }
 
 .md-typeset .admonition, .md-typeset details { border: 1px solid #E7E7E7 !important; border-top: none !important; border-top: none !important; box-shadow: 1px 2px 5px 0 rgba(0,0,0,.05); }
 
-/* An outline-style numbered list, like so:
-1. Blah
-    1.1. Blah
-    1.2. Blah
-2. Blah
-    2.1. Blah
-        * unordered list items don't get the treatment
-        * only ordered list items do
-... etc */
-.outline-list ol > li::marker { content: counters(list-item, '.') '. '; }
-
 @media (min-width: 76.25em) {
 	.md-content { margin-left: 13.8rem; }
 }

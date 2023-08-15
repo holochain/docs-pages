@@ -6,40 +6,6 @@ title: Get Started
 
 Welcome to the Getting Started with Holochain guide! This guide will walk you through the process of installing the Holochain development tools and creating a simple forum application. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
 
-### Table of contents
-
-1. [Introduction to Holochain](#1-introduction-to-holochain)
-2. [Installing Holochain development environment](#2-installing-holochain-development-environment)
-    1. [Hardware requirements](#2-1-hardware-requirements)
-    2. [Windows prerequisite: WSL2](#2-2-windows-prerequisite-wsl2)
-    3. [Set up development environment](#2-3-set-up-development-environment)
-    4. [Verify installation](#2-4-verify-installation)
-3. [Scaffold a Hello World Holochain application](#3-scaffold-a-simple-hello-world-holochain-application)
-4. [Understanding the layout of a Holochain application](#4-understanding-the-layout-of-a-holochain-application)
-5. [Zero to built: creating a forum app](#5-zero-to-built-creating-a-forum-app)
-    1. [Scaffold a custom Holochain application](#5-1-scaffolding-a-happ)
-    2. [Select user interface framework](#5-2-select-user-interface-framework)
-    3. [Set up Holonix development environment](#5-3-set-up-holonix-development-environment)
-    4. [Scaffold a DNA](#5-4-scaffold-a-dna)
-        * [About DNAs](#about-dnas)
-    5. [Scaffold a zome](#5-5-scaffold-a-zome)
-        * [Integrity zomes and coordinator zomes](#integrity-zomes)
-        * [Source chains, actions, and entries](#source-chain)
-    6. [Scaffold entry types](#5-6-scaffold-entry-types)
-        * [Entry types and validation](#entry-types-and-validation)
-        * [CRUD (create, read, update, delete)](#crud-create-read-update-delete)
-        * [Hashes and other identifiers](#hashes-and-other-identifiers)
-        * [Creating a link when updating an entry](#creating-a-link-when-updating-an-entry)
-    7. [Scaffold link types](#5-7-scaffold-link-types)
-        * [Bidrectional = make two links](#bidirectional--make-two-links)
-        * [How links are stored and retrieved in a Holochain app](#how-links-are-stored-and-retrieved-in-a-holochain-app)
-    8. [Scaffold a collection](#5-8-scaffold-a-collection)
-        * [How a collection is created](#how-a-collection-is-created)
-    9. [Integrate the generated UI elements](#5-9-integrate-the-generated-ui-elements)
-        * [Detailed breakdown of `App.svelte`](#detailed-breakdown-of-appsvelte)
-        * [Relationships in a source chain versus relationships in the DHT](#relationships-in-a-source-chain-versus-relationships-in-the-dht)
-{.outline-list}
-
 #### How to use this guide
 
 Follow this guide step by step. All steps are essential to create the example applications. No additional code or steps are needed.
@@ -72,13 +38,13 @@ Before you install the Holochain development environtment, make sure your system
 
 For Windows users, please note that the Nix package manager, which is used to install and manage Holochain development environment, only supports macOS and Linux. You will need to [install Linux under Windows with WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) (recommended) or dual boot a Linux Operating System, alongside your [Windows 10](https://www.freecodecamp.org/news/how-to-dual-boot-windows-10-and-ubuntu-linux-dual-booting-tutorial/) or [Windows 11](https://www.xda-developers.com/dual-boot-windows-11-linux/) OS to proceed.
 
-Holochain is supported for the Ubuntu distribution under WSL2.
+Holochain is supported under WSL2 via the Ubuntu distribution.
 
 #### 2.3. Set up development environment
 
 Once you've ensured that your system meets the hardware requirements and set up WSL2 on Windows or a dual boot Linux OS (if applicable), you can proceed with the installation of the Nix package manager and the binary package cache for Holochain.
 
-Open a [command line terminal](https://hackmd.io/c15fobj9QtmOuEuiNAkaQA) and run the following command by pasting or typing the following text in and hitting **\<enter\>**:
+Open a [command line terminal](https://hackmd.io/c15fobj9QtmOuEuiNAkaQA) and run the following command by pasting or typing the following text in and pressting <kbd>Enter</kbd>:
 
 ```bash
 $ bash <(curl https://holochain.github.io/holochain/setup.sh)
@@ -133,7 +99,7 @@ When you follow them, you should see two windows pop up representing two agents,
 
 [image of hellos?]
 
-When you are done checking out this app, you can go back to the terminal and stop both agents by pressing **\<ctrl-c\>** (Linux) or **\<cmd-c\>** (macOS).
+When you are done checking out this app, you can go back to the terminal and stop both agents by pressing <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> (Linux) or <kbd><kbd>Cmd</kbd>+<kbd>C</kbd></kbd> (macOS).
 
 ### 4. Understanding the layout of a Holochain application
 
@@ -159,39 +125,39 @@ This table includes everything in the `hello-world/` folder as well as details o
 
 | File/folder                | Purpose                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ├── `hello-world/`         | Root folder of the "Hello, World!" application. All other files and folders will reside here.                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ├┬─ `dnas/`                | This folder contains the DNA configuration and source code for the application. DNAs are one of the most important building blocks in Holochain. Simply put, **a DNA is the source-code for the game you are playing with your peers in Holochain.** And here is the twist: in Holochain, **every DNA creates its own peer-to-peer network** (for the validation, storage, and serving of content).  Every Holochain application contains at least one DNA. In this example hApp, we have just one: `hello_world`. |
-| │└┬─ `hello_world/`        | Folder for the "Hello, World!" DNA. It contains modules (zomes) that define the rules of this application.                                                                                                                                                                                                                                                                                                                                                                                                         |
-| │ ├┬─ `workdir/`           | A working folder containing configuration files and compiled artifacts related to the DNA.                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| │ │├── `dna.yaml`          | DNA manifest file. A YAML file that defines the properties and zomes of the DNA. YAML is a human-readable data serialization language.                                                                                                                                                                                                                                                                                                                                                                             |
-| │ │└── `hello_world.dna`   | The compiled DNA file, which includes both the integrity and coordinator zomes. This file is used by Holochain to run the hApp.                                                                                                                                                                                                                                                                                                                                                                                    |
-| │ └┬─ `zomes/`             | The executable code modules in a DNA are called zomes (short for chromosomes), each with its own name like `profile` or `chat` or in our case `hello` (below). Zomes define the core logic in a DNA. This folder contains zomes for the `hello_world` DNA. Zome modules can be composed together to create more powerful functionality. DNAs in Holochain are always composed out of one or more zomes.                                                                                                            |
-| │  ├┬─ `coordinator/`      | This folder contains the coordinator zomes, which are responsible for this DNA's controller layer, such as reading/writing data and handling communication between peers.                                                                                                                                                                                                                                                                                                                                          |
-| │  │└┬─ `hello_world/`     | Folder containing the `hello_world` coordinator zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| │  │ ├┬─ `src/`            | Source code folder for the `hello_world` coordinator zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| │  │ │└── `lib.rs`         | The main source code file for the `hello_world` coordinator zome. In Rust, `lib.rs` is the entry point for a 'crate' (Rust module). If you have nothing else in there, you should have a `lib.rs` file.                                                                                                                                                                                                                                                                                                            |
-| │  │ └── `Cargo.toml`      | The manifest file for the `hello_world` coordinator zome, containing metadata, dependencies, and build options.                                                                                                                                                                                                                                                                                                                                                                                                    |
-| │  └┬─ `integrity/`        | This folder contains the integrity zomes, which are responsible for the application's model layer, such as defining data structures and validation rules.                                                                                                                                                                                                                                                                                                                                                          |
-| │   └┬─ `hello_world/`     | Folder containing the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| │    ├┬─ `src/`            | Source code folder for the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| │    │└── `lib.rs`         | The main source code file for the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| │    └── `Cargo.toml`      | The configuration file for Rust, containing dependencies and build options for the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ├── `node_modules/`        | A folder containing JavaScript packages and dependencies for the user interface and tests.                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| ├── `target/`              | A folder containing the compiled output from the Rust build process.                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| ├── `tests/`               | A folder containing JavaScript-base test code for the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| ├── `ui/`                  | A folder containing the source code and assets for the user interface of the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ├┬─ `workdir/`             | A working folder containing configuration files and compliled artifacts related to the building of the whole hApp.                                                                                                                                                                                                                                                                                                                                                                                                 |
-| │├── `happ.yaml`           | The manifest file for the hApp. It references the DNA files to be included, along with the roles they play in the application.                                                                                                                                                                                                                                                                                                                                                                                     |
-| │├── `hello_world.happ`    | The compiled hApp bundle, which includes all the DNAs (in case just the one).                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| │├── `hello_world.webhapp` | The compiled web hApp bundle, which includes the hApp bundle plus the zipped UI.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| │└── `web-happ.yaml`       | The manifest file for the hApp plus the UI. It references the compiled hApp bundle and zipped UI folder to be included.                                                                                                                                                                                                                                                                                                                                                                                            |
-| ├──`Cargo.lock`            | A file generated by Cargo, Rust's package manager, that lists the exact versions of dependencies used in the project.                                                                                                                                                                                                                                                                                                                                                                                              |
-| ├──`Cargo.toml`            | The main configuration file for the Rust project, containing dependencies, build options, and other metadata for the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                                                  |
-| ├──`flake.lock`            | A file generated by Nix, a package manager, that lists the exact versions of dependencies used in the project.                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ├──`flake.nix`             | A Nix expression that defines the project's build environment, dependencies, and how the project should be built.                                                                                                                                                                                                                                                                                                                                                                                                  |
-| ├──`package.json`          | The main configuration file for the JavaScript/Node.js project, containing dependencies, scripts, and other metadata for the user interface of the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                    |
-| ├──`package-lock.json`     | A file generated by npm, Node.js package manager, that lists the exact versions of dependencies used in the user interface project.                                                                                                                                                                                                                                                                                                                                                                                |
-| └──`README.md`             | A markdown file containing the documentation and instructions for the "Hello, World!" application, including how to build, run, and test the project.                                                                                                                                                                                                                                                                                                                                                              |
+|<pre> ├── hello-world/         </pre>| Root folder of the "Hello, World!" application. All other files and folders will reside here.                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|<pre> ├┬─ dnas/                </pre>| This folder contains the DNA configuration and source code for the application. DNAs are one of the most important building blocks in Holochain. Simply put, **a DNA is the source-code for the game you are playing with your peers in Holochain.** And here is the twist: in Holochain, **every DNA creates its own peer-to-peer network** (for the validation, storage, and serving of content).  Every Holochain application contains at least one DNA. In this example hApp, we have just one: `hello_world`. |
+|<pre> │└┬─ hello_world/        </pre>| Folder for the "Hello, World!" DNA. It contains modules (zomes) that define the rules of this application.                                                                                                                                                                                                                                                                                                                                                                                                         |
+|<pre> │ ├┬─ workdir/           </pre>| A working folder containing configuration files and compiled artifacts related to the DNA.                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|<pre> │ │├── dna.yaml          </pre>| DNA manifest file. A YAML file that defines the properties and zomes of the DNA. YAML is a human-readable data serialization language.                                                                                                                                                                                                                                                                                                                                                                             |
+|<pre> │ │└── hello_world.dna   </pre>| The compiled DNA file, which includes both the integrity and coordinator zomes. This file is used by Holochain to run the hApp.                                                                                                                                                                                                                                                                                                                                                                                    |
+|<pre> │ └┬─ zomes/             </pre>| The executable code modules in a DNA are called zomes (short for chromosomes), each with its own name like `profile` or `chat` or in our case `hello` (below). Zomes define the core logic in a DNA. This folder contains zomes for the `hello_world` DNA. Zome modules can be composed together to create more powerful functionality. DNAs in Holochain are always composed out of one or more zomes.                                                                                                            |
+|<pre> │  ├┬─ coordinator/      </pre>| This folder contains the coordinator zomes, which are responsible for this DNA's controller layer, such as reading/writing data and handling communication between peers.                                                                                                                                                                                                                                                                                                                                          |
+|<pre> │  │└┬─ hello_world/     </pre>| Folder containing the `hello_world` coordinator zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|<pre> │  │ ├┬─ src/            </pre>| Source code folder for the `hello_world` coordinator zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|<pre> │  │ │└── lib.rs         </pre>| The main source code file for the `hello_world` coordinator zome. In Rust, `lib.rs` is the entry point for a 'crate' (Rust module). If you have nothing else in there, you should have a `lib.rs` file.                                                                                                                                                                                                                                                                                                            |
+|<pre> │  │ └── Cargo.toml      </pre>| The manifest file for the `hello_world` coordinator zome, containing metadata, dependencies, and build options.                                                                                                                                                                                                                                                                                                                                                                                                    |
+|<pre> │  └┬─ integrity/        </pre>| This folder contains the integrity zomes, which are responsible for the application's model layer, such as defining data structures and validation rules.                                                                                                                                                                                                                                                                                                                                                          |
+|<pre> │   └┬─ hello_world/     </pre>| Folder containing the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+|<pre> │    ├┬─ src/            </pre>| Source code folder for the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|<pre> │    │└── lib.rs         </pre>| The main source code file for the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|<pre> │    └── Cargo.toml      </pre>| The configuration file for Rust, containing dependencies and build options for the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                   |
+|<pre> ├── node_modules/        </pre>| A folder containing JavaScript packages and dependencies for the user interface and tests.                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|<pre> ├── target/              </pre>| A folder containing the compiled output from the Rust build process.                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|<pre> ├── tests/               </pre>| A folder containing JavaScript-base test code for the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|<pre> ├── ui/                  </pre>| A folder containing the source code and assets for the user interface of the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                                                                                          |
+|<pre> ├┬─ workdir/             </pre>| A working folder containing configuration files and compliled artifacts related to the building of the whole hApp.                                                                                                                                                                                                                                                                                                                                                                                                 |
+|<pre> │├── happ.yaml           </pre>| The manifest file for the hApp. It references the DNA files to be included, along with the roles they play in the application.                                                                                                                                                                                                                                                                                                                                                                                     |
+|<pre> │├── hello_world.happ    </pre>| The compiled hApp bundle, which includes all the DNAs (in case just the one).                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|<pre> │├── hello_world.webhapp </pre>| The compiled web hApp bundle, which includes the hApp bundle plus the zipped UI.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|<pre> │└── web-happ.yaml       </pre>| The manifest file for the hApp plus the UI. It references the compiled hApp bundle and zipped UI folder to be included.                                                                                                                                                                                                                                                                                                                                                                                            |
+|<pre> ├── Cargo.lock           </pre>| A file generated by Cargo, Rust's package manager, that lists the exact versions of dependencies used in the project.                                                                                                                                                                                                                                                                                                                                                                                              |
+|<pre> ├── Cargo.toml           </pre>| The main configuration file for the Rust project, containing dependencies, build options, and other metadata for the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                                                  |
+|<pre> ├── flake.lock           </pre>| A file generated by Nix, a package manager, that lists the exact versions of dependencies used in the project.                                                                                                                                                                                                                                                                                                                                                                                                     |
+|<pre> ├── flake.nix            </pre>| A Nix expression that defines the project's build environment, dependencies, and how the project should be built.                                                                                                                                                                                                                                                                                                                                                                                                  |
+|<pre> ├── package.json         </pre>| The main configuration file for the JavaScript/Node.js project, containing dependencies, scripts, and other metadata for the user interface of the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                    |
+|<pre> ├── package-lock.json    </pre>| A file generated by npm, Node.js package manager, that lists the exact versions of dependencies used in the user interface project.                                                                                                                                                                                                                                                                                                                                                                                |
+|<pre> └── README.md            </pre>| A markdown file containing the documentation and instructions for the "Hello, World!" application, including how to build, run, and test the project.                                                                                                                                                                                                                                                                                                                                                              |
 
 These files and folders make up the structure of a Holochain application, with the main logic defined in the zomes (in the `dnas/<dna>/zomes/` folders) and the user interface defined in the `ui/` folder. The manifest files bring all the Holochain and UI assets together, allowing the `hc` tool to bundle them into a single hApp file ready for distribution.
 
@@ -201,7 +167,7 @@ These files and folders make up the structure of a Holochain application, with t
 
 First, navigate back to the folder where you want to keep your Holochain applications. If this is just your home folder, you can navigate there by typing `cd ~`.
 
-!!! warn "Pre-requisite"
+!!! warning Pre-requisite
 First, ensure you have Holochain installed as per section 2.
 !!!
 
@@ -241,13 +207,13 @@ my_forum_app
 
 You'll then be prompted to choose a user interface (UI) framework for your front end.
 
-For this example, use the arrow keys to choose **Svelte** and press **\<enter\>**.
+For this example, use the arrow keys to choose **Svelte** and press <kbd>Enter</kbd>.
 
 #### 5.3. Set up Holonix development environment
 
 Next, you'll be asked if you want to set up the Holonix development environment for the project. This allows you to enter a shell that has all the right tools and libraries for the version of Holochain that your code was generated for.
 
-Choose **Yes (recommended)** and press **\<enter\>**.
+Choose **Yes (recommended)** and press <kbd>Enter</kbd>.
 
 You should see:
 
@@ -349,8 +315,8 @@ SUBCOMMANDS:
 ```
 !!!
 
-!!! info "Backing out of a mistake"
-A quick note: if while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the scaffold by using \<Ctrl-c\> on Linux or \<Command-c\> on macOS**.
+!!! info Backing out of a mistake
+A quick note: if while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the scaffold by using <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> on Linux or <kbd><kbd>Command</kbd>+<kbd>C</kbd></kbd> on macOS**.
 !!!
 
 #### 5.4. Scaffold a DNA
@@ -469,7 +435,7 @@ For this app, we are going to want both an integrity zome and a coordinator zome
 Integrity/coordinator zome-pair
 ```
 
-and press **\<enter\>**.
+and press <kbd>Enter</kbd>.
 
 You should then see:
 
@@ -484,11 +450,11 @@ Enter the name:
 posts
 ```
 
-and press **\<enter\>**.
+and press <kbd>Enter</kbd>.
 
 You should then see prompts asking if you want to scaffold the integrity and coordinator zomes in their respective default folders.
 
-Press `y` for both prompts.
+Press <kbd>Y</kbd> for both prompts.
 
 As that runs (which will take a moment as the scaffold makes changes to various files) you should then see:
 
@@ -617,7 +583,7 @@ title
 
 as the field name.
 
-Choose `y` for the field to be visible in the UI, and use the arrow keys to select `TextField` as the widget to render this field.
+Press <kbd>Y</kbd> for the field to be visible in the UI, and use the arrow keys to select `TextField` as the widget to render this field.
 
 A `TextField` is a single-line input field designed for capturing shorter pieces of text.
 
@@ -627,15 +593,15 @@ When you see:
 ?Add another field to the entry?(y/n)
 ```
 
-press `y`.
+press <kbd>Y</kbd>.
 
 For the **`content`** field, we are also going to select `String` as the field type. Then enter `content` as the field name.
 
-Choose `y` for the field to be visible in the UI, and select `TextArea` as the widget to render the field.
+Press <kbd>Y</kbd> for the field to be visible in the UI, and select `TextArea` as the widget to render the field.
 
 A `TextArea` is a multi-line input field that allows users to enter larger blocks of text. That works for the longer chunks of text that people may want to add as the content (body) of their posts in our forum app.
 
-After adding the title and description fields, press `n` when asked if you want to add another field. Next, you should see:
+After adding the title and description fields, press <kbd>N</kbd> when asked if you want to add another field. Next, you should see:
 
 ```text
 Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
@@ -651,7 +617,7 @@ Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to co
   Delete
 ```
 
-Then press **\<enter\>**.
+Then press <kbd>Enter</kbd>.
 
 At this point you should see:
 
@@ -661,7 +627,7 @@ At this point you should see:
   No (less storage cost but worse read performance)
 ```
 
-Go ahead and select `Yes` by pressing **\<enter\>**.
+Go ahead and select `Yes` by pressing <kbd>Enter</kbd>.
 
 !!! details CRUD (create, read, update, delete)
 
@@ -718,21 +684,21 @@ We're going to add a **`comment_content`** field, so select the `String` field t
 comment_content
 ```
 
-Then select `TextArea` widget and press **\<enter\>**.
+Then select `TextArea` widget and press <kbd>Enter</kbd>.
 
 Again, a `TextArea` is a multi-line input field that allows users to enter larger blocks of text. Perfect for a comment on a post.
 
-Select `y` to add another field.
+Press <kbd>Y</press> to add another field.
 
 For this next field we want to create a field that will help us associate each particular comment to the post that it is commenting on.
 
-We are going to use the arrow keys to select `ActionHash` as the field type. After hitting **\<enter\>**, we should see:
+We are going to use the arrow keys to select `ActionHash` as the field type. After hitting <kbd>Enter</kbd>, we should see:
 
 ```text
 ? Should a link from this field be created when this entry is created? (y/n) ›
 ```
 
-Go ahead and press `y` to accept creating a link. This creates a pointer from the original post that comment is replying to.
+Go ahead and press <kbd>Y</kbd> to accept creating a link. This creates a pointer from the original post that comment is replying to.
 
 Next you will see:
 
@@ -740,15 +706,15 @@ Next you will see:
 ✔ Which entry type is this field referring to?
 ```
 
-Press **\<enter\>** to accept the suggested entry type `Post`.
+Press <kbd>Enter</kbd> to accept the suggested entry type `Post`.
 
-Next, you will be asked to pick a field name. You can press **\<enter\>** to accept the field name suggestion, which should be:
+Next, you will be asked to pick a field name. You can press <kbd>Enter</kbd> to accept the field name suggestion, which should be:
 
 ```text
 post_hash
 ```
 
-Press `n` to decline adding another field to the entry.
+Press <kbd>N</kbd> to decline adding another field to the entry.
 
 Then use the arrow keys to deselect Update, but leave Delete selected. It should look as follows:
 
@@ -758,7 +724,7 @@ Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to co
 ✔ Delete
 ```
 
-Once that is done, hit **\<enter\>** to generate a delete function for the **`comment`** entry type.
+Once that is done, press <kbd>Enter</kbd> to generate a delete function for the **`comment`** entry type.
 
 You should then see:
 
@@ -856,7 +822,7 @@ Select `Post`, then you should see:
   EntryHash
 ```
 
-Select `ActionHash` and press **\<enter\>**.
+Select `ActionHash` and press <kbd>Enter</kbd>.
 
 Then you should see:
 
@@ -868,7 +834,7 @@ Then you should see:
   [None]
 ```
 
-Use the arrow keys to select `Comment` and hit **\<enter\>**.
+Use the arrow keys to select `Comment` and press <kbd>Enter</kbd>.
 
 Again, you will see:
 
@@ -878,7 +844,7 @@ Again, you will see:
   EntryHash
 ```
 
-Press **\<enter\>** to select `ActionHash (recommended)`
+Press <kbd>Enter</kbd> to select `ActionHash (recommended)`
 
 You should then see:
 
@@ -886,7 +852,7 @@ You should then see:
 ? Should the link be bidirectional? (y/n) ›
 ```
 
-Press `y` to make the link bidirectional.
+Press <kbd>Y</kbd> to make the link bidirectional.
 
 !!! details Bidirectional = make two links
 
@@ -925,7 +891,7 @@ Links allow us to create paths that agents can follow to find associated content
     $ xdg-open dnas/forum/zomes/integrity/posts/src/lib.rs
     ```
 
-We can then use a find function (\<Ctrl-f\> on Linux) or (\<Cmd-f\> on macOS) and can type `PostToComments` or `CommentToPosts` to see the places where the scaffold has added those to our file.
+We can then use a find function (<kbd><kbd>Ctrl</kbd>+<kbd>F</kbd></kbd> on Linux) or (<kbd><kbd>Cmd</kbd>+<kbd>F</kbd></kbd> on macOS) and can type `PostToComments` or `CommentToPosts` to see the places where the scaffold has added those to our file.
 
 We can also open the `post_to_comments.rs` file that is in that same folder to see the function that has been generated for validating actions that create a link from a post to a comment. Let's go back to the command line and enter:
 
@@ -980,7 +946,7 @@ Enter:
 all_posts
 ```
 
-and press **\<enter\>**. You should then see:
+and press <kbd>Enter</kbd>. You should then see:
 
 ```text
 ? Which type of collection should be scaffolded? ›
@@ -988,7 +954,7 @@ and press **\<enter\>**. You should then see:
   By author (get entries of the selected entry types that a given author has created)
 ```
 
-Select **`Global`** and press **\<enter\>**. You should then see:
+Select **`Global`** and press <kbd>Enter</kbd>. You should then see:
 
 ```text
 ? Which entry type should be collected? ›
@@ -996,7 +962,7 @@ Select **`Global`** and press **\<enter\>**. You should then see:
   Comment
 ```
 
-Select **`Post`** and press **\<enter\>**. You should then see:
+Select **`Post`** and press <kbd>Enter</kbd>. You should then see:
 
 ```text
 Collection "all_posts" scaffolded!
