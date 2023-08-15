@@ -3,6 +3,20 @@ const markdownItContainer = require("markdown-it-container");
 const markdownItAnchor = require("markdown-it-anchor");
 const slugify = require('@sindresorhus/slugify');
 
+/**
+ * Composes the attributes string for an html tag from the markdown-it-container token and default attributes
+ * @param {*} token token from markdown-it-container
+ * @param {*} defaultAttrs attributes to be merged in with token.attrs
+ * @returns attributes string for the html tag
+ */
+function composeAttributeString(token, defaultAttrs ={}) {
+  //convert token.attrs to an object and merge with defaultAttrs
+  const attrs = token.attrs ? token.attrs.reduce((acc, attr) => { acc[attr[0]] = attr[1]; return acc; }, {}) : {};
+  const mergedAttrs = Object.assign({}, defaultAttrs, attrs);
+  
+  return Object.keys(mergedAttrs).reduce((acc, key) => acc + ` ${key}="${mergedAttrs[key]}"`, "");
+}
+
 /* Start Admonition code */
 
 function generateAdmonitionTitleRegex(admonitionName) {
@@ -17,7 +31,9 @@ const renderAdmonition = (name, tokens, idx) => {
   //If the opening tag
   if(tokens[idx].nesting === 1) {
     const titleTag = title ? `<p class='admonition-title'>${ title }</p>` : '';
-    return `<div class="admonition ${name}">${titleTag}` + '\n\n<div class="admonition-content">';
+    const attrString = composeAttributeString(tokens[idx], { class: `admonition ${name}` });
+
+    return `<div ${attrString}>${titleTag}` + '\n\n<div class="admonition-content">';
   } else {
     return '\n</div></div>\n';
   }
@@ -36,16 +52,23 @@ function composeGenericAdmonitionRenderFunc(admonitionName) {
 
 /* Start Details Block code */
 
-const renderDetailsBlock = (tokens, idx) => {
-  const summary = tokens[idx].info.trim().match(/^details\s+(.*)$/);
 
+const renderDetailsBlock = (tokens, idx) => {
   if(tokens[idx].nesting === 1) {
+    const summary = tokens[idx].info.trim().match(/^details\s+(.*)$/);
+    const attrString = composeAttributeString(tokens[idx]);
+
     const summaryTag = summary ? `<summary>${ summary[1] }</summary>` : '';
-    return `<details class="details">${summaryTag}` + '\n\n<div class="details-content">';
+    return `<details ${attrString}>${summaryTag}` + '\n\n<div class="details-content">';
   } else {
     return '\n</div></details>\n';
   }
 };
+
+const validateDetailsBlock = (params) => {
+  const validationResults = params.trim().match(/^details\s+(.*)$/);
+  return validationResults;
+}
 
 /* End Details Block code */
 
@@ -73,7 +96,7 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
 
     // Details block
-    mdLib.use(markdownItContainer, "details", { marker: "!", render: renderDetailsBlock });
+    mdLib.use(markdownItContainer, "details", { marker: "!", render: renderDetailsBlock, validate: validateDetailsBlock });
   });
  
 }
