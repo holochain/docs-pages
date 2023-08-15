@@ -70,7 +70,8 @@ code {
 }
 
 kbd {
-  background-color: rgba($cl-gray, 0.5);
+  background-color: rgba($cl-main-text, 0.75);
+  color: white;
 }
 
 kbd kbd {
@@ -81,7 +82,7 @@ kbd kbd {
 /* Doesn't work on all browsers, but makes for slightly nicer typesetting of keystrokes. */
 kbd:has(kbd) {
   /* Offset the keys from the combinator (e.g., the '+' in 'Ctrl+C'). */
-  color: rgba($cl-main-text, 0.5);
+  background-color: rgba($cl-main-text, 0.5);
   padding-left: 0;
   padding-right: 0;
 }
