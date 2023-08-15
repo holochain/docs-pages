@@ -60,23 +60,30 @@ code, kbd {
 	padding: .1em .15em;
 	border-radius: .4em;
 	white-space: break-spaces;
-  background-color: $cl-gray;
-  color: #2E9FD9;
   box-sizing: border-box;
   font-size: 90%;
+}
+
+code {
+  background-color: $cl-gray;
+  color: #2E9FD9;
+}
+
+kbd {
+  background-color: rgba($cl-gray, 0.5);
 }
 
 kbd kbd {
   /* Nested kbds, as used in keystroke combos, need to not have their font size shrunk twice. */
   font-size: 100%;
-  /* Offset the keys from the combinator (e.g., the '+' in 'Ctrl+C'). */
-  color: $cl-main-text;
 }
 
+/* Doesn't work on all browsers, but makes for slightly nicer typesetting of keystrokes. */
 kbd:has(kbd) {
-  /* Doesn't work on all browsers, but makes for slightly nicer typesetting. */
-  margin: -.1em -.15em;
-  background-color: rgba($cl-gray, 0.2);
+  /* Offset the keys from the combinator (e.g., the '+' in 'Ctrl+C'). */
+  color: rgba($cl-main-text, 0.5);
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /* Admonitions */
