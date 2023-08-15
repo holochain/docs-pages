@@ -2,11 +2,9 @@
 title: Get Started
 ---
 
-# Getting Started with Holochain
-
 Welcome to the Getting Started with Holochain guide! This guide will walk you through the process of installing the Holochain development tools and creating a simple forum application. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
 
-#### How to use this guide
+## How to use this guide
 
 Follow this guide step by step. All steps are essential to create the example applications. No additional code or steps are needed.
 
@@ -17,15 +15,15 @@ Follow this guide step by step. All steps are essential to create the example ap
     * If you're new to Rust, you can start your learning journey by reading chapters 1 to 11 in the [Rust Book](https://doc.rust-lang.org/book/) and doing the accompanying [Rustlings exercises](https://github.com/rust-lang/rustlings/).
 * We also assume that you have basic familiarity with the Unix command line.
 
-### 1. Introduction to Holochain
+## 1. Introduction to Holochain
 
 Holochain is a framework for building peer-to-peer distributed applications, also known as hApps. It emphasizes agent-centric architecture, intrinsic data integrity, and scalability. Holochain enables developers to build applications that run on just the devices of the participants without relying on centralized servers or blockchain tokens and it provides a robust and efficient means of managing data.
 
-### 2. Installing Holochain development environment
+## 2. Installing Holochain development environment
 
 In this section, we'll walk you through the step-by-step process of installing Holochain, its dependencies, and developer tools on your system so that you can develop hApps.
 
-#### 2.1. Hardware requirements
+### 2.1. Hardware requirements
 
 Before you install the Holochain development environtment, make sure your system meets the following hardware requirements:
 
@@ -34,13 +32,13 @@ Before you install the Holochain development environtment, make sure your system
 * 30GB+ available disk space
 * High-speed internet connection
 
-#### 2.2. Windows prerequisite: WSL2 {#2-2-windows-prerequisite-wsl2}
+### 2.2. Windows prerequisite: WSL2 {#2-2-windows-prerequisite-wsl2}
 
 For Windows users, please note that the Nix package manager, which is used to install and manage Holochain development environment, only supports macOS and Linux. You will need to [install Linux under Windows with WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) (recommended) or dual boot a Linux Operating System, alongside your [Windows 10](https://www.freecodecamp.org/news/how-to-dual-boot-windows-10-and-ubuntu-linux-dual-booting-tutorial/) or [Windows 11](https://www.xda-developers.com/dual-boot-windows-11-linux/) OS to proceed.
 
 Holochain is supported under WSL2 via the Ubuntu distribution.
 
-#### 2.3. Set up development environment
+### 2.3. Set up development environment
 
 Once you've ensured that your system meets the hardware requirements and set up WSL2 on Windows or a dual boot Linux OS (if applicable), you can proceed with the installation of the Nix package manager and the binary package cache for Holochain.
 
@@ -52,7 +50,7 @@ $ bash <(curl https://holochain.github.io/holochain/setup.sh)
 
 This command downloads the setup script and runs it, installing the Nix package manager and setting up the Holochain binary cache.
 
-#### 2.4. Verify installation
+### 2.4. Verify installation
 
 In a new terminal session type:
 
@@ -76,7 +74,7 @@ holochain_scaffolding_cli x.y.z
 
 Congratulations! The Holochain development environment is now set up successfully on your system.
 
-### 3. Scaffold a simple "Hello, World!" Holochain application
+## 3. Scaffold a simple "Hello, World!" Holochain application
 
 In this section, we'll use Holochain's scaffolding tool to generate a simple "Hello, World!" application.
 
@@ -101,7 +99,7 @@ When you follow them, you should see two windows pop up representing two agents,
 
 When you are done checking out this app, you can go back to the terminal and stop both agents by pressing <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> (Linux) or <kbd><kbd>Cmd</kbd>+<kbd>C</kbd></kbd> (macOS).
 
-### 4. Understanding the layout of a Holochain application
+## 4. Understanding the layout of a Holochain application
 
 Let's explore the different files and folders that make up the structure of the "Hello, World!" hApp that you just created.
 
@@ -163,7 +161,7 @@ These files and folders make up the structure of a Holochain application, with t
 
 !!!
 
-### 5. Zero to built: creating a forum app
+## 5. Zero to built: creating a forum app
 
 First, navigate back to the folder where you want to keep your Holochain applications. If this is just your home folder, you can navigate there by typing `cd ~`.
 
@@ -183,7 +181,7 @@ The good news is that the Holochain scaffold tool will do a lot of the heavy lif
 
 First, let's use the scaffolding tool to generate the basic folders and files for our hApp.
 
-#### 5.1. Scaffolding a hApp {#5-1-scaffolding-a-happ}
+### 5.1. Scaffolding a hApp {#5-1-scaffolding-a-happ}
 
 To start, run the following command in your terminal:
 
@@ -203,13 +201,13 @@ Enter the name of your forum application using snake_case. Let's enter:
 my_forum_app
 ```
 
-#### 5.2. Select user interface framework
+### 5.2. Select user interface framework
 
 You'll then be prompted to choose a user interface (UI) framework for your front end.
 
 For this example, use the arrow keys to choose **Svelte** and press <kbd>Enter</kbd>.
 
-#### 5.3. Set up Holonix development environment
+### 5.3. Set up Holonix development environment
 
 Next, you'll be asked if you want to set up the Holonix development environment for the project. This allows you to enter a shell that has all the right tools and libraries for the version of Holochain that your code was generated for.
 
@@ -319,7 +317,7 @@ SUBCOMMANDS:
 A quick note: if while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the scaffold by using <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> on Linux or <kbd><kbd>Command</kbd>+<kbd>C</kbd></kbd> on macOS**.
 !!!
 
-#### 5.4. Scaffold a DNA
+### 5.4. Scaffold a DNA
 
 A DNA folder is where we will put the code that defines the rules of our application. We are going to stay in the `my_forum_app/` root folder of our hApp and, with some simple commands, the scaffold tool will do much of the creation of relevant folders and files for us.
 
@@ -389,7 +387,7 @@ Success! Inside of our `dnas/` folder, the scaffolding tool generated a `forum/`
 
 Next up, we want to create our first module of functionality for the forum DNA.
 
-#### 5.5. Scaffold a zome
+### 5.5. Scaffold a zome
 
 DNAs are comprised of code modules, which we call zomes (short for chromosomes). Zomes are modules that typically focus on enabling some small unit of functionality. Building with this sort of modular pattern provides a number of advantages, including the ability to reuse a module in more than one DNA to provide similar functionality in a different context. For instance, the [profiles zome](https://github.com/holochain-open-dev/profiles) is one that many apps make use of. For our forum DNA, we'll create one zome: **posts**.
 
@@ -506,7 +504,7 @@ The bits of shared information that all the peers in a network are holding are c
 
 Now it is time to start defining the structure and validation rules for data within our application.
 
-#### 5.6. Scaffold entry types
+### 5.6. Scaffold entry types
 
 An entry type is a fundamental building block used to define the structure and validation rules for data within a distributed application. Each entry type corresponds to a specific kind of data that can be stored, shared, and validated within the application.
 
@@ -787,7 +785,7 @@ You can check out the Core Concepts to dive a bit deeper into [how the distribut
 
 !!!
 
-#### 5.7. Scaffold link types
+### 5.7. Scaffold link types
 
 We can request content by asking peers for `ActionHash`es or `EntryHash`es, but how do we find out which `ActionHash` or `EntryHash` to ask for?
 
@@ -926,7 +924,7 @@ After storing the action in the local source chain, the agent then publishes the
 
 !!!
 
-#### 5.8. Scaffold a collection
+### 5.8. Scaffold a collection
 
 Now, let's create a collection that can be used to retrieve all the posts. To create a collection, type:
 
@@ -1000,7 +998,7 @@ The scaffolding tool doesn't have any feature for building anchors and trees bey
 
 !!!
 
-#### 5.9. Integrate the generated UI elements
+### 5.9. Integrate the generated UI elements
 
 At this stage, we will incorporate all the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.
 
@@ -1317,7 +1315,7 @@ When to introduce:
 
 ---
 
-### 6. Creating validation rules
+## 6. Creating validation rules
 
 What can validation rules do? All sorts of things including:
 
@@ -1333,7 +1331,7 @@ For this tutorial, we are going to create just a couple of validation rules to g
 1. a simpler validation rule by imposing a constraint on the length of a comment and
 2. a more advanced validation rule that only allows the original author of a post to update that post.
 
-#### 6.1. Beginner (inspecting the entries)
+### 6.1. Beginner (inspecting the entries)
 
 Character limit on comment length
 
@@ -1491,7 +1489,7 @@ SHOW RUNNING THE TEST AND IT PASSING.
 What about updating comments?
 When someone updates a comment, the original create validation rules will still get enforced.
 
-#### 6.2. Advanced (inspecting the actions)
+### 6.2. Advanced (inspecting the actions)
 
 Permissions on updates and deletes
 
@@ -1527,7 +1525,7 @@ Other possibilities: validate as you type. Calls the validate create comment fun
 
 What would be really cool - if we a schema definition for your entry types that would generate the validation code and the UI side as you type javascript code.
 
-#### 6.3. Validating links?
+### 6.3. Validating links?
 
 (currently one dht is an isolated thing, but we can link from elsewhere, we just have to be content with that input being unvalidated)
     has to be data at the base address
@@ -1542,7 +1540,7 @@ Those who receive the store action (validation authorities), they will run the v
 
 ---
 
-### 7. Deploying your Holochain application
+## 7. Deploying your Holochain application
 
 Now that you've implemented the forum application, it's time to think about deplyoing it.
 
@@ -1571,7 +1569,7 @@ If you prefer to distribute your app as a full standalone executable, you will n
 
 Now that you've implemented the forum application, it's time to deploy it. To do this, you'll need to package your application and configure the conductor.
 
-#### 7.1. Packaging your application
+### 7.1. Packaging your application
 
 Navigate to the `forum/dna` folder and run the following command:
 
@@ -1580,7 +1578,7 @@ hc dna pack my_forum_app.dna.workdir
 
 This will create a `forum.dna` file, which is a packaged version of your application.
 
-#### 7.2. Configuring the conductor
+### 7.2. Configuring the conductor
 
 Edit the `conductor/conductor-config.yml` file with the following content:
 
@@ -1606,7 +1604,7 @@ network:
   network_type: quic_bootstrap
 ```
 
-#### 7.3. Running your application
+### 7.3. Running your application
 
 To run your Holochain application, navigate to the forum/conductor folder and run the following command:
 
@@ -1618,11 +1616,11 @@ This will start your Holochain application and provide a WebSocket API for inter
 
 Congratulations! You have now successfully created and deployed a forum application using Holochain. With this knowledge, you can continue exploring and building more complex applications using the Holochain framework.
 
-### 8. Testing your application
+## 8. Testing your application
 
 To ensure that your application works as expected, you should write tests for the application's functionality. In Holochain, tests are written in a separate tests folder.
 
-#### 8.1. C
+### 8.1. C
 
 Navigate to the `my_forum_app/tests/` folder and create a new file called `my_forum_app_tests.rs`. This file will contain the test scenarios for your application.
 
@@ -1647,7 +1645,7 @@ async fn test_scenario(
 }
 ```
 
-#### 8.2. W
+### 8.2. W
 
 Now, write test cases for creating and retrieving threads:
 
