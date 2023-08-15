@@ -22,6 +22,9 @@ sit amet tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra m
 
 The contents of the details tag after the summary tag is wrapped in a div with a class of `details-content`. If an attributes block is applied to the `details` line the attributes are applied to overall `<details>` tag.
 
+## Output Block
+Can wrap around code fences to prevent Copy buttons form being added to the code block. See [Code Fences](../code-fences/) for details.
+
 ## Admonitions
 Note: these don't support attribute blocks yet.
 
