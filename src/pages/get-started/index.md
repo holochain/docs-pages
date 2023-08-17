@@ -938,35 +938,7 @@ Link type scaffolded!
 ```
 :::
 
-Links allow us to create paths that agents can follow to find associated content. We've created two separate link types --- one pointing from a post to a comment (`PostToComments`) and another pointing from a comment to a post (`CommentToPosts`). If we want to see some of that code, we can take a look at the `lib.rs` file in that zome by entering:
-
-* On macOS:
-
-    ```bash
-    $ open dnas/forum/zomes/integrity/posts/src/lib.rs
-    ```
-* On Linux:
-
-    ```bash
-    $ xdg-open dnas/forum/zomes/integrity/posts/src/lib.rs
-    ```
-
-We can then use a find function (<kbd><kbd>Ctrl</kbd>+<kbd>F</kbd></kbd> on Linux) or (<kbd><kbd>Cmd</kbd>+<kbd>F</kbd></kbd> on macOS) and can type `PostToComments` or `CommentToPosts` to see the places where the scaffold has added those to our file.
-
-We can also open the `post_to_comments.rs` file that is in that same folder to see the function that has been generated for validating actions that create a link from a post to a comment. Let's go back to the command line and enter:
-
-* On macOS:
-
-    ```bash
-    $ open dnas/forum/zomes/integrity/posts/src/post_to_comments.rs
-    ```
-* On Linux:
-
-    ```bash
-    $ xdg-open dnas/forum/zomes/integrity/posts/src/post_to_comments.rs
-    ```
-
-When that file opens, we can see right near the top that a function has been created for validating the creation of a `post_to_comments` link. Similarly, other validation functions related to the deletion of those links is below. And further down are the validation functions related to the creation and deletion of a `comment_to_posts` link.
+Links allow us to create paths that agents can follow to find associated content. We've created two separate link types --- one pointing from a post to a comment (`PostToComments`) and another pointing from a comment to a post (`CommentToPosts`). If we want to see some of that code, take a look at the `dnas/forum/zomes/integrity/posts/src/lib.rs` file and you should see right near the top that a function has been created for validating the creation of a `post_to_comments` link. Similarly, other validation functions related to the deletion of those links is below. And further down are the validation functions related to the creation and deletion of a `comment_to_posts` link.
 
 You might be thinking "That's all fine, but what exactly is a link? Where is it stored? How does it work? And what do they let us do that we couldn't do otherwise?"
 
@@ -1033,17 +1005,18 @@ Select **`Post`** and press <kbd>Enter</kbd>. You should then see:
 ::: output-block
 ```text
 Collection "all_posts" scaffolded!
-```
-:::
 
 At first, the UI for this application is empty. If you want the newly scaffolded collection to be the entry point for its UI, import the element in `ui/src/App.svelte`:
 
-  import AllPosts from './forum/posts/AllPosts.svelte';
+   import AllPosts from './forum/posts/AllPosts.svelte';
 
-And insert it in the `<div id="content" />` like this:
+And use the element in the `&lt;div id="content" /&gt` block by adding in this:
 
-  <div id="content"><AllPosts></AllPosts></div>
+   &lt;div id="content">&lt;<AllPosts>&lt;/AllPosts>&lt;/div>
 ```
+:::
+  
+
 
 These instructions are telling us that if we want to include this component in the user interface of our hApp, we need to a) import the component and b) tell the UI to display the component.
 
