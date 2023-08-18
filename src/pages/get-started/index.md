@@ -1336,6 +1336,11 @@ What is it?
 
 The `CreateComment` component needs to be created _in response to some particular post_. We need to add some logic that will clarify when `CreateComment` is supposed to become available.
 
+TODO: add UI stuff here.
+
+<div style="display:none">
+TODO: this looks like older stuff, cleanup?
+
 ====
 
 TODO (Matt's best guess at this):
@@ -1357,6 +1362,7 @@ When to introduce:
 -
 
 ---
+</div>
 
 ## 6. Creating validation rules
 
@@ -1388,7 +1394,7 @@ Then we will write a validation rule that ensures that comments with more than 1
 
 Holochain comes with some testing tools to make it easier to test peer-to-peer applications. One that the scaffold makes use of in the code that it generates is [Tryorama](https://github.com/holochain/tryorama).
 
-Tryorama is a framework for testing Holochain applications. It provides a way to run a number of Holochain conductors (instances of the Holochain runtime) on your local machine, and can be used in combination with a test runner and assertion library to test the behavior of multiple Holochain nodes in a network. In this case, the test runner and assertion library being used are `vitest` and `assert` respectively.
+Tryorama is a framework for testing Holochain applications. It provides a way to run a number of Holochain conductors (instances of the Holochain runtime) on your local machine, and can be used in combination with a test runner and assertion library to test the behavior of multiple Holochain nodes in a network. In this case, the test runner and assertion library we use are `vitest` and `assert` respectively.
 
 In short, Tryorama helps us test that things are working as they should even when multiple peers are interacting by spinning up a virtual network of different agents on your computer.
 
@@ -1412,7 +1418,7 @@ Looking at the 'create Comment' test (starting at line 9 or so), the main steps 
 
 The first three steps basically involve setting up the test network with the application. Each test cleans up after itself so that subsequent tests are working with a clean slate. So we are going to have to implement some of those same steps in the test that we will be writing. Let's add that part first.
 
-At the bottom of the comment.test.ts file, let's add:
+At the bottom of the comment.test.ts file, add in:
 
 ```javascript
 test('should not create a Comment longer than 140 characters', async () => {
@@ -1437,21 +1443,21 @@ test('should not create a Comment longer than 140 characters', async () => {
 
 That gets the basic network set up out of the way. Now let's prep a constant to hold our "long comment" and a variable to keep track of whether an error occurred before we add the actual constraints that we want to test.
 
-Just below the `await scenario.shareAllAgents(); line, Lets start by creating a string that is longer than 140 characters and assigning it to a constant:
+Just below the `await scenario.shareAllAgents();` line, create a string that is longer than 140 characters and assigning it to a constant:
 
 ```javascript
 // Create a string longer than 140 characters
 const longCommentContent = Array(142).join("a");
 ```
 
-Directly after that line, write the following assertion:
+Directly after that line, add the following assertion:
 
 ```javascript
 // Trying to create a Comment with content longer than 140 characters should throw an error
 await expect(() => createComment(alice.cells[0], longCommentContent)).rejects.toThrowError();
 ```
 
-This is testing whether the `createComment` function properly throws an error when attempting to create a comment that is too long.
+This tests whether the `createComment` function properly throws an error when attempting to create a comment that is too long.
 
 `alice.cells[0]` represents the first cell of the 'alice' agent, which might mean the first application, or component of an application if there are multiple DNAs, Alice can operate within.
 
@@ -1463,7 +1469,7 @@ In this test it is expected that the Promise of executing `createComment` be rej
 
 ##### Running our test
 
-We can set it up so that only this one test runs, by changing "test" at the beginning of that test to "test.only", then saving that file.
+So as not to run all the tests, and just run the one we just created, change `test` at the beginning of this test to `test.only`.
 
 Second, lets run just that test. In the command line run:
 
@@ -1471,7 +1477,7 @@ Second, lets run just that test. In the command line run:
 $ npx vitest --run comment.test.ts
 ```
 
-note: If we want to run all tests, we can change "test.only" back to "test" and in the command line, run:
+note: When you want to run all the tests, change `test.only` back to `test` and in the command line, run:
 
 ```bash
 npm run test
@@ -1483,7 +1489,7 @@ The test should initially fail (because we haven't yet implemented that 140 char
 
 Our next step is to start editing the appropriate validation rule so that agents can only create a comment if it is no more than 140 characters in length.
 
-Fortunately, the scaffold has already written a fair bit of validation rule boilerplate text for us.
+Fortunately, the scaffold has already written a fair bit of validation rule boilerplate code for us.
 
 In our IDE, let's open our integrity zome `comment.rs` file:
 
@@ -1506,6 +1512,7 @@ pub fn validate_create_comment(
     _action: EntryCreationAction,
     comment: Comment,
 ) -> ExternResult<ValidateCallbackResult> {
+  TODO
 /*    let record = must_get_valid_record(comment.post_hash.clone())?;
     let _post: crate::Post = record
         .entry()
@@ -1527,23 +1534,22 @@ Lets save the file.
 
 If we now run the test again, it will pass.
 
-SHOW RUNNING THE TEST AND IT PASSING.
+TODO: SHOW RUNNING THE TEST AND IT PASSING.
 
-What about updating comments?
-When someone updates a comment, the original create validation rules will still get enforced.
+What about updating comments?  Remember that in Holochain, because the source-chain is an appen only ledger, updating a comment is really creating a new comment and marking the old comment as delted.  Thus, when someone updates a comment, the create validation rules will still get enforced because a new comment entry gets created.
 
 ### 6.2. Advanced (inspecting the actions)
 
 Permissions on updates and deletes
 
-In `post.rs``, there is a function that enables us to update a post.
+In `post.rs`, there is a function that enables us to update a post.
 
 ```rust
 pub fn validate_update_comment()
 ```
 
 Here we can create a validation rule that requires that the editor of a comment is the original author of that comment.
-Edit the `validate_update_post`` function as follows:
+Edit the `validate_update_post` function as follows:
 
 ```rust
 pub fn validate_update_post(
@@ -1568,6 +1574,8 @@ Other possibilities: validate as you type. Calls the validate create comment fun
 
 What would be really cool - if we a schema definition for your entry types that would generate the validation code and the UI side as you type javascript code.
 
+<div style="display:none">
+TODO:
 ### 6.3. Validating links?
 
 (currently one dht is an isolated thing, but we can link from elsewhere, we just have to be content with that input being unvalidated)
@@ -1582,31 +1590,63 @@ creating a sort of a link from the old entry to the new entry
 Those who receive the store action (validation authorities), they will run the validation.
 
 ---
+</div>
 
 ## 7. Deploying your Holochain application
 
-Now that you've implemented the forum application, it's time to think about deplyoing it.
+### 7.1 Packaging
+Now that you've implemented an application, it's time to think about how you might deploy it.  The first step is to package your app:
 
-Running a Holochain application requires three main things from end-users:
+```bash
+$ npm run package
+```
 
-* That they have a Holochain conductor with a [lair keystore](https://github.com/holochain/lair) running on their computer (the Holochain conductor is Holochain's runtime that takes care of all the peer networking of Holochain apps)
-* That they have your app installed into that Holochain conductor
+This command does a number of things:
+1. triggers the rust compiler to build the zomes
+2. uses the `hc` command line to combine the built zomes into a DNA file
+3. builds the UI and compresses it into a `.zip` file
+4. combines the DNA file and the UI zip into a `.webhapp` file
 
-There are two main ways to go about this: Either distribute your app within an end-user runtime that supports running various Holochain apps of different developers simultaneously, or create your own standalone executable that ships both the Holochain conductor and your app to end-users.
+These files end up in the `workdir` directory: TODO: confirm
 
-#### 7.1 End-user runtime
+```bash
+$ ls workdir
+TODO add results
+```
 
-Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows end-users to install apps of any developers from a built-in app store or from the file system and run them.
+The packed app is now ready for deployment to a Holochain runtime.
 
-The Holochain Launcher expects apps of either `.happ` file format for apps without UI, or `.webhapp` file format for apps with UI. The forum project that you created with the scaffolding tool contains the `npm` command `npm run package`, which will automatically package your app into the required `.webhapp` format.
+### 7.2 Runtimes
+In the centralized world, deployment is usually achieved by Continuous Integration (CI) automation that builds up code changes and sends them to what ever server or cloud-based platform you are using.  In the decentralized world of Holochain, deployment happens when end-users adds your application into a Holochain run-time environment on their own computers.
 
-You can now either share this file directly with people through your own channels and they can install it into their Holochain Launcher from the file system. Or you can distribute your app via the Launcher's built-in app store.
+From the end-user perspective there are currently there are two ways to go about this, both of which will feel familiar:
 
-The steps of publishing an app to the app store is kept up to date in the Github repository of the Holochain Launcher [here](https://github.com/holochain/launcher#publishing-and-updating-an-app-in-the-devhub).
+1. Download Holochain's official Launcher run-time and install the app from its app-store.
+2. Download an your app as it's own stand-alone desktop executable, as they would any other application for their computer.
+  
+#### 7.2.1 Launcher, the Multi-app Run-Time
 
-#### 7.2 Standalone executable
+Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows end-users to install apps from a built-in app store or from the file system.  Installed apps can then be launched from a friendly UI.  Note that app store is itself a distributed Holochain application which provides details on applications that are available to be run.  As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or, you can share your application directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the file system.
 
-If you prefer to distribute your app as a full standalone executable, you will need to find your own way to ship a conductor, keystore and your app together and take care of the necessary interactions between them. You may find the community supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) useful for that purpose.
+You can try this latter approach immediately by downloading and running the Launcher!
+
+The steps for publishing an app to the Launcher's app store are documented in the Github repository of the Holochain Launcher [here](https://github.com/holochain/launcher#publishing-and-updating-an-app-in-the-devhub).
+
+#### 7.2.2 Standalone executable
+
+If you prefer to distribute your app as a full standalone executable, you will need to find a way to ship the holochain runtime and your app together and take care of the necessary interactions between them. Currently there are two straight-forward paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries which in our case are the conductor, and the lair-keystore.  Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has allready been done for you:  
+
+- **Electron**: Refer to the community supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.  
+- **Tauri**: See the: [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
+
+Both of these are Github template repos with detailed instructions on how to clone the repos, and then add in your UI and DNA as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users.  
+
+!!! note Code Signing
+For Mac and Windows, you will probably also want to go through the process of registering as a developer so that your application can be "code-signed".  This is needed so that users don't get the "unsigned code" warnings when launching the applications on those platforms.  Both of the above templates include instructions for CI automation to run the code-signing steps on release once you have aquired the necessary certificates.
+!!!
+
+<div style="display:none">
+TODO: this looks like older stuff, cleanup?
 
 ---
 
@@ -1745,7 +1785,10 @@ $ hc test
 ```
 
 This will execute your tests and display the results in the terminal.
-Next Steps
+
+</div>
+
+## 8. Next Steps
 
 Congratulations! You've successfully built and tested a forum application using Holochain. You've learned how to create a new Holochain application, understand its layout, work with core concepts, and deploy and test the application.
 
@@ -1759,39 +1802,27 @@ Now that you have a basic understanding of Holochain development, you can contin
 For more information and resources, visit the official Holochain developer documentation: https://developer.holochain.org/
 
 
-11. Further Exploration and Resources
+### 8.1  Further Exploration and Resources
 
 Now that you have successfully built a basic forum application using Holochain and integrated it with a frontend, you may want to explore more advanced topics and techniques to further enhance your application or create new ones. Here are some resources and ideas to help you get started:
-11.1. Holochain Developer Documentation
+
+#### Holochain Developer Documentation
 
 The official Holochain developer documentation is a valuable resource for deepening your understanding of Holochain concepts, techniques, and best practices. Be sure to explore the documentation thoroughly:
 
-    Developer guide: https://developer.holochain.org/docs/guide/
-    Core concepts: https://developer.holochain.org/docs/concepts/
-    API reference: https://developer.holochain.org/docs/api/
+  - Core concepts: [https://developer.holochain.org/docs/concepts/](https://developer.holochain.org/docs/concepts/)
+  - Holochain Developer Kit (HDK) reference: [https://crates.io/crates/hdk](https://crates.io/crates/hdk)
 
-11.2. Advanced Topics
-
-Here are some advanced topics to consider as you continue your Holochain development journey:
-
-    User authentication and authorization: Learn how to implement secure and user-friendly authentication and authorization mechanisms in your Holochain applications.
-    Modular Holochain applications: Explore the concept of "hApp bundles" and how to create modular applications that can be easily composed and shared.
-    Holochain bridges: Understand how to connect multiple Holochain applications and create bridges between them.
-    Optimizing performance and scalability: Investigate techniques for optimizing the performance and scalability of your Holochain applications, including efficient data structures, sharding, and caching.
-
-11.3. Community Resources
+#### Community Resources
 
 The Holochain community is an excellent source of support, inspiration, and collaboration. Consider engaging with the community to further your learning and development:
 
-    Holochain Forum: https://forum.holochain.org/
-    Holochain GitHub repositories: https://github.com/holochain
-    Holochain Discord server: https://holo.host/discord
+  - Holochain GitHub repositories: [https://github.com/holochain](https://github.com/holochain)
+  - Holochain Discord server: [https://discord.com/invite/k55DS5dmPH](https://github.com/holochain)
 
-11.4. Example Applications and Tutorials
+#### Example Applications and Tutorials
 
 Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
 
-    Holochain Open Dev: https://github.com/holochain-open-dev
-    Elemental Chat: https://github.com/holochain/elemental-chat
-    PeerShare: https://github.com/ZAFOH/peershare
-    Holo-REA: https://github.com/holo-rea/holo-rea
+  - Holochain Open Dev: [https://github.com/holochain-open-dev](https://github.com/holochain-open-dev)
+  - Holochain Foundation Sample Apps: [https://github.com/holochain-apps](https://github.com/holochain-apps)
