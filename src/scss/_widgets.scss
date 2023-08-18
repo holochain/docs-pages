@@ -90,7 +90,6 @@ kbd:has(kbd) {
 /* Details and Summary */
 details {
   
-
   &.dig-deeper {
     background-color: #d0d0d745;
     border-radius: 5px;
@@ -98,7 +97,6 @@ details {
     summary {
       border-radius: 5px;
       padding: 10px 20px;
-      background-color: $cl-light-gray;
       position: relative;
       @include addExpandIcon {
         position: absolute;

@@ -291,7 +291,7 @@ We've already scaffolded a new web app!
 
 Next up, we are going to start creating one of the most important building blocks in a Holochain app: a DNA.
 
-!!! details Scaffolding subcommands
+!!! dig-deeper Scaffolding subcommands
 
 To get an overview of the subcommands that hc scaffold makes available to us, let's enter:
 
