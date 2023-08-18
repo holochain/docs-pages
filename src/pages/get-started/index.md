@@ -167,7 +167,7 @@ For now, make use of:
 * `cd <folder_name>` to navigate into a particular sub-folder, and
 * `cd ..` to navigate back up to a parent folder.
 
-!!! details Scaffolded application structure
+!!! dig-deeper Scaffolded application structure
 
 This table includes everything in the `hello-world/` folder as well as details of the contents of the `dnas/` subfolder since that makes up the bulk of the "Holochain" part of an application. For certain working folders, like `node_modules/`, `target/`, `tests/`, and `ui/`, the table only contains a high-level overview.
 
@@ -472,7 +472,7 @@ You should then see:
 ```
 :::
 
-!!! details Integrity zomes and coordinator zomes
+!!! dig-deeper Integrity zomes and coordinator zomes
 
 #### Integrity zomes
 
@@ -542,7 +542,7 @@ Once that is all done, our hApp skeleton will have filled out a bit. Before we s
 
 If you aren't yet familiar with Holochain's concept of a source chain, check out [The Source Chain: A Personal Data Journal](https://developer.holochain.org/concepts/3_source_chain/).
 
-!!! details Source chains, actions, and entries
+!!! dig-deeper Source chains, actions, and entries
 
 #### Source chain
 
@@ -580,7 +580,7 @@ Now it is time to start defining the structure and validation rules for data wit
 
 An entry type is a fundamental building block used to define the structure and validation rules for data within a distributed application. Each entry type corresponds to a specific kind of data that can be stored, shared, and validated within the application.
 
-!!! details Entry types and validation
+!!! dig-deeper Entry types and validation
 
 An entry type is just a label, an identifier for a certain type of data that your DNA deals with. But it serves as something to attach validation rules to in your integrity zome, and those rules are what give an entry type its meaning. They take the form of code in a function that gets called any time something is about to be stored, and because they're just code, they can validate all sorts of things. Here are a few key examples:
 
@@ -711,7 +711,7 @@ At this point you should see:
 
 Go ahead and select `Yes` by pressing <kbd>Enter</kbd>.
 
-!!! details CRUD (create, read, update, delete)
+!!! dig-deeper CRUD (create, read, update, delete)
 
 #### Mutating immutable data and improving performance
 
@@ -828,7 +828,7 @@ Add new collections for that entry type with:
 ```
 :::
 
-!!! details Hashes and other identifiers
+!!! dig-deeper Hashes and other identifiers
 
 There are two kinds of unique identifiers or 'addresses' in Holochain: **hashes** for data and **public keys** for agents.
 
@@ -956,7 +956,7 @@ You should then see:
 
 Press <kbd>Y</kbd> to make the link bidirectional.
 
-!!! details Bidirectional = make two links
+!!! dig-deeper Bidirectional = make two links
 
 Making the link type bidirectional tells the scaffolding tool to **also create a link type from a comment to the post** that it is responding to, along with code to create a link of that type whenever a comment is created. Links in Holochain aren't actually bidirectional. But to gain that functionality, we simply create two links, one in each direction.
 
@@ -994,7 +994,7 @@ In short, links enable us to build a graph of references from one piece of conte
 
 By linking from known things to unknown things, we enable the efficient discovery and retrieval of related content in our hApp.
 
-!!! details How links are stored and retrieved in a Holochain app
+!!! dig-deeper How links are stored and retrieved in a Holochain app
 
 **Storage**: When an agent creates a link between two entries, a "create link" action is written to their source chain. A link is so small that there's no entry for the action. It simply contains the address of the base, the address of the target, the link type (which describes the relationship), and an optional tag which contains a small amount of application-specific information. The base and target can be any sort of DHT address --- an `EntryHash`, an `ActionHash`, or an `AgentPubKey`. But they can also be the hash of a piece of data that doesn't even exist in the DHT.
 
@@ -1068,7 +1068,7 @@ These instructions are telling us that if we want to include this component in t
 
 In the next section, we will begin working with our `.svelte` files to control our UI.
 
-!!! details How a collection is implemented
+!!! dig-deeper How a collection is implemented
 
 We already explored how links make data in the DHT discoverable by connecting known DHT base addresses to unknown addresses. Essentially every address becomes an anchor point to hang a collection of links from.
 
@@ -1260,7 +1260,7 @@ import CreateTodo from './todos/todos/CreateTodo.svelte';
 </style>
 ```
 
-!!! details Detailed breakdown of `App.svelte`
+!!! dig-deeper Detailed breakdown of `App.svelte`
 
 #### `<script>` section:
 
@@ -1330,7 +1330,7 @@ and then press the "Create Post" button.
 
 You will immediately notice that you don't see any change in our application windows. This is because there's no UI code yet to display any posts, but if you take a look at our Holochain Playground window, you will see that a new entry has been created. If we click the "App" element that we've created in Alice's source chain, it will pull up some details in the Entry Contents section, including the Title and Content of our entry. Note the hash of that entry (top of the Entry Contents window). Then click on the Create Action that is pointing toward that App entry in the source chain. If you look back at the contents window, you will see that it is now sharing Action Contents. And if you look down the list a bit, you will see the entry hash of the entry for the first post.
 
-!!! details Relationships in a source chain versus relationships in the DHT
+!!! dig-deeper Relationships in a source chain versus relationships in the DHT
 
 At this point, in our DHT graph it should look like we have two different agents and then a separate floating entry and action. But we know that the new post is associated with a source chain which is associated with an agent. So why aren't they connected on the DHT?
 
