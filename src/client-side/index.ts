@@ -102,3 +102,35 @@ document.querySelector<HTMLButtonElement>(".take-the-survey")?.addEventListener(
   e.preventDefault(); 
   openModalIFrame("https://form.typeform.com/to/AL0HFFy8"); 
 });
+
+const inPageToc = document.querySelector("#in-page-toc");
+if (inPageToc) {
+  const tocLinks = inPageToc.querySelectorAll("li > a");
+
+  const setCurrentSection = (sectionId: string) => {
+    console.log("Setting current section to", sectionId);
+    tocLinks.forEach((link) => {
+      link.classList.toggle("current", link.getAttribute("href") === `#${sectionId}`);
+    });
+  }
+
+  //set up intersection observer to highlight the current section
+  const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    if (entries[0].isIntersecting) {
+      setCurrentSection(entries[0].target.id);
+    }
+  };
+
+  const observer = new IntersectionObserver(observerCallback, { rootMargin: "0px 0px 0px 0px" });
+
+  tocLinks.forEach((link) => {
+    const linkId = link.getAttribute("href")?.replace("#", "");
+    const htag = document.querySelector(`[id="${linkId}"]`);
+    console.log(htag, link);
+    if (htag) {
+      observer.observe(htag);
+    } else {
+      console.warn("No htag found for link", link);
+    }
+  });
+}
