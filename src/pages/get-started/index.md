@@ -1,5 +1,51 @@
 ---
 title: Get Started
+tocData:
+  - text: 1. Introduction to Holochain
+    href: 1-introduction-to-holochain
+  - text: 2. Installing Holochain development environment
+    href: 2-installing-holochain-development-environment
+  - text: 3. Scaffold a simple "Hello, World!" Holochain application
+    href: 3-scaffold-a-simple-hello-world-holochain-application
+  - text: 4. Understanding the layout of a Holochain application
+    href: 4-understanding-the-layout-of-a-holochain-application
+  - text: "5. Zero to built: creating a forum app"
+    href: 5-zero-to-built-creating-a-forum-app
+    children:
+    - text: 5.1. Scaffolding a hApp
+      href: 5-1-scaffolding-a-happ
+    - text: 5.2. Select user interface framework
+      href: 5-2-select-user-interface-framework
+    - text: 5.3. Set up Holonix development environment
+      href: 5-3-set-up-holonix-development-environment
+    - text: 5.4. Scaffold a DNA
+      href: 5-4-scaffold-a-dna
+    - text: 5.5. Scaffold a zome
+      href: 5-5-scaffold-a-zome
+    - text: 5.6. Scaffold entry types
+      href: 5-6-scaffold-entry-types
+    - text: 5.7. Scaffold link types
+      href: 5-7-scaffold-link-types
+    - text: 5.8. Scaffold a collection
+      href: 5-8-scaffold-a-collection
+    - text: 5.9. Integrate the generated UI elements
+      href: 5-9-integrate-the-generated-ui-elements
+  - text: 6. Creating validation rules
+    href: 6-creating-validation-rules
+    children:
+      - text: 6.1. Beginner (inspecting the entries)
+        href: 6-1-beginner-inspecting-the-entries
+      - text: 6.2. Advanced (inspecting the actions)
+        href: 6-2-advanced-inspecting-the-actions
+  - text: 7. Deploying your Holochain application
+    href: 7-deploying-your-holochain-application
+    children:
+      - text: 7.1 Packaging
+        href: 7-1-packaging
+      - text: 7.2 Runtimes
+        href: 7-2-runtimes
+  - text: 8. Next steps
+    href: 8-next-steps
 ---
 
 Welcome to the Getting Started with Holochain guide! This guide will walk you through the process of installing the Holochain development tools and creating a simple forum application. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
