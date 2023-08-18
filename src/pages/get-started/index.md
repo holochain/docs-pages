@@ -335,7 +335,7 @@ A quick note: if while scaffolding some part of your hApp, you realize you've ma
 
 A DNA folder is where we will put the code that defines the rules of our application. We are going to stay in the `my_forum_app/` root folder of our hApp and, with some simple commands, the scaffold tool will do much of the creation of relevant folders and files for us.
 
-!!! details About DNAs {#about-dnas}
+!!! dig-deeper About DNAs {#about-dnas}
 
 #### Why do we use the term DNA?
 

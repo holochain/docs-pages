@@ -19,12 +19,12 @@ function composeAttributeString(token, defaultAttrs ={}) {
 
 /* Start Admonition code */
 
-function generateAdmonitionTitleRegex(admonitionName) {
-  return new RegExp("^" + admonitionName + "\\s+(.*)$");
+function generateContainerTitleRegex(blockName) {
+  return new RegExp("^" + blockName + "\\s+(.*)$");
 }
 
 const renderAdmonition = (name, tokens, idx) => {
-  const titleMatcher = tokens[idx].info.trim().match(generateAdmonitionTitleRegex(name));
+  const titleMatcher = tokens[idx].info.trim().match(generateContainerTitleRegex(name));
   const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1);
   const title = titleMatcher ? titleMatcher[1] : (nameCapitalized);
 
@@ -52,11 +52,15 @@ function composeGenericAdmonitionRenderFunc(admonitionName) {
 
 /* Start Details Block code */
 
+function composeDetailsBlockRenderFunc(blockName  = "details") {
+  return function(tokens, idx) { return renderDetailsBlock(blockName, tokens, idx); }
+}
 
-const renderDetailsBlock = (tokens, idx) => {
+const renderDetailsBlock = (blockName, tokens, idx) => {
   if(tokens[idx].nesting === 1) {
-    const summary = tokens[idx].info.trim().match(/^details\s+(.*)$/);
-    const attrString = composeAttributeString(tokens[idx]);
+    const summary = tokens[idx].info.trim().match(generateContainerTitleRegex(blockName));
+    const attrDefaults = blockName ? { class: `details ${blockName}` } : {};
+    const attrString = composeAttributeString(tokens[idx], attrDefaults);
 
     const summaryTag = summary ? `<summary>${ summary[1] }</summary>` : '';
     return `<details ${attrString}>${summaryTag}` + '\n\n<div class="details-content">';
@@ -96,7 +100,9 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
 
     // Details block
-    mdLib.use(markdownItContainer, "details", { marker: "!", render: renderDetailsBlock, validate: validateDetailsBlock });
+    mdLib.use(markdownItContainer, "details", { marker: "!", render: composeDetailsBlockRenderFunc() });
+    // Create a specialized synonym for details block with a class of "dig-deeper"
+    mdLib.use(markdownItContainer, "dig-deeper", { marker: "!", render: composeDetailsBlockRenderFunc("dig-deeper") });
   });
  
 }
