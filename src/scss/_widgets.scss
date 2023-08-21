@@ -87,6 +87,44 @@ kbd:has(kbd) {
   padding-right: 0;
 }
 
+/* Details and Summary */
+details {
+  
+
+  &.dig-deeper {
+    background-color: #d0d0d745;
+    border-radius: 5px;
+
+    summary {
+      border-radius: 5px;
+      padding: 10px 20px;
+      background-color: $cl-light-gray;
+      position: relative;
+      @include addExpandIcon {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+    }
+
+    .details-content {
+      padding: 0 20px 10px;
+    }
+
+    &[open] {
+      summary {
+        border-radius: 5px 5px 0 0;
+        
+        &::after{
+          transform: rotateY(180deg) rotateZ(180deg);
+          top: 6px;
+        }
+      }
+    }
+  }
+}
+
+
 /* Admonitions */
 @mixin admonitionTitle($admonitionBg) {
   .admonition-title {
