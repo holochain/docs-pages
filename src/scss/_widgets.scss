@@ -101,13 +101,10 @@ details {
       &::before {
         display: block;
         width: 22px;
-        content: $shovelIcon " Dig deeper | "
+        content: $shovelIcon " Dig deeper: ";
       }
-      @include addShovelIcon; {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-      }
+      @include addShovelIcon;
+      @include addExpandIcon;
     }
 
     .details-content {
