@@ -98,12 +98,15 @@ details {
       border-radius: 5px;
       padding: 10px 20px;
       position: relative;
+      font-weight: bold;
+
       &::marker {
         @include addShovelIcon;
       }
       &::before {
+        font-weight: normal;
         content: "Dig deeper | ";
-        color: rgba(black, 0.7);
+        color: rgba(black, 0.5);
       }
       @include addExpandIcon;
     }
