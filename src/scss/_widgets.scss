@@ -91,6 +91,7 @@ kbd:has(kbd) {
 details {
 
   &.dig-deeper {
+    outline: black solid 1px;
     background-color: #d0d0d745;
     border-radius: 5px;
 
