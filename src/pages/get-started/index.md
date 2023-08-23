@@ -137,10 +137,16 @@ nix run github:holochain/holochain#hc-scaffold -- example hello-world
 The scaffolding tool should print out these four commands:
 
 ```bash
-  cd hello-world
-  nix develop
-  npm install
-  npm start
+cd hello-world
+```
+```bash
+nix develop
+```
+```bash
+npm install
+```
+```bash
+npm start
 ```
 
 When you run them, you should see two windows pop up representing two agents, both of which will have published a `Hello World` entry to the network, and when you click on the "get hellos" button, you should be able to see the hellos:
