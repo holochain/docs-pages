@@ -1450,27 +1450,27 @@ Tryorama is a framework for testing Holochain applications. It provides a way to
 
 In short, Tryorama helps us test that things are working as they should even when multiple peers are interacting by spinning up a virtual network of different agents on your computer.
 
-In order to test whether or not comments longer than 140 are going to be able to be created, we are going to first open our comment.test.ts file
+In order to test whether or not comments longer than 140 are going to be able to be created, we are going to first open our `comment.test.ts`` file:
 
 ```bash
 code tests/src/forum/posts/comment.test.ts
 ```
 
-This file contains the boilerplate that the scaffold has written for testing comments.  At the top are some imports, including createComment and sampleComment from './common.js'. Then below that are some tests: one that tests 'create Comment', another that tests 'create and read Comment', another that tests 'create and update Comment' and finally, one that tests 'create and delete Comment'.
+This file contains the boilerplate that the scaffold has written for testing comments.  At the top are some imports, including `createComment` and `sampleComment` from `./common.js`. Then below that are some tests: one that tests 'create Comment', another that tests 'create and read Comment', another that tests 'create and update Comment' and finally, one that tests 'create and delete Comment'.
 
 We are going to look to those tests for inspiration regarding how to structure our max 140 characters test.
 
 Looking at the 'create Comment' test (starting at line 9 or so), the main steps of the test are as follows
 
-* The location of the Holochain application bundle (.happ file) is specified.
+* The location of the Holochain application bundle (`.happ` file) is specified.
 * The application is installed for two players, Alice and Bob.
-* Peer discovery through gossip is initiated with scenario.shareAllAgents(), allowing the players to recognize each other in the network.
+* Peer discovery through gossip is initiated with `scenario.shareAllAgents()`, allowing the players to recognize each other in the network.
 * Alice creates a comment using the createComment function, which implements a call to a Holochain zome function to create a comment. This returns a Record instance.
 * An assertion checks that the returned record is valid.
 
 The first three steps basically involve setting up the test network with the application. Each test cleans up after itself so that subsequent tests are working with a clean slate. So we are going to have to implement some of those same steps in the test that we will be writing. Let's add that part first.
 
-At the bottom of the comment.test.ts file, add in:
+At the bottom of the `comment.test.ts` file, add in:
 
 ```javascript
 test('should not create a Comment longer than 140 characters', async () => {
@@ -1523,13 +1523,13 @@ In this test it is expected that the Promise of executing `createComment` be rej
 
 So as not to run all the tests, and just run the one we just created, change `test` at the beginning of this test to `test.only`.
 
-Second, lets run just that test. In the command line run:
+Second, let's run just that test. In the command line run:
 
 ```bash
 npx vitest --run comment.test.ts
 ```
 
-note: When you want to run all the tests, change `test.only` back to `test` and in the command line, run:
+Note: When you want to run all the tests, change `test.only` back to `test` and in the command line, run:
 
 ```bash
 npm run test
@@ -1669,14 +1669,15 @@ TODO add results
 The packed app is now ready for deployment to a Holochain runtime.
 
 ### 7.2 Runtimes
+
 In the centralized world, deployment is usually achieved by Continuous Integration (CI) automation that builds up code changes and sends them to what ever server or cloud-based platform you are using.  In the decentralized world of Holochain, deployment happens when end-users adds your application into a Holochain run-time environment on their own computers.
 
 From the end-user perspective there are currently there are two ways to go about this, both of which will feel familiar:
 
 1. Download Holochain's official Launcher run-time and install the app from its app-store.
-2. Download an your app as it's own stand-alone desktop executable, as they would any other application for their computer.
+2. Download an your app as its own stand-alone desktop executable, as they would any other application for their computer.
 
-#### 7.2.1 Launcher, the Multi-app Run-Time
+#### 7.2.1 Launcher, the multi-app runtime
 
 Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows end-users to install apps from a built-in app store or from the file system.  Installed apps can then be launched from a friendly UI.  Note that app store is itself a distributed Holochain application which provides details on applications that are available to be run.  As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or, you can share your application directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the file system.
 
@@ -1688,8 +1689,8 @@ The steps for publishing an app to the Launcher's app store are documented in th
 
 If you prefer to distribute your app as a full standalone executable, you will need to find a way to ship the holochain runtime and your app together and take care of the necessary interactions between them. Currently there are two straight-forward paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries which in our case are the conductor, and the lair-keystore.  Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has allready been done for you:
 
-- **Electron**: Refer to the community supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.
-- **Tauri**: See the: [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
+* **Electron**: Refer to the community supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.
+* **Tauri**: See the: [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
 
 Both of these are Github template repos with detailed instructions on how to clone the repos, and then add in your UI and DNA as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users.
 
@@ -1838,6 +1839,8 @@ hc test
 
 This will execute your tests and display the results in the terminal.
 
+</div>
+
 ## 8. Next steps
 
 Congratulations! You've learned how to create a new Holochain application, understand its layout, work with core concepts, and deploy and test the application.
@@ -1857,7 +1860,7 @@ Now that you have successfully built a basic forum application using Holochain a
 
 The official Holochain developer documentation is a valuable resource for deepening your understanding of Holochain concepts, techniques, and best practices. Be sure to explore the documentation thoroughly:
 
-* [Holochain Core Concepts](https://developer.holochain.org/concepts/)
+* [Holochain Core Concepts](/concepts/1_the_basics/)
 * [Holochain Developer Kit (HDK) reference](https://docs.rs/hdk/latest/hdk)
 
 #### Community resources
