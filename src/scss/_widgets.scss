@@ -98,12 +98,13 @@ details {
       border-radius: 5px;
       padding: 10px 20px;
       position: relative;
-      &::before {
-        display: block;
-        width: 22px;
-        content: $shovelIcon " Dig deeper: ";
+      &::marker {
+        @include addShovelIcon;
       }
-      @include addShovelIcon;
+      &::before {
+        content: "Dig deeper | ";
+        color: rgba(black, 0.7);
+      }
       @include addExpandIcon;
     }
 
@@ -116,8 +117,7 @@ details {
         border-radius: 5px 5px 0 0;
 
         &::after{
-          transform: rotateY(180deg);
-          top: 6px;
+          transform: scaleY(-1);
         }
       }
     }
