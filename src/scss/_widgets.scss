@@ -101,10 +101,16 @@ details {
       font-weight: bold;
 
       &::marker {
-        @include addShovelIcon;
+        display: none;
+        content: '';
       }
       &::before {
         font-weight: normal;
+        padding-left: 20px;
+        background-image: $shovelIcon;
+        background-repeat: no-repeat;
+        background-position-y: top;
+        background-position-x: -5px;
         content: "Dig deeper | ";
         color: rgba(black, 0.5);
       }
@@ -121,6 +127,7 @@ details {
 
         &::after{
           transform: scaleY(-1);
+          top: 4px;
         }
       }
     }
