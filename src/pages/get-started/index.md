@@ -91,7 +91,7 @@ Once you've ensured that your system meets the hardware requirements and set up 
 Open a [command line terminal](https://hackmd.io/c15fobj9QtmOuEuiNAkaQA) and run the following command by pasting or typing the following text in and pressting <kbd>Enter</kbd>:
 
 ```bash
-$ bash <(curl https://holochain.github.io/holochain/setup.sh)
+bash <(curl https://holochain.github.io/holochain/setup.sh)
 ```
 
 This command downloads the setup script and runs it, installing the Nix package manager and setting up the Holochain binary cache.
@@ -101,7 +101,7 @@ This command downloads the setup script and runs it, installing the Nix package 
 In a new terminal session type:
 
 ```bash
-$ nix run --refresh -j0 -v github:holochain/holochain#hc-scaffold -- --version
+nix run --refresh -j0 -v github:holochain/holochain#hc-scaffold -- --version
 ```
 
 Look out for binaries being copied from `holochain-ci.cachix.org`:
@@ -131,19 +131,19 @@ In this section, we'll use Holochain's scaffolding tool to generate a simple "He
 When getting started, seeing a simple, but fully-functional app can be very helpful. You can have Holochain's scaffold tool generate a "Hello, World!" application (but for a distributed multi-agent world), by typing the following in your command line terminal:
 
 ```bash
-$ nix run github:holochain/holochain#hc-scaffold -- example hello-world
+nix run github:holochain/holochain#hc-scaffold -- example hello-world
 ```
 
-The scaffolding tool should print out these instructions:
+The scaffolding tool should print out these four commands:
 
 ```bash
-$ cd hello-world
-$ nix develop
-$ npm install
-$ npm start
+  cd hello-world
+  nix develop
+  npm install
+  npm start
 ```
 
-When you follow them, you should see two windows pop up representing two agents, both of which will have published a `Hello World` entry to the network, and when you click on the "get hellos" button, you should be able to see the hellos:
+When you run them, you should see two windows pop up representing two agents, both of which will have published a `Hello World` entry to the network, and when you click on the "get hellos" button, you should be able to see the hellos:
 
 [image of hellos?]
 
@@ -278,13 +278,13 @@ along with some details of what is being added. Follow the instructions to set u
 First, enter the hApp project folder:
 
 ```bash
-$ cd my_forum_app
+cd my_forum_app
 ```
 
 Just to get an overview of what our first scaffold command set up for us, let's check the contents of that `my_forum_app` folder by typing:
 
 ```bash
-$ ls
+ls
 ```
 
 It should look like it has set up a similar set of folders and configuration files to those we saw in the "Hello, World!" hApp.
@@ -292,7 +292,7 @@ It should look like it has set up a similar set of folders and configuration fil
 Now, fire up the nix development shell, which makes all scaffolding tools and the Holochain binaries directly available from the command line, by entering:
 
 ```bash
-$ nix develop
+nix develop
 ```
 
 You should see:
@@ -306,7 +306,7 @@ Holochain development shell spawned. Type exit to leave.
 As it says, if at any time, you want to leave the nix development shell, you can type `exit`. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again. But for now, let's install the Node Package Manager (npm) dependencies with:
 
 ```bash
-$ npm install
+npm install
 ```
 
 These dependencies are used by various tools and assets --- the scaffolded tests, the UI, and various development activities like spawning apps for testing.
@@ -328,7 +328,7 @@ If you see something like that, you've successfully downloaded all the dependenc
 Now if we again enter:
 
 ```bash
-$ ls
+ls
 ```
 
 We should notice that a new folder has been added called `node_modules`. If we opened that folder we would see a whole bunch of libraries that have been installed. If you have, before going to the next step, just make sure that you [navigate back](https://hackmd.io/@oitz5O-qR2qrfRre3Kbv-Q/SJqWJ6T43) to the root folder for our hApp: `my_forum_app`.
@@ -342,7 +342,7 @@ Next up, we are going to start creating one of the most important building block
 To get an overview of the subcommands that hc scaffold makes available to us, let's enter:
 
 ```bash
-$ hc scaffold --help
+hc scaffold --help
 ```
 
 We should see something like:
@@ -420,7 +420,7 @@ When it comes to hApps, this lets us play coherent games with one another at the
 For now, let's create a new DNA using the scaffolding tool by entering:
 
 ```bash
-$ hc scaffold dna
+hc scaffold dna
 ```
 
 You should then see:
@@ -458,7 +458,7 @@ DNAs are comprised of code modules, which we call zomes (short for chromosomes).
 Start by entering:
 
 ```bash
-$ hc scaffold zome
+hc scaffold zome
 ```
 
 You should then see:
@@ -601,7 +601,7 @@ Let's go ahead and follow the instructions that the scaffold suggested for addin
 Let's create the **`post`** entry type first. Enter:
 
 ```bash
-$ hc scaffold entry-type
+hc scaffold entry-type
 ```
 
 You should then see:
@@ -752,7 +752,7 @@ We'll dive into links in a moment, but first let's create the **`comment`** entr
 Again type:
 
 ```bash
-$ hc scaffold entry-type
+hc scaffold entry-type
 ```
 This time enter the name:
 
@@ -894,7 +894,7 @@ Let's create a link-type from a post to a comment. If we have a post, we will be
 Run the following command:
 
 ```bash
-$ hc scaffold link-type
+hc scaffold link-type
 ```
 
 You should see:
@@ -1009,7 +1009,7 @@ After storing the action in the local source chain, the agent then publishes the
 Now, let's create a collection that can be used to retrieve all the posts. To create a collection, type:
 
 ```bash
-$ hc scaffold collection
+hc scaffold collection
 ```
 
 You should then see:
@@ -1061,7 +1061,7 @@ And use the element in the `&lt;div id="content" /&gt` block by adding in this:
    &lt;div id="content">&lt;<AllPosts>&lt;/AllPosts>&lt;/div>
 ```
 :::
-  
+
 
 
 These instructions are telling us that if we want to include this component in the user interface of our hApp, we need to a) import the component and b) tell the UI to display the component.
@@ -1095,7 +1095,7 @@ At this stage, we will incorporate all the UI components that have been scaffold
 Let's go ahead and start our forum hApp in develop mode from the command line. Back in Terminal, from the root folder (`my_forum_app/`), enter:
 
 ```bash
-$ npm start
+npm start
 ```
 
 * **Note:** if you are having an issue, make sure that you are still in nix shell. If not, you may need to re-enter `nix develop` first, then type the above command again. And remember that you can always exit nix shell by typing `exit` to get back to your normal shell.
@@ -1130,7 +1130,7 @@ Thus far, nine different components have been generated as `.svelte` files in th
 
 
 ```bash
-$ ls ui/src/forum/posts/
+ls ui/src/forum/posts/
 ```
 
 You should see nine different `.svelte` files, plus a `types.ts` file:
@@ -1151,7 +1151,7 @@ The next step is to edit the UI files in the text editor or integrated developme
 Let's open up `CreatePost.svelte` and take a look at its contents. Using VS Code as our IDE, we would enter:
 
 ```bash
-$ code ui/src/forum/posts/CreatePost.svelte
+code ui/src/forum/posts/CreatePost.svelte
 ```
 
 In the script section in the top part of the file, we see some imports, some variable assignments, and an async function for `createPost`. Below the script section, we see a CSS section with style information for Title, Content and a "Create Post" button.
@@ -1181,7 +1181,7 @@ Open the `App.svelte` file with your preferred IDE.
 With VS Code, for example, from our root folder for the hApp (forum), we would enter:
 
 ```bash
-$ code ui/src/App.svelte
+code ui/src/App.svelte
 ```
 
 Our `App.svelte` file will have three sections:
@@ -1447,7 +1447,7 @@ In short, Tryorama helps us test that things are working as they should even whe
 In order to test whether or not comments longer than 140 are going to be able to be created, we are going to first open our comment.test.ts file
 
 ```bash
-$ code tests/src/forum/posts/comment.test.ts
+code tests/src/forum/posts/comment.test.ts
 ```
 
 This file contains the boilerplate that the scaffold has written for testing comments.  At the top are some imports, including createComment and sampleComment from './common.js'. Then below that are some tests: one that tests 'create Comment', another that tests 'create and read Comment', another that tests 'create and update Comment' and finally, one that tests 'create and delete Comment'.
@@ -1520,7 +1520,7 @@ So as not to run all the tests, and just run the one we just created, change `te
 Second, lets run just that test. In the command line run:
 
 ```bash
-$ npx vitest --run comment.test.ts
+npx vitest --run comment.test.ts
 ```
 
 note: When you want to run all the tests, change `test.only` back to `test` and in the command line, run:
@@ -1540,7 +1540,7 @@ Fortunately, the scaffold has already written a fair bit of validation rule boil
 In our IDE, let's open our integrity zome `comment.rs` file:
 
 ```bash
-$ code dnas/zomes/integrity/posts/src/comment.rs
+code dnas/zomes/integrity/posts/src/comment.rs
 ```
 
 In `comment.rs`, we are going to want to add our "maximum 140 characters" constraint to the `validate_create_comment()` function (about line 8). Edit the `validate_create_comment` function to add the following on the line just above `Ok<ValidateCallbackResult::Valid)` (at the bottom of that function).
@@ -1644,7 +1644,7 @@ Those who receive the store action (validation authorities), they will run the v
 Now that you've implemented an application, it's time to think about how you might deploy it.  The first step is to package your app:
 
 ```bash
-$ npm run package
+npm run package
 ```
 
 This command does a number of things:
@@ -1656,7 +1656,7 @@ This command does a number of things:
 These files end up in the `workdir` directory: TODO: confirm
 
 ```bash
-$ ls workdir
+ls workdir
 TODO add results
 ```
 
@@ -1669,7 +1669,7 @@ From the end-user perspective there are currently there are two ways to go about
 
 1. Download Holochain's official Launcher run-time and install the app from its app-store.
 2. Download an your app as it's own stand-alone desktop executable, as they would any other application for their computer.
-  
+
 #### 7.2.1 Launcher, the Multi-app Run-Time
 
 Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows end-users to install apps from a built-in app store or from the file system.  Installed apps can then be launched from a friendly UI.  Note that app store is itself a distributed Holochain application which provides details on applications that are available to be run.  As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or, you can share your application directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the file system.
@@ -1680,12 +1680,12 @@ The steps for publishing an app to the Launcher's app store are documented in th
 
 #### 7.2.2 Standalone executable
 
-If you prefer to distribute your app as a full standalone executable, you will need to find a way to ship the holochain runtime and your app together and take care of the necessary interactions between them. Currently there are two straight-forward paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries which in our case are the conductor, and the lair-keystore.  Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has allready been done for you:  
+If you prefer to distribute your app as a full standalone executable, you will need to find a way to ship the holochain runtime and your app together and take care of the necessary interactions between them. Currently there are two straight-forward paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries which in our case are the conductor, and the lair-keystore.  Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has allready been done for you:
 
-- **Electron**: Refer to the community supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.  
+- **Electron**: Refer to the community supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.
 - **Tauri**: See the: [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
 
-Both of these are Github template repos with detailed instructions on how to clone the repos, and then add in your UI and DNA as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users.  
+Both of these are Github template repos with detailed instructions on how to clone the repos, and then add in your UI and DNA as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users.
 
 !!! note Code Signing
 For Mac and Windows, you will probably also want to go through the process of registering as a developer so that your application can be "code-signed".  This is needed so that users don't get the "unsigned code" warnings when launching the applications on those platforms.  Both of the above templates include instructions for CI automation to run the code-signing steps on release once you have aquired the necessary certificates.
@@ -1738,7 +1738,7 @@ network:
 To run your Holochain application, navigate to the forum/conductor folder and run the following command:
 
 ```bash
-$ hc run
+hc run
 ```
 
 This will start your Holochain application and provide a WebSocket API for interacting with it.
@@ -1827,7 +1827,7 @@ async fn test_create_and_get_threads() {
 To run the tests, navigate to the `my_forum_app/` folder and run the following command:
 
 ```bash
-$ hc test
+hc test
 ```
 
 This will execute your tests and display the results in the terminal.
