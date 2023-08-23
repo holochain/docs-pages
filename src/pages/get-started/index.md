@@ -1838,11 +1838,9 @@ hc test
 
 This will execute your tests and display the results in the terminal.
 
-</div>
+## 8. Next steps
 
-## 8. Next Steps
-
-Congratulations! You've successfully built and tested a forum application using Holochain. You've learned how to create a new Holochain application, understand its layout, work with core concepts, and deploy and test the application.
+Congratulations! You've learned how to create a new Holochain application, understand its layout, work with core concepts, and deploy and test the application.
 
 Now that you have a basic understanding of Holochain development, you can continue exploring more advanced topics, such as:
 
@@ -1851,30 +1849,27 @@ Now that you have a basic understanding of Holochain development, you can contin
     Building more complex data structures and relationships
     Optimizing your application for performance and scalability
 
-For more information and resources, visit the official Holochain developer documentation: https://developer.holochain.org/
+### 8.1  Further exploration and resources
 
+Now that you have successfully built a basic forum application using Holochain and integrated it with a front end, you may want to explore more advanced topics and techniques to further enhance your application or create new ones. Here are some resources and ideas to help you get started:
 
-### 8.1  Further Exploration and Resources
-
-Now that you have successfully built a basic forum application using Holochain and integrated it with a frontend, you may want to explore more advanced topics and techniques to further enhance your application or create new ones. Here are some resources and ideas to help you get started:
-
-#### Holochain Developer Documentation
+#### Holochain developer documentation
 
 The official Holochain developer documentation is a valuable resource for deepening your understanding of Holochain concepts, techniques, and best practices. Be sure to explore the documentation thoroughly:
 
-  - Core concepts: [https://developer.holochain.org/docs/concepts/](https://developer.holochain.org/docs/concepts/)
-  - Holochain Developer Kit (HDK) reference: [https://crates.io/crates/hdk](https://crates.io/crates/hdk)
+* [Holochain Core Concepts](https://developer.holochain.org/concepts/)
+* [Holochain Developer Kit (HDK) reference](https://docs.rs/hdk/latest/hdk)
 
-#### Community Resources
+#### Community resources
 
 The Holochain community is an excellent source of support, inspiration, and collaboration. Consider engaging with the community to further your learning and development:
 
-  - Holochain GitHub repositories: [https://github.com/holochain](https://github.com/holochain)
-  - Holochain Discord server: [https://discord.com/invite/k55DS5dmPH](https://github.com/holochain)
+* [Holochain GitHub repositories](https://github.com/holochain)
+* [Holochain Discord server](https://discord.com/invite/k55DS5dmPH)
 
-#### Example Applications and Tutorials
+#### Example applications and tutorials
 
 Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
 
-  - Holochain Open Dev: [https://github.com/holochain-open-dev](https://github.com/holochain-open-dev)
-  - Holochain Foundation Sample Apps: [https://github.com/holochain-apps](https://github.com/holochain-apps)
+* [Holochain Open Dev](https://github.com/holochain-open-dev)
+* [Holochain Foundation sample apps](https://github.com/holochain-apps)
