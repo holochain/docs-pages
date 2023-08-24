@@ -22,12 +22,10 @@ tocData:
       href: 4-5-scaffold-a-zome
     - text: 4.6. Scaffold entry types
       href: 4-6-scaffold-entry-types
-    - text: 4.7. Scaffold link types
-      href: 4-7-scaffold-link-types
-    - text: 4.8. Scaffold a collection
-      href: 4-8-scaffold-a-collection
-    - text: 4.9. Integrate the generated UI elements
-      href: 4-9-integrate-the-generated-ui-elements
+    - text: 4.7. Scaffold a collection
+      href: 4-7-scaffold-a-collection
+    - text: 4.8. Integrate the generated UI elements
+      href: 4-8-integrate-the-generated-ui-elements
   - text: 5. Creating validation rules
     href: 5-creating-validation-rules
     children:
@@ -517,14 +515,19 @@ You should then see prompts asking if you want to scaffold the integrity and coo
 
 Press <kbd>Y</kbd> for both prompts.
 
-As that runs (which will take a moment as the scaffold makes changes to various files) you should then see:
+As that runs (which will take a moment as the scaffold makes changes to various files) you should then see something like:
 
 ::: output-block
 ```text
 Coordinator zome "posts" scaffolded!
 Updating crates.io index
-    Fetch [===>       ] ... (then after download is done...)
-Downloaded (a bunch of downloaded files ... then)
+    Fetch [===>       ] ...
+```
+:::
+    (then after download is done...)
+::: output-block
+```text
+    Downloaded 244 crates (46.7 MB) in 4.27s (largest was `windows` at 11.9 MB)
 
 Add new entry definitions to your zome with:
     hc scaffold entry-type
@@ -587,9 +590,11 @@ An entry type is just a label, an identifier for a certain type of data that you
 
 !!!
 
-You'll want to create two entry types for our `posts` integrity zome: `post` and `comment`. Posts will have a `title` field and a `content` field. Comments will have a `comment_content` field and a way of indicating which post they are a comment on.
+Your bare-bones forum needs two entry types: `post` and `comment`. You'll define these in the `posts` integrity zome you just created in the previous step.  The `post` entry type will define a `title` field and a `content` field. The `comment` entry type will define a `comment_content` field and a way of indicating which post the comment is about.
 
-Go ahead and follow the instructions that the scaffold suggested for adding new entry definitions to your zome. First create the `post` entry type. Enter:
+To do this, just follow the instructions that the scaffold suggested for adding new entry definitions to your zome.
+
+Start with the `post` entry type by entering this command:
 
 ```shellsession
 hc scaffold entry-type
@@ -740,7 +745,7 @@ Add new collections for that entry type with:
 ```
 :::
 
-We'll dive into links in a moment, but first create the `comment` entry type.
+We'll dive into collections in a moment, but first create the `comment` entry type.
 
 Again type:
 
@@ -766,57 +771,9 @@ Then select the `TextArea` widget and press <kbd>Enter</kbd>. (Again, a `TextAre
 
 Press <kbd>Y</press> to add another field.
 
-For this next field you'll want to create a field that will help the app associate each particular comment to the post that it is commenting on. Use the arrow keys to select `ActionHash` as the field type. After pressing <kbd>Enter</kbd>, you should see:
+For this next field you'll want to create a field that will help you associate each particular comment to the post that it is commenting on. To do this, the next field in the `comment` entry type will store a reference to a `post`.
 
-::: output-block
-```text
-? Should a link from this field be created when this entry is created? (y/n) ›
-```
-:::
-
-Press <kbd>Y</kbd> to accept. This creates a link from the original post that comment is replying to.
-
-Next you will see:
-
-::: output-block
-```text
-✔ Which entry type is this field referring to?
-```
-:::
-
-Press <kbd>Enter</kbd> to accept the suggested entry type `Post`.
-
-Next, you'll be asked to pick a field name. Press <kbd>Enter</kbd> to accept the field name suggestion, which should be:
-
-```text
-post_hash
-```
-
-Press <kbd>N</kbd> to stop adding fields to the entry.
-
-Then use the arrow keys to deselect `Update`, but leave `Delete` selected. It should look as follows:
-
-::: output-block
-```text
-Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
-  Update
-✔ Delete
-```
-:::
-
-Once that is done, press <kbd>Enter</kbd> to generate a delete function for the `comment` entry type.
-
-You should then see:
-
-::: output-block
-```text
-Entry type "comment" scaffolded!
-
-Add new collections for that entry type with:
-
-    hc scaffold collection
-```
-:::
+Use the arrow keys to select `ActionHash` as the field type.
 
 !!! dig-deeper Hashes and other identifiers
 
@@ -862,122 +819,69 @@ You can check out the Core Concepts to dive a bit deeper into [how the distribut
 
 !!!
 
-### 4.7. Scaffold link types
-
-We can request content by asking peers for `ActionHash`es or `EntryHash`es, but how do we find out which `ActionHash` or `EntryHash` to ask for?
-
-Links can help us with that.
-
-Links are a mechanism to establish relationships between identifiers, enabling efficient organization, lookup, and retrieval of related data in the distributed hash table (our application's storage system). They serve as a way to connect and reference actions, entries, and agents.
-
-For our forum application, we'll want to create a couple of types of links.
-
-Let's create a link-type from a post to a comment. If we have a post, we will be able to use links of this type to find all of the comments that have been made on that post. This pattern makes use of `ActionHash`es to navigate to Actions, queries the content of those Actions, then uses the `EntryHash`es referenced in them to request the entry content of the comments themselves. We can think of this as a post-to-comment link type.
-
-Run the following command:
-
-```shellsession
-hc scaffold link-type
-```
-
-You should see:
+After press <kbd>Enter</kbd>, you should see:
 
 ::: output-block
 ```text
-? Link from which entry type? ›
-❯ Post
-  Comment
-  Agent
+? Should a link from this field be created when this entry is created? (y/n) ›
 ```
 :::
 
-Select `Post`, then you should see:
+Press <kbd>Y</kbd> to accept creating a link.
+
+Next you will see:
 
 ::: output-block
 ```text
-? Reference this entry type with its entry hash or its action hash?
-❯ ActionHash (recommended)
-  EntryHash
+✔ Which entry type is this field referring to?
 ```
 :::
 
-Select `ActionHash` and press <kbd>Enter</kbd>.
+Press <kbd>Enter</kbd> to accept the suggested entry type `Post`.
 
-Then you should see:
+Next, you will be asked to pick a field name. You can press <kbd>Enter</kbd> to accept the field name suggestion, which should be:
+
+```text
+post_hash
+```
+
+Press <kbd>N</kbd> to decline adding another field to the entry.
+
+Then use the arrow keys to deselect Update, but leave Delete selected. It should look as follows:
 
 ::: output-block
 ```text
-? Link to which entry type? ›
-❯ Post
-  Comment
-  Agent
-  [None]
+Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
+  Update
+✔ Delete
 ```
 :::
 
-Use the arrow keys to select `Comment` and press <kbd>Enter</kbd>.
-
-Again, you will see:
-
-::: output-block
-```text
-? Reference this entry type with its entry hash or its action hash? ›
-❯ ActionHash (recommended)
-  EntryHash
-```
-:::
-
-Press <kbd>Enter</kbd> to select `ActionHash (recommended)`
+Once that is done, press <kbd>Enter</kbd> to generate a delete function for the **`comment`** entry type.
 
 You should then see:
 
 ::: output-block
 ```text
-? Should the link be bidirectional? (y/n) ›
+Entry type "comment" scaffolded!
+
+Add new collections for that entry type with:
+
+    hc scaffold collection
 ```
 :::
 
-Press <kbd>Y</kbd> to make the link bidirectional.
+The scaffolding will now have both added the `comment` entry type, and added a bunch more very useful code to our app using the native Holochain affordance of links.  Links allow us to create paths that agents can follow to find associated content.  So, the scaffolding not only added a reference to the post in the comment's entry, but it also added code such that when a comment is added, a link from the post back to the comment, will also be created.  If you want to see some of that code, take a look at the `dnas/forum/zomes/integrity/posts/src/lib.rs` file and you should see right near the top that a function has been created for validating the creation of a `post_to_comments` link. Similarly, other validation functions related to the deletion of those links is below.
 
-!!! dig-deeper Bidirectional = make two links
+!!! dig-deeper How links are stored and retrieved in a Holochain app
 
-Making the link type bidirectional tells the scaffolding tool to **also create a link type from a comment to the post** that it is responding to, along with code to create a link of that type whenever a comment is created. Links in Holochain aren't actually bidirectional. But to gain that functionality, we simply create two links, one in each direction.
-
-With a link type from a comment to a post, if an agent has a comment, they can find out which post it is a response to.
-
-We can think of this as a comment-to-post link type.
-
-!!!
-
-Next you should see:
-
-::: output-block
-```text
-? Can the link be deleted? (y/n) ›
-```
-:::
-
-Hit `y` to allow the link to be deleted.
-
-You should then see:
-
-::: output-block
-```text
-Link type scaffolded!
-```
-:::
-
-Links allow us to create paths that agents can follow to find associated content. We've created two separate link types --- one pointing from a post to a comment (`PostToComments`) and another pointing from a comment to a post (`CommentToPosts`). If we want to see some of that code, take a look at the `dnas/forum/zomes/integrity/posts/src/lib.rs` file and you should see right near the top that a function has been created for validating the creation of a `post_to_comments` link. Similarly, other validation functions related to the deletion of those links is below. And further down are the validation functions related to the creation and deletion of a `comment_to_posts` link.
-
-You might be thinking "That's all fine, but what exactly is a link? Where is it stored? How does it work? And what do they let us do that we couldn't do otherwise?"
+What exactly is a link? Where is it stored? How does it work? And what do they let us do that we couldn't do otherwise?
 
 This Core Concepts section on [Links and Anchors](https://developer.holochain.org/concepts/5_links_anchors/) paints a pretty clear picture.
 
 In short, links enable us to build a graph of references from one piece of content to other pieces of content in a hApp and then to navigate that graph. This is important because without some sort of trail to follow, it is infeasible to just "search for all content" thanks to the address space (all possible hashes) being so large and spread out across machines that iterating through tme all could take millions of years.
 
 By linking from known things to unknown things, we enable the efficient discovery and retrieval of related content in our hApp.
-
-!!! dig-deeper How links are stored and retrieved in a Holochain app
 
 **Storage**: When an agent creates a link between two entries, a "create link" action is written to their source chain. A link is so small that there's no entry for the action. It simply contains the address of the base, the address of the target, the link type (which describes the relationship), and an optional tag which contains a small amount of application-specific information. The base and target can be any sort of DHT address --- an `EntryHash`, an `ActionHash`, or an `AgentPubKey`. But they can also be the hash of a piece of data that doesn't even exist in the DHT.
 
@@ -987,9 +891,11 @@ After storing the action in the local source chain, the agent then publishes the
 
 !!!
 
-### 4.8. Scaffold a collection
+### 4.7. Scaffold a collection
 
-Now, let's create a collection that can be used to retrieve all the posts. To create a collection, type:
+Now, let's create a collection that can be used to retrieve all the posts. A collection creates a link type for referring to the collected entry type (similarly to how a link type was created for linking from posts to comments), but collections also create an anchor as the base for the link so we can find all the items in the collection by starting from the anchor's known hash.
+
+To create a collection, type:
 
 ```shellsession
 hc scaffold collection
@@ -1047,9 +953,11 @@ And use the element in the `&lt;div id="content" /&gt` block by adding in this:
 
 
 
-These instructions are telling us that if we want to include this component in the user interface of our hApp, we need to a) import the component and b) tell the UI to display the component.
+These instructions tell us that if we want to include this generated UI component in the user interface of our hApp, we need to do some manual work:
+  1. import the component and
+  2. tell the UI to display the component.
 
-In the next section, we will begin working with our `.svelte` files to control our UI.
+In the next section, we will begin working with our `.svelte` files to build our UI.
 
 !!! dig-deeper How a collection is implemented
 
@@ -1071,7 +979,7 @@ The scaffolding tool doesn't have any feature for building anchors and trees bey
 
 !!!
 
-### 4.9. Integrate the generated UI elements
+### 4.8. Integrate the generated UI elements
 
 At this stage, we will incorporate all the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.
 
