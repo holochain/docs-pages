@@ -148,7 +148,7 @@ npm install
 npm start
 ```
 
-When you run them, you should see two windows pop up representing two agents, both of which will have published a `Hello World` entry to the network, and when you click on the "get hellos" button, you should be able to see the hellos:
+After you run the last of these commands, you should see two windows open, one with the Holochain Playground that displays a visual representation of Holochain state data, and two others showing the UI for two agents, both of which will have published a `Hello World` entry to the network, and when you click on the "get hellos" button, you should be able to see the hellos:
 
 [image of hellos?]
 
