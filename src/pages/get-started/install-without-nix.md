@@ -25,19 +25,19 @@ from the crate registry. At first the required Rust toolchain and features are i
 
 1. Follow the official [Rust toolchain installation](https://www.rust-lang.org/tools/install)
 1. Install the required target to build WebAssembly binaries
-    ```bash
+    ```shellsession
     rustup target add wasm32-unknown-unknown
     ```
 1. Linux build tools
-    ```bash
+    ```shellsession
     sudo apt-get install build-essential
     ```
 1. OpenSSL
-    ```bash
+    ```shellsession
     sudo apt-get install libssl-dev
     ```
 1. Build dependency for Cargo libraries
-    ```bash
+    ```shellsession
     sudo apt-get install pkg-config
     ```
 
@@ -46,7 +46,7 @@ from the crate registry. At first the required Rust toolchain and features are i
 The following commands will compile and install the binaries into your user's profile.
 It will overwrite any pre-existing binaries, also in the case where its already the latest version.
 
-```bash
+```shellsession
 cargo install --force holochain
 cargo install --force holochain_cli
 cargo install --force lair_keystore
