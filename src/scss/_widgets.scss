@@ -84,15 +84,18 @@ kbd {
   color: white;
 }
 
+/* Offset the styling of combo keys from their combinator (e.g., the '+' in 'Ctrl+C'). */
+/* Doesn't work on all browsers, but makes for slightly nicer typesetting for the browsers that do support it. */
+kbd:has(kbd), kbd kbd {
+  background-color: rgba($cl-main-text, 0.5);
+}
+
 kbd kbd {
   /* Nested kbds, as used in keystroke combos, need to not have their font size shrunk twice. */
   font-size: 100%;
 }
 
-/* Doesn't work on all browsers, but makes for slightly nicer typesetting of keystrokes. */
 kbd:has(kbd) {
-  /* Offset the keys from the combinator (e.g., the '+' in 'Ctrl+C'). */
-  background-color: rgba($cl-main-text, 0.5);
   padding-left: 0;
   padding-right: 0;
 }
