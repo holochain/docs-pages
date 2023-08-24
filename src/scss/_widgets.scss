@@ -55,6 +55,16 @@ pre[class*="language-"] {
 
 }
 
+/* Begin each terminal command with a non-copyable terminal prompt. */
+code.language-shellsession, code.language-shell-session {
+  &::before {
+    /* This green was copied from the Prism CSS to keep consistent with it.
+    FIXME: If we ever change the code highlighting theme, this will look odd. */
+    color: #690;
+    content: '$ ';
+  }
+}
+
 /* Inline input and output */
 code, kbd {
 	padding: .1em .15em;
