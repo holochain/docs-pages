@@ -520,23 +520,28 @@ You should then see prompts asking if you want to scaffold the integrity and coo
 
 Press <kbd>Y</kbd> for both prompts.
 
-As that runs (which will take a moment as the scaffold makes changes to various files) you should then see:
+As that runs (which will take a moment as the scaffold makes changes to various files) you should then see something like:
 
 ::: output-block
 ```text
 Coordinator zome "posts" scaffolded!
 Updating crates.io index
-    Fetch [===>       ] ... (then after download is done...)
-Downloaded (a bunch of downloaded files ... then)
+    Fetch [===>       ] ... 
+```
+:::
+    (then after download is done...)
+::: output-block
+```text
+    Downloaded 244 crates (46.7 MB) in 4.27s (largest was `windows` at 11.9 MB)
 
 Add new entry definitions to your zome with:
     hc scaffold entry-type
 ```
 :::
 
-Once that is all done, our hApp skeleton will have filled out a bit. Before we scaffold the next piece, let's give a little context for how content is "spoken into being" when a participant publishes a post in a forum hApp.
+Once that is all done, our hApp skeleton will have filled out a bit. 
 
-If you aren't yet familiar with Holochain's concept of a source chain, check out [The Source Chain: A Personal Data Journal](https://developer.holochain.org/concepts/3_source_chain/).
+Before we scaffold the next piece, it helps to have some context for how content is "spoken into being" when a participant publishes a post in a forum hApp. So, if you aren't yet familiar with Holochain's concept of a source chain, check out [The Source Chain: A Personal Data Journal](https://developer.holochain.org/concepts/3_source_chain/).
 
 !!! dig-deeper Source chains, actions, and entries
 
@@ -590,11 +595,11 @@ An entry type is just a label, an identifier for a certain type of data that you
 
 !!!
 
-We will want to create two entry types for our `posts` integrity zome: **`post`** and **`comment`**. Posts will have a `title` field and a `content` field. Comments will have a `comment_content` field and a way of indicating which post they are a comment on.
+Our bare-bones forum needs two entry types: **`post`** and **`comment`**. We will define thse in the `posts` integrity zome we just created in the previous step.  The **`post`** entry type will define a `title` field and a `content` field. The **`comment`** entry type will define a `comment_content` field and a way of indicating which post the comment is about.
 
-Let's go ahead and follow the instructions that the scaffold suggested for adding "new entry definitions to your zome".
+To do this we just follow the instructions that the scaffold suggested for adding "new entry definitions to your zome".
 
-Let's create the **`post`** entry type first. Enter:
+We'll start with the **`post`** entry type. Enter:
 
 ```shellsession
 hc scaffold entry-type
