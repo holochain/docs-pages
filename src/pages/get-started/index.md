@@ -329,19 +329,9 @@ found 0 vulnerabilities
 ```
 :::
 
-If you see something like that, you've successfully downloaded all the dependencies.
+If you see something like that, you've successfully downloaded the `nodeJS` dependencies for the UI and for building our apps.
 
-Now if we again enter:
-
-```shellsession
-ls
-```
-
-We should notice that a new folder has been added called `node_modules`. If we opened that folder we would see a whole bunch of libraries that have been installed. If you have, before going to the next step, just make sure that you [navigate back](https://hackmd.io/@oitz5O-qR2qrfRre3Kbv-Q/SJqWJ6T43) to the root folder for our hApp: `my_forum_app`.
-
-We've already scaffolded a new web app!
-
-Next up, we are going to start creating one of the most important building blocks in a Holochain app: a DNA.
+Next up, we are going to start creating foundationalbuilding blocks of any Holochain app: it's DNA.
 
 !!! dig-deeper Scaffolding subcommands
 
@@ -387,7 +377,7 @@ A quick note: if while scaffolding some part of your hApp, you realize you've ma
 
 A DNA folder is where we will put the code that defines the rules of our application. We are going to stay in the `my_forum_app/` root folder of our hApp and, with some simple commands, the scaffold tool will do much of the creation of relevant folders and files for us.
 
-!!! dig-deeper About DNAs {#about-dnas}
+!!! dig-deeper DNAs: Context and Background {#about-dnas}
 
 #### Why do we use the term DNA?
 
