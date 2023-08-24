@@ -128,8 +128,10 @@ hn-introspect
 
 This command displays versioning information about Holochain's main components. The output looks like this:
 
+```shellsession
+hn-introspect
+```
 ```shell
-$ hn-introspect
 holochain (holochain 0.1.3): ed5b7bb461c2a8bfd4d2633bad604a20b8f2da03
 lair-keystore (lair_keystore 0.2.3): cbfbefefe43073904a914c8181a450209a74167b
 hc-launch (holochain_cli_launch 0.0.11): 3bcd14e81cda07e015071b070c2ef032aa1d1193
@@ -138,7 +140,7 @@ hc-scaffold (holochain_scaffolding_cli 0.1.6): 0d84d09a9a3f41d3b7d7330a0797a789c
 
 Another Holochain command that inspects the platform information and outputs the compatible HDK version is
 
-```bash
+```shellsession
 holochain --build-info
 ```
 
@@ -183,7 +185,7 @@ _Note that by specifying custom component URLs, you will probably get a binary c
 
 Many developers have their shell set up just the way they like it, whether a custom-formatted prompt or a completely different shell such as `zsh` and `fish`. If you don't want Holonix to clobber your carefully-crafted environment, try adding `--command $SHELL` to the end of your `nix develop` command:
 
-```shell
+```shellsession
 nix develop github:holochain/holochain#holonix --command "$SHELL"
 ```
 
@@ -193,9 +195,13 @@ In most cases you can run your editor as you normally would. However, if you are
 
 To do this, just open your editor from the command line while you are in the `nix develop` (this example uses Vim):
 
-```shell
+```shellsession
 nix develop github:holochain/holochain#holonix
+```
+```shellsession
 cd my_project
+```
+```shellsession
 vim my_file.rs
 ```
 
@@ -229,14 +235,16 @@ If you want to re-enter the shell to do more work, or create multiple terminals 
 
 You usually don't need to uninstall anything, because `nix develop` leaves your familiar user environment alone and makes all of its own changes disappear once you exit the shell. But it does keep binaries and other packages on your device. On macOS it adds users and a user group too. If you want to free up some space, run these commands:
 
-```bash
+```shellsession
 nix-collect-garbage -d
 ```
 
 If you want to uninstall Nix as well, run these commands (you might need root privileges for the first line):
 
-```bash
+```shellsession
 rm -rf /nix
+```
+```shellsession
 rm ~/.nix-profile
 ```
 [Detailed uninstallation instructions for macOS](https://gist.github.com/chriselsner/3ebe962a4c4bd1f14d39897fc5619732#uninstalling-nix)
