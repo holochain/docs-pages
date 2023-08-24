@@ -99,9 +99,9 @@ kbd:has(kbd) {
 
 /* Details and Summary */
 details {
-
+  /* For historical reasons this block's class name is different from the 'Learn more' text that it displays. */
   &.dig-deeper {
-    outline: black solid 1px;
+    outline: rgba(black, 0.5) solid 1px;
     background-color: #d0d0d745;
     border-radius: 5px;
 
@@ -118,11 +118,11 @@ details {
       &::before {
         font-weight: normal;
         padding-left: 20px;
-        background-image: $shovelIcon;
+        background-image: $learnIcon;
         background-repeat: no-repeat;
         background-position-y: top;
         background-position-x: -5px;
-        content: "Dig deeper | ";
+        content: "Learn more | ";
         color: rgba(black, 0.5);
       }
       @include addExpandIcon;
