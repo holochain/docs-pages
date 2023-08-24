@@ -54,7 +54,7 @@ Follow this guide step by step. All steps are essential to create the example ap
 
 * The examples below use `$` to represent your terminal prompt in a UNIX-like OS, though it may have been customized in your OS to appear differently.
 * We assume that you are reading this guide because your are a developer new to Holochain but interested in actually building peer-to-peer distributed applications using a framework that is agent-centric, that provides intrinsic data integrity, is scalable, and when deployed, end-user code runs just on the devices of the participants without relying on centralized servers or blockchain tokens or other points of centralized control.
-* We assume that you've at least skimmed [Holochain's Core Concepts](https://developer.holochain.org/concepts/1_the_basics/) or are ready to pop over there when needed.
+* We assume that you've at least skimmed [Holochain's Core Concepts](/concepts/1_the_basics/) or are ready to pop over there when needed.
 * Because Holochain's DNA's are written in Rust, we assume you have at least a basic familiarity with the language. Note, however, that this guide will take you through everything you need to do, step-by-step, so you can follow the steps and learn Rust later. Additionally, Holochain DNAs rarely need to take advantage of the more complicated aspects of the language, so don't let Rust's learning curve scare you.
     * If you're new to Rust, you can start your learning journey by reading chapters 1 to 11 in the [Rust Book](https://doc.rust-lang.org/book/) and doing the accompanying [Rustlings exercises](https://github.com/rust-lang/rustlings/).
 * We also assume that you have basic familiarity with the Unix command line.
@@ -69,12 +69,14 @@ In this section, we'll walk you through the step-by-step process of installing H
 
 ### 2.1. Hardware requirements
 
-Before you install the Holochain development environtment, make sure your system meets the following hardware requirements:
+Before you install the Holochain development ment, make sure your system meets the following hardware requirements:
 
 * 8GB+ RAM (16GB+ recommended)
 * 4+ cores CPU (6+ cores recommended)
 * 30GB+ available disk space
 * High-speed internet connection
+
+This may seem like a lot; it's mainly due to Rust's compiler, which requires a lot of system resources.
 
 ### 2.2. Windows prerequisite: WSL2 {#2-2-windows-prerequisite-wsl2}
 
@@ -92,7 +94,7 @@ Open a [command line terminal](https://hackmd.io/c15fobj9QtmOuEuiNAkaQA) and run
 bash <(curl https://holochain.github.io/holochain/setup.sh)
 ```
 
-This command downloads the setup script and runs it, installing the Nix package manager and setting up the Holochain binary cache.
+This command downloads the setup script and runs it, installing the Nix package manager and setting up a package cache for Holochain.
 
 ### 2.4. Verify installation
 
@@ -110,7 +112,7 @@ downloading 'https://holochain-ci.cachix.org/nar/<some-hash>.nar.zst'...
 ```
 :::
 
-It proves that the binary cache is configured correctly.
+It proves that the package cache is configured correctly.
 
 At the end of the output, Holochain's scaffolding tool should print its version string:
 
@@ -126,13 +128,13 @@ Congratulations! The Holochain development environment is now set up successfull
 
 In this section, we'll use Holochain's scaffolding tool to generate a simple "Hello, World!" application.
 
-When getting started, seeing a simple, but fully-functional app can be very helpful. You can have Holochain's scaffold tool generate a "Hello, World!" application (but for a distributed multi-agent world), by typing the following in your command line terminal:
+When getting started, seeing a simple but fully-functional app can be very helpful. You can have Holochain's scaffolding tool generate a "Hello, World!" application (but for a distributed multi-agent world) by typing the following in your command line terminal:
 
 ```shellsession
 nix run github:holochain/holochain#hc-scaffold -- example hello-world
 ```
 
-The scaffolding tool should print out these four commands:
+The scaffolding tool should print out these four commands for you to run in order to run the app. Copy them from your terminal or from below:
 
 ```shellsession
 cd hello-world
@@ -147,7 +149,12 @@ npm install
 npm start
 ```
 
-After you run the last of these commands, you should see two windows open, one with the Holochain Playground that displays a visual representation of Holochain state data, and two others showing the UI for two agents, both of which will have published a `Hello World` entry to the network, and when you click on the "get hellos" button, you should be able to see the hellos:
+After you run the last of these commands, you should see three windows open:
+
+* A web browser window with the Holochain Playground, which displays a visual representation of the app's state data
+* Two windows showing the UI for two agents, both of which will have published a `Hello World` entry to the network.
+
+When you click on the "get hellos" button, you should be able to see the hellos:
 
 [image of hellos?]
 
@@ -163,51 +170,43 @@ List the folders and files in our `hello-world/` folder by entering:
 ls
 ```
 
-If you are new to navigating folders and files using the command line, check out [Navigating with the Command Line (Mac + Linux)](https://hackmd.io/@oitz5O-qR2qrfRre3Kbv-Q/SJqWJ6T43)
-
-For now, make use of:
-
-* `ls` to list the contents of the folder that you are in,
-* `cd <folder_name>` to navigate into a particular sub-folder, and
-* `cd ..` to navigate back up to a parent folder.
-
 This table includes everything in the `hello-world/` folder as well as details of the contents of the `dnas/` subfolder since that makes up the bulk of the "Holochain" part of an application. For certain working folders, like `node_modules/`, `target/`, `tests/`, and `ui/`, the table only contains a high-level overview.
 
-| File/folder                | Purpose                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|<pre> ├── hello-world/         </pre>| Root folder of the "Hello, World!" application. All other files and folders will reside here.                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|<pre> ├┬─ dnas/                </pre>| This folder contains the DNA configuration and source code for the application. DNAs are one of the most important building blocks in Holochain. Simply put, **a DNA is the source-code for the game you are playing with your peers in Holochain.** And here is the twist: in Holochain, **every DNA creates its own peer-to-peer network** (for the validation, storage, and serving of content). Every Holochain application contains at least one DNA. In this example hApp, we have just one: `hello_world`. |
-|<pre> │└┬─ hello_world/        </pre>| Folder for the "Hello, World!" DNA. It contains modules (zomes) that define the rules of this application.                                                                                                                                                                                                                                                                                                                                                                                                         |
-|<pre> │ ├┬─ workdir/           </pre>| A working folder containing configuration files and compiled artifacts related to the DNA.                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|<pre> │ │├── dna.yaml          </pre>| DNA manifest file. A YAML file that defines the properties and zomes of the DNA. YAML is a human-readable data serialization language.                                                                                                                                                                                                                                                                                                                                                                             |
-|<pre> │ │└── hello_world.dna   </pre>| The compiled DNA file, which includes both the integrity and coordinator zomes. This file is used by Holochain to run the hApp.                                                                                                                                                                                                                                                                                                                                                                                    |
-|<pre> │ └┬─ zomes/             </pre>| The executable code modules in a DNA are called zomes (short for chromosomes), each with its own name like `profile` or `chat` or in our case `hello` (below). Zomes define the core logic in a DNA. This folder contains zomes for the `hello_world` DNA. Zome modules can be composed together to create more powerful functionality. DNAs in Holochain are always composed out of one or more zomes.                                                                                                            |
-|<pre> │  ├┬─ coordinator/      </pre>| This folder contains the coordinator zomes, which are responsible for this DNA's controller layer, such as reading/writing data and handling communication between peers.                                                                                                                                                                                                                                                                                                                                          |
-|<pre> │  │└┬─ hello_world/     </pre>| Folder containing the `hello_world` coordinator zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|<pre> │  │ ├┬─ src/            </pre>| Source code folder for the `hello_world` coordinator zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|<pre> │  │ │└── lib.rs         </pre>| The main source code file for the `hello_world` coordinator zome. In Rust, `lib.rs` is the entry point for a 'crate' (Rust module). If you have nothing else in there, you should have a `lib.rs` file.                                                                                                                                                                                                                                                                                                            |
-|<pre> │  │ └── Cargo.toml      </pre>| The manifest file for the `hello_world` coordinator zome, containing metadata, dependencies, and build options.                                                                                                                                                                                                                                                                                                                                                                                                    |
-|<pre> │  └┬─ integrity/        </pre>| This folder contains the integrity zomes, which are responsible for the application's model layer, such as defining data structures and validation rules.                                                                                                                                                                                                                                                                                                                                                          |
-|<pre> │   └┬─ hello_world/     </pre>| Folder containing the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-|<pre> │    ├┬─ src/            </pre>| Source code folder for the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|<pre> │    │└── lib.rs         </pre>| The main source code file for the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|<pre> │    └── Cargo.toml      </pre>| The configuration file for Rust, containing dependencies and build options for the `hello_world` integrity zome.                                                                                                                                                                                                                                                                                                                                                                                                   |
-|<pre> ├── node_modules/        </pre>| A folder containing JavaScript packages and dependencies for the user interface and tests.                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|<pre> ├── target/              </pre>| A folder containing the compiled output from the Rust build process.                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|<pre> ├── tests/               </pre>| A folder containing JavaScript-base test code for the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|<pre> ├── ui/                  </pre>| A folder containing the source code and assets for the user interface of the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                                                                                          |
-|<pre> ├┬─ workdir/             </pre>| A working folder containing configuration files and compliled artifacts related to the building of the whole hApp.                                                                                                                                                                                                                                                                                                                                                                                                 |
-|<pre> │├── happ.yaml           </pre>| The manifest file for the hApp. It references the DNA files to be included, along with the roles they play in the application.                                                                                                                                                                                                                                                                                                                                                                                     |
-|<pre> │├── hello_world.happ    </pre>| The compiled hApp bundle, which includes all the DNAs (in case just the one).                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|<pre> │├── hello_world.webhapp </pre>| The compiled web hApp bundle, which includes the hApp bundle plus the zipped UI.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|<pre> │└── web-happ.yaml       </pre>| The manifest file for the hApp plus the UI. It references the compiled hApp bundle and zipped UI folder to be included.                                                                                                                                                                                                                                                                                                                                                                                            |
-|<pre> ├── Cargo.lock           </pre>| A file generated by Cargo, Rust's package manager, that lists the exact versions of dependencies used in the project.                                                                                                                                                                                                                                                                                                                                                                                              |
-|<pre> ├── Cargo.toml           </pre>| The main configuration file for the Rust project, containing dependencies, build options, and other metadata for the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                                                  |
-|<pre> ├── flake.lock           </pre>| A file generated by Nix, a package manager, that lists the exact versions of dependencies used in the project.                                                                                                                                                                                                                                                                                                                                                                                                     |
-|<pre> ├── flake.nix            </pre>| A Nix expression that defines the project's build environment, dependencies, and how the project should be built.                                                                                                                                                                                                                                                                                                                                                                                                  |
-|<pre> ├── package.json         </pre>| The main configuration file for the JavaScript/Node.js project, containing dependencies, scripts, and other metadata for the user interface of the "Hello, World!" application.                                                                                                                                                                                                                                                                                                                                    |
-|<pre> ├── package-lock.json    </pre>| A file generated by npm, Node.js package manager, that lists the exact versions of dependencies used in the user interface project.                                                                                                                                                                                                                                                                                                                                                                                |
-|<pre> └── README.md            </pre>| A markdown file containing the documentation and instructions for the "Hello, World!" application, including how to build, run, and test the project.                                                                                                                                                                                                                                                                                                                                                              |
+| File/folder                           | Purpose                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <pre> ├── hello-world/         </pre> | Root folder of the application. All other files and folders will reside here.                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| <pre> ├┬─ dnas/                </pre> | This folder contains the DNA configuration and source code for the application. DNAs are one of the most important building blocks in Holochain. Simply put, **a DNA is the executable code for the game you are playing with your peers in Holochain.** And here is the twist: in Holochain, **every DNA creates its own peer-to-peer network** for the validation, storage, and serving of content. Every Holochain application contains at least one DNA. In this example hApp, we have just one: `hello_world`. |
+| <pre> │└┬─ hello_world/        </pre> | Folder for the `hello_world` DNA. It contains modules (zomes) that define the rules and API of this application.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| <pre> │ ├┬─ workdir/           </pre> | A working folder containing configuration files and compiled artifacts related to the DNA.                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| <pre> │ │├── dna.yaml          </pre> | DNA manifest file. A YAML file that defines the properties and zomes of the DNA. YAML is a human-readable data serialization language.                                                                                                                                                                                                                                                                                                                                                                              |
+| <pre> │ │└── hello_world.dna   </pre> | The compiled DNA file, which includes both the integrity and coordinator zomes. This file is used by Holochain to run the hApp.                                                                                                                                                                                                                                                                                                                                                                                     |
+| <pre> │ └┬─ zomes/             </pre> | The source code for zomes (short for chromosomes), which are the executable packages in a DNA. Each zome has its own name like `profile` or `chat`. Zomes define the core logic in a DNA, and can be composed together to create more powerful functionality. DNAs in Holochain are always composed out of one or more zomes. This folder contains zomes for the `hello_world` DNA.                                                                                                                                 |
+| <pre> │  ├┬─ coordinator/      </pre> | This folder contains the coordinator zomes, which are responsible for this DNA's controller layer, such as reading/writing data and handling communication between peers. The public functions defined in these zomes' code become the application's API available to the UI and, depending on the needs of your app, to other peers in the same network.                                                                                                                                                           |
+| <pre> │  │└┬─ hello_world/     </pre> | Folder containing the source code for the package that will become the `hello_world` coordinator zome binary. Rust packages are called crates, and they have the following structure.                                                                                                                                                                                                                                                                                                                               |
+| <pre> │  │ ├┬─ src/            </pre> | Source code folder for the `hello_world` crate.                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| <pre> │  │ │└── lib.rs         </pre> | The main source code file for the `hello_world` crate. In Rust, `lib.rs` is the entry point for a library crate, which is the kind of crate that a zome needs to be written as. If you have nothing else in here, you should have this file.                                                                                                                                                                                                                                                                        |
+| <pre> │  │ └── Cargo.toml      </pre> | The manifest file for the crate that will become the `hello_world` coordinator zome, containing metadata, dependencies, and build options. This file tells Cargo, Rust's package manager, how to build the crate into a binary.                                                                                                                                                                                                                                                                                     |
+| <pre> │  └┬─ integrity/        </pre> | This folder contains the integrity zomes, which are responsible for the application's model layer, which define data structures and validation rules for application data.                                                                                                                                                                                                                                                                                                                                          |
+| <pre> │   └┬─ hello_world/     </pre> | Folder containing the `hello_world_integrity` crate.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <pre> │    ├┬─ src/            </pre> | Source code folder for the `hello_world_integrity` crate.                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| <pre> │    │└── lib.rs         </pre> | The main source code file for the `hello_world_integrity` crate.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| <pre> │    └── Cargo.toml      </pre> | TThe Cargo manifest file for the `hello_world_integrity` crate.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| <pre> ├── node_modules/        </pre> | A folder containing cached JavaScript packages and dependencies for the user interface and tests.                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| <pre> ├── target/              </pre> | A folder containing the compiled output from the Rust build process.                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <pre> ├── tests/               </pre> | A folder containing JavaScript-base test code for the application.                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| <pre> ├── ui/                  </pre> | A folder containing the source code and assets for the web-based user interface of the "Hello, World!" application. This user interface will get distributed along with the application.                                                                                                                                                                                                                                                                                                                            |
+| <pre> ├┬─ workdir/             </pre> | A working folder containing configuration files and compliled artifacts related to the building of the whole hApp.                                                                                                                                                                                                                                                                                                                                                                                                  |
+| <pre> │├── happ.yaml           </pre> | The manifest file for the hApp. It references the DNA files to be included, along with the roles they play in the application. In this case, there's only one DNA file, `hello_world`.                                                                                                                                                                                                                                                                                                                              |
+| <pre> │├── hello_world.happ    </pre> | The compiled hApp bundle, which includes all the DNAs (in case just the one).                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| <pre> │├── hello_world.webhapp </pre> | The compiled web hApp bundle, which includes the hApp bundle plus the zipped UI.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| <pre> │└── web-happ.yaml       </pre> | The manifest file for the hApp plus the UI. It references the compiled hApp bundle and zipped UI folder to be included.                                                                                                                                                                                                                                                                                                                                                                                             |
+| <pre> ├── Cargo.lock           </pre> | A file generated by Cargo, Rust's package manager, that lists the exact versions of dependencies used in the project.                                                                                                                                                                                                                                                                                                                                                                                               |
+| <pre> ├── Cargo.toml           </pre> | The main configuration file for the Rust project, containing dependencies, build options, and other metadata for all crates.                                                                                                                                                                                                                                                                                                                                                                                        |
+| <pre> ├── flake.lock           </pre> | A file generated by Nix, the package manager we use to distribute the Holochain development tools, that lists the exact versions of dependencies used in the project.                                                                                                                                                                                                                                                                                                                                               |
+| <pre> ├── flake.nix            </pre> | A Nix file that defines the project's build environment and dependencies.                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| <pre> ├── package.json         </pre> | The main configuration file for the JavaScript portions of the project, containing dependencies, scripts, and other metadata for the application's user interface and tests, as well certain build tools.                                                                                                                                                                                                                                                                                                           |
+| <pre> ├── package-lock.json    </pre> | A file generated by npm, Node.js package manager, that lists the exact versions of dependencies used by Node.JS.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| <pre> └── README.md            </pre> | A Markdown file containing the documentation and instructions for the application, including how to build, run, and test the project.                                                                                                                                                                                                                                                                                                                                                                               |
 
 These files and folders make up the structure of a Holochain application, with the main logic defined in the zomes (in the `dnas/<dna>/zomes/` folders) and the user interface defined in the `ui/` folder. The manifest files bring all the Holochain and UI assets together, allowing the `hc` tool to bundle them into a single hApp file ready for distribution.
 
@@ -215,25 +214,25 @@ These files and folders make up the structure of a Holochain application, with t
 
 ## 4. Zero to built: creating a forum app
 
-First, navigate back to the folder where you want to keep your Holochain applications. If this is just your home folder, you can navigate there by typing `cd ~`.
+First, navigate back to the folder where you want to keep your Holochain applications. If this is just your home folder, you can navigate there by typing:
 
-!!! info Pre-requisite
-First, ensure you have Holochain installed as per section 2.
-!!!
+```shellsession
+cd ~
+```
 
-Next up, we'll walk you through creating a forum application from scratch using Holochain's scaffolding tool, step-by-step. Our forum application will enable participants to share text-based posts and to comment on those posts.
+Next up, we'll walk you through creating a forum application from scratch using Holochain's scaffolding tool, step-by-step. This forum application will enable participants to share text-based posts and to comment on those posts.
 
 Each post will have a title and content and authors will be able to edit --- or update --- their posts. However, they won't be able to delete them.
 
 Each comment will be a reply to a particular post, will be limited in length to 140 characters, and will be able to be deleted but not updated.
 
-We'll create a couple of other things along the way that will enable us to find these posts and comments, but we'll cover those things when we get there.
+We'll create a couple of other things along the way that will enable people to find these posts and comments, but we'll cover those things when we get there.
 
-The good news is that the Holochain scaffold tool will do a lot of the heavy lifting in terms of generating folders, files, and boilerplate code. It will walk us through each step in the hApp generation process. In fact, the scaffold does so much of the work for us on the backend, that many people have commented that the time spent writing a holochain app is 90% (or more) focused on building out the frontend user interface and experience.
+The good news is that the Holochain scaffolding tool will do a lot of the heavy lifting in terms of generating folders, files, and boilerplate code. It will walk you through each step in the hApp generation process. In fact, the scaffolding tool does so much of the work for you that many people have commented that 90% or more of the time spent writing a Holochain app is focused on building out the front-end user interface and experience.
 
 First, let's use the scaffolding tool to generate the basic folders and files for our hApp.
 
-### 4.1. Scaffolding a hApp {#5-1-scaffolding-a-happ}
+### 4.1. Scaffolding a hApp {#4-1-scaffolding-a-happ}
 
 To start, run the following command in your terminal:
 
@@ -249,7 +248,7 @@ You should then see:
 ```
 :::
 
-Enter the name of your forum application using snake_case. Let's enter:
+Enter the name of your forum application using snake_case. Enter:
 
 ```text
 my_forum_app
@@ -259,13 +258,13 @@ my_forum_app
 
 You'll then be prompted to choose a user interface (UI) framework for your front end.
 
-For this example, use the arrow keys to choose **Svelte** and press <kbd>Enter</kbd>.
+For this example, use the arrow keys to choose `Svelte`` and press <kbd>Enter</kbd>.
 
 ### 4.3. Set up Holonix development environment
 
 Next, you'll be asked if you want to set up the Holonix development environment for the project. This allows you to enter a shell that has all the right tools and libraries for the version of Holochain that your code was generated for.
 
-Choose **Yes (recommended)** and press <kbd>Enter</kbd>.
+Choose `Yes (recommended)` and press <kbd>Enter</kbd>.
 
 You should see:
 
@@ -283,13 +282,13 @@ First, enter the hApp project folder:
 cd my_forum_app
 ```
 
-Just to get an overview of what our first scaffold command set up for us, let's check the contents of that `my_forum_app` folder by typing:
+Just to get an overview of what your first scaffold command set up for you, you can check the contents of that `my_forum_app` folder by typing:
 
 ```shellsession
 ls
 ```
 
-It should look like it has set up a similar set of folders and configuration files to those we saw in the "Hello, World!" hApp.
+It should look like it has set up a similar set of folders and configuration files to those you saw in the "Hello, World!" hApp.
 
 Now, fire up the nix development shell, which makes all scaffolding tools and the Holochain binaries directly available from the command line, by entering:
 
@@ -297,7 +296,7 @@ Now, fire up the nix development shell, which makes all scaffolding tools and th
 nix develop
 ```
 
-You should see:
+After a short while of installing packages, you should see:
 
 ::: output-block
 ```text
@@ -305,7 +304,7 @@ Holochain development shell spawned. Type exit to leave.
 ```
 :::
 
-As it says, if at any time, you want to leave the nix development shell, you can type `exit`. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again. But for now, let's install the Node Package Manager (npm) dependencies with:
+As it says, if you want to leave the nix development shell at any time, you can type `exit`. This will take you back to your familiar shell without any of the special Holochain dependencies. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again. But for now, install the Node Package Manager (npm) dependencies with:
 
 ```shellsession
 npm install
@@ -313,7 +312,7 @@ npm install
 
 These dependencies are used by various tools and assets --- the scaffolded tests, the UI, and various development activities like spawning apps for testing.
 
-When that finishes, we should see some text that ends with something like:
+When that finishes, you should see some text that ends with something like:
 
 ::: output-block
 ```text
@@ -325,19 +324,19 @@ found 0 vulnerabilities
 ```
 :::
 
-If you see something like that, you've successfully downloaded the `nodeJS` dependencies for the UI and for building our apps.
+If you see something like that, you've successfully downloaded the NPM dependencies for the UI and for building your app.
 
-Next up, we are going to start creating foundationalbuilding blocks of any Holochain app: it's DNA.
+Next up, you're going to start creating the foundational building block of any Holochain app: its DNA.
 
 !!! dig-deeper Scaffolding subcommands
 
-To get an overview of the subcommands that hc scaffold makes available to us, let's enter:
+To get an overview of the subcommands that `hc scaffold`` makes available to you, type:
 
 ```shellsession
 hc scaffold --help
 ```
 
-We should see something like:
+You should see something like:
 
 ::: output-block
 ```text
@@ -363,53 +362,53 @@ SUBCOMMANDS:
     zome          Scaffold one or multiple zomes into an existing DNA
 ```
 :::
+
+You can get help on every one of these subcommands and its parameters by typing `hc scaffold <subcommand> --help`.
 !!!
 
 !!! info Backing out of a mistake
-A quick note: if while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the scaffold by using <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> on Linux or <kbd><kbd>Command</kbd>+<kbd>C</kbd></kbd> on macOS**.
+A quick note: if while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the current step** by using <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> on Linux or <kbd><kbd>Command</kbd>+<kbd>C</kbd></kbd> on macOS.
 !!!
 
 ### 4.4. Scaffold a DNA
 
-A DNA folder is where we will put the code that defines the rules of our application. We are going to stay in the `my_forum_app/` root folder of our hApp and, with some simple commands, the scaffold tool will do much of the creation of relevant folders and files for us.
+A DNA folder is where you will put the code that defines the rules of your application. You're going to stay in the `my_forum_app/` root folder and, with some simple commands, the scaffolding tool will do much of the creation of relevant folders and files for you.
 
 !!! dig-deeper DNAs: Context and Background {#about-dnas}
 
 #### Why do we use the term DNA?
 
-In Holochain, we are trying to enable coherent social coordination that people are choosing to participate in. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organisations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
+In Holochain, we are trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organisations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
 
 This enables many different independent parts (cells) to build relatively consistent superstructures (a body, for instance), move resources, identify and eliminate infections, and more --- all without centralized command and control. There is no "CEO" cell in the body telling everybody else what to do. It's a bunch of independent actors (cells) playing by a consistent set of rules (the DNA) coordinating in effective and resilient ways.
 
-A cell in the muscle of your bicep finds itself in a particular context, with certain resources and conditions that it is facing. Based on those signals, that cell behaves in particular ways, running relevant portions of the larger shared instruction set (DNA) and transforming resources in ways that fit the context of that part of the larger organism when faced with those circumstances. A different cell in your blood, perhaps facing a context where there is a bacterial infection, will face a different set of circumstances and consequently will make use of other parts of the shared instruction set to guide how it behaves. In other words, many biological organisms make use of this pattern where "many participants run the same rule set, but each in their own context" and that unlocks a powerful capacity for coherent coordination.
+A cell in the muscle of your bicep finds itself in a particular context, with certain resources and conditions that it is facing. Based on those signals, that cell behaves in particular ways, running relevant portions of the larger shared instruction set (DNA) and transforming resources in ways that make sense for a bicep muscle cell. A different cell in your blood, perhaps facing a context where there is a bacterial infection, will face a different set of circumstances and consequently will make use of other parts of the shared instruction set to guide how it behaves. In other words, many biological organisms make use of this pattern where **many participants run the same rule set, but each in its own context**, and that unlocks a powerful capacity for coherent coordination.
 
 Holochain borrows this pattern that we see in biological coordination to try to enable similarly coherent social coordination. However, our focus is on enabling such coherent social coordination to be "opted into" by the participants. We believe that this pattern of being able to choose which games you want to play --- and being able to leave them or adapt them as experience dictates --- is critical to enabling individual and collective adaptive capacity. We believe that it may enable a fundamental shift in the ability of individuals and communities to sense and respond to the situations that they face.
 
 To put it another way: if a group of us can all agree to the rules of a game, then together we can play that game.
 
-All of us opting in to those rules --- and helping to enforce them --- enables us to play that game together whether it is a game of chess, chat, a forum app, or something much richer.
+All of us opting in to those rules --- and helping to enforce them --- enables us to play that game together, whether it is a game of chess, chat, a forum app, or something much richer.
 
 #### DNA as boundary of network
 
-A Holochain DNA and the network of participants that are running that DNA enable "peer witnessing" of actions by the participants of that network. A (deterministically random) set of peers are responsible for validating, storing, and serving each particular piece of content. In other words, the users of a particular hApp agree to a set of rules and then work together collectively to enforce those rules and to store and serve content (state changes) that do not violate those rules.
+The network of participants that are running a DNA engage in "peer witnessing" of actions by the participants in that network. A (deterministically random) set of peers are responsible for validating, storing, and serving each particular piece of shared content. In other words, the users of a particular hApp agree to a set of rules and then work together collectively to enforce those rules and to store and serve content (state changes) that do not violate those rules.
 
-#### Our network of peers is determined at the DNA level
+Every hApp needs to include at least one DNA. Moreover, as indicated above, **it is at the DNA level** (note: not the higher application level) **where participants will form a network of peers to validate, store, and serve content** in accordance with the rules defined in that DNA. This happens in the background as the application runs on each participant's machine.
 
-Every hApp needs to include at least one DNA. Moreover, as indicated above, **it is at the DNA level** (note: not the higher application level) **where users will form a network of peers to validate, store, and serve content** in accordance with the rules defined in that DNA.
-
-There are some powerful consequences to this architectural choice --- including freedom to have your application look and feel the way you want, or to combine multiple DNAs together in ways that work for you without having to get everyone else to agree to do the same --- but we'll save those empowerment/flexibility details for later.
+There are some powerful consequences to this architectural choice --- including freedom to have your application look and feel the way you want, or to combine multiple DNAs together in ways that work for you without having to get everyone else to agree to do the same --- but we'll save those details for later.
 
 #### So if we have multiple DNAs in our hApp...
 
-...then we are participating in multiple networks, with each network of peers that are participating in a particular DNA also participating alongside one another in the distributed hash table (shared database) for that DNA, and enforcing those rules while validating, storing, and serving content alongside those peers.
+...then we are participating in multiple networks, with each network of peers that are participating in a particular DNA also helping maintain the shared database for each DNA, enforcing the DNA's rules while validating, storing, and serving content. Each network acts as a 'social organism' in cooperation with other networks in the hApp.
 
 This is similar to the way in which multiple DNA communities coexist in biological organisms. In fact, there are more cells in a human body that contain other DNA (like bacteria and other microorganisms) than cells that contain our DNA. This indicates that we are an _ecology_ of coherent communities that are interacting with --- and evolving alongside --- one another.
 
-When it comes to hApps, this lets us play coherent games with one another at the DNA level, while also participating in adjacent coherent games with others as well. That means that applications are not one-size-fits-all. You can choose to combine different bits of functionality in interesting and even novel ways.
+When it comes to hApps, this lets us play coherent games with one another at the DNA level, while also participating in adjacent coherent games with others as well. That means that applications are not one-size-fits-all. You can choose to combine different bits of functionality in interesting and novel ways.
 
 !!!
 
-For now, let's create a new DNA using the scaffolding tool by entering:
+It's time to scaffold a new DNA by entering:
 
 ```shellsession
 hc scaffold dna
@@ -423,7 +422,7 @@ You should then see:
 ```
 :::
 
-We need to enter a name for the DNA. Let's use:
+Enter a name for the DNA:
 
 ```text
 forum
@@ -439,13 +438,11 @@ Add new zomes to your DNA with:
 ```
 :::
 
-Success! Inside of our `dnas/` folder, the scaffolding tool generated a `forum/` folder and, inside of that, the folders and files that any DNA needs. At this point we have a skeleton structure for our `forum` DNA. As we take the next steps, the scaffolding tool will make additions and edits to some of those folders and files based on our instructions.
-
-Next up, we want to create our first module of functionality for the forum DNA.
+Success! Inside of your `dnas/` folder, the scaffolding tool generated a `forum/` folder and, inside of that, the folders and files that the DNA needs. At this point you have a skeleton structure for your `forum` DNA. As you take the following steps, the scaffolding tool will make additions and edits to some of those folders and files based on your instructions.
 
 ### 4.5. Scaffold a zome
 
-DNAs are comprised of code modules, which we call zomes (short for chromosomes). Zomes are modules that typically focus on enabling some small unit of functionality. Building with this sort of modular pattern provides a number of advantages, including the ability to reuse a module in more than one DNA to provide similar functionality in a different context. For instance, the [profiles zome](https://github.com/holochain-open-dev/profiles) is one that many apps make use of. For our forum DNA, we'll create one zome: **posts**.
+DNAs are comprised of code modules, which we call zomes (short for chromosomes). Zomes are modules that typically focus on enabling some small unit of functionality. Building with this sort of modular pattern provides a number of advantages, including the ability to reuse a module in more than one DNA to provide similar functionality in a different context. For instance, the [profiles zome](https://github.com/holochain-open-dev/profiles) is one that many apps make use of. For the forum DNA, you'll be creating two zomes: `posts` and `posts_integrity`.
 
 Start by entering:
 
@@ -468,24 +465,28 @@ You should then see:
 
 #### Integrity zomes
 
-An integrity zome, as the name suggests, is responsible for maintaining the data integrity of a Holochain application. It sets the rules and ensures that any data transactions occurring within the application are consistent with those rules. In other words, it is responsible for ensuring that data is correct, complete, and trustworthy. Integrity zomes help maintain a secure and reliable distributed peer-to-peer network by enforcing the validation rules defined by the application developer --- in this case, you!
+An integrity zome, as the name suggests, is responsible for maintaining the data integrity of a Holochain application. It sets the rules and ensures that any data writes occurring within the application are consistent with those rules. In other words, it is responsible for ensuring that data is correct, complete, and trustworthy. Integrity zomes help maintain a secure and reliable distributed peer-to-peer network by enforcing the validation rules defined by the application developer --- in this case, you!
 
 #### Coordinator zomes
 
-On the other hand, a coordinator zome contains the code that actually commits data, retrieves it, or sends and receives messages between peers or between portions of that application on a user's own device (between the backend and the front-end UI, for instance).
+On the other hand, a coordinator zome contains the code that actually commits data, retrieves it, or sends and receives messages between peers or between other portions of the application on a user's own device (between the back end and the front-end UI, for instance). A coordinator zome is where you define the API for your DNA, through which the network of peers and their data is made accessible to the user.
+
+#### Multiple zomes per DNA
+
+As you learned earlier, a DNA can have multiple integrity and coordinator zomes. Each integrity zome contributes to the full set of different types of valid data that can be written, while each coordinator zome contributes to the DNA's functionality that you expose through its API. In order to write data of a certain type, a coordinator zome needs to specify a dependency on the integrity zome that defines that data type. A coordinator zome can also depend on multiple integrity zomes.
 
 #### Why two types?
 
-They are separated from one another so we can update coordinator zomes without having to update the integrity zomes. This is important, because changes made to an integrity zome result in a fork of the DNA, because the integrity code is what defines the 'rules of the game' for a network of agents --- that is, what types of actions are valid. If you changed the code of an integrity zome, you would find yourself suddenly in a new and different network from the other folks who haven't yet changed their integrity zome --- and we want to minimize those sorts of forks to situations where they are needed (like when a community decides they want to play by different rules, for instance changing the maximum length of messages from 140 characters to 280 characters).
+They are separated from one another so we can update coordinator zomes without having to update the integrity zomes. This is important, because changes made to an integrity zome result in a change of the rule set, which results in an entirely new network. This is because the integrity code is what defines the 'rules of the game' for a group of participants. If you changed the code of an integrity zome, you would find yourself suddenly in a new and different network from the other folks who haven't yet changed their integrity zome --- and we want to minimize those sorts of forks to situations where they are needed (like when a community decides they want to play by different rules, for instance changing the maximum length of comments from 140 characters to 280 characters).
 
-At the same time, a community will want to be able to improve the ways in which things are done in a Holochain app. This can take the form of adding new features or fixing bugs, and we want agents to also be able to take advantage of the latest improvements in Holochain. Separating integrity and coordination enables them to do that more easily, because:
+At the same time, a community will want to be able to improve the ways in which things are done in a Holochain app. This can take the form of adding new features or fixing bugs, and we also want people to also be able to take advantage of the latest features in Holochain. Separating integrity and coordination enables them to do that more easily, because:
 
 * Holochain's coordinator zome API receives frequent updates while the integrity zome API is fairly stable, and
 * coordinator zomes can be added to or removed from a DNA at runtime without affecting the DNA's hash.
 
 !!!
 
-For this app, we are going to want both an integrity zome and a coordinator zome, so use the arrow keys to select:
+For this app, you're going to want both an integrity zome and a coordinator zome, so use the arrow keys to select:
 
 ::: output-block
 ```text
@@ -530,43 +531,43 @@ Add new entry definitions to your zome with:
 ```
 :::
 
-Once that is all done, our hApp skeleton will have filled out a bit. Before we scaffold the next piece, let's give a little context for how content is "spoken into being" when a participant publishes a post in a forum hApp.
-
-If you aren't yet familiar with Holochain's concept of a source chain, check out [The Source Chain: A Personal Data Journal](https://developer.holochain.org/concepts/3_source_chain/).
+Once that is all done, your hApp skeleton will have filled out a bit. Before you scaffold the next piece, it might be good to get a little context for how content is "spoken into being" when a participant publishes a post in a forum hApp. Read the following section to learn more.
 
 !!! dig-deeper Source chains, actions, and entries
 
 #### Source chain
 
-Any time a participant in a hApp takes some action that changes data, they add a record to a journal called a source chain. Each participant has their own source chain, and it is a local, tamper-proof, and chronological store of the participant's actions in that application.
+Any time a participant in a hApp takes some action that changes data, they add a record to a journal called a **source chain**. Each participant has their own source chain, a local, tamper-proof, and chronological store of the participant's actions in that application.
 
 This is one of the main differences between Holochain and other systems such as blockchains or centralized server-based applications. Instead of recording a "global" (community-wide) record of what actions have taken place, in Holochain actions are taken by agents and are thought of as transformations of their own state.
 
-One big advantage of this approach is that a single agent can be considered authoritative about the order in which they took actions. From their perspective, first they did A, then B, then C etc. The fact that someone else didn't get an update about these changes, and possibly received them in a different order, doesn't matter. The order that the authoring agent took those actions will be captured in the actions themselves (thanks to each action referencing the previous one that they had taken, thus creating an ordered sequence --- or chain --- of actions).
+One big advantage of this approach is that a single agent can be considered authoritative about the order in which they took actions. From their perspective, first they did A, then B, then C, etc. The fact that someone else didn't get an update about these changes, and possibly received them in a different order, doesn't matter. The order that the authoring agent took those actions will be captured in the actions themselves (thanks to each action referencing the previous one that they had taken, thus creating an ordered sequence --- or chain --- of actions).
 
 #### Actions and entries
 
-You'll notice that we used the word "action" a lot. In fact, **we call the content in a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant) from their own perspective. Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
+You'll notice that we used the word "action" a lot. In fact, **we call the content of a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
 
-There are a few different kinds of actions, but the most important one is "create entry". Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to store a copy of it as a public record._ So while it’s useful for noun-like things like messages and images, it is also well-suited to verb-like things like real-time document edits, game moves, and transactions.
+There are a few different kinds of actions, but the most important one is `CreateEntry`. Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to publicly store a record of this act._ So while it’s useful for noun-like data like messages and images, it's actually a verb, a record of an action that someone took to contribute to the network's shared store of information. That also makes it well-suited to verb-like data like real-time document edits, game moves, and transactions.
 
 Every action contains the ID of its author (actually a cryptographic public key), a timestamp, a pointer to the previous source chain record, and a pointer to the entry data, if there is any. In this way, actions provide historical context and provenance for the entries they operate on.
 
-The pointer to the previous source chain record creates an unbroken history from the current record all the way back to the source chain's starting point. This 'genesis' record contains the hash of the DNA, which identifies the specific validation rules that all following records should follow.
+The pointer to the previous source chain record creates an unbroken history from the current record all the way back to the source chain's starting point. This 'genesis' record contains the hash of the DNA, which servs as both the identifier for the specific set of validation rules that all following records should follow and the ID of the network that this source chain's actions are participating in.
 
-An action is cryptographically signed by its author and is immutable (can't be changed) once written. This, along with the validation rules specified by the DNA hash, are examples of a concept we call "intrinsic data integrity", in which data carries enough information about itself to be self-validating.
+An action is cryptographically signed by its author and is immutable (can't be changed or erased from either the source chain or the network's data store) once written. This, along with the validation rules specified by the DNA hash in the genesis record, are examples of a concept we call "intrinsic data integrity", in which data carries enough information about itself to be self-validating.
 
-Unlike a centralized application, we aren't just going to add this data into some database. We are going to:
+Just as with a centralized application, we aren't just going to add this data into some database without checking it first. When a participant tries to write an action, Holochain first:
 
-1. ensure that the action being taken doesn't violate the validation rules of our DNA,
-2. add it as the next record to our source chain, and then
-3. tell our network peers about it so they can validate and store it, if it's meant to be public.
+1. ensures that the action being taken doesn't violate the validation rules of the DNA,
+2. adds it as the next record to the source chain, and then
+3. tells the participant's network peers about it so they can validate and store it, if it's meant to be public.
 
 The bits of shared information that all the peers in a network are holding are collectively called a distributed hash table, or DHT. We'll explain more about the DHT later.
 
+If you want to learn more, check out [The Source Chain: A Personal Data Journal](/concepts/3_source_chain/) and [The DHT: A Shared, Distributed Graph Database](/concepts/4_dht/).
+
 !!!
 
-Now it is time to start defining the structure and validation rules for data within our application.
+Now it's time to start defining the structure and validation rules for data within your application.
 
 ### 4.6. Scaffold entry types
 
@@ -574,23 +575,21 @@ An entry type is a fundamental building block used to define the structure and v
 
 !!! dig-deeper Entry types and validation
 
-An entry type is just a label, an identifier for a certain type of data that your DNA deals with. But it serves as something to attach validation rules to in your integrity zome, and those rules are what give an entry type its meaning. They take the form of code in a function that gets called any time something is about to be stored, and because they're just code, they can validate all sorts of things. Here are a few key examples:
+An entry type is just a label, an identifier for a certain type of data that your DNA deals with. It serves as something to attach validation rules to in your integrity zome, and those rules are what give an entry type its meaning. They take the form of code in a function that gets called any time something is about to be stored, and because they're just code, they can validate all sorts of things. Here are a few key examples:
 
-* **Data structure**: When you use the scaffold tool to create an entry type, it generates a Rust-based data type that define fields in your entry type, and it also generates code in the validation function that attempts to convert the raw bytes into an instance of that type. By providing a well-defined structure, this type ensures that data is consistently formatted and organized across the entire distributed network. If it can't be deserialized into the appropriate Rust structure, it's not valid.
+* **Data structure**: When you use the scaffolding tool to create an entry type, it generates a Rust-based data type that define fields in your entry type, and it also generates code in the validation function that attempts to convert the raw bytes into an instance of that type. By providing a well-defined structure, this type ensures that data can be understood by the application. If it can't be deserialized into the appropriate Rust structure, it's not valid.
 
 * **Constraints on data**: Beyond simple fields, validation code can constrain the values in an entry --- for instance, it can enforce a maximum number of characters in a text field or reject nonsensical calendar dates.
 
-* **Privileges**: Because it originates in a source chain, an entry comes with metadata about its author, which can be used to control who can create, edit, or delete an entry. This can be used to prevent people editing or deleting others' posts and comments, or to restrict certain actions to an administrator.
+* **Privileges**: Because it originates in a source chain, an entry comes with metadata about its author. This can be used to control who can create, edit, or delete an entry.
 
-* **Contextual conditions**: Another consequence of the source chain is that an entry can be validated based on the agent's history --- for instance, to prevent currency transactions beyond a credit limit or disallow more than two comments per minute to discourage spam. An entry can also point to other entries upon which it depends, and the data from those entries can be used in its validation.
+* **Contextual conditions**: Because an action is part of a chain of actions, it can be validated based on the agent's history --- for instance, to prevent currency transactions beyond a credit limit or disallow more than two comments per minute to discourage spam. An entry can also point to other entries in the DHT upon which it depends, and the data from those entries can be used in its validation.
 
 !!!
 
-We will want to create two entry types for our `posts` integrity zome: **`post`** and **`comment`**. Posts will have a `title` field and a `content` field. Comments will have a `comment_content` field and a way of indicating which post they are a comment on.
+You'll want to create two entry types for our `posts` integrity zome: `post` and `comment`. Posts will have a `title` field and a `content` field. Comments will have a `comment_content` field and a way of indicating which post they are a comment on.
 
-Let's go ahead and follow the instructions that the scaffold suggested for adding "new entry definitions to your zome".
-
-Let's create the **`post`** entry type first. Enter:
+Go ahead and follow the instructions that the scaffold suggested for adding new entry definitions to your zome. First create the `post` entry type. Enter:
 
 ```shellsession
 hc scaffold entry-type
@@ -633,15 +632,11 @@ Which fields should the entry contain?
 ```
 :::
 
-The scaffold tool is prompting us to add fields to the `post` entry type.
+The scaffolding tool is now prompting you to add fields to the `post` entry type.
 
-Fields are the individual components or attributes within an entry type that define the structure of the data. They determine the specific pieces of information to be stored in an entry and their respective data types.
+Fields are the individual components or attributes within an entry type that define the structure of the data. They determine the specific pieces of information to be stored in an entry and their respective data types. The scaffolding tool supports a collection of native Rust types such as booleans, numbers, enums (a choice between several predetermined values), optional values, and vectors (lists of items of the same type), along with Holochain-specific types that refer to other pieces of data on the DHT.
 
-For our `post` entry type, we are going to add a **`title`** and a **`content`** field.
-
-Let's first add the title field.
-
-Select `String` as the field type, and enter:
+For your `post` entry type, you're going to add `title` and `content` fields. Select `String` as the first field's type, and enter:
 
 ```text
 title
@@ -649,9 +644,7 @@ title
 
 as the field name.
 
-Press <kbd>Y</kbd> for the field to be visible in the UI, and use the arrow keys to select `TextField` as the widget to render this field.
-
-A `TextField` is a single-line input field designed for capturing shorter pieces of text.
+Press <kbd>Y</kbd> for the field to be visible in the UI, and use the arrow keys to select `TextField` as the widget to render this field. (A `TextField` is a single-line input field designed for capturing shorter pieces of text.)
 
 When you see:
 
@@ -663,13 +656,17 @@ When you see:
 
 press <kbd>Y</kbd>.
 
-For the **`content`** field, we are also going to select `String` as the field type. Then enter `content` as the field name.
+Select `String` for this field's type too. Then enter
 
-Press <kbd>Y</kbd> for the field to be visible in the UI, and select `TextArea` as the widget to render the field.
+```text
+content
+```
 
-A `TextArea` is a multi-line input field that allows users to enter larger blocks of text. That works for the longer chunks of text that people may want to add as the content (body) of their posts in our forum app.
+as the field name.
 
-After adding the title and description fields, press <kbd>N</kbd> when asked if you want to add another field. Next, you should see:
+Press <kbd>Y</kbd> for the field to be visible in the UI, and select `TextArea` as the widget to render the field. (A `TextArea` is a multi-line input field that allows users to enter larger blocks of text. That'll work better for blog posts.)
+
+After adding the `title` and `content` fields, press <kbd>N</kbd> when asked if you want to add another field. Next, you should see:
 
 ::: output-block
 ```text
@@ -679,7 +676,7 @@ Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to co
 ```
 :::
 
-The scaffolding tool can add zome and UI functions for updating and deleting entries. In this case, we want authors to be able to update posts, but not delete them, so let's use the arrow keys and the spacebar to ensure that Update has a check and that Delete does not. It should look like this:
+The scaffolding tool can add zome and UI functions for updating and deleting entries of this type. In this case, we want authors to be able to update posts, but not delete them, so use the arrow keys and the spacebar to ensure that `Update` has a check and `Delete` does not. It should look like this:
 
 ::: output-block
 ```text
@@ -701,7 +698,7 @@ At this point you should see:
 ```
 :::
 
-Go ahead and select `Yes` by pressing <kbd>Enter</kbd>.
+Select `Yes` by pressing <kbd>Enter</kbd>.
 
 !!! dig-deeper CRUD (create, read, update, delete)
 
@@ -711,19 +708,23 @@ In short, the above choice is about how changes get dealt with when a piece of c
 
 Because all data in a Holochain application is immutable once it's written, we don't just go changing existing content, because that would break the integrity of the agent's source chain as well as the data already in the DHT. So instead we add metadata to the original data, indicating that people should now look elsewhere for the data or consider it deleted. This is produced by `UpdateEntry` and `DeleteEntry` source chain actions.
 
-For an `UpdateEntry` action, the original "create entry" or `UpdateEntry` action and its entry content on the DHT get a "replaced by" pointer to the new `UpdateEntry` action and its entry content.
+For an `UpdateEntry` action, the original `CreateEntry` or `UpdateEntry` action and its entry content on the DHT get a `ReplacedBy` pointer to the new `UpdateEntry` action and its entry content.
 
-When the scaffolding tool asks you whether to create a link from the original entry, it's not talking about this pointer. Instead, it's talking about an extra piece of metadata that points to the _very newest_ entry. If an entry were to get updated, and that update were updated, and this were repeated three more times, anyone trying to retrieve the entry would have to query the DHT five times before they finally found the newest revision. This extra link, which is not a built-in feature, 'jumps' them past the entire chain of updates at the cost of a bit of extra storage. The scaffolding tool will generate all the extra code needed to write and read this metadata in its update and read functions.
+When the scaffolding tool asks you whether to create a link from the original entry, though it's not talking about this pointer. Instead, it's talking about an extra piece of metadata that points to the _very newest_ entry in a chain of updates. If an entry were to get updated, and that update were updated, and this were repeated three more times, anyone trying to retrieve the entry would have to query the DHT six times before they finally found the newest revision. This extra link, which is not a built-in feature, 'jumps' them past the entire chain of updates at the cost of a bit of extra storage. The scaffolding tool will generate all the extra code needed to write and read this metadata in its update and read functions.
 
 For a `DeleteEntry` action, the original action and its entry content are simply marked as deleted. In the cases of both updating and deleting, all original data is still accessible if the application needs it.
 
+#### Resolving conflicts
+
+Multiple participants can mark a single entry as updated or deleted at the same time. This might be surprising, but Holochain does this for two good reasons. First, it's surprisingly difficult to decide which is the 'correct' version of a piece of data in a distributed system, because contributions may come from any peer at any time, even appearing unexpectedly long after they've been created. There are many strategies for resolving the conflicts that arise from this, which brings us to the second good reason: we don't want to impose a specific conflict resolution strategy on you. Your application may not even consider parallel updates and deletes on a single entry to be a conflict at all.
+
 #### CRUD functions
 
-**By default, the scaffolding tool generates a `create_<entry_type>' function in your coordinator zome for an entry type** because creating new data is a fundamental part of any application, and it reflects the core principle of Holochain's agent-centric approach.
+**By default, the scaffolding tool generates a `create_<entry_type>' function in your coordinator zome for an entry type** because creating new data is a fundamental part of any application, and it reflects the core principle of Holochain's agent-centric approach --- the ability to make changes to your own application's state.
 
 Similarly, when a public entry is published, it becomes accessible to other agents in the network. Public entries are meant to be shared and discovered by others, so **a `read_<entry_type>' function is provided by default** to ensure that agents can easily access and retrieve publicly shared entries. (The content of _private_ entries, however, are not shared to the network.) For more info on entries, see: the **Core Concepts sections on [Source Chains](https://developer.holochain.org/concepts/3_source_chain/) and [DHT](https://developer.holochain.org/concepts/4_dht/)**.
 
-**Developers decide whether to let the scaffolding tool generate `update_<entry_type>` and `delete_<entry_type>` functions based on their specific application requirements**. More details in the Core Concepts section on [CRUD](https://developer.holochain.org/concepts/6_crud_actions/).
+Developers decide whether to let the scaffolding tool generate `update_<entry_type>` and `delete_<entry_type>` functions based on their specific application requirements. More details in the Core Concepts section on [CRUD](https://developer.holochain.org/concepts/6_crud_actions/).
 
 !!!
 
@@ -739,13 +740,14 @@ Add new collections for that entry type with:
 ```
 :::
 
-We'll dive into links in a moment, but first let's create the **`comment`** entry type.
+We'll dive into links in a moment, but first create the `comment` entry type.
 
 Again type:
 
 ```shellsession
 hc scaffold entry-type
 ```
+
 This time enter the name:
 
 ```text
@@ -754,21 +756,17 @@ comment
 
 for the entry type name.
 
-We're going to add a **`comment_content`** field, so select the `String` field type and enter:
+You're going to add a `comment_content` field, so select the `String` field type and enter:
 
 ```text
 comment_content
 ```
 
-Then select `TextArea` widget and press <kbd>Enter</kbd>.
-
-Again, a `TextArea` is a multi-line input field that allows users to enter larger blocks of text. Perfect for a comment on a post.
+Then select the `TextArea` widget and press <kbd>Enter</kbd>. (Again, a `TextArea` is a multi-line input field that allows users to enter larger blocks of text. Perfect for a comment on a post.)
 
 Press <kbd>Y</press> to add another field.
 
-For this next field we want to create a field that will help us associate each particular comment to the post that it is commenting on.
-
-We are going to use the arrow keys to select `ActionHash` as the field type. After hitting <kbd>Enter</kbd>, we should see:
+For this next field you'll want to create a field that will help the app associate each particular comment to the post that it is commenting on. Use the arrow keys to select `ActionHash` as the field type. After pressing <kbd>Enter</kbd>, you should see:
 
 ::: output-block
 ```text
@@ -776,7 +774,7 @@ We are going to use the arrow keys to select `ActionHash` as the field type. Aft
 ```
 :::
 
-Go ahead and press <kbd>Y</kbd> to accept creating a link. This creates a pointer from the original post that comment is replying to.
+Press <kbd>Y</kbd> to accept. This creates a link from the original post that comment is replying to.
 
 Next you will see:
 
@@ -788,15 +786,15 @@ Next you will see:
 
 Press <kbd>Enter</kbd> to accept the suggested entry type `Post`.
 
-Next, you will be asked to pick a field name. You can press <kbd>Enter</kbd> to accept the field name suggestion, which should be:
+Next, you'll be asked to pick a field name. Press <kbd>Enter</kbd> to accept the field name suggestion, which should be:
 
 ```text
 post_hash
 ```
 
-Press <kbd>N</kbd> to decline adding another field to the entry.
+Press <kbd>N</kbd> to stop adding fields to the entry.
 
-Then use the arrow keys to deselect Update, but leave Delete selected. It should look as follows:
+Then use the arrow keys to deselect `Update`, but leave `Delete` selected. It should look as follows:
 
 ::: output-block
 ```text
@@ -806,7 +804,7 @@ Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to co
 ```
 :::
 
-Once that is done, press <kbd>Enter</kbd> to generate a delete function for the **`comment`** entry type.
+Once that is done, press <kbd>Enter</kbd> to generate a delete function for the `comment` entry type.
 
 You should then see:
 
@@ -824,46 +822,39 @@ Add new collections for that entry type with:
 
 There are two kinds of unique identifiers or 'addresses' in Holochain: **hashes** for data and **public keys** for agents.
 
-A hash is a unique "digital fingerprint" for a piece of data, generated by running it through a mathematical function called a **hash function**. None of the original data is present in the hash, but all the same, the hash is extremely unlikely to be identical to the hash of any other piece of data.
-
-To ensure data integrity and facilitate efficient data retrieval, each entry is associated with a unique hash value, which is generated using a cryptographic hashing function. If you change even one character of the entry's content, the hash will be radically (and unpredictably) different.
+A hash is a unique "digital fingerprint" for a piece of data, generated by running it through a mathematical function called a **hash function**. None of the original data is present in the hash, but even so, the hash is extremely unlikely to be identical to the hash of any other piece of data. If you change even one character of the entry's content, the hash will be radically (and unpredictably) different.
 
 Holochain uses a hash function called blake2b. You can play with [an online blake2b hash generator](https://toolkitbay.com/tkb/tool/BLAKE2b_512) to see how changing content a tiny bit alters the hash. Try hashing `hi` and then `Hi` and compare their hashes.
 
-#### `EntryHash`
+To ensure data integrity and facilitate efficient data retrieval, each piece of data is identified by its hash. This serves the following purposes:
 
-If we hash an entry, we will generate its **`EntryHash`**. The `EntryHash` serves the following purposes:
-
-* **Uniqueness:** The cryptographic hashing function ensures that each entry has a unique hash value, which helps to differentiate it from other entries on the network.
-* **Integrity verification:** `Hi` will always generate that same hash no matter who runs it through the hashing function. So when an entry is retrieved, its hash can be recalculated and compared with the stored `EntryHash` to ensure that a third party hasn't tampered with the data.
-* **Efficient lookup:** The `EntryHash` is used as a key (essentially an address) in the network's storage system, called a distributed hash table (DHT), enabling efficient and decentralized storage and retrieval of entries.
-* **Collusion resistance:** The network peers who take responsibility for validating and storing an entry are chosen randomly based on the similarity of their IDs to the `EntryHash`. It would take a huge amount of computing power to generate a hash that would fall under the responsibility of a colluding peer.
-
-When you want to retrieve an entry, you can simply search for the corresponding `EntryHash` in the DHT, without needing to know who's storing it or what it contains. In essence, you retrieve content by asking others for it by ID. Your Holochain runtime reaches out to the (multiple) peers in the network responsible for that `EntryHash`, and one or more of those peers then serve the entry to you.
-
-This is a key part of what enables Holochain applications to provide reliable access to data even when some peers are occasionally dropping offline. Each entry will have multiple peers making copies available on the network, so even if some devices drop off the network, you will usually still be able to retrieve a file from one of the other peers that is holding on to a copy. In fact, as devices responsible for serving a range of `EntryHash`es and their associated entries drop off the network, other backups of that content start getting made (on other devices) to improve the availability of data.
-
-This also helps ensure the integrity of the data in the DHT. Because multiple random peers are called on to validate and store an entry, it's more likely that at least one honest peer will report a problem with an entry's integrity when you request it.
+* **Uniqueness:** The cryptographic hashing function ensures that the data has a unique hash value, which helps to differentiate it from other data on the network.
+* **Efficient lookup:** The hash is used as a key (essentially an address) in the network's storage system, the distributed hash table (DHT). When an agent wants to retrieve data, they simply search for it by hash, without needing to know what peer machine it's stored on. In the background, Holochain reaches out simultaneously to multiple peers who are responsible for the hash based on an algorithm that matches peers to data based on the similarity of the hash to their agent IDs. This makes data lookup fast and resilient to unreliable peers or network conditions.
+* **Fair distribution:** Because the participants in a network are responsible for validating and storing each other's public data based on its hash, the randomness of the hashing function ensures that that responsibility is spread fairly evenly among everyone.
+* **Integrity verification:** `Hi` will always generate the same hash no matter who runs it through the hashing function. So when data is retrieved by hash, its hash can be recalculated and compared with the original requested hash to ensure that a third party hasn't tampered with the data.
+* **Collusion resistance:** The network peers who take responsibility for validating and storing an entry are chosen randomly based on the similarity of their agent IDs to the `EntryHash`. It would take a huge amount of computing power to generate a hash that would fall under the responsibility of a colluding peer. And because Holochain can retrieve data from multiple peers, it's more likely that the requestor can find one honest peer to report problems with a piece of bad data.
 
 #### `ActionHash`
 
-If, instead, we hash an action (the metadata about a state change) we call the result an **`ActionHash`**.
+An action is identified by its `ActionHash`. Because an action contains information about its author, the time it was written, the action that preceded it, and the entry it operates on, no two action hashes will be the same --- even for the same entry. This helps to disambiguate identical entries written at different times by different agents.
 
-`ActionHash`es play a similar role to `EntryHash`es. However, because they contain different metadata, it helps to disambiguate identical entries written at different times by different agents. If ten different people in our Forum hApp write `Hi` as a post, the `EntryHash` of each of those posts will be identical (since the content is identical), but each `ActionHash` will be unique, because the Action includes not only the `EntryHash` of the associated ("Hi") entry, but also the Agent's public key, the `ActionHash` of the previous Action, and a timestamp.
+#### `EntryHash`
+
+An entry is identified by its `EntryHash`, which can be retrieved from the `ActionHash` of the action that wrote it. Because they're two separate pieces of data, an entry is stored by different peers than the action that operates on it.
 
 #### `AgentPubKey`
 
-**Each agent in a network is identified by their cryptographic public key**, a unique number that's mathematically related to a private number that they hold on their machine. Public-key cryptography is a little complex for this guide -- it's enough to know that your private key signs your source chain actions, and those signatures paired with your public key allow others to verify that you are the one who authored those actions.
+**Each agent in a network is identified by their cryptographic public key**, a unique number that's mathematically related to a private number that they hold on their machine. Public-key cryptography is a little complex for this guide --- it's enough to know that a participant's private key signs their source chain actions, and those signatures paired with their public key allow others to verify that they are the one who authored those actions.
 
-An `AgentPubKey` isn't a hash, but it's the same length, and it's unique just like a hash. So it can be used as a way of referring to an agent, like a user ID.
+An `AgentPubKey` isn't a hash, but it's the same length, and it's unique just like a hash. So it can be used as a way of referring to an agent, like a user ID --- and this is also why it's used to choose the right peers in the DHT storage and retrieval algorithm.
 
 #### Summary
 
-Whereas `EntryHash` is used to uniquely identify, store, and efficiently retrieve an entry from the DHT, `ActionHash` is used to uniquely identify, store, and retrieve the action (metadata), which can provide information about the history and context of any associated entry (including what action preceded it). `ActionHash`es are also what enable any participant to retrieve and reconstruct the continuous sequence of actions (and any associated entries) in another agent's source chain.
+Whereas `EntryHash` is used to uniquely identify, store, and efficiently retrieve an entry from the DHT, `ActionHash` is used to uniquely identify, store, and retrieve the action (metadata) that operated on it, which can provide information about the history and context of any associated entry (including what action preceded it). `ActionHash`es are also what enable any participant to retrieve and reconstruct the continuous sequence of actions (and any associated entries) in another agent's source chain.
 
 **Use `EntryHash` when** you want to link to or retrieve the actual content or data (e.g., when linking to a category in a forum application).
 
-**Use `ActionHash` when** you want to link to or retrieve the authorship or history of an entry (e.g., when distinguishing between two posts with identical content or retrieving the author of a post).
+**Use `ActionHash` when** you want to link to or retrieve the authorship or history of an entry (e.g., when distinguishing between two posts with identical content).
 
 **Use `AgentPubKey` when** you want to link to an agent (such as associating a profile or icon with them) or retrieve information about their history (such as scanning their source chain for posts and comments).
 
@@ -1632,6 +1623,7 @@ Those who receive the store action (validation authorities), they will run the v
 ## 6. Deploying your Holochain application
 
 ### 6.1 Packaging
+
 Now that you've implemented an application, it's time to think about how you might deploy it. The first step is to package your app:
 
 ```shellsession
