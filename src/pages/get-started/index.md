@@ -221,7 +221,7 @@ These files and folders make up the structure of a Holochain application, with t
 
 First, navigate back to the folder where you want to keep your Holochain applications. If this is just your home folder, you can navigate there by typing `cd ~`.
 
-!!! warning Pre-requisite
+!!! info Pre-requisite
 First, ensure you have Holochain installed as per section 2.
 !!!
 
