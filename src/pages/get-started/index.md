@@ -1544,12 +1544,16 @@ This command does a number of things:
 3. builds the UI and compresses it into a `.zip` file
 4. combines the DNA file and the UI zip into a `.webhapp` file
 
-These files end up in the `workdir` directory: TODO: confirm
+These files end up in the `workdir` directory:
 
 ```shellsession
 ls workdir
-TODO add results
 ```
+::: output-block
+```text
+happ.yaml  my_forum_app.happ  my_forum_app.webhapp  web-happ.yaml
+```
+::: output-block
 
 The packed app is now ready for deployment to a Holochain runtime.
 
@@ -1572,7 +1576,7 @@ The steps for publishing an app to the Launcher's app store are documented in th
 
 #### 6.2.2 Standalone executable
 
-If you prefer to distribute your app as a full standalone executable, you will need to find a way to ship the Holochain runtime and your app together and take care of the necessary interactions between them. Currently there are two straightforward paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries, which in our case are the conductor and the lair keystore. Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has already been done for you:
+If you prefer to distribute your app as a full standalone executable, you will need to bundle the Holochain runtime and your app together and take care of the necessary interactions between them. Because holochain itself is really just a set of rust libraries, you can of course build your own application that uses those libraries, but that's a fair amount of work.  Currently there are two much simpler paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries, which in our case are the [holochain conductor](https://docs.rs/holochain/latest/holochain/) and the [lair keystore](https://docs.rs/lair_keystore/latest/lair_keystore/). Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has already been done for you:
 
 * **Electron**: Refer to the community supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.
 * **Tauri**: See the [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
