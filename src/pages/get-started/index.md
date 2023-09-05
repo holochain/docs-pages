@@ -24,8 +24,10 @@ tocData:
       href: 4-6-scaffold-entry-types
     - text: 4.7. Scaffold a collection
       href: 4-7-scaffold-a-collection
-    - text: 4.8. Integrate the generated UI elements
-      href: 4-8-integrate-the-generated-ui-elements
+    - text: 4.8. Run your applicaiton in dev mode
+      href: 4-8-run-your-application-in-dev-mode
+    - text: 4.9. Integrate the generated UI elements
+      href: 4-9-integrate-the-generated-ui-elements
   - text: 5. Creating validation rules
     href: 5-creating-validation-rules
     children:
@@ -957,7 +959,7 @@ These instructions tell us that if we want to include this generated UI componen
   1. import the component and
   2. tell the UI to display the component.
 
-In the next section, we will begin working with our `.svelte` files to build our UI.
+Before you get started editing the UI, it's helpful to be able to actually run the scaffolded appliation.  That way you can watch changes take effect in real-time as you make them.  So the next section will walk you through launching the application the tooling that's available there, and then in the section after that, we will begin working with the `.svelte` files to build the UI.
 
 !!! dig-deeper How a collection is implemented
 
@@ -979,11 +981,11 @@ The scaffolding tool doesn't have any feature for building anchors and trees bey
 
 !!!
 
-### 4.8. Integrate the generated UI elements
+### 4.8. Run your applicaiton in dev mode
 
-At this stage, we will incorporate all the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.
+At this stage, we will incorporate the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.
 
-Let's go ahead and start our forum hApp in develop mode from the command line. Back in Terminal, from the root folder (`my_forum_app/`), enter:
+So, start the forum hApp in develop mode from the command line: go to your terminal and from the root folder (`my_forum_app/`), enter:
 
 ```shellsession
 npm start
@@ -991,13 +993,15 @@ npm start
 
 * **Note:** if you are having an issue, make sure that you are still in nix shell. If not, you may need to re-enter `nix develop` first, then type the above command again. And remember that you can always exit nix shell by typing `exit` to get back to your normal shell.
 
-When we start the hApp with `npm start`, this launches a new conductor in sandbox mode with two agents running that hApp, and opens three windows:
+When you start the hApp with `npm start`, this launches holochain in sandbox mode with two agents running that hApp, and opens three windows:
 
-1. A web browser window with Holochain Playground, a tool that makes visible the various actions that have taken place in our forum hApp. At present we have a couple of agents in a DHT, with mostly empty source chains and, correspondingly, a mostly empty graph.
+1. A web browser window with Holochain Playground, a tool that makes visible the various actions that have taken place in our forum hApp. You should be able to see a couple of agents in a DHT, with mostly empty source chains and, correspondingly, a mostly empty graph.
 2. An application window with one agent (conductor 0) running the forum hApp. This window lets us take actions as that agent (0, or Alice, if you prefer).
 3. Another application window with a second agent (conductor 1) running the forum hApp. This window lets us take actions as the other agent (1, or Bob).
 
 These application windows allow us to test multiple agents in a Holochain network interacting with one another. It is all running on our one device, but the two conductors behave very much the same as separate agents on different machines would, minus network lag.
+
+Remember that a *Conductor* is a Holochain runtime process executing on your computer.  For more details see the [Application Architecture Section](/concepts/2_application_architecture/) in the Core Concepts guid.
 
 These three windows together will let us interact with our hApp as we are building it.
 
@@ -1011,26 +1015,26 @@ From oldest to newest, in the newly created source chains, the actions are:
 4. Eventually `InitComplete`, indicating that all coordinator zomes have had a chance to do initial setup, then
 5. Whatever actions the agent takes after that.
 
-The playground also lets us click on actions and entries in the DHT or the source chain to see their contents.
+The playground also lets you click on actions and entries in the DHT or the source chain to see their contents.
 
-The two application UI windows allow us to interact with the application and see what is working, what is not working, and how data propagates when we take particular actions.
+The two application UI windows allow you to interact with the application and see what is working, what is not working, and how data propagates when we take particular actions.
 
 At first, each of the UI windows (conductors 0 for Alice and 1 for Bob) include instructions for us as developers to go and examine the UI elements that have been generated by the scaffold by looking at the contents in the folder `ui/src/<dna>/<zome>/`, where `<dna>` and `<zome>` are generic placeholders for our DNA (`forum`) and zome (`post`).
 
-Thus far, nine different components have been generated as `.svelte` files in the `ui/src/forum/posts/` directory.  If we go look at that folder we can see the files that have been created. Note that for ease in development, we have configured the sandbox testing environment to live-reload the UI as we edit UI files. So don't quit the process you started with `npm start`; instead, **open a new terminal window**. Then navigate to the root folder of your hApp (`my_forum_app/`) and then list the files in `ui/src/forum/posts/` by entering:
+### 4.9. Integrate the generated UI elements
+
+Thus far, seven different UI components should have been generated as `.svelte` files in the `ui/src/forum/posts/` directory.   Note that for ease in development, we have configured the sandbox testing environment to live-reload the UI as we edit UI files. So don't quit the process you started with `npm start`; instead, **open a new terminal window**. Then navigate to the root folder of your hApp (`my_forum_app/`) and then list the files in `ui/src/forum/posts/` by entering:
 
 ```shellsession
 ls ui/src/forum/posts/
 ```
 
-You should see nine different `.svelte` files, plus a `types.ts` file:
+You should see seven different `.svelte` files, plus a `types.ts` file:
 
 ::: output-block
 ```text
-AllPosts.svelte         CreatePost.svelte   PostsForComment.svelte
-CommentDetail.svelte    EditComment.svelte  types.ts
-CommentsForPost.svelte  EditPost.svelte
-CreateComment.svelte    PostDetail.svelte
+AllPosts.svelte       CommentsForPost.svelte  CreatePost.svelte  PostDetail.svelte
+CommentDetail.svelte  CreateComment.svelte    EditPost.svelte    types.ts
 ```
 :::
 
@@ -1050,21 +1054,7 @@ So that `CreatePost.svelte` file contains all the things that are needed for a b
 
 Each of the other `.svelte` files has something similar for each of the other components.
 
-As the appliction windows showed, to integrate all of these generated UI elements, we need to add them to the `App.svelte` file located in the `ui/src/` folder.
-
-Adding in a component into the UI in Svelte requires two simple steps:
-
-1. Import the content of that particular `.svelte` file in the script section, e.g.:
-
-    ```typescript
-    import CreatePost from './forum/post/CreatePost.svelte'
-    ```
-
-2. Add the the UI component HTML for that file to the `main` section, e.g.:
-
-    ```html
-    <CreatePost></CreatePost>
-    ```
+To integrate all of these generated UI elements, we need to add them to the `App.svelte` file located in the `ui/src/` folder.
 
 Open the `App.svelte` file with your preferred IDE.
 
@@ -1183,14 +1173,7 @@ Following the same pattern that we were directed to use after we scaffolded our 
 
 ```typescript
 import AllPosts from './forum/posts/AllPosts.svelte';
-import CommentDetail from './forum/posts/CommentDetail.svelte';
-import CommentsForPost from './forum/posts/CommentsForPost.svelte';
-import CreateComment from './forum/posts/CreateComment.svelte';
 import CreatePost from './forum/posts/CreatePost.svelte';
-import EditComment from './forum/posts/EditComment.svelte';
-import EditPost from './forum/posts/EditPost.svelte';
-import PostDetail from './forum/posts/PostDetail.svelte';
-import PostsForComment from './forum/posts/PostsForComment.svelte';
 ```
 
 Next we will need to add our components a little further down the page in the `<main>` section of the file, where there is currently some "EDIT ME!" content. We are going to start by just adding `CreatePost`.
@@ -1230,7 +1213,7 @@ For the purpose of this hApp, we're not interested in agent-to-posts relationshi
 
 !!!
 
-Now let's add the UI component that will actually let our users see things that have been posted. That's `AllPosts`.
+Now add the UI component that will actually let your users see things that have been posted. That's `AllPosts`.
 
 Go ahead and try to add `AllPosts` on your own. We've already imported the component's source file. You just need to add its renderer to the `<main>` section. Once you are done, continue below.
 
@@ -1248,31 +1231,19 @@ Let's go ahead and edit that post. In the same UI window that you created the po
 
 Now alter the content a bit. Maybe change it from `Hello 1!` to `Hello, World!` and click "Save".
 
-That should update the post (at least for the agent that made the change). The other application window will get the updated version the next time it is refreshed. Later, we will work on making these sorts of changes propagate more instantaneously from a user perspective.
+That should update the post (at least for the agent that made the change). The other application window will get the updated version the next time it is refreshed. 
 
-If we look at the Holochain Playground, we can see that the update was added to to the source chain of the agent that made the update. Specifically, it created:
+If you look at the Holochain Playground, you should see that the update was added to to the source chain of the agent that made the update. Specifically, it created:
 
 1. a new entry (with our `Hello, World!` text),
 2. an `UpdateEntry` action that indicated this entry is to replace the original entry, and
 3. a `CreateLink` action that articulates a link between the original create action and the update action.
 
-Let's go ahead and delete that post. If we look again at the Holochain Playground, we will see that a `DeleteEntry` action has been added to the source chain. Clicking on that action will show the details in the Action Contents window. We can see that the update action and the original entry are being marked as deleted in this delete action.
+Now delete that post. If you look again at the Holochain Playground, you will see that a `DeleteEntry` action has been added to the source chain. Clicking on that action will show the details in the Action Contents window. We can see that the update action and the original entry are being marked as deleted in this delete action.
 
-Let's create another post.
+Now it's time add commenting on posts.  The place to do this is in the `PostDetail` element, because the `CreateComment` component needs to know _which post_ it is addeing the commnt to
 
-If we just add the comment form component to the `<main>` section of our `App.svelte` file, the Post functionality stops working. For instance, just below `<AllPosts></AllPosts> let's add:
-
-```html
-<CreateComment></CreateComment>
-```
-
-When we do that, we stop being able to see existing posts, and lose our ability to create new posts. Something is wrong here.
-
-What is it?
-
-The `CreateComment` component needs to be created _in response to some particular post_. We need to add some logic that will clarify when `CreateComment` is supposed to become available.
-
-TODO: add UI stuff here.
+TODO: finish adding comments to PostDetail
 
 <div style="display:none">
 TODO: this looks like older stuff, cleanup?
@@ -1280,14 +1251,14 @@ TODO: this looks like older stuff, cleanup?
 ====
 
 TODO (Matt's best guess at this):
-6. Creating Validation Rules
-7. Built to Beautiful: adjusting our User Interface
-8. Creating Tests
+1. Creating Validation Rules
+2. Built to Beautiful: adjusting our User Interface
+3. Creating Tests
 ~~9. Deploying Your Holochain Application
     9.1. Packaging Your Application
     9.2. Configuring the Conductor
     9.3. Running Your Application~~
-10. Testing Your Holochain Application
+1.  Testing Your Holochain Application
     10.1 Creating Test Scenarios
 
 
