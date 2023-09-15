@@ -26,22 +26,15 @@ tocData:
       href: 4-7-scaffold-a-collection
     - text: 4.8. Integrate the generated UI elements
       href: 4-8-integrate-the-generated-ui-elements
-  - text: 5. Creating validation rules
-    href: 5-creating-validation-rules
+  - text: 5. Deploying your Holochain application
+    href: 5-deploying-your-holochain-application
     children:
-      - text: 5.1. Beginner (inspecting the entries)
-        href: 5-1-beginner-inspecting-the-entries
-      - text: 5.2. Advanced (inspecting the actions)
-        href: 5-2-advanced-inspecting-the-actions
-  - text: 6. Deploying your Holochain application
-    href: 6-deploying-your-holochain-application
-    children:
-      - text: 6.1 Packaging
-        href: 6-1-packaging
-      - text: 6.2 Runtimes
-        href: 6-2-runtimes
-  - text: 7. Next steps
-    href: 7-next-steps
+      - text: 5.1 Packaging
+        href: 5-1-packaging
+      - text: 5.2 Runtimes
+        href: 5-2-runtimes
+  - text: 6. Next steps
+    href: 6-next-steps
 ---
 
 Welcome to the Getting Started with Holochain guide! This guide will walk you through the process of installing the Holochain development tools and creating a simple forum application. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
@@ -256,7 +249,7 @@ my_forum_app
 
 You'll then be prompted to choose a user interface (UI) framework for your front end.
 
-For this example, use the arrow keys to choose `Svelte`` and press <kbd>Enter</kbd>.
+For this example, use the arrow keys to choose `Svelte` and press <kbd>Enter</kbd>.
 
 ### 4.3. Set up Holonix development environment
 
@@ -550,7 +543,7 @@ One big advantage of this approach is that a single agent can be considered auth
 
 You'll notice that we used the word "action" a lot. In fact, **we call the content of a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
 
-There are a few different kinds of actions, but the most important one is `CreateEntry`. Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to publicly store a record of this act._ So while it’s useful for noun-like data like messages and images, it's actually a verb, a record of an action that someone took to contribute to the network's shared store of information. That also makes it well-suited to verb-like data like real-time document edits, game moves, and transactions.
+There are a few different kinds of actions, but the most common one is `Create`, which creates an 'entry' --- an arbitrary blob of bytes. Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to publicly store a record of this act._ So while an action is useful for storing noun-like data like messages and images, it's actually a verb, a record of an action that someone took to update their own state and possibly the shared database state as well. That also makes it well-suited to verb-like data like real-time document edits, game moves, and transactions.
 
 Every action contains the ID of its author (actually a cryptographic public key), a timestamp, a pointer to the previous source chain record, and a pointer to the entry data, if there is any. In this way, actions provide historical context and provenance for the entries they operate on.
 
@@ -566,7 +559,7 @@ Just as with a centralized application, we aren't just going to add this data in
 
 The bits of shared information that all the peers in a network are holding are collectively called a distributed hash table, or DHT. We'll explain more about the DHT later.
 
-If you want to learn more, check out [The Source Chain: A Personal Data Journal](/concepts/3_source_chain/) and [The DHT: A Shared, Distributed Graph Database](/concepts/4_dht/).
+If you want to learn more, check out [The Source Chain: A Personal Data Journal](/concepts/3_source_chain/) and [The DHT: A Shared, Distributed Graph Database](/concepts/4_dht/). You'll also get to see it all in action in a later step, when you run your hApp for the first time.
 
 !!!
 
@@ -711,13 +704,13 @@ Select `Yes` by pressing <kbd>Enter</kbd>.
 
 In short, the above choice is about how changes get dealt with when a piece of content is updated.
 
-Because all data in a Holochain application is immutable once it's written, we don't just go changing existing content, because that would break the integrity of the agent's source chain as well as the data already in the DHT. So instead we add metadata to the original data, indicating that people should now look elsewhere for the data or consider it deleted. This is produced by `UpdateEntry` and `DeleteEntry` source chain actions.
+Because all data in a Holochain application is immutable once it's written, we don't just go changing existing content, because that would break the integrity of the agent's source chain as well as the data already in the DHT. So instead we add metadata to the original data, indicating that people should now look elsewhere for the data or consider it deleted. This is produced by `Update` and `Delete` source chain actions.
 
-For an `UpdateEntry` action, the original `CreateEntry` or `UpdateEntry` action and its entry content on the DHT get a `ReplacedBy` pointer to the new `UpdateEntry` action and its entry content.
+For an `Update` action, the original `Create` or `Update` action and its entry content on the DHT get a `ReplacedBy` pointer to the new `Update` action and its entry content.
 
 When the scaffolding tool asks you whether to create a link from the original entry, though it's not talking about this pointer. Instead, it's talking about an extra piece of metadata that points to the _very newest_ entry in a chain of updates. If an entry were to get updated, and that update were updated, and this were repeated three more times, anyone trying to retrieve the entry would have to query the DHT six times before they finally found the newest revision. This extra link, which is not a built-in feature, 'jumps' them past the entire chain of updates at the cost of a bit of extra storage. The scaffolding tool will generate all the extra code needed to write and read this metadata in its update and read functions.
 
-For a `DeleteEntry` action, the original action and its entry content are simply marked as deleted. In the cases of both updating and deleting, all original data is still accessible if the application needs it.
+For a `Delete` action, the original action and its entry content are simply marked as deleted. In the cases of both updating and deleting, all original data is still accessible if the application needs it.
 
 #### Resolving conflicts
 
@@ -727,9 +720,9 @@ Multiple participants can mark a single entry as updated or deleted at the same 
 
 **By default, the scaffolding tool generates a `create_<entry_type>' function in your coordinator zome for an entry type** because creating new data is a fundamental part of any application, and it reflects the core principle of Holochain's agent-centric approach --- the ability to make changes to your own application's state.
 
-Similarly, when a public entry is published, it becomes accessible to other agents in the network. Public entries are meant to be shared and discovered by others, so **a `read_<entry_type>' function is provided by default** to ensure that agents can easily access and retrieve publicly shared entries. (The content of _private_ entries, however, are not shared to the network.) For more info on entries, see: the **Core Concepts sections on [Source Chains](https://developer.holochain.org/concepts/3_source_chain/) and [DHT](https://developer.holochain.org/concepts/4_dht/)**.
+Similarly, when a public entry is published, it becomes accessible to other agents in the network. Public entries are meant to be shared and discovered by others, so **a `read_<entry_type>' function is provided by default** to ensure that agents can easily access and retrieve publicly shared entries. (The content of _private_ entries, however, are not shared to the network.) For more info on entries, see: the **Core Concepts sections on [Source Chains](/concepts/3_source_chain/) and [DHT](/concepts/4_dht/)**.
 
-Developers decide whether to let the scaffolding tool generate `update_<entry_type>` and `delete_<entry_type>` functions based on their specific application requirements. More details in the Core Concepts section on [CRUD](https://developer.holochain.org/concepts/6_crud_actions/).
+Developers decide whether to let the scaffolding tool generate `update_<entry_type>` and `delete_<entry_type>` functions based on their specific application requirements. More details in the Core Concepts section on [CRUD](/concepts/6_crud_actions/).
 
 !!!
 
@@ -769,7 +762,7 @@ comment_content
 
 Then select the `TextArea` widget and press <kbd>Enter</kbd>. (Again, a `TextArea` is a multi-line input field that allows users to enter larger blocks of text. Perfect for a comment on a post.)
 
-Press <kbd>Y</press> to add another field.
+Press <kbd>Y</kbd> to add another field.
 
 For this next field you'll want to create a field that will help you associate each particular comment to the post that it is commenting on. To do this, the next field in the `comment` entry type will store a reference to a `post`.
 
@@ -815,7 +808,7 @@ Whereas `EntryHash` is used to uniquely identify, store, and efficiently retriev
 
 **Use `AgentPubKey` when** you want to link to an agent (such as associating a profile or icon with them) or retrieve information about their history (such as scanning their source chain for posts and comments).
 
-You can check out the Core Concepts to dive a bit deeper into [how the distributed hash table helps](https://developer.holochain.org/concepts/4_dht/) to not only make these entries and actions available but helps to ensure that agents haven't gone back to try and change their own histories after the fact. But for now, let's dive into links.
+You can check out the Core Concepts to dive a bit deeper into [how the distributed hash table helps](/concepts/4_dht/) to not only make these entries and actions available but helps to ensure that agents haven't gone back to try and change their own histories after the fact. But for now, let's dive into links.
 
 !!!
 
@@ -871,29 +864,29 @@ Add new collections for that entry type with:
 ```
 :::
 
-The scaffolding will now have both added the `comment` entry type, and added a bunch more very useful code to our app using the native Holochain affordance of links.  Links allow us to create paths that agents can follow to find associated content.  So, the scaffolding not only added a reference to the post in the comment's entry, but it also added code such that when a comment is added, a link from the post back to the comment, will also be created.  If you want to see some of that code, take a look at the `dnas/forum/zomes/integrity/posts/src/lib.rs` file and you should see right near the top that a function has been created for validating the creation of a `post_to_comments` link. Similarly, other validation functions related to the deletion of those links is below.
+The scaffolding will now have both added the `comment` entry type, and added a bunch more very useful code to our app using the native Holochain affordance of links. Links allow us to create paths that agents can follow to find associated content. So, the scaffolding not only added a reference to the post in the comment's entry, but it also added code such that when a comment is added, a link from the post back to the comment will also be created. If you want to see some of that code, take a look at the `dnas/forum/zomes/integrity/posts/src/lib.rs` file and you should see right near the top that a function has been created for validating the creation of a `post_to_comments` link. Similarly, other validation functions related to the deletion of those links follow after.
 
 !!! dig-deeper How links are stored and retrieved in a Holochain app
 
 What exactly is a link? Where is it stored? How does it work? And what do they let us do that we couldn't do otherwise?
 
-This Core Concepts section on [Links and Anchors](https://developer.holochain.org/concepts/5_links_anchors/) paints a pretty clear picture.
-
-In short, links enable us to build a graph of references from one piece of content to other pieces of content in a hApp and then to navigate that graph. This is important because without some sort of trail to follow, it is infeasible to just "search for all content" thanks to the address space (all possible hashes) being so large and spread out across machines that iterating through tme all could take millions of years.
+Links enable us to build a graph of references from one piece of content to other pieces of content in a DHT and then to navigate that graph. This is important because without some sort of trail to follow, it is infeasible to just "search for all content" thanks to the address space (all possible hashes) being so large and spread out across machines that iterating through tme all could take millions of years.
 
 By linking from known things to unknown things, we enable the efficient discovery and retrieval of related content in our hApp.
 
-**Storage**: When an agent creates a link between two entries, a "create link" action is written to their source chain. A link is so small that there's no entry for the action. It simply contains the address of the base, the address of the target, the link type (which describes the relationship), and an optional tag which contains a small amount of application-specific information. The base and target can be any sort of DHT address --- an `EntryHash`, an `ActionHash`, or an `AgentPubKey`. But they can also be the hash of a piece of data that doesn't even exist in the DHT.
+**Storage**: When an agent creates a link between two entries, a `CreateLink` action is written to their source chain. A link is so small that there's no entry for the action. It simply contains the address of the base, the address of the target, the link type (which describes the relationship), and an optional tag which contains a small amount of application-specific information. The base and target can be any sort of DHT address --- an `EntryHash`, an `ActionHash`, or an `AgentPubKey`. But there doesn't actually need to be any data at that base, which is useful for referencing data that exists in another hash-based data store outside the DHT.
 
 After storing the action in the local source chain, the agent then publishes the link to the DHT, where it goes to the peers who are responsible for storing the base address and gets attached to the address as metadata.
 
 **Lookup**: To look up and retrieve links in a Holochain app, agents can perform a `get_links` query on a base DHT address. This operation involves asking the DHT peers responsible for that address for any link metadata of a given link type attached to it, with an optional "starts-with" query on the link tag. The peers return a list of links matching the query, which contain the addresses of the targets, and the link types and tags. The agent can then retrieve the actual target data by performing a [`get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) query on the target address, which may be an `EntryHash`, `ActionHash`, or `AgentPubKey` (or an empty result, in the case of data that doesn't exist on the DHT).
 
+For more information and examples, read the Core Concepts section on [Links and Anchors](/concepts/5_links_anchors/).
+
 !!!
 
 ### 4.7. Scaffold a collection
 
-Now, let's create a collection that can be used to retrieve all the posts. A collection creates a link type for referring to the collected entry type (similarly to how a link type was created for linking from posts to comments), but collections also create an anchor as the base for the link so we can find all the items in the collection by starting from the anchor's known hash.
+Now, let's create a collection that can be used to retrieve all the posts. A collection creates a link type for referring to the collected entry type (similarly to how a link type was created for linking from posts to comments), but collections also create an 'anchor' --- a small string --- as the base for the link so we can find all the items in the collection by starting from the anchor's known hash.
 
 To create a collection, type:
 
@@ -951,11 +944,10 @@ And use the element in the `&lt;div id="content" /&gt` block by adding in this:
 ```
 :::
 
-
-
 These instructions tell us that if we want to include this generated UI component in the user interface of our hApp, we need to do some manual work:
-  1. import the component and
-  2. tell the UI to display the component.
+
+  1. Import the component, and
+  2. Tell the UI to display the component.
 
 In the next section, we will begin working with our `.svelte` files to build our UI.
 
@@ -973,15 +965,15 @@ The built-in implementation is actually a simplification of a more general patte
 
 Hierarchical paths serve another useful purpose. On the DHT, where every node is tasked with storing a portion of the whole data set, some anchors could become "hot spots" --- that is, they could have thousands or even millions of links attached to them. The nodes responsible for storing those links would bear a disproportionate data storage and serving burden.
 
-The examples of granular collections and type-ahead search indexes breaks up those anchors into increasingly smaller branches, so that each leaf node in the tree only has to store a small number of links.
+The examples of granular collections and type-ahead search indexes breaks up those anchors into increasingly smaller branches, so that each leaf node in the tree --- and hence each peer --- only has to store a small number of links.
 
-The scaffolding tool doesn't have any feature for building anchors and trees beyond simple one-anchor collections, but if you'd like to know more, you can read the Core Concepts section on [Links and Anchors](https://developer.holochain.org/concepts/5_links_anchors/) and the SDK reference for [`hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) and [`anchor`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/index.html).
+The scaffolding tool doesn't have any feature for building anchors and trees beyond simple one-anchor collections, but if you'd like to know more, you can read the Core Concepts section on [Links and Anchors](/concepts/5_links_anchors/) and the SDK reference for [`hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) and [`anchor`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/index.html).
 
 !!!
 
 ### 4.8. Integrate the generated UI elements
 
-At this stage, we will incorporate all the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.
+At this stage, we will incorporate all the UI components that have been scaffolded into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. At the beginning, we chose [Svelte](https://svelte.dev/) as our UI framework, so the following examples will be Svelte-specific.
 
 Let's go ahead and start our forum hApp in develop mode from the command line. Back in Terminal, from the root folder (`my_forum_app/`), enter:
 
@@ -989,11 +981,13 @@ Let's go ahead and start our forum hApp in develop mode from the command line. B
 npm start
 ```
 
-* **Note:** if you are having an issue, make sure that you are still in nix shell. If not, you may need to re-enter `nix develop` first, then type the above command again. And remember that you can always exit nix shell by typing `exit` to get back to your normal shell.
+!!! info Work in the nix shell
+If you are having an issue, make sure that you are still in the nix shell. If not, re-enter `nix develop` first, then type the above command again. And remember that you can always exit nix shell by typing `exit` to get back to your normal shell.
+!!!
 
-When we start the hApp with `npm start`, this launches a new conductor in sandbox mode with two agents running that hApp, and opens three windows:
+This launches a new conductor in sandbox mode with two agents running your hApp, and opens three windows:
 
-1. A web browser window with Holochain Playground, a tool that makes visible the various actions that have taken place in our forum hApp. At present we have a couple of agents in a DHT, with mostly empty source chains and, correspondingly, a mostly empty graph.
+1. A web browser window with Holochain Playground, a tool that makes visible the various actions that have taken place in our forum hApp. At present we have a couple of agents in a DHT, with mostly empty source chains and, correspondingly, a mostly empty graph database
 2. An application window with one agent (conductor 0) running the forum hApp. This window lets us take actions as that agent (0, or Alice, if you prefer).
 3. Another application window with a second agent (conductor 1) running the forum hApp. This window lets us take actions as the other agent (1, or Bob).
 
@@ -1001,86 +995,62 @@ These application windows allow us to test multiple agents in a Holochain networ
 
 These three windows together will let us interact with our hApp as we are building it.
 
-The Holochain Playground in particular is helpful in that it creates visual representations of the data that has been created and the way it relates to other content. Take a look at it and click one of the two items in the **DHT Cells** window. These are our two agents. When you click one of them, some content gets displayed in the **Source Chain** window. These are the initial actions in that agent's source chain. The arrows point from newer content back to older content.
+The Holochain Playground in particular is helpful because it creates visual representations of the data that has been created and the way it relates to other content. Take a look at it and click one of the two items in the **DHT Cells** window. These are your two agents. When you click one of them, some content gets displayed in the **Source Chain** window. These are the initial actions in that agent's source chain. The arrows point from newer content back to older content.
 
-From oldest to newest, in the newly created source chains, the actions are:
+From oldest to newest, in the newly created source chains, the records are:
 
 1. `DNA`, recording the hash of the DNA to be used to validate all subsequent source chain actions,
 2. `AgentValidationPkg`, providing proof that this participant is allowed to participate in this hApp ([see more](https://www.holochain.org/how-does-it-work/) in Holochain: How does it work?),
-3. `AgentID`, sharing the public key that is the complement of that agent's private key for that hApp and serves as their ID,
-4. Eventually `InitComplete`, indicating that all coordinator zomes have had a chance to do initial setup, then
+3. A `Create` action which records the author's `AgentID`, which is their public key and serves as their ID in the network and its graph database.
+
+As agents begin writing posts, comments, and links to the DHT, you'll see the following records appear:
+
+4. `InitComplete`, indicating that all coordinator zomes have had a chance to do initial setup, then
 5. Whatever actions the agent takes after that.
 
-The playground also lets us click on actions and entries in the DHT or the source chain to see their contents.
+The Playground also lets you click on actions and entries in the DHT or the source chain to see their contents.
 
-The two application UI windows allow us to interact with the application and see what is working, what is not working, and how data propagates when we take particular actions.
+The two application UI windows let you interact with the application and see what is working, what is not working, and how data propagates when you take particular actions.
 
-At first, each of the UI windows (conductors 0 for Alice and 1 for Bob) include instructions for us as developers to go and examine the UI elements that have been generated by the scaffold by looking at the contents in the folder `ui/src/<dna>/<zome>/`, where `<dna>` and `<zome>` are generic placeholders for our DNA (`forum`) and zome (`post`).
+At first, each of the UI windows (conductors 0 for Alice and 1 for Bob) include instructions for you to go and examine the scaffolded UI elements by looking at the contents in the folder `ui/src/<dna>/<zome>/`, where `<dna>` and `<zome>` are generic placeholders for your DNA (`forum`) and zome (`post`).
 
-Thus far, nine different components have been generated as `.svelte` files in the `ui/src/forum/posts/` directory.  If we go look at that folder we can see the files that have been created. Note that for ease in development, we have configured the sandbox testing environment to live-reload the UI as we edit UI files. So don't quit the process you started with `npm start`; instead, **open a new terminal window**. Then navigate to the root folder of your hApp (`my_forum_app/`) and then list the files in `ui/src/forum/posts/` by entering:
+Thus far, seven different components have been generated as `.svelte` files in the `ui/src/forum/posts/` directory. If you look at that folder, you can see the files. Note that for ease in development, the sandbox testing environment live-reloads the UI as you edit UI files. So don't quit the process you started with `npm start`; instead, **open a new terminal window**. Then navigate to the root folder of your hApp (`my_forum_app/`) and list the files in `ui/src/forum/posts/` by entering:
 
 ```shellsession
 ls ui/src/forum/posts/
 ```
 
-You should see nine different `.svelte` files, plus a `types.ts` file:
+You should see seven different `.svelte` files, plus a `types.ts` file:
 
 ::: output-block
 ```text
-AllPosts.svelte         CreatePost.svelte   PostsForComment.svelte
-CommentDetail.svelte    EditComment.svelte  types.ts
+AllPosts.svelte         CreateComment.svelte  PostDetail.svelte
+CommentDetail.svelte    CreatePost.svelte     types.ts
 CommentsForPost.svelte  EditPost.svelte
-CreateComment.svelte    PostDetail.svelte
 ```
 :::
 
-The next step is to edit the UI files in the text editor or integrated development environment of your choice. If you don't yet have path commands for opening files in your prefered IDE, [this tutorial can help guide you through setting up path commands](https://hackmd.io/@oitz5O-qR2qrfRre3Kbv-Q/r1Z_Z6Qgrn).
+The next step is to edit the UI files in the text editor or integrated development environment of your choice to add scaffolded components and build a fully featured UI.
 
-**Going forward in this tutorial, we are going to use `code` to open files in [VS Code](https://code.visualstudio.com/)**, but you should substitute a different command (ex: `atom`) for `code`, if you are using a different IDE.
+If you don't yet have path commands for opening files in your prefered IDE, [this tutorial can help guide you through setting up path commands](https://hackmd.io/@oitz5O-qR2qrfRre3Kbv-Q/r1Z_Z6Qgrn).
 
-Let's open up `CreatePost.svelte` and take a look at its contents. Using VS Code as our IDE, we would enter:
-
-```shellsession
-code ui/src/forum/posts/CreatePost.svelte
-```
-
-In the script section in the top part of the file, we see some imports, some variable assignments, and an async function for `createPost`. Below the script section, we see a CSS section with style information for Title, Content and a "Create Post" button.
-
-So that `CreatePost.svelte` file contains all the things that are needed for a basic User Interface related to that `CreatePost` component.
-
-Each of the other `.svelte` files has something similar for each of the other components.
-
-As the appliction windows showed, to integrate all of these generated UI elements, we need to add them to the `App.svelte` file located in the `ui/src/` folder.
-
-Adding in a component into the UI in Svelte requires two simple steps:
-
-1. Import the content of that particular `.svelte` file in the script section, e.g.:
-
-    ```typescript
-    import CreatePost from './forum/post/CreatePost.svelte'
-    ```
-
-2. Add the the UI component HTML for that file to the `main` section, e.g.:
-
-    ```html
-    <CreatePost></CreatePost>
-    ```
+**Going forward in this tutorial, we are going to use `code` to open files in [VS Code](https://code.visualstudio.com/)**, but you should substitute a different command (ex: `atom` or `vim`) for `code` if you are using a different editor.
 
 Open the `App.svelte` file with your preferred IDE.
-
-With VS Code, for example, from our root folder for the hApp (forum), we would enter:
 
 ```shellsession
 code ui/src/App.svelte
 ```
 
-Our `App.svelte` file will have three sections:
+Your `App.svelte` file will have three sections:
 
 1. a script section,
 2. a main section, and
-3. a style section
+3. a style section.
 
-and should initially look like this:
+!!! dig-deeper Detailed breakdown of `App.svelte`
+
+#### `<script>` section
 
 ```html
 <script lang="ts">
@@ -1106,7 +1076,26 @@ and should initially look like this:
     getClient: () => client,
   });
 </script>
+```
 
+This section contains the JavaScript/TypeScript code for the component. It imports various dependencies needed to build a single-page web app:
+
+* `svelte` is the Svelte engine itself, and its `onMount` function lets you register a handler to be run when the component is initialized, while `setContext` lets you pass data to be used in the rendering of the component.
+* `@holochain/client` is the Holochain client library; first we load in some useful Holochain-related TypeScript types, followed by the client object itself.
+* `@mwc/material-circular-progress` is just a UI component that gives us a spinner when something is loading.
+* `./contexts` is generated by the scaffolding tool. It just contains a constant, the app-wide name for the 'context' that makes the Holochain client accessible to all components. In Svelte, a context is a state shared across components.
+
+After importing dependencies, it does some initial setup. This is run when the component file is imported --- in this case the component, `App.svelte`, is the main component for the entire application, and it's imported into `main.ts` where it's 'mounted' (more on mounting in a moment).
+
+Next some variables are instantiated: one to hold the Holochain client that connects to the hApp backend via the conductor, and one to keep track of whether the client is connected yet. (This variable will be used to show a loading spinner while it's still connecting.)
+
+**Take note of the line that starts with `$:`**. This is a special Svelte label that turns regular variables into **reactive variables**. We won't get too deep into Svelte right now, because this is a tutorial about Holochain, but when a reactive variable changes, Svelte will re-render the entire component. This lets you write a template declaratively, enclosing the reactive variable in `{}` braces, and let Svelte handle the updating of the template wherever the variable changes.
+
+Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is establised, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
+
+#### `<main>` section
+
+```html
 <main>
   {#if loading}
     <div style="display: flex; flex: 1; align-items: center; justify-content: center">
@@ -1133,7 +1122,13 @@ import CreateTodo from './todos/todos/CreateTodo.svelte';
     </div>
   {/if}
 </main>
+```
 
+This section is a template for the displayable content of the main app component. Using an `{#if}` block to test whether the reactive variable `loading` is true, this section displays a spinner until the backend can be accessed. Once the UI is connected to the backend, it shows some boilerplate text telling you to add something meaningful to the template.
+
+#### `<style>` section
+
+```html
 <style>
   main {
     text-align: center;
@@ -1150,75 +1145,103 @@ import CreateTodo from './todos/todos/CreateTodo.svelte';
 </style>
 ```
 
-!!! dig-deeper Detailed breakdown of `App.svelte`
+This section is a template for the CSS styles that get applied to the HTML in the `<main>` section of the component. You can also use reactive variables here, and the styling will update whenever the variables change. These scaffolded styles set the component up with some basic layout to make it readable at small and large window sizes.
 
-#### `<script>` section:
-
-* This section contains the JavaScript/TypeScript code for the component.
-* It imports various dependencies needed to build a single-page web app:
-    * `svelte` is the Svelte engine itself, and its `onMount` function lets you register a handler to be run when the component is initialized, while `setContext` lets you pass data to be used in the rendering of the component.
-    * `@holochain/client` is the Holochain client library; first we load in some useful TypeScript types, followed by the client object itself.
-    * `@mwc/material-circular-progress` is just a UI component that gives us a spinner when something is loading.
-    * `./contexts` is a local file, generated by the scaffolding tool. It store the name of the context that is set with the `setContext()` that is then used by each of the elements to retrieve the contextual information they need, which in our case is the Holochain `AppAgentClient` object.
-* It declares and initializes the `onMount` handler that creates a Holochain client object when the main app component is initialized, connects it to the locally running hApp, removes the loading message and spinner, then adds that object to the context available to the main app component and its child components via the `setContext` handler. (Note: The `$:` syntax turns local variables into 'reactive' variables --- that is, variables that trigger a UI update when they're changed.)
-
-#### `<main>` section:
-
-* This section is a template for the displayable content of the main app component.
-* Using an `{#if}` block, this section starts up with a 'loading' spinner that is shown until the Holochain client connects to the hApp backend. After that, it shows some boilerplate text telling you to add something meaningful to the template.
-* When a reactive variable is used anywhere here, such as the `loading` variable which becomes false once the Holochain client is connected, Svelte will handle the updating of the UI whenever that variable changes.
-
-#### `<style>` section:
-
-* This section is a template for the CSS styles that get applied to the HTML in the `<main>` section of the component. You can also use reactive variables here, and the styling will update whenever the variables change.
-* The scaffolded styles set the component up with some basic layout to make it readable at small and large window sizes.
+**All Svelte components follow this general pattern**. `App.svelte` has special status as the root component, but otherwise it's just like any other component.
 
 !!!
 
-At the top of the file, there is a list of import scripts.
+First you'll be adding a list of posts to the app, which means the component called `AllPosts.svelte` needs to be imported. At the top of the file, there is a list of import scripts.
 
-We are going to begin by importing all the generated Svelte components at the top of our script block.
-
-Following the same pattern that we were directed to use after we scaffolded our `AllPosts` collection and again in our two conductor windows, let's copy the following text and paste it into the script block of the `App.svelte` file, just a line or two below `import { clientContext } from './contexts';`
+Following the instructions that the scaffolding tool and the two conductor windows gave you, copy the following text and paste it into the script block of the `App.svelte` file, on the line below `import { clientContext } from './contexts';`
 
 ```typescript
 import AllPosts from './forum/posts/AllPosts.svelte';
-import CommentDetail from './forum/posts/CommentDetail.svelte';
-import CommentsForPost from './forum/posts/CommentsForPost.svelte';
-import CreateComment from './forum/posts/CreateComment.svelte';
-import CreatePost from './forum/posts/CreatePost.svelte';
-import EditComment from './forum/posts/EditComment.svelte';
-import EditPost from './forum/posts/EditPost.svelte';
-import PostDetail from './forum/posts/PostDetail.svelte';
-import PostsForComment from './forum/posts/PostsForComment.svelte';
 ```
 
-Next we will need to add our components a little further down the page in the `<main>` section of the file, where there is currently some "EDIT ME!" content. We are going to start by just adding `CreatePost`.
+Next, add the `AllPosts` component to the template in the `<main>` section of the file, where the "EDIT ME!" content now lives. Remove everything inside the `div` element that starts with this tag:
 
-Just below the line that reads:
-
+:::output-block
 ```html
 <div id="content" style="display: flex; flex-direction: column; flex: 1;">
 ```
+:::
 
-add the following:
+and replace it with this line:
 
 ```html
-<CreatePost></CreatePost>
+      <AllPosts></AllPosts>
 ```
 
-Then save that file and take a look again at the two UI windows. You should now see a "Create Post" headline, a "Title" input box, a "Content" input box and a "Create Post" button.
+Your `<main>` block should now look like this:
 
-Great! Let's create a post!
+```html
+<main>
+  {#if loading}
+    <div style="display: flex; flex: 1; align-items: center; justify-content: ce
+nter">
+      <mwc-circular-progress indeterminate />
+    </div>
+  {:else}
+    <div id="content" style="display: flex; flex-direction: column; flex: 1;">
+      <AllPosts></AllPosts>
+    </div>
+  {/if}
+</main>
+```
 
-Go ahead and type something into one of the two conductor windows like:
+!!! info Svelte component tags
+The `AllPosts` element is obviously not standard HTML. In Svelte, each component has a correspondingly named custom element that will get replaced by the rendered component's markup wherever it appears in another component's template.
+!!!
 
-* Title: `Hi from 0`
-* Content: `Hello 1!`
+Save that file and take a look again at the two UI windows. They should both say 'No posts found'.
+
+![No posts found screenshot]
+
+Let's fix that by adding the post creation component to the UI so we can add our first post. Importing the `CreatePost.svelte` component by adding this line in the script section, just below the `AllPosts` component you previously imported:
+
+```typescript
+import CreatePost from './forum/posts/CreatePost.svelte';
+```
+
+Add this new component to the `<main>` block above the component you added:
+
+```html
+      <CreatePost></CreatePost>
+```
+
+Now your `<main>` block should look like this:
+
+```html
+<main>
+  {#if loading}
+    <div style="display: flex; flex: 1; align-items: center; justify-content: ce
+nter">
+      <mwc-circular-progress indeterminate />
+    </div>
+  {:else}
+    <div id="content" style="display: flex; flex-direction: column; flex: 1;">
+      <CreatePost></CreatePost>
+      <AllPosts></AllPosts>
+    </div>
+  {/if}
+</main>
+```
+
+Save the file and switch to one of the two conductor windows. You should now see a post form.
+
+![Create post form screenshot]()
+
+Type something into one of the two conductor windows like:
+
+* Title: `Hi from Alice`
+* Content: `Hello Bob!`
 
 and then press the "Create Post" button.
 
-You'll' immediately notice that you don't see any change in the application windows. This is because there's no UI code yet to display any posts, but if you take a look at the Holochain Playground window, you will see that a new entry has been created. If you click the "App" element that you've created in Alice's source chain, it will pull up some details in the Entry Contents section, including the title and content of our entry. Note the hash of that entry (top of the Entry Contents window). Then click on the Create Action that is pointing toward that App entry in the source chain. If you look back at the contents window, you will see that it is now sharing Action Contents. And if you look down the list a bit, you will see the entry hash of the entry for the first post.
+You'll immediately notice that the `AllPosts` component has changed from saying "No posts found" to showing the newly created post. And if you take a look at the Holochain Playground window, you will see that two new actions have been created. If you click the `App` element that's appeared in Alice's source chain, it will pull up some details in the Entry Contents section, including the title and content of Alice's forum post. Note the hash of that entry (top of the Entry Contents window). Then click on the `Create` action that's pointing toward that `App` entry in the source chain. If you look back at the contents window, you will see that it is now sharing the contents of the action. And if you look down the list a bit, you will see the hash of the entry for the first post.
+
+![playground screenshot]()
 
 !!! dig-deeper Relationships in a source chain versus relationships in the DHT
 
@@ -1226,69 +1249,77 @@ At this point, in our DHT graph it should look like we have two different agents
 
 A source chain merely serves as a history of one agent's attempts to manipulate the state of the graph database contained in the DHT. It's useful to think of the DHT as a completely separate data store that doesn't necessarily reflect agent-to-entry relationships unless you explicitly create a link type for them.
 
-For the purpose of this hApp, we're not interested in agent-to-posts relationships, so it's fine that they're not linked. But if you wanted to create a page that showed all posts by an author, that's when you might want to scaffold that link type. `hc scaffold collection` will do this for you if you choose a by-author collection, along with generating a `get_posts_by_author` function, if you choose to create a collection by author rather than a global one.
+For the purpose of this hApp, we're not interested in agent-to-posts relationships, so it's fine that they're not linked. But if you wanted to create a page that showed all posts by an author, that's when you might want to scaffold that link type. `hc scaffold collection` will do this for you if you choose a by-author collection, and will also create a `get_posts_by_author` function.
 
 !!!
 
-Now let's add the UI component that will actually let our users see things that have been posted. That's `AllPosts`.
+You may also notice that only Alice's UI showed the new post, while Bob's didn't. Just as with a traditional web app, database changes don't automatically send out a notification to everyone who is interested. (Alice's UI sees the changes because it knows how to update its own state for local changes.) You can create this functionality using a feature called [signals](/concepts/9_signals/), but let's keep things simple for now. Right-click anywhere in Bob's UI then choose "Reload" from the menu, and you'll see that the changes have been copied from Alice's app instance to Bob's --- all without a database server in the middle!
 
-Go ahead and try to add `AllPosts` on your own. We've already imported the component's source file. You just need to add its renderer to the `<main>` section. Once you are done, continue below.
+Let's edit that post. In Alice's UI window, click the edit adjacent to the post content (it should look like a pencil icon). The post content will be replaced by an editing form.
 
-Did you end up adding something like
+Now alter the content a bit. Maybe change it from `Hello Bob!` to `Hello, World!` and click "Save".
 
-```html
-<AllPosts></AllPosts>
-```
+![Alice editing her post]()
 
-just before or after `<CreatePost></CreatePost>`?
+That should update the post (at least for Alice). Bob's UI will show the updated version the next time it's reloaded.
 
-Once you save the file, you should see your first post show up for both 0 (Alice) and 1 (Bob).
-
-Let's go ahead and edit that post. In the same UI window that you created the post in, click "Edit" adjacent to the post content.
-
-Now alter the content a bit. Maybe change it from `Hello 1!` to `Hello, World!` and click "Save".
-
-That should update the post (at least for the agent that made the change). The other application window will get the updated version the next time it is refreshed. Later, we will work on making these sorts of changes propagate more instantaneously from a user perspective.
-
-If we look at the Holochain Playground, we can see that the update was added to to the source chain of the agent that made the update. Specifically, it created:
+If you look at the Holochain Playground, you can see that the update was added to Alice's source chain. Specifically, it created:
 
 1. a new entry (with our `Hello, World!` text),
-2. an `UpdateEntry` action that indicated this entry is to replace the original entry, and
-3. a `CreateLink` action that articulates a link between the original create action and the update action.
+2. an `Update` action that indicated this entry is to replace the original entry, and
+3. a `CreateLink` action that connects the original create action to the update action.
 
-Let's go ahead and delete that post. If we look again at the Holochain Playground, we will see that a `DeleteEntry` action has been added to the source chain. Clicking on that action will show the details in the Action Contents window. We can see that the update action and the original entry are being marked as deleted in this delete action.
+![Playground - new data in source chain and DHT after update]()
 
-Let's create another post.
+As explained [previously](#crud-create-read-update-delete), the original forum post already has a 'link' of sorts pointing from its action to the `Update` action, which can be accessed when the original is retrieved. The extra link created by the `CreateLink` action is optional --- it merely speeds up retrieval when an action has been edited many times and has a long chain of update links, by allowing you to jump to the end of the chain. In the screenshot above, the link is highlighted in the DHT pane.
 
-If we just add the comment form component to the `<main>` section of our `App.svelte` file, the Post functionality stops working. For instance, just below `<AllPosts></AllPosts> let's add:
+Let's see what happens when you delete that post. In Alice's UI, look for the delete button (it should look like a trash can). If you look again at the Holochain Playground, we will see that a `Delete` action has been added to the source chain. Clicking on that action will show the details in the Action Contents window. You can see that the `Delete` action marks the original action that created the post, along with its entry data, as deleted. (The `Update` action is not marked as deleted, which is okay because it's now orphaned and can't be accessed directly from the `all_posts` anchor.)
 
-```html
-<CreateComment></CreateComment>
+![Playground after post has been deleted]()
+
+Let's create another post so we can add comments to the forum app. Choose one UI window, enter some text into the Create Post form, and press the Create Post button.
+
+Previously, you added new components to the `App.svelte` component. That made sense because posts were a global data type. But comments are related to a post, so from now on you'll be modifying the `PostDetail.svelte` component instead.
+
+Open up `PostDetail.svelte` in your IDE:
+
+```shellsession
+code ui/src/forum/posts/PostDetail.svelte
 ```
 
-When we do that, we stop being able to see existing posts, and lose our ability to create new posts. Something is wrong here.
+Just as before, first you'll need to import the components near the top of the file (just after the line that imports `EditPost.svelte`):
 
-What is it?
+```typescript
+import CreateComment from './CreateComment.svelte';
+import CommentsForPost from './CommentsForPost.svelte';
+```
 
-The `CreateComment` component needs to be created _in response to some particular post_. We need to add some logic that will clarify when `CreateComment` is supposed to become available.
+Further down the file, in the template block, add the components' elements to the template. Put them both before the closing `</div>` tag.
 
-TODO: add UI stuff here.
+Here, the comment components need to know what post they're related to. The post hash is the unique ID for the post, and the comment components' elements both expect a `postHash` attribute. This hash is available in the `PostDetail` component as a variable of the same name, so it can be passed to the comment widgets.
 
-<div style="display:none">
+```html
+  <CreateComment postHash="{postHash}"></CreateComment>
+  <CommentsForPost postHash="{postHash}"></CommentsForPost>
+```
+
+Save the file, then go back to the UI windows to see the changes. Try typing in a comment or two, then deleting them. Watch how the authors' source chains and the graph in the DHT change as new information is added.
+
+<!---
 TODO: this looks like older stuff, cleanup?
 
 ====
 
 TODO (Matt's best guess at this):
-6. Creating Validation Rules
-7. Built to Beautiful: adjusting our User Interface
-8. Creating Tests
-~~9. Deploying Your Holochain Application
-    9.1. Packaging Your Application
-    9.2. Configuring the Conductor
-    9.3. Running Your Application~~
-10. Testing Your Holochain Application
-    10.1 Creating Test Scenarios
+5. Creating Validation Rules
+6. Built to Beautiful: adjusting our User Interface
+7. Creating Tests
+~~8. Deploying Your Holochain Application
+    8.1. Packaging Your Application
+    8.2. Configuring the Conductor
+    8.3. Running Your Application~~
+9. Testing Your Holochain Application
+    9.1 Creating Test Scenarios
 
 
 QUESTIONS:
@@ -1298,8 +1329,9 @@ When to introduce:
 -
 
 ---
-</div>
+-->
 
+<!--
 ## 5. Creating validation rules
 
 What can validation rules do? All sorts of things including:
@@ -1510,7 +1542,7 @@ Other possibilities: validate as you type. Calls the validate create comment fun
 
 What would be really cool - if we a schema definition for your entry types that would generate the validation code and the UI side as you type javascript code.
 
-<div style="display:none">
+
 TODO:
 ### 5.3. Validating links?
 
@@ -1526,29 +1558,48 @@ creating a sort of a link from the old entry to the new entry
 Those who receive the store action (validation authorities), they will run the validation.
 
 ---
-</div>
+-->
 
-## 6. Deploying your Holochain application
+## 5. Deploying your Holochain application
 
-### 6.1 Packaging
+### 5.1 Packaging
 
-Now that you've implemented an application, it's time to think about how you might deploy it. The first step is to package your app:
+Now that you've built an application, it's time to get it into other people's hands. You specify the components of a hApp using manifest files, written in [YAML](https://yaml.org/), and the `hc` CLI looks for them when it's building a distributable hApp for you. If you look in the `workdir` folder:
+
+```shellsession
+ls workdir
+```
+
+You'll see that the scaffolding tool has generated two manifest files for you:
+
+:::output-block
+```text
+happ.yaml  web-happ.yaml
+```
+::: output-block
+
+The first step is to package your app:
 
 ```shellsession
 npm run package
 ```
 
 This command does a number of things:
-1. triggers the rust compiler to build the zomes
-2. uses the `hc` command line to combine the built zomes into a DNA file
-3. builds the UI and compresses it into a `.zip` file
-4. combines the DNA file and the UI zip into a `.webhapp` file
 
-These files end up in the `workdir` directory:
+1. Triggers the Rust compiler to build the zomes,
+2. Uses the `hc` CLI too to combine the built zomes and the DNA manifest into a `.dna` file,
+3. Combines all the DNAs and the hApp manifest into a `.happ` file,
+3. Builds the UI and compresses it into a `.zip` file, and
+4. Combines the hApp file, the UI zip, and the web hApp manifest into a `.webhapp` file.
+
+Of course, this application only has one zome and one DNA, but more complex apps may have many of each.
+
+Now you'll see some new files in `workdir`:
 
 ```shellsession
 ls workdir
 ```
+
 ::: output-block
 ```text
 happ.yaml  my_forum_app.happ  my_forum_app.webhapp  web-happ.yaml
@@ -1557,29 +1608,29 @@ happ.yaml  my_forum_app.happ  my_forum_app.webhapp  web-happ.yaml
 
 The packed app is now ready for deployment to a Holochain runtime.
 
-### 6.2 Runtimes
+### 5.2 Runtimes
 
-In the centralized world, deployment is usually achieved by Continuous Integration (CI) automation that builds up code changes and sends them to what ever server or cloud-based platform you are using. In the decentralized world of Holochain, deployment happens when end-users adds your application into a Holochain run-time environment on their own computers.
+In the centralized world, deployment is usually achieved by Continuous Integration (CI) automation that builds up code changes and sends them to whatever server or cloud-based platform you're using. In the decentralized world of Holochain, deployment happens when end-users download and run your hApp in the Holochain runtime.
 
 From the end-user perspective there are currently there are two ways to go about this, both of which will feel familiar:
 
-1. Download Holochain's official Launcher run-time and install the app from its app-store.
-2. Download an your app as its own stand-alone desktop executable, as they would any other application for their computer.
+1. Download Holochain's official Launcher runtime and install the app from its app store or the filesystem.
+2. Download an your app as its own standalone desktop executable, as they would any other application for their computer.
 
-#### 6.2.1 Launcher, the multi-app runtime
+#### 5.2.1 Launcher, the multi-app runtime
 
-Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows end-users to install apps from a built-in app store or from the file system. Installed apps can then be launched from a friendly UI. Note that the app store is itself a distributed Holochain application which provides details on applications that are available to be run. As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or you can share your application directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the file system.
+Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows people to install apps from a built-in app store or from the filesystem. Installed apps can then be launched from a friendly UI. Note that the app store is itself a distributed Holochain application which provides details on applications that are available for download. As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or you can share your application directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the file system.
 
 You can try this latter approach immediately by downloading and running the Launcher!
 
 The steps for publishing an app to the Launcher's app store are documented in the Github repository of the Holochain Launcher [here](https://github.com/holochain/launcher#publishing-and-updating-an-app-in-the-devhub).
 
-#### 6.2.2 Standalone executable
+#### 5.2.2 Standalone executable
 
 If you prefer to distribute your app as a full standalone executable, you will need to bundle the Holochain runtime and your app together and take care of the necessary interactions between them. Because Holochain itself is really just a set of Rust libraries, you can of course build your own application that uses those libraries, but that's a fair amount of work. Currently there are two much simpler paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries, which in our case are the [holochain conductor](https://docs.rs/holochain/latest/holochain/) and the [lair keystore](https://docs.rs/lair_keystore/latest/lair_keystore/). Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has already been done for you:
 
 * **Electron**: Refer to the community-supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.
-* **Tauri**: See the [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
+* **Tauri**: See the officially supported [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
 
 Both of these are GitHub template repos with detailed instructions on how to clone the repos and add in your UI and DNA, as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users.
 
@@ -1587,7 +1638,7 @@ Both of these are GitHub template repos with detailed instructions on how to clo
 For macOS and Windows, you will probably also want to go through the process of registering as a developer so that your application can be "code-signed". This is needed so that users don't get the "unsigned code" warnings when launching the applications on those platforms. Both of the above templates include instructions for CI automation to run the code-signing steps on release once you have acquired the necessary certificates.
 !!!
 
-<div style="display:none">
+<!---
 TODO: this looks like older stuff, cleanup?
 
 ---
@@ -1729,21 +1780,23 @@ hc test
 This will execute your tests and display the results in the terminal.
 
 </div>
+-->
 
-## 7. Next steps
+## 6. Next steps
 
 Congratulations! You've learned how to create a new Holochain application, understand its layout, work with core concepts, and deploy and test the application.
 
 Now that you have a basic understanding of Holochain development, you can continue exploring more advanced topics, such as:
 
-    Implementing user authentication and authorization
-    Integrating your Holochain application with a frontend user interface
-    Building more complex data structures and relationships
-    Optimizing your application for performance and scalability
+* Validating data
+* Writing tests for a zome
+* Implementing access and write privileges
+* Building more complex data structures and relationships
+* Optimizing your application for performance and scalability
 
-### 7.1  Further exploration and resources
+### 6.1  Further exploration and resources
 
-Now that you have successfully built a basic forum application using Holochain and integrated it with a front end, you may want to explore more advanced topics and techniques to further enhance your application or create new ones. Here are some resources and ideas to help you get started:
+Now that you have successfully built a basic forum application using Holochain and integrated it with a frontend, you may want to explore more advanced topics and techniques to further enhance your application or create new ones. Here are some resources and ideas to help you get started:
 
 #### Holochain developer documentation
 
