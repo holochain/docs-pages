@@ -993,6 +993,8 @@ When you start the hApp with `npm start`, this launches Holochain in sandbox mod
 2. An application window with one agent (conductor 0) running the forum hApp. This window lets us take actions as that agent (0, or Alice, if you prefer).
 3. Another application window with a second agent (conductor 1) running the forum hApp. This window lets us take actions as the other agent (1, or Bob).
 
+![Three windows: two agent UIs and a web browser window with the Holochain Playground](/assets/img/getting-started/1-two-uis-and-playground.png)
+
 These application windows allow us to test multiple agents in a Holochain network interacting with one another. It is all running on our one device, but the two conductors behave very much the same as separate agents on different machines would, minus network lag.
 
 Remember that a **conductor** is a Holochain runtime process executing on your computer. For more details see the [Application Architecture](/concepts/2_application_architecture/) section in the Core Concepts guide.
@@ -1198,7 +1200,7 @@ The `AllPosts` element is obviously not standard HTML. In Svelte, each component
 
 Save that file and take a look again at the two UI windows. They should both say 'No posts found'.
 
-![No posts found screenshot]
+![A UI showing the AllPosts component, which says 'No posts found'](/assets/img/getting-started/2-no-posts-found.png)
 
 Let's fix that by adding the post creation component to the UI so we can add our first post. Import the `CreatePost.svelte` component by adding this line in the script section, just below the `AllPosts` component you previously imported:
 
@@ -1232,7 +1234,7 @@ nter">
 
 Save the file and switch to one of the two conductor windows. You should now see a post form.
 
-![Create post form screenshot]()
+![The UI after adding the CreatePost widget](/assets/img/getting-started/3-create-post-widget.png)
 
 Type something into one of the two conductor windows like:
 
@@ -1243,7 +1245,7 @@ and then press the "Create Post" button.
 
 You'll immediately notice that the `AllPosts` component has changed from saying "No posts found" to showing the newly created post. And if you take a look at the Holochain Playground window, you will see that two new actions have been created. If you click the `App` element that's appeared in Alice's source chain, it will pull up some details in the Entry Contents section, including the title and content of Alice's forum post. Note the hash of that entry (top of the Entry Contents window). Then click on the `Create` action that's pointing toward that `App` entry in the source chain. If you look back at the contents window, you will see that it is now sharing the contents of the action. And if you look down the list a bit, you will see the hash of the entry for the first post.
 
-![playground screenshot]()
+![The Holochain playground showing a single agent's source chain, containing the actions that create a post, as well as the transformations in the DHT that resulted from these actions](/assets/img/getting-started/4-playground-first-post.png)
 
 !!! dig-deeper Relationships in a source chain versus relationships in the DHT
 
@@ -1261,7 +1263,7 @@ Let's edit that post. In Alice's UI window, click the edit adjacent to the post 
 
 Now alter the content a bit. Maybe change it from `Hello Bob!` to `Hello, World!` and click "Save".
 
-![Alice editing her post]()
+![The UI of one agent, showing a post about to be edited](/assets/img/getting-started/5-edit-post.png)
 
 That should update the post (at least for Alice). Bob's UI will show the updated version the next time it's reloaded.
 
@@ -1271,13 +1273,13 @@ If you look at the Holochain Playground, you should see that the update was adde
 2. an `Update` action that indicated this entry is to replace the original entry, and
 3. a `CreateLink` action that connects the original create action to the update action.
 
-![Playground - new data in source chain and DHT after update]()
+![The Holochain playground, showing the source chain of the agent who edited the post along with new data in the DHT reflecting the edit](/assets/img/getting-started/6-playground-after-edits.png)
 
 As explained [previously](#crud-create-read-update-delete), the original forum post already has a 'link' of sorts pointing from its action to the `Update` action, which can be accessed when the original is retrieved. The extra link created by the `CreateLink` action is optional --- it merely speeds up retrieval when an action has been edited many times and has a long chain of update links, by allowing you to jump to the end of the chain. In the screenshot above, the link is highlighted in the DHT pane.
 
 Let's see what happens when you delete that post. In Alice's UI, look for the delete button (it should look like a trash can). If you look again at the Holochain Playground, we will see that a `Delete` action has been added to the source chain. Clicking on that action will show the details in the Action Contents window. You can see that the `Delete` action marks the original action that created the post, along with its entry data, as deleted. (The `Update` action is not marked as deleted, which is okay because it's now orphaned and can't be accessed directly from the `all_posts` anchor.)
 
-![Playground after post has been deleted]()
+![The Holochain playground, showing the source chain of the agent who deleted the post along with new data in the DHT reflecting the delete](/assets/img/getting-started/7-playground-after-delete.png)
 
 Let's create another post so we can add comments to the forum app. Choose one UI window, enter some text into the Create Post form, and press the Create Post button.
 
@@ -1306,6 +1308,8 @@ Here, the comment components need to know what post they're related to. The post
 ```
 
 Save the file, then go back to the UI windows to see the changes. Try typing in a comment or two, then deleting them. Watch how the authors' source chains and the graph in the DHT change as new information is added.
+
+![placeholder -- comments component added]()
 
 <!---
 TODO: this looks like older stuff, cleanup?
