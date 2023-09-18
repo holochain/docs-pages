@@ -24,8 +24,10 @@ tocData:
       href: 4-6-scaffold-entry-types
     - text: 4.7. Scaffold a collection
       href: 4-7-scaffold-a-collection
-    - text: 4.8. Integrate the generated UI elements
-      href: 4-8-integrate-the-generated-ui-elements
+    - text: 4.8. Run your applicaiton in dev mode
+      href: 4-8-run-your-application-in-dev-mode
+    - text: 4.9. Integrate the generated UI elements
+      href: 4-9-integrate-the-generated-ui-elements
   - text: 5. Deploying your Holochain application
     href: 5-deploying-your-holochain-application
     children:
@@ -949,8 +951,6 @@ These instructions tell us that if we want to include this generated UI componen
   1. Import the component, and
   2. Tell the UI to display the component.
 
-In the next section, we will begin working with our `.svelte` files to build our UI.
-
 !!! dig-deeper How a collection is implemented
 
 We already explored how links make data in the DHT discoverable by connecting known DHT base addresses to unknown addresses. Essentially every address becomes an anchor point to hang a collection of links from.
@@ -971,11 +971,13 @@ The scaffolding tool doesn't have any feature for building anchors and trees bey
 
 !!!
 
-### 4.8. Integrate the generated UI elements
+Before you get started editing the UI, it's helpful to be able to actually run the scaffolded applciation. That way, you can watch changes take effect in real-time as you make them. So the next section will walk you through launching the application the tooling that's available there, and then in the section after that, we'll begin working with the `.svelte` files to build the UI.
 
-At this stage, we will incorporate all the UI components that have been scaffolded into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. At the beginning, we chose [Svelte](https://svelte.dev/) as our UI framework, so the following examples will be Svelte-specific.
+### 4.8. Run your applicaiton in dev mode
 
-Let's go ahead and start our forum hApp in develop mode from the command line. Back in Terminal, from the root folder (`my_forum_app/`), enter:
+At this stage, we'll incorporate some of the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.
+
+Start the forum hApp in develop mode from the command line: go to your terminal and, from the root folder (`my_forum_app/`), enter:
 
 ```shellsession
 npm start
@@ -985,13 +987,15 @@ npm start
 If you are having an issue, make sure that you are still in the nix shell. If not, re-enter `nix develop` first, then type the above command again. And remember that you can always exit nix shell by typing `exit` to get back to your normal shell.
 !!!
 
-This launches a new conductor in sandbox mode with two agents running your hApp, and opens three windows:
+When you start the hApp with `npm start`, this launches Holochain in sandbox mode with two agents running that hApp, and opens three windows:
 
-1. A web browser window with Holochain Playground, a tool that makes visible the various actions that have taken place in our forum hApp. At present we have a couple of agents in a DHT, with mostly empty source chains and, correspondingly, a mostly empty graph database
+1. A web browser window with Holochain Playground, a tool that makes visible the various actions that have taken place in our forum hApp. You should be able to see a couple of agents in a DHT, with mostly empty source chains and, correspondingly, a mostly empty graph.
 2. An application window with one agent (conductor 0) running the forum hApp. This window lets us take actions as that agent (0, or Alice, if you prefer).
 3. Another application window with a second agent (conductor 1) running the forum hApp. This window lets us take actions as the other agent (1, or Bob).
 
 These application windows allow us to test multiple agents in a Holochain network interacting with one another. It is all running on our one device, but the two conductors behave very much the same as separate agents on different machines would, minus network lag.
+
+Remember that a **conductor** is a Holochain runtime process executing on your computer. For more details see the [Application Architecture](/concepts/2_application_architecture/) section in the Core Concepts guide.
 
 These three windows together will let us interact with our hApp as we are building it.
 
@@ -1008,13 +1012,13 @@ As agents begin writing posts, comments, and links to the DHT, you'll see the fo
 4. `InitComplete`, indicating that all coordinator zomes have had a chance to do initial setup, then
 5. Whatever actions the agent takes after that.
 
-The Playground also lets you click on actions and entries in the DHT or the source chain to see their contents.
-
-The two application UI windows let you interact with the application and see what is working, what is not working, and how data propagates when you take particular actions.
+The two application UI windows let you interact with the application and see what is working, what is not working, and how data propagates when we take particular actions.
 
 At first, each of the UI windows (conductors 0 for Alice and 1 for Bob) include instructions for you to go and examine the scaffolded UI elements by looking at the contents in the folder `ui/src/<dna>/<zome>/`, where `<dna>` and `<zome>` are generic placeholders for your DNA (`forum`) and zome (`post`).
 
-Thus far, seven different components have been generated as `.svelte` files in the `ui/src/forum/posts/` directory. If you look at that folder, you can see the files. Note that for ease in development, the sandbox testing environment live-reloads the UI as you edit UI files. So don't quit the process you started with `npm start`; instead, **open a new terminal window**. Then navigate to the root folder of your hApp (`my_forum_app/`) and list the files in `ui/src/forum/posts/` by entering:
+### 4.9. Integrate the generated UI elements
+
+Thus far, seven different UI components should have been generated as `.svelte` files in the `ui/src/forum/posts/` folder. Note that for ease of development, the sandbox testing environment live-reloads the UI as you edit UI files. So don't quit the process you started with `npm start`; instead, **open a new terminal window**. Then navigate to the root folder of your hApp (`my_forum_app/`) and list the files in `ui/src/forum/posts/` by entering:
 
 ```shellsession
 ls ui/src/forum/posts/
@@ -1030,11 +1034,9 @@ CommentsForPost.svelte  EditPost.svelte
 ```
 :::
 
-The next step is to edit the UI files in the text editor or integrated development environment of your choice to add scaffolded components and build a fully featured UI.
+The next step is to edit the UI files in the text editor or integrated development environment of your choice to add scaffolded components and build a fully featured UI. To integrate all of these generated UI elements, you'll need to add them to `App.svelte` file located in the `ui/src/` folder, or to some other `.svelte` file that eventually gets included in `App.svelte`.
 
-If you don't yet have path commands for opening files in your prefered IDE, [this tutorial can help guide you through setting up path commands](https://hackmd.io/@oitz5O-qR2qrfRre3Kbv-Q/r1Z_Z6Qgrn).
-
-**Going forward in this tutorial, we are going to use `code` to open files in [VS Code](https://code.visualstudio.com/)**, but you should substitute a different command (ex: `atom` or `vim`) for `code` if you are using a different editor.
+If you don't yet have path commands for opening files in your prefered IDE, [this tutorial can help guide you through setting up path commands](https://hackmd.io/@oitz5O-qR2qrfRre3Kbv-Q/r1Z_Z6Qgrn). Going forward in this tutorial, we are going to use `code` to open files in [VS Code](https://code.visualstudio.com/), but you should substitute a different command (ex: `atom` or `vim`) for `code` if you are using a different editor.
 
 Open the `App.svelte` file with your preferred IDE.
 
@@ -1045,8 +1047,8 @@ code ui/src/App.svelte
 Your `App.svelte` file will have three sections:
 
 1. a script section,
-2. a main section, and
-3. a style section.
+2. a main section containing a markup template, and
+3. a style section containing a stylesheet template.
 
 !!! dig-deeper Detailed breakdown of `App.svelte`
 
@@ -1151,15 +1153,15 @@ This section is a template for the CSS styles that get applied to the HTML in th
 
 !!!
 
-First you'll be adding a list of posts to the app, which means the component called `AllPosts.svelte` needs to be imported. At the top of the file, there is a list of import scripts.
+First you'll be adding a list of posts to the app, which means the components called `AllPosts.svelte` needs to be imported.
 
-Following the instructions that the scaffolding tool and the two conductor windows gave you, copy the following text and paste it into the script block of the `App.svelte` file, on the line below `import { clientContext } from './contexts';`
+At the top of the file, there is a list of scripts that are imported. Following the instructions that the scaffolding tool and the two conductor windows gave you, copy the following text and paste it into the script block of the `App.svelte` file, on the line below `import { clientContext } from './contexts';`
 
 ```typescript
 import AllPosts from './forum/posts/AllPosts.svelte';
 ```
 
-Next, add the `AllPosts` component to the template in the `<main>` section of the file, where the "EDIT ME!" content now lives. Remove everything inside the `div` element that starts with this tag:
+Next, add the component to the markup template in the `<main>` section of the file, where the "EDIT ME!" content now lives. Remove everything inside the `div` element that starts with this tag:
 
 :::output-block
 ```html
@@ -1198,7 +1200,7 @@ Save that file and take a look again at the two UI windows. They should both say
 
 ![No posts found screenshot]
 
-Let's fix that by adding the post creation component to the UI so we can add our first post. Importing the `CreatePost.svelte` component by adding this line in the script section, just below the `AllPosts` component you previously imported:
+Let's fix that by adding the post creation component to the UI so we can add our first post. Import the `CreatePost.svelte` component by adding this line in the script section, just below the `AllPosts` component you previously imported:
 
 ```typescript
 import CreatePost from './forum/posts/CreatePost.svelte';
@@ -1263,7 +1265,7 @@ Now alter the content a bit. Maybe change it from `Hello Bob!` to `Hello, World!
 
 That should update the post (at least for Alice). Bob's UI will show the updated version the next time it's reloaded.
 
-If you look at the Holochain Playground, you can see that the update was added to Alice's source chain. Specifically, it created:
+If you look at the Holochain Playground, you should see that the update was added to Alice's source chain. Specifically, it created:
 
 1. a new entry (with our `Hello, World!` text),
 2. an `Update` action that indicated this entry is to replace the original entry, and
@@ -1311,15 +1313,15 @@ TODO: this looks like older stuff, cleanup?
 ====
 
 TODO (Matt's best guess at this):
-5. Creating Validation Rules
-6. Built to Beautiful: adjusting our User Interface
-7. Creating Tests
-~~8. Deploying Your Holochain Application
-    8.1. Packaging Your Application
-    8.2. Configuring the Conductor
-    8.3. Running Your Application~~
-9. Testing Your Holochain Application
-    9.1 Creating Test Scenarios
+1. Creating Validation Rules
+2. Built to Beautiful: adjusting our User Interface
+3. Creating Tests
+~~9. Deploying Your Holochain Application
+    9.1. Packaging Your Application
+    9.2. Configuring the Conductor
+    9.3. Running Your Application~~
+1.  Testing Your Holochain Application
+    10.1 Creating Test Scenarios
 
 
 QUESTIONS:
