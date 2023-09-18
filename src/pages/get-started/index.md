@@ -700,7 +700,7 @@ At this point you should see:
 
 Select `Yes` by pressing <kbd>Enter</kbd>.
 
-!!! dig-deeper CRUD (create, read, update, delete)
+!!! dig-deeper CRUD (create, read, update, delete) {#crud-create-read-update-delete}
 
 #### Mutating immutable data and improving performance
 
@@ -973,7 +973,7 @@ The scaffolding tool doesn't have any feature for building anchors and trees bey
 
 Before you get started editing the UI, it's helpful to be able to actually run the scaffolded applciation. That way, you can watch changes take effect in real-time as you make them. So the next section will walk you through launching the application the tooling that's available there, and then in the section after that, we'll begin working with the `.svelte` files to build the UI.
 
-### 4.8. Run your applicaiton in dev mode
+### 4.8. Run your application in dev mode
 
 At this stage, we'll incorporate some of the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.
 
