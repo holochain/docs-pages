@@ -15,7 +15,7 @@ function addCopyButtonsToCodeSections() {
     }
 
     const copyButtonFrag = copyButtonTemplate?.content.cloneNode(true);
-    
+
     if (copyButtonFrag) {
       const preEl = codeEl.parentElement!;
       // insert the copyButtonFrag right before the code fence
@@ -48,9 +48,9 @@ function setUpMenuToggle() {
       // Handle the desired effect
       const sideBarEl = document.querySelector<HTMLElement>(".default-page-type .side-bar");
       sideBarEl?.classList.toggle("show", !isOpen);
-      
+
     })
-  }) 
+  })
 }
 
 setUpMenuToggle();
@@ -99,8 +99,8 @@ function openModalIFrame(url:string) {
 }
 
 document.querySelector<HTMLButtonElement>(".take-the-survey")?.addEventListener("click", (e) => {
-  e.preventDefault(); 
-  openModalIFrame("https://form.typeform.com/to/AL0HFFy8"); 
+  e.preventDefault();
+  openModalIFrame("https://form.typeform.com/to/AL0HFFy8");
 });
 
 const inPageToc = document.querySelector("#in-page-toc");
@@ -134,3 +134,11 @@ if (inPageToc) {
     }
   });
 }
+
+// Open details elements when they have an ID that's navigated to.
+window.addEventListener("hashchange", () => {
+  const targetedDetailsElement = document.querySelector('details#' + location.hash);
+  if (targetedDetailsElement) {
+    targetedDetailsElement.setAttribute("open", "open");
+  }
+});
