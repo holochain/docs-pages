@@ -136,9 +136,11 @@ if (inPageToc) {
 }
 
 const openDetailsOnFragmentIdNavigation = () => {
-  const targetedDetailsElement = document.querySelector("details" + location.hash);
-  if (targetedDetailsElement) {
-    targetedDetailsElement.setAttribute("open", "open");
+  if (location.hash) {
+    const targetedDetailsElement = document.querySelector("details" + location.hash);
+    if (targetedDetailsElement) {
+      targetedDetailsElement.setAttribute("open", "open");
+    }
   }
 };
 
