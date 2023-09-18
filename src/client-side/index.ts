@@ -135,10 +135,14 @@ if (inPageToc) {
   });
 }
 
-// Open details elements when they have an ID that's navigated to.
-window.addEventListener("hashchange", () => {
-  const targetedDetailsElement = document.querySelector('details#' + location.hash);
+const openDetailsOnFragmentIdNavigation = () {
+  const targetedDetailsElement = document.querySelector("details" + location.hash);
   if (targetedDetailsElement) {
     targetedDetailsElement.setAttribute("open", "open");
   }
-});
+};
+
+// Open details elements when they have an ID that's navigated to.
+openDetailsOnFragmentIdNavigation();
+window.addEventListener("hashchange", openDetailsOnFragmentIdNavigation);
+
