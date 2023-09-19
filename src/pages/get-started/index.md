@@ -1307,7 +1307,7 @@ Here, the comment components need to know what post they're related to. The post
   <CommentsForPost postHash="{postHash}"></CommentsForPost>
 ```
 
-Save the file, then go back to the UI windows to see the changes. Try typing in a comment or two, then deleting them. Watch how the authors' source chains and the graph in the DHT change as new information is added.
+Save the file, then go back to the UI windows to see the changes. Try typing in a comment or two, then deleting them. (You may need to refresh the UI windows to see the changes to the content.) Watch the Playground --- see how the authors' source chains and the graph in the DHT change as new information is added.
 
 ![placeholder -- comments component added]()
 
