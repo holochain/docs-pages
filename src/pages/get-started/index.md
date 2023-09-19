@@ -1234,7 +1234,7 @@ nter">
 
 Save the file and switch to one of the two conductor windows. You should now see a post form.
 
-![The UI after adding the CreatePost widget](/assets/img/getting-started/3-create-post-widget.png)
+![The UI after adding the CreatePost component](/assets/img/getting-started/3-create-post-component.png)
 
 Type something into one of the two conductor windows like:
 
