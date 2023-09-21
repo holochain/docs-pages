@@ -9,6 +9,7 @@
         { title: "Dev Tools Setup", url: "/get-building/install-advanced/" },
         { title: "Holochain Upgrade 0.1 -> 0.2", url: "/get-building/upgrade-holochain/" },
         { title: "Setup without Nix", url: "/get-building/install-without-nix/" },
+        { title: "Setup For a Local Event", url: "/get-building/at-an-event/" },
       ]
     },
     { title: "Core Concepts", url: "/concepts/1_the_basics/", children: [
