@@ -4,7 +4,9 @@ title: Getting Set Up For a Local Event
 
 ## Prepare your development environment
 
-If you have not already done so, please follow the [Quick Start](/quick-start/) guide. The rest of this guide assumes you have either done this or created an equivalent environment manually.
+If you have not already done so, please follow the first step in [Quick Start](/quick-start/) guide which asks you to run the `setup.sh` script. Then you should come back to this page and configure the local cache before proceeding with verifying your Nix setup in the quick start guide.
+
+The rest of this guide assumes you have either done this or created an equivalent environment manually.
 
 ## Configure Nix to use a local cache
 
