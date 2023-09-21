@@ -117,6 +117,16 @@ holochain_scaffolding_cli x.y.z
 
 Congratulations! The Holochain development environment is now set up successfully on your system.
 
+**Before moving on to the next step**, find a folder to put your work. For this tutorial, we'll be working in `~/Holochain`. Create that folder now and move into it:
+
+```shellsession
+mkdir ~/Holochain
+```
+
+```shellsession
+cd ~/Holochain
+```
+
 ## 3. Scaffold a simple "Hello, World!" Holochain application
 
 In this section, we'll use Holochain's scaffolding tool to generate a simple "Hello, World!" application.
@@ -207,10 +217,10 @@ These files and folders make up the structure of a Holochain application, with t
 
 ## 4. Zero to built: creating a forum app
 
-First, navigate back to the folder where you want to keep your Holochain applications. If this is just your home folder, you can navigate there by typing:
+First, navigate back to the folder where you want to keep your Holochain applications. If you followed our suggestion, you can get back to it by typing:
 
 ```shellsession
-cd ~
+cd ~/Holochain
 ```
 
 Next up, we'll walk you through creating a forum application from scratch using Holochain's scaffolding tool, step-by-step. This forum application will enable participants to share text-based posts and to comment on those posts.
