@@ -1,5 +1,5 @@
 ---
-title: Setup For a Live Event
+title: Getting Set Up For a Live Event
 ---
 
 ## Prepare your development environment
