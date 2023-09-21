@@ -9,10 +9,10 @@ If you have not already done so, please follow the [Quick Start](/quick-start/) 
 ## Configure Nix to use a local cache
 
 !!! note Pre-requisite
-Please check with the event host whether a local cache is being provided. If not, this section can be skipped.
+Please check with the event hosts whether a local cache is being provided. If not, this section can be skipped.
 !!!
 
-The quick start `setup.sh` script configures Nix to use `https://holochain-ci.cachix.org` as a cache. This significantly speeds up launching the Holonix development environment. This works well in general, but at live events it requires a lot of bandwidth with multiple people downloading large files at the same time. To improve the experience for everyone, a cache can be provided locally. This section shows you how to connect to the local cache.
+The quick start `setup.sh` script configures Nix to use `https://holochain-ci.cachix.org` as a cache. This significantly speeds up launching the Holonix development environment. It works well in general, but at live events it requires a lot of bandwidth with multiple people downloading large files at the same time. To improve the experience for everyone, a cache can be provided locally. This section shows you how to connect to the local cache.
 
 The event hosts will provide you with a cache name. This will be unique per event! Replace `<event-cache-name>` with the provided name in the command below.
 
