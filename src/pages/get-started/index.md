@@ -147,7 +147,7 @@ After you run the last of these commands, you should see three windows open:
 * A web browser window with the Holochain Playground, which displays a visual representation of the app's state data
 * Two windows showing the UI for two agents, both of which will have published a `Hello World` entry to the network.
 
-When you click on the "get hellos" button, you should be able to see the hellos:
+When you click on the "Look for Hellos" button, you should be able to see the hellos:
 
 [image of hellos?]
 
@@ -215,9 +215,13 @@ cd ~
 
 Next up, we'll walk you through creating a forum application from scratch using Holochain's scaffolding tool, step-by-step. This forum application will enable participants to share text-based posts and to comment on those posts.
 
-Each post will have a title and content and authors will be able to edit --- or update --- their posts. However, they won't be able to delete them.
+Each post will have a title and content, and authors will be able to edit --- or update --- their posts. However, they won't be able to delete them.
 
 Each comment will be a reply to a particular post, will be limited in length to 140 characters, and will be able to be deleted but not updated.
+
+!!! info Validation tutorial coming soon
+A future update to this guide will implement the above constraints as validation rules. For now, we'll just scaffold enough code to get a working UI. **Check back soon** to get the whole tutorial!
+!!!
 
 We'll create a couple of other things along the way that will enable people to find these posts and comments, but we'll cover those things when we get there.
 
@@ -671,7 +675,7 @@ After adding the `title` and `content` fields, press <kbd>N</kbd> when asked if 
 ::: output-block
 ```text
 Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
-✔ Update
+  Update
 ✔ Delete
 ```
 :::
@@ -1277,11 +1281,7 @@ If you look at the Holochain Playground, you should see that the update was adde
 
 As explained [previously](#crud-create-read-update-delete), the original forum post already has a 'link' of sorts pointing from its action to the `Update` action, which can be accessed when the original is retrieved. The extra link created by the `CreateLink` action is optional --- it merely speeds up retrieval when an action has been edited many times and has a long chain of update links, by allowing you to jump to the end of the chain. In the screenshot above, the link is highlighted in the DHT pane.
 
-Let's see what happens when you delete that post. In Alice's UI, look for the delete button (it should look like a trash can). If you look again at the Holochain Playground, we will see that a `Delete` action has been added to the source chain. Clicking on that action will show the details in the Action Contents window. You can see that the `Delete` action marks the original action that created the post, along with its entry data, as deleted. (The `Update` action is not marked as deleted, which is okay because it's now orphaned and can't be accessed directly from the `all_posts` anchor.)
-
-![The Holochain playground, showing the source chain of the agent who deleted the post along with new data in the DHT reflecting the delete](/assets/img/getting-started/7-playground-after-delete.png)
-
-Let's create another post so we can add comments to the forum app. Choose one UI window, enter some text into the Create Post form, and press the Create Post button.
+Now it's time to add commenting to your app.
 
 Previously, you added new components to the `App.svelte` component. That made sense because posts were a global data type. But comments are related to a post, so from now on you'll be modifying the `PostDetail.svelte` component instead.
 
@@ -1307,7 +1307,7 @@ Here, the comment components need to know what post they're related to. The post
   <CommentsForPost postHash="{postHash}"></CommentsForPost>
 ```
 
-Save the file, then go back to the UI windows to see the changes. Try typing in a comment or two, then deleting them. (You may need to refresh the UI windows to see the changes to the content.) Watch the Playground --- see how the authors' source chains and the graph in the DHT change as new information is added.
+Save the file, then go back to the UI windows to see the changes. Try typing in a comment or two, then deleting them. (You may need to refresh the UI windows to see the changes to the content.) Watch the Playground --- see how the authors' source chains and the graph in the DHT change as new information is added. The deleted comments are still there and can be accessed by code in your zomes if needed, but neither the application backend (that is, the functions defined in the coordinator zome) nor the UI have the capacity to show them.
 
 ![One UI window with the comment components added, with the Playground in the background showing a populated DHT](/assets/img/getting-started/8-comment-components.png)
 
