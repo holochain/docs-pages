@@ -8,7 +8,7 @@ At some stage in the app development you'll want to deploy your hApp for others 
 
 If you've created the hApp with the `hc scaffold` cli tool, all you need to do is:
 
-```bash
+```shellsession
 npm run package
 ```
 
