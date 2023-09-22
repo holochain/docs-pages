@@ -15,7 +15,7 @@ function addCopyButtonsToCodeSections() {
     }
 
     const copyButtonFrag = copyButtonTemplate?.content.cloneNode(true);
-    
+
     if (copyButtonFrag) {
       const preEl = codeEl.parentElement!;
       // insert the copyButtonFrag right before the code fence
@@ -48,9 +48,9 @@ function setUpMenuToggle() {
       // Handle the desired effect
       const sideBarEl = document.querySelector<HTMLElement>(".default-page-type .side-bar");
       sideBarEl?.classList.toggle("show", !isOpen);
-      
+
     })
-  }) 
+  })
 }
 
 setUpMenuToggle();
@@ -99,6 +99,52 @@ function openModalIFrame(url:string) {
 }
 
 document.querySelector<HTMLButtonElement>(".take-the-survey")?.addEventListener("click", (e) => {
-  e.preventDefault(); 
-  openModalIFrame("https://form.typeform.com/to/AL0HFFy8"); 
+  e.preventDefault();
+  openModalIFrame("https://form.typeform.com/to/AL0HFFy8");
 });
+
+const inPageToc = document.querySelector("#in-page-toc");
+if (inPageToc) {
+  const tocLinks = inPageToc.querySelectorAll("li > a");
+
+  const setCurrentSection = (sectionId: string) => {
+    console.log("Setting current section to", sectionId);
+    tocLinks.forEach((link) => {
+      link.classList.toggle("current", link.getAttribute("href") === `#${sectionId}`);
+    });
+  }
+
+  //set up intersection observer to highlight the current section
+  const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    if (entries[0].isIntersecting) {
+      setCurrentSection(entries[0].target.id);
+    }
+  };
+
+  const observer = new IntersectionObserver(observerCallback, { rootMargin: "0px 0px 0px 0px" });
+
+  tocLinks.forEach((link) => {
+    const linkId = link.getAttribute("href")?.replace("#", "");
+    const htag = document.querySelector(`[id="${linkId}"]`);
+    console.log(htag, link);
+    if (htag) {
+      observer.observe(htag);
+    } else {
+      console.warn("No htag found for link", link);
+    }
+  });
+}
+
+const openDetailsOnFragmentIdNavigation = () => {
+  if (location.hash) {
+    const targetedDetailsElement = document.querySelector("details" + location.hash);
+    if (targetedDetailsElement) {
+      targetedDetailsElement.setAttribute("open", "open");
+    }
+  }
+};
+
+// Open details elements when they have an ID that's navigated to.
+openDetailsOnFragmentIdNavigation();
+window.addEventListener("hashchange", openDetailsOnFragmentIdNavigation);
+
