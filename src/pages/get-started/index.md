@@ -1052,7 +1052,7 @@ CommentsForPost.svelte  EditPost.svelte
 
 The next step is to edit the UI files in the text editor or integrated development environment of your choice to add scaffolded components and build a fully featured UI. To integrate all of these generated UI elements, you'll need to add them to `App.svelte` file located in the `ui/src/` folder, or to some other `.svelte` file that eventually gets included in `App.svelte`.
 
-If you don't yet have path commands for opening files in your prefered IDE, [this tutorial can help guide you through setting up path commands](https://hackmd.io/@oitz5O-qR2qrfRre3Kbv-Q/r1Z_Z6Qgrn). Going forward in this tutorial, we are going to use `code` to open files in [VS Code](https://code.visualstudio.com/), but you should substitute a different command (ex: `atom` or `vim`) for `code` if you are using a different editor.
+If you don't yet have path commands for opening files in your prefered IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844). Going forward in this tutorial, we are going to use `code` to open files in [VS Code](https://code.visualstudio.com/), but you should substitute a different command (ex: `subl` or `vim`) for `code` if you are using a different editor.
 
 Open the `App.svelte` file with your preferred IDE.
 
