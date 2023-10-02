@@ -81,7 +81,7 @@ Holochain is supported under WSL2 via the Ubuntu distribution.
 
 Once you've ensured that your system meets the hardware requirements and set up WSL2 on Windows or a dual boot Linux OS (if applicable), you can proceed with the installation of the Nix package manager and the binary package cache for Holochain.
 
-Open a [command line terminal](https://hackmd.io/c15fobj9QtmOuEuiNAkaQA) and run the following command by pasting or typing the following text in and pressting <kbd>Enter</kbd>:
+Open a command line terminal ([on Linux](https://ubuntu.com/tutorials/command-line-for-beginners#3-opening-a-terminal), [on macOS](https://support.apple.com/en-gb/guide/terminal/pht23b129fed/mac)) and run the following command by pasting or typing the following text in and pressting <kbd>Enter</kbd>:
 
 ```shellsession
 bash <(curl https://holochain.github.io/holochain/setup.sh)
