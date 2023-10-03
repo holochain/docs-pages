@@ -81,7 +81,7 @@ Holochain is supported under WSL2 via the Ubuntu distribution.
 
 Once you've ensured that your system meets the hardware requirements and set up WSL2 on Windows or a dual boot Linux OS (if applicable), you can proceed with the installation of the Nix package manager and the binary package cache for Holochain.
 
-Open a [command line terminal](https://hackmd.io/c15fobj9QtmOuEuiNAkaQA) and run the following command by pasting or typing the following text in and pressting <kbd>Enter</kbd>:
+Open a command line terminal ([on Linux](https://ubuntu.com/tutorials/command-line-for-beginners#3-opening-a-terminal), [on macOS](https://support.apple.com/en-gb/guide/terminal/pht23b129fed/mac)) and run the following command by pasting or typing the following text in and pressting <kbd>Enter</kbd>:
 
 ```shellsession
 bash <(curl https://holochain.github.io/holochain/setup.sh)
@@ -1052,7 +1052,7 @@ CommentsForPost.svelte  EditPost.svelte
 
 The next step is to edit the UI files in the text editor or integrated development environment of your choice to add scaffolded components and build a fully featured UI. To integrate all of these generated UI elements, you'll need to add them to `App.svelte` file located in the `ui/src/` folder, or to some other `.svelte` file that eventually gets included in `App.svelte`.
 
-If you don't yet have path commands for opening files in your prefered IDE, [this tutorial can help guide you through setting up path commands](https://hackmd.io/@oitz5O-qR2qrfRre3Kbv-Q/r1Z_Z6Qgrn). Going forward in this tutorial, we are going to use `code` to open files in [VS Code](https://code.visualstudio.com/), but you should substitute a different command (ex: `atom` or `vim`) for `code` if you are using a different editor.
+If you don't yet have path commands for opening files in your prefered IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844). Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs` etc.) for `code` if you are using a different editor.
 
 Open the `App.svelte` file with your preferred IDE.
 
