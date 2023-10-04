@@ -47,9 +47,9 @@ Follow this guide step by step. All steps are essential to create the example ap
 
 * The examples below use `$` to represent your terminal prompt in a UNIX-like OS, though it may have been customized in your OS to appear differently.
 * We assume that you are reading this guide because your are a developer new to Holochain but interested in actually building peer-to-peer distributed applications using a framework that is agent-centric, that provides intrinsic data integrity, is scalable, and when deployed, end-user code runs just on the devices of the participants without relying on centralized servers or blockchain tokens or other points of centralized control.
-* We assume that you've at least skimmed [Holochain's Core Concepts](/concepts/1_the_basics/) or are ready to pop over there when needed.
+* We assume that you've at least skimmed [Holochain's Core Concepts](/concepts/1_the_basics/){target=_blank} or are ready to pop over there when needed.
 * Because Holochain's DNA's are written in Rust, we assume you have at least a basic familiarity with the language. Note, however, that this guide will take you through everything you need to do, step-by-step, so you can follow the steps and learn Rust later. Additionally, Holochain DNAs rarely need to take advantage of the more complicated aspects of the language, so don't let Rust's learning curve scare you.
-    * If you're new to Rust, you can start your learning journey by reading chapters 1 to 11 in the [Rust Book](https://doc.rust-lang.org/book/) and doing the accompanying [Rustlings exercises](https://github.com/rust-lang/rustlings/).
+    * If you're new to Rust, you can start your learning journey by reading chapters 1 to 11 in the [Rust Book](https://doc.rust-lang.org/book/){target=_blank} and doing the accompanying [Rustlings exercises](https://github.com/rust-lang/rustlings/){target=_blank}.
 * We also assume that you have basic familiarity with the Unix command line.
 
 ## 1. Introduction to Holochain
@@ -73,7 +73,7 @@ This may seem like a lot; it's mainly due to Rust's compiler, which requires a l
 
 ### 2.2. Windows prerequisite: WSL2 {#2-2-windows-prerequisite-wsl2}
 
-For Windows users, please note that the Nix package manager, which is used to install and manage Holochain development environment, only supports macOS and Linux. You will need to [install Linux under Windows with WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) (recommended) or dual boot a Linux Operating System, alongside your [Windows 10](https://www.freecodecamp.org/news/how-to-dual-boot-windows-10-and-ubuntu-linux-dual-booting-tutorial/) or [Windows 11](https://www.xda-developers.com/dual-boot-windows-11-linux/) OS to proceed.
+For Windows users, please note that the Nix package manager, which is used to install and manage Holochain development environment, only supports macOS and Linux. You will need to [install Linux under Windows with WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install){target=_blank} (recommended) or dual boot a Linux Operating System, alongside your [Windows 10](https://www.freecodecamp.org/news/how-to-dual-boot-windows-10-and-ubuntu-linux-dual-booting-tutorial/){target=_blank} or [Windows 11](https://www.xda-developers.com/dual-boot-windows-11-linux/){target=_blank} OS to proceed.
 
 Holochain is supported under WSL2 via the Ubuntu distribution.
 
@@ -81,7 +81,7 @@ Holochain is supported under WSL2 via the Ubuntu distribution.
 
 Once you've ensured that your system meets the hardware requirements and set up WSL2 on Windows or a dual boot Linux OS (if applicable), you can proceed with the installation of the Nix package manager and the binary package cache for Holochain.
 
-Open a command line terminal ([on Linux](https://ubuntu.com/tutorials/command-line-for-beginners#3-opening-a-terminal), [on macOS](https://support.apple.com/en-gb/guide/terminal/pht23b129fed/mac)) and run the following command by pasting or typing the following text in and pressting <kbd>Enter</kbd>:
+Open a command line terminal ([on Linux](https://ubuntu.com/tutorials/command-line-for-beginners#3-opening-a-terminal){target=_blank}, [on macOS](https://support.apple.com/en-gb/guide/terminal/pht23b129fed/mac)){target=_blank} and run the following command by pasting or typing the following text in and pressting <kbd>Enter</kbd>:
 
 ```shellsession
 bash <(curl https://holochain.github.io/holochain/setup.sh)
@@ -449,7 +449,7 @@ Success! Inside of your `dnas/` folder, the scaffolding tool generated a `forum/
 
 ### 4.5. Scaffold a zome
 
-DNAs are comprised of code modules, which we call zomes (short for chromosomes). Zomes are modules that typically focus on enabling some small unit of functionality. Building with this sort of modular pattern provides a number of advantages, including the ability to reuse a module in more than one DNA to provide similar functionality in a different context. For instance, the [profiles zome](https://github.com/holochain-open-dev/profiles) is one that many apps make use of. For the forum DNA, you'll be creating two zomes: `posts` and `posts_integrity`.
+DNAs are comprised of code modules, which we call zomes (short for chromosomes). Zomes are modules that typically focus on enabling some small unit of functionality. Building with this sort of modular pattern provides a number of advantages, including the ability to reuse a module in more than one DNA to provide similar functionality in a different context. For instance, the [profiles zome](https://github.com/holochain-open-dev/profiles){target=_blank} is one that many apps make use of. For the forum DNA, you'll be creating two zomes: `posts` and `posts_integrity`.
 
 Start by entering:
 
@@ -575,7 +575,7 @@ Just as with a centralized application, we aren't just going to add this data in
 
 The bits of shared information that all the peers in a network are holding are collectively called a distributed hash table, or DHT. We'll explain more about the DHT later.
 
-If you want to learn more, check out [The Source Chain: A Personal Data Journal](/concepts/3_source_chain/) and [The DHT: A Shared, Distributed Graph Database](/concepts/4_dht/). You'll also get to see it all in action in a later step, when you run your hApp for the first time.
+If you want to learn more, check out [The Source Chain: A Personal Data Journal](/concepts/3_source_chain/){target=_blank} and [The DHT: A Shared, Distributed Graph Database](/concepts/4_dht/){target=_blank}. You'll also get to see it all in action in a later step, when you run your hApp for the first time.
 
 !!!
 
@@ -736,7 +736,7 @@ Multiple participants can mark a single entry as updated or deleted at the same 
 
 **By default, the scaffolding tool generates a `create_<entry_type>' function in your coordinator zome for an entry type** because creating new data is a fundamental part of any application, and it reflects the core principle of Holochain's agent-centric approach --- the ability to make changes to your own application's state.
 
-Similarly, when a public entry is published, it becomes accessible to other agents in the network. Public entries are meant to be shared and discovered by others, so **a `read_<entry_type>' function is provided by default** to ensure that agents can easily access and retrieve publicly shared entries. (The content of _private_ entries, however, are not shared to the network.) For more info on entries, see: the **Core Concepts sections on [Source Chains](/concepts/3_source_chain/) and [DHT](/concepts/4_dht/)**.
+Similarly, when a public entry is published, it becomes accessible to other agents in the network. Public entries are meant to be shared and discovered by others, so **a `read_<entry_type>' function is provided by default** to ensure that agents can easily access and retrieve publicly shared entries. (The content of _private_ entries, however, are not shared to the network.) For more info on entries, see: the **Core Concepts sections on [Source Chains](/concepts/3_source_chain/){target=_blank} and [DHT](/concepts/4_dht/){target=_blank}**.
 
 Developers decide whether to let the scaffolding tool generate `update_<entry_type>` and `delete_<entry_type>` functions based on their specific application requirements. More details in the Core Concepts section on [CRUD](/concepts/6_crud_actions/).
 
@@ -790,7 +790,7 @@ There are two kinds of unique identifiers or 'addresses' in Holochain: **hashes*
 
 A hash is a unique "digital fingerprint" for a piece of data, generated by running it through a mathematical function called a **hash function**. None of the original data is present in the hash, but even so, the hash is extremely unlikely to be identical to the hash of any other piece of data. If you change even one character of the entry's content, the hash will be radically (and unpredictably) different.
 
-Holochain uses a hash function called blake2b. You can play with [an online blake2b hash generator](https://toolkitbay.com/tkb/tool/BLAKE2b_512) to see how changing content a tiny bit alters the hash. Try hashing `hi` and then `Hi` and compare their hashes.
+Holochain uses a hash function called blake2b. You can play with [an online blake2b hash generator](https://toolkitbay.com/tkb/tool/BLAKE2b_512){target=_blank} to see how changing content a tiny bit alters the hash. Try hashing `hi` and then `Hi` and compare their hashes.
 
 To ensure data integrity and facilitate efficient data retrieval, each piece of data is identified by its hash. This serves the following purposes:
 
@@ -824,7 +824,7 @@ Whereas `EntryHash` is used to uniquely identify, store, and efficiently retriev
 
 **Use `AgentPubKey` when** you want to link to an agent (such as associating a profile or icon with them) or retrieve information about their history (such as scanning their source chain for posts and comments).
 
-You can check out the Core Concepts to dive a bit deeper into [how the distributed hash table helps](/concepts/4_dht/) to not only make these entries and actions available but helps to ensure that agents haven't gone back to try and change their own histories after the fact. But for now, let's dive into links.
+You can check out the Core Concepts to dive a bit deeper into [how the distributed hash table helps](/concepts/4_dht/){target=_blank} to not only make these entries and actions available but helps to ensure that agents haven't gone back to try and change their own histories after the fact. But for now, let's dive into links.
 
 !!!
 
@@ -894,9 +894,9 @@ By linking from known things to unknown things, we enable the efficient discover
 
 After storing the action in the local source chain, the agent then publishes the link to the DHT, where it goes to the peers who are responsible for storing the base address and gets attached to the address as metadata.
 
-**Lookup**: To look up and retrieve links in a Holochain app, agents can perform a `get_links` query on a base DHT address. This operation involves asking the DHT peers responsible for that address for any link metadata of a given link type attached to it, with an optional "starts-with" query on the link tag. The peers return a list of links matching the query, which contain the addresses of the targets, and the link types and tags. The agent can then retrieve the actual target data by performing a [`get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) query on the target address, which may be an `EntryHash`, `ActionHash`, or `AgentPubKey` (or an empty result, in the case of data that doesn't exist on the DHT).
+**Lookup**: To look up and retrieve links in a Holochain app, agents can perform a `get_links` query on a base DHT address. This operation involves asking the DHT peers responsible for that address for any link metadata of a given link type attached to it, with an optional "starts-with" query on the link tag. The peers return a list of links matching the query, which contain the addresses of the targets, and the link types and tags. The agent can then retrieve the actual target data by performing a [`get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html){target=_blank} query on the target address, which may be an `EntryHash`, `ActionHash`, or `AgentPubKey` (or an empty result, in the case of data that doesn't exist on the DHT).
 
-For more information and examples, read the Core Concepts section on [Links and Anchors](/concepts/5_links_anchors/).
+For more information and examples, read the Core Concepts section on [Links and Anchors](/concepts/5_links_anchors/){target=_blank}.
 
 !!!
 
@@ -981,7 +981,7 @@ Hierarchical paths serve another useful purpose. On the DHT, where every node is
 
 The examples of granular collections and type-ahead search indexes breaks up those anchors into increasingly smaller branches, so that each leaf node in the tree --- and hence each peer --- only has to store a small number of links.
 
-The scaffolding tool doesn't have any feature for building anchors and trees beyond simple one-anchor collections, but if you'd like to know more, you can read the Core Concepts section on [Links and Anchors](/concepts/5_links_anchors/) and the SDK reference for [`hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) and [`anchor`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/index.html).
+The scaffolding tool doesn't have any feature for building anchors and trees beyond simple one-anchor collections, but if you'd like to know more, you can read the Core Concepts section on [Links and Anchors](/concepts/5_links_anchors/){target=_blank} and the SDK reference for [`hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html){target=_blank} and [`anchor`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/index.html){target=_blank}.
 
 !!!
 
@@ -1007,11 +1007,11 @@ When you start the hApp with `npm start`, this launches Holochain in sandbox mod
 2. An application window with one agent (conductor 0) running the forum hApp. This window lets us take actions as that agent (0, or Alice, if you prefer).
 3. Another application window with a second agent (conductor 1) running the forum hApp. This window lets us take actions as the other agent (1, or Bob).
 
-![Three windows: two agent UIs and a web browser window with the Holochain Playground](/assets/img/getting-started/1-two-uis-and-playground.png)
+![Three windows: two agent UIs and a web browser window with the Holochain Playground](/assets/img/getting-started/1-two-uis-and-playground.png){target=_blank}
 
 These application windows allow us to test multiple agents in a Holochain network interacting with one another. It is all running on our one device, but the two conductors behave very much the same as separate agents on different machines would, minus network lag.
 
-Remember that a **conductor** is a Holochain runtime process executing on your computer. For more details see the [Application Architecture](/concepts/2_application_architecture/) section in the Core Concepts guide.
+Remember that a **conductor** is a Holochain runtime process executing on your computer. For more details see the [Application Architecture](/concepts/2_application_architecture/){target=_blank} section in the Core Concepts guide.
 
 These three windows together will let us interact with our hApp as we are building it.
 
@@ -1020,7 +1020,7 @@ The Holochain Playground in particular is helpful because it creates visual repr
 From oldest to newest, in the newly created source chains, the records are:
 
 1. `DNA`, recording the hash of the DNA to be used to validate all subsequent source chain actions,
-2. `AgentValidationPkg`, providing proof that this participant is allowed to participate in this hApp ([see more](https://www.holochain.org/how-does-it-work/) in Holochain: How does it work?),
+2. `AgentValidationPkg`, providing proof that this participant is allowed to participate in this hApp ([see more](https://www.holochain.org/how-does-it-work/){target=_blank} in Holochain: How does it work?),
 3. A `Create` action which records the author's `AgentID`, which is their public key and serves as their ID in the network and its graph database.
 
 As agents begin writing posts, comments, and links to the DHT, you'll see the following records appear:
@@ -1052,7 +1052,7 @@ CommentsForPost.svelte  EditPost.svelte
 
 The next step is to edit the UI files in the text editor or integrated development environment of your choice to add scaffolded components and build a fully featured UI. To integrate all of these generated UI elements, you'll need to add them to `App.svelte` file located in the `ui/src/` folder, or to some other `.svelte` file that eventually gets included in `App.svelte`.
 
-If you don't yet have path commands for opening files in your prefered IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844). Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs` etc.) for `code` if you are using a different editor.
+If you don't yet have path commands for opening files in your prefered IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line){target=_blank}, [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup){target=_blank} and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844){target=_blank}. Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs` etc.) for `code` if you are using a different editor.
 
 Open the `App.svelte` file with your preferred IDE.
 
@@ -1214,7 +1214,7 @@ The `AllPosts` element is obviously not standard HTML. In Svelte, each component
 
 Save that file and take a look again at the two UI windows. They should both say 'No posts found'.
 
-![A UI showing the AllPosts component, which says 'No posts found'](/assets/img/getting-started/2-no-posts-found.png)
+![A UI showing the AllPosts component, which says 'No posts found'](/assets/img/getting-started/2-no-posts-found.png){target=_blank}
 
 Let's fix that by adding the post creation component to the UI so we can add our first post. Import the `CreatePost.svelte` component by adding this line in the script section, just below the `AllPosts` component you previously imported:
 
@@ -1248,7 +1248,7 @@ nter">
 
 Save the file and switch to one of the two conductor windows. You should now see a post form.
 
-![The UI after adding the CreatePost component](/assets/img/getting-started/3-create-post-component.png)
+![The UI after adding the CreatePost component](/assets/img/getting-started/3-create-post-component.png){target=_blank}
 
 Type something into one of the two conductor windows like:
 
@@ -1259,7 +1259,7 @@ and then press the "Create Post" button.
 
 You'll immediately notice that the `AllPosts` component has changed from saying "No posts found" to showing the newly created post. And if you take a look at the Holochain Playground window, you will see that two new actions have been created. If you click the `App` element that's appeared in Alice's source chain, it will pull up some details in the Entry Contents section, including the title and content of Alice's forum post. Note the hash of that entry (top of the Entry Contents window). Then click on the `Create` action that's pointing toward that `App` entry in the source chain. If you look back at the contents window, you will see that it is now sharing the contents of the action. And if you look down the list a bit, you will see the hash of the entry for the first post.
 
-![The Holochain playground showing a single agent's source chain, containing the actions that create a post, as well as the transformations in the DHT that resulted from these actions](/assets/img/getting-started/4-playground-first-post.png)
+![The Holochain playground showing a single agent's source chain, containing the actions that create a post, as well as the transformations in the DHT that resulted from these actions](/assets/img/getting-started/4-playground-first-post.png){target=_blank}
 
 !!! dig-deeper Relationships in a source chain versus relationships in the DHT
 
@@ -1271,13 +1271,13 @@ For the purpose of this hApp, we're not interested in agent-to-posts relationshi
 
 !!!
 
-You may also notice that only Alice's UI showed the new post, while Bob's didn't. Just as with a traditional web app, database changes don't automatically send out a notification to everyone who is interested. (Alice's UI sees the changes because it knows how to update its own state for local changes.) You can create this functionality using a feature called [signals](/concepts/9_signals/), but let's keep things simple for now. Right-click anywhere in Bob's UI then choose "Reload" from the menu, and you'll see that the changes have been copied from Alice's app instance to Bob's --- all without a database server in the middle!
+You may also notice that only Alice's UI showed the new post, while Bob's didn't. Just as with a traditional web app, database changes don't automatically send out a notification to everyone who is interested. (Alice's UI sees the changes because it knows how to update its own state for local changes.) You can create this functionality using a feature called [signals](/concepts/9_signals/){target=_blank}, but let's keep things simple for now. Right-click anywhere in Bob's UI then choose "Reload" from the menu, and you'll see that the changes have been copied from Alice's app instance to Bob's --- all without a database server in the middle!
 
 Let's edit that post. In Alice's UI window, click the edit adjacent to the post content (it should look like a pencil icon). The post content will be replaced by an editing form.
 
 Now alter the content a bit. Maybe change it from `Hello Bob!` to `Hello, World!` and click "Save".
 
-![The UI of one agent, showing a post about to be edited](/assets/img/getting-started/5-edit-post.png)
+![The UI of one agent, showing a post about to be edited](/assets/img/getting-started/5-edit-post.png){target=_blank}
 
 That should update the post (at least for Alice). Bob's UI will show the updated version the next time it's reloaded.
 
@@ -1287,7 +1287,7 @@ If you look at the Holochain Playground, you should see that the update was adde
 2. an `Update` action that indicated this entry is to replace the original entry, and
 3. a `CreateLink` action that connects the original create action to the update action.
 
-![The Holochain playground, showing the source chain of the agent who edited the post along with new data in the DHT reflecting the edit](/assets/img/getting-started/6-playground-after-edits.png)
+![The Holochain playground, showing the source chain of the agent who edited the post along with new data in the DHT reflecting the edit](/assets/img/getting-started/6-playground-after-edits.png){target=_blank}
 
 As explained [previously](#crud-create-read-update-delete), the original forum post already has a 'link' of sorts pointing from its action to the `Update` action, which can be accessed when the original is retrieved. The extra link created by the `CreateLink` action is optional --- it merely speeds up retrieval when an action has been edited many times and has a long chain of update links, by allowing you to jump to the end of the chain. In the screenshot above, the link is highlighted in the DHT pane.
 
@@ -1319,7 +1319,7 @@ Here, the comment components need to know what post they're related to. The post
 
 Save the file, then go back to the UI windows to see the changes. Try typing in a comment or two, then deleting them. (You may need to refresh the UI windows to see the changes to the content.) Watch the Playground --- see how the authors' source chains and the graph in the DHT change as new information is added. The deleted comments are still there and can be accessed by code in your zomes if needed, but neither the application backend (that is, the functions defined in the coordinator zome) nor the UI have the capacity to show them.
 
-![One UI window with the comment components added, with the Playground in the background showing a populated DHT](/assets/img/getting-started/8-comment-components.png)
+![One UI window with the comment components added, with the Playground in the background showing a populated DHT](/assets/img/getting-started/8-comment-components.png){target=_blank}
 
 <!---
 TODO: this looks like older stuff, cleanup?
@@ -1635,18 +1635,18 @@ From the end-user perspective there are currently there are two ways to go about
 
 #### 5.2.1 Launcher, the multi-app runtime
 
-Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows people to install apps from a built-in app store or from the filesystem. Installed apps can then be launched from a friendly UI. Note that the app store is itself a distributed Holochain application which provides details on applications that are available for download. As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or you can share your application directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the file system.
+Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher){target=_blank}. It allows people to install apps from a built-in app store or from the filesystem. Installed apps can then be launched from a friendly UI. Note that the app store is itself a distributed Holochain application which provides details on applications that are available for download. As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or you can share your application directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the file system.
 
 You can try this latter approach immediately by downloading and running the Launcher!
 
-The steps for publishing an app to the Launcher's app store are documented in the Github repository of the Holochain Launcher [here](https://github.com/holochain/launcher#publishing-and-updating-an-app-in-the-devhub).
+The steps for publishing an app to the Launcher's app store are documented in the Github repository of the Holochain Launcher [here](https://github.com/holochain/launcher#publishing-and-updating-an-app-in-the-devhub){target=_blank}.
 
 #### 5.2.2 Standalone executable
 
-If you prefer to distribute your app as a full standalone executable, you will need to bundle the Holochain runtime and your app together and take care of the necessary interactions between them. Because Holochain itself is really just a set of Rust libraries, you can of course build your own application that uses those libraries, but that's a fair amount of work. Currently there are two much simpler paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries, which in our case are the [holochain conductor](https://docs.rs/holochain/latest/holochain/) and the [lair keystore](https://docs.rs/lair_keystore/latest/lair_keystore/). Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has already been done for you:
+If you prefer to distribute your app as a full standalone executable, you will need to bundle the Holochain runtime and your app together and take care of the necessary interactions between them. Because Holochain itself is really just a set of Rust libraries, you can of course build your own application that uses those libraries, but that's a fair amount of work. Currently there are two much simpler paths for doing this: using either the [Electron](https://www.electronjs.org/){target=_blank} or [Tauri](https://tauri.app/){target=_blank} frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries, which in our case are the [holochain conductor](https://docs.rs/holochain/latest/holochain/){target=_blank} and the [lair keystore](https://docs.rs/lair_keystore/latest/lair_keystore/){target=_blank}. Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has already been done for you:
 
-* **Electron**: Refer to the community-supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.
-* **Tauri**: See the officially supported [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
+* **Electron**: Refer to the community-supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/){target=_blank} repo.
+* **Tauri**: See the officially supported [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo){target=_blank} repo.
 
 Both of these are GitHub template repos with detailed instructions on how to clone the repos and add in your UI and DNA, as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users.
 
@@ -1818,19 +1818,19 @@ Now that you have successfully built a basic forum application using Holochain a
 
 The official Holochain developer documentation is a valuable resource for deepening your understanding of Holochain concepts, techniques, and best practices. Be sure to explore the documentation thoroughly:
 
-* [Holochain Core Concepts](/concepts/1_the_basics/)
-* [Holochain Developer Kit (HDK) reference](https://docs.rs/hdk/latest/hdk)
+* [Holochain Core Concepts](/concepts/1_the_basics/){target=_blank}
+* [Holochain Developer Kit (HDK) reference](https://docs.rs/hdk/latest/hdk){target=_blank}
 
 #### Community resources
 
 The Holochain community is an excellent source of support, inspiration, and collaboration. Consider engaging with the community to further your learning and development:
 
-* [Holochain GitHub repositories](https://github.com/holochain)
-* [Holochain Discord server](https://discord.com/invite/k55DS5dmPH)
+* [Holochain GitHub repositories](https://github.com/holochain){target=_blank}
+* [Holochain Discord server](https://discord.com/invite/k55DS5dmPH){target=_blank}
 
 #### Example applications and tutorials
 
 Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
 
-* [Holochain Open Dev](https://github.com/holochain-open-dev)
-* [Holochain Foundation sample apps](https://github.com/holochain-apps)
+* [Holochain Open Dev](https://github.com/holochain-open-dev){target=_blank}
+* [Holochain Foundation sample apps](https://github.com/holochain-apps){target=_blank}
