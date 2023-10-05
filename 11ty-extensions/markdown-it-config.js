@@ -3,21 +3,37 @@ const markdownItContainer = require("markdown-it-container");
 const markdownItAnchor = require("markdown-it-anchor");
 const slugify = require('@sindresorhus/slugify');
 
+/**
+ * Composes the attributes string for an html tag from the markdown-it-container token and default attributes
+ * @param {*} token token from markdown-it-container
+ * @param {*} defaultAttrs attributes to be merged in with token.attrs
+ * @returns attributes string for the html tag
+ */
+function composeAttributeString(token, defaultAttrs ={}) {
+  //convert token.attrs to an object and merge with defaultAttrs
+  const attrs = token.attrs ? token.attrs.reduce((acc, attr) => { acc[attr[0]] = attr[1]; return acc; }, {}) : {};
+  const mergedAttrs = Object.assign({}, defaultAttrs, attrs);
+  
+  return Object.keys(mergedAttrs).reduce((acc, key) => acc + ` ${key}="${mergedAttrs[key]}"`, "");
+}
+
 /* Start Admonition code */
 
-function generateAdmonitionTitleRegex(admonitionName) {
-  return new RegExp("^" + admonitionName + "\\s+(.*)$");
+function generateContainerTitleRegex(blockName) {
+  return new RegExp("^" + blockName + "\\s+(.*)$");
 }
 
 const renderAdmonition = (name, tokens, idx) => {
-  const titleMatcher = tokens[idx].info.trim().match(generateAdmonitionTitleRegex(name));
+  const titleMatcher = tokens[idx].info.trim().match(generateContainerTitleRegex(name));
   const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1);
   const title = titleMatcher ? titleMatcher[1] : (nameCapitalized);
 
   //If the opening tag
   if(tokens[idx].nesting === 1) {
     const titleTag = title ? `<p class='admonition-title'>${ title }</p>` : '';
-    return `<div class="admonition ${name}">${titleTag}` + '\n\n<div class="admonition-content">';
+    const attrString = composeAttributeString(tokens[idx], { class: `admonition ${name}` });
+
+    return `<div ${attrString}>${titleTag}` + '\n\n<div class="admonition-content">';
   } else {
     return '\n</div></div>\n';
   }
@@ -34,6 +50,31 @@ function composeGenericAdmonitionRenderFunc(admonitionName) {
 
 /* End Admonition code */
 
+/* Start Details Block code */
+
+function composeDetailsBlockRenderFunc(blockName  = "details") {
+  return function(tokens, idx) { return renderDetailsBlock(blockName, tokens, idx); }
+}
+
+const renderDetailsBlock = (blockName, tokens, idx) => {
+  if(tokens[idx].nesting === 1) {
+    const summary = tokens[idx].info.trim().match(generateContainerTitleRegex(blockName));
+    const attrDefaults = blockName ? { class: `details ${blockName}` } : {};
+    const attrString = composeAttributeString(tokens[idx], attrDefaults);
+
+    const summaryTag = summary ? `<summary>${ summary[1] }</summary>` : '';
+    return `<details ${attrString}>${summaryTag}` + '\n\n<div class="details-content">';
+  } else {
+    return '\n</div></details>\n';
+  }
+};
+
+const validateDetailsBlock = (params) => {
+  const validationResults = params.trim().match(/^details\s+(.*)$/);
+  return validationResults;
+}
+
+/* End Details Block code */
 
 /**
  * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js 
@@ -57,6 +98,11 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericAdmonitionRenderFunc("note") });
     mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericAdmonitionRenderFunc("info") });
     mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
+
+    // Details block
+    mdLib.use(markdownItContainer, "details", { marker: "!", render: composeDetailsBlockRenderFunc() });
+    // Create a specialized synonym for details block with a class of "dig-deeper"
+    mdLib.use(markdownItContainer, "dig-deeper", { marker: "!", render: composeDetailsBlockRenderFunc("dig-deeper") });
   });
  
 }

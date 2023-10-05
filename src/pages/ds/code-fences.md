@@ -1,5 +1,5 @@
 ---
-title: Holochain Dev Portal Design System - Code Fences 
+title: Holochain Dev Portal Design System - Code Fences
 layout: ds-layout.njk
 layoutId: ds-layout-type
 pageStyleId: design-system-code-fences
@@ -14,12 +14,12 @@ Examples of code fence look and feel
 ### With Copy button
 
 Single line
-```bash
+```shellsession
 nix run github:/holochain/holochain#hc-scaffold -- web-app
 ```
 
 Multiple line
-```text 
+```text
 ? Choose UI framework: ›
 ❯ Vue
   Svelte
@@ -32,12 +32,12 @@ To surpress the copy buttom you can wrap the code block in a `::: output-block` 
 
 Single line
 ::: output-block
-```bash
+```shellsession
 nix run github:/holochain/holochain#hc-scaffold -- web-app
 ```
 
 Multiple line
-```text 
+```text
 ? Choose UI framework: ›
 ❯ Vue
   Svelte

@@ -2,7 +2,7 @@
 ## Titles go in Front Matter
   - H1s will be in higher level layouts. Do not include in md body.
   - Page title should go in Front Matter at top of MD file.
-    Example: 
+    Example:
     ```
     ---
     title: Create a New App
@@ -27,8 +27,9 @@
 ## Code Fences
   - Include language (i.e.: `bash`) always.
   - If you want to surpress the copy button wrap the code block in a `::: output-block` container
+  - Code blocks meant to be copied and pasted into a terminal should use `shellsession` rather than `bash`; they'll automatically get styled with a non-copyable `$` at the beginning of the first line.
 
-## Open in new window 
+## Open in new window
 - add `{target=_blank}` after link markdown parens
 
 ## Button for link
