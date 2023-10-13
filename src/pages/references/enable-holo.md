@@ -8,18 +8,17 @@ Holo is cloud hosting for Holochain. Holo helps you enable your users to experie
 
 A core distinction versus running nodes on the traditional cloud is that Holo provides the key management and signing infrastructure for users' keys to be held client-side, so your users always have full agency.
 
-
-## Get Started
+## Get started
 
 Holo hosting targets Holochain applications. It is assumed that you have familiarity with Holochain.
 
 https://developer.holochain.org/get-started/
 
-There are two pathways in this section - from scaffold or by migrating an existing hApp. Both pathways contain largely the same information so choose the pathway that most applies to your situation.
+There are two pathways in this section --- from scaffold or by migrating an existing hApp. Both pathways contain largely the same information so choose the pathway that most applies to your situation.
 
-In both cases there are no required DNA changes for Holo Hosting - only UI changes. However, Holo operates under a different context and we highly recommend that you read the core concepts, in particular the sections on membrane proofs and anonymous access as these **will need DNA integrity zome changes to enable certain features**.
+In both cases there are no required DNA changes for Holo Hosting --- only UI changes. However, Holo operates under a different context and we highly recommend that you read the core concepts, in particular the sections on membrane proofs and anonymous access as these **will need DNA integrity zome changes to enable certain features**.
 
-## Get Started from Scaffold
+## Get started from scaffolding tool
 
 In this section we'll create a simple To-Do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about the DNA itself, please refer to the [Holochain get started section](https://developer.holochain.org/get-started/#4-zero-to-built-creating-a-forum-app)
 
@@ -54,9 +53,9 @@ You should then see:
 ```
 :::
 
-Use the arrow keys to select a UI framework for your front-end and then press `<enter>`.
+Use the arrow keys to select a UI framework for your front-end and then press <kbd>Enter</kbd>.
 
-For this example choose `Vue` and press `<enter>`.
+For this example choose `Vue` and press <kbd>Enter</kbd>.
 You should then see:
 
 ::: output-block
@@ -67,7 +66,7 @@ You should then see:
 ```
 :::
 
-Choose `Yes` and press `<enter>`.
+Choose `Yes` and press <kbd>Enter</kbd>.
 
 You should then see `Setting up nix development environment...` with some details of what is being added, followed by instructions of next steps for setting up the development environment for your hApp and continuing to scaffold more of its elements. Let's follow those instructions. First, enter the hApp project directory:
 
@@ -106,7 +105,7 @@ import WebSdk from '@holo-host/web-sdk';
 import type { AgentState } from '@holo-host/web-sdk';
 ```
 
-Holo hApps provide a authentication form for users to generate in-browser keys and install cells on the network. This form is customisable - here we set the name of the App.
+Holo hApps provide a authentication form for users to generate in-browser keys and install cells on the network. This form is customisable --- here we set the name of the App.
 
 ```typescript
     if (this.IS_HOLO) {
@@ -151,8 +150,6 @@ Because there is the concept of "logging in", we also need a log out option to c
     }
 ```
 
------
-
 Now let's continue scaffolding our happ by creating a new DNA using the scaffolding tool which is now directly available in the shell. Type:
 
 ```shellsession
@@ -195,7 +192,7 @@ You should then see:
 ```
 :::
 
-Press `<enter>` to select `Integrity/coordinator zome-pair`.
+Press <kbd>Enter</kbd> to select `Integrity/coordinator zome-pair`.
 You should then see:
 
 ::: output-block
@@ -212,7 +209,7 @@ You should then see:
 ? Scaffold integrity zome in folder "dnas/todos/zomes/integrity/"? (y/n) ›
 ```
 
-Press `y` (this option is for advanced users who may have set up a different folder structure).
+Press <kbd>Y</kbd> (this option is for advanced users who may have set up a different folder structure).
 You should then see:
 
 ::: output-block
@@ -222,7 +219,7 @@ Integrity zome "todo_integrity" scaffolded!
 ```
 :::
 
-Press `y` again.
+Press <kbd>Y</kbd> again.
 
 You will then see `Coordinator zome "todos" scaffolded!` along with output from the intial downloading and setting up of the Holochain Rust HDK, followed by instructions for adding your first entry type.
 
@@ -262,7 +259,7 @@ Which fields should the entry contain?
 ```
 :::
 
-The scaffolding tool is smart about adding different data type fields to your entry. For our example we will just have a text field describing the to-do item. So press `<enter>` to select `String`.
+The scaffolding tool is smart about adding different data type fields to your entry. For our example we will just have a text field describing the to-do item. So press <kbd>Enter</kbd> to select `String`.
 
 You should see:
 
@@ -280,7 +277,7 @@ You should then see:
 ? Should this field be visible in the UI? (y/n) ›
 ```
 :::
-Press `y`.
+Press <kbd>Y</kbd>.
 You should then see:
 
 ::: output-block
@@ -291,7 +288,7 @@ You should then see:
 ```
 :::
 
-Press `<enter>` to choose a `TextArea` because we want the description to be able to be multi-lines.
+Press <kbd>Enter</kbd> to choose a `TextArea` because we want the description to be able to be multi-lines.
 You should then see:
 
 ::: output-block
@@ -300,7 +297,7 @@ You should then see:
 ```
 :::
 
-Press `n`.
+Press <kbd>N</kbd>.
 You should then see:
 
 ::: output-block
@@ -311,7 +308,7 @@ You should then see:
 ```
 :::
 
-The scaffolding tool can add zome and UI functions for updating and deleting entries. In the case of our to-do app we want to be able to do both, which is the default, so just press `<enter>`.
+The scaffolding tool can add zome and UI functions for updating and deleting entries. In the case of our to-do app we want to be able to do both, which is the default, so just press <kbd>Enter</kbd>.
 You should then see:
 
 ::: output-block
@@ -322,7 +319,7 @@ You should then see:
 ```
 :::
 
-Because Holochain stores data in append-only [source chains](/concepts/3_source_chain/), updating requires choosing a strategy of how to find updated data. The scaffolding tool allows you to choose between two strategies, one where updates are only linked to the previous version, and one where there is also a link added to the original entry for each update. For this use case either strategy would work fine, so press `<enter>` to choose the default.
+Because Holochain stores data in append-only [source chains](/concepts/3_source_chain/), updating requires choosing a strategy of how to find updated data. The scaffolding tool allows you to choose between two strategies, one where updates are only linked to the previous version, and one where there is also a link added to the original entry for each update. For this use case either strategy would work fine, so press <kbd>Enter</kbd> to choose the default.
 You should then see:
 
 ::: output-block
@@ -346,7 +343,7 @@ Collection name (snake_case, eg. "all_posts"): ›
 ```
 :::
 
-Enter `my_todos` and press `<enter>`.
+Enter `my_todos` and press <kbd>Enter</kbd>.
 You should then see:
 
 ::: output-block
@@ -357,7 +354,7 @@ You should then see:
 ```
 :::
 
-Use the arrow key to select `By author` and press `<enter>`.
+Use the arrow key to select `By author` and press <kbd>Enter</kbd>.
 You should then see:
 
 ::: output-block
@@ -366,7 +363,7 @@ You should then see:
 ❯ TodoItem
 ```
 :::
-Press `<enter>`.
+Press <kbd>Enter</kbd>.
 You should then see:
 
 ::: output-block
@@ -382,9 +379,7 @@ If you want to benefit from always-on nodes and read-only access while having me
 
 ### Testing
 
-:::success
 Holo provides the `holo-dev-server` binary, which simulates the Holo Network locally for development. `holo-dev-server` serves a copy of Chaperone and runs a Holochain conductor. Like the real Holo Network, `holo-dev-server` uses `.happs` rather than `.webapps`. The scaffold automatically makes holo-dev-server available via the nix flake file.
-:::
 
 1. Ensure you are in the nix development environment. Run `nix develop` if you aren't.
 2. Run `npm start:holo`, which should automatically also open an instance of the Holochain Playground on your browser
@@ -415,7 +410,7 @@ Save the file, and you should see that the windows have been updated to show som
 You now have a fully functional Holo app up and running!
 
 
-## Migrate from a Pure Holochain App
+## Migrate from a pure Holochain app
 
 Only minor UI changes are technically required for Holo Hosting. However, Holo operates under a different set of assumptions and we highly recommend that you read the core concepts. It is likely that you will want to reconsider certain UX flows.
 
@@ -497,9 +492,9 @@ Because the Holo Network acts like a remote conductor, we need to handle connect
 
 Now your UI can connect to the Holo Network and read forum posts. However, users can't post or comment yet because they don't yet have a source chain. They are considered "anonymous" and can only request public data from the Network.
 
-:::warning
+!!! note
 Unlike in pure Holochain, you cannot assume that a user has provided their desired keys when the connection is established. This may require changes to your application logic. You can read more at https://link.to/keys/documentation
-:::
+!!!
 
 Holo uses "signUp" and "signIn" terminology but there is no external authentication process. In both processes a user (re)derives their keys from email and password, with signUp also triggering the installation of new hApp cells.
 
@@ -589,7 +584,7 @@ Finally, we will also need signOut functionality to clear user keys from local s
 Now we're ready to build and test!
 
 
-### Building and Testing
+### Building and testing
 
 Holo provides the `holo-dev-server` binary, which simulates the Holo Network locally for development. `holo-dev-server` serves a copy of Chaperone and runs a Holochain conductor. Like the real Holo Network, `holo-dev-server` uses `.happs` rather than `.webapps`.
 
@@ -673,9 +668,9 @@ These scripts assume that you have a `start` script setup in a `ui` workspace, w
 
 You now have a fully functional Holo app up and running!
 
-:::info
+!!! info
 For production deployment, make sure that chaperoneUrl is configured to `https://chaperone.holo.hosting`
-:::
+!!!
 
 ## Deploy
 
@@ -685,35 +680,35 @@ This process assumes you already have a Cloud Console account. If you do not, yo
 
 Holo does not currently offer UI hosting. hApp managers will need to deploy their UI separately for now.
 
-:::info
+!!! info
 Holo supports "headless hosting" where there is no Holo-enabled UI. In this case Holo will maintain copies of the DHT, but will not hold any source chains. Holo hosting requires <membrane proof recommendation?>
 
 Holo does not support direct programmatic/API access to deployed hApps.
-:::
+!!!
 
-### Deploy hApp to Holo Network
+### Deploy hApp to Holo network
 1. Log into Cloud Console
 2. Click on "Add a hApp"
 3. Fill out hApp details
-    - "Link to hApp file" must point to a publically accessible .hApp file
-    - (Optional) "URL of hosted UI" is the URL which your users will access your UI from
-    - (Optional) Configuration of memproof/registration code
-    - Click deploy
+    --- "Link to hApp file" must point to a publically accessible .hApp file
+    --- (Optional) "URL of hosted UI" is the URL which your users will access your UI from
+    --- (Optional) Configuration of memproof/registration code
+    --- Click deploy
 4. Wait for deployment to take effect. It may take up to 30 minutes
 
 
-## Core Concepts and Further Documentation
+## Core concepts and further documentation
 
 Holochain assumes that agents are in control of their own conductor, meaning:
 - Agent keypairs are co-located
 - Agents can choose which hApps / DNAs are co-located on the same conductor
 - All hApps running on a conductor belong to a single user who may have multiple keys
 - The client and conductor are co-located
-- Agents have access to Admin websocket actions
+- Agents have access to Admin WebSocket actions
 
 These assumptions are not true for Holo and this has architectural implications for hApp development.
 
-### Holo Architecture
+### Holo architecture
 
 ![](https://hackmd.io/_uploads/ByfBfN9sh.png)
 
@@ -722,7 +717,7 @@ The diagram above shows the interconnections between different parts of the Holo
 - A user has no guarantee that two hApps will share the same conductor
 - Multiple users may share the same conductor
 
-### Client - Conductor Separation
+### Client-conductor separation
 
 In Holo hosting, the client and conductor are assumed to be both physically distinct and under the control of different agents. To enable and support this Holo provides an alternative to the `holochain/client` in the form of `@holo-host/web-sdk`.
 
@@ -743,7 +738,7 @@ import WebSdk from '@holo-host/web-sdk';
 
 WebSDK documentation can be found [here](https://github.com/Holo-Host/web-sdk#holo-hosting-web-sdk)
 
-#### Sign-up, Sign-in, Sign-out
+#### Sign-up, sign-in, sign-out
 
 Users derive application-specific keys directly in Chaperone using their email and password. This is done directly in the iFrame provided by the Chaperone connection manager that the application developer can customise and must invoke somewhere in their user flow:
 
@@ -773,31 +768,31 @@ client.on('agent-state', (agent_state: AgentState) => {
 This generally results in a UI with a much more async programming pattern, whereas native Holochain UIs tend to be use a more sync programming pattern.
 
 
-### hApp Paradigm
+### hApp paradigm
 
 hApps are the fundamental unit within Holo. this means:
 
-- A user will have unique agent keys for each hApp, even if multiple hApps share the same DNA
-- For each user, all DNAs/cells within the same hApp will share the same keys
-    - All cells for a hApp are guaranteed to be colocated on the same HoloPort
-    - Cloned cells are treated as part of their parent hApp bundle and co-located
-- hApps are deployed onto the Holo network by an agent of the Cloud Console app, who is the designated manager for the hApp
-- hApp managers are responsible for deploying application updates and paying host invoices
+* A user will have unique agent keys for each hApp, even if multiple hApps share the same DNA
+* For each user, all DNAs/cells within the same hApp will share the same keys
+    * All cells for a hApp are guaranteed to be colocated on the same HoloPort
+    * Cloned cells are treated as part of their parent hApp bundle and co-located
+* hApps are deployed onto the Holo network by an agent of the Cloud Console app, who is the designated manager for the hApp
+* hApp managers are responsible for deploying application updates and paying host invoices
 
 
-### Multi-Tenant Conductor
+### Multi-tenant conductor
 
 Holo makes use of multi-tenant conductors to provide functionality typically expected of traditional web applications. Each conductor runs applications belonging to multiple users.
 
 By default, Holo will run cells of deployed applications under each host's agent _in addition to any user cells_. These cells serve two purposes:
 
-#### Providing High-Uptime Nodes
+#### Providing high-uptime nodes
 
 These nodes will send and receive gossip to sustain the network as long as hosts are online. They also ensure that when users connect to their host they already have the latest data available, since Holochain maintains a single local copy of a DHT for all cells of that DNA.
 
-#### Serve Data to Anonymous Users
+#### Serve data to anonymous users
 
-For some use cases it is not desirable to require users to generate and sign with their keys. For example - reading an article. Where developers make these use cases available to their users the data is retrieved and signed for by the read-only instance.
+For some use cases it is not desirable to require users to generate and sign with their keys. For example --- reading an article. Where developers make these use cases available to their users the data is retrieved and signed for by the read-only instance.
 
 This behaviour is available by default. Once a WebSDK client has been instantiated and before a user derives their agentKeys, any zome calls will follow this pattern and have read access by default.
 
@@ -806,12 +801,12 @@ If you want to securely disable this functionality, you will need to implement a
 2. Ensure that `.signUp({cancellable: false})` or `.signIn({cancellable: false})` are configured.
 
 
-#### Admin Websocket Acess
+#### Admin WebSocket acess
 
 Due to the security implications of multi-tenant conductors, AdminWebsocket (and some AppWebsocket) functionality is not directly exposed to Holo clients. Instead, this functionality is exposed via Holo WebSDK methods where appropriate.
 
 
-### Membership Proofs
+### Membership proofs
 
 Holo strongly recommends membership proof implementations for production or long-running applications. However, as noted earlier Holo installs and runs cells of deployed applications under each host’s agent to provide high uptime DHT nodes and to serve data to anonymous users and Web2 participates who do not have keys.
 
@@ -837,7 +832,7 @@ pub fn validate_joining_code(
 ```
 
 
-### Anonymous Access
+### Anonymous access
 For an anonymous app to be able to make a zome call, you need to also create a cap token for that zome function (because the anonymous agent making the call will NOT be the read only agent)
 
 ```rust
