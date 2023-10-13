@@ -28,40 +28,44 @@ Holo provides a flag for scaffolding a web-app that is Holo compatible
 
 Adding the flag generates a scaffold with a UI compatible with both Holo hosting as well as pure Holochain environments.
 
-------------
-
 Run the holochain scaffolding tool **with `--holo` flag** by typing in your terminal:
 
-```bash
+```shellsession
 nix run github:/holochain/holochain#hc-scaffold -- web-app --holo
 ```
 
 You should then see:
 
+::: output-block
 ```text
 ? App name (no whitespaces):
 ```
+:::
 
 Type our hApp's name using snake_casing: `super_todos`.
 You should then see:
 
+::: output-block
 ```text
 ? Choose UI framework: ›
 ❯ Vue
   Svelte
   Lit
 ```
+:::
 
 Use the arrow keys to select a UI framework for your front-end and then press `<enter>`.
 
 For this example choose `Vue` and press `<enter>`.
 You should then see:
 
+::: output-block
 ```text
 ? Do you want to set up the holonix development environment for this project? ›
 ❯ Yes (recommended)
   No
 ```
+:::
 
 Choose `Yes` and press `<enter>`.
 
@@ -79,9 +83,11 @@ nix develop
 
 You should see:
 
+::: output-block
 ```text
 Holochain development shell spawned. Type exit to leave.
 ```
+:::
 
 Finally we need to install the `npm` dependencies with:
 
@@ -155,16 +161,20 @@ hc scaffold dna
 
 You should then see:
 
+::: output-block
 ```text
 ? DNA name (snake_case):
 ```
+:::
 
 Many hApps have just one DNA, so in this case you can just type: `todos`
 You should then see:
 
+::: output-block
 ```text
 DNA "todos" scaffolded!
 ```
+:::
 
 DNAs are [comprised of code modules](/concepts/2_application_architecture/), which we call zomes. A DNA should have at least two zomes, an *integrity zome* which declares your DNAs data structures and validation code, and a *coordinator zome* which contains, among other things, the API functions your UI will call to access your DNA.
 
@@ -176,20 +186,24 @@ hc scaffold zome
 
 You should then see:
 
+::: output-block
 ```text
 ? What do you want to scaffold? ›
 ❯ Integrity/coordinator zome-pair (recommended)
   Only an integrity zome
   Only a coordinator zome
 ```
+:::
 
 Press `<enter>` to select `Integrity/coordinator zome-pair`.
 You should then see:
 
+::: output-block
 ```text
 ? Enter coordinator zome name (snake_case):
  (The integrity zome will automatically be named '{name of coordinator zome}_integrity')
 ```
+:::
 
 Type in a name for the zome. In this case we can just use the same name as the DNA `todos`.
 You should then see:
@@ -201,10 +215,12 @@ You should then see:
 Press `y` (this option is for advanced users who may have set up a different folder structure).
 You should then see:
 
+::: output-block
 ```text
 Integrity zome "todo_integrity" scaffolded!
 ? Scaffold coordinator zome in "dnas/todos/zomes/coordinator/"? (y/n) ›
 ```
+:::
 
 Press `y` again.
 
@@ -227,6 +243,7 @@ You should see:
 Enter the name `todo_item`.
 You should then see:
 
+::: output-block
 ```text
 Which fields should the entry contain?
 
@@ -243,61 +260,76 @@ Which fields should the entry contain?
   Option of...
   Vector of...
 ```
+:::
 
 The scaffolding tool is smart about adding different data type fields to your entry. For our example we will just have a text field describing the to-do item. So press `<enter>` to select `String`.
 
 You should see:
 
+::: output-block
 ```text
 ? Field name: ›
 ```
+:::
 
 Enter the name `description`.
 You should then see:
 
+::: output-block
 ```text
 ? Should this field be visible in the UI? (y/n) ›
 ```
+:::
 Press `y`.
 You should then see:
 
+::: output-block
 ```text
 ? Choose widget to render this field: ›
 ❯ TextArea
   TextField
 ```
+:::
 
 Press `<enter>` to choose a `TextArea` because we want the description to be able to be multi-lines.
 You should then see:
 
+::: output-block
 ```text
 ? Add another field to the entry? (y/n) ›
 ```
+:::
 
 Press `n`.
 You should then see:
 
+::: output-block
 ```text
 ? Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)? ›
 ✔ Update
 ✔ Delete
 ```
+:::
 
 The scaffolding tool can add zome and UI functions for updating and deleting entries. In the case of our to-do app we want to be able to do both, which is the default, so just press `<enter>`.
 You should then see:
 
+::: output-block
 ```text
 ? Should a link from the original entry be created when this entry is updated? ›
 ❯ Yes (more storage cost but better read performance, recommended)
   No (less storage cost but worse read performance)
 ```
+:::
 
 Because Holochain stores data in append-only [source chains](/concepts/3_source_chain/), updating requires choosing a strategy of how to find updated data. The scaffolding tool allows you to choose between two strategies, one where updates are only linked to the previous version, and one where there is also a link added to the original entry for each update. For this use case either strategy would work fine, so press `<enter>` to choose the default.
 You should then see:
 
+::: output-block
 ```text
 Entry type "todo_item" scaffolded!
 ```
+:::
 
 The final step is create a collection that can be used to render all of to-do items that users create.
 To create a collection, type:
@@ -308,32 +340,40 @@ To create a collection, type:
 
 You should then see:
 
+::: output-block
 ```text
 Collection name (snake_case, eg. "all_posts"): ›
 ```
+:::
 
 Enter `my_todos` and press `<enter>`.
 You should then see:
 
+::: output-block
 ```text
 ? Which type of collection should be scaffolded? ›
 ❯ Global (get all entries of the selected entry types)
   By author (get entries of the selected entry types that a given author has created)
 ```
+:::
 
 Use the arrow key to select `By author` and press `<enter>`.
 You should then see:
 
+::: output-block
 ```text
 ? Which entry type should be collected? ›
 ❯ TodoItem
 ```
+:::
 Press `<enter>`.
 You should then see:
 
+::: output-block
 ```text
 Collection "my_todos" scaffolded!
 ```
+:::
 
 Holo strongly recommends membership proof implementations for production or long-running applications. However, membership proofs that restrict read-only access prevent Holo from providing always-on nodes and [read-only access to applications](https://link.tbd).
 
