@@ -95,14 +95,14 @@ The biggest difference between a Holo and pure Holochain application is in the U
 
 In a Holo setting we use @holo-host/web-sdk library instead of @holochain/client. WebSDK provides an instance of `AppAgentWebsocket`, which is almost the same as `AppWebsocket`.
 
-```jsx
+```typescript
 import WebSdk from '@holo-host/web-sdk';
 import type { AgentState } from '@holo-host/web-sdk';
 ```
 
 Holo hApps provide a authentication form for users to generate in-browser keys and install cells on the network. This form is customisable - here we set the name of the App. 
 
-```jsx
+```typescript
     if (this.IS_HOLO) {
       const client: WebSdk = await WebSdk.connect({
         chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL,
@@ -127,7 +127,7 @@ Holo hApps provide a authentication form for users to generate in-browser keys a
 ```
 
 Because there is the concept of "logging in", we also need a log out option to clear user keys from the client.
-```htmlmixed
+```html
 
   <mwc-button
     v-if="IS_HOLO"
@@ -138,7 +138,7 @@ Because there is the concept of "logging in", we also need a log out option to c
   />
 ```
 
-```jsx  
+```typescript
   async logout () {
       await (this.client as WebSdk).signOut();
       await (this.client as WebSdk).signIn({ cancellable: false });
@@ -388,7 +388,7 @@ In a Holo setting we use @holo-host/web-sdk which provides an instance of `WebSD
 
 You'll first need to ensure that you use `WebSDK` or `AppAgentWebsocket` depending on the context
 
-```jsx
+```typescript
 import { AppAgentClient, AppAgentWebsocket } from '@holochain/client';
 import WebSdk from '@holo-host/web-sdk'; // Import WebSDK library
 
@@ -405,7 +405,7 @@ export default defineComponent({
 
 You can then initialise a context-dependent client, assuming you want your UI to be compatible with both Holo and Holochain.
 
-```jsx
+```typescript
   data(): {
     client: AppAgentClient | undefined;
     loading: boolean;
@@ -439,7 +439,7 @@ The WebSDK client loads and connects to an iFrame called Chaperone. Chaperone is
 
 Because the Holo Network acts like a remote conductor, we need to handle connectivity issues. Changes to the connection are emitted and you can register an event handler if the client is an instance of WebSDK. You can see the full list of emitted events here: https://github.com/Holo-Host/web-sdk
 
-```jsx
+```typescript
  import type { AgentState } from '@holo-host/web-sdk';
  
  async mounted() {
@@ -465,7 +465,7 @@ Holo uses "signUp" and "signIn" terminology but there is no external authenticat
 
 So let's add signUp and signIn functionality to the app.
 
-```htmlembedded
+```html
 <main>
     <h1>Forum</h1>
     <!--Add these buttons-->
@@ -494,7 +494,7 @@ So let's add signUp and signIn functionality to the app.
   </main>
 ```
 
-```jsx=
+```typescript
   methods: {
       // ...
       async signUp () {
@@ -516,7 +516,7 @@ During signUp a registration code field can be shown to enable membership proof 
 
 Finally, we will also need signOut functionality to clear user keys from local storage.
 
-```htmlembedded
+```html
 <main>
     <h1>Forum</h1>
     <!--Add these buttons-->
@@ -535,7 +535,7 @@ Finally, we will also need signOut functionality to clear user keys from local s
   </main>
 ```
 
-```jsx
+```typescript
   methods: {
       // ...
       async signOut () {
@@ -595,7 +595,7 @@ To include `holo-dev-server` in your development environment, update your flake.
 
 To connect your application to `holo-dev-server` you point the client's chaperoneUrl to https://localhost:24274.
 
-```jsx
+```typescript
 const client: WebSdk = await WebSdk.connect({
         chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL, // We'll explain this in the testing section
         authFormCustomization: {
@@ -690,7 +690,7 @@ Both the Holo WebSDK and the holochain/client provide implementations of `AppAge
 
 To use the WebSDK, instantiate it wherever you would normally instantiate holochain/client:
 
-```jsx
+```typescript
 import WebSdk from '@holo-host/web-sdk';
 
  const client: WebSdk = await WebSdk.connect({
@@ -707,7 +707,7 @@ WebSDK documentation can be found [here](https://github.com/Holo-Host/web-sdk#ho
 
 Users derive application-specific keys directly in Chaperone using their email and password. This is done directly in the iFrame provided by the Chaperone connection manager that the application developer can customise and must invoke somewhere in their user flow:
 
-```jsx
+```typescript
 client.signUp()
 client.signIn()
 ```
@@ -716,7 +716,7 @@ Since AdminWebsocket functionality is handled via Envoy, Holo distinguishes betw
 This also means that developers cannot assume that calls such as `.agent_info()` are immediately available at first.
 
 Users should also have a means of clearing their keys from local storage using:
-```jsx
+```typescript
 client.signOut()
 ```
 
@@ -724,7 +724,7 @@ client.signOut()
 
 Since the host conductor is remote, UIs need to handle different connection states appropriately. Chaperone makes connection state information available to the client via events that the UI can listen for and handle. Example:
 
-```jsx
+```typescript
 client.on('agent-state', (agent_state: AgentState) => {
     // Handle changes to agent state
 });
