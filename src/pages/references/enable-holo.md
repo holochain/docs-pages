@@ -71,13 +71,13 @@ Choose `Yes` and press `<enter>`.
 
 You should then see `Setting up nix development environment...` with some details of what is being added, followed by instructions of next steps for setting up the development environment for your hApp and continuing to scaffold more of its elements. Let's follow those instructions. First, enter the hApp project directory:
 
-```bash
+```shellsession
 cd super_todos
 ```
 
 Now fire up the nix development shell (which makes all scaffolding tools as well as the Holochain binaries directly available from the command-line) with:
 
-```bash
+```shellsession
 nix develop
 ```
 
@@ -91,7 +91,7 @@ Holochain development shell spawned. Type exit to leave.
 
 Finally we need to install the `npm` dependencies with:
 
-```bash
+```shellsession
 npm install
 ```
 
@@ -155,7 +155,7 @@ Because there is the concept of "logging in", we also need a log out option to c
 
 Now let's continue scaffolding our happ by creating a new DNA using the scaffolding tool which is now directly available in the shell. Type:
 
-```bash
+```shellsession
 hc scaffold dna
 ```
 
@@ -180,7 +180,7 @@ DNAs are [comprised of code modules](/concepts/2_application_architecture/), whi
 
 Create your DNA's first zomes with:
 
-```bash
+```shellsession
 hc scaffold zome
 ```
 
@@ -208,7 +208,7 @@ You should then see:
 Type in a name for the zome. In this case we can just use the same name as the DNA `todos`.
 You should then see:
 
-```bash
+```shellsession
 ? Scaffold integrity zome in folder "dnas/todos/zomes/integrity/"? (y/n) ›
 ```
 
@@ -230,13 +230,13 @@ Now we get to the really exciting part! In the next steps you will specify your 
 
 In our to-do hApp every to-do item is stored as an entry. So let's add new entry definitions with:
 
-```bash
+```shellsession
   hc scaffold entry-type
 ```
 
 You should see:
 
-```bash
+```shellsession
 ✔ Entry type name (snake_case): ·
 ```
 
@@ -334,7 +334,7 @@ Entry type "todo_item" scaffolded!
 The final step is create a collection that can be used to render all of to-do items that users create.
 To create a collection, type:
 
-```bash
+```shellsession
   hc scaffold collection
 ```
 
