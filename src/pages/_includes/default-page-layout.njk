@@ -3,7 +3,7 @@ layout: base-layout.njk
 layoutId: default-page-type
 surpressH1InLayout: false
 ---
-{% from "widgets/navigation.njk" import mainNavTree %}
+{% from "widgets/navigation.njk" import mainNavTree, tocBlock %}
 
 <div class="main-area">
   {% if not surpressH1InLayout %}
@@ -13,6 +13,7 @@ surpressH1InLayout: false
 </div>
 <div class="side-bar">
   {{ mainNavTree(navigation.mainNav, page) }}
+  {{ tocBlock(tocData) }} 
 </div>
 
 <div class="header-full-bg"></div>

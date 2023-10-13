@@ -32,6 +32,7 @@ $cl-sidebar-bg: #f7f7f7;
     height: 100%;
 
     @include navBarList;
+    @include inPageToc;
 
     &.show {
       z-index: 10;

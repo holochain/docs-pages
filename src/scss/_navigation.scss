@@ -109,3 +109,49 @@
     }
   }
 }
+
+@mixin inPageToc() {
+  #in-page-toc {
+    position: sticky;
+    top: 0;
+
+    padding: 18px 34px;
+
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 10px;
+      padding: 0;
+
+      li {
+        margin-bottom: 10px;
+
+        a {
+          color: #5B5477;
+          display: inline-block;
+          transition: all .75s;
+          text-decoration: none;
+
+          &:hover {
+            font-variation-settings: "wght" 700;
+            color: black;
+          }
+
+          &.current {
+            font-weight: 700;
+          }
+        }
+
+        & > ul {
+          margin-top: 10px;
+          padding-left: 20px;
+        }
+      }
+    }
+  }
+}

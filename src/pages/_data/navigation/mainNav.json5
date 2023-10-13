@@ -1,13 +1,11 @@
 {
   links: [
-    { title: "Quick Start", url: "/quick-start/", children: [
-        { title: "Project Structure", url: "/quick-start/project-structure/" }
-      ]
-    },
-    { title: "Get Building", url: "/get-building/", children: [
-        { title: "Distribute your App", url: "/get-building/distribute-your-app/" },
-        { title: "Dev Tools Setup", url: "/get-building/install-advanced/" },
-        { title: "Setup without Nix", url: "/get-building/install-without-nix/" },
+    { title: "Get Started", url: "/get-started/", children: [
+        { title: "Dev Tools Setup Tips", url: "/get-started/install-advanced/" },
+        { title: "Setup Without Nix", url: "/get-started/install-without-nix/" },
+        { title: "Distribute your App", url: "/get-started/distribute-your-app/" },
+        { title: "Holochain Upgrade 0.1 -> 0.2", url: "/get-started/upgrade-holochain/" },
+        { title: "Setup For a Local Event", url: "/get-started/at-an-event/" },
       ]
     },
     { title: "Core Concepts", url: "/concepts/1_the_basics/", children: [
