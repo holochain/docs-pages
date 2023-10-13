@@ -23,10 +23,10 @@ In both cases there are no required DNA changes for Holo Hosting - only UI chang
 
 In this section we'll create a simple To-Do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about the DNA itself, please refer to the [Holochain get started section](https://developer.holochain.org/get-started/#4-zero-to-built-creating-a-forum-app)
 
-Holo provides a flag for scaffolding a web-app that is Holo compatible 
+Holo provides a flag for scaffolding a web-app that is Holo compatible
 `nix run github:/holochain/holochain#hc-scaffold -- web-app --holo`
 
-Adding the flag generates a scaffold with a UI compatible with both Holo hosting as well as pure Holochain environments. 
+Adding the flag generates a scaffold with a UI compatible with both Holo hosting as well as pure Holochain environments.
 
 ------------
 
@@ -100,7 +100,7 @@ import WebSdk from '@holo-host/web-sdk';
 import type { AgentState } from '@holo-host/web-sdk';
 ```
 
-Holo hApps provide a authentication form for users to generate in-browser keys and install cells on the network. This form is customisable - here we set the name of the App. 
+Holo hApps provide a authentication form for users to generate in-browser keys and install cells on the network. This form is customisable - here we set the name of the App.
 
 ```typescript
     if (this.IS_HOLO) {
@@ -134,7 +134,7 @@ Because there is the concept of "logging in", we also need a log out option to c
     style="margin-top: 16px"
     raised
     label="Logout"
-    @click="logout" 
+    @click="logout"
   />
 ```
 
@@ -384,7 +384,7 @@ This example will use the scaffolded forum-happ Vue example, but feel free to fo
 `nix run github:holochain/holochain#hc-scaffold -- example forum`
 
 
-In a Holo setting we use @holo-host/web-sdk which provides an instance of `WebSDK`, instead of `AppAgentWebsocket` from `@holochain/client`. Both `WebSDK` and `AppAgentWebsocket` implement `AppAgentClient`. 
+In a Holo setting we use @holo-host/web-sdk which provides an instance of `WebSDK`, instead of `AppAgentWebsocket` from `@holochain/client`. Both `WebSDK` and `AppAgentWebsocket` implement `AppAgentClient`.
 
 You'll first need to ensure that you use `WebSDK` or `AppAgentWebsocket` depending on the context
 
@@ -417,7 +417,7 @@ You can then initialise a context-dependent client, assuming you want your UI to
       IS_HOLO: ['true', '1', 't'].includes(import.meta.env.VITE_APP_IS_HOLO?.toLowerCase()), // You should set this as an env variable
     };
   },
-      
+
   async mounted() {
     if (this.IS_HOLO) {
       const client: WebSdk = await WebSdk.connect({
@@ -441,16 +441,16 @@ Because the Holo Network acts like a remote conductor, we need to handle connect
 
 ```typescript
  import type { AgentState } from '@holo-host/web-sdk';
- 
+
  async mounted() {
     if (this.IS_HOLO) {
-    // ... 
-        
+    // ...
+
         // register event handler for agent-state.
-        client.on('agent-state', (agent_state: AgentState) => { 
+        client.on('agent-state', (agent_state: AgentState) => {
             this.loading = !agent_state.isAvailable
         });
-        
+
         // ...
 ```
 
@@ -469,22 +469,22 @@ So let's add signUp and signIn functionality to the app.
 <main>
     <h1>Forum</h1>
     <!--Add these buttons-->
-    <div v-if="IS_HOLO && !isLoggedIn">    
+    <div v-if="IS_HOLO && !isLoggedIn">
       <mwc-button
         style="margin-top: 16px"
         raised
         label="Sign Up"
-        @click="signUp" 
+        @click="signUp"
       />
 
       <mwc-button
         style="margin-top: 16px"
         raised
         label="Sign In"
-        @click="signIn" 
+        @click="signIn"
       />
     </div>
-    
+
     <div id="content">
       <h2>All Posts</h2>
       <AllPosts></AllPosts>
@@ -504,7 +504,7 @@ So let's add signUp and signIn functionality to the app.
       async signIn () {
         await (this.client as WebSdk).signIn({ cancellable: true });
       },
-    
+
       // ...
   }
 ```
@@ -520,16 +520,16 @@ Finally, we will also need signOut functionality to clear user keys from local s
 <main>
     <h1>Forum</h1>
     <!--Add these buttons-->
-    <div v-if="IS_HOLO && !isLoggedIn">    
+    <div v-if="IS_HOLO && !isLoggedIn">
       <!-- ... -->
     </div>
-    <div v-else>    
+    <div v-else>
       <mwc-button
         style="margin-top: 16px"
         raised
         label="Sign Out"
-        @click="signOut" 
-      />  
+        @click="signOut"
+      />
     </div>
     <!-- ... -->
   </main>
@@ -541,7 +541,7 @@ Finally, we will also need signOut functionality to clear user keys from local s
       async signOut () {
         await (this.client as WebSdk).signOut());
       },
-    
+
       // ...
   }
 ```
@@ -551,10 +551,10 @@ Now we're ready to build and test!
 
 ### Building and Testing
 
-Holo provides the `holo-dev-server` binary, which simulates the Holo Network locally for development. `holo-dev-server` serves a copy of Chaperone and runs a Holochain conductor. Like the real Holo Network, `holo-dev-server` uses `.happs` rather than `.webapps`.  
+Holo provides the `holo-dev-server` binary, which simulates the Holo Network locally for development. `holo-dev-server` serves a copy of Chaperone and runs a Holochain conductor. Like the real Holo Network, `holo-dev-server` uses `.happs` rather than `.webapps`.
 
 To include `holo-dev-server` in your development environment, update your flake.nix file to the below, and re-enter the shell:
- 
+
 ```
 {
   description = "Template for Holochain app development";
@@ -667,7 +667,7 @@ Holo does not support direct programmatic/API access to deployed hApps.
 Holochain assumes that agents are in control of their own conductor, meaning:
 - Agent keypairs are co-located
 - Agents can choose which hApps / DNAs are co-located on the same conductor
-- All hApps running on a conductor belong to a single user who may have multiple keys 
+- All hApps running on a conductor belong to a single user who may have multiple keys
 - The client and conductor are co-located
 - Agents have access to Admin websocket actions
 
@@ -694,9 +694,9 @@ To use the WebSDK, instantiate it wherever you would normally instantiate holoch
 import WebSdk from '@holo-host/web-sdk';
 
  const client: WebSdk = await WebSdk.connect({
-    chaperoneUrl: 'https://chaperone.holo.hosting', 
+    chaperoneUrl: 'https://chaperone.holo.hosting',
     authFormCustomization: {
-      appName: 'example-happ', 
+      appName: 'example-happ',
     }
  })
 ```
@@ -738,7 +738,7 @@ This generally results in a UI with a much more async programming pattern, where
 hApps are the fundamental unit within Holo. this means:
 
 - A user will have unique agent keys for each hApp, even if multiple hApps share the same DNA
-- For each user, all DNAs/cells within the same hApp will share the same keys 
+- For each user, all DNAs/cells within the same hApp will share the same keys
     - All cells for a hApp are guaranteed to be colocated on the same HoloPort
     - Cloned cells are treated as part of their parent hApp bundle and co-located
 - hApps are deployed onto the Holo network by an agent of the Cloud Console app, who is the designated manager for the hApp
@@ -759,7 +759,7 @@ These nodes will send and receive gossip to sustain the network as long as hosts
 
 For some use cases it is not desirable to require users to generate and sign with their keys. For example - reading an article. Where developers make these use cases available to their users the data is retrieved and signed for by the read-only instance.
 
-This behaviour is available by default. Once a WebSDK client has been instantiated and before a user derives their agentKeys, any zome calls will follow this pattern and have read access by default. 
+This behaviour is available by default. Once a WebSDK client has been instantiated and before a user derives their agentKeys, any zome calls will follow this pattern and have read access by default.
 
 If you want to securely disable this functionality, you will need to implement a membership proof with read-only restrictions. As a less secure alternative, you can:
 1. Setup your UI lifecycle to call the signUp/signIn form and ensure credentials are setup before requesting any data from the DHT
