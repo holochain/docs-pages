@@ -105,47 +105,46 @@ import type { AgentState } from '@holo-host/web-sdk';
 Holo hApps provide a authentication form for users to generate in-browser keys and install cells on the network. This form is customisable --- here we set the name of the App.
 
 ```typescript
-    if (this.IS_HOLO) {
-      const client: WebSdk = await WebSdk.connect({
-        chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL,
-        authFormCustomization: {
-          appName: 'super_todos',
-        }
-      });
-
-      client.on('agent-state', (agent_state: AgentState) => {
-        this.loading = !agent_state.isAvailable || agent_state.isAnonymous
-      });
-
-      client.signUp({ cancellable: false });
-
-      this.client = client
-    } else {
-      // We pass '' as url because it will dynamically be replaced in launcher environments
-      this.client = await AppAgentWebsocket.connect('', 'vue-default');
-      this.loading = false;
+if (this.IS_HOLO) {
+  const client: WebSdk = await WebSdk.connect({
+    chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL,
+    authFormCustomization: {
+      appName: 'super_todos',
     }
-  },
+  });
+
+  client.on('agent-state', (agent_state: AgentState) => {
+    this.loading = !agent_state.isAvailable || agent_state.isAnonymous
+  });
+
+  client.signUp({ cancellable: false });
+
+  this.client = client
+} else {
+  // We pass '' as url because it will dynamically be replaced in launcher environments
+  this.client = await AppAgentWebsocket.connect('', 'vue-default');
+  this.loading = false;
+}
 ```
 
 Because there is the concept of "logging in", we also need a log out option to clear user keys from the client.
 
 ```html
 
-  <mwc-button
-    v-if="IS_HOLO"
-    style="margin-top: 16px"
-    raised
-    label="Logout"
-    @click="logout"
-  />
+<mwc-button
+  v-if="IS_HOLO"
+  style="margin-top: 16px"
+  raised
+  label="Logout"
+  @click="logout"
+/>
 ```
 
 ```typescript
-  async logout () {
-      await (this.client as WebSdk).signOut();
-      await (this.client as WebSdk).signIn({ cancellable: false });
-    }
+async logout () {
+  await (this.client as WebSdk).signOut();
+  await (this.client as WebSdk).signIn({ cancellable: false });
+}
 ```
 
 Now let's continue scaffolding our happ by creating a new DNA using the scaffolding tool which is now directly available in the shell. Type:
@@ -400,7 +399,9 @@ Only minor UI changes are technically required for Holo Hosting. However, Holo o
 
 This example will use the scaffolded forum-happ Vue example, but feel free to follow along with your own hApp instead.
 
-`nix run github:holochain/holochain#hc-scaffold -- example forum`
+```shellsession
+nix run github:holochain/holochain#hc-scaffold -- example forum
+```
 
 In a Holo setting we use @holo-host/web-sdk which provides an instance of `WebSDK`, instead of `AppAgentWebsocket` from `@holochain/client`. Both `WebSDK` and `AppAgentWebsocket` implement `AppAgentClient`.
 
@@ -483,46 +484,46 @@ So let's add signUp and signIn functionality to the app.
 
 ```html
 <main>
-    <h1>Forum</h1>
-    <!--Add these buttons-->
-    <div v-if="IS_HOLO && !isLoggedIn">
-      <mwc-button
-        style="margin-top: 16px"
-        raised
-        label="Sign Up"
-        @click="signUp"
-      />
+  <h1>Forum</h1>
+  <!--Add these buttons-->
+  <div v-if="IS_HOLO && !isLoggedIn">
+    <mwc-button
+      style="margin-top: 16px"
+      raised
+      label="Sign Up"
+      @click="signUp"
+    />
 
-      <mwc-button
-        style="margin-top: 16px"
-        raised
-        label="Sign In"
-        @click="signIn"
-      />
-    </div>
+    <mwc-button
+      style="margin-top: 16px"
+      raised
+      label="Sign In"
+      @click="signIn"
+    />
+  </div>
 
-    <div id="content">
-      <h2>All Posts</h2>
-      <AllPosts></AllPosts>
-      <span style="margin-bottom: 16px"></span>
-      <CreatePost></CreatePost>
-    </div>
-  </main>
+  <div id="content">
+    <h2>All Posts</h2>
+    <AllPosts></AllPosts>
+    <span style="margin-bottom: 16px"></span>
+    <CreatePost></CreatePost>
+  </div>
+</main>
 ```
 
 ```typescript
-  methods: {
-      // ...
-      async signUp () {
-        await (this.client as WebSdk).signUp({ cancellable: true });
-      },
+methods: {
+    // ...
+    async signUp () {
+      await (this.client as WebSdk).signUp({ cancellable: true });
+    },
 
-      async signIn () {
-        await (this.client as WebSdk).signIn({ cancellable: true });
-      },
+    async signIn () {
+      await (this.client as WebSdk).signIn({ cancellable: true });
+    },
 
-      // ...
-  }
+    // ...
+}
 ```
 
 These trigger the display of a full screen credentials modal from the Chaperone iFrame, defaulting to either a signUp or signIn page. The user can also toggle between them directly.
@@ -534,32 +535,32 @@ Finally, we will also need signOut functionality to clear user keys from local s
 
 ```html
 <main>
-    <h1>Forum</h1>
-    <!--Add these buttons-->
-    <div v-if="IS_HOLO && !isLoggedIn">
-      <!-- ... -->
-    </div>
-    <div v-else>
-      <mwc-button
-        style="margin-top: 16px"
-        raised
-        label="Sign Out"
-        @click="signOut"
-      />
-    </div>
+  <h1>Forum</h1>
+  <!--Add these buttons-->
+  <div v-if="IS_HOLO && !isLoggedIn">
     <!-- ... -->
-  </main>
+  </div>
+  <div v-else>
+    <mwc-button
+      style="margin-top: 16px"
+      raised
+      label="Sign Out"
+      @click="signOut"
+    />
+  </div>
+  <!-- ... -->
+</main>
 ```
 
 ```typescript
-  methods: {
-      // ...
-      async signOut () {
-        await (this.client as WebSdk).signOut());
-      },
+methods: {
+  // ...
+  async signOut () {
+    await (this.client as WebSdk).signOut());
+  },
 
-      // ...
-  }
+  // ...
+}
 ```
 
 Now we're ready to build and test!
@@ -612,29 +613,29 @@ To connect your application to `holo-dev-server` you point the client's chaperon
 
 ```typescript
 const client: WebSdk = await WebSdk.connect({
-        chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL, // We'll explain this in the testing section
-        authFormCustomization: {
-          appName: 'forum-app', // Display name on the credentials form. You can also set it in Cloud Console when deploying
-        }
+  chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL, // We'll explain this in the testing section
+  authFormCustomization: {
+    appName: 'forum-app', // Display name on the credentials form. You can also set it in Cloud Console when deploying
+  }
+});
 ```
 
 Let's add some build and test scripts. You should already have scripts to build a `.hApp` file, like below.
 
 ```json
-"scripts": {
+  "scripts": {
     // ...
     "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
     "build:zomes": "RUSTFLAGS='' CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown"
   },
-
 ```
 
-Let's add the following scripts. This will:
+Let's add the following scripts to the top of the `"scripts"` object. These will:
 
 1. Build your `.happ` file
 2. Run `holo-dev-server` with your `.happ` file
-3. Run the `holochain-playground` at localhost:4444
-4. Start the your UI at localhost:8888
+3. Run the `holochain-playground` at `localhost:4444`
+4. Start the your UI at `localhost:8888`
 
 ```json
     "start:holo": "AGENTS=2 npm run network:holo",
@@ -708,12 +709,12 @@ To use the WebSDK, instantiate it wherever you would normally instantiate holoch
 ```typescript
 import WebSdk from '@holo-host/web-sdk';
 
- const client: WebSdk = await WebSdk.connect({
-    chaperoneUrl: 'https://chaperone.holo.hosting',
-    authFormCustomization: {
-      appName: 'example-happ',
-    }
- })
+const client: WebSdk = await WebSdk.connect({
+  chaperoneUrl: 'https://chaperone.holo.hosting',
+  authFormCustomization: {
+    appName: 'example-happ',
+  }
+});
 ```
 
 WebSDK documentation can be found [here](https://github.com/Holo-Host/web-sdk#holo-hosting-web-sdk)
@@ -723,8 +724,8 @@ WebSDK documentation can be found [here](https://github.com/Holo-Host/web-sdk#ho
 Users derive application-specific keys directly in Chaperone using their email and password. This is done directly in the iFrame provided by the Chaperone connection manager that the application developer can customise and must invoke somewhere in their user flow:
 
 ```typescript
-client.signUp()
-client.signIn()
+client.signUp();
+client.signIn();
 ```
 
 Since AdminWebsocket functionality is handled via Envoy, Holo distinguishes between "Sign-up" and "Log-in" based on whether a cell needs to be installed for the user.
@@ -734,7 +735,7 @@ This also means that developers cannot assume that calls such as `.agent_info()`
 Users should also have a means of clearing their keys from local storage using:
 
 ```typescript
-client.signOut()
+client.signOut();
 ```
 
 #### Handling connection state
@@ -743,7 +744,7 @@ Since the host conductor is remote, UIs need to handle different connection stat
 
 ```typescript
 client.on('agent-state', (agent_state: AgentState) => {
-    // Handle changes to agent state
+  // Handle changes to agent state
 });
 ```
 
