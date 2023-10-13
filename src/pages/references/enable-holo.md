@@ -827,7 +827,7 @@ In general you should not list functions in the above code that *write* to the s
 
 Finally, if you want to make sure that anonymous agents can't write to their own source chain, you should add the following protection to any function that writes to the source chain:
 
-```rust=
+```rust
 pub fn is_read_only_instance() -> bool {
     if let Ok(entries) = &query(ChainQueryFilter::new().action_type(ActionType::AgentValidationPkg))
     {
