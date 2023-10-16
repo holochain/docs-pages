@@ -240,7 +240,7 @@ Some reasons for ejecting an agent from a network simply shouldn't be encoded in
 * When an operation is found to be invalid, the validator creates a warrant, which attests that the author is writing corrupt data.
 * Agents can use warrants as grounds for blocking communication with a corrupt agent and deleting their data.
 * Some scenarios can't be covered by validation:
-    * Membrane self-checking occurs before an agent joins a network, so it may comprise a reduced set of checks that don't involve dependencies from the DHT.
+    * Genesis self-checking occurs before an agent joins a network, so it may comprise a reduced set of checks that don't involve dependencies from the DHT.
     * Source chain forks are non-deterministic, so they can only be detected, not warranted against.
     * Application-level blocking and unblocking can be used to provide an immune-like response when there are non-deterministic or non-adversarial reasons for blocking an agent.
 
