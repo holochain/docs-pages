@@ -22,7 +22,7 @@ In both cases there are no required DNA changes for Holo Hosting --- only UI cha
 
 In this section we'll create a simple to-do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about creating a DNA, please refer to the [Holochain getting started guide](https://developer.holochain.org/get-started/#4-zero-to-built-creating-a-forum-app)
 
-The scaffolding tool provides a `--holo` flag for scaffolding a hApp whose UI is compatible with both Holo hosting and pure Holochain environments. Run the holochain scaffolding tool **with this flag** by typing in your terminal:
+The Holochain scaffolding tool provides a `--holo` flag for scaffolding a hApp whose UI is compatible with both Holo hosting and pure Holochain environments. Run the tool **with this flag** by typing in your terminal:
 
 ```shellsession
 nix run github:/holochain/holochain#hc-scaffold -- web-app --holo
