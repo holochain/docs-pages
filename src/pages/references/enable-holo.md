@@ -160,7 +160,7 @@ You should then see:
 ```
 :::
 
-Many hApps have just one DNA, so in this case you can just type
+Many hApps have just one DNA, so in this case you can just type:
 
 ```text
 todos
