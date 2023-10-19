@@ -16,7 +16,7 @@ https://developer.holochain.org/get-started/
 
 There are two pathways in this section --- scaffolding a new hApp or migrating an existing hApp. Both pathways contain largely the same information, so choose the pathway that best applies to your situation.
 
-In both cases there are no required DNA changes for Holo Hosting --- only UI changes. However, Holo operates under a different context and we highly recommend that you read the core concepts, in particular the sections on membrane proofs and anonymous access, as these **will need DNA integrity zome changes to enable certain features**.
+In both cases there are no required DNA changes for Holo Hosting --- only UI changes. However, Holo operates under a different context and we highly recommend that you read the [Holo Core Concepts](#holo-core-concepts-and-further-documentation), in particular the section on anonymous access, as this **will need DNA changes to enable certain features**.
 
 ## Get started from scaffolding tool
 
@@ -93,7 +93,7 @@ npm install
 
 ### UI
 
-The biggest difference between a Holo and pure Holochain application is in the UI. The scaffolding tool should automatically have generated everything required here, so we'll simply point out the primary differences.
+The biggest difference between a Holo and pure Holochain application is in the UI. The scaffolding tool should automatically have generated everything required here, so we'll simply point out the primary differences, which will all be in `App.vue`
 
 In a Holo setting we use the [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) library instead of `@holochain/client`. WebSDK provides an instance of `AppAgentWebsocket`, which is almost the same as `AppWebsocket`.
 
@@ -367,9 +367,7 @@ Collection "my_todos" scaffolded!
 ```
 :::
 
-Holo strongly recommends that you implement a [**membrane proof**](/glossary/#membrane-proof) for production or long-running applications. However, membrane proofs that restrict read-only access prevent Holo from providing always-on nodes and [read-only access to applications](https://link.tbd).
-
-If you want to benefit from always-on nodes and read-only access while having membrane proofs, you will need to implement special "Holo-safe" logic. You can [read more here](https://link.to.core.concepts).
+Holo strongly recommends that you implement a [**membrane proof**](/glossary/#membrane-proof) for production or long-running applications. However, membrane proofs that restrict read-only access prevent Holo from providing always-on nodes and read-only access to applications. If you want to benefit from always-on nodes and read-only access while having membrane proofs, you will need to implement special "Holo-safe" logic. This is out of scope for this tutorial and further documentation will be published soon.
 
 ### Testing
 
@@ -378,8 +376,7 @@ Holo provides the `holo-dev-server` binary, which simulates the Holo network loc
 1. Ensure you are in the nix development environment by checking the shell prompt. Run `nix develop` in the root of your project's folder if you aren't.
 2. Run `npm start:holo`, which:
     1. Starts `holo-dev-server' and provisions instances (cells) of your DNA for two agents,
-    2. Automatically opens an instance of a network inspector called [Holochain Playground](https://github.com/darksoil-studio/holochain-playground) in your browser, and
-    3. Runs a web server to serve the UI.
+    2. Automatically opens an instance of a network inspector called [Holochain Playground](https://github.com/darksoil-studio/holochain-playground) in your browser,
 3. Access your two agents on your browser at `http://localhost:8888` and `http://localhost:8889`.
 
 The windows should not be very exciting yet, because you haven't edited the hApp to use the generated UI elements, but what you see on the screen should be some hints on how to proceed.
@@ -408,13 +405,15 @@ You now have a fully functional Holo app up and running!
 
 ## Migrate from a pure Holochain app
 
-Only minor UI changes are technically required for Holo hosting. However, Holo operates under a different set of assumptions and we highly recommend that you read the [Core Concepts](/concepts/). It is likely that you will want to reconsider certain UX flows.
+Only minor UI changes are technically required for Holo hosting. However, Holo operates under a different set of assumptions and we highly recommend that you read the [Holo Core Concepts](#holo-core-concepts-and-further-documentation). It is likely that you will want to reconsider certain UX flows.
 
 This example will use an example forum hApp with a Vue-based UI, but feel free to follow along with your own hApp instead.
 
 ```shellsession
 nix run github:holochain/holochain#hc-scaffold -- example forum
 ```
+
+In the forum hApp, the relevant UI code is in App.vue. Generally they will likely be where you initialise your `AppWebsocket` client.
 
 In a Holo setting we use [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) which provides an instance of `WebSDK`, instead of `AppAgentWebsocket` from `@holochain/client`. Both `WebSDK` and `AppAgentWebsocket` implement `AppAgentClient`.
 
@@ -432,9 +431,11 @@ export default defineComponent({
     client: AppAgentClient | undefined; // Ensure that client is not AppAgentWebsocket
     //...
   } {
+    // ...
+  }
 ```
 
-You can then initialize a context-dependent client, assuming you want your UI to be compatible with both Holo and Holochain. Edit the body of the `data()` function above to check for an environment variable that you'll pass at build time:
+You can then initialize a context-dependent client, assuming you want your UI to be compatible with both Holo and Holochain. Let's edit the body of the `data()` function above to check for an environment variable that you'll pass at build time:
 
 ```typescript
   data(): {
@@ -448,14 +449,25 @@ You can then initialize a context-dependent client, assuming you want your UI to
       IS_HOLO: ['true', '1', 't'].includes(import.meta.env.VITE_APP_IS_HOLO?.toLowerCase()), // This will be passed later as an env variable
     };
   },
+```
 
+The WebSDK client loads and connects to an iframe called Chaperone. Chaperone is a key and connection manager to the Holo network and is invisible outside a few specific cases. Let's initialise this client in the Vue `mounted()` lifecycle hook.
+
+Because the Holo network acts like a remote conductor, you'll need to handle connectivity issues. Changes to the connection are emitted and you can register a event handlers if the client is an instance of WebSDK. You can see the full list of emitted events here: https://github.com/Holo-Host/web-sdk
+
+```typescript
   async mounted() {
     if (this.IS_HOLO) {
       const client: WebSdk = await WebSdk.connect({
         chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL, // This will also be passed as an env variable; we'll explain this in the testing section
         authFormCustomization: {
-          appName: 'forum-app', // Display name on the credentials form. You can also set it in Cloud Console when deploying
+          appName: 'forum-app', // Display name on the credentials form. You can also set it in Cloud Console when deploying, which overrides this value
         }
+      });
+
+      // register event handler for agent-state.
+      client.on('agent-state', (agent_state: AgentState) => {
+        this.loading = !agent_state.isAvailable
       });
 
       this.client = client
@@ -466,35 +478,15 @@ You can then initialize a context-dependent client, assuming you want your UI to
 }
 ```
 
-The WebSDK client loads and connects to an iframe called Chaperone. Chaperone is a key and connection manager to the Holo network and is invisible outside a few specific cases.
-
-Because the Holo network acts like a remote conductor, you'll need to handle connectivity issues. Changes to the connection are emitted and you can register an event handler if the client is an instance of WebSDK. You can see the full list of emitted events here: https://github.com/Holo-Host/web-sdk
-
-```typescript
-import type { AgentState } from '@holo-host/web-sdk';
-
-async mounted() {
-  if (this.IS_HOLO) {
-  // ...
-
-    // register event handler for agent-state.
-    client.on('agent-state', (agent_state: AgentState) => {
-      this.loading = !agent_state.isAvailable
-    });
-
-    // ...
-    }
-}
-
 Now your UI can connect to the Holo network and read forum posts. However, users can't post or comment yet because they don't yet have a source chain. They are considered "anonymous" and can only request public data from the network.
 
 !!! note
-Unlike in pure Holochain, you cannot assume that a user has provided their desired keys when the connection is established. This may require changes to your application logic. You can read more at https://link.to/keys/documentation
+Unlike in pure Holochain, you cannot assume that a user has provided their keys when the connection is established. This may require changes to your application logic. Even without their keys, you can provide users with read access to public data, such as forum posts.
 !!!
 
 Holo uses "sign-up" and "sign-in" terminology but there is no external authentication process. In both processes a user (re)derives their keys from email and password, with sign-up also triggering the instantiation of new hApp cells on a hosting device in the Holo network.
 
-So let's add sign-up and sign-in functionality to the app.
+So let's add sign-up and sign-in functionality to the app. Again, in the forum example the relevant code is in `App.vue`.
 
 ```html
 <main>
@@ -695,7 +687,7 @@ Holo does not support direct programmatic/API access to deployed hApps.
 4. Click "Deploy".
 5. Wait for deployment to take effect. It may take up to 30 minutes.
 
-## Core concepts and further documentation
+## Holo core concepts and further documentation
 
 Holochain assumes that agents are in control of their own conductor, meaning:
 
@@ -805,31 +797,6 @@ If you want to securely disable this functionality, you will need to implement a
 
 Due to the security implications of multi-tenant conductors, `AdminWebsocket` (and some `AppWebsocket`) functionality is not directly exposed to Holo clients. Instead, this functionality is exposed indirectly via Holo WebSDK methods where appropriate.
 
-### Membrane proofs
-
-Holo strongly recommends membrane proof implementations for production or long-running applications. However, as noted earlier, Holo installs and runs cells of deployed applications under each host’s agent to provide high-uptime DHT nodes and to serve data to anonymous users and Web2 participants who do not have keys.
-
-DNAs that require membrane proofs restrict this read-only access and thus prevent Holo from providing such affordances for your hApp. This may be an acceptable trade-off or desired behaviour. However, If you want to benefit from always-on nodes and read-only access while having a membrane proof, you will need to configure your membrane proof logic to allow "unpermissioned" read-only access like below:
-
-```rust
-pub fn is_read_only_proof(mem_proof: &MembraneProof) -> bool {
-    let b = mem_proof.bytes();
-    b == &[0]
-}
-
-pub fn validate_joining_code(
-    progenitor_agent: AgentPubKey,
-    author: AgentPubKey,
-    membrane_proof: Option<MembraneProof>,
-) -> ExternResult<ValidateCallbackResult> {
-    match membrane_proof {
-        Some(mem_proof) => {
-            if is_read_only_proof(&mem_proof) {
-                return Ok(ValidateCallbackResult::Valid);
-            };
-           // Other logic that checks your non-read-only memproof is valid
-```
-
 ### Anonymous access
 
 Every function call to a coordinator zome must be signed, and a call will only be successful if there's a [capability grant](/glossary/#capability-grant) for it. Capability grants can be restricted to a particular keypair, a particular capability token, or unrestricted.
@@ -861,7 +828,7 @@ fn init(_: ()) -> ExternResult<InitCallbackResult> {
 
 In general, you should not list functions in the above code that _write_ to the source chain, only that read from the source chain.
 
-Finally, if you want to make sure that anonymous agents can't write to their own source chain, you should add the following protection to any function that writes to the source chain:
+Finally, if you want to make sure that anonymous agents can't write to the host's source chain, you should add the following protection to any function that writes to the source chain:
 
 ```rust
 pub fn is_read_only_instance() -> bool {
