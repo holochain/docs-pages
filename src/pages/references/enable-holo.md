@@ -20,7 +20,7 @@ In both cases there are no required DNA changes for Holo Hosting --- only UI cha
 
 ## Get started from scaffolding tool
 
-In this section we'll create a simple to-do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about creating a DNA, please refer to the [Holochain getting started guide](https://developer.holochain.org/get-started/#4-zero-to-built-creating-a-forum-app)
+In this section we'll create a simple to-do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about creating a DNA, please refer to the [Holochain getting started guide](/get-started/#4-zero-to-built-creating-a-forum-app)
 
 The Holochain scaffolding tool provides a `--holo` flag for scaffolding a hApp whose UI is compatible with both Holo hosting and pure Holochain environments. Run the tool **with this flag** by typing in your terminal:
 
@@ -93,7 +93,7 @@ npm install
 
 ### UI
 
-The biggest difference between a Holo and pure Holochain application is in the UI. The scaffolding tool should automatically have generated everything required here, so we'll simply point out the primary differences, which will all be in `App.vue`
+The biggest difference between a Holo and pure Holochain application is in the UI. The scaffolding tool should automatically have generated everything required here, so we'll simply point out the primary differences, which will all be in `App.vue`.
 
 In a Holo setting we use the [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) library instead of `@holochain/client`. WebSDK provides an instance of `AppAgentWebsocket`, which is almost the same as `AppWebsocket`.
 
@@ -376,7 +376,8 @@ Holo provides the `holo-dev-server` binary, which simulates the Holo network loc
 1. Ensure you are in the nix development environment by checking the shell prompt. Run `nix develop` in the root of your project's folder if you aren't.
 2. Run `npm start:holo`, which:
     1. Starts `holo-dev-server' and provisions instances (cells) of your DNA for two agents,
-    2. Automatically opens an instance of a network inspector called [Holochain Playground](https://github.com/darksoil-studio/holochain-playground) in your browser,
+    2. Automatically opens an instance of a network inspector called [Holochain Playground](https://github.com/darksoil-studio/holochain-playground) in your browser, and
+    3. Runs a local dev web server for the UI called [Vite](https://vitejs.dev).
 3. Access your two agents on your browser at `http://localhost:8888` and `http://localhost:8889`.
 
 The windows should not be very exciting yet, because you haven't edited the hApp to use the generated UI elements, but what you see on the screen should be some hints on how to proceed.
@@ -413,7 +414,7 @@ This example will use an example forum hApp with a Vue-based UI, but feel free t
 nix run github:holochain/holochain#hc-scaffold -- example forum
 ```
 
-In the forum hApp, the relevant UI code is in App.vue. Generally they will likely be where you initialise your `AppWebsocket` client.
+In the forum hApp, the relevant UI code is in App.vue. Generally they will likely be where you initialize your `AppWebsocket` client.
 
 In a Holo setting we use [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) which provides an instance of `WebSDK`, instead of `AppAgentWebsocket` from `@holochain/client`. Both `WebSDK` and `AppAgentWebsocket` implement `AppAgentClient`.
 
@@ -451,7 +452,7 @@ You can then initialize a context-dependent client, assuming you want your UI to
   },
 ```
 
-The WebSDK client loads and connects to an iframe called Chaperone. Chaperone is a key and connection manager to the Holo network and is invisible outside a few specific cases. Let's initialise this client in the Vue `mounted()` lifecycle hook.
+The WebSDK client loads and connects to an iframe called Chaperone. Chaperone is a key and connection manager to the Holo network and is invisible outside a few specific cases. Let's initialize this client in the Vue `mounted()` lifecycle hook.
 
 Because the Holo network acts like a remote conductor, you'll need to handle connectivity issues. Changes to the connection are emitted and you can register a event handlers if the client is an instance of WebSDK. You can see the full list of emitted events here: https://github.com/Holo-Host/web-sdk
 
@@ -828,9 +829,14 @@ fn init(_: ()) -> ExternResult<InitCallbackResult> {
 
 In general, you should not list functions in the above code that _write_ to the source chain, only that read from the source chain.
 
-Finally, if you want to make sure that anonymous agents can't write to the host's source chain, you should add the following protection to any function that writes to the source chain:
+Finally, if you want to make sure that anonymous agents can't write to the host's source chain, you should add some sort of protection in the DNA itself. Add the following check to any function that writes to the source chain:
 
 ```rust
+pub fn is_read_only_proof(mem_proof: &MembraneProof) -> bool {
+    let b = mem_proof.bytes();
+    b == &[0]
+}
+
 pub fn is_read_only_instance() -> bool {
     if let Ok(entries) = &query(ChainQueryFilter::new().action_type(ActionType::AgentValidationPkg))
     {
