@@ -367,8 +367,6 @@ Collection "my_todos" scaffolded!
 ```
 :::
 
-Holo strongly recommends that you implement a [**membrane proof**](/glossary/#membrane-proof) for production or long-running applications. However, membrane proofs that restrict read-only access prevent Holo from providing always-on nodes and read-only access to applications. If you want to benefit from always-on nodes and read-only access while having membrane proofs, you will need to implement special "Holo-safe" logic. This is out of scope for this tutorial and further documentation will be published soon.
-
 ### Testing
 
 Holo provides the `holo-dev-server` binary, which simulates the Holo network locally for development. `holo-dev-server` serves a copy of Chaperone, the JavaScript library that connects the browser to the Holo network and manages user keys, and runs a Holochain conductor. Like the real Holo network, `holo-dev-server` uses `.happ` bundles, which do not include a UI. (The `hc` developer tool creates both a `.happ` bundle and a `.webhapp` bundle for you.) When you scaffold an app with the `--holo` flag, its dev environment will provide `holo-dev-server` on the command line for you.
@@ -537,9 +535,7 @@ These trigger the display of a full screen credentials modal from the Chaperone 
 
 ![](https://hackmd.io/_uploads/r1WJbrkC3.png)
 
-During sign-up a registration code field can be shown to enable [**membrane proof**](/glossary/#membrane-proof) workflows. Holo strongly recommends that you implement a membrane proof for production or long-running applications. However, membrane proofs that restrict read-only access prevent Holo from providing always-on nodes and [read-only access to applications](https://link.tbd).
-
-If you want to benefit from always-on nodes and read-only access while having membrane proofs, you will need to implement special "Holo-safe" logic. You can [read more here](https://link.to.core.concepts).
+During sign-up a registration code field can be shown to enable [**membrane proof**](/glossary/#membrane-proof) workflows. This field allows the user to submit some sort of joining code on signup. Read more about membrane proofs in the [Holo Core Concepts](#membrane-proofs) section of this guide.
 
 Finally, we will also need sign-out functionality to clear user keys from local storage.
 
@@ -672,7 +668,7 @@ This process assumes you already have a Cloud Console account. If you do not, yo
 Holo does not currently offer UI hosting. hApp managers will need to deploy their UI separately for now.
 
 !!! info
-Holo supports "headless hosting" where there is no Holo-enabled UI. In this case Holo will maintain copies of the DHT, but will not hold any source chains. Holo hosting requires <membrane proof recommendation?>
+Holo supports "headless hosting" where there is no Holo-enabled UI. In this case Holo will maintain copies of the [DHT](/glossary/#dht), but will not hold any source chains. Holo hosting requires a special [membrane proof](#membrane-proofs) for read-only host agents in order to make this work.
 
 Holo does not support direct programmatic/API access to deployed hApps.
 !!!
@@ -798,6 +794,14 @@ If you want to securely disable this functionality, you will need to implement a
 
 Due to the security implications of multi-tenant conductors, `AdminWebsocket` (and some `AppWebsocket`) functionality is not directly exposed to Holo clients. Instead, this functionality is exposed indirectly via Holo WebSDK methods where appropriate.
 
+### Membrane proofs
+
+Holo strongly recommends that you implement a [**membrane proof**](/glossary/#membrane-proof) for production or long-running applications. This is a code that the user must supply on sign-up, allowing you to enforce access restrictions for an application's network and the data within it.
+
+However, membrane proofs also restrict Holo from running nodes to provide anonymous, read-only access to applications and high availablility for their networks. If you want to benefit from always-on nodes and read-only access while having membrane proofs, you will need to implement special "Holo-safe" logic that grants access to a special predefined membrane proof that they will always supply. (Currently, in the proof-of-concept stage, this is simply a zero-byte value, which will also give access to anyone who does _not_ supply a membrane proof, but does allow you to check for and reject attempts by those with a zero-byte membrane proof from writing data. This will be superseded by a more secure strategy by the time Holo reaches production-level maturity.)
+
+Implementing and checking a membrane proof, including read-only restrictions, is out of scope for this tutorial and further documentation will be published soon.
+
 ### Anonymous access
 
 Every function call to a coordinator zome must be signed, and a call will only be successful if there's a [capability grant](/glossary/#capability-grant) for it. Capability grants can be restricted to a particular keypair, a particular capability token, or unrestricted.
@@ -869,5 +873,7 @@ fn update_article(article: Article) -> ExternResult<()> {
     Ok(_update_article(article)?)
 }
 ```
+
+Note that because membrane proofs are currently zero-byte values in the pre-production Holo network, unauthorized users may join the network of an application that implements the above functionality, replace their coordinator zome with one that grants write access, and write data to the network's DHT. A more secure, though slightly computationally costly, implementation might incorporate a membrane proof check into the integrity zome's validation function. This would block unauthorized writes at the network level. As with an explanation of implementing membrane proofs for Holo-enabled applications, this will be the subject of a later article.
 
 For an example implementation see [this zome library](https://github.com/holochain/hc-zome-lib/blob/6eb45e60ce371ea51e163e19a80c520b261e9cd4/zomes/hc_iz_membrane_manager/src/validation.rs#L26).
