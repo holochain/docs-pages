@@ -533,7 +533,7 @@ methods: {
 
 These trigger the display of a full screen credentials modal from the Chaperone iframe, defaulting to either a sign-up or sign-in form. The user can also toggle between them directly.
 
-![](https://hackmd.io/_uploads/r1WJbrkC3.png)
+![An example of the Chaperone sign-up/sign-in modal form](https://hackmd.io/_uploads/r1WJbrkC3.png)
 
 During sign-up a registration code field can be shown to enable [**membrane proof**](/glossary/#membrane-proof) workflows. This field allows the user to submit some sort of joining code on signup. Read more about membrane proofs in the [Holo Core Concepts](#membrane-proofs) section of this guide.
 
