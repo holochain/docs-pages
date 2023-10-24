@@ -39,7 +39,7 @@ module.exports = function(eleventyConfig) {
         const document = linkedom.parseHTML(content);
         const codeBlocks = [ ...document.querySelectorAll('pre code') ];
         codeBlocks.forEach((code) => {
-          code.outerHTML = highlightjs.highlightAuto(code.outerHTML);
+          code.outerHTML = highlightjs.highlightElement(code.outerHTML);
         });
         const output = document.toString();
         if (!exampleWasLogged) {
