@@ -33,7 +33,13 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addTransform("highlight", async function(content) {
     if (this.page.outputPath.endsWith(".html")) {
       console.log(`Adding syntax highlighting to ${this.page.inputPath}`);
-      return highlightjs.highlightAuto(content).value;
+      try {
+        return highlightjs.highlightAuto(content).value;
+      } catch (e) {
+        console.error(e);
+        return content;
+      }
+
     }
     return content;
   });
