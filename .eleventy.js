@@ -2,7 +2,6 @@
 require("json5/lib/register");
 
 const { EleventyRenderPlugin } = require("@11ty/eleventy");
-const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const externalLinks = require("@aloskutov/eleventy-plugin-external-links");
 
 const registerExtensions = require("./11ty-extensions");
@@ -24,7 +23,6 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.setDataDeepMerge(false);
 
   eleventyConfig.addPlugin(EleventyRenderPlugin);
-  eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(externalLinks, {overwrite: false});
 
   eleventyConfig.setServerOptions({

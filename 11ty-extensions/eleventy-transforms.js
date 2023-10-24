@@ -1,6 +1,7 @@
 const postHtml = require("posthtml")();
 const htmlMin = require("html-minifier");
 const { noopener } = require("posthtml-noopener");
+const highlightjs = require("highlightjs/lib/common");
 
 module.exports = function(eleventyConfig) {
 
@@ -26,6 +27,13 @@ module.exports = function(eleventyConfig) {
       });
     }
 
+    return content;
+  });
+
+  eleventyConfig.addTransform("highlight", async function(content) {
+    if (this.page.outputPath.endsWith(".html")) {
+      return highlightjs.highlightAuto(content).value;
+    }
     return content;
   });
 }
