@@ -30,11 +30,17 @@ module.exports = function(eleventyConfig) {
     return content;
   });
 
+  let exampleWasLogged = false;
   eleventyConfig.addTransform("highlight", async function(content) {
     if (this.page.outputPath.endsWith(".html")) {
       console.log(`Adding syntax highlighting to ${this.page.inputPath}`);
       try {
-        return highlightjs.highlightAuto(content).value;
+        const output = highlightjs.highlightAuto(content).value;
+        if (!exampleWasLogged) {
+          exampleWasLogged = true;
+          console.log(output);
+        }
+        return output;
       } catch (e) {
         console.error(e);
         return content;
