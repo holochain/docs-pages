@@ -52,7 +52,7 @@
     "autoprefixer": "^10.4.13",
     "cssnano": "^5.1.14",
     "fauxdom": "^1.1.1",
-    "highlightjs": "^9.16.2",
+    "highlight.js": "^11.9.0",
     "html-minifier": "^4.0.0",
     "html-to-text": "^8.2.1",
     "json5": "^2.2.3",

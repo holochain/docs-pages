@@ -2,7 +2,7 @@ const postHtml = require("posthtml")();
 const htmlMin = require("html-minifier");
 const { noopener } = require("posthtml-noopener");
 const dom = require("fauxdom");
-const highlightjs = require("highlightjs");
+const hljs = require("highlight.js");
 
 module.exports = function(eleventyConfig) {
 
@@ -39,7 +39,7 @@ module.exports = function(eleventyConfig) {
         const document = new dom(content);
         const codeBlocks = document.querySelectorAll('pre code');
         codeBlocks.forEach((code) => {
-          code.outerHTML = highlightjs.highlightElement(code.outerHTML);
+          code.outerHTML = hljs.highlightElement(code.outerHTML).value;
         });
         const output = document.toString();
         if (!exampleWasLogged) {
