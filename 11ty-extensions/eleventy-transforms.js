@@ -1,7 +1,7 @@
 const postHtml = require("posthtml")();
 const htmlMin = require("html-minifier");
 const { noopener } = require("posthtml-noopener");
-const highlightjs = require("highlightjs/lib/common");
+const highlightjs = require("highlight.js/lib/common");
 
 module.exports = function(eleventyConfig) {
 
