@@ -1,6 +1,7 @@
 const postHtml = require("posthtml")();
 const htmlMin = require("html-minifier");
 const { noopener } = require("posthtml-noopener");
+const linkedom = require("linkedom");
 const highlightjs = require("highlightjs");
 
 module.exports = function(eleventyConfig) {
@@ -35,7 +36,12 @@ module.exports = function(eleventyConfig) {
     if (this.page.outputPath.endsWith(".html")) {
       console.log(`Adding syntax highlighting to ${this.page.inputPath}`);
       try {
-        const output = highlightjs.highlightAuto(content).value;
+        const document = linkedom.parseHTML(content);
+        const codeBlocks = [ ...document.querySelectorAll('pre code') ];
+        codeBlocks.forEach((code) => {
+          code.outerHTML = highlightjs.highlightAuto(code.outerHTML);
+        });
+        const output = document.toString();
         if (!exampleWasLogged) {
           exampleWasLogged = true;
           console.log(output);
