@@ -37,7 +37,7 @@ module.exports = function(eleventyConfig) {
       console.log(`Adding syntax highlighting to ${this.page.inputPath}`);
       try {
         const document = linkedom.parseHTML(content);
-        const codeBlocks = [ ...document.querySelectorAll('pre code') ];
+        const codeBlocks = document.querySelectorAll('pre code');
         codeBlocks.forEach((code) => {
           code.outerHTML = highlightjs.highlightElement(code.outerHTML);
         });
