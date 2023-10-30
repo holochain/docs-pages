@@ -1070,7 +1070,7 @@ Your `App.svelte` file will have three sections:
 
 #### `<script>` section
 
-```html
+```svelte
 <script lang="ts">
   import { onMount, setContext } from 'svelte';
   import type { ActionHash, AppAgentClient } from '@holochain/client';
@@ -1113,7 +1113,7 @@ Finally, there's an `onMount` handler, which is run when the component is first 
 
 #### `<main>` section
 
-```html
+```svelte
 <main>
   {#if loading}
     <div style="display: flex; flex: 1; align-items: center; justify-content: center">
@@ -1146,7 +1146,7 @@ This section is a template for the displayable content of the main app component
 
 #### `<style>` section
 
-```html
+```svelte
 <style>
   main {
     text-align: center;
@@ -1180,20 +1180,20 @@ import AllPosts from './forum/posts/AllPosts.svelte';
 Next, add the component to the markup template in the `<main>` section of the file, where the "EDIT ME!" content now lives. Remove everything inside the `div` element that starts with this tag:
 
 :::output-block
-```html
+```svelte
 <div id="content" style="display: flex; flex-direction: column; flex: 1;">
 ```
 :::
 
 and replace it with this line:
 
-```html
+```svelte
       <AllPosts></AllPosts>
 ```
 
 Your `<main>` block should now look like this:
 
-```html
+```svelte
 <main>
   {#if loading}
     <div style="display: flex; flex: 1; align-items: center; justify-content: ce
@@ -1224,13 +1224,13 @@ import CreatePost from './forum/posts/CreatePost.svelte';
 
 Add this new component to the `<main>` block above the component you added:
 
-```html
+```svelte
       <CreatePost></CreatePost>
 ```
 
 Now your `<main>` block should look like this:
 
-```html
+```svelte
 <main>
   {#if loading}
     <div style="display: flex; flex: 1; align-items: center; justify-content: ce
@@ -1312,7 +1312,7 @@ Further down the file, in the template block, add the components' elements to th
 
 Here, the comment components need to know what post they're related to. The post hash is the unique ID for the post, and the comment components' elements both expect a `postHash` attribute. This hash is available in the `PostDetail` component as a variable of the same name, so it can be passed to the comment widgets.
 
-```html
+```svelte
   <CreateComment postHash="{postHash}"></CreateComment>
   <CommentsForPost postHash="{postHash}"></CommentsForPost>
 ```

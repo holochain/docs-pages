@@ -4,6 +4,7 @@ const { noopener } = require("posthtml-noopener");
 const dom = require("fauxdom");
 const he = require("he");
 const hljs = require("highlight.js");
+require("highlightjs-svelte")(hljs);
 
 module.exports = function(eleventyConfig) {
 
