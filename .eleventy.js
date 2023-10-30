@@ -11,6 +11,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({"./src/assets/": "assets"});
   eleventyConfig.addPassthroughCopy({"./node_modules/font-awesome/css": "assets/font-awesome/css"});
   eleventyConfig.addPassthroughCopy({"./node_modules/font-awesome/fonts": "assets/font-awesome/fonts"});
+  eleventyConfig.addPassthroughCopy({"./node_modules/highlight.js/styles/atom-one-light.min.css": "styles/highlight.js-atom-one-light.min.css"});
 
   eleventyConfig.addPassthroughCopy({"./client-side-compiled/**/*": "scripts"});
   eleventyConfig.addPassthroughCopy({"./styles-compiled/**/*": "styles"});
