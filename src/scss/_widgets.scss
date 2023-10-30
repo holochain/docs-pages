@@ -34,7 +34,7 @@
   }
 }
 
-pre[class*="language-"] {
+pre.hljs-container {
   display: flex;
   align-items: flex-start;
   background-color: $cl-gray;
@@ -43,24 +43,20 @@ pre[class*="language-"] {
   overflow: auto;
   border-radius: .3em;
   line-height: 2;
-  color: black;
+}
 
-  [class*="language-"] {
-    color: black;
-  }
-
-  span.token, span.parameter, span.value{
-    color: $cl-brand-purple;
-  }
-
+code.hljs {
+  /* Override highlight.js' default background colour, so we can control it here.
+  It's too light to work well on white. */
+  background-color: none;
 }
 
 /* Begin each terminal command with a non-copyable terminal prompt. */
-code.language-shellsession, code.language-shell-session {
+code.language-shell {
   &::before {
-    /* This green was copied from the Prism CSS to keep consistent with it.
+    /* This green was copied from highlight.js' atom-one CSS to keep consistent with it.
     FIXME: If we ever change the code highlighting theme, this will look odd. */
-    color: #690;
+    color: #50a14f;
     content: '$ ';
   }
 }
