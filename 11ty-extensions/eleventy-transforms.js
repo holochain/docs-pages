@@ -45,6 +45,7 @@ module.exports = function(eleventyConfig) {
         } else {
           code.innerHTML = hljs.highlightAuto(blockText).value;
         }
+        code.className += ' hljs';
       });
       return document.innerHTML;
     }
