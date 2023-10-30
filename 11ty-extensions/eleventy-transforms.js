@@ -34,26 +34,18 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addTransform("highlight", async function(content) {
     if (this.page.outputPath.endsWith(".html")) {
-      try {
-        const document = new dom(content);
-        const codeBlocks = document.querySelectorAll('pre code');
-        codeBlocks.forEach((code) => {
-          const maybeLanguage = code.className.match(/(?<=\blanguage-)[A-Za-z0-9_-]+/);
-          const blockText = he.decode(code.textContent);
-          if (maybeLanguage) {
-            code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
-          } else {
-            code.innerHTML = hljs.highlightAuto(blockText).value;
-          }
-        });
-        const output = document.innerHTML;
-        console.log(output);
-        return output;
-      } catch (e) {
-        console.error(e);
-        return content;
-      }
-
+      const document = new dom(content);
+      const codeBlocks = document.querySelectorAll('pre code');
+      codeBlocks.forEach((code) => {
+        const maybeLanguage = code.className.match(/(?<=\blanguage-)[A-Za-z0-9_-]+/);
+        const blockText = he.decode(code.textContent);
+        if (maybeLanguage) {
+          code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
+        } else {
+          code.innerHTML = hljs.highlightAuto(blockText).value;
+        }
+      });
+      return document.innerHTML;
     }
     return content;
   });
