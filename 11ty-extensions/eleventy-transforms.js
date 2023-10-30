@@ -36,8 +36,10 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addTransform("highlight", async function(content) {
     if (this.page.outputPath.endsWith(".html")) {
       const document = new dom(content);
-      const codeBlocks = document.querySelectorAll('pre code');
-      codeBlocks.forEach((code) => {
+      const preBlocks = document.querySelectorAll('pre:has(code)');
+      preBlocks.forEach((pre) => {
+        pre.className += ' hljs-container';
+        const code = pre.querySelector('code');
         const maybeLanguage = code.className.match(/(?<=\blanguage-)[A-Za-z0-9_-]+/);
         const blockText = he.decode(code.textContent);
         if (maybeLanguage) {
