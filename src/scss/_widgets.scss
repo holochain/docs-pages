@@ -37,18 +37,18 @@
 pre.hljs-container {
   display: flex;
   align-items: flex-start;
-  background-color: $cl-gray;
-  padding: .3em .5em;
-  margin: .5em 0;
   overflow: auto;
   border-radius: .3em;
-  line-height: 2;
+}
+
+pre.hljs-container, code {
+  background-color: rgba($cl-gray, 50%);
 }
 
 code.hljs {
   /* Override highlight.js' default background colour, so we can control it here.
   It's too light to work well on white. */
-  background-color: none;
+  background-color: transparent;
 }
 
 /* Begin each terminal command with a non-copyable terminal prompt. */
@@ -63,15 +63,11 @@ code.language-shell {
 
 /* Inline input and output */
 code, kbd {
-	padding: .1em .15em;
+	padding: .1em .35em;
 	border-radius: .4em;
 	white-space: break-spaces;
   box-sizing: border-box;
   font-size: 90%;
-}
-
-code {
-  background-color: $cl-gray;
 }
 
 kbd {
