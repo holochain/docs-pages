@@ -2,6 +2,7 @@ const postHtml = require("posthtml")();
 const htmlMin = require("html-minifier");
 const { noopener } = require("posthtml-noopener");
 const dom = require("fauxdom");
+const he = require("he");
 const hljs = require("highlight.js");
 
 module.exports = function(eleventyConfig) {
@@ -31,21 +32,22 @@ module.exports = function(eleventyConfig) {
     return content;
   });
 
-  let exampleWasLogged = false;
   eleventyConfig.addTransform("highlight", async function(content) {
     if (this.page.outputPath.endsWith(".html")) {
-      console.log(`Adding syntax highlighting to ${this.page.inputPath}`);
       try {
         const document = new dom(content);
         const codeBlocks = document.querySelectorAll('pre code');
         codeBlocks.forEach((code) => {
-          code.outerHTML = hljs.highlightElement(code.outerHTML).value;
+          const maybeLanguage = code.className.match(/(?<=\blanguage-)[A-Za-z0-9_-]+/);
+          const blockText = he.decode(code.textContent);
+          if (maybeLanguage) {
+            code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
+          } else {
+            code.innerHTML = hljs.highlightAuto(blockText).value;
+          }
         });
-        const output = document.toString();
-        if (!exampleWasLogged) {
-          exampleWasLogged = true;
-          console.log(output);
-        }
+        const output = document.innerHTML;
+        console.log(output);
         return output;
       } catch (e) {
         console.error(e);
