@@ -44,7 +44,6 @@
   "homepage": "https://github.com/holochain/docs-pages#readme",
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
     "@aloskutov/eleventy-plugin-external-links": "^2.0.1",
     "@sindresorhus/slugify": "1.1.2",
     "@types/lunr": "^2.3.4",
