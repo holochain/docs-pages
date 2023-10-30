@@ -83,7 +83,7 @@ Once you've ensured that your system meets the hardware requirements and set up 
 
 Open a command line terminal ([on Linux](https://ubuntu.com/tutorials/command-line-for-beginners#3-opening-a-terminal), [on macOS](https://support.apple.com/en-gb/guide/terminal/pht23b129fed/mac)) and run the following command by pasting or typing the following text in and pressing <kbd>Enter</kbd>:
 
-```shellsession
+```shell
 bash <(curl https://holochain.github.io/holochain/setup.sh)
 ```
 
@@ -93,7 +93,7 @@ This command downloads the setup script and runs it, installing the Nix package 
 
 In a new terminal session type:
 
-```shellsession
+```shell
 nix run --refresh -j0 -v github:holochain/holochain#hc-scaffold -- --version
 ```
 
@@ -119,11 +119,11 @@ Congratulations! The Holochain development environment is now set up successfull
 
 **Before moving on to the next step**, find a folder to put your work. For this tutorial, we'll be working in `~/Holochain`. Create that folder now and move into it:
 
-```shellsession
+```shell
 mkdir ~/Holochain
 ```
 
-```shellsession
+```shell
 cd ~/Holochain
 ```
 
@@ -133,22 +133,22 @@ In this section, we'll use Holochain's scaffolding tool to generate a simple "He
 
 When getting started, seeing a simple but fully-functional app can be very helpful. You can have Holochain's scaffolding tool generate a "Hello, World!" application (but for a distributed multi-agent world) by typing the following in your command line terminal:
 
-```shellsession
+```shell
 nix run github:holochain/holochain#hc-scaffold -- example hello-world
 ```
 
 The scaffolding tool should print out these four commands for you to run in order to run the app. Copy them from your terminal or from below:
 
-```shellsession
+```shell
 cd hello-world
 ```
-```shellsession
+```shell
 nix develop
 ```
-```shellsession
+```shell
 npm install
 ```
-```shellsession
+```shell
 npm start
 ```
 
@@ -169,7 +169,7 @@ Let's explore the different files and folders that make up the structure of the 
 
 List the folders and files in our `hello-world/` folder by entering:
 
-```shellsession
+```shell
 ls
 ```
 
@@ -219,7 +219,7 @@ These files and folders make up the structure of a Holochain application, with t
 
 First, navigate back to the folder where you want to keep your Holochain applications. If you followed our suggestion, you can get back to it by typing:
 
-```shellsession
+```shell
 cd ~/Holochain
 ```
 
@@ -243,7 +243,7 @@ First, let's use the scaffolding tool to generate the basic folders and files fo
 
 To start, run the following command in your terminal:
 
-```shellsession
+```shell
 nix run github:/holochain/holochain#hc-scaffold -- web-app
 ```
 
@@ -285,13 +285,13 @@ along with some details of what is being added. Follow the instructions to set u
 
 First, enter the hApp project folder:
 
-```shellsession
+```shell
 cd my_forum_app
 ```
 
 Just to get an overview of what your first scaffold command set up for you, you can check the contents of that `my_forum_app` folder by typing:
 
-```shellsession
+```shell
 ls
 ```
 
@@ -299,7 +299,7 @@ It should look like it has set up a similar set of folders and configuration fil
 
 Now, fire up the nix development shell, which makes all scaffolding tools and the Holochain binaries directly available from the command line, by entering:
 
-```shellsession
+```shell
 nix develop
 ```
 
@@ -313,7 +313,7 @@ Holochain development shell spawned. Type exit to leave.
 
 As it says, if you want to leave the nix development shell at any time, you can type `exit`. This will take you back to your familiar shell without any of the special Holochain dependencies. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again. But for now, install the Node Package Manager (npm) dependencies with:
 
-```shellsession
+```shell
 npm install
 ```
 
@@ -339,7 +339,7 @@ Next up, you're going to start creating the foundational building block of any H
 
 To get an overview of the subcommands that `hc scaffold`` makes available to you, type:
 
-```shellsession
+```shell
 hc scaffold --help
 ```
 
@@ -417,7 +417,7 @@ When it comes to hApps, this lets us play coherent games with one another at the
 
 It's time to scaffold a new DNA by entering:
 
-```shellsession
+```shell
 hc scaffold dna
 ```
 
@@ -453,7 +453,7 @@ DNAs are comprised of code modules, which we call zomes (short for chromosomes).
 
 Start by entering:
 
-```shellsession
+```shell
 hc scaffold zome
 ```
 
@@ -605,7 +605,7 @@ To do this, just follow the instructions that the scaffold suggested for adding 
 
 Start with the `post` entry type by entering this command:
 
-```shellsession
+```shell
 hc scaffold entry-type
 ```
 
@@ -758,7 +758,7 @@ We'll dive into collections in a moment, but first create the `comment` entry ty
 
 Again type:
 
-```shellsession
+```shell
 hc scaffold entry-type
 ```
 
@@ -906,7 +906,7 @@ Now, let's create a collection that can be used to retrieve all the posts. A col
 
 To create a collection, type:
 
-```shellsession
+```shell
 hc scaffold collection
 ```
 
@@ -993,7 +993,7 @@ At this stage, we'll incorporate some of the UI components that have been scaffo
 
 Start the forum hApp in develop mode from the command line: go to your terminal and, from the root folder (`my_forum_app/`), enter:
 
-```shellsession
+```shell
 npm start
 ```
 
@@ -1036,7 +1036,7 @@ At first, each of the UI windows (conductors 0 for Alice and 1 for Bob) include 
 
 Thus far, seven different UI components should have been generated as `.svelte` files in the `ui/src/forum/posts/` folder. Note that for ease of development, the sandbox testing environment live-reloads the UI as you edit UI files. So don't quit the process you started with `npm start`; instead, **open a new terminal window**. Then navigate to the root folder of your hApp (`my_forum_app/`) and list the files in `ui/src/forum/posts/` by entering:
 
-```shellsession
+```shell
 ls ui/src/forum/posts/
 ```
 
@@ -1056,7 +1056,7 @@ If you don't yet have path commands for opening files in your prefered IDE, ther
 
 Open the `App.svelte` file with your preferred IDE.
 
-```shellsession
+```shell
 code ui/src/App.svelte
 ```
 
@@ -1297,7 +1297,7 @@ Previously, you added new components to the `App.svelte` component. That made se
 
 Open up `PostDetail.svelte` in your IDE:
 
-```shellsession
+```shell
 code ui/src/forum/posts/PostDetail.svelte
 ```
 
@@ -1384,7 +1384,7 @@ In short, Tryorama helps us test that things are working as they should even whe
 
 In order to test whether or not comments longer than 140 are going to be able to be created, we are going to first open our `comment.test.ts`` file:
 
-```shellsession
+```shell
 code tests/src/forum/posts/comment.test.ts
 ```
 
@@ -1457,13 +1457,13 @@ So as not to run all the tests, and just run the one we just created, change `te
 
 Second, let's run just that test. In the command line run:
 
-```shellsession
+```shell
 npx vitest --run comment.test.ts
 ```
 
 Note: When you want to run all the tests, change `test.only` back to `test` and in the command line, run:
 
-```shellsession
+```shell
 npm run test
 ```
 
@@ -1477,7 +1477,7 @@ Fortunately, the scaffold has already written a fair bit of validation rule boil
 
 In our IDE, let's open our integrity zome `comment.rs` file:
 
-```shellsession
+```shell
 code dnas/zomes/integrity/posts/src/comment.rs
 ```
 
@@ -1582,7 +1582,7 @@ Those who receive the store action (validation authorities), they will run the v
 
 Now that you've built an application, it's time to get it into other people's hands. You specify the components of a hApp using manifest files, written in [YAML](https://yaml.org/), and the `hc` CLI looks for them when it's building a distributable hApp for you. If you look in the `workdir` folder:
 
-```shellsession
+```shell
 ls workdir
 ```
 
@@ -1596,7 +1596,7 @@ happ.yaml  web-happ.yaml
 
 The first step is to package your app:
 
-```shellsession
+```shell
 npm run package
 ```
 
@@ -1612,7 +1612,7 @@ Of course, this application only has one zome and one DNA, but more complex apps
 
 Now you'll see some new files in `workdir`:
 
-```shellsession
+```shell
 ls workdir
 ```
 
@@ -1700,7 +1700,7 @@ network:
 
 To run your Holochain application, navigate to the forum/conductor folder and run the following command:
 
-```shellsession
+```shell
 hc run
 ```
 
@@ -1789,7 +1789,7 @@ async fn test_create_and_get_threads() {
 
 To run the tests, navigate to the `my_forum_app/` folder and run the following command:
 
-```shellsession
+```shell
 hc test
 ```
 
