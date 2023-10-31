@@ -41,8 +41,8 @@ There are two reasons for this:
 
 [Here is a list](https://highlightjs.readthedocs.io/en/latest/supported-languages.html) of all supported languages. Use a value from the 'Aliases' column as a tag on your GitHub-style code fence, like so:
 
-```text
-\`\`\`svelte
+````text
+```svelte
 <main>
   {#if loading}
     <div>Loading...</div>
@@ -51,8 +51,8 @@ There are two reasons for this:
     <p>The weather today will be {weather}.</p>
   {/if}
 </main>
-\`\`\`
 ```
+````
 
 The tag will be added to the `<code>` element as a `language-<tag>` CSS class, along with a `hljs` tag. The surrounding `<pre>` element will also get a `hljs-container` class. We're using the `atom-one-light` theme that ships with highlight.js.
 
