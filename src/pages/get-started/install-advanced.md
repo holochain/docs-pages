@@ -114,7 +114,7 @@ nix flake update
 If you want to only update a specific input, you can use the following command. Here it shows updating only the _holochain_ input:
 
 ```shell
-$ nix flake lock --update-input holochain
+nix flake lock --update-input holochain
 ```
 
 _Note that if your directory is a git repository it is recommended to `git commit flake.lock` to ensure consistency between the development environment and your app's source code._
