@@ -2,6 +2,10 @@
 title: Enable Apps for Holo Hosting
 ---
 
+!!! info Requires Holochain 0.2
+The Holo hosting network runs the unstable Holochain 0.2 on all its nodes, so you'll need to make sure that your hApp is compoatible with 0.2. The scaffolding tool commands in this guide will set up the proper dependencies for you. If you're starting with an existing hApp or have used the scaffolding tool commands in the [Get Started guide](/get-started/), you'll need to upgrade your hApp manually.
+!!!
+
 ## Intro
 
 Holo is cloud hosting for Holochain. Holo helps you enable your users to experience your Holochain application with the simplicity of a web browser and without maintaining a node.
@@ -10,9 +14,7 @@ A core distinction versus running nodes on the traditional cloud is that Holo pr
 
 ## Get started
 
-Holo hosting is for Holochain applications. It is assumed that you have familiarity with Holochain.
-
-https://developer.holochain.org/get-started/
+Holo hosting is for Holochain applications. It is assumed that you have familiarity with Holochain and have installed the pre-requisites from step 2 of the [Get Started guide](/get-started/).
 
 There are two pathways in this section --- scaffolding a new hApp or migrating an existing hApp. Both pathways contain largely the same information, so choose the pathway that best applies to your situation.
 
@@ -22,10 +24,10 @@ In both cases there are no required DNA changes for Holo Hosting --- only UI cha
 
 In this section we'll create a simple to-do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about creating a DNA, please refer to the [Holochain getting started guide](/get-started/#4-zero-to-built-creating-a-forum-app)
 
-The Holochain scaffolding tool provides a `--holo` flag for scaffolding a hApp whose UI is compatible with both Holo hosting and pure Holochain environments. Run the tool **with this flag** by typing in your terminal:
+The Holochain scaffolding tool provides a `--holo` flag for scaffolding a hApp whose UI is compatible with both Holo hosting and pure Holochain environments. Additionally, because the Holo hosting infrastructure currently runs the unstable Holochain 0.2, you'll need to override the Holochain version that the scaffolding tool targets. Run the tool **with these flags** by typing in your terminal:
 
 ```shellsession
-nix run github:/holochain/holochain#hc-scaffold -- web-app --holo
+nix run --override-input versions 'github:holochain/holochain?dir=versions/0_2'  github:holochain/holochain#hc-scaffold -- web-app --holo
 ```
 
 You should then see:
@@ -409,7 +411,7 @@ Only minor UI changes are technically required for Holo hosting. However, Holo o
 This example will use an example forum hApp with a Vue-based UI, but feel free to follow along with your own hApp instead.
 
 ```shellsession
-nix run github:holochain/holochain#hc-scaffold -- example forum
+nix run --override-input versions 'github:holochain/holochain?dir=versions/0_2'  github:holochain/holochain#hc-scaffold -- example forum
 ```
 
 In the forum hApp, the relevant UI code is in App.vue. Generally they will likely be where you initialize your `AppWebsocket` client.
