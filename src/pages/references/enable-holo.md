@@ -720,7 +720,12 @@ To use the WebSDK, import and instantiate it wherever you would normally import 
 import WebSdk from '@holo-host/web-sdk';
 
 const client: WebSdk = await WebSdk.connect({
-  chaperoneUrl: 'https://chaperone.holo.hosting',
+  // You will want a way to override the default Chaperone URL for local testing.
+  // Many front-end dev tools allow you to pass environment variables
+  // which are then made available to the built script.
+  // The Vite dev server, for instance, makes them available in a global object
+  // called `import.meta.env`.
+  chaperoneUrl: import.meta.env.LOCAL_DEV_SERVER_URL || 'https://chaperone.holo.hosting',
   authFormCustomization: {
     appName: 'example-happ',
   }
@@ -783,28 +788,114 @@ These nodes will send and receive gossip to sustain the network as long as hosts
 
 #### Serving data to anonymous users
 
-For some use cases, it's not desirable to require users to create an account, for example, reading an article. Where developers make these use cases available to their users, the data is retrieved by the read-only instance.
+For some use cases, it's not desirable to require users to create an account, for example, reading an article. Where developers make these use cases available to their users, the data is retrieved by a read-only cell.
 
-This behavior is available by default. Once a WebSDK client has been instantiated and before a user derives their agent keys, any zome calls will follow this pattern and have read access by default.
+This behavior is available by default. Once a WebSDK client has been instantiated and before a user derives their agent keys, the user is connected to a read-only cell and can make zome calls normally.
 
-If you want to securely disable this functionality, you will need to implement a membrane proof with read-only restrictions. As a less secure alternative, you can:
-
-1. Set up your UI lifecycle to call the sign-up/sign-in form and ensure credentials are set up before requesting any data from the DHT, and
-2. Ensure that `.signUp({cancellable: false})` or `.signIn({cancellable: false})` are configured.
+Depending on your use case, you'll want to further restrict write privileges for these read-only cells. Read more [below](#implementing-read-only-cells).
 
 #### Admin API WebSocket access
 
 Due to the security implications of multi-tenant conductors, `AdminWebsocket` (and some `AppWebsocket`) functionality is not directly exposed to Holo clients. Instead, this functionality is exposed indirectly via Holo WebSDK methods where appropriate.
 
-### Membrane proofs
+### Implementing read-only cells
 
-Holo strongly recommends that you implement a [**membrane proof**](/glossary/#membrane-proof) for production or long-running applications. This is a code that the user must supply on sign-up, allowing you to enforce access restrictions for an application's network and the data within it.
+In order to provide high-uptime nodes and anonymous access via read-only cells while keeping your hApp safe from defacement, you'll need to restrict what a read-only cell can do. A read-only cell is **read-only merely by convention**; that is, because you're checking for read-only cells and handling writes differently.
 
-However, membrane proofs also restrict Holo from running nodes to provide anonymous, read-only access to applications and high availablility for their networks. If you want to benefit from always-on nodes and read-only access while having membrane proofs, you will need to implement special "Holo-safe" logic that grants access to a special predefined membrane proof that they will always supply. (Currently, in the proof-of-concept stage, this is simply a zero-byte value, which will also give access to anyone who does _not_ supply a membrane proof, but does allow you to check for and reject attempts by those with a zero-byte membrane proof from writing data. This will be superseded by a more secure strategy by the time Holo reaches production-level maturity.)
+The most secure way to restrict access to a hApp's data is with [**membrane proofs**](/glossary/#membrane-proof). A membrane proof is supplied at installation time and acts like an ID card, allowing the hApp to admit valid members only. However, this also prevents Holo hosting devices from provisioning read-only cells.
 
-Implementing and checking a membrane proof, including read-only restrictions, is out of scope for this tutorial and further documentation will be published soon.
+This is because read-only cells always use a zero-byte membrane proof. This is essentially the same as no membrane proof, so this is only appropriate for hApps that contain data that should be publicly readable but not anonymously writable. (Note that, in the future, the production Holo hosting network may permit you to implement logic that provisions membrane proofs to read-only nodes, allowing you to use Holo for high-uptime while preventing anonymous read access, but this work is currently out of scope.)
 
-### Anonymous access
+To implement logic that allows read-only cells to join a DNA's network but not write data, your integrity zome's validation function should check the author's membrane proof, then allow them to join the network but reject CRUD operations if the proof is zero bytes.
+
+The following code shows an example of how to do this.
+
+```rust
+fn is_read_only_membrane_proof(membrane_proof: &Option<MembraneProof>) -> bool {()
+  match membrane_proof {
+    // A membrane proof can either be None or zero bytes.
+    // In either case, it's a read-only membrane proof.
+    Some(p) => p.bytes() == &[0],
+    None => true
+  }
+}
+
+fn validate_membrane_proof(membrane_proof: &Option<MembraneProof>) -> ExternResult<ValidateCallbackResult> {
+  // Read-only membrane proofs are always permitted.
+  if is_read_only_membrane_proof(membrane_proof) {
+    return Ok(ValidateCallbackResult::Valid);
+  }
+  // Put the rest of your application's membrane proof validation in here.
+}
+
+#[hdk_extern]
+/// This is an optional callback you can define that will let an agent
+/// pre-validate their membrane proof before trying to join the network.
+pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCallbackResult> {
+  validate_membrane_proof(data.membrane_proof)
+}
+
+#[hdk_extern]
+pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
+  match op.action_type() {
+    AgentValidationPkg => {
+      // Here the membrane proof itself is being validated.
+      // The AgentValidationPkg action produces two different ops that contain
+      //  membrane proof; let's check both of them.
+      let Action::AgentValidationPkg(action) = match op {
+        StoreRecord(store_record) => store_record.record.signed_action.hashed.content,
+        RegisterAgentActivity(register_agent_activity) => register_agent_activity.action
+      };
+      validate_membrane_proof(action.membrane_proof)
+    },
+
+    Create | Update | Delete | CreateLink | DeleteLink => {
+      // In general, all CRUD actions for a read-only node should be invalid.
+      // However, your app may want to allow certain public or private CRUD
+      // actions, such as anonymous pageview counters for blog posts.
+
+      // Find the membrane proof for the op's author.
+      // First, get the author's source chain.
+      let chain_filter = ChainFilter<HoloHash<Action>> {
+        chain_top,
+        filters: ChainFilters<HoloHash<Action>>::ToGenesis,
+        include_cached_entries: false
+      };
+      let chain = must_get_agent_activity(agent_id, chain_filter)?;
+
+      // Now find the membrane proof at the beginning of the chain.
+      let membrane_proof = chain
+        .iter()
+        .find(|record| match record.action.hashed.content {
+          Action::AgentValidationPkg(_) => true,
+          _ => false
+        })
+        .map(|record| match record.action.hashed.content {
+          Action::AgentValidationPkg(action) => match action.membrane_proof {
+            Some(membrane_proof) => membrane_proof.bytes() == &[0],
+            None => true
+          }
+        // It's safe to unwrap with a possible panic here, because it's
+        // impossible at this point for there to not be a membrane proof,
+        // because it always comes before any CRUD actions.
+        })?
+
+      if (!is_read_only_membrane_proof(membrane_proof)) {
+        return Err(ValidateCallbackResult::Invalid("A read-only agent can't write data"));
+      }
+    },
+
+    // All other action types are either genesis actions, which should always
+    // be allowed, or open/close chain actions, which you may want to disallow
+    // or handle specially.
+    _ => {}
+  }
+
+  // The rest of your validation goes here.
+}
+```
+
+#### Anonymous zome function access
 
 Every function call to a coordinator zome must be signed, and a call will only be successful if there's a [capability grant](/glossary/#capability-grant) for it. Capability grants can be restricted to a particular keypair, a particular capability token, or unrestricted.
 
