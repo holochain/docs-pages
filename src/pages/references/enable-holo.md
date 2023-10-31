@@ -79,7 +79,7 @@ Now enter the nix development shell (which makes all scaffolding tools as well a
 nix develop
 ```
 
-You should see:
+After it's finished downloading some packages, you should see:
 
 ::: output-block
 ```text
@@ -95,7 +95,7 @@ npm install
 
 ### UI
 
-The biggest difference between a Holo and pure Holochain application is in the UI. The scaffolding tool should automatically have generated everything required here, so we'll simply point out the primary differences, which will all be in `App.vue`.
+The biggest difference between a Holo application and a pure Holochain application is in the UI. The scaffolding tool should automatically have generated everything required here, so we'll simply point out the primary differences, which will all be in `App.vue`.
 
 In a Holo setting we use the [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) library instead of `@holochain/client`. WebSDK provides an instance of `AppAgentWebsocket`, which is almost the same as `AppWebsocket`.
 
@@ -371,12 +371,12 @@ Collection "my_todos" scaffolded!
 
 ### Testing
 
-Holo provides the `holo-dev-server` binary, which simulates the Holo network locally for development. `holo-dev-server` serves a copy of Chaperone, the JavaScript library that connects the browser to the Holo network and manages user keys, and runs a Holochain conductor. Like the real Holo network, `holo-dev-server` uses `.happ` bundles, which do not include a UI. (The `hc` developer tool creates both a `.happ` bundle and a `.webhapp` bundle for you.) When you scaffold an app with the `--holo` flag, its dev environment will provide `holo-dev-server` on the command line for you.
+Holo provides the `holo-dev-server` binary, which simulates the Holo network locally for development. `holo-dev-server` serves a copy of Chaperone, the JavaScript library that connects the browser to the Holo network and manages user keys, and runs a Holochain conductor. Like the real Holo network, `holo-dev-server` uses `.happ` bundles, which do not include a UI. (The `hc` developer tool creates both a `.happ` bundle and a `.webhapp` bundle in the `workdir/` folder for you.) When you scaffold an app with the `--holo` flag, its dev environment will provide `holo-dev-server` on the command line for you.
 
 1. Ensure you are in the nix development environment by checking the shell prompt. Run `nix develop` in the root of your project's folder if you aren't.
 2. Run `npm start:holo`, which:
     1. Starts `holo-dev-server' and provisions instances (cells) of your DNA for two agents,
-    2. Automatically opens an instance of a network inspector called [Holochain Playground](https://github.com/darksoil-studio/holochain-playground) in your browser, and
+    2. Automatically opens an instance of a cell and network inspector called [Holochain Playground](https://github.com/darksoil-studio/holochain-playground) in your browser, and
     3. Runs a local dev web server for the UI called [Vite](https://vitejs.dev).
 3. Access your two agents on your browser at `http://localhost:8888` and `http://localhost:8889`.
 
@@ -406,7 +406,7 @@ You now have a fully functional Holo app up and running!
 
 ## Migrate from a pure Holochain app
 
-Only minor UI changes are technically required for Holo hosting. However, Holo operates under a different set of assumptions and we highly recommend that you read the [Holo Core Concepts](#holo-core-concepts-and-further-documentation). It is likely that you will want to reconsider certain UX flows.
+Only minor UI changes are technically required for Holo hosting. However, Holo operates under a different set of assumptions and we highly recommend that you read the [Holo Core Concepts](#holo-core-concepts-and-further-documentation) section of this guide. It is likely that you will want to reconsider certain UX flows.
 
 This example will use an example forum hApp with a Vue-based UI, but feel free to follow along with your own hApp instead.
 
@@ -414,9 +414,9 @@ This example will use an example forum hApp with a Vue-based UI, but feel free t
 nix run --override-input versions 'github:holochain/holochain?dir=versions/0_2'  github:holochain/holochain#hc-scaffold -- example forum
 ```
 
-In the forum hApp, the relevant UI code is in App.vue. Generally they will likely be where you initialize your `AppWebsocket` client.
+In the forum hApp, the relevant UI code is in `App.vue`. Generally they will likely be where you initialize your `AppWebsocket` client.
 
-In a Holo setting we use [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) which provides an instance of `WebSDK`, instead of `AppAgentWebsocket` from `@holochain/client`. Both `WebSDK` and `AppAgentWebsocket` implement `AppAgentClient`.
+In a Holo setting we use [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) which provides an instance of `WebSDK`, instead of `AppAgentWebsocket` from `@holochain/client`. Both `WebSDK` and `AppAgentWebsocket` implement `AppAgentClient`, which connects the user to their running cells in a conductor.
 
 You'll first need to ensure that you use `WebSDK` or `AppAgentWebsocket` depending on the context:
 
@@ -482,7 +482,7 @@ Because the Holo network acts like a remote conductor, you'll need to handle con
 Now your UI can connect to the Holo network and read forum posts. However, users can't post or comment yet because they don't yet have a source chain. They are considered "anonymous" and can only request public data from the network.
 
 !!! note
-Unlike in pure Holochain, you cannot assume that a user has provided their keys when the connection is established. This may require changes to your application logic. Even without their keys, you can provide users with read access to public data, such as forum posts.
+Unlike in pure Holochain, you **cannot assume that a user has provided their keys** when the connection is established, because Holo hosting allows anonymous access to hApp data that's meant to be seen publicly, such as forum posts. This may require changes to your application logic. Read more about how to implement this feature in the [Holo core concepts](#holo-core-concepts-and-further-documentation) section of this guide.
 !!!
 
 Holo uses "sign-up" and "sign-in" terminology but there is no external authentication process. In both processes a user (re)derives their keys from email and password, with sign-up also triggering the instantiation of new hApp cells on a hosting device in the Holo network.
@@ -533,7 +533,7 @@ methods: {
 }
 ```
 
-These trigger the display of a full screen credentials modal from the Chaperone iframe, defaulting to either a sign-up or sign-in form. The user can also toggle between them directly.
+These trigger the display of a full-screen credentials modal from the Chaperone iframe, defaulting to either a sign-up or sign-in form. The user can also toggle between them directly.
 
 ![An example of the Chaperone sign-up/sign-in modal form](https://hackmd.io/_uploads/r1WJbrkC3.png)
 
@@ -658,7 +658,7 @@ These scripts assume that you have a `start` script setup in a `ui` workspace, w
 You now have a fully functional Holo app up and running!
 
 !!! info
-For production deployment, make sure that `chaperoneUrl` is configured to `https://chaperone.holo.hosting`
+For production deployment, make sure that `chaperoneUrl` is configured to `https://chaperone.holo.hosting` instead.
 !!!
 
 ## Deploy
@@ -712,7 +712,7 @@ The diagram above shows the interconnections between different parts of the Holo
 
 In Holo hosting, the client and conductor are assumed to be both physically distinct and under the control of different agents. To enable and support this, Holo provides an alternative to the [`@holochain/client`](https://www.npmjs.com/package/@holochain/client) library in the form of [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk).
 
-Both the Holo WebSDK and `@holochain/client` provide implementations of `AppAgentClient` and therefore have a mostly unified interface. However, WebSDK instantiates a secure iframe within the UI called Chaperone, which serves as a key signer and connection manager. Chaperone derives keys for users and handles all Holochain signing requests in the Holo context, without sending any key material back to the Holo network.
+Both the Holo WebSDK and `@holochain/client` provide implementations of `AppAgentClient`, which allows a user to connect to their cells in a conductor (whether those cells live on their own device or a Holo hosting device), and therefore have a mostly unified interface. However, WebSDK instantiates a secure iframe within the UI called Chaperone, which serves as a key signer and connection manager. Chaperone derives keys for users and handles all Holochain signing requests in the Holo context, without sending any key material back to the Holo network.
 
 To use the WebSDK, import and instantiate it wherever you would normally import and instantiate `@holochain/client`:
 
@@ -738,7 +738,7 @@ client.signUp();
 client.signIn();
 ```
 
-Since AdminWebsocket functionality is handled via Envoy, a service running on Holo hosts that handles the provisioning of hApps, Holo decides whether to show a "sign-up" or "log-in" form based on whether a cell needs to be provisioned for the user.
+Since `AdminWebsocket` functionality is handled via Envoy, a service running on Holo hosts that handles the provisioning of hApps, Holo decides whether to show a "sign-up" or "log-in" form based on whether a cell needs to be provisioned for the user.
 
 This also means that developers cannot assume that calls such as `.agent_info()` are immediately available at first.
 
