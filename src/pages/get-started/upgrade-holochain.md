@@ -1,5 +1,5 @@
 ---
-title: Holochain Upgrade 0.1 -> 0.2
+title: Holochain Upgrade 0.1 → 0.2
 hide:
   - toc
 ---

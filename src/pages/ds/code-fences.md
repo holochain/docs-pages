@@ -14,7 +14,7 @@ Examples of code fence look and feel
 ### With Copy button
 
 Single line
-```shellsession
+```shell
 nix run github:/holochain/holochain#hc-scaffold -- web-app
 ```
 
@@ -32,7 +32,7 @@ To surpress the copy buttom you can wrap the code block in a `::: output-block` 
 
 Single line
 ::: output-block
-```shellsession
+```shell
 nix run github:/holochain/holochain#hc-scaffold -- web-app
 ```
 
