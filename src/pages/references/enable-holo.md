@@ -400,7 +400,7 @@ So let's follow those hints. Switch to a code editor for these steps:
 
 Save the file, and you should see that the windows have auto-updated to show something that should look like this:
 
-![Two web browser windows showing basic widgets to manipulate the shared to-do list](assets/img/scaffolded_todos.png)
+![Two web browser windows showing basic widgets to manipulate the shared to-do list](/assets/img/enable-holo/scaffolded-todos.png)
 
 You now have a fully functional Holo app up and running!
 
