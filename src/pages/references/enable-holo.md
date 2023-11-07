@@ -942,7 +942,7 @@ pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
 
 Every function call to a coordinator zome must be signed, and a call will only be successful if there's a [capability grant](/references/glossary/#capability-grant) for it. Capability grants can be restricted to a particular keypair, a particular capability token, or unrestricted.
 
-Normally, when a Holo agent is logged in, or the user is running the hApp on their own machine, the keypair used to sign function calls is the same as the keypair used to author data in the cell. For an anonymous agent accessing a read-only instance, however, this is not true. For them to be able to make a function call, you need to also create an unrestricted capability grant for that function.
+Normally, when a Holo agent is logged in, or the user is running the hApp on their own machine, the keypair used to sign function calls is the same as the keypair used to author data in the cell. This is called the [author grant](/concepts/8_calls_capabilities/#author-grant), and it's automatically privileged to call every function. For an anonymous agent accessing a read-only instance, however, this is not true. For them to be able to make a function call, you need to also create an unrestricted capability grant for that function.
 
 ```rust
 pub fn set_cap_tokens() -> ExternResult<()> {
