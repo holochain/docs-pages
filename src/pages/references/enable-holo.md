@@ -854,8 +854,6 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
     let chain_filter = ChainFilter::new(chain_top.clone());
     let chain = must_get_agent_activity(agent_id.clone(), chain_filter)?;
 
-    tracing::debug!("got chain for op {:?}", op);
-
     // Now find the membrane proof at the beginning of the chain.
     let membrane_proof = chain
         .iter()
@@ -867,8 +865,6 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
             Action::AgentValidationPkg(action) => action.membrane_proof.clone(),
             _ => None
         });
-
-    tracing::debug!("got membrane proof {:?} for op", membrane_proof);
 
     Ok(!is_read_only_membrane_proof(membrane_proof.unwrap()))
 }
@@ -903,9 +899,8 @@ pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
                 // ones.
                 (_, EntryType::App(_)) => {
                     match has_permission_to_write(&op) {
-                        Ok(true) => { tracing::debug!("can write"); },
+                        Ok(true) => { },
                         Ok(false) => {
-                            tracing::debug!("can't write");
                             return Ok(ValidateCallbackResult::Invalid("A read-only agent can't write entry CRUD actions".to_string()));
                         },
                         Err(error) => {
@@ -915,7 +910,7 @@ pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
                 }
                 // Don't prevent any special system entry types from being
                 // written.
-                (entry_type, _) => { tracing::debug!("just writing system entry {}, nothing to worry about", entry_type); },
+                (entry_type, _) => { },
             }
         },
 
