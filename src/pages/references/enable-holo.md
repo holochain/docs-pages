@@ -794,7 +794,7 @@ This behavior is available by default. Once a WebSDK client has been instantiate
 
 Depending on your use case, you'll want to further restrict write privileges for these read-only cells. Read more [below](#implementing-read-only-cells).
 
-#### Admin API WebSocket access
+#### A note on admin API WebSocket access
 
 Due to the security implications of multi-tenant conductors, `AdminWebsocket` (and some `AppWebsocket`) functionality is not directly exposed to Holo clients. Instead, this functionality is exposed indirectly via Holo WebSDK methods where appropriate.
 
