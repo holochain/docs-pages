@@ -790,9 +790,7 @@ These nodes will send and receive gossip to sustain the network as long as hosts
 
 For some use cases, it's not desirable to require users to create an account, for example, reading an article. Where developers make these use cases available to their users, the data is retrieved by a read-only cell.
 
-This behavior is available by default. Once a WebSDK client has been instantiated and before a user derives their agent keys, the user is connected to a read-only cell and can make zome calls normally.
-
-Depending on your use case, you'll want to further restrict write privileges for these read-only cells. Read more [below](#implementing-read-only-cells).
+This behavior isn't available by default; you'll have to implement functionality to both give anonymous users access to read-only functions and prevent them from making writes. This is described in the [next section](#implementing-read-only-cells).
 
 #### A note on admin API WebSocket access
 
