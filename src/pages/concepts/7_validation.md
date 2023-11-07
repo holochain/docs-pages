@@ -51,7 +51,7 @@ A validation rule is simply a callback function in an integrity zome code that t
 
 The entry and link types defined in an integrity zome go hand-in-hand with the validation function defined in that same zome; that is, the validation function should cover all the operations produced by the act of creating, updating, or deleting entries and links of those types.
 
-!!! warning Non-determinism in validation functions
+!!! note Non-determinism in validation functions
 Entries and action can be retrieved by hash, as can entire sequences of a source chain. But collections such as links on a base or full agent activity reports can't be retrieved, because they change over time and would lead to non-determinism in validation results. This would cause different validation authorities to give different answers, leading to disagreement on the validity of an operation.
 
 Other sources of non-determinism, such as conductor host API functions that retrieve the time, read the cell owner's own state, generate a random number, or call a zome function in another cell, are disallowed for the same reason.
@@ -240,7 +240,7 @@ Some reasons for ejecting an agent from a network simply shouldn't be encoded in
 * When an operation is found to be invalid, the validator creates a warrant, which attests that the author is writing corrupt data.
 * Agents can use warrants as grounds for blocking communication with a corrupt agent and deleting their data.
 * Some scenarios can't be covered by validation:
-    * Membrane self-checking occurs before an agent joins a network, so it may comprise a reduced set of checks that don't involve dependencies from the DHT.
+    * Genesis self-checking occurs before an agent joins a network, so it may comprise a reduced set of checks that don't involve dependencies from the DHT.
     * Source chain forks are non-deterministic, so they can only be detected, not warranted against.
     * Application-level blocking and unblocking can be used to provide an immune-like response when there are non-deterministic or non-adversarial reasons for blocking an agent.
 

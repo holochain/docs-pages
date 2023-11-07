@@ -17,7 +17,7 @@ The event hosts need to provide you with a cache name. This will be unique per e
 
 At a command line:
 
-```bash
+```shell
 bash <(curl https://holochain.github.io/holochain/configure-cache.sh) use <event-cache-name>
 ```
 
@@ -27,6 +27,6 @@ At the end of the event, you shouldn't keep these configuration changes. You can
 
 At a command line:
 
-```bash
+```shell
 bash <(curl https://holochain.github.io/holochain/configure-cache.sh) cleanup
 ```

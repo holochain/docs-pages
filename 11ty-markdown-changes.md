@@ -27,7 +27,7 @@
 ## Code Fences
   - Include language (i.e.: `bash`) always.
   - If you want to surpress the copy button wrap the code block in a `::: output-block` container
-  - Code blocks meant to be copied and pasted into a terminal should use `shellsession` rather than `bash`; they'll automatically get styled with a non-copyable `$` at the beginning of the first line.
+  - Code blocks meant to be copied and pasted into a terminal should use `shell` rather than `bash`; they'll automatically get styled with a non-copyable `$` at the beginning of the first line.
 
 ## Open in new window
 - add `{target=_blank}` after link markdown parens
