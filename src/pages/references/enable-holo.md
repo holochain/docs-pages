@@ -808,90 +808,138 @@ This is because read-only cells always use a zero-byte membrane proof. This is e
 
 To implement logic that allows read-only cells to join a DNA's network but not write data, your integrity zome's validation function should check the author's membrane proof, then allow them to join the network but reject CRUD operations if the proof is zero bytes.
 
-The following code shows an example of how to do this.
+The following code shows an example of how to do both of these things. This isn't necessarily the most performant solution, as it requires a validator to retrieve the author's entire source chain (excluding entry data). A better-performing solution might rely on [inductive validation](/glossary/#inductive-validation) of the author's source chain.
 
 ```rust
-fn is_read_only_membrane_proof(membrane_proof: &Option<MembraneProof>) -> bool {()
-  match membrane_proof {
-    // A membrane proof can either be None or zero bytes.
-    // In either case, it's a read-only membrane proof.
-    Some(p) => p.bytes() == &[0],
-    None => true
-  }
+/// A helper function to check whether a membrane proof is from a special Holo-
+/// hosted read-only agent.
+fn is_read_only_membrane_proof(membrane_proof: Option<MembraneProof>) -> bool {
+    match membrane_proof {
+        // A membrane proof can either be None or zero bytes.
+        // In either case, it's a read-only membrane proof.
+        Some(p) => p.bytes() == &[0],
+        None => true
+    }
 }
 
-fn validate_membrane_proof(membrane_proof: &Option<MembraneProof>) -> ExternResult<ValidateCallbackResult> {
-  // Read-only membrane proofs are always permitted.
-  if is_read_only_membrane_proof(membrane_proof) {
-    return Ok(ValidateCallbackResult::Valid);
-  }
-  // Put the rest of your application's membrane proof validation in here.
+/// A helper function to validate a membrane proof. You can use this in both
+/// your `genesis_self_check` and `validate` functions.
+fn validate_membrane_proof(membrane_proof: Option<MembraneProof>) -> ExternResult<ValidateCallbackResult> {
+    // Read-only membrane proofs are always permitted.
+    if is_read_only_membrane_proof(membrane_proof.clone()) {
+        return Ok(ValidateCallbackResult::Valid);
+    }
+    // Your custom membrane proof validation should go here.
+}
+
+/// A helper function to check wheter an op should be allowed. In the sample
+/// `validate` function, it's used for both entry and link CRUD actions.
+fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
+    // In general, all CRUD actions for a read-only node should be invalid.
+    // The only ones that _must_ be valid are actions that operate on special
+    // system entries:
+    //
+    // * `AgentPubKey`
+    // * `CapGrant`
+    // * `CapClaim` (optional)
+    //
+    // Your app may also want to allow certain public or private CRUD actions,
+    // such as anonymous pageview counters for blog posts. Keep in mind the
+    // risk of anonymous spamming though!
+
+    // Find the membrane proof for the op's author.
+    // Start by getting the author's source chain.
+    let chain_top = op.prev_action().unwrap();
+    let agent_id = op.author();
+    let chain_filter = ChainFilter::new(chain_top.clone());
+    let chain = must_get_agent_activity(agent_id.clone(), chain_filter)?;
+
+    tracing::debug!("got chain for op {:?}", op);
+
+    // Now find the membrane proof at the beginning of the chain.
+    let membrane_proof = chain
+        .iter()
+        .find(|record| match record.action.hashed.content {
+            Action::AgentValidationPkg(_) => true,
+            _ => false
+        })
+        .map(|record| match &record.action.hashed.content {
+            Action::AgentValidationPkg(action) => action.membrane_proof.clone(),
+            _ => None
+        });
+
+    tracing::debug!("got membrane proof {:?} for op", membrane_proof);
+
+    Ok(!is_read_only_membrane_proof(membrane_proof.unwrap()))
 }
 
 #[hdk_extern]
-/// This is an optional callback you can define that will let an agent
-/// pre-validate their membrane proof before trying to join the network.
-pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCallbackResult> {
-  validate_membrane_proof(data.membrane_proof)
+pub fn genesis_self_check(
+    data: GenesisSelfCheckData,
+) -> ExternResult<ValidateCallbackResult> {
+    validate_membrane_proof(data.membrane_proof.clone())
 }
 
 #[hdk_extern]
 pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
-  match op.action_type() {
-    AgentValidationPkg => {
-      // Here the membrane proof itself is being validated.
-      // The AgentValidationPkg action produces two different ops that contain
-      //  membrane proof; let's check both of them.
-      let Action::AgentValidationPkg(action) = match op {
-        StoreRecord(store_record) => store_record.record.signed_action.hashed.content,
-        RegisterAgentActivity(register_agent_activity) => register_agent_activity.action
-      };
-      validate_membrane_proof(action.membrane_proof)
-    },
+    match op.action_type() {
+        hdi::prelude::ActionType::AgentValidationPkg => {
+            // Here the membrane proof itself is being validated.
+            // The AgentValidationPkg action produces two different ops that
+            // contain a membrane proof; let's check both of them.
+            if let Action::AgentValidationPkg(action) = match &op {
+                Op::StoreRecord(store_record) => Some(store_record.record.signed_action.hashed.content.clone()),
+                Op::RegisterAgentActivity(register_agent_activity) => Some(register_agent_activity.action.hashed.content.clone()),
+                _ => None
+            }.unwrap() {
+                return  validate_membrane_proof(action.membrane_proof.clone());
+            }
+        },
 
-    Create | Update | Delete | CreateLink | DeleteLink => {
-      // In general, all CRUD actions for a read-only node should be invalid.
-      // However, your app may want to allow certain public or private CRUD
-      // actions, such as anonymous pageview counters for blog posts.
+        hdi::prelude::ActionType::Create | hdi::prelude::ActionType::Update | hdi::prelude::ActionType::Delete => {
+            // If not, deny writes to read-only cells.
+            match op.entry_data().unwrap() {
+                // The only entry types we want to restrict are the app-defined
+                // ones.
+                (_, EntryType::App(_)) => {
+                    match has_permission_to_write(&op) {
+                        Ok(true) => { tracing::debug!("can write"); },
+                        Ok(false) => {
+                            tracing::debug!("can't write");
+                            return Ok(ValidateCallbackResult::Invalid("A read-only agent can't write entry CRUD actions".to_string()));
+                        },
+                        Err(error) => {
+                            return Err(error);
+                        }
+                    }
+                }
+                // Don't prevent any special system entry types from being
+                // written.
+                (entry_type, _) => { tracing::debug!("just writing system entry {}, nothing to worry about", entry_type); },
+            }
+        },
 
-      // Find the membrane proof for the op's author.
-      // First, get the author's source chain.
-      let chain_filter = ChainFilter<HoloHash<Action>> {
-        chain_top,
-        filters: ChainFilters<HoloHash<Action>>::ToGenesis,
-        include_cached_entries: false
-      };
-      let chain = must_get_agent_activity(agent_id, chain_filter)?;
+        hdi::prelude::ActionType::CreateLink | hdi::prelude::ActionType::DeleteLink => {
+            // No links are related to special system actions.
+            // All write attempts by read-only cells should fail.
+            match has_permission_to_write(&op) {
+                Ok(true) => {},
+                Ok(false) => {
+                    return Ok(ValidateCallbackResult::Invalid("A read-only agent can't write link CRUD actions".to_string()));
+                },
+                Err(error) => {
+                    return Err(error);
+                }
+            }
+        },
 
-      // Now find the membrane proof at the beginning of the chain.
-      let membrane_proof = chain
-        .iter()
-        .find(|record| match record.action.hashed.content {
-          Action::AgentValidationPkg(_) => true,
-          _ => false
-        })
-        .map(|record| match record.action.hashed.content {
-          Action::AgentValidationPkg(action) => match action.membrane_proof {
-            Some(membrane_proof) => membrane_proof.bytes() == &[0],
-            None => true
-          }
-        // It's safe to unwrap with a possible panic here, because it's
-        // impossible at this point for there to not be a membrane proof,
-        // because it always comes before any CRUD actions.
-        })?
+        // All other action types are either special system actions, which
+        // should always be allowed, or open/close chain actions, which you'll
+        // want to disallow or allow according to your app's needs.
+        _ => {}
+    }
 
-      if (!is_read_only_membrane_proof(membrane_proof)) {
-        return Err(ValidateCallbackResult::Invalid("A read-only agent can't write data"));
-      }
-    },
-
-    // All other action types are either genesis actions, which should always
-    // be allowed, or open/close chain actions, which you may want to disallow
-    // or handle specially.
-    _ => {}
-  }
-
-  // The rest of your validation goes here.
+    // ... Put the rest of your validation code here.
 }
 ```
 
