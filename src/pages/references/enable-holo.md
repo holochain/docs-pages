@@ -780,7 +780,7 @@ hApps are the fundamental unit within Holo. This means:
 
 Holo makes use of multi-tenant conductors to provide functionality typically expected of traditional web applications. Each conductor runs applications belonging to multiple users.
 
-By default, Holo will run **read-only cells** of deployed applications **under each host's agent** in addition to any user cells. These cells serve two purposes:
+If the application allows it, Holo will run **read-only cells** of deployed applications **under each host's agent** in addition to any user cells. These cells serve two purposes:
 
 #### Providing high-uptime nodes
 
@@ -792,7 +792,7 @@ For some use cases, it's not desirable to require users to create an account, fo
 
 This behavior isn't available by default; you'll have to implement functionality to both give anonymous users access to read-only functions and prevent them from making writes. This is described in the [next section](#implementing-read-only-cells).
 
-#### A note on admin API WebSocket access
+### A note on admin API WebSocket access
 
 Due to the security implications of multi-tenant conductors, `AdminWebsocket` (and some `AppWebsocket`) functionality is not directly exposed to Holo clients. Instead, this functionality is exposed indirectly via Holo WebSDK methods where appropriate.
 
@@ -967,47 +967,4 @@ fn init(_: ()) -> ExternResult<InitCallbackResult> {
 
 In general, you should not list functions in the above code that _write_ to the source chain, only that read from the source chain.
 
-Finally, if you want to make sure that anonymous agents can't write to the host's source chain, you should add some sort of protection in the DNA itself. Add the following check to any function that writes to the source chain:
-
-```rust
-pub fn is_read_only_proof(mem_proof: &MembraneProof) -> bool {
-    let b = mem_proof.bytes();
-    b == &[0]
-}
-
-pub fn is_read_only_instance() -> bool {
-    if let Ok(entries) = &query(ChainQueryFilter::new().action_type(ActionType::AgentValidationPkg))
-    {
-        if let Action::AgentValidationPkg(h) = entries[0].action() {
-            if let Some(mem_proof) = &h.membrane_proof {
-                if is_read_only_proof(&mem_proof) {
-                    return true;
-                }
-            }
-        }
-    };
-    false
-}
-
-// example zome functions
-
-#[hdk_extern]
-fn create_article(article: Article) -> ExternResult<()> {
-    if is_read_only_instance() {
-        return Err(MyError::ReadOnly.into());
-    }
-    Ok(_create_article(article)?)
-}
-
-#[hdk_extern]
-fn update_article(article: Article) -> ExternResult<()> {
-    if is_read_only_instance() {
-        return Err(MyError::ReadOnly.into());
-    }
-    Ok(_update_article(article)?)
-}
-```
-
-Note that because membrane proofs are currently zero-byte values in the pre-production Holo network, unauthorized users may join the network of an application that implements the above functionality, replace their coordinator zome with one that grants write access, and write data to the network's DHT. A more secure, though slightly computationally costly, implementation might incorporate a membrane proof check into the integrity zome's validation function. This would block unauthorized writes at the network level. As with an explanation of implementing membrane proofs for Holo-enabled applications, this will be the subject of a later article.
-
-For an example implementation see [this zome library](https://github.com/holochain/hc-zome-lib/blob/6eb45e60ce371ea51e163e19a80c520b261e9cd4/zomes/hc_iz_membrane_manager/src/validation.rs#L26).
+Note that this does not prevent unauthorized writes by people who run the hApp on their own devices and supply a zero-byte membrane proof. When you implement the read-only pattern, you're making a conscious choice to make the DHT public for reading while restricting who can write to it.
