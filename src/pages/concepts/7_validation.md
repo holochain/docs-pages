@@ -43,7 +43,7 @@ The DHT offers a shortcut --- it remembers the validation results of existing en
 
 The result of a validation, if it was able to complete, is stored as a **validation receipt**. A failed validation receipt is also called a **warrant**. If a participant asks an authority for a piece of data that happens to be invalid, the authority can return the warrant in place of the actual data.
 
-While this works for finding the validity of one _particular_ entry or action, a participant might have a reason to find out if another participant has ever produced _any_ invalid data, Un the future, Holochain may allow them to consult the agent activity authorities for that peer and get all warrants at once.
+While this works for finding the validity of one _particular_ entry or action, a participant might have a reason to find out if another participant has ever produced _any_ invalid data. In the future, Holochain may allow them to consult the agent activity authorities for that peer and get all warrants at once.
 
 ## How validation rules are defined
 
