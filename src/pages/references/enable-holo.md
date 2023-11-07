@@ -700,7 +700,7 @@ These assumptions are not true for Holo, and this has architectural implications
 
 ### Holo architecture
 
-![](https://hackmd.io/_uploads/ByfBfN9sh.png)
+![The Holo hosting network. A typical HoloPort hosting device sits at the middle, bridging a peer-to-peer network of Holochain app participants (including other Holo hosting devices) to a user's web browser via an intermediary infrastructure consisting of a matchmaking service, a user-to-host resolver service, a traffic proxy, and a privileged iframe containing Chaperone in the user's browser.](/assets/img/enable-holo/holo-hosting-infrastructure.png)
 
 The diagram above shows the interconnections between different parts of the Holo network. In particular, note that:
 
