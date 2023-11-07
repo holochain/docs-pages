@@ -670,7 +670,7 @@ This process assumes you already have a Cloud Console account. If you do not, yo
 Holo does not currently offer UI hosting. hApp managers will need to deploy their UI separately for now.
 
 !!! info
-Holo supports "headless hosting" where there is no Holo-enabled UI. In this case Holo will maintain copies of the [DHT](/references/glossary/#dht), but will not hold any source chains. Holo hosting requires a special [membrane proof](#implementing-read-only-cells) for read-only host agents in order to make this work.
+Holo supports "headless hosting" where there is no Holo-enabled UI. In this case Holo will maintain copies of the [DHT](/references/glossary/#distributed-hash-table-dht), but will not hold any source chains. Holo hosting requires a special [membrane proof](#implementing-read-only-cells) for read-only host agents in order to make this work.
 
 Holo does not support direct programmatic/API access to deployed hApps.
 !!!
