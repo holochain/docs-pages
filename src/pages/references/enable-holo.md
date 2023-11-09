@@ -798,13 +798,13 @@ Due to the security implications of multi-tenant conductors, `AdminWebsocket` (a
 
 ### Implementing read-only cells
 
-In order to provide high-uptime nodes and anonymous access via read-only cells while keeping your hApp safe from defacement, you'll need to restrict what a read-only cell can do. A read-only cell is **read-only merely by convention**; that is, because you're checking for read-only cells and handling writes differently.
+In order to provide high-uptime nodes and anonymous hosted user access via read-only cells while keeping your hApp safe from defacement, you'll need to restrict what a read-only cell can do. A read-only cell is **read-only merely by convention**; that is, because you're checking for read-only cells and handling writes differently.
 
-The most secure way to restrict access to a hApp's data is with [**membrane proofs**](/references/glossary/#membrane-proof). A membrane proof is supplied at installation time and acts like an ID card, allowing the hApp to admit valid members only. However, this also prevents Holo hosting devices from provisioning read-only cells.
+The most secure way to restrict access to a hApp's data is with [**membrane proofs**](/references/glossary/#membrane-proof). A membrane proof is supplied at installation time and acts like an ID card, allowing the hApp to admit valid members only. However, this prevents Holo hosting devices from provisioning read-only cells unless explicit affordances are made.
 
-This is because read-only cells always use a zero-byte membrane proof. This is essentially the same as no membrane proof, so this is only appropriate for hApps that contain data that should be publicly readable but not anonymously writable. (Note that, in the future, the production Holo hosting network may permit you to implement logic that provisions membrane proofs to read-only nodes, allowing you to use Holo for high-uptime while preventing anonymous read access, but this work is currently out of scope.)
+The Holo Network expects and uses a zero-byte membrane proof for read-only cells. A publicly known membrane proof without restriction is essentially the same as no membrane proof. To implement logic to allow read-only cells to join a DNA's network but not write data, your integrity zome's validation function should check the author's membrane proof, then allow them to join the network but reject CRUD operations if the proof is zero bytes.
 
-To implement logic that allows read-only cells to join a DNA's network but not write data, your integrity zome's validation function should check the author's membrane proof, then allow them to join the network but reject CRUD operations if the proof is zero bytes.
+(Note that, in the future, the production Holo hosting network may permit you to implement logic that provisions membrane proofs to read-only nodes, allowing you to use Holo for high-uptime while preventing anonymous read access.)
 
 The following code shows an example of how to do both of these things. This isn't necessarily the most performant solution, as it requires a validator to retrieve the author's entire source chain (excluding entry data). A better-performing solution might rely on [inductive validation](/references/glossary/#inductive-validation) of the author's source chain.
 
