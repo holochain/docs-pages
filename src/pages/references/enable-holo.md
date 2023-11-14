@@ -906,17 +906,15 @@ pub fn genesis_self_check(
 
 #[hdk_extern]
 pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
-    if let ActionType::AgentValidationPkg = op.action_type() {
-        // Here the membrane proof itself is being validated.
-        // The AgentValidationPkg action produces two different ops that
-        // contain a membrane proof; let's check both of them.
-        if let Action::AgentValidationPkg(action) = match &op {
-            Op::StoreRecord(store_record) => Some(store_record.record.signed_action.hashed.content.clone()),
-            Op::RegisterAgentActivity(register_agent_activity) => Some(register_agent_activity.action.hashed.content.clone()),
-            _ => None
-        }.unwrap() {
-            return validate_membrane_proof(action.membrane_proof.clone());
-        }
+    // Here the membrane proof itself is being validated.
+    // The AgentValidationPkg action produces two different ops that
+    // contain a membrane proof; let's check both of them.
+    if let Action::AgentValidationPkg(action) = match &op {
+        Op::StoreRecord(store_record) => Some(store_record.record.signed_action.hashed.content.clone()),
+        Op::RegisterAgentActivity(register_agent_activity) => Some(register_agent_activity.action.hashed.content.clone()),
+        _ => None
+    }.unwrap() {
+        return validate_membrane_proof(action.membrane_proof.clone());
     }
 
     // Now we validate write permissions on the op.
