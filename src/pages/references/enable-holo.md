@@ -914,7 +914,7 @@ pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
         Op::RegisterAgentActivity(register_agent_activity) => Some(register_agent_activity.action.hashed.content.clone()),
         _ => None
     } {
-        return validate_membrane_proof(action.unwrap().membrane_proof.clone());
+        return validate_membrane_proof(action.membrane_proof.clone());
     }
 
     // Now we validate write permissions on the op.
