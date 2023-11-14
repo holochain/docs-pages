@@ -827,109 +827,102 @@ fn validate_membrane_proof(membrane_proof: Option<MembraneProof>) -> ExternResul
     if is_read_only_membrane_proof(membrane_proof.clone()) {
         return Ok(ValidateCallbackResult::Valid);
     }
+
     // Your custom membrane proof validation should go here.
 }
 
 /// A helper function to check wheter an op should be allowed. In the sample
 /// `validate` function, it's used for both entry and link CRUD actions.
 fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
+    let action_type = op.action_type();
+
+    // All non-CRUD actions should be allowed.
+    if let ActionType::Dna | ActionType::AgentValidationPkg | ActionType::InitZomesComplete | ActionType::OpenChain | ActionType::CloseChain = action_type {
+        return Ok(true);
+    }
+
     // In general, all CRUD actions for a read-only node should be invalid.
-    // The only ones that _must_ be valid are actions that operate on special
-    // system entries:
+    // The only ones that _must_ be valid are actions that create (but don't
+    // update) special system entries:
     //
     // * `AgentPubKey`
     // * `CapGrant`
     // * `CapClaim` (optional)
     //
-    // Your app may also want to allow certain public or private CRUD actions,
-    // such as anonymous pageview counters for blog posts. Keep in mind the
-    // risk of anonymous spamming though!
+    // When allowing cap grants, we're unable to check whether the grant should
+    // be allowed -- that has to happen in the coordinator zome.
+    if let ActionType::Create = action_type {
+        if let EntryType::AgentPubKey | EntryType::CapClaim | EntryType::CapGrant = op.entry_data().unwrap().1 {
+            return Ok(true);
+        }
+    }
+    // Your app may also want to allow certain CRUD actions for public or
+    // private app data, such as anonymous pageview counters for blog posts, or
+    // updates/deletes on system actions. Keep in mind the risk of anonymous
+    // spamming though!
 
-    // Find the membrane proof for the op's author.
-    // Start by getting the author's source chain.
-    let chain_top = op.prev_action().unwrap();
-    let agent_id = op.author();
-    let chain_filter = ChainFilter::new(chain_top.clone());
-    let chain = must_get_agent_activity(agent_id.clone(), chain_filter)?;
+    // We don't always look at the membrane proof, because that would cause too
+    // much network traffic and processing as source chains grew larger.
+    // Instead, we use 'inductive' validation, in which we assume that, if
+    // there's a prior CRUD action on the chain and another validator has marked
+    // it as valid, it's because that validator has also applied these same
+    // rules. A sequence of such checks eventually leads back to a check on the
+    // membrane proof.
 
-    // Now find the membrane proof at the beginning of the chain.
-    let membrane_proof = chain
-        .iter()
-        .find(|record| match record.action.hashed.content {
-            Action::AgentValidationPkg(_) => true,
-            _ => false
-        })
-        .map(|record| match &record.action.hashed.content {
-            Action::AgentValidationPkg(action) => action.membrane_proof.clone(),
-            _ => None
-        });
+    // Walk back through the source chain until we find something interesting --
+    // either a CRUD action or a membrane proof.
+    let mut prior_action_hash = op.prev_action().map(|h| h.clone());
+    while let Some(hash) = prior_action_hash {
+        let record = must_get_valid_record(hash.clone())?;
+        let action = record.action();
+        let entry_type = action.entry_type();
+        match (action, entry_type) {
+            (Action::CreateLink(_), _) | (Action::DeleteLink(_), _) => {
+                return Ok(true);
+            }
+            (Action::Create(_), Some(EntryType::App(_))) | (Action::Update(_), Some(EntryType::App(_))) | (Action::Delete(_), _) => {
+                return Ok(true);
+            }
+            (Action::AgentValidationPkg(action_data), _) => {
+                return Ok(!is_read_only_membrane_proof(action_data.membrane_proof.clone()));
+            }
+            (a, _) => {
+                // Prior action was neither CRUD nor membrane proof; walk
+                // further along the source chain.
+                prior_action_hash = a.prev_action().map(|h| h.clone());
+            }
+        }
+    }
 
-    Ok(!is_read_only_membrane_proof(membrane_proof.unwrap()))
+    Err(wasm_error!("Undefined behavior; this place should be unreachable"))
 }
 
 #[hdk_extern]
 pub fn genesis_self_check(
     data: GenesisSelfCheckData,
 ) -> ExternResult<ValidateCallbackResult> {
+    debug!("genesis self-check");
     validate_membrane_proof(data.membrane_proof.clone())
 }
 
 #[hdk_extern]
 pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
-    match op.action_type() {
-        hdi::prelude::ActionType::AgentValidationPkg => {
-            // Here the membrane proof itself is being validated.
-            // The AgentValidationPkg action produces two different ops that
-            // contain a membrane proof; let's check both of them.
-            if let Action::AgentValidationPkg(action) = match &op {
-                Op::StoreRecord(store_record) => Some(store_record.record.signed_action.hashed.content.clone()),
-                Op::RegisterAgentActivity(register_agent_activity) => Some(register_agent_activity.action.hashed.content.clone()),
-                _ => None
-            }.unwrap() {
-                return  validate_membrane_proof(action.membrane_proof.clone());
-            }
-        },
+    if let ActionType::AgentValidationPkg = op.action_type() {
+        // Here the membrane proof itself is being validated.
+        // The AgentValidationPkg action produces two different ops that
+        // contain a membrane proof; let's check both of them.
+        if let Action::AgentValidationPkg(action) = match &op {
+            Op::StoreRecord(store_record) => Some(store_record.record.signed_action.hashed.content.clone()),
+            Op::RegisterAgentActivity(register_agent_activity) => Some(register_agent_activity.action.hashed.content.clone()),
+            _ => None
+        }.unwrap() {
+            return validate_membrane_proof(action.membrane_proof.clone());
+        }
+    }
 
-        hdi::prelude::ActionType::Create | hdi::prelude::ActionType::Update | hdi::prelude::ActionType::Delete => {
-            // If not, deny writes to read-only cells.
-            match op.entry_data().unwrap() {
-                // The only entry types we want to restrict are the app-defined
-                // ones.
-                (_, EntryType::App(_)) => {
-                    match has_permission_to_write(&op) {
-                        Ok(true) => { },
-                        Ok(false) => {
-                            return Ok(ValidateCallbackResult::Invalid("A read-only agent can't write entry CRUD actions".to_string()));
-                        },
-                        Err(error) => {
-                            return Err(error);
-                        }
-                    }
-                }
-                // Don't prevent any special system entry types from being
-                // written.
-                (entry_type, _) => { },
-            }
-        },
-
-        hdi::prelude::ActionType::CreateLink | hdi::prelude::ActionType::DeleteLink => {
-            // No links are related to special system actions.
-            // All write attempts by read-only cells should fail.
-            match has_permission_to_write(&op) {
-                Ok(true) => {},
-                Ok(false) => {
-                    return Ok(ValidateCallbackResult::Invalid("A read-only agent can't write link CRUD actions".to_string()));
-                },
-                Err(error) => {
-                    return Err(error);
-                }
-            }
-        },
-
-        // All other action types are either special system actions, which
-        // should always be allowed, or open/close chain actions, which you'll
-        // want to disallow or allow according to your app's needs.
-        _ => {}
+    // Now we validate write permissions on the op.
+    if let false = has_permission_to_write(&op)? {
+        return Ok(ValidateCallbackResult::Invalid("Read-only instance can't write CRUD data".to_string()));
     }
 
     // ... Put the rest of your validation code here.
