@@ -909,12 +909,12 @@ pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
     // Here the membrane proof itself is being validated.
     // The AgentValidationPkg action produces two different ops that
     // contain a membrane proof; let's check both of them.
-    if let Action::AgentValidationPkg(action) = match &op {
+    if let Some(Action::AgentValidationPkg(action)) = match &op {
         Op::StoreRecord(store_record) => Some(store_record.record.signed_action.hashed.content.clone()),
         Op::RegisterAgentActivity(register_agent_activity) => Some(register_agent_activity.action.hashed.content.clone()),
         _ => None
-    }.unwrap() {
-        return validate_membrane_proof(action.membrane_proof.clone());
+    } {
+        return validate_membrane_proof(action.unwrap().membrane_proof.clone());
     }
 
     // Now we validate write permissions on the op.
