@@ -936,7 +936,7 @@ Every function call to a coordinator zome must be signed, and a call will only b
 Normally, when a Holo agent is logged in, or the user is running the hApp on their own machine, the keypair used to sign function calls is the same as the keypair used to author data in the cell. This is called the [author grant](/concepts/8_calls_capabilities/#author-grant), and it's automatically privileged to call every function. For an anonymous agent accessing a read-only instance, however, this is not true. For them to be able to make a function call, you need to also create an unrestricted capability grant for that function.
 
 ```rust
-pub fn set_cap_tokens() -> ExternResult<()> {
+fn set_read_only_cap_tokens() -> ExternResult<()> {
     let mut fn = BTreeSet::new();
     fns.insert((zome_info()?.name, "get_article".into()));
     fns.insert((zome_info()?.name, "get_all_articles".into()));
@@ -952,12 +952,12 @@ pub fn set_cap_tokens() -> ExternResult<()> {
 
 #[hdk_extern]
 fn init(_: ()) -> ExternResult<InitCallbackResult> {
-    set_cap_tokens()?;
+    set_read_only_cap_tokens()?;
 
     Ok(InitCallbackResult::Pass)
 }
 ```
 
-In general, you should not list functions in the above code that _write_ to the source chain, only that read from the source chain.
+In general, you should not list functions in the above grant that write new capability grants to the read-only instance's' chain, to prevent an attacker from expanding their privileges. And depending on your app, it's probably also good practice to limit access to functions that don't write to the source chain but can still be disruptive, such as [calling other cells](/concepts/8_calls_capabilities/) or [sending signals](/concepts/9_signals/).
 
-Note that this does not prevent unauthorized writes by people who run the hApp on their own devices and supply a zero-byte membrane proof. When you implement the read-only pattern, you're making a conscious choice to make the DHT public for reading while restricting who can write to it.
+Note that these protections implemented in a coordinator zome also do not prevent reads by people who run the hApp on their own devices and supply a zero-byte membrane proof. When you implement the read-only pattern, you're making a conscious choice to make the DHT public for reading while restricting who can write to it.
