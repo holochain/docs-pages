@@ -940,7 +940,7 @@ fn set_read_only_cap_tokens() -> ExternResult<()> {
 
     let functions = GrantedFunctions::Listed(fns);
     create_cap_grant(CapGrantEntry {
-        tag: "".into(),
+        tag: "read-only access".into(),
         access: CapAccess::Unrestricted,
         functions,
     })?;
