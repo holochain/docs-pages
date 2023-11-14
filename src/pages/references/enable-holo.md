@@ -901,7 +901,6 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
 pub fn genesis_self_check(
     data: GenesisSelfCheckData,
 ) -> ExternResult<ValidateCallbackResult> {
-    debug!("genesis self-check");
     validate_membrane_proof(data.membrane_proof.clone())
 }
 
