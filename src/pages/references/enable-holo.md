@@ -852,8 +852,16 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
     // When allowing cap grants, we're unable to check whether the grant should
     // be allowed -- that has to happen in the coordinator zome.
     if let ActionType::Create = action_type {
-        if let EntryType::AgentPubKey | EntryType::CapClaim | EntryType::CapGrant = op.entry_data().unwrap().1 {
-            return Ok(true);
+        match op.entry_data().map(|d| d.1) {
+            Some(EntryType::AgentPubKey | EntryType::CapClaim | EntryType::CapGrant) => {
+                return Ok(true);
+            },
+            Some(_) => { },
+            None => {
+                // This should be an impossible condition, as an op produced
+                // from a `Create` action should always know its entry type.
+                return Err(wasm_error!("Undefined behavior; entry type missing from Create action"));
+            }
         }
     }
     // Your app may also want to allow certain CRUD actions for public or
