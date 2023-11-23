@@ -813,8 +813,14 @@ The following code shows an example of how to do both of these things. This isn'
 /// hosted read-only agent.
 fn is_read_only_membrane_proof(membrane_proof: &Option<MembraneProof>) -> bool {
     match membrane_proof {
-        // A membrane proof can either be None or zero bytes.
-        // In either case, it's a read-only membrane proof.
+        // A membrane proof can either be:
+        //
+        // 1. some app-specific bytes,
+        // 2. zero bytes (Holo read-only instance), or
+        // 3. `None` (no membrane proof supplied)
+        //
+        // In this example, we're treating 2 and 3 the same.
+        // In your app, you may want to treat 3 differently.
         Some(p) => p.bytes() == &[0],
         None => true
     }
@@ -902,7 +908,7 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
         }
     }
 
-    Err(wasm_error!("Undefined behavior; this place should be unreachable"))
+    Err(wasm_error!("Undefined behavior; could not find agent validation package"))
 }
 
 #[hdk_extern]
