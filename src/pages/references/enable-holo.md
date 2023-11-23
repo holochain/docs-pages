@@ -811,7 +811,7 @@ The following code shows an example of how to do both of these things. This isn'
 ```rust
 /// A helper function to check whether a membrane proof is from a special Holo-
 /// hosted read-only agent.
-fn is_read_only_membrane_proof(membrane_proof: Option<MembraneProof>) -> bool {
+fn is_read_only_membrane_proof(membrane_proof: &Option<MembraneProof>) -> bool {
     match membrane_proof {
         // A membrane proof can either be None or zero bytes.
         // In either case, it's a read-only membrane proof.
@@ -822,9 +822,9 @@ fn is_read_only_membrane_proof(membrane_proof: Option<MembraneProof>) -> bool {
 
 /// A helper function to validate a membrane proof. You can use this in both
 /// your `genesis_self_check` and `validate` functions.
-fn validate_membrane_proof(membrane_proof: Option<MembraneProof>) -> ExternResult<ValidateCallbackResult> {
+fn validate_membrane_proof(membrane_proof: &Option<MembraneProof>) -> ExternResult<ValidateCallbackResult> {
     // Read-only membrane proofs are always permitted.
-    if is_read_only_membrane_proof(membrane_proof.clone()) {
+    if is_read_only_membrane_proof(membrane_proof) {
         return Ok(ValidateCallbackResult::Valid);
     }
 
@@ -884,7 +884,7 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
                 return Ok(true);
             }
             (Action::AgentValidationPkg(action_data), _) => {
-                return Ok(!is_read_only_membrane_proof(action_data.membrane_proof.clone()));
+                return Ok(!is_read_only_membrane_proof(&action_data.membrane_proof));
             }
             (a, _) => {
                 // Prior action was neither CRUD nor membrane proof; walk
@@ -901,7 +901,7 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
 pub fn genesis_self_check(
     data: GenesisSelfCheckData,
 ) -> ExternResult<ValidateCallbackResult> {
-    validate_membrane_proof(data.membrane_proof.clone())
+    validate_membrane_proof(&data.membrane_proof)
 }
 
 #[hdk_extern]
@@ -914,7 +914,7 @@ pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
         Op::RegisterAgentActivity(register_agent_activity) => Some(register_agent_activity.action.hashed.content.clone()),
         _ => None
     } {
-        return validate_membrane_proof(action.membrane_proof.clone());
+        return validate_membrane_proof(&action.membrane_proof);
     }
 
     // Now we validate write permissions on the op.
