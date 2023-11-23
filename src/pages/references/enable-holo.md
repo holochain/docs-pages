@@ -408,7 +408,7 @@ You now have a fully functional Holo app up and running!
 
 Only minor UI changes are technically required for Holo hosting. However, Holo operates under a different set of assumptions and we highly recommend that you read the [Holo Core Concepts](#holo-core-concepts-and-further-documentation) section of this guide. It is likely that you will want to reconsider certain UX flows.
 
-This example will use an example forum hApp with a Vue-based UI, but feel free to follow along with your own hApp instead.
+This example will use an example forum hApp with a Vue-based UI, but feel free to follow along with your own hApp instead. Remember that your hApp needs to target Holochain 0.2 in order to run on the Holo network, so you might need to follow the [0.1 → 0.2 migration guide](/upgrade-holochain/) first.
 
 ```shellsession
 nix run --override-input versions 'github:holochain/holochain?dir=versions/0_2'  github:holochain/holochain#hc-scaffold -- example forum
