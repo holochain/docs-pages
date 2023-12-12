@@ -60,7 +60,7 @@ $cl-sidebar-bg: #f7f7f7;
   }
 
   @include mq-full {
-    grid-template-columns: [vp-left] minmax(50px, 1fr) minmax(0, 60em) [sidebar-begin] 20em [sidebar-end] minmax(50px, 1fr) [vp-right];
+    grid-template-columns: [vp-left] minmax(50px, 1fr) minmax(0, 50em) [sidebar-begin] 20em [sidebar-end] minmax(50px, 1fr) [vp-right];
     grid-template-areas:
       "... header header ..."
       "... header header ..."
