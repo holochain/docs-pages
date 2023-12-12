@@ -154,14 +154,14 @@ npm start
 
 After you run the last of these commands, you should see three windows open:
 
-![A screenshot showing two hApp windows in front of the Playground](/assets/img/getting-started/1-running-app-first-look.png)
+![A screenshot showing two hApp windows in front of the Playground](/assets/img/get-started/1-running-app-first-look.png)
 
 * A web browser window with the Holochain Playground, which displays a visual representation of the app's state data
 * Two windows showing the UI for two agents, both of which will have published a `Hello World` entry to the network.
 
 When you click on the "Look for Hellos" button, you should be able to see the hellos:
 
-![A screenshot showing one app window, with hello messages in different languages retrieved from the DHT](/assets/img/getting-started/2-look-for-hellos.png)
+![A screenshot showing one app window, with hello messages in different languages retrieved from the DHT](/assets/img/get-started/2-look-for-hellos.png)
 
 When you are done checking out this app, you can go back to the terminal and stop both agents by pressing <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> (Linux) or <kbd><kbd>Cmd</kbd>+<kbd>C</kbd></kbd> (macOS).
 
@@ -1009,7 +1009,7 @@ When you start the hApp with `npm start`, this launches Holochain in sandbox mod
 2. An application window with one agent (conductor 0) running the forum hApp. This window lets us take actions as that agent (0, or Alice, if you prefer).
 3. Another application window with a second agent (conductor 1) running the forum hApp. This window lets us take actions as the other agent (1, or Bob).
 
-![Three windows: two agent UIs and a web browser window with the Holochain Playground](/assets/img/getting-started/1-two-uis-and-playground.png)
+![Three windows: two agent UIs and a web browser window with the Holochain Playground](/assets/img/get-started/1-two-uis-and-playground.png)
 
 These application windows allow us to test multiple agents in a Holochain network interacting with one another. It is all running on our one device, but the two conductors behave very much the same as separate agents on different machines would, minus network lag.
 
@@ -1216,7 +1216,7 @@ The `AllPosts` element is obviously not standard HTML. In Svelte, each component
 
 Save that file and take a look again at the two UI windows. They should both say 'No posts found'.
 
-![A UI showing the AllPosts component, which says 'No posts found'](/assets/img/getting-started/2-no-posts-found.png)
+![A UI showing the AllPosts component, which says 'No posts found'](/assets/img/get-started/2-no-posts-found.png)
 
 Let's fix that by adding the post creation component to the UI so we can add our first post. Import the `CreatePost.svelte` component by adding this line in the script section, just below the `AllPosts` component you previously imported:
 
@@ -1250,7 +1250,7 @@ nter">
 
 Save the file and switch to one of the two conductor windows. You should now see a post form.
 
-![The UI after adding the CreatePost component](/assets/img/getting-started/3-create-post-component.png)
+![The UI after adding the CreatePost component](/assets/img/get-started/3-create-post-component.png)
 
 Type something into one of the two conductor windows like:
 
@@ -1261,7 +1261,7 @@ and then press the "Create Post" button.
 
 You'll immediately notice that the `AllPosts` component has changed from saying "No posts found" to showing the newly created post. And if you take a look at the Holochain Playground window, you will see that two new actions have been created. If you click the `App` element that's appeared in Alice's source chain, it will pull up some details in the Entry Contents section, including the title and content of Alice's forum post. Note the hash of that entry (top of the Entry Contents window). Then click on the `Create` action that's pointing toward that `App` entry in the source chain. If you look back at the contents window, you will see that it is now sharing the contents of the action. And if you look down the list a bit, you will see the hash of the entry for the first post.
 
-![The Holochain playground showing a single agent's source chain, containing the actions that create a post, as well as the transformations in the DHT that resulted from these actions](/assets/img/getting-started/4-playground-first-post.png)
+![The Holochain playground showing a single agent's source chain, containing the actions that create a post, as well as the transformations in the DHT that resulted from these actions](/assets/img/get-started/4-playground-first-post.png)
 
 !!! dig-deeper Relationships in a source chain versus relationships in the DHT
 
@@ -1279,7 +1279,7 @@ Let's edit that post. In Alice's UI window, click the edit adjacent to the post 
 
 Now alter the content a bit. Maybe change it from `Hello Bob!` to `Hello, World!` and click "Save".
 
-![The UI of one agent, showing a post about to be edited](/assets/img/getting-started/5-edit-post.png)
+![The UI of one agent, showing a post about to be edited](/assets/img/get-started/5-edit-post.png)
 
 That should update the post (at least for Alice). Bob's UI will show the updated version the next time it's reloaded.
 
@@ -1289,7 +1289,7 @@ If you look at the Holochain Playground, you should see that the update was adde
 2. an `Update` action that indicated this entry is to replace the original entry, and
 3. a `CreateLink` action that connects the original create action to the update action.
 
-![The Holochain playground, showing the source chain of the agent who edited the post along with new data in the DHT reflecting the edit](/assets/img/getting-started/6-playground-after-edits.png)
+![The Holochain playground, showing the source chain of the agent who edited the post along with new data in the DHT reflecting the edit](/assets/img/get-started/6-playground-after-edits.png)
 
 As explained [previously](#crud-create-read-update-delete), the original forum post already has a 'link' of sorts pointing from its action to the `Update` action, which can be accessed when the original is retrieved. The extra link created by the `CreateLink` action is optional --- it merely speeds up retrieval when an action has been edited many times and has a long chain of update links, by allowing you to jump to the end of the chain. In the screenshot above, the link is highlighted in the DHT pane.
 
@@ -1321,7 +1321,7 @@ Here, the comment components need to know what post they're related to. The post
 
 Save the file, then go back to the UI windows to see the changes. Try typing in a comment or two, then deleting them. (You may need to refresh the UI windows to see the changes to the content.) Watch the Playground --- see how the authors' source chains and the graph in the DHT change as new information is added. The deleted comments are still there and can be accessed by code in your zomes if needed, but neither the application backend (that is, the functions defined in the coordinator zome) nor the UI have the capacity to show them.
 
-![One UI window with the comment components added, with the Playground in the background showing a populated DHT](/assets/img/getting-started/8-comment-components.png)
+![One UI window with the comment components added, with the Playground in the background showing a populated DHT](/assets/img/get-started/8-comment-components.png)
 
 <!---
 TODO: this looks like older stuff, cleanup?
