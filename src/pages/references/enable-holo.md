@@ -971,4 +971,4 @@ fn init(_: ()) -> ExternResult<InitCallbackResult> {
 
 In general, you should not list functions in the above grant that write new capability grants to the read-only instance's' chain, to prevent an attacker from expanding their privileges. And depending on your app, it's probably also good practice to limit access to functions that don't write to the source chain but can still be disruptive, such as [calling other cells](/concepts/8_calls_capabilities/) or [sending signals](/concepts/9_signals/).
 
-Note that these protections implemented in a coordinator zome also do not prevent reads by people who run the hApp on their own devices and supply a zero-byte membrane proof. When you implement the read-only pattern, you're making a conscious choice to make the DHT public for reading while restricting who can write to it.
+Note that these protections implemented in a coordinator zome also do not prevent reads by people who run the hApp on their own devices and supply a zero-byte membrane proof. When you implement the read-only pattern, you're making a conscious choice to make the DHT public for reading while restricting who can write to it. 
