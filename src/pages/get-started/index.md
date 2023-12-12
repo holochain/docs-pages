@@ -154,12 +154,14 @@ npm start
 
 After you run the last of these commands, you should see three windows open:
 
+![A screenshot showing two hApp windows in front of the Playground](/assets/img/getting-started/1-running-app-first-look.png)
+
 * A web browser window with the Holochain Playground, which displays a visual representation of the app's state data
 * Two windows showing the UI for two agents, both of which will have published a `Hello World` entry to the network.
 
 When you click on the "Look for Hellos" button, you should be able to see the hellos:
 
-[image of hellos?]
+![A screenshot showing one app window, with hello messages in different languages retrieved from the DHT](/assets/img/getting-started/2-look-for-hellos.png)
 
 When you are done checking out this app, you can go back to the terminal and stop both agents by pressing <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> (Linux) or <kbd><kbd>Cmd</kbd>+<kbd>C</kbd></kbd> (macOS).
 
