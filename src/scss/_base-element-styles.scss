@@ -3,10 +3,18 @@ img {
   max-width: 100%;
 }
 
-ul, ol {
-  li {
-    margin-bottom: 6px;
-  }
+p, ol, ul, dl, details, pre, blockquote, table, figure, figcaption, h4, h5, h6 {
+  margin: 1.5em 0;
+  line-height: 1.5;
+}
+
+ul ol, ol ol, ol ul, ul ul {
+  margin: 0;
+}
+
+h1, h2, h3 {
+  margin: 1.2em 0;
+  line-height: 1.2;
 }
 
 @mixin btn-base($color: currentColor, $bg-color: white, $hover-color: white, $hover-bg-color: $cl-brand-green) {
@@ -68,6 +76,6 @@ img {
   @for $p from 1 through 20 {
     &.sz#{$p}0p {
       max-width: $p * 10%;
-    } 
+    }
   }
 }

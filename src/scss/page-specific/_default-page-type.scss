@@ -3,20 +3,20 @@ $cl-sidebar-bg: #f7f7f7;
 &.default-page-type {
   background-color: white;
   display: grid;
-  
+
   //Mobile set up default
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: [header-start] min-content 
-                      [header-cl-bar-start] 44px 
-                      [header-cl-bar-end main-r1-start] min-content 
-                      [main-r2-start] 1fr 
+  grid-template-rows: [header-start] min-content
+                      [header-cl-bar-start] 44px
+                      [header-cl-bar-end main-r1-start] min-content
+                      [main-r2-start] 1fr
                       [main-end footer-start] min-content [footer-end];
-  grid-template-areas: 
+  grid-template-areas:
     "header"
     "header"
     "mainArea"
     "footer";
-  
+
   .main-area {
     grid-area: mainArea;
     background-color: white;
@@ -60,8 +60,8 @@ $cl-sidebar-bg: #f7f7f7;
   }
 
   @include mq-full {
-    grid-template-columns: [vp-left] minmax(20px, 1fr) minmax(0, 1000px) [sidebar-begin] 420px [sidebar-end] minmax(20px, 1fr) [vp-right];
-    grid-template-areas: 
+    grid-template-columns: [vp-left] minmax(50px, 1fr) minmax(0, 50em) [sidebar-begin] 20em [sidebar-end] minmax(50px, 1fr) [vp-right];
+    grid-template-areas:
       "... header header ..."
       "... header header ..."
       "... mainArea sideBar ..."

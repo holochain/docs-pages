@@ -502,6 +502,10 @@ See [Holochain host API](#holochain-host-api).
 
 A property of Holochain's [validating DHT](#validating-dht), whereby healthy [nodes](#node) detect invalid data, share proof of corruption among their peers via [warrants](#warrant), and take defensive action against the corrupt nodes that [authored](#author) the data by blocking network communication with them. While each agent is individually free to interact with a warranted peer, most agents will refuse to interact or gossip with them. The cumulative effect is a collective exclusion of the corrupt nodes (see [mutual sovereignty](#mutual-sovereignty)).
 
+#### Inductive validation
+
+The act of relying on inductive reasoning within a [validation function](#validation-function) to validate a piece of data that has dependencies by checking whether the data is valid in the context of its _most immediate dependencies only_. If other validators report that those dependencies are valid, it can be assumed that they have also applied the same inductive reasoning, as have the validators of those dependencies' dependencies, all the way back to the root nodes of the dependency graph. This can greatly speed up complex validation algorithms that operate on data with large dcependency graphs.
+
 #### Init callback
 
 A function in a [DNA](#dna) that the [conductor](#conductor) executes when an [agent](#agent) calls a [cell](#cell) for the first time, and after they have joined the DNA's [network](#network). This can be used to set up initial [source chain](#source-chain) [#state](#state-transition), etc.

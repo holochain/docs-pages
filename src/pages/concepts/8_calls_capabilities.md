@@ -81,6 +81,8 @@ In order for others to call one of their functions, the callee first has to gran
 
 In order to use a transferable or assigned grant, a caller must have already received a capability secret, which (if they're another cell) they can then save to their own source chain as a **capability claim entry**. Any time they want to call the function, they retrieve this entry and pass the secret along with the function call.
 
+#### Author grant
+
 ![](/assets/img/concepts/8.9-author-capability.png){.sz80p} {.center}
 
 There is one special case: if the public key of the caller and the callee match, such as with calls between zomes in a single DNA, cells in a single hApp, or UIs hosted in the Holochain Launcher, the conductor applies the **author** grant and no explicit capability grant is needed.
