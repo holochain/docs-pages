@@ -886,20 +886,58 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
     // Walk back through the source chain until we find something interesting --
     // either a CRUD action or a membrane proof.
     let mut prior_action_hash = op.prev_action().map(|h| h.clone());
+
+    // Most read-only apps will want to do a few writes to set up state at app
+    // initialization time. These writes happen in each zome's `init` function,
+    // if defined, and if all init succeed, an `InitZomesComplete` action is
+    // written to the chain. So we need to keep track of whether the op
+    // currently being validated comes before or after that point.
+    let mut init_zomes_complete_found = false;
+
     while let Some(hash) = prior_action_hash {
         let record = must_get_valid_record(hash.clone())?;
         let action = record.action();
         let entry_type = action.entry_type();
         match (action, entry_type) {
             (Action::CreateLink(_), _) | (Action::DeleteLink(_), _) => {
-                return Ok(true);
+                if (!init_zomes_complete_found) {
+                    // If we've found a prior app CRUD action without seeing the
+                    // `InitZomesComplete``, it's either because it happened
+                    // after that point or because both it and the op being
+                    // validated happened within `init``. Either way, the prior
+                    // CRUD action was valid so this must be too.
+                    return Ok(true);
+                }
+
+                // If, however, we have seen the `InitZomesComplete` action,
+                // the op being validated happened after `init` but the prior
+                // action we're currently inspecting happened before. Skip this
+                // and all other `init`-related CRUD actions, and keep looking
+                // until we find the membrane proof.
             }
             (Action::Create(_), Some(EntryType::App(_))) | (Action::Update(_), Some(EntryType::App(_))) | (Action::Delete(_), _) => {
-                return Ok(true);
+                // The rules for link CRUD actions also apply to entry CRUD
+                // actions.
+                if (!init_zomes_complete_found) {
+                    return Ok(true);
+                }
             }
             (Action::AgentValidationPkg(action_data), _) => {
-                return Ok(!is_read_only_membrane_proof(&action_data.membrane_proof));
+                // No prior CRUD actions were found, excepting possible ones
+                // done within `init` which we skipped if we're validiating an
+                // op produced after `init`. Allow all ops produced before
+                // `init`, and subject all ops produced after `init` to the
+                // read-only membrane proof check.
+                return Ok(!init_zomes_complete_found || !is_read_only_membrane_proof(&action_data.membrane_proof));
             }
+            (Action::InitZomesComplete(_), _) => {
+                // Keep track of the fact that we've seen this action, which
+                // means the currently validated op should be subject to a
+                // read-only membrane proof check, but keep going backwards
+                // until we hit the
+                init_zomes_complete_found = true;
+            }
+
             (a, _) => {
                 // Prior action was neither CRUD nor membrane proof; walk
                 // further along the source chain.
