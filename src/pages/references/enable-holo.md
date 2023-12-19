@@ -889,7 +889,7 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
 
     // Most read-only apps will want to do a few writes to set up state at app
     // initialization time. These writes happen in each zome's `init` function,
-    // if defined, and if all init succeed, an `InitZomesComplete` action is
+    // if defined, and if all inits succeed, an `InitZomesComplete` action is
     // written to the chain. So we need to keep track of whether the op
     // currently being validated comes before or after that point.
     let mut init_zomes_complete_found = false;
@@ -900,7 +900,7 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
         let entry_type = action.entry_type();
         match (action, entry_type) {
             (Action::CreateLink(_), _) | (Action::DeleteLink(_), _) => {
-                if (!init_zomes_complete_found) {
+                if !init_zomes_complete_found {
                     // If we've found a prior app CRUD action without seeing the
                     // `InitZomesComplete``, it's either because it happened
                     // after that point or because both it and the op being
@@ -918,7 +918,7 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
             (Action::Create(_), Some(EntryType::App(_))) | (Action::Update(_), Some(EntryType::App(_))) | (Action::Delete(_), _) => {
                 // The rules for link CRUD actions also apply to entry CRUD
                 // actions.
-                if (!init_zomes_complete_found) {
+                if !init_zomes_complete_found {
                     return Ok(true);
                 }
             }
