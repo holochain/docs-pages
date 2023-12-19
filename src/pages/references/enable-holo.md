@@ -894,7 +894,7 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
     // currently being validated comes before or after that point.
     let mut init_zomes_complete_found = false;
 
-    while let Some(hash) = prior_action_hash {
+    while let Some(ref hash) = prior_action_hash {
         let record = must_get_valid_record(hash.clone())?;
         let action = record.action();
         let entry_type = action.entry_type();
