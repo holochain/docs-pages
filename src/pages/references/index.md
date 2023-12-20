@@ -19,8 +19,8 @@ tocData:
 
 When you write a Holochain application, the part that lives in Holochain is called a [DNA](../concepts/2_application_architecture/#layers-of-the-application-stack). It runs in a WebAssembly sandbox and talks to the host, or conductor, through the host API. The HDK makes it easy for you to write your DNA coordinator zomes. While the HDI lets you write your DNA integrity zomes.
 
-* **[HDK reference (Rust)](https://docs.rs/hdk){target=_blank}**
-* **[HDI reference (Rust)](https://docs.rs/hdi){target=_blank}**
+* **[HDK reference](https://docs.rs/hdk){target=_blank}**
+* **[HDI reference](https://docs.rs/hdi){target=_blank}**
 
 ## Conductor APIs
 
@@ -36,12 +36,11 @@ For both of these APIs, you make an RPC call sending a MessagePack-serialized re
 
 ## Conductor Client
 
-For ergonomic interaction with those two API's there are two client implementations: One in JavaScript and one in Rust. If you intend to
-develop Holochain Apps with a web-based UI, **it is likely that all you'll ever need is the [JavaScript client](https://www.npmjs.com/package/@holochain/client){target=_blank}**.
+For ergonomic interaction with those two API's there are two officially supported client implementations: One in JavaScript and one in Rust. If you intend to develop Holochain Apps with a web-based UI, **it is likely that all you'll ever need is the [JavaScript client](https://www.npmjs.com/package/@holochain/client){target=_blank}**.
 
 * **[Conductor Client reference (JavaScript)](https://github.com/holochain/holochain-client-js){target=_blank}**
-* **[Conductor Client reference (Rust)](https://github.com/holochain/holochain-client-rust){target=_blank}**
-* **[Conductor Client reference (.NET / C#)](https://github.com/holochain-open-dev/holonet){target=_blank}** (Community-maintained)
+* **[Conductor Client reference (Rust)](https://docs.rs/holochain_client/latest/holochain_client/){target=_blank}**
+* **[Conductor Client reference (C#)](https://github.com/holochain-open-dev/holochain-client-csharp){target=_blank}** (Community-maintained)
 
 ## Conductor configuration
 
