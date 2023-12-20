@@ -8,7 +8,7 @@
         { title: "Setup For a Local Event", url: "/get-started/at-an-event/" },
       ]
     },
-    { title: "Core Concepts", url: "/concepts/1_the_basics/", children: [
+    { title: "Learn", url: "/concepts/1_the_basics/", children: [
         { title: "Application Architecture", url: "/concepts/2_application_architecture/" },
         { title: "Source Chain", url: "/concepts/3_source_chain/" },
         { title: "DHT", url: "/concepts/4_dht/" },
@@ -19,6 +19,9 @@
         { title: "Signals", url: "/concepts/9_signals/" },
         { title: "Countersigning", url: "/concepts/10_countersigning/" },
         { title: "Lifecycle Events", url: "/concepts/11_lifecycle_events/" },
+      ]
+    },
+    { title: "Build", url: "/build/1_hello_world/", children: [
       ]
     },
     { title: "References", url: "/references/", children: [
