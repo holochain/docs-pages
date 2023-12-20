@@ -5,6 +5,8 @@ tocData:
     href: rust-hdk
   - text: Conductor APIs
     href: conductor-apis
+  - text: Conductor Client
+    href: conductor-apis
   - text: Conductor configuration
     href: conductor-configuration
   - text: Binaries
@@ -28,14 +30,16 @@ The conductor exposes two RPC APIs over WebSocket interfaces:
 
 For both of these APIs, you make an RPC call sending a MessagePack-serialized request to the conductor over WebSocket and listening for a response. On the interface that exposes the app API, you can also listen for [**signals**](./glossary/#signal) broadcast by cells.
 
-* **[Admin API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html){target=_blank}**
-* **[App API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html){target=_blank}**
+* **[Conductor Admin API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html){target=_blank}**
+* **[Conductor App API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html){target=_blank}**
+
+## Conductor Client
 
 For ergonomic interaction with those two API's there are two client implementations: One in JavaScript and one in Rust. If you intend to
 develop Holochain Apps with a web-based UI, **it is likely that all you'll ever need is the [JavaScript client](https://www.npmjs.com/package/@holochain/client){target=_blank}**.
 
-* **[Holochain client JavaScript](https://github.com/holochain/holochain-client-js){target=_blank}**
-* **[Holochain client Rust](https://github.com/holochain/holochain-client-rust){target=_blank}**
+* **[Conductor Client reference (JavaScript)](https://github.com/holochain/holochain-client-js){target=_blank}**
+* **[Conductor Client reference (Rust)](https://github.com/holochain/holochain-client-rust){target=_blank}**
 
 ## Conductor configuration
 
