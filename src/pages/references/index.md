@@ -1,8 +1,8 @@
 ---
 title: Holochain Programming References
 tocData:
-  - text: Rust HDK
-    href: rust-hdk
+  - text: HDK
+    href: hdk-and-hdi
   - text: Conductor APIs
     href: conductor-apis
   - text: Conductor Client
@@ -15,11 +15,12 @@ tocData:
     href: example-applications-and-tutorials
 ---
 
-## Rust HDK
+## HDK and HDI
 
-When you write a Holochain application, the part that lives in Holochain is called a [DNA](../concepts/2_application_architecture/#layers-of-the-application-stack). It runs in a WebAssembly sandbox and talks to the host, or conductor, through the host API. The Rust HDK (Holochain Development Kit) makes it easy for you to write your DNAs in the Rust programming language.
+When you write a Holochain application, the part that lives in Holochain is called a [DNA](../concepts/2_application_architecture/#layers-of-the-application-stack). It runs in a WebAssembly sandbox and talks to the host, or conductor, through the host API. The HDK makes it easy for you to write your DNA coordinator zomes. While the HDI lets you write your DNA integrity zomes.
 
-* **[HDK reference](https://docs.rs/hdk){target=_blank}**
+* **[HDK reference (Rust)](https://docs.rs/hdk){target=_blank}**
+* **[HDI reference (Rust)](https://docs.rs/hdi){target=_blank}**
 
 ## Conductor APIs
 
@@ -40,6 +41,7 @@ develop Holochain Apps with a web-based UI, **it is likely that all you'll ever 
 
 * **[Conductor Client reference (JavaScript)](https://github.com/holochain/holochain-client-js){target=_blank}**
 * **[Conductor Client reference (Rust)](https://github.com/holochain/holochain-client-rust){target=_blank}**
+* **[Conductor Client reference (.NET / C#)](https://github.com/holochain-open-dev/holonet){target=_blank}** (Community-maintained)
 
 ## Conductor configuration
 
