@@ -4,13 +4,14 @@
       title: "Developers",
       links: [
         { title: "Get Started", url: "/get-started/" },
-        { title: "Core Concepts", url: "/concepts/1_the_basics/" },
-        { title: "Resources", url: "/references/" },
+        { title: "Learn", url: "/concepts/1_the_basics/" },
+        { title: "Build", url: "/build/1_hello_world/" },
+        { title: "References", url: "/references/" },
       ]
     },
 
     {
-      title: "Resources",
+      title: "References",
       links: [
         { title: "HDK (Rust)", url: "https://docs.rs/hdk", external: true },
         { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
