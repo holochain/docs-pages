@@ -13,6 +13,7 @@
       title: "Resources",
       links: [
         { title: "HDK", url: "https://docs.rs/hdk", external: true },
+        { title: "HDI", url: "https://docs.rs/hdi", external: true },
         { title: "App API", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
         { title: "Admin API", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
         { title: "Client (Javascript)", url: "https://github.com/holochain/holochain-client-js", external: true},
