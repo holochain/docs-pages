@@ -1,5 +1,16 @@
 ---
 title: Holochain Programming References
+tocData:
+  - text: Rust HDK
+    href: rust-hdk
+  - text: Conductor APIs
+    href: conductor-apis
+  - text: Conductor configuration
+    href: conductor-configuration
+  - text: Binaries
+    href: binaries
+  - text: Example applications
+    href: example-applications-and-tutorials
 ---
 
 ## Rust HDK
