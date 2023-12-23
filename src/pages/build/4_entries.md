@@ -165,33 +165,23 @@ Holochain gives you this `update_entry` function, but is somewhat unopinionated 
 
 You can structure your updates as "list" -- where all updates refer to the ActionHash of the original Create action.
 
-<!-- 
-
 ```mermaid
-A
-B->A
-C->A
-D->A
-E->A
+graph TB
+  B[Update 1] --> A[Create]
+  C[Update 2] --> A[Create]
+  D[Update 3] --> A[Create]
+  E[Update 4] --> A[Create]
 ```
 
-
-TODO render this as mermaid graph -->
-
-Or you can structure your updates as  "chain" -- where all updates refer to the ActionHash of the previous update.
-
-
-<!-- 
+Or you can structure your updates as  "chain" -- where each update refers to the ActionHash of the previous update.
 
 ```mermaid
-A
-B->A
-C->B
-D->C
-E->D
+graph TB
+  B[Update 1] --> A[Create]
+  C[Update 2] --> B[Update 1]
+  D[Update 3] --> C[Update 2]
+  E[Update 4] --> D[Update 3]
 ```
-
-TODO render this as mermaid graph -->
 
 If you structure your updates as a "chain" you may want to also create links from the original ActionHash to each update in the chain, for easier querying. This effectively trades additional storage space for reduced lookup time.
 
