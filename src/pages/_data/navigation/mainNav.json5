@@ -1,111 +1,40 @@
 {
   links: [
-    {
-      title: "Get Started",
-      url: "/get-started/",
-      children: [
-        {
-          title: "Dev Tools Setup Tips",
-          url: "/get-started/install-advanced/",
-        },
-        {
-          title: "Setup Without Nix",
-          url: "/get-started/install-without-nix/",
-        },
-        {
-          title: "Distribute your App",
-          url: "/get-started/distribute-your-app/",
-        },
-        {
-          title: "Holochain Upgrade 0.1 → 0.2",
-          url: "/get-started/upgrade-holochain/",
-        },
+    { title: "Get Started", url: "/get-started/", children: [
+        { title: "Dev Tools Setup Tips", url: "/get-started/install-advanced/" },
+        { title: "Setup Without Nix", url: "/get-started/install-without-nix/" },
+        { title: "Distribute your App", url: "/get-started/distribute-your-app/" },
+        { title: "Holochain Upgrade 0.1 → 0.2", url: "/get-started/upgrade-holochain/" },
         { title: "Setup For a Local Event", url: "/get-started/at-an-event/" },
-      ],
+      ]
     },
-    {
-      title: "Learn",
-      url: "/concepts/1_the_basics/",
-      children: [
-        {
-          title: "Application Architecture",
-          url: "/concepts/2_application_architecture/",
-        },
+    { title: "Learn", url: "/concepts/1_the_basics/", children: [
+        { title: "Application Architecture", url: "/concepts/2_application_architecture/" },
         { title: "Source Chain", url: "/concepts/3_source_chain/" },
         { title: "DHT", url: "/concepts/4_dht/" },
         { title: "Links and Anchors", url: "/concepts/5_links_anchors/" },
         { title: "CRUD Actions", url: "/concepts/6_crud_actions/" },
-        { title: "Validation", url: "/concepts/7_validation/" },
-        {
-          title: "Calls and Capabilities",
-          url: "/concepts/8_calls_capabilities/",
-        },
+        { title: "Validation", url: "/concepts/7_validation/"  },
+        { title: "Calls and Capabilities", url: "/concepts/8_calls_capabilities/" },
         { title: "Signals", url: "/concepts/9_signals/" },
         { title: "Countersigning", url: "/concepts/10_countersigning/" },
         { title: "Lifecycle Events", url: "/concepts/11_lifecycle_events/" },
-      ],
+      ]
     },
-    {
-      title: "Build",
-      url: "/build/1_hello_world/",
-      children: [
+    { title: "Build", url: "/build/1_hello_world/", children: [
         { title: "Forum App Tutorial", url: "/build/2_forum_tutorial/" },
         { title: "Packaging & Distribution", url: "/build/3_deployment/" },
-        { title: "Entries", url: "/build/4_entries" },
-        { title: "Links", url: "/build/5_links" },
-        { title: "Validation", url: "/build/" },
-        { title: "Calls & Capabilities", url: "/build/" },
-        { title: "Signals", url: "/build/" },
-        { title: "Countersigning", url: "/build/" },
-        { title: "Blocking", url: "/build/" },
-        { title: "Lifecycle Events", url: "/build/" },
-        { title: "Cryptographic Utilties", url: "/build/" },
-        {
-          title: "Advanced DNA Patterns: Public Encrypted Data",
-          url: "/build/",
-        },
-        { title: "Advanced DNA Patterns: Message Carrier", url: "/build/" },
-        { title: "Advanced DNA Patterns: Path Indexing", url: "/build/" },
-        { title: "Advanced DNA Patterns: Rivelrous Data", url: "/build/" },
-        {
-          title: "Advanced DNA Patterns: Flagging Unwanted Data",
-          url: "/build/",
-        },
-        { title: "Advanced DNA Patterns: Pagination", url: "/build/" },
-        {
-          title: "Advanced DNA Patterns: Mutual-Credit Currency",
-          url: "/build/",
-        },
-        {
-          title: "Advanced UI Patterns: Lazy Data Availability",
-          url: "/build/",
-        },
-        { title: "Advanced UI Patterns: Validation Receipts", url: "/build/" },
-      ],
+        { title: "Entries", url: "/build/4_entries" }
+      ]
     },
-    {
-      title: "References",
-      url: "/references/",
-      children: [
+    { title: "References", url: "/references/", children: [
         { title: "HDK (Rust)", url: "https://docs.rs/hdk", external: true },
-        {
-          title: "App API reference",
-          url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html",
-          external: true,
-        },
-        {
-          title: "Admin API reference",
-          url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html",
-          external: true,
-        },
-        {
-          title: "CLI",
-          url: "https://github.com/holochain/holochain/tree/main/crates/hc",
-          external: true,
-        },
+        { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
+        { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
+        { title: "CLI", url: "https://github.com/holochain/holochain/tree/main/crates/hc", external: true },
         { title: "Glossary", url: "/references/glossary/" },
-      ],
+      ]
     },
     { title: "Get Involved", url: "/get-involved/" },
-  ],
+  ]
 }
