@@ -30,6 +30,8 @@ tocData:
     href: reference
 ---
 
+An Entry is structured data written to an Agent's source chain via a CreateEntry or UpdateEntry Action.
+
 ## Define an Entry Type
 
 An EntryType can be any Rust struct that `serde` can serialize and deserialize.
@@ -227,13 +229,13 @@ Calling `delete_entry` does the following:
 
 ## Entry IDs
 
-Coming from the centralized database world, you might be expecting an Entry to have a unique ID that can be used to reference it elsewhere.
+Coming from centralized software architectures, you might be expecting an Entry to have a unique ID that can be used to reference it elsewhere.
 
-Instead, holochain uses hashes to reference content. In practice, different kinds of hashes have different meaning and suitability to use as an identifier.
+Instead, Holochain uses hashes to reference content. In practice, different kinds of hashes have different meaning and suitability to use as an identifier.
 
-To identify the *contents* of an Entry, use the entry's `EntryHash`. Remember that entry contents will collide in the DHT if the exact same entry is published multiple times.
+To identify the *contents* of an Entry, use the entry's `EntryHash`. Remember that identical entry contents will collide in the DHT.
 
-A common pattern to identify an *instance* of an Entry (i.e. an Entry authored by a specific agent at a specific time) is to use the `ActionHash` of the Create action which created the original entry. This can be a persistant way to identify the entry, even when it is updated, as other agents can query for updates themselves to discover the latest version.
+A common pattern to identify an *instance* of an Entry (i.e. an Entry authored by a specific agent at a specific time) is to use the `ActionHash` of the Create action which created the original entry. This can be a persistent way to identify the entry, even when it is updated, as other agents can query for updates themselves to discover the latest version.
 
 ## Community CRUD Libraries
 
