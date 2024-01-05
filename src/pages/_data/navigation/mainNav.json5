@@ -22,6 +22,7 @@
       ]
     },
     { title: "Build", url: "/build/1_hello_world/", children: [
+        { title: "Links", url: "/build/5_links" },
       ]
     },
     { title: "References", url: "/references/", children: [
