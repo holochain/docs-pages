@@ -24,7 +24,7 @@
     { title: "Build", url: "/build/1_hello_world/", children: [
       ]
     },
-    { title: "Resources", url: "/references/", children: [
+    { title: "References", url: "/references/", children: [
         { title: "HDK (Rust)", url: "https://docs.rs/hdk", external: true },
         { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
         { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
