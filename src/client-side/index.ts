@@ -147,3 +147,4 @@ const openDetailsOnFragmentIdNavigation = () => {
 // Open details elements when they have an ID that's navigated to.
 openDetailsOnFragmentIdNavigation();
 window.addEventListener("hashchange", openDetailsOnFragmentIdNavigation);
+
