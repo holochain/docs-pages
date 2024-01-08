@@ -37,27 +37,17 @@ module.exports = function(eleventyConfig) {
     if (this.page.outputPath.endsWith(".html")) {
       const document = new dom(content);
       const preBlocks = document.querySelectorAll('pre:has(code)');
-     
       preBlocks.forEach((pre) => {
+        pre.className += ' hljs-container';
         const code = pre.querySelector('code');
         const maybeLanguage = code.className.match(/(?<=\blanguage-)[A-Za-z0-9_-]+/);
         const blockText = he.decode(code.textContent);
-
-        if (maybeLanguage[0] === "mermaid") {
-          // Render as mermaid chart
-          pre.className += ' mermaid';
-          pre.innerHTML = code.innerHTML;
-        } else if (maybeLanguage) {
-          // Render as syntax-highlighted code with known language
-          pre.className += ' hljs-container';
-          code.className += ' hljs';
-          code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;  
+        if (maybeLanguage) {
+          code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
         } else {
-          // Render as syntax-highlighted code with autodetected language
-          pre.className += ' hljs-container';
-          code.className += ' hljs';
           code.innerHTML = hljs.highlightAuto(blockText).value;
         }
+        code.className += ' hljs';
       });
       return document.innerHTML;
     }
