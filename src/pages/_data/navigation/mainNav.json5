@@ -22,8 +22,6 @@
       ]
     },
     { title: "Build", url: "/build/1_hello_world/", children: [
-        { title: "Forum App Tutorial", url: "/build/2_forum_tutorial/" },
-        { title: "Packaging & Distribution", url: "/build/3_deployment/" },
         { title: "Entries", url: "/build/4_entries" }
       ]
     },
