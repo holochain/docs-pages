@@ -4,7 +4,8 @@
       title: "Developers",
       links: [
         { title: "Get Started", url: "/get-started/" },
-        { title: "Core Concepts", url: "/concepts/1_the_basics/" },
+        { title: "Learn", url: "/concepts/1_the_basics/" },
+        { title: "Build", url: "/build/1_hello_world/" },
         { title: "Resources", url: "/references/" },
       ]
     },
