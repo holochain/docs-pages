@@ -181,7 +181,7 @@ You can get help on every one of these subcommands and its parameters by typing 
 A quick note: if while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the current step** by using <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> on Linux or <kbd><kbd>Command</kbd>+<kbd>C</kbd></kbd> on macOS.
 !!!
 
-###  Scaffold a DNA
+### 4.  Scaffold a DNA
 
 A DNA folder is where you will put the code that defines the rules of your application. You're going to stay in the `my_forum_app/` root folder and, with some simple commands, the scaffolding tool will do much of the creation of relevant folders and files for you.
 
