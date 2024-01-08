@@ -1,5 +1,3 @@
-import mermaid from 'mermaid';
-
 function copyCodeBlockClickHandler(e: Event) {
   const button = e.target as HTMLButtonElement;
   const codeEl = button.parentElement?.querySelector("code");
@@ -149,9 +147,3 @@ const openDetailsOnFragmentIdNavigation = () => {
 // Open details elements when they have an ID that's navigated to.
 openDetailsOnFragmentIdNavigation();
 window.addEventListener("hashchange", openDetailsOnFragmentIdNavigation);
-
-function setUpMermaid() {
-  mermaid.initialize({ startOnLoad: true });
-}
-
-setUpMermaid();
