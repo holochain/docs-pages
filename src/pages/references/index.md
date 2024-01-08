@@ -6,7 +6,7 @@ tocData:
   - text: Conductor APIs
     href: conductor-apis
   - text: Conductor Client
-    href: conductor-apis
+    href: conductor-client
   - text: Conductor configuration
     href: conductor-configuration
   - text: Binaries
