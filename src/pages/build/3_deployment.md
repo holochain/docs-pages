@@ -90,3 +90,9 @@ Both of these are GitHub template repos with detailed instructions on how to clo
 !!! note Code Signing
 For macOS and Windows, you will probably also want to go through the process of registering as a developer so that your application can be "code-signed". This is needed so that users don't get the "unsigned code" warnings when launching the applications on those platforms. Both of the above templates include instructions for CI automation to run the code-signing steps on release once you have acquired the necessary certificates.
 !!!
+
+### Holo hosting
+
+If you want to distribute your app without requiring that users download & run a desktop application, but instead simply visit a URL in their web browser, you can deploy your app to Holo hosting. Holo hosting is a decentralized hosting market in which hosts run the holochain app on behalf of users, while users retain full control of their cryptographic keys. App developers pay the hosting fees based on metered usage.
+
+Holo hosting is not yet ready for public use. Once Holo launches, this page will be updated with detailed deployment instructions. Please refer to the [Holo Blog](https://holo.host/blog) and [Holo Roadmap](https://holo.host/roadmap) for updates. 
