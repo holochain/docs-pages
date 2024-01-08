@@ -3,8 +3,8 @@ title: Holochain Programming References
 tocData:
   - text: HDK and HDI
     href: hdk-and-hdi
-  - text: Conductor APIs
-    href: conductor-apis
+  - text: Conductor API
+    href: conductor-api
   - text: Conductor Client
     href: conductor-client
   - text: Conductor configuration
@@ -22,9 +22,9 @@ When you write a Holochain application, the part that lives in Holochain is call
 * **[HDK reference](https://docs.rs/hdk){target=_blank}**
 * **[HDI reference](https://docs.rs/hdi){target=_blank}**
 
-## Conductor APIs
+## Conductor API
 
-The conductor exposes two RPC APIs over WebSocket interfaces:
+The conductor exposes two separate RPC APIs over WebSocket interfaces:
 
 * The **admin API** lets application front-ends control the conductor to install DNAs, create agent IDs, combine a DNA and an agent ID into a running cell, and activate application RPC interfaces.
 * The **app API** lets front-ends call a running [cell](./glossary/#cell)'s functions and get information on the [DNA bundle](./glossary/#dna-bundle) that the cell belongs to.
