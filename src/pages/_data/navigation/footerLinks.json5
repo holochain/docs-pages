@@ -5,12 +5,12 @@
       links: [
         { title: "Get Started", url: "/get-started/" },
         { title: "Core Concepts", url: "/concepts/1_the_basics/" },
-        { title: "Resources", url: "/references/" },
+        { title: "References", url: "/references/" },
       ]
     },
 
     {
-      title: "Resources",
+      title: "References",
       links: [
         { title: "HDK", url: "https://docs.rs/hdk", external: true },
         { title: "HDI", url: "https://docs.rs/hdi", external: true },
