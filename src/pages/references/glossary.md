@@ -104,7 +104,7 @@ The act of joining an application's [DHT](#distributed-hash-table-dht). Bootstra
 1. Finding an initial group of peers to [gossip](#gossip) with via [discovery](#peer-discovery),
 2. Establishing connections with those peers,
 3. Having one's [membrane proof](#membrane-proof) accepted by those peers,
-4. Having one's [transprt address](#transport-address) accepted into those peers' [peer tables](#peer-table), and
+4. Having one's [transport address](#transport-address) accepted into those peers' [peer tables](#peer-table), and
 5. Gradually having one's transport address gossiped to other peers.
 
 #### Bootstrap service
@@ -351,7 +351,7 @@ A [public key infrastructure](#public-key-infrastructure-pki) that doesn't rely 
 
 #### Distributed system
 
-Any system that involves multiple [nodes](#node) talking to one another over a network, whether [decentralized](#decentralization) or [centralized](#centralization). Because communication isn't instantaneous, different nodes can create conflicting data, particularly in the persence of a [partition](#partition). Many distributed systems use a [coordination protocol](#coordination-protocol) to reach [consistency](#consistency), while others rely on the [CALM theorem](#consistency-as-logical-monotonicity-calm-theorem) to avoid conflicts altogether.
+Any system that involves multiple [nodes](#node) talking to one another over a network, whether [decentralized](#decentralization) or [centralized](#centralization). Because communication isn't instantaneous, different nodes can create conflicting data, particularly in the presence of a [partition](#partition). Many distributed systems use a [coordination protocol](#coordination-protocol) to reach [consistency](#consistency), while others rely on the [CALM theorem](#consistency-as-logical-monotonicity-calm-theorem) to avoid conflicts altogether.
 
 #### DNA
 
@@ -504,7 +504,7 @@ A property of Holochain's [validating DHT](#validating-dht), whereby healthy [no
 
 #### Inductive validation
 
-The act of relying on inductive reasoning within a [validation function](#validation-function) to validate a piece of data that has dependencies by checking whether the data is valid in the context of its _most immediate dependencies only_. If other validators report that those dependencies are valid, it can be assumed that they have also applied the same inductive reasoning, as have the validators of those dependencies' dependencies, all the way back to the root nodes of the dependency graph. This can greatly speed up complex validation algorithms that operate on data with large dcependency graphs.
+The act of relying on inductive reasoning within a [validation function](#validation-function) to validate a piece of data that has dependencies by checking whether the data is valid in the context of its _most immediate dependencies only_. If other validators report that those dependencies are valid, it can be assumed that they have also applied the same inductive reasoning, as have the validators of those dependencies' dependencies, all the way back to the root nodes of the dependency graph. This can greatly speed up complex validation algorithms that operate on data with large dependency graphs.
 
 #### Init callback
 
