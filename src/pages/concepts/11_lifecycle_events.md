@@ -46,7 +46,7 @@ We covered both of these callbacks in the section on [validation](../7_validatio
 
 Shortly after a cell is instantiated and connects to the network, the conductor looks for an init callback in every coordinator zome. This function is a place to initialize source chain data with necessary information, or make connections to peers, or anything necessary to bootstrap the cell. When all coordinator zomes in a cell have finished executing their init callback, the final [genesis record](../3_source_chain/), the 'init complete' action, is written to the source chain.
 
-An init callback can return 'pass', 'fail' with an error string, or a list of unresolved dependencies. If one init callback fails, initialiation of the entire cell fails and the cell is put into a disabled state.
+An init callback can return 'pass', 'fail' with an error string, or a list of unresolved dependencies. If one init callback fails, initialization of the entire cell fails and the cell is put into a disabled state.
 
 !!! warn Lazy initialization
 The init callbacks aren't actually called until the first time something calls a function in any coordinator zome.
