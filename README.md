@@ -106,5 +106,3 @@ Additionally the following `markdown-it` plugins have been added:
 - `clean`: Cleans out the `_site` dir
 - `build:search-index`: builds the index files for the search function. This is called as pat of the build process, but if you want the search to work during local dev then you need to run this once, or you can just run `build` before you start the `dev` script.
 - `update-browserlist`: Updates the browserlist that autoprefixer uses detirmine what vendor prefixes are needed for your specified browser set. Run once in a while.
-
-
