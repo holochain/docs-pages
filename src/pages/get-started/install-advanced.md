@@ -25,6 +25,20 @@ The flake-based one-liner to get you an ad-hoc Holonix shell looks like this:
 nix develop github:holochain/holochain#holonix
 ```
 
+To get ad-hoc shell with a specific version of Holochain, use the flag `--override-input versions <version_path>`. This example gives you the newest release in the unstable 0.2.x series:
+
+```shell
+nix develop --override-input versions ./versions/0_2 .#holonix
+```
+
+And this example gives you the newest weekly developer snapshot:
+
+```shell
+nix develop --override-input versions ./versions/weekly .#holonix
+```
+
+Take a look at the [`versions/` folder in the `holochain/holochain` repository](https://github.com/holochain/holochain/tree/develop/versions) to find out what versions you can target. Each subfolder is a valid version number to use in the above command, and the `flake.nix` file inside the subfolder shows the specific release tag for each component that will be downloaded.
+
 #### Enabling Flake features on your system
 
 At the time of writing, flakes are still considered an experimental in the nix world and thus require being enabled. This happens either ad-hoc on the command itself or permanently via Nix's configuration.
@@ -95,7 +109,7 @@ In the `outputs` set, this flake composes a dev shell that inherits its inputs f
 
 Once the `flake.nix` is created (and added to the git repo), the lockfile can be initiliazed by running `nix flake udpate`. The resulting `flake.lock` records pinned references to all the `inputs` at the given point in time, in our case to the the `holochain-flake` and of all its inputs transitively; altogether keeping track of all the dependencies of your app's development environment.
 
-### A Gotcha with Flakes and Git
+### A gotcha with Flakes and Git
 
 The behavior of `nix` commands that rely on a `flake.nix` as its input such as `nix develop` can be counterintuitive in a git repository.
 
