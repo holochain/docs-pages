@@ -19,17 +19,9 @@ This guide assumes that you've already adapted your Holochain app to work on the
 3. Use your registration code to create an account with the Cloud Console.
 4. Submit a hApp bundle and the URL of the hApp's UI to create a hApp listing in Cloud Console.
 
-!!! note Environment resets during Network RC
-During the release candidate period for the Holo network, we may periodically need to reset the entire hosting environment. We'll do everything we can to give you advance notice of this. The turnaround time on this is roughly an hour. **All data will be wiped** during this reset.
-
-When this happens, your UI will no longer be able to access your hApp. You'll have to wait for the reset to take place, then create a Cloud Console account and redeploy your hApp.
-
-If you have any questions or special requests with regard to an environment reset, please reach out to us to coordinate.
-!!!
-
 If you get stuck, reference our more robust step-by-step support document.
 
-If you're still stuck, please reach out to us on the Holochain Mattermost server in the Publisher Alpha channel and let us know where you're stuck.
+If you're still stuck, please reach out to us via the [hApp managers category of the Holo forum](https://forum.holo.host/c/happ-managers/64) or our [support email](mailto:help@holo.host) and let us know where you're stuck.
 
 ## Prerequisites
 
@@ -40,7 +32,7 @@ You must have:
 
     ```typescript
     const client: WebSdk = await WebSdk.connect({
-      chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL,
+      chaperoneUrl: 'https://chaperone.holo.hosting',
       authFormCustomization: {
         appName: 'my-app', // Display name on the credentials form. You can also set it in Cloud Console when deploying
       }
@@ -54,8 +46,6 @@ You must have:
 
 ### New registrant --- register with Holo
 
-If you've previously registered with the Holo network as a hApp manager but haven't registered for any other roles, you'll also need to follow this step after we reset the hosting environment. If you can't log into Cloud Console anymore, we may have done a reset since your last login.
-
 If you've already registered for a different role (either a host or a HoloFuel user), you can skip this step and go on to [register yourself as a hApp manager](#).
 
 To register, go to [register.holo.host](https://register.holo.host) and choose "Yes, it's my first time registering." Fill out the form, selecting **hApp Manager** when asked you're registering as a HoloPort, hApp manager, or HoloFuel user.
@@ -66,11 +56,11 @@ At this point someone from the Holo team will review and approve your submission
 
 ### Previously registered with Holo --- register for an additional role
 
-Holo Springboard is the application to use when you've already registered for a role in the Holo  etwork and would like to register for additional roles (Host, hApp manager, or HoloFuel user). At [springboard.holo.host](https://springboard.holo.host), input the email you've used for a previous Holo registration and a "magic" login link will be sent to your email.
+Holo Springboard is the application to use when you've already registered for a role in the Holo network and would like to register for additional roles (Host, hApp manager, or HoloFuel user). At [springboard.holo.host](https://springboard.holo.host), input the email you've used for a previous Holo registration and a "magic" login link will be sent to your email.
 
-Click the link in the email and return to the previous tab where you will have been logged into your Holo Springboard account. From there, select the option to add a hApp manager registration.
+Click the link in the email and return to the previous tab, where you will have been logged into your Holo Springboard account. From there, select the option to add a hApp manager registration.
 
-Next,  you'll receive a hApp manager registration code that you'll use to sign up for your Cloud Console account.It's currently a manual process for us to generate and send you this code. When the code is ready, you'll receive another email from Holo with the subject line: "hApp Manager Alpha Program - Registration Code".
+Next, you'll receive a hApp manager registration code that you'll use to sign up for your Cloud Console account. It's currently a manual process for us to generate and send you this code. When the code is ready, you'll receive another email from Holo with the subject line: "hApp Manager Alpha Program - Registration Code".
 
 ## 2. Sign up to Cloud Console
 
@@ -78,7 +68,7 @@ Once you've received your hApp manager registration code, go to [cloud-console.h
 
 Upon successfully signing into the app, you'll be in your Cloud Console account and asked to set your account display name before you can proceed to your dashboard.
 
-Your account display name is the name that will optionally appear on the hApp login screen next to the words "published by: " under each of your hApps' names. Please note the account display name cannot be changed at this time.
+Your account display name is the name that will optionally appear on the hApp login screen next to the words "published by: " under each of your hApps' names. Please note that it can't be changed at this time.
 
 ## 3. Deploy a hApp
 
@@ -87,19 +77,19 @@ Click on "Add a hApp" on your Cloud Console dashboard and fill in the form. You 
 **IMPORTANT! What you enter in the following three fields can make the difference between a successful or unsuccessful deployment.**
 
 * In the "Link to .hApp file" field, enter a publicly accessible URL that the hApp bundle can be downloaded from.
-* The optional **network seed** acts like a group password, allowing you to reuse a hApp bundle that's already being used while creating a separate, isolated network space. (Note that self-hosted users --- people using the hApp on their own devices rather than via Holo hosting --- will need to know this network seed and enter it at install time in order to get access.)
+* The optional **network seed** acts like a group password, allowing you to reuse a hApp bundle while creating a separate, isolated network space. This can be used for 'white label' apps, for example a generic chat hApp bundle that communities can create their own deployments of. (Note that self-hosted users --- people using the hApp on their own devices rather than via Holo hosting --- will need to know this network seed and enter it at install time in order to get access. Holo-hosted users will not need to do this.)
 * In the "URL of Hosted UI" field, enter the domain name that the UI is hosted at.
 
 Once you've submitted the listing, you'll see the following success message. It will give you instructions for adding a `TXT` record to the domain name of the URL where your UI is hosted. Log into your DNS manager and add this record.
 
-If all went well you should be able to access and use your hApp at your hosted UI URL within 30 minutes. If you end up waiting a few hours and are not able to access your hApp, let us know so we can help troubleshoot.
+If all went well, you should be able to access and use your hApp at your hosted UI URL within 30 minutes. If you end up waiting a few hours and are not able to access your hApp, let us know so we can help troubleshoot.
 
-Please provide us with any feedback you have as to the overall UX of the form. Your feedback is sincerely appreciated and will be discussed. We want to know about any parts that are confusing or any inspiration you have that might make it easier for other hApp managers.
+Please provide us with any feedback you have about the overall UX of the form. Your feedback is sincerely appreciated and will be discussed. We want to know about any parts that are confusing or any inspiration you have that might make it easier for other hApp managers. You can do this via the [hApp managers category of the Holo forum](https://forum.holo.host/c/happ-managers/64).
 
 ## 4. Pause or remove a hApp
 
-Pausing a hApp is straightforward. The change takes effect quite fast (within minutes). You'll see the "Paused" label for your paused hApps listed on your dashboard.
+Pausing a hApp is straightforward. The change takes effect quite quickly (within minutes). You'll see the "Paused" label for your paused hApps listed on your dashboard.
 
-At this time only deployed or paused hApps can be removed from hosting (drafts cannot be removed). To remove a hApp from hosting, access the edit form of your paused or published hApp, scroll to the bottom, and click on "Stop Hosting". Follow the instructions, and upon successful removal you will no longer see the hApp show in your list of hApps on your dashboard view. The change should take effect within minutes.
+At this time, only deployed or paused hApps can be removed from hosting (drafts cannot be removed). To remove a hApp from hosting, access the edit form of your paused or published hApp, scroll to the bottom, and click on "Stop Hosting". Follow the instructions, and upon successful removal you will no longer see the hApp show in your list of hApps on your dashboard view. The change should take effect within minutes.
 
-(Note: Currently only three hApps show neatly within the frame of the dashboard view. View all happs via the "See all" link.)
+(Note: Currently only three hApps show neatly within the frame of the dashboard view; you can view all hApps via the "See all" link.)
