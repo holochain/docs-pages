@@ -1,0 +1,5 @@
+/11ty-extensions
+/src/assets
+/src/client-side
+/src/custom
+/src/scss

@@ -107,6 +107,12 @@ jobs:
         extra_dictionary_limit: 20
         extra_dictionaries:
           cspell:software-terms/dict/softwareTerms.txt
+          cspell:lorem-ipsum/dictionary.txt
+          cspell:npm/dict/npm.txt
+          cspell:typescript/dict/typescript.txt
+          cspell:cryptocurrencies/cryptocurrencies.txt
+          cspell:html/html.txt
+          cspell:css/css.txt
 
   comment-push:
     name: Report (Push)
