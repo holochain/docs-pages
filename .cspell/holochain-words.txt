@@ -1,0 +1,12 @@
+hApp
+Holo
+Holo's
+Holochain
+Holochain's
+Holonix
+Tryorama
+webhapp
+zome
+zome's
+zomes
+zomes'
