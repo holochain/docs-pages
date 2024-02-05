@@ -11,3 +11,4 @@ jobs:
       - uses: streetsidesoftware/cspell-action@v5
         with:
           files: '**/*.{json5,njk,md}'
+          incremental_files_only: false
