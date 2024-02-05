@@ -1,5 +1,5 @@
 {
-    "dictionaries": ["holochain", "words-that-should-exist", "custom", "template"],
+    "dictionaries": ["holochain", "words-that-should-exist", "custom", "template", "html", "css", "softwareTerms"],
     "dictionaryDefinitions": [
         {
             "name": "holochain",

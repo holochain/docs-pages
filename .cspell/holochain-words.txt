@@ -1,9 +1,12 @@
+DeepKey
+DPKI
 hApp
 Holo
 Holo's
 Holochain
 Holochain's
 Holonix
+sharded
 Tryorama
 webhapp
 zome
