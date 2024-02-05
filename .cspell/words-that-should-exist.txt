@@ -9,6 +9,7 @@ counterparty's
 filesystem
 filesystems
 interoperating
+permissioned
 permissivity
 runtimes
 sandboxed

@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: 'Get dictionaries'
+        run: npm install @cspell/dict-lorem-ipsum
       - uses: streetsidesoftware/cspell-action@v5
         with:
           root: 'src'
