@@ -28,7 +28,7 @@ Multiple line
 
 ### Without Copy button
 
-To surpress the copy buttom you can wrap the code block in a `::: output-block` container
+To surpress the copy button you can wrap the code block in a `::: output-block` container
 
 Single line
 ::: output-block

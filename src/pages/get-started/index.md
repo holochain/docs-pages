@@ -387,7 +387,7 @@ A DNA folder is where you will put the code that defines the rules of your appli
 
 #### Why do we use the term DNA?
 
-In Holochain, we are trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organisations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
+In Holochain, we are trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organizations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
 
 This enables many different independent parts (cells) to build relatively consistent superstructures (a body, for instance), move resources, identify and eliminate infections, and more --- all without centralized command and control. There is no "CEO" cell in the body telling everybody else what to do. It's a bunch of independent actors (cells) playing by a consistent set of rules (the DNA) coordinating in effective and resilient ways.
 
@@ -1198,8 +1198,7 @@ Your `<main>` block should now look like this:
 ```svelte
 <main>
   {#if loading}
-    <div style="display: flex; flex: 1; align-items: center; justify-content: ce
-nter">
+    <div style="display: flex; flex: 1; align-items: center; justify-content: center">
       <mwc-circular-progress indeterminate />
     </div>
   {:else}
@@ -1235,8 +1234,7 @@ Now your `<main>` block should look like this:
 ```svelte
 <main>
   {#if loading}
-    <div style="display: flex; flex: 1; align-items: center; justify-content: ce
-nter">
+    <div style="display: flex; flex: 1; align-items: center; justify-content: center">
       <mwc-circular-progress indeterminate />
     </div>
   {:else}
@@ -1522,7 +1520,7 @@ If we now run the test again, it will pass.
 
 TODO: SHOW RUNNING THE TEST AND IT PASSING.
 
-What about updating comments?  Remember that in Holochain, because the source-chain is an appen only ledger, updating a comment is really creating a new comment and marking the old comment as deleted. Thus, when someone updates a comment, the create validation rules will still get enforced because a new comment entry gets created.
+What about updating comments?  Remember that in Holochain, because the source-chain is an append-only ledger, updating a comment is really creating a new comment and marking the old comment as deleted. Thus, when someone updates a comment, the create validation rules will still get enforced because a new comment entry gets created.
 
 ### 5.2. Advanced (inspecting the actions)
 
@@ -1648,7 +1646,7 @@ The steps for publishing an app to the Launcher's app store are documented in th
 If you prefer to distribute your app as a full standalone executable, you will need to bundle the Holochain runtime and your app together and take care of the necessary interactions between them. Because Holochain itself is really just a set of Rust libraries, you can of course build your own application that uses those libraries, but that's a fair amount of work. Currently there are two much simpler paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries, which in our case are the [holochain conductor](https://docs.rs/holochain/latest/holochain/) and the [lair keystore](https://docs.rs/lair_keystore/latest/lair_keystore/). Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has already been done for you:
 
 * **Electron**: Refer to the community-supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.
-* **Tauri**: See the officially supported [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
+* **Tauri**: See the officially supported [holochain-kangaroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
 
 Both of these are GitHub template repos with detailed instructions on how to clone the repos and add in your UI and DNA, as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users.
 
