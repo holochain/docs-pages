@@ -11,6 +11,7 @@ QUIC
 rustc
 rustflags
 rustup
+subl
 Tauri
 Ulhaq
 Wahlstrom

@@ -1,6 +1,6 @@
 {
-    "import": ["@cspell/dict-lorem-ipsum/cspell-ext.json"],
-    "dictionaries": ["holochain", "words-that-should-exist", "custom", "template", "html", "css", "softwareTerms", "lorem-ipsum"],
+    "import": ["@cspell/dict-lorem-ipsum/cspell-ext.json", "@cspell/dict-rust/cspell-ext.json"],
+    "dictionaries": ["holochain", "words-that-should-exist", "custom", "template", "html", "css", "softwareTerms", "lorem-ipsum", "rust"],
     "dictionaryDefinitions": [
         {
             "name": "holochain",

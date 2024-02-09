@@ -9,7 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: 'Get dictionaries'
-        run: npm install @cspell/dict-lorem-ipsum
+        run: |
+          npm install @cspell/dict-lorem-ipsum
+          npm install @cspell/dict-rust
       - uses: streetsidesoftware/cspell-action@v5
         with:
           root: 'src'
