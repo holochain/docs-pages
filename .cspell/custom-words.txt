@@ -1,12 +1,17 @@
 agent-centricity
 Anwaar
+buildinputs
+builtins
 Burmeister
 Cachix
 CRDT
 d'Aoust
+fixt
+gnused
 IPFS
 NixOS
 nixpkgs
+pkgs
 QUIC
 rustc
 rustflags

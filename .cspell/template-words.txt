@@ -2,10 +2,12 @@ brower
 coreconcepts
 elif
 endfor
+endlayoutblock
 endlink
 endmacro
 endrenderlayoutblock
 gtag
+layoutblock
 MSIE
 newblock
 pagefind
