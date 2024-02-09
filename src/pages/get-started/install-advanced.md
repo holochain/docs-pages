@@ -93,7 +93,7 @@ In the `outputs` set, this flake composes a dev shell that inherits its inputs f
 
 ### `flake.lock` file
 
-Once the `flake.nix` is created (and added to the git repo), the lockfile can be initiliazed by running `nix flake udpate`. The resulting `flake.lock` records pinned references to all the `inputs` at the given point in time, in our case to the the `holochain-flake` and of all its inputs transitively; altogether keeping track of all the dependencies of your app's development environment.
+Once the `flake.nix` is created (and added to the git repo), the lockfile can be initialized by running `nix flake update`. The resulting `flake.lock` records pinned references to all the `inputs` at the given point in time, in our case to the the `holochain-flake` and of all its inputs transitively; altogether keeping track of all the dependencies of your app's development environment.
 
 ### A Gotcha with Flakes and Git
 

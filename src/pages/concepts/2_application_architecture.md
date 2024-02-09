@@ -32,7 +32,7 @@ These data integrity rules create a membrane between a participant and her peers
 
 There's another membrane, which sits between a participant and her copy of the application. The application's public functions define the processes that can be used to access, interpret, and create data, as well as communicate with other participants and applications. Her copy of the application makes those functions available to any client on her machine that wants to act on her behalf, such as a UI or a scheduled script. Those functions are also made available to her peers in the same network so she can delegate some of her agency to them. The application developer can give her tools to control access to these functions using [capability-based security](../8_calls_capabilities/).
 
-![One participant's copy of the hApp. A membrane surrounds her hApp. On her device, three clients are successfully calling the hApp's functions while a malware is rejected. From the network, two peers try to call her hApp's functions; one succeds while another fails.](/assets/img/concepts/2.3-process-membrane.png){.sz80p} {.center}
+![One participant's copy of the hApp. A membrane surrounds her hApp. On her device, three clients are successfully calling the hApp's functions while a malware is rejected. From the network, two peers try to call her hApp's functions; one succeeds while another fails.](/assets/img/concepts/2.3-process-membrane.png){.sz80p} {.center}
 
 ## Layers of the application stack
 
@@ -54,7 +54,7 @@ The client is like the front end of a traditional app and can be written with wh
 
 ### Conductor
 
-![A participant's conductor hosts multiple hApps for her, mediating the connections between the hApp and her clients, as well betwee then hApp and other participants' conductors running the same hApp.](/assets/img/concepts/2.5-conductor.png){.sz80p} {.center}
+![A participant's conductor hosts multiple hApps for her, mediating the connections between the hApp and her clients, as well as between then hApp and other participants' conductors running the same hApp.](/assets/img/concepts/2.5-conductor.png){.sz80p} {.center}
 
 The hApp is hosted in the participant's **conductor**. It's the runtime that sandboxes and executes hApp code, handles cryptographic signing, manages data flow and storage, and handles connections both locally with clients and remotely with peers. When the conductor receives a function call, it routes it to the right function in the right hApp.
 
@@ -129,7 +129,7 @@ That's the entire stack of a Holochain hApp. Let's review, this time from the in
 2. One or more zomes are bundled into a **DNA**, which is like a microservice that defines all the rules for a given network.
 3. A DNA comes alive as a **cell** bound to an agent ID, running on behalf of a participant.
 4. One or more cells are slotted into roles in a **hApp**, which makes up an application's back end.
-5. A participant's **conductor** hosts the hApps she uses, mediating local and network access to them and executig their code.
+5. A participant's **conductor** hosts the hApps she uses, mediating local and network access to them and executing their code.
 6. The participant's **clients** access the hApp via the conductor's local RPC interface, while the conductor also allows the hApp to communicate with other participants' cells that belong to the same networks.
 
 ## Key takeaways

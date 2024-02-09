@@ -24,7 +24,7 @@ tocData:
       href: 4-6-scaffold-entry-types
     - text: 4.7. Scaffold a collection
       href: 4-7-scaffold-a-collection
-    - text: 4.8. Run your applicaiton in dev mode
+    - text: 4.8. Run your application in dev mode
       href: 4-8-run-your-application-in-dev-mode
     - text: 4.9. Integrate the generated UI elements
       href: 4-9-integrate-the-generated-ui-elements
@@ -62,7 +62,7 @@ In this section, we'll walk you through the step-by-step process of installing H
 
 ### 2.1. Hardware requirements
 
-Before you install the Holochain development ment, make sure your system meets the following hardware requirements:
+Before you install the Holochain development environment, make sure your system meets the following hardware requirements:
 
 * 8GB+ RAM (16GB+ recommended)
 * 4+ cores CPU (6+ cores recommended)
@@ -565,7 +565,7 @@ There are a few different kinds of actions, but the most common one is `Create`,
 
 Every action contains the ID of its author (actually a cryptographic public key), a timestamp, a pointer to the previous source chain record, and a pointer to the entry data, if there is any. In this way, actions provide historical context and provenance for the entries they operate on.
 
-The pointer to the previous source chain record creates an unbroken history from the current record all the way back to the source chain's starting point. This 'genesis' record contains the hash of the DNA, which servs as both the identifier for the specific set of validation rules that all following records should follow and the ID of the network that this source chain's actions are participating in.
+The pointer to the previous source chain record creates an unbroken history from the current record all the way back to the source chain's starting point. This 'genesis' record contains the hash of the DNA, which serves as both the identifier for the specific set of validation rules that all following records should follow and the ID of the network that this source chain's actions are participating in.
 
 An action is cryptographically signed by its author and is immutable (can't be changed or erased from either the source chain or the network's data store) once written. This, along with the validation rules specified by the DNA hash in the genesis record, are examples of a concept we call "intrinsic data integrity", in which data carries enough information about itself to be self-validating.
 
@@ -1111,7 +1111,7 @@ Next some variables are instantiated: one to hold the Holochain client that conn
 
 **Take note of the line that starts with `$:`**. This is a special Svelte label that turns regular variables into **reactive variables**. We won't get too deep into Svelte right now, because this is a tutorial about Holochain, but when a reactive variable changes, Svelte will re-render the entire component. This lets you write a template declaratively, enclosing the reactive variable in `{}` braces, and let Svelte handle the updating of the template wherever the variable changes.
 
-Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is establised, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
+Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is established, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
 
 #### `<main>` section
 
