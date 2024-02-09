@@ -54,7 +54,7 @@ The client is like the front end of a traditional app and can be written with wh
 
 ### Conductor
 
-![A participant's conductor hosts multiple hApps for her, mediating the connections between the hApp and her clients, as well between then hApp and other participants' conductors running the same hApp.](/assets/img/concepts/2.5-conductor.png){.sz80p} {.center}
+![A participant's conductor hosts multiple hApps for her, mediating the connections between the hApp and her clients, as well as between the hApp and other participants' conductors running the same hApp.](/assets/img/concepts/2.5-conductor.png){.sz80p} {.center}
 
 The hApp is hosted in the participant's **conductor**. It's the runtime that sandboxes and executes hApp code, handles cryptographic signing, manages data flow and storage, and handles connections both locally with clients and remotely with peers. When the conductor receives a function call, it routes it to the right function in the right hApp.
 
