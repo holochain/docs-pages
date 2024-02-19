@@ -535,7 +535,9 @@ Updating crates.io index
     Fetch [===>       ] ...
 ```
 :::
-    (then after download is done...)
+
+(then after download is done...)
+
 ::: output-block
 ```text
     Downloaded 244 crates (46.7 MB) in 4.27s (largest was `windows` at 11.9 MB)
@@ -687,7 +689,7 @@ After adding the `title` and `content` fields, press <kbd>N</kbd> when asked if 
 ::: output-block
 ```text
 Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
-  Update
+✔ Update
 ✔ Delete
 ```
 :::
