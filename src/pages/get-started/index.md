@@ -349,7 +349,7 @@ You should see something like:
 
 ::: output-block
 ```text
-holochain_scaffolding_cli 0.1.8
+holochain_scaffolding_cli x.y.z
 The list of subcommands for `hc scaffold`
 
 USAGE:
