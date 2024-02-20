@@ -185,7 +185,7 @@ This makes tests much more reliable. It is faster too because you don't have to 
 The `hc-launch` tool that came with hApps scaffolded for Holochain 0.1 is still available but we are now recommending a new tool which does the same job but with a better developer experience. To switch to `hc-spin` you will need to add it as an NPM dependency by running
 
 ```shell
-npm install --save-dev @holochain/hc-spin@^0.200.0
+npm install --save-dev @holochain/hc-spin@^0.200.10
 ```
 
 Then you will need to update the `scripts` section of your project's root `package.json`. These are often customized so we can't give you a simple command to make this change. If you scaffolded a new project you would get a scripts section that looks like this, at the time of writing
