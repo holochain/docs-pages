@@ -112,6 +112,18 @@ npm install --workspace tests @holochain/client@^0.16.9
 This will not install version `0.16.9` if a newer version has been released. Check your `package-lock.json` to see exactly what version got installed. It will be `0.16.x` because the `^` constraint only permits patch upgrades, so you will get a version that's compatible with Holochain 0.2.
 !!!
 
+One notable change in the client is that it now requires a URL rather than a string when connecting to Holochain. You should change
+
+```js
+this.client = await AppAgentWebsocket.connect('', 'myHapp');
+```
+
+To this
+
+```js
+this.client = await AppAgentWebsocket.connect(new URL('http://UNUSED'), 'myHapp');
+```
+
 #### Update `@holochain/tryorama`
 
 In your project's `tests/package.json` you will find a dependency on `@holochain/tryorama`. This should be using `0.11.x`, which is the version compatible with Holochain 0.1. To work with Holochain 0.2, you need to update to `0.15.x`.
