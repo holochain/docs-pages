@@ -180,6 +180,45 @@ await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
 
 This makes tests much more reliable. It is faster too because you don't have to wait for a long time to be safe, you can proceed as soon as the two players have synced their DHTs.
 
+#### Recommended: Switch from `hc-launch` to `hc-spin` for running happs
+
+The `hc-launch` tool that came with hApps scaffolded for Holochain 0.1 is still available but we are now recommending a new tool which does the same job but with a better developer experience. To switch to `hc-spin` you will need to add it as an NPM dependency by running
+
+```shell
+npm install --save-dev @holochain/hc-spin@^0.200.0
+```
+
+Then you will need to update the `scripts` section of your project's root `package.json`. These are often customised so we can't give you a simple command to make this change. If you scaffolded a new project you would get a scripts section that looks like this, at the time of writing
+
+```json
+{
+  ...,
+  "scripts": {
+    "start": "AGENTS=2 BOOTSTRAP_PORT=$(port) SIGNAL_PORT=$(port) npm run network",
+    "network": "hc s clean && npm run build:happ && UI_PORT=8888 concurrently \"npm start -w ui\" \"npm run launch:happ\" \"holochain-playground\"",
+    "test": "npm run build:zomes && hc app pack workdir --recursive && npm t -w tests",
+    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/check_scripts.happ",
+    "start:tauri": "AGENTS=2 BOOTSTRAP_PORT=$(port) SIGNAL_PORT=$(port) npm run network:tauri",
+    "network:tauri": "hc s clean && npm run build:happ && UI_PORT=8888 concurrently \"npm start -w ui\" \"npm run launch:tauri\" \"holochain-playground\"",
+    "launch:tauri": "concurrently \"hc run-local-services --bootstrap-port $BOOTSTRAP_PORT --signal-port $SIGNAL_PORT\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/check_scripts.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$SIGNAL_PORT\"\"",
+    "package": "npm run build:happ && npm run package -w ui && hc web-app pack workdir --recursive",
+    "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
+    "build:zomes": "RUSTFLAGS='' CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown"
+  },
+  ...
+}
+```
+
+You can get the latest version of these scripts yourself by running the following commands
+
+```shell
+nix run --override-input versions "github:holochain/holochain?dir=versions/0_2" github:/holochain/holochain#hc-scaffold -- web-app --template svelte --setup-nix true check_scripts
+cd check_scripts
+cat package.json
+```
+
+The scripts which have a postfix of `:tauri` are similar to the scripts you will already have. The new scripts for `start`, `network` and `launch` are now set up around `hc-spin`. It's up to you how you want to merge these scripts with your project. If you haven't made any customisations then feel free to copy the sample scripts above. Please take care to update the hApp name to match yours. I have called my hApp `check_scripts` so you would replace that string with your happ name.
+
 ### Update Cargo dependencies
 
 This section is harder to write a general guide for because it's common for hApps to add dependencies on other Holochain crates. If you have added other dependencies than the `hdi` and `hdk` to your project then you will need to update those too but figuring out which versions you
