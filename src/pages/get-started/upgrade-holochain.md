@@ -130,7 +130,7 @@ This will not install version `0.15.2` if a newer version has been released. Che
 
 ### Update Cargo dependencies
 
-This section is harder to write a general guide for because it's common for happs to add dependencies on other Holochain crates. If you have added other dependencies than the `hdi` and `hdk` to your project then you will need to update those too but figuring out which versions you
+This section is harder to write a general guide for because it's common for hApps to add dependencies on other Holochain crates. If you have added other dependencies than the `hdi` and `hdk` to your project then you will need to update those too but figuring out which versions you
 need is not described here. There is a hint at the end of the section.
 
 #### Update the HDK and the HDI
@@ -205,7 +205,7 @@ If you depend on other Holochain crates, then you will need to find compatible v
 Project's scaffolded for Holochain 0.1 didn't include this, but new project's scaffolded for Holochain 0.2 an onwards do. You can read about
 this configuration option [here](https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions). The quick summary is that it changes
 the algorithm that Cargo uses for resolving crate features. We use this on the Holochain project and recommend it for hApp projects because it
-results in less surprising behaviour when adding dependencies on Holchain crates.
+results in less surprising behavior when adding dependencies on Holochain crates.
 
 In your project's `Cargo.toml`, look for the `[workspace]` section. Add the `resolver = "2"` option here.
 
