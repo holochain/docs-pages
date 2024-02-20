@@ -140,7 +140,7 @@ npm install --workspace tests @holochain/tryorama@^0.15.2
 This will not install version `0.15.2` if a newer version has been released. Check your `package-lock.json` to see exactly what version got installed. It will be `0.15.x` because the `^` constraint only permits patch upgrades, so you will get a version that's compatible with Holochain 0.2.
 !!!
 
-#### Bonus: Switch from `sleep` to `dhtSync` in Tryorama tests
+#### Recommended: Switch from `sleep` to `dhtSync` in Tryorama tests
 
 In the version of Tryorama that was compatible with 0.1 you had to use the `sleep` function when creating data with one player and waiting for it to be visible to other players. With the version of Tryorama you have just upgraded to, there is a new way to do this using the `dhtSync` function instead.
 
