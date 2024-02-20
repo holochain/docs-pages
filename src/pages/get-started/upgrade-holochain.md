@@ -128,6 +128,24 @@ npm install --workspace tests @holochain/tryorama@^0.15.2
 This will not install version `0.15.2` if a newer version has been released. Check your `package-lock.json` to see exactly what version got installed. It will be `0.15.x` because the `^` constraint only permits patch upgrades, so you will get a version that's compatible with Holochain 0.2.
 !!!
 
+#### Bonus: Switch from `sleep` to `dhtSync` in Tryorama tests
+
+In the version of Tryorama that was compatible with 0.1 you had to use the `sleep` function when creating data with one player and waiting for it to be visible to other players. With the version of Tryorama you have just upgraded to, there is a new way to do this using the `dhtSync` function instead.
+
+For example, if you are writing a test with two players then you can replace
+
+```js
+await sleep(3000);
+```
+
+with a call that will actually wait for data to be synced between the two players.
+
+```js
+await dhtSync([alice, bob], alice.cells[0].cell_id[0]);
+```
+
+This makes tests much more reliable. It is faster too because you don't have to wait for a long time to be safe, you can proceed as soon as the two players have synced their DHTs.
+
 ### Update Cargo dependencies
 
 This section is harder to write a general guide for because it's common for hApps to add dependencies on other Holochain crates. If you have added other dependencies than the `hdi` and `hdk` to your project then you will need to update those too but figuring out which versions you
