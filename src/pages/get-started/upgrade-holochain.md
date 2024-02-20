@@ -67,6 +67,28 @@ This takes all updates from Holonix, including an update to the Rust version tha
 whenever you update your Cargo dependencies to the latest HDI/HDK versions.
 !!!
 
+#### Optional: Update your Node.js version
+
+Check if your `flake.nix` still contains the Node.js package that was included by the scaffolding. It will look something like
+
+```nix
+packages = [ 
+  pkgs.nodejs-18_x 
+];
+```
+
+Change this to the latest long-term support (LTS) release of Node.js. You can find all releases [here](https://github.com/nodejs/node/releases) and check which version is currently the LTS version. At the time of writing this is Node.js 20 so you would update your packages to look something like
+
+```nix
+packages = [
+  pkgs.nodejs_20
+];
+```
+
+To find the package name for a given Node.js release you can search on the [Nix package listing](https://search.nixos.org/packages).
+
+Holochain's TypeScript/JavaScript code is tested on the LTS version of Node.js that is the recommended version for building hApps. You can choose to use a different version but you may run into bugs we aren't aware of yet, so please let us know if you do!
+
 #### Open a dev shell and check the update has worked
 
 Open a dev shell like you normally would
