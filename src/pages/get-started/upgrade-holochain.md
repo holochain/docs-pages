@@ -230,7 +230,7 @@ If you have trouble resolving the build issues or the changelog doesn't give you
 
 If you depend on other Holochain crates, then you will need to find compatible versions to update to. You can check available versions on `crates.io` by searching for them by name. You can also check the [Holochain changelog](https://github.com/holochain/holochain/blob/develop-0.2/CHANGELOG.md) to see what versions have been released together. Note that we don't release crates unless they have changes, so if you don't see the crate you're looking for in a release, then please check the previous releases for the last time we released it. If you get stuck or have build issues, then please reach out on Discord or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
 
-#### Bonus: use `resolver = "2"` in your Cargo workspace
+#### Recommended: use `resolver = "2"` in your Cargo workspace
 
 Project's scaffolded for Holochain 0.1 didn't include this, but new project's scaffolded for Holochain 0.2 an onwards do. You can read about
 this configuration option [here](https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions). The quick summary is that it changes
