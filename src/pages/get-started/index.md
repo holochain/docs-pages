@@ -1084,13 +1084,14 @@ Your `App.svelte` file will have three sections:
   import { clientContext } from './contexts';
 
   let client: AppAgentClient | undefined;
+
   let loading = true;
 
-  $: client, loading;
 
   onMount(async () => {
-    // We pass '' as url because it will dynamically be replaced in launcher environments
-    client = await AppAgentWebsocket.connect('', 'forum');
+    // We pass an unused string as the url because it will dynamically be replaced in launcher environments
+    client = await AppAgentWebsocket.connect(new URL('https://UNUSED'), 'forum');
+
     loading = false;
   });
 
