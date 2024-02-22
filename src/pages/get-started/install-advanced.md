@@ -25,13 +25,13 @@ The flake-based one-liner to get you an ad-hoc Holonix shell looks like this:
 nix develop github:holochain/holochain#holonix
 ```
 
-To get an ad-hoc shell with a specific version of Holochain, use the flag `--override-input versions <version_path>`. This example gives you the newest release in the unstable 0.2.x series:
+By default, the above one-liner will give you the latest recommended release (currently from the 0.2.x series). To get an ad-hoc shell with a specific version of Holochain, use the flag `--override-input versions <version_path>`. This example gives you the next release candidate in the 0.2.x series:
 
 ```shell
-nix develop --override-input versions "github:holochain/holochain?dir=versions/0_2" "github:holochain/holochain#holonix"
+nix develop --override-input versions "github:holochain/holochain?dir=versions/0_2_rc" "github:holochain/holochain#holonix"
 ```
 
-And this example gives you the newest weekly developer snapshot:
+And this example gives you the newest weekly developer snapshot (currently from the 0.3.x series):
 
 ```shell
 nix develop --override-input versions "github:holochain/holochain?dir=versions/weekly" "github:holochain/holochain#holonix"
