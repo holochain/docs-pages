@@ -25,19 +25,19 @@ The flake-based one-liner to get you an ad-hoc Holonix shell looks like this:
 nix develop github:holochain/holochain#holonix
 ```
 
-To get ad-hoc shell with a specific version of Holochain, use the flag `--override-input versions <version_path>`. This example gives you the newest release in the unstable 0.2.x series:
+To get an ad-hoc shell with a specific version of Holochain, use the flag `--override-input versions <version_path>`. This example gives you the newest release in the unstable 0.2.x series:
 
 ```shell
-nix develop --override-input versions ./versions/0_2 .#holonix
+nix develop --override-input versions "github:holochain/holochain?dir=versions/0_2" "github:holochain/holochain#holonix"
 ```
 
 And this example gives you the newest weekly developer snapshot:
 
 ```shell
-nix develop --override-input versions ./versions/weekly .#holonix
+nix develop --override-input versions "github:holochain/holochain?dir=versions/weekly" "github:holochain/holochain#holonix"
 ```
 
-Take a look at the [`versions/` folder in the `holochain/holochain` repository](https://github.com/holochain/holochain/tree/develop/versions) to find out what versions you can target. Each subfolder is a valid version number to use in the above command, and the `flake.nix` file inside the subfolder shows the specific release tag for each component that will be downloaded.
+Take a look at the [`versions/` folder in the `holochain/holochain` repository](https://github.com/holochain/holochain/tree/develop/versions) to find out what versions you can target. Each subfolder is a valid version to use in the above command, and the `flake.nix` file inside the subfolder shows the specific release tags that will be used for Holochain and the Lair Keystore. The launcher and scaffolding tools live in separate repos, so you will get the latest release of those tools that are available on their respective release branches referenced in the version-specific `flake.nix` file. Note that you may temporarily see older versions than the current tip of the referenced release branch because our automation updates the `flake.lock` separately, so that file is the absolute source of truth for what versions you will get.
 
 #### Enabling Flake features on your system
 
