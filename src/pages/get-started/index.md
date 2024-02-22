@@ -349,7 +349,7 @@ You should see something like:
 
 ::: output-block
 ```text
-holochain_scaffolding_cli 0.1.8
+holochain_scaffolding_cli x.y.z
 The list of subcommands for `hc scaffold`
 
 USAGE:
@@ -535,7 +535,9 @@ Updating crates.io index
     Fetch [===>       ] ...
 ```
 :::
-    (then after download is done...)
+
+(then after download is done...)
+
 ::: output-block
 ```text
     Downloaded 244 crates (46.7 MB) in 4.27s (largest was `windows` at 11.9 MB)
@@ -687,7 +689,7 @@ After adding the `title` and `content` fields, press <kbd>N</kbd> when asked if 
 ::: output-block
 ```text
 Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
-  Update
+✔ Update
 ✔ Delete
 ```
 :::
@@ -1082,13 +1084,14 @@ Your `App.svelte` file will have three sections:
   import { clientContext } from './contexts';
 
   let client: AppAgentClient | undefined;
+
   let loading = true;
 
-  $: client, loading;
 
   onMount(async () => {
-    // We pass '' as url because it will dynamically be replaced in launcher environments
-    client = await AppAgentWebsocket.connect('', 'forum');
+    // We pass an unused string as the url because it will dynamically be replaced in launcher environments
+    client = await AppAgentWebsocket.connect(new URL('https://UNUSED'), 'forum');
+
     loading = false;
   });
 
