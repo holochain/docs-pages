@@ -87,6 +87,11 @@ Additionally the following `markdown-it` plugins have been added:
   Please note: The closing `:::` is required. Also if you need to nest containers then the outer container gets an additional `:`.
   Each container type needs to be configured in `markdown-it-config.js` for examples and to add more. This one provides a lot of flexibility.
 
+## Site search and indexing
+The site uses the [Pagefind](https://pagefind.app/) library to index the contents of the site and to find search results upon request. 
+The documentation is quite good. One thing to note; pages are indexed based on the inclusion of the `data-pagefind-body` 
+attribute on a page. It is included on all of the main pages (all but the Design System). If you need to remove some or all of a page 
+from indexing you can use the `data-pagefind-ignore` attribute. See (https://pagefind.app/docs/indexing/) for details. 
 
 ## Setup for Dev
 - `npm install`
