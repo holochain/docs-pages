@@ -1,42 +1,40 @@
 ---
 title: "Entries"
 tocData:
-  - text: Define an Entry Type
+  - text: Define an entry type
     href: define-an-entry-type
-  - text: Create an Entry
+  - text: Create an entry
     href: create-an-entry
     children:
       - text: Create Under-the-hood
         href: create-under-the-hood
-  - text: Update an Entry
+  - text: Update an entry
     href: update-an-entry
     children:
-      - text: Update Under-the-hood
+      - text: Update under the hood
         href: update-under-the-hood
       - text: Efficiently querying updates
         href: efficiently-querying-updates
-      - text: Cooperative Updates
+      - text: Cooperative updates
         href: cooperative-updates
-  - text: Delete an Entry
+  - text: Delete an entry
     href: delete-an-entry
     children:
-      - text: Delete Under-the-hood
+      - text: Delete under the hood
         href: delete-under-the-hood
   - text: Entry IDs
     href: entry-ids
-  - text: CRUD Libraries
+  - text: CRUD libraries
     href: community-crud-libraries
   - text: Reference
     href: reference
 ---
 
-An Entry is structured data written to an Agent's source chain via a CreateEntry or UpdateEntry Action.
+An **entry** is structured data written as a blob to an agent's source chain via a `Create` or `Update` action.
 
-## Define an Entry Type
+## Define an entry type
 
-An EntryType can be any Rust struct that `serde` can serialize and deserialize.
-
-To define an EntryType use the [`hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html){target=_blank} macro:
+An entry type can be any Rust struct or enum that `serde` can serialize and deserialize. To define an `EntryType`, use the [`hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html){target=_blank} macro:
 
 ```rust
 use hdi::prelude::*;
@@ -51,20 +49,9 @@ pub struct Movie {
 }
 ```
 
-To include an Entry Type in your Integrity Zome use the [hdi::prelude::hdk_entry_defs](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_defs.html){target=_blank} macro:
+This implements a host of [`TryFrom` conversions](https://docs.rs/hdi/latest/src/hdi/entry.rs.html#120-209) conversions that your struct or enum is expected to implement.
 
-```rust
-use hdi::prelude::*;
-
-#[hdk_entry_types]
-enum EntryTypes {
-  Movie(Movie)
-}
-```
-
-An Entry Type can be configured as "private", in which case it is never published to the DHT, but exists only on the author's Source Chain.
-
-To configure an EntryType as private use the [hdi::prelude::entry_def](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html){target=_blank} macro:
+In order to dispatch validation to the proper integrity zome, Holochain needs to know about your integrity zome's entry types. This is done by implementing a callback in your zome called `entry_defs`, but you can use the [`hdi::prelude::hdk_entry_defs`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_defs.html){target=_blank} macro to do this easily:
 
 ```rust
 use hdi::prelude::*;
@@ -72,15 +59,27 @@ use hdi::prelude::*;
 #[hdk_entry_defs]
 enum EntryTypes {
   Movie(Movie),
-  
+  // other types...
+}
+```
+
+An entry type can be configured as **private**, in which case it is never published to the DHT, but exists only on the author's source chain.
+
+To configure an entry type as private, use the [hdi::prelude::entry_def](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html){target=_blank} on the enum variant that defines your entry type, passing the `visibility = "private"` argument to it:
+
+```rust
+use hdi::prelude::*;
+
+#[hdk_entry_defs]
+enum EntryTypes {
+  Movie(Movie),
+
   #[entry_def(visibility = "private", )]
   HomeMovie(Movie)
 }
 ```
 
-An Entry Type can be configured with a specified number of required validations. This is the number of Valid validations on the CreateEntry action Record by authority agents in order for other agents to view treat it as "valid" during validation of other data.
-
-To configure an EntryType with a specified number of required validations use the [hdi::prelude::entry_def](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html){target=_blank} macro:
+An entry type can be configured to expect a certain number of **required validations**, which is the number of [validation receipts]() that an author tries to collect from authorities before they consider an entry published on the DHT. To configure this, use the [`hdi::prelude::entry_def`](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html){target=_blank} macro, this time with the `required_validations` argument:
 
 ```rust
 use hdi::prelude::*;
@@ -88,20 +87,21 @@ use hdi::prelude::*;
 #[hdk_entry_types]
 enum EntryTypes {
   Movie(Movie),
-  
+
   #[entry_def(required_validations = 7, )]
   HomeMovie(Movie)
 }
 ```
 
+## Create an entry
 
-## Create an Entry
-
-Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html){target=_blank}:
+Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html){target=_blank}. The entry will be serialized into a blob automatically, thanks to the `hdk_entry_helper` macro.
 
 ```rust
 use hdk::prelude::*;
 use chrono::Date;
+use movie_integrity::*;
+
 
 let movie = Movie {
   title: "The Good, the Bad, and the Ugly",
@@ -116,14 +116,21 @@ let create_action_hash: ActionHash = create_entry(
 )?;
 ```
 
-### Create Under-the-hood 
-Calling `create_entry` does the following:
-1. Prepares a "draft commit" for making an atomic set of changes to the source chain for this Cell.
-2. Writes a `Create` action in the draft commit
-3. Runs the validation callback for all Ops in the draft commit. If successful, continues.
-4. Publishes the "draft commit" to the source chain for this Cell
-5. Publishes all DhtOps included in the source chain commit to their authority agents
-6. Returns the `ActionHash` of the Create action
+### Create under the hood
+
+When the client calls a zome function that calls `create_entry`, Holochain does the following:
+
+1. Prepare a **scratch space** for making an atomic set of changes to the source chain for the agent's cell.
+2. Write a `Create` action to the scratch space.
+3. Return the `ActionHash` of the `Create` action to the calling zome function. (At this point, the action hasn't been persisted to the source chain.)
+4. Wait for the zome function to complete.
+5. Convert the action to DHT operations.
+6. Run the validation callback for all DHT operations.
+    * If successful, continue.
+    * If unsuccessful, return the validation error to the client instead of the zome function's return value.
+7. Publish the actions in the scratch space to the source chain.
+8. Return the zome function's return value to the client.
+9. In the background, publish all newly created DHT operations to their respective authority agents.
 
 <!-- TODO review and outline steps that are taken under the hood *exactly*, including which DHT ops are published -->
 
@@ -149,7 +156,7 @@ let update_action_hash: ActionHash = update_entry(
 )?;
 ```
 
-### Update Under-the-hood 
+### Update Under-the-hood
 Calling `update_Entry` does the following:
 1. Prepares a "draft commit" for making an atomic set of changes to the source chain for this Cell.
 2. Writes a `Update` action in the draft commit
@@ -163,7 +170,7 @@ Calling `update_Entry` does the following:
 
 ### Update Patterns
 
-Holochain gives you this `update_entry` function, but is somewhat unopinionated about how it is used. 
+Holochain gives you this `update_entry` function, but is somewhat unopinionated about how it is used.
 
 You can structure your updates as "list" -- where all updates refer to the ActionHash of the original Create action.
 
@@ -212,11 +219,11 @@ let delete_action_hash: ActionHash = delete_entry(
 
 This does *not* actually erase data from the source chain or the DHT. Instead a Delete action is committed to the Cell's Source Chain.
 
-In the future we plan to include a "purge" functionality. This will give Agents permission to actually erase an Entry from the Source Chain and DHT, but not its associated Action. 
+In the future we plan to include a "purge" functionality. This will give Agents permission to actually erase an Entry from the Source Chain and DHT, but not its associated Action.
 
 Remember it is physically impossible to force another person to delete data once they have seen it. Be deliberate about how data is shared in your app.
 
-### Delete Under-the-hood 
+### Delete Under-the-hood
 Calling `delete_entry` does the following:
 1. Prepares a "draft commit" for making an atomic set of changes to the source chain for this Cell.
 2. Writes a `Delete` action in the draft commit
