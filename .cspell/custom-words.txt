@@ -1,3 +1,5 @@
+# Words that are neither common nor directly related to Holochain but appear in
+# Dev Portal content
 agent-centricity
 Anwaar
 buildinputs

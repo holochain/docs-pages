@@ -1,3 +1,4 @@
+# Words found in our template code
 brower
 coreconcepts
 elif
