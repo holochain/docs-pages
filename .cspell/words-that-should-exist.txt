@@ -9,6 +9,7 @@ counterparty's
 filesystem
 filesystems
 howto
+howtos
 interoperating
 permissioned
 permissivity
