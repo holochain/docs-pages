@@ -8,6 +8,7 @@ counterparty
 counterparty's
 filesystem
 filesystems
+howto
 interoperating
 permissioned
 permissivity
