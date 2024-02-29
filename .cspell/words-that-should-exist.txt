@@ -1,3 +1,4 @@
+# Common words that should appear in the default dictionaries but don't
 affordance
 affordances
 automations
