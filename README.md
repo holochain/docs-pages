@@ -104,6 +104,9 @@ from indexing you can use the `data-pagefind-ignore` attribute. See (https://pag
     - Cleans `_site` dir
     - Builds, [autoprefixes](https://github.com/postcss/autoprefixer) and minifies the SCSS
     - Bundles the JS modules
+      - Builds the Typescript to JS
+      - Minifies the JS with Terser
+      - Saves the module to `_site/scripts/` dir
     - Builds 11ty with links to the bundled JS and minified CSS
 - `clean`: Cleans out the `_site` dir
 - `build:search-index`: builds the index files for the search function. This is called as pat of the build process, but if you want the search to work during local dev then you need to run this once, or you can just run `build` before you start the `dev` script.
