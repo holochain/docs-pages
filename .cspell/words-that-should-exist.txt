@@ -1,0 +1,22 @@
+# Common words that should appear in the default dictionaries but don't
+affordance
+affordances
+automations
+birthdate
+counterparties
+counterparties'
+counterparty
+counterparty's
+filesystem
+filesystems
+interoperating
+permissioned
+permissivity
+runtimes
+sandboxed
+spacebar
+todo
+todos
+unforgeable
+uninstallation
+unvalidated

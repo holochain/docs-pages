@@ -104,7 +104,7 @@ The act of joining an application's [DHT](#distributed-hash-table-dht). Bootstra
 1. Finding an initial group of peers to [gossip](#gossip) with via [discovery](#peer-discovery),
 2. Establishing connections with those peers,
 3. Having one's [membrane proof](#membrane-proof) accepted by those peers,
-4. Having one's [transprt address](#transport-address) accepted into those peers' [peer tables](#peer-table), and
+4. Having one's [transport address](#transport-address) accepted into those peers' [peer tables](#peer-table), and
 5. Gradually having one's transport address gossiped to other peers.
 
 #### Bootstrap service
@@ -351,7 +351,7 @@ A [public key infrastructure](#public-key-infrastructure-pki) that doesn't rely 
 
 #### Distributed system
 
-Any system that involves multiple [nodes](#node) talking to one another over a network, whether [decentralized](#decentralization) or [centralized](#centralization). Because communication isn't instantaneous, different nodes can create conflicting data, particularly in the persence of a [partition](#partition). Many distributed systems use a [coordination protocol](#coordination-protocol) to reach [consistency](#consistency), while others rely on the [CALM theorem](#consistency-as-logical-monotonicity-calm-theorem) to avoid conflicts altogether.
+Any system that involves multiple [nodes](#node) talking to one another over a network, whether [decentralized](#decentralization) or [centralized](#centralization). Because communication isn't instantaneous, different nodes can create conflicting data, particularly in the presence of a [partition](#partition). Many distributed systems use a [coordination protocol](#coordination-protocol) to reach [consistency](#consistency), while others rely on the [CALM theorem](#consistency-as-logical-monotonicity-calm-theorem) to avoid conflicts altogether.
 
 #### DNA
 
@@ -504,7 +504,7 @@ A property of Holochain's [validating DHT](#validating-dht), whereby healthy [no
 
 #### Inductive validation
 
-The act of relying on inductive reasoning within a [validation function](#validation-function) to validate a piece of data that has dependencies by checking whether the data is valid in the context of its _most immediate dependencies only_. If other validators report that those dependencies are valid, it can be assumed that they have also applied the same inductive reasoning, as have the validators of those dependencies' dependencies, all the way back to the root nodes of the dependency graph. This can greatly speed up complex validation algorithms that operate on data with large dcependency graphs.
+The act of relying on inductive reasoning within a [validation function](#validation-function) to validate a piece of data that has dependencies by checking whether the data is valid in the context of its _most immediate dependencies only_. If other validators report that those dependencies are valid, it can be assumed that they have also applied the same inductive reasoning, as have the validators of those dependencies' dependencies, all the way back to the root nodes of the dependency graph. This can greatly speed up complex validation algorithms that operate on data with large dependency graphs.
 
 #### Init callback
 
@@ -562,7 +562,7 @@ The [address](#address) that a [link](#link) points to. As with the [base](#link
 
 #### Link type
 
-A specification for a [link](#link) defined in an [integrity zome](#integrity-zome) that a [DNA](#dna) should recognise and understand, similar to a foreign reference in a database table schema. DNA developers create their own link types for the data their app needs to store, and can write [validation functions](#validation-function) for [operations](#dht-operation) that [create, update, or delete](#create-read-update-delete-crud) links of those types.
+A specification for a [link](#link) defined in an [integrity zome](#integrity-zome) that a [DNA](#dna) should recognize and understand, similar to a foreign reference in a database table schema. DNA developers create their own link types for the data their app needs to store, and can write [validation functions](#validation-function) for [operations](#dht-operation) that [create, update, or delete](#create-read-update-delete-crud) links of those types.
 
 #### Link types callback
 
@@ -630,7 +630,7 @@ See [neighborhood](#neighborhood).
 
 A range of [DHT addresses](#dht-address) about which a [node](#node) attempts to know everything they ought to know. Neighbors collectively support the [resilience](#resilience) of all [DHT data](#dht-data) whose [address](#dht-address) is within their respective [storage arcs](#storage-arc) by storing and [validating](#validation-rule) it and [gossiping](#gossip) it to all [neighbors](#neighbor) with whom their storage arcs overlap.
 
-<!--- removed because query arcs don't exist yet -- They also have a wider neighbourhood of nodes they can talk to to receive authoritative data, defined by their [query arc](#query-arc). -->
+<!--- removed because query arcs don't exist yet -- They also have a wider neighborhood of nodes they can talk to to receive authoritative data, defined by their [query arc](#query-arc). -->
 
 #### Network
 
@@ -914,7 +914,7 @@ See [validation authority](#validation-authority).
 
 1. a [DHT operation](#dht-operation) is invalid and its author has transgressed a [validation rule](#validation-rule),
 2. a warrant is invalid, or
-3. an agent should not be communicated with for reasons not easily expressable as a [validation function](#validation-function), such as termination of employment or copyright .
+3. an agent should not be communicated with for reasons not easily expressible as a [validation function](#validation-function), such as termination of employment or copyright .
 
 A warrant can be used by any peer as legitimate grounds for blocking communication with the [agent](#agent) being warranted, as well as for deleting one's locally stored copy of any invalid data covered by the warrant, even if one would normally be a [validation authority](#validation-authority) for that data.
 
