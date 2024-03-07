@@ -28,6 +28,7 @@
         { title: "CLI", url: "https://github.com/holochain/holochain/tree/main/crates/hc", external: true },
         { title: "Glossary", url: "/references/glossary/" },
         { title: "Enable Apps for Holo Hosting", url: "/references/enable-holo/" },
+        { title: "Publish an App on the Holo Hosting Network", url: "/references/publish-app-on-holo/" },
       ]
     },
     { title: "Get Involved", url: "/get-involved/" },
