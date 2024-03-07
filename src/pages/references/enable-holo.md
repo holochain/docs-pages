@@ -371,7 +371,7 @@ Collection "my_todos" scaffolded!
 
 ### Testing
 
-Holo provides the `holo-dev-server` binary, which simulates the Holo network locally for development. `holo-dev-server` serves a copy of Chaperone, the JavaScript library that connects the browser to the Holo network and manages user keys, and runs a Holochain conductor. Like the real Holo network, `holo-dev-server` uses `.happ` bundles, which do not include a UI. (The `hc` developer tool creates both a `.happ` bundle and a `.webhapp` bundle in the `workdir/` folder for you.) When you scaffold an app with the `--holo` flag, its dev environment will provide `holo-dev-server` on the command line for you.
+Holo provides the `holo-dev-server` binary, which simulates the Holo network locally for development. `holo-dev-server` spins up a Holochain conductor, along with a local instance of the Chaperone service, which delivers a JavaScript file that connects the browser to the Holo network. Like the real Holo network, `holo-dev-server` uses `.happ` bundles, which do not include a UI. (The `hc` developer tool creates both a `.happ` bundle and a `.webhapp` bundle in the `workdir/` folder for you.) When you scaffold an app with the `--holo` flag, its dev environment will provide `holo-dev-server` on the command line for you.
 
 1. Ensure you are in the nix development environment by checking the shell prompt. Run `nix develop` in the root of your project's folder if you aren't.
 2. Run `npm start:holo`, which:
