@@ -934,7 +934,6 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
                 // until we hit the
                 init_zomes_complete_found = true;
             }
-
             (a, _) => {
                 // Prior action was neither CRUD nor membrane proof; walk
                 // further along the source chain.
@@ -977,7 +976,7 @@ pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
 
 #### Anonymous zome function access
 
-Every function call to a coordinator zome must be signed, and a call will only be successful if there's a [capability grant](/references/glossary/#capability-grant) for it. Capability grants can be restricted to a particular keypair, a particular capability token, or unrestricted.
+Every function call to a coordinator zome must be signed, and a call will only be successful if there's a [capability grant](/references/glossary/#capability-grant) for it. Capability grants can be unrestricted, or they can be restricted to a particular capability token or public key.
 
 Normally, when a Holo agent is logged in, or the user is running the hApp on their own machine, the keypair used to sign function calls is the same as the keypair used to author data in the cell. This is called the [author grant](/concepts/8_calls_capabilities/#author-grant), and it's automatically privileged to call every function. For an anonymous agent accessing a read-only instance, however, this is not true. For them to be able to make a function call, you need to also create an unrestricted capability grant for that function.
 
@@ -1004,6 +1003,6 @@ fn init(_: ()) -> ExternResult<InitCallbackResult> {
 }
 ```
 
-In general, you should not list functions in the above grant that write new capability grants to the read-only instance's' chain, to prevent an attacker from expanding their privileges. And depending on your app, it's probably also good practice to limit access to functions that don't write to the source chain but can still be disruptive, such as [calling other cells](/concepts/8_calls_capabilities/) or [sending signals](/concepts/9_signals/).
+In general, you should not list functions in the above grant that write new capability grants to the read-only instance's chain, to prevent an attacker from expanding their privileges. And depending on your app, it's probably also good practice to limit access to functions that don't write to the source chain but can still be disruptive, such as [calling other cells](/concepts/8_calls_capabilities/) or [sending signals](/concepts/9_signals/).
 
 Note that these protections implemented in a coordinator zome also do not prevent reads by people who run the hApp on their own devices and supply a zero-byte membrane proof. When you implement the read-only pattern, you're making a conscious choice to make the DHT public for reading while restricting who can write to it.
