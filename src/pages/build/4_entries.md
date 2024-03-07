@@ -223,11 +223,11 @@ let delete_action_hash: ActionHash = delete_entry(
 )?;
 ```
 
-As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a `Delete` action is committed to the cell's source chain, and the new-entry action and its entry are marked as "dead". They can still be retrieved with [`get_details`]()
+As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a `Delete` action is committed to the cell's source chain, and the new-entry action is marked "dead". An entry itself is only considered dead when all new-entry actions that created it are marked dead, and it can become live again in the future if a _new_ new-entry action writes it. Any dead data can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html)
 
 In the future we plan to include a "purge" functionality. This will give agents permission to actually erase an entry from their DHT store, but not its associated new-entry action.
 
-Remember it is impossible to force another person to delete data once they have seen it. Be deliberate about how data is shared in your app.
+Remember that, even once purge is implemented, it is impossible to force another person to delete data once they have seen it. Be deliberate about how data is shared in your app.
 
 ### Delete under the hood
 
@@ -259,7 +259,40 @@ Finally, you can reference an agent themselves via their `AgentPubKey`. This ide
 
 You can use any of these identifiers as a field in your entry types to model a many-to-one relationship, or you can use links between identifiers to model a one-to-many relationship.
 
-## Community CRUD Libraries
+## Retrieving an entry
+
+Get a new-entry action along with its entry data by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html)] with the action hash.
+
+```rust
+use hdk::prelude::*;
+use movie_integrity::*;
+
+let maybe_record: Record = get(
+    action_hash,
+    GetOptions::latest()
+)?;
+match maybe_record {
+  Some(record) => {
+    let action = record.action();
+    // Not all records contain entry data.
+    // A new-entry action, if it exists, will always contain entry data.
+    match action.entry_type() {
+      Some(App(Movie::)) = {
+
+      },
+      Some(App(_)) => debug!("Record {} didn't contain the right entry type", action_hash),
+      Some(_) => debug!("Record {} contained a system entry", action_hash),
+      _ => debug!("Record {} was not a new-entry action", action_hash)
+    }
+    let
+    let movie: Movie = record.entry().into_option()?.into();
+    debug!("Movie {}, released {}, record stored by {} on {}", movie.title, movie.release_date, action.)
+  },
+  _ => debug!("Record {} not found", action_hash)
+}
+```
+
+## Community CRUD libraries
 
 If the scaffolder doesn't support your desired functionality, or is too low-level, there are some community-maintained libraries that offer opinionated and high-level ways to work with entries. Some of them also offer permissions management.
 
