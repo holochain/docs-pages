@@ -261,7 +261,7 @@ You can use any of these identifiers as a field in your entry types to model a m
 
 ## Retrieve an entry
 
-Get an entry creation action along with its entry data by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html)] with the action hash. The return value is `Result<holochain_integrity_types::record::Record>`, where a [`Record`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html) is a pairing of an action and its optional entry data.
+Get an entry creation action along with its entry data by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html)] with the action hash. The return value is a `Result<`[`holochain_integrity_types::record::Record`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)`>`, where a `Record` is a pairing of an action and its optional entry data.
 
 You can also pass an entry hash to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
 
@@ -282,9 +282,10 @@ match maybe_record {
         // Not all types of action contain entry data, and if they do, it may
         // not be accessible, so `.entry()` may return nothing. It may also be
         // of an unexpected entry type, so it may not be deserializable to an
-        // instance of the expected Rust type. You can determine this easily by
-        // looking at the type of the `entry` field, but in this simple example
-        // we'll skip that and get the entry if it's the right one.
+        // instance of the expected Rust type. You can check for most of these
+        // edge cases by exploring the value of the `entry` field, which tells
+        // you the entry's status, but in this simple example we'll skip that
+        // and try to get and deserialize the entry.
         let maybe_movie: Option<Movie> = record.entry().to_app_option();
 
         match maybe_movie {
@@ -302,7 +303,7 @@ match maybe_record {
 }
 ```
 
-To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with the action hash. You'll receive a [`holochain_zome_types::metadata::RecordDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html) struct.
+To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with the action hash. You'll receive a `Result<`[`holochain_zome_types::metadata::RecordDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html)`>`.
 
 ```rust
 use hdk::prelude::*;
