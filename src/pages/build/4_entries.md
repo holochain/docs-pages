@@ -346,6 +346,8 @@ let maybe_details: Option<Details> = get_details(
 match maybe_details {
     Some(Details::Entry(entry_details)) => {
         let maybe_movie: Option<Movie> = entry_details.entry
+            .as_app_entry()
+            .clone()
             .try_into()
             .ok();
         match maybe_movie {
