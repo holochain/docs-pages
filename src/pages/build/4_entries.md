@@ -24,6 +24,8 @@ tocData:
         href: delete-under-the-hood
   - text: Identifiers on the DHT
     href: identifiers-on-the-dht
+  - text: Retrieve an entry
+    href: retrieve-an-entry
   - text: Community CRUD libraries
     href: community-crud-libraries
   - text: Reference
@@ -257,7 +259,7 @@ Finally, you can reference an agent themselves via their `AgentPubKey`. This ide
 
 You can use any of these identifiers as a field in your entry types to model a many-to-one relationship, or you can use links between identifiers to model a one-to-many relationship.
 
-## Retrieving an entry
+## Retrieve an entry
 
 Get an entry creation action along with its entry data by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html)] with the action hash. The return value is `Result<holochain_integrity_types::record::Record>`, where a [`Record`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html) is a pairing of an action and its optional entry data.
 
