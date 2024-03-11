@@ -108,4 +108,4 @@ These files and folders make up the structure of a Holochain application, with t
 
 Now it's time to try scaffolding your own application. Follow the instructions in the next guide to learn how to generate back-end and UI code.
 
-[Forum app tutorial →](../3-forum-app-tutorial/){.btn-purple}
+[Forum app tutorial →](/get-started/3-forum-app-tutorial/){.btn-purple}

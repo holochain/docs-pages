@@ -89,4 +89,4 @@ Congratulations! The Holochain development environment is now set up successfull
 
 Now it's time to download, compile, and try an example Holochain application.
 
-[Try 'Hello World' →](../2-hello-world/){.btn-purple}
+[Try 'Hello World' →](/get-started/2-hello-world/){.btn-purple}

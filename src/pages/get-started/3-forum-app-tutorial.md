@@ -1129,4 +1129,4 @@ Save the file, then go back to the UI windows to see the changes. Try typing in 
 
 Now that you've built a hApp, you can learn how to package it for distribution to your users.
 
-[Package your hApp →](../4-packaging-and-distribution/){.btn-purple}
+[Package your hApp →](/get-started/4-packaging-and-distribution/){.btn-purple}
