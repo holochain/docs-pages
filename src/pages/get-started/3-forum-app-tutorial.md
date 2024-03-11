@@ -15,7 +15,7 @@ tocData:
     href: 6-scaffold-entry-types
   - text: 7. Scaffold a collection
     href: 7-scaffold-a-collection
-  - text: 8. Run your applicaiton in dev mode
+  - text: 8. Run your application in dev mode
     href: 8-run-your-application-in-dev-mode
   - text: 9. Integrate the generated UI elements
     href: 9-integrate-the-generated-ui-elements
@@ -191,7 +191,7 @@ A DNA folder is where you will put the code that defines the rules of your appli
 
 ### Why do we use the term DNA?
 
-In Holochain, we are trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organisations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
+In Holochain, we are trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organizations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
 
 This enables many different independent parts (cells) to build relatively consistent superstructures (a body, for instance), move resources, identify and eliminate infections, and more --- all without centralized command and control. There is no "CEO" cell in the body telling everybody else what to do. It's a bunch of independent actors (cells) playing by a consistent set of rules (the DNA) coordinating in effective and resilient ways.
 
@@ -369,7 +369,7 @@ There are a few different kinds of actions, but the most common one is `Create`,
 
 Every action contains the ID of its author (actually a cryptographic public key), a timestamp, a pointer to the previous source chain record, and a pointer to the entry data, if there is any. In this way, actions provide historical context and provenance for the entries they operate on.
 
-The pointer to the previous source chain record creates an unbroken history from the current record all the way back to the source chain's starting point. This 'genesis' record contains the hash of the DNA, which servs as both the identifier for the specific set of validation rules that all following records should follow and the ID of the network that this source chain's actions are participating in.
+The pointer to the previous source chain record creates an unbroken history from the current record all the way back to the source chain's starting point. This 'genesis' record contains the hash of the DNA, which serves as both the identifier for the specific set of validation rules that all following records should follow and the ID of the network that this source chain's actions are participating in.
 
 An action is cryptographically signed by its author and is immutable (can't be changed or erased from either the source chain or the network's data store) once written. This, along with the validation rules specified by the DNA hash in the genesis record, are examples of a concept we call "intrinsic data integrity", in which data carries enough information about itself to be self-validating.
 
@@ -791,7 +791,7 @@ The scaffolding tool doesn't have any feature for building anchors and trees bey
 
 !!!
 
-Before you get started editing the UI, it's helpful to be able to actually run the scaffolded applciation. That way, you can watch changes take effect in real-time as you make them. So the next section will walk you through launching the application the tooling that's available there, and then in the section after that, we'll begin working with the `.svelte` files to build the UI.
+Before you get started editing the UI, it's helpful to be able to actually run the scaffolded application. That way, you can watch changes take effect in real-time as you make them. So the next section will walk you through launching the application the tooling that's available there, and then in the section after that, we'll begin working with the `.svelte` files to build the UI.
 
 ## 8. Run your application in dev mode
 
@@ -858,7 +858,7 @@ CommentsForPost.svelte  EditPost.svelte
 
 The next step is to edit the UI files in the text editor or integrated development environment of your choice to add scaffolded components and build a fully featured UI. To integrate all of these generated UI elements, you'll need to add them to `App.svelte` file located in the `ui/src/` folder, or to some other `.svelte` file that eventually gets included in `App.svelte`.
 
-If you don't yet have path commands for opening files in your prefered IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844). Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs` etc.) for `code` if you are using a different editor.
+If you don't yet have path commands for opening files in your preferred IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844). Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs` etc.) for `code` if you are using a different editor.
 
 Open the `App.svelte` file with your preferred IDE.
 
@@ -915,7 +915,7 @@ Next some variables are instantiated: one to hold the Holochain client that conn
 
 **Take note of the line that starts with `$:`**. This is a special Svelte label that turns regular variables into **reactive variables**. We won't get too deep into Svelte right now, because this is a tutorial about Holochain, but when a reactive variable changes, Svelte will re-render the entire component. This lets you write a template declaratively, enclosing the reactive variable in `{}` braces, and let Svelte handle the updating of the template wherever the variable changes.
 
-Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is establised, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
+Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is established, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
 
 ### `<main>` section
 
@@ -1002,8 +1002,7 @@ Your `<main>` block should now look like this:
 ```svelte
 <main>
   {#if loading}
-    <div style="display: flex; flex: 1; align-items: center; justify-content: ce
-nter">
+    <div style="display: flex; flex: 1; align-items: center; justify-content: center">
       <mwc-circular-progress indeterminate />
     </div>
   {:else}
@@ -1039,8 +1038,7 @@ Now your `<main>` block should look like this:
 ```svelte
 <main>
   {#if loading}
-    <div style="display: flex; flex: 1; align-items: center; justify-content: ce
-nter">
+    <div style="display: flex; flex: 1; align-items: center; justify-content: center">
       <mwc-circular-progress indeterminate />
     </div>
   {:else}
