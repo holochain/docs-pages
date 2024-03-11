@@ -19,6 +19,7 @@ rustc
 rustflags
 rustup
 subl
+Substitutors
 Tauri
 Ulhaq
 Wahlstrom

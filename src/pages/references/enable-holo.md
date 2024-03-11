@@ -3,7 +3,7 @@ title: Enable Apps for Holo Hosting
 ---
 
 !!! info Requires Holochain 0.2
-The Holo hosting network runs the unstable Holochain 0.2 on all its nodes, so you'll need to make sure that your hApp is compoatible with 0.2. The scaffolding tool commands in this guide will set up the proper dependencies for you. If you're starting with an existing hApp or have used the scaffolding tool commands in the [Get Started guide](/get-started/), you'll need to upgrade your hApp manually.
+The Holo hosting network runs the unstable Holochain 0.2 on all its nodes, so you'll need to make sure that your hApp is compatible with 0.2. The scaffolding tool commands in this guide will set up the proper dependencies for you. If you're starting with an existing hApp or have used the scaffolding tool commands in the [Get Started guide](/get-started/), you'll need to upgrade your hApp manually.
 !!!
 
 ## Intro
@@ -221,7 +221,7 @@ Integrity zome "todo_integrity" scaffolded!
 
 Press <kbd>Y</kbd> again.
 
-You will then see `Coordinator zome "todos" scaffolded!` along with output from the intial downloading and setting up of the Holochain Rust HDK, followed by instructions for adding your first entry type.
+You will then see `Coordinator zome "todos" scaffolded!` along with output from the initial downloading and setting up of the Holochain Rust HDK, followed by instructions for adding your first entry type.
 
 Now we get to the really exciting part! In the next steps you will specify your data model, and the scaffolding tool will automatically add both zome and UI code to your hApp.
 
@@ -645,7 +645,7 @@ Let's add the following scripts to the top of the `"scripts"` object. These will
 3. Run the `holochain-playground` at `localhost:4444`, and
 4. Start the UI at `localhost:8888`.
 
-Take note of the `"network:holo"` script; it's what passes the `VITE_APP_CHAPERONE_URL` and `VITE_APP_IS_HOLO` environment variables to your UI so that it knows to connect to Holo, and specificially to a local `holo_dev_server`.
+Take note of the `"network:holo"` script; it's what passes the `VITE_APP_CHAPERONE_URL` and `VITE_APP_IS_HOLO` environment variables to your UI so that it knows to connect to Holo, and specifically to a local `holo_dev_server`.
 
 ```json
     "start:holo": "AGENTS=2 npm run network:holo",
@@ -690,7 +690,7 @@ Holo does not support direct programmatic/API access to deployed hApps.
 
 Holochain assumes that agents are in control of their own conductor, meaning:
 
-* Agent keypairs are located on the same machine as their data and hApp instance, which is typically a computer they own.
+* Agent key pairs are located on the same machine as their data and hApp instance, which is typically a computer they own.
 * Agents can choose which hApps / DNAs are co-located on the same conductor.
 * All hApps running on a conductor belong to a single user who may have multiple keys.
 * The client and conductor are located on the same machine.
@@ -837,7 +837,7 @@ fn validate_membrane_proof(membrane_proof: &Option<MembraneProof>) -> ExternResu
     // Your custom membrane proof validation should go here.
 }
 
-/// A helper function to check wheter an op should be allowed. In the sample
+/// A helper function to check whether an op should be allowed. In the sample
 /// `validate` function, it's used for both entry and link CRUD actions.
 fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
     let action_type = op.action_type();
@@ -871,7 +871,7 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
         }
     }
     // Your app may also want to allow certain CRUD actions for public or
-    // private app data, such as anonymous pageview counters for blog posts, or
+    // private app data, such as anonymous page view counters for blog posts, or
     // updates/deletes on system actions. Keep in mind the risk of anonymous
     // spamming though!
 
@@ -921,7 +921,7 @@ fn has_permission_to_write(op: &Op) -> Result<bool, WasmError> {
             }
             (Action::AgentValidationPkg(action_data), _) => {
                 // No prior CRUD actions were found, excepting possible ones
-                // done within `init` which we skipped if we're validiating an
+                // done within `init` which we skipped if we're validating an
                 // op produced after `init`. Allow all ops produced before
                 // `init`, and subject all ops produced after `init` to the
                 // read-only membrane proof check.
@@ -978,7 +978,7 @@ pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
 
 Every function call to a coordinator zome must be signed, and a call will only be successful if there's a [capability grant](/references/glossary/#capability-grant) for it. Capability grants can be unrestricted, or they can be restricted to a particular capability token or public key.
 
-Normally, when a Holo agent is logged in, or the user is running the hApp on their own machine, the keypair used to sign function calls is the same as the keypair used to author data in the cell. This is called the [author grant](/concepts/8_calls_capabilities/#author-grant), and it's automatically privileged to call every function. For an anonymous agent accessing a read-only instance, however, this is not true. For them to be able to make a function call, you need to also create an unrestricted capability grant for that function.
+Normally, when a Holo agent is logged in, or the user is running the hApp on their own machine, the key pair used to sign function calls is the same as the key pair used to author data in the cell. This is called the [author grant](/concepts/8_calls_capabilities/#author-grant), and it's automatically privileged to call every function. For an anonymous agent accessing a read-only instance, however, this is not true. For them to be able to make a function call, you need to also create an unrestricted capability grant for that function.
 
 ```rust
 fn set_read_only_cap_tokens() -> ExternResult<()> {
