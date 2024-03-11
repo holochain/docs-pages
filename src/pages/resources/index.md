@@ -1,5 +1,5 @@
 ---
-title: Holochain Programming References
+title: Holochain Programming Resources
 ---
 
 ## Rust HDK
