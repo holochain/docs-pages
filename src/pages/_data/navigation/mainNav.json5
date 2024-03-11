@@ -27,6 +27,8 @@
         { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
         { title: "CLI", url: "https://github.com/holochain/holochain/tree/main/crates/hc", external: true },
         { title: "Glossary", url: "/resources/glossary/" },
+        { title: "Enable Apps for Holo Hosting", url: "/resources/enable-holo/" },
+        { title: "Publish an App on the Holo Hosting Network", url: "/resources/publish-app-on-holo/" },
       ]
     },
     { title: "Get Involved", url: "/get-involved/" },

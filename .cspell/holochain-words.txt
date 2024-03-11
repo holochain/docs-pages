@@ -8,6 +8,7 @@ Holo's
 Holochain
 Holochain's
 Holonix
+memproof
 sharded
 Tryorama
 webhapp

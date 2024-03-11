@@ -595,6 +595,10 @@ One of two types of permeable boundaries that allow or disallow access:
 
 A [record](#record) written to an agent's [source chain](#source-chain) that proves they have permission to join a [DHT](#distributed-hash-table-dht), for example, an invite code or signed authorization from an existing member. The [DNA](#dna) for the DHT has a [validation function](#validation-function) that checks the validity of the membrane proof; if agents validating the membrane proof determine that it's invalid, they can refuse to communicate with the new agent. This is the [immune system's](#immune-system) first line of defense against malicious actors.
 
+#### Memproof
+
+See [membrane proof](#membrane-proof).
+
 #### Metadata
 
 Supplementary data attached to a [base](#base) in a [DHT](#distributed-hash-table-dht). Metadata can be one of:
