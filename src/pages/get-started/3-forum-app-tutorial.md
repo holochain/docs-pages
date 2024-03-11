@@ -1,5 +1,5 @@
 ---
-title: "Zero to built: creating a forum app"
+title: "Zero to Built: Creating a Forum App"
 tocData:
   - text: 1. Scaffolding a hApp
     href: 1-scaffolding-a-happ
@@ -20,6 +20,8 @@ tocData:
   - text: 9. Integrate the generated UI elements
     href: 9-integrate-the-generated-ui-elements
 ---
+
+In this tutorial you'll use Holochain's scaffolding tool to generate back-end and UI code for all the data types and collections needed to build a functioning forum app. It assumes that you've already [installed the Holochain development environment](/get-started/#2-installing-holochain-development-environment), set up a folder for working on Holochain applications, and [scaffolded a Hello World application](/get-started/2-hello-world/).
 
 First, navigate back to the folder where you want to keep your Holochain applications. If you followed our suggestion, you can get back to it by typing:
 
@@ -43,7 +45,7 @@ The good news is that the Holochain scaffolding tool will do a lot of the heavy 
 
 First, let's use the scaffolding tool to generate the basic folders and files for our hApp.
 
-### 1. Scaffolding a hApp {#1-scaffolding-a-happ}
+## 1. Scaffolding a hApp {#1-scaffolding-a-happ}
 
 To start, run the following command in your terminal:
 
@@ -65,13 +67,13 @@ Enter the name of your forum application using snake_case. Enter:
 my_forum_app
 ```
 
-### 2. Select user interface framework
+## 2. Select user interface framework
 
 You'll then be prompted to choose a user interface (UI) framework for your front end.
 
 For this example, use the arrow keys to choose `Svelte` and press <kbd>Enter</kbd>.
 
-### 3. Set up Holonix development environment
+## 3. Set up Holonix development environment
 
 Next, you'll be asked if you want to set up the Holonix development environment for the project. This allows you to enter a shell that has all the right tools and libraries for the version of Holochain that your code was generated for.
 
@@ -181,13 +183,13 @@ You can get help on every one of these subcommands and its parameters by typing 
 A quick note: if while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the current step** by using <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> on Linux or <kbd><kbd>Command</kbd>+<kbd>C</kbd></kbd> on macOS.
 !!!
 
-### 4. Scaffold a DNA
+## 4. Scaffold a DNA
 
 A DNA folder is where you will put the code that defines the rules of your application. You're going to stay in the `my_forum_app/` root folder and, with some simple commands, the scaffolding tool will do much of the creation of relevant folders and files for you.
 
 !!! dig-deeper DNAs: Context and Background {#about-dnas}
 
-#### Why do we use the term DNA?
+### Why do we use the term DNA?
 
 In Holochain, we are trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organisations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
 
@@ -201,7 +203,7 @@ To put it another way: if a group of us can all agree to the rules of a game, th
 
 All of us opting in to those rules --- and helping to enforce them --- enables us to play that game together, whether it is a game of chess, chat, a forum app, or something much richer.
 
-#### DNA as boundary of network
+### DNA as boundary of network
 
 The network of participants that are running a DNA engage in "peer witnessing" of actions by the participants in that network. A (deterministically random) set of peers are responsible for validating, storing, and serving each particular piece of shared content. In other words, the users of a particular hApp agree to a set of rules and then work together collectively to enforce those rules and to store and serve content (state changes) that do not violate those rules.
 
@@ -209,7 +211,7 @@ Every hApp needs to include at least one DNA. Moreover, as indicated above, **it
 
 There are some powerful consequences to this architectural choice --- including freedom to have your application look and feel the way you want, or to combine multiple DNAs together in ways that work for you without having to get everyone else to agree to do the same --- but we'll save those details for later.
 
-#### So if we have multiple DNAs in our hApp...
+### So if we have multiple DNAs in our hApp...
 
 ...then we are participating in multiple networks, with each network of peers that are participating in a particular DNA also helping maintain the shared database for each DNA, enforcing the DNA's rules while validating, storing, and serving content. Each network acts as a 'social organism' in cooperation with other networks in the hApp.
 
@@ -251,7 +253,7 @@ Add new zomes to your DNA with:
 
 Success! Inside of your `dnas/` folder, the scaffolding tool generated a `forum/` folder and, inside of that, the folders and files that the DNA needs. At this point you have a skeleton structure for your `forum` DNA. As you take the following steps, the scaffolding tool will make additions and edits to some of those folders and files based on your instructions.
 
-### 5. Scaffold a zome
+## 5. Scaffold a zome
 
 DNAs are comprised of code modules, which we call zomes (short for chromosomes). Zomes are modules that typically focus on enabling some small unit of functionality. Building with this sort of modular pattern provides a number of advantages, including the ability to reuse a module in more than one DNA to provide similar functionality in a different context. For instance, the [profiles zome](https://github.com/holochain-open-dev/profiles) is one that many apps make use of. For the forum DNA, you'll be creating two zomes: `posts` and `posts_integrity`.
 
@@ -274,19 +276,19 @@ You should then see:
 
 !!! dig-deeper Integrity zomes and coordinator zomes
 
-#### Integrity zomes
+### Integrity zomes
 
 An integrity zome, as the name suggests, is responsible for maintaining the data integrity of a Holochain application. It sets the rules and ensures that any data writes occurring within the application are consistent with those rules. In other words, it is responsible for ensuring that data is correct, complete, and trustworthy. Integrity zomes help maintain a secure and reliable distributed peer-to-peer network by enforcing the validation rules defined by the application developer --- in this case, you!
 
-#### Coordinator zomes
+### Coordinator zomes
 
 On the other hand, a coordinator zome contains the code that actually commits data, retrieves it, or sends and receives messages between peers or between other portions of the application on a user's own device (between the back end and the front-end UI, for instance). A coordinator zome is where you define the API for your DNA, through which the network of peers and their data is made accessible to the user.
 
-#### Multiple zomes per DNA
+### Multiple zomes per DNA
 
 As you learned earlier, a DNA can have multiple integrity and coordinator zomes. Each integrity zome contributes to the full set of different types of valid data that can be written, while each coordinator zome contributes to the DNA's functionality that you expose through its API. In order to write data of a certain type, a coordinator zome needs to specify a dependency on the integrity zome that defines that data type. A coordinator zome can also depend on multiple integrity zomes.
 
-#### Why two types?
+### Why two types?
 
 They are separated from one another so we can update coordinator zomes without having to update the integrity zomes. This is important, because changes made to an integrity zome result in a change of the rule set, which results in an entirely new network. This is because the integrity code is what defines the 'rules of the game' for a group of participants. If you changed the code of an integrity zome, you would find yourself suddenly in a new and different network from the other folks who haven't yet changed their integrity zome --- and we want to minimize those sorts of forks to situations where they are needed (like when a community decides they want to play by different rules, for instance changing the maximum length of comments from 140 characters to 280 characters).
 
@@ -351,7 +353,7 @@ Once that is all done, your hApp skeleton will have filled out a bit. Before you
 
 !!! dig-deeper Source chains, actions, and entries
 
-#### Source chain
+### Source chain
 
 Any time a participant in a hApp takes some action that changes data, they add a record to a journal called a **source chain**. Each participant has their own source chain, a local, tamper-proof, and chronological store of the participant's actions in that application.
 
@@ -359,7 +361,7 @@ This is one of the main differences between Holochain and other systems such as 
 
 One big advantage of this approach is that a single agent can be considered authoritative about the order in which they took actions. From their perspective, first they did A, then B, then C, etc. The fact that someone else didn't get an update about these changes, and possibly received them in a different order, doesn't matter. The order that the authoring agent took those actions will be captured in the actions themselves (thanks to each action referencing the previous one that they had taken, thus creating an ordered sequence --- or chain --- of actions).
 
-#### Actions and entries
+### Actions and entries
 
 You'll notice that we used the word "action" a lot. In fact, **we call the content of a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
 
@@ -385,7 +387,7 @@ If you want to learn more, check out [The Source Chain: A Personal Data Journal]
 
 Now it's time to start defining the structure and validation rules for data within your application.
 
-### 6. Scaffold entry types
+## 6. Scaffold entry types
 
 An entry type is a fundamental building block used to define the structure and validation rules for data within a distributed application. Each entry type corresponds to a specific kind of data that can be stored, shared, and validated within the application.
 
@@ -520,7 +522,7 @@ Select `Yes` by pressing <kbd>Enter</kbd>.
 
 !!! dig-deeper CRUD (create, read, update, delete) {#crud-create-read-update-delete}
 
-#### Mutating immutable data and improving performance
+### Mutating immutable data and improving performance
 
 In short, the above choice is about how changes get dealt with when a piece of content is updated.
 
@@ -532,11 +534,11 @@ When the scaffolding tool asks you whether to create a link from the original en
 
 For a `Delete` action, the original action and its entry content are simply marked as deleted. In the cases of both updating and deleting, all original data is still accessible if the application needs it.
 
-#### Resolving conflicts
+### Resolving conflicts
 
 Multiple participants can mark a single entry as updated or deleted at the same time. This might be surprising, but Holochain does this for two good reasons. First, it's surprisingly difficult to decide which is the 'correct' version of a piece of data in a distributed system, because contributions may come from any peer at any time, even appearing unexpectedly long after they've been created. There are many strategies for resolving the conflicts that arise from this, which brings us to the second good reason: we don't want to impose a specific conflict resolution strategy on you. Your application may not even consider parallel updates and deletes on a single entry to be a conflict at all.
 
-#### CRUD functions
+### CRUD functions
 
 **By default, the scaffolding tool generates a `create_<entry_type>' function in your coordinator zome for an entry type** because creating new data is a fundamental part of any application, and it reflects the core principle of Holochain's agent-centric approach --- the ability to make changes to your own application's state.
 
@@ -604,21 +606,21 @@ To ensure data integrity and facilitate efficient data retrieval, each piece of 
 * **Integrity verification:** `Hi` will always generate the same hash no matter who runs it through the hashing function. So when data is retrieved by hash, its hash can be recalculated and compared with the original requested hash to ensure that a third party hasn't tampered with the data.
 * **Collusion resistance:** The network peers who take responsibility for validating and storing an entry are chosen randomly based on the similarity of their agent IDs to the `EntryHash`. It would take a huge amount of computing power to generate a hash that would fall under the responsibility of a colluding peer. And because Holochain can retrieve data from multiple peers, it's more likely that the requestor can find one honest peer to report problems with a piece of bad data.
 
-#### `ActionHash`
+### `ActionHash`
 
 An action is identified by its `ActionHash`. Because an action contains information about its author, the time it was written, the action that preceded it, and the entry it operates on, no two action hashes will be the same --- even for the same entry. This helps to disambiguate identical entries written at different times by different agents.
 
-#### `EntryHash`
+### `EntryHash`
 
 An entry is identified by its `EntryHash`, which can be retrieved from the `ActionHash` of the action that wrote it. Because they're two separate pieces of data, an entry is stored by different peers than the action that operates on it.
 
-#### `AgentPubKey`
+### `AgentPubKey`
 
 **Each agent in a network is identified by their cryptographic public key**, a unique number that's mathematically related to a private number that they hold on their machine. Public-key cryptography is a little complex for this guide --- it's enough to know that a participant's private key signs their source chain actions, and those signatures paired with their public key allow others to verify that they are the one who authored those actions.
 
 An `AgentPubKey` isn't a hash, but it's the same length, and it's unique just like a hash. So it can be used as a way of referring to an agent, like a user ID --- and this is also why it's used to choose the right peers in the DHT storage and retrieval algorithm.
 
-#### Summary
+### Summary
 
 Whereas `EntryHash` is used to uniquely identify, store, and efficiently retrieve an entry from the DHT, `ActionHash` is used to uniquely identify, store, and retrieve the action (metadata) that operated on it, which can provide information about the history and context of any associated entry (including what action preceded it). `ActionHash`es are also what enable any participant to retrieve and reconstruct the continuous sequence of actions (and any associated entries) in another agent's source chain.
 
@@ -704,7 +706,7 @@ For more information and examples, read the Core Concepts section on [Links and 
 
 !!!
 
-### 7. Scaffold a collection
+## 7. Scaffold a collection
 
 Now, let's create a collection that can be used to retrieve all the posts. A collection creates a link type for referring to the collected entry type (similarly to how a link type was created for linking from posts to comments), but collections also create an 'anchor' --- a small string --- as the base for the link so we can find all the items in the collection by starting from the anchor's known hash.
 
@@ -791,7 +793,7 @@ The scaffolding tool doesn't have any feature for building anchors and trees bey
 
 Before you get started editing the UI, it's helpful to be able to actually run the scaffolded applciation. That way, you can watch changes take effect in real-time as you make them. So the next section will walk you through launching the application the tooling that's available there, and then in the section after that, we'll begin working with the `.svelte` files to build the UI.
 
-### 8. Run your application in dev mode
+## 8. Run your application in dev mode
 
 At this stage, we'll incorporate some of the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.
 
@@ -836,7 +838,7 @@ The two application UI windows let you interact with the application and see wha
 
 At first, each of the UI windows (conductors 0 for Alice and 1 for Bob) include instructions for you to go and examine the scaffolded UI elements by looking at the contents in the folder `ui/src/<dna>/<zome>/`, where `<dna>` and `<zome>` are generic placeholders for your DNA (`forum`) and zome (`post`).
 
-### 9. Integrate the generated UI elements
+## 9. Integrate the generated UI elements
 
 Thus far, seven different UI components should have been generated as `.svelte` files in the `ui/src/forum/posts/` folder. Note that for ease of development, the sandbox testing environment live-reloads the UI as you edit UI files. So don't quit the process you started with `npm start`; instead, **open a new terminal window**. Then navigate to the root folder of your hApp (`my_forum_app/`) and list the files in `ui/src/forum/posts/` by entering:
 
@@ -872,7 +874,7 @@ Your `App.svelte` file will have three sections:
 
 !!! dig-deeper Detailed breakdown of `App.svelte`
 
-#### `<script>` section
+### `<script>` section
 
 ```svelte
 <script lang="ts">
@@ -915,7 +917,7 @@ Next some variables are instantiated: one to hold the Holochain client that conn
 
 Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is establised, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
 
-#### `<main>` section
+### `<main>` section
 
 ```svelte
 <main>
@@ -948,7 +950,7 @@ import CreateTodo from './todos/todos/CreateTodo.svelte';
 
 This section is a template for the displayable content of the main app component. Using an `{#if}` block to test whether the reactive variable `loading` is true, this section displays a spinner until the backend can be accessed. Once the UI is connected to the backend, it shows some boilerplate text telling you to add something meaningful to the template.
 
-#### `<style>` section
+### `<style>` section
 
 ```svelte
 <style>
@@ -1125,41 +1127,8 @@ Save the file, then go back to the UI windows to see the changes. Try typing in 
 
 ![One UI window with the comment components added, with the Playground in the background showing a populated DHT](/assets/img/get-started/10-comment-components.png)
 
+### Next up
 
-## 2. Next steps
+Now that you've built a hApp, you can learn how to package it for distribution to your users.
 
-Congratulations! You've learned how to create a new Holochain application, understand its layout, work with core concepts, and deploy and test the application.
-
-Now that you have a basic understanding of Holochain development, you can continue exploring more advanced topics, such as:
-
-* Validating data
-* Writing tests for a zome
-* Implementing access and write privileges
-* Building more complex data structures and relationships
-* Optimizing your application for performance and scalability
-
-
-### 2.1  Further exploration and resources
-
-Now that you have successfully built a basic forum application using Holochain and integrated it with a frontend, you may want to explore more advanced topics and techniques to further enhance your application or create new ones. Here are some resources and ideas to help you get started:
-
-#### Holochain developer documentation
-
-The official Holochain developer documentation is a valuable resource for deepening your understanding of Holochain concepts, techniques, and best practices. Be sure to explore the documentation thoroughly:
-
-* [Holochain Core Concepts](/concepts/1_the_basics/)
-* [Holochain Developer Kit (HDK) reference](https://docs.rs/hdk/latest/hdk)
-
-#### Community resources
-
-The Holochain community is an excellent source of support, inspiration, and collaboration. Consider engaging with the community to further your learning and development:
-
-* [Holochain GitHub repositories](https://github.com/holochain)
-* [Holochain Discord server](https://discord.com/invite/k55DS5dmPH)
-
-#### Example applications and tutorials
-
-Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
-
-* [Holochain Open Dev](https://github.com/holochain-open-dev)
-* [Holochain Foundation sample apps](https://github.com/holochain-apps)
+[Package your hApp →](../4-packaging-and-distribution/){.btn-purple}

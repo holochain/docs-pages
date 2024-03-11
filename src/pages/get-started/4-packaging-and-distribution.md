@@ -10,8 +10,9 @@ tocData:
         href: launcher-the-multi-app-runtime
       - text: Standalone
         href: standalone-executable
+  - text: Next steps
+    href: next-steps
 ---
-
 
 Now that you've built an application, it's time to get it into other people's hands. First an app must be packaged into a distributable bundle format. Then it can be published somewhere a user can access it.
 
@@ -90,3 +91,32 @@ Both of these are GitHub template repos with detailed instructions on how to clo
 !!! note Code Signing
 For macOS and Windows, you will probably also want to go through the process of registering as a developer so that your application can be "code-signed". This is needed so that users don't get the "unsigned code" warnings when launching the applications on those platforms. Both of the above templates include instructions for CI automation to run the code-signing steps on release once you have acquired the necessary certificates.
 !!!
+
+## Next steps
+
+Congratulations! You've learned how to create a new Holochain application, understand its layout, work with core concepts, and deploy and test the application.
+
+### Further exploration and resources
+
+Now that you have successfully built a basic forum application using Holochain and integrated it with a frontend, you may want to explore more advanced topics and techniques to further enhance your application or create new ones. Here are some resources and ideas to help you get started:
+
+#### Holochain developer documentation
+
+The official Holochain developer documentation is a valuable resource for deepening your understanding of Holochain concepts, techniques, and best practices. Be sure to explore the documentation thoroughly:
+
+* [Holochain Core Concepts](/concepts/1_the_basics/)
+* [Holochain Developer Kit (HDK) reference](https://docs.rs/hdk/latest/hdk)
+
+#### Community resources
+
+The Holochain community is an excellent source of support, inspiration, and collaboration. Consider engaging with the community to further your learning and development:
+
+* [Holochain GitHub repositories](https://github.com/holochain)
+* [Holochain Discord server](https://discord.com/invite/k55DS5dmPH)
+
+#### Example applications and tutorials
+
+Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
+
+* [Holochain Open Dev](https://github.com/holochain-open-dev)
+* [Holochain Foundation sample apps](https://github.com/holochain-apps)

@@ -1,8 +1,8 @@
 ---
-title: "Build on Holochain: Hello World"
+title: "Scaffold a Simple Hello World Application"
 ---
 
-In this section, we’ll use Holochain’s scaff olding tool to generate a simple “Hello, World!” application.
+In this section, we’ll use Holochain’s scaffolding tool to generate a simple “Hello, World!” application.
 
 For this tutorial, we'll be working in `~/Holochain`. Create that folder now and move into it:
 
@@ -14,10 +14,9 @@ mkdir ~/Holochain
 cd ~/Holochain
 ```
 
-## Scaffold a simple "Hello, World!" App 
+## Scaffold a simple "Hello, World!" app
 
-In this section, we'll use Holochain's scaff
-olding tool to generate a simple "Hello, World!" application.
+In this section, we'll use Holochain's scaffolding tool to generate a simple "Hello, World!" application.
 
 When getting started, seeing a simple but fully-functional app can be very helpful. You can have Holochain's scaffolding tool generate a "Hello, World!" application (but for a distributed multi-agent world) by typing the following in your command line terminal:
 
@@ -104,3 +103,9 @@ This table includes everything in the `hello-world/` folder as well as details o
 These files and folders make up the structure of a Holochain application, with the main logic defined in the zomes (in the `dnas/<dna>/zomes/` folders) and the user interface defined in the `ui/` folder. The manifest files bring all the Holochain and UI assets together, allowing the `hc` tool to bundle them into a single hApp file ready for distribution.
 
 !!!
+
+### Next up
+
+Now it's time to try scaffolding your own application. Follow the instructions in the next guide to learn how to generate back-end and UI code.
+
+[Forum app tutorial →](../3-forum-app-tutorial/){.btn-purple}
