@@ -24,7 +24,7 @@ tocData:
       href: 4-6-scaffold-entry-types
     - text: 4.7. Scaffold a collection
       href: 4-7-scaffold-a-collection
-    - text: 4.8. Run your applicaiton in dev mode
+    - text: 4.8. Run your application in dev mode
       href: 4-8-run-your-application-in-dev-mode
     - text: 4.9. Integrate the generated UI elements
       href: 4-9-integrate-the-generated-ui-elements
@@ -46,7 +46,7 @@ Welcome to the Getting Started with Holochain guide! This guide will walk you th
 Follow this guide step by step. All steps are essential to create the example applications. No additional code or steps are needed.
 
 * The examples below use `$` to represent your terminal prompt in a UNIX-like OS, though it may have been customized in your OS to appear differently.
-* We assume that you are reading this guide because your are a developer new to Holochain but interested in actually building peer-to-peer distributed applications using a framework that is agent-centric, that provides intrinsic data integrity, is scalable, and when deployed, end-user code runs just on the devices of the participants without relying on centralized servers or blockchain tokens or other points of centralized control.
+* We assume that you are reading this guide because you are a developer new to Holochain but interested in actually building peer-to-peer distributed applications using a framework that is agent-centric, that provides intrinsic data integrity, is scalable, and when deployed, end-user code runs just on the devices of the participants without relying on centralized servers or blockchain tokens or other points of centralized control.
 * We assume that you've at least skimmed [Holochain's Core Concepts](/concepts/1_the_basics/) or are ready to pop over there when needed.
 * Because Holochain's DNA's are written in Rust, we assume you have at least a basic familiarity with the language. Note, however, that this guide will take you through everything you need to do, step-by-step, so you can follow the steps and learn Rust later. Additionally, Holochain DNAs rarely need to take advantage of the more complicated aspects of the language, so don't let Rust's learning curve scare you.
     * If you're new to Rust, you can start your learning journey by reading chapters 1 to 11 in the [Rust Book](https://doc.rust-lang.org/book/) and doing the accompanying [Rustlings exercises](https://github.com/rust-lang/rustlings/).
@@ -62,7 +62,7 @@ In this section, we'll walk you through the step-by-step process of installing H
 
 ### 2.1. Hardware requirements
 
-Before you install the Holochain development ment, make sure your system meets the following hardware requirements:
+Before you install the Holochain development environment, make sure your system meets the following hardware requirements:
 
 * 8GB+ RAM (16GB+ recommended)
 * 4+ cores CPU (6+ cores recommended)
@@ -200,7 +200,7 @@ This table includes everything in the `hello-world/` folder as well as details o
 | <pre> ├── target/              </pre> | A folder containing the compiled output from the Rust build process.                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | <pre> ├── tests/               </pre> | A folder containing JavaScript-base test code for the application.                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | <pre> ├── ui/                  </pre> | A folder containing the source code and assets for the web-based user interface of the "Hello, World!" application. This user interface will get distributed along with the application.                                                                                                                                                                                                                                                                                                                            |
-| <pre> ├┬─ workdir/             </pre> | A working folder containing configuration files and compliled artifacts related to the building of the whole hApp.                                                                                                                                                                                                                                                                                                                                                                                                  |
+| <pre> ├┬─ workdir/             </pre> | A working folder containing configuration files and compiled artifacts related to the building of the whole hApp.                                                                                                                                                                                                                                                                                                                                                                                                  |
 | <pre> │├── happ.yaml           </pre> | The manifest file for the hApp. It references the DNA files to be included, along with the roles they play in the application. In this case, there's only one DNA file, `hello_world`.                                                                                                                                                                                                                                                                                                                              |
 | <pre> │├── hello_world.happ    </pre> | The compiled hApp bundle, which includes all the DNAs (in case just the one).                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | <pre> │├── hello_world.webhapp </pre> | The compiled web hApp bundle, which includes the hApp bundle plus the zipped UI.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
@@ -349,7 +349,7 @@ You should see something like:
 
 ::: output-block
 ```text
-holochain_scaffolding_cli 0.1.8
+holochain_scaffolding_cli x.y.z
 The list of subcommands for `hc scaffold`
 
 USAGE:
@@ -387,7 +387,7 @@ A DNA folder is where you will put the code that defines the rules of your appli
 
 #### Why do we use the term DNA?
 
-In Holochain, we are trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organisations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
+In Holochain, we are trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organizations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
 
 This enables many different independent parts (cells) to build relatively consistent superstructures (a body, for instance), move resources, identify and eliminate infections, and more --- all without centralized command and control. There is no "CEO" cell in the body telling everybody else what to do. It's a bunch of independent actors (cells) playing by a consistent set of rules (the DNA) coordinating in effective and resilient ways.
 
@@ -535,7 +535,9 @@ Updating crates.io index
     Fetch [===>       ] ...
 ```
 :::
-    (then after download is done...)
+
+(then after download is done...)
+
 ::: output-block
 ```text
     Downloaded 244 crates (46.7 MB) in 4.27s (largest was `windows` at 11.9 MB)
@@ -565,7 +567,7 @@ There are a few different kinds of actions, but the most common one is `Create`,
 
 Every action contains the ID of its author (actually a cryptographic public key), a timestamp, a pointer to the previous source chain record, and a pointer to the entry data, if there is any. In this way, actions provide historical context and provenance for the entries they operate on.
 
-The pointer to the previous source chain record creates an unbroken history from the current record all the way back to the source chain's starting point. This 'genesis' record contains the hash of the DNA, which servs as both the identifier for the specific set of validation rules that all following records should follow and the ID of the network that this source chain's actions are participating in.
+The pointer to the previous source chain record creates an unbroken history from the current record all the way back to the source chain's starting point. This 'genesis' record contains the hash of the DNA, which serves as both the identifier for the specific set of validation rules that all following records should follow and the ID of the network that this source chain's actions are participating in.
 
 An action is cryptographically signed by its author and is immutable (can't be changed or erased from either the source chain or the network's data store) once written. This, along with the validation rules specified by the DNA hash in the genesis record, are examples of a concept we call "intrinsic data integrity", in which data carries enough information about itself to be self-validating.
 
@@ -687,7 +689,7 @@ After adding the `title` and `content` fields, press <kbd>N</kbd> when asked if 
 ::: output-block
 ```text
 Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
-  Update
+✔ Update
 ✔ Delete
 ```
 :::
@@ -987,7 +989,7 @@ The scaffolding tool doesn't have any feature for building anchors and trees bey
 
 !!!
 
-Before you get started editing the UI, it's helpful to be able to actually run the scaffolded applciation. That way, you can watch changes take effect in real-time as you make them. So the next section will walk you through launching the application the tooling that's available there, and then in the section after that, we'll begin working with the `.svelte` files to build the UI.
+Before you get started editing the UI, it's helpful to be able to actually run the scaffolded application. That way, you can watch changes take effect in real-time as you make them. So the next section will walk you through launching the application the tooling that's available there, and then in the section after that, we'll begin working with the `.svelte` files to build the UI.
 
 ### 4.8. Run your application in dev mode
 
@@ -1054,7 +1056,7 @@ CommentsForPost.svelte  EditPost.svelte
 
 The next step is to edit the UI files in the text editor or integrated development environment of your choice to add scaffolded components and build a fully featured UI. To integrate all of these generated UI elements, you'll need to add them to `App.svelte` file located in the `ui/src/` folder, or to some other `.svelte` file that eventually gets included in `App.svelte`.
 
-If you don't yet have path commands for opening files in your prefered IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844). Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs` etc.) for `code` if you are using a different editor.
+If you don't yet have path commands for opening files in your preferred IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844). Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs` etc.) for `code` if you are using a different editor.
 
 Open the `App.svelte` file with your preferred IDE.
 
@@ -1082,13 +1084,14 @@ Your `App.svelte` file will have three sections:
   import { clientContext } from './contexts';
 
   let client: AppAgentClient | undefined;
+
   let loading = true;
 
-  $: client, loading;
 
   onMount(async () => {
-    // We pass '' as url because it will dynamically be replaced in launcher environments
-    client = await AppAgentWebsocket.connect('', 'forum');
+    // We pass an unused string as the url because it will dynamically be replaced in launcher environments
+    client = await AppAgentWebsocket.connect(new URL('https://UNUSED'), 'forum');
+
     loading = false;
   });
 
@@ -1111,7 +1114,7 @@ Next some variables are instantiated: one to hold the Holochain client that conn
 
 **Take note of the line that starts with `$:`**. This is a special Svelte label that turns regular variables into **reactive variables**. We won't get too deep into Svelte right now, because this is a tutorial about Holochain, but when a reactive variable changes, Svelte will re-render the entire component. This lets you write a template declaratively, enclosing the reactive variable in `{}` braces, and let Svelte handle the updating of the template wherever the variable changes.
 
-Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is establised, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
+Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is established, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
 
 #### `<main>` section
 
@@ -1198,8 +1201,7 @@ Your `<main>` block should now look like this:
 ```svelte
 <main>
   {#if loading}
-    <div style="display: flex; flex: 1; align-items: center; justify-content: ce
-nter">
+    <div style="display: flex; flex: 1; align-items: center; justify-content: center">
       <mwc-circular-progress indeterminate />
     </div>
   {:else}
@@ -1235,8 +1237,7 @@ Now your `<main>` block should look like this:
 ```svelte
 <main>
   {#if loading}
-    <div style="display: flex; flex: 1; align-items: center; justify-content: ce
-nter">
+    <div style="display: flex; flex: 1; align-items: center; justify-content: center">
       <mwc-circular-progress indeterminate />
     </div>
   {:else}
@@ -1522,7 +1523,7 @@ If we now run the test again, it will pass.
 
 TODO: SHOW RUNNING THE TEST AND IT PASSING.
 
-What about updating comments?  Remember that in Holochain, because the source-chain is an appen only ledger, updating a comment is really creating a new comment and marking the old comment as deleted. Thus, when someone updates a comment, the create validation rules will still get enforced because a new comment entry gets created.
+What about updating comments?  Remember that in Holochain, because the source-chain is an append-only ledger, updating a comment is really creating a new comment and marking the old comment as deleted. Thus, when someone updates a comment, the create validation rules will still get enforced because a new comment entry gets created.
 
 ### 5.2. Advanced (inspecting the actions)
 
@@ -1648,7 +1649,7 @@ The steps for publishing an app to the Launcher's app store are documented in th
 If you prefer to distribute your app as a full standalone executable, you will need to bundle the Holochain runtime and your app together and take care of the necessary interactions between them. Because Holochain itself is really just a set of Rust libraries, you can of course build your own application that uses those libraries, but that's a fair amount of work. Currently there are two much simpler paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries, which in our case are the [holochain conductor](https://docs.rs/holochain/latest/holochain/) and the [lair keystore](https://docs.rs/lair_keystore/latest/lair_keystore/). Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has already been done for you:
 
 * **Electron**: Refer to the community-supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.
-* **Tauri**: See the officially supported [holochain-kanagroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
+* **Tauri**: See the officially supported [holochain-kangaroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
 
 Both of these are GitHub template repos with detailed instructions on how to clone the repos and add in your UI and DNA, as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users.
 
