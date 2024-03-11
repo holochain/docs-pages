@@ -5,7 +5,7 @@
       links: [
         { title: "Get Started", url: "/get-started/" },
         { title: "Core Concepts", url: "/concepts/1_the_basics/" },
-        { title: "Resources", url: "/references/" },
+        { title: "Resources", url: "/resources/" },
       ]
     },
 
@@ -16,7 +16,7 @@
         { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
         { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
         { title: "CLI", url: "https://github.com/holochain/holochain/tree/main/crates/hc", external: true },
-        { title: "Glossary", url: "/references/glossary/", external: true },
+        { title: "Glossary", url: "/resources/glossary/", external: true },
       ]
     },
 

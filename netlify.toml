@@ -40,7 +40,7 @@
     from = "/resources/happ-bundle/"
     to = "/redirect-to-redux-site.html#!docs/resources/happ-bundle/"
     # There will eventually be a new hApp bundle format that will get documented,
-    # and I intend to put it under `/references`.
+    # and I intend to put it under `/resources`.
     status = 302
 
 # Some of the core concepts' titles and URLs have changed,
@@ -69,6 +69,11 @@
 [[redirects]]
     from = "/docs/concepts/8_node_to_node_messaging/"
     to = "/concepts/8_calls_capabilities/"
+    status = 301
+
+[[redirects]]
+    from = "/references/*"
+    to = "/resources/:splat"
     status = 301
 
 # Once upon a time, we had a landing page and all the actual docs were in /docs.
@@ -101,10 +106,10 @@
     to = "/get-started/"
     status = 301
 
-# Glossary has been moved to the references path.
+# Glossary has been moved to the resources path.
 [[redirects]]
     from = "/glossary/"
-    to = "/references/glossary/"
+    to = "/resources/glossary/"
     status = 301
 
 # The front page for the core concepts has been removed.
