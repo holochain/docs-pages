@@ -72,7 +72,7 @@ Additionally the following `markdown-it` plugins have been added:
   There are of course more details. See the docs at [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) for more.
 - [markdown-it-container](https://github.com/markdown-it/markdown-it-container) Plugin for creating block-level custom containers. For example:
   ```
-  ::: coreconcepts-intro
+  ::: learn-intro
   Blah blah
   :::
   ```
@@ -80,7 +80,7 @@ Additionally the following `markdown-it` plugins have been added:
   renders as
 
   ```
-  <div class="coreconcepts-intro">
+  <div class="learn-intro">
     <p>Blah blah</p>
   </div>
   ```

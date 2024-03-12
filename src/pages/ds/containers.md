@@ -79,18 +79,18 @@ Can wrap around code fences to prevent Copy buttons form being added to the code
 ## Site content specific containers
 All the below just apply a specific class to a surrounding div. These were implemented for very specific site style needs. More such can be created if need be.
 
-- ### coreconcepts-intro
-  ::: coreconcepts-intro
+- ### learn-intro
+  ::: learn-intro
   Sit amet tellus cras adipiscing enim eu turpis egestas. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt dui ut ornare lectus sit.
   :::
 
-- ### coreconcepts-orientation
-  ::: coreconcepts-orientation
+- ### learn-orientation
+  ::: learn-orientation
   Sit amet tellus cras adipiscing enim eu turpis egestas. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt dui ut ornare lectus sit.
   :::
 
-- ### coreconcepts-storysequence
-  ::: coreconcepts-storysequence
+- ### learn-storysequence
+  ::: learn-storysequence
   Sit amet tellus cras adipiscing enim eu turpis egestas. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt dui ut ornare lectus sit.
   :::
 

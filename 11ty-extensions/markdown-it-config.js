@@ -87,9 +87,9 @@ module.exports = function(eleventyConfig) {
     //Configure markdown-it plugins
     mdLib.use(markdownItAttrs);
     mdLib.use(markdownItAnchor, { tabIndex: false, slugify: s => slugify(s) });
-    mdLib.use(markdownItContainer, "coreconcepts-intro");
-    mdLib.use(markdownItContainer, "coreconcepts-orientation");
-    mdLib.use(markdownItContainer, "coreconcepts-storysequence");
+    mdLib.use(markdownItContainer, "learn-intro");
+    mdLib.use(markdownItContainer, "learn-orientation");
+    mdLib.use(markdownItContainer, "learn-storysequence");
     mdLib.use(markdownItContainer, "h-author");
     mdLib.use(markdownItContainer, "output-block");
 

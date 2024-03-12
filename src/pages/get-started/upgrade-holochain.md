@@ -4,7 +4,7 @@ hide:
   - toc
 ---
 
-::: coreconcepts-intro
+::: learn-intro
 For existing hApps that have been written for Holochain version 0.1, these are steps to upgrade to Holochain version 0.2.
 :::
 

@@ -11,9 +11,9 @@
 
 ## Divs
   - No more `markdown=1`, instead leave a blank line after.
-  - coreconcepts-intro, coreconcepts-orientation, and coreconcepts-storysequence divs have been created as MD containers. Use:
+  - learn-intro, learn-orientation, and learn-storysequence divs have been created as MD containers. Use:
     ```
-    ::: coreconcepts-intro
+    ::: learn-intro
     words words
     :::
     ```
