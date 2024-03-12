@@ -64,41 +64,41 @@ The packed app is now ready for deployment to a Holochain runtime.
 
 ## Runtimes
 
-In the centralized world, deployment is usually achieved by Continuous Integration (CI) automation that builds up code changes and sends them to whatever server or cloud-based platform you're using. In the decentralized world of Holochain, deployment happens when end-users download and run your hApp in the Holochain runtime.
+In the centralized world, deployment is usually achieved by Continuous Integration (CI) automation that builds up code changes and sends them to whatever server or cloud-based platform you're using. In the decentralized world of Holochain, deployment happens when end-users download and run your hApp in the Holochain runtime (although you could certainly use CI to build releases of your hApp).
 
-From the end-user perspective there are currently there are two ways to go about this, both of which will feel familiar:
+From the end-user perspective there are currently there are two ways to go about this:
 
 1. Download Holochain's official Launcher runtime and install the app from its app store or the filesystem.
 2. Download an your app as its own standalone desktop executable, as they would any other application for their computer.
 
 ### Launcher, the multi-app runtime
 
-Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows people to install apps from a built-in app store or from the filesystem. Installed apps can then be launched from a friendly UI. Note that the app store is itself a distributed Holochain application which provides details on applications that are available for download. As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or you can share your application directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the file system.
+Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows people to install apps from a built-in app store or from the filesystem. Installed apps can then be launched from a friendly UI. The app store is itself a distributed Holochain application which provides details on applications that are available for download. As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or you can share it directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the filesystem.
 
-You can try this latter approach immediately by downloading and running the Launcher!
+You can try this latter approach with your forum app immediately by downloading and running the Launcher!
 
 The steps for publishing an app to the Launcher's app store are documented in the Github repository of the Holochain Launcher [here](https://github.com/holochain/launcher#publishing-and-updating-an-app-in-the-devhub).
 
 ### Standalone executable
 
-If you prefer to distribute your app as a full standalone executable, you will need to bundle the Holochain runtime and your app together and take care of the necessary interactions between them. Because Holochain itself is really just a set of Rust libraries, you can of course build your own application that uses those libraries, but that's a fair amount of work. Currently there are two much simpler paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks also support inclusion of additional binaries, which in our case are the [holochain conductor](https://docs.rs/holochain/latest/holochain/) and the [lair keystore](https://docs.rs/lair_keystore/latest/lair_keystore/). Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has already been done for you:
+If you prefer to distribute your app as a full standalone executable, you'll need to bundle the Holochain runtime and your app together and take care of the necessary interactions between them. Because Holochain itself is really just a set of Rust libraries, you can of course build your own application that uses those libraries, but that's a fair amount of work. Currently there are two much simpler paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks automatically bundle the necessary binaries, the [`holochain` conductor runtime](https://crates.io/crates/holochain) and the [`lair` keystore](https://crates.io/crates/lair_keystore). Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has already been done for you:
 
-* **Electron**: Refer to the community-supported [electron-holochain-template](https://github.com/lightningrodlabs/electron-holochain-template/) repo.
 * **Tauri**: See the officially supported [holochain-kangaroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
+* **Electron**: See the officially supported [holochain-kangaroo-electron](https://github.com/holochain-apps/holochain-kangaroo-electron) repo.
 
-Both of these are GitHub template repos with detailed instructions on how to clone the repos and add in your UI and DNA, as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users.
+Both of these are GitHub template repos with detailed instructions on how to clone them and add in your UI and DNA, as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users. Their supported Holochain version sometimes lags behind the current recommended version, so you may need to manually update them.
 
 !!! note Code Signing
-For macOS and Windows, you will probably also want to go through the process of registering as a developer so that your application can be "code-signed". This is needed so that users don't get the "unsigned code" warnings when launching the applications on those platforms. Both of the above templates include instructions for CI automation to run the code-signing steps on release once you have acquired the necessary certificates.
+For macOS and Windows, you'll probably also want to go through the process of registering as a developer so that your application can be "code-signed". This is needed so that users don't get the "unsigned code" warnings when launching the applications on those platforms. Both of the above templates include instructions for CI automation to run the code-signing steps on release once you have acquired the necessary certificates.
 !!!
 
 ## Next steps
 
-Congratulations! You've learned how to create a new Holochain application, understand its layout, work with core concepts, and deploy and test the application.
+Congratulations! You've learned how to create a new Holochain application, understand its layout, work with core concepts, and deploy it.
 
 ### Further exploration and resources
 
-Now that you have successfully built a basic forum application using Holochain and integrated it with a frontend, you may want to explore more advanced topics and techniques to further enhance your application or create new ones. Here are some resources and ideas to help you get started:
+Now that you have successfully built a basic forum application using Holochain and integrated it with a front end, you may want to explore more advanced topics and techniques to further enhance your application or create new ones. Here are some resources and ideas to help you get started:
 
 #### Holochain developer documentation
 

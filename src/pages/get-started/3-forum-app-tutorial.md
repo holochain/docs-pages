@@ -101,7 +101,7 @@ Just to get an overview of what your first scaffold command set up for you, you 
 ls
 ```
 
-It should look like it has set up a similar set of folders and configuration files to those you saw in the "Hello, World!" hApp.
+It should look like it has set up a similar set of folders and configuration files to those you saw in the "Hello World!" hApp.
 
 Now, fire up the nix development shell, which makes all scaffolding tools and the Holochain binaries directly available from the command line, by entering:
 
@@ -117,7 +117,7 @@ Holochain development shell spawned. Type exit to leave.
 ```
 :::
 
-As it says, if you want to leave the nix development shell at any time, you can type `exit`. This will take you back to your familiar shell without any of the special Holochain dependencies. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again. But for now, install the Node Package Manager (npm) dependencies with:
+As it says, if you want to leave the nix development shell at any time, you can type `exit`. This will take you back to your familiar shell without any of the special Holochain dependencies. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again. But for now, let's move on to installing the Node Package Manager (npm) dependencies with:
 
 ```shell
 npm install
@@ -153,7 +153,7 @@ You should see something like:
 
 ::: output-block
 ```text
-holochain_scaffolding_cli 0.1.8
+holochain_scaffolding_cli 0.x.x
 The list of subcommands for `hc scaffold`
 
 USAGE:
@@ -191,13 +191,13 @@ A DNA folder is where you will put the code that defines the rules of your appli
 
 ### Why do we use the term DNA?
 
-In Holochain, we are trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organizations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
+With Holochain, we're trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organizations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
 
 This enables many different independent parts (cells) to build relatively consistent superstructures (a body, for instance), move resources, identify and eliminate infections, and more --- all without centralized command and control. There is no "CEO" cell in the body telling everybody else what to do. It's a bunch of independent actors (cells) playing by a consistent set of rules (the DNA) coordinating in effective and resilient ways.
 
-A cell in the muscle of your bicep finds itself in a particular context, with certain resources and conditions that it is facing. Based on those signals, that cell behaves in particular ways, running relevant portions of the larger shared instruction set (DNA) and transforming resources in ways that make sense for a bicep muscle cell. A different cell in your blood, perhaps facing a context where there is a bacterial infection, will face a different set of circumstances and consequently will make use of other parts of the shared instruction set to guide how it behaves. In other words, many biological organisms make use of this pattern where **many participants run the same rule set, but each in its own context**, and that unlocks a powerful capacity for coherent coordination.
+A cell in the muscle of your bicep finds itself in a particular context, surrounded by certain resources and conditions. Based on those signals, that cell behaves in particular ways, running relevant portions of the larger shared instruction set (DNA) and transforming resources in ways that make sense for a bicep muscle cell. A different cell in your blood, perhaps facing a context where there is a bacterial infection, will face a different set of circumstances and consequently will make use of other parts of the shared instruction set to guide how it behaves. In other words, many biological organisms make use of this pattern where **all participants run the same rule set, but each in its own context**, and that unlocks a powerful capacity for coherent coordination.
 
-Holochain borrows this pattern that we see in biological coordination to try to enable similarly coherent social coordination. However, our focus is on enabling such coherent social coordination to be "opted into" by the participants. We believe that this pattern of being able to choose which games you want to play --- and being able to leave them or adapt them as experience dictates --- is critical to enabling individual and collective adaptive capacity. We believe that it may enable a fundamental shift in the ability of individuals and communities to sense and respond to the situations that they face.
+Holochain borrows this pattern that we see in biological coordination to try to enable similarly coherent social coordination. However, our focus is on enabling participants to "opt into" such coherent social coordination. We believe that this pattern of being able to choose which games you want to play --- and being able to leave them or adapt them as experience suggests --- is critical to enabling individual and collective adaptive capacity. We believe that it may enable a fundamental shift in the ability of individuals and communities to sense and respond to the situations that they face.
 
 To put it another way: if a group of us can all agree to the rules of a game, then together we can play that game.
 
@@ -205,7 +205,7 @@ All of us opting in to those rules --- and helping to enforce them --- enables u
 
 ### DNA as boundary of network
 
-The network of participants that are running a DNA engage in "peer witnessing" of actions by the participants in that network. A (deterministically random) set of peers are responsible for validating, storing, and serving each particular piece of shared content. In other words, the users of a particular hApp agree to a set of rules and then work together collectively to enforce those rules and to store and serve content (state changes) that do not violate those rules.
+The network of participants that are running a DNA engage in "peer witnessing" of each other's actions in that network. A (deterministically random) set of peers are responsible for validating, storing, and serving each particular piece of shared content. In other words, the users of a particular hApp agree to a set of rules and then work together collectively to enforce those rules and to store and serve content (state changes) that do not violate those rules.
 
 Every hApp needs to include at least one DNA. Moreover, as indicated above, **it is at the DNA level** (note: not the higher application level) **where participants will form a network of peers to validate, store, and serve content** in accordance with the rules defined in that DNA. This happens in the background as the application runs on each participant's machine.
 
@@ -213,7 +213,7 @@ There are some powerful consequences to this architectural choice --- including 
 
 ### So if we have multiple DNAs in our hApp...
 
-...then we are participating in multiple networks, with each network of peers that are participating in a particular DNA also helping maintain the shared database for each DNA, enforcing the DNA's rules while validating, storing, and serving content. Each network acts as a 'social organism' in cooperation with other networks in the hApp.
+...then we are participating in multiple networks, with each network of peers that are participating in a particular DNA also helping maintain the shared database for that DNA, enforcing its rules while validating, storing, and serving content. Each network acts as a 'social organism' in cooperation with other networks in the hApp.
 
 This is similar to the way in which multiple DNA communities coexist in biological organisms. In fact, there are more cells in a human body that contain other DNA (like bacteria and other microorganisms) than cells that contain our DNA. This indicates that we are an _ecology_ of coherent communities that are interacting with --- and evolving alongside --- one another.
 
@@ -278,11 +278,11 @@ You should then see:
 
 ### Integrity zomes
 
-An integrity zome, as the name suggests, is responsible for maintaining the data integrity of a Holochain application. It sets the rules and ensures that any data writes occurring within the application are consistent with those rules. In other words, it is responsible for ensuring that data is correct, complete, and trustworthy. Integrity zomes help maintain a secure and reliable distributed peer-to-peer network by enforcing the validation rules defined by the application developer --- in this case, you!
+An integrity zome, as the name suggests, is responsible for maintaining the data integrity of a Holochain application. It sets the rules and ensures that any data writes occurring within the application are consistent with those rules. In other words, it's responsible for ensuring that data is correct, complete, and trustworthy. Integrity zomes help maintain a secure and reliable distributed peer-to-peer network by enforcing the validation rules defined by the application developer --- in this case, you!
 
 ### Coordinator zomes
 
-On the other hand, a coordinator zome contains the code that actually commits data, retrieves it, or sends and receives messages between peers or between other portions of the application on a user's own device (between the back end and the front-end UI, for instance). A coordinator zome is where you define the API for your DNA, through which the network of peers and their data is made accessible to the user.
+On the other hand, a coordinator zome contains the code that actually commits data, retrieves it, or sends and receives messages between peers or between other portions of the application on a user's own device (between the back end and the UI, for instance). A coordinator zome is where you define the API for your DNA, through which the network of peers and their data is made accessible to the user.
 
 ### Multiple zomes per DNA
 
@@ -290,7 +290,7 @@ As you learned earlier, a DNA can have multiple integrity and coordinator zomes.
 
 ### Why two types?
 
-They are separated from one another so we can update coordinator zomes without having to update the integrity zomes. This is important, because changes made to an integrity zome result in a change of the rule set, which results in an entirely new network. This is because the integrity code is what defines the 'rules of the game' for a group of participants. If you changed the code of an integrity zome, you would find yourself suddenly in a new and different network from the other folks who haven't yet changed their integrity zome --- and we want to minimize those sorts of forks to situations where they are needed (like when a community decides they want to play by different rules, for instance changing the maximum length of comments from 140 characters to 280 characters).
+They are separated from one another so we can update coordinator zomes without having to update the integrity zomes. This is important, because changes made to an integrity zome result in a change of the rule set, which results in an entirely new network. This is because the integrity code is what defines the 'rules of the game' for a group of participants. If you changed the code of an integrity zome, Holochain would consider it a new 'game' and you would find yourself suddenly in a new and different network from the other folks who haven't yet changed their integrity zome --- and we want to minimize those sorts of forks to situations where they are needed (like when a community decides they want to play by different rules, for instance changing the maximum length of comments from 140 characters to 280 characters).
 
 At the same time, a community will want to be able to improve the ways in which things are done in a Holochain app. This can take the form of adding new features or fixing bugs, and we also want people to also be able to take advantage of the latest features in Holochain. Separating integrity and coordination enables them to do that more easily, because:
 
@@ -355,17 +355,17 @@ Once that is all done, your hApp skeleton will have filled out a bit. Before you
 
 ### Source chain
 
-Any time a participant in a hApp takes some action that changes data, they add a record to a journal called a **source chain**. Each participant has their own source chain, a local, tamper-proof, and chronological store of the participant's actions in that application.
+Any time a participant in a hApp takes some action that changes data, they do it by adding a record to a journal called a **source chain**. Each participant has their own source chain, a local, tamper-proof, and chronological store of the participant's actions in that application.
 
-This is one of the main differences between Holochain and other systems such as blockchains or centralized server-based applications. Instead of recording a "global" (community-wide) record of what actions have taken place, in Holochain actions are taken by agents and are thought of as transformations of their own state.
+This is one of the main differences between Holochain and other systems such as blockchains or centralized server-based applications. Instead of recording a "global" (community-wide) timeline of what actions have taken place, in Holochain actions are recorded on individual timelines. They can be thought of as both a change to the individual's state and an attempt to change shared state.
 
 One big advantage of this approach is that a single agent can be considered authoritative about the order in which they took actions. From their perspective, first they did A, then B, then C, etc. The fact that someone else didn't get an update about these changes, and possibly received them in a different order, doesn't matter. The order that the authoring agent took those actions will be captured in the actions themselves (thanks to each action referencing the previous one that they had taken, thus creating an ordered sequence --- or chain --- of actions).
 
 ### Actions and entries
 
-You'll notice that we used the word "action" a lot. In fact, **we call the content of a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
+You'll notice that we used the word "action" a lot. In fact, **we call the a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
 
-There are a few different kinds of actions, but the most common one is `Create`, which creates an 'entry' --- an arbitrary blob of bytes. Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to publicly store a record of this act._ So while an action is useful for storing noun-like data like messages and images, it's actually a verb, a record of an action that someone took to update their own state and possibly the shared database state as well. That also makes it well-suited to verb-like data like real-time document edits, game moves, and transactions.
+There are a few different kinds of actions, but the most common one is `Create`, which creates an 'entry' --- an arbitrary blob of bytes. Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to publicly store a record of this act along with the data itself._ So while an action is useful for storing noun-like data like messages and images, it's actually a verb, a record of an action that someone took to update their own state and possibly the shared state as well. That also makes it well-suited to verb-like data like real-time document edits, game moves, and transactions.
 
 Every action contains the ID of its author (actually a cryptographic public key), a timestamp, a pointer to the previous source chain record, and a pointer to the entry data, if there is any. In this way, actions provide historical context and provenance for the entries they operate on.
 
@@ -395,17 +395,17 @@ An entry type is a fundamental building block used to define the structure and v
 
 An entry type is just a label, an identifier for a certain type of data that your DNA deals with. It serves as something to attach validation rules to in your integrity zome, and those rules are what give an entry type its meaning. They take the form of code in a function that gets called any time something is about to be stored, and because they're just code, they can validate all sorts of things. Here are a few key examples:
 
-* **Data structure**: When you use the scaffolding tool to create an entry type, it generates a Rust-based data type that define fields in your entry type, and it also generates code in the validation function that attempts to convert the raw bytes into an instance of that type. By providing a well-defined structure, this type ensures that data can be understood by the application. If it can't be deserialized into the appropriate Rust structure, it's not valid.
+* **Data structure**: When you use the scaffolding tool to create an entry type, it generates a Rust struct that defines fields in your entry type, and it also generates code in the validation function that attempts to convert the raw bytes into an instance of that type. By providing a well-defined structure, this type ensures that data can be understood by the application. If it can't be deserialized into the appropriate Rust structure, it's not valid.
 
 * **Constraints on data**: Beyond simple fields, validation code can constrain the values in an entry --- for instance, it can enforce a maximum number of characters in a text field or reject nonsensical calendar dates.
 
 * **Privileges**: Because it originates in a source chain, an entry comes with metadata about its author. This can be used to control who can create, edit, or delete an entry.
 
-* **Contextual conditions**: Because an action is part of a chain of actions, it can be validated based on the agent's history --- for instance, to prevent currency transactions beyond a credit limit or disallow more than two comments per minute to discourage spam. An entry can also point to other entries in the DHT upon which it depends, and the data from those entries can be used in its validation.
+* **Context**: Because an action is part of a chain of actions, it can be validated based on the agent's history --- for instance, to prevent currency transactions beyond a credit limit or disallow more than two comments per minute to discourage spam. An entry can also point to other actions and entries in the DHT upon which it depends, and their data can be used in its validation.
 
 !!!
 
-Your bare-bones forum needs two entry types: `post` and `comment`. You'll define these in the `posts` integrity zome you just created in the previous step.  The `post` entry type will define a `title` field and a `content` field. The `comment` entry type will define a `comment_content` field and a way of indicating which post the comment is about.
+Your bare-bones forum needs two entry types: `post` and `comment`. You'll define these in the `posts` integrity zome you just created in the previous step.  The `post` entry type will define a `title` field and a `content` field. The `comment` entry type will define a `comment_content` field and a reference to the post it should be attached to.
 
 To do this, just follow the instructions that the scaffold suggested for adding new entry definitions to your zome.
 
@@ -454,7 +454,7 @@ Which fields should the entry contain?
 
 The scaffolding tool is now prompting you to add fields to the `post` entry type.
 
-Fields are the individual components or attributes within an entry type that define the structure of the data. They determine the specific pieces of information to be stored in an entry and their respective data types. The scaffolding tool supports a collection of native Rust types such as booleans, numbers, enums (a choice between several predetermined values), optional values, and vectors (lists of items of the same type), along with Holochain-specific types that refer to other pieces of data on the DHT.
+Fields are the individual components or attributes within a Rust struct. They determine the specific pieces of information to be stored in an entry and their respective data types. The scaffolding tool supports a collection of native Rust types such as booleans, numbers, enums (a choice between several predetermined values), optional values, and vectors (lists of items of the same type), along with Holochain-specific types that refer to other pieces of data on the DHT.
 
 For your `post` entry type, you're going to add `title` and `content` fields. Select `String` as the first field's type, and enter:
 
@@ -464,7 +464,7 @@ title
 
 as the field name.
 
-Press <kbd>Y</kbd> for the field to be visible in the UI, and use the arrow keys to select `TextField` as the widget to render this field. (A `TextField` is a single-line input field designed for capturing shorter pieces of text.)
+Press <kbd>Y</kbd> for the field to be visible in the UI, and select `TextField` as the widget to render this field. (A `TextField` is a single-line input field designed for capturing shorter pieces of text.)
 
 When you see:
 
@@ -476,7 +476,7 @@ When you see:
 
 press <kbd>Y</kbd>.
 
-Select `String` for this field's type too. Then enter
+Select `String` for this field's type too. Then enter:
 
 ```text
 content
@@ -530,9 +530,9 @@ Because all data in a Holochain application is immutable once it's written, we d
 
 For an `Update` action, the original `Create` or `Update` action and its entry content on the DHT get a `ReplacedBy` pointer to the new `Update` action and its entry content.
 
-When the scaffolding tool asks you whether to create a link from the original entry, though it's not talking about this pointer. Instead, it's talking about an extra piece of metadata that points to the _very newest_ entry in a chain of updates. If an entry were to get updated, and that update were updated, and this were repeated three more times, anyone trying to retrieve the entry would have to query the DHT six times before they finally found the newest revision. This extra link, which is not a built-in feature, 'jumps' them past the entire chain of updates at the cost of a bit of extra storage. The scaffolding tool will generate all the extra code needed to write and read this metadata in its update and read functions.
+When the scaffolding tool asks you whether to create a link from the original entry, though, it's not talking about this pointer. Instead, it's talking about an extra piece of metadata that points to the _very newest_ entry in a chain of updates. If an entry were to get updated, and that update were updated, and this were repeated three more times, anyone trying to retrieve the entry would have to query the DHT six times before they finally found the newest revision. This extra link, which is not a built-in feature of updates, 'jumps' them past the entire chain of updates at the cost of a bit of extra storage. The scaffolding tool will generate all the extra code needed to write and read this metadata in its update and read functions. You can read more about links in the Core Concepts secton on [Links and Anchors](https://developer.holochain.org/concepts/5_links_anchors/).
 
-For a `Delete` action, the original action and its entry content are simply marked as deleted. In the cases of both updating and deleting, all original data is still accessible if the application needs it.
+For a `Delete` action, the original action and its entry content are simply marked as dead. In the cases of both updating and deleting, all original data is still accessible if the application needs it.
 
 ### Resolving conflicts
 
@@ -586,7 +586,7 @@ Then select the `TextArea` widget and press <kbd>Enter</kbd>. (Again, a `TextAre
 
 Press <kbd>Y</kbd> to add another field.
 
-For this next field you'll want to create a field that will help you associate each particular comment to the post that it is commenting on. To do this, the next field in the `comment` entry type will store a reference to a `post`.
+For this next field you'll want to create a field that will help you associate each particular comment to the post that it's commenting on. To do this, the next field in the `comment` entry type will store a reference to a `post`.
 
 Use the arrow keys to select `ActionHash` as the field type.
 
@@ -602,27 +602,27 @@ To ensure data integrity and facilitate efficient data retrieval, each piece of 
 
 * **Uniqueness:** The cryptographic hashing function ensures that the data has a unique hash value, which helps to differentiate it from other data on the network.
 * **Efficient lookup:** The hash is used as a key (essentially an address) in the network's storage system, the distributed hash table (DHT). When an agent wants to retrieve data, they simply search for it by hash, without needing to know what peer machine it's stored on. In the background, Holochain reaches out simultaneously to multiple peers who are responsible for the hash based on an algorithm that matches peers to data based on the similarity of the hash to their agent IDs. This makes data lookup fast and resilient to unreliable peers or network conditions.
-* **Fair distribution:** Because the participants in a network are responsible for validating and storing each other's public data based on its hash, the randomness of the hashing function ensures that that responsibility is spread fairly evenly among everyone.
+* **Fair distribution:** Because the participants in a network are responsible for validating and storing each other's public data based on its hash, the randomness of the hashing function ensures that the responsibility for the entire data set is spread fairly evenly among everyone.
 * **Integrity verification:** `Hi` will always generate the same hash no matter who runs it through the hashing function. So when data is retrieved by hash, its hash can be recalculated and compared with the original requested hash to ensure that a third party hasn't tampered with the data.
 * **Collusion resistance:** The network peers who take responsibility for validating and storing an entry are chosen randomly based on the similarity of their agent IDs to the `EntryHash`. It would take a huge amount of computing power to generate a hash that would fall under the responsibility of a colluding peer. And because Holochain can retrieve data from multiple peers, it's more likely that the requestor can find one honest peer to report problems with a piece of bad data.
 
 ### `ActionHash`
 
-An action is identified by its `ActionHash`. Because an action contains information about its author, the time it was written, the action that preceded it, and the entry it operates on, no two action hashes will be the same --- even for the same entry. This helps to disambiguate identical entries written at different times by different agents.
+An action is identified by its `ActionHash`. Because an action contains information about its author, the time it was written, the action that preceded it, and the entry it operates on, no two action hashes will be the same --- even for two `Create` actions that write the same entry. This helps to disambiguate identical entries written at different times or by different agents.
 
 ### `EntryHash`
 
-An entry is identified by its `EntryHash`, which can be retrieved from the `ActionHash` of the action that wrote it. Because they're two separate pieces of data, an entry is stored by different peers than the action that operates on it.
+An entry is identified by its `EntryHash`, which can be retrieved from the action that wrote it. Because they're two separate pieces of data, an entry and its action are stored by different peers in the network.
 
 ### `AgentPubKey`
 
 **Each agent in a network is identified by their cryptographic public key**, a unique number that's mathematically related to a private number that they hold on their machine. Public-key cryptography is a little complex for this guide --- it's enough to know that a participant's private key signs their source chain actions, and those signatures paired with their public key allow others to verify that they are the one who authored those actions.
 
-An `AgentPubKey` isn't a hash, but it's the same length, and it's unique just like a hash. So it can be used as a way of referring to an agent, like a user ID --- and this is also why it's used to choose the right peers in the DHT storage and retrieval algorithm.
+An `AgentPubKey` isn't a hash, but it's the same length, and it's unique just like a hash. So it can be used as a way of referring to an agent, like a user ID --- and this is also why it's used to choose peers in the DHT storage and retrieval algorithm.
 
 ### Summary
 
-Whereas `EntryHash` is used to uniquely identify, store, and efficiently retrieve an entry from the DHT, `ActionHash` is used to uniquely identify, store, and retrieve the action (metadata) that operated on it, which can provide information about the history and context of any associated entry (including what action preceded it). `ActionHash`es are also what enable any participant to retrieve and reconstruct the continuous sequence of actions (and any associated entries) in another agent's source chain.
+Whereas `EntryHash` is used to uniquely identify, store, and efficiently retrieve an entry from the DHT, `ActionHash` does the same for the action that operated on it, which can provide information about the history and context of any associated entry (including what action preceded it). `ActionHash`es are also what enable any participant to retrieve and reconstruct the continuous sequence of actions (and any associated entries) in another agent's source chain.
 
 **Use `EntryHash` when** you want to link to or retrieve the actual content or data (e.g., when linking to a category in a forum application).
 
@@ -654,7 +654,7 @@ Next you will see:
 
 Press <kbd>Enter</kbd> to accept the suggested entry type `Post`.
 
-Next, you will be asked to pick a field name. You can press <kbd>Enter</kbd> to accept the field name suggestion, which should be:
+Next, you'll be asked to pick a field name. You can press <kbd>Enter</kbd> to accept the field name suggestion, which should be:
 
 ```text
 post_hash
@@ -662,7 +662,7 @@ post_hash
 
 Press <kbd>N</kbd> to decline adding another field to the entry.
 
-Then use the arrow keys to deselect Update, but leave Delete selected. It should look as follows:
+Then use the arrow keys to deselect `Update`, but leave `Delete` selected. It should look as follows:
 
 ::: output-block
 ```text
@@ -826,12 +826,12 @@ The Holochain Playground in particular is helpful because it creates visual repr
 From oldest to newest, in the newly created source chains, the records are:
 
 1. `DNA`, recording the hash of the DNA to be used to validate all subsequent source chain actions,
-2. `AgentValidationPkg`, providing proof that this participant is allowed to participate in this hApp ([see more](https://www.holochain.org/how-does-it-work/) in Holochain: How does it work?),
+2. `AgentValidationPkg`, providing proof that this participant is allowed to participate in this hApp (see more in [Holochain: How does it work?](https://www.holochain.org/how-does-it-work/)),
 3. A `Create` action which records the author's `AgentID`, which is their public key and serves as their ID in the network and its graph database.
 
 As agents begin writing posts, comments, and links to the DHT, you'll see the following records appear:
 
-4. `InitComplete`, indicating that all coordinator zomes have had a chance to do initial setup, then
+4. `InitComplete`, indicating that all coordinator zomes have had a chance to do initial setup (which may include writing actions between action 3 and this action), then
 5. Whatever actions the agent takes after that.
 
 The two application UI windows let you interact with the application and see what is working, what is not working, and how data propagates when we take particular actions.
@@ -858,7 +858,7 @@ CommentsForPost.svelte  EditPost.svelte
 
 The next step is to edit the UI files in the text editor or integrated development environment of your choice to add scaffolded components and build a fully featured UI. To integrate all of these generated UI elements, you'll need to add them to `App.svelte` file located in the `ui/src/` folder, or to some other `.svelte` file that eventually gets included in `App.svelte`.
 
-If you don't yet have path commands for opening files in your preferred IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844). Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs` etc.) for `code` if you are using a different editor.
+If you don't yet have path commands for opening files in your preferred IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844). Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs`, etc.) for `code` if you are using a different editor.
 
 Open the `App.svelte` file with your preferred IDE.
 
@@ -886,13 +886,13 @@ Your `App.svelte` file will have three sections:
   import { clientContext } from './contexts';
 
   let client: AppAgentClient | undefined;
-  let loading = true;
 
-  $: client, loading;
+  let loading = true;
 
   onMount(async () => {
     // We pass '' as url because it will dynamically be replaced in launcher environments
-    client = await AppAgentWebsocket.connect('', 'forum');
+    client = await AppAgentWebsocket.connect('https://UNUSED', 'forum');
+
     loading = false;
   });
 
@@ -912,8 +912,6 @@ This section contains the JavaScript/TypeScript code for the component. It impor
 After importing dependencies, it does some initial setup. This is run when the component file is imported --- in this case the component, `App.svelte`, is the main component for the entire application, and it's imported into `main.ts` where it's 'mounted' (more on mounting in a moment).
 
 Next some variables are instantiated: one to hold the Holochain client that connects to the hApp backend via the conductor, and one to keep track of whether the client is connected yet. (This variable will be used to show a loading spinner while it's still connecting.)
-
-**Take note of the line that starts with `$:`**. This is a special Svelte label that turns regular variables into **reactive variables**. We won't get too deep into Svelte right now, because this is a tutorial about Holochain, but when a reactive variable changes, Svelte will re-render the entire component. This lets you write a template declaratively, enclosing the reactive variable in `{}` braces, and let Svelte handle the updating of the template wherever the variable changes.
 
 Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is established, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
 
@@ -949,6 +947,8 @@ import CreateTodo from './todos/todos/CreateTodo.svelte';
 ```
 
 This section is a template for the displayable content of the main app component. Using an `{#if}` block to test whether the reactive variable `loading` is true, this section displays a spinner until the backend can be accessed. Once the UI is connected to the backend, it shows some boilerplate text telling you to add something meaningful to the template.
+
+Note that, in Svelte, any time a variable changes, the template is re-rendered with the new value. This is called **reactivity**, and makes your life easier because you don't have to write quite so many event handlers for changes on your data.
 
 ### `<style>` section
 
@@ -1071,15 +1071,15 @@ At this point, in our DHT graph it should look like we have two different agents
 
 A source chain merely serves as a history of one agent's attempts to manipulate the state of the graph database contained in the DHT. It's useful to think of the DHT as a completely separate data store that doesn't necessarily reflect agent-to-entry relationships unless you explicitly create a link type for them.
 
-For the purpose of this hApp, we're not interested in agent-to-posts relationships, so it's fine that they're not linked. But if you wanted to create a page that showed all posts by an author, that's when you might want to scaffold that link type. `hc scaffold collection` will do this for you if you choose a by-author collection, and will also create a `get_posts_by_author` function.
+For the purpose of this hApp, we're not interested in agent-to-posts relationships, so it's fine that they're not linked. But if you wanted to create a page that showed all posts by an author, that's when you might want to scaffold that link type. `hc scaffold collection` will do this for you if you choose a by-author collection, and will also create a corresponding coordinator function and Svelte component.
 
 !!!
 
 You may also notice that only Alice's UI showed the new post, while Bob's didn't. Just as with a traditional web app, database changes don't automatically send out a notification to everyone who is interested. (Alice's UI sees the changes because it knows how to update its own state for local changes.) You can create this functionality using a feature called [signals](/concepts/9_signals/), but let's keep things simple for now. Right-click anywhere in Bob's UI then choose "Reload" from the menu, and you'll see that the changes have been copied from Alice's app instance to Bob's --- all without a database server in the middle!
 
-Let's edit that post. In Alice's UI window, click the edit adjacent to the post content (it should look like a pencil icon). The post content will be replaced by an editing form.
+Let's edit that post. In Alice's UI window, click the edit link adjacent to the post content (it should look like a pencil icon). The post content will be replaced by an editing form.
 
-Now alter the content a bit. Maybe change it from `Hello Bob!` to `Hello, World!` and click "Save".
+Now alter the content a bit. Maybe change it from `Hello Bob!` to `Hello World!` and click "Save".
 
 ![The UI of one agent, showing a post about to be edited](/assets/img/get-started/7-edit-post.png)
 
@@ -1087,7 +1087,7 @@ That should update the post (at least for Alice). Bob's UI will show the updated
 
 If you look at the Holochain Playground, you should see that the update was added to Alice's source chain. Specifically, it created:
 
-1. a new entry (with our `Hello, World!` text),
+1. a new entry (with our `Hello World!` text),
 2. an `Update` action that indicated this entry is to replace the original entry, and
 3. a `CreateLink` action that connects the original create action to the update action.
 
