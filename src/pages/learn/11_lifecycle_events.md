@@ -2,11 +2,11 @@
 title: "Lifecycle events: reacting to external triggers"
 ---
 
-::: coreconcepts-intro
+::: learn-intro
 In the course of its existence, the conductor triggers **lifecycle events**, to which a cell can respond with specially named callbacks.
 :::
 
-::: coreconcepts-orientation
+::: learn-orientation
 ### What you'll learn
 
 * [How to tell the conductor about the entry types your zome defines](#entry-type-definition-callbacks)

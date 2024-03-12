@@ -2,11 +2,11 @@
 title: "Links and Anchors: Connecting DHT Data Together"
 ---
 
-::: coreconcepts-intro
+::: learn-intro
 Data on the DHT is connected via one-way **links**. They allow you to create a graph database, making information easy to discover. **Anchors** serve as starting points for link discovery.
 :::
 
-::: coreconcepts-orientation
+::: learn-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Why it's hard to find data in a DHT](#the-difficulty-of-looking-for-data-especially-when-you-don-t-know-what-you-re-looking-for)
@@ -21,7 +21,7 @@ DHTs and graph databases are different from familiar data stores, like relationa
 
 ## The difficulty of looking for data (especially when you don't know what you're looking for)
 
-![](/assets/img/concepts/5.1-links.png){.sz80p} {.center}
+![](/assets/img/learn/5.1-links.png){.sz80p} {.center}
 
 Deriving addresses directly from the content of your data has some advantages --- you can ignore the physical location of data and ask for it by its content address. This means no more broken links. It also means that a malicious third party can't sneak something nasty into the data they're serving you --- if it doesn't match the hash or author's signature, it's been tampered with.
 
@@ -67,37 +67,37 @@ Neither the base nor the target of a link need to have any data stored at their 
 Take note of the arrowheads below; you'll see that many are bidirectional. In Holochain, however, a link is unidirectional. This means that, for a bidirectional link, two links must be created in opposite directions to each other.
 !!!
 
-::: coreconcepts-storysequence
+::: learn-storysequence
 
-![](/assets/img/concepts/5.2-alice.png){.sz80p} {.center}
+![](/assets/img/learn/5.2-alice.png){.sz80p} {.center}
 
 Alice is a singer/songwriter who excels at the ukulele and wants to share her music with the world. She joins the app and chooses to register the username "@alice_ukulele". She checks if it's already been taken by calculating its address and looking for an existing username DHT entry with that address.
 
-![](/assets/img/concepts/5.3-alice-username.png){.sz80p} {.center}
+![](/assets/img/learn/5.3-alice-username.png){.sz80p} {.center}
 
 That entry doesn't exist, so she creates it and links it to her agent address. Now, users who know her username can find her agent address.
 
-![](/assets/img/concepts/5.4-usernames-anchor.png){.sz80p} {.center}
+![](/assets/img/learn/5.4-usernames-anchor.png){.sz80p} {.center}
 
 Alice wants to show up in the public directory of artists, so she links her username entry to the "_all_users_" anchor, a string constant that's hard-coded into the app. Now the app can discover her username, along with all others, by retrieving all the links on "_all_users_".
 
-![](/assets/img/concepts/5.5-alice-album.png){.sz80p} {.center}
+![](/assets/img/learn/5.5-alice-album.png){.sz80p} {.center}
 
 Alice creates an entry for her debut EP album and links it to her agent address. Now listeners who discover her agent address can find the albums she's published.
 
-![](/assets/img/concepts/5.6-album-tracks.png){.sz80p} {.center}
+![](/assets/img/learn/5.6-album-tracks.png){.sz80p} {.center}
 
 She uploads all the tracks and links them to the album entry.
 
-![](/assets/img/concepts/5.7-album-genres.png){.sz80p} {.center}
+![](/assets/img/learn/5.7-album-genres.png){.sz80p} {.center}
 
 Now she wants people to be able to find her album by genre, so she selects or creates a few applicable genre tags (they're anchors too) and links her album to them.
 
-![](/assets/img/concepts/5.8-genres-anchor.png){.sz80p} {.center}
+![](/assets/img/learn/5.8-genres-anchor.png){.sz80p} {.center}
 
 Those genre tags are linked to an "_all_genres_" anchor, another hard-coded constant. Listeners can query this anchor to get the full list of genres.
 
-![](/assets/img/concepts/5.9-graph-database.png){.sz80p} {.center}
+![](/assets/img/learn/5.9-graph-database.png){.sz80p} {.center}
 
 Alice's entries, now linked to one another and other existing entries on the DHT, form a graph that allows listeners to discover her and her music from a number of different starting points.
 :::

@@ -2,10 +2,10 @@
 title: Application Architecture
 ---
 
-::: coreconcepts-intro
+::: learn-intro
 Applications built with Holochain are highly **modular**. This makes it easy to share code and [compose](https://en.wikipedia.org/wiki/Composability) smaller pieces together into larger wholes. Each functional part of a Holochain application, called a **DNA**, has its own application logic, isolated peer-to-peer network, and shared database.
 
-::: coreconcepts-orientation
+::: learn-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Agent-centricity](#agent-centricity)
@@ -20,7 +20,7 @@ A good understanding of the components of the tech stack will equip you to archi
 
 Perhaps Holochain's most important difference is that applications are completely centered around the individual --- and, because it's made for networked applications, around groups of individuals. The purpose of a Holochain application is to create a network where people (or bots) can interact freely with each other, playing by a shared set of rules. This is possible because everyone, whether human or bot, is **running their own copy of the application** and connecting directly to their peers.
 
-![Four participants, running the same hApp, communicating directly with each other using their copy of the hApp.](/assets/img/concepts/2.1-mutual-execution.png){.sz80p} {.center}
+![Four participants, running the same hApp, communicating directly with each other using their copy of the hApp.](/assets/img/learn/2.1-mutual-execution.png){.sz80p} {.center}
 
 So the term 'user' doesn't feel quite right for Holochain, where the ones who use the application are also the ones who keep it alive. Let's call them 'agents' --- or better yet, 'participants'. We'll also sometimes call their devices 'nodes' or 'peers' when they're operating within a network.
 
@@ -28,11 +28,11 @@ How do you know other participants are playing by the same rules as you? As we e
 
 These data integrity rules create a membrane between a participant and her peers. They define what data she can and can't create, and they help her recognize rule-breakers.
 
-![Four participants using a hApp. A membrane surrounds one participant's hApp, allowing her to safely produce and accept good data, and reject bad data.](/assets/img/concepts/2.2-data-integrity-membrane.png){.sz80p} {.center}
+![Four participants using a hApp. A membrane surrounds one participant's hApp, allowing her to safely produce and accept good data, and reject bad data.](/assets/img/learn/2.2-data-integrity-membrane.png){.sz80p} {.center}
 
 There's another membrane, which sits between a participant and her copy of the application. The application's public functions define the processes that can be used to access, interpret, and create data, as well as communicate with other participants and applications. Her copy of the application makes those functions available to any client on her machine that wants to act on her behalf, such as a UI or a scheduled script. Those functions are also made available to her peers in the same network so she can delegate some of her agency to them. The application developer can give her tools to control access to these functions using [capability-based security](../8_calls_capabilities/).
 
-![One participant's copy of the hApp. A membrane surrounds her hApp. On her device, three clients are successfully calling the hApp's functions while a malware is rejected. From the network, two peers try to call her hApp's functions; one succeeds while another fails.](/assets/img/concepts/2.3-process-membrane.png){.sz80p} {.center}
+![One participant's copy of the hApp. A membrane surrounds her hApp. On her device, three clients are successfully calling the hApp's functions while a malware is rejected. From the network, two peers try to call her hApp's functions; one succeeds while another fails.](/assets/img/learn/2.3-process-membrane.png){.sz80p} {.center}
 
 ## Layers of the application stack
 
@@ -46,7 +46,7 @@ Now let's quickly introduce all the terms, so you're familiar with them when you
 
 ### Client
 
-![Three clients --- a GUI, a bot running on a schedule, and a shell script --- call a hApp's functions and receive signals from it.](/assets/img/concepts/2.4-client.png){.sz80p} {.center}
+![Three clients --- a GUI, a bot running on a schedule, and a shell script --- call a hApp's functions and receive signals from it.](/assets/img/learn/2.4-client.png){.sz80p} {.center}
 
 A **client** on the participant's device, such as a UI or utility script, talks to their Holochain conductor and its running hApps via [remote procedure calls (RPCs)](https://en.wikipedia.org/wiki/Remote_procedure_call) over [WebSocket](https://en.wikipedia.org/wiki/WebSocket). A hApp can also send [signals](../9_signals/) back to the client; signals are useful for real-time event notifications.
 
@@ -54,7 +54,7 @@ The client is like the front end of a traditional app and can be written with wh
 
 ### Conductor
 
-![A participant's conductor hosts multiple hApps for her, mediating the connections between the hApp and her clients, as well as between the hApp and other participants' conductors running the same hApp.](/assets/img/concepts/2.5-conductor.png){.sz80p} {.center}
+![A participant's conductor hosts multiple hApps for her, mediating the connections between the hApp and her clients, as well as between the hApp and other participants' conductors running the same hApp.](/assets/img/learn/2.5-conductor.png){.sz80p} {.center}
 
 The hApp is hosted in the participant's **conductor**. It's the runtime that sandboxes and executes hApp code, handles cryptographic signing, manages data flow and storage, and handles connections both locally with clients and remotely with peers. When the conductor receives a function call, it routes it to the right function in the right hApp.
 
@@ -64,13 +64,13 @@ The conductor also has a keyring which manages the participant's cryptographic i
 
 ### hApp
 
-![A hApp with roles ready to be populated by cells.](/assets/img/concepts/2.6-happ.png){.sz60p} {.center}
+![A hApp with roles ready to be populated by cells.](/assets/img/learn/2.6-happ.png){.sz60p} {.center}
 
 A Holochain application or **hApp** is a bundled suite of functionality, such as chat, accounting, or project management. A hApp is often made of multiple components, each providing an aspect of functionality or 'role'.
 
 ### Cell
 
-![A hApp with each of its roles populated by zero, one, or more matching cells.](/assets/img/concepts/2.7-cells-in-slots.png){.sz60p} {.center}
+![A hApp with each of its roles populated by zero, one, or more matching cells.](/assets/img/learn/2.7-cells-in-slots.png){.sz60p} {.center}
 
 **Cells** fill roles in a hApp. Each cell is a combination of a participant's unique cryptographic key pair (their **agent ID**) and a DNA. Within one participant's instance of a hApp, all cells share the same agent ID. Each cell acts as the participant's personal **agent** --- every piece of data that it creates or message it sends, it does so from the [perspective of that agent](../3_source_chain/).
 
@@ -80,7 +80,7 @@ As a bundle of running code, a cell exposes the functions you write as its publi
 
 ### DNA
 
-![A cell containing a DNA.](/assets/img/concepts/2.8-dna-in-cell.png){.sz80p} {.center}
+![A cell containing a DNA.](/assets/img/learn/2.8-dna-in-cell.png){.sz80p} {.center}
 
 The bundle of executable code running in a cell is called a **DNA**. You can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices) that creates an access and integrity layer around personal and shared data. It serves as the 'rules of the game' against which peers can do validation and enforcement. Each DNA implements the code that fills a particular role in a hApp.
 
@@ -100,7 +100,7 @@ If you're finding it hard to keep cells and DNAs separate in your mind, remember
 
 ### Zome
 
-![A close-up of a DNA, showing multiple executable zome modules exposing their public functions.](/assets/img/concepts/2.9-zomes-in-dna.png){.sz80p} {.center}
+![A close-up of a DNA, showing multiple executable zome modules exposing their public functions.](/assets/img/learn/2.9-zomes-in-dna.png){.sz80p} {.center}
 
 The executable code modules in a DNA are called **zomes** (short for chromosomes), each with its own name like `profile` or `chat`. The zomes define the core logic in a DNA.
 
@@ -121,7 +121,7 @@ All functions in your DNA start with a fresh memory state which is cleared once 
 
 ## In summary
 
-![The entire stack of one participant's hApp. See following text for full image description.](/assets/img/concepts/2.10-whole-stack.png){.sz80p} {.center}
+![The entire stack of one participant's hApp. See following text for full image description.](/assets/img/learn/2.10-whole-stack.png){.sz80p} {.center}
 
 That's the entire stack of a Holochain hApp. Let's review, this time from the inside out:
 

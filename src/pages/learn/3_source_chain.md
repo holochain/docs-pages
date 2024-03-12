@@ -2,11 +2,11 @@
 title: "The Source Chain: A Personal Data Journal"
 ---
 
-::: coreconcepts-intro
+::: learn-intro
 Each participant in a Holochain network creates and stores their own data in a journal called a **source chain**. Each journal entry is cryptographically signed by its author and is immutable once written.
 :::
 
-::: coreconcepts-orientation
+::: learn-orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [How agent identities are created](#agent-identity)
@@ -25,7 +25,7 @@ Let's take a look at one single node and see what's happening from the participa
 
 Back in [the basics](..//1_the_basics/), we said that one of Holochain's pillars is 'intrinsic data integrity.' The first stone in this pillar is [**public key cryptography**](https://en.wikipedia.org/wiki/Public-key_cryptography), which allows each participant to create and authenticate her own identifier without a central password database. If you've ever used [SSH](https://en.wikipedia.org/wiki/Secure_Shell), you're already familiar with this.
 
-![](/assets/img/concepts/3.1-key-generation.png){.sz60p} {.center}
+![](/assets/img/learn/3.1-key-generation.png){.sz60p} {.center}
 
 When you join a hApp's network, you create an identifier for yourself by generating a **public/private key pair**. This key pair does a few things for you:
 
@@ -46,7 +46,7 @@ All your key pairs are stored in an encrypted, password-protected key manager on
 
 ## Source chain: your own data store
 
-![](/assets/img/concepts/3.2-source-chain-as-journal.png){.sz60p} {.center}
+![](/assets/img/learn/3.2-source-chain-as-journal.png){.sz60p} {.center}
 
 The next stone in the pillar is a chronological journal of every action that the participant has performed in her copy of the app --- creating, updating, or deleting public or private data, linking data together, and more. Only she has the authority to write to it; it lives on her device and each entry must be signed by her private key. This journal is called a **source chain** because every piece of data in an app has its origin in someone's journal.
 
@@ -56,9 +56,9 @@ It's most helpful to think of an action as just that --- the _act of changing ap
 
 This journal starts with three special system records, followed optionally by some app data, and one final system record:
 
-![](/assets/img/concepts/3.3-genesis-records-1-and-2.png){.sz60p} {.center}
+![](/assets/img/learn/3.3-genesis-records-1-and-2.png){.sz60p} {.center}
 
-![](/assets/img/concepts/3.4-genesis-records-3-and-4.png){.sz60p} {.center}
+![](/assets/img/learn/3.4-genesis-records-3-and-4.png){.sz60p} {.center}
 
 1. The **DNA hash**. Because the DNA's executable code constitutes the 'rules of the game' for a network of participants, this record claims that your Holochain runtime has seen and is abiding by those rules.
 2. The agent's **membrane proof**. When a cell tries to join a network, it shares this entry with the existing peers, who check it and determine whether the cell should be allowed to join them. Examples: an invite code, an employee ID signed by the HR department, or a proof of paid subscription fees.
@@ -89,7 +89,7 @@ Finally, when an atomic commit succeeds, the conductor calls an optional **post-
 
 If the integrity of your data is so important, what might happen if a third party tried to mess with it en route to your true love or business partner? The answer is, _not much_. Let's take a look at why.
 
-![](/assets/img/concepts/3.5-commit.png){.sz60p} {.center}
+![](/assets/img/learn/3.5-commit.png){.sz60p} {.center}
 
 1. When a function in the DNA wants to store a user action, it creates a record containing the details of that action and a reference to the previous record.
 2. Then the conductor calls the DNA's validation function for that record. If it fails validation, it returns an error to the client.
@@ -101,11 +101,11 @@ This lets us detect [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Ma
 
 Let's take a closer look at the action. It includes the hash of the previous action, a timestamp, and the entry's type.
 
-![](/assets/img/concepts/3.6-action.png){.sz80p} {.center}
+![](/assets/img/learn/3.6-action.png){.sz80p} {.center}
 
 Let's look even more closely at that first line in the action.
 
-![](/assets/img/concepts/3.7-prev-action.png){.sz60p} {.center}
+![](/assets/img/learn/3.7-prev-action.png){.sz60p} {.center}
 
 This hash is the unique cryptographic 'fingerprint' for the previous record's data. This is what ensures the integrity of the entire source chain. Each record points back to its previous entry. With a paper journal, it's obvious when someone's ripped out a page, glued a new page in, or taped a sheet of paper over an existing page. This chain of hashes is the digital equivalent: if anyone modifies so much as a single character in a record, it and all subsequent records will be invalidated unless they recreate all the hashes and signatures.
 
