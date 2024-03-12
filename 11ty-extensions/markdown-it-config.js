@@ -13,7 +13,7 @@ function composeAttributeString(token, defaultAttrs ={}) {
   //convert token.attrs to an object and merge with defaultAttrs
   const attrs = token.attrs ? token.attrs.reduce((acc, attr) => { acc[attr[0]] = attr[1]; return acc; }, {}) : {};
   const mergedAttrs = Object.assign({}, defaultAttrs, attrs);
-  
+
   return Object.keys(mergedAttrs).reduce((acc, key) => acc + ` ${key}="${mergedAttrs[key]}"`, "");
 }
 
@@ -77,13 +77,13 @@ const validateDetailsBlock = (params) => {
 /* End Details Block code */
 
 /**
- * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js 
- * @param {*} eleventyConfig 
+ * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js
+ * @param {*} eleventyConfig
  */
 module.exports = function(eleventyConfig) {
   eleventyConfig.amendLibrary("md", (mdLib) => {
     mdLib.set({ typographer: true });
-    
+
     //Configure markdown-it plugins
     mdLib.use(markdownItAttrs);
     mdLib.use(markdownItAnchor, { tabIndex: false, slugify: s => slugify(s) });
@@ -92,7 +92,7 @@ module.exports = function(eleventyConfig) {
     mdLib.use(markdownItContainer, "coreconcepts-storysequence");
     mdLib.use(markdownItContainer, "h-author");
     mdLib.use(markdownItContainer, "output-block");
-    
+
     // Admonitions
     mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericAdmonitionRenderFunc("tip") });
     mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericAdmonitionRenderFunc("note") });
@@ -104,5 +104,5 @@ module.exports = function(eleventyConfig) {
     // Create a specialized synonym for details block with a class of "dig-deeper"
     mdLib.use(markdownItContainer, "dig-deeper", { marker: "!", render: composeDetailsBlockRenderFunc("dig-deeper") });
   });
- 
+
 }
