@@ -48,27 +48,27 @@
 # so let's redirect them.
 [[redirects]]
     from = "/docs/concepts/3_private_data/"
-    to = "/concepts/3_source_chain/"
+    to = "/learn/3_source_chain/"
     status = 301
 
 [[redirects]]
     from = "/docs/concepts/4_public_data_on_the_dht/"
-    to = "/concepts/4_dht/"
+    to = "/learn/4_dht/"
     status = 301
 
 [[redirects]]
     from = "/docs/concepts/5_linking_data_together/"
-    to = "/concepts/5_links_anchors/"
+    to = "/learn/5_links_anchors/"
     status = 301
 
 [[redirects]]
     from = "/docs/concepts/6_modifying_and_deleting_data/"
-    to = "/concepts/6_crud_actions/"
+    to = "/learn/6_crud_actions/"
     status = 301
 
 [[redirects]]
     from = "/docs/concepts/8_node_to_node_messaging/"
-    to = "/concepts/8_calls_capabilities/"
+    to = "/learn/8_calls_capabilities/"
     status = 301
 
 [[redirects]]
@@ -112,10 +112,16 @@
     to = "/resources/glossary/"
     status = 301
 
+# The Core Concepts guide has been renamed to Learn.
+[[redirects]]
+    from = "/concepts/*"
+    to = "/learn/:splat"
+    status = 301
+
 # The front page for the core concepts has been removed.
 [[redirects]]
-    from = "/concepts/"
-    to = "/concepts/1_the_basics/"
+    from = "/learn/"
+    to = "/learn/1_the_basics/"
     # Keeping this as a 302 in case we decide we want a front page again.
     status = 302
 

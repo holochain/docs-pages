@@ -37,7 +37,7 @@
 
 ## Center an Image
 ```
-![](/assets/img/concepts/8.8-assigned-capability.png)
+![](/assets/img/learn/8.8-assigned-capability.png)
 {.center}
 ```
 Note: The new line after the image is required to put the class in the enclosing `<p>`
@@ -46,7 +46,7 @@ Note: The new line after the image is required to put the class in the enclosing
 Obviously it would be optimal to actually resize the image. But you can tweak the max-width with the classes
 `sz10p` (10%) through `sz200p` (200%)
 ```
-![](/assets/img/concepts/8.1-calls.png){.sz50p}
+![](/assets/img/learn/8.1-calls.png){.sz50p}
 ```
 
 ## Items to add to README

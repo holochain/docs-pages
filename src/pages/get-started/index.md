@@ -39,7 +39,7 @@ tocData:
     href: 6-next-steps
 ---
 
-Welcome to the Getting Started with Holochain guide! This guide will walk you through the process of installing the Holochain development tools and creating a simple forum application. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
+Welcome to the Getting Started with Holochain guide! This guide will walk you through the process of installing the Holochain development tools and creating a simple forum application. By the end of this guide, you'll be familiar with the [core concepts](/learn/1_the_basics/) of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
 
 ## How to use this guide
 
@@ -47,7 +47,7 @@ Follow this guide step by step. All steps are essential to create the example ap
 
 * The examples below use `$` to represent your terminal prompt in a UNIX-like OS, though it may have been customized in your OS to appear differently.
 * We assume that you are reading this guide because you are a developer new to Holochain but interested in actually building peer-to-peer distributed applications using a framework that is agent-centric, that provides intrinsic data integrity, is scalable, and when deployed, end-user code runs just on the devices of the participants without relying on centralized servers or blockchain tokens or other points of centralized control.
-* We assume that you've at least skimmed [Holochain's Core Concepts](/concepts/1_the_basics/) or are ready to pop over there when needed.
+* We assume that you've at least skimmed [Holochain's Learn guide](/learn/1_the_basics/) or are ready to pop over there when needed.
 * Because Holochain's DNA's are written in Rust, we assume you have at least a basic familiarity with the language. Note, however, that this guide will take you through everything you need to do, step-by-step, so you can follow the steps and learn Rust later. Additionally, Holochain DNAs rarely need to take advantage of the more complicated aspects of the language, so don't let Rust's learning curve scare you.
     * If you're new to Rust, you can start your learning journey by reading chapters 1 to 11 in the [Rust Book](https://doc.rust-lang.org/book/) and doing the accompanying [Rustlings exercises](https://github.com/rust-lang/rustlings/).
 * We also assume that you have basic familiarity with the Unix command line.
@@ -579,7 +579,7 @@ Just as with a centralized application, we aren't just going to add this data in
 
 The bits of shared information that all the peers in a network are holding are collectively called a distributed hash table, or DHT. We'll explain more about the DHT later.
 
-If you want to learn more, check out [The Source Chain: A Personal Data Journal](/concepts/3_source_chain/) and [The DHT: A Shared, Distributed Graph Database](/concepts/4_dht/). You'll also get to see it all in action in a later step, when you run your hApp for the first time.
+If you want to learn more, check out [The Source Chain: A Personal Data Journal](/learn/3_source_chain/) and [The DHT: A Shared, Distributed Graph Database](/learn/4_dht/). You'll also get to see it all in action in a later step, when you run your hApp for the first time.
 
 !!!
 
@@ -740,9 +740,9 @@ Multiple participants can mark a single entry as updated or deleted at the same 
 
 **By default, the scaffolding tool generates a `create_<entry_type>' function in your coordinator zome for an entry type** because creating new data is a fundamental part of any application, and it reflects the core principle of Holochain's agent-centric approach --- the ability to make changes to your own application's state.
 
-Similarly, when a public entry is published, it becomes accessible to other agents in the network. Public entries are meant to be shared and discovered by others, so **a `read_<entry_type>' function is provided by default** to ensure that agents can easily access and retrieve publicly shared entries. (The content of _private_ entries, however, are not shared to the network.) For more info on entries, see: the **Core Concepts sections on [Source Chains](/concepts/3_source_chain/) and [DHT](/concepts/4_dht/)**.
+Similarly, when a public entry is published, it becomes accessible to other agents in the network. Public entries are meant to be shared and discovered by others, so **a `read_<entry_type>' function is provided by default** to ensure that agents can easily access and retrieve publicly shared entries. (The content of _private_ entries, however, are not shared to the network.) For more info on entries, see the Learn sections on [Source Chains](/learn/3_source_chain/) and [DHT](/learn/4_dht/).
 
-Developers decide whether to let the scaffolding tool generate `update_<entry_type>` and `delete_<entry_type>` functions based on their specific application requirements. More details in the Core Concepts section on [CRUD](/concepts/6_crud_actions/).
+Developers decide whether to let the scaffolding tool generate `update_<entry_type>` and `delete_<entry_type>` functions based on their specific application requirements. More details in the Learn section on [CRUD](/learn/6_crud_actions/).
 
 !!!
 
@@ -828,7 +828,7 @@ Whereas `EntryHash` is used to uniquely identify, store, and efficiently retriev
 
 **Use `AgentPubKey` when** you want to link to an agent (such as associating a profile or icon with them) or retrieve information about their history (such as scanning their source chain for posts and comments).
 
-You can check out the Core Concepts to dive a bit deeper into [how the distributed hash table helps](/concepts/4_dht/) to not only make these entries and actions available but helps to ensure that agents haven't gone back to try and change their own histories after the fact. But for now, let's dive into links.
+You can check out the Learn guide to dive a bit deeper into [how the distributed hash table helps](/learn/4_dht/) to not only make these entries and actions available but helps to ensure that agents haven't gone back to try and change their own histories after the fact. But for now, let's dive into links.
 
 !!!
 
@@ -900,7 +900,7 @@ After storing the action in the local source chain, the agent then publishes the
 
 **Lookup**: To look up and retrieve links in a Holochain app, agents can perform a `get_links` query on a base DHT address. This operation involves asking the DHT peers responsible for that address for any link metadata of a given link type attached to it, with an optional "starts-with" query on the link tag. The peers return a list of links matching the query, which contain the addresses of the targets, and the link types and tags. The agent can then retrieve the actual target data by performing a [`get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) query on the target address, which may be an `EntryHash`, `ActionHash`, or `AgentPubKey` (or an empty result, in the case of data that doesn't exist on the DHT).
 
-For more information and examples, read the Core Concepts section on [Links and Anchors](/concepts/5_links_anchors/).
+For more information and examples, read the Learn section on [Links and Anchors](/learn/5_links_anchors/).
 
 !!!
 
@@ -985,7 +985,7 @@ Hierarchical paths serve another useful purpose. On the DHT, where every node is
 
 The examples of granular collections and type-ahead search indexes breaks up those anchors into increasingly smaller branches, so that each leaf node in the tree --- and hence each peer --- only has to store a small number of links.
 
-The scaffolding tool doesn't have any feature for building anchors and trees beyond simple one-anchor collections, but if you'd like to know more, you can read the Core Concepts section on [Links and Anchors](/concepts/5_links_anchors/) and the SDK reference for [`hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) and [`anchor`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/index.html).
+The scaffolding tool doesn't have any feature for building anchors and trees beyond simple one-anchor collections, but if you'd like to know more, you can read the Learn section on [Links and Anchors](/learn/5_links_anchors/) and the SDK reference for [`hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) and [`anchor`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/index.html).
 
 !!!
 
@@ -1015,7 +1015,7 @@ When you start the hApp with `npm start`, this launches Holochain in sandbox mod
 
 These application windows allow us to test multiple agents in a Holochain network interacting with one another. It is all running on our one device, but the two conductors behave very much the same as separate agents on different machines would, minus network lag.
 
-Remember that a **conductor** is a Holochain runtime process executing on your computer. For more details see the [Application Architecture](/concepts/2_application_architecture/) section in the Core Concepts guide.
+Remember that a **conductor** is a Holochain runtime process executing on your computer. For more details see the [Application Architecture](/learn/2_application_architecture/) section in the Learn guide.
 
 These three windows together will let us interact with our hApp as we are building it.
 
@@ -1274,7 +1274,7 @@ For the purpose of this hApp, we're not interested in agent-to-posts relationshi
 
 !!!
 
-You may also notice that only Alice's UI showed the new post, while Bob's didn't. Just as with a traditional web app, database changes don't automatically send out a notification to everyone who is interested. (Alice's UI sees the changes because it knows how to update its own state for local changes.) You can create this functionality using a feature called [signals](/concepts/9_signals/), but let's keep things simple for now. Right-click anywhere in Bob's UI then choose "Reload" from the menu, and you'll see that the changes have been copied from Alice's app instance to Bob's --- all without a database server in the middle!
+You may also notice that only Alice's UI showed the new post, while Bob's didn't. Just as with a traditional web app, database changes don't automatically send out a notification to everyone who is interested. (Alice's UI sees the changes because it knows how to update its own state for local changes.) You can create this functionality using a feature called [signals](/learn/9_signals/), but let's keep things simple for now. Right-click anywhere in Bob's UI then choose "Reload" from the menu, and you'll see that the changes have been copied from Alice's app instance to Bob's --- all without a database server in the middle!
 
 Let's edit that post. In Alice's UI window, click the edit adjacent to the post content (it should look like a pencil icon). The post content will be replaced by an editing form.
 
@@ -1821,7 +1821,7 @@ Now that you have successfully built a basic forum application using Holochain a
 
 The official Holochain developer documentation is a valuable resource for deepening your understanding of Holochain concepts, techniques, and best practices. Be sure to explore the documentation thoroughly:
 
-* [Holochain Core Concepts](/concepts/1_the_basics/)
+* [Learn Holochain](/Learn/1_the_basics/)
 * [Holochain Developer Kit (HDK) reference](https://docs.rs/hdk/latest/hdk)
 
 #### Community resources

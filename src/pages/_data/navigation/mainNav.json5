@@ -8,17 +8,17 @@
         { title: "Setup For a Local Event", url: "/get-started/at-an-event/" },
       ]
     },
-    { title: "Core Concepts", url: "/concepts/1_the_basics/", children: [
-        { title: "Application Architecture", url: "/concepts/2_application_architecture/" },
-        { title: "Source Chain", url: "/concepts/3_source_chain/" },
-        { title: "DHT", url: "/concepts/4_dht/" },
-        { title: "Links and Anchors", url: "/concepts/5_links_anchors/" },
-        { title: "CRUD Actions", url: "/concepts/6_crud_actions/" },
-        { title: "Validation", url: "/concepts/7_validation/"  },
-        { title: "Calls and Capabilities", url: "/concepts/8_calls_capabilities/" },
-        { title: "Signals", url: "/concepts/9_signals/" },
-        { title: "Countersigning", url: "/concepts/10_countersigning/" },
-        { title: "Lifecycle Events", url: "/concepts/11_lifecycle_events/" },
+    { title: "Learn", url: "/learn/1_the_basics/", children: [
+        { title: "Application Architecture", url: "/learn/2_application_architecture/" },
+        { title: "Source Chain", url: "/learn/3_source_chain/" },
+        { title: "DHT", url: "/learn/4_dht/" },
+        { title: "Links and Anchors", url: "/learn/5_links_anchors/" },
+        { title: "CRUD Actions", url: "/learn/6_crud_actions/" },
+        { title: "Validation", url: "/learn/7_validation/"  },
+        { title: "Calls and Capabilities", url: "/learn/8_calls_capabilities/" },
+        { title: "Signals", url: "/learn/9_signals/" },
+        { title: "Countersigning", url: "/learn/10_countersigning/" },
+        { title: "Lifecycle Events", url: "/learn/11_lifecycle_events/" },
       ]
     },
     { title: "Resources", url: "/resources/", children: [
