@@ -1821,7 +1821,7 @@ Now that you have successfully built a basic forum application using Holochain a
 
 The official Holochain developer documentation is a valuable resource for deepening your understanding of Holochain concepts, techniques, and best practices. Be sure to explore the documentation thoroughly:
 
-* [Learn Holochain](/Learn/1_the_basics/)
+* [Learn Holochain](/learn/1_the_basics/)
 * [Holochain Developer Kit (HDK) reference](https://docs.rs/hdk/latest/hdk)
 
 #### Community resources
