@@ -2,7 +2,7 @@ const markdownItAttrs = require("markdown-it-attrs");
 const markdownItContainer = require("markdown-it-container");
 const markdownItAnchor = require("markdown-it-anchor");
 const slugify = require('@sindresorhus/slugify');
-const { renderMermaid } = require('@mermaid-js/mermaid-cli');
+import { renderMermaid } from '@mermaid-js/mermaid-cli';
 const puppeteer = require('puppeteer');
 
 /**
