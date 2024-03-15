@@ -2,8 +2,10 @@ const markdownItAttrs = require("markdown-it-attrs");
 const markdownItContainer = require("markdown-it-container");
 const markdownItAnchor = require("markdown-it-anchor");
 const slugify = require('@sindresorhus/slugify');
-const renderMermaid = import('@mermaid-js/mermaid-cli')
-  .then(({renderMermaid}) => renderMermaid);
+let renderMermaid;
+(async () => {
+  { renderMermaid } = await import('@mermaid-js/mermaid-cli');
+})();
 const puppeteer = require('puppeteer');
 
 /**
