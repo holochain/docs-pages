@@ -4,7 +4,8 @@ const markdownItAnchor = require("markdown-it-anchor");
 const slugify = require('@sindresorhus/slugify');
 let renderMermaid;
 (async () => {
-  { renderMermaid } = await import('@mermaid-js/mermaid-cli');
+  const mmd = await import('@mermaid-js/mermaid-cli');
+  renderMermaid = mmd.renderMermaid;
 })();
 const puppeteer = require('puppeteer');
 
