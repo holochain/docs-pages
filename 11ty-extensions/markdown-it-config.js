@@ -2,6 +2,8 @@ const markdownItAttrs = require("markdown-it-attrs");
 const markdownItContainer = require("markdown-it-container");
 const markdownItAnchor = require("markdown-it-anchor");
 const slugify = require('@sindresorhus/slugify');
+const { renderMermaid } = require('@mermaid-js/mermaid-cli');
+const puppeteer = require('puppeteer');
 
 /**
  * Composes the attributes string for an html tag from the markdown-it-container token and default attributes
@@ -13,7 +15,7 @@ function composeAttributeString(token, defaultAttrs ={}) {
   //convert token.attrs to an object and merge with defaultAttrs
   const attrs = token.attrs ? token.attrs.reduce((acc, attr) => { acc[attr[0]] = attr[1]; return acc; }, {}) : {};
   const mergedAttrs = Object.assign({}, defaultAttrs, attrs);
-  
+
   return Object.keys(mergedAttrs).reduce((acc, key) => acc + ` ${key}="${mergedAttrs[key]}"`, "");
 }
 
@@ -76,23 +78,57 @@ const validateDetailsBlock = (params) => {
 
 /* End Details Block code */
 
+/* Start Mermaid parser code */
+
+// This plugin takes a first stab at code blocks, intercepting anything that
+// might be MermaidJS and feeding it through the mermaid parser and replacing
+// the block with the rendered SVG diagram.
+
+const mermaidCodeBlock = function(md) {
+  const defaultFenceRenderer = md.renderer.rules.fence;
+  // One single puppeteer instance for the whole site -- otherwise it would get
+  // costly to launch it for every markdown page.
+  puppeteer.launch({headless: 1}).then(browser => {
+    md.renderer.rules.fence = function(tokens, idx, options, env, self) {
+      const token = tokens[idx];
+      const info = token.info ? String(token.info).trim() : '';
+      // This is all the stuff after the starting code fence, including the
+      // language.
+      const maybeLang = info.match(/^[a-z-]+/g);
+      // Extract the language.
+      if (maybeLang && maybeLang[0] == 'mermaid') {
+        return renderMermaid(browser, token.content, 'svg')
+          .then(
+            ({svg}) => svg,
+            (error) => '<div>Couldn\'t render mermaid</div>'
+          );
+      } else {
+        defaultFenceRenderer(tokens, idx, options, env, self);
+      }
+    };
+  });
+};
+
+/* End Mermaid parser code */
+
 /**
- * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js 
- * @param {*} eleventyConfig 
+ * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js
+ * @param {*} eleventyConfig
  */
 module.exports = function(eleventyConfig) {
   eleventyConfig.amendLibrary("md", (mdLib) => {
     mdLib.set({ typographer: true });
-    
+
     //Configure markdown-it plugins
     mdLib.use(markdownItAttrs);
+    mdLib.use(mermaidCodeBlock);
     mdLib.use(markdownItAnchor, { tabIndex: false, slugify: s => slugify(s) });
     mdLib.use(markdownItContainer, "coreconcepts-intro");
     mdLib.use(markdownItContainer, "coreconcepts-orientation");
     mdLib.use(markdownItContainer, "coreconcepts-storysequence");
     mdLib.use(markdownItContainer, "h-author");
     mdLib.use(markdownItContainer, "output-block");
-    
+
     // Admonitions
     mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericAdmonitionRenderFunc("tip") });
     mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericAdmonitionRenderFunc("note") });
@@ -104,5 +140,5 @@ module.exports = function(eleventyConfig) {
     // Create a specialized synonym for details block with a class of "dig-deeper"
     mdLib.use(markdownItContainer, "dig-deeper", { marker: "!", render: composeDetailsBlockRenderFunc("dig-deeper") });
   });
- 
+
 }

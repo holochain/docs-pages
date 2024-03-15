@@ -67,6 +67,7 @@
     "postcss-cli": "^10.0.0",
     "posthtml": "^0.16.6",
     "posthtml-noopener": "^1.0.5",
+    "puppeteer": "^22.5.0",
     "rollup": "^3.2.5",
     "sass": "^1.56.0",
     "tslib": "^2.6.2",
