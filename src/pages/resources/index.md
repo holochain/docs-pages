@@ -11,8 +11,8 @@ tocData:
     href: conductor-configuration
   - text: Binaries
     href: binaries
-  - text: Example applications
-    href: example-applications-and-tutorials
+  - text: Example applications, tutorials, and training
+    href: example-applications-tutorials-and-training
 ---
 
 ## HDK and HDI
@@ -63,10 +63,36 @@ There are three main developer binaries, and one user-oriented binary. You can r
 * **Holochain Launcher** is meant for users to find, install, and run hApps. It runs in a WebView container (currently Tauri, but we're migrating to Electron) which also hosts the UIs of installed hApps. Developers can also turn on 'developer mode' and publish their hApps to a built-in hApp store.
     * [Download the latest Launcher release from GitHub](https://github.com/holochain/launcher/releases)
 
-## Example applications and tutorials
+## Libraries
+
+The developer community has created some useful utilities, libraries, and reusable modules for you to use in your own apps.
+
+* [Holochain Open Dev](https://github.com/holochain-open-dev/) is a collection of reusable zomes and template repos from the developer community.
+    * [`profiles`](https://github.com/holochain-open-dev/profiles) lets you store user profile information.
+    * [`peer-status`](https://github.com/holochain-open-dev/peer-status) lets peers communicate their status (e.g., 'online', 'busy', 'on holiday') with each other.
+    * [`notifications`](https://github.com/holochain-open-dev/notifications) lets a network designate a trusted agent to send out notifications over text, WhatsApp, and email.
+    * [`file-storage`](https://github.com/holochain-open-dev/file-storage) chunks, stores, and retrieves arbitrary binary data.
+* [Matthew Brisebois](https://github.com/mjbrisebois) has created many [useful back-end and front-end libraries](https://github.com/spartan-holochain-counsel) for building hApps.
+    * [`rust-hc-crud-caps`](https://github.com/spartan-holochain-counsel/rust-hc-crud-caps) implements a pattern for tracking updates to a piece of data.
+    * [`hc-cooperative-content`](https://github.com/mjbrisebois/hc-cooperative-content) implements patterns for collaborative conetnt management --- permission and authority management, update/delete processes, etc.
+    * [`holo-hash-js`](https://github.com/spartan-holochain-counsel/holo-hash-js) is a small JavaScript library for making Holochain data IDs easier to work with on the front end.
+    * [`identicons-js`](https://github.com/mjbrisebois/identicons-js) is a recommended library for displaying Holochain data IDs (entry/action hashes and agent IDs) visually.
+* [hREA](https://github.com/h-rea) ([website](https://hrea.io/)) is a toolkit for building economic applications, from bookkeeping and resource management to supply chain to cooperative markets.
+
+## Example applications
 
 Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
 
-* [Holochain Open Dev](https://github.com/holochain-open-dev)
-* [Holochain Foundation sample apps](https://github.com/holochain-apps)
-* [Holo developer training materials](https://github.com/holochain-immersive)
+* [Holochain Open Dev](https://github.com/holochain-open-dev) has a lot of applications from the community.
+* [Holochain Foundation sample apps](https://github.com/holochain-apps) contains application written by Holochain team members.
+* [Lightningrod Labs](https://github.com/lightningrodlabs/), a group formed by Holochain co-creator [Eric Harris-Braun](https://github.com/zippy), creates foundational hApps for the Holochain ecosystem to build their tools on. [Moss](https://github.com/lightningrodlabs/we) (formerly We) is a groupware container for composing multiple applets into one cohesive experience.
+* [Glass Bead Software](https://github.com/glassbeadsoftware/) produces Snapmail, a privacy-first intranet mail app.
+* [Darksoil Studio](https://github.com/darksoil-studio/) creates apps to help groups organize and do their work together.
+* [Harris-Braun Enterprises](https://github.com/h-be) has created [Acorn](https://acorn.software/), a unique project management app based around defining goals first, then figuring out what needs to be done in order to achieve those goals.
+
+## Tutorials and training
+
+While you'll learn a lot looking at the source code of example applications from the above GitHub organzations, we've also produced some training material as a result of running courses in collaboration with our education partner Mythosthesia.
+
+* [Developer training materials](https://github.com/holochain-immersive) from past courses
+* [Self-paced training course](https://resources.holochain.org/self-paced-training-signup/) in video format
