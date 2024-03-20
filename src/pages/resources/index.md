@@ -17,7 +17,7 @@ tocData:
 
 ## HDK and HDI
 
-When you write a Holochain application, the part that lives in Holochain is called a [DNA](../concepts/2_application_architecture/#layers-of-the-application-stack). It runs as a guest in a WebAssembly sandbox and talks to the host, or Holochain conductor, through the host API. It's also expected to implement callbacks that the conductor needs to call at certain times. The HDK and HDI Rust crates make it easy for you write guest code that interfaces with the conductor --- the HDK for your DNA's [coordinator zomes](/glossary/#coordinator-zome) and the HDI for [integrity zomes](/glossary/#integrity-zome).
+When you write a Holochain application, the part that lives in Holochain is called a [DNA](/concepts/2_application_architecture/#layers-of-the-application-stack). It runs as a guest in a WebAssembly sandbox and talks to the host, or Holochain conductor, through the host API. It's also expected to implement callbacks that the conductor needs to call at certain times. The HDK and HDI Rust crates make it easy for you write guest code that interfaces with the conductor --- the HDK for your DNA's [coordinator zomes](/resources/glossary/#coordinator-zome) and the HDI for [integrity zomes](/resources/glossary/#integrity-zome).
 
 * **[HDK reference](https://docs.rs/hdk){target=_blank}**
 * **[HDI reference](https://docs.rs/hdi){target=_blank}**
@@ -26,10 +26,10 @@ When you write a Holochain application, the part that lives in Holochain is call
 
 The conductor exposes two separate RPC APIs over WebSocket interfaces:
 
-* The **admin API** lets application managers control the conductor to install bundles of DNAs (called [hApps](/glossary/#holochain-application-h-app)), create agent IDs, combine a DNA and an agent ID into a running [cell](/glossary/#cell), and activate application RPC interfaces.
-* The **application API** lets front-ends call a running cell's functions and get information on the [DNA bundle](./glossary/#dna-bundle) that the cell belongs to.
+* The **admin API** lets application managers control the conductor to install bundles of DNAs (called [hApps](/resources/glossary/#holochain-application-h-app)), create agent IDs, combine a DNA and an agent ID into a running [cell](/resources/glossary/#cell), and activate application RPC interfaces.
+* The **application API** lets front-ends call a running cell's functions and get information on the [DNA bundle](/resources/glossary/#dna-bundle) that the cell belongs to.
 
-For both of these APIs, you make an RPC call sending a MessagePack-serialized request in a special envelope format to the conductor over WebSocket and listen for a response. The request's envelope must contain a request ID, and the matching response will have the same ID. On the interface that exposes the app API, you can also listen for [**signals**](./glossary/#signal) broadcast by cells. There are [client libraries](#conductor-client) for JavaScript and Rust that make it easy to handle requests/responses and set up signal listeners.
+For both of these APIs, you make an RPC call sending a MessagePack-serialized request in a special envelope format to the conductor over WebSocket and listen for a response. The request's envelope must contain a request ID, and the matching response will have the same ID. On the interface that exposes the app API, you can also listen for [**signals**](/resources/glossary/#signal) broadcast by cells. There are [client libraries](#conductor-clients) for JavaScript and Rust that make it easy to handle requests/responses and set up signal listeners.
 
 * **[Conductor Admin API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html){target=_blank}**
 * **[Conductor App API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html){target=_blank}**
@@ -52,9 +52,9 @@ The conductor has a few settings that can (and should) be configured via a YAML 
 
 There are three main developer binaries, and one user-oriented binary. You can run any of these on the command-line with the `--help` flag to get detailed documentation.
 
-* **`holochain`** is the Holochain runtime, or [conductor](./glossary/#conductor).
+* **`holochain`** is the Holochain runtime, or [conductor](/resources/glossary/#conductor).
 * **`hc`** is an all-purpose developer tool that:
-    * packages a [DNA manifest](./glossary/#dna-manifest) file and one or more [zomes](./glossary/#zome) (in WASM bytecode) into a [DNA bundle](./glossary/#dna-bundle)
+    * packages a [DNA manifest](/resources/glossary/#dna-manifest) file and one or more [zomes](/resources/glossary/#zome) (in WASM bytecode) into a [DNA bundle](/resources/glossary/#dna-bundle)
     * packages one or more DNAs into a hApp
     * manages Holochain conductor 'sandboxes' --- configuration files and working folders that can be used to repeatably spin up conductors for testing
     * spawns hApps and UIs for testing
