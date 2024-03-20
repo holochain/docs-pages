@@ -4,6 +4,7 @@ agent-centricity
 Anwaar
 buildinputs
 builtins
+Brisebois
 Burmeister
 Cachix
 CRDT
