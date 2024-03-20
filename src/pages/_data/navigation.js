@@ -1,6 +1,21 @@
-const footerLinks = require("./navigation/footerLinks.json5");
-const mainNav = require("./navigation/mainNav.json5");
-const headerNav = require("./navigation/headerNav.json5");
+import JSON5 from "json5";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+function loadJson5(filename) {
+  const content = fs.readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), filename), 'utf8');
+  try {
+      return JSON5.parse(content);
+  } catch (err) {
+      err.message = filename + ': ' + err.message;
+      throw err;
+  }
+}
+
+const footerLinks = loadJson5("./navigation/footerLinks.json5");
+const mainNav = loadJson5("./navigation/mainNav.json5");
+const headerNav = loadJson5("./navigation/headerNav.json5");
 
 function findTopLinkRecordFor(url) {
   return mainNav.links.find((l) => {
@@ -21,17 +36,17 @@ const mainNavObj = {
   }
 };
 
-const headerNavObj = { 
+const headerNavObj = {
   ...headerNav,
   getActiveParentLink(pageUrlRendering) {
     return findTopLinkRecordFor(pageUrlRendering);
   }
  };
 
-module.exports = {
+export default {
   footerNav: {
     ...footerLinks
   },
   mainNav: mainNavObj,
   headerNav: headerNavObj
-}
+};

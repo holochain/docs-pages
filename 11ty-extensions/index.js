@@ -1,13 +1,13 @@
-const ConfigMarkdownIt = require("./markdown-it-config");
-const LayoutBlockShortcodes = require("./layout-block-shortcodes");
-const CardShortcodes = require("./card-shortcodes");
-const NunjucksExt = require("./nunjucks-exts");
-const Transforms = require("./eleventy-transforms");
+import ConfigMarkdownIt from "./markdown-it-config.js";
+import LayoutBlockShortcodes from "./layout-block-shortcodes.js";
+import CardShortcodes from "./card-shortcodes.js";
+import NunjucksExt from "./nunjucks-exts.js";
+import Transforms from "./eleventy-transforms.js";
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   ConfigMarkdownIt(eleventyConfig);
   LayoutBlockShortcodes(eleventyConfig);
   CardShortcodes(eleventyConfig);
   NunjucksExt(eleventyConfig);
   Transforms(eleventyConfig);
-}
+};

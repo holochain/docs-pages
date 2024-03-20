@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD:src/pages/references/index.md
 title: Holochain Programming References
 tocData:
   - text: HDK and HDI
@@ -13,6 +14,9 @@ tocData:
     href: binaries
   - text: Example applications
     href: example-applications-and-tutorials
+=======
+title: Holochain Programming Resources
+>>>>>>> main:src/pages/resources/index.md
 ---
 
 ## HDK and HDI

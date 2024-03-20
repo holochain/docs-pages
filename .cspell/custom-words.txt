@@ -1,0 +1,26 @@
+# Words that are neither common nor directly related to Holochain but appear in
+# Dev Portal content
+agent-centricity
+Anwaar
+buildinputs
+builtins
+Burmeister
+Cachix
+CRDT
+d'Aoust
+fixt
+gnused
+IPFS
+NixOS
+nixpkgs
+pkgs
+QUIC
+rustc
+rustflags
+rustup
+subl
+Tauri
+Ulhaq
+Wahlstrom
+WebRTC
+workdir

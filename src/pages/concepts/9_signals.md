@@ -59,7 +59,7 @@ Signals are a fairly simple construct right now, and it's likely that your app w
 
 ## Key takeaways
 
-* Signals allow a cell to communicate with listeners without expecting a resonse.
+* Signals allow a cell to communicate with listeners without expecting a response.
 * Signals can be used to avoid
 * A signal doesn't have guaranteed delivery because there's no way to tell whether it's been received.
 * A signal is simply a message payload consisting of arbitrary bytes.

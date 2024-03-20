@@ -21,15 +21,15 @@
         { title: "Lifecycle Events", url: "/concepts/11_lifecycle_events/" },
       ]
     },
-    { title: "References", url: "/references/", children: [
+    { title: "Resources", url: "/resources/", children: [
         { title: "HDK", url: "https://docs.rs/hdk", external: true },
         { title: "HDI", url: "https://docs.rs/hdi", external: true },
         { title: "App API", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
         { title: "Admin API", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
         { title: "Client (Javascript)", url: "https://github.com/holochain/holochain-client-js", external: true},
         { title: "Client (Rust)", url: "https://github.com/holochain/holochain-client-rust", external: true},
-        { title: "hc", url: "https://github.com/holochain/holochain/tree/main/crates/hc", external: true },
-        { title: "Glossary", url: "/references/glossary/" },
+        { title: "hc dev tool", url: "https://github.com/holochain/holochain/tree/main/crates/hc", external: true },
+        { title: "Glossary", url: "/resources/glossary/" },
       ]
     },
     { title: "Get Involved", url: "/get-involved/" },
