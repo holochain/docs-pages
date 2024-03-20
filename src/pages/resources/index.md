@@ -4,7 +4,7 @@ tocData:
   - text: HDK and HDI
     href: hdk-and-hdi
   - text: Conductor APIs
-    href: conductor-api-s
+    href: conductor-apis
   - text: Conductor clients
     href: conductor-clients
   - text: Conductor configuration
@@ -22,7 +22,7 @@ When you write a Holochain application, the part that lives in Holochain is call
 * **[HDK reference](https://docs.rs/hdk){target=_blank}**
 * **[HDI reference](https://docs.rs/hdi){target=_blank}**
 
-## Conductor APIs
+## Conductor APIs {#conductor-apis}
 
 The conductor exposes two separate RPC APIs over WebSocket interfaces:
 
