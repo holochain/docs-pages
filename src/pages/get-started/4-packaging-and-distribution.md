@@ -66,10 +66,10 @@ The packed app is now ready for deployment to a Holochain runtime.
 
 In the centralized world, deployment is usually achieved by Continuous Integration (CI) automation that builds up code changes and sends them to whatever server or cloud-based platform you're using. In the decentralized world of Holochain, deployment happens when end-users download and run your hApp in the Holochain runtime (although you could certainly use CI to build releases of your hApp).
 
-From the end-user perspective there are currently there are two ways to go about this:
+From the end-user perspective there are currently two ways to go about this:
 
 1. Download Holochain's official Launcher runtime and install the app from its app store or the filesystem.
-2. Download an your app as its own standalone desktop executable, as they would any other application for their computer.
+2. Download your app as its own standalone desktop executable, as they would any other application for their computer.
 
 ### Launcher, the multi-app runtime
 
@@ -86,7 +86,9 @@ If you prefer to distribute your app as a full standalone executable, you'll nee
 * **Tauri**: See the officially supported [holochain-kangaroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
 * **Electron**: See the officially supported [holochain-kangaroo-electron](https://github.com/holochain-apps/holochain-kangaroo-electron) repo.
 
-Both of these are GitHub template repos with detailed instructions on how to clone them and add in your UI and DNA, as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users. Their supported Holochain version sometimes lags behind the current recommended version, so you may need to manually update them.
+Both of these are GitHub template repos. The Tauri one has detailed instructions on how to clone them and add in your UI and DNA, as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users. The Electron one is a work in progress, although we'll be putting most of our focus on it in the future, as it has fewer cross-platform bugs.
+
+The supported Holochain versions of these repos sometimes lags behind the current recommended version, so you may need to manually update them.
 
 !!! note Code Signing
 For macOS and Windows, you'll probably also want to go through the process of registering as a developer so that your application can be "code-signed". This is needed so that users don't get the "unsigned code" warnings when launching the applications on those platforms. Both of the above templates include instructions for CI automation to run the code-signing steps on release once you have acquired the necessary certificates.
