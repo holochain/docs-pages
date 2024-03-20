@@ -11,8 +11,10 @@ tocData:
     href: conductor-configuration
   - text: Binaries
     href: binaries
-  - text: Example applications, tutorials, and training
-    href: example-applications-tutorials-and-training
+  - text: Example applications
+    href: example-applications
+  - text: Tutorials and training
+    href: tutorials-and-training
 ---
 
 ## HDK and HDI
