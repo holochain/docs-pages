@@ -4,7 +4,7 @@ tocData:
   - text: HDK and HDI
     href: hdk-and-hdi
   - text: Conductor APIs
-    href: conductor-apis
+    href: conductor-api-s
   - text: Conductor clients
     href: conductor-clients
   - text: Conductor configuration
