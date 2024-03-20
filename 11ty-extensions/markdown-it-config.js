@@ -1,6 +1,9 @@
+import escapeHtml from "escape-html";
 import markdownItAttrs from "markdown-it-attrs";
 import markdownItContainer from "markdown-it-container";
 import markdownItAnchor from "markdown-it-anchor";
+import puppeteer from "puppeteer";
+import { renderMermaid } from "@mermaid-js/mermaid-cli";
 import slugify from '@sindresorhus/slugify';
 
 /**
@@ -80,10 +83,113 @@ const validateDetailsBlock = (params) => {
  * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js
  * @param {*} eleventyConfig
  */
-export default function(eleventyConfig) {
+export default async function(eleventyConfig) {
+  // Get one instance of puppeteer for all files, so startup isn't so expensive.
+  const browser = await puppeteer.launch({ headless: 1 });
+  console.info("got browser");
+
+  // Now wrap the default Markdown template engine with our custom parser that
+  // handles Mermaid first. The only thing we need to override is the `compile`
+  // function.
+
+  const preprocessMermaid = async function (markdown) {
+    console.log("USING preprocessMermaid!!!");
+    // I've adapted this from mermaid-cli's `run` function, which is capable of
+    // handling Markdown files while its `renderMermaid` function isn't.
+    const mermaidChartsInMarkdownRegexGlobal = /^[^\S\n]*[`:]{3}(?:mermaid)([^\S\n]*\r?\n([\s\S]*?))[`:]{3}[^\S\n]*$/gm;
+    const imagePromises = [];
+    for (const mermaidCodeblockMatch of markdown.matchAll(mermaidChartsInMarkdownRegexGlobal)) {
+      const mermaidDefinition = mermaidCodeblockMatch[2];
+
+      const imagePromise = (async () => {
+        return await renderMermaid(browser, mermaidDefinition, "svg", parseMMDOptions);
+      })();
+
+      imagePromises.push(imagePromise);
+    }
+
+    if (imagePromises.length) {
+      console.info(`Found ${imagePromises.length} mermaid charts in Markdown input`);
+    } else {
+      console.info('No mermaid charts found in Markdown input');
+    }
+
+    const images = Promise.all(imagePromises);
+
+    const processedMarkdown = markdown.replace(mermaidChartsInMarkdownRegexGlobal, (_) => {
+      // Pop first image from front of array.
+      // We repeat the same regex search as we used to find the Mermaid block,
+      // so we will never try to get too many objects from the array.
+      // (aka `images.shift()` will never return `undefined`.)
+      const { _title, desc, data } = images.shift();
+      if (desc) {
+        return `<figure>
+  ${data}
+  <figcaption>${escapeHtml(desc)}</figcaption>
+</figure>
+`;
+      } else {
+        return data;
+      }
+    });
+
+    return processedMarkdown;
+  };
+
+  let MermaidPreprocessingMarkdown = {
+    // I've basically pulled this from the 11ty codebase.
+    compile: async function(str, inputPath, preTemplateEngine, bypassMarkdown) {
+      console.log("❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️trying to compile--------------------");
+      let mdlib = this.mdLib;
+
+      if (preTemplateEngine) {
+        let engine;
+        if (typeof preTemplateEngine === "string") {
+          engine = await this.engineManager.getEngine(
+            preTemplateEngine,
+            this.dirs,
+            this.extensionMap,
+          );
+        } else {
+          engine = preTemplateEngine;
+        }
+
+        let fnReady = engine.compile(str, inputPath);
+
+        if (bypassMarkdown) {
+          return async function (data) {
+            let fn = await fnReady;
+            return fn(data);
+          };
+        } else {
+          return async function (data) {
+            let fn = await fnReady;
+            let preTemplateEngineRender = await fn(data);
+            // This is the only thing I added.
+            let mermaidPreprocessed = await preprocessMermaid(fn(preTemplateEngineRender));
+            let finishedRender = mdlib.render(mermaidPreprocessed, data);
+            return finishedRender;
+          };
+        }
+      } else {
+        if (bypassMarkdown) {
+          return function () {
+            return str;
+          };
+        } else {
+          return function (data) {
+            return mdlib.render(str, data);
+          };
+        }
+      }
+    }
+  };
+
+  // Use the parser we just created.
+  eleventyConfig.addExtension("md", MermaidPreprocessingMarkdown);
+
   eleventyConfig.amendLibrary("md", (mdLib) => {
     mdLib.set({ typographer: true });
-
     //Configure markdown-it plugins
     mdLib.use(markdownItAttrs);
     mdLib.use(markdownItAnchor, { tabIndex: false, slugify: s => slugify(s) });
