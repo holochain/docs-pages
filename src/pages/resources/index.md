@@ -76,7 +76,7 @@ The developer community has created some useful utilities, libraries, and reusab
     * [`file-storage`](https://github.com/holochain-open-dev/file-storage) chunks, stores, and retrieves arbitrary binary data.
 * [Matthew Brisebois](https://github.com/mjbrisebois) has created many [useful back-end and front-end libraries](https://github.com/spartan-holochain-counsel) for building hApps.
     * [`rust-hc-crud-caps`](https://github.com/spartan-holochain-counsel/rust-hc-crud-caps) implements a pattern for tracking updates to a piece of data.
-    * [`hc-cooperative-content`](https://github.com/mjbrisebois/hc-cooperative-content) implements patterns for collaborative conetnt management --- permission and authority management, update/delete processes, etc.
+    * [`hc-cooperative-content`](https://github.com/mjbrisebois/hc-cooperative-content) implements patterns for collaborative content management --- permission and authority management, update/delete processes, etc.
     * [`holo-hash-js`](https://github.com/spartan-holochain-counsel/holo-hash-js) is a small JavaScript library for making Holochain data IDs easier to work with on the front end.
     * [`identicons-js`](https://github.com/mjbrisebois/identicons-js) is a recommended library for displaying Holochain data IDs (entry/action hashes and agent IDs) visually.
 * [hREA](https://github.com/h-rea) ([website](https://hrea.io/)) is a toolkit for building economic applications, from bookkeeping and resource management to supply chain to cooperative markets.
@@ -94,7 +94,7 @@ Studying existing Holochain applications and tutorials can provide valuable insi
 
 ## Tutorials and training
 
-While you'll learn a lot looking at the source code of example applications from the above GitHub organzations, we've also produced some training material as a result of running courses in collaboration with our education partner Mythosthesia.
+While you'll learn a lot looking at the source code from the above GitHub organizations, we've also produced some training material as a result of running courses in collaboration with our education partner Mythosthesia.
 
 * [Developer training materials](https://github.com/holochain-immersive) from past courses
 * [Self-paced training course](https://resources.holochain.org/self-paced-training-signup/) in video format

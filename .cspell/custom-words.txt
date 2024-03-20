@@ -10,6 +10,8 @@ CRDT
 d'Aoust
 fixt
 gnused
+identicon
+identicons
 IPFS
 NixOS
 nixpkgs
