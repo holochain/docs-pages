@@ -4,12 +4,15 @@ agent-centricity
 Anwaar
 buildinputs
 builtins
+Brisebois
 Burmeister
 Cachix
 CRDT
 d'Aoust
 fixt
 gnused
+identicon
+identicons
 IPFS
 NixOS
 nixpkgs

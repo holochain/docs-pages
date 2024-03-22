@@ -1,4 +1,5 @@
 # Words that are distinctly Holochainy
+Darksoil
 DeepKey
 dnas
 DPKI
@@ -8,7 +9,10 @@ Holo's
 Holochain
 Holochain's
 Holonix
+Lightningrod
+Mythosthesia
 sharded
+Snapmail
 Tryorama
 webhapp
 zome
