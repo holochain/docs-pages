@@ -1,6 +1,10 @@
 {
   links: [
     { title: "Get Started", url: "/get-started/", children: [
+        { title: "1. Install Holochain Development Environment", url: "/get-started/#2-installing-holochain-development-environment" },
+        { title: "2. Hello World", url: "/get-started/2-hello-world/" },
+        { title: "3. Forum App Tutorial", url: "/get-started/3-forum-app-tutorial/" },
+        { title: "4. Packaging & Distribution", url: "/get-started/4-packaging-and-distribution/" },
         { title: "Dev Tools Setup Tips", url: "/get-started/install-advanced/" },
         { title: "Setup Without Nix", url: "/get-started/install-without-nix/" },
         { title: "Distribute your App", url: "/get-started/distribute-your-app/" },
