@@ -25,6 +25,7 @@
         { title: "Lifecycle Events", url: "/concepts/11_lifecycle_events/" },
       ]
     },
+    { title: "Build", url: "/build/", children: []},
     { title: "Resources", url: "/resources/", children: [
         { title: "HDK (Rust)", url: "https://docs.rs/hdk", external: true },
         { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
