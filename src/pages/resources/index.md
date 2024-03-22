@@ -85,12 +85,11 @@ The developer community has created some useful utilities, libraries, and reusab
 
 Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
 
-* [Holochain Open Dev](https://github.com/holochain-open-dev) has a lot of applications from the community.
 * [Holochain Foundation sample apps](https://github.com/holochain-apps) contains application written by Holochain team members.
-* [Lightningrod Labs](https://github.com/lightningrodlabs/), a group formed by Holochain co-creator [Eric Harris-Braun](https://github.com/zippy), creates foundational hApps for the Holochain ecosystem to build their tools on. [Moss](https://github.com/lightningrodlabs/we) (formerly We) is a groupware container for composing multiple applets into one cohesive experience.
-* [Glass Bead Software](https://github.com/glassbeadsoftware/) produces Snapmail, a privacy-first intranet mail app.
-* [Darksoil Studio](https://github.com/darksoil-studio/) creates apps to help groups organize and do their work together.
-* [Harris-Braun Enterprises](https://github.com/h-be) has created [Acorn](https://acorn.software/), a unique project management app based around defining goals first, then figuring out what needs to be done in order to achieve those goals.
+* [Moss](https://github.com/lightningrodlabs/we) (formerly We) is a groupware container for composing multiple applets into one cohesive experience.
+* [Snapmail](https://github.com/glassbeadsoftware/snapmail) is a privacy-first intranet mail app that doesn't need an intranet server.
+* [Acorn](https://github.com/lightningrodlabs/acorn) is a unique project management app based around defining goals first, then figuring out what needs to be done in order to achieve those goals.
+* [Flux](https://github.com/fluxsocial/flux) is a communities app similar to Discord but allows add-ons for new content types such as long-form content and knowledge bases.
 
 ## Tutorials and training
 
