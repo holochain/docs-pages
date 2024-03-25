@@ -5,6 +5,7 @@
       links: [
         { title: "Get Started", url: "/get-started/" },
         { title: "Learn", url: "/concepts/1_the_basics/" },
+        { title: "Build", url: "/build/" },
         { title: "Resources", url: "/resources/" },
       ]
     },
