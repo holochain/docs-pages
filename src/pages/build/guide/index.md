@@ -18,4 +18,4 @@ An **action** is a third type of data. It records the act of manipulating an ent
 
 Finally, an **agent ID** is the public identifer of a participant in an application, and is an honorary piece of graph data that links can point to and from.
 
-* [Entries](../entries)
+* [Entries](entries/)

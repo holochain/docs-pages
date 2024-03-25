@@ -15,7 +15,7 @@ tocData:
         href: update-under-the-hood
       - text: Update patterns
         href: update-patterns
-      - text: Resulving update conflicts
+      - text: Resolving update conflicts
         href: resolving-update-conflicts
   - text: Delete an entry
     href: delete-an-entry
