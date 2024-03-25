@@ -3,6 +3,7 @@ affordance
 affordances
 automations
 birthdate
+chrono
 counterparties
 counterparties'
 counterparty
@@ -16,6 +17,7 @@ permissioned
 permissivity
 runtimes
 sandboxed
+scaffolder
 spacebar
 todo
 todos

@@ -10,7 +10,10 @@ CRDT
 d'Aoust
 fixt
 gnused
+imdb
+IMDB
 IPFS
+moovee
 NixOS
 nixpkgs
 pkgs

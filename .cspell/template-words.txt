@@ -8,6 +8,7 @@ endlink
 endmacro
 endrenderlayoutblock
 gtag
+katex
 layoutblock
 MSIE
 newblock
