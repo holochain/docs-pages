@@ -1,7 +1,7 @@
 {
   links: [
     { title: "Get Started", url: "/get-started/", class:"" },
-    { title: "Core Concepts", url: "/concepts/1_the_basics/", class:"" },
+    { title: "Learn", url: "/concepts/1_the_basics/", class:"" },
     { title: "Build", url: "/build", class:"" },
     { title: "Resources", url: "/resources/", class:"" },
     { title: "Get Involved", url: "/get-involved/", class:"" },
