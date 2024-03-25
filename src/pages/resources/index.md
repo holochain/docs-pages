@@ -1,5 +1,5 @@
 ---
-title: Holochain Programming References
+title: Holochain Programming Resources
 ---
 
 ## Rust HDK
@@ -43,3 +43,10 @@ There are three main binaries. You can run any of these on the command-line with
     * manages sandboxed Holochain conductors
     * see [holochain_cli docs](https://docs.rs/holochain_cli/latest/holochain_cli){target=_blank} for more info
 * **`lair-keystore`** is Holochain's [keystore](https://github.com/holochain/lair){target=_blank} for generating and signing with cryptographically secure keys. Use this command for initialization, configuration, and running of a Lair keystore.
+
+## Example applications and tutorials
+
+Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
+
+* [Holochain Open Dev](https://github.com/holochain-open-dev)
+* [Holochain Foundation sample apps](https://github.com/holochain-apps)

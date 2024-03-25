@@ -1,6 +1,10 @@
 {
   links: [
     { title: "Get Started", url: "/get-started/", children: [
+        { title: "1. Install Holochain Development Environment", url: "/get-started/#2-installing-holochain-development-environment" },
+        { title: "2. Hello World", url: "/get-started/2-hello-world/" },
+        { title: "3. Forum App Tutorial", url: "/get-started/3-forum-app-tutorial/" },
+        { title: "4. Packaging & Distribution", url: "/get-started/4-packaging-and-distribution/" },
         { title: "Dev Tools Setup Tips", url: "/get-started/install-advanced/" },
         { title: "Setup Without Nix", url: "/get-started/install-without-nix/" },
         { title: "Distribute your App", url: "/get-started/distribute-your-app/" },
@@ -21,16 +25,16 @@
         { title: "Lifecycle Events", url: "/concepts/11_lifecycle_events/" },
       ]
     },
-    { title: "Build", url: "/build/1_hello_world/", children: [
-        { title: "Entries", url: "/build/4_entries" }
+    { title: "Build", url: "/build/", children: [
+        { title: "Entries", url: "/build/guide/entries" }
       ]
     },
-    { title: "References", url: "/references/", children: [
+    { title: "Resources", url: "/resources/", children: [
         { title: "HDK (Rust)", url: "https://docs.rs/hdk", external: true },
         { title: "App API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
         { title: "Admin API reference", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
         { title: "CLI", url: "https://github.com/holochain/holochain/tree/main/crates/hc", external: true },
-        { title: "Glossary", url: "/references/glossary/" },
+        { title: "Glossary", url: "/resources/glossary/" },
       ]
     },
     { title: "Get Involved", url: "/get-involved/" },

@@ -1,11 +1,11 @@
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   const layoutBlockContent = {};
-  
+
   /**
-   * Stores the content for a layout block for a given page. 
+   * Stores the content for a layout block for a given page.
    * @param {string} blockName Name of block
-   * @param {*} page Page object 
-   * @param {string} content 
+   * @param {*} page Page object
+   * @param {string} content
    */
   const storeLayoutContent = (blockName, page, content) => {
     layoutBlockContent[blockName] = layoutBlockContent[blockName] || {};
@@ -25,7 +25,7 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPairedShortcode('renderlayoutblock', function(content, name) {
     //console.log('renderlayoutblock', name, this.page);
-  
+
     return getLayoutContent(name, this.page, content);
   });
 
@@ -37,8 +37,8 @@ module.exports = function(eleventyConfig) {
    */
   eleventyConfig.addPairedShortcode('layoutblock', function(content, name) {
     //console.log('layoutblock', this.page);
-    
+
     storeLayoutContent(name, this.page, content);
     return '';
   });
-}
+};

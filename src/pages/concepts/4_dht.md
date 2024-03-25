@@ -133,7 +133,7 @@ Let's see what happens when a simple 'create entry' record is published to the D
 
 * A **store entry** operation, containing both the entry blob and the create-entry action, goes to the **entry authorities** whose arcs cover the entry hash. When it's integrated, the authorities will hold the entry data at that base, along with metadata that contains the action.
 * A **store record** operation, containing the action, goes to the **record authorities** whose arcs cover the action's hash. When it's integrated, the authorities will hold the action at that base.
-* An **register agent activity** operation, containing the action, goes to the **agent activity authorities**, peers whose arcs cover the author's public key. When it's integreated, the authorities will hold the action along with all prior action.
+* An **register agent activity** operation, containing the action, goes to the **agent activity authorities**, peers whose arcs cover the author's public key. When it's integrated, the authorities will hold the action along with all prior action.
 
 No matter what operation they receive, all three authorities check the signature on it to make sure it hasn't been modified in transit and it belongs to the agent that claims to have authored it. If the signature check fails, the data is rejected.
 
