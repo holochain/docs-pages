@@ -2,6 +2,7 @@
 $cl-brand-purple: #8719F6;
 $cl-brand-green: #0EDDD3;
 $cl-other-green: #74FAD2;
+$cl-lightest-gray: #f0f0f4;
 $cl-gray: #d0d0d7;
 $cl-light-gray: #575656;
 
@@ -11,7 +12,7 @@ $cl-footer-bg: black;
 
 // Font sizes defined in _fonts
 
-// Spacing 
+// Spacing
 $sp-icon-list-gap: 16px;
 
 /* Breakpoints & Widths */
@@ -28,7 +29,7 @@ $footer-large-screen-height: 200px;
 
 
 /* Gradients */
-$header-gradiant: linear-gradient(90deg,#4720e3,#345ede 32.81%,#0dddd3); 
+$header-gradiant: linear-gradient(90deg,#4720e3,#345ede 32.81%,#0dddd3);
 $blue-to-light-purple-grad: linear-gradient(180deg,#4720e3,#b748ff 68.44%);
 $blue-to-light-blue-grad: linear-gradient(180deg,#415bed,#13d0d7 44.86%);
 

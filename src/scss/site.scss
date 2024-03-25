@@ -2,6 +2,7 @@
 @import 'fonts';
 @import 'svg-icons';
 @import 'base-element-styles';
+@import 'blocks';
 
 // @import 'debug';
 
@@ -28,7 +29,7 @@ body {
     // two section content, right side bar, main chunk on left.
     @import 'page-specific/default-page-type';
     @import 'page-specific/ds-layout-type';
-    
+
   // }
 
   @import 'footer';
