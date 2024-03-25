@@ -6,11 +6,9 @@
   line-height: 1.55;
 }
 
-.orientation {
-  margin: 1em 0;
+.orientation, .storystep {
   padding: 1.2em;
   background: $cl-lightest-gray;
-  position: relative;
 
   > :first-child {
     margin-top: 0;
@@ -21,19 +19,10 @@
   }
 }
 
-.storysequence {
-  > ol {
-    margin-left: 0;
+.orientation {
+  margin: 1em 0;
+}
 
-    > li {
-      list-style: none;
-      padding: 1em;
-      background: $cl-lightest-gray;
-      margin: 1.5em 0;
-
-      > img {
-        margin-bottom: 1.5em;
-      }
-    }
-  }
+.storystep {
+  margin: 2em 0;
 }
