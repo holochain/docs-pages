@@ -12,4 +12,10 @@ This Build Guide organizes everything you need to know about developing Holochai
 
 ## Working with data
 
+Shared data in a Holochain application is stored as a graph database of **entries** connected by **links**.
+
+An **action** is a third type of data. It records the act of manipulating an entry or link and contains metadata about the act, such as authorship and timestamp. It can also be treated as a primary piece of graph data, similar to an entry.
+
+Finally, an **agent ID** is the public identifer of a participant in an application, and is an honorary piece of graph data that links can point to and from.
+
 * [Entries](../entries)
