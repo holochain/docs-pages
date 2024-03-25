@@ -2,11 +2,11 @@
 title: "Links and Anchors: Connecting DHT Data Together"
 ---
 
-::: coreconcepts-intro
+::: intro
 Data on the DHT is connected via one-way **links**. They allow you to create a graph database, making information easy to discover. **Anchors** serve as starting points for link discovery.
 :::
 
-::: coreconcepts-orientation
+::: orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Why it's hard to find data in a DHT](#the-difficulty-of-looking-for-data-especially-when-you-don-t-know-what-you-re-looking-for)
@@ -67,7 +67,7 @@ Neither the base nor the target of a link need to have any data stored at their 
 Take note of the arrowheads below; you'll see that many are bidirectional. In Holochain, however, a link is unidirectional. This means that, for a bidirectional link, two links must be created in opposite directions to each other.
 !!!
 
-::: coreconcepts-storysequence
+::: storysequence
 
 ![](/assets/img/concepts/5.2-alice.png){.sz80p} {.center}
 

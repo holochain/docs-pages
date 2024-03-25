@@ -2,11 +2,11 @@
 title: "Holochain Core Concepts: What is Holochain?"
 ---
 
-::: coreconcepts-intro
+::: intro
 Holochain is an open-source application development framework and peer-to-peer networking protocol. It allows you to create **actually serverless applications** with high levels of **security, reliability, and performance**. Every participant runs the application on their own device, creates and stores their own data, and talks directly to other participants. The security of the application is supported by both cryptography and peer accountability.
 :::
 
-::: coreconcepts-orientation
+::: orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [The problem with centralized architectures](#the-problem-with-centralized-architectures)

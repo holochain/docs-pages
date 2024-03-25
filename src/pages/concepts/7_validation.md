@@ -2,11 +2,11 @@
 title: "Validation: Assuring Data Integrity"
 ---
 
-::: coreconcepts-intro
+::: intro
 Holochain DNAs can specify **validation rules** for DHT operations. This empowers agents to check the integrity of the data they see. When called upon to validate data, it allows them to identify corrupt peers, author a **warrant** against them as proof of their actions, and take personal defensive action against them.
 :::
 
-::: coreconcepts-orientation
+::: orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Why validation matters](#validation-the-beating-heart-of-holochain)
@@ -82,7 +82,7 @@ When you **commit a record**, your conductor is responsible for making sure you'
 
 #### Valid entry
 
-::: coreconcepts-storysequence
+::: storysequence
 ![](/assets/img/concepts/7.2-commit.png){.sz80p} {.center}
 
 Alice calls the `publish_word` zome function with the string `"eggplant"`. The function commits that word to her source chain. The conductor 'stages' the commit in the function's scratch space and returns the creation action's record hash to the `publish_word` function. The function continues executing and passes a return value back to the conductor, which holds onto it for now.
@@ -102,7 +102,7 @@ Her conductor commits the entry to her source chain, clears out the scratch spac
 
 #### Invalid entry
 
-::: coreconcepts-storysequence
+::: storysequence
 ![](/assets/img/concepts/7.6-commit.png){.sz80p} {.center}
 
 Alice calls the same zome function with the string `"orca whales"`. Again, the function calls `create_entry` and the commit is staged to the scratch space.
@@ -130,7 +130,7 @@ Here are the two scenarios above from the perspective of a DHT authority.
 
 #### Valid entry
 
-::: coreconcepts-storysequence
+::: storysequence
 ![](/assets/img/concepts/7.10-gossip-to-authorities.png){.sz80p} {.center}
 
 As authorities for the address `E`, Diana and Fred receive a copy of a store-entry operation that stores the `"eggplant"` entry at that address.
@@ -156,7 +156,7 @@ You may remember from our [exploration of the DHT](../4_dht/) that the 'store en
 
 Let's say Alice has taken off her guard rails --- she's hacked her Holochain software to bypass the validation rules.
 
-::: coreconcepts-storysequence
+::: storysequence
 ![](/assets/img/concepts/7.14-gossip-to-authorities.png){.sz80p} {.center}
 
 Norman and Rosie receive a copy of Alice's 'store entry' operation for `"orca whales"`.

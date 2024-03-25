@@ -2,11 +2,11 @@
 title: "The DHT: A Shared, Distributed Graph Database"
 ---
 
-::: coreconcepts-intro
+::: intro
 Agents share records of their actions, including any data meant to be shared with the group, in a [**distributed hash table (DHT)**](https://en.wikipedia.org/wiki/Distributed_hash_table). This database provides redundancy and availability for data and gives the network the power to detect and take action against corruption.
 :::
 
-::: coreconcepts-orientation
+::: orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [The downsides and risks of self-owned data](#self-owned-data-isn-t-enough)
@@ -65,7 +65,7 @@ Every peer knows about all of its closest neighbors and a few faraway acquaintan
 
 Let's see how this works with a very small address space. Instead of public keys and hashes, we're just going to use letters of the alphabet, where the first letter of a word is its address.
 
-::: coreconcepts-storysequence
+::: storysequence
 
 ![](/assets/img/concepts/4.5-alice-neighborhood.png){.sz80p} {.center}
 
@@ -103,7 +103,7 @@ Using information about their neighbors' uptime, cooperating agents work hard to
 
 Let's see how this plays out in the real world.
 
-::: coreconcepts-storysequence
+::: storysequence
 
 ![](/assets/img/concepts/4.12-healthy-network.png){.sz80p} {.center}
 
