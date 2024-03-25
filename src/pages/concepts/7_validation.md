@@ -82,19 +82,25 @@ When you **commit a record**, your conductor is responsible for making sure you'
 
 #### Valid entry
 
-::: storysequence
+::: storystep
 ![](/assets/img/concepts/7.2-commit.png){.sz80p} {.center}
 
 Alice calls the `publish_word` zome function with the string `"eggplant"`. The function commits that word to her source chain. The conductor 'stages' the commit in the function's scratch space and returns the creation action's record hash to the `publish_word` function. The function continues executing and passes a return value back to the conductor, which holds onto it for now.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.3-validate.png){.sz80p} {.center}
 
 After the function has finished, Alice's conductor [converts this record into DHT operations](../4_dht/#a-cloud-of-witnesses), looks up the integrity zome that defines the `word` entry type, and calls that zome's validation function on each of the operations.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.4-validation-success.png){.sz80p} {.center}
 
 The validation function simply checks that the entry data contained in the action is only one word long, returning `Valid`.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.5-persist-and-publish.png){.sz80p} {.center}
 
 Her conductor commits the entry to her source chain, clears out the scratch space, and passes the `publish_word` function's return value back to the client. The operations are then sent to the appropriate DHT authorities for validation and integration into their shards.
@@ -102,19 +108,25 @@ Her conductor commits the entry to her source chain, clears out the scratch spac
 
 #### Invalid entry
 
-::: storysequence
+::: storystep
 ![](/assets/img/concepts/7.6-commit.png){.sz80p} {.center}
 
 Alice calls the same zome function with the string `"orca whales"`. Again, the function calls `create_entry` and the commit is staged to the scratch space.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.7-validate.png){.sz80p} {.center}
 
 Again, the conductor converts the committed action into operations calls the validation function on each of them.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.8-validation-failure.png){.sz80p} {.center}
 
 This time, the validation function sees two words. It returns `Invalid("too many words")`.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.9-return-error.png){.sz80p} {.center}
 
 Instead of committing the entry, the conductor passes this error message back to the client instead of whatever the `publish_word` function's return value was.
@@ -130,19 +142,25 @@ Here are the two scenarios above from the perspective of a DHT authority.
 
 #### Valid entry
 
-::: storysequence
+::: storystep
 ![](/assets/img/concepts/7.10-gossip-to-authorities.png){.sz80p} {.center}
 
 As authorities for the address `E`, Diana and Fred receive a copy of a store-entry operation that stores the `"eggplant"` entry at that address.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.11-authorities-validate.png){.sz80p} {.center}
 
 Their conductors call the appropriate validation function.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.12-hold.png){.sz80p} {.center}
 
 The operation is valid, so they store the entry and action in their personal DHT stores, along with their **validation receipts** attesting its validity.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.13-respond-validation-receipts.png){.sz80p} {.center}
 
 They both send a copy of their receipts back to Alice. Later on, they share the operation with their neighbors for resilience.
@@ -156,32 +174,39 @@ You may remember from our [exploration of the DHT](../4_dht/) that the 'store en
 
 Let's say Alice has taken off her guard rails --- she's hacked her Holochain software to bypass the validation rules.
 
-::: storysequence
+::: storystep
 ![](/assets/img/concepts/7.14-gossip-to-authorities.png){.sz80p} {.center}
 
 Norman and Rosie receive a copy of Alice's 'store entry' operation for `"orca whales"`.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.15-validate.png){.sz80p} {.center}
 
 Their conductors call the validation function.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.16-warrant.png){.sz80p} {.center}
 
 The operation is invalid. They create, sign, and store a **warrant** (a claim that the operation is invalid).
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.17-gossip-warrant.png){.sz80p} {.center}
 
 Norman and Rosie add Alice to their permanent block lists and remove her data from their DHT shards. When anyone asks for the data at the entry's address, they return the warrant instead.
+:::
 
+::: storystep
 ![](/assets/img/concepts/7.18-ejection.png){.sz80p} {.center}
 
 Eventually, everyone knows that Alice is a 'bad actor' who has hacked her app. They all ignore her whenever she tries to talk to them, which effectively ejects her from the DHT.
+:::
 
 !!! info What happens when an agent receives a warrant instead of data?
 Currently only validation authorities permanently block authors for invalid data; a future release of Holochain will also allow non-authorities to store a warrant they've received and use it as justification for taking personal defensive action against the warranted agent. This will likely look like challenging the warranted agent to produce the potentially invalid data on first contact, then blocking them if the data is indeed valid or warranting the authority if the data is valid and the warrant is erroneous.
 !!!
-
-:::
 
 ## Use cases for validation
 

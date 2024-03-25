@@ -89,8 +89,8 @@ All the below just apply a specific class to a surrounding div. These were imple
   Sit amet tellus cras adipiscing enim eu turpis egestas. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt dui ut ornare lectus sit.
   :::
 
-- ### storysequence
-  ::: storysequence
+- ### storystep
+  ::: storystep
   Sit amet tellus cras adipiscing enim eu turpis egestas. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt dui ut ornare lectus sit.
   :::
 

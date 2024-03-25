@@ -89,7 +89,7 @@ export default function(eleventyConfig) {
     mdLib.use(markdownItAnchor, { tabIndex: false, slugify: s => slugify(s) });
     mdLib.use(markdownItContainer, "intro");
     mdLib.use(markdownItContainer, "orientation");
-    mdLib.use(markdownItContainer, "storysequence");
+    mdLib.use(markdownItContainer, "storystep");
     mdLib.use(markdownItContainer, "h-author");
     mdLib.use(markdownItContainer, "output-block");
 

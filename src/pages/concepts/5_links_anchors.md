@@ -67,36 +67,49 @@ Neither the base nor the target of a link need to have any data stored at their 
 Take note of the arrowheads below; you'll see that many are bidirectional. In Holochain, however, a link is unidirectional. This means that, for a bidirectional link, two links must be created in opposite directions to each other.
 !!!
 
-::: storysequence
-
+::: storystep
 ![](/assets/img/concepts/5.2-alice.png){.sz80p} {.center}
 
 Alice is a singer/songwriter who excels at the ukulele and wants to share her music with the world. She joins the app and chooses to register the username "@alice_ukulele". She checks if it's already been taken by calculating its address and looking for an existing username DHT entry with that address.
+:::
 
+::: storystep
 ![](/assets/img/concepts/5.3-alice-username.png){.sz80p} {.center}
 
 That entry doesn't exist, so she creates it and links it to her agent address. Now, users who know her username can find her agent address.
+:::
 
+::: storystep
 ![](/assets/img/concepts/5.4-usernames-anchor.png){.sz80p} {.center}
 
 Alice wants to show up in the public directory of artists, so she links her username entry to the "_all_users_" anchor, a string constant that's hard-coded into the app. Now the app can discover her username, along with all others, by retrieving all the links on "_all_users_".
+:::
 
+::: storystep
 ![](/assets/img/concepts/5.5-alice-album.png){.sz80p} {.center}
 
 Alice creates an entry for her debut EP album and links it to her agent address. Now listeners who discover her agent address can find the albums she's published.
+:::
 
+::: storystep
 ![](/assets/img/concepts/5.6-album-tracks.png){.sz80p} {.center}
 
 She uploads all the tracks and links them to the album entry.
+:::
 
+::: storystep
 ![](/assets/img/concepts/5.7-album-genres.png){.sz80p} {.center}
 
 Now she wants people to be able to find her album by genre, so she selects or creates a few applicable genre tags (they're anchors too) and links her album to them.
+:::
 
+::: storystep
 ![](/assets/img/concepts/5.8-genres-anchor.png){.sz80p} {.center}
 
 Those genre tags are linked to an "_all_genres_" anchor, another hard-coded constant. Listeners can query this anchor to get the full list of genres.
+:::
 
+::: storystep
 ![](/assets/img/concepts/5.9-graph-database.png){.sz80p} {.center}
 
 Alice's entries, now linked to one another and other existing entries on the DHT, form a graph that allows listeners to discover her and her music from a number of different starting points.
