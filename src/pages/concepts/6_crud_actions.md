@@ -4,6 +4,7 @@ title: "CRUD Actions: Modifying and Deleting Data"
 
 ::: intro
 Holochain allows agents to 'mutate' immutable data by publishing special **delete** and **update** actions to the DHT.
+:::
 
 ::: orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
