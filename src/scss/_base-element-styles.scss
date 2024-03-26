@@ -50,6 +50,14 @@ a {
   svg {
     height: 100%;
   }
+
+  /* We depend on the build pipeline to add rel="external" to external links.
+  This can be overridden by adding the `no-external-link-icon` class to a link
+  or its container, and you can also override the no-external-link-icon on a
+  single link within a container by adding the `external-link-icon`. */
+  &[rel*=external]:not(.no-external-link-icon), :not(.no-external-link-icon) &[rel*=external], .no-external-link-icon &.external-link-icon {
+    @include addInlineIcon(after, $externalLinkIcon);
+  }
 }
 
 button {
