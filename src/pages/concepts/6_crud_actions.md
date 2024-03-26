@@ -2,10 +2,11 @@
 title: "CRUD Actions: Modifying and Deleting Data"
 ---
 
-::: coreconcepts-intro
+::: intro
 Holochain allows agents to 'mutate' immutable data by publishing special **delete** and **update** actions to the DHT.
+:::
 
-::: coreconcepts-orientation
+::: orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Why you can't delete or modify DHT data](#public-immutable-databases)
