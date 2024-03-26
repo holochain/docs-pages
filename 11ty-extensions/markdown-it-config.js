@@ -90,6 +90,8 @@ export default function(eleventyConfig) {
     mdLib.use(markdownItContainer, "coreconcepts-intro");
     mdLib.use(markdownItContainer, "coreconcepts-orientation");
     mdLib.use(markdownItContainer, "coreconcepts-storysequence");
+    mdLib.use(markdownItContainer, "section-intro");
+    mdLib.use(markdownItContainer, "topic-list");
     mdLib.use(markdownItContainer, "h-author");
     mdLib.use(markdownItContainer, "output-block");
 

@@ -17,4 +17,6 @@ Shared data in a Holochain application is stored as a graph database of **entry*
 * An **action** records the act of manipulating an entry or link and contains metadata about the act, such as authorship and timestamp.
 * An **agent ID** is the public key of a participant in an application.
 
-* [Entries](entries/)
+::: topic-list
+* [Entries](entries/) --- creating, reading, updating, and deleting
+:::

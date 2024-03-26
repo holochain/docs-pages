@@ -376,3 +376,24 @@ a.link-tile {
     height: 80vh;
   }
 }
+
+/* An enlarged styling for lists of links to sub-pages. Used in the build guide. */
+.topic-list {
+  padding: 1em;
+  background-color: #f7f7f7;
+
+  ul {
+    margin: 0;
+  }
+
+  /* Unless otherwise specified with `class="not-topic-page"`, links in a topic
+  list are assumed to point to topic pages. */
+  a:not(.not-topic-page) {
+    @include addPageIcon;
+  }
+}
+
+.section-intro {
+  padding-left: 1em;
+  border-left: 2px $cl-gray solid;
+}
