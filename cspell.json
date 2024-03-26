@@ -1,0 +1,22 @@
+{
+    "import": ["@cspell/dict-lorem-ipsum/cspell-ext.json", "@cspell/dict-rust/cspell-ext.json"],
+    "dictionaries": ["holochain", "words-that-should-exist", "custom", "template", "html", "css", "softwareTerms", "lorem-ipsum", "rust"],
+    "dictionaryDefinitions": [
+        {
+            "name": "holochain",
+            "path": "./.cspell/holochain-words.txt"
+        },
+        {
+            "name": "words-that-should-exist",
+            "path": "./.cspell/words-that-should-exist.txt"
+        },
+        {
+            "name": "custom",
+            "path": "./.cspell/custom-words.txt"
+        },
+        {
+            "name": "template",
+            "path": "./.cspell/template-words.txt"
+        }
+    ]
+}

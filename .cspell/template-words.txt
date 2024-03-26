@@ -1,0 +1,20 @@
+# Words found in our template code
+brower
+coreconcepts
+elif
+endfor
+endlayoutblock
+endlink
+endmacro
+endrenderlayoutblock
+gtag
+katex
+layoutblock
+MSIE
+newblock
+pagefind
+rocketship
+renderlayoutblock
+srcset
+storysequence
+surpress

@@ -1,12 +1,18 @@
-const postHtml = require("posthtml")();
-const htmlMin = require("html-minifier");
-const { noopener } = require("posthtml-noopener");
-const dom = require("fauxdom");
-const he = require("he");
-const hljs = require("highlight.js");
-require("highlightjs-svelte")(hljs);
+// The posthtml package just exports a function that receives a list of plugins
+// and returns a PostHTML engine instance. We're adding plugins later, so we
+// just call the function.
+import postHtmlSetup from "posthtml";
+const postHtml = postHtmlSetup();
+import htmlMin from "html-minifier";
+import { noopener } from "posthtml-noopener";
+import dom from "fauxdom";
+import he from "he";
+import hljs from "highlight.js";
+// Add Svelte language formatting support to highlight.js
+import highlightJsSvelte from "highlightjs-svelte";
+highlightJsSvelte(hljs);
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
 
   eleventyConfig.addTransform("addRelNoopener", async function(content) {
     const noopenerInst = noopener();
@@ -53,4 +59,4 @@ module.exports = function(eleventyConfig) {
     }
     return content;
   });
-}
+};

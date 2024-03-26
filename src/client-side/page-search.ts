@@ -18,7 +18,8 @@ const PagefindSearchKey = "pagefind-search";
 function setupPagefindUI() {
   const pagefindUIInstance = new PagefindUI({ 
     element: "#search", 
-    showImages: false
+    showImages: false,
+    showSubResults: true
   });
   
   const searchInput = window.document.querySelector<HTMLInputElement>("#search .pagefind-ui__search-input")!;

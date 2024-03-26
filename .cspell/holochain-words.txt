@@ -1,0 +1,17 @@
+# Words that are distinctly Holochainy
+DeepKey
+dnas
+DPKI
+hApp
+Holo
+Holo's
+Holochain
+Holochain's
+Holonix
+sharded
+Tryorama
+webhapp
+zome
+zome's
+zomes
+zomes'

@@ -51,7 +51,7 @@ This prevents clashes between attempts to delete identical entries written by di
 
 ### Resolving conflicts in a conflict-free database
 
-You may be thinking, if an entry can accumulate multiple update and delete actions, which is the _right_ entry? The answer is that it's up to your application to decide. You may want to preserve all revisions and show them as a tree, allowing people to follow whichever path they prefer. You may want to write a simple conflict-resolution mechanism into your getter functions, such as "the earliest one wins" or "deletes always override updates". Or you may want to incorporate automatic merge functions that apply all updates to the thing being updated, such as a [conflict-free replicated data type (CRDT_](https://crdt.tech/).
+You may be thinking, if an entry can accumulate multiple update and delete actions, which is the _right_ entry? The answer is that it's up to your application to decide. You may want to preserve all revisions and show them as a tree, allowing people to follow whichever path they prefer. You may want to write a simple conflict-resolution mechanism into your getter functions, such as "the earliest one wins" or "deletes always override updates". Or you may want to incorporate automatic merge functions that apply all updates to the thing being updated, such as a [conflict-free replicated data type (CRDT)](https://crdt.tech/).
 
 You'll also want to decide whether the primary units of data in your DHT are _entries_ or _actions_ (that is, entry plus author plus timestamp). There are appropriate places to use each, but that's beyond the reach of this introduction.
 

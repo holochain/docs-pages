@@ -1,5 +1,5 @@
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
 
   eleventyConfig.addNunjucksGlobal("callMacroByName", function(name) {
     if (!name) {
@@ -17,4 +17,4 @@ module.exports = function(eleventyConfig) {
     console.log(...arguments);
   });
 
-}
+};

@@ -1,17 +1,17 @@
-const fs = require('fs');
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
 
   /**
    * Returns markup for a link tile card
    * @param href The url to set the href of the link to
-   * @param classStringAddition (Optional) Class names to add to the card 
+   * @param classStringAddition (Optional) Class names to add to the card
    * @param iconPath (Optional) src relative path to the SVG icon file to insert into the head-space
    */
   eleventyConfig.addPairedShortcode('linkTile', function(content, href, classStringAddition = null, iconPath = "") {
     const addedClassString = !!classStringAddition ? `link-tile ${classStringAddition}` : "link-tile";
-    
+
     let optionalSvgTag = "";
     if (!!iconPath) {
       if (path.extname(iconPath) != '.svg') {
@@ -33,4 +33,4 @@ module.exports = function(eleventyConfig) {
       <div class="content-wrapper">${content}</div>
     </a>`;
   });
-}
+};

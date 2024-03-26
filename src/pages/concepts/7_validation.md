@@ -178,7 +178,7 @@ Norman and Rosie add Alice to their permanent block lists and remove her data fr
 Eventually, everyone knows that Alice is a 'bad actor' who has hacked her app. They all ignore her whenever she tries to talk to them, which effectively ejects her from the DHT.
 
 !!! info What happens when an agent receives a warrant instead of data?
-Currently only validation authorities permanently block authors for invalid data; a future release of Holochain will also allow non-authorities to store a warrant they've received and use it as justification for taking personal defensive action against the warranated agent. This will likely look like challenging the warranted agent to produce the potentially invalid data on first contact, then blocking them if the data is indeed valid or warranting the authority if the data is valid and the warrant is erroneous.
+Currently only validation authorities permanently block authors for invalid data; a future release of Holochain will also allow non-authorities to store a warrant they've received and use it as justification for taking personal defensive action against the warranted agent. This will likely look like challenging the warranted agent to produce the potentially invalid data on first contact, then blocking them if the data is indeed valid or warranting the authority if the data is valid and the warrant is erroneous.
 !!!
 
 :::
@@ -211,7 +211,7 @@ There are certain validation-like things that either fall outside the constraint
 
 A **genesis self-check** function can be defined in your integrity zomes. Its job is to 'pre-validate' an agent's membrane proof before she joins a network, to prevent her from accidentally committing a membrane proof that would forever bar her from joining the network.
 
-This function exists because it may require DHT access to fully check the validity of a membrane proof, but the newcomer isn't yet part of the network when they attempt to publish their membrame proof action. So this function verifies as much as it can without network access.
+This function exists because it may require DHT access to fully check the validity of a membrane proof, but the newcomer isn't yet part of the network when they attempt to publish their membrane proof action. So this function verifies as much as it can without network access.
 
 If the self-check fails, the cell fails to be created and the rest of the cells in the hApp are disabled. Then an error is passed back to the system that's trying to install the app (usually this is the [Holochain Launcher](https://github.com/holochain/launcher), which will then show an error message to the user.
 

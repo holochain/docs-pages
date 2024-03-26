@@ -2,7 +2,7 @@
 <html lang="en">
   {% include "parts/head.njk" %}
 
-  <body class="{{ pageStyleId }} {{ layoutId }}">
+  <body class="{{ pageStyleId }} {{ layoutId }}" data-pagefind-body>
     {% include "parts/header.njk" %}
     {% renderlayoutblock "abovePageWrap" %}{% endrenderlayoutblock %}
 

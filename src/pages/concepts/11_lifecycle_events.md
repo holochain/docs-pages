@@ -37,7 +37,7 @@ We covered both of these callbacks in the section on [validation](../7_validatio
 
 * An integrity zome's validation callback is called any time an entry or link whose type is defined in the zome is written to the source chain.
 * The validation callback is called for every **DHT operation** produced by an action.
-* The validation callback must return success, failure with an optional failure message, or 'unresolved depndencies'. If a validation callback attempts but fails to retrieve DHT data, the conductor will terminate the execution of the validation function with the 'unresolved dependencies' result.
+* The validation callback must return success, failure with an optional failure message, or 'unresolved dependencies'. If a validation callback attempts but fails to retrieve DHT data, the conductor will terminate the execution of the validation function with the 'unresolved dependencies' result.
 * The genesis self-check function is called at cell instantiation time, before the cell attempts to connect to the network. It's an opportunity to do a quick check on the integrity of the user-supplied **membrane proof**.
 
 ## Init callback
@@ -46,7 +46,7 @@ We covered both of these callbacks in the section on [validation](../7_validatio
 
 Shortly after a cell is instantiated and connects to the network, the conductor looks for an init callback in every coordinator zome. This function is a place to initialize source chain data with necessary information, or make connections to peers, or anything necessary to bootstrap the cell. When all coordinator zomes in a cell have finished executing their init callback, the final [genesis record](../3_source_chain/), the 'init complete' action, is written to the source chain.
 
-An init callback can return 'pass', 'fail' with an error string, or a list of unresolved dependencies. If one init callback fails, initialiation of the entire cell fails and the cell is put into a disabled state.
+An init callback can return 'pass', 'fail' with an error string, or a list of unresolved dependencies. If one init callback fails, initialization of the entire cell fails and the cell is put into a disabled state.
 
 !!! warn Lazy initialization
 The init callbacks aren't actually called until the first time something calls a function in any coordinator zome.
@@ -89,7 +89,7 @@ Behind the scenes, a remote signal is just a [remote call](../8_calls_capabiliti
 
 ## Key takeaways
 
-* The entry type defintions callback tells a conductor about the entry types an integrity zome defines, but the Rust SDK generates one for you using macros.
+* The entry type definitions callback tells a conductor about the entry types an integrity zome defines, but the Rust SDK generates one for you using macros.
 * Validation and genesis self-check callbacks receive data for validation.
 * The init callback can be used to set up initial cell state, make connections with peers, and other startup tasks.
 * The post-commit callback is called after every successful zome function call that commits data.
