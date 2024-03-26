@@ -233,11 +233,11 @@ let delete_action_hash: ActionHash = delete_entry(
 )?;
 ```
 
-As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a `Delete` action is committed to the cell's source chain, and the entry creation action is marked 'dead'. An entry itself is only considered dead when all entry creation actions that created it are marked dead, and it can become live again in the future if a _new_ entry creation action writes it. Any dead data can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html)
+As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) is committed to the cell's source chain, and the entry creation action is marked 'dead'. An entry itself is only considered dead when all entry creation actions that created it are marked dead, and it can become live again in the future if a _new_ entry creation action writes it. Any dead data can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) (see below).
 
 In the future we plan to include a 'purge' functionality. This will give agents permission to actually erase an entry from their DHT store, but not its associated entry creation action.
 
-Remember that, even once purge is implemented, it is impossible to force another person to delete data once they have seen it. Be deliberate about how data is shared in your app.
+Remember that, even once purge is implemented, it is impossible to force another person to delete data once they have seen it. Be deliberate about how what data becomes public in your app.
 
 ### Delete under the hood
 
@@ -261,11 +261,13 @@ Calling `delete_entry` does the following:
 
 Coming from centralized software architectures, you might expect an entry to have a unique ID that can be used to reference it elsewhere. Holochain uses the hash of a piece of content as its unique ID. In practice, different kinds of hashes have different meaning and suitability to use as an identifier.
 
-To identify the *contents* of an entry, use the entry's `EntryHash`. Remember that, if two entry creation actions write identical entry contents, the entries will collide in the DHT. You may want this or you may not, depending on the nature of your entry type.
+To identify the _contents_ of an entry, use the entry's `EntryHash`. Remember that, if two entry creation actions write identical entry contents, the entries will collide in the DHT. You may want this or you may not, depending on the nature of your entry type.
 
-A common pattern to identify an *instance* of an entry (i.e., an entry authored by a specific agent at a specific time) is to use the `ActionHash` of the entry creation action which created the entry. This gives you timestamp and authorship information for free, and can be a persistent way to identify the initial entry at the root of a tree of updates.
+A common pattern to identify an _instance_ of an entry (i.e., an entry authored by a specific agent at a specific time) is to use the `ActionHash` of its entry creation action instead. This gives you timestamp and authorship information for free, and can be a persistent way to identify the initial entry at the root of a tree of updates.
 
-Finally, you can reference an agent themselves via their `AgentPubKey`. This identifier is similar to `EntryHash` and `ActionHash` in that it's an identifier that you can use to reference agents in the same way you can reference entries and actions.
+You can reference an agent via their `AgentPubKey`. This is a special type of DHT entry whose identifier is identical to its content --- that is, the agent's public key. You can use it just like an `EntryHash` and `ActionHash`.
+
+Finally, you can also use **external identifiers** (that is, IDs of data that's not in the DHT) as long as they're 32 bytes. It's up to you to determine how to interpret these identifiers in your front end.
 
 You can use any of these identifiers as a field in your entry types to model a many-to-one relationship, or you can use links between identifiers to model a one-to-many relationship.
 
@@ -281,9 +283,9 @@ use movie_integrity::*;
 
 let maybe_record: Option<Record> = get(
     action_hash,
-    // Get the most up-to-date data from the DHT. You can also specify
-    // `GetOptions::content()`, which only gets the latest data if it doesn't
-    // already exist locally.
+    // Get the data and metadata directly from the DHT. You can also specify
+    // `GetOptions::content()`, which only accesses the DHT if the data at the
+    // supplied hash doesn't already exist locally.
     GetOptions::latest()
 )?;
 
@@ -292,10 +294,11 @@ match maybe_record {
         // Not all types of action contain entry data, and if they do, it may
         // not be accessible, so `.entry()` may return nothing. It may also be
         // of an unexpected entry type, so it may not be deserializable to an
-        // instance of the expected Rust type. You can check for most of these
-        // edge cases by exploring the value of the `entry` field, which tells
-        // you the entry's status, but in this simple example we'll skip that
-        // and try to get and deserialize the entry.
+        // instance of the expected Rust type. You can find out how to check for
+        // most of these edge cases by exploring the documentation for the
+        // `Record` type, but in this simple example we'll skip that and assume
+        // that the action hash referenced an action with entry data attached
+        // to it.
         let maybe_movie: Option<Movie> = record.entry().to_app_option();
 
         match maybe_movie {
@@ -313,7 +316,7 @@ match maybe_record {
 }
 ```
 
-To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with the action hash. You'll receive a `Result<`[`holochain_zome_types::metadata::RecordDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html)`>`.
+To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with an _action hash_. You'll receive a `Result<`[`holochain_zome_types::metadata::RecordDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html)`>`.
 
 ```rust
 use hdk::prelude::*;
@@ -342,7 +345,7 @@ match maybe_details {
 }
 ```
 
-To get an entry and all the deletes and updates that operated on it (or rather, that operated on the entry creation actions that produced it), _as well as_ all its entry creation actions and its current status on the DHT, pass an entry hash to [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html). You'll receive a [`holochain_zome_types::metadata::EntryDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html) struct.
+To get an entry and all the deletes and updates that operated on it (or rather, that operated on the entry creation actions that produced it), _as well as_ all its entry creation actions and its current status on the DHT, pass an _entry hash_ to [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html). You'll receive a [`holochain_zome_types::metadata::EntryDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html) struct.
 
 ```rust
 use hdk::prelude::*;
@@ -385,6 +388,7 @@ If the scaffolder doesn't support your desired functionality, or is too low-leve
 - [hc-cooperative-content](https://github.com/mjbrisebois/hc-cooperative-content)
 
 ## Reference
+
 - [hdi::prelude::hdk_entry_helper](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html)
 - [hdi::prelude::hdk_entry_defs](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_defs.html)
 - [hdi::prelude::entry_def](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html)
