@@ -1,6 +1,6 @@
 @mixin navBarList() {
   $current-page-highlight-padding: 10px;
-  
+
   nav#main-nav {
     padding: 18px 34px;
 
@@ -29,7 +29,7 @@
         transition: all .75s;
         text-decoration: none;
 
-        // Add a span so that we can use the border to indicate current page and 
+        // Add a span so that we can use the border to indicate current page and
         //   control the size of the indicator independent of the box size of the a tag
         span {
           display: inline-flex;
@@ -42,7 +42,7 @@
           }
         }
 
-        @include offsiteLinkIcon($link-color, $top: 10px);
+        @include offsiteLinkIcon;
 
         &:hover {
           font-variation-settings: "wght" 700;
@@ -59,7 +59,7 @@
             font-weight: 700;
           }
         }
-        
+
         &[aria-current="page"] {
           > a {
             color: black;
