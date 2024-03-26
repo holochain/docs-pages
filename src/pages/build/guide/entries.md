@@ -273,7 +273,7 @@ You can use any of these identifiers as a field in your entry types to model a m
 
 ## Retrieve an entry
 
-Get an entry creation action along with its entry data by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html)] with the action hash. The return value is a `Result<`[`holochain_integrity_types::record::Record`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)`>`, where a `Record` is a pairing of an action and its optional entry data.
+Get an entry creation action along with its entry data by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the action hash. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>, where a `Record` is a pairing of an action and its optional entry data.
 
 You can also pass an entry hash to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
 
@@ -316,7 +316,7 @@ match maybe_record {
 }
 ```
 
-To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with an _action hash_. You'll receive a `Result<`[`holochain_zome_types::metadata::RecordDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html)`>`.
+To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with an _action hash_. You'll receive a <code>Result<[holochain_zome_types::metadata::RecordDetails](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html)></code>.
 
 ```rust
 use hdk::prelude::*;
