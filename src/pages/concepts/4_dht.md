@@ -68,11 +68,15 @@ Let's see how this works with a very small address space. Instead of public keys
 ::: storystep
 ![](/assets/img/concepts/4.5-alice-neighborhood.png){.sz80p} {.center}
 
+---
+
 Alice lives at address A. Her neighbors to the left are Diana and Fred, and her neighbors to the right are Zoë and Walter.
 :::
 
 ::: storystep
 ![](/assets/img/concepts/4.7-alice-publish-address-calculation.png){.sz80p} {.center}
+
+---
 
 Alice creates an entry containing the word "molecule", whose address is M.
 :::
@@ -80,11 +84,15 @@ Alice creates an entry containing the word "molecule", whose address is M.
 ::: storystep
 ![](/assets/img/concepts/4.8-authority-resolution.png){.sz80p} {.center}
 
+---
+
 Of all of Alice's neighbors, Fred is closest to that address, so she asks him to store it. Fred hasn't claimed authority for that address, so he tells Alice about his neighbor Louise.
 :::
 
 ::: storystep
 ![](/assets/img/concepts/4.9-gossip-publish.png){.sz80p} {.center}
+
+---
 
 Alice shares the entry with Louise, who agrees to store it because her neighborhood covers M.
 :::
@@ -92,11 +100,15 @@ Alice shares the entry with Louise, who agrees to store it because her neighborh
 ::: storystep
 ![](/assets/img/concepts/4.10-gossip-resilience.png){.sz80p} {.center}
 
+---
+
 Louise shares it with her neighbor, Norman, in case she goes offline.
 :::
 
 ::: storystep
 ![](/assets/img/concepts/4.11-retrieval.png){.sz80p} {.center}
+
+---
 
 Rosie is a word collector who learns that an interesting new word lives at address is M. She asks her neighbor, Norman, if he has it. Louise has already given him a copy, so he delivers it to Rosie.
 :::
@@ -114,11 +126,15 @@ Let's see how this plays out in the real world.
 ::: storystep
 ![](/assets/img/concepts/4.12-healthy-network.png){.sz80p} {.center}
 
+---
+
 An island is connected to the mainland by a radio link. They communicate with each other using a Holochain app.
 :::
 
 ::: storystep
 ![](/assets/img/concepts/4.13-partition.png){.sz80p} {.center}
+
+---
 
 A hurricane blows through and wipes out both radio towers. The islanders can't talk to the mainlanders, and vice versa, so some DHT neighbors are unreachable. But everyone can still talk to their physical neighbors. None of the data is lost, but not all of it is available to each side.
 :::
@@ -126,11 +142,15 @@ A hurricane blows through and wipes out both radio towers. The islanders can't t
 ::: storystep
 ![](/assets/img/concepts/4.14-resilience-building.png){.sz80p} {.center}
 
+---
+
 On both sides, all agents attempt to improve resilience by enlarging their arcs. Meanwhile, they operate as usual, talking with one another and creating new data.
 :::
 
 ::: storystep
 ![](/assets/img/concepts/4.15-partition-healing.png){.sz80p} {.center}
+
+---
 
 The radio towers are rebuilt, the network partition heals, and new data syncs up across the DHT. At this point everyone has the option of shrinking their arc sizes and prune overly redundant data (although experience has shown them that it might be best to overcompensate in case another hurricane comes around).
 :::
