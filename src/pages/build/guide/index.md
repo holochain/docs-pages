@@ -12,7 +12,7 @@ This Build Guide organizes everything you need to know about developing Holochai
 
 ## Working with data
 
-Shared data in a Holochain application is stored as a graph database of **entry** nodes connected by **links**, plus a couple special types of data that can also be treated as nodes in the graph:
+Shared data in a Holochain application is stored as a graph database of **entry** nodes connected by **links**, plus a couple special types of data that can also be treated as linkable nodes in the graph:
 
 * An **action** records the act of manipulating an entry or link and contains metadata about the act, such as authorship and timestamp.
 * An **agent ID** is the public key of a participant in an application.
