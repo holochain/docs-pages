@@ -2,7 +2,7 @@
 title: Holochain Build Guide
 ---
 
-::: coreconcepts-intro
+::: intro
 This Build Guide organizes everything you need to know about developing Holochain applications into individual topics. Each topic page stands alone as a comprehensive guide to using a given feature or implementing a given functionality. There are lots of code examples which make it clear how to do something yet are generic enough to be universally useful. These examples may not cover every single use case, though, so we'll point you to the reference documentation often.
 :::
 

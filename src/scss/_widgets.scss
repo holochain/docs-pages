@@ -201,7 +201,7 @@ details {
   }
 
   &.learn {
-    background-color: #f7f7f7;
+    background-color: $cl-lightest-gray;
     border-radius: 5px;
     outline: none;
 
@@ -374,5 +374,37 @@ a.link-tile {
     margin: 10vh 10vw;
     width: 80vw;
     height: 80vh;
+  }
+}
+
+.intro {
+  font-size: $fs-even-bigger;
+  border-left: 4px solid $cl-gray;
+  padding-left: 1em;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.orientation, .storystep {
+  padding: 1.5em;
+  margin: 1.5em 0;
+  background: $cl-lightest-gray;
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.storystep {
+
+  /* Horizontal rules can be used to break up content in a story step.
+  Make them nice and light. */
+  hr {
+    border: 1px solid $cl-gray;
+    margin: 1.5em -1.5em;
   }
 }
