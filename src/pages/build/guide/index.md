@@ -14,7 +14,7 @@ This Build Guide organizes everything you need to know about developing Holochai
 
 Shared data in a Holochain application is stored as a graph database of **bases** connected by **links**. A base is identified by a 32-byte identifier such as a hash or public key, and may have data and metadata associated with it. There are four types of bases:
 
-* An **entry** is an arbitrary blob of bytes that is given meaning by your application.
+* An **entry** is an arbitrary blob of bytes that your application code gives meaning to.
     * An **agent ID** is a special type of entry that contains the public key of a participant in an application.
 * An **action** records the act of manipulating the graph and contains metadata about the act, such as authorship and timestamp.
 * An **external reference** is the ID of a resource that exists outside the database, such as the hash of an IPFS resource or the public key of an Ethereum address.
