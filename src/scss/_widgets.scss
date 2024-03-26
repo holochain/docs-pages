@@ -382,8 +382,12 @@ a.link-tile {
   padding: 1em;
   background-color: #f7f7f7;
 
-  ul {
-    margin: 0;
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
   }
 
   /* Unless otherwise specified with `class="not-topic-page"`, links in a topic
