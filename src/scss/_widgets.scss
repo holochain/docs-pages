@@ -386,7 +386,8 @@ a.link-tile {
 }
 
 .orientation, .storystep {
-  padding: 1.2em;
+  padding: 1.5em;
+  margin: 1.5em 0;
   background: $cl-lightest-gray;
 
   > :first-child {
@@ -398,10 +399,12 @@ a.link-tile {
   }
 }
 
-.orientation {
-  margin: 1em 0;
-}
-
 .storystep {
-  margin: 2em 0;
+
+  /* Horizontal rules can be used to break up content in a story step.
+  Make them nice and light. */
+  hr {
+    border: 1px solid $cl-gray;
+    margin: 1.5em -1.5em;
+  }
 }
