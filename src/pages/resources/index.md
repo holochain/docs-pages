@@ -41,7 +41,7 @@ There are three main binaries. You can run any of these on the command-line with
     * packages a [DNA manifest](./glossary/#dna-manifest) file and one or more [zomes](./glossary/#zome) (in WASM bytecode) into a [DNA bundle](./glossary/#dna-bundle)
     * packages one or more DNAs into a hApp
     * manages sandboxed Holochain conductors
-    * see [holochain_cli docs](https://docs.rs/holochain_cli/latest/holochain_cli) for more info
+    * see [`holochain_cli` docs](https://docs.rs/holochain_cli/latest/holochain_cli) for more info
 * **`lair-keystore`** is Holochain's [keystore](https://github.com/holochain/lair) for generating and signing with cryptographically secure keys. Use this command for initialization, configuration, and running of a Lair keystore.
 
 ## Example applications and tutorials
