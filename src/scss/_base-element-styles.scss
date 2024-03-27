@@ -50,6 +50,10 @@ a {
   svg {
     height: 100%;
   }
+
+  .main-area & {
+    @include offsiteLinkIcon($cl-main-text);
+  }
 }
 
 button {

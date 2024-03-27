@@ -9,15 +9,15 @@
     </li>
     {% for topLink in mainNavData.links %}
       {% set isCurrentParent = topLink.url == activeParent.url %}
-      <li {% if isCurrentParent %} data-is-current-parent="true" {% endif %} 
+      <li {% if isCurrentParent %} data-is-current-parent="true" {% endif %}
         {% if topLink.url == page.url %} aria-current="page" {% endif %} >
-        <a href="{{ topLink.url }}" {{ 'target=_blank' if topLink.external }}>
+        <a href="{{ topLink.url }}" {% if topLink.external %}target="_blank" rel="noreferrer nofollow noopener external"{% endif %} >
           <span>
             {{ topLink.title }}
           </span>
         </a>
         {% if topLink.hasChildren %}
-        <button class="clear-btn {{ "up-arrow" if isCurrentParent }}" 
+        <button class="clear-btn {{ "up-arrow" if isCurrentParent }}"
             data-children-opener >
           {{ downArrowHead() }}
         </button>
@@ -27,7 +27,7 @@
           <ul class="nav-child-level {% if isCurrentParent %}open{% endif %}">
             {% for childLink in topLink.children %}
             <li {% if childLink.url == page.url %} aria-current="page" {% endif %}>
-              <a href="{{ childLink.url }}" {{ 'target=_blank' if childLink.external }} >
+              <a href="{{ childLink.url }}" {% if childLink.external %}target="_blank" rel="noreferrer nofollow noopener external"{% endif %} >
                 <span>
                   {{ childLink.title }}
                 </span>
