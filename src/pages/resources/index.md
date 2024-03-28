@@ -1,30 +1,48 @@
 ---
 title: Holochain Programming Resources
+tocData:
+  - text: HDK and HDI
+    href: hdk-and-hdi
+  - text: Conductor APIs
+    href: conductor-apis
+  - text: Conductor clients
+    href: conductor-clients
+  - text: Conductor configuration
+    href: conductor-configuration
+  - text: Binaries
+    href: binaries
+  - text: Example applications
+    href: example-applications
+  - text: Tutorials and training
+    href: tutorials-and-training
 ---
 
-## Rust HDK
+## HDK and HDI
 
-When you write a Holochain application, the part that lives in Holochain is called a [DNA](../concepts/2_application_architecture/#layers-of-the-application-stack). It runs in a WebAssembly sandbox and talks to the host, or conductor, through the host API. The Rust HDK (Holochain Development Kit) makes it easy for you to write your DNAs in the Rust programming language.
+When you write a Holochain application, the part that lives in Holochain is called a [DNA](/concepts/2_application_architecture/#layers-of-the-application-stack). It runs as a guest in a WebAssembly sandbox and talks to the host, or Holochain conductor, through the host API. It's also expected to implement callbacks that the conductor needs to call at certain times. The HDK and HDI Rust crates make it easy for you write guest code that interfaces with the conductor --- the HDK for your DNA's [coordinator zomes](/resources/glossary/#coordinator-zome) and the HDI for [integrity zomes](/resources/glossary/#integrity-zome).
 
 * **[HDK reference](https://docs.rs/hdk){target=_blank}**
+* **[HDI reference](https://docs.rs/hdi){target=_blank}**
 
-## Conductor APIs
+## Conductor APIs {#conductor-apis}
 
-The conductor exposes two RPC APIs over WebSocket interfaces:
+The conductor exposes two separate RPC APIs over WebSocket interfaces:
 
-* The **admin API** lets application front-ends control the conductor to install DNAs, create agent IDs, combine a DNA and an agent ID into a running cell, and activate application RPC interfaces.
-* The **app API** lets front-ends call a running [cell](./glossary/#cell)'s functions and get information on the [DNA bundle](./glossary/#dna-bundle) that the cell belongs to.
+* The **admin API** lets application managers control the conductor to install bundles of DNAs (called [hApps](/resources/glossary/#holochain-application-h-app)), create agent IDs, combine a DNA and an agent ID into a running [cell](/resources/glossary/#cell), and activate application RPC interfaces.
+* The **application API** lets front-ends call a running cell's functions and get information on the [DNA bundle](/resources/glossary/#dna-bundle) that the cell belongs to.
 
-For both of these APIs, you make an RPC call sending a MessagePack-serialized request to the conductor over WebSocket and listening for a response. On the interface that exposes the app API, you can also listen for [**signals**](./glossary/#signal) broadcast by cells.
+For both of these APIs, you make an RPC call sending a MessagePack-serialized request in a special envelope format to the conductor over WebSocket and listen for a response. The request's envelope must contain a request ID, and the matching response will have the same ID. On the interface that exposes the app API, you can also listen for [**signals**](/resources/glossary/#signal) broadcast by cells. There are [client libraries](#conductor-clients) for JavaScript and Rust that make it easy to handle requests/responses and set up signal listeners.
 
-* **[Admin API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html){target=_blank}**
-* **[App API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html){target=_blank}**
+* **[Conductor Admin API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html){target=_blank}**
+* **[Conductor App API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html){target=_blank}**
 
-For ergonomic interaction with those two API's there are two client implementations: One in JavaScript and one in Rust. If you intend to
-develop Holochain Apps with a web-based UI, **it is likely that all you'll ever need is the [JavaScript client](https://www.npmjs.com/package/@holochain/client){target=_blank}**.
+## Conductor clients
 
-* **[Holochain client JavaScript](https://github.com/holochain/holochain-conductor-api){target=_blank}**
-* **[Holochain client Rust](https://github.com/holochain/holochain-client-rust){target=_blank}**
+For ergonomic interaction with the two conductor APIs, there are two officially supported client implementations: one in JavaScript and one in Rust. If you intend to develop Holochain apps with a web-based UI, **it is likely that all you'll ever need is the [JavaScript client](https://www.npmjs.com/package/@holochain/client){target=_blank}**.
+
+* **[Conductor Client reference (JavaScript)](https://github.com/holochain/holochain-client-js){target=_blank}**
+* **[Conductor Client reference (Rust)](https://docs.rs/holochain_client/latest/holochain_client/){target=_blank}**
+* **[Conductor Client reference (C#)](https://github.com/holochain-open-dev/holochain-client-csharp){target=_blank}** (community-maintained)
 
 ## Conductor configuration
 
@@ -34,19 +52,48 @@ The conductor has a few settings that can (and should) be configured via a YAML 
 
 ## Binaries
 
-There are three main binaries. You can run any of these on the command-line with the `--help` flag to get detailed documentation.
+There are three main developer binaries, and one user-oriented binary. You can run any of these on the command-line with the `--help` flag to get detailed documentation.
 
-* **`holochain`** is the Holochain runtime, or [conductor](./glossary/#conductor).
+* **`holochain`** is the Holochain runtime, or [conductor](/resources/glossary/#conductor).
 * **`hc`** is an all-purpose developer tool that:
-    * packages a [DNA manifest](./glossary/#dna-manifest) file and one or more [zomes](./glossary/#zome) (in WASM bytecode) into a [DNA bundle](./glossary/#dna-bundle)
+    * packages a [DNA manifest](/resources/glossary/#dna-manifest) file and one or more [zomes](/resources/glossary/#zome) (in WASM bytecode) into a [DNA bundle](/resources/glossary/#dna-bundle)
     * packages one or more DNAs into a hApp
-    * manages sandboxed Holochain conductors
-    * see [holochain_cli docs](https://docs.rs/holochain_cli/latest/holochain_cli){target=_blank} for more info
-* **`lair-keystore`** is Holochain's [keystore](https://github.com/holochain/lair){target=_blank} for generating and signing with cryptographically secure keys. Use this command for initialization, configuration, and running of a Lair keystore.
+    * manages Holochain conductor 'sandboxes' --- configuration files and working folders that can be used to repeatably spin up conductors for testing
+    * spawns hApps and UIs for testing
+    * see [`holochain_cli` docs](https://docs.rs/holochain_cli/latest/holochain_cli) for more info
+* **`lair-keystore`** is Holochain's [keystore](https://github.com/holochain/lair){target=_blank} for generating and signing with cryptographically secure keys. Use this command for initialization, configuration, and running of a Lair keystore. During normal operation, `holochain` will automatically spawn a `lair` process if it doesn't find one running.
+* **Holochain Launcher** is meant for users to find, install, and run hApps. It runs in a WebView container (currently Tauri, but we're migrating to Electron) which also hosts the UIs of installed hApps. Developers can also turn on 'developer mode' and publish their hApps to a built-in hApp store.
+    * [Download the latest Launcher release from GitHub](https://github.com/holochain/launcher/releases)
 
-## Example applications and tutorials
+## Libraries
+
+The developer community has created some useful utilities, libraries, and reusable modules for you to use in your own apps.
+
+* [Holochain Open Dev](https://github.com/holochain-open-dev/) is a collection of reusable zomes and template repos from the developer community.
+    * [`profiles`](https://github.com/holochain-open-dev/profiles) lets you store user profile information.
+    * [`peer-status`](https://github.com/holochain-open-dev/peer-status) lets peers communicate their status (e.g., 'online', 'busy', 'on holiday') with each other.
+    * [`notifications`](https://github.com/holochain-open-dev/notifications) lets a network designate a trusted agent to send out notifications over text, WhatsApp, and email.
+    * [`file-storage`](https://github.com/holochain-open-dev/file-storage) chunks, stores, and retrieves arbitrary binary data.
+* [Matthew Brisebois](https://github.com/mjbrisebois) has created many [useful back-end and front-end libraries](https://github.com/spartan-holochain-counsel) for building hApps.
+    * [`rust-hc-crud-caps`](https://github.com/spartan-holochain-counsel/rust-hc-crud-caps) implements a pattern for tracking updates to a piece of data.
+    * [`hc-cooperative-content`](https://github.com/mjbrisebois/hc-cooperative-content) implements patterns for collaborative content management --- permission and authority management, update/delete processes, etc.
+    * [`holo-hash-js`](https://github.com/spartan-holochain-counsel/holo-hash-js) is a small JavaScript library for making Holochain data IDs easier to work with on the front end.
+    * [`identicons-js`](https://github.com/mjbrisebois/identicons-js) is a recommended library for displaying Holochain data IDs (entry/action hashes and agent IDs) visually.
+* [hREA](https://github.com/h-rea) ([website](https://hrea.io/)) is a toolkit for building economic applications, from bookkeeping and resource management to supply chain to cooperative markets.
+
+## Example applications
 
 Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
 
-* [Holochain Open Dev](https://github.com/holochain-open-dev)
-* [Holochain Foundation sample apps](https://github.com/holochain-apps)
+* [Holochain Foundation sample apps](https://github.com/holochain-apps) contains application written by Holochain team members.
+* [Moss](https://github.com/lightningrodlabs/we) (formerly We) is a groupware container for composing multiple applets into one cohesive experience.
+* [Snapmail](https://github.com/glassbeadsoftware/snapmail) is a privacy-first intranet mail app that doesn't need an intranet server.
+* [Acorn](https://github.com/lightningrodlabs/acorn) is a unique project management app based around defining goals first, then figuring out what needs to be done in order to achieve those goals.
+* [Flux](https://github.com/fluxsocial/flux) is a communities app similar to Discord but allows add-ons for new content types such as long-form content and knowledge bases.
+
+## Tutorials and training
+
+While you'll learn a lot looking at the source code from the above GitHub projects, we've also produced some training material as a result of running courses in collaboration with our education partner Mythosthesia.
+
+* [Developer training materials](https://github.com/holochain-immersive) from past courses
+* [Self-paced training course](https://resources.holochain.org/self-paced-training-signup/) in video format
