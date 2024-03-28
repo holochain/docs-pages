@@ -56,13 +56,16 @@ There are three main developer binaries, and one user-oriented binary. You can r
 
 * **`holochain`** is the Holochain runtime, or [conductor](/resources/glossary/#conductor).
 * **`hc`** is an all-purpose developer tool that:
+    * scaffolds a project directory structure, build config, and boilerplate CRUD code for a new hApp
     * packages a [DNA manifest](/resources/glossary/#dna-manifest) file and one or more [zomes](/resources/glossary/#zome) (in WASM bytecode) into a [DNA bundle](/resources/glossary/#dna-bundle)
     * packages one or more DNAs into a hApp
     * manages Holochain conductor 'sandboxes' --- configuration files and working folders that can be used to repeatably spin up conductors for testing
     * spawns hApps and UIs for testing
+    * runs JavaScript-based integration test scripts
+    * runs a local copy of peer discovery and WebRTC signalling services
     * see [`holochain_cli` docs](https://docs.rs/holochain_cli/latest/holochain_cli) for more info
-* **`lair-keystore`** is Holochain's [keystore](https://github.com/holochain/lair){target=_blank} for generating and signing with cryptographically secure keys. Use this command for initialization, configuration, and running of a Lair keystore. During normal operation, `holochain` will automatically spawn a `lair` process if it doesn't find one running.
-* **Holochain Launcher** is meant for users to find, install, and run hApps. It runs in a WebView container (currently Tauri, but we're migrating to Electron) which also hosts the UIs of installed hApps. Developers can also turn on 'developer mode' and publish their hApps to a built-in hApp store.
+* **`lair-keystore`** is Holochain's [keystore](https://github.com/holochain/lair) for generating and signing with cryptographically secure keys. Use this command for initialization, configuration, and running of a Lair keystore. During normal operation, `holochain` will automatically spawn a `lair` process if it doesn't find one running.
+* **Holochain Launcher** is an end-user runtime, meant for finding, installing, and running hApps. It runs in a WebView container (currently Tauri, but we're migrating to Electron) which also hosts the UIs of installed hApps. Developers can also turn on 'developer mode' and publish their hApps to a built-in hApp store.
     * [Download the latest Launcher release from GitHub](https://github.com/holochain/launcher/releases)
 
 ## Libraries
@@ -78,8 +81,8 @@ The developer community has created some useful utilities, libraries, and reusab
     * [`rust-hc-crud-caps`](https://github.com/spartan-holochain-counsel/rust-hc-crud-caps) implements a pattern for tracking updates to a piece of data.
     * [`hc-cooperative-content`](https://github.com/mjbrisebois/hc-cooperative-content) implements patterns for collaborative content management --- permission and authority management, update/delete processes, etc.
     * [`holo-hash-js`](https://github.com/spartan-holochain-counsel/holo-hash-js) is a small JavaScript library for making Holochain data IDs easier to work with on the front end.
-    * [`identicons-js`](https://github.com/mjbrisebois/identicons-js) is a recommended library for displaying Holochain data IDs (entry/action hashes and agent IDs) visually.
-* [hREA](https://github.com/h-rea) ([website](https://hrea.io/)) is a toolkit for building economic applications, from bookkeeping and resource management to supply chain to cooperative markets.
+    * [`identicons-js`](https://github.com/mjbrisebois/identicons-js) is a JavaScript library that implements our recommended UX pattern of displaying hashes and public keys visually rather than textually.
+* [hREA](https://github.com/h-rea) ([website](https://hrea.io/)) is a toolkit for building economic applications, such as bookkeeping, resource management, supply chain, ERM, cooperative marketplaces.
 
 ## Example applications
 
@@ -88,7 +91,7 @@ Studying existing Holochain applications and tutorials can provide valuable insi
 * [Holochain Foundation sample apps](https://github.com/holochain-apps) contains application written by Holochain team members.
 * [Moss](https://github.com/lightningrodlabs/we) (formerly We) is a groupware container for composing multiple applets into one cohesive experience.
 * [Snapmail](https://github.com/glassbeadsoftware/snapmail) is a privacy-first intranet mail app that doesn't need an intranet server.
-* [Acorn](https://github.com/lightningrodlabs/acorn) is a unique project management app based around defining goals first, then figuring out what needs to be done in order to achieve those goals.
+* [Acorn](https://github.com/lightningrodlabs/acorn) is a unique, visually intuitive project management app based around defining goals first, then figuring out what needs to be done in order to achieve those goals.
 * [Flux](https://github.com/fluxsocial/flux) is a communities app similar to Discord but allows add-ons for new content types such as long-form content and knowledge bases.
 
 ## Tutorials and training
