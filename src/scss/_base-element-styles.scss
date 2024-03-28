@@ -52,7 +52,7 @@ a {
   }
 
   .main-area & {
-    @include offsiteLinkIcon($cl-main-text);
+    @include externalLinkIcon($cl-main-text);
   }
 }
 

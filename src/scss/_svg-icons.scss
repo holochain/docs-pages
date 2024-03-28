@@ -74,7 +74,7 @@ $shovelIcon: url("data:image/svg+xml,%3Csvg%20viewBox%3D'0%200%201200%201200'%20
   }
 }
 
-@mixin offsiteLinkIcon($color) {
+@mixin externalLinkIcon($color) {
   $color-encoded: encodecolor($color);
   &:not(.no-away), :not(.no-away) &, .no-away &.away {
     &[rel*=external] {

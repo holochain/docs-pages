@@ -42,7 +42,7 @@
           }
         }
 
-        @include offsiteLinkIcon($link-color);
+        @include externalLinkIcon($link-color);
 
         &:hover {
           font-variation-settings: "wght" 700;
