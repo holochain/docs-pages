@@ -15,5 +15,5 @@ pagefind
 rocketship
 renderlayoutblock
 srcset
-storysequence
+storystep
 surpress

@@ -1,6 +1,10 @@
 {
   links: [
     { title: "Get Started", url: "/get-started/", children: [
+        { title: "1. Install Holochain Development Environment", url: "/get-started/#2-installing-holochain-development-environment" },
+        { title: "2. Hello World", url: "/get-started/2-hello-world/" },
+        { title: "3. Forum App Tutorial", url: "/get-started/3-forum-app-tutorial/" },
+        { title: "4. Packaging & Distribution", url: "/get-started/4-packaging-and-distribution/" },
         { title: "Dev Tools Setup Tips", url: "/get-started/install-advanced/" },
         { title: "Setup Without Nix", url: "/get-started/install-without-nix/" },
         { title: "Distribute your App", url: "/get-started/distribute-your-app/" },
@@ -8,7 +12,7 @@
         { title: "Setup For a Local Event", url: "/get-started/at-an-event/" },
       ]
     },
-    { title: "Core Concepts", url: "/concepts/1_the_basics/", children: [
+    { title: "Learn", url: "/concepts/1_the_basics/", children: [
         { title: "Application Architecture", url: "/concepts/2_application_architecture/" },
         { title: "Source Chain", url: "/concepts/3_source_chain/" },
         { title: "DHT", url: "/concepts/4_dht/" },
@@ -21,6 +25,7 @@
         { title: "Lifecycle Events", url: "/concepts/11_lifecycle_events/" },
       ]
     },
+    { title: "Build", url: "/build/", children: []},
     { title: "Resources", url: "/resources/", children: [
         { title: "HDK", url: "https://docs.rs/hdk", external: true },
         { title: "HDI", url: "https://docs.rs/hdi", external: true },

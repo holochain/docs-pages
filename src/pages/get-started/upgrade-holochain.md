@@ -4,7 +4,7 @@ hide:
   - toc
 ---
 
-::: coreconcepts-intro
+::: intro
 For existing hApps that have been written for Holochain version 0.1, these are steps to upgrade to Holochain version 0.2.
 :::
 
@@ -72,8 +72,8 @@ whenever you update your Cargo dependencies to the latest HDI/HDK versions.
 Check if your `flake.nix` still contains the Node.js package that was included by the scaffolding. It will look something like
 
 ```nix
-packages = [ 
-  pkgs.nodejs-18_x 
+packages = [
+  pkgs.nodejs-18_x
 ];
 ```
 

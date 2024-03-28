@@ -60,7 +60,7 @@ There are three main developer binaries, and one user-oriented binary. You can r
     * packages one or more DNAs into a hApp
     * manages Holochain conductor 'sandboxes' --- configuration files and working folders that can be used to repeatably spin up conductors for testing
     * spawns hApps and UIs for testing
-    * see [`holochain_cli` docs](https://docs.rs/holochain_cli/latest/holochain_cli){target=_blank} for more info
+    * see [`holochain_cli` docs](https://docs.rs/holochain_cli/latest/holochain_cli) for more info
 * **`lair-keystore`** is Holochain's [keystore](https://github.com/holochain/lair){target=_blank} for generating and signing with cryptographically secure keys. Use this command for initialization, configuration, and running of a Lair keystore. During normal operation, `holochain` will automatically spawn a `lair` process if it doesn't find one running.
 * **Holochain Launcher** is meant for users to find, install, and run hApps. It runs in a WebView container (currently Tauri, but we're migrating to Electron) which also hosts the UIs of installed hApps. Developers can also turn on 'developer mode' and publish their hApps to a built-in hApp store.
     * [Download the latest Launcher release from GitHub](https://github.com/holochain/launcher/releases)

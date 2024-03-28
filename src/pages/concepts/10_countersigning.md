@@ -2,11 +2,11 @@
 title: "Countersigning: Reaching Agreement Between Peers"
 ---
 
-::: coreconcepts-intro
+::: intro
 Although there's no global consensus in a Holochain application, it's sometimes useful for two or more parties to record shared agreements. Countersigning allows them to coordinate the writing of a single entry across all their source chains.
 :::
 
-::: coreconcepts-orientation
+::: orientation
 ### What you'll learn
 
 1. [Differences between Holochain, client/server, and blockchain](#agreement-versus-consensus)
@@ -45,13 +45,18 @@ In order to safely coordinate the writing of a single new action to both of thei
 
 Here's a more in-depth look at this process. Keep in mind that it's meant to be an automated process, finished within a few seconds while Alice and Bob are both online. Any human agreement (such as negotiating meeting times, contract terms, or transaction amount) should happen beforehand.
 
-::: coreconcepts-storysequence
-
+::: storystep
 ![](/assets/img/concepts/10.2-entry-exchange.png){.sz80p} {.center}
 
-Alice and Bob exchange the details needed to create the entry that will be countersigned.
+---
 
+Alice and Bob exchange the details needed to create the entry that will be countersigned.
+:::
+
+::: storystep
 ![](/assets/img/concepts/10.3-preflight.png){.sz80p} {.center}
+
+---
 
 Alice creates a **preflight request** containing:
 
@@ -60,48 +65,88 @@ Alice creates a **preflight request** containing:
 * The time window in which the countersigning must complete
 * A stub of the action to go along with the entry, which contains its action type and entry type (currently create-entry and update-entry actions can be countersigned; in the future delete-entry, create-link, and delete-link actions will be too)
 * Optional arbitrary application data
+:::
 
+::: storystep
 ![](/assets/img/concepts/10.4-preflight-send.png){.sz80p} {.center}
 
-Alice sends the preflight request to Bob for approval. (You can implement this any way you like, but a [remote call](../8_calls_capabilities/) is probably the best.) At this stage, it's expected that Bob is able to independently construct the data that will go into the countersigned entry, based perhaps on his history with Alice or the optional application data, to determine whether the request is something he wants to accept. Acceptance could be automated, or it could request Bob's intervention via a signal to his UI.
+---
 
+Alice sends the preflight request to Bob for approval. (You can implement this any way you like, but a [remote call](../8_calls_capabilities/) is probably the best.) At this stage, it's expected that Bob is able to independently construct the data that will go into the countersigned entry, based perhaps on his history with Alice or the optional application data, to determine whether the request is something he wants to accept. Acceptance could be automated, or it could request Bob's intervention via a signal to his UI.
+:::
+
+::: storystep
 ![](/assets/img/concepts/10.5-preflight-inspection.png){.sz80p} {.center}
 
-Bob's conductor attempts to accept the preflight request, which involves checking whether it is possible to write a countersigned record (that is, there are no incomplete countersigning sessions or pending source chain writes, and Alice's specified time window doesn't conflict with Bob's system clock). If everything looks good, Bob's conductor locks his source chain.
+---
 
+Bob's conductor attempts to accept the preflight request, which involves checking whether it is possible to write a countersigned record (that is, there are no incomplete countersigning sessions or pending source chain writes, and Alice's specified time window doesn't conflict with Bob's system clock). If everything looks good, Bob's conductor locks his source chain.
+:::
+
+::: storystep
 ![](/assets/img/concepts/10.6-bob-lock.png){.sz80p} {.center}
 
-Bob's conductor produces a **preflight response**, containing his signature on the request and the record ID at which his source chain is currently locked. Bob sends this preflight response back to Alice.
+---
 
+Bob's conductor produces a **preflight response**, containing his signature on the request and the record ID at which his source chain is currently locked. Bob sends this preflight response back to Alice.
+:::
+
+::: storystep
 ![](/assets/img/concepts/10.7-alice-lock.png){.sz80p} {.center}
 
-Alice receives Bob's preflight response, then tries to generate a preflight response herself from the request she created. Now her own source chain is locked as well.
+---
 
+Alice receives Bob's preflight response, then tries to generate a preflight response herself from the request she created. Now her own source chain is locked as well.
+:::
+
+::: storystep
 ![](/assets/img/concepts/10.8-countersigning-session.png){.sz80p} {.center}
 
-Alice compiles both the preflight responses into a **countersigning session** structure, containing the original agreed-upon preflight request and all the responses. She shares it with Bob (again, this could be done with a remote call).
+---
 
+Alice compiles both the preflight responses into a **countersigning session** structure, containing the original agreed-upon preflight request and all the responses. She shares it with Bob (again, this could be done with a remote call).
+:::
+
+::: storystep
 ![](/assets/img/concepts/10.9-trial-commit.png){.sz80p} {.center}
 
-Alice and Bob both create the entry to be countersigned on their own machines, which contains both the countersigning session data structure and the app data they'd previously agreed on. Then they do a trial run of committing the entry.
+---
 
+Alice and Bob both create the entry to be countersigned on their own machines, which contains both the countersigning session data structure and the app data they'd previously agreed on. Then they do a trial run of committing the entry.
+:::
+
+::: storystep
 ![](/assets/img/concepts/10.10-validate.png){.sz80p} {.center}
 
-At this point Alice and Bob's conductors take over completely from the cells. As with any commit, they attempt to validate the new action. But with a countersigned action, each participant's conductor validates it multiple times --- once from their own perspective, and once from the perspective of all the other parties. This is possible because Alice and Bob both have the same countersigning session data structure, which contains the current states of both of their source chains. If this step didn't happen, DHT validating authorities would [warrant](../7_validation/#invalid-entry) all parties for neglect, not just the one for whom the action was invalid.
+---
 
+At this point Alice and Bob's conductors take over completely from the cells. As with any commit, they attempt to validate the new action. But with a countersigned action, each participant's conductor validates it multiple times --- once from their own perspective, and once from the perspective of all the other parties. This is possible because Alice and Bob both have the same countersigning session data structure, which contains the current states of both of their source chains. If this step didn't happen, DHT validating authorities would [warrant](../7_validation/#invalid-entry) all parties for neglect, not just the one for whom the action was invalid.
+:::
+
+::: storystep
 ![](/assets/img/concepts/10.11-authorities-collect.png){.sz80p} {.center}
 
-Once validation is finished, Alice and Bob both do a trial run of publishing the operations generated by the new action to the DHT --- but only the [store entry operations](../4_dht/#a-cloud-of-witnesses). The authorities collect the data but don't integrate it into their DHT stores; right now they're simply acting as witnesses who wait until they've seen the operations from both Alice and Bob.
+---
 
+Once validation is finished, Alice and Bob both do a trial run of publishing the operations generated by the new action to the DHT --- but only the [store entry operations](../4_dht/#a-cloud-of-witnesses). The authorities collect the data but don't integrate it into their DHT stores; right now they're simply acting as witnesses who wait until they've seen the operations from both Alice and Bob.
+:::
+
+::: storystep
 ![](/assets/img/concepts/10.12-authorities-distribute.png){.sz80p} {.center}
 
+---
+
 Once the authorities have collected all the data, they send the full set of actions back to both of them.
+:::
 
 !!! info Timeouts
 If Alice and Bob reach the end of the time window without receiving this action set, their conductors discard the new action and unlock their source chains as if nothing had happened. Likewise, the authorities discard the pre-published data if they don't collect all the required signatures within the time window. There is no built-in feature to retry an expired session, but it could be built into the application.
 !!!
 
+::: storystep
 ![](/assets/img/concepts/10.13-commit-and-publish.png){.sz80p} {.center}
+
+---
 
 When Alice and Bob's conductors each receive the full set of actions, they finally unlock their source chains, commit the actions, and publish _all_ the resulting operations to the DHT as normal. This creates a permanent, public record of all parts of the transaction.
 :::
