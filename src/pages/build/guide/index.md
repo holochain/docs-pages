@@ -23,5 +23,5 @@ Shared data in a Holochain application is stored as a graph database of **bases*
 ::: topic-list
 ### Topics
 
-* [Entries](entries/) --- creating, reading, updating, and deleting
+* [Entries](/build/guide/entries/) --- creating, reading, updating, and deleting
 :::
