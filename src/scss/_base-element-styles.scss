@@ -50,6 +50,23 @@ a {
   svg {
     height: 100%;
   }
+
+  &.header-anchor {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover, &:focus {
+      text-decoration: underline;
+
+      &::before {
+        display: block;
+        float: left;
+        width: 0.75em;
+        margin-left: -0.75em;
+        content: '#';
+      }
+    }
+  }
 }
 
 button {
