@@ -4,6 +4,7 @@ agent-centricity
 Anwaar
 buildinputs
 builtins
+Brisebois
 Burmeister
 Cachix
 CRDT
@@ -12,6 +13,8 @@ fixt
 gnused
 imdb
 IMDB
+identicon
+identicons
 IPFS
 moovee
 NixOS

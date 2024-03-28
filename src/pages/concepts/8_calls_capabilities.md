@@ -2,11 +2,11 @@
 title: "Calls and Capabilities: Communicate With Other Components And Peers"
 ---
 
-::: coreconcepts-intro
+::: intro
 Application components can **call a cell's functions**. On one agent's device, clients can call functions in cells, and cells in the same conductor can call each other's functions. Within one DHT, cells can call other agents' cells, allowing agents to delegate their agency to others.
 :::
 
-::: coreconcepts-orientation
+::: orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn
 
 1. [Who can call whose functions](#client-inter-zome-bridge-and-remote-calls-who-can-call-whom)
