@@ -50,6 +50,10 @@ a {
   svg {
     height: 100%;
   }
+
+  .main-area & {
+    @include externalLinkIcon($cl-main-text);
+  }
 }
 
 button {
