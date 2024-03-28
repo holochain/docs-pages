@@ -32,7 +32,18 @@ tocData:
     href: reference
 ---
 
-An **entry** is structured data that's serialized and written as a blob of bytes to an agent's source chain via an **entry creation action**, which can either be a `Create` or `Update` action. It can be updated or deleted. Although entry data exists as its own entity on a DHT, its associated entry creation action is semantically considered part of it and is stored along with it. This let you distinguish separate writes of the same entry from each other.
+::: intro
+An **entry** is a blob of bytes that your application code gives meaning and structure to via serialization, deserialization, and validation.
+:::
+
+## Entries and actions
+
+An entry is always paired with an **entry creation action** that tells you who authored it and when it was authored. Because of this, you don't usually need to include author and timestamp fields in your entries. There are two kinds of entry creation action:
+
+* `Create`, which creates a new piece of data in the application's database, and
+* `Update`, which does the same as `Create` but also marks an existing piece of data as updated.
+
+The pairing of an entry and the action that created it is called a **record**, which is the basic unit of data in a Holochain application.
 
 ## Define an entry type
 
@@ -67,18 +78,17 @@ enum EntryTypes {
 }
 ```
 
-Each variant in the enum holds the Rust type that defines the shape of the entry, and is implicitly marked with an `entry_def` proc macro which, if you specify it explicitly, lets you configure the given entry type further:
+Each variant in the enum should hold the Rust type that corresponds to it, and is implicitly marked with an `entry_def` proc macro which, if you specify it explicitly, lets you configure the given entry type further:
 
 * An entry type can be configured as **private**, which means that it's never published to the DHT, but exists only on the author's source chain. To do this, use the `visibility = "private"` argument.
 * A public entry type can be configured to expect a certain number of **required validations**, which is the number of [validation receipts](/resources/glossary/#validation-receipt) that an author tries to collect from authorities before they consider their entry published on the DHT. To do this, use the `required_validations = <num>` argument.
-* You can override the name of an entry type, which defaults to the name of the enum variant.
 
 ```rust
 use hdi::prelude::*;
 
 #[hdk_entry_defs]
 enum EntryTypes {
-    #[entry_def(name = "moovee", required_validations = 7, )]
+    #[entry_def(required_validations = 7, )]
     Movie(Movie),
 
     // You can reuse your Rust type in another entry type if you like. In this
@@ -90,11 +100,11 @@ enum EntryTypes {
 }
 ```
 
-This technique doesn't just generate the `entry_defs` callback for you. It also gives you an enum that you can use later when you're storing app data. This is important because, under the hood, an entry type consists of two bytes -- an integrity zome index and an entry def index. These are required whenever you want to write an entry. Instead of having to remember those values every time you store something, your coordinator zome can just import and use this enum, which already knows the right values.
+This also gives you an enum that you can use later when you're storing app data. This is important because, under the hood, an entry type consists of two bytes -- an integrity zome index and an entry def index. These are required whenever you want to write an entry. Instead of having to remember those values every time you store something, your coordinator zome can just import and use this enum, which already knows how to convert each entry type to the right IDs.
 
 ## Create an entry
 
-You can define <abbr title="create, read, update, delete">CRUD</abbr> functions in your integrity zome, but most of the time you'll want to define them in a [**coordinator zome**](/resources/glossary/#coordinator-zome). This is because an updated coordinator zome can be hot-swapped in a running application, whereas changes to an integrity zome result in a new DNA with a separate network and database from the previous DNA.
+Most of the time you'll want to define your create, read, update, and delete (CRUD) functions in a [**coordinator zome**](/resources/glossary/#coordinator-zome) rather than the integrity zome that defines it. This is because a coordinator zome is easier to update in the wild than an integrity zome.
 
 Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html). The entry will be serialized into a blob automatically, thanks to the `hdk_entry_helper` macro.
 
@@ -126,7 +136,7 @@ let create_action_hash: ActionHash = create_entry(
 When the client calls a zome function that calls `create_entry`, Holochain does the following:
 
 1. Prepare a **scratch space** for making an atomic set of changes to the source chain for the agent's cell.
-2. Build a [`Create` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Create.html) that includes:
+2. Build an entry creation action called [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Create.html) that includes:
     * the author's public key,
     * a timestamp,
     * the action's sequence in the source chain and the previous action's hash,
@@ -148,7 +158,7 @@ When the client calls a zome function that calls `create_entry`, Holochain does 
 
 ## Update an Entry
 
-Update an entry creation action (either a `Create` or an `Update`) by calling [`hdk::entry::update_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html) with the old action hash and the new entry data:
+Update an entry creation action by calling [`hdk::entry::update_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html) with the old action hash and the new entry data:
 
 ```rust
 use hdk::prelude::*;
@@ -169,7 +179,7 @@ let update_action_hash: ActionHash = update_entry(
 )?;
 ```
 
-An [`Update` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Update.html) operates on an entry creation action (either a `Create` or an `Update`). It doesn't remove the original data from the DHT; instead, it gets attached to both the original entry and its entry creation action. As an entry creation action itself, it references the hash of the new entry so it can be retrieved from the DHT.
+An [`Update` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Update.html) operates on an entry creation action (either a `Create` or an `Update`), not just an entry by itself. It doesn't remove the original data from the DHT; instead, it gets attached to both the original entry and its entry creation action. As an entry creation action itself, it references the hash of the new entry so it can be retrieved from the DHT.
 
 ### Update under the hood
 
@@ -237,11 +247,11 @@ let delete_action_hash: ActionHash = delete_entry(
 )?;
 ```
 
-As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) is committed to the cell's source chain, and the entry creation action is marked 'dead'. An entry itself is only considered dead when all entry creation actions that created it are marked dead, and it can become live again in the future if a _new_ entry creation action writes it. Any dead data can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) (see below).
+As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) is authored, which attaches to the entry creation action and marks it as 'dead'. An entry itself is only considered dead when all entry creation actions that created it are marked dead, and it can become live again in the future if a _new_ entry creation action writes it. Dead data can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) (see below).
 
 In the future we plan to include a 'purge' functionality. This will give agents permission to actually erase an entry from their DHT store, but not its associated entry creation action.
 
-Remember that, even once purge is implemented, it is impossible to force another person to delete data once they have seen it. Be deliberate about how what data becomes public in your app.
+Remember that, even once purge is implemented, it is impossible to force another person to delete data once they have seen it. Be deliberate about choosing what data becomes public in your app.
 
 ### Delete under the hood
 
@@ -263,21 +273,18 @@ Calling `delete_entry` does the following:
 
 ## Identifiers on the DHT
 
-Coming from centralized software architectures, you might expect an entry to have a unique ID that can be used to reference it elsewhere. Holochain uses the hash of a piece of content as its unique ID. In practice, different kinds of hashes have different meaning and suitability to use as an identifier.
+Holochain uses the hash of a piece of content as its unique ID. In practice, different kinds of hashes have different meaning and suitability to use as an identifier:
 
-To identify the _contents_ of an entry, use the entry's `EntryHash`. Remember that, if two entry creation actions write identical entry contents, the entries will collide in the DHT. You may want this or you may not, depending on the nature of your entry type.
-
-A common pattern to identify an _instance_ of an entry (i.e., an entry authored by a specific agent at a specific time) is to use the `ActionHash` of its entry creation action instead. This gives you timestamp and authorship information for free, and can be a persistent way to identify the initial entry at the root of a tree of updates.
-
-You can reference an agent via their `AgentPubKey`. This is a special type of DHT entry whose identifier is identical to its content --- that is, the agent's public key. You can use it just like an `EntryHash` and `ActionHash`.
-
-Finally, you can also use **external identifiers** (that is, IDs of data that's not in the DHT) as long as they're 32 bytes. It's up to you to determine how to interpret these identifiers in your front end.
+* To identify the _contents_ of an entry, use the entry's `EntryHash`. Remember that, if two entry creation actions write identical entry contents, the entries will collide in the DHT. You may want this or you may not, depending on the nature of your entry type.
+* A common pattern to identify an _instance_ of an entry (i.e., an entry authored by a specific agent at a specific time) is to use the `ActionHash` of its entry creation action instead. This gives you timestamp and authorship information for free, and can be a persistent way to identify the initial entry at the root of a tree of updates.
+* You can reference an agent via their `AgentPubKey`. This is a special type of DHT entry whose identifier is identical to its content --- that is, the agent's public key. You can use it just like an `EntryHash` and `ActionHash`.
+* Finally, you can also use **external identifiers** (that is, IDs of data that's not in the DHT) as long as they're 32 bytes, which is useful for hashes and public keys. It's up to you to determine how to handle these identifiers in your front end.
 
 You can use any of these identifiers as a field in your entry types to model a many-to-one relationship, or you can use links between identifiers to model a one-to-many relationship.
 
 ## Retrieve an entry
 
-Get an entry creation action along with its entry data by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the action hash. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>, where a `Record` is a pairing of an action and its optional entry data.
+Get a record by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the hash of its entry creation action. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>.
 
 You can also pass an entry hash to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
 
