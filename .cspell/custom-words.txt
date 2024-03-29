@@ -2,6 +2,8 @@
 # Dev Portal content
 agent-centricity
 Anwaar
+Automerge
+automerge
 buildinputs
 builtins
 Brisebois
@@ -11,12 +13,13 @@ CRDT
 d'Aoust
 fixt
 gnused
+Hellerstein
 imdb
 IMDB
 identicon
 identicons
 IPFS
-moovee
+Kleppmann
 NixOS
 nixpkgs
 pkgs
