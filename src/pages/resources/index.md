@@ -72,6 +72,7 @@ There are three main developer binaries, and one user-oriented binary. You can r
 
 The developer community has created some useful utilities, libraries, and reusable modules for you to use in your own apps.
 
+* [Syn](https://github.com/holochain/syn) provides back-end and front-end libraries for creating real-time collaboration apps.
 * [Holochain Open Dev](https://github.com/holochain-open-dev/) is a collection of reusable zomes and template repos from the developer community.
     * [`profiles`](https://github.com/holochain-open-dev/profiles) lets you store user profile information.
     * [`peer-status`](https://github.com/holochain-open-dev/peer-status) lets peers communicate their status (e.g., 'online', 'busy', 'on holiday') with each other.
@@ -100,3 +101,12 @@ While you'll learn a lot looking at the source code from the above GitHub projec
 
 * [Developer training materials](https://github.com/holochain-immersive) from past courses
 * [Self-paced training course](https://resources.holochain.org/self-paced-training-signup/) in video format
+
+## Concepts useful for understanding and building distributed systems
+
+Holochain builds on a wealth of research and knowledge about distributed systems. Here are some carefully picked resources to help you on your journey:
+
+* [Keeping CALM: When Distributed Consistency is Easy](https://arxiv.org/abs/1901.01930), a paper by Joseph M Hellerstein and Peter Alvaro that lays down the mathematical foundation for distributed systems that don't need coordination protocols, such as Holochain.
+* [CRDT.tech](https://crdt.tech), a resource for learning about conflict-free replicated data types (CRDTs), data structures that let multiple users make concurrent updates to a resource with little to no manual conflict resolution.
+* [Yjs](https://yjs.dev/) and [Automerge](https://automerge.org/), two CRDTs that can operate on arbitrary JSON. Syn (mentioned above under [Libraries](#libraries)) uses Automerge.
+* [Local-first software: You own your data, in spite of the cloud](https://github.com/holochain/syn), a paper by Martin Kleppmann et al of Ink & Switch that explores the user experience of local-first software built on CRDTs.

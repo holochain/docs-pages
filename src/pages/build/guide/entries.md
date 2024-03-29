@@ -403,3 +403,8 @@ If the scaffolder doesn't support your desired functionality, or is too low-leve
 - [hdk::prelude::create_entry](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html)
 - [hdk::prelude::update_entry](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html)
 - [hdi::prelude::delete_entry](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html)
+
+## Further reading
+
+- [Core Concepts: CRUD actions](/concepts/6_crud_actions/)
+- [CRDT.tech](https://crdt.tech), a resource for learning about conflict-free replicated data types
