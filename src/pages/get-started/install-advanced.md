@@ -15,7 +15,9 @@ If you use the scaffolding to generate the project structure, this will already 
 
 If you want to learn more about how this setup works and how to create it manually and how to maintain it, please find all the information below.
 
-### Holonix's usage of [Nix's Flakes](https://nixos.wiki/wiki/Flakes) features
+### Holonix's usage of Nix's Flakes features
+
+[Flakes](https://nixos.wiki/wiki/Flakes) is an experimental but well-supported feature of the Nix package manager that makes it easier to manage dependencies consistently.
 
 As of [holochain#1863](https://github.com/holochain/holochain/pull/1863) Holonix is implemented as Holochain's [flake.nix](https://github.com/holochain/holochain/blob/develop/flake.nix) output named _#holonix_ a.k.a. _devShells.${system}.holonix_.
 

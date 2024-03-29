@@ -86,7 +86,11 @@ export default function(eleventyConfig) {
 
     //Configure markdown-it plugins
     mdLib.use(markdownItAttrs);
-    mdLib.use(markdownItAnchor, { tabIndex: false, slugify: s => slugify(s) });
+    mdLib.use(markdownItAnchor, {
+      tabIndex: false,
+      slugify: s => slugify(s),
+      permalink: markdownItAnchor.permalink.headerLink(),
+    });
     mdLib.use(markdownItContainer, "intro");
     mdLib.use(markdownItContainer, "orientation");
     mdLib.use(markdownItContainer, "storystep");
