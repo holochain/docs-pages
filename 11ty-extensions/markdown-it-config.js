@@ -121,15 +121,29 @@ export default async function(eleventyConfig) {
       // We repeat the same regex search as we used to find the Mermaid block,
       // so we will never try to get too many objects from the array.
       // (aka `images.shift()` will never return `undefined`.)
-      const { _title, desc, data } = images.shift();
+      const { _title, desc, svg } = images.shift();
+
+      const svgWithUpdatedMarkup = svg
+        // There will be more than one SVG on the page, and we can't remove the
+        // ID attribute by specifying a blank one in the mermaid config object
+        // (mermaid will just supply a default one of `my-svg`) so we have to
+        // replace it once the SVG has been rendered.
+        .replace(/(<svg\b[^<]+)id=('|")?my-svg('|")/, "$1class=\"mermaid-graph\"")
+        // And of course that means we have to replace the selector in the CSS.
+        // FIXME: we really should put the CSS in a file elsewhere and remove it
+        // from the SVG.
+        // There's a lot more we need to do besides -- make the fonts consistent
+        // with the rest of the site, choose brand colours, fix the way the box
+        // clips the label, etc.
+        .replace(/#my-svg\b/g, ".mermaid-graph");
       if (desc) {
         return `<figure>
-  ${data}
+  ${svgWithUpdatedMarkup}
   <figcaption>${escapeHtml(desc)}</figcaption>
 </figure>
 `;
       } else {
-        return data;
+        return svgWithUpdatedMarkup;
       }
     });
 
