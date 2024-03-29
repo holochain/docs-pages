@@ -395,6 +395,10 @@ match maybe_details {
 }
 ```
 
+## Scaffolding an entry type and CRUD API
+
+The Holochain dev tool command `hc scaffold entry-type <entry_type>` generates the code for a simple entry type and a CRUD API. It presents an interface that lets you define a struct and its fields, then asks you to choose whether to implement update and delete functions for it along with the default create and read functions.
+
 ## Community CRUD libraries
 
 If the scaffolder doesn't support your desired functionality, or is too low-level, there are some community-maintained libraries that offer opinionated and high-level ways to work with entries. Some of them also offer permissions management.
