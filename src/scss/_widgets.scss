@@ -351,7 +351,7 @@ a.link-tile {
 
   /* Unless otherwise specified with `class="not-topic-page"`, links in a topic
   list are assumed to point to topic pages. */
-  a:not(.not-topic-page) {
+  a:not(.not-topic-page, .header-anchor) {
     font-weight: bold;
     @include addPageIcon;
   }
