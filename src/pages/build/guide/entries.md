@@ -227,7 +227,7 @@ It's up to you to decide whether two updates on the same entry or action are a c
 
 But if your use case needs a single canonical version of a resource, you'll need to decide on a conflict resolution strategy to use at retrieval time.
 
-If only the original author is permitted to update the entry, choosing the latest update is simple. Just choose the `Update` action with the most recent timestamp, which is guaranteed to [advance monotonically](https://doc.rust-lang.org/std/time/struct.Instant.html) for any honest agent. But if multiple agents are permitted to update an entry, it gets more complicated. Two agents could make an update at exactly the same time (or their action timestamps might be wrong or falsified). So, how do you decide which is the 'latest' update?
+If only the original author is permitted to update the entry, choosing the latest update is simple. Just choose the `Update` action with the most recent timestamp, which is guaranteed to [advance monotonically](/resources/glossary/#monotonicity) for any honest agent. But if multiple agents are permitted to update an entry, it gets more complicated. Two agents could make an update at exactly the same time (or their action timestamps might be wrong or falsified). So, how do you decide which is the 'latest' update?
 
 These are two common patterns:
 
@@ -268,7 +268,6 @@ Calling `delete_entry` does the following:
 8. Return the zome function's return value to the client.
 9. In the background, publish all newly created DHT operations to their respective authority agents.
 
-
 ## Identifiers on the DHT
 
 Holochain uses the hash of a piece of content as its unique ID. In practice, different kinds of hashes have different meaning and suitability to use as an identifier:
@@ -281,6 +280,8 @@ Holochain uses the hash of a piece of content as its unique ID. In practice, dif
 You can use any of these identifiers as a field in your entry types to model a many-to-one relationship, or you can use links between identifiers to model a one-to-many relationship.
 
 ## Retrieve an entry
+
+### Record only
 
 Get a record by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the hash of its entry creation action. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>.
 
