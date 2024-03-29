@@ -1,5 +1,23 @@
 {% from "widgets/svg-icons.njk" import downArrowHead, mdiSearch %}
 
+@{% macro children(navData, isCurrentParent, page) %}
+  <ul class="nav-child-level {% if isCurrentParent %}open{% endif %}">
+    {% for childLink in navData %}
+    <li {% if childLink.url == page.url %} aria-current="page" {% endif %}>
+      <a href="{{ childLink.url }}" {% if childLink.external %}target="_blank" rel="noreferrer nofollow noopener external"{% endif %} >
+        <span>
+          {{ childLink.title }}
+        </span>
+      </a>
+
+      {% if childLink.children %}
+        {{ children(childLink.children, isCurrentParent, page) }}
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+
 @{% macro mainNavTree(mainNavData, page) %}
 {% set activeParent = mainNavData.getActiveParentLink(page.url) %}
 <nav id="main-nav">
@@ -16,25 +34,12 @@
             {{ topLink.title }}
           </span>
         </a>
-        {% if topLink.hasChildren %}
-        <button class="clear-btn {{ "up-arrow" if isCurrentParent }}"
-            data-children-opener >
-          {{ downArrowHead() }}
-        </button>
-        {% endif %}
-
-        {% if topLink.hasChildren %}
-          <ul class="nav-child-level {% if isCurrentParent %}open{% endif %}">
-            {% for childLink in topLink.children %}
-            <li {% if childLink.url == page.url %} aria-current="page" {% endif %}>
-              <a href="{{ childLink.url }}" {% if childLink.external %}target="_blank" rel="noreferrer nofollow noopener external"{% endif %} >
-                <span>
-                  {{ childLink.title }}
-                </span>
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
+        {% if topLink.children %}
+          <button class="clear-btn {{ "up-arrow" if isCurrentParent }}"
+              data-children-opener >
+            {{ downArrowHead() }}
+          </button>
+          {{ children(topLink.children, isCurrentParent, page) }}
         {% endif %}
       </li>
     {% endfor %}
