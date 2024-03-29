@@ -26,6 +26,7 @@ tocData:
     href: identifiers-on-the-dht
   - text: Retrieve an entry
     href: retrieve-an-entry
+    children:
       - text: By record only
         href: by-record-only
       - text: All records and links attached to an entry
