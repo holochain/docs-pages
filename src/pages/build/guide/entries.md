@@ -26,6 +26,10 @@ tocData:
     href: identifiers-on-the-dht
   - text: Retrieve an entry
     href: retrieve-an-entry
+      - text: By record only
+        href: by-record-only
+      - text: All records and links attached to an entry
+        href: all-records-and-links-attached-to-an-entry
   - text: Community CRUD libraries
     href: community-crud-libraries
   - text: Reference
@@ -281,7 +285,7 @@ You can use any of these identifiers as a field in your entry types to model a m
 
 ## Retrieve an entry
 
-### Record only
+### By record only
 
 Get a record by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the hash of its entry creation action. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>.
 
@@ -325,6 +329,8 @@ match maybe_record {
     None => debug!("Movie record not found"),
 }
 ```
+
+### All records and links attached to an entry
 
 To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with an _action hash_. You'll receive a <code>Result<[holochain_zome_types::metadata::RecordDetails](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html)></code>.
 
