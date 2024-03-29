@@ -67,6 +67,10 @@ a {
       }
     }
   }
+
+  .main-area & {
+    @include externalLinkIcon($cl-main-text);
+  }
 }
 
 button {
