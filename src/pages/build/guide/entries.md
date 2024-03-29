@@ -269,7 +269,6 @@ Calling `delete_entry` does the following:
 8. Return the zome function's return value to the client.
 9. In the background, publish all newly created DHT operations to their respective authority agents.
 
-<!-- TODO review and outline steps that are taken under the hood *exactly*, including which DHT ops are published -->
 
 ## Identifiers on the DHT
 
