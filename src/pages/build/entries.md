@@ -404,20 +404,20 @@ The Holochain dev tool command `hc scaffold entry-type <entry_type>` generates t
 
 If the scaffolder doesn't support your desired functionality, or is too low-level, there are some community-maintained libraries that offer opinionated and high-level ways to work with entries. Some of them also offer permissions management.
 
-- [rust-hc-crud-caps](https://github.com/spartan-holochain-counsel/rust-hc-crud-caps)
-- [hdk_crud](https://github.com/lightningrodlabs/hdk_crud)
-- [hc-cooperative-content](https://github.com/mjbrisebois/hc-cooperative-content)
+* [rust-hc-crud-caps](https://github.com/spartan-holochain-counsel/rust-hc-crud-caps)
+* [hdk_crud](https://github.com/lightningrodlabs/hdk_crud)
+* [hc-cooperative-content](https://github.com/mjbrisebois/hc-cooperative-content)
 
 ## Reference
 
-- [hdi::prelude::hdk_entry_helper](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html)
-- [hdi::prelude::hdk_entry_defs](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_defs.html)
-- [hdi::prelude::entry_def](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html)
-- [hdk::prelude::create_entry](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html)
-- [hdk::prelude::update_entry](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html)
-- [hdi::prelude::delete_entry](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html)
+* [hdi::prelude::hdk_entry_helper](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html)
+* [hdi::prelude::hdk_entry_defs](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_defs.html)
+* [hdi::prelude::entry_def](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html)
+* [hdk::prelude::create_entry](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html)
+* [hdk::prelude::update_entry](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html)
+* [hdi::prelude::delete_entry](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html)
 
 ## Further reading
 
-- [Core Concepts: CRUD actions](/concepts/6_crud_actions/)
-- [CRDT.tech](https://crdt.tech), a resource for learning about conflict-free replicated data types
+* [Core Concepts: CRUD actions](/concepts/6_crud_actions/)
+* [CRDT.tech](https://crdt.tech), a resource for learning about conflict-free replicated data types
