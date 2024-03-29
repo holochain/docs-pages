@@ -201,7 +201,6 @@ Calling `update_entry` does the following:
 9. Return the zome function's return value to the client.
 10. In the background, publish all newly created DHT operations to their respective authority agents.
 
-<!-- TODO review and outline steps that are taken under the hood *exactly*, including which DHT ops are published -->
 
 ### Update patterns
 
