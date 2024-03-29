@@ -97,8 +97,39 @@
         ul.nav-child-level {
           display: none;
 
+          /* Because we want the whole row in which the nav link sits to be
+          clickable, we can't rely on just adding a blanket margin to
+          .nav-child-level. Instead, we add increasing padding to nested
+          block-display links, which means we have to do it manually for each
+          nesting level. This imposes a limit on how many nesting levels to
+          support, because we don't want to repeat the below code infinitely. */
           a {
             padding: 3px 0 4px 12px;
+          }
+
+          ul.nav-child-level {
+            a {
+              padding-left: 24px;
+            }
+
+            ul.nav-child-level {
+              a {
+                padding-left: 36px;
+              }
+
+              ul.nav-child-level {
+                a {
+                  padding-left: 48px;
+                }
+
+                /* I think that's enough levels of nesting, don't you? */
+                ul.nav-child-level {
+                  a {
+                    padding-left: 60px;
+                  }
+                }
+              }
+            }
           }
 
           &.open {
