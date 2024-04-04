@@ -104,7 +104,7 @@ import WebSdk from '@holo-host/web-sdk';
 import type { AgentState } from '@holo-host/web-sdk';
 ```
 
-Holo hApps provide an authentication form for users to generate in-browser keys and install [cells](/references/glossary/#cell) on the network. This form is customizable --- here we set the name of the app.
+Holo hApps provide an authentication form for users to generate in-browser keys and install [cells](/resources/glossary/#cell) on the network. This form is customizable --- here we set the name of the app.
 
 ```typescript
 if (this.IS_HOLO) {
@@ -225,7 +225,7 @@ You will then see `Coordinator zome "todos" scaffolded!` along with output from 
 
 Now we get to the really exciting part! In the next steps you will specify your data model, and the scaffolding tool will automatically add both zome and UI code to your hApp.
 
-In this to-do hApp, every to-do item is stored as an [entry](/references/glossary/#entry). Add a new entry definition with:
+In this to-do hApp, every to-do item is stored as an [entry](/resources/glossary/#entry). Add a new entry definition with:
 
 ```shellsession
   hc scaffold entry-type
@@ -537,7 +537,7 @@ These trigger the display of a full-screen credentials modal from the Chaperone 
 
 ![An example of the Chaperone sign-up/sign-in modal form](/assets/img/enable-holo/signup-signin-modal.png)
 
-During sign-up a registration code field can be shown to enable [**membrane proof**](/references/glossary/#membrane-proof) workflows. This field allows the user to submit some sort of joining code on signup. Read more about membrane proofs in the [Holo Core Concepts](#implementing-read-only-cells) section of this guide.
+During sign-up a registration code field can be shown to enable [**membrane proof**](/resources/glossary/#membrane-proof) workflows. This field allows the user to submit some sort of joining code on signup. Read more about membrane proofs in the [Holo Core Concepts](#implementing-read-only-cells) section of this guide.
 
 Finally, we will also need sign-out functionality to clear user keys from local storage.
 
@@ -670,7 +670,7 @@ This process assumes you already have a Cloud Console account. If you do not, yo
 Holo does not currently offer UI hosting. hApp managers will need to deploy their UI separately for now.
 
 !!! info
-Holo supports "headless hosting" where there is no Holo-enabled UI. In this case Holo will maintain copies of the [DHT](/references/glossary/#distributed-hash-table-dht), but will not hold any source chains. Holo hosting requires a special [membrane proof](#implementing-read-only-cells) for read-only host agents in order to make this work.
+Holo supports "headless hosting" where there is no Holo-enabled UI. In this case Holo will maintain copies of the [DHT](/resources/glossary/#distributed-hash-table-dht), but will not hold any source chains. Holo hosting requires a special [membrane proof](#implementing-read-only-cells) for read-only host agents in order to make this work.
 
 Holo does not support direct programmatic/API access to deployed hApps.
 !!!
@@ -800,13 +800,13 @@ Due to the security implications of multi-tenant conductors, `AdminWebsocket` (a
 
 In order to provide high-uptime nodes and anonymous hosted user access via read-only cells while keeping your hApp safe from defacement, you'll need to restrict what a read-only cell can do. A read-only cell is **read-only merely by convention**; that is, because you're checking for read-only cells and handling writes differently.
 
-The most secure way to restrict access to a hApp's data is with [**membrane proofs**](/references/glossary/#membrane-proof). A membrane proof is supplied at installation time and acts like an ID card, allowing the hApp to admit valid members only. However, this prevents Holo hosting devices from provisioning read-only cells unless explicit affordances are made.
+The most secure way to restrict access to a hApp's data is with [**membrane proofs**](/resources/glossary/#membrane-proof). A membrane proof is supplied at installation time and acts like an ID card, allowing the hApp to admit valid members only. However, this prevents Holo hosting devices from provisioning read-only cells unless explicit affordances are made.
 
 The Holo Network expects and uses a zero-byte membrane proof for read-only cells. A publicly known membrane proof without restriction is essentially the same as no membrane proof. To implement logic to allow read-only cells to join a DNA's network but not write data, your integrity zome's validation function should check the author's membrane proof, then allow them to join the network but reject CRUD operations if the proof is zero bytes.
 
 (Note that, in the future, the production Holo hosting network may permit you to implement logic that provisions membrane proofs to read-only nodes, allowing you to use Holo for high-uptime while preventing anonymous read access.)
 
-The following code shows an example of how to do both of these things. This isn't necessarily the most performant solution, as it requires a validator to retrieve the author's entire source chain (excluding entry data). A better-performing solution might rely on [inductive validation](/references/glossary/#inductive-validation) of the author's source chain.
+The following code shows an example of how to do both of these things. This isn't necessarily the most performant solution, as it requires a validator to retrieve the author's entire source chain (excluding entry data). A better-performing solution might rely on [inductive validation](/resources/glossary/#inductive-validation) of the author's source chain.
 
 ```rust
 /// A helper function to check whether a membrane proof is from a special Holo-
@@ -976,7 +976,7 @@ pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
 
 #### Anonymous zome function access
 
-Every function call to a coordinator zome must be signed, and a call will only be successful if there's a [capability grant](/references/glossary/#capability-grant) for it. Capability grants can be unrestricted, or they can be restricted to a particular capability token or public key.
+Every function call to a coordinator zome must be signed, and a call will only be successful if there's a [capability grant](/resources/glossary/#capability-grant) for it. Capability grants can be unrestricted, or they can be restricted to a particular capability token or public key.
 
 Normally, when a Holo agent is logged in, or the user is running the hApp on their own machine, the key pair used to sign function calls is the same as the key pair used to author data in the cell. This is called the [author grant](/concepts/8_calls_capabilities/#author-grant), and it's automatically privileged to call every function. For an anonymous agent accessing a read-only instance, however, this is not true. For them to be able to make a function call, you need to also create an unrestricted capability grant for that function.
 
@@ -1009,4 +1009,4 @@ Note that these protections implemented in a coordinator zome also do not preven
 
 ## Next steps
 
-Now that you've prepared your hApp for Holo, it's time to deploy it. Learn how to [publish your hApp on the Holo hosting network](/references/publish-app-on-holo/).
+Now that you've prepared your hApp for Holo, it's time to deploy it. Learn how to [publish your hApp on the Holo hosting network](/resources/publish-app-on-holo/).

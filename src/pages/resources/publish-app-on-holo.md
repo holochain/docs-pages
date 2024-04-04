@@ -2,15 +2,15 @@
 title: Publish an App on the Holo Hosting Network
 ---
 
-Publishing a hApp means making it available on the Holo network for your registered website to connect to and interact with, similar to other cloud hosting platforms. Each user is its own separate app instance, called a [cell](/references/glossary/#cell), on one of our hosts, and Holo will automatically handle instance assignment, provisioning, and load balancing across hosts.
+Publishing a hApp means making it available on the Holo network for your registered website to connect to and interact with, similar to other cloud hosting platforms. Each user is its own separate app instance, called a [cell](/resources/glossary/#cell), on one of our hosts, and Holo will automatically handle instance assignment, provisioning, and load balancing across hosts.
 
 On the Holo network, users' cells run on hosts' devices. This context has security implications which require architectural changes compared to the standard Holochain setup, including:
 
 * Holo has special client-side key management infrastructure to preserve users' agency. This is handled by a drop-in library that provides a full authentication process.
 * The UI does not have direct access to the conductor's [admin API](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html).
-* Special read-only nodes can optionally be provisioned on the Holo network for high availability and public access to application data. These nodes must be given special exemption from any [membrane proofs](/references/glossary/#membrane-proof) (membership codes) your app has implemented.
+* Special read-only nodes can optionally be provisioned on the Holo network for high availability and public access to application data. These nodes must be given special exemption from any [membrane proofs](/resources/glossary/#membrane-proof) (membership codes) your app has implemented.
 
-These changes together, along with the fact that the Holo network is running the Holochain 0.2.x pre-release, mean that backends UIs need to be adapted for Holo. You can learn how to do this for your hApp in the [Enable Apps for Holo Hosting](/references/enable-holo/) guide.
+These changes together, along with the fact that the Holo network is running the Holochain 0.2.x pre-release, mean that backends UIs need to be adapted for Holo. You can learn how to do this for your hApp in the [Enable Apps for Holo Hosting](/resources/enable-holo/) guide.
 
 This guide assumes that you've already adapted your Holochain app to work on the Holo network or have acquired a Holo-ready app and ready to deploy it to the Holo network. It will take you through the following steps to get your app live:
 
@@ -39,7 +39,7 @@ You must have:
     });
     ```
 
-    Learn more about [how to adapt your UI to Holo hosting](/references/enable-holo/#migrate-from-a-pure-holochain-app).
+    Learn more about [how to adapt your UI to Holo hosting](/resources/enable-holo/#migrate-from-a-pure-holochain-app).
 * Ability to edit the DNS records of the domain name that your UI is hosted at.
 
 ## 1. Register as a hApp manager
