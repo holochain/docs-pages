@@ -207,7 +207,7 @@ Calling `update_entry` does the following:
 
 ### Update patterns
 
-Holochain gives you this `update_entry` function, but is somewhat unopinionated about how it's used. You can interpret an update as applying to either the original _action_ or the original _entry_ being updated, because the `Update` action is merely a piece of metadata attached to both, and can be retrieved along with the original data.
+Holochain gives you this `update_entry` function, but is somewhat unopinionated about how it's used. You can interpret an update as applying to either the original _action_ or the original _entry_ being updated, because the `Update` action is merely a piece of metadata attached to both, and can be retrieved along with the original data using [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see below).
 
 You can also choose where to attach updates. You can structure them as a 'list', where all updates refer to the `ActionHash` of the original `Create` action.
 
