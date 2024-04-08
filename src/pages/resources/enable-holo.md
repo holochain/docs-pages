@@ -1,10 +1,6 @@
 ---
 title: Enable Apps for Holo Hosting
 tocData:
-  - text: Intro
-    href: intro
-  - text: Get started
-    href: get-started
   - text: Get started from scaffolding tool
     href: get-started-from-scaffolding-tool
     children:
@@ -72,7 +68,7 @@ A core distinction versus running nodes on the traditional cloud is that Holo pr
 
 We assume you're familiar with Holochain and have installed the pre-requisites from step 2 of the [Get Started guide](/get-started/).
 
-There are two pathways in this section --- [**scaffolding a new hApp**](#get-started-from-scaffolding-tool) or [**migrating an existing hApp**](migrate-from-a-pure-holochain-app). Both pathways contain largely the same information, so choose the one that best applies to your situation.
+There are two pathways in this section --- [**scaffolding a new hApp**](#get-started-from-scaffolding-tool) or [**migrating an existing hApp**](#migrate-from-a-pure-holochain-app). Both pathways contain largely the same information, so choose the one that best applies to your situation.
 
 In both cases there are no required DNA changes for Holo Hosting --- only UI changes. However, Holo operates under a different context and we highly recommend that you read the [Holo core concepts](#holo-core-concepts-and-further-documentation), in particular the section on anonymous access, as this **will need DNA changes to enable certain features**.
 
