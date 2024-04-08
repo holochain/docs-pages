@@ -12,12 +12,15 @@ filesystems
 howto
 howtos
 interoperating
+keypair
 permissioned
 permissivity
 runtimes
 sandboxed
 signup
 spacebar
+subcomponent
+subcomponents
 todo
 todos
 unforgeable

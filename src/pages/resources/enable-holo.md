@@ -719,7 +719,7 @@ To include `holo-dev-server` in your development environment, update your projec
         }: {
           devShells.default = pkgs.mkShell {
             inputsFrom = [ holochain-flake.devShells.${system}.holonix ];
-            // Add an element in this list to mport the Holo dev server binary package.
+            // Add an element in this list to import the Holo dev server binary package.
             packages = [ pkgs.nodejs_20, hds-releases.packages.holo-dev-server-bin ];
           };
         };
