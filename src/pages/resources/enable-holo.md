@@ -23,12 +23,14 @@ tocData:
       href: building-and-testing
   - text: Deploy
     href: deploy
+    children:
     - text: Deploy a UI
       href: deploy-a-ui
     - text: Deploy a hApp to the Holo network
       href: deploy-a-h-app-to-the-holo-network
   - text: Holo core concepts and further documentation
     href: holo-core-concepts-and-further-documentation
+    children:
     - text: Holo architecture
       href: holo-architecture
     - text: Client-conductor separation
@@ -49,6 +51,7 @@ tocData:
         href: serving-data-to-anonymous-users
     - text: Implementing read-only cells
       href: implementing-read-only-cells
+      children:
         - text: Anonymous zome function access
           href: anonymous-zome-function-access
   - text: Next steps
