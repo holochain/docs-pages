@@ -12,7 +12,6 @@ filesystems
 howto
 howtos
 interoperating
-keypair
 permissioned
 permissivity
 runtimes

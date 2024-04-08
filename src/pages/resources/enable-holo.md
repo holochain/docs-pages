@@ -595,7 +595,7 @@ Now your UI can connect to the Holo network and read forum posts. However, befor
 Unlike in pure Holochain, you **cannot assume that a user has provided their keys** when the connection is established, because Holo hosting allows anonymous access to hApp data that's meant to be seen publicly, such as forum posts. This may require changes to your application logic. Read more about how to implement this feature in the [Holo core concepts](#holo-core-concepts-and-further-documentation) section of this guide.
 !!!
 
-Holo uses "sign-up" and "sign-in" terminology but there is no external authentication process. In both processes Chaperone derives a keypair for the user from the email and password they enter, with sign-up also triggering the provisioning of new hApp cells on a hosting device in the Holo network.
+Holo uses "sign-up" and "sign-in" terminology but there is no external authentication process. In both processes Chaperone derives a key pair for the user from the email and password they enter, with sign-up also triggering the provisioning of new hApp cells on a hosting device in the Holo network.
 
 So let's add sign-up and sign-in functionality to the app. Again, in the forum example the relevant code is in `App.vue`.
 
