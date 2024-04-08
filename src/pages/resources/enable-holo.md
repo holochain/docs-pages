@@ -1,33 +1,88 @@
 ---
 title: Enable Apps for Holo Hosting
+tocData:
+  - text: Intro
+    href: intro
+  - text: Get started
+    href: get-started
+  - text: Get started from scaffolding tool
+    href: get-started-from-scaffolding-tool
+    children:
+    - text: DNA
+      href: scaffold-dna
+    - text: UI
+      href: scaffold-ui
+    - text: Testing
+      href: testing
+  - text: Migrate from a pure Holochain app
+    href: migrate-from-a-pure-holochain-app
+    children:
+    - text: UI
+      href: migrate-ui
+    - text: Building and testing
+      href: building-and-testing
+  - text: Deploy
+    href: deploy
+    - text: Deploy a UI
+      href: deploy-a-ui
+    - text: Deploy a hApp to the Holo network
+      href: deploy-a-h-app-to-the-holo-network
+  - text: Holo core concepts and further documentation
+    href: holo-core-concepts-and-further-documentation
+    - text: Holo architecture
+      href: holo-architecture
+    - text: Client-conductor separation
+      href: client-conductor-separation
+      children:
+      - text: Sign-up, sign-in, sign-out
+        href: sign-up-sign-in-sign-out
+      - text: Handling connection state
+        href: handling-connection-state
+    - text: hApp paradigm
+      href: h-app-paradigm
+      children:
+      - text: Multi-tenant conductor
+        href: multi-tenant-conductor
+      - text: Providing high-uptime nodes
+        href: providing-high-uptime-nodes
+      - text: Serving data to anonymous users
+        href: serving-data-to-anonymous-users
+    - text: Implementing read-only cells
+      href: implementing-read-only-cells
+        - text: Anonymous zome function access
+          href: anonymous-zome-function-access
+  - text: Next steps
+    href: next-steps
 ---
 
-!!! info Requires Holochain 0.2
-The Holo hosting network runs the unstable Holochain 0.2 on all its nodes, so you'll need to make sure that your hApp is compatible with 0.2. The scaffolding tool commands in this guide will set up the proper dependencies for you. If you're starting with an existing hApp or have used the scaffolding tool commands in the [Get Started guide](/get-started/), you'll need to upgrade your hApp manually.
+!!! info Requires Holochain 0.3
+The Holo hosting network runs the unstable Holochain 0.3 on all its nodes, so you'll need to make sure that your hApp is compatible with 0.3. The scaffolding tool commands in this guide will set up the proper dependencies for you. If you're starting with an existing hApp or have used the scaffolding tool commands in the [Get Started guide](/get-started/), you'll need to upgrade your hApp manually.
 !!!
 
-## Intro
+::: intro
+This guide will help you build a Holo-enabled hApp from scratch or enable your existing hApp to be deployed on Holo.
+:::
 
 Holo is cloud hosting for Holochain. Holo helps you enable your users to experience your Holochain application with the simplicity of a web browser and without maintaining a node.
 
 A core distinction versus running nodes on the traditional cloud is that Holo provides the key management and signing infrastructure for users' keys to be held client-side, so your users always have full agency.
 
-## Get started
+We assume you're familiar with Holochain and have installed the pre-requisites from step 2 of the [Get Started guide](/get-started/).
 
-Holo hosting is for Holochain applications. It is assumed that you have familiarity with Holochain and have installed the pre-requisites from step 2 of the [Get Started guide](/get-started/).
+There are two pathways in this section --- [**scaffolding a new hApp**](#get-started-from-scaffolding-tool) or [**migrating an existing hApp**](migrate-from-a-pure-holochain-app). Both pathways contain largely the same information, so choose the one that best applies to your situation.
 
-There are two pathways in this section --- scaffolding a new hApp or migrating an existing hApp. Both pathways contain largely the same information, so choose the pathway that best applies to your situation.
-
-In both cases there are no required DNA changes for Holo Hosting --- only UI changes. However, Holo operates under a different context and we highly recommend that you read the [Holo Core Concepts](#holo-core-concepts-and-further-documentation), in particular the section on anonymous access, as this **will need DNA changes to enable certain features**.
+In both cases there are no required DNA changes for Holo Hosting --- only UI changes. However, Holo operates under a different context and we highly recommend that you read the [Holo core concepts](#holo-core-concepts-and-further-documentation), in particular the section on anonymous access, as this **will need DNA changes to enable certain features**.
 
 ## Get started from scaffolding tool
 
-In this section we'll create a simple to-do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about creating a DNA, please refer to the [Holochain getting started guide](/get-started/#4-zero-to-built-creating-a-forum-app)
+In this section we'll create a simple to-do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about creating a DNA, please refer to the [Holochain getting started guide](/get-started/#4-zero-to-built-creating-a-forum-app).
 
-The Holochain scaffolding tool provides a `--holo` flag for scaffolding a hApp whose UI is compatible with both Holo hosting and pure Holochain environments. Additionally, because the Holo hosting infrastructure currently runs the unstable Holochain 0.2, you'll need to override the Holochain version that the scaffolding tool targets. Run the tool **with these flags** by typing in your terminal:
+### DNA {#scaffold-dna}
 
-```shellsession
-nix run --override-input versions 'github:holochain/holochain?dir=versions/0_2'  github:holochain/holochain#hc-scaffold -- web-app --holo
+The Holochain scaffolding tool provides a `--holo` flag for scaffolding a hApp whose UI is compatible with both Holo hosting and pure Holochain environments. Additionally, because the Holo hosting infrastructure currently runs the unstable Holochain 0.3, you'll need to override the Holochain version that the scaffolding tool targets. Run the tool **with these flags** by typing in your terminal:
+
+```shell
+nix run --override-input versions 'github:holochain/holochain?dir=versions/weekly'  github:holochain/holochain#hc-scaffold -- web-app --holo
 ```
 
 You should then see:
@@ -69,13 +124,13 @@ Choose `Yes` and press <kbd>Enter</kbd>.
 
 You should then see `Setting up nix development environment...` with some details of what is being added, followed by instructions of next steps for setting up the development environment for your hApp and continuing to scaffold more of its elements. Let's follow those instructions. First, enter the hApp project directory:
 
-```shellsession
+```shell
 cd super_todos
 ```
 
 Now enter the nix development shell (which makes all scaffolding tools as well as the Holochain binaries directly available from the command line) with:
 
-```shellsession
+```shell
 nix develop
 ```
 
@@ -89,68 +144,13 @@ Holochain development shell spawned. Type exit to leave.
 
 Finally, install the `npm` dependencies with:
 
-```shellsession
+```shell
 npm install
 ```
 
-### UI
+Now let's create a new DNA using the scaffolding tool, which is now directly available in the shell. Type:
 
-The biggest difference between a Holo application and a pure Holochain application is in the UI. The scaffolding tool should automatically have generated everything required here, so we'll simply point out the primary differences, which will all be in `App.vue`.
-
-In a Holo setting we use the [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) library instead of `@holochain/client`. WebSDK provides an instance of `AppAgentWebsocket`, which is almost the same as `AppWebsocket`.
-
-```typescript
-import WebSdk from '@holo-host/web-sdk';
-import type { AgentState } from '@holo-host/web-sdk';
-```
-
-Holo hApps provide an authentication form for users to generate in-browser keys and install [cells](/resources/glossary/#cell) on the network. This form is customizable --- here we set the name of the app.
-
-```typescript
-if (this.IS_HOLO) {
-  const client: WebSdk = await WebSdk.connect({
-    chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL,
-    authFormCustomization: {
-      appName: 'super_todos',
-    }
-  });
-
-  client.on('agent-state', (agent_state: AgentState) => {
-    this.loading = !agent_state.isAvailable || agent_state.isAnonymous
-  });
-
-  client.signUp({ cancellable: false });
-
-  this.client = client
-} else {
-  // We pass '' as url because it will dynamically be replaced in launcher environments
-  this.client = await AppAgentWebsocket.connect('', 'vue-default');
-  this.loading = false;
-}
-```
-
-Because there is the concept of "logging in", we also need a log out option to clear user keys from the client.
-
-```html
-<mwc-button
-  v-if="IS_HOLO"
-  style="margin-top: 16px"
-  raised
-  label="Logout"
-  @click="logout"
-/>
-```
-
-```typescript
-async logout () {
-  await (this.client as WebSdk).signOut();
-  await (this.client as WebSdk).signIn({ cancellable: false });
-}
-```
-
-Now let's continue scaffolding our happ by creating a new DNA using the scaffolding tool, which is now directly available in the shell. Type:
-
-```shellsession
+```shell
 hc scaffold dna
 ```
 
@@ -176,11 +176,11 @@ DNA "todos" scaffolded!
 ```
 :::
 
-DNAs are [comprised of code modules](/concepts/2_application_architecture/), which we call zomes. A DNA should have at least two zomes, an *integrity zome* which declares the data structures and validation code, and a *coordinator zome* which contains, among other things, the API functions your UI will call to access your DNA.
+DNAs are [composed of code modules](/concepts/2_application_architecture/), which we call zomes. A DNA should have at least two zomes, an *integrity zome* which declares the data structures and validation code, and a *coordinator zome* which contains, among other things, the API functions your UI will call to access your DNA.
 
 Create your DNA's first pair of zomes with:
 
-```shellsession
+```shell
 hc scaffold zome
 ```
 
@@ -206,7 +206,7 @@ Press <kbd>Enter</kbd> to select `Integrity/coordinator zome-pair`. You should t
 
 Type in a name for the zome. In this case you can just use the same name as the DNA, `todos`. You should then see:
 
-```shellsession
+```shell
 ? Scaffold integrity zome in folder "dnas/todos/zomes/integrity/"? (y/n) ›
 ```
 
@@ -227,13 +227,13 @@ Now we get to the really exciting part! In the next steps you will specify your 
 
 In this to-do hApp, every to-do item is stored as an [entry](/resources/glossary/#entry). Add a new entry definition with:
 
-```shellsession
+```shell
   hc scaffold entry-type
 ```
 
 You should see:
 
-```shellsession
+```shell
 ✔ Entry type name (snake_case): ·
 ```
 
@@ -264,7 +264,7 @@ Which fields should the entry contain?
 ```
 :::
 
-The scaffolding tool is smart about adding different data type fields to your entry. For this example, you will just have a text field describing the to-do item. Press <kbd>Enter</kbd> to select `String`.
+For this example, you will just have a text field describing the to-do item. Press <kbd>Enter</kbd> to select `String`.
 
 You should see:
 
@@ -330,7 +330,7 @@ Entry type "todo_item" scaffolded!
 
 The final step is create a collection that can be used to retrieve all of the to-do items that users create. To create a collection, type:
 
-```shellsession
+```shell
 hc scaffold collection
 ```
 
@@ -342,7 +342,7 @@ Collection name (snake_case, eg. "all_posts"): ›
 ```
 :::
 
-Enter `my_todos` and press <kbd>Enter</kbd>. You should then see:
+Enter `todos_by_author` and press <kbd>Enter</kbd>. You should then see:
 
 ::: output-block
 ```text
@@ -365,20 +365,113 @@ Press <kbd>Enter</kbd>. You should then see:
 
 ::: output-block
 ```text
-Collection "my_todos" scaffolded!
+Collection "todos_by_author" scaffolded!
 ```
 :::
+
+### UI {#scaffold-ui}
+
+The biggest difference between a Holo application and a pure Holochain application is in the UI. The scaffolding tool should automatically have generated everything required here, so we'll simply point out the primary differences, which will all be in `ui/src/App.vue`.
+
+Open up this file in your favorite text editor now and follow along!
+
+In a Holo setting we use the [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) library instead of `@holochain/client`. Web SDK provides its own implementation of `AppAgentWebsocket`, which is almost the same as the one provided by `@holochain/client`. Scroll down to the beginning of the `<script lang="ts">` section and you can see where these modules are imported:
+
+```typescript
+import WebSdk from '@holo-host/web-sdk';
+import type { AgentState } from '@holo-host/web-sdk';
+```
+
+Just below this, you can see that this Vue component's state has an `IS_HOLO` property, which is set by looking for an environment variable:
+
+```typescript
+export default defineComponent({
+  components: {
+    // Add your subcomponents here
+  },
+  data(): {
+    client: AppAgentClient | undefined;
+    loading: boolean;
+    IS_HOLO: boolean;
+  } {
+    return {
+      client: undefined,
+      loading: true,
+      IS_HOLO: ['true', '1', 't'].includes(import.meta.env.VITE_APP_IS_HOLO?.toLowerCase()),
+    };
+  },
+```
+
+Later on, the component looks for this property and tries to connect to a Holo hosting device via the Web SDK. In addition to handling connections, the Web SDK also provides an authentication form for users to generate in-browser keys and install [cells](/resources/glossary/#cell) on the network. This form is customizable --- here we set the name of the app.
+
+```typescript
+  async mounted() {
+    if (this.IS_HOLO) {
+      const client: WebSdk = await WebSdk.connect({
+        chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL,
+        authFormCustomization: {
+          appName: 'super_todos',
+        }
+      });
+```
+
+Now we handle connection state changes --- the `WebSdk` client can be either connected to a host or disconnected, and once it's connected, it can either be logged in or anonymous. The default scaffolded UI shows a loading spinner until the user is logged in; you may want to change this to show some UI for anonymous users. (Read more about anonymous users in the [Holo core concepts](#holo-core-concepts-and-further-documentation) below.)
+
+```typescript
+      client.on('agent-state', (agent_state: AgentState) => {
+        this.loading = !agent_state.isAvailable || agent_state.isAnonymous
+      });
+```
+
+Now we show the login/signup form. If you wanted to show some UI to anonymous users, you might want to call `client.signUp({ cancellable: true })` when a 'log in' button is pressed.
+
+```typescript
+      client.signUp({ cancellable: false });
+
+      this.client = client
+```
+
+Finally, if we're not in a Holo context, just use the standard Holochain client.
+
+```typescript
+    } else {
+      // We pass '' as url because it will dynamically be replaced in launcher environments
+      this.client = await AppAgentWebsocket.connect('', 'vue-default');
+      this.loading = false;
+    }
+```
+
+Because there is a concept of 'logging in', we also need a 'log out' option to clear user keys from the client. In the UI:
+
+```html
+<mwc-button
+  v-if="IS_HOLO"
+  style="margin-top: 16px"
+  raised
+  label="Logout"
+  @click="logout"
+/>
+```
+
+And in the script (note again that, because we don't want to show any UI to anonymous users, we show them the login form immediately after logging out):
+
+```typescript
+    async logout () {
+      await (this.client as WebSdk).signOut();
+      await (this.client as WebSdk).signIn({ cancellable: false });
+    }
+```
 
 ### Testing
 
 Holo provides the `holo-dev-server` binary, which simulates the Holo network locally for development. `holo-dev-server` spins up a Holochain conductor, along with a local instance of the Chaperone service, which delivers a JavaScript file that connects the browser to the Holo network. Like the real Holo network, `holo-dev-server` uses `.happ` bundles, which do not include a UI. (The `hc` developer tool creates both a `.happ` bundle and a `.webhapp` bundle in the `workdir/` folder for you.) When you scaffold an app with the `--holo` flag, its dev environment will provide `holo-dev-server` on the command line for you.
 
-1. Ensure you are in the nix development environment by checking the shell prompt. Run `nix develop` in the root of your project's folder if you aren't.
-2. Run `npm start:holo`, which:
-    1. Starts `holo-dev-server' and provisions instances (cells) of your DNA for two agents,
+1. Ensure you're in the nix development environment by checking the shell prompt. Run `nix develop` in the root of your project's folder if you aren't.
+2. Run `npm run start:holo`, which:
+    1. Starts `holo-dev-server` and provisions instances (cells) of your DNA for two agents,
     2. Automatically opens an instance of a cell and network inspector called [Holochain Playground](https://github.com/darksoil-studio/holochain-playground) in your browser, and
     3. Runs a local dev web server for the UI called [Vite](https://vitejs.dev).
-3. Access your two agents on your browser at `http://localhost:8888` and `http://localhost:8889`.
+3. Access your two agents' UIs in your browser at `http://localhost:8888` and `http://localhost:8889`.
 
 The windows should not be very exciting yet, because you haven't edited the hApp to use the generated UI elements, but what you see on the screen should be some hints on how to proceed.
 
@@ -406,24 +499,38 @@ You now have a fully functional Holo app up and running!
 
 ## Migrate from a pure Holochain app
 
-Only minor UI changes are technically required for Holo hosting. However, Holo operates under a different set of assumptions and we highly recommend that you read the [Holo Core Concepts](#holo-core-concepts-and-further-documentation) section of this guide. It is likely that you will want to reconsider certain UX flows.
+Only minor UI changes are technically required for Holo hosting. However, Holo operates under a different set of assumptions and we highly recommend that you read the [Holo core concepts](#holo-core-concepts-and-further-documentation) section of this guide. It is likely that you will want to reconsider certain UX flows.
 
-This example will use an example forum hApp with a Vue-based UI, but feel free to follow along with your own hApp instead. Remember that your hApp needs to target Holochain 0.2 in order to run on the Holo network, so you might need to follow the [0.1 → 0.2 migration guide](/get-started/upgrade-holochain/) first.
+This example will use an example forum hApp with a Vue-based UI, but feel free to follow along with your own hApp instead. Remember that your hApp needs to target Holochain 0.3 in order to run on the Holo network. <!-- [FIXME -- UPDATE THIS TEXT], so you might need to follow the [0.1 → 0.2 migration guide](/get-started/upgrade-holochain/) first -->
 
-```shellsession
-nix run --override-input versions 'github:holochain/holochain?dir=versions/0_2'  github:holochain/holochain#hc-scaffold -- example forum
+```shell
+nix run --override-input versions 'github:holochain/holochain?dir=versions/weekly' github:holochain/holochain#hc-scaffold -- example forum
 ```
 
-In the forum hApp, the relevant UI code is in `App.vue`. Generally they will likely be where you initialize your `AppWebsocket` client.
+### UI {#migrate-ui}
 
-In a Holo setting we use [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) which provides an instance of `WebSDK`, instead of `AppAgentWebsocket` from `@holochain/client`. Both `WebSDK` and `AppAgentWebsocket` implement `AppAgentClient`, which connects the user to their running cells in a conductor.
+In the forum hApp, the relevant UI code is in `App.vue`. In your hApp, it'll likely be where you initialize your `AppWebsocket` client.
 
-You'll first need to ensure that you use `WebSDK` or `AppAgentWebsocket` depending on the context:
+In a Holo setting we use [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) which provides an instance of `WebSdk`. This object has a `.connect()` method just like `AppAgentWebsocket` from `@holochain/client`.
+
+You'll first need to add WebSDK to your UI project:
+
+```shell
+cd ui
+```
+```shell
+npm install @holo-host/web-sdk
+```
+
+And import it into your `App.vue` file:
 
 ```typescript
-import { AppAgentClient, AppAgentWebsocket } from '@holochain/client';
-import WebSdk from '@holo-host/web-sdk'; // Import WebSDK library
+import WebSdk from '@holo-host/web-sdk';
+```
 
+If you're updating your hApp from Holochain 0.1, which uses `@holochain/client` 0.12, check to make sure that the component's `client` data property is typed to `AppAgentClient`:
+
+```typescript
 export default defineComponent({
   components: {
     //...
@@ -436,7 +543,7 @@ export default defineComponent({
   }
 ```
 
-You can then initialize a context-dependent client, assuming you want your UI to be compatible with both Holo and Holochain. Let's edit the body of the `data()` function above to check for an environment variable that you'll pass at build time:
+You can then initialize a client for both self-hosted Holochain and Holo-hosted users, assuming you want your UI to be compatible with both. Edit the body of the `data()` function above to check for a `VITE_APP_IS_HOLO` environment variable that you'll pass at build time:
 
 ```typescript
   data(): {
@@ -447,52 +554,56 @@ You can then initialize a context-dependent client, assuming you want your UI to
     return {
       client: undefined,
       loading: true,
-      IS_HOLO: ['true', '1', 't'].includes(import.meta.env.VITE_APP_IS_HOLO?.toLowerCase()), // This will be passed later as an env variable
+      IS_HOLO: ['true', '1', 't'].includes(import.meta.env.VITE_APP_IS_HOLO?.toLowerCase()),
     };
   },
 ```
 
-The WebSDK client loads and connects to an iframe called Chaperone. Chaperone is a key and connection manager to the Holo network and is invisible outside a few specific cases. Let's initialize this client in the Vue `mounted()` lifecycle hook.
+The WebSDK client loads and connects to an iframe called Chaperone. Chaperone is a key and connection manager for the Holo network and is invisible to the user unless they're signing up or logging in. Let's initialize this client in the Vue `mounted()` lifecycle hook.
 
-Because the Holo network acts like a remote conductor, you'll need to handle connectivity issues. Changes to the connection are emitted and you can register a event handlers if the client is an instance of WebSDK. You can see the full list of emitted events here: https://github.com/Holo-Host/web-sdk
+Because the Holo network acts like a remote conductor, you'll need to handle connectivity issues. Changes to the connection are emitted as events, and you can register an event handler. You can see the full list of emitted events in the [WebSDK documentation](https://github.com/Holo-Host/web-sdk).
 
 ```typescript
   async mounted() {
     if (this.IS_HOLO) {
       const client: WebSdk = await WebSdk.connect({
-        chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL, // This will also be passed as an env variable; we'll explain this in the testing section
+        // The following will be passed as an environment variable at runtime or
+        // build time; we'll explain this in the testing section.
+        chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL,
         authFormCustomization: {
-          appName: 'forum-app', // Display name on the credentials form. You can also set it in Cloud Console when deploying, which overrides this value
+          // Display name on the sign-up/login form. You can also set it in
+          // Cloud Console when deploying, which overrides this value.
+          appName: 'forum-app',
         }
       });
 
-      // register event handler for agent-state.
+      // Register an event handler for connection status changes.
       client.on('agent-state', (agent_state: AgentState) => {
         this.loading = !agent_state.isAvailable
       });
 
       this.client = client
     } else {
-      this.client = await AppAgentWebsocket.connect('', 'vue-default');
+      this.client = await AppAgentWebsocket.connect('', 'forum');
       this.loading = false;
     }
 }
 ```
 
-Now your UI can connect to the Holo network and read forum posts. However, users can't post or comment yet because they don't yet have a source chain. They are considered "anonymous" and can only request public data from the network.
+Now your UI can connect to the Holo network and read forum posts. However, before they log in, users can't post or comment yet because they don't yet have a source chain. They are considered "anonymous" and can only request public data from the network.
 
 !!! note
 Unlike in pure Holochain, you **cannot assume that a user has provided their keys** when the connection is established, because Holo hosting allows anonymous access to hApp data that's meant to be seen publicly, such as forum posts. This may require changes to your application logic. Read more about how to implement this feature in the [Holo core concepts](#holo-core-concepts-and-further-documentation) section of this guide.
 !!!
 
-Holo uses "sign-up" and "sign-in" terminology but there is no external authentication process. In both processes a user (re)derives their keys from email and password, with sign-up also triggering the instantiation of new hApp cells on a hosting device in the Holo network.
+Holo uses "sign-up" and "sign-in" terminology but there is no external authentication process. In both processes Chaperone derives a keypair for the user from the email and password they enter, with sign-up also triggering the provisioning of new hApp cells on a hosting device in the Holo network.
 
 So let's add sign-up and sign-in functionality to the app. Again, in the forum example the relevant code is in `App.vue`.
 
 ```html
 <main>
   <h1>Forum</h1>
-  <!--Add these buttons-->
+  <!-- Add these buttons -->
   <div v-if="IS_HOLO && !isLoggedIn">
     <mwc-button
       style="margin-top: 16px"
@@ -508,6 +619,7 @@ So let's add sign-up and sign-in functionality to the app. Again, in the forum e
       @click="signIn"
     />
   </div>
+  <!-- End of changes -->
 
   <div id="content">
     <h2>All Posts</h2>
@@ -519,35 +631,32 @@ So let's add sign-up and sign-in functionality to the app. Again, in the forum e
 ```
 
 ```typescript
-methods: {
-  // ...
-  async signUp () {
-    await (this.client as WebSdk).signUp({ cancellable: true });
-  },
+// If you haven't already added any methods to App.vue, you may need to create
+// this object -- it goes in the object you pass to `defineComponent`.
+  methods: {
+    // ...
+    async signUp () {
+      await (this.client as WebSdk).signUp({ cancellable: true });
+    },
 
-  async signIn () {
-    await (this.client as WebSdk).signIn({ cancellable: true });
-  },
+    async signIn () {
+      await (this.client as WebSdk).signIn({ cancellable: true });
+    },
 
-  // ...
-}
+    // ...
+  }
 ```
 
-These trigger the display of a full-screen credentials modal from the Chaperone iframe, defaulting to either a sign-up or sign-in form. The user can also toggle between them directly.
+These trigger the display of a full-screen credentials modal dialog from the Chaperone iframe, defaulting to either a sign-up or sign-in form. The user can also toggle between them directly.
 
 ![An example of the Chaperone sign-up/sign-in modal form](/assets/img/enable-holo/signup-signin-modal.png)
 
-During sign-up a registration code field can be shown to enable [**membrane proof**](/resources/glossary/#membrane-proof) workflows. This field allows the user to submit some sort of joining code on signup. Read more about membrane proofs in the [Holo Core Concepts](#implementing-read-only-cells) section of this guide.
+During sign-up, a registration code field can be shown to enable [**membrane proof**](/resources/glossary/#membrane-proof) workflows. This field allows the user to submit some sort of joining code on signup. Read more about membrane proofs in the [Holo core concepts](#implementing-read-only-cells) section of this guide.
 
-Finally, we will also need sign-out functionality to clear user keys from local storage.
+Finally, we will also need sign-out functionality to clear user keys from local browser storage. In the markup section:
 
 ```html
-<main>
-  <h1>Forum</h1>
-  <!--Add these buttons-->
-  <div v-if="IS_HOLO && !isLoggedIn">
-    <!-- ... -->
-  </div>
+  <!-- Add this button just below the two buttons you previously added. -->
   <div v-else>
     <mwc-button
       style="margin-top: 16px"
@@ -556,19 +665,19 @@ Finally, we will also need sign-out functionality to clear user keys from local 
       @click="signOut"
     />
   </div>
-  <!-- ... -->
-</main>
 ```
 
-```typescript
-methods: {
-  // ...
-  async signOut () {
-    await (this.client as WebSdk).signOut());
-  },
+And in the script section:
 
-  // ...
-}
+```typescript
+  methods: {
+    // ...
+    async signOut () {
+      await (this.client as WebSdk).signOut());
+    },
+
+    // ...
+  }
 ```
 
 Now you're ready to build and test!
@@ -577,47 +686,48 @@ Now you're ready to build and test!
 
 Holo provides the `holo-dev-server` binary, which simulates the Holo network locally for development. `holo-dev-server` serves a copy of Chaperone, the JavaScript library that connects the browser to the Holo network and manages user keys, and runs a Holochain conductor. Like the real Holo network, `holo-dev-server` uses `.happ` bundles, which do not include a UI. (The `hc` developer tool creates both a `.happ` bundle and a `.webhapp` bundle for you.)
 
-To include `holo-dev-server` in your development environment, update your project's `flake.nix` file to the below, and re-enter the shell:
+To include `holo-dev-server` in your development environment, update your project's `flake.nix` file to match the below, and re-enter the shell:
 
 ```nix
 {
   description = "Template for Holochain app development";
 
   inputs = {
-    nixpkgs.follows = "holochain/nixpkgs";
-    holochain = {
-      url = "github:holochain/holochain";
-      inputs.versions.url = "github:holochain/holochain/?dir=versions/0_2";
-    };
+    // Change this line -- holo-dev-server isn't available in the 0_1 and 0_2
+    // channels.
+    versions.url = "github:holochain/holochain?dir=versions/weekly";
+    holochain-flake.url = "github:holochain/holochain";
+    // If you're updating from Holochain 0.2, this line may need to be changed.
+    holochain-flake.inputs.versions.follows = "versions";
+
+    nixpkgs.follows = "holochain-flake/nixpkgs";
+    flake-parts.follows = "holochain-flake/flake-parts";
   };
 
-  outputs = inputs @ { ... }: let
-    holoDevServerChannel = "1774"; // TODO: Change to alpha once merged in
-  in
-    inputs.holochain.inputs.flake-parts.lib.mkFlake {
+  // Add `hds-releases` to the following list.
+  outputs = inputs @ { flake-parts, holochain-flake, hds-releases, ... }:
+    flake-parts.lib.mkFlake {
       inherit inputs;
-    } {
-      systems = builtins.attrNames inputs.holochain.devShells;
-      perSystem = { config, pkgs, system, ... }: {
-        devShells.default = pkgs.mkShell {
-          inputsFrom = [ inputs.holochain.devShells.${system}.holonix ];
-          packages = with pkgs; [ nodejs-18_x curl ];
-
-          extraSubstitutors = [ "https://cache.holo.host" ];
-          trustedPublicKeys = [
-            "cache.holo.host-2:ZJCkX3AUYZ8soxTLfTb60g+F3MkWD7hkH9y8CgqwhDQ="
-          ];
-
-          shellHook = ''
-            nix-env -f "https://hydra.holo.host/channel/custom/holo-nixpkgs/${holoDevServerChannel}/holo-nixpkgs/nixexprs.tar.xz" -iA holo-dev-server
-          '';
+    }
+    {
+      systems = builtins.attrNames inputs.holochain-flake.devShells;
+      perSystem =
+        { config
+        , pkgs
+        , system
+        , ...
+        }: {
+          devShells.default = pkgs.mkShell {
+            inputsFrom = [ holochain-flake.devShells.${system}.holonix ];
+            // Add an element in this list to mport the Holo dev server binary package.
+            packages = [ pkgs.nodejs_20, hds-releases.packages.holo-dev-server-bin ];
+          };
         };
-      };
     };
 }
 ```
 
-To connect your application to `holo-dev-server`, point the client's `chaperoneUrl` to `https://localhost:24274`.
+To connect your application to `holo-dev-server`, point the client's `chaperoneUrl` to `https://localhost:24274`. The easiest way to do this is to look for an environment variable that you can supply in an NPM script.
 
 ```typescript
 const client: WebSdk = await WebSdk.connect({
@@ -628,44 +738,45 @@ const client: WebSdk = await WebSdk.connect({
 });
 ```
 
-Let's add some build and test scripts to your project's `package.json` file. You should already have scripts to build a `.hApp` file, like below.
+Let's add some build, run, and test scripts to your project's `package.json` file. You should already have scripts to build a `.hApp` file, like below.
 
 ```json
   "scripts": {
     // ...
     "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
-    "build:zomes": "RUSTFLAGS='' CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown"
+    "build:zomes": "RUSTFLAGS='' CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown",
+    // ...
   },
 ```
 
 Let's add the following scripts to the top of the `"scripts"` object. These will:
 
 1. Build your `.happ` file,
-2. Run `holo-dev-server` with your `.happ` file,
-3. Run the `holochain-playground` at `localhost:4444`, and
-4. Start the UI at `localhost:8888`.
+2. Run `holo-dev-server` with your `.happ` file and make it available on port `24274` (make sure you change `workdir/test-app.happ` to match your hApp),
+3. Serve the `holochain-playground` UI at `localhost:4444` and open it in a browser, and
+4. Start two agents and open their UIs in the browser, pointing them both to the local URL that `holo-dev-server` is running on.
 
 Take note of the `"network:holo"` script; it's what passes the `VITE_APP_CHAPERONE_URL` and `VITE_APP_IS_HOLO` environment variables to your UI so that it knows to connect to Holo, and specifically to a local `holo_dev_server`.
 
 ```json
-    "start:holo": "AGENTS=2 npm run network:holo",
-    "network:holo": "npm run build:happ && UI_PORT=8888 concurrently \"npm run launch:holo-dev-server\" \"holochain-playground ws://localhost:4444\" \"concurrently-repeat 'VITE_APP_CHAPERONE_URL=http://localhost:24274 VITE_APP_IS_HOLO=true npm start -w ui' $AGENTS\"",
-    "launch:holo-dev-server": "sudo ./holo-dev-server workdir/test-app.happ",
+    "start:holo": "AGENTS=2 BOOTSTRAP_PORT=$(port) SIGNAL_PORT=$(port) npm run network:holo",
+    "network:holo": "npm run build:happ && UI_PORT=$(port) concurrently \"npm run launch:holo-dev-server\" \"holochain-playground ws://localhost:4444\" \"concurrently-repeat 'VITE_APP_CHAPERONE_URL=http://localhost:24274 VITE_APP_IS_HOLO=true npm start -w ui' $AGENTS\"",
+    "launch:holo-dev-server": "holo-dev-server workdir/test-app.happ",
 ```
 
-These scripts assume that you have a `start` script setup in a `ui` workspace, which you should have if you created the hApp using our scaffolding tool.
+These scripts assume that you have a `start` script set up in a `ui` workspace that serves your UI at a local URL, which you should have if you created the hApp using our scaffolding tool.
 
 You now have a fully functional Holo app up and running!
 
 !!! info
-For production deployment, make sure that `chaperoneUrl` is configured to `https://chaperone.holo.hosting` instead.
+When you build your UI for production, make sure that the `VITE_APP_CHAPERONE_URL` environment variable is set to `https://chaperone.holo.hosting`.
 !!!
 
 ## Deploy
 
 This process assumes you already have a Cloud Console account. If you do not, you can sign up at https://register.holo.host
 
-### Deploy UI
+### Deploy a UI
 
 Holo does not currently offer UI hosting. hApp managers will need to deploy their UI separately for now.
 
@@ -675,7 +786,7 @@ Holo supports "headless hosting" where there is no Holo-enabled UI. In this case
 Holo does not support direct programmatic/API access to deployed hApps.
 !!!
 
-### Deploy hApp to Holo network
+### Deploy a hApp to the Holo network
 
 1. Log into Cloud Console.
 2. Click on "Add a hApp".
@@ -765,6 +876,10 @@ client.on('agent-state', (agent_state: AgentState) => {
 
 This generally results in a UI with a much more asynchronous programming pattern, whereas native Holochain UIs tend to be use a more synchronous programming pattern.
 
+!!! info A note on conductor API WebSocket access
+Due to the security implications of multi-tenant conductors, `AdminWebsocket` (and some `AppWebsocket`) functionality is not directly exposed to Holo clients. Instead, this functionality is exposed indirectly via Holo WebSDK methods where appropriate.
+!!!
+
 ### hApp paradigm
 
 hApps are the fundamental unit within Holo. This means:
@@ -776,7 +891,7 @@ hApps are the fundamental unit within Holo. This means:
 * hApps are deployed onto the Holo network by an agent of the Cloud Console app, who is the designated manager for the hApp.
 * hApp managers are responsible for deploying application updates and paying host invoices.
 
-### Multi-tenant conductor
+#### Multi-tenant conductor
 
 Holo makes use of multi-tenant conductors to provide functionality typically expected of traditional web applications. Each conductor runs applications belonging to multiple users.
 
@@ -791,10 +906,6 @@ These nodes will send and receive gossip to sustain the network as long as hosts
 For some use cases, it's not desirable to require users to create an account, for example, reading an article. Where developers make these use cases available to their users, the data is retrieved by a read-only cell.
 
 This behavior isn't available by default; you'll have to implement functionality to both give anonymous users access to read-only functions and prevent them from making writes. This is described in the [next section](#implementing-read-only-cells).
-
-### A note on admin API WebSocket access
-
-Due to the security implications of multi-tenant conductors, `AdminWebsocket` (and some `AppWebsocket`) functionality is not directly exposed to Holo clients. Instead, this functionality is exposed indirectly via Holo WebSDK methods where appropriate.
 
 ### Implementing read-only cells
 
