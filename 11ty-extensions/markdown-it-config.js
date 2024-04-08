@@ -1,7 +1,7 @@
-const markdownItAttrs = require("markdown-it-attrs");
-const markdownItContainer = require("markdown-it-container");
-const markdownItAnchor = require("markdown-it-anchor");
-const slugify = require('@sindresorhus/slugify');
+import markdownItAttrs from "markdown-it-attrs";
+import markdownItContainer from "markdown-it-container";
+import markdownItAnchor from "markdown-it-anchor";
+import slugify from '@sindresorhus/slugify';
 
 /**
  * Composes the attributes string for an html tag from the markdown-it-container token and default attributes
@@ -13,7 +13,7 @@ function composeAttributeString(token, defaultAttrs ={}) {
   //convert token.attrs to an object and merge with defaultAttrs
   const attrs = token.attrs ? token.attrs.reduce((acc, attr) => { acc[attr[0]] = attr[1]; return acc; }, {}) : {};
   const mergedAttrs = Object.assign({}, defaultAttrs, attrs);
-  
+
   return Object.keys(mergedAttrs).reduce((acc, key) => acc + ` ${key}="${mergedAttrs[key]}"`, "");
 }
 
@@ -77,22 +77,26 @@ const validateDetailsBlock = (params) => {
 /* End Details Block code */
 
 /**
- * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js 
- * @param {*} eleventyConfig 
+ * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js
+ * @param {*} eleventyConfig
  */
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   eleventyConfig.amendLibrary("md", (mdLib) => {
     mdLib.set({ typographer: true });
-    
+
     //Configure markdown-it plugins
     mdLib.use(markdownItAttrs);
-    mdLib.use(markdownItAnchor, { tabIndex: false, slugify: s => slugify(s) });
-    mdLib.use(markdownItContainer, "coreconcepts-intro");
-    mdLib.use(markdownItContainer, "coreconcepts-orientation");
-    mdLib.use(markdownItContainer, "coreconcepts-storysequence");
+    mdLib.use(markdownItAnchor, {
+      tabIndex: false,
+      slugify: s => slugify(s),
+      permalink: markdownItAnchor.permalink.headerLink(),
+    });
+    mdLib.use(markdownItContainer, "intro");
+    mdLib.use(markdownItContainer, "orientation");
+    mdLib.use(markdownItContainer, "storystep");
     mdLib.use(markdownItContainer, "h-author");
     mdLib.use(markdownItContainer, "output-block");
-    
+
     // Admonitions
     mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericAdmonitionRenderFunc("tip") });
     mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericAdmonitionRenderFunc("note") });
@@ -104,5 +108,4 @@ module.exports = function(eleventyConfig) {
     // Create a specialized synonym for details block with a class of "dig-deeper"
     mdLib.use(markdownItContainer, "dig-deeper", { marker: "!", render: composeDetailsBlockRenderFunc("dig-deeper") });
   });
- 
-}
+};

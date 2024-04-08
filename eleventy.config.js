@@ -1,12 +1,9 @@
-// Setup JSON5 so require can parse json5 data files
-require("json5/lib/register");
+import { EleventyRenderPlugin } from "@11ty/eleventy";
+import externalLinks from "@aloskutov/eleventy-plugin-external-links";
 
-const { EleventyRenderPlugin } = require("@11ty/eleventy");
-const externalLinks = require("@aloskutov/eleventy-plugin-external-links");
+import registerExtensions from "./11ty-extensions/index.js";
 
-const registerExtensions = require("./11ty-extensions");
-
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy({"./src/assets/": "assets"});
   eleventyConfig.addPassthroughCopy({"./node_modules/font-awesome/css": "assets/font-awesome/css"});

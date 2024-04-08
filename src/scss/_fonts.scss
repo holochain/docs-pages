@@ -5,28 +5,28 @@
   font-family: "URW Form";
   font-weight: 700;
   font-style: normal;
-  src: url('/assets/webFonts/URWFormBold/font.woff2') format('woff2'), 
+  src: url('/assets/webFonts/URWFormBold/font.woff2') format('woff2'),
         url('/assets/webFonts/URWFormBold/font.woff') format('woff');
 }
 @font-face {
   font-family: "URW Form";
   font-weight: 700;
   font-style: italic;
-  src: url('/assets/webFonts/URWFormBoldItalic/font.woff2') format('woff2'), 
+  src: url('/assets/webFonts/URWFormBoldItalic/font.woff2') format('woff2'),
         url('/assets/webFonts/URWFormBoldItalic/font.woff') format('woff');
 }
 @font-face {
   font-family: "URW Form";
   font-weight: 800;
   font-style: normal;
-  src: url('/assets/webFonts/URWFormExtraBold/font.woff2') format('woff2'), 
+  src: url('/assets/webFonts/URWFormExtraBold/font.woff2') format('woff2'),
         url('/assets/webFonts/URWFormExtraBold/font.woff') format('woff');
 }
 @font-face {
   font-family: "URW Form";
   font-weight: 800;
   font-style: italic;
-  src: url('/assets/webFonts/URWFormExtraBoldItalic/font.woff2') format('woff2'), 
+  src: url('/assets/webFonts/URWFormExtraBoldItalic/font.woff2') format('woff2'),
       url('/assets/webFonts/URWFormExtraBoldItalic/font.woff') format('woff');
 }
 
@@ -38,21 +38,22 @@ $fs-extra-smaller: 13px;
 $fs-smaller: 14px;
 $fs-primary: 18px;
 $fs-bigger: 20px;
+$fs-even-bigger: 24px;
 
 // local font sizes
 $fs-footer-col-header: 14px;
 $fs-footer-smaller: $fs-smaller;
 
 html {
-  font-size: 6.2%;
-  
-  body { 
+  font-size: 62.5%;
+
+  body {
     font-family: Mulish;
     font-size: $fs-primary;
   }
-  
-  h1, h2, h3, h4 { 
-    font-family: 'URW Form'; 
-    font-weight: 800; 
+
+  h1, h2, h3, h4 {
+    font-family: 'URW Form';
+    font-weight: 800;
   }
 }

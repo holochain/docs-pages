@@ -14,28 +14,28 @@ $footer-nav-header-to-links: 14px;
     ul {
       padding: 0;
       margin: 0;
-      
+
       li {
         list-style: none;
         margin-bottom: unset;
-        
+
         a {
           color: white;
           text-decoration: none;
 
           &.btn {
-            //TODO: Create a standard reverse-btn 
+            //TODO: Create a standard reverse-btn
             @include btn-base(black);
             background-color: white;
             margin-top: 32px;
             border-color: black;
-      
+
             &:hover {
               color: white;
             }
           }
 
-          //@include offsiteLinkIcon;
+          //@include externalLinkIcon;
         }
       }
 
@@ -48,7 +48,7 @@ $footer-nav-header-to-links: 14px;
           a {
             height: $footer-nav-img-height;
             display: block;
-    
+
             svg {
               height: $footer-nav-img-height;
             }
@@ -66,7 +66,7 @@ $footer-nav-header-to-links: 14px;
       row-gap: 30px;
       margin: 0 auto;
       margin-bottom: 100px;
-      
+
       .nav-column {
         h2 {
           color: $cl-other-green;
@@ -74,7 +74,7 @@ $footer-nav-header-to-links: 14px;
           margin-bottom: $footer-nav-header-to-links;
           margin-top: 0;
         }
-  
+
         &.newsletter {
           max-width: 200px;
 
@@ -87,7 +87,7 @@ $footer-nav-header-to-links: 14px;
       @media screen and (min-width: 500px) {
         grid-template-columns: repeat(6, 1fr);
         justify-items: center;
-        
+
         .nav-column {
           &:nth-child(1) { grid-area: 1 / 1 / 2 / 3; }
           &:nth-child(2) { grid-area: 1 / 3 / 2 / 5; }
@@ -118,7 +118,7 @@ $footer-nav-header-to-links: 14px;
         display: grid;
         justify-items: center;
         grid-template-columns: 1fr repeat(3, max-content) 1fr;
-        grid-template-areas: 
+        grid-template-areas:
         "... hc-logo hc-logo hc-logo ..."
         "... privacy sep tou ..."
         "... icons icons icons ...";

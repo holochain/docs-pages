@@ -16,5 +16,5 @@ rocketship
 renderlayoutblock
 shellsession
 srcset
-storysequence
+storystep
 surpress

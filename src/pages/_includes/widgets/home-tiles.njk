@@ -1,4 +1,4 @@
-{% from "widgets/svg-icons.njk" import rocketshipIcon, craneIcon, toolPanelIcon, personReadingIcon %}
+{% from "widgets/svg-icons.njk" import rocketshipIcon, lightBulbIcon, craneIcon, toolPanelIcon, personReadingIcon %}
 <div id="home-tiles">
     {% linkTile "/get-started/", "home-tile" %}
       {{ rocketshipIcon() }}
@@ -9,10 +9,18 @@
     {% endlinkTile %}
 
     {% linkTile "/concepts/1_the_basics/", "home-tile" %}
-      {{ craneIcon() }}
+      {{ lightBulbIcon() }}
       <div class="text-wrapper">
         <h2>Core Concepts</h2>
         <p>Introducing Holochain basics</p>
+      </div>
+    {% endlinkTile %}
+
+    {% linkTile "/build/", "home-tile" %}
+      {{ craneIcon() }}
+      <div class="text-wrapper">
+        <h2>Build Guide</h2>
+        <p>Learn how to write Holochain applications</p>
       </div>
     {% endlinkTile %}
 
@@ -20,7 +28,7 @@
       {{ toolPanelIcon() }}
       <div class="text-wrapper">
         <h2>Resources</h2>
-        <p>Howtos, references, examples, and more</p>
+        <p>Howtos, references, examples, tools, libraries, and more</p>
       </div>
     {% endlinkTile %}
 
