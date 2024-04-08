@@ -726,13 +726,16 @@ To include `holo-dev-server` in your development environment, update your projec
 }
 ```
 
-To connect your application to `holo-dev-server`, point the client's `chaperoneUrl` to `https://localhost:24274`. The easiest way to do this is to look for an environment variable that you can supply in an NPM script.
+To connect your application to `holo-dev-server`, point the client's `chaperoneUrl` to `https://localhost:24274`. The easiest way to do this is to supply an environment variable that you can then look for in your UI:
 
 ```typescript
 const client: WebSdk = await WebSdk.connect({
-  chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL, // We'll explain this in the testing section
+  // We'll explain this in the testing section.
+  chaperoneUrl: import.meta.env.VITE_APP_CHAPERONE_URL,
   authFormCustomization: {
-    appName: 'forum-app', // Display name on the credentials form. You can also set it in Cloud Console when deploying
+    // Display name on the credentials form.
+    // You can also set it in Cloud Console when deploying.
+    appName: 'forum-app',
   }
 });
 ```
@@ -751,7 +754,7 @@ Let's add some build, run, and test scripts to your project's `package.json` fil
 Let's add the following scripts to the top of the `"scripts"` object. These will:
 
 1. Build your `.happ` file,
-2. Run `holo-dev-server` with your `.happ` file and make it available on port `24274` (make sure you change `workdir/test-app.happ` to match your hApp),
+2. Run `holo-dev-server` with your `.happ` file and make it available on port `24274` (make sure you change `workdir/forum.happ` to match your hApp),
 3. Serve the `holochain-playground` UI at `localhost:4444` and open it in a browser, and
 4. Start two agents and open their UIs in the browser, pointing them both to the local URL that `holo-dev-server` is running on.
 
@@ -760,7 +763,7 @@ Take note of the `"network:holo"` script; it's what passes the `VITE_APP_CHAPERO
 ```json
     "start:holo": "AGENTS=2 BOOTSTRAP_PORT=$(port) SIGNAL_PORT=$(port) npm run network:holo",
     "network:holo": "npm run build:happ && UI_PORT=$(port) concurrently \"npm run launch:holo-dev-server\" \"holochain-playground ws://localhost:4444\" \"concurrently-repeat 'VITE_APP_CHAPERONE_URL=http://localhost:24274 VITE_APP_IS_HOLO=true npm start -w ui' $AGENTS\"",
-    "launch:holo-dev-server": "holo-dev-server workdir/test-app.happ",
+    "launch:holo-dev-server": "holo-dev-server workdir/forum.happ",
 ```
 
 These scripts assume that you have a `start` script set up in a `ui` workspace that serves your UI at a local URL, which you should have if you created the hApp using our scaffolding tool.
