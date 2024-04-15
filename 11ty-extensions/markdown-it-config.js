@@ -4,6 +4,10 @@ import markdownItContainer from "markdown-it-container";
 import markdownItAnchor from "markdown-it-anchor";
 import slugify from '@sindresorhus/slugify';
 
+// This config is shared by Eleventy and by the TOC generator in /src/pages/_data/eleventyComputed.js
+// which is why it has no Eleventy stuff in it like the other files in this
+// folder.
+
 /**
  * Composes the attributes string for an html tag from the markdown-it-container token and default attributes
  * @param {*} token token from markdown-it-container

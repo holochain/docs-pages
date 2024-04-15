@@ -1,6 +1,17 @@
 import CustomMarkdownIt from "../../../11ty-extensions/markdown-it-config.js";
 import DOM from "fauxdom";
 
+// This file generates on-page TOC for every Markdown page that doesn't disable
+// this feature via a `tocData` property in the front matter.
+// See the `Table of contents` section of `/11ty-markdown-changes.md` for info.
+//
+// Note that this passes the `data.page.rawInput` data property through
+// Markdown-it so it has access to the HTML for generating the outline.
+// `rawInput` is a new property as of 11ty 3.0.0: https://github.com/11ty/eleventy/issues/1206#issuecomment-1885269900
+// So that means it parses every Markdown page twice. Yes, I know that's a
+// performance hit, but 11ty doesn't let you generate computed data from the
+// content _after_ it's been converted to HTML.
+
 function generateOutline(content) {
   const doc = new DOM(content);
   let headers = doc.querySelectorAll(":is(h2, h3, h4, h5, h6)[id]:not([data-no-toc])")
