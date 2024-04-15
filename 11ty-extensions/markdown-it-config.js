@@ -88,7 +88,13 @@ const validateDetailsBlock = (params) => {
 
 const mdLib = markdownIt();
 
-mdLib.set({ typographer: true });
+// Set up sane defaults; most of these are borrowed from 11ty's defaults.
+mdLib.set({
+  html: true,
+  linkify: true,
+  typographer: true
+});
+mdLib.disable("code");
 
 //Configure markdown-it plugins
 mdLib.use(markdownItAttrs);
