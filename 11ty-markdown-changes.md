@@ -50,7 +50,11 @@ Obviously it would be optimal to actually resize the image. But you can tweak th
 ```
 
 ## Table of contents
-An on-page table of contents is generated automatically for every page from all `h2` to `h6` elements that have `id` attributes. If you don't want this to happen, put `tocData: false` in your page's front matter.
+An on-page table of contents is generated automatically for every page from all `h2` to `h6` elements that have `id` attributes. If you don't want this to happen, put `tocData: false` in your page's front matter. You can also selectively prevent a header from being included in the table of contents by either suppressing its ID attribute or adding a `data-no-toc` attribute:
+
+```markdown
+## I am a header that shouldn't appear in the TOC {data-no-toc}
+```
 
 If you want to craft a custom table of contents, instead assign a nested array to `tocData` that looks like this:
 
