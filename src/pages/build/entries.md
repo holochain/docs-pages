@@ -17,7 +17,7 @@ The pairing of an entry and the action that created it is called a **record**, w
 
 ## Define an entry type
 
-Each entry has a **type**, which your application code uses to make sense of the entry's bytes. Our [HDI library](https://docs.rs/hdi/latest/hdi/) gives you macros to automatically define, serialize, and deserialize entry types from any Rust struct or enum that [`serde`](https://docs.rs/serde/latest/serde/) can handle.
+Each entry has a **type**, which your application code uses to make sense of the entry's bytes. Our [HDI library](https://docs.rs/hdi/latest/hdi/) gives you macros to automatically define, serialize, and deserialize entry types to and from any Rust struct or enum that [`serde`](https://docs.rs/serde/latest/serde/) can handle.
 
 Entry types are defined in an [**integrity zome**](/resources/glossary/#integrity-zome). To define an [`EntryType`](https://docs.rs/hdi/latest/hdi/prelude/enum.EntryType.html), use the [`hdi::prelude::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_helper.html) macro on your Rust type:
 
@@ -76,7 +76,7 @@ This also gives you an enum that you can use later when you're storing app data.
 
 Most of the time you'll want to define your create, read, update, and delete (CRUD) functions in a [**coordinator zome**](/resources/glossary/#coordinator-zome) rather than the integrity zome that defines it. This is because a coordinator zome is easier to update in the wild than an integrity zome.
 
-Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/prelude/fn.create_entry.html). The entry will be serialized into a blob automatically, thanks to the `hdk_entry_helper` macro.
+Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/prelude/fn.create_entry.html). If you used `hdk_entry_helper` and `hdk_entry_defs` macro in your integrity zome (see [Define an entry type](#define-an-entry-type)), you can use the entry types enum you defined, and the entry will be serialized and have the correct integrity zome and entry type indexes added to it.
 
 ```rust
 use hdk::prelude::*;
@@ -95,7 +95,7 @@ let movie = Movie {
 let create_action_hash: ActionHash = create_entry(
     // The value you pass to `create_entry` needs a lot of traits to tell
     // Holochain which entry type from which integrity zome you're trying to
-    // create. The `hdk_entry_types` macro will have set this up for you, so all
+    // create. The `hdk_entry_defs` macro will have set this up for you, so all
     // you need to do is wrap your movie in the corresponding enum variant.
     &EntryTypes::Movie(movie.clone()),
 )?;
@@ -150,7 +150,7 @@ let update_action_hash: ActionHash = update_entry(
 )?;
 ```
 
-An [`Update` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Update.html) operates on an entry creation action (either a `Create` or an `Update`), not just an entry by itself. It doesn't remove the original data from the DHT; instead, it gets attached to both the original entry and its entry creation action. As an entry creation action itself, it references the hash of the new entry so it can be retrieved from the DHT.
+An [`Update` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Update.html) operates on an entry creation action (either a `Create` or an `Update`), not just an entry by itself. It also doesn't remove the original data from the DHT; instead, it gets attached to both the original entry and its entry creation action. As an entry creation action itself, it references the hash of the new entry so it can be retrieved from the DHT.
 
 ### Update under the hood
 
@@ -177,9 +177,9 @@ Calling `update_entry` does the following:
 
 ### Update patterns
 
-Holochain gives you this `update_entry` function, but is somewhat unopinionated about how it's used. You can interpret an update as applying to either the original _action_ or the original _entry_ being updated, because the `Update` action is merely a piece of metadata attached to both, and can be retrieved along with the original data using [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see below).
+Holochain gives you this `update_entry` function, but is somewhat unopinionated about how it's used. While in most cases you'll want to interpret it as applying to the original _record_ (action + entry), there are cases where you might want to interpret it as applying to the original _entry_, because the `Update` action is merely a piece of metadata attached to both, and can be retrieved along with the original data using [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see [below](#all-records-and-links-attached-to-an-entry)).
 
-You can also choose where to attach updates. You can structure them as a 'list', where all updates refer to the `ActionHash` of the original `Create` action.
+You can also choose what record updates should be attached to. You can structure them as a 'list', where all updates refer to the `ActionHash` of the original `Create` action.
 
 <!-- TODO: Replace the SVG with Mermaid once we've got build-time Mermaid rendering working.
 https://mermaid.live/edit#pako:eNptz8tuwjAQBdBfse46RONH7OBFpQL9grabYhYWcQuCPOQmUmmUf6-JlFXZzcwZXc2MOLZVgMVX9N2JvW1cw9hm_95Vvg-MH9hq9cSe99sYUn-443ZB8QB3C8oH-LKg-ofIUIdY-3OVThnvyw79KdTBwaay8vHi4Jop7fmhb19vzRG2j0PIMMyZu7NPH9Swn_76naadb2BH_MAKWueapORGaDJKiAw3WG6KvBCGqKRCa0VaTBl-2zYlUG5kyUlxaUirtSzVHPcx4xw__QHCaVxb
@@ -201,11 +201,11 @@ It's up to you to decide whether two updates on the same entry or action are a c
 
 But if your use case needs a single canonical version of a resource, you'll need to decide on a conflict resolution strategy to use at retrieval time.
 
-If only the original author is permitted to update the entry, choosing the latest update is simple. Just choose the `Update` action with the most recent timestamp, which is guaranteed to [advance monotonically](/resources/glossary/#monotonicity) for any honest agent. But if multiple agents are permitted to update an entry, it gets more complicated. Two agents could make an update at exactly the same time (or their action timestamps might be wrong or falsified). So, how do you decide which is the 'latest' update?
+If only the original author is permitted to update the entry, choosing the latest update is simple. Just choose the `Update` action with the most recent timestamp, which is guaranteed to [advance monotonically](/resources/glossary/#monotonicity) for any honest agent's source chain. But if multiple agents are permitted to update an entry, it gets more complicated. Two agents could make an update at exactly the same time (or their action timestamps might be wrong or falsified). So, how do you decide which is the 'latest' update?
 
 These are two common patterns:
 
-* Use an opinionated, deterministic definition of 'latest' that can be calculated from the content of the update.
+* Use an opinionated, deterministic definition of 'latest' that can be calculated from the content of the update regardless of the writer.
 * Model your updates with a data structure that can automatically merge simultaneous updates, such as a [conflict-free replicated data type (CRDT)](https://crdt.tech/).
 
 ## Delete an entry
@@ -284,8 +284,8 @@ match maybe_record {
         // instance of the expected Rust type. You can find out how to check for
         // most of these edge cases by exploring the documentation for the
         // `Record` type, but in this simple example we'll skip that and assume
-        // that the action hash referenced an action with entry data attached
-        // to it.
+        // that the action hash does reference an action with entry data
+        // attached to it.
         let maybe_movie: Option<Movie> = record.entry().to_app_option();
 
         match maybe_movie {
