@@ -120,10 +120,12 @@ When the client calls a zome function that calls `create_entry`, Holochain does 
 7. Run the validation callback for all DHT operations.
     * If successful, continue.
     * If unsuccessful, return the validation error to the client instead of the zome function's return value.
-8. Publish the actions in the scratch space to the source chain.
+8. Compare the scratch space against the actual state of the source chain.
+    * If the source chain has diverged from the scratch space, and the write specified strict chain top ordering, the scratch space is discarded and a `HeadMoved` error is returned to the caller.
+    * If the source chain has diverged and the write specified relaxed chain top ordering, the data in the scratch space is 'rebased' on top of the new source chain state as it's being written.
+    * If the source chain has not diverged, the data in the scratch space is written to the source chain state.
 9. Return the zome function's return value to the client.
 10. In the background, publish all newly created DHT operations to their respective authority agents.
-
 
 ## Update an Entry
 
@@ -166,7 +168,10 @@ Calling `update_entry` does the following:
 7. Run the validation callback for all DHT operations.
     * If successful, continue.
     * If unsuccessful, return the validation error to the client instead of the zome function's return value.
-8. Publish the actions in the scratch space to the source chain.
+8. Compare the scratch space against the actual state of the source chain.
+    * If the source chain has diverged from the scratch space, and the write specified strict chain top ordering, the scratch space is discarded and a `HeadMoved` error is returned to the caller.
+    * If the source chain has diverged and the write specified relaxed chain top ordering, the data in the scratch space is 'rebased' on top of the new source chain state as it's being written.
+    * If the source chain has not diverged, the data in the scratch space is written to the source chain state.
 9. Return the zome function's return value to the client.
 10. In the background, publish all newly created DHT operations to their respective authority agents.
 
@@ -233,7 +238,10 @@ Calling `delete_entry` does the following:
 6. Run the validation callback for all DHT operations.
     * If successful, continue.
     * If unsuccessful, return the validation error to the client instead of the zome function's return value.
-7. Publish the actions in the scratch space to the source chain.
+7. Compare the scratch space against the actual state of the source chain.
+    * If the source chain has diverged from the scratch space, and the write specified strict chain top ordering, the scratch space is discarded and a `HeadMoved` error is returned to the caller.
+    * If the source chain has diverged and the write specified relaxed chain top ordering, the data in the scratch space is 'rebased' on top of the new source chain state as it's being written.
+    * If the source chain has not diverged, the data in the scratch space is written to the source chain state.
 8. Return the zome function's return value to the client.
 9. In the background, publish all newly created DHT operations to their respective authority agents.
 
