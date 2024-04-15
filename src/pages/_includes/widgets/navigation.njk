@@ -4,11 +4,11 @@
   <ul class="nav-child-level {% if isCurrentParent %}open{% endif %}">
     {% for childLink in navData %}
     <li {% if childLink.url == page.url %} aria-current="page" {% endif %}>
-      <a href="{{ childLink.url }}" {% if childLink.external %}target="_blank" rel="noreferrer nofollow noopener external"{% endif %} >
+      <{% if childLink.url %}a href="{{ childLink.url }}" {% if childLink.external %}target="_blank" rel="noreferrer nofollow noopener external"{% endif %}{% else %}div{% endif %} class="nav-label">
         <span>
           {{ childLink.title }}
         </span>
-      </a>
+      </{% if childLink.url %}a{% else %}div{% endif %}>
 
       {% if childLink.children %}
         {{ children(childLink.children, isCurrentParent, page) }}
@@ -29,7 +29,7 @@
       {% set isCurrentParent = topLink.url == activeParent.url %}
       <li {% if isCurrentParent %} data-is-current-parent="true" {% endif %}
         {% if topLink.url == page.url %} aria-current="page" {% endif %} >
-        <a href="{{ topLink.url }}" {% if topLink.external %}target="_blank" rel="noreferrer nofollow noopener external"{% endif %} >
+        <a href="{{ topLink.url }}" {% if topLink.external %}target="_blank" rel="noreferrer nofollow noopener external"{% endif %} class="nav-label">
           <span>
             {{ topLink.title }}
           </span>

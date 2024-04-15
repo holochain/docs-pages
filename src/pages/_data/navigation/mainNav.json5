@@ -25,7 +25,12 @@
         { title: "Lifecycle Events", url: "/concepts/11_lifecycle_events/" },
       ]
     },
-    { title: "Build", url: "/build/", children: []},
+    { title: "Build", url: "/build/", children: [
+        { title: "Working with Data", url: "/build/#working-with-data", children: [
+          { title: "Entries", url: "/build/entries/" },
+        ]},
+      ]
+    },
     { title: "Resources", url: "/resources/", children: [
         { title: "HDK", url: "https://docs.rs/hdk", external: true },
         { title: "HDI", url: "https://docs.rs/hdi", external: true },

@@ -81,10 +81,7 @@ const validateDetailsBlock = (params) => {
 
 /* End Details Block code */
 
-/**
- * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js
- * @param {*} eleventyConfig
- */
+// Set up the Markdown-it parser here.
 
 const mdLib = markdownIt();
 
@@ -107,6 +104,7 @@ mdLib.use(markdownItContainer, "intro");
 mdLib.use(markdownItContainer, "orientation");
 mdLib.use(markdownItContainer, "storystep");
 mdLib.use(markdownItContainer, "h-author");
+mdLib.use(markdownItContainer, "topic-list");
 mdLib.use(markdownItContainer, "output-block");
 
 // Admonitions

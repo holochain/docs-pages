@@ -581,7 +581,10 @@ A Holochain application design pattern, in which one [DHT](#distributed-hash-tab
 
 #### Logical monotonicity
 
-The property of a set of facts whereby the truth of prior facts are never negated by the addition of later facts. [CALM](#consistency-as-logical-monotonicity-calm-theorem) relies on functions that exhibit this property. For example, Holochain's [source chain](#source-chain) and [DHT](#distributed-hash-table-dht) only add new data without removing old data, simulating deletions and modifications ([CRUD](#create-read-update-delete-crud)) by recording actions which override the status of, but don't remove, the data they refer to.
+The property of a system whereby [monotonicity](#monotonicity) is applied to state changes. Practically this means that state changes are only accumulated, never forgotten, so that the system's final state results from the application of all accumulated state changes. [CALM](#consistency-as-logical-monotonicity-calm-theorem) systems such as Holochain are logically monotonic. Two examples of this in Holochain are:
+
+* An [agent](#agent)'s [source chain](#source-chain) is an event journal that only adds state change operations, never removes them.
+* An application's [DHT](#distributed-hash-table-dht) only adds new data without removing old data, simulating deletions and modifications ([CRUD](#create-read-update-delete-crud)) by recording actions which override the status of, but don't remove, the data they refer to.
 
 #### Membrane
 
@@ -613,6 +616,10 @@ An application architecture pattern that encourages small, single-purpose [back 
 #### M-of-N signing
 
 An extension to [countersigning](#countersigning), in which a number of optional witnesses are also involved as [counterparties](#counterparty) signing the session, a majority of which must sign in order for the session to complete. One optional witness must also be nominated as the session's [enzyme](#enzyme).
+
+#### Monotonicity
+
+A property of a function whereby values are either non-decreasing or non-increasing (that is, values may stay the same, but if they change, they may only ever go up or go down). An example in Holochain can be found in the timestamps of an [agent](#agent)'s [source chain](#source-chain), where a source chain [action](#action) can never be earlier than the action that precedes it. See also [logical monotonicity](#logical-monotonicity).
 
 #### Mutual sovereignty
 

@@ -344,6 +344,29 @@ a.link-tile {
   }
 }
 
+/* A special styling for lists of links to sub-pages. Used in the build guide. */
+.topic-list {
+  padding: 1em;
+  background-color: #f7f7f7;
+
+  /* Unless otherwise specified with `class="not-topic-page"`, links in a topic
+  list are assumed to point to topic pages. */
+  a:not(.not-topic-page, .header-anchor) {
+    font-weight: bold;
+    @include addPageIcon;
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Enlarged text with a rule on the left side, meant to call out an interesting
+   paragran at the top of a page. */
 .intro {
   font-size: $fs-even-bigger;
   border-left: 4px solid $cl-gray;
@@ -367,7 +390,6 @@ a.link-tile {
 }
 
 .storystep {
-
   /* Horizontal rules can be used to break up content in a story step.
   Make them nice and light. */
   hr {
