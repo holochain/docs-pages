@@ -13,7 +13,8 @@ surpressH1InLayout: false
 </div>
 <div class="side-bar">
   {{ mainNavTree(navigation.mainNav, page) }}
-  {{ tocBlock(tocData) }} 
+  {% set toc = tocData or generatedTocData %}
+  {{ tocBlock(toc) }}
 </div>
 
 <div class="header-full-bg"></div>

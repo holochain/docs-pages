@@ -1,5 +1,6 @@
 ---
 title: Application Architecture
+tocData: false
 ---
 
 ::: intro
