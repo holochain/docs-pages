@@ -10,8 +10,8 @@ An **entry** is a blob of bytes that your application code gives meaning and str
 
 An entry is always paired with an **entry creation action** that tells you who authored it and when it was authored. Because of this, you don't usually need to include author and timestamp fields in your entries. There are two kinds of entry creation action:
 
-* `Create`, which creates a new piece of data in the application's database, and
-* `Update`, which does the same as `Create` but also marks an existing piece of data as updated.
+* `Create`, which creates a new piece of data in either the user's private database or the application's shared database, and
+* `Update`, which does the same as `Create` but also takes an existing piece of data and marks it as updated.
 
 The pairing of an entry and the action that created it is called a **record**, which is the basic unit of data in a Holochain application.
 
