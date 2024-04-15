@@ -1,3 +1,4 @@
+import markdownIt from "markdown-it";
 import markdownItAttrs from "markdown-it-attrs";
 import markdownItContainer from "markdown-it-container";
 import markdownItAnchor from "markdown-it-anchor";
@@ -80,32 +81,33 @@ const validateDetailsBlock = (params) => {
  * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js
  * @param {*} eleventyConfig
  */
-export default function(eleventyConfig) {
-  eleventyConfig.amendLibrary("md", (mdLib) => {
-    mdLib.set({ typographer: true });
 
-    //Configure markdown-it plugins
-    mdLib.use(markdownItAttrs);
-    mdLib.use(markdownItAnchor, {
-      tabIndex: false,
-      slugify: s => slugify(s),
-      permalink: markdownItAnchor.permalink.headerLink(),
-    });
-    mdLib.use(markdownItContainer, "intro");
-    mdLib.use(markdownItContainer, "orientation");
-    mdLib.use(markdownItContainer, "storystep");
-    mdLib.use(markdownItContainer, "h-author");
-    mdLib.use(markdownItContainer, "output-block");
+const mdLib = markdownIt();
 
-    // Admonitions
-    mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericAdmonitionRenderFunc("tip") });
-    mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericAdmonitionRenderFunc("note") });
-    mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericAdmonitionRenderFunc("info") });
-    mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
+mdLib.set({ typographer: true });
 
-    // Details block
-    mdLib.use(markdownItContainer, "details", { marker: "!", render: composeDetailsBlockRenderFunc() });
-    // Create a specialized synonym for details block with a class of "dig-deeper"
-    mdLib.use(markdownItContainer, "dig-deeper", { marker: "!", render: composeDetailsBlockRenderFunc("dig-deeper") });
-  });
-};
+//Configure markdown-it plugins
+mdLib.use(markdownItAttrs);
+mdLib.use(markdownItAnchor, {
+  tabIndex: false,
+  slugify: s => slugify(s),
+  permalink: markdownItAnchor.permalink.headerLink(),
+});
+mdLib.use(markdownItContainer, "intro");
+mdLib.use(markdownItContainer, "orientation");
+mdLib.use(markdownItContainer, "storystep");
+mdLib.use(markdownItContainer, "h-author");
+mdLib.use(markdownItContainer, "output-block");
+
+// Admonitions
+mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericAdmonitionRenderFunc("tip") });
+mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericAdmonitionRenderFunc("note") });
+mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericAdmonitionRenderFunc("info") });
+mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
+
+// Details block
+mdLib.use(markdownItContainer, "details", { marker: "!", render: composeDetailsBlockRenderFunc() });
+// Create a specialized synonym for details block with a class of "dig-deeper"
+mdLib.use(markdownItContainer, "dig-deeper", { marker: "!", render: composeDetailsBlockRenderFunc("dig-deeper") });
+
+export default mdLib;
