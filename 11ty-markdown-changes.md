@@ -49,6 +49,35 @@ Obviously it would be optimal to actually resize the image. But you can tweak th
 ![](/assets/img/concepts/8.1-calls.png){.sz50p}
 ```
 
+## Table of contents
+An on-page table of contents is generated automatically for every page from all `h2` to `h6` elements that have `id` attributes. If you don't want this to happen, put `tocData: false` in your page's front matter. You can also selectively prevent a header from being included in the table of contents by either suppressing its ID attribute or adding a `data-no-toc` attribute:
+
+```markdown
+## I am a header that shouldn't appear in the TOC {data-no-toc}
+```
+
+If you want to craft a custom table of contents, instead assign a nested array to `tocData` that looks like this:
+
+```yaml
+tocData:
+  - text: First section header
+    href: first-section-header
+    children:
+      - text: Subsection header 1
+        href: subsection-header-1
+      - text: Subsection header 2
+        href: subsection-header-2
+  - text: Second section header
+    href: second-section-header
+  - text: Conclusion
+    href: conclusion
+```
+
+There are two things to note about the above:
+
+* IDs are automatically generated for all headers; they'll be the slug of the header text. You can override a header's ID with a `{#custom-id}` attribute.
+* Although the `href` property suggests it should be a resolvable URL, don't put the `#` at the beginning of its value.
+
 ## Items to add to README
 - using callMacroByName
 

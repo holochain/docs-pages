@@ -13,7 +13,7 @@ This Build Guide organizes everything you need to know about developing Holochai
 ## Working with data
 
 ::: topic-list
-### Topics
+### Topics {data-no-toc}
 
 * [Overview](/build/working-with-data/) --- general concepts related to working with data in Holochain
 * [Entries](/build/entries/) --- creating, reading, updating, and deleting

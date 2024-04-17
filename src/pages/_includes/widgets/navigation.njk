@@ -61,7 +61,7 @@
 {% endmacro %}
 
 {% macro tocBlock(tocData) %}
-{% if tocData %}
+{% if tocData and tocData|length %}
   <nav id="in-page-toc">
     <h2>On this page</h2>
     <ul>
