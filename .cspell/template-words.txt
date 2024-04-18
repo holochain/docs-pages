@@ -1,5 +1,7 @@
 # Words found in our template code
 brower
+# Silly thing that pops up in Mermaid diagrams
+CAID
 coreconcepts
 elif
 endfor
@@ -8,6 +10,8 @@ endlink
 endmacro
 endrenderlayoutblock
 gtag
+# Silly thing that pops up in Mermaid diagrams
+kafe
 katex
 layoutblock
 MSIE
