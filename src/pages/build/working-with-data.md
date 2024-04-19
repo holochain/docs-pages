@@ -163,14 +163,14 @@ A link is a piece of metadata attached to an address, the **base address**, and 
     </marker>
     <g class="root">
       <g class="clusters"></g>
-      <g class="edgePaths"><!--
+      <g class="edgePaths">
         <path
           marker-end="url(#graph-div_flowchart-pointEnd)"
           style="fill:none;"
           class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-B"
           id="L-A-B-0"
           d="M104.009,130.5L133.803,110.75C163.598,91,223.186,51.5,280.355,37.015C337.523,22.53,392.272,33.06,419.646,38.325L447.02,43.59"
-        ></path>-->
+        ></path>
         <path
           marker-end="url(#graph-div_flowchart-pointEnd)"
           style="fill:none;"
