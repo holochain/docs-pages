@@ -170,14 +170,14 @@ A link is a piece of metadata attached to an address, the **base address**, and 
           class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-B"
           id="L-A-B-0"
           d="M104.009,130.5L133.803,110.75C163.598,91,223.186,51.5,280.355,37.015C337.523,22.53,392.272,33.06,419.646,38.325L447.02,43.59"
-        ></path>
+        ></path>-->
         <path
           marker-end="url(#graph-div_flowchart-pointEnd)"
           style="fill:none;"
           class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-B"
           id="L-A-B-1"
           d="M149.183,133.518L171.449,128.599C193.714,123.679,238.244,113.839,287.884,103.655C337.523,93.47,392.272,82.94,419.646,77.675L447.02,72.41"
-        ></path>-->
+        ></path>
         <path
           marker-end="url(#graph-div_flowchart-pointEnd)"
           style="fill:none;"
