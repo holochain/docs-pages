@@ -49,9 +49,6 @@ A link is a piece of metadata attached to an address, the **base address**, and 
 A link can still be created even if its base and target don't exist; the base and target are simply considered external references in this case.
 
 <!-- https://mermaid.live/edit#pako:eNpVkU1PwzAMhv9K5GPVVenH-pEDEmNHuMANijqrcWm1tInSVKxM---ETULgk229fl7ZPkOrJYGAD4umZ4_P9cR83L_1D-URO6qiKCraOHkXQtDJkZ1Qsc2G1XAIArcaEkHAyPXNJypFrnG6GUw3N8bqblDUmF47fajBz9yx3Q2-u8IljzsPL7OW_sJvklbhPO-pY7-es7P6SBuJc4_W4ipSlobeQglncZoNWpochDCSHXGQfqPzD6oG19NINQifSupwUa6Gerp4KS5Ov6xTCx6xUAiLkehoP6C_xQiiQzX7rsHpVet_NYgznEAkvIpynqZxkeS8yJIkhBVEXGyjbVJwXvJtnmc8Ty4hfF0JPCrSMuZZnBY8z6q0zEIgOThtn25PuP7i8g09dX6p -->
-<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewBox="-8 -8 570.566650390625 112" style="max-width: 100%;" xmlns="http://www.w3.org/2000/svg" width="100%" class="mermaid-flowchart" height="100%">
-
-</svg>
 
 ### CRUD metadata
 
