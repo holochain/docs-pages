@@ -44,11 +44,76 @@ You can attach links to any of these addresses to create a one-to-many relations
 A link is a piece of metadata attached to an address, the **base address**, and points to another address, the **target**. It has a **link type** that gives it meaning in the application, as well as an optional **tag** that can store arbitrary application data and be used for various things like building indexes and reducing number of queries.
 
 <!-- https://mermaid.live/edit#pako:eNqtkj9PwzAQxb-KdQNDlVTOnzqtByRaJBZYCBISTZW6zaWNSOzIsRGh6nfHaWGgA2LAk-177-en8x1gqwoEDjst2j25f8wkcetmmVaNkuSK3AldWvmK9Yr4PslgPRqZvkU-GhGhTdWZXNQb26wzcPVrMv_y_yrON32usUbRYV4Ig2eP04rdIA1mjPk08IPkgjpfpsrKoiOqJGlVo9zi6i_vfWMW_xIuoUO4kF1QF8u5roodEvWGmjxpZTc1FuTZIbRLCR40qBtRFa7Zh8GSgdljgxlwty2wFLY2GWTy6KTCGpX2cgvcaIse2HaIclsJ900N8FLUnbtthXxR6scZ-AHegYd0NmY0ioIkZDSJw9CDHniQTMaTMKF0SieMxZSFRw8-TgQ6TqJpQOMgSiiLZ9E09gCLyij9cJ6P05gcPwGi8KcN -->
-<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewBox="-8 -8 643.5166625976562 364" style="max-width: 100%;" xmlns="http://www.w3.org/2000/svg" width="100%" class="mermaid-flowchart" height="100%"><g><marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="6" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-pointEnd"><path style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="4.5" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-pointStart"><path style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="11" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-circleEnd"><circle style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="-1" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-circleStart"><circle style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="12" viewBox="0 0 11 11" class="marker cross flowchart" id="graph-div_flowchart-crossEnd"><path style="stroke-width: 2px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="-1" viewBox="0 0 11 11" class="marker cross flowchart" id="graph-div_flowchart-crossStart"><path style="stroke-width: 2px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#graph-div_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-B" id="L-A-B-0" d="M104.009,130.5L133.803,110.75C163.598,91,223.186,51.5,280.355,37.015C337.523,22.53,392.272,33.06,419.646,38.325L447.02,43.59"></path><path marker-end="url(#graph-div_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-B" id="L-A-B-1" d="M149.183,133.518L171.449,128.599C193.714,123.679,238.244,113.839,287.884,103.655C337.523,93.47,392.272,82.94,419.646,77.675L447.02,72.41"></path><path marker-end="url(#graph-div_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-C" id="L-A-C-0" d="M149.183,166.482L171.449,171.401C193.714,176.321,238.244,186.161,282.606,195.33C326.967,204.5,371.159,212.999,393.255,217.249L415.351,221.499"></path><path marker-end="url(#graph-div_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-C" id="L-A-C-1" d="M104.009,169.5L133.803,189.25C163.598,209,223.186,248.5,275.077,264C326.967,279.5,371.159,271.001,393.255,266.751L415.351,262.501"></path></g><g class="edgeLabels"><g transform="translate(282.7750015258789, 12)" class="edgeLabel"><g transform="translate(-67.45833587646484, -12)" class="label"><foreignObject height="24" width="134.9166717529297"><div class="labelBkg" xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; max-width: 200px;"><span class="nodeLabel"><p><strong>type:</strong> artist_album</p></span></div></foreignObject></g></g><g transform="translate(282.7750015258789, 104)" class="edgeLabel"><g transform="translate(-108.59166717529297, -60)" class="label"><foreignObject height="120" width="217.18333435058594"><div class="labelBkg" xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; max-width: 200px; width: 200px;"><span class="nodeLabel"><p><strong>type:</strong> artist_album_by_release_date<br/><strong>tag:</strong> 1966-01-17</p></span></div></foreignObject></g></g><g transform="translate(282.7750015258789, 196)" class="edgeLabel"><g transform="translate(-67.45833587646484, -12)" class="label"><foreignObject height="24" width="134.9166717529297"><div class="labelBkg" xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; max-width: 200px;"><span class="nodeLabel"><p><strong>type:</strong> artist_album</p></span></div></foreignObject></g></g><g transform="translate(282.7750015258789, 288)" class="edgeLabel"><g transform="translate(-108.59166717529297, -60)" class="label"><foreignObject height="120" width="217.18333435058594"><div class="labelBkg" xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; max-width: 200px; width: 200px;"><span class="nodeLabel"><p><strong>type:</strong> artist_album_by_release_date<br/><strong>tag:</strong> 1970-01-26</p></span></div></foreignObject></g></g></g><g class="nodes"><g transform="translate(74.59166717529297, 150)" data-id="A" data-node="true" id="flowchart-A-57" class="node default default flowchart-label"><rect height="39" width="149.18333435058594" y="-19.5" x="-74.59166717529297" ry="0" rx="0" style="" class="basic label-container"></rect><g transform="translate(-67.09166717529297, -12)" style="" class="label"><rect></rect><foreignObject height="24" width="134.18333435058594"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">Simon &amp; Garfunkel</span></div></foreignObject></g></g><g transform="translate(521.9416656494141, 58)" data-id="B" data-node="true" id="flowchart-B-58" class="node default default flowchart-label"><rect height="39" width="139.43333435058594" y="-19.5" x="-69.71666717529297" ry="0" rx="0" style="" class="basic label-container"></rect><g transform="translate(-62.21666717529297, -12)" style="" class="label"><rect></rect><foreignObject height="24" width="124.43333435058594"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">Sounds of Silence</span></div></foreignObject></g></g><g transform="translate(521.9416656494141, 242)" data-id="C" data-node="true" id="flowchart-C-63" class="node default default flowchart-label"><rect height="39" width="211.14999389648438" y="-19.5" x="-105.57499694824219" ry="0" rx="0" style="" class="basic label-container"></rect><g transform="translate(-98.07499694824219, -12)" style="" class="label"><rect></rect><foreignObject height="24" width="196.14999389648438"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">Bridge over Troubled Water</span></div></foreignObject></g></g></g></g></g></svg>
+
 
 A link can still be created even if its base and target don't exist; the base and target are simply considered external references in this case.
 
 <!-- https://mermaid.live/edit#pako:eNpVkU1PwzAMhv9K5GPVVenH-pEDEmNHuMANijqrcWm1tInSVKxM---ETULgk229fl7ZPkOrJYGAD4umZ4_P9cR83L_1D-URO6qiKCraOHkXQtDJkZ1Qsc2G1XAIArcaEkHAyPXNJypFrnG6GUw3N8bqblDUmF47fajBz9yx3Q2-u8IljzsPL7OW_sJvklbhPO-pY7-es7P6SBuJc4_W4ipSlobeQglncZoNWpochDCSHXGQfqPzD6oG19NINQifSupwUa6Gerp4KS5Ov6xTCx6xUAiLkehoP6C_xQiiQzX7rsHpVet_NYgznEAkvIpynqZxkeS8yJIkhBVEXGyjbVJwXvJtnmc8Ty4hfF0JPCrSMuZZnBY8z6q0zEIgOThtn25PuP7i8g09dX6p -->
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewBox="-8 -8 570.566650390625 112" style="max-width: 100%;" xmlns="http://www.w3.org/2000/svg" width="100%" class="mermaid-flowchart" height="100%">
+    <g>
+        <marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="6" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-pointEnd">
+            <path style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path>
+        </marker>
+        <marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="4.5" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-pointStart">
+            <path style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path>
+        </marker>
+        <marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="11" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-circleEnd">
+            <circle style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle>
+        </marker>
+        <marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="-1" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-circleStart">
+            <circle style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle>
+        </marker>
+        <marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="12" viewBox="0 0 11 11" class="marker cross flowchart" id="graph-div_flowchart-crossEnd">
+            <path style="stroke-width: 2px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path>
+        </marker>
+        <marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="-1" viewBox="0 0 11 11" class="marker cross flowchart" id="graph-div_flowchart-crossStart">
+            <path style="stroke-width: 2px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path>
+        </marker>
+        <g class="root">
+            <g class="clusters"></g>
+            <g class="edgePaths">
+                <path marker-end="url(#graph-div_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-B" id="L-A-B-0" d="M131.917,48L156.101,48C180.286,48,228.656,48,276.142,48C323.628,48,370.231,48,393.532,48L416.833,48"></path>
+            </g>
+            <g class="edgeLabels">
+                <g transform="translate(277.0250015258789, 48)" class="edgeLabel">
+                    <g transform="translate(-120.10832977294922, -48)" class="label">
+                        <foreignObject height="96" width="240.21665954589844">
+                            <div class="labelBkg" xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; max-width: 200px; width: 200px;">
+                                <span class="nodeLabel">
+                                    <p><strong>type:</strong> eth_wallet_to_ipfs_profile_photo</p>
+                                </span>
+                            </div>
+                        </foreignObject>
+                    </g>
+                </g>
+            </g>
+            <g class="nodes">
+                <g transform="translate(65.95833587646484, 48)" data-id="A" data-node="true" id="flowchart-A-18234" class="node default external flowchart-label">
+                    <rect height="39" width="131.9166717529297" y="-19.5" x="-65.95833587646484" ry="0" rx="0" style="" class="basic label-container"></rect>
+                    <g transform="translate(-58.458335876464844, -12)" style="" class="label">
+                        <rect></rect>
+                        <foreignObject height="24" width="116.91667175292969">
+                            <div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">
+                                <span class="nodeLabel">hC8kafe9...7c12</span>
+                            </div>
+                        </foreignObject>
+                    </g>
+                </g>
+                <g transform="translate(488.3499984741211, 48)" data-id="B" data-node="true" id="flowchart-B-18235" class="node default external flowchart-label">
+                    <rect height="39" width="132.43333435058594" y="-19.5" x="-66.21666717529297" ry="0" rx="0" style="" class="basic label-container"></rect>
+                    <g transform="translate(-58.71666717529297, -12)" style="" class="label">
+                        <rect></rect>
+                        <foreignObject height="24" width="117.43333435058594">
+                            <div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">
+                                <span class="nodeLabel">hC8kd01f...84ce</span>
+                            </div>
+                        </foreignObject>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
 
 ### CRUD metadata
 
