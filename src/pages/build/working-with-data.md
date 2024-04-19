@@ -163,7 +163,7 @@ A link is a piece of metadata attached to an address, the **base address**, and 
     </marker>
     <g class="root">
       <g class="clusters"></g>
-      <!--<g class="edgePaths">
+      <g class="edgePaths"><!--
         <path
           marker-end="url(#graph-div_flowchart-pointEnd)"
           style="fill:none;"
@@ -191,8 +191,8 @@ A link is a piece of metadata attached to an address, the **base address**, and 
           class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-C"
           id="L-A-C-1"
           d="M104.009,169.5L133.803,189.25C163.598,209,223.186,248.5,275.077,264C326.967,279.5,371.159,271.001,393.255,266.751L415.351,262.501"
-        ></path>
-      </g>-->
+        ></path>-->
+      </g>
       <g class="edgeLabels">
         <g transform="translate(282.7750015258789, 12)" class="edgeLabel">
           <g transform="translate(-67.45833587646484, -12)" class="label">
