@@ -50,69 +50,7 @@ A link can still be created even if its base and target don't exist; the base an
 
 <!-- https://mermaid.live/edit#pako:eNpVkU1PwzAMhv9K5GPVVenH-pEDEmNHuMANijqrcWm1tInSVKxM---ETULgk229fl7ZPkOrJYGAD4umZ4_P9cR83L_1D-URO6qiKCraOHkXQtDJkZ1Qsc2G1XAIArcaEkHAyPXNJypFrnG6GUw3N8bqblDUmF47fajBz9yx3Q2-u8IljzsPL7OW_sJvklbhPO-pY7-es7P6SBuJc4_W4ipSlobeQglncZoNWpochDCSHXGQfqPzD6oG19NINQifSupwUa6Gerp4KS5Ov6xTCx6xUAiLkehoP6C_xQiiQzX7rsHpVet_NYgznEAkvIpynqZxkeS8yJIkhBVEXGyjbVJwXvJtnmc8Ty4hfF0JPCrSMuZZnBY8z6q0zEIgOThtn25PuP7i8g09dX6p -->
 <svg aria-roledescription="flowchart-v2" role="graphics-document document" viewBox="-8 -8 570.566650390625 112" style="max-width: 100%;" xmlns="http://www.w3.org/2000/svg" width="100%" class="mermaid-flowchart" height="100%">
-    <!--<g>
-        <marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="6" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-pointEnd">
-            <path style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path>
-        </marker>
-        <marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="4.5" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-pointStart">
-            <path style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path>
-        </marker>
-        <marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="11" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-circleEnd">
-            <circle style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle>
-        </marker>
-        <marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="-1" viewBox="0 0 10 10" class="marker flowchart" id="graph-div_flowchart-circleStart">
-            <circle style="stroke-width: 1px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle>
-        </marker>
-        <marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="12" viewBox="0 0 11 11" class="marker cross flowchart" id="graph-div_flowchart-crossEnd">
-            <path style="stroke-width: 2px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path>
-        </marker>
-        <marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="-1" viewBox="0 0 11 11" class="marker cross flowchart" id="graph-div_flowchart-crossStart">
-            <path style="stroke-width: 2px; stroke-dasharray: 1px, 0px;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path>
-        </marker>
-        <g class="root">
-            <g class="clusters"></g>
-            <g class="edgePaths">
-                <path marker-end="url(#graph-div_flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-B" id="L-A-B-0" d="M131.917,48L156.101,48C180.286,48,228.656,48,276.142,48C323.628,48,370.231,48,393.532,48L416.833,48"></path>
-            </g>
-            <g class="edgeLabels">
-                <g transform="translate(277.0250015258789, 48)" class="edgeLabel">
-                    <g transform="translate(-120.10832977294922, -48)" class="label">
-                        <foreignObject height="96" width="240.21665954589844">
-                            <div class="labelBkg" xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; max-width: 200px; width: 200px;">
-                                <span class="nodeLabel">
-                                    <p><strong>type:</strong> eth_wallet_to_ipfs_profile_photo</p>
-                                </span>
-                            </div>
-                        </foreignObject>
-                    </g>
-                </g>
-            </g>
-            <g class="nodes">
-                <g transform="translate(65.95833587646484, 48)" data-id="A" data-node="true" id="flowchart-A-18234" class="node default external flowchart-label">
-                    <rect height="39" width="131.9166717529297" y="-19.5" x="-65.95833587646484" ry="0" rx="0" style="" class="basic label-container"></rect>
-                    <g transform="translate(-58.458335876464844, -12)" style="" class="label">
-                        <rect></rect>
-                        <foreignObject height="24" width="116.91667175292969">
-                            <div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">
-                                <span class="nodeLabel">hC8kafe9...7c12</span>
-                            </div>
-                        </foreignObject>
-                    </g>
-                </g>
-                <g transform="translate(488.3499984741211, 48)" data-id="B" data-node="true" id="flowchart-B-18235" class="node default external flowchart-label">
-                    <rect height="39" width="132.43333435058594" y="-19.5" x="-66.21666717529297" ry="0" rx="0" style="" class="basic label-container"></rect>
-                    <g transform="translate(-58.71666717529297, -12)" style="" class="label">
-                        <rect></rect>
-                        <foreignObject height="24" width="117.43333435058594">
-                            <div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">
-                                <span class="nodeLabel">hC8kd01f...84ce</span>
-                            </div>
-                        </foreignObject>
-                    </g>
-                </g>
-            </g>
-        </g>
-    </g>-->
+
 </svg>
 
 ### CRUD metadata
