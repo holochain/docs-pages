@@ -48,6 +48,8 @@ enum EntryTypes {
 }
 ```
 
+### Configuring an entry type
+
 Each variant in the enum should hold the Rust type that corresponds to it, and is implicitly marked with an `entry_def` proc macro which, if you specify it explicitly, lets you configure the given entry type further:
 
 * An entry type can be configured as **private**, which means that it's never published to the DHT, but exists only on the author's source chain. To do this, use the `visibility = "private"` argument.
@@ -303,7 +305,9 @@ match maybe_record {
 }
 ```
 
-### All records and links attached to an entry
+### All data, actions, and links at an address
+
+#### Records
 
 To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) with an _action hash_. You'll receive a <code>Result<[holochain_zome_types::metadata::RecordDetails](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html)></code>.
 
@@ -333,6 +337,8 @@ match maybe_details {
     _ => debug!("Movie record not found"),
 }
 ```
+
+#### Entries
 
 To get an entry and all the deletes and updates that operated on it (or rather, that operated on the entry creation actions that produced it), _as well as_ all its entry creation actions and its current status on the DHT, pass an _entry hash_ to [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html). You'll receive a [`holochain_zome_types::metadata::EntryDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html) struct.
 
