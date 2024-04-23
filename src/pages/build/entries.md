@@ -179,7 +179,7 @@ Calling `update_entry` does the following:
 
 ### Update patterns
 
-Holochain gives you this `update_entry` function, but is somewhat unopinionated about how it's used. While in most cases you'll want to interpret it as applying to the original _record_ (action + entry), there are cases where you might want to interpret it as applying to the original _entry_, because the `Update` action is merely a piece of metadata attached to both, and can be retrieved along with the original data using [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see [below](#all-records-and-links-attached-to-an-entry)).
+Holochain gives you this `update_entry` function, but is somewhat unopinionated about how it's used. While in most cases you'll want to interpret it as applying to the original _record_ (action + entry), there are cases where you might want to interpret it as applying to the original _entry_, because the `Update` action is merely a piece of metadata attached to both, and can be retrieved along with the original data using [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see [below](#all-data-actions-and-links-at-an-address)).
 
 You can also choose what record updates should be attached to. You can structure them as a 'list', where all updates refer to the `ActionHash` of the original `Create` action.
 
