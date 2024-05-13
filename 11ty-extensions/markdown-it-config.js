@@ -1,7 +1,12 @@
+import markdownIt from "markdown-it";
 import markdownItAttrs from "markdown-it-attrs";
 import markdownItContainer from "markdown-it-container";
 import markdownItAnchor from "markdown-it-anchor";
 import slugify from '@sindresorhus/slugify';
+
+// This config is shared by Eleventy and by the TOC generator in /src/pages/_data/eleventyComputed.js
+// which is why it has no Eleventy stuff in it like the other files in this
+// folder.
 
 /**
  * Composes the attributes string for an html tag from the markdown-it-container token and default attributes
@@ -76,36 +81,41 @@ const validateDetailsBlock = (params) => {
 
 /* End Details Block code */
 
-/**
- * Configures Markdown-it lib plugins etc. Meant to be called from .eleventy.js
- * @param {*} eleventyConfig
- */
-export default function(eleventyConfig) {
-  eleventyConfig.amendLibrary("md", (mdLib) => {
-    mdLib.set({ typographer: true });
+// Set up the Markdown-it parser here.
 
-    //Configure markdown-it plugins
-    mdLib.use(markdownItAttrs);
-    mdLib.use(markdownItAnchor, {
-      tabIndex: false,
-      slugify: s => slugify(s),
-      permalink: markdownItAnchor.permalink.headerLink(),
-    });
-    mdLib.use(markdownItContainer, "intro");
-    mdLib.use(markdownItContainer, "orientation");
-    mdLib.use(markdownItContainer, "storystep");
-    mdLib.use(markdownItContainer, "h-author");
-    mdLib.use(markdownItContainer, "output-block");
+const mdLib = markdownIt();
 
-    // Admonitions
-    mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericAdmonitionRenderFunc("tip") });
-    mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericAdmonitionRenderFunc("note") });
-    mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericAdmonitionRenderFunc("info") });
-    mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
+// Set up sane defaults; most of these are borrowed from 11ty's defaults.
+mdLib.set({
+  html: true,
+  linkify: true,
+  typographer: true
+});
+mdLib.disable("code");
 
-    // Details block
-    mdLib.use(markdownItContainer, "details", { marker: "!", render: composeDetailsBlockRenderFunc() });
-    // Create a specialized synonym for details block with a class of "dig-deeper"
-    mdLib.use(markdownItContainer, "dig-deeper", { marker: "!", render: composeDetailsBlockRenderFunc("dig-deeper") });
-  });
-};
+//Configure markdown-it plugins
+mdLib.use(markdownItAttrs);
+mdLib.use(markdownItAnchor, {
+  tabIndex: false,
+  slugify: s => slugify(s),
+  permalink: markdownItAnchor.permalink.headerLink(),
+});
+mdLib.use(markdownItContainer, "intro");
+mdLib.use(markdownItContainer, "orientation");
+mdLib.use(markdownItContainer, "storystep");
+mdLib.use(markdownItContainer, "h-author");
+mdLib.use(markdownItContainer, "topic-list");
+mdLib.use(markdownItContainer, "output-block");
+
+// Admonitions
+mdLib.use(markdownItContainer, "tip", { marker: "!", render: composeGenericAdmonitionRenderFunc("tip") });
+mdLib.use(markdownItContainer, "note", { marker: "!", render: composeGenericAdmonitionRenderFunc("note") });
+mdLib.use(markdownItContainer, "info", { marker: "!", render: composeGenericAdmonitionRenderFunc("info") });
+mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdmonitionRenderFunc("learn") });
+
+// Details block
+mdLib.use(markdownItContainer, "details", { marker: "!", render: composeDetailsBlockRenderFunc() });
+// Create a specialized synonym for details block with a class of "dig-deeper"
+mdLib.use(markdownItContainer, "dig-deeper", { marker: "!", render: composeDetailsBlockRenderFunc("dig-deeper") });
+
+export default mdLib;

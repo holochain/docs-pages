@@ -3,6 +3,7 @@ affordance
 affordances
 automations
 birthdate
+chrono
 counterparties
 counterparties'
 counterparty
@@ -17,6 +18,7 @@ permissivity
 runtimes
 sandboxed
 signup
+scaffolder
 spacebar
 subcomponent
 subcomponents
