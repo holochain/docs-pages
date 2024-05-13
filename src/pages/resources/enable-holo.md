@@ -70,7 +70,7 @@ In both cases there are no required DNA changes for Holo Hosting --- only UI cha
 
 ## Get started from scaffolding tool
 
-In this section we'll create a simple to-do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about creating a DNA, please refer to the [Holochain getting started guide](/get-started/#4-zero-to-built-creating-a-forum-app).
+In this section we'll create a simple to-do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about creating a DNA, please refer to the [Holochain getting started guide](/get-started/3-forum-app-tutorial/).
 
 ### DNA {#scaffold-dna}
 
@@ -924,7 +924,7 @@ Hosting devices instantiate read-only cells using a zero-byte membrane proof. (N
 
 However, a secure membrane proof should be either hard to guess or bound exclusively to the user's public key. A zero-byte membrane proof is neither, which essentially means that anyone can join your application and read its data. But it does mean you can enforce write restrictions on agents that have joined using a zero-byte membrane proof. **Make sure this is appropriate for your users' security and privacy** before implementing the following pattern!
 
-To implement logic to allow read-only cells to join a DNA's network but not write data, your integrity zome's validation function should check the author's membrane proof, then allow them to join the network but reject [CRUD](/resources/glossary/#creat-read-update-delete/crud) operations if the proof is zero bytes. The following code shows an example of how to do both of these things.
+To implement logic to allow read-only cells to join a DNA's network but not write data, your integrity zome's validation function should check the author's membrane proof, then allow them to join the network but reject [CRUD](/resources/glossary/#create-read-update-delete-crud) operations if the proof is zero bytes. The following code shows an example of how to do both of these things.
 
 ```rust
 /// A helper function to check whether a membrane proof is from a special Holo-
