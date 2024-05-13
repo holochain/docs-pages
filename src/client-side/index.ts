@@ -148,3 +148,6 @@ const openDetailsOnFragmentIdNavigation = () => {
 openDetailsOnFragmentIdNavigation();
 window.addEventListener("hashchange", openDetailsOnFragmentIdNavigation);
 
+// Load MyFonts counter for URW Form fonts asynchronously, not in JS.
+// This is a workaround for a weird error thrown by netlify-plugin-checklinks.
+fetch("//hello.myfonts.net/count/3e423c");
