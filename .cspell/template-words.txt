@@ -15,6 +15,7 @@ newblock
 pagefind
 rocketship
 renderlayoutblock
+shellsession
 srcset
 storystep
 surpress

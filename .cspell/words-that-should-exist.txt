@@ -17,8 +17,11 @@ permissioned
 permissivity
 runtimes
 sandboxed
+signup
 scaffolder
 spacebar
+subcomponent
+subcomponents
 todo
 todos
 unforgeable
