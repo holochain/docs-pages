@@ -60,38 +60,27 @@ This guide will help you build a Holo-enabled hApp from scratch or enable your e
 
 Holo is cloud hosting for Holochain. Holo helps you enable your users to experience your Holochain application with the simplicity of a web browser and without maintaining a node.
 
-A core distinction versus running an app on the traditional cloud is that Holo provides the key management and signing infrastructure for users' keys to be held client-side, so your users always have full agency.
+A core distinction versus running nodes on the traditional cloud is that Holo provides the key management and signing infrastructure for users' keys to be held client-side, so your users always have full agency.
 
 We assume you're familiar with Holochain and have installed the pre-requisites from step 2 of the [Get Started guide](/get-started/).
 
 There are two pathways in this section --- [**scaffolding a new hApp**](#get-started-from-scaffolding-tool) or [**migrating an existing hApp**](#migrate-from-a-pure-holochain-app). Both pathways contain largely the same information, so choose the one that best applies to your situation.
 
-In both cases there are no required DNA changes for Holo Hosting --- only UI changes. However, there are **some cases where DNA changes are recommended**; Holo operates under a different context and we highly recommend that you read the [Holo core concepts](#holo-core-concepts-and-further-documentation), in particular the section on anonymous access.
+In both cases there are no required DNA changes for Holo Hosting --- only UI changes. However, Holo operates under a different context and we highly recommend that you read the [Holo core concepts](#holo-core-concepts-and-further-documentation), in particular the section on anonymous access, as this **will need DNA changes to enable certain features**.
 
 ## Get started from scaffolding tool
 
-In this section we'll create a simple to-do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about creating a DNA, please refer to the [Get Started Guide](/get-started/3-forum-app-tutorial/).
+In this section we'll create a simple to-do app. Our commentary will focus on the UI differences compared to a pure Holochain context. If you need more information about creating a DNA, please refer to the [Holochain getting started guide](/get-started/3-forum-app-tutorial/).
 
 ### DNA {#scaffold-dna}
 
 The Holochain scaffolding tool provides a `--holo` flag for scaffolding a hApp whose UI is compatible with both Holo hosting and pure Holochain environments. Additionally, because the Holo hosting infrastructure currently runs the unstable Holochain 0.3, you'll need to override the Holochain version that the scaffolding tool targets. Run the tool **with these flags** by typing in your terminal:
 
 ```shell
-nix run --override-input versions 'github:holochain/holochain?dir=versions/0_3_rc' github:holochain/holochain#hc-scaffold -- web-app --holo
+nix run --override-input versions 'github:holochain/holochain?dir=versions/weekly'  github:holochain/holochain#hc-scaffold -- web-app --holo
 ```
 
 You should then see:
-
-::: output-block
-```text
-? Choose UI framework: ›
-❯ Vue
-  Svelte
-  Lit
-```
-:::
-
-Use the arrow keys to select a UI framework for your front-end and then press <kbd>Enter</kbd>. For this example choose `Vue`. You should then see:
 
 ::: output-block
 ```text
@@ -109,6 +98,17 @@ You should then see:
 
 ::: output-block
 ```text
+? Choose UI framework: ›
+❯ Vue
+  Svelte
+  Lit
+```
+:::
+
+Use the arrow keys to select a UI framework for your front-end and then press <kbd>Enter</kbd>. For this example choose `Vue`. You should then see:
+
+::: output-block
+```text
 ? Do you want to set up the holonix development environment for this project? ›
 ❯ Yes (recommended)
   No
@@ -117,51 +117,7 @@ You should then see:
 
 Choose `Yes` and press <kbd>Enter</kbd>.
 
-You should then see `Setting up nix development environment...` with some details of what is being added. After this, you'll be asked if you want to scaffold an initial DNA. This is helpful for single-DNA projects like ours, so choose `Yes`:
-
-::: output-block
-```text
-? Do you want to scaffold an initial DNA? (y/n) ›
-❯ Yes
-  No
-```
-:::
-
-Give your DNA the name `todos`:
-
-::: output-block
-```text
-? Initial DNA name (snake_case): ›
-```
-:::
-
-```text
-todos
-```
-
-Then you'll be asked the same question for an initial pair of zomes. Choose `Yes` and give it the name `todos` as well:
-
-::: output-block
-```text
-? Do you want to scaffold an initial coordinator/integrity zome pair for your DNA? (y/n) ›
-❯ Yes
-  No
-```
-:::
-
-```text
-todos
-```
-
-Press <kbd>y</kbd> to say yes to the next two questions, which will scaffold an integrity zome and a coordinator zome in default folders:
-
-::: output-block
-```text
-✔ Scaffold integrity zome in folder "dnas/todos/zomes/integrity/"? · yes
-✔ Scaffold coordinator zome in "dnas/todos/zomes/coordinator/"? · yes
-```
-
-You'll see confirmation that both zomes were scaffolded, followed by instructions of next steps for setting up the development environment for your hApp and continuing to scaffold more of its elements. Let's follow those instructions. First, enter the hApp project directory:
+You should then see `Setting up nix development environment...` with some details of what is being added, followed by instructions of next steps for setting up the development environment for your hApp and continuing to scaffold more of its elements. Let's follow those instructions. First, enter the hApp project directory:
 
 ```shell
 cd super_todos
@@ -181,11 +137,86 @@ Holochain development shell spawned. Type exit to leave.
 ```
 :::
 
-Finally, install the JavaScript dependencies with:
+Finally, install the `npm` dependencies with:
 
 ```shell
 npm install
 ```
+
+Now let's create a new DNA using the scaffolding tool, which is now directly available in the shell. Type:
+
+```shell
+hc scaffold dna
+```
+
+You should then see:
+
+::: output-block
+```text
+? DNA name (snake_case):
+```
+:::
+
+Many hApps have just one DNA, so in this case you can just type:
+
+```text
+todos
+```
+
+You should then see:
+
+::: output-block
+```text
+DNA "todos" scaffolded!
+```
+:::
+
+DNAs are [composed of code modules](/concepts/2_application_architecture/), which we call zomes. A DNA should have at least two zomes, an *integrity zome* which declares the data structures and validation code, and a *coordinator zome* which contains, among other things, the API functions your UI will call to access your DNA.
+
+Create your DNA's first pair of zomes with:
+
+```shell
+hc scaffold zome
+```
+
+You should then see:
+
+::: output-block
+```text
+? What do you want to scaffold? ›
+❯ Integrity/coordinator zome-pair (recommended)
+  Only an integrity zome
+  Only a coordinator zome
+```
+:::
+
+Press <kbd>Enter</kbd> to select `Integrity/coordinator zome-pair`. You should then see:
+
+::: output-block
+```text
+? Enter coordinator zome name (snake_case):
+ (The integrity zome will automatically be named '{name of coordinator zome}_integrity')
+```
+:::
+
+Type in a name for the zome. In this case you can just use the same name as the DNA, `todos`. You should then see:
+
+```shell
+? Scaffold integrity zome in folder "dnas/todos/zomes/integrity/"? (y/n) ›
+```
+
+Press <kbd>Y</kbd> (this option is for advanced users who may have set up a different folder structure). You should then see:
+
+::: output-block
+```text
+Integrity zome "todo_integrity" scaffolded!
+? Scaffold coordinator zome in "dnas/todos/zomes/coordinator/"? (y/n) ›
+```
+:::
+
+Press <kbd>Y</kbd> again.
+
+You will then see `Coordinator zome "todos" scaffolded!` along with output from the initial downloading and setting up of the Holochain Rust HDK, followed by instructions for adding your first entry type.
 
 Now we get to the really exciting part! In the next steps you will specify your data model, and the scaffolding tool will automatically add both zome and UI code to your hApp.
 
@@ -238,13 +269,7 @@ You should see:
 ```
 :::
 
-Enter this name:
-
-```text
-description
-```
-
-You should then see:
+Enter the name `description`. You should then see:
 
 ::: output-block
 ```text
@@ -298,7 +323,7 @@ Entry type "todo_item" scaffolded!
 ```
 :::
 
-The final step is to create a collection that can be used to retrieve all of the to-do items that a user creates. To create a collection, type:
+The final step is create a collection that can be used to retrieve all of the to-do items that users create. To create a collection, type:
 
 ```shell
 hc scaffold collection
@@ -312,13 +337,7 @@ Collection name (snake_case, eg. "all_posts"): ›
 ```
 :::
 
-Enter
-
-```text
-todos_by_author
-```
-
-and press <kbd>Enter</kbd>. You should then see:
+Enter `todos_by_author` and press <kbd>Enter</kbd>. You should then see:
 
 ::: output-block
 ```text
@@ -351,7 +370,7 @@ The biggest difference between a Holo application and a pure Holochain applicati
 
 Open up this file in your favorite text editor now and follow along!
 
-In a Holo setting we use the [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) library instead of `@holochain/client`. Web SDK provides its own implementation of `AppClient`, which is almost the same as the `AppWebsocket` implementation provided by `@holochain/client`. Scroll down to the beginning of the `<script lang="ts">` section and you can see where these modules are imported:
+In a Holo setting we use the [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) library instead of `@holochain/client`. Web SDK provides its own implementation of `AppAgentWebsocket`, which is almost the same as the one provided by `@holochain/client`. Scroll down to the beginning of the `<script lang="ts">` section and you can see where these modules are imported:
 
 ```typescript
 import WebSdk from '@holo-host/web-sdk';
@@ -366,7 +385,7 @@ export default defineComponent({
     // Add your subcomponents here
   },
   data(): {
-    client: AppClient | undefined;
+    client: AppAgentClient | undefined;
     loading: boolean;
     IS_HOLO: boolean;
   } {
@@ -378,7 +397,7 @@ export default defineComponent({
   },
 ```
 
-Next, the component looks for this property and tries to connect to a Holo hosting device via the Web SDK if it's `true``. In addition to handling connections, the Web SDK also provides an authentication form for users to generate in-browser keys and install [cells](/resources/glossary/#cell) on the network. This form is customizable --- here we set the name of the app.
+Later on, the component looks for this property and tries to connect to a Holo hosting device via the Web SDK. In addition to handling connections, the Web SDK also provides an authentication form for users to generate in-browser keys and install [cells](/resources/glossary/#cell) on the network. This form is customizable --- here we set the name of the app.
 
 ```typescript
   async mounted() {
@@ -413,7 +432,7 @@ Finally, if we're not in a Holo context, just use the standard Holochain client.
     } else {
       // We pass '' as url because it will dynamically be replaced in launcher
       // environments.
-      this.client = await AppWebsocket.connect(new URL('https://UNUSED'), 'super_todos');
+      this.client = await AppAgentWebsocket.connect(new URL('https://UNUSED'), 'super_todos');
       this.loading = false;
     }
 ```
@@ -447,10 +466,10 @@ Holo provides the `holo-dev-server` binary, which simulates the Holo network loc
 2. Run `npm run start:holo`, which:
     1. Starts `holo-dev-server` and provisions instances (cells) of your DNA for two agents,
     2. Automatically opens an instance of a cell and network inspector called [Holochain Playground](https://github.com/darksoil-studio/holochain-playground) in your browser, and
-    3. Runs two instances of a local dev web server for the UI called [Vite](https://vitejs.dev) for each of the agents.
-3. Access your two agents' UIs in your browser at the URLs that the last command gave you.
+    3. Runs a local dev web server for the UI called [Vite](https://vitejs.dev).
+3. Access your two agents' UIs in your browser at `http://localhost:8888` and `http://localhost:8889`.
 
-The windows should not be very exciting yet, because you haven't edited the hApp to use the generated UI elements, but what you see on the screen should give you some hints on how to proceed.
+The windows should not be very exciting yet, because you haven't edited the hApp to use the generated UI elements, but what you see on the screen should be some hints on how to proceed.
 
 So let's follow those hints. Switch to a code editor for these steps:
 
@@ -481,14 +500,14 @@ Only minor UI changes are technically required for Holo hosting. However, Holo o
 This example will use an example forum hApp with a Vue-based UI, but feel free to follow along with your own hApp instead. Remember that your hApp needs to target Holochain 0.3 in order to run on the Holo network. <!-- [FIXME -- UPDATE THIS TEXT], so you might need to follow the [0.1 → 0.2 migration guide](/get-started/upgrade-holochain/) first -->
 
 ```shell
-nix run --override-input versions 'github:holochain/holochain?dir=versions/0_3_rc' github:holochain/holochain#hc-scaffold -- example forum
+nix run --override-input versions 'github:holochain/holochain?dir=versions/weekly' github:holochain/holochain#hc-scaffold -- example forum
 ```
 
 ### UI {#migrate-ui}
 
 In the forum hApp, the relevant UI code is in `App.vue`. In your hApp, it'll likely be where you initialize your `AppWebsocket` client.
 
-In a Holo setting we use [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) which provides an instance of `WebSdk`. This object has a `.connect()` method just like `AppWebsocket` from `@holochain/client`.
+In a Holo setting we use [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk) which provides an instance of `WebSdk`. This object has a `.connect()` method just like `AppAgentWebsocket` from `@holochain/client`.
 
 You'll first need to add Web SDK to your UI project:
 
@@ -505,7 +524,7 @@ And import it into your `App.vue` file:
 import WebSdk from '@holo-host/web-sdk';
 ```
 
-If you're updating your hApp from Holochain 0.1 or 0.2, check to make sure that the component's `client` data property is typed to `AppClient`:
+If you're updating your hApp from Holochain 0.1, which uses `@holochain/client` 0.12, check to make sure that the component's `client` data property is typed to `AppAgentClient`:
 
 ```typescript
 export default defineComponent({
@@ -513,7 +532,7 @@ export default defineComponent({
     //...
   },
   data(): {
-    client: AppClient | undefined; // Ensure that client is not AppAgentWebsocket or AppAgentClient
+    client: AppAgentClient | undefined; // Ensure that client is not AppAgentWebsocket
     //...
   } {
     // ...
@@ -524,7 +543,7 @@ You can then initialize a client for both self-hosted Holochain and Holo-hosted 
 
 ```typescript
   data(): {
-    client: AppClient | undefined;
+    client: AppAgentClient | undefined;
     loading: boolean;
     IS_HOLO: boolean;
   } {
@@ -561,7 +580,7 @@ Because the Holo network acts like a remote conductor, you'll need to handle con
 
       this.client = client
     } else {
-      this.client = await AppWebsocket.connect('', 'forum');
+      this.client = await AppAgentWebsocket.connect('', 'forum');
       this.loading = false;
     }
 }
@@ -803,12 +822,12 @@ The diagram above shows the interconnections between different parts of the Holo
 
 In Holo hosting, the client and conductor are assumed to be both physically distinct and under the control of different agents. To enable and support this, Holo provides an alternative to the [`@holochain/client`](https://www.npmjs.com/package/@holochain/client) library in the form of [`@holo-host/web-sdk`](https://www.npmjs.com/package/@holo-host/web-sdk).
 
-Both the Holo Web SDK and `@holochain/client` provide implementations of `AppClient`, which allows a user to connect to their cells in a conductor (whether those cells live on their own device or a Holo hosting device), and therefore have a mostly unified interface. However, Web SDK instantiates a secure iframe within the UI called Chaperone, which serves as a key signer and connection manager. Chaperone derives keys for users and handles all Holochain signing requests in the Holo context, without sending any key material back to the Holo network.
+Both the Holo Web SDK and `@holochain/client` provide implementations of `AppAgentClient`, which allows a user to connect to their cells in a conductor (whether those cells live on their own device or a Holo hosting device), and therefore have a mostly unified interface. However, Web SDK instantiates a secure iframe within the UI called Chaperone, which serves as a key signer and connection manager. Chaperone derives keys for users and handles all Holochain signing requests in the Holo context, without sending any key material back to the Holo network.
 
 To use the Web SDK, import and instantiate it wherever you would normally import and instantiate `@holochain/client`. If you want your UI to support both self-hosted Holochain and Holo-hosted users, you can import both the WebSDK and `@holochain/client` and instantiate a client as necessary based on the presence of an environment variable passed in at build time (as an example, a UI generated by the scaffolding tool uses `VITE_APP_IS_HOLO`; see [code samples above](#scaffold-ui)).
 
 ```typescript
-Import { AppWebsocket, AppClient } from '@holochain/client';
+Import { AppAgentWebsocket, AppAgentClient } from '@holochain/client';
 import WebSdk from '@holo-host/web-sdk';
 
 // You will want a way for your UI build tool to flag Holo vs Holochain client
@@ -816,7 +835,7 @@ import WebSdk from '@holo-host/web-sdk';
 // variables which are then made available to your UI code's JavaScript.
 // The Vite dev server, for instance, makes them available in a global object
 // called `import.meta.env`.
-const client: AppClient = import.meta.env.VITE_APP_IS_HOLO
+const client: AppAgentClient = import.meta.env.VITE_APP_IS_HOLO
   ? await WebSdk.connect({
     // Here we use this same environment variable technique to pass the local
     // holo-dev-server's URL during local testing.
@@ -825,7 +844,7 @@ const client: AppClient = import.meta.env.VITE_APP_IS_HOLO
       appName: 'example-happ',
     }
   })
-  : await AppWebsocket.connect({
+  : await AppAgentWebsocket.connect({
     new URL('https://UNUSED'),
     'example_happ'
   });
