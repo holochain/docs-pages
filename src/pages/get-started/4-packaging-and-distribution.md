@@ -73,9 +73,9 @@ From the end-user perspective there are currently two ways to go about this:
 
 ### Launcher, the multi-app runtime
 
-Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows people to install apps from a built-in app store or from the filesystem. Installed apps can then be launched from a friendly UI. The app store is itself a distributed Holochain application which provides details on applications that are available for download. As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or you can share it directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the filesystem.
+Holochain's official end-user runtime is the [Holochain Launcher](https://github.com/holochain/launcher). It allows people to install hApps, including web hApps from a built-in app store or from the filesystem. Installed apps' UIs can then be launched from a friendly UI. The app store is itself a distributed Holochain application which provides details on applications that are available for download. As a developer you can either go through a simple publishing process and add your app to the app store where it will be available for installation by all people who use the Launcher, or you can share it directly with end-users through your own channels and they can install it into their Holochain Launcher manually from the filesystem.
 
-You can try this latter approach with your forum app immediately by downloading and running the Launcher!
+You can try this latter approach with your forum app immediately by downloading and running the Launcher! If you install `workdir/my_forum_app.webhapp`, the hApp _and its UI_ will be installed.
 
 The steps for publishing an app to the Launcher's app store are documented in the Github repository of the Holochain Launcher [here](https://github.com/holochain/launcher#publishing-and-updating-an-app-in-the-devhub).
 
