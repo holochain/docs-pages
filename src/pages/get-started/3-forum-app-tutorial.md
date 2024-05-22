@@ -802,7 +802,7 @@ Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu
 chmod 4755 node_modules/electron/dist/chrome-sandbox && sudo chown root:root node_modules/electron/dist/chrome-sandbox
 ```
 
-You can find out more [here](/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04).
+You can find out more [here](/get-started/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04).
 !!!
 
 At this stage, we'll incorporate some of the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.
