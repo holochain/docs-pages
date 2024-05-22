@@ -266,3 +266,23 @@ rm ~/.nix-profile
 ```
 
 [Detailed uninstallation instructions for macOS](https://gist.github.com/chriselsner/3ebe962a4c4bd1f14d39897fc5619732#uninstalling-nix)
+
+## Fixing the SUID sandbox error in Ubuntu 24.04
+
+Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions-15) that causes `hc spin`, which is used to test applications and their UIs, to fail with a fatal error:
+
+```
+[FATAL:setuid_sandbox_host.cc(158)] The SUID sandbox helper binary was found, but is not configured correctly. Rather than run without sandboxing I'm aborting now. You need to make sure that <path_to_your_application_project>/node_modules/electron/dist/chrome-sandbox is owned by root and has mode 4755.
+```
+
+Following those instructions by entering the following command in your project's root directory will fix the issue:
+
+```shell
+chmod 4755 node_modules/electron/dist/chrome-sandbox && sudo chown root:root node_modules/electron/dist/chrome-sandbox
+```
+
+There are other fixes [outlined in the Ubuntu 24.04 release notes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions-15) that can solve the problem; if you'd like to learn more, read through them all and choose the one that feels most appropriate for you.
+
+### Redistributable applications created with [`holochain-kangaroo-electron`](https://github.com/holochain-apps/holochain-kangaroo-electron) are also affected
+
+Because the template repo `holochain-kangaroo-electron` also bundles Electron's chrome-sandbox in the binary that you'd distribute, your users will see the same error message when they try to run your application if you've used this repo. We're still researching the best solution, but since Ubuntu is recommending it, we recommend applying the first situation in the release notes, which involves creating an AppArmor profile for your app. This profile could then be distributed and installed alongside it. (Note: this won't work with portable application packages that aren't installed as root, such as `AppImage`s.)
