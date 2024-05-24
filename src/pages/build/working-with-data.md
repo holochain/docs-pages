@@ -48,7 +48,7 @@ All actions are public, while entries can be either public or [private](/build/e
 
 Shared data in a Holochain application is represented as a [**graph database**](https://en.wikipedia.org/wiki/Graph_database) of nodes connected by edges called [**links**](/concepts/5_links_anchors/). Any kind of addressable content can be used as a graph node.
 
-This database is stored in a [distributed hash table (DHT)](/resources/glossary/distributed-hash-table-dht), which is a key/value store whose data is distributed throughout the network. In a Holochain application, the users themselves become network participants and help keep the DHT alive by storing a portion of the hash table.
+This database is stored in a [distributed hash table (DHT)](/resources/glossary/#distributed-hash-table-dht), which is a key/value store whose data is distributed throughout the network. In a Holochain application, the users themselves become network participants and help keep the DHT alive by storing a portion of the hash table.
 
 ### Links
 
