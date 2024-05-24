@@ -27,6 +27,8 @@ QUIC
 rustc
 rustflags
 rustup
+setgid
+setuid
 subl
 Tauri
 Ulhaq

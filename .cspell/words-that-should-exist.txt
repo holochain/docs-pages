@@ -15,8 +15,10 @@ howtos
 interoperating
 permissioned
 permissivity
+redistributable
 runtimes
 sandboxed
+sandboxing
 scaffolder
 spacebar
 todo
