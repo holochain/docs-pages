@@ -26,7 +26,7 @@
       ]
     },
     { title: "Build", url: "/build/", children: [
-        { title: "Working with Data", url: "/build/#working-with-data", children: [
+        { title: "Working with Data", url: "/build/working-with-data/", children: [
           { title: "Entries", url: "/build/entries/" },
         ]},
       ]
