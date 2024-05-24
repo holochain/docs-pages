@@ -129,7 +129,7 @@ When the client calls a zome function that calls `create_entry`, Holochain does 
 9. Return the zome function's return value to the client.
 10. In the background, publish all newly created DHT operations to their respective authority agents.
 
-## Update an Entry
+## Update an entry
 
 Update an entry creation action by calling [`hdk::prelude::update_entry`](https://docs.rs/hdk/latest/hdk/prelude/fn.update_entry.html) with the old action hash and the new entry data:
 
