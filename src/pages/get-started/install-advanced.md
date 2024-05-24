@@ -17,7 +17,7 @@ If you want to learn more about how this setup works and how to create it manual
 
 ### Holonix's usage of Nix's Flakes features
 
-[Flakes](https://nixos.wiki/wiki/Flakes) is an experimental but well-supported feature of the Nix package manager that makes it easier to manage dependencies consistently.
+[Flakes](https://wiki.nixos.org/wiki/Flakes) is an experimental but well-supported feature of the Nix package manager that makes it easier to manage dependencies consistently.
 
 As of [holochain#1863](https://github.com/holochain/holochain/pull/1863) Holonix is implemented as Holochain's [flake.nix](https://github.com/holochain/holochain/blob/develop/flake.nix) output named _#holonix_ a.k.a. _devShells.${system}.holonix_.
 
