@@ -23,6 +23,7 @@ Kleppmann
 NixOS
 nixpkgs
 pkgs
+pubkey
 QUIC
 rustc
 rustflags
