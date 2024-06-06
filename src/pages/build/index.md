@@ -17,4 +17,5 @@ This Build Guide organizes everything you need to know about developing Holochai
 
 * [Overview](/build/working-with-data/) --- general concepts related to working with data in Holochain
 * [Entries](/build/entries/) --- creating, reading, updating, and deleting
+* [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating and deleting
 :::
