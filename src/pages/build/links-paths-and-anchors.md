@@ -229,7 +229,7 @@ let dna_hash = dna_info()?.hash;
 ```
 
 !!! info Linking from a DNA hash is not recommended
-Because every participant in an application's network takes responsibility for storing a portion of the DHT's address space, attaching many links to a well-known hash can create 'hot spots' and cause an undue CPU, storage, and network burden the peers in the neighborhood of that hash. Instead, we recommend you use [anchors and paths](#anchors-and-paths) to 'shard' responsibility throughout the DHT.
+Because every participant in an application's network takes responsibility for storing a portion of the DHT's address space, attaching many links to a well-known hash can create 'hot spots' and cause an undue CPU, storage, and network burden the peers in the neighborhood of that hash. Instead, we recommend you use [paths or anchors](#paths-and-anchors) to 'shard' responsibility throughout the DHT.
 !!!
 
 ## Retrieve links

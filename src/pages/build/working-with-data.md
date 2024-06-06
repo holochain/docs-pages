@@ -42,7 +42,7 @@ Addressable content can either be:
 * **Private**, stored on the author's device in their [source chain](#individual-state-histories-as-public-records), or
 * **Public**, stored in the application's shared graph database and accessible to all participants.
 
-All actions are public, while entries can be either public or [private](/build/entries/#configuring-an-entry-type). External references hold neither public nor private content, but merely point to content outside the database.
+All actions are public, while entries can be either public or [private](/build/entries/#configure-an-entry-type). External references hold neither public nor private content, but merely point to content outside the database.
 
 ## Shared graph database
 
@@ -70,7 +70,7 @@ Holochain has a built-in [**create, read, update, and delete (CRUD)** model](/co
 
 All data in an application's database ultimately comes from the peers who participate in storing and serving it. Each piece of data originates in a participant's source chain, which is an [event journal](https://martinfowler.com/eaaDev/EventSourcing.html) that contains all the actions they've authored. These actions describe intentions to add to either the DHT's state or their own state.
 
-Every action becomes part of the shared DHT, but not every entry needs to. The entry content of most system-level actions is private. You can also [mark an application entry type as private](/build/entries/#configuring-an-entry-type), and its content will stay on the participant's device and not get published to the graph.
+Every action becomes part of the shared DHT, but not every entry needs to. The entry content of most system-level actions is private. You can also [mark an application entry type as private](/build/entries/#configure-an-entry-type), and its content will stay on the participant's device and not get published to the graph.
 
 Because every action has a reference to both its author and its previous action in the author's source chain, each participant's source chain can be considered a linear graph of their authoring history.
 
