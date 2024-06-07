@@ -212,7 +212,7 @@ Press <kbd>y</kbd> to say yes to the next two questions, which will scaffold an 
 ✔ Scaffold integrity zome in folder "dnas/todos/zomes/integrity/"? · yes
 Integrity zome "todos_integrity" scaffolded!
 ✔ Scaffold coordinator zome in "dnas/todos/zomes/coordinator/"? · yes
-Cordinator zome "todos" scaffolded!
+Coordinator zome "todos" scaffolded!
 ```
 :::
 
