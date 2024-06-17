@@ -8,7 +8,8 @@
         { title: "Dev Tools Setup Tips", url: "/get-started/install-advanced/" },
         { title: "Setup Without Nix", url: "/get-started/install-without-nix/" },
         { title: "Distribute your App", url: "/get-started/distribute-your-app/" },
-        { title: "Holochain Upgrade 0.1 → 0.2", url: "/get-started/upgrade-holochain/" },
+        { title: "Holochain Upgrade 0.1 → 0.2", url: "/get-started/upgrade-holochain-0.2/" },
+        { title: "Holochain Upgrade 0.2 → 0.3", url: "/get-started/upgrade-holochain-0.3/" },
         { title: "Setup For a Local Event", url: "/get-started/at-an-event/" },
       ]
     },
