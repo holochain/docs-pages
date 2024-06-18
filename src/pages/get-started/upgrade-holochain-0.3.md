@@ -94,7 +94,7 @@ or have followed the same folder layout. Otherwise, you will need to adjust the 
 
 In your project's `ui/package.json` and `tests/package.json` you will find a dependency on `@holochain/client`. These should be using `0.16.x`, which is the version compatible with Holochain 0.2. To work with Holochain 0.3, you need to update to `0.17.x`.
 
-You can always check what versions of the Holochain client are available on the [NPM registry](https://www.npmjs.com/package/@holochain/client?activeTab=versions) and you can find out what versions are compatible with a Holochain version by checking the [project's documentation](https://github.com/holochain/holochain-client-js).
+You can always check what versions of the Holochain client are available on the [NPM registry](https://www.npmjs.com/package/@holochain/client?activeTab=versions) and you can find out what versions are compatible with a Holochain version by checking the [project's documentation](https://github.com/holochain/holochain-client-js?tab=readme-ov-file#installation).
 
 To update the Holochain client for the UI, you can run
 
