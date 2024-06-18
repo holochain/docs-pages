@@ -169,7 +169,7 @@ This will not install version `0.16.0` if a newer version has been released. Che
 
 ### Update Cargo dependencies
 
-This section is harder to write a general guide for because it's common for hApps to add dependencies on other Holochain crates. If you have added other dependencies than the `hdi` and `hdk` to your project then you will need to update those too but figuring out which versions you
+This section is harder to write a general guide for, because it's common for hApps to add dependencies on other Holochain crates. If you have added other dependencies than the `hdi` and `hdk` to your project, then you will need to update those too, but figuring out which versions you
 need is not described here. There is a hint at the end of the section.
 
 #### Update the HDK and the HDI
