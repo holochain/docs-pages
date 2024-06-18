@@ -37,6 +37,7 @@ Alternatively open `flake.nix` in an editor. It should look like this:
     holonix.url = "github:holochain/holochain";
     holonix.inputs.versions.follows = "versions";
   };
+  
   ...
 }
 ```
@@ -64,7 +65,8 @@ nix flake update
 
 !!! note
 This takes all updates from Holonix, possibly including an update to the Rust version that Holonix is currently using. 
-You should run this command whenever you update your Cargo dependencies to the latest HDI/HDK versions.
+It is a good idea to run this common regularly to keep your development environment up to date. Holochain provides a cache
+of the latest version of Holonix so staying up to date will help keep your developer environment and CI fast.
 !!!
 
 #### Open a dev shell and check the update has worked
@@ -150,6 +152,11 @@ npm install --save-dev @holochain/hc-spin@">=0.300.0 <0.400.0"
 ```
 
 You can always check what versions of `@holochain/hc-spin` are available on the [NPM registry](https://www.npmjs.com/package/@holochain/hc-spin?activeTab=versions).
+
+!!!note
+If you happen to be running on a recent Linux version (e.g. Ubuntu 24.04+), you might encounter an error starting your hApp with `hc-spin`.
+There is a guide here you should check out [the advanced installation guide](../install-advanced#fixing-the-suid-sandbox-error-in-ubuntu-24-04).
+!!!
 
 #### Update `@holochain/tryorama`
 
