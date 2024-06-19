@@ -118,6 +118,7 @@ There have been a few changes to the client. First, the `AppAgentWebsocket` has 
 its `connect` method has been simplified. You can now connect to a websocket by changing:
 
 
+
 ```js
 const client = await AppAgentWebsocket.connect(new URL('https://UNUSED'), 'hello-world');
 ```
