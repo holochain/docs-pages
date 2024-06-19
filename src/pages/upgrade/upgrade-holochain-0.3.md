@@ -119,6 +119,7 @@ its `connect` method has been simplified. You can now connect to a websocket by 
 
 
 
+
 ```js
 const client = await AppAgentWebsocket.connect(new URL('https://UNUSED'), 'hello-world');
 ```
