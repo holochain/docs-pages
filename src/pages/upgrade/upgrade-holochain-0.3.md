@@ -117,6 +117,7 @@ This will install a version higher than `0.17.0` if a newer version in the `0.17
 There have been a few changes to the client. First, the `AppAgentWebsocket` has been merged with the `AppWebsocket`, and
 its `connect` method has been simplified. You can now connect to a websocket by changing:
 
+
 ```js
 const client = await AppAgentWebsocket.connect(new URL('https://UNUSED'), 'hello-world');
 ```
