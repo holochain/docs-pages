@@ -130,4 +130,8 @@
     to = "/get-started/"
     status = 301
 
-# This comment does absolutely nothing and can be deleted.
+# The first upgrade guide lived under getting started. It has been moved to its own area.
+[[redirects]]
+    from = "/get-started/upgrade-holochain/"
+    to = "/upgrade/upgrade-holochain-0.2"
+    status = 301
