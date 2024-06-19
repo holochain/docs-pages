@@ -117,11 +117,6 @@ This will install a version higher than `0.17.0` if a newer version in the `0.17
 There have been a few changes to the client. First, the `AppAgentWebsocket` has been merged with the `AppWebsocket`, and
 its `connect` method has been simplified. You can now connect to a websocket by changing:
 
-
-
-
-
-
 ```js
 const client = await AppAgentWebsocket.connect(new URL('https://UNUSED'), 'hello-world');
 ```
@@ -153,7 +148,6 @@ the conductor which app you want to operate on --- it already knows.
 If you're using `hc-spin` then you will need to upgrade it to work with the new Holochain version.
 
 You can do this by running:
-
 
 ```bash
 npm install --save-dev @holochain/hc-spin@">=0.300.0 <0.400.0"
@@ -228,7 +222,6 @@ This macro was renamed for consistency with other macros. The changelog entry fo
 
 You're looking for code like:
 
-
 ```rust
 #[derive(Serialize, Deserialize)]
 #[serde(tag = "type")]
@@ -240,7 +233,6 @@ pub enum EntryTypes {
 ```
 
 Which should be updated to:
-
 
 ```rust
 #[derive(Serialize, Deserialize)]
@@ -258,13 +250,11 @@ The `get_links` function signature has changed. The changelog entry for this cha
 
 You're looking for code like:
 
-
 ```rust
 let links = get_links(path.path_entry_hash()?, LinkTypes::AllHellos, None)?;
 ```
 
 Which should be updated to:
-
 
 ```rust
 let links = get_links(GetLinksInputBuilder::try_new(path.path_entry_hash()?, LinkTypes::AllHellos)?.build())?;
@@ -284,13 +274,11 @@ network to fetch data if required. The changelog entry for this change is [here]
 
 You're looking for code like:
 
-
 ```rust
 get(r.action().entry_hash().unwrap().clone(), GetOptions::content())?;
 ```
 
 Which should be updated to:
-
 
 ```rust
 get(r.action().entry_hash().unwrap().clone(), GetOptions::network())?;
