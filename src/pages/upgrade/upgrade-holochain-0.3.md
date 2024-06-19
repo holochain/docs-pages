@@ -222,6 +222,7 @@ This macro was renamed for consistency with other macros. The changelog entry fo
 
 You're looking for code like:
 
+
 ```rust
 #[derive(Serialize, Deserialize)]
 #[serde(tag = "type")]
@@ -233,6 +234,7 @@ pub enum EntryTypes {
 ```
 
 Which should be updated to:
+
 
 ```rust
 #[derive(Serialize, Deserialize)]
@@ -250,11 +252,13 @@ The `get_links` function signature has changed. The changelog entry for this cha
 
 You're looking for code like:
 
+
 ```rust
 let links = get_links(path.path_entry_hash()?, LinkTypes::AllHellos, None)?;
 ```
 
 Which should be updated to:
+
 
 ```rust
 let links = get_links(GetLinksInputBuilder::try_new(path.path_entry_hash()?, LinkTypes::AllHellos)?.build())?;
@@ -274,11 +278,13 @@ network to fetch data if required. The changelog entry for this change is [here]
 
 You're looking for code like:
 
+
 ```rust
 get(r.action().entry_hash().unwrap().clone(), GetOptions::content())?;
 ```
 
 Which should be updated to:
+
 
 ```rust
 get(r.action().entry_hash().unwrap().clone(), GetOptions::network())?;
@@ -295,6 +301,7 @@ If you depend on other Holochain crates, then you will need to find compatible v
 ### General advice for upgrading
 
 It's likely that you will need to make more changes than have been mentioned above, but hopefully this guide has given you a head start! Here are some other things to look out for in this upgrade:
+
 
 * There have been significant changes to Holochain's data validation. You may see validation failures that you didn't see before upgrading. Our experience of helping people upgrade to dev versions of 0.3 is that these are often due to issues in your app's validation logic, and simply weren't caught before due to issues in Holochain's validation workflow.
   Please check your validation logic and check whether there might be an issue there. If not, then please reach out on [Discord](https://discord.gg/E3EXyPBj3F) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose) for help.
