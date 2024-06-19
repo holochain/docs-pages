@@ -154,6 +154,7 @@ If you're using `hc-spin` then you will need to upgrade it to work with the new 
 
 You can do this by running:
 
+
 ```bash
 npm install --save-dev @holochain/hc-spin@">=0.300.0 <0.400.0"
 ```
