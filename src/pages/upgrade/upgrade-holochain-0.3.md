@@ -17,7 +17,7 @@ or follow the recommended format as described in [Dev Tools Setup](/get-started/
 
 #### Update your `flake.nix` using a command
 
-In the root folder of the hApp to be upgraded execute the following command in a terminal:
+In the root folder of the hApp to be upgraded, execute the following command in a terminal:
 
 ```shell
 nix run nixpkgs#gnused -- -i 's/dir=versions\/0_2/dir=versions\/0_3/g' flake.nix
