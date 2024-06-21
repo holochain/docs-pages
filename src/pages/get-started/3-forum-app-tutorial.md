@@ -799,7 +799,7 @@ Before you get started editing the UI, it's helpful to be able to actually run t
 Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions-15) that cause the following command to fail. Here's a simple fix. In your terminal, run this command:
 
 ```shell
-chmod 4755 node_modules/electron/dist/chrome-sandbox && sudo chown root:root node_modules/electron/dist/chrome-sandbox
+sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
 ```
 
 You'll need to do this once (but only once) for every new project you scaffold. You can find out more [here](/get-started/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04).

@@ -280,7 +280,7 @@ Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.c
 You can fix the issue by entering the following command in your project's root directory:
 
 ```shell
-chmod 4755 node_modules/electron/dist/chrome-sandbox && sudo chown root:root node_modules/electron/dist/chrome-sandbox
+sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
 ```
 
 You'll have to do this for every hApp project that uses `@holochain/hc-spin`.
