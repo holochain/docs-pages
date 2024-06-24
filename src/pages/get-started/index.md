@@ -53,6 +53,8 @@ You'll also need to install a few packages if you want to run two dev tools, `hc
 sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2 adwaita-icon-theme
 ```
 
+Read more about these fixes in the [Dev Tools Setup guide](/get-started/install-advanced/#opening-your-h-app-s-gui-in-ubuntu-on-ws-l2-windows-subsystem-for-linux).
+
 ### 2.3. Set up development environment
 
 Once you've ensured that your system meets the hardware requirements and set up WSL2 on Windows or a dual-boot Linux OS (if applicable), you can proceed with the installation of the Nix package manager and the binary package cache for Holochain.
