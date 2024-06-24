@@ -214,10 +214,10 @@ This macro was renamed for consistency with other macros. The changelog entry fo
 You're looking for code like:
 
 ```rust
-[derive(Serialize, Deserialize)]
-[serde(tag = "type")]
-[hdk_entry_defs]
-[unit_enum(UnitEntryTypes)]
+#[derive(Serialize, Deserialize)]
+#[serde(tag = "type")]
+#[hdk_entry_defs]
+#[unit_enum(UnitEntryTypes)]
 pub enum EntryTypes {
     Hello(Hello),
 }
@@ -226,10 +226,10 @@ pub enum EntryTypes {
 Which should be updated to:
 
 ```rust
-[derive(Serialize, Deserialize)]
-[serde(tag = "type")]
-[hdk_entry_types]
-[unit_enum(UnitEntryTypes)]
+#[derive(Serialize, Deserialize)]
+#[serde(tag = "type")]
+#[hdk_entry_types]
+#[unit_enum(UnitEntryTypes)]
 pub enum EntryTypes {
     Hello(Hello),
 }
