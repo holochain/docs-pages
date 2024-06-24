@@ -53,7 +53,7 @@ You'll also need to install a few packages if you want to run two dev tools, `hc
 sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2 adwaita-icon-theme
 ```
 
-Read more about these fixes in the [Dev Tools Setup guide](/get-started/install-advanced/#opening-your-h-app-s-gui-in-ubuntu-on-ws-l2-windows-subsystem-for-linux).
+Read more about these fixes in the [Dev Tools Setup guide](/get-started/install-advanced/#opening-your-happs-gui-in-ubuntu-on-wsl2).
 
 ### 2.3. Set up development environment
 

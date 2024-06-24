@@ -1,5 +1,6 @@
 # Words that are neither common nor directly related to Holochain but appear in
 # Dev Portal content
+adwaita
 agent-centricity
 Anwaar
 Automerge
@@ -20,6 +21,11 @@ identicon
 identicons
 IPFS
 Kleppmann
+libasound
+libatk
+libcups
+libgtk
+libnss
 NixOS
 nixpkgs
 pkgs
@@ -34,4 +40,6 @@ Tauri
 Ulhaq
 Wahlstrom
 WebRTC
+webview
+webviews
 workdir
