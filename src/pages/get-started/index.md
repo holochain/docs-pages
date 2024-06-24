@@ -47,6 +47,12 @@ For Windows users, please note that the Nix package manager, which is used to in
 
 Holochain is supported in WSL2 via the Ubuntu distribution.
 
+You'll also need to install a few packages if you want to run two dev tools, `hc launch` and `hc spin`, which start your app's back end and open its GUI in Tauri or Electron webviews:
+
+```shell
+sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2 adwaita-icon-theme
+```
+
 ### 2.3. Set up development environment
 
 Once you've ensured that your system meets the hardware requirements and set up WSL2 on Windows or a dual-boot Linux OS (if applicable), you can proceed with the installation of the Nix package manager and the binary package cache for Holochain.
