@@ -290,3 +290,19 @@ There are other fixes [outlined in the Ubuntu 24.04 release notes](https://disco
 ### Redistributable applications created with [`holochain-kangaroo-electron`](https://github.com/holochain-apps/holochain-kangaroo-electron) are also affected
 
 Because the template repo `holochain-kangaroo-electron` also bundles Electron's chrome-sandbox in the binary that you'd distribute, your users will see the same error message when they try to run your application if you've used this repo. We're still researching the best solution, but since Ubuntu is recommending it, we recommend applying the first solution in the release notes, which involves creating an AppArmor profile for your app. This profile could then be distributed and installed alongside it. (Note: this won't work with portable application packages that aren't installed as root, such as `AppImage`s.)
+
+## Opening your hApp's GUI in Ubuntu on WSL2 (Windows Subsystem for Linux) {#opening-your-happs-gui-in-ubuntu-on-wsl2}
+
+There are two dev tools, `hc launch` and `hc spin`, which start your app's back end and open its GUI in [Tauri](https://tauri.app/) or [Electron](https://www.electronjs.org/) webview containers, respectively. Because the Ubuntu OS installed from the Microsoft Store doesn't come with GUI packages by default, you'll need to install just a few in order to get these tools to work.
+
+If you're only using `hc launch`, which uses the Tauri webview, install this package, which resolves a GDK error about cursors:
+
+```shell
+sudo apt install -y adwaita-icon-theme
+```
+
+If you're only using the more modern `hc spin`, which uses the Electron webview, install these missing packages that are needed by the `chrome-sandbox` binary:
+
+```shell
+sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2
+```
