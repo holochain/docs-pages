@@ -301,7 +301,7 @@ If you're only using `hc launch`, which uses the Tauri webview, install this pac
 sudo apt install -y adwaita-icon-theme
 ```
 
-If you're only using the more modern `hd spin`, which uses the Electron webview, install these missing packages that are needed by the `chrome-sandbox` binary:
+If you're only using the more modern `hc spin`, which uses the Electron webview, install these missing packages that are needed by the `chrome-sandbox` binary:
 
 ```shell
 sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2
