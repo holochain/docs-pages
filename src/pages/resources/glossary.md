@@ -13,6 +13,10 @@ A piece of data that represents a [record](#record) on an [agent's](#agent) [sou
 1. [DHT address](#dht-address), synonymous with [base](#base)
 2. [Transport address](#transport-address)
 
+#### Addressable content
+
+An individual piece of data in a [content-addressable store](#content-addressable-storage-cas) that can be stored or retrieved by its identifier, usually the hash of the data.
+
 #### Address space
 
 The entire range of possible [DHT addresses](#dht-address). This space is circular, meaning the last address is adjacent to the first address.
