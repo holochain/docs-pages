@@ -348,23 +348,28 @@ You should see something like:
 ::: output-block
 ```text
 holochain_scaffolding_cli 0.x.x
-The list of subcommands for `hc scaffold`
+A command-line interface for creating and modifying a Holochain application (hApp)
 
 USAGE:
-    hc-scaffold <SUBCOMMAND>
+    hc-scaffold [OPTIONS] <SUBCOMMAND>
 
 FLAGS:
     -h, --help       Prints help information
     -V, --version    Prints version information
 
+OPTIONS:
+    -t, --template <template>    The template to use for the hc-scaffold commands Can either be an option from the
+                                 built-in templates: "vanilla", "vue", "lit", "svelte", "react", "headless" Or a path to
+                                 a custom template
+
 SUBCOMMANDS:
     collection    Scaffold a collection of entries in an existing zome
     dna           Scaffold a DNA into an existing app
     entry-type    Scaffold an entry type and CRUD functions into an existing zome
-    example
+    example       Scaffold an example hApp
     help          Prints this message or the help of the given subcommand(s)
     link-type     Scaffold a link type and its appropriate zome functions into an existing zome
-    template      Set up the template used in this project
+    template      Manage custom templates
     web-app       Scaffold a new, empty web app
     zome          Scaffold one or multiple zomes into an existing DNA
 ```
