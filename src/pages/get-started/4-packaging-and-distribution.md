@@ -74,7 +74,7 @@ If you're developing an app that's meant to be run within Launcher, it's importa
 
 If you prefer to distribute your app as a full standalone executable, you'll need to bundle the Holochain runtime and your app together and take care of the necessary interactions between them. Because Holochain itself is really just a set of Rust libraries, you can of course build your own application that uses those libraries, but that's a fair amount of work. Currently there are two much simpler paths for doing this: using either the [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) frameworks, both of which can generate cross-platform executables from standard web UIs. These frameworks automatically bundle the necessary binaries, the [`holochain` conductor runtime](https://crates.io/crates/holochain) and the [`lair` keystore](https://crates.io/crates/lair_keystore). Though there is quite a bit of complexity in setting things up for these frameworks, all the hard work has already been done for you:
 
-* **Tauri**: See the officially supported [holochain-kangaroo](https://github.com/holochain-apps/holochain-kangaroo) repo.
+* **Tauri**: See the officially supported [holochain-kangaroo](https://github.com/holochain-apps/holochain-kangaroo) repo. Note that Tauri uses the webview engine provided by the user's operating system, so you may need to do extensive cross-OS testing to make sure your UI works properly.
 * **Electron**: See the officially supported [holochain-kangaroo-electron](https://github.com/holochain-apps/holochain-kangaroo-electron) repo.
 
 Both of these are GitHub template repos. The Tauri one has detailed instructions on how to clone them and add in your UI and DNA, as well as build and release commands that will create the cross-platform executables that you can then deliver to your end users. The Electron one is a work in progress, although we'll be putting most of our focus on it in the future, as it has fewer cross-platform bugs.
@@ -84,6 +84,10 @@ The supported Holochain versions of these repos sometimes lags behind the curren
 !!! note Code Signing
 For macOS and Windows, you'll probably also want to go through the process of registering as a developer so that your application can be "code-signed". This is needed so that users don't get the "unsigned code" warnings when launching the applications on those platforms. Both of the above templates include instructions for CI automation to run the code-signing steps on release once you have acquired the necessary certificates.
 !!!
+
+### p2p Shipyard
+
+Our friends at [darksoil studio](https://darksoil.studio) have created [p2p Shipyard](https://darksoil.studio/p2p-shipyard/), a tool that uses Tauri and Nix to turn your hApp DNAs and UI into a redistributable runtime for Windows, macOS, Linux, and Android. It's currently Source-Available, so you can audit its codebase if you like, and they're running a [retroactive crowdfund campaign to open-source it](https://darksoil.studio/p2p-shipyard/license/license.html).
 
 ## Next steps
 
