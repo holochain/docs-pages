@@ -131,7 +131,7 @@ Inside of your `dnas/` folder, the scaffolding tool generated a `forum/` folder 
 
 !!! dig-deeper DNAs: Context and Background {#about-dnas}
 
-### Why do we use the term DNA?
+### Why do we use the term DNA? {data-no-toc}
 
 With Holochain, we're trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organizations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
 
@@ -145,7 +145,7 @@ To put it another way: if a group of us can all agree to the rules of a game, th
 
 All of us opting in to those rules --- and helping to enforce them --- enables us to play that game together, whether it is a game of chess, chat, a forum app, or something much richer.
 
-### DNA as boundary of network
+### DNA as boundary of network {data-no-toc}
 
 The network of participants that are running a DNA engage in "peer witnessing" of each other's actions in that network. A (deterministically random) set of peers are responsible for validating, storing, and serving each particular piece of shared content. In other words, the users of a particular hApp agree to a set of rules and then work together collectively to enforce those rules and to store and serve content (state changes) that do not violate those rules.
 
@@ -153,7 +153,7 @@ Every hApp needs to include at least one DNA. Moreover, as indicated above, **it
 
 There are some powerful consequences to this architectural choice --- including freedom to have your application look and feel the way you want, or to combine multiple DNAs together in ways that work for you without having to get everyone else to agree to do the same --- but we'll save those details for later.
 
-### So if we have multiple DNAs in our hApp...
+### So if we have multiple DNAs in our hApp... {data-no-toc}
 
 ...then we are participating in multiple networks, with each network of peers that are participating in a particular DNA also helping maintain the shared database for that DNA, enforcing its rules while validating, storing, and serving content. Each network acts as a 'social organism' in cooperation with other networks in the hApp.
 
@@ -224,19 +224,19 @@ Here's how you can get started with developing your application:
 
 !!! dig-deeper Integrity zomes and coordinator zomes
 
-### Integrity zomes
+### Integrity zomes {data-no-toc}
 
 An integrity zome, as the name suggests, is responsible for maintaining the data integrity of a Holochain application. It sets the rules and ensures that any data writes occurring within the application are consistent with those rules. In other words, it's responsible for ensuring that data is correct, complete, and trustworthy. Integrity zomes help maintain a secure and reliable distributed peer-to-peer network by enforcing the validation rules defined by the application developer --- in this case, you!
 
-### Coordinator zomes
+### Coordinator zomes {data-no-toc}
 
 On the other hand, a coordinator zome contains the code that actually commits data, retrieves it, or sends and receives messages between peers or between other portions of the application on a user's own device (between the back end and the UI, for instance). A coordinator zome is where you define the API for your DNA, through which the network of peers and their data is made accessible to the user.
 
-### Multiple zomes per DNA
+### Multiple zomes per DNA {data-no-toc}
 
 As you learned earlier, a DNA can have multiple integrity and coordinator zomes. Each integrity zome contributes to the full set of different types of valid data that can be written, while each coordinator zome contributes to the DNA's functionality that you expose through its API. In order to write data of a certain type, a coordinator zome needs to specify a dependency on the integrity zome that defines that data type. A coordinator zome can also depend on multiple integrity zomes.
 
-### Why two types?
+### Why two types? {data-no-toc}
 
 They are separated from one another so we can update coordinator zomes without having to update the integrity zomes. This is important, because changes made to an integrity zome result in a change of the rule set, which results in an entirely new network. This is because the integrity code is what defines the 'rules of the game' for a group of participants. If you changed the code of an integrity zome, Holochain would consider it a new 'game' and you would find yourself suddenly in a new and different network from the other folks who haven't yet changed their integrity zome --- and we want to minimize those sorts of forks to situations where they are needed (like when a community decides they want to play by different rules, for instance changing the maximum length of comments from 140 characters to 280 characters).
 
@@ -251,7 +251,7 @@ Once that is all done, your hApp skeleton will have filled out a bit. Before you
 
 !!! dig-deeper Source chains, actions, and entries
 
-### Source chain
+### Source chain {data-no-toc}
 
 Any time a participant in a hApp takes some action that changes data, they do it by adding a record to a journal called a **source chain**. Each participant has their own source chain, a local, tamper-proof, and chronological store of the participant's actions in that application.
 
@@ -259,7 +259,7 @@ This is one of the main differences between Holochain and other systems such as 
 
 One big advantage of this approach is that a single agent can be considered authoritative about the order in which they took actions. From their perspective, first they did A, then B, then C, etc. The fact that someone else didn't get an update about these changes, and possibly received them in a different order, doesn't matter. The order that the authoring agent took those actions will be captured in the actions themselves (thanks to each action referencing the previous one that they had taken, thus creating an ordered sequence --- or chain --- of actions).
 
-### Actions and entries
+### Actions and entries {data-no-toc}
 
 You'll notice that we used the word "action" a lot. In fact, **we call the a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
 
@@ -512,7 +512,7 @@ Select `Yes` by pressing <kbd>Enter</kbd>.
 
 !!! dig-deeper CRUD (create, read, update, delete) {#crud-create-read-update-delete}
 
-### Mutating immutable data and improving performance
+### Mutating immutable data and improving performance {data-no-toc}
 
 In short, the above choice is about how changes get dealt with when a piece of content is updated.
 
@@ -524,11 +524,11 @@ When the scaffolding tool asks you whether to create a link from the original en
 
 For a `Delete` action, the original action and its entry content are simply marked as dead. In the cases of both updating and deleting, all original data is still accessible if the application needs it.
 
-### Resolving conflicts
+### Resolving conflicts {data-no-toc}
 
 Multiple participants can mark a single entry as updated or deleted at the same time. This might be surprising, but Holochain does this for two good reasons. First, it's surprisingly difficult to decide which is the 'correct' version of a piece of data in a distributed system, because contributions may come from any peer at any time, even appearing unexpectedly long after they've been created. There are many strategies for resolving the conflicts that arise from this, which brings us to the second good reason: we don't want to impose a specific conflict resolution strategy on you. Your application may not even consider parallel updates and deletes on a single entry to be a conflict at all.
 
-### CRUD functions
+### CRUD functions {data-no-toc}
 
 **By default, the scaffolding tool generates a `create_<entry_type>' function in your coordinator zome for an entry type** because creating new data is a fundamental part of any application, and it reflects the core principle of Holochain's agent-centric approach --- the ability to make changes to your own application's state.
 
@@ -596,25 +596,25 @@ To ensure data integrity and facilitate efficient data retrieval, each piece of 
 * **Integrity verification:** `Hi` will always generate the same hash no matter who runs it through the hashing function. So when data is retrieved by hash, its hash can be recalculated and compared with the original requested hash to ensure that a third party hasn't tampered with the data.
 * **Collusion resistance:** The network peers who take responsibility for validating and storing an entry are chosen randomly based on the similarity of their agent IDs to the `EntryHash`. It would take a huge amount of computing power to generate a hash that would fall under the responsibility of a colluding peer. And because Holochain can retrieve data from multiple peers, it's more likely that the requestor can find one honest peer to report problems with a piece of bad data.
 
-### `ActionHash`
+### `ActionHash` {data-no-toc}
 
 An action is identified by its `ActionHash`. Because an action contains information about its author, the time it was written, the action that preceded it, and the entry it operates on, no two action hashes will be the same --- even for two `Create` actions that write the same entry. This helps to disambiguate identical entries written at different times or by different agents.
 
 Because of the built-in fields and the uniqueness of each action hash, whenever you want to reference another piece of data, the most sensible choice is often an `ActionHash`.
 
-### `EntryHash`
+### `EntryHash` {data-no-toc}
 
 An entry is identified by its `EntryHash`, which can be retrieved from the action that wrote it. Because they're two separate pieces of data, an entry and its action are stored by different peers in the network.
 
 More than one agent (and in fact more than one action from the same agent) can write the same entry, so entry hashes aren't guaranteed to be unique. Sometimes this is a problem, but sometimes it's what you want when you're referencing data -- for instance, when the content you want to refer to is more important than who authored it.
 
-### `AgentPubKey`
+### `AgentPubKey` {data-no-toc}
 
 **Each agent in a network is identified by their cryptographic public key**, a unique number that's mathematically related to a private number that they hold on their machine. Public-key cryptography is a little complex for this guide --- it's enough to know that a participant's private key signs their source chain actions, and those signatures paired with their public key allow others to verify that they are the one who authored those actions.
 
 An `AgentPubKey` isn't a hash, but it's the same length as one, and it's unique just like a hash. So it can be used as a way of referring to an agent, like a user ID --- and this is also why it's used to choose peers in the DHT storage and retrieval algorithm.
 
-### Summary
+### Summary {data-no-toc}
 
 Whereas `EntryHash` is used to uniquely identify, store, and efficiently retrieve an entry from the DHT, `ActionHash` does the same for the action that operated on it, which can provide information about the history and context of any associated entry (including what action preceded it). `ActionHash`es are also what enable any participant to retrieve and reconstruct the continuous sequence of actions (and any associated entries) in another agent's source chain.
 
@@ -842,7 +842,7 @@ The two application UI windows let you interact with the application and see wha
 
 At first, each of the UI windows (conductors 0 for Alice and 1 for Bob) include instructions for you to go and examine the scaffolded UI elements by looking at the contents in the folder `ui/src/<dna>/<zome>/`, where `<dna>` and `<zome>` are generic placeholders for your DNA (`forum`) and zome (`post`).
 
-## 9. Integrate the generated UI elements
+## 11. Integrate the generated UI elements
 
 Thus far, seven different UI components should have been generated as `.svelte` files in the `ui/src/forum/posts/` folder. Note that for ease of development, the sandbox testing environment live-reloads the UI as you edit UI files. So don't quit the process you started with `npm start`; instead, **open a new terminal window**. Then navigate to the root folder of your hApp (`my_forum_app/`) and list the files in `ui/src/forum/posts/` by entering:
 
@@ -878,7 +878,7 @@ Your `App.svelte` file will have three sections:
 
 !!! dig-deeper Detailed breakdown of `App.svelte`
 
-### `<script>` section
+### `<script>` section {data-no-toc}
 
 ```svelte
 script lang="ts">
@@ -918,7 +918,7 @@ Next some variables are instantiated: one to hold the Holochain client that conn
 
 Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is established, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
 
-### `<main>` section
+### `<main>` section {data-no-toc}
 
 ```svelte
 <main>
@@ -969,7 +969,7 @@ This section is a template for the displayable content of the main app component
 
 Note that, in Svelte, any time a variable changes, the template is re-rendered with the new value. This is called **reactivity**, and makes your life easier because you don't have to write quite so many event handlers for changes on your data.
 
-### `<style>` section
+### `<style>` section {data-no-toc}
 
 ```svelte
 <style>
