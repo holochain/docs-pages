@@ -1,17 +1,5 @@
 ---
 title: "Deploying your Holochain application"
-tocData:
-  - text: Packaging
-    href: packaging
-  - text: Runtimes
-    href: runtimes
-    children:
-      - text: Launcher
-        href: launcher-the-multi-app-runtime
-      - text: Standalone
-        href: standalone-executable
-  - text: Next steps
-    href: next-steps
 ---
 
 Now that you've built an application, it's time to get it into other people's hands. First an app must be packaged into a distributable bundle format. Then it can be published somewhere a user can access it.

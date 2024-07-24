@@ -1,10 +1,5 @@
 ---
 title: Get Started
-tocData:
-  - text: 1. Introduction to Holochain
-    href: 1-introduction-to-holochain
-  - text: 2. Installing Holochain development environment
-    href: 2-installing-holochain-development-environment
 ---
 
 Welcome to the Getting Started with Holochain guide! This is a four-page guide which will walk you through the process of installing the Holochain development tools and creating a simple forum application. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.

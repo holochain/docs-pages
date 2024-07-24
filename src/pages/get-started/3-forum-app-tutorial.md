@@ -1,24 +1,5 @@
 ---
 title: "Zero to Built: Creating a Forum App"
-tocData:
-  - text: 1. Scaffolding a hApp
-    href: 1-scaffolding-a-happ
-  - text: 2. Select user interface framework
-    href: 2-select-user-interface-framework
-  - text: 3. Set up Holonix development environment
-    href: 3-set-up-holonix-development-environment
-  - text: 4. Scaffold a DNA
-    href: 4-scaffold-a-dna
-  - text: 5. Scaffold a zome
-    href: 5-scaffold-a-zome
-  - text: 6. Scaffold entry types
-    href: 6-scaffold-entry-types
-  - text: 7. Scaffold a collection
-    href: 7-scaffold-a-collection
-  - text: 8. Run your application in dev mode
-    href: 8-run-your-application-in-dev-mode
-  - text: 9. Integrate the generated UI elements
-    href: 9-integrate-the-generated-ui-elements
 ---
 
 In this tutorial you'll use Holochain's scaffolding tool to generate back-end and UI code for all the data types and collections needed to build a functioning forum app. It assumes that you've already [installed the Holochain development environment](/get-started/#2-installing-holochain-development-environment), set up a folder for working on Holochain applications, and [scaffolded a Hello World application](/get-started/2-hello-world/).
