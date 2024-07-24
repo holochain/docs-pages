@@ -65,7 +65,10 @@ Holochain's official end-user runtime is the [Holochain Launcher](https://github
 
 You can try this latter approach with your forum app immediately by downloading and running the Launcher! If you install `workdir/my_forum_app.webhapp`, the hApp _and its UI_ will be installed.
 
-The steps for publishing an app to the Launcher's app store are documented in the Github repository of the Holochain Launcher [here](https://github.com/holochain/launcher#publishing-and-updating-an-app-in-the-devhub).
+The steps for publishing an app to the Launcher's app store are documented in the Github repository of the Holochain Launcher [here](https://github.com/holochain/launcher#publish-an-app-to-launchers-app-store).
+
+!!!info Launcher uses Electron
+If you're developing an app that's meant to be run within Launcher, it's important to know that Launcher uses Electron, which embeds a fairly recent version of Google's [Blink](https://www.chromium.org/blink/) browser engine. The nice thing about this is that your UI can target a consistent browser, which should shorten development time.
 
 ### Standalone executable
 

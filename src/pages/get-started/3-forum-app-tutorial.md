@@ -34,7 +34,24 @@ To start, run the following command in your terminal:
 nix run github:/holochain/holochain#hc-scaffold -- web-app
 ```
 
-You should then see:
+## 2. Select user interface framework
+
+You'll then be prompted to choose a user interface (UI) framework for your front end. For this example, use the arrow keys to choose `Svelte` and press <kbd>Enter</kbd>.
+
+::: output-block
+```text
+? Choose UI framework: (Use arrow-keys. Return to submit) ›
+  lit
+❯ svelte
+  vue
+  react
+  vanilla
+  headless (no ui)
+```
+
+## 3. Choose a name for your app
+
+You'll then be asked to give your app a name.
 
 ::: output-block
 ```text
@@ -48,13 +65,7 @@ Enter the name of your forum application using snake_case. Enter:
 my_forum_app
 ```
 
-## 2. Select user interface framework
-
-You'll then be prompted to choose a user interface (UI) framework for your front end.
-
-For this example, use the arrow keys to choose `Svelte` and press <kbd>Enter</kbd>.
-
-## 3. Set up Holonix development environment
+## 4. Set up Holonix development environment and JS package manager
 
 Next, you'll be asked if you want to set up the Holonix development environment for the project. This allows you to enter a shell that has all the right tools and libraries for the version of Holochain that your code was generated for.
 
@@ -70,13 +81,217 @@ Setting up nix development environment...
 
 along with some details of what is being added. Follow the instructions to set up the development environment for your hApp and continue to scaffold more of its elements.
 
-First, enter the hApp project folder:
+Next, choose your favorite package manager for dealing with app commands and JavaScript dependencies. If you don't know what to pick, just pick `npm`.
+
+::: output-block
+```text
+? Choose a package manager: (Use arrow-keys. Return to submit) ›
+  bun
+❯ npm
+  pnpm
+  yarn
+```
+:::
+
+After this, you should see some package manager output, followed by this message:
+
+::: output-block
+```text
+Your Web hApp my_forum_app has been scaffolded!
+```
+:::
+
+## 5. Scaffold a DNA
+
+The next step asks you whether you want to scaffold an initial DNA. A DNA is where you will put the code that defines the rules of your application. Simple applications like this one only need one DNA, so say yes:
+
+::: output-block
+```text
+? Do you want to scaffold an initial DNA? (y/n) ›
+❯ Yes
+  No
+```
+:::
+
+You should then see:
+
+::: output-block
+```text
+? DNA name (snake_case):
+```
+:::
+
+Enter a name for the DNA:
+
+```text
+forum
+```
+
+Inside of your `dnas/` folder, the scaffolding tool generated a `forum/` folder and, inside of that, the folders and files that the DNA needs. At this point you have a skeleton structure for your `forum` DNA. As you take the following steps, the scaffolding tool will make additions and edits to some of those folders and files based on your instructions.
+
+!!! dig-deeper DNAs: Context and Background {#about-dnas}
+
+### Why do we use the term DNA?
+
+With Holochain, we're trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organizations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
+
+This enables many different independent parts (cells) to build relatively consistent superstructures (a body, for instance), move resources, identify and eliminate infections, and more --- all without centralized command and control. There is no "CEO" cell in the body telling everybody else what to do. It's a bunch of independent actors (cells) playing by a consistent set of rules (the DNA) coordinating in effective and resilient ways.
+
+A cell in the muscle of your bicep finds itself in a particular context, surrounded by certain resources and conditions. Based on those signals, that cell behaves in particular ways, running relevant portions of the larger shared instruction set (DNA) and transforming resources in ways that make sense for a bicep muscle cell. A different cell in your blood, perhaps facing a context where there is a bacterial infection, will face a different set of circumstances and consequently will make use of other parts of the shared instruction set to guide how it behaves. In other words, many biological organisms make use of this pattern where **all participants run the same rule set, but each in its own context**, and that unlocks a powerful capacity for coherent coordination.
+
+Holochain borrows this pattern that we see in biological coordination to try to enable similarly coherent social coordination. However, our focus is on enabling participants to "opt into" such coherent social coordination. We believe that this pattern of being able to choose which games you want to play --- and being able to leave them or adapt them as experience suggests --- is critical to enabling individual and collective adaptive capacity. We believe that it may enable a fundamental shift in the ability of individuals and communities to sense and respond to the situations that they face.
+
+To put it another way: if a group of us can all agree to the rules of a game, then together we can play that game.
+
+All of us opting in to those rules --- and helping to enforce them --- enables us to play that game together, whether it is a game of chess, chat, a forum app, or something much richer.
+
+### DNA as boundary of network
+
+The network of participants that are running a DNA engage in "peer witnessing" of each other's actions in that network. A (deterministically random) set of peers are responsible for validating, storing, and serving each particular piece of shared content. In other words, the users of a particular hApp agree to a set of rules and then work together collectively to enforce those rules and to store and serve content (state changes) that do not violate those rules.
+
+Every hApp needs to include at least one DNA. Moreover, as indicated above, **it is at the DNA level** (note: not the higher application level) **where participants will form a network of peers to validate, store, and serve content** in accordance with the rules defined in that DNA. This happens in the background as the application runs on each participant's machine.
+
+There are some powerful consequences to this architectural choice --- including freedom to have your application look and feel the way you want, or to combine multiple DNAs together in ways that work for you without having to get everyone else to agree to do the same --- but we'll save those details for later.
+
+### So if we have multiple DNAs in our hApp...
+
+...then we are participating in multiple networks, with each network of peers that are participating in a particular DNA also helping maintain the shared database for that DNA, enforcing its rules while validating, storing, and serving content. Each network acts as a 'social organism' in cooperation with other networks in the hApp.
+
+This is similar to the way in which multiple DNA communities coexist in biological organisms. In fact, there are more cells in a human body that contain other DNA (like bacteria and other microorganisms) than cells that contain our DNA. This indicates that we are an _ecology_ of coherent communities that are interacting with --- and evolving alongside --- one another.
+
+When it comes to hApps, this lets us play coherent games with one another at the DNA level, while also participating in adjacent coherent games with others as well. That means that applications are not one-size-fits-all. You can choose to combine different bits of functionality in interesting and novel ways.
+
+!!!
+
+## 6. Scaffold some zomes
+
+DNAs are comprised of code modules, which we call zomes (short for chromosomes). Zomes are modules that typically focus on enabling some small unit of functionality. Building with this sort of modular pattern provides a number of advantages, including the ability to reuse a module in more than one DNA to provide similar functionality in a different context. For instance, the [profiles zome](https://github.com/holochain-open-dev/profiles) is one that many apps make use of. For the forum DNA, you'll be creating two zomes: `posts` and `posts_integrity`.
+
+Now that you've scaffolded a DNA, you should see this prompt:
+
+::: output-block
+```text
+? Do you want to scaffold an initial coordinator/integrity zome pair for your DNA? (y/n) ›
+❯ Yes
+  No
+```
+:::
+
+Say yes to it, and then you should then see:
+
+::: output-block
+```text
+? Enter coordinator zome name (snake_case):
+(The integrity zome will automatically be named '{name of coordinator zome}_integrity')
+```
+:::
+
+Give it the name `posts`. Then it'll ask you to confirm the names of the two new folders it'll generate; press <kbd>y</kbd> for both.
+
+::: output-block
+```text
+✔ Scaffold integrity zome in folder "dnas/forum/zomes/integrity/"? (y/n) · yes
+? Scaffold coordinator zome in "dnas/forum/zomes/coordinator/"? (y/n) · yes
+```
+:::
+
+Now the skeleton structure of your forum projet has been scaffolded. You'll see some instructions for next steps:
+
+::: output-block
+```text
+Coordinator/integrity zome pair scaffolded.
+
+This skeleton provides the basic structure for your Holochain web application.
+The UI is currently empty; you will need to import necessary components into the top-level app component to populate it.
+
+Here's how you can get started with developing your application:
+
+- Set up your development environment:
+
+  cd my_forum_app
+  nix develop
+  npm install
+
+- Scaffold an entry-type for your hApp:
+
+  hc scaffold entry-type
+
+- Then, at any point in time you can start your application with:
+
+  npm run start
+```
+:::
+
+!!! dig-deeper Integrity zomes and coordinator zomes
+
+### Integrity zomes
+
+An integrity zome, as the name suggests, is responsible for maintaining the data integrity of a Holochain application. It sets the rules and ensures that any data writes occurring within the application are consistent with those rules. In other words, it's responsible for ensuring that data is correct, complete, and trustworthy. Integrity zomes help maintain a secure and reliable distributed peer-to-peer network by enforcing the validation rules defined by the application developer --- in this case, you!
+
+### Coordinator zomes
+
+On the other hand, a coordinator zome contains the code that actually commits data, retrieves it, or sends and receives messages between peers or between other portions of the application on a user's own device (between the back end and the UI, for instance). A coordinator zome is where you define the API for your DNA, through which the network of peers and their data is made accessible to the user.
+
+### Multiple zomes per DNA
+
+As you learned earlier, a DNA can have multiple integrity and coordinator zomes. Each integrity zome contributes to the full set of different types of valid data that can be written, while each coordinator zome contributes to the DNA's functionality that you expose through its API. In order to write data of a certain type, a coordinator zome needs to specify a dependency on the integrity zome that defines that data type. A coordinator zome can also depend on multiple integrity zomes.
+
+### Why two types?
+
+They are separated from one another so we can update coordinator zomes without having to update the integrity zomes. This is important, because changes made to an integrity zome result in a change of the rule set, which results in an entirely new network. This is because the integrity code is what defines the 'rules of the game' for a group of participants. If you changed the code of an integrity zome, Holochain would consider it a new 'game' and you would find yourself suddenly in a new and different network from the other folks who haven't yet changed their integrity zome --- and we want to minimize those sorts of forks to situations where they are needed (like when a community decides they want to play by different rules, for instance changing the maximum length of comments from 140 characters to 280 characters).
+
+At the same time, a community will want to be able to improve the ways in which things are done in a Holochain app. This can take the form of adding new features or fixing bugs, and we also want people to also be able to take advantage of the latest features in Holochain. Separating integrity and coordination enables them to do that more easily, because:
+
+* Holochain's coordinator zome API receives frequent updates while the integrity zome API is fairly stable, and
+* coordinator zomes can be added to or removed from a DNA at runtime without affecting the DNA's hash.
+
+!!!
+
+Once that is all done, your hApp skeleton will have filled out a bit. Before you scaffold the next piece, it might be good to get a little context for how content is "spoken into being" when a participant publishes a post in a forum hApp. Expand and read the following section to learn more.
+
+!!! dig-deeper Source chains, actions, and entries
+
+### Source chain
+
+Any time a participant in a hApp takes some action that changes data, they do it by adding a record to a journal called a **source chain**. Each participant has their own source chain, a local, tamper-proof, and chronological store of the participant's actions in that application.
+
+This is one of the main differences between Holochain and other systems such as blockchains or centralized server-based applications. Instead of recording a "global" (community-wide) timeline of what actions have taken place, in Holochain actions are recorded on individual timelines. They can be thought of as both a change to the individual's state and an attempt to change shared state.
+
+One big advantage of this approach is that a single agent can be considered authoritative about the order in which they took actions. From their perspective, first they did A, then B, then C, etc. The fact that someone else didn't get an update about these changes, and possibly received them in a different order, doesn't matter. The order that the authoring agent took those actions will be captured in the actions themselves (thanks to each action referencing the previous one that they had taken, thus creating an ordered sequence --- or chain --- of actions).
+
+### Actions and entries
+
+You'll notice that we used the word "action" a lot. In fact, **we call the a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
+
+There are a few different kinds of actions, but the most common one is `Create`, which creates an 'entry' --- an arbitrary blob of bytes. Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to publicly store a record of this act along with the data itself._ So while an action is useful for storing noun-like data like messages and images, it's actually a verb, a record of an action that someone took to update their own state and possibly the shared state as well. That also makes it well-suited to verb-like data like real-time document edits, game moves, and transactions.
+
+Every action contains the ID of its author (actually a cryptographic public key), a timestamp, a pointer to the previous source chain record, and a pointer to the entry data, if there is any. In this way, actions provide historical context and provenance for the entries they operate on.
+
+The pointer to the previous source chain record creates an unbroken history from the current record all the way back to the source chain's starting point. This 'genesis' record contains the hash of the DNA, which serves as both the identifier for the specific set of validation rules that all following records should follow and the ID of the network that this source chain's actions are participating in.
+
+An action is cryptographically signed by its author and is immutable (can't be changed or erased from either the source chain or the network's data store) once written. This, along with the validation rules specified by the DNA hash in the genesis record, are examples of a concept we call "intrinsic data integrity", in which data carries enough information about itself to be self-validating.
+
+Just as with a centralized application, we aren't just going to add this data into some database without checking it first. When a participant tries to write an action, Holochain first:
+
+1. ensures that the action being taken doesn't violate the validation rules of the DNA,
+2. adds it as the next record to the source chain, and then
+3. tells the participant's network peers about it so they can validate and store it, if it's meant to be public.
+
+The bits of shared information that all the peers in a network are holding are collectively called a distributed hash table, or DHT. We'll explain more about the DHT later.
+
+If you want to learn more, check out [The Source Chain: A Personal Data Journal](/concepts/3_source_chain/) and [The DHT: A Shared, Distributed Graph Database](/concepts/4_dht/). You'll also get to see it all in action in a later step, when you run your hApp for the first time.
+
+!!!
+
+## 7. Enter the dev environment
+
+Now you're ready to start working in your dev environment. Enter the hApp project folder:
 
 ```shell
 cd my_forum_app
 ```
 
-Just to get an overview of what your first scaffold command set up for you, you can check the contents of that `my_forum_app` folder by typing:
+Just to get an overview of what's been scaffolded for you, you can check the contents of that `my_forum_app` folder by typing:
 
 ```shell
 ls
@@ -120,8 +335,6 @@ found 0 vulnerabilities
 
 If you see something like that, you've successfully downloaded the NPM dependencies for the UI and for building your app.
 
-Next up, you're going to start creating the foundational building block of any Holochain app: its DNA.
-
 !!! dig-deeper Scaffolding subcommands
 
 To get an overview of the subcommands that `hc scaffold`` makes available to you, type:
@@ -164,211 +377,7 @@ You can get help on every one of these subcommands and its parameters by typing 
 A quick note: if while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the current step** by using <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> on Linux or <kbd><kbd>Command</kbd>+<kbd>C</kbd></kbd> on macOS.
 !!!
 
-## 4. Scaffold a DNA
-
-A DNA folder is where you will put the code that defines the rules of your application. You're going to stay in the `my_forum_app/` root folder and, with some simple commands, the scaffolding tool will do much of the creation of relevant folders and files for you.
-
-!!! dig-deeper DNAs: Context and Background {#about-dnas}
-
-### Why do we use the term DNA?
-
-With Holochain, we're trying to enable people to **choose to participate in coherent social coordination**, or interact meaningfully with each other online without needing a central authority to define the rules and keep everyone safe. To do that, we are borrowing some patterns from how biological organisms are able to coordinate coherently even at scales that social organizations such as companies or nations have come nowhere close to. In living creatures like humans, dolphins, redwood trees, and coral reefs, many of the cells in the body of an organism (trillions of the cells in a human body, for instance) are each running a (roughly) identical copy of a rule set in the form of DNA.
-
-This enables many different independent parts (cells) to build relatively consistent superstructures (a body, for instance), move resources, identify and eliminate infections, and more --- all without centralized command and control. There is no "CEO" cell in the body telling everybody else what to do. It's a bunch of independent actors (cells) playing by a consistent set of rules (the DNA) coordinating in effective and resilient ways.
-
-A cell in the muscle of your bicep finds itself in a particular context, surrounded by certain resources and conditions. Based on those signals, that cell behaves in particular ways, running relevant portions of the larger shared instruction set (DNA) and transforming resources in ways that make sense for a bicep muscle cell. A different cell in your blood, perhaps facing a context where there is a bacterial infection, will face a different set of circumstances and consequently will make use of other parts of the shared instruction set to guide how it behaves. In other words, many biological organisms make use of this pattern where **all participants run the same rule set, but each in its own context**, and that unlocks a powerful capacity for coherent coordination.
-
-Holochain borrows this pattern that we see in biological coordination to try to enable similarly coherent social coordination. However, our focus is on enabling participants to "opt into" such coherent social coordination. We believe that this pattern of being able to choose which games you want to play --- and being able to leave them or adapt them as experience suggests --- is critical to enabling individual and collective adaptive capacity. We believe that it may enable a fundamental shift in the ability of individuals and communities to sense and respond to the situations that they face.
-
-To put it another way: if a group of us can all agree to the rules of a game, then together we can play that game.
-
-All of us opting in to those rules --- and helping to enforce them --- enables us to play that game together, whether it is a game of chess, chat, a forum app, or something much richer.
-
-### DNA as boundary of network
-
-The network of participants that are running a DNA engage in "peer witnessing" of each other's actions in that network. A (deterministically random) set of peers are responsible for validating, storing, and serving each particular piece of shared content. In other words, the users of a particular hApp agree to a set of rules and then work together collectively to enforce those rules and to store and serve content (state changes) that do not violate those rules.
-
-Every hApp needs to include at least one DNA. Moreover, as indicated above, **it is at the DNA level** (note: not the higher application level) **where participants will form a network of peers to validate, store, and serve content** in accordance with the rules defined in that DNA. This happens in the background as the application runs on each participant's machine.
-
-There are some powerful consequences to this architectural choice --- including freedom to have your application look and feel the way you want, or to combine multiple DNAs together in ways that work for you without having to get everyone else to agree to do the same --- but we'll save those details for later.
-
-### So if we have multiple DNAs in our hApp...
-
-...then we are participating in multiple networks, with each network of peers that are participating in a particular DNA also helping maintain the shared database for that DNA, enforcing its rules while validating, storing, and serving content. Each network acts as a 'social organism' in cooperation with other networks in the hApp.
-
-This is similar to the way in which multiple DNA communities coexist in biological organisms. In fact, there are more cells in a human body that contain other DNA (like bacteria and other microorganisms) than cells that contain our DNA. This indicates that we are an _ecology_ of coherent communities that are interacting with --- and evolving alongside --- one another.
-
-When it comes to hApps, this lets us play coherent games with one another at the DNA level, while also participating in adjacent coherent games with others as well. That means that applications are not one-size-fits-all. You can choose to combine different bits of functionality in interesting and novel ways.
-
-!!!
-
-It's time to scaffold a new DNA by entering:
-
-```shell
-hc scaffold dna
-```
-
-You should then see:
-
-::: output-block
-```text
-? DNA name (snake_case):
-```
-:::
-
-Enter a name for the DNA:
-
-```text
-forum
-```
-
-You should then see:
-
-::: output-block
-```text
-DNA "forum" scaffolded!
-Add new zomes to your DNA with:
-    hc scaffold zome
-```
-:::
-
-Success! Inside of your `dnas/` folder, the scaffolding tool generated a `forum/` folder and, inside of that, the folders and files that the DNA needs. At this point you have a skeleton structure for your `forum` DNA. As you take the following steps, the scaffolding tool will make additions and edits to some of those folders and files based on your instructions.
-
-## 5. Scaffold a zome
-
-DNAs are comprised of code modules, which we call zomes (short for chromosomes). Zomes are modules that typically focus on enabling some small unit of functionality. Building with this sort of modular pattern provides a number of advantages, including the ability to reuse a module in more than one DNA to provide similar functionality in a different context. For instance, the [profiles zome](https://github.com/holochain-open-dev/profiles) is one that many apps make use of. For the forum DNA, you'll be creating two zomes: `posts` and `posts_integrity`.
-
-Start by entering:
-
-```shell
-hc scaffold zome
-```
-
-You should then see:
-
-::: output-block
-```text
-? What do you want to scaffold? ›
-❯ Integrity/coordinator zome-pair (recommended)
-  Only an integrity zome
-  Only a coordinator zome
-```
-:::
-
-!!! dig-deeper Integrity zomes and coordinator zomes
-
-### Integrity zomes
-
-An integrity zome, as the name suggests, is responsible for maintaining the data integrity of a Holochain application. It sets the rules and ensures that any data writes occurring within the application are consistent with those rules. In other words, it's responsible for ensuring that data is correct, complete, and trustworthy. Integrity zomes help maintain a secure and reliable distributed peer-to-peer network by enforcing the validation rules defined by the application developer --- in this case, you!
-
-### Coordinator zomes
-
-On the other hand, a coordinator zome contains the code that actually commits data, retrieves it, or sends and receives messages between peers or between other portions of the application on a user's own device (between the back end and the UI, for instance). A coordinator zome is where you define the API for your DNA, through which the network of peers and their data is made accessible to the user.
-
-### Multiple zomes per DNA
-
-As you learned earlier, a DNA can have multiple integrity and coordinator zomes. Each integrity zome contributes to the full set of different types of valid data that can be written, while each coordinator zome contributes to the DNA's functionality that you expose through its API. In order to write data of a certain type, a coordinator zome needs to specify a dependency on the integrity zome that defines that data type. A coordinator zome can also depend on multiple integrity zomes.
-
-### Why two types?
-
-They are separated from one another so we can update coordinator zomes without having to update the integrity zomes. This is important, because changes made to an integrity zome result in a change of the rule set, which results in an entirely new network. This is because the integrity code is what defines the 'rules of the game' for a group of participants. If you changed the code of an integrity zome, Holochain would consider it a new 'game' and you would find yourself suddenly in a new and different network from the other folks who haven't yet changed their integrity zome --- and we want to minimize those sorts of forks to situations where they are needed (like when a community decides they want to play by different rules, for instance changing the maximum length of comments from 140 characters to 280 characters).
-
-At the same time, a community will want to be able to improve the ways in which things are done in a Holochain app. This can take the form of adding new features or fixing bugs, and we also want people to also be able to take advantage of the latest features in Holochain. Separating integrity and coordination enables them to do that more easily, because:
-
-* Holochain's coordinator zome API receives frequent updates while the integrity zome API is fairly stable, and
-* coordinator zomes can be added to or removed from a DNA at runtime without affecting the DNA's hash.
-
-!!!
-
-For this app, you're going to want both an integrity zome and a coordinator zome, so use the arrow keys to select:
-
-::: output-block
-```text
-Integrity/coordinator zome-pair
-```
-:::
-
-and press <kbd>Enter</kbd>.
-
-You should then see:
-
-::: output-block
-```text
-? Enter coordinator zome name (snake_case):
- (The integrity zome will automatically be named '{name of coordinator zome}_integrity')
-```
-:::
-
-Enter the name:
-
-```text
-posts
-```
-
-and press <kbd>Enter</kbd>.
-
-You should then see prompts asking if you want to scaffold the integrity and coordinator zomes in their respective default folders.
-
-Press <kbd>Y</kbd> for both prompts.
-
-As that runs (which will take a moment as the scaffold makes changes to various files) you should then see something like:
-
-::: output-block
-```text
-Coordinator zome "posts" scaffolded!
-Updating crates.io index
-    Fetch [===>       ] ...
-```
-:::
-    (then after download is done...)
-::: output-block
-```text
-    Downloaded 244 crates (46.7 MB) in 4.27s (largest was `windows` at 11.9 MB)
-
-Add new entry definitions to your zome with:
-    hc scaffold entry-type
-```
-:::
-
-Once that is all done, your hApp skeleton will have filled out a bit. Before you scaffold the next piece, it might be good to get a little context for how content is "spoken into being" when a participant publishes a post in a forum hApp. Read the following section to learn more.
-
-!!! dig-deeper Source chains, actions, and entries
-
-### Source chain
-
-Any time a participant in a hApp takes some action that changes data, they do it by adding a record to a journal called a **source chain**. Each participant has their own source chain, a local, tamper-proof, and chronological store of the participant's actions in that application.
-
-This is one of the main differences between Holochain and other systems such as blockchains or centralized server-based applications. Instead of recording a "global" (community-wide) timeline of what actions have taken place, in Holochain actions are recorded on individual timelines. They can be thought of as both a change to the individual's state and an attempt to change shared state.
-
-One big advantage of this approach is that a single agent can be considered authoritative about the order in which they took actions. From their perspective, first they did A, then B, then C, etc. The fact that someone else didn't get an update about these changes, and possibly received them in a different order, doesn't matter. The order that the authoring agent took those actions will be captured in the actions themselves (thanks to each action referencing the previous one that they had taken, thus creating an ordered sequence --- or chain --- of actions).
-
-### Actions and entries
-
-You'll notice that we used the word "action" a lot. In fact, **we call the a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
-
-There are a few different kinds of actions, but the most common one is `Create`, which creates an 'entry' --- an arbitrary blob of bytes. Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to publicly store a record of this act along with the data itself._ So while an action is useful for storing noun-like data like messages and images, it's actually a verb, a record of an action that someone took to update their own state and possibly the shared state as well. That also makes it well-suited to verb-like data like real-time document edits, game moves, and transactions.
-
-Every action contains the ID of its author (actually a cryptographic public key), a timestamp, a pointer to the previous source chain record, and a pointer to the entry data, if there is any. In this way, actions provide historical context and provenance for the entries they operate on.
-
-The pointer to the previous source chain record creates an unbroken history from the current record all the way back to the source chain's starting point. This 'genesis' record contains the hash of the DNA, which serves as both the identifier for the specific set of validation rules that all following records should follow and the ID of the network that this source chain's actions are participating in.
-
-An action is cryptographically signed by its author and is immutable (can't be changed or erased from either the source chain or the network's data store) once written. This, along with the validation rules specified by the DNA hash in the genesis record, are examples of a concept we call "intrinsic data integrity", in which data carries enough information about itself to be self-validating.
-
-Just as with a centralized application, we aren't just going to add this data into some database without checking it first. When a participant tries to write an action, Holochain first:
-
-1. ensures that the action being taken doesn't violate the validation rules of the DNA,
-2. adds it as the next record to the source chain, and then
-3. tells the participant's network peers about it so they can validate and store it, if it's meant to be public.
-
-The bits of shared information that all the peers in a network are holding are collectively called a distributed hash table, or DHT. We'll explain more about the DHT later.
-
-If you want to learn more, check out [The Source Chain: A Personal Data Journal](/concepts/3_source_chain/) and [The DHT: A Shared, Distributed Graph Database](/concepts/4_dht/). You'll also get to see it all in action in a later step, when you run your hApp for the first time.
-
-!!!
-
-Now it's time to start defining the structure and validation rules for data within your application.
-
-## 6. Scaffold entry types
+## 8. Scaffold entry types
 
 An entry type is a fundamental building block used to define the structure and validation rules for data within a distributed application. Each entry type corresponds to a specific kind of data that can be stored, shared, and validated within the application.
 
@@ -386,7 +395,7 @@ An entry type is just a label, an identifier for a certain type of data that you
 
 !!!
 
-Your bare-bones forum needs two entry types: `post` and `comment`. You'll define these in the `posts` integrity zome you just created in the previous step.  The `post` entry type will define a `title` field and a `content` field. The `comment` entry type will define a `comment_content` field and a reference to the post it should be attached to.
+Your bare-bones forum needs two entry types: `post` and `comment`. You'll define these in the `posts` integrity zome you just created in the previous step.  The `post` entry type will define a `title` field and a `content` field. The `comment` entry type will define a `content` field and a reference to the post it should be attached to.
 
 To do this, just follow the instructions that the scaffold suggested for adding new entry definitions to your zome.
 
@@ -472,7 +481,7 @@ After adding the `title` and `content` fields, press <kbd>N</kbd> when asked if 
 ::: output-block
 ```text
 Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to continue)?
-  Update
+✔ Update
 ✔ Delete
 ```
 :::
@@ -541,7 +550,7 @@ Add new collections for that entry type with:
 ```
 :::
 
-We'll dive into collections in a moment, but first create the `comment` entry type.
+We'll dive into collections in a moment, but first let's create the `comment` entry type.
 
 Again type:
 
@@ -557,10 +566,10 @@ comment
 
 for the entry type name.
 
-You're going to add a `comment_content` field, so select the `String` field type and enter:
+You're going to add a `content` field, so select the `String` field type and enter:
 
 ```text
-comment_content
+content
 ```
 
 Then select the `TextArea` widget and press <kbd>Enter</kbd>. (Again, a `TextArea` is a multi-line input field that allows users to enter larger blocks of text. Perfect for a comment on a post.)
@@ -591,15 +600,19 @@ To ensure data integrity and facilitate efficient data retrieval, each piece of 
 
 An action is identified by its `ActionHash`. Because an action contains information about its author, the time it was written, the action that preceded it, and the entry it operates on, no two action hashes will be the same --- even for two `Create` actions that write the same entry. This helps to disambiguate identical entries written at different times or by different agents.
 
+Because of the built-in fields and the uniqueness of each action hash, whenever you want to reference another piece of data, the most sensible choice is often an `ActionHash`.
+
 ### `EntryHash`
 
 An entry is identified by its `EntryHash`, which can be retrieved from the action that wrote it. Because they're two separate pieces of data, an entry and its action are stored by different peers in the network.
+
+More than one agent (and in fact more than one action from the same agent) can write the same entry, so entry hashes aren't guaranteed to be unique. Sometimes this is a problem, but sometimes it's what you want when you're referencing data -- for instance, when the content you want to refer to is more important than who authored it.
 
 ### `AgentPubKey`
 
 **Each agent in a network is identified by their cryptographic public key**, a unique number that's mathematically related to a private number that they hold on their machine. Public-key cryptography is a little complex for this guide --- it's enough to know that a participant's private key signs their source chain actions, and those signatures paired with their public key allow others to verify that they are the one who authored those actions.
 
-An `AgentPubKey` isn't a hash, but it's the same length, and it's unique just like a hash. So it can be used as a way of referring to an agent, like a user ID --- and this is also why it's used to choose peers in the DHT storage and retrieval algorithm.
+An `AgentPubKey` isn't a hash, but it's the same length as one, and it's unique just like a hash. So it can be used as a way of referring to an agent, like a user ID --- and this is also why it's used to choose peers in the DHT storage and retrieval algorithm.
 
 ### Summary
 
@@ -619,7 +632,7 @@ After press <kbd>Enter</kbd>, you should see:
 
 ::: output-block
 ```text
-? Should a link from this field be created when this entry is created? (y/n) ›
+? Should a link from the ActionHash provided in this field also be created when entries of this type are created? (y/n) ›
 ```
 :::
 
@@ -687,7 +700,7 @@ For more information and examples, read the Core Concepts section on [Links and 
 
 !!!
 
-## 7. Scaffold a collection
+## 9. Scaffold a collection
 
 Now, let's create a collection that can be used to retrieve all the posts. A collection creates a link type for referring to the collected entry type (similarly to how a link type was created for linking from posts to comments), but collections also create an 'anchor' --- a small string --- as the base for the link so we can find all the items in the collection by starting from the anchor's known hash.
 
@@ -741,9 +754,9 @@ At first, the UI for this application is empty. If you want the newly scaffolded
 
    import AllPosts from './forum/posts/AllPosts.svelte';
 
-And use the element in the `&lt;div id="content" /&gt` block by adding in this:
+And use the element in the `<div id="content" />` block by adding in this:
 
-   &lt;div id="content">&lt;<AllPosts>&lt;/AllPosts>&lt;/div>
+   <div id="content"><AllPosts></AllPosts></div>
 ```
 :::
 
@@ -774,7 +787,7 @@ The scaffolding tool doesn't have any feature for building anchors and trees bey
 
 Before you get started editing the UI, it's helpful to be able to actually run the scaffolded application. That way, you can watch changes take effect in real-time as you make them. So the next section will walk you through launching the application the tooling that's available there, and then in the section after that, we'll begin working with the `.svelte` files to build the UI.
 
-## 8. Run your application in dev mode
+## 10. Run your application in dev mode
 
 !!! info Warning for Ubuntu 24.04 and later
 Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions-15) that cause the following command to fail. Here's a simple fix. In your terminal, run this command:
@@ -868,28 +881,27 @@ Your `App.svelte` file will have three sections:
 ### `<script>` section
 
 ```svelte
-<script lang="ts">
-  import { onMount, setContext } from 'svelte';
-  import type { ActionHash, AppAgentClient } from '@holochain/client';
-  import { AppAgentWebsocket } from '@holochain/client';
-  import '@material/mwc-circular-progress';
+script lang="ts">
+import type { ActionHash, AppClient } from "@holochain/client";
+import { AppWebsocket } from "@holochain/client";
+import { onMount, setContext } from "svelte";
+import "@material/mwc-circular-progress";
 
-  import { clientContext } from './contexts';
+import { clientContext } from "./contexts";
 
-  let client: AppAgentClient | undefined;
+let client: AppClient | undefined;
 
-  let loading = true;
+let loading = true;
 
-  onMount(async () => {
-    // We pass '' as url because it will dynamically be replaced in launcher environments
-    client = await AppAgentWebsocket.connect('https://UNUSED', 'forum');
+onMount(async () => {
+  client = await AppWebsocket.connect();
 
-    loading = false;
-  });
+  loading = false;
+});
 
-  setContext(clientContext, {
-    getClient: () => client,
-  });
+setContext(clientContext, {
+  getClient: () => client,
+});
 </script>
 ```
 
@@ -911,27 +923,43 @@ Finally, there's an `onMount` handler, which is run when the component is first 
 ```svelte
 <main>
   {#if loading}
-    <div style="display: flex; flex: 1; align-items: center; justify-content: center">
+    <div
+      style="display: flex; flex: 1; align-items: center; justify-content: center"
+    >
       <mwc-circular-progress indeterminate />
     </div>
   {:else}
     <div id="content" style="display: flex; flex-direction: column; flex: 1;">
       <h2>EDIT ME! Add the components of your app here.</h2>
 
-      <span>Look in the <code>ui/src/DNA/ZOME</code> folders for UI elements that are generated with <code>hc scaffold entry-type</code>, <code>hc scaffold collection</code> and <code>hc scaffold link-type</code> and add them here as appropriate.</span>
+      <span>Look in the <code>ui/src/DNA/ZOME</code> folders for UI elements
+        that are generated with <code>hc scaffold entry-type</code>, <code>hc
+          scaffold collection</code> and <code>hc scaffold link-type</code> and
+        add them here as appropriate.</span>
 
-      <span>For example, if you have scaffolded a "todos" dna, a "todos" zome, a "todo_item" entry type, and a collection called "all_todos", you might want to add an element here to create and list your todo items, with the generated <code>ui/src/todos/todos/AllTodos.svelte</code> and <code>ui/src/todos/todos/CreateTodo.svelte</code> elements.</span>
+      <span>For example, if you have scaffolded a "todos" dna, a "todos" zome, a
+        "todo_item" entry type, and a collection called "all_todos", you might
+        want to add an element here to create and list your todo items, with the
+        generated <code>ui/src/todos/todos/AllTodos.svelte</code> and <code
+        >ui/src/todos/todos/CreateTodo.svelte</code> elements.</span>
 
       <span>So, to use those elements here:</span>
       <ol>
-        <li>Import the elements with:
-        <pre>
+        <li>
+          Import the elements with:
+          <pre
+          >
 import AllTodos from './todos/todos/AllTodos.svelte';
 import CreateTodo from './todos/todos/CreateTodo.svelte';
-        </pre>
+        </pre
+          >
         </li>
-        <li>Replace this "EDIT ME!" section with <code>&lt;CreateTodo&gt;&lt;/CreateTodo&gt;&lt;AllTodos&gt;&lt;/AllTodos&gt;</code>.</li>
-        </ol>
+        <li>
+          Replace this "EDIT ME!" section with <code
+          >&lt;CreateTodo&gt;&lt;/CreateTodo&gt;&lt;AllTodos&gt;&lt;/AllTodos&gt;</code
+          >.
+        </li>
+      </ol>
     </div>
   {/if}
 </main>
