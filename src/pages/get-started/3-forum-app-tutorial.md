@@ -195,7 +195,7 @@ Give it the name `posts`. Then it'll ask you to confirm the names of the two new
 ```
 :::
 
-Now the skeleton structure of your forum projet has been scaffolded. You'll see some instructions for next steps:
+Now the skeleton structure of your forum project has been scaffolded. You'll see some instructions for next steps:
 
 ::: output-block
 ```text
