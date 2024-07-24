@@ -625,7 +625,7 @@ Whereas `EntryHash` is used to uniquely identify, store, and efficiently retriev
 
 **Use `EntryHash` when** you want to link to or retrieve the actual content or data (e.g., when linking to a category in a forum application).
 
-**Use `ActionHash` when** you want to link to or retrieve the authorship or history of an entry (e.g., when distinguishing between two posts with identical content).
+**Use `ActionHash` when** you want to link to or retrieve the entry content _along with its authorship context_ (e.g., when distinguishing between two posts with identical content).
 
 **Use `AgentPubKey` when** you want to link to an agent (such as associating a profile or icon with them) or retrieve information about their history (such as scanning their source chain for posts and comments).
 
