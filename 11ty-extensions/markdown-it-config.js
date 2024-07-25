@@ -64,7 +64,10 @@ function composeDetailsBlockRenderFunc(blockName  = "details") {
 const renderDetailsBlock = (blockName, tokens, idx) => {
   if(tokens[idx].nesting === 1) {
     const summary = tokens[idx].info.trim().match(generateContainerTitleRegex(blockName));
-    const attrDefaults = blockName ? { class: `details ${blockName}` } : {};
+    const attrDefaults = { id: slugify(summary[1]) };
+    if (blockName) {
+      attrDefaults['class'] = `details ${blockName}`;
+    }
     const attrString = composeAttributeString(tokens[idx], attrDefaults);
 
     const summaryTag = summary ? `<summary>${ summary[1] }</summary>` : '';
