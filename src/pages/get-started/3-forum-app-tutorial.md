@@ -26,13 +26,19 @@ The good news is that the Holochain scaffolding tool will do a lot of the heavy 
 
 First, let's use the scaffolding tool to generate the basic folders and files for our hApp.
 
-## 1. Scaffolding a hApp {#1-scaffolding-a-happ}
+## 1. Start scaffolding
 
 To start, run the following command in your terminal:
 
 ```shell
 nix run github:/holochain/holochain#hc-scaffold -- web-app
 ```
+
+!!! info Backing out of a mistake
+A quick note: if, while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the current step** by using <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> on Linux or <kbd><kbd>Command</kbd>+<kbd>C</kbd></kbd> on macOS.
+
+If you're experienced with [Git](https://git-scm.com/), the scaffolding tool will initialize a Git repo in your project folder. That means you'll be able to use git commands to take snapshots of your work and back out any changes you've already completed.
+!!!
 
 ## 2. Select user interface framework
 
@@ -93,14 +99,6 @@ Next, choose your favorite package manager for dealing with app commands and Jav
 ```
 :::
 
-After this, you should see some package manager output, followed by this message:
-
-::: output-block
-```text
-Your Web hApp my_forum_app has been scaffolded!
-```
-:::
-
 ## 5. Scaffold a DNA
 
 The next step asks you whether you want to scaffold an initial DNA. A DNA is where you will put the code that defines the rules of your application. Simple applications like this one only need one DNA, so say yes:
@@ -126,8 +124,6 @@ Enter a name for the DNA:
 ```text
 forum
 ```
-
-Inside of your `dnas/` folder, the scaffolding tool generated a `forum/` folder and, inside of that, the folders and files that the DNA needs. At this point you have a skeleton structure for your `forum` DNA. As you take the following steps, the scaffolding tool will make additions and edits to some of those folders and files based on your instructions.
 
 !!! dig-deeper DNAs: Context and Background {#about-dnas}
 
@@ -253,7 +249,7 @@ Once that is all done, your hApp skeleton will have filled out a bit. Before you
 
 ### Source chain {data-no-toc}
 
-Any time a participant in a hApp takes some action that changes data, they do it by adding a record to a journal called a **source chain**. Each participant has their own source chain, a local, tamper-proof, and chronological store of the participant's actions in that application.
+Any time a participant in a hApp takes some action that creates or changes data, they do it by adding a record to a journal called a **source chain**. Each participant has their own source chain, a local, tamper-proof, and chronological store of the participant's actions in that application.
 
 This is one of the main differences between Holochain and other systems such as blockchains or centralized server-based applications. Instead of recording a "global" (community-wide) timeline of what actions have taken place, in Holochain actions are recorded on individual timelines. They can be thought of as both a change to the individual's state and an attempt to change shared state.
 
@@ -261,9 +257,9 @@ One big advantage of this approach is that a single agent can be considered auth
 
 ### Actions and entries {data-no-toc}
 
-You'll notice that we used the word "action" a lot. In fact, **we call the a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
+You'll notice that we used the word "action" a lot. In fact, **we call a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
 
-There are a few different kinds of actions, but the most common one is `Create`, which creates an 'entry' --- an arbitrary blob of bytes. Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to publicly store a record of this act along with the data itself._ So while an action is useful for storing noun-like data like messages and images, it's actually a verb, a record of an action that someone took to update their own state and possibly the shared state as well. That also makes it well-suited to verb-like data like real-time document edits, game moves, and transactions.
+There are a few different kinds of actions, but the most common one is `Create`, which creates an 'entry' --- an arbitrary blob of bytes. Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to publicly store a record of this act along with the data itself._ So while an action is useful for storing noun-like data like messages and images, it's actually a verb, a record of an action that someone took to update their own state and possibly the shared state as well. That also makes it well-suited to verb-like data like document edits, game moves, and transactions.
 
 Every action contains the ID of its author (actually a cryptographic public key), a timestamp, a pointer to the previous source chain record, and a pointer to the entry data, if there is any. In this way, actions provide historical context and provenance for the entries they operate on.
 
@@ -297,7 +293,7 @@ Just to get an overview of what's been scaffolded for you, you can check the con
 ls
 ```
 
-It should look like it has set up a similar set of folders and configuration files to those you saw in the "Hello World!" hApp.
+It should look like it has set up a [similar set of folders and configuration files](/get-started/2-hello-world/#understanding-the-layout-of-a-scaffolded-project) to those you saw in the "Hello World!" hApp.
 
 Now, fire up the nix development shell, which makes all scaffolding tools and the Holochain binaries directly available from the command line, by entering:
 
@@ -313,7 +309,24 @@ Holochain development shell spawned. Type exit to leave.
 ```
 :::
 
-As it says, if you want to leave the nix development shell at any time, you can type `exit`. This will take you back to your familiar shell without any of the special Holochain dependencies. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again. But for now, let's move on to installing the Node Package Manager (npm) dependencies with:
+As it says, if you want to leave the nix development shell at any time, you can type `exit`. This will take you back to your familiar shell without any of the special Holochain dependencies. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again.
+
+To see what the nix shell has done for you, type:
+
+```shell
+holochain --version
+```
+
+You should see something like:
+
+::: output-block
+```text
+holochain 0.x.x
+```
+
+If you were to type `exit` and try the same command, you'd probably get some sort of 'command not found' error!
+
+Now that we're in, let's move on to installing the Node Package Manager (npm) dependencies with:
 
 ```shell
 npm install
@@ -334,53 +347,6 @@ found 0 vulnerabilities
 :::
 
 If you see something like that, you've successfully downloaded the NPM dependencies for the UI and for building your app.
-
-!!! dig-deeper Scaffolding subcommands
-
-To get an overview of the subcommands that `hc scaffold`` makes available to you, type:
-
-```shell
-hc scaffold --help
-```
-
-You should see something like:
-
-::: output-block
-```text
-holochain_scaffolding_cli 0.x.x
-A command-line interface for creating and modifying a Holochain application (hApp)
-
-USAGE:
-    hc-scaffold [OPTIONS] <SUBCOMMAND>
-
-FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
-
-OPTIONS:
-    -t, --template <template>    The template to use for the hc-scaffold commands Can either be an option from the
-                                 built-in templates: "vanilla", "vue", "lit", "svelte", "react", "headless" Or a path to
-                                 a custom template
-
-SUBCOMMANDS:
-    collection    Scaffold a collection of entries in an existing zome
-    dna           Scaffold a DNA into an existing app
-    entry-type    Scaffold an entry type and CRUD functions into an existing zome
-    example       Scaffold an example hApp
-    help          Prints this message or the help of the given subcommand(s)
-    link-type     Scaffold a link type and its appropriate zome functions into an existing zome
-    template      Manage custom templates
-    web-app       Scaffold a new, empty web app
-    zome          Scaffold one or multiple zomes into an existing DNA
-```
-:::
-
-You can get help on every one of these subcommands and its parameters by typing `hc scaffold <subcommand> --help`.
-!!!
-
-!!! info Backing out of a mistake
-A quick note: if while scaffolding some part of your hApp, you realize you've made a mistake (a typo or wrong selection for instance), as long as you haven't finished scaffolding that portion, **you can stop the current step** by using <kbd><kbd>Ctrl</kbd>+<kbd>C</kbd></kbd> on Linux or <kbd><kbd>Command</kbd>+<kbd>C</kbd></kbd> on macOS.
-!!!
 
 ## 8. Scaffold entry types
 
@@ -792,6 +758,22 @@ The scaffolding tool doesn't have any feature for building anchors and trees bey
 
 Before you get started editing the UI, it's helpful to be able to actually run the scaffolded application. That way, you can watch changes take effect in real-time as you make them. So the next section will walk you through launching the application the tooling that's available there, and then in the section after that, we'll begin working with the `.svelte` files to build the UI.
 
+!!! info Exploring the scaffolding tool
+
+`hc scaffold` has some other subcommands, plus extra arguments, beyond what we've explored here. To learn more, go to the [scaffolding tool documentation](https://github.com/holochain/scaffolding/blob/develop/guides/cli.md) or type
+
+```shell
+hc scaffold --help
+```
+
+You can also get help on any subcommand by typing (for example):
+
+```shell
+hc scaffold collection --help
+```
+
+!!!
+
 ## 10. Run your application in dev mode
 
 !!! info Warning for Ubuntu 24.04 and later
@@ -886,7 +868,7 @@ Your `App.svelte` file will have three sections:
 ### `<script>` section {data-no-toc}
 
 ```svelte
-script lang="ts">
+<script lang="ts">
 import type { ActionHash, AppClient } from "@holochain/client";
 import { AppWebsocket } from "@holochain/client";
 import { onMount, setContext } from "svelte";
