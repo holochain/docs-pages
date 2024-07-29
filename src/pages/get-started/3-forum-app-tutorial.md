@@ -161,7 +161,7 @@ When it comes to hApps, this lets us play coherent games with one another at the
 
 ## 6. Scaffold some zomes
 
-DNAs are comprised of code modules, which we call zomes (short for chromosomes). Zomes are modules that typically focus on enabling some small unit of functionality. Building with this sort of modular pattern provides a number of advantages, including the ability to reuse a module in more than one DNA to provide similar functionality in a different context. For instance, the [profiles zome](https://github.com/holochain-open-dev/profiles) is one that many apps make use of. For the forum DNA, you'll be creating two zomes: `posts` and `posts_integrity`.
+DNAs are comprised of code modules, which we call zomes (short for chromosomes). Zomes are modules that typically focus on enabling some small unit of functionality. Building with this sort of modular pattern provides a number of advantages, including the ability to reuse a module in more than one DNA to provide similar functionality in a different context. For instance, the [profiles zome](https://github.com/holochain-open-dev/profiles) is one that many apps make use of as a complete component to manage a user profile. For the forum DNA, you'll be creating two zomes: `posts` and `posts_integrity`.
 
 Now that you've scaffolded a DNA, you should see this prompt:
 
