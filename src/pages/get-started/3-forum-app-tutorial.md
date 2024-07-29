@@ -257,7 +257,7 @@ One big advantage of this approach is that a single agent can be considered auth
 
 ### Actions and entries {data-no-toc}
 
-You'll notice that we used the word "action" a lot. In fact, **we call a source chain record an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each record captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
+You'll notice that we used the word "action" a lot. In fact, **we call an item on the source chain an action**. In Holochain applications, data is always "spoken into being" by an agent (a participant). Each action captures their act of adding, modifying, or removing data, rather than simply capturing the data itself.
 
 There are a few different kinds of actions, but the most common one is `Create`, which creates an 'entry' --- an arbitrary blob of bytes. Entries store most of the actual content created by a participant, such as the text of a post in our forum hApp. When someone creates a forum post, they're recording an action to their source chain that reads something like: _I am creating this forum post entry with the title "Intros" and the content "Where are you from and what is something you love about where you live?" and I would like my peers in the network to publicly store a record of this act along with the data itself._ So while an action is useful for storing noun-like data like messages and images, it's actually a verb, a record of an action that someone took to update their own state and possibly the shared state as well. That also makes it well-suited to verb-like data like document edits, game moves, and transactions.
 
