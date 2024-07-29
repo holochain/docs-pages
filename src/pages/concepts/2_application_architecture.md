@@ -42,7 +42,7 @@ Now, let's get into the details of all the components of a Holochain app, and ho
 
 ### At a glance
 
-Now let's quickly introduce all the terms, so you're familiar with them when you encounter them. A **client** running on a participant's device talks with their **conductor**, which runs multiple **hApps**. Each hApp is made of one or more **cells**, which are the live instances of **DNAs** that run on behalf of the participant. These DNAs, in turn, are made of one more executable **zome** modules. (Don't worry; it'll make sense as we dig in.)
+Now let's quickly introduce all the terms, so you're familiar with them when you encounter them. A **client** running on a participant's device talks with their **conductor**, which runs multiple **hApps**. Each hApp is made of one or more **cells**, which are the live instances of **DNAs** that run on behalf of the participant. These DNAs, in turn, are made of one or more executable **zome** modules. (Don't worry; it'll make sense as we dig in.)
 
 ### Client
 
