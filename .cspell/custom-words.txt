@@ -29,6 +29,7 @@ libnss
 NixOS
 nixpkgs
 pkgs
+pubkey
 QUIC
 rustc
 rustflags
