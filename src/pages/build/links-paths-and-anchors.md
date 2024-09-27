@@ -23,7 +23,7 @@ Every link has a type that you define in an integrity zome, just like [an entry]
 * A **base**, which is the address the link is attached to and _points from_
 * A **target**, which is the address the link _points to_
 * A **type**
-* An optional **tag** that can hold a small amount of arbitrary bytes, up to 4 kb
+* An optional **tag** that can hold a small amount of arbitrary bytes, up to 1 kb
 
 The tag could be considered link 'content' that can be used to further qualify the link, provide data about the target that saves on DHT queries, or be queried with a starts-with search. But unlike an entry's content, the HDK doesn't provide a macro that automatically deserializes the link tag's content into a Rust type.
 
