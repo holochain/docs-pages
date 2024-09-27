@@ -100,10 +100,14 @@ An address doesn't have to have content stored at it in order for you to link to
 Any CRUD host function that records an action on an agent's source chain, such as `create`, `update`, `delete`, `create_link`, and `delete_link`, returns the hash of the action. You can use this in links, either for further writes in the same function call or elsewhere.
 
 <!-- TODO: remove/simplify this with a pointer to the lifecycle document when I write it -->
-!!! info Action hashes aren't certain until zome function lifecycle completes
-Like we mentioned in [Working with Data](/guide/working-with-data/#content-addresses), actions aren't actually there until the zome function that writes them completes successfully. And if you use 'relaxed' chain top ordering<!-- TODO: link to lifecycle doc -->, your zome function can't depend on the action hash it gets back from the CRUD host function, because the final value might change before it's written.
+!!! info Actions aren't written until function lifecycle completes
+Like we mentioned in [Working with Data](/guide/working-with-data/#content-addresses), zome functions are atomic, so actions aren't actually there until the zome function that writes them completes successfully.
 
-It's safer to share action hashes with other peers or cells in a callback called `post_commit()`. If your coordinator zome defines this callback, it'll be called after every successful function call within that zome, with the actual final action hashes.
+If you need to share an action hash via a signal (say, with a remote peer), it's safer to wait until the zome function has completed. You can do this by creating a callback called `post_commit()`. It'll be called after every successful function call within that zome.
+!!!
+
+!!! info Don't depend on relaxed action hashes
+If you use 'relaxed' chain top ordering<!-- TODO: link to lifecycle doc -->, your zome function shouldn't depend on the action hash it gets back from the CRUD host function, because the final value might change by the time the actions are written.
 !!!
 
 If you have a variable that contains a [`hdk::prelude::Action`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html) or [`hdk::prelude::Record`](https://docs.rs/hdk/latest/hdk/prelude/struct.Record.html), you can also get its hash using the following methods:
