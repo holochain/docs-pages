@@ -370,7 +370,7 @@ use movie_integrity::*;
 let parent_path = Path::from("movies_by_first_letter")
   .typed(LinkTypes::MovieByFirstLetterAnchor);
 let all_first_letter_paths = parent_path.children_paths()?;
-// Do something with the paths. Note: this would be expensive to do in practice.
+// Do something with the paths. Note: this would be expensive to do in practice, because each iteration is a DHT query.
 let links_to_all_movies = all_first_letter_paths
   .iter()
   .map(|path| get_links(path.path_entry_hash()?, LinkTypes::MovieByFirstLetter, None)?)
@@ -411,13 +411,13 @@ let anchor_hash_for_g = anchor(LinkTypes::MovieByFirstLetterAnchor, "movies_by_f
 let links_to_movies_starting_with_g = get_links(anchor_hash_for_g, LinkTypes::MovieByFirstLetter, None);
 ```
 
-Retrieve the _names_ of all the second-level anchors for a top-level anchor by calling [`hdk::prelude::list_anchor_tags`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/fn.list_anchor_tags.html):
+Retrieve the _addresses_ of all the top-level anchors by calling [`hdk::prelude::list_anchor_type_addresses`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/fn.list_anchor_type_addresses.html):
 
 ```rust
 use hdk::prelude::*;
 use movie_integrity::*;
 
-let all_first_letters = list_anchor_tags(LinkTypes::MovieByFirstLetterAnchor, "movies_by_first_letter");
+let hashes_of_all_top_level_anchors = list_anchor_type_addresses(LinkTypes::MovieByFirstLetterAnchor);
 ```
 
 Retrieve the _addresses_ of all the second-level anchors for a top-level anchor by calling [`hdk::prelude::list_anchor_addresses`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/fn.list_anchor_addresses.html):
@@ -429,13 +429,13 @@ use movie_integrity::*;
 let hashes_of_all_first_letters = list_anchor_addresses(LinkTypes::MovieByFirstLetterAnchor, "movies_by_first_letter");
 ```
 
-Retrieve the _addresses_ of all the top-level anchors by calling [`hdk::prelude::list_anchor_addresses`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/fn.list_anchor_addresses.html):
+Retrieve the _names_ of all the second-level anchors for a top-level anchor by calling [`hdk::prelude::list_anchor_tags`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/fn.list_anchor_tags.html):
 
 ```rust
 use hdk::prelude::*;
 use movie_integrity::*;
 
-let hashes_of_all_first_letters = list_anchor_addresses(LinkTypes::MovieByFirstLetterAnchor, "movies_by_first_letter");
+let all_first_letters = list_anchor_tags(LinkTypes::MovieByFirstLetterAnchor, "movies_by_first_letter");
 ```
 
 ## Reference
