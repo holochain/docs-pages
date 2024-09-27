@@ -3,20 +3,18 @@ title: "Links, Paths, and Anchors"
 ---
 
 ::: intro
-A **link** connects two addresses in an application's shared database, forming a graph database on top of the underlying hash table. Links can be used to relate two pieces of [addressable content](/resources/glossary/#addressable-content) in the database to each other or point to references to addressable content outside the database.
+A **link** connects two addresses in an application's shared database, forming a graph database on top of the underlying hash table. Links can be used to connect pieces of [addressable content](/resources/glossary/#addressable-content) in the database or references to addressable content outside the database.
 
 **Paths** and **anchors** build on the concept of links, allowing you to create collections, pagination, indexes, and hierarchical structures.
 :::
 
 ## Turning a hash table into a graph database
 
-A Holochain application's database is, at heart, just a big key-value store --- or more specifically, a hash table. You can store content at its hash, and you can retrieve content by its hash. This is useful if you already know the hash of the content you want to retrieve, but it isn't helpful if you don't know the hash of the content you're looking for.
+A Holochain application's database is, at heart, just a big key-value store --- or more specifically, a hash table. You can store and retrieve content by hash. This is useful if you already know the hash of the content you want to retrieve, but it isn't helpful if you don't know the hash of the content you're looking for.
 
-A piece of content itself can contain a hash in one of its fields, and that's great for modelling a _many-to-one relationship_. For instance, an [**action**](/build/#entries-actions-and-records-primary-data), one of the primary types of data in the database, points to the action that precedes it and to the entry it creates, updates, or delete.
+A piece of content itself can contain a hash as part of its data structure, and that's great for modelling a _many-to-one relationship_. And if the number of things the content points to is small and doesn't change often, you can model a _many-to-many relationship_ using a field that contains an array of hashes. But at a certain point this becomes hard to manage, especially if that list regularly changes or gets really large.
 
-And if the number of things the content points to is small and doesn't change often, you can model a _many-to-many relationship_ using a field that contains an array of hashes. But at a certain point this becomes hard to manage, especially if that list grows or regularly changes.
-
-Holochain's hash table stores _metadata_ in addition to primary addressable content. This lets you attach **links** to an address in the database. You can then retrieve a full or filtered list of links from that address in order to discover more primary content. In this way you can build up a fully traversable graph database.
+But Holochain also lets you attach **links** as metadata on an address in the database. You can then retrieve a full or filtered list of links from that address in order to discover more addressable content. In this way you can build up a traversable graph database.
 
 ### Define a link type
 
@@ -27,7 +25,7 @@ Every link has a type that you define in an integrity zome, just like [an entry]
 * A **type**
 * An optional **tag** that can hold a small amount of arbitrary bytes, up to 4 kb
 
-The tag could be considered link 'content' that can be used to further qualify the link, provide data about the target that saves DHT queries, or be matched against in link queries. But unlike an entry's content, the HDK doesn't provide a macro that automatically deserializes the link tag's content into a Rust type.
+The tag could be considered link 'content' that can be used to further qualify the link, provide data about the target that saves on DHT queries, or be queried with a starts-with search. But unlike an entry's content, the HDK doesn't provide a macro that automatically deserializes the link tag's content into a Rust type.
 
 [Just as with entries](/build/entries/#define-an-entry-type), Holochain needs to know about your link types in order to dispatch validation to the right integrity zome. You can do this by implementing a `link_types` callback function, and the easiest way to do this is to add the [`hdi::prelude::hdk_link_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_link_types.html) macro to an enum that defines all your link types:
 
@@ -51,7 +49,7 @@ enum LinkTypes {
 
 ## Create a link
 
-As with entries, you'll normally want to store your link CRUD code in a [**coordinator zome**](/resources/glossary/#coordinator-zome). You can read about why in the page on [entries](/build/entries/#create-an-entry).
+As with entries, you'll normally want to store your link CRUD code in a [**coordinator zome**](/resources/glossary/#coordinator-zome), not an integrity zome. You can read about why in the page on [entries](/build/entries/#create-an-entry).
 
 Create a link by calling [`hdk::prelude::create_link`](https://docs.rs/hdk/latest/hdk/link/fn.create_link.html). If you used the `hdk_link_types` macro in your integrity zome (see [Define a link type](#define-a-link-type)), you can use the link types enum you defined, and the link will have the correct integrity zome and link type indexes added to it.
 
@@ -72,7 +70,7 @@ let create_link_action_hash = create_link(
 );
 ```
 
-Links can't be updated; they can only be created or deleted.
+Links can't be updated; they can only be created or deleted. Multiple links with the same base, target, type, and tag can be created, and they'll be considered separate links for retrieval and deletion purposes.
 
 ## Delete a link
 
@@ -93,19 +91,19 @@ A link is considered dead once its creation action has one or more delete-link a
 Because linking is all about connecting hashes to other hashes, here's how you get a hash for a piece of content.
 
 !!! info A note on the existence of data
-An address doesn't have to have content stored at it in order for you to link to or from it. (In the case of external references, it's certain that data won't exist at the address.) If you want to add this extra constraint, you'll need to check for the presence of data at the base and/or target address in your link validation code.
+An address doesn't have to have content stored at it in order for you to link to or from it. (In the case of external references, it's certain that data won't exist at the address.) If you want to require data to exist at the base or target, and if the data needs to be of a certain type, you'll need to check for this in your link validation code.
 <!-- TODO: add link to link validation when it's written -->
 !!!
 
-### Actions
+### Action
 
-Any host function that records an action on an agent's source chain, such as `create`, `update`, `delete`, `create_link`, and `delete_link`, returns the hash of the action. You can use this for further writes in the same function call, or you can return it to the client that called the function so that it can use it later. You can also [pass it to another function](/concepts/8_calls_capabilities/) --- either one in the same cell, another cell in the agent's hApp, or another cell in the same network.
+Any CRUD host function that records an action on an agent's source chain, such as `create`, `update`, `delete`, `create_link`, and `delete_link`, returns the hash of the action. You can use this in links, either for further writes in the same function call or elsewhere.
 
 <!-- TODO: remove/simplify this with a pointer to the lifecycle document when I write it -->
 !!! info Action hashes aren't certain until zome function lifecycle completes
-When you get an action hash back from the host function that creates it, it doesn't mean the action is available on the DHT yet, or will ever be available. The action isn't written until the function that writes it completes, then passes the action to validation. If the function or the validation fail, the action will be discarded. And if it is successful, the action won't become fully available on the DHT until it's been published to a sufficient number of peers.
+Like we mentioned in [Working with Data](/guide/working-with-data/#content-addresses), actions aren't actually there until the zome function that writes them completes successfully. And if you use 'relaxed' chain top ordering<!-- TODO: link to lifecycle doc -->, your zome function can't depend on the action hash it gets back from the CRUD host function, because the final value might change before it's written.
 
-It's safer to share action hashes with other peers or cells in a callback called `post_commit()`. If your coordinator zome defines this callback, it'll be called after every successful function call within that zome.
+It's safer to share action hashes with other peers or cells in a callback called `post_commit()`. If your coordinator zome defines this callback, it'll be called after every successful function call within that zome, with the actual final action hashes.
 !!!
 
 If you have a variable that contains a [`hdk::prelude::Action`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html) or [`hdk::prelude::Record`](https://docs.rs/hdk/latest/hdk/prelude/struct.Record.html), you can also get its hash using the following methods:
@@ -119,7 +117,7 @@ assert_eq!(action_hash_from_record, action_hash_from_action);
 
 (But it's worth pointing out that if you have this value, it's probably because you just retrieved the action by hash, which means you probably already know the hash.)
 
-To get the hash of an action from an action that deletes or updates it, match on the [`Action::Update`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html#variant.Update) or [`Action::Delete`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html#variant.Delete) action variants and access the appropriate field:
+To get the hash of an entry creation action from an action that deletes or updates it, match on the [`Action::Update`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html#variant.Update) or [`Action::Delete`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html#variant.Delete) action variants and access the appropriate field:
 
 ```rust
 if let Action::Update(action_data) = action {
@@ -133,7 +131,7 @@ if let Action::Update(action_data) = action {
 
 ### Entry
 
-To get the hash of an entry, first construct the entry struct or enum that you [defined in the integrity zome](/build/entries/#define-an-entry-type), then pass it through the [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html) function.
+To get the hash of an entry, first construct the entry struct or enum that you [defined in the integrity zome](/build/entries/#define-an-entry-type), then pass it through the [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html) function. (Reminder: don't actually have to write the entry to a source chain to get or use the entry hash for use in a link.)
 
 ```rust
 use hdk::hash::*;
@@ -170,7 +168,7 @@ let entry_hash_from_action = record.action().entry_hash()?
 assert_equal!(entry_hash_from_record, entry_hash_from_action);
 ```
 
-Finally, to get the hash of an entry from an action updates or deletes it, match the action to the appropriate variant and access the corresponding field:
+Finally, to get the hash of an entry from an action that updates or deletes it, match the action to the appropriate variant and access the corresponding field:
 
 ```rust
 if let Action::Update(action_data) = action {
@@ -203,6 +201,8 @@ let author_id = action.author();
 
 Because an external reference comes from outside of a DHT, it's up to you to decide how to get it into the application. Typically, an external client such as a UI or bridging service would pass this value into your app.
 
+As mentioned up in the [Entry](#entry) section, an entry hash can also be considered 'external' if you don't actually write it to the DHT.
+
 ```rust
 use hdk::prelude::*;
 use movie_integrity::*;
@@ -230,7 +230,7 @@ let dna_hash = dna_info()?.hash;
 ```
 
 !!! info Linking from a DNA hash is not recommended
-Because every participant in an application's network takes responsibility for storing a portion of the DHT's address space, attaching many links to a well-known hash can create 'hot spots' and cause an undue CPU, storage, and network burden the peers in the neighborhood of that hash. Instead, we recommend you use [paths or anchors](#paths-and-anchors) to 'shard' responsibility throughout the DHT.
+Because every participant in an application's network takes responsibility for storing a portion of the DHT's address space, attaching many links to a well-known hash such as the DNA hash can create 'hot spots' and cause an undue CPU, storage, and network burden the peers in the neighborhood of that hash. Instead, we recommend you use [paths or anchors](#paths-and-anchors) to 'shard' responsibility throughout the DHT.
 !!!
 
 ## Retrieve links
@@ -298,12 +298,12 @@ let number_of_reviews_written_by_me_in_last_month = count_links(
 
 ## Paths and anchors
 
-Sometimes the easiest way to discover a link base is to embed it into the application's code. You can create an **anchor**, an entry whose content is a well-known blob, and hash that blob any time you need to retrieve links. This can be used to simulate collections or tables in your graph database. As [mentioned](#getting-hashes-for-use-in-linking), the entry does not even need to be stored; you can simply create it, hash it, and use the hash in your link.
+Sometimes the easiest way to discover a link base is to build it into the application's code. You can create an **anchor**, an entry whose content is a well-known blob, and hash that blob any time you need to retrieve links. This can be used to simulate collections or tables in your graph database. As [mentioned](#getting-hashes-for-use-in-linking), the entry does not even need to be stored; you can simply create it, hash it, and use the hash in your link.
 
 While you can build this yourself, this is such a common pattern that the HDK implements it for you in the [`hdk::hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) module. The implementation supports both anchors and **paths**, which are hierarchies of anchors.
 
 !!! info Avoiding DHT hot spots
-It's recommended to not attach a large number of links to a single anchor, as that creates extra work for the peers responsible for that anchor's hash. Instead, use paths to split the links into appropriate 'buckets' and spread the work around. We'll give an example of that below.
+Don't attach too many links to a single anchor, as that creates extra work for the peers responsible for that anchor's hash. Instead, use paths to split the links into appropriate 'buckets' and spread the work around. We'll give an example of that below.
 !!!
 
 ### Scaffold a simple collection
