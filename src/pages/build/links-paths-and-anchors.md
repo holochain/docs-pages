@@ -5,7 +5,7 @@ title: "Links, Paths, and Anchors"
 ::: intro
 A **link** connects two addresses in an application's shared database, forming a graph database on top of the underlying hash table. Links can be used to connect pieces of [addressable content](/resources/glossary/#addressable-content) in the database or references to addressable content outside the database.
 
-**Paths** and **anchors** build on the concept of links, allowing you to create collections, pagination, indexes, and hierarchical structures.
+An **anchor** is a pattern of linking from a well-known base address. Our SDK includes a library for creating hierarchies of anchors called **paths**, allowing you to create collections, pagination, indexes, and taxonomies.
 :::
 
 ## Turning a hash table into a graph database
@@ -18,7 +18,7 @@ But Holochain also lets you attach **links** as metadata on an address in the da
 
 ### Define a link type
 
-Every link has a type that you define in an integrity zome, just like [an entry](/build/entries/#define-an-entry-type). Links are simple enough that they have no entry content. Instead, their data is completely contained in the actions that write them. Here's what a link creation action contains, in addition to the [common action fields](/build/working-with-data/#entries-actions-and-records-primary-data):
+Every link has a type that you define in an integrity zome, just like [an entry](/build/entries/#define-an-entry-type). Links are simple enough that they're committed as an action with no associated entry. Here's what a link creation action contains, in addition to the [common action fields](/build/working-with-data/#entries-actions-and-records-primary-data):
 
 * A **base**, which is the address the link is attached to and _points from_
 * A **target**, which is the address the link _points to_
@@ -84,158 +84,7 @@ let delete_link_action_hash = delete_link(
 );
 ```
 
-A link is considered dead once its creation action has one or more delete-link actions associated with it.
-
-## Getting hashes for use in linking
-
-Because linking is all about connecting hashes to other hashes, here's how you get a hash for a piece of content.
-
-!!! info A note on the existence of data
-An address doesn't have to have content stored at it in order for you to link to or from it. (In the case of external references, it's certain that data won't exist at the address.) If you want to require data to exist at the base or target, and if the data needs to be of a certain type, you'll need to check for this in your link validation code.
-<!-- TODO: add link to link validation when it's written -->
-!!!
-
-### Action
-
-Any CRUD host function that records an action on an agent's source chain, such as `create`, `update`, `delete`, `create_link`, and `delete_link`, returns the hash of the action. You can use this in links, either for further writes in the same function call or elsewhere.
-
-<!-- TODO: remove/simplify this with a pointer to the lifecycle document when I write it -->
-!!! info Actions aren't written until function lifecycle completes
-Like we mentioned in [Working with Data](/guide/working-with-data/#content-addresses), zome functions are atomic, so actions aren't actually there until the zome function that writes them completes successfully.
-
-If you need to share an action hash via a signal (say, with a remote peer), it's safer to wait until the zome function has completed. You can do this by creating a callback called `post_commit()`. It'll be called after every successful function call within that zome.
-!!!
-
-!!! info Don't depend on relaxed action hashes
-If you use 'relaxed' chain top ordering<!-- TODO: link to lifecycle doc -->, your zome function shouldn't depend on the action hash it gets back from the CRUD host function, because the final value might change by the time the actions are written.
-!!!
-
-If you have a variable that contains a [`hdk::prelude::Action`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html) or [`hdk::prelude::Record`](https://docs.rs/hdk/latest/hdk/prelude/struct.Record.html), you can also get its hash using the following methods:
-
-```rust
-let action_hash_from_record = record.action_address();
-let action = record.signed_action;
-let action_hash_from_action = action.as_hash();
-assert_eq!(action_hash_from_record, action_hash_from_action);
-```
-
-(But it's worth pointing out that if you have this value, it's probably because you just retrieved the action by hash, which means you probably already know the hash.)
-
-To get the hash of an entry creation action from an action that deletes or updates it, match on the [`Action::Update`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html#variant.Update) or [`Action::Delete`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html#variant.Delete) action variants and access the appropriate field:
-
-```rust
-if let Action::Update(action_data) = action {
-  let replaced_action_hash = action_data.original_action_address;
-  // Do some things with the original action.
-} else if let Action::Delete(action_data) = action {
-  let deleted_action_hash = action_data.deletes_address;
-  // Do some things with the deleted action.
-}
-```
-
-### Entry
-
-To get the hash of an entry, first construct the entry struct or enum that you [defined in the integrity zome](/build/entries/#define-an-entry-type), then pass it through the [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html) function. (Reminder: don't actually have to write the entry to a source chain to get or use the entry hash for use in a link.)
-
-```rust
-use hdk::hash::*;
-use movie_integrity::*;
-
-let movie = Movie {
-  title: "The Good, the Bad, and the Ugly",
-  director_entry_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
-  imdb_id: Some("tt0060196"),
-  release_date: Timestamp::from(Date::Utc("1966-12-23")),
-  box_office_revenue: 389_000_000,
-};
-let movie_entry_hash = hash_entry(movie);
-```
-
-To get the hash of an entry from the action that created it, call the action's [`entry_hash`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html#method.entry_hash) method. It returns an optional value, because not all actions have associated entries.
-
-```rust
-let entry_hash = action.entry_hash()?;
-```
-
-If you know that your action is an entry creation action, you can get the entry hash from its `entry_hash` field:
-
-```rust
-let entry_creation_action: EntryCreationAction = action.into()?;
-let entry_hash = action.entry_hash;
-```
-
-To get the hash of an entry from a record, you can either get it from the record itself or the contained action:
-
-```rust
-let entry_hash_from_record = record.entry().as_option()?.hash();
-let entry_hash_from_action = record.action().entry_hash()?
-assert_equal!(entry_hash_from_record, entry_hash_from_action);
-```
-
-Finally, to get the hash of an entry from an action that updates or deletes it, match the action to the appropriate variant and access the corresponding field:
-
-```rust
-if let Action::Update(action_data) = action {
-  let replaced_entry_hash = action_data.original_entry_address;
-} else if let Action::Delete(action_data) = action {
-  let deleted_entry_hash = action_data.deletes_entry_address;
-}
-```
-
-### Agent
-
-An agent's ID is just their public key, and an entry for their ID is stored on the DHT. The hashing function for an agent ID entry is just the literal value of the entry. This is a roundabout way of saying that you link to or from an agent using their public key as a hash.
-
-An agent can get their own ID by calling [`hdk::prelude::agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html). Note that agents may change their ID if their public key has been lost or stolen, so they may have more than one ID over the course of their participation in a network.
-
-```rust
-use hdk::prelude::*;
-
-let my_first_id = agent_info()?.agent_initial_pubkey;
-let my_current_id = agent_info()?.agent_latest_pubkey;
-```
-
-All actions have their author's ID as a field. You can get this field by calling the action's `author()` method:
-
-```rust
-let author_id = action.author();
-```
-
-### External reference
-
-Because an external reference comes from outside of a DHT, it's up to you to decide how to get it into the application. Typically, an external client such as a UI or bridging service would pass this value into your app.
-
-As mentioned up in the [Entry](#entry) section, an entry hash can also be considered 'external' if you don't actually write it to the DHT.
-
-```rust
-use hdk::prelude::*;
-use movie_integrity::*;
-
-#[hdk_extern]
-fn add_movie_poster_from_ipfs(movie_entry_hash: EntryHash, ipfs_hash_bytes: Vec<u8>) {
-  let ipfs_hash = ExternalHash::from_raw_32(ipfs_hash_bytes);
-  create_link(
-    movie_entry_hash,
-    ipfs_hash,
-    LinkTypes::IpfsMoviePoster,
-    ()
-  );
-}
-```
-
-### DNA
-
-There is one global hash that everyone knows, and that's the hash of the DNA itself. You can get it by calling [`hdk::prelude::dna_info`](https://docs.rs/hdk/latest/hdk/info/fn.dna_info.html).
-
-```rust
-use hdk::prelude::*;
-
-let dna_hash = dna_info()?.hash;
-```
-
-!!! info Linking from a DNA hash is not recommended
-Because every participant in an application's network takes responsibility for storing a portion of the DHT's address space, attaching many links to a well-known hash such as the DNA hash can create 'hot spots' and cause an undue CPU, storage, and network burden the peers in the neighborhood of that hash. Instead, we recommend you use [paths or anchors](#paths-and-anchors) to 'shard' responsibility throughout the DHT.
-!!!
+A link is considered deleted once its creation action has one or more delete-link actions associated with it. As with entries, deleted links can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html)
 
 ## Retrieve links
 
@@ -269,7 +118,7 @@ let movies_in_1960s_by_director = get_links(
 );
 ```
 
-To get all live _and dead_ links, along with any deletion actions, use [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html). This function has the same options as `get_links`
+To get all live _and deleted_ links, along with any deletion actions, use [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html). This function has the same options as `get_links`
 
 ```rust
 use hdk::prelude::*;
@@ -300,37 +149,45 @@ let number_of_reviews_written_by_me_in_last_month = count_links(
 );
 ```
 
-## Paths and anchors
-
-Sometimes the easiest way to discover a link base is to build it into the application's code. You can create an **anchor**, an entry whose content is a well-known blob, and hash that blob any time you need to retrieve links. This can be used to simulate collections or tables in your graph database. As [mentioned](#getting-hashes-for-use-in-linking), the entry does not even need to be stored; you can simply create it, hash it, and use the hash in your link.
-
-While you can build this yourself, this is such a common pattern that the HDK implements it for you in the [`hdk::hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) module. The implementation supports both anchors and **paths**, which are hierarchies of anchors.
-
-!!! info Avoiding DHT hot spots
-Don't attach too many links to a single anchor, as that creates extra work for the peers responsible for that anchor's hash. Instead, use paths to split the links into appropriate 'buckets' and spread the work around. We'll give an example of that below.
+!!! info Links are counted locally
+Currently `count_links` retrieves all links from the remote peer, then counts them locally. We're planning on changing this behavior so it does what you expect --- count links on the remote peer and send the count, to save network traffic.
 !!!
 
-### Scaffold a simple collection
+## Anchors and paths
 
-If you've been using the scaffolding tool, you can scaffold a simple collection for an entry type with the command `hc scaffold collection`. Behind the scenes, it uses the anchor pattern.
+Sometimes the easiest way to discover a link base is to build it into the application's code. You can create an **anchor**, a well-known address (like the hash of a string constant) to attach links to. This can be used to simulate collections or tables in your graph database.
 
-Follow the prompts to choose the entry type, names for the link types and anchor, and the scope of the collection, which can be either:
+While you can build this yourself, this is such a common pattern that the HDK implements it for you in the [`hdk::hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) module. It lets you create **paths**, which are hierarchies of anchors.
+
+!!! info Avoiding DHT hot spots
+Don't attach too many links to a single address, as that creates extra work for the peers responsible for it. Instead, use paths to split the links into appropriate 'buckets' and spread the work around. We'll give an example of that below.
+!!!
+
+### Scaffold a simple collection anchor
+
+The scaffolding tool can create a 'collection', which is a path that serves as an anchor for entries of a given type, along with all the functionality that creates and deletes links from that anchor to its entries:
+
+```bash
+hc scaffold collection
+```
+
+Follow the prompts to choose the entry type, name the link types and anchor, and define the scope of the collection, which can be either:
 
 * all entries of type, or
 * entries of type by author
 
-It'll scaffold all the code needed to create a path anchor, create links, and delete links in the already scaffolded entry CRUD functions.
-
 ### Paths
 
-Create a path by constructing a [`hdk::hash_path::path::Path`](https://docs.rs/hdk/latest/hdk/hash_path/path/struct.Path.html) struct, hashing it, and using the hash in `create_link`. The string of the path is a simple [domain-specific language](https://docs.rs/hdk/latest/hdk/hash_path/path/struct.Path.html#impl-From%3C%26str%3E-for-Path), in which dots denote sections of the path.
+When you want to create more complex collections, you'll need to use the paths library directly.
+
+Create a path by constructing a [`hdk::hash_path::path::Path`](https://docs.rs/hdk/latest/hdk/hash_path/path/struct.Path.html) struct, hashing it, and using the hash as a link base. The string of the path is a simple [domain-specific language](https://docs.rs/hdk/latest/hdk/hash_path/path/struct.Path.html#impl-From%3C%26str%3E-for-Path), in which dots denote sections of the path.
 
 ```rust
 use hdk::hash_path::path::*;
 use movie_integrity::*;
 
 let path_to_movies_starting_with_g = Path::from("movies_by_first_letter.g")
-  // A path requires a link type from the integrity zome. Here, we're using the
+  // A path requires a link type that you've defined in the integrity zome. Here, we're using the
   // `MovieByFirstLetterAnchor` type that we created.
   .typed(LinkTypes::MovieByFirstLetterAnchor);
 
@@ -346,7 +203,7 @@ let create_link_hash = create_link(
 )?;
 ```
 
-Retrieve all the links on a path by constructing the path, then getting its hash:
+Retrieve all the links on a path by constructing the path, then calling `get_links` with its hash and link type:
 
 ```rust
 use hdk::hash_path::path::*;
@@ -361,7 +218,7 @@ let links_to_movies_starting_with_g = get_links(
 )?;
 ```
 
-Retrieve all child paths of a path by constructing the parent path, typing it, and calling its `children_paths()` method:
+Retrieve all child paths of a path by constructing the parent path and calling its `children_paths()` method:
 
 ```rust
 use hdk::hash_path::path::*;
@@ -376,66 +233,6 @@ let links_to_all_movies = all_first_letter_paths
   .map(|path| get_links(path.path_entry_hash()?, LinkTypes::MovieByFirstLetter, None)?)
   .flatten()
   .collect();
-```
-
-### Anchors
-
-In the HDK, an 'anchor' is just a path with two levels of hierarchy. The examples below show how to implement the path-based examples above, but as anchors. Generally the implementation is simpler.
-
-Create an anchor by calling the [`hdk::prelude::anchor`](https://docs.rs/hdk/latest/hdk/prelude/fn.anchor.html) host function. An anchor can have two levels of hierarchy, which you give as the second and third arguments of the function.
-
-```rust
-use hdk::prelude::*;
-use movie_integrity::*;
-
-// This function requires a special link type to be created in the integrity
-// zome. Here, we're using the `MovieByFirstLetterAnchor` type that we created.
-let movies_starting_with_g_anchor_hash = anchor(LinkTypes::MovieByFirstLetterAnchor, "movies_by_first_letter", "g");
-let create_link_hash = create_link(
-  movies_starting_with_g_anchor_hash,
-  movie_entry_hash,
-  LinkTypes::MovieByFirstLetter,
-  ()
-);
-```
-
-The `anchor` function creates no entries, just links, and will only create links that don't currently exist.
-
-Retrieve all the linked items from an anchor just as you would any link base:
-
-```rust
-use hdk::prelude::*;
-use movie_integrity::*;
-
-let anchor_hash_for_g = anchor(LinkTypes::MovieByFirstLetterAnchor, "movies_by_first_letter", "g");
-let links_to_movies_starting_with_g = get_links(anchor_hash_for_g, LinkTypes::MovieByFirstLetter, None);
-```
-
-Retrieve the _addresses_ of all the top-level anchors by calling [`hdk::prelude::list_anchor_type_addresses`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/fn.list_anchor_type_addresses.html):
-
-```rust
-use hdk::prelude::*;
-use movie_integrity::*;
-
-let hashes_of_all_top_level_anchors = list_anchor_type_addresses(LinkTypes::MovieByFirstLetterAnchor);
-```
-
-Retrieve the _addresses_ of all the second-level anchors for a top-level anchor by calling [`hdk::prelude::list_anchor_addresses`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/fn.list_anchor_addresses.html):
-
-```rust
-use hdk::prelude::*;
-use movie_integrity::*;
-
-let hashes_of_all_first_letters = list_anchor_addresses(LinkTypes::MovieByFirstLetterAnchor, "movies_by_first_letter");
-```
-
-Retrieve the _names_ of all the second-level anchors for a top-level anchor by calling [`hdk::prelude::list_anchor_tags`](https://docs.rs/hdk/latest/hdk/hash_path/anchor/fn.list_anchor_tags.html):
-
-```rust
-use hdk::prelude::*;
-use movie_integrity::*;
-
-let all_first_letters = list_anchor_tags(LinkTypes::MovieByFirstLetterAnchor, "movies_by_first_letter");
 ```
 
 ## Reference

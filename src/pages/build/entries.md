@@ -230,7 +230,7 @@ let delete_action_hash: ActionHash = delete_entry(
 )?;
 ```
 
-As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) is authored, which attaches to the entry creation action and marks it as 'dead'. An entry itself is only considered dead when all entry creation actions that created it are marked dead, and it can become live again in the future if a _new_ entry creation action writes it. Dead data can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see below).
+As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) is authored, which attaches to the entry creation action and marks it as deleted. An entry itself is only considered deleted when _all_ entry creation actions that created it are marked deleted, and it can become live again in the future if a _new_ entry creation action writes it. Deleted data can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see below).
 
 In the future we plan to include a 'purge' functionality. This will give agents permission to actually erase an entry from their DHT store, but not its associated entry creation action.
 
