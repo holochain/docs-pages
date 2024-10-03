@@ -10,3 +10,4 @@ Upgrading between versions of Holochain can be a bit tricky! While Holochain is 
 
 * [Holochain Upgrade 0.1 → 0.2](/resources/upgrade/upgrade-holochain-0.2/)
 * [Holochain Upgrade 0.2 → 0.3](/resources/upgrade/upgrade-holochain-0.3/)
+* [Upgrading to the new Holonix](/resources/upgrade/upgrade-new-holonix/) (all Holochain versions)
