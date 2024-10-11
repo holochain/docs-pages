@@ -3,7 +3,7 @@ title: Upgrade to the new Holonix
 ---
 
 ::: intro
-In the third quarter of 2024, we released a new [Holonix](/get-started/install-advanced/#holonix-the-holochain-app-development-environment), our development environment based on [Nix](https://nixos.org) that gives you all the dependencies to build hApps and contribute to Holochain core development.
+In the third quarter of 2024, we released a new [Holonix](/get-started/install-advanced/#holonix-the-holochain-app-development-environment), our development environment based on [Nix](https://nixos.org) that gives you all the dependencies to build hApps.
 
 The new Holonix is simpler and more modular, which means that it's easier to configure it for your needs and preferences.
 :::
@@ -17,7 +17,7 @@ mv flake.nix flake.nix.backup
 mv flake.lock flake.lock.backup
 ```
 
-Then create new flake files:
+Then create a new flake file:
 
 ```bash
 nix flake init -t github:holochain/holonix?ref=main-0.3
@@ -53,7 +53,7 @@ inputs = {
 ...
 ```
 
-Next time you type `nix develop` to enter the shell, it'll update your `nix.lock` and download the requested packages for you.
+Next time you type `nix develop` to enter the shell, it'll update your `flake.lock` and download the requested packages for you.
 
 ## Choosing a very specific Holochain release
 
