@@ -5,6 +5,7 @@ agent-centricity
 Anwaar
 Automerge
 automerge
+binaryen
 buildinputs
 builtins
 Brisebois
@@ -39,6 +40,9 @@ subl
 Tauri
 Ulhaq
 Wahlstrom
+wamr
+Wasmer
+wasmer
 WebRTC
 webview
 webviews
