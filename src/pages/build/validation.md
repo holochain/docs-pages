@@ -8,13 +8,13 @@ title: "Validation"
 
 
 ### Validate Callback
-The validate callback runs on **Ops**, not **Actions** (TODO: for more info on ops vs actions see ...). The hdi provides a helper to transform an `Op` into a data structure more suitable for use in validation: a `FlatOp`
+The validate callback runs on **Ops**, not **Actions** (TODO: link to more info about ops vs actions). The hdi provides a helper to transform an `Op` into a data structure more suitable for use in validation: a `FlatOp`
 
 
 The validate callback can return:
-- Valid
-- Invalid
-- MissingDependencies
+- `ValidateCallbackResult::Valid`
+- `ValidateCallbackResult::Invalid`
+- `ValidateCallbackResult::MissingDependencies`
   - TODO: The validation callback will be scheduled to run again. If subsequent runs never complete, then the Op will never be intergrated and is effectively ignored.
 - an Error
   - TODO: The validation callback will be scheduled to run again. If subsequent runs never complete, then the Op will never be intergrated and is effectively ignored.
@@ -35,13 +35,12 @@ enum EntryTypes {
 }
 
 /// PLEASE LET THE SCAFFOLDER GENERATE THIS FUNCTION FOR YOU
-/// IT IS TOO LARGE AND UNWEIDLY TO INCLUDE HERE
+/// IT IS TOO LARGE AND UNWIEDLY TO INCLUDE HERE IN FULL
 pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
   match op.to_flat_op() {
     ...
   }
 }
-
 
 pub fn validate_create_post(action: Action, post: Post) -> ExternResult<ValidateCallbackResult> {
   // Post body must be at least 5 characters
@@ -95,6 +94,22 @@ For this reason you cannot:
 - Use your own agent info in validation
 
 
+### Using DHT Data
+
+To allow validation to depend fetching some other data from the DHT, the `hdi` provides a `must_get_*` functions:
+
+- `must_get_valid_record`
+  - The only one that checks for validation receipts/warrants because an entry is only valid/invalid in the context of an action
+  - It trusts the claim of the agent it fetched from (1-of-n validation)
+  - If you want to run the validation yourself, then you must run validate on the received record.
+
+- `must_get_entry`
+- `must_get_action`
+
+
+Note that you **cannot** depend on links from the DHT. There is no `must_get_links` function in the hdi because that would not be determanistic, as different agents may have a different perspective on all the links available. There is also no `must_get_link` function in the hdi currently, as links are only hashed by their base hash.
+
+
 ### What Can Be Validated?
 
 - membrane proof
@@ -103,22 +118,6 @@ For this reason you cannot:
 - rate limiting with weight field
 - dependencies, incl source chain history
 - Inductive validation for costly dep trees (pattern?)
-
-### Depending on DHT Data
-
-To allow validation to depend fetching some other data from the DHT, the `hdi` provides a `must_get_*` functions:
-
-- must_get_valid_record
-  - The only one that checks for validation receipts/warrants because an entry is only valid/invalid in the context of an action
-  - It trusts the claim of the agent it fetched from (1-of-n validation)
-  - If you want to run the validation yourself, then you must run validate on the received record.
-
-- must_get_entry
-- must_get_action
-
-
-Note that you **cannot** depend on links from the DHT. There is no `must_get_links` function in the hdi because that would not be determanistic, as different agents may have a different perspective on all the links available. There is also no `must_get_link` function in the hdi currently, as links are only hashed by their base hash.
-
 
 ### What to Validate and When?
 
