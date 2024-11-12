@@ -402,4 +402,6 @@ There are some community-maintained libraries that offer opinionated and high-le
 ## Further reading
 
 * [Core Concepts: CRUD actions](/concepts/6_crud_actions/)
+* [Build Guide: Identifiers](/build/identifiers/)
+* [Build Guide: Links, Paths, and Anchors](/build/links-paths-and-anchors/)
 * [CRDT.tech](https://crdt.tech), a resource for learning about conflict-free replicated data types

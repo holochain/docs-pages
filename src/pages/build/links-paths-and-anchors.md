@@ -5,16 +5,16 @@ title: "Links, Paths, and Anchors"
 ::: intro
 A **link** connects two addresses in an application's shared database, forming a graph database on top of the underlying hash table. Links can be used to connect pieces of [addressable content](/resources/glossary/#addressable-content) in the database or references to addressable content outside the database.
 
-An **anchor** is a pattern of linking from a well-known base address. Our SDK includes a library for creating hierarchies of anchors called **paths**, allowing you to create collections, pagination, indexes, and taxonomies.
+An **anchor** is a pattern of linking from a well-known base address. Our SDK includes a library for creating hierarchies of anchors called **paths**, allowing you to create things like collections, pagination, indexes, and taxonomies.
 :::
 
 ## Turning a hash table into a graph database
 
-A Holochain application's database is, at heart, just a big key-value store --- or more specifically, a hash table. You can store and retrieve content by hash. This is useful if you already know the hash of the content you want to retrieve, but it isn't helpful if you don't know the hash of the content you're looking for.
+A Holochain application's database is, at heart, just a big key-value store --- or more specifically, a hash table. You store and retrieve content by hash. This is useful if you already know the hash of the content you want to retrieve, but it isn't helpful if you don't.
 
 A piece of content itself can contain a hash as part of its data structure, and that's great for modelling a _many-to-one relationship_. And if the number of things the content points to is small and doesn't change often, you can model a _many-to-many relationship_ using a field that contains an array of hashes. But at a certain point this becomes hard to manage, especially if that list regularly changes or gets really large.
 
-But Holochain also lets you attach **links** as metadata on an address in the database. You can then retrieve a full or filtered list of links from that address in order to discover more addressable content. In this way you can build up a traversable graph database.
+But Holochain also lets you attach **links** as metadata to an address in the database. You can then retrieve a full or filtered list of links from that address in order to discover more addressable content. In this way you can build up a traversable graph database.
 
 ### Define a link type
 
@@ -25,7 +25,7 @@ Every link has a type that you define in an integrity zome, just like [an entry]
 * A **type**
 * An optional **tag** that can hold a small amount of arbitrary bytes, up to 1 kb
 
-The tag could be considered link 'content' that can be used to further qualify the link, provide data about the target that saves on DHT queries, or be queried with a starts-with search. But unlike an entry's content, the HDK doesn't provide a macro that automatically deserializes the link tag's content into a Rust type.
+You can use the tag as link 'content' to further qualify the link, provide a summary of data about the target to save on DHT queries, or build a starts-with search index. But unlike an entry's content, the HDK doesn't provide a macro that automatically deserializes the link tag's content into a Rust type.
 
 [Just as with entries](/build/entries/#define-an-entry-type), Holochain needs to know about your link types in order to dispatch validation to the right integrity zome. You can do this by implementing a `link_types` callback function, and the easiest way to do this is to add the [`hdi::prelude::hdk_link_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_link_types.html) macro to an enum that defines all your link types:
 
@@ -39,7 +39,7 @@ enum LinkTypes {
   GenreToMovie,
   IpfsMoviePoster,
   MovieReview,
-  // Note: the following types will become useful when we talk about
+  // Note: the following link types will become useful when we talk about
   // paths and anchors later.
   MovieByFirstLetterAnchor,
   MovieByFirstLetter,
@@ -51,7 +51,7 @@ enum LinkTypes {
 
 As with entries, you'll normally want to store your link CRUD code in a [**coordinator zome**](/resources/glossary/#coordinator-zome), not an integrity zome. You can read about why in the page on [entries](/build/entries/#create-an-entry).
 
-Create a link by calling [`hdk::prelude::create_link`](https://docs.rs/hdk/latest/hdk/link/fn.create_link.html). If you used the `hdk_link_types` macro in your integrity zome (see [Define a link type](#define-a-link-type)), you can use the link types enum you defined, and the link will have the correct integrity zome and link type indexes added to it.
+Create a link by calling [`hdk::prelude::create_link`](https://docs.rs/hdk/latest/hdk/link/fn.create_link.html). If you used the `hdk_link_types` macro in your integrity zome (see [Define a link type](#define-a-link-type)), you can use the link types enum you defined:
 
 ```rust
 use hdk::prelude::*;
@@ -59,13 +59,13 @@ use hdk::prelude::*;
 use movie_integrity::*;
 
 let director_entry_hash = EntryHash::from_raw_36(vec![ /* bytes of the hash of the Sergio Leone entry */ ]);
-let movie_entry_hash = EntryHash::from_raw_36(vec![ /* bytes of the hash of the Good, Bad, and Ugly entry */ ]);
-
+let movie_entry_hash = EntryHash::from_raw_36(vec![ /* bytes of the hash of The Good, The Bad, and The Ugly entry */ ]);
+0
 let create_link_action_hash = create_link(
   director_entry_hash,
   movie_entry_hash,
   LinkTypes::DirectorToMovie,
-  // Create an optional search index value for fast lookup.
+  // Cache a bit of the target entry in this link's tag, as a search index.
   vec!["year:1966".as_bytes()].into()
 );
 ```
@@ -84,11 +84,11 @@ let delete_link_action_hash = delete_link(
 );
 ```
 
-A link is considered deleted once its creation action has one or more delete-link actions associated with it. As with entries, deleted links can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html)
+A link is considered deleted once its creation action has at least one delete-link action associated with it. As with entries, deleted links can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html)
 
 ## Retrieve links
 
-Get all the live links attached to a hash with the [`hdk::prelude::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) function.
+Get all the _live_ (undeleted) links attached to a hash with the [`hdk::prelude::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) function.
 
 ```rust
 use hdk::prelude::*;
@@ -105,7 +105,7 @@ let movie_entry_hashes = movies_by_director
   .map(|link| link.target.into_entry_hash()?);
 ```
 
-If you want to filter the returned links by tag, pass some bytes as the third parameter. The peer holding the links for the requested base address will return a list of links whose tag starts with those bytes.
+If you want to filter the returned links by tag, pass some bytes as the third parameter. You'll get back a vector of links whose tag starts with those bytes.
 
 ```rust
 use hdk::prelude::*;
@@ -118,7 +118,7 @@ let movies_in_1960s_by_director = get_links(
 );
 ```
 
-To get all live _and deleted_ links, along with any deletion actions, use [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html). This function has the same options as `get_links`
+To get all live _and deleted_ links, along with any deletion actions, use [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html). This function has the same options as `get_links`.
 
 ```rust
 use hdk::prelude::*;
@@ -133,7 +133,7 @@ let movies_plus_deleted = get_link_details(
 
 ### Count links
 
-If all you need is a count of matching links, such as for an unread messages badge, use [`hdk::prelude::count_links`](https://docs.rs/hdk/latest/hdk/prelude/fn.count_links.html). It has a different input with more options for querying (we'll likely update the inputs of `get_links` and `count_links` to match `count_links` in the future).
+If all you need is a _count_ of matching links, use [`hdk::prelude::count_links`](https://docs.rs/hdk/latest/hdk/prelude/fn.count_links.html). It has a different input with more options for querying (we'll likely update the inputs of `get_links` and `count_links` to match `count_links` in the future).
 
 ```rust
 use hdk::prelude::*;
@@ -150,17 +150,17 @@ let number_of_reviews_written_by_me_in_last_month = count_links(
 ```
 
 !!! info Links are counted locally
-Currently `count_links` retrieves all links from the remote peer, then counts them locally. We're planning on changing this behavior so it does what you expect --- count links on the remote peer and send the count, to save network traffic.
+Currently `count_links` retrieves all links from the remote peer, then counts them locally. We're planning on changing this behavior so it counts links on the remote peer and send the count, to save network traffic like you'd expect.
 !!!
 
 ## Anchors and paths
 
-Sometimes the easiest way to discover a link base is to build it into the application's code. You can create an **anchor**, a well-known address (like the hash of a string constant) to attach links to. This can be used to simulate collections or tables in your graph database.
+Sometimes the best way to discover a link base is to build it into the application's code. You can create an **anchor**, a well-known address (like the hash of a string constant) to attach links to. This can be used to simulate collections or tables in your graph database.
 
 While you can build this yourself, this is such a common pattern that the HDK implements it for you in the [`hdk::hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) module. It lets you create **paths**, which are hierarchies of anchors.
 
 !!! info Avoiding DHT hot spots
-Don't attach too many links to a single address, as that creates extra work for the peers responsible for it. Instead, use paths to split the links into appropriate 'buckets' and spread the work around. We'll give an example of that below.
+Too many links on a single base address creates extra work for the peers responsible for it. Use a hierarchy of paths to split the links into appropriate 'buckets' and spread the work around. We'll give an example of that [below](#paths).
 !!!
 
 ### Scaffold a simple collection anchor
@@ -256,3 +256,4 @@ let links_to_all_movies = all_first_letter_paths
 ## Further reading
 
 * [Core Concepts: Links and Anchors](https://developer.holochain.org/concepts/5_links_anchors/)
+* [Build Guide: Identifiers](/build/identifiers)
