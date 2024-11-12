@@ -13,6 +13,8 @@ filesystems
 howto
 howtos
 interoperating
+lifecycle
+lifecycles
 permissioned
 permissivity
 redistributable

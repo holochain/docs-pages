@@ -20,6 +20,8 @@ identicon
 identicons
 IPFS
 Kleppmann
+Multihash
+multihash
 NixOS
 nixpkgs
 pkgs
