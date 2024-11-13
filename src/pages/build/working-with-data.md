@@ -2,6 +2,15 @@
 title: Working With Data
 ---
 
+::: topic-list
+### In this section {data-no-toc}
+
+* Working with Data (this page)
+    * [Identifiers](/build/identifiers/) --- understanding and using addresses of different types
+    * [Entries](/build/entries/) --- creating, reading, updating, and deleting
+    * [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating and deleting
+:::
+
 ::: intro
 Holochain is, at its most basic, a framework for building **graph databases** on top of **content-addressed storage** that is validated and stored by **networks of peers**. Each peer contributes to the state of this database by publishing **actions** to an event journal called their **source chain**, which is stored on their device. The source chain can also be used to hold private data.
 :::
@@ -134,16 +143,6 @@ A DNA can be **cloned**, creating a separate network, database, and set of sourc
 
 The shared DHT and the individual source chains are involved in multiple interrelated graphs --- the source chain contributes to the DHT's graph, and the DHT records source chain history. You can use as little or as much of these graphs as your application needs.
 
-## Further reading
-
-* Core Concepts: [Source Chain](/concepts/3_source_chain/)
-* Core Concepts: [DHT](/concepts/4_dht/)
-* Core Concepts: [Links and Anchors](/concepts/5_links_anchors/)
-* Core Concepts: [CRUD actions](/concepts/6_crud_actions/)
-* Wikipedia: [Graph database](https://en.wikipedia.org/wiki/Graph_database)
-* Wikipedia: [Distributed hash table](https://en.wikipedia.org/wiki/Distributed_hash_table)
-* Martin Fowler on [Event Sourcing](https://martinfowler.com/eaaDev/EventSourcing.html), the pattern that both source chains and blockchains use to record state changes.
-
 ## Reference
 
 * [`holochain_integrity_types::record::Record`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)
@@ -154,9 +153,12 @@ The shared DHT and the individual source chains are involved in multiple interre
 * [`holochain_integrity_types::prelude::CreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/prelude/struct.CreateLink.html)
 * [`holochain_integrity_types::prelude::DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/prelude/struct.DeleteLink.html)
 
-::: topic-list
-### In this section {data-no-toc}
+## Further reading
 
-* [Entries](/build/entries/) --- creating, reading, updating, and deleting
-* [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating and deleting
-:::
+* Core Concepts: [Source Chain](/concepts/3_source_chain/)
+* Core Concepts: [DHT](/concepts/4_dht/)
+* Core Concepts: [Links and Anchors](/concepts/5_links_anchors/)
+* Core Concepts: [CRUD actions](/concepts/6_crud_actions/)
+* Wikipedia: [Graph database](https://en.wikipedia.org/wiki/Graph_database)
+* Wikipedia: [Distributed hash table](https://en.wikipedia.org/wiki/Distributed_hash_table)
+* Martin Fowler on [Event Sourcing](https://martinfowler.com/eaaDev/EventSourcing.html), the pattern that both source chains and blockchains use to record state changes.
