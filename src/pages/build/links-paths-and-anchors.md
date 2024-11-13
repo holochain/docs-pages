@@ -235,6 +235,11 @@ let links_to_all_movies = all_first_letter_paths
   .collect();
 ```
 
+## Community path libraries
+
+* [holochain-prefix-index](https://github.com/holochain-open-dev/holochain-prefix-index) --- An index for starts-with searching.
+* [holochain-time-index](https://github.com/holochain-open-dev/holochain-time-index) --- A 'bucketed' time-based index.
+
 ## Reference
 
 * [`hdi::prelude::hdk_link_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_link_types.html)
