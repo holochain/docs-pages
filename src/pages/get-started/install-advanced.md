@@ -19,11 +19,15 @@ If you want to learn more about how this setup works and how to create it manual
 
 [Flakes](https://wiki.nixos.org/wiki/Flakes) is an experimental but well-supported feature of the Nix package manager that makes it easier to manage dependencies consistently. [Enable flakes on your system.](https://wiki.nixos.org/wiki/Flakes#Enable_flakes_temporarily)
 
-The flake-based one-liner to get you an ad-hoc Holonix shell looks like this:
+### Entering an ad-hoc shell
+
+The flake-based one-liner to get you an ad-hoc Holonix shell (that is, not using a local flake file) looks like this:
 
 ```shell
 nix develop github:holochain/holonix
 ```
+
+#### Specifying a certain release
 
 The above one-liner will give you the latest version of Holochain from branch `main`. To get an ad-hoc shell with a specific version of Holochain, use the flag `--override-input versions <version_path>`.
 
