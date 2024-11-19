@@ -35,6 +35,10 @@ The above one-liner will give you the latest version of Holochain from branch `m
 nix develop --override-input holochain "github:holochain/holochain?ref=main-0.4" github:holochain/holonix
 ```
 
+### Customizing the Holochain binary
+
+If you want to enable or disable certain Holochain features, such as unstable features, it's best to do this in a local flake file. [Read the 'Customized Holochain build'](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) on the Holonix readme to find out how. Keep in mind that, because you'll be creating a custom Holochain binary, you won't be able to take advantage of the package cache, so it'll take a while to compile Holochain on your machine.
+
 ### A gotcha with Flakes and Git
 
 The behavior of `nix` commands that rely on a `flake.nix` as its input such as `nix develop` can be counterintuitive in a git repository.
