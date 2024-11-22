@@ -19,17 +19,25 @@ If you want to learn more about how this setup works and how to create it manual
 
 [Flakes](https://wiki.nixos.org/wiki/Flakes) is an experimental but well-supported feature of the Nix package manager that makes it easier to manage dependencies consistently. [Enable flakes on your system.](https://wiki.nixos.org/wiki/Flakes#Enable_flakes_temporarily)
 
-The flake-based one-liner to get you an ad-hoc Holonix shell looks like this:
+### Entering an ad-hoc shell
+
+The flake-based one-liner to get you an ad-hoc Holonix shell (that is, not using a local flake file) looks like this:
 
 ```shell
 nix develop github:holochain/holonix
 ```
+
+#### Specifying a certain release
 
 The above one-liner will give you the latest version of Holochain from branch `main`. To get an ad-hoc shell with a specific version of Holochain, use the flag `--override-input versions <version_path>`.
 
 ```shell
 nix develop --override-input holochain "github:holochain/holochain?ref=main-0.4" github:holochain/holonix
 ```
+
+### Customizing the Holochain binary
+
+If you want to enable or disable certain Holochain features, such as unstable features, it's best to do this in a local flake file. [Read the 'Customized Holochain build'](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) on the Holonix readme to find out how. Keep in mind that, because you'll be creating a custom Holochain binary, you won't be able to take advantage of the package cache, so it'll take a while to compile Holochain on your machine.
 
 ### A gotcha with Flakes and Git
 

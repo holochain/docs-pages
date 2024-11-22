@@ -133,7 +133,7 @@
 # The first upgrade guide lived under getting started. It has been moved to its own area.
 [[redirects]]
     from = "/get-started/upgrade-holochain/"
-    to = "/resources/upgrade/upgrade-holochain-0.2/"
+    to = "/resources/upgrade/"
     status = 301
 
 # Every time there's a new breaking release that achieves 'recommended' status,
@@ -141,5 +141,5 @@
 # but it is a handy URL we can hand out without needing to look up what the proper URL is.
 [[redirects]]
     from = "/resources/upgrade/latest/"
-    to = "resources/upgrade/upgrade-holochain-0.2/"
+    to = "/resources/upgrade/upgrade-holochain-0.4/"
     status = 302
