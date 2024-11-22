@@ -59,7 +59,7 @@ Any CRUD host function that records an action on an agent's source chain, such a
 
 <!-- TODO: remove/simplify this with a pointer to the lifecycle document when I write it -->
 !!! info Actions aren't written until function lifecycle completes
-[Zome functions are atomic](/guide/working-with-data/#content-addresses), and if you use relaxed chain top ordering the action hash might change after the function call completes, so actions and their hashes shouldn't be counted on until the zome function that writes them completes successfully.
+[Zome functions are atomic](/build/working-with-data/#content-addresses), and if you use relaxed chain top ordering the action hash might change after the function call completes, so actions and their hashes shouldn't be counted on until the zome function that writes them completes successfully.
 
 If you need to share an action hash via a signal (say, with a remote peer), it's safer to wait until the zome function has completed. You can do this by creating a callback called `post_commit()`, which will be called after every successful function call within that zome.
 !!!
