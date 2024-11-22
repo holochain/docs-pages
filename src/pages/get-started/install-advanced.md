@@ -33,10 +33,9 @@ nix develop github:holochain/holonix?ref=main-0.4
 
 The options you should know about are:
 
-* `main` or no `ref` parameter: Bleeding-edge development version of Holochain (currently 0.5)
+* `main` or no `ref` parameter: The development version of Holochain, released weekly with no guarantee of stability (currently 0.5)
 * `main-0.4`: RC of Holochain 0.4 (be aware that many breaking changes are coming in the next RC)
 * `main-0.3`: The current recommended version of Holochain for everyday development
-* `main-0.2`: An older version of Holochain, no longer recommended
 
 ### A gotcha with Flakes and Git
 
