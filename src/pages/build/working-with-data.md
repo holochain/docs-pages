@@ -128,10 +128,14 @@ The built-in CRUD model is simplistic, collecting all the metadata on an entry o
 
 * Although an **entry** can have multiple creation actions attached to it as metadata, the record returned contains the _oldest-timestamped_ entry creation action _that doesn't have a corresponding delete action_.
 * There's no built-in logic for **updates**, which means that multiple updates can exist on one entry creation action. This creates a branching update model similar to Git and leaves room for you to create your own conflict resolution mechanisms if you need them. Updates aren't retrieved by default; you must retrieve them by [asking for an address' metadata](/build/entries/#all-data-actions-and-links-at-an-address).
-* A **delete** applies to an entry creation action, not an entry. An entry is considered live until all its creation actions are deleted, at which point it's fully dead and isn't retrieved when asked for. A dead entry is live once again if a new entry creation action authors it[.](https://youtu.be/d4ftmOI5NnI?si=XeT6OaWg3IN_HYYO&t=42)
+* A **delete** applies to an entry creation action, not an entry. An entry is considered live until _all_ of its creation actions are deleted, at which point it's fully dead[.](https://youtu.be/d4ftmOI5NnI?si=XeT6OaWg3IN_HYYO&t=42) A dead entry is live once again if a new entry creation action authors it.
 * Unlike entries, **links** are completely contained in the action, and are always distinct from each other, even if their base, target, type, and tag are identical. There's no link update action, and a link deletion action marks one link creation action as dead.
 
 If these rules don't work for you, you can always [directly access the underlying metadata](/build/entries/#all-data-actions-and-links-at-an-address) and implement your own CRUD model.
+
+#### Deleted/dead data
+
+Data doesn't ever disappear from the DHT. Instead, deletion actions simply _mark_ an entry or link as dead, which means it won't be retrieved when you ask for it --- unless you [ask for the metadata](/build/entries/#all-data-actions-and-links-at-an-address) at the basis address.
 
 ## Privacy
 

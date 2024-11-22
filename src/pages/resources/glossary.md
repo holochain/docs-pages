@@ -64,7 +64,7 @@ Any data structure that can only be written to. Once written, that data becomes 
 
 #### App entry
 
-An entity that holds application data. On the DHT, an app entry is created for every [new entry action](#new-entry-action), and [validation authorities](#validation-authority) who hold the entry also hold the [actions](#action) of all [agents](#agent) who have published that exact same entry as [metadata](#metadata), along with other metadata such as [links](#link). App entries are [deduplicated](#deduplication) but individual agents' writes of those entries are distinguished by their respective actions attached to the entry.
+An entity that holds application data. On the DHT, an app entry is created for every [new entry action](#entry-creation-action), and [validation authorities](#validation-authority) who hold the entry also hold the [actions](#action) of all [agents](#agent) who have published that exact same entry as [metadata](#metadata), along with other metadata such as [links](#link). App entries are [deduplicated](#deduplication) but individual agents' writes of those entries are distinguished by their respective actions attached to the entry.
 
 #### Application (app)
 
@@ -278,7 +278,7 @@ A simple [coordination protocol](#coordination-protocol) between two or more [ag
 
 #### Create-entry action
 
-A [new-entry action](#new-entry-action) that causes an [entry](#entry) to be made available to other [DHT](#distributed-hash-table-dht) members (unless the entry is [private](#private-entry), in which case only a record of its creation is published).
+An [entry creation action](#entry-creation-action) that causes an [entry](#entry) to be made available to other [DHT](#distributed-hash-table-dht) members (unless the entry is [private](#private-entry), in which case only a record of its creation is published).
 
 #### Create-link action
 
@@ -286,7 +286,7 @@ An [action](#action) that causes a [link](#link) from one piece of [record data]
 
 #### Create, read, update, delete (CRUD)
 
-The four main [actions](#action) an application needs to do with data. Even though all data structures in Holochain are [append-only](#append-only), modification and deletion of data can still be simulated by publishing a new action that marks the old data as modified in a [CALM](#consistency-as-logical-monotonicity-calm-theorem) way. [New-entry actions](#new-entry-action) create and/or update entries, while [delete-entry actions](#delete-entry-action) remove them. [Links](#link) can also be created and deleted in a similar way.
+The four main [actions](#action) an application needs to do with data. Even though all data structures in Holochain are [append-only](#append-only), modification and deletion of data can still be simulated by publishing a new action that marks the old data as modified in a [CALM](#consistency-as-logical-monotonicity-calm-theorem) way. [Entry creation actions](#entry-creation-action) create and/or update entries, while [delete-entry actions](#delete-entry-action) remove them. [Links](#link) can also be created and deleted in a similar way.
 
 #### CRUD action
 
@@ -296,10 +296,10 @@ A [record](#record) that expresses a [CRUD](#create-read-update-delete-crud) ope
 
 As no data in a Holochain [DHT](#distributed-hash-table-dht) or [agent's](#agent) [source chain](#source-chain) are ever deleted, existing data must be marked as no longer active. Dead data takes four forms:
 
-1. A [new-entry action](#new-entry-action) action that has been marked as deleted by a [delete-entry action](#delete-entry-action).
-2. A [create-link action](#create-link-action) action that has been marked as deleted by a [delete-link action](#delete-link-action).
-3. An [entry](#entry) whose new-entry action actions have all been marked as deleted.
-4. A [link](#link) whose create-link action actions have all been marked as deleted.
+1. An [entry creation action](#entry-creation-action) that has been marked as deleted by a [delete-entry action](#delete-entry-action).
+2. A [create-link action](#create-link-action) that has been marked as deleted by a [delete-link action](#delete-link-action).
+3. An [entry](#entry) whose creation action(s) have all been marked as deleted.
+4. A [link](#link) whose create-link action has been marked as deleted.
 
 #### Decentralization
 
@@ -315,7 +315,7 @@ The removal of identical entries in a [CAS](#content-addressable-storage-cas). M
 
 #### Delete-entry action
 
-An [action](#action) that causes a [new-entry action](#new-entry-action) to be marked as [dead](#dead-data). If all such actions that caused an [entry](#entry) to be published are marked as dead, the entry itself will also be marked as dead.
+An [action](#action) that causes an [entry creation action](#entry-creation-action) to be marked as [dead](#dead-data). If all such actions that caused an [entry](#entry) to be published are marked as dead, the entry itself will also be marked as dead.
 
 #### Delete-link action
 
@@ -391,7 +391,11 @@ A channel between two nodes in a public network that allows them to transfer sec
 
 #### Entry
 
-A basic unit of application data in a Holochain app. Each entry has its own defined [type](#entry-type). When an [agent](#agent) [commits](#commit) an entry, it is included in an [action](#action) into a [record](#record) that expresses a [new-entry action](#new-entry-action). This data is written to their [source chain](#source-chain) as a record of the action having taken place. An entry can be [public](#public-entry) or [private](#private-entry); if it's public, it's also [published](#publish) to the [DHT](#distributed-hash-table-dht). There are [app entries](#app-entry) whose purpose and structure are defined by the [DNA](#dna) developer, and there are special public or private [system entries](#system-entry) such as an [agent ID entry](#agent-id-entry) and [capability grants](#capability-grant) and [claims](#capability-claim).
+A basic unit of application data in a Holochain app. Each entry has its own defined [type](#entry-type). When an [agent](#agent) [commits](#commit) an entry, it is included in an [action](#action) into a [record](#record) that expresses an [entry creation action](#entry-creation-action). This data is written to their [source chain](#source-chain) as a record of the action having taken place. An entry can be [public](#public-entry) or [private](#private-entry); if it's public, it's also [published](#publish) to the [DHT](#distributed-hash-table-dht). There are [app entries](#app-entry) whose purpose and structure are defined by the [DNA](#dna) developer, and there are special public or private [system entries](#system-entry) such as an [agent ID entry](#agent-id-entry) and [capability grants](#capability-grant) and [claims](#capability-claim).
+
+#### Entry creation action
+
+Any [action](#action) that writes an [entry](#entry) to the DHT, either a [create-entry](#create-entry-action) or [update-entry](#update-entry-action) action. If the entry's [type](#entry-type) is [public](#public-entry), the entry will be published to the [DHT](#distributed-hash-table-dht) along with its [action](#action). If the entry's type is [private](#private-entry), only the action is published.
 
 #### Entry type
 
@@ -651,10 +655,6 @@ In Holochain terms, a collection of [nodes](#node) [gossiping](#gossip) with eac
 
 An optional string, specified in a [DNA bundle](#dna-bundle) file or passed at [cell](#cell) [cloning](#cloning) time, that modifies the [DNA's hash](#dna-hash) without modifying any of its behavior. This can be used to create a unique [network](#network) shared by all [agents](#agent) who use the same network seed. Hence, a network seed is considered a [DNA modifier](#dna-modifiers).
 
-#### New-entry action
-
-Any [action](#action) that produces a new entry, either a [create-entry](#create-entry-action) or [update-entry](#update-entry-action) action. If the entry's [type](#entry-type) is [public](#public-entry), the entry will be published to the [DHT](#distributed-hash-table-dht) along with its [action](#action). If the entry's type is [private](#private-entry), only the action is published.
-
 #### Node
 
 An individual [agent](#agent) in a Holochain [network](#network) who has an [agent address](#agent-address) and can be talked to via [gossip](#gossip).
@@ -756,7 +756,7 @@ A range of [DHT addresses](#dht-address) for which an [agent](#agent) knows a su
 -->
 #### Record
 
-The data structure that holds an [action](#action) in an [agent's](#agent) [source chain](#source-chain). Some records are a combination of [action](#action) and [entry](#entry), such as [new-entry actions](#new-entry-action), while others contain all their data inside the action.
+The data structure that holds an [action](#action) in an [agent's](#agent) [source chain](#source-chain). Some records are a combination of [action](#action) and [entry](#entry), such as [entry creation actions](#entry-creation-action), while others contain all their data inside the action.
 
 #### Record data
 
@@ -887,7 +887,7 @@ A [capability grant](#capability-grant) that allows any [peer](#peer) or [client
 
 #### Update-entry action
 
-A [new-entry action](#new-entry-action) that replaces another new-entry action, essentially allowing the simulated modification of already-written data in a way that allows for multiple branching revision chains. This can be used to modify [public](#public-entry) or [private](#private-entry), [system](#system-entry) or [app](#app-entry) entries.
+An [entry creation action](#entry-creation-action) that replaces another entry creation action, essentially allowing the simulated modification of already-written data in a way that allows for multiple branching revision chains. This can be used to modify [public](#public-entry) or [private](#private-entry), [system](#system-entry) or [app](#app-entry) entries.
 
 #### Validating DHT
 

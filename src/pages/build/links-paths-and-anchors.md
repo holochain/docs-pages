@@ -84,7 +84,7 @@ let delete_link_action_hash = delete_link(
 );
 ```
 
-A link is considered deleted once its creation action has at least one delete-link action associated with it. As with entries, deleted links can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html)
+A link is considered ["dead"](/build/working-with-data/#deleted-dead-data) (deleted but retrievable if asked for explicitly) once its creation action has at least one delete-link action associated with it. As with entries, dead links can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) or [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html) (see next section).
 
 ## Retrieve links
 
