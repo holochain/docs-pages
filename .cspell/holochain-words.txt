@@ -4,6 +4,7 @@ DeepKey
 dnas
 DPKI
 hApp
+hApps
 Holo
 Holo's
 Holochain

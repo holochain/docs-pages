@@ -8,7 +8,6 @@
         { title: "Dev Tools Setup Tips", url: "/get-started/install-advanced/" },
         { title: "Setup Without Nix", url: "/get-started/install-without-nix/" },
         { title: "Distribute your App", url: "/get-started/distribute-your-app/" },
-        { title: "Holochain Upgrade 0.1 → 0.2", url: "/get-started/upgrade-holochain/" },
         { title: "Setup For a Local Event", url: "/get-started/at-an-event/" },
       ]
     },
@@ -34,6 +33,7 @@
       ]
     },
     { title: "Resources", url: "/resources/", children: [
+        { title: "Upgrade Guides", url: "/resources/upgrade/" },
         { title: "HDK", url: "https://docs.rs/hdk", external: true },
         { title: "HDI", url: "https://docs.rs/hdi", external: true },
         { title: "App API", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },

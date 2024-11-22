@@ -1,10 +1,5 @@
 ---
 title: Get Started
-tocData:
-  - text: 1. Introduction to Holochain
-    href: 1-introduction-to-holochain
-  - text: 2. Installing Holochain development environment
-    href: 2-installing-holochain-development-environment
 ---
 
 Welcome to the Getting Started with Holochain guide! This is a four-page guide which will walk you through the process of installing the Holochain development tools and creating a simple forum application. By the end of this guide, you'll be familiar with the core concepts of Holochain and have a basic understanding of how to develop peer-to-peer applications using the Holochain framework.
@@ -46,6 +41,14 @@ This may seem like a lot; it's mainly due to Rust's compiler, which requires a l
 For Windows users, please note that the Nix package manager, which is used to install and manage the Holochain development environment, only supports macOS and Linux. You'll need to [install Linux under Windows with WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) (recommended) or dual-boot a Linux OS alongside your [Windows 10](https://www.freecodecamp.org/news/how-to-dual-boot-windows-10-and-ubuntu-linux-dual-booting-tutorial/) or [Windows 11](https://www.xda-developers.com/dual-boot-windows-11-linux/) OS to proceed.
 
 Holochain is supported in WSL2 via the Ubuntu distribution.
+
+You'll also need to install a few packages if you want to run two dev tools, `hc spin` and `hc launch`, which start your app's back end and open its GUI in Electron or Tauri webviews:
+
+```shell
+sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2 adwaita-icon-theme
+```
+
+Read more about these fixes in the [Dev Tools Setup guide](/get-started/install-advanced/#opening-your-happs-gui-in-ubuntu-on-wsl2).
 
 ### 2.3. Set up development environment
 

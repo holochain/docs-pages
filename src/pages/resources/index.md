@@ -17,6 +17,10 @@ tocData:
     href: tutorials-and-training
 ---
 
+## Upgrade guides
+
+If you're upgrading your hApp to a newer version of Holochain, we have some [upgrade guides](/resources/upgrade/) to make your work easier.
+
 ## HDK and HDI
 
 When you write a Holochain application, the part that lives in Holochain is called a [DNA](/concepts/2_application_architecture/#layers-of-the-application-stack). It runs as a guest in a WebAssembly sandbox and talks to the host, or Holochain conductor, through the host API. It's also expected to implement callbacks that the conductor needs to call at certain times. The HDK and HDI Rust crates make it easy for you write guest code that interfaces with the conductor --- the HDK for your DNA's [coordinator zomes](/resources/glossary/#coordinator-zome) and the HDI for [integrity zomes](/resources/glossary/#integrity-zome).
@@ -65,7 +69,7 @@ There are three main developer binaries, and one user-oriented binary. You can r
     * runs a local copy of peer discovery and WebRTC signalling services
     * see [`holochain_cli` docs](https://docs.rs/holochain_cli/latest/holochain_cli) for more info
 * **`lair-keystore`** is Holochain's [keystore](https://github.com/holochain/lair) for generating and signing with cryptographically secure keys. Use this command for initialization, configuration, and running of a Lair keystore. During normal operation, `holochain` will automatically spawn a `lair` process if it doesn't find one running.
-* **Holochain Launcher** is an end-user runtime, meant for finding, installing, and running hApps. It runs in a WebView container (currently Tauri, but we're migrating to Electron) which also hosts the UIs of installed hApps. Developers can also turn on 'developer mode' and publish their hApps to a built-in hApp store.
+* **Holochain Launcher** is an end-user runtime, meant for finding, installing, and running hApps. It runs in an Electron webview container which also hosts the UIs of installed hApps. Developers can also turn on 'developer mode' and publish their hApps to a built-in hApp store.
     * [Download the latest Launcher release from GitHub](https://github.com/holochain/launcher/releases)
 
 ## Libraries
