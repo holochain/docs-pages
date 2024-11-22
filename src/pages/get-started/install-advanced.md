@@ -22,14 +22,20 @@ If you want to learn more about how this setup works and how to create it manual
 The flake-based one-liner to get you an ad-hoc Holonix shell looks like this:
 
 ```shell
-nix develop github:holochain/holonix
+nix develop github:holochain/holonix?ref=main-0.3
 ```
 
-The above one-liner will give you the latest version of Holochain from branch `main`. To get an ad-hoc shell with a specific version of Holochain, use the flag `--override-input versions <version_path>`.
+The above one-liner will give you the latest **recommended** version of Holochain from the 0.3 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter, for example:
 
 ```shell
-nix develop --override-input holochain "github:holochain/holochain?ref=main-0.4" github:holochain/holonix
+nix develop github:holochain/holonix?ref=main-0.4
 ```
+
+The options you should know about are:
+
+* `main` or no `ref` parameter: The development version of Holochain, released weekly with no guarantee of stability (currently 0.5)
+* `main-0.4`: RC of Holochain 0.4 (be aware that many breaking changes are coming in the next RC)
+* `main-0.3`: The current recommended version of Holochain for everyday development
 
 ### A gotcha with Flakes and Git
 
