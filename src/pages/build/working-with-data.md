@@ -32,7 +32,7 @@ The other important part of a record is the **entry**. Not all action types have
 It's generally most useful to _think about a **record** (entry plus creation action) as the primary unit of data_. This is because the action holds useful context about when an entry was written and by whom. A unique entry, no matter how many times it's written, is considered to be one piece of content:
 
 ```json
-"hello" // entry ID is hCEkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw
+"hello" // entry ID is hCEkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw // cspell:disable-line
 ```
 
 But that entry, paired with its respective creation actions into records, can be treated as two pieces of content:
@@ -40,21 +40,21 @@ But that entry, paired with its respective creation actions into records, can be
 ```json
 {
     "create": {
-        "author": "hCAkKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE",
+        "author": "hCAkKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", // cspell:disable-line
         "timestamp": 1732314805000000,
-        "entry_hash": "hCEkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw" // "hello" entry
+        "entry_hash": "hCEkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw" // "hello" entry // cspell:disable-line
     }
-} // action ID is hCkkDHBZjU1a7L3gm6/qhImbWG6KG4Oc2ZiWDyfPSGoziBs
+} // action ID is hCkkDHBZjU1a7L3gm6/qhImbWG6KG4Oc2ZiWDyfPSGoziBs // cspell:disable-line
 ```
 
 ```json
 {
     "create": {
-        "author": "hCAk4R0sY+orZRxeFwqFTQSrhalgY+W2pLEJ5mihgY3CE7A",
+        "author": "hCAk4R0sY+orZRxeFwqFTQSrhalgY+W2pLEJ5mihgY3CE7A", // cspell:disable-line
         "timestamp": 1481614210000000,
-        "entry_hash": "hCEkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw" // "hello" entry
+        "entry_hash": "hCEkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw" // "hello" entry // cspell:disable-line
     }
-} // action ID is hCkk1Oqnmn/xDVFNS+L2Z2PuQf9nN1/FmoAewlA8SV10jb8
+} // action ID is hCkk1Oqnmn/xDVFNS+L2Z2PuQf9nN1/FmoAewlA8SV10jb8 // cspell:disable-line
 ```
 
 (Note: these samples are simplified and JSONified to focus on the bits that matter.)
