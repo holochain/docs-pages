@@ -160,7 +160,7 @@ Sometimes the best way to discover a link base is to build it into the applicati
 While you can build this yourself, this is such a common pattern that the HDK implements it for you in the [`hdk::hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) module. With it, you can create **paths**, which are hierarchies of anchors.
 
 !!! info Avoiding DHT hot spots
-Too many links on a single base address creates extra work for the peers responsible for it. Use a hierarchy of paths to split the links into appropriate 'buckets' and spread the work around. We'll give an example of that [below](#paths).
+Too many links on a single base address creates extra work for the peers responsible for it. Use a hierarchy of paths to split the links into appropriate 'buckets' and spread the work around. We'll give an example of that [below](#paths-in-depth).
 !!!
 
 ### Scaffold a simple collection anchor
