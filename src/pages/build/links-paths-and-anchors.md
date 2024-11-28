@@ -14,7 +14,7 @@ A Holochain application's database is, at heart, just a big key-value store --- 
 
 A piece of content itself can contain a hash as part of its data structure, and that's great for modelling a _many-to-one relationship_. And if the number of things the content points to is small and doesn't change often, you can model a _many-to-many relationship_ using a field that contains an array of hashes. But at a certain point this becomes hard to manage, especially if that list regularly changes or gets really large.
 
-But Holochain also lets you attach **links** as metadata to an address in the database. You can then retrieve a full or filtered list of links from that address in order to discover more addressable content. In this way you can build up a traversable graph database.
+To help with this, Holochain also lets you attach **links** as metadata to an address in the database. You can then retrieve a full or filtered list of links from that address in order to discover more addressable content. In this way you can build up a traversable graph database.
 
 ### Define a link type
 
@@ -133,7 +133,7 @@ let movies_plus_deleted = get_link_details(
 
 ### Count links
 
-If all you need is a _count_ of matching links, use [`hdk::prelude::count_links`](https://docs.rs/hdk/latest/hdk/prelude/fn.count_links.html). It has a different input with more options for querying (we'll likely update the inputs of `get_links` and `count_links` to match `count_links` in the future).
+If all you need is a _count_ of matching links, use [`hdk::prelude::count_links`](https://docs.rs/hdk/latest/hdk/prelude/fn.count_links.html). It has a different input with more options for querying (we'll likely update the inputs of `get_links` and `count_links` to match in the future).
 
 ```rust
 use hdk::prelude::*;
@@ -150,14 +150,14 @@ let number_of_reviews_written_by_me_in_last_month = count_links(
 ```
 
 !!! info Links are counted locally
-Currently `count_links` retrieves all links from the remote peer, then counts them locally. We're planning on changing this behavior so it counts links on the remote peer and send the count, to save network traffic like you'd expect.
+Currently `count_links` retrieves all links from the remote peer, then counts them locally. We're planning on changing this behavior so it counts links on the remote peer and sends the count, to save network traffic like you might expect.
 !!!
 
 ## Anchors and paths
 
 Sometimes the best way to discover a link base is to build it into the application's code. You can create an **anchor**, a well-known address (like the hash of a string constant) to attach links to. This can be used to simulate collections or tables in your graph database.
 
-While you can build this yourself, this is such a common pattern that the HDK implements it for you in the [`hdk::hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) module. It lets you create **paths**, which are hierarchies of anchors.
+While you can build this yourself, this is such a common pattern that the HDK implements it for you in the [`hdk::hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html) module. With it, you can create **paths**, which are hierarchies of anchors.
 
 !!! info Avoiding DHT hot spots
 Too many links on a single base address creates extra work for the peers responsible for it. Use a hierarchy of paths to split the links into appropriate 'buckets' and spread the work around. We'll give an example of that [below](#paths).
@@ -165,7 +165,7 @@ Too many links on a single base address creates extra work for the peers respons
 
 ### Scaffold a simple collection anchor
 
-The scaffolding tool can create a 'collection', which is a path that serves as an anchor for entries of a given type, along with all the functionality that creates and deletes links from that anchor to its entries:
+The scaffolding tool can create a 'collection', which is a one-level path that serves as an anchor for entries of a given type, along with all the functionality that creates and deletes links from that anchor to its entries:
 
 ```bash
 hc scaffold collection
@@ -176,7 +176,7 @@ Follow the prompts to choose the entry type, name the link types and anchor, and
 * all entries of type, or
 * entries of type by author
 
-### Paths
+### Paths in depth
 
 When you want to create more complex collections, you'll need to use the paths library directly.
 
@@ -186,9 +186,11 @@ Create a path by constructing a [`hdk::hash_path::path::Path`](https://docs.rs/h
 use hdk::hash_path::path::*;
 use movie_integrity::*;
 
+// This will create a two-level path that looks like:
+//    "movies_by_first_letter" → "g"
 let path_to_movies_starting_with_g = Path::from("movies_by_first_letter.g")
-  // A path requires a link type that you've defined in the integrity zome. Here, we're using the
-  // `MovieByFirstLetterAnchor` type that we created.
+  // A path requires a link type that you've defined in the integrity zome.
+  // Here, we're using the `MovieByFirstLetterAnchor` type that we created.
   .typed(LinkTypes::MovieByFirstLetterAnchor);
 
 // Make sure it exists before attaching links to it -- if it already exists,
@@ -209,9 +211,9 @@ Retrieve all the links on a path by constructing the path, then calling `get_lin
 use hdk::hash_path::path::*;
 use movie_integrity::*;
 
-// Note that a path doesn't need to be typed in order to compute its hash.
 let path_to_movies_starting_with_g = Path::from("movies_by_first_letter.g");
 let links_to_movies_starting_with_g = get_links(
+  // A path doesn't need to have a type in order to compute its hash.
   path_to_movies_starting_with_g.path_entry_hash()?,
   LinkTypes::MovieByFirstLetter,
   None
@@ -227,7 +229,8 @@ use movie_integrity::*;
 let parent_path = Path::from("movies_by_first_letter")
   .typed(LinkTypes::MovieByFirstLetterAnchor);
 let all_first_letter_paths = parent_path.children_paths()?;
-// Do something with the paths. Note: this would be expensive to do in practice, because each iteration is a DHT query.
+// Do something with the children. Note: this would be expensive to do in
+// practice, because each iteration is a separate DHT query.
 let links_to_all_movies = all_first_letter_paths
   .iter()
   .map(|path| get_links(path.path_entry_hash()?, LinkTypes::MovieByFirstLetter, None)?)
@@ -237,8 +240,8 @@ let links_to_all_movies = all_first_letter_paths
 
 ## Community path libraries
 
-* [holochain-prefix-index](https://github.com/holochain-open-dev/holochain-prefix-index) --- An index for starts-with searching.
-* [holochain-time-index](https://github.com/holochain-open-dev/holochain-time-index) --- A 'bucketed' time-based index.
+* [holochain-prefix-index](https://github.com/holochain-open-dev/holochain-prefix-index) --- An index for starts-with text searching, useful for type-ahead username or hashtag lookup.
+* [holochain-time-index](https://github.com/holochain-open-dev/holochain-time-index) --- A 'bucketed' time-based index, where you can choose the resolution of the time slices.
 
 ## Reference
 

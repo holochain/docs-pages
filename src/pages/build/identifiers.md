@@ -26,7 +26,7 @@ The four-byte DHT location is calculated from the 32 bytes of the hash and is us
 | entry     | [`EntryHash`](https://docs.rs/holo_hash/latest/holo_hash/type.EntryHash.html)       | `hCEk`           |
 | external  | [`ExternalHash`](https://docs.rs/holo_hash/latest/holo_hash/type.ExternalHash.html) | `hC8k`           |
 
-You can see that, in the Rust SDK, each address is typed to what it represents. There are also a couple of composite types, [`AnyDhtHash`](https://docs.rs/holo_hash/latest/holo_hash/type.AnyDhtHash.html) and [`AnyLinkableHash`](https://docs.rs/holo_hash/latest/holo_hash/type.AnyLinkableHash.html), that certain functions (like link creation functions) accept. You can also use the above hash types as fields in your entry types.
+There are also a couple of composite types, [`AnyDhtHash`](https://docs.rs/holo_hash/latest/holo_hash/type.AnyDhtHash.html) and [`AnyLinkableHash`](https://docs.rs/holo_hash/latest/holo_hash/type.AnyLinkableHash.html).
 
 Here's an overview of the five types above, plus two composite types:
 
@@ -35,8 +35,9 @@ Here's an overview of the five types above, plus two composite types:
 * `ActionHash` is the hash of a structure called an [action](/build/working-with-data/#entries-actions-and-records-primary-data) that records a participant's act of storing or changing private or shared data.
 * `EntryHash` is the hash of an arbitrary blob of bytes called an [entry](/build/entries/), which contains application or system data. (Note: there's a special system entry called [`Agent`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/enum.Entry.html#variant.Agent), which holds the agent's public key; the hash function returns the public key itself, _not_ its hash.)
 * `ExternalHash` is the ID of a resource that exists outside the database, such as the hash of an IPFS resource or the public key of an Ethereum wallet. Holochain doesn't care about its value, as long as it's 32 bytes long. There's no content stored at the address; it simply serves as an anchor to attach [links](/build/links-paths-and-anchors/) to.
-* `AnyDhtHash` is the hash of any kind of addressable content (that is, actions, entries, and agent public keys).
-* `AnyLinkableHash` is the hash of anything that can be linked to or from (that is, all of the above).
+* Composite types --- if one of the types above is eligible, it can be converted into one of these two types via the `.into()` method. Functions that take the below types will implicitly convert from the above types.
+    * `AnyDhtHash` is the hash of any kind of addressable content (actions, entries, and agent public keys). Any
+    * `AnyLinkableHash` is the hash of anything that can be linked to or from (that is, all of the above).
 
 ## Getting hashes
 
@@ -85,7 +86,7 @@ if let Action::Update(action_data) = action {
 
 ### Entry
 
-To get the hash of an entry, first construct an instance of the entry type that you [defined in the integrity zome](/build/entries/#define-an-entry-type), then pass it through the [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html) function. (You don't actually have to write the entry to a source chain to get the entry hash --- this means you can construct an imaginary entry, hash it, and use it anywhere a hash can be used.)
+To get the hash of an entry, first construct an instance of the entry type that you [defined in the integrity zome](/build/entries/#define-an-entry-type), then pass it through the [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html) function. (You don't actually have to write the entry to a source chain to get the entry hash.)
 
 ```rust
 use hdk::hash::*;
@@ -228,7 +229,7 @@ Because of these three things, it's unsafe to depend on the value or even existe
 
 * You may safely use the hash of an action you've just written as data in another action in the same function (e.g., in a link or an entry that contains the hash in a field), as long as you're not using relaxed chain top ordering.
 * The same is also true of action hashes in your function's return value.
-* Don't communicate the action hash with the front end, another cell, or another peer on the network via a remote function call or [signal](/concepts/9_signals/) _from within the same function that writes it_, in case the write fails. Instead, do your communicating in a follow-up step. The easiest way to do this is by implementing a callback called `post_commit`, which should receive a vector of all the actions that the function wrote.
+* Don't communicate the action hash with the front end, another cell, or another peer on the network via a remote function call or [signal](/concepts/9_signals/) _from within the same function that writes it_, in case the write fails. Instead, do your communicating in a follow-up step. The easiest way to do this is by implementing [a callback called `post_commit`](https://docs.rs/hdk/latest/hdk/#internal-callbacks) which receives a vector of all the actions that the function wrote.
 
 <!-- TODO: write about the front end -->
 

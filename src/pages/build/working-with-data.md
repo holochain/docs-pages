@@ -70,12 +70,12 @@ The application's users all share responsibility for storing and validating this
 
 ### Storage locations and privacy
 
-Each [DNA](/concepts/2_application_architecture/#dna) creates a network of peers who participate in storing pieces of that DNA's database, which means that each DNA's database (and the [source chains](#individual-state-histories-as-public-records) that contribute to it) is completely separate from all others. This creates a per-network privacy for shared data. On top of that, addressable content can either be:
+Each [DNA](/concepts/2_application_architecture/#dna) creates a network of peers who participate in storing pieces of that DNA's database, which means that each DNA's database (and the [source chains](#individual-state-histories-as-public-records) that contribute to it) is completely separate from all others. This creates a per-network privacy for shared data. On top of that, entries can either be:
 
-* **Private**, stored on the author's device in their source chain and accessible to them only, or
+* [**Private**](/build/entries/#configure-an-entry-type), stored on the author's device in their source chain and accessible to them only, or
 * **Public**, stored in the graph database and accessible to all participants.
 
-All actions are public, while entries can be either public or [private](/build/entries/#configure-an-entry-type). External references hold neither public nor private content, but merely point to content outside the database.
+All actions are public.
 
 ### Links
 
