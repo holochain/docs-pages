@@ -38,13 +38,6 @@ Here's an overview of the five types above, plus two composite types:
 * `AnyDhtHash` is the hash of any kind of addressable content (that is, actions, entries, and agent public keys).
 * `AnyLinkableHash` is the hash of anything that can be linked to or from (that is, all of the above).
 
-### The unpredictability of action hashes
-
-There are a few things to know about action hashes:
-
-* You can't know an action's hash until you've written the action, because it's influenced by both the previous action's hash and current system time when it's authored.
-* When you write an action, you can specify "relaxed chain top ordering". We won't go into the details here, <!-- TODO: fill this in when I write about zome call lifecycles -->but when you use it, the action hash may change after the function completes, so you shouldn't depend on the value of the hash you get back within the function that writes it.
-
 ## Getting hashes
 
 Because Holochain's graph DHT is all about connecting hashes to other hashes, here's how you get hashes.
@@ -56,13 +49,6 @@ To keep compiled zomes small, there are no hashing functions built into the HDI 
 ### Action
 
 Any CRUD host function that records an action on an agent's source chain, such as `create`, `update`, `delete`, `create_link`, and `delete_link`, returns the hash of the action. You can use this in the fields of other entries or in links, in either the same function call or another function call.
-
-<!-- TODO: remove/simplify this with a pointer to the lifecycle document when I write it -->
-!!! info Actions aren't written until function lifecycle completes
-[Zome functions are atomic](/build/working-with-data/#content-addresses), and if you use relaxed chain top ordering the action hash might change after the function call completes, so actions and their hashes shouldn't be counted on until the zome function that writes them completes successfully.
-
-If you need to share an action hash via a signal (say, with a remote peer), it's safer to wait until the zome function has completed. You can do this by creating a callback called `post_commit()`, which will be called after every successful function call within that zome.
-!!!
 
 If you have a variable that contains a [`hdk::prelude::Record`](https://docs.rs/hdk/latest/hdk/prelude/struct.Record.html), you can get its hash using the [`action_address`](https://docs.rs/hdk/latest/hdk/prelude/struct.Record.html#method.action_address) method or the [`as_hash` method on its `signed_action` property](https://docs.rs/hdk/latest/hdk/prelude/struct.SignedHashed.html#method.as_hash):
 
@@ -229,6 +215,20 @@ let movie_to_loan_action_hash = create_link(
 ```
 
 Read more about [entries](/build/entries/) and [links](/build/links-paths-and-anchors/).
+
+## The unpredictability of action hashes
+
+There are a few important things to know about action hashes:
+
+* You can't know an action's hash until you've written the action, because the action contains the current system time at the moment of writing.
+* When you write an action, you can specify "relaxed chain top ordering". We won't go into the details here, <!-- TODO: fill this in when I write about zome call lifecycles -->but when you use it, the action hash may change after the function completes.
+* A function that writes actions is _atomic_, which means that all writes fail or succeed together.
+
+Because of these three things, it's unsafe to depend on the value or even existence of an action hash within the same function that writes it. Here are some 'safe usage' notes:
+
+* You may safely use the hash of an action you've just written as data in another action in the same function (e.g., in a link or an entry that contains the hash in a field), as long as you're not using relaxed chain top ordering.
+* The same is also true of action hashes in your function's return value.
+* Don't communicate the action hash with the front end, another cell, or another peer on the network via a remote function call or [signal](/concepts/9_signals/) _from within the same function that writes it_, in case the write fails. Instead, do your communicating in a follow-up step. The easiest way to do this is by implementing a callback called `post_commit`, which should receive a vector of all the actions that the function wrote.
 
 <!-- TODO: write about the front end -->
 
