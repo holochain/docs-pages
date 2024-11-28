@@ -35,10 +35,10 @@ You might remember from [a few pages back](../3_source_chain/) that we described
 
 Here are all the mutation actions an agent can perform:
 
-* A **new-entry action** calls an app or system entry into existence.
+* An **entry creation action** calls an app or system entry into existence.
     * **Create entry** creates a new entry.
     * **Update entry** also creates a new entry, but marks an existing new-entry action as having an update.
-* **Delete entry** marks an existing new-entry action as dead.
+* **Delete entry** marks an existing entry creation action as "dead" --- not actually removed from the data store, but not considered 'living' data anymore. (This is because no data ever really disappears from the DHT.)
 * **Create link** creates a new link.
 * **Delete link** marks an existing create-link action as dead.
 

@@ -27,9 +27,12 @@ libatk
 libcups
 libgtk
 libnss
+Multihash
+multihash
 NixOS
 nixpkgs
 pkgs
+pubkey
 QUIC
 rustc
 rustflags
