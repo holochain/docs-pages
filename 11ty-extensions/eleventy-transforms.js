@@ -7,10 +7,12 @@ import htmlMin from "html-minifier";
 import { noopener } from "posthtml-noopener";
 import dom from "fauxdom";
 import he from "he";
-import hljs from "highlight.js";
+import hljsOrig from "highlight.js";
 // Add Svelte language formatting support to highlight.js
 import highlightJsSvelte from "highlightjs-svelte";
-highlightJsSvelte(hljs);
+highlightJsSvelte(hljsOrig);
+// Allow diff *and* original highlighting language
+const hljs = hljsCodeDiff(hljsOrig);
 
 export default function(eleventyConfig) {
 
