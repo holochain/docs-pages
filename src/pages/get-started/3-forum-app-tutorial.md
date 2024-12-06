@@ -73,19 +73,19 @@ my_forum_app
 
 ## 4. Set up Holonix development environment and JS package manager
 
-Next, you'll be asked if you want to set up the Holonix development environment for the project. This allows you to enter a shell that has all the right tools and libraries for the version of Holochain that your code was generated for.
-
-Choose `Yes (recommended)` and press <kbd>Enter</kbd>.
-
-You should see:
+Next, you'll be asked if you want to set up the Holonix development environment for the project.
 
 ::: output-block
 ```text
-Setting up nix development environment...
+? Do you want to set up the holonix development environment for this project? ›
+❯ Yes (recommended)
+  No
 ```
 :::
 
-along with some details of what is being added. Follow the instructions to set up the development environment for your hApp and continue to scaffold more of its elements.
+This allows you to enter a shell that has all the right tools and libraries for the version of Holochain that your code was generated for.
+
+Choose `Yes (recommended)` and press <kbd>Enter</kbd>.
 
 Next, choose your favorite package manager for dealing with app commands and JavaScript dependencies. If you don't know what to pick, just pick `npm`.
 
@@ -119,7 +119,7 @@ You should then see:
 ```
 :::
 
-Enter a name for the DNA:
+Erase the default (which is just the hApp name) and type in:
 
 ```text
 forum
@@ -182,7 +182,7 @@ Say yes to it, and then you should then see:
 ```
 :::
 
-Give it the name `posts`. Then it'll ask you to confirm the names of the two new folders it'll generate; press <kbd>y</kbd> for both.
+Erase what's there and give it the name `posts`. Then it'll ask you to confirm the names of the two new folders it'll generate; press <kbd>y</kbd> for both.
 
 ::: output-block
 ```text
@@ -301,15 +301,15 @@ Now, fire up the nix development shell, which makes all scaffolding tools and th
 nix develop
 ```
 
-After a short while of installing packages, you should see:
+After a short while of installing packages, your terminal prompt should change:
 
 ::: output-block
 ```text
-Holochain development shell spawned. Type exit to leave.
+[holonix:~/Holochain/my_forum_app]$
 ```
 :::
 
-As it says, if you want to leave the nix development shell at any time, you can type `exit`. This will take you back to your familiar shell without any of the special Holochain dependencies. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again.
+This lets you know you're in the Holonix development shell. If you want to leave it at any time, you can type `exit`. This will take you back to your familiar shell without any of the special Holochain dependencies. When you want to re-enter it, navigate to the `my_forum_app` folder and type `nix develop` again.
 
 To see what the nix shell has done for you, type:
 
@@ -721,13 +721,8 @@ Select **`Post`** and press <kbd>Enter</kbd>. You should then see:
 ```text
 Collection "all_posts" scaffolded!
 
-At first, the UI for this application is empty. If you want the newly scaffolded collection to be the entry point for its UI, import the element in `ui/src/App.svelte`:
-
-   import AllPosts from './forum/posts/AllPosts.svelte';
-
-And use the element in the `<div id="content" />` block by adding in this:
-
-   <div id="content"><AllPosts></AllPosts></div>
+If you want the newly scaffolded collection's component to be the entry point for its UI, import the
+generated <AllPosts /> component.
 ```
 :::
 
@@ -869,90 +864,91 @@ Your `App.svelte` file will have three sections:
 
 ```svelte
 <script lang="ts">
-import type { ActionHash, AppClient } from "@holochain/client";
+import type { ActionHash, AppClient, HolochainError } from "@holochain/client";
 import { AppWebsocket } from "@holochain/client";
 import { onMount, setContext } from "svelte";
-import "@material/mwc-circular-progress";
 
-import { clientContext } from "./contexts";
+import logo from "./assets/holochainLogo.svg";
+import { type ClientContext, clientContext } from "./contexts";
 
 let client: AppClient | undefined;
+let error: HolochainError | undefined;
+let loading = false;
 
-let loading = true;
+const appClientContext = {
+  getClient: async () => {
+    if (!client) {
+      client = await AppWebsocket.connect();
+    }
+    return client;
+  },
+};
 
 onMount(async () => {
-  client = await AppWebsocket.connect();
-
-  loading = false;
+  try {
+    loading = true;
+    client = await appClientContext.getClient();
+  } catch (e) {
+    error = e as HolochainError;
+  } finally {
+    loading = false;
+  }
 });
 
-setContext(clientContext, {
-  getClient: () => client,
-});
+setContext<ClientContext>(clientContext, appClientContext);
 </script>
 ```
 
 This section contains the JavaScript/TypeScript code for the component. It imports various dependencies needed to build a single-page web app:
 
 * `svelte` is the Svelte engine itself, and its `onMount` function lets you register a handler to be run when the component is initialized, while `setContext` lets you pass data to be used in the rendering of the component.
-* `@holochain/client` is the Holochain client library; first we load in some useful Holochain-related TypeScript types, followed by the client object itself.
-* `@mwc/material-circular-progress` is just a UI component that gives us a spinner when something is loading.
-* `./contexts` is generated by the scaffolding tool. It just contains a constant, the app-wide name for the 'context' that makes the Holochain client accessible to all components. In Svelte, a context is a state shared across components.
+* `@holochain/client` is a client library that talks to the local Holochain service; we're loading in some useful Holochain-related TypeScript types, followed by `AppWebsocket`, the client object itself.
+* `./contexts` just contains a constant and a type definition for defining the 'client context'. We won't go into deep detail about context because it's a Svelte thing, not a Holochain thing, but in short it's a way of [making data and functions available to child components](https://svelte.dev/docs/svelte/context), sort of like a semi-global variable. We'll explain what this particular context is in a moment.
 
 After importing dependencies, it does some initial setup. This is run when the component file is imported --- in this case the component, `App.svelte`, is the main component for the entire application, and it's imported into `main.ts` where it's 'mounted' (more on mounting in a moment).
 
-Next some variables are instantiated: one to hold the Holochain client that connects to the hApp backend via the conductor, and one to keep track of whether the client is connected yet. (This variable will be used to show a loading spinner while it's still connecting.)
+Next some variables are instantiated:
 
-Finally, there's an `onMount` handler, which is run when the component is first displayed. The handler currently does one thing: it connects to the hApp backend via the conductor, waits until the connection is established, sets `loading` to false, and adds the resulting client connection to the context so that all components can access it.
+* `client` holds the Holochain client that connects to the hApp backend via the conductor.
+* `error` stores any connection error so it can be displayed in the UI.
+* `loading` keeps track of whether the client has finished connecting to Holochain so the 'connecting' message can be removed.
+
+After this comes the definition of an object that holds the 'client context'. This is a Svelte context that makes the Holochain client connection available to all the child components of the app. It's got one getter, which instantiates a client and tries to connect to Holochain if a connection doesn't exist, then returns the client.
+
+Next, there's an `onMount` handler, which is run when the component is first displayed. Again, this is a Svelte thing; in short it runs [when the component first appears in the document](https://svelte.dev/docs/svelte/lifecycle-hooks#onMount). The handler currently does one thing: it connects to the hApp backend, waits until the connection is established, and sets `loading` to false, displaying a connection error if there is any.
+
+And finally --- another Svelte thing --- we take the client context object and add it to the contexts available to child components.
 
 ### `<main>` section {data-no-toc}
 
 ```svelte
 <main>
-  {#if loading}
-    <div
-      style="display: flex; flex: 1; align-items: center; justify-content: center"
-    >
-      <mwc-circular-progress indeterminate />
+  <div>
+    <a href="https://developer.holochain.org/get-started/" target="_blank">
+      <img src={logo} class="logo holochain" alt="holochain logo" />
+    </a>
+  </div>
+  <h1>Holochain Svelte hApp</h1>
+  <div>
+    <div class="card">
+      {#if loading}
+        <p>connecting...</p>
+      {:else if error}
+        <p>{error.message}</p>
+      {:else}
+        <p>Client is connected.</p>
+      {/if}
     </div>
-  {:else}
-    <div id="content" style="display: flex; flex-direction: column; flex: 1;">
-      <h2>EDIT ME! Add the components of your app here.</h2>
-
-      <span>Look in the <code>ui/src/DNA/ZOME</code> folders for UI elements
-        that are generated with <code>hc scaffold entry-type</code>, <code>hc
-          scaffold collection</code> and <code>hc scaffold link-type</code> and
-        add them here as appropriate.</span>
-
-      <span>For example, if you have scaffolded a "todos" dna, a "todos" zome, a
-        "todo_item" entry type, and a collection called "all_todos", you might
-        want to add an element here to create and list your todo items, with the
-        generated <code>ui/src/todos/todos/AllTodos.svelte</code> and <code
-        >ui/src/todos/todos/CreateTodo.svelte</code> elements.</span>
-
-      <span>So, to use those elements here:</span>
-      <ol>
-        <li>
-          Import the elements with:
-          <pre
-          >
-import AllTodos from './todos/todos/AllTodos.svelte';
-import CreateTodo from './todos/todos/CreateTodo.svelte';
-        </pre
-          >
-        </li>
-        <li>
-          Replace this "EDIT ME!" section with <code
-          >&lt;CreateTodo&gt;&lt;/CreateTodo&gt;&lt;AllTodos&gt;&lt;/AllTodos&gt;</code
-          >.
-        </li>
-      </ol>
-    </div>
-  {/if}
+    <p>
+      Import scaffolded components into <code>src/App.svelte</code> to use your
+      hApp
+    </p>
+    <p class="read-the-docs">Click on the Holochain logo to learn more</p>
+  </div>
 </main>
 ```
 
-This section is a template for the displayable content of the main app component. Using an `{#if}` block to test whether the reactive variable `loading` is true, this section displays a spinner until the backend can be accessed. Once the UI is connected to the backend, it shows some boilerplate text telling you to add something meaningful to the template.
+This section is a template for the displayable content of the main app component. Using an `{#if}` block to test whether the reactive variable `loading` is true, this section displays a 'loading' message until the backend can be accessed. Once the UI is connected to the backend, it shows some boilerplate text telling you to add something meaningful to the template.
 
 Note that, in Svelte, any time a variable changes, the template is re-rendered with the new value. This is called **reactivity**, and makes your life easier because you don't have to write quite so many event handlers for changes on your data.
 
@@ -960,18 +956,29 @@ Note that, in Svelte, any time a variable changes, the template is re-rendered w
 
 ```svelte
 <style>
-  main {
-    text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
-  }
+.logo {
+  height: 15em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+  width: auto;
+}
 
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
-  }
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.holochain:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
 </style>
 ```
 
@@ -985,37 +992,61 @@ First you'll be adding a list of posts to the app, which means the components ca
 
 At the top of the file, there is a list of scripts that are imported. Following the instructions that the scaffolding tool and the two conductor windows gave you, copy the following text and paste it into the script block of the `App.svelte` file, on the line below `import { clientContext } from './contexts';`
 
-```typescript
-import AllPosts from './forum/posts/AllPosts.svelte';
+```diff:typescript
+ import { clientContext } from './contexts';
++import AllPosts from './forum/posts/AllPosts.svelte';
 ```
 
-Next, add the component to the markup template in the `<main>` section of the file, where the "EDIT ME!" content now lives. Remove everything inside the `div` element that starts with this tag:
+Next, edit the markup template in the `<main>` section of the file, where the boilerplate content now lives. Remove the Holochain logo at the top, give it a more meaningful title, and --- most importantly --- replace the last two paragraphs with the `<AllPosts/>` component:
 
 :::output-block
-```svelte
-<div id="content" style="display: flex; flex-direction: column; flex: 1;">
+```diff:svelte
+ <main>
+-  <div>
+-    <a href="https://developer.holochain.org/get-started/" target="_blank">
+-      <img src={logo} class="logo holochain" alt="holochain logo" />
+-    </a>
+-  </div>
+-  <h1>Holochain Svelte hApp</h1>
++  <h1>My Forum hApp</h1>
+   <div>
+     <div class="card">
+       {#if loading}
+         <p>connecting...</p>
+       {:else if error}
+         <p>{error.message}</p>
+       {:else}
+         <p>Client is connected.</p>
+       {/if}
+     </div>
+-    <p>
+-      Import scaffolded components into <code>src/App.svelte</code> to use your
+-      hApp
+-    </p>
+-    <p class="read-the-docs">Click on the Holochain logo to learn more</p>
++    <AllPosts/>
+   </div>
+ </main>
 ```
 :::
-
-and replace it with this line:
-
-```svelte
-      <AllPosts></AllPosts>
-```
 
 Your `<main>` block should now look like this:
 
 ```svelte
 <main>
-  {#if loading}
-    <div style="display: flex; flex: 1; align-items: center; justify-content: center">
-      <mwc-circular-progress indeterminate />
+  <h1>My Forum hApp</h1>
+  <div>
+    <div class="card">
+      {#if loading}
+        <p>connecting...</p>
+      {:else if error}
+        <p>{error.message}</p>
+      {:else}
+        <p>Client is connected.</p>
+      {/if}
     </div>
-  {:else}
-    <div id="content" style="display: flex; flex-direction: column; flex: 1;">
-      <AllPosts></AllPosts>
-    </div>
-  {/if}
+    <AllPosts/>
+  </div>
 </main>
 ```
 
@@ -1029,30 +1060,38 @@ Save that file and take a look again at the two UI windows. They should both say
 
 Let's fix that by adding the post creation component to the UI so we can add our first post. Import the `CreatePost.svelte` component by adding this line in the script section, just below the `AllPosts` component you previously imported:
 
-```typescript
-import CreatePost from './forum/posts/CreatePost.svelte';
+```diff:typescript
+ import { clientContext } from './contexts';
+ import AllPosts from './forum/posts/AllPosts.svelte';
++import CreatePost from './forum/posts/CreatePost.svelte';
 ```
 
 Add this new component to the `<main>` block above the component you added:
 
-```svelte
-      <CreatePost></CreatePost>
+```diff:svelte
++    <CreatePost/>
+     <AllPosts/>
+   </div>
 ```
 
 Now your `<main>` block should look like this:
 
 ```svelte
 <main>
-  {#if loading}
-    <div style="display: flex; flex: 1; align-items: center; justify-content: center">
-      <mwc-circular-progress indeterminate />
+  <h1>My Forum hApp</h1>
+  <div>
+    <div class="card">
+      {#if loading}
+        <p>connecting...</p>
+      {:else if error}
+        <p>{error.message}</p>
+      {:else}
+        <p>Client is connected.</p>
+      {/if}
     </div>
-  {:else}
-    <div id="content" style="display: flex; flex-direction: column; flex: 1;">
-      <CreatePost></CreatePost>
-      <AllPosts></AllPosts>
-    </div>
-  {/if}
+    <CreatePost/>
+    <AllPosts/>
+  </div>
 </main>
 ```
 
@@ -1093,8 +1132,8 @@ That should update the post (at least for Alice). Bob's UI will show the updated
 
 If you look at the Holochain Playground, you should see that the update was added to Alice's source chain. Specifically, it created:
 
-1. a new entry (with our `Hello World!` text),
-2. an `Update` action that indicated this entry is to replace the original entry, and
+1. a new `post` entry (with our `Hello, World!` text),
+2. an `Update` action that indicates this entry replaces the original entry, and
 3. a `CreateLink` action that connects the original create action to the update action.
 
 ![The Holochain playground, showing the source chain of the agent who edited the post along with new data in the DHT reflecting the edit](/assets/img/get-started/8-playground-after-edits.png)
@@ -1113,18 +1152,21 @@ code ui/src/forum/posts/PostDetail.svelte
 
 Just as before, first you'll need to import the components near the top of the file (just after the line that imports `EditPost.svelte`):
 
-```typescript
-import CreateComment from './CreateComment.svelte';
-import CommentsForPost from './CommentsForPost.svelte';
+```diff:typescript
+ import EditPost from "./EditPost.svelte";
++import CreateComment from "./CreateComment.svelte";
++import CommentsForPost from "./CommentsForPost.svelte";
 ```
 
-Further down the file, in the template block, add the components' elements to the template. Put them both before the closing `</div>` tag.
+Further down the file, in the template block, add the components' elements to the template. Put them both after the closing `</section>` tag and before the closing `{/if}` block.
 
 Here, the comment components need to know what post they're related to. The post hash is the unique ID for the post, and the comment components' elements both expect a `postHash` attribute. This hash is available in the `PostDetail` component as a variable of the same name, so it can be passed to the comment widgets.
 
-```svelte
-  <CreateComment postHash="{postHash}"></CreateComment>
-  <CommentsForPost postHash="{postHash}"></CommentsForPost>
+```diff:svelte
+   </section>
++  <CreateComment postHash="{postHash}"></CreateComment>
++  <CommentsForPost postHash="{postHash}"></CommentsForPost>
+ {/if}
 ```
 
 Save the file, then go back to the UI windows to see the changes. Try typing in a comment or two, then deleting them. (You may need to refresh the UI windows to see the changes to the content.) Watch the Playground --- see how the authors' source chains and the graph in the DHT change as new information is added. The deleted comments are still there and can be accessed by code in your zomes if needed, but neither the application backend (that is, the functions defined in the coordinator zome) nor the UI have the capacity to show them.

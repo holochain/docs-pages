@@ -19,7 +19,9 @@ When getting started, seeing a simple but fully-functional app can be very helpf
 nix run github:holochain/holochain#hc-scaffold -- example hello-world
 ```
 
-The scaffolding tool should print out these four commands for you to run in order to compile and run the app. Copy them from your terminal or from below:
+The scaffolding tool will ask you one question --- what JavaScript package manager you'd like to use in your project. If in doubt, just choose `npm`.
+
+After doing a bit of work, it'll print out these four commands for you to run in order to compile and run the app. Copy them from your terminal or from below:
 
 ```shell
 cd hello-world
@@ -27,6 +29,9 @@ cd hello-world
 ```shell
 nix develop
 ```
+
+Nix will then download all the packages you need to build and test Holochain apps. It might take a few minutes the first time.
+
 ```shell
 npm install
 ```
@@ -45,14 +50,16 @@ You'll need to do this once (but only once) for every new project you scaffold. 
 npm start
 ```
 
-After you run the last of these commands, you should see three windows open:
+After you run the last of these commands, you'll see the Rust compiler doing its thing (which may take a while). Then three windows will open:
 
 ![A screenshot showing two hApp windows in front of the Playground](/assets/img/get-started/1-running-app-first-look.png)
 
 * A web browser window with the Holochain Playground, which displays a visual representation of the app's state data across all the peers
 * Two windows showing the UI for two agents, both of which will have published a `hello` entry to the network
 
-The first thing the app does upon initialization is create a `hello` entry and store it to the shared application state (this is called the application's [DHT](/concepts/4_dht/)). Remember that, because each participant runs the app on their device, a greeting will be stored for each person. When you click on the "Look for Hellos" button, you should be able to see a greeting from both participants:
+The first thing the app does upon initialization is create a `hello` entry and store it to the shared application state (this is called the application's [DHT](/concepts/4_dht/)). Remember that, because each participant runs the app on their device, a greeting will be stored for each person.
+
+Click on the "Look for Hellos" button, and you'll see a greeting from both participants:
 
 ![A screenshot showing one app window, with hello messages in different languages retrieved from the DHT](/assets/img/get-started/2-look-for-hellos.png)
 
