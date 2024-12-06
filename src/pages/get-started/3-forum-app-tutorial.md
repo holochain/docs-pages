@@ -913,7 +913,7 @@ Next some variables are instantiated:
 * `error` stores any connection error so it can be displayed in the UI.
 * `loading` keeps track of whether the client has finished connecting to Holochain so the 'connecting' message can be removed.
 
-After this comes the definition of an object that holds the 'client context'. This is a Svelte context that makes the Holochain client connection available to all the child components of the app. It's got one getter, which instantiates a client and tries to connnect to Holochain if a connection doesn't exist, then returns the client.
+After this comes the definition of an object that holds the 'client context'. This is a Svelte context that makes the Holochain client connection available to all the child components of the app. It's got one getter, which instantiates a client and tries to connect to Holochain if a connection doesn't exist, then returns the client.
 
 Next, there's an `onMount` handler, which is run when the component is first displayed. Again, this is a Svelte thing; in short it runs [when the component first appears in the document](https://svelte.dev/docs/svelte/lifecycle-hooks#onMount). The handler currently does one thing: it connects to the hApp backend, waits until the connection is established, and sets `loading` to false, displaying a connection error if there is any.
 
