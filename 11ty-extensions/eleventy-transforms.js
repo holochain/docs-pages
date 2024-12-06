@@ -9,8 +9,8 @@ import dom from "fauxdom";
 import he from "he";
 import hljsOrig from "highlight.js";
 // Add Svelte language formatting support to highlight.js
-import highlightJsSvelte from "highlightjs-svelte";
-highlightJsSvelte(hljsOrig);
+import hljsSvelte from "highlightjs-svelte";
+hljsSvelte(hljsOrig);
 // Allow diff *and* original highlighting language
 import hljsCodeDiff from "highlightjs-code-diff";
 const hljs = hljsCodeDiff(hljsOrig);
