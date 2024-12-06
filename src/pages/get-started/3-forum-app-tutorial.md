@@ -997,7 +997,7 @@ import { clientContext } from './contexts';
 +import AllPosts from './forum/posts/AllPosts.svelte';
 ```
 
-Next, edit the markup template in the `<main>` section of the file, where the boilerplate content now lives. Remove the Holochain logo at the top, give it a more meaningful title, and --- most importantly --- replace the last two paragrapsh with the `<AllPosts/>` component:
+Next, edit the markup template in the `<main>` section of the file, where the boilerplate content now lives. Remove the Holochain logo at the top, give it a more meaningful title, and --- most importantly --- replace the last two paragraphs with the `<AllPosts/>` component:
 
 :::output-block
 ```diff:svelte
