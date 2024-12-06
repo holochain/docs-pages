@@ -993,7 +993,7 @@ First you'll be adding a list of posts to the app, which means the components ca
 At the top of the file, there is a list of scripts that are imported. Following the instructions that the scaffolding tool and the two conductor windows gave you, copy the following text and paste it into the script block of the `App.svelte` file, on the line below `import { clientContext } from './contexts';`
 
 ```diff:typescript
-import { clientContext } from './contexts';
+ import { clientContext } from './contexts';
 +import AllPosts from './forum/posts/AllPosts.svelte';
 ```
 
@@ -1001,7 +1001,7 @@ Next, edit the markup template in the `<main>` section of the file, where the bo
 
 :::output-block
 ```diff:svelte
-<main>
+ <main>
 -  <div>
 -    <a href="https://developer.holochain.org/get-started/" target="_blank">
 -      <img src={logo} class="logo holochain" alt="holochain logo" />
@@ -1009,24 +1009,24 @@ Next, edit the markup template in the `<main>` section of the file, where the bo
 -  </div>
 -  <h1>Holochain Svelte hApp</h1>
 +  <h1>My Forum hApp</h1>
-  <div>
-    <div class="card">
-      {#if loading}
-        <p>connecting...</p>
-      {:else if error}
-        <p>{error.message}</p>
-      {:else}
-        <p>Client is connected.</p>
-      {/if}
-    </div>
+   <div>
+     <div class="card">
+       {#if loading}
+         <p>connecting...</p>
+       {:else if error}
+         <p>{error.message}</p>
+       {:else}
+         <p>Client is connected.</p>
+       {/if}
+     </div>
 -    <p>
 -      Import scaffolded components into <code>src/App.svelte</code> to use your
 -      hApp
 -    </p>
 -    <p class="read-the-docs">Click on the Holochain logo to learn more</p>
 +    <AllPosts/>
-  </div>
-</main>
+   </div>
+ </main>
 ```
 :::
 
@@ -1061,8 +1061,8 @@ Save that file and take a look again at the two UI windows. They should both say
 Let's fix that by adding the post creation component to the UI so we can add our first post. Import the `CreatePost.svelte` component by adding this line in the script section, just below the `AllPosts` component you previously imported:
 
 ```diff:typescript
-import { clientContext } from './contexts';
-import AllPosts from './forum/posts/AllPosts.svelte';
+ import { clientContext } from './contexts';
+ import AllPosts from './forum/posts/AllPosts.svelte';
 +import CreatePost from './forum/posts/CreatePost.svelte';
 ```
 
@@ -1070,8 +1070,8 @@ Add this new component to the `<main>` block above the component you added:
 
 ```diff:svelte
 +    <CreatePost/>
-    <AllPosts/>
-  </div>
+     <AllPosts/>
+   </div>
 ```
 
 Now your `<main>` block should look like this:
@@ -1153,7 +1153,7 @@ code ui/src/forum/posts/PostDetail.svelte
 Just as before, first you'll need to import the components near the top of the file (just after the line that imports `EditPost.svelte`):
 
 ```diff:typescript
-import EditPost from "./EditPost.svelte";
+ import EditPost from "./EditPost.svelte";
 +import CreateComment from "./CreateComment.svelte";
 +import CommentsForPost from "./CommentsForPost.svelte";
 ```
@@ -1163,10 +1163,10 @@ Further down the file, in the template block, add the components' elements to th
 Here, the comment components need to know what post they're related to. The post hash is the unique ID for the post, and the comment components' elements both expect a `postHash` attribute. This hash is available in the `PostDetail` component as a variable of the same name, so it can be passed to the comment widgets.
 
 ```diff:svelte
-  </section>
+   </section>
 +  <CreateComment postHash="{postHash}"></CreateComment>
 +  <CommentsForPost postHash="{postHash}"></CommentsForPost>
-{/if}
+ {/if}
 ```
 
 Save the file, then go back to the UI windows to see the changes. Try typing in a comment or two, then deleting them. (You may need to refresh the UI windows to see the changes to the content.) Watch the Playground --- see how the authors' source chains and the graph in the DHT change as new information is added. The deleted comments are still there and can be accessed by code in your zomes if needed, but neither the application backend (that is, the functions defined in the coordinator zome) nor the UI have the capacity to show them.
