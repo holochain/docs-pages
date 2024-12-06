@@ -16,6 +16,7 @@ interoperating
 permissioned
 permissivity
 redistributable
+reserialize
 runtimes
 sandboxed
 sandboxing

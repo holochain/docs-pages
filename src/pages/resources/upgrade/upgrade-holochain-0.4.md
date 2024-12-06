@@ -15,8 +15,8 @@ Here are all the breaking changes you need to know about in order to update your
 * Some unstable features are now behind feature flags.
 * Zome call payloads are built and signed differently.
 * The `OpenChain` and `CloseChain` actions have been modified.
-* The database encryption scheme has been change, and the directory structure has moved around.
-* The `InstallApp` admin API endpoint has had its request payload changed slightly.
+* The database encryption scheme has changed, and the directory structure has moved around.
+* The `InstallApp` admin API endpoint has had its request payload changed.
 * `CloneCellId`, used as an input argument to clone manipulation functions, has changed.
 * The `CountersigningSuccess` signal supplies the action hash, not the entry hash.
 * The `AppInfo` admin endpoint's response contains new statuses related to deferred memproofs.
@@ -49,7 +49,7 @@ The biggest change for 0.4 is that some unstable features aren't compiled into o
 
 Read the [Holonix readme](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) to find out how to compile a custom Holochain build with these flags enabled.
 
-`unstable-functions` is a flag used by both the Holochain conductor _and_ the `hdi` and `hdk` crates, and some of the functions also need other Holochain features enabled (e.g., `is_same_agent` requires a conductor with `unstable-dpki` enabled; see the list above). If you want to use them, you'll need to edit your zome crates' `Cargo.toml` files and make sure that users are running your custom conductor binary with the right features enabled. If you compile your zomes without `unstable-functions` enabled, users with the flag(s) enabled in Holochain will still be able to use your hApp, but if you enable it, users with the flag(s) disabled won't be able to use your hApp. If you use any of the unstable functions, note that the conductor will also need to have the corresponding feature enabled .
+`unstable-functions` is a flag used by both the Holochain conductor _and_ the `hdi` and `hdk` crates, and some of the functions also need other Holochain features enabled (e.g., `is_same_agent` requires a conductor with `unstable-dpki` enabled; see the list above). If you want to use them, you'll need to edit your zome crates' `Cargo.toml` files and make sure that users are running your custom conductor binary with the right features enabled. If you compile your zomes without `unstable-functions` enabled, users with the flag(s) enabled in Holochain will still be able to use your hApp, but if you enable it, users with the flag(s) disabled won't be able to use your hApp. If you use any of the unstable functions, note that the conductor will also need to have the corresponding feature enabled.
 
 ## Zome call signing
 
@@ -81,7 +81,7 @@ If you're one of the rare folks who have been using these two actions, the struc
 
 Previous conductor and keystore SQLite databases used a hardcoded encryption key; v0.4 now uses a dynamic key. This means you won't be able to import data from v0.3.
 
-The database names have also changed; any file prefix that matches the folder it's in (e.g., `<root>/authorized/authorized-<dnahash>-<agentkey>.sqlite`) is dropped, along with the `.sqlite` file extension.
+The database names have also changed; any file prefix that matches the folder it's in (e.g., `<root>/authorized/authorized-<dna_hash>-<agent_key>.sqlite`) is dropped, along with the `.sqlite` file extension.
 
 ## `InstallApp` agent key is optional
 
@@ -107,7 +107,7 @@ The old signalling server has been replaced with a new one called [`sbd`](https:
 
 ## Deprecated validation op functionality removed
 
-In your integrity zome's validation functions, you deal with DHT operations, or ops. They are somewhat convoluted, so `FlatOp` was introduced to make things simpler. It was originally called `OpType`, and until now that old name was an alias of `FlatOp`. The old type has finally been removed, along with the `Op::to_type` method (use `Op::flattened` instead).
+In your integrity zome's validation functions, you deal with DHT operations, or ops. They are somewhat complex, so `FlatOp` was introduced to make things simpler. It was originally called `OpType`, and until now that old name was a deprecated alias of `FlatOp`. The old type has finally been removed, along with the `Op::to_type` method (use `Op::flattened` instead).
 
 ## Change in enum serialization
 
