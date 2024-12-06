@@ -12,6 +12,7 @@ import hljsOrig from "highlight.js";
 import highlightJsSvelte from "highlightjs-svelte";
 highlightJsSvelte(hljsOrig);
 // Allow diff *and* original highlighting language
+import hljsCodeDiff from "highlightjs-code-diff";
 const hljs = hljsCodeDiff(hljsOrig);
 
 export default function(eleventyConfig) {
