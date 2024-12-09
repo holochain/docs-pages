@@ -13,7 +13,6 @@ NOTE: [Holonix](/get-started/install-advanced/), our developer shell environment
 Here are all the breaking changes you need to know about in order to update your app for Holochain 0.4:
 
 * Some unstable features are now behind feature flags.
-* Zome call payloads are built and signed differently.
 * The `OpenChain` and `CloseChain` actions have been modified.
 * The database encryption scheme has changed, and the directory structure has moved around.
 * The `InstallApp` admin API endpoint has had its request payload changed.
@@ -49,25 +48,11 @@ Read the [Holonix readme](https://github.com/holochain/holonix?tab=readme-ov-fil
 
 `unstable-functions` is a flag used by both the Holochain conductor _and_ the [`hdi`](https://docs.rs/hdi/latest/hdi) and [`hdk`](https://docs.rs/hdk/latest/hdk) crates, and some of the functions also need other Holochain features enabled (e.g., `is_same_agent` requires a conductor with `unstable-dpki` enabled; see the list above). If you want to use them, you'll need to edit your zome crates' `Cargo.toml` files and make sure that users are running your custom conductor binary with the right features enabled. If you compile your zomes without `unstable-functions` enabled, users with the flag(s) enabled in Holochain will still be able to use your hApp, but if you enable it, users with the flag(s) disabled won't be able to use your hApp. If you use any of the unstable functions, note that the conductor will also need to have the corresponding feature enabled.
 
-## Zome call signing
-
-Signing a zome call payload was previously hard to get right, because the conductor would deserialize and reserialize the signed payload before checking the signature. Sometimes the client would order the payload's fields differently from the conductor, which would cause the signature to look invalid.
-
-Now the payload must be serialized and signed in the client, then sent to the conductor along with the signature. The conductor will now check the signature against the _serialized_ payload before deserializing.
-
-This is a BREAKING change for the [`CallZome`](https://docs.rs/holochain_conductor_api/0.4.0-rc.2/holochain_conductor_api/enum.AppRequest.html#variant.CallZome) app API endpoint. If you're using the JavaScript or Rust client lib, you don't need to make any code changes; just update the client lib to [v0.18.0 (JavaScript)](https://github.com/holochain/holochain-client-js/releases/tag/v0.18.0-rc.0) or [v0.6.0 (Rust)](https://github.com/holochain/holochain-client-rust/releases/tag/v0.6.0-dev.9).
-
-If you're a client library author, take a look at the [documentation for the new input data structure]() for the `CallZome` app API endpoint.
-
 ## [DHT sharding](/concepts/4_dht/) is disabled by default
 
 This feature needs more performance and correctness testing before it's production-ready. With the `unstable-sharding` feature flag disabled by default, your conductor config's `gossip_arc_clamping` must now be set to either `"full"` or `"empty"`, and the previous default `"none"` will cause a conductor startup error. `"gossip_dynamic_arcs"` is also ignored.
 
 It's unknown exactly what might happen if nodes with DHT sharding disabled try to gossip in the same network as nodes without DHT sharding. Presumably this is still possible, but it might cause unexpected behaviors!
-
-## Raw hash constructor function rename
-
-`holo_hash::HoloHash<T>::from_raw_39_panicky` has been renamed to [`from_raw_39`](). Its behavior is otherwise the same. There are two new functions in the same impl, `try_from_raw_39` and `try_from_raw_36_and_type`, which return errors instead of panicking.
 
 ## `OpenChain` and `CloseChain` actions changed
 
