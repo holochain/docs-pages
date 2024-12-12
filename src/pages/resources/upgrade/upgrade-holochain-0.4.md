@@ -180,8 +180,8 @@ And for integrity zomes:
 
 ```diff:toml
  [dependencies]
--hdk = { workspace = true }
-+hdk = { workspace = true, features = ["unstable-functions"] }
+-hdi = { workspace = true }
++hdi = { workspace = true, features = ["unstable-functions"] }
 ```
 
 and make sure that users are running your custom conductor binary with the right features enabled ([see above](#enabling-in-holochain-runtime)). If you compile your zomes without `unstable-functions` enabled, users with the flag enabled in Holochain will still be able to use your hApp, but if you enable it, users with the flag(s) disabled won't be able to use your hApp. If you use any of the unstable functions, note that the conductor will also need to have the corresponding feature enabled (e.g., to use countersigning, the conductor must have `unstable-countersigning` enabled, along with  `unstable-functions`).
@@ -388,7 +388,7 @@ The only change you should need to make to existing code is to make sure you're 
 
 ### Change in enum serialization
 
-The default serialization for bare (no-data) enum variants has changed. Previously, they would look like this (JSON representation):
+The default serialization for unit-like enum variants has changed. Previously, they would look like this (JSON representation):
 
 ```json
 {
