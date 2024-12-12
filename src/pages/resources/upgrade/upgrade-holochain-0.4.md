@@ -150,7 +150,12 @@ The biggest change for 0.4 is that some features are marked `unstable` and aren'
         * [`schedule`](https://github.com/holochain/holochain/blob/holochain-0.4.0-rc.2/crates/hdk/src/time.rs#L67-L137)
         * An unimplemented `sleep` function has been removed completely
 
-`unstable-functions` is a flag used by both the Holochain conductor _and_ the [`hdi`](https://docs.rs/hdi/latest/hdi) and [`hdk`](https://docs.rs/hdk/latest/hdk) crates, and some of the functions also need other Holochain features enabled (e.g., `is_same_agent` requires a conductor with `unstable-dpki` enabled; see the list above).
+**If your DNA needs to call a host function that depends on an unstable feature**, you'll need to do two things:
+
+1. Build a custom Holochain binary with both the specific feature you need (see the list above) and `unstable-functions` enabled (see the next section).
+2. Enable the `unstable-functions` flag for either the `hdi` or `hdk` dependency in your zome's `Cargo.toml` (see the section after the next).
+
+Note that you'll need to make sure your users are running your custom conductor binary. If you compile your zomes without `unstable-functions` enabled for `hdi` or `hdk`, users with the flag enabled in Holochain will still be able to use your hApp, but if you compile your zomes _with_ `unstable-functions`, users with the flag(s) disabled won't be able to use your hApp.
 
 #### Enabling in Holochain runtime
 
@@ -183,8 +188,6 @@ And for integrity zomes:
 -hdi = { workspace = true }
 +hdi = { workspace = true, features = ["unstable-functions"] }
 ```
-
-and make sure that users are running your custom conductor binary with the right features enabled ([see above](#enabling-in-holochain-runtime)). If you compile your zomes without `unstable-functions` enabled, users with the flag enabled in Holochain will still be able to use your hApp, but if you enable it, users with the flag(s) disabled won't be able to use your hApp. If you use any of the unstable functions, note that the conductor will also need to have the corresponding feature enabled (e.g., to use countersigning, the conductor must have `unstable-countersigning` enabled, along with  `unstable-functions`).
 
 ### `OpenChain` and `CloseChain` actions changed
 
