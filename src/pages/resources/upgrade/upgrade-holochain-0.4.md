@@ -13,7 +13,7 @@ NOTE: [Holonix](/get-started/install-advanced/), our developer shell environment
 To upgrade your hApp written for Holochain 0.3, follow these steps:
 
 1. Follow the [Holonix upgrade guide](/resources/upgrade/upgrade-new-holonix/) to update to the newest Holonix command-line developer environment (we're dropping support for the old Holonix in the 0.4 series).
-2. Update your project's package dependencies ([see below](#update-your-package-depencencies)).
+2. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
 3. Enter the project's Holonix shell by navigating to the project's root folder and entering:
 
     ```shell
