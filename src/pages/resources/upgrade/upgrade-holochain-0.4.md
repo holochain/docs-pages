@@ -131,7 +131,7 @@ Here are all the breaking changes you need to know about in order to update your
 
 ### Unstable features removed by default
 
-The biggest change for 0.4 is that some unstable features aren't compiled into official Holochain releases by default. We're doing this to focus on a stable core Holochain with the minimal feature set that most projects need. The removed features are still available as Rust feature flags, so you can compile a custom Holochain binary if you need them. Here's the full list, along with their feature flags:
+The biggest change for 0.4 is that some features are marked `unstable` and aren't compiled into Holochain by default. We're doing this to focus on a stable core Holochain with the minimal feature set that most projects need. The removed features are still available as Rust feature flags, so you can compile a custom Holochain binary if you need them. Here's the full list, along with their feature flags:
 
 * **[Countersigning](/concepts/10_countersigning/) `unstable-countersigning`**: Allows agents to temporarily lock their chains in order to agree to write the same entry to their respective chains.
 * **DPKI / DeepKey `unstable-dpki`**: Implements a distributed public key infrastructure, allowing agents to manage their keys and confirm continuity of their identity across devices and source chains. Read the [DeepKey readme](https://github.com/holochain/deepkey) for more info.
