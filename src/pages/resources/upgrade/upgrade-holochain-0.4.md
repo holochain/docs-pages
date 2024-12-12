@@ -113,8 +113,6 @@ Edit your project's `tests/package.json` file:
    },
 ```
 
-Then navigate to the `tests/` folder and run your package manager's update command like you did at the project's top level in the last step.
-
 ### UI
 
 You'll update the UI package dependencies similarly to the test package. Edit `ui/package.json`:
@@ -126,8 +124,6 @@ You'll update the UI package dependencies similarly to the test package. Edit `u
      // more dependencies
    },
 ```
-
-Then run navigate to the `ui/` folder and run your package manager's update command.
 
 ## Update your application code
 
