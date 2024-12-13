@@ -45,7 +45,7 @@ Holochain is supported in WSL2 via the Ubuntu distribution.
 You'll also need to install a few packages if you want to run two dev tools, `hc spin` and `hc launch`, which start your app's back end and open its GUI in Electron or Tauri webviews:
 
 ```shell
-sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2 adwaita-icon-theme
+sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2t64 adwaita-icon-theme
 ```
 
 Read more about these fixes in the [Dev Tools Setup guide](/get-started/install-advanced/#opening-your-happs-gui-in-ubuntu-on-wsl2).

@@ -24,16 +24,22 @@ If you want to learn more about how this setup works and how to create it manual
 The flake-based one-liner to get you an ad-hoc Holonix shell (that is, not using a local flake file) looks like this:
 
 ```shell
-nix develop github:holochain/holonix
+nix develop github:holochain/holonix?ref=main-0.3
 ```
 
 #### Specifying a certain release
 
-The above one-liner will give you the latest version of Holochain from branch `main`, which is the weekly development version. To get an ad-hoc shell with a specific version of Holochain, use the `ref=<version_branch>` query string parameter. For example, if you want to enter a Holochain 0.4 development shell, run:
+The above one-liner will give you the latest **recommended** version of Holochain from the 0.3 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.4 development shell, run:
 
 ```shell
-nix develop github:/holochain/holonix?ref=main-0.4
+nix develop github:holochain/holonix?ref=main-0.4
 ```
+
+The options you should know about are:
+
+* `main` or no `ref` parameter: The development version of Holochain, released weekly with no guarantee of stability (currently 0.5)
+* `main-0.4`: RC of Holochain 0.4 (be aware that many breaking changes are coming in the next RC)
+* `main-0.3`: The current recommended version of Holochain for everyday development
 
 ### Customizing the Holochain binary
 
@@ -133,5 +139,5 @@ sudo apt install -y adwaita-icon-theme
 If you're only using the more modern `hc spin`, which uses the Electron webview, install these missing packages that are needed by the `chrome-sandbox` binary:
 
 ```shell
-sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2
+sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2t64
 ```
