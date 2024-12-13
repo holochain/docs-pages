@@ -16,10 +16,12 @@ To upgrade your hApp written for Holochain 0.3, follow these steps:
 2. Update your `flake.nix` to use the 0.4 version of Holochain by changing the version number in the line `holonix.url = "github:holochain/holonix?ref=main-0.3"` from 0.3 to 0.4. This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lock at this point, to ensure you benefit from the cache we provide:
 
     ```shell
+    nix flake update
     nix develop
     ```
-
-3. Try running your tests:
+3. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
+4. Follow the [breaking change update instructions](#update-your-application-code) below to get your code working again.
+5. Try running your tests:
 
     ```shell
     npm test
@@ -30,9 +32,7 @@ To upgrade your hApp written for Holochain 0.3, follow these steps:
     ```shell
     npm start
     ```
-
-4. You'll likely see error messages due to breaking changes, either at compile time or test/run time. Follow the [breaking change update instructions](#update-your-application-code) below to get your code working again.
-5. Be aware of some changes that won't break your app but may affect its runtime behavior. Read the [guide at the bottom](#subtle-changes).
+6. Be aware of some changes that won't break your app but may affect its runtime behavior. Read the [guide at the bottom](#subtle-changes).
 
 ## Update your package dependencies
 
@@ -114,7 +114,7 @@ You'll update the UI package dependencies similarly to the test package. Edit `u
 Then in your project's root folder, run your package manager's update command to update the lockfile and install new package versions for your command-line tools, tests, and UI. Use the command that matches your chosen package manager. For example, if you're using `npm`:
 
 ```shell
-npm update
+npm install
 ```
 
 ## Update your application code
