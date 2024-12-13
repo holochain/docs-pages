@@ -400,7 +400,7 @@ The `CountersigningSuccess` signal sent to the client now gives the action hash 
 
 ### [DHT sharding](/concepts/4_dht/) is disabled by default
 
-This feature needs more performance and correctness testing before it's production-ready, but it can be turned on by [compiling Holochain with the `unstable-sharding` flag enabled](#enabling-in-holochain-runtime).
+This feature needs more performance and correctness testing before it's production-ready, but it can be turned on by [compiling Holochain with the `unstable-sharding` flag enabled](#unstable-features-removed-by-default).
 
 It's unknown exactly what might happen if nodes with DHT sharding disabled try to gossip in the same network as nodes without DHT sharding. Presumably this is still possible, but it might cause unexpected behaviors!
 
