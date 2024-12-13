@@ -453,9 +453,12 @@ After adding the `title` and `content` fields, press <kbd>N</kbd> when asked if 
 ::: output-block
 ```text
 Chosen fields:
- title: String, content: String
+ title: String
+ content: String
+
 ? Do you want to proceed with the current entry type or restart from the beginning? ›
 ❯ Confirm
+  Modify
   Restart
 ```
 :::
