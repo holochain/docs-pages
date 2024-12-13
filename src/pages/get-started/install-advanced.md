@@ -29,10 +29,10 @@ nix develop github:holochain/holonix
 
 #### Specifying a certain release
 
-The above one-liner will give you the latest version of Holochain from branch `main`. To get an ad-hoc shell with a specific version of Holochain, use the flag `--override-input versions <version_path>`.
+The above one-liner will give you the latest version of Holochain from branch `main`, which is the weekly development version. To get an ad-hoc shell with a specific version of Holochain, use the `ref=<version_branch>` query string parameter. For example, if you want to enter a Holochain 0.4 development shell, run:
 
 ```shell
-nix develop --override-input holochain "github:holochain/holochain?ref=main-0.4" github:holochain/holonix
+nix develop github:/holochain/holonix?ref=main-0.4
 ```
 
 ### Customizing the Holochain binary
