@@ -3,18 +3,17 @@ title: Holochain Upgrade 0.3 → 0.4
 ---
 
 ::: intro
-For existing hApps that were written for Holochain 0.3, here's the guide to get you upgraded to 0.4.
+For existing hApps that are currently using Holochain 0.3, here's the guide to get you upgraded to 0.4.
 
-NOTE: [Holonix](/get-started/install-advanced/), our developer shell environment, has also been updated. We're no longer supporting the old Holonix for Holochain 0.4 and beyond, so you'll need to [upgrade to the new Holonix](/resources/upgrade/upgrade-new-holonix/) at the same time!
+NOTE: [Holonix](/get-started/install-advanced/), our developer shell environment, has also been updated. We're not supporting the old Holonix for Holochain 0.4 and beyond, so you'll need to [upgrade to the new Holonix](/resources/upgrade/upgrade-new-holonix/) at the same time if you haven't already!
 :::
 
 ## Quick instructions
 
 To upgrade your hApp written for Holochain 0.3, follow these steps:
 
-1. Follow the [Holonix upgrade guide](/resources/upgrade/upgrade-new-holonix/) to update to the newest Holonix command-line developer environment (we're dropping support for the old Holonix in the 0.4 series).
-2. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
-3. Enter the project's Holonix shell by navigating to the project's root folder and entering:
+1. Check whether your `flake.nix` contains `github:holochain/holonix`. If it does, then you can continue to the next step. Otherwise it will contain `github:holochain/holochain`. If so, then follow the [Holonix upgrade guide](/resources/upgrade/upgrade-new-holonix/) to update to the newest Holonix command-line developer environment (we're not providing a 0.4 version of Holochain through the old Holonix).
+2. Update your `flake.nix` to use the 0.4 version of Holochain by changing the version number in the line `holonix.url = "github:holochain/holonix?ref=main-0.3"` from 0.3 to 0.4. This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lock at this point, to ensure you benefit from the cache we provide:
 
     ```shell
     nix develop
@@ -68,7 +67,9 @@ cargo update
 
 This will update your `Cargo.lock` with the latest versions of all libraries that the constraints in your `Cargo.toml` files will allow. Now you should try building your project again to see if that has resolved your issue.
 
-### JavaScript tooling
+### JavaScript
+
+#### Command-line tools
 
 If you've created your hApp using our scaffolding tool, you should be able to follow these instructions. If you've created your own project folder layout, adapt these instructions to fit.
 
@@ -78,27 +79,12 @@ Edit your project's root `package.json` file to update the developer tools:
    "devDependencies": {
      "@holochain-playground/cli": "^0.300.1",
 -    "@holochain/hc-spin": "0.300.3",
-+    "@holochain/hc-spin": "^0.400.0-dev.3",
++    "@holochain/hc-spin": "^0.400.0-rc.0",
      // more dependencies
    },
 ```
 
-Then run your package manager's update command to update the lockfile and install new package versions. Use the command that matches your chosen package manager:
-
-```shell
-bun update
-```
-```shell
-npm update
-```
-```shell
-pnpm update
-```
-```shell
-yarn upgrade
-```
-
-### Tryorama tests
+#### Tryorama tests
 
 Edit your project's `tests/package.json` file:
 
@@ -113,7 +99,7 @@ Edit your project's `tests/package.json` file:
    },
 ```
 
-### UI
+#### UI
 
 You'll update the UI package dependencies similarly to the test package. Edit `ui/package.json`:
 
@@ -123,6 +109,12 @@ You'll update the UI package dependencies similarly to the test package. Edit `u
 +    "@holochain/client": "^0.18.0-rc.1",
      // more dependencies
    },
+```
+
+Then in your project's root folder, run your package manager's update command to update the lockfile and install new package versions for your command-line tools, tests, and UI. Use the command that matches your chosen package manager. For example, if you're using `npm`:
+
+```shell
+npm update
 ```
 
 ## Update your application code
@@ -152,42 +144,10 @@ The biggest change for 0.4 is that some features are marked `unstable` and aren'
 
 **If your DNA needs to call a host function that depends on an unstable feature**, you'll need to do two things:
 
-1. Build a custom Holochain binary with both the specific feature you need (see the list above) and `unstable-functions` enabled (see the next section).
+1. Build a custom Holochain binary with both the specific feature you need (see the list above) and `unstable-functions` enabled.
 2. Enable the `unstable-functions` flag for the `hdi` and `hdk` dependencies in your zomes' `Cargo.toml` (see the section after the next).
 
 Note that you'll need to make sure your users are running your custom conductor binary. If you compile your zomes without `unstable-functions` enabled for `hdi` or `hdk`, users with the flag enabled in Holochain will still be able to use your hApp, but if you compile your zomes _with_ `unstable-functions`, users with the flag(s) disabled won't be able to use your hApp.
-
-#### Enabling in Holochain runtime
-
-Read the [Holonix readme](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) to find out how to enter a development shell with a custom-compiled Holochain build with these flags enabled.
-
-If you're using Holochain as a library in your project, edit your `Cargo.toml` file's `holochain` dependency to enable the flags. Here's an example that enables countersigning:
-
-```diff:toml
- [dependencies]
--holochain = { version = "0.3.6" }
- # "unstable-functions" is needed in order for coordinator zomes to call the
- # host functions related to countersigning.
-+holochain = { version = "0.4.0-rc.2", features = ["unstable-countersigning", "unstable-functions"] }
-```
-
-#### Enabling in your zomes
-
-If you want to use unstable features in your zomes, you'll need to edit your zome crates' `Cargo.toml` files. For coordinator zomes:
-
-```diff:toml
- [dependencies]
--hdk = { workspace = true }
-+hdk = { workspace = true, features = ["unstable-functions"] }
-```
-
-And for integrity zomes:
-
-```diff:toml
- [dependencies]
--hdi = { workspace = true }
-+hdi = { workspace = true, features = ["unstable-functions"] }
-```
 
 ### `OpenChain` and `CloseChain` actions changed
 
