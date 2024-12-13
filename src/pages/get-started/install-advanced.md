@@ -37,7 +37,7 @@ nix develop --override-input holochain "github:holochain/holochain?ref=main-0.4"
 
 ### Customizing the Holochain binary
 
-If you want to enable or disable certain Holochain features, such as unstable features, it's best to do this in a local flake file. [Read the 'Customized Holochain build'](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) on the Holonix readme to find out how. Keep in mind that, because you'll be creating a custom Holochain binary, you won't be able to take advantage of the package cache, so it'll take a while to compile Holochain on your machine.
+If you want to enable or disable certain Holochain features, such as unstable features, it's best to do this in a local flake file. [Read the 'Customized Holochain build'](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) on the Holonix readme to find out how. Keep in mind that, because you'll be creating a custom Holochain binary, you won't be able to take advantage of the package cache, so it'll take a while to compile Holochain on your machine. The same will be true on CI, where you should consider setting up your own caching.
 
 ### A gotcha with Flakes and Git
 
