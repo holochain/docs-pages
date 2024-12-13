@@ -316,6 +316,29 @@ Edit any client code that manipulates cloned cells:
  }
 ```
 
+### JavaScript client now receives system signals
+
+For JavaScript front ends and Tryorama tests, the signal handler callback for `AppWebsocket.prototype.on("signal", cb)` should now take a [`Signal`](https://github.com/holochain/holochain-client-js/blob/main-0.4/docs/client.signal.md). Update your code to look like this:
+
+```diff:typescript
+ import { AppWebsocket, Signal, SignalType } from "@holochain/client";
+
+ let client: AppClient = AppWebsocket.connect();
+-client.on("signal", (signal: AppSignal) => {
++client.on("signal", (signal: Signal) => {
++  switch (Object.keys(signal)[0]) {
++    case SignalType.AppSignal:
++      signal = signal[SignalType.AppSignal];
+       console.log(`Received app signal from cell (${signal.cell_id[0]}, ${signal.cell_id[1]}) and zome ${signal.zome_name} with payload ${signal.payload}`);
++      break;
++    case SignalType.SystemSignal:
++      signal = signal[SignalType.SystemSignal];
++      console.log(`Received system signal of type ${Object.keys(signal)[0]}`);
++      break;
++  }
+ });
+```
+
 ### Deprecated validation op functionality removed
 
 In your integrity zome's validation functions, you deal with DHT operations, or ops. They are somewhat complex, so [`FlatOp`](https://docs.rs/hdi/latest/hdi/flat_op/enum.FlatOp.html) was introduced to make things simpler. It was originally called `OpType`, and until now that old name was a deprecated alias of `FlatOp`. The old type has finally been removed, along with the `Op::to_type` method (use [`OpHelper::flattened`](https://docs.rs/hdi/latest/hdi/op/trait.OpHelper.html#tymethod.flattened) instead).
