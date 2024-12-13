@@ -321,7 +321,7 @@ Edit any client code that manipulates cloned cells:
 For JavaScript front ends and Tryorama tests, the signal handler callback for `AppWebsocket.prototype.on("signal", cb)` should now take a [`Signal`](https://github.com/holochain/holochain-client-js/blob/main-0.4/docs/client.signal.md). Update your code to look like this:
 
 ```diff:typescript
- import { AppWebsocket, Signal, SignalType } from "@holochain/client";
+ import { AppClient, AppWebsocket, Signal, SignalType } from "@holochain/client";
 
  let client: AppClient = AppWebsocket.connect();
 -client.on("signal", (signal: AppSignal) => {
