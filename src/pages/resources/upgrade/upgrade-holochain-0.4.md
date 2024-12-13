@@ -149,54 +149,6 @@ The biggest change for 0.4 is that some features are marked `unstable` and aren'
 
 Note that you'll need to make sure your users are running your custom conductor binary. If you compile your zomes without `unstable-functions` enabled for `hdi` or `hdk`, users with the flag enabled in Holochain will still be able to use your hApp, but if you compile your zomes _with_ `unstable-functions`, users with the flag(s) disabled won't be able to use your hApp.
 
-### `OpenChain` and `CloseChain` actions changed
-
-If you're one of the rare folks who have been using these two actions, the structs have changed. Take a look at the Rustdoc and update your code accordingly:
-
-* `CloseChain::new_dna_hash` has been replaced with [`new_target`](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/action/struct.CloseChain.html), which has a type of `Option<MigrationTarget>`. [This new type](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/prelude/enum.MigrationTarget.html) is an enum of `Dna(DnaHash)` or `Agent(AgentHash)`.
-
-* [`OpenChain::prev_dna_hash`](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/action/struct.OpenChain.html) has been changed to match; its type is a non-optional `MigrationTarget`. It also gets a new field, `close_hash`, which is the `ActionHash` of the corresponding `CloseChain` action.
-
-### `InstallApp` agent key is optional
-
-!!! info
-This change is only relevant if you're building a runtime that can install hApp bundles.
-!!!
-
-The `agent_key` field in the [`InstallApp` payload](https://docs.rs/holochain_types/0.4.0-rc.2/holochain_types/app/struct.InstallAppPayload.html) is now optional, and a key will be generated if you don't supply one.
-
-If you're using the JavaScript client to interact with the conductor, [update the JS client lib](#ui) and test it --- you shouldn't need to change any code.
-
-If you're using the Rust client, first update the Rust client lib, then update your code. Edit your UI project's `Cargo.toml` file:
-
-```diff:toml
- [dependencies]
--holochain_client = "0.5.3"
-+holochain_client = "0.6.0-rc.0"
-```
-
-Then edit anywhere in your Rust code that uses the `install_app` function:
-
-```diff:rust
- use holochain_client::*;
-
- fn install_app() -> Result<()> {
-   let admin_ws = AdminWebsocket::connect((Ipv4Addr::LOCALHOST, 30_000)).await?
-   // ... set up arguments
-   let input_payload = InstallAppPayload {
-     app_bundle_source,
--    agent_key,
-+    Some(agent_key),
-     Some(installed_app_id),
-     membrane_proofs,
-     Some(network_seed),
-   };
-   let response = admin_ws.install_app(input_payload).await?;
-   // ... do things
-   Ok()
- }
-```
-
 ### `CloneCellId` changes
 
 The `CloneCellId::CellId` enum variant has become [`DnaHash`](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/clone/enum.CloneCellId.html) and contains, naturally, a `DnaHash` value. This type is used when enabling, disabling, or deleting clones from the app API or a coordinator zome.
@@ -339,6 +291,74 @@ For JavaScript front ends and Tryorama tests, the signal handler callback for `A
  });
 ```
 
+### Change in enum serialization
+
+The default serialization for unit-like enum variants has changed. Previously, they would look like this (JSON representation):
+
+```json
+{
+    "variant1": null
+}
+```
+
+Now they look like this:
+
+```json
+"variant1"
+```
+
+(Enum variants with data still follow the `{ "variant": <data> }` pattern.)
+
+This will affect any entries or entry fields that start as instances of a Rust enum and are sent to the front end. If your front end is written in JavaScript, you'll need to be aware of this and update your front-end models to match. If your front end is written in Rust, you're likely defining your entry types in a separate module that you're importing directly into the client, which will handle proper deserialization for you.
+
+### `OpenChain` and `CloseChain` actions changed
+
+If you're one of the rare folks who have been using these two actions, the structs have changed. Take a look at the Rustdoc and update your code accordingly:
+
+* `CloseChain::new_dna_hash` has been replaced with [`new_target`](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/action/struct.CloseChain.html), which has a type of `Option<MigrationTarget>`. [This new type](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/prelude/enum.MigrationTarget.html) is an enum of `Dna(DnaHash)` or `Agent(AgentHash)`.
+
+* [`OpenChain::prev_dna_hash`](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/action/struct.OpenChain.html) has been changed to match; its type is a non-optional `MigrationTarget`. It also gets a new field, `close_hash`, which is the `ActionHash` of the corresponding `CloseChain` action.
+
+### `InstallApp` agent key is optional
+
+!!! info
+This change is only relevant if you're building a runtime that can install hApp bundles.
+!!!
+
+The `agent_key` field in the [`InstallApp` payload](https://docs.rs/holochain_types/0.4.0-rc.2/holochain_types/app/struct.InstallAppPayload.html) is now optional, and a key will be generated if you don't supply one.
+
+If you're using the JavaScript client to interact with the conductor, [update the JS client lib](#ui) and test it --- you shouldn't need to change any code.
+
+If you're using the Rust client, first update the Rust client lib, then update your code. Edit your UI project's `Cargo.toml` file:
+
+```diff:toml
+ [dependencies]
+-holochain_client = "0.5.3"
++holochain_client = "0.6.0-rc.0"
+```
+
+Then edit anywhere in your Rust code that uses the `install_app` function:
+
+```diff:rust
+ use holochain_client::*;
+
+ fn install_app() -> Result<()> {
+   let admin_ws = AdminWebsocket::connect((Ipv4Addr::LOCALHOST, 30_000)).await?
+   // ... set up arguments
+   let input_payload = InstallAppPayload {
+     app_bundle_source,
+-    agent_key,
++    Some(agent_key),
+     Some(installed_app_id),
+     membrane_proofs,
+     Some(network_seed),
+   };
+   let response = admin_ws.install_app(input_payload).await?;
+   // ... do things
+   Ok()
+ }
+```
+
 ### Deprecated validation op functionality removed
 
 In your integrity zome's validation functions, you deal with DHT operations, or ops. They are somewhat complex, so [`FlatOp`](https://docs.rs/hdi/latest/hdi/flat_op/enum.FlatOp.html) was introduced to make things simpler. It was originally called `OpType`, and until now that old name was a deprecated alias of `FlatOp`. The old type has finally been removed, along with the `Op::to_type` method (use [`OpHelper::flattened`](https://docs.rs/hdi/latest/hdi/op/trait.OpHelper.html#tymethod.flattened) instead).
@@ -371,26 +391,6 @@ Holochain 0.4 introduces a new flow for app installation that lets an agent supp
 Because of this, after the membrane proof has been provided, the [`DisabledAppReason`](https://docs.rs/holochain_types/0.4.0-rc.2/holochain_types/app/enum.DisabledAppReason.html) enum, used in the [`AppInfo`](https://docs.rs/holochain_conductor_api/0.4.0-rc.2/holochain_conductor_api/struct.AppInfo.html) response, will be a new `NotStartedAfterProvidingMemproofs` variant until the app is started.
 
 The only change you should need to make to existing code is to make sure you're handling this new variant in your `match` blocks (Rust) or `switch` blocks (JavaScript).
-
-### Change in enum serialization
-
-The default serialization for unit-like enum variants has changed. Previously, they would look like this (JSON representation):
-
-```json
-{
-    "variant1": null
-}
-```
-
-Now they look like this:
-
-```json
-"variant1"
-```
-
-(Enum variants with data still follow the `{ "variant": <data> }` pattern.)
-
-This will affect any entries or entry fields that start as instances of a Rust enum and are sent to the front end. If your front end is written in JavaScript, you'll need to be aware of this and update your front-end models to match. If your front end is written in Rust, you're likely defining your entry types in a separate module that you're importing directly into the client, which will handle proper deserialization for you.
 
 ### `CountersigningSuccess` information changed
 
