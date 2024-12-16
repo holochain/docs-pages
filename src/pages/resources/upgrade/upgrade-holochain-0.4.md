@@ -273,21 +273,15 @@ Edit any client code that manipulates cloned cells:
 For JavaScript front ends and Tryorama tests, the signal handler callback for `AppWebsocket.prototype.on("signal", cb)` should now take a [`Signal`](https://github.com/holochain/holochain-client-js/blob/main-0.4/docs/client.signal.md). Update your code to look like this:
 
 ```diff:typescript
- import { AppClient, AppWebsocket, Signal, SignalType } from "@holochain/client";
+-import { AppClient, AppSignal, AppWebsocket } from "@holochain/client";
++import { AppClient, AppWebsocket, Signal, SignalType } from "@holochain/client";
 
  let client: AppClient = AppWebsocket.connect();
--client.on("signal", (signal: AppSignal) => {
+-client.on("signal", (appSignal: AppSignal) => {
 +client.on("signal", (signal: Signal) => {
-+  switch (Object.keys(signal)[0]) {
-+    case SignalType.AppSignal:
-+      signal = signal[SignalType.AppSignal];
-       console.log(`Received app signal from cell (${signal.cell_id[0]}, ${signal.cell_id[1]}) and zome ${signal.zome_name} with payload ${signal.payload}`);
-+      break;
-+    case SignalType.SystemSignal:
-+      signal = signal[SignalType.SystemSignal];
-+      console.log(`Received system signal of type ${Object.keys(signal)[0]}`);
-+      break;
-+  }
++  if (!(SignalType.App in signal)) return;
++  const appSignal = signal[SignalType.App];
+   console.log(`Received app signal from cell (${signal.cell_id[0]}, ${signal.cell_id[1]}) and zome ${signal.zome_name} with payload ${signal.payload}`);
  });
 ```
 
