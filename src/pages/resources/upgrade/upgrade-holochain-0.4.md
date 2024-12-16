@@ -161,33 +161,33 @@ Edit any coordinator zome code that uses functions from `hdk::clone`:
 ```diff:rust
  use hdk::prelude::*;
 
- fn create_chat_room(name: string) -> ExternResult<CellId> {
-   // ... set up cell_id
+ fn create_chat_room(name: String) -> ExternResult<CellId> {
+   // ... instantiate cell_id
    let create_input = CreateCloneCellInput {
-     cell_id,
-     None,
-     name,
+     cell_id: cell_id,
+     membrane_proof: None,
+     name: Some(name),
    };
-   let cloned_cell = create_clone_cell(create_input).await?;
+   let cloned_cell = create_clone_cell(create_input)?;
    let enable_input = EnableCloneCellInput {
--    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id),
-+    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash()),
+-    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id.clone()),
++    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash().clone()),
    };
-   enable_clone_cell(enable_input).await?;
-   cloned_cell.cell_id
+   enable_clone_cell(enable_input)?;
+   Ok(cloned_cell.cell_id)
  }
 
  fn remove_chat_room(cell_id: CellId) -> ExternResult<()> {
    let disable_input = DisableCloneCellInput {
--    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id),
-+    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash()),
+-    clone_cell_id: CloneCellId::CellId(cell_id.clone()),
++    clone_cell_id: CloneCellId::DnaHash(cell_id.dna_hash().clone()),
    };
-   disable_clone_cell(disable_input).await?;
+   disable_clone_cell(disable_input)?;
    let delete_input = DeleteCloneCellInput {
--    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id),
-+    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash()),
+-    clone_cell_id: CloneCellId::CellId(cell_id.clone()),
++    clone_cell_id: CloneCellId::DnaHash(cell_id.dna_hash().clone()),
    };
-   delete_clone_cell(delete_input).await?
+   delete_clone_cell(delete_input)
  }
 ```
 
@@ -201,9 +201,10 @@ Edit any client code that manipulates cloned cells:
  let client: AppClient = await AppWebsocket.connect();
  let role_name = "chat";
 
- function createChatRoom(name: String) {
+ async function createChatRoom(name: string) {
    const clonedCell = await client.createCloneCell({
      modifiers: {},
+     name,
      role_name
    });
    await client.enableCloneCell({
@@ -247,8 +248,8 @@ Edit any client code that manipulates cloned cells:
    };
    let cloned_cell = app.create_clone_cell(input_payload).await?;
    let enable_payload = EnableCloneCellPayload {
--    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id),
-+    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash()),
+-    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id.clone()),
++    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash().clone()),
    };
    app.enable_clone_cell(enable_payload).await?
    Ok(cloned_cell.cell_id)
@@ -257,13 +258,13 @@ Edit any client code that manipulates cloned cells:
  fn remove_chat_room(cell_id: CellId) -> Result<()> {
    let app = connect_to_client().await?;
    let disable_payload = DisableCloneCellPayload {
--    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id),
-+    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash()),
+-    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id.clone()),
++    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash().clone()),
    };
    app.disable_clone_cell(disable_payload).await?;
    let delete_payload = DeleteCloneCellPayload {
 -    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id),
-+    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash()),
++    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash().clone()),
    };
    app.delete_clone_cell(delete_payload).await?
  }
