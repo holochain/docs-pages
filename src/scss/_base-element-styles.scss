@@ -100,3 +100,33 @@ img {
     }
   }
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: $cl-light-gray;
+  color: white;
+  border-right-color: rgba(white, 0.5);
+}
+
+th, td {
+  text-align: left;
+  vertical-align: top;
+  border-right: 1px solid;
+  padding: 0 0.5em;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+td {
+  border-right-color: rgba(black, 0.5);
+}
+
+tr:nth-child(even) {
+  background: rgba($cl-gray, 0.5);
+}
