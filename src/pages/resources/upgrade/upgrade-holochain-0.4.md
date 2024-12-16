@@ -281,7 +281,7 @@ For JavaScript front ends and Tryorama tests, the signal handler callback for `A
 +client.on("signal", (signal: Signal) => {
 +  if (!(SignalType.App in signal)) return;
 +  const appSignal = signal[SignalType.App];
-   console.log(`Received app signal from cell (${appSignal.cell_id[0]}, ${appSignal.cell_id[1]}) and zome ${appSignal.zome_name} with payload ${appSgnal.payload}`);
+   console.log(`Received app signal from cell [${appSignal.cell_id}] and zome ${appSignal.zome_name} with payload ${appSgnal.payload}`);
  });
 ```
 
