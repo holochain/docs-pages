@@ -16,8 +16,7 @@ To upgrade your hApp written for Holochain 0.3, follow these steps:
 2. Update your `flake.nix` to use the 0.4 version of Holochain by changing the version number in the line `holonix.url = "github:holochain/holonix?ref=main-0.3"` from 0.3 to 0.4. This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lock at this point, to ensure you benefit from the cache we provide:
 
     ```shell
-    nix flake update
-    nix develop
+    nix flake update && nix develop
     ```
 3. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
 4. Follow the [breaking change update instructions](#update-your-application-code) below to get your code working again.
