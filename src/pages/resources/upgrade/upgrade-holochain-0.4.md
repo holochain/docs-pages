@@ -226,50 +226,6 @@ Edit any client code that manipulates cloned cells:
  }
 ```
 
-#### In Rust front-end
-
-Edit any client code that manipulates cloned cells:
-
-```diff:rust
- use holochain_client::*;
-
- async fn connect_to_client() -> Result<AppWebsocket> {
-   AppWebsocket::connect((Ipv4Addr::LOCALHOST, 30_000)).await?
- }
-
- async fn create_chat_room(name: String) -> Result<CellId> {
-   let app = connect_to_client().await?;
-   // ... set up arguments
-   let create_payload = CreateCloneCellPayload {
-     role_name,
-     modifiers,
-     none,
-     Some(name),
-   };
-   let cloned_cell = app.create_clone_cell(input_payload).await?;
-   let enable_payload = EnableCloneCellPayload {
--    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id.clone()),
-+    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash().clone()),
-   };
-   app.enable_clone_cell(enable_payload).await?
-   Ok(cloned_cell.cell_id)
- }
-
- fn remove_chat_room(cell_id: CellId) -> Result<()> {
-   let app = connect_to_client().await?;
-   let disable_payload = DisableCloneCellPayload {
--    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id.clone()),
-+    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash().clone()),
-   };
-   app.disable_clone_cell(disable_payload).await?;
-   let delete_payload = DeleteCloneCellPayload {
--    clone_cell_id: CloneCellId::CellId(cloned_cell.cell_id),
-+    clone_cell_id: CloneCellId::DnaHash(cloned_cell.cell_id.dna_hash().clone()),
-   };
-   app.delete_clone_cell(delete_payload).await?
- }
-```
-
 ### JavaScript client now receives system signals
 
 For JavaScript front ends and Tryorama tests, the signal handler callback for `AppWebsocket.prototype.on("signal", cb)` should now take a [`Signal`](https://github.com/holochain/holochain-client-js/blob/main-0.4/docs/client.signal.md). Update your code to look like this:
