@@ -202,16 +202,16 @@ Edit any client code that manipulates cloned cells:
  let role_name = "chat";
 
  async function createChatRoom(name: string) {
-   const clonedCell = await client.createCloneCell({
+   const { cell_id } = await client.createCloneCell({
      modifiers: {},
      name,
      role_name
    });
    await client.enableCloneCell({
--    clone_cell_id: cloned_cell.cell_id,
-+    clone_cell_id: cloned_cell.cell_id[0],
+-    clone_cell_id: cell_id,
++    clone_cell_id: cell_id[0],
    });
-   return clonedCell.cell_id;
+   return cell_id;
  }
 
  function removeChatRoom(cell_id: CellId) {
