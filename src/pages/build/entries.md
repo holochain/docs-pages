@@ -29,12 +29,15 @@ Entry types are defined in an [**integrity zome**](/resources/glossary/#integrit
 use hdi::prelude::*;
 
 #[hdk_entry_helper]
+pub struct Director(pub string);
+
+#[hdk_entry_helper]
 pub struct Movie {
-  title: String,
-  director_hash: EntryHash,
-  imdb_id: Option<String>,
-  release_date: Timestamp,
-  box_office_revenue: u128,
+  pub title: String,
+  pub director_hash: EntryHash,
+  pub imdb_id: Option<String>,
+  pub release_date: Timestamp,
+  pub box_office_revenue: u128,
 }
 ```
 
@@ -48,6 +51,7 @@ use hdi::prelude::*;
 #[hdk_entry_defs]
 #[unit_enum(UnitEntryTypes)]
 enum EntryTypes {
+  Director(Director),
   Movie(Movie),
   // other types...
 }
@@ -70,6 +74,8 @@ use hdi::prelude::*;
 #[hdk_entry_defs]
 #[unit_enum(UnitEntryTypes)]
 enum EntryTypes {
+    Director(Director),
+
     #[entry_def(required_validations = 7, )]
     Movie(Movie),
 
@@ -148,7 +154,7 @@ use movie_integrity::*;
 
 let movie2 = Movie {
   title: "The Good, the Bad, and the Ugly",
-  director: "Sergio Leone"
+  director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
   imdb_id: Some("tt0060196"),
   release_date: Timestamp::from(Date::Utc("1966-12-23")),
   box_office_revenue: 400_000_000,

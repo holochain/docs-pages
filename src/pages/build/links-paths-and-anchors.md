@@ -94,7 +94,8 @@ Get all the _live_ (undeleted) links attached to a hash with the [`hdk::prelude:
 use hdk::prelude::*;
 use movie_integrity::*;
 
-let director_entry_hash = EntryHash::from_raw_36(vec![/* Sergio Leone's hash */]);
+// Pretend there's a `Director` entry type defined in `movie_integrity`.
+let director_entry_hash = EntryHash::from_raw_36(vec![/* hash of Sergio Leone's entry */]);
 let movies_by_director = get_links(
   director_entry_hash,
   LinkTypes::DirectorToMovie,
