@@ -60,7 +60,7 @@ use movie_integrity::*;
 
 let director_entry_hash = EntryHash::from_raw_36(vec![ /* bytes of the hash of the Sergio Leone entry */ ]);
 let movie_entry_hash = EntryHash::from_raw_36(vec![ /* bytes of the hash of The Good, The Bad, and The Ugly entry */ ]);
-0
+
 let create_link_action_hash = create_link(
   director_entry_hash,
   movie_entry_hash,
@@ -94,7 +94,6 @@ Get all the _live_ (undeleted) links attached to a hash with the [`hdk::prelude:
 use hdk::prelude::*;
 use movie_integrity::*;
 
-// Pretend there's a `Director` entry type defined in `movie_integrity`.
 let director_entry_hash = EntryHash::from_raw_36(vec![/* hash of Sergio Leone's entry */]);
 let movies_by_director = get_links(
   director_entry_hash,
@@ -179,7 +178,7 @@ Follow the prompts to choose the entry type, name the link types and anchor, and
 
 ### Paths in depth
 
-When you want to create more complex collections, you'll need to use the paths library directly.
+When you want to create more complex collections, you'll want to use the paths library directly.
 
 Create a path by constructing a [`hdk::hash_path::path::Path`](https://docs.rs/hdk/latest/hdk/hash_path/path/struct.Path.html) struct, hashing it, and using the hash as a link base. The string of the path is a simple [domain-specific language](https://docs.rs/hdk/latest/hdk/hash_path/path/struct.Path.html#impl-From%3C%26str%3E-for-Path), in which dots denote sections of the path.
 

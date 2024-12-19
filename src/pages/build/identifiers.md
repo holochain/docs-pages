@@ -138,13 +138,12 @@ if let Action::Update(action_data) = action {
 
 An agent's ID is just their public key, and an entry for their ID is stored on the DHT. The hashing function for an `Agent` system entry just returns the literal value of the public key. This is an awkward way of saying that you reference an agent using their public key!
 
-An agent can get their own ID by calling [`hdk::prelude::agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html). Note that agents may change their ID if their public key has been lost or stolen, so they may have more than one ID over the history of their source chain.
+An agent can get their own ID by calling [`hdk::prelude::agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html).
 
 ```rust
 use hdk::prelude::*;
 
-let my_first_id = agent_info()?.agent_initial_pubkey;
-let my_current_id = agent_info()?.agent_latest_pubkey;
+let my_id = agent_info()?.agent_initial_pubkey;
 ```
 
 All actions have their author's ID as a field. You can get this field by calling the action's [`author`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#method.author) method:
@@ -189,7 +188,7 @@ let dna_hash = dna_info()?.hash;
 
 ### In DHT data
 
-To reference an address in your entry data, define a field in your entry that can hold the right kind of address. The HDK will take care of serialization and deserialization for you. The following entry type has three fields that each take a different kind of addresses.
+To reference an address in your entry data, define a field in your entry that can hold the right kind of address. The HDK will take care of serialization and deserialization for you. The following entry type has two fields that take different kinds of address.
 
 ```rust
 use hdi::prelude::*;
@@ -198,7 +197,7 @@ use hdi::prelude::*;
 pub struct MovieLoan {
   movie_hash: EntryHash,
   lent_to: AgentPubKey,
-  loan_terms: ActionHash,
+  loan_duration: i64,
 }
 ```
 
