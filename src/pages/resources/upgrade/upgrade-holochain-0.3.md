@@ -1,7 +1,5 @@
 ---
 title: Holochain Upgrade 0.2 → 0.3
-hide:
-  - toc
 ---
 
 ::: intro

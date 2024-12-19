@@ -36,6 +36,8 @@ rustflags
 rustup
 setgid
 setuid
+struct
+structs
 subl
 Tauri
 Ulhaq
