@@ -193,7 +193,7 @@ Edit any coordinator zome code that uses functions from `hdk::clone`:
 
 #### In JavaScript front-end
 
-Edit any client code that manipulates cloned cells:
+Edit any client code that manipulates cloned cells by cell ID to use DNA hash instead:
 
 ```diff:typescript
  import { AppWebsocket, CellId } from "@holochain/client";
@@ -203,7 +203,7 @@ Edit any client code that manipulates cloned cells:
 
  async function createChatRoom(name: string) {
    const { cell_id } = await client.createCloneCell({
-     modifiers: {},
+     modifiers: { network_seed: name },
      name,
      role_name
    });
@@ -214,17 +214,15 @@ Edit any client code that manipulates cloned cells:
    return cell_id;
  }
 
- function removeChatRoom(cell_id: CellId) {
+ async function removeChatRoom(cell_id: CellId) {
    await client.disableCloneCell({
--    clone_cell_id: cell_id,
-+    clone_cell_id: cell_id[0],
-   });
-   await client.deleteCloneCell({
 -    clone_cell_id: cell_id,
 +    clone_cell_id: cell_id[0],
    });
  }
 ```
+
+If you're writing an application that uses the admin API, `AdminClient#deleteCloneCell` changes in the same way as `enableCloneCell` and `disableCloneCell`.
 
 ### JavaScript client now receives system signals
 
