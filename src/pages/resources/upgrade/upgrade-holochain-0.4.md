@@ -199,23 +199,16 @@ Edit any client code that manipulates cloned cells by cell ID to use DNA hash in
  import { AppWebsocket, CellId } from "@holochain/client";
 
  let client: AppClient = await AppWebsocket.connect();
- let role_name = "chat";
 
- async function createChatRoom(name: string) {
-   const { cell_id } = await client.createCloneCell({
-     modifiers: { network_seed: name },
-     name,
-     role_name
-   });
-   await client.enableCloneCell({
+ async function archiveChatRoom(cell_id: CellId) {
+   await client.disableCloneCell({
 -    clone_cell_id: cell_id,
 +    clone_cell_id: cell_id[0],
    });
-   return cell_id;
  }
 
- async function removeChatRoom(cell_id: CellId) {
-   await client.disableCloneCell({
+ async function reopenChatRoom(cell_id: CellId) {
+   await client.enableCloneCell({
 -    clone_cell_id: cell_id,
 +    clone_cell_id: cell_id[0],
    });
