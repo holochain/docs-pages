@@ -43,8 +43,8 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  [workspace.dependencies]
 -hdi = "=0.4.6"
 -hdk = "=0.3.6"
-+hdi = "=0.5.0-rc.1" # Pick the latest versions of these libraries if you prefer.
-+hdk = "=0.4.0-rc.1"
++hdi = "=0.5.0" # Pick a later version of these libraries if you prefer.
++hdk = "=0.4.0"
  serde = "1.0"
 ```
 
@@ -94,8 +94,8 @@ Edit your project's `tests/package.json` file:
      // some dependencies
 -    "@holochain/client": "^0.17.1",
 -    "@holochain/tryorama": "^0.16.0",
-+    "@holochain/client": "^0.18.0-rc.1",
-+    "@holochain/tryorama": "^0.17.0-rc.0",
++    "@holochain/client": "^0.18.0",
++    "@holochain/tryorama": "^0.17.0",
      // more dependencies
    },
 ```
@@ -107,7 +107,7 @@ You'll update the UI package dependencies similarly to the test package. Edit `u
 ```diff:json
    "dependencies": {
 -    "@holochain/client": "^0.17.1",
-+    "@holochain/client": "^0.18.0-rc.1",
++    "@holochain/client": "^0.18.0",
      // more dependencies
    },
 ```
@@ -133,14 +133,14 @@ The biggest change for 0.4 is that some features are marked `unstable` and aren'
 * **Chain head coordination `chc`**: Developed for Holo, allows source chain changes to be copied to a remote server for restoring onto the same device or syncing across devices. (This pre-existing feature flag is no longer enabled by default.)
 * **HDI/HDK functions `unstable-functions`**:
     * Related to countersigning (enable `unstable-countersigning` if you want to use these):
-        * [`accept_countersigning_preflight_request`](https://github.com/holochain/holochain/blob/holochain-0.4.0-rc.2/crates/hdk/src/countersigning.rs#L3-L22)
+        * [`accept_countersigning_preflight_request`](https://github.com/holochain/holochain/blob/holochain-0.4.0/crates/hdk/src/countersigning.rs#L3-L22)
     * Related to DPKI (enable `unstable-dpki` if you want to use this, which is new to 0.4):
-        * [`get_agent_key_lineage`](https://github.com/holochain/holochain/blob/holochain-0.4.0-rc.2/crates/hdk/src/agent.rs#L10-L20)
+        * [`get_agent_key_lineage`](https://github.com/holochain/holochain/blob/holochain-0.4.0/crates/hdk/src/agent.rs#L10-L20)
     * Related to block lists (allowing peers in a hApp to selectively block others who haven't necessarily produced invalid data or forked their source chain):
         * `block_agent`
         * `unblock_agent`
     * Other:
-        * [`schedule`](https://github.com/holochain/holochain/blob/holochain-0.4.0-rc.2/crates/hdk/src/time.rs#L67-L137)
+        * [`schedule`](https://github.com/holochain/holochain/blob/holochain-0.4.0/crates/hdk/src/time.rs#L67-L137)
         * An unimplemented `sleep` function has been removed completely
 
 **If your DNA needs to call a host function that depends on an unstable feature**, you'll need to do two things:
@@ -152,7 +152,7 @@ Note that you'll need to make sure your users are running your custom conductor 
 
 ### `CloneCellId` changes
 
-The `CloneCellId::CellId` enum variant has become [`DnaHash`](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/clone/enum.CloneCellId.html) and contains, naturally, a `DnaHash` value. This type is used when enabling, disabling, or deleting clones from the app API or a coordinator zome.
+The `CloneCellId::CellId` enum variant has become [`DnaHash`](https://docs.rs/holochain_zome_types/0.4.0/holochain_zome_types/clone/enum.CloneCellId.html) and contains, naturally, a `DnaHash` value. This type is used when enabling, disabling, or deleting clones from the app API or a coordinator zome.
 
 #### In coordinator zomes
 
@@ -260,9 +260,9 @@ This will affect any entries or entry fields that start as instances of a Rust e
 
 If you're one of the rare folks who have been using these two actions, the structs have changed. Take a look at the Rustdoc and update your code accordingly:
 
-* `CloseChain::new_dna_hash` has been replaced with [`new_target`](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/action/struct.CloseChain.html), which has a type of `Option<MigrationTarget>`. [This new type](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/prelude/enum.MigrationTarget.html) is an enum of `Dna(DnaHash)` or `Agent(AgentHash)`.
+* `CloseChain::new_dna_hash` has been replaced with [`new_target`](https://docs.rs/holochain_zome_types/0.4.0/holochain_zome_types/action/struct.CloseChain.html), which has a type of `Option<MigrationTarget>`. [This new type](https://docs.rs/holochain_zome_types/0.4.0/holochain_zome_types/prelude/enum.MigrationTarget.html) is an enum of `Dna(DnaHash)` or `Agent(AgentHash)`.
 
-* [`OpenChain::prev_dna_hash`](https://docs.rs/holochain_zome_types/0.4.0-rc.1/holochain_zome_types/action/struct.OpenChain.html) has been changed to match; its type is a non-optional `MigrationTarget`. It also gets a new field, `close_hash`, which is the `ActionHash` of the corresponding `CloseChain` action.
+* [`OpenChain::prev_dna_hash`](https://docs.rs/holochain_zome_types/0.4.0/holochain_zome_types/action/struct.OpenChain.html) has been changed to match; its type is a non-optional `MigrationTarget`. It also gets a new field, `close_hash`, which is the `ActionHash` of the corresponding `CloseChain` action.
 
 ### `InstallApp` agent key is optional
 
@@ -270,7 +270,7 @@ If you're one of the rare folks who have been using these two actions, the struc
 This change is only relevant if you're using the Rust client to access the admin API, for instance if you're building a custom runtime.
 !!!
 
-The `agent_key` field in the [`InstallApp` payload](https://docs.rs/holochain_types/0.4.0-rc.2/holochain_types/app/struct.InstallAppPayload.html) is now optional, and a key will be generated if you don't supply one.
+The `agent_key` field in the [`InstallApp` payload](https://docs.rs/holochain_types/0.4.0/holochain_types/app/struct.InstallAppPayload.html) is now optional, and a key will be generated if you don't supply one.
 
 If you're using the JavaScript client to interact with the conductor, [update the JS client lib](#ui) and test it --- you shouldn't need to change any code.
 
@@ -279,7 +279,7 @@ If you're using the Rust client, first update the Rust client lib, then update y
 ```diff:toml
  [dependencies]
 -holochain_client = "0.5.3"
-+holochain_client = "0.6.0-rc.0"
++holochain_client = "0.6.0"
 ```
 
 Then edit anywhere in your Rust code that uses the `install_app` function:
@@ -329,11 +329,11 @@ In your integrity zome, any time you use `Op::to_type`, change it like this:
  }
 ```
 
-### New data in [`AppInfo` response](https://docs.rs/holochain_conductor_api/0.4.0-rc.2/holochain_conductor_api/struct.AppInfo.html)
+### New data in [`AppInfo` response](https://docs.rs/holochain_conductor_api/0.4.0/holochain_conductor_api/struct.AppInfo.html)
 
-Holochain 0.4 introduces a new flow for app installation that lets an agent supply a membrane proof later with a new [`ProvideMemproofs` endpoint](https://docs.rs/holochain_conductor_api/0.4.0-rc.2/holochain_conductor_api/enum.AppRequest.html#variant.ProvideMemproofs). This allows them to get their freshly generated agent key, submit it to some sort of membrane proof service, and get a membrane proof.
+Holochain 0.4 introduces a new flow for app installation that lets an agent supply a membrane proof later with a new [`ProvideMemproofs` endpoint](https://docs.rs/holochain_conductor_api/0.4.0/holochain_conductor_api/enum.AppRequest.html#variant.ProvideMemproofs). This allows them to get their freshly generated agent key, submit it to some sort of membrane proof service, and get a membrane proof.
 
-Because of this, after the membrane proof has been provided, the [`DisabledAppReason`](https://docs.rs/holochain_types/0.4.0-rc.2/holochain_types/app/enum.DisabledAppReason.html) enum, used in the [`AppInfo`](https://docs.rs/holochain_conductor_api/0.4.0-rc.2/holochain_conductor_api/struct.AppInfo.html) response, will be a new `NotStartedAfterProvidingMemproofs` variant until the app is started.
+Because of this, after the membrane proof has been provided, the [`DisabledAppReason`](https://docs.rs/holochain_types/0.4.0/holochain_types/app/enum.DisabledAppReason.html) enum, used in the [`AppInfo`](https://docs.rs/holochain_conductor_api/0.4.0/holochain_conductor_api/struct.AppInfo.html) response, will be a new `NotStartedAfterProvidingMemproofs` variant until the app is started.
 
 The only change you should need to make to existing code is to make sure you're handling this new variant in your `match` blocks (Rust) or `switch` blocks (JavaScript).
 
