@@ -68,7 +68,6 @@ This command displays versioning information about Holochain's main components. 
 hc-scaffold     : holochain_scaffolding_cli 0.4000.0 (cda8433)
 hc-launch       : holochain_cli_launch 0.400.0 (holochain 0.4.0) (ca59803)
 Lair keystore   : lair_keystore 0.5.3 (e829375)
-Holo dev server : not installed
 Holochain       : holochain 0.4.0 (f931190)
 
 Holochain build info: {
