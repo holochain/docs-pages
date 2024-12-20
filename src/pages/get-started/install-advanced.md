@@ -24,26 +24,26 @@ If you want to learn more about how this setup works and how to create it manual
 The flake-based one-liner to get you an ad-hoc Holonix shell (that is, not using a local flake file) looks like this:
 
 ```shell
-nix develop github:holochain/holonix?ref=main-0.3
+nix develop github:holochain/holonix?ref=main-0.4
 ```
 
 #### Specifying a certain release
 
-The above one-liner will give you the latest **recommended** version of Holochain from the 0.3 release branch. To get an ad-hoc shell with a different version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.4 development shell, run:
+The above one-liner will give you the latest **recommended** version of Holochain from the 0.4 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.3 development shell, run:
 
 ```shell
-nix develop github:holochain/holonix?ref=main-0.4
+nix develop github:holochain/holonix?ref=main-0.3
 ```
 
 The options you should know about are:
 
 * `main` or no `ref` parameter: The development version of Holochain, released weekly with no guarantee of stability (currently 0.5)
-* `main-0.4`: The latest version of Holochain, which has not yet had a 'recommended' release
-* `main-0.3`: The recommended version of Holochain for everyday development, which still receives maintenance releases
+* `main-0.4`: The current recommended version of Holochain for everyday development
+* `main-0.3`: The previous version of Holochain, which still receives maintenance releases
 
 ### Customizing the Holochain binary
 
-If you want to enable or disable certain Holochain features, such as unstable features, it's best to do this in a local flake file. [Read the 'Customized Holochain build'](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) on the Holonix readme to find out how. Keep in mind that, because you'll be creating a custom Holochain binary, you won't be able to take advantage of the package cache, so it'll take a while to compile Holochain on your machine. The same will be true on CI, where you should consider setting up your own caching.
+If you want to enable or disable certain Holochain features, such as unstable features, it's best to do this in a local flake file. Read [Customized Holochain build](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) on the Holonix readme to find out how. Keep in mind that, because you'll be creating a custom Holochain binary, you won't be able to take advantage of the package cache, so it'll take a while to compile Holochain on your machine. The same will be true on CI, where you should consider setting up your own caching.
 
 ### A gotcha with Flakes and Git
 
@@ -65,10 +65,25 @@ This command displays versioning information about Holochain's main components. 
 
 ::: output-block
 ```text
-holochain (holochain 0.1.3): ed5b7bb461c2a8bfd4d2633bad604a20b8f2da03
-lair-keystore (lair_keystore 0.2.3): cbfbefefe43073904a914c8181a450209a74167b
-hc-launch (holochain_cli_launch 0.0.11): 3bcd14e81cda07e015071b070c2ef032aa1d1193
-hc-scaffold (holochain_scaffolding_cli 0.1.6): 0d84d09a9a3f41d3b7d7330a0797a789c42fd57f
+hc-scaffold     : holochain_scaffolding_cli 0.4000.0 (cda8433)
+hc-launch       : holochain_cli_launch 0.400.0 (holochain 0.4.0) (ca59803)
+Lair keystore   : lair_keystore 0.5.3 (e829375)
+Holochain       : holochain 0.4.0 (f931190)
+
+Holochain build info: {
+  "git_info": null,
+  "cargo_pkg_version": "0.4.0",
+  "hdk_version_req": "0.4.0",
+  "hdi_version_req": "0.5.0",
+  "lair_keystore_version_req": "0.5.3",
+  "timestamp": "2024-12-18T19:25:03.915833743Z",
+  "hostname": "localhost",
+  "host": "x86_64-unknown-linux-gnu",
+  "target": "x86_64-unknown-linux-gnu",
+  "rustc_version": "rustc 1.80.0 (051478957 2024-07-21)",
+  "rustflags": "",
+  "profile": "release"
+}
 ```
 :::
 
@@ -102,7 +117,7 @@ The main Nix tool used in Holochain development workflows is `nix develop`, a pr
 
 The full suite of Nix tooling is broad and deep. There's even a dedicated programming language, called [Nix expressions](https://nixos.org/manual/nix/stable/#functional-package-language). Learn more with the [NixOS Wiki](https://nixos.wiki) or the [Pills](https://nixos.org/nixos/nix-pills/) Tutorial. The [NixOS community chat on matrix.to](https://matrix.to/#/#community:nixos.org) is active and helpful.
 
-## Fixing the SUID sandbox error in Ubuntu 24.04
+## Fixing the SUID sandbox error in Ubuntu 24.04 and later
 
 Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions-15) that causes `hc spin`, which is used to test applications and their UIs, to fail with a fatal error. If you have a `package.json` that lists `@holochain/hc-spin` as a dev dependency, you may see this error message:
 

@@ -67,7 +67,7 @@ This command downloads the setup script and runs it, installing the Nix package 
 In a new terminal session type:
 
 ```shell
-nix run --refresh -j0 -v github:holochain/holochain#hc-scaffold -- --version
+nix run --refresh -j0 -v github:holochain/holonix?ref=main-0.4#hc-scaffold -- --version
 ```
 
 Look out for binaries being copied from `holochain-ci.cachix.org`:
@@ -80,11 +80,11 @@ downloading 'https://holochain-ci.cachix.org/nar/<some-hash>.nar.zst'...
 
 It proves that the package cache is configured correctly.
 
-At the end of the output, Holochain's scaffolding tool should print its version string:
+At the end of the output, Holochain's scaffolding tool should print its version string, which will be something like this:
 
 ::: output-block
 ```text
-holochain_scaffolding_cli x.y.z
+holochain_scaffolding_cli 0.4000.?
 ```
 :::
 

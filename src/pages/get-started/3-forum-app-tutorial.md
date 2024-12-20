@@ -31,7 +31,7 @@ First, let's use the scaffolding tool to generate the basic folders and files fo
 To start, run the following command in your terminal:
 
 ```shell
-nix run github:/holochain/holochain#hc-scaffold -- web-app
+nix run github:/holochain/holonix?ref=0.4#hc-scaffold -- web-app
 ```
 
 !!! info Backing out of a mistake
@@ -396,6 +396,24 @@ You should then see:
 ```text
 Which fields should the entry contain?
 
+? Field name: ›
+```
+:::
+
+The scaffolding tool is now prompting you to add fields to the `post` entry type.
+
+Fields are the individual components or attributes within a Rust struct. They determine the specific pieces of information to be stored in an entry and their respective data types. The scaffolding tool supports a collection of native Rust types such as booleans, numbers, enums (a choice between several predetermined values), optional values, and vectors (lists of items of the same type), along with Holochain-specific types that refer to other pieces of data on the DHT.
+
+For your `post` entry type, you're going to add `title` and `content` fields. Enter the name of the first field:
+
+```text
+title
+```
+
+Next, it asks you to choose a field type:
+
+::: output-block
+```text
 ? Choose field type: ›
 ❯ String
   bool
@@ -406,6 +424,7 @@ Which fields should the entry contain?
   ActionHash
   EntryHash
   DnaHash
+  ExternalHash
   AgentPubKey
   Enum
   Option of...
@@ -413,17 +432,7 @@ Which fields should the entry contain?
 ```
 :::
 
-The scaffolding tool is now prompting you to add fields to the `post` entry type.
-
-Fields are the individual components or attributes within a Rust struct. They determine the specific pieces of information to be stored in an entry and their respective data types. The scaffolding tool supports a collection of native Rust types such as booleans, numbers, enums (a choice between several predetermined values), optional values, and vectors (lists of items of the same type), along with Holochain-specific types that refer to other pieces of data on the DHT.
-
-For your `post` entry type, you're going to add `title` and `content` fields. Select `String` as the first field's type, and enter:
-
-```text
-title
-```
-
-as the field name.
+Choose `String` and press <kbd>Enter</kbd>.
 
 Press <kbd>Y</kbd> for the field to be visible in the UI, and select `TextField` as the widget to render this field. (A `TextField` is a single-line input field designed for capturing shorter pieces of text.)
 
@@ -437,17 +446,24 @@ When you see:
 
 press <kbd>Y</kbd>.
 
-Select `String` for this field's type too. Then enter:
-
-```text
-content
-```
-
-as the field name.
-
-Press <kbd>Y</kbd> for the field to be visible in the UI, and select `TextArea` as the widget to render the field. (A `TextArea` is a multi-line input field that allows users to enter larger blocks of text. That'll work better for blog posts.)
+Then enter the name `content` for this field's name and choose `String` as its type. Press <kbd>Y</kbd> for the field to be visible in the UI, and select `TextArea` as the widget to render the field. (A `TextArea` is a multi-line input field that allows users to enter larger blocks of text. That'll work better for forum posts.)
 
 After adding the `title` and `content` fields, press <kbd>N</kbd> when asked if you want to add another field. Next, you should see:
+
+::: output-block
+```text
+Chosen fields:
+ title: String
+ content: String
+
+? Do you want to proceed with the current entry type or restart from the beginning? ›
+❯ Confirm
+  Modify
+  Restart
+```
+:::
+
+If the summary of your fields looks like this, press <kbd>Enter</kbd> to confirm that it's correct. Next, you'll see:
 
 ::: output-block
 ```text
@@ -537,19 +553,13 @@ comment
 
 for the entry type name.
 
-You're going to add a `content` field, so select the `String` field type and enter:
-
-```text
-content
-```
-
-Then select the `TextArea` widget and press <kbd>Enter</kbd>. (Again, a `TextArea` is a multi-line input field that allows users to enter larger blocks of text. Perfect for a comment on a post.)
+Next, create a `content` field and select `String` as its type. Choose <kbd>Y</kbd> to create UI for it, then select the `TextArea` widget and press <kbd>Enter</kbd>. (Again, a `TextArea` is a multi-line input field that allows users to enter larger blocks of text. Perfect for a comment on a post.)
 
 Press <kbd>Y</kbd> to add another field.
 
 For this next field you'll want to create a field that will help you associate each particular comment to the post that it's commenting on. To do this, the next field in the `comment` entry type will store a reference to a `post`.
 
-Use the arrow keys to select `ActionHash` as the field type.
+Enter `post_hash` as the field name, press <kbd>Enter</kbd>, and use the arrow keys to select `ActionHash` as the field type.
 
 !!! dig-deeper Hashes and other identifiers
 
@@ -599,7 +609,7 @@ You can check out the Core Concepts to dive a bit deeper into [how the distribut
 
 !!!
 
-After press <kbd>Enter</kbd>, you should see:
+After pressing <kbd>Enter</kbd>, you should see:
 
 ::: output-block
 ```text
@@ -614,20 +624,25 @@ Next you will see:
 ::: output-block
 ```text
 ✔ Which entry type is this field referring to?
+❯ Post
 ```
 :::
 
-Press <kbd>Enter</kbd> to accept the suggested entry type `Post`.
+Press <kbd>Enter</kbd> to accept the suggested entry type `Post`. Then press <kbd>N</kbd> to decline adding another field to the entry.
 
-Next, you'll be asked to pick a field name. You can press <kbd>Enter</kbd> to accept the field name suggestion, which should be:
+You should then see a similar confirmation to when you were creating a post:
 
+::: output-block
 ```text
-post_hash
+Chosen fields:
+ content: String, post_hash: ActionHash
+? Do you want to proceed with the current entry type or restart from the beginning? ›
+❯ Confirm
+  Restart
 ```
+:::
 
-Press <kbd>N</kbd> to decline adding another field to the entry.
-
-Then use the arrow keys to deselect `Update`, but leave `Delete` selected. It should look as follows:
+If the summary looks like this, press <kbd>Enter</kbd>. Then at the next question, use the arrow keys to deselect `Update`, but leave `Delete` selected. It should look as follows:
 
 ::: output-block
 ```text
@@ -637,7 +652,7 @@ Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to co
 ```
 :::
 
-Once that is done, press <kbd>Enter</kbd> to generate a delete function for the **`comment`** entry type.
+Once that is done, press <kbd>Enter</kbd> to generate a delete function for the `comment` entry type.
 
 You should then see:
 
@@ -778,7 +793,7 @@ Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu
 sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
 ```
 
-You'll need to do this once (but only once) for every new project you scaffold. You can find out more [here](/get-started/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04).
+You'll need to do this once (but only once) for every new project you scaffold. You can find out more [here](/get-started/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04-and-later).
 !!!
 
 At this stage, we'll incorporate some of the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.

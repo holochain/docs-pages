@@ -16,7 +16,7 @@ cd ~/Holochain
 When getting started, seeing a simple but fully-functional app can be very helpful. You can have Holochain's scaffolding tool generate a "Hello World!" application (but for a distributed multi-agent world) by typing the following in your command line terminal:
 
 ```shell
-nix run github:holochain/holochain#hc-scaffold -- example hello-world
+nix run github:holochain/holonix?ref=main-0.4#hc-scaffold -- example hello-world
 ```
 
 The scaffolding tool will ask you one question --- what JavaScript package manager you'd like to use in your project. If in doubt, just choose `npm`.
@@ -43,7 +43,7 @@ Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu
 sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
 ```
 
-You'll need to do this once (but only once) for every new project you scaffold. You can find out more [here](/get-started/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04).
+You'll need to do this once (but only once) for every new project you scaffold. You can find out more [here](/get-started/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04-and-later).
 !!!
 
 ```shell
