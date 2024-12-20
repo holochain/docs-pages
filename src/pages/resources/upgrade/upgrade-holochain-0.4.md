@@ -353,7 +353,7 @@ If you leave this feature disabled, you'll need to set gossip arc clamping to ei
 
 Previous conductor and keystore SQLite databases used a hardcoded encryption key; 0.4 now uses a dynamic key. This means you won't be able to import data from 0.3, so we recommend providing a data import/export feature in your hApp with instructions to help people move their data over on upgrade to 0.4.
 
-The locations of the database folders and files have also changed (although if 0.4 finds an unencrypted database in the old locations, it'll move and encrypt the data).
+The locations of the database folders and files have also changed (although if 0.4 finds an unencrypted database in the old locations, it'll move the data. If you want it to encrypt the data at the same time, set an environment variable `HOLOCHAIN_MIGRATE_UNENCRYPTED` to a truthy value before running the hApp in 0.4.).
 
 ### WebRTC signalling server change
 
