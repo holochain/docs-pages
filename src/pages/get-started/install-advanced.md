@@ -22,20 +22,20 @@ If you want to learn more about how this setup works and how to create it manual
 The flake-based one-liner to get you an ad-hoc Holonix shell looks like this:
 
 ```shell
-nix develop github:holochain/holonix?ref=main-0.3
+nix develop github:holochain/holonix?ref=main-0.4
 ```
 
-The above one-liner will give you the latest **recommended** version of Holochain from the 0.3 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter, for example:
+The above one-liner will give you the latest **recommended** version of Holochain from the 0.4 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.4 development shell, run:
 
 ```shell
-nix develop github:holochain/holonix?ref=main-0.4
+nix develop github:holochain/holonix?ref=main-0.3
 ```
 
 The options you should know about are:
 
 * `main` or no `ref` parameter: The development version of Holochain, released weekly with no guarantee of stability (currently 0.5)
-* `main-0.4`: RC of Holochain 0.4 (be aware that many breaking changes are coming in the next RC)
-* `main-0.3`: The current recommended version of Holochain for everyday development
+* `main-0.4`: The current recommended version of Holochain for everyday development
+* `main-0.3`: The previous version of Holochain, which still receives maintenance releases
 
 ### A gotcha with Flakes and Git
 
@@ -57,10 +57,26 @@ This command displays versioning information about Holochain's main components. 
 
 ::: output-block
 ```text
-holochain (holochain 0.1.3): ed5b7bb461c2a8bfd4d2633bad604a20b8f2da03
-lair-keystore (lair_keystore 0.2.3): cbfbefefe43073904a914c8181a450209a74167b
-hc-launch (holochain_cli_launch 0.0.11): 3bcd14e81cda07e015071b070c2ef032aa1d1193
-hc-scaffold (holochain_scaffolding_cli 0.1.6): 0d84d09a9a3f41d3b7d7330a0797a789c42fd57f
+hc-scaffold     : holochain_scaffolding_cli 0.4000.0 (cda8433)
+hc-launch       : holochain_cli_launch 0.400.0 (holochain 0.4.0) (ca59803)
+Lair keystore   : lair_keystore 0.5.3 (e829375)
+Holo dev server : not installed
+Holochain       : holochain 0.4.0 (f931190)
+
+Holochain build info: {
+  "git_info": null,
+  "cargo_pkg_version": "0.4.0",
+  "hdk_version_req": "0.4.0",
+  "hdi_version_req": "0.5.0",
+  "lair_keystore_version_req": "0.5.3",
+  "timestamp": "2024-12-18T19:25:03.915833743Z",
+  "hostname": "localhost",
+  "host": "x86_64-unknown-linux-gnu",
+  "target": "x86_64-unknown-linux-gnu",
+  "rustc_version": "rustc 1.80.0 (051478957 2024-07-21)",
+  "rustflags": "",
+  "profile": "release"
+}
 ```
 :::
 
