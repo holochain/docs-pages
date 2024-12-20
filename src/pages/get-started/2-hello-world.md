@@ -16,7 +16,7 @@ cd ~/Holochain
 When getting started, seeing a simple but fully-functional app can be very helpful. You can have Holochain's scaffolding tool generate a "Hello World!" application (but for a distributed multi-agent world) by typing the following in your command line terminal:
 
 ```shell
-nix run github:holochain/holochain#hc-scaffold -- example hello-world
+nix run github:holochain/holonix?ref=main-0.4#hc-scaffold -- example hello-world
 ```
 
 The scaffolding tool will ask you one question --- what JavaScript package manager you'd like to use in your project. If in doubt, just choose `npm`.
