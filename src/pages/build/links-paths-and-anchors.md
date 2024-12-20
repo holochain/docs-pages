@@ -154,7 +154,7 @@ let number_of_reviews_written_by_me_in_last_month = count_links(
 ```
 
 !!! info Links are counted locally
-Currently `count_links` retrieves all links from the remote peer, then counts them locally. We're planning on changing this behavior so it counts links on the remote peer and sends the count, to save network traffic like you might expect.
+Currently `count_links` retrieves all link hashes from the remote peer, then counts them locally. So it is less network traffic than a `get_links` request, but more network traffic than just sending an integer.
 !!!
 
 ## Anchors and paths
