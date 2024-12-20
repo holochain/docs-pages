@@ -11,10 +11,13 @@ Holochain
 Holochain's
 Holonix
 Lightningrod
+memproof
+memproofs
 Mythosthesia
 sharded
 Snapmail
 Tryorama
+unsharded
 webhapp
 zome
 zome's
