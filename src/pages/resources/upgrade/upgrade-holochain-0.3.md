@@ -148,7 +148,7 @@ npm install --save-dev @holochain/hc-spin@">=0.300.0 <0.400.0"
 You can always check what versions of `@holochain/hc-spin` are available on the [NPM registry](https://www.npmjs.com/package/@holochain/hc-spin?activeTab=versions).
 
 !!! note
-If you happen to be running on a recent Linux version (e.g. Ubuntu 24.04+), you might encounter an error starting your hApp with `hc-spin`. There is a guide here you should check out in [the dev tools setup tips](/get-started/install-advanced#fixing-the-suid-sandbox-error-in-ubuntu-24-04).
+If you happen to be running on a recent Linux version (e.g. Ubuntu 24.04+), you might encounter an error starting your hApp with `hc-spin`. There is a guide here you should check out in [the dev tools setup tips](/get-started/install-advanced#fixing-the-suid-sandbox-error-in-ubuntu-24-04-and-later).
 !!!
 
 ### Update `@holochain/tryorama`

@@ -118,7 +118,7 @@ The main Nix tool used in Holochain development workflows is `nix develop`, a pr
 
 The full suite of Nix tooling is broad and deep. There's even a dedicated programming language, called [Nix expressions](https://nixos.org/manual/nix/stable/#functional-package-language). Learn more with the [NixOS Wiki](https://nixos.wiki) or the [Pills](https://nixos.org/nixos/nix-pills/) Tutorial. The [NixOS community chat on matrix.to](https://matrix.to/#/#community:nixos.org) is active and helpful.
 
-## Fixing the SUID sandbox error in Ubuntu 24.04
+## Fixing the SUID sandbox error in Ubuntu 24.04 and later
 
 Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions-15) that causes `hc spin`, which is used to test applications and their UIs, to fail with a fatal error. If you have a `package.json` that lists `@holochain/hc-spin` as a dev dependency, you may see this error message:
 
