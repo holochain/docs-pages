@@ -17,6 +17,7 @@ Mythosthesia
 sharded
 Snapmail
 Tryorama
+unsharded
 webhapp
 zome
 zome's

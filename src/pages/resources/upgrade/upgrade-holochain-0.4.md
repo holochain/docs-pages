@@ -13,7 +13,7 @@ NOTE: [Holonix](/get-started/install-advanced/), our developer shell environment
 To upgrade your hApp written for Holochain 0.3, follow these steps:
 
 1. Check whether your `flake.nix` contains `github:holochain/holonix`. If it does, then you can continue to the next step. Otherwise it will contain `github:holochain/holochain`. If so, then follow the [Holonix upgrade guide](/resources/upgrade/upgrade-new-holonix/) to update to the newest Holonix command-line developer environment (we're not providing a 0.4 version of Holochain through the old Holonix).
-2. Update your `flake.nix` to use the 0.4 version of Holochain by changing the version number in the line `holonix.url = "github:holochain/holonix?ref=main-0.3"` from 0.3 to 0.4. This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lock at this point, to ensure you benefit from the cache we provide:
+2. Update your `flake.nix` to use the 0.4 version of Holochain by changing the version number in the line `holonix.url = "github:holochain/holonix?ref=main-0.3"` from 0.3 to 0.4. This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lockfile  at this point, to ensure you benefit from the cache we provide:
 
     ```shell
     nix flake update && nix develop
@@ -48,7 +48,7 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  serde = "1.0"
 ```
 
-The latest versions of these libraries can be found on crates.io: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
+The latest version numbers of these libraries can be found on crates.io: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
 
 Once you've updated your `Cargo.toml` you need to update your `Cargo.lock` and check whether your project can still build. To do this in one step you can run:
 
@@ -128,13 +128,13 @@ The biggest change for 0.4 is that some features are marked `unstable` and aren'
 
 * **[Countersigning](/concepts/10_countersigning/) `unstable-countersigning`**: Allows agents to temporarily lock their chains in order to agree to write the same entry to their respective chains.
 * **DPKI / DeepKey `unstable-dpki`**: Implements a distributed public key infrastructure, allowing agents to manage their keys and confirm continuity of their identity across devices and source chains. Read the [DeepKey readme](https://github.com/holochain/deepkey) for more info.
-* **[DHT sharding](/concepts/4_dht/) `unstable-sharding`**: Lessens the load of each peer in large network, allowing them to take responsibility for validating and storing only a subset of a DHT's entire data set.
+* **[DHT sharding](/concepts/4_dht/) `unstable-sharding`**: Lessens the load of each peer in large network, allowing them to take responsibility for validating and storing only a subset of a DHT's entire data set. Omitting this flag doesn't disable code, but it does force you to choose either `"empty"` or `"full"` for DHT arc size clamping.
 * **[Warrants](/concepts/7_validation#remembering-validation-results) `unstable-warrants`**: Spreads news of validation failure around the network, allowing peers to recognize bad actors and take action against them, even if they haven't directly interacted with them.
-* **Chain head coordination `chc`**: Developed for Holo, allows source chain changes to be copied from one device to another without causing chain forks. (This pre-existing feature flag is no longer enabled by default.)
+* **Chain head coordination `chc`**: Developed for Holo, allows source chain changes to be copied to a remote server for restoring onto the same device or syncing across devices. (This pre-existing feature flag is no longer enabled by default.)
 * **HDI/HDK functions `unstable-functions`**:
     * Related to countersigning (enable `unstable-countersigning` if you want to use these):
         * [`accept_countersigning_preflight_request`](https://github.com/holochain/holochain/blob/holochain-0.4.0-rc.2/crates/hdk/src/countersigning.rs#L3-L22)
-    * Related to DPKI (enable `unstable-dpki` if you want to use these, which are both new to 0.4):
+    * Related to DPKI (enable `unstable-dpki` if you want to use this, which is new to 0.4):
         * [`get_agent_key_lineage`](https://github.com/holochain/holochain/blob/holochain-0.4.0-rc.2/crates/hdk/src/agent.rs#L10-L20)
     * Related to block lists (allowing peers in a hApp to selectively block others who haven't necessarily produced invalid data or forked their source chain):
         * `block_agent`
@@ -234,6 +234,8 @@ For JavaScript front ends and Tryorama tests, the signal handler callback for `A
  });
 ```
 
+(Note that currently you'll only ever see a system signal if you're using countersigning, which is [disabled by default](#unstable-features-removed-by-default).)
+
 ### Change in enum serialization
 
 The default serialization for unit-like enum variants has changed. Previously, they would look like this (JSON representation):
@@ -265,7 +267,7 @@ If you're one of the rare folks who have been using these two actions, the struc
 ### `InstallApp` agent key is optional
 
 !!! info
-This change is only relevant if you're building a runtime that can install hApp bundles.
+This change is only relevant if you're using the Rust client to access the admin API, for instance if you're building a custom runtime.
 !!!
 
 The `agent_key` field in the [`InstallApp` payload](https://docs.rs/holochain_types/0.4.0-rc.2/holochain_types/app/struct.InstallAppPayload.html) is now optional, and a key will be generated if you don't supply one.
@@ -345,11 +347,13 @@ The `CountersigningSuccess` signal sent to the client now gives the action hash 
 
 This feature needs more performance and correctness testing before it's production-ready, but it can be turned on by [compiling Holochain with the `unstable-sharding` flag enabled](#unstable-features-removed-by-default).
 
-It's unknown exactly what might happen if nodes with DHT sharding disabled try to gossip in the same network as nodes without DHT sharding. Presumably this is still possible, but it might cause unexpected behaviors!
+If you leave this feature disabled, you'll need to set gossip arc clamping to either `"empty"` or `"full"`, and we recommend doing this for _all_ participants in a network. We've observed bugs in networks that have a mixture of unsharded (arc-clamped) and sharded peers.
 
 ### Dynamic database encryption, folder structure changes
 
-Previous conductor and keystore SQLite databases used a hardcoded encryption key; v0.4 now uses a dynamic key. Additionally, the database paths have changed. These two things mean you won't be able to import data from v0.3.
+Previous conductor and keystore SQLite databases used a hardcoded encryption key; 0.4 now uses a dynamic key. This means you won't be able to import data from 0.3, so we recommend providing a data import/export feature in your hApp with instructions to help people move their data over on upgrade to 0.4.
+
+The locations of the database folders and files have also changed (although if 0.4 finds an unencrypted database in the old locations, it'll move and encrypt the data).
 
 ### WebRTC signalling server change
 
