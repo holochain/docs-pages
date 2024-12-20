@@ -29,7 +29,7 @@ Entry types are defined in an [**integrity zome**](/resources/glossary/#integrit
 use hdi::prelude::*;
 
 #[hdk_entry_helper]
-pub struct Director(pub string);
+pub struct Director(pub String);
 
 #[hdk_entry_helper]
 pub struct Movie {
@@ -49,6 +49,7 @@ In order to dispatch validation to the proper integrity zome, Holochain needs to
 use hdi::prelude::*;
 
 #[hdk_entry_defs]
+// This macro is required by hdk_entry_defs.
 #[unit_enum(UnitEntryTypes)]
 enum EntryTypes {
   Director(Director),
@@ -57,9 +58,7 @@ enum EntryTypes {
 }
 ```
 
-This also gives you an enum that you can use later when you're storing app data. This is important because, under the hood, an entry type consists of two bytes --- an integrity zome index and an entry def index. These are required whenever you want to write an entry. Instead of having to remember those values every time you store something, your coordinator zome can just import and use this enum, which already knows how to convert each entry type to the right IDs.
-
-The code sample above also uses a macro called `unit_enum`, which will generate an enum of all the entry types' names _without_ places to store values.
+This also gives you an enum that you can use later when you're storing app data. Under the hood, an entry type consists of two bytes --- an integrity zome index and an entry def index. These are required whenever you want to write an entry. Instead of having to remember those values every time you store something, your coordinator zome can just import and use this enum, which already knows how to convert each entry type to the right IDs.
 
 ### Configure an entry type
 
@@ -76,14 +75,14 @@ use hdi::prelude::*;
 enum EntryTypes {
     Director(Director),
 
-    #[entry_def(required_validations = 7, )]
+    #[entry_type(required_validations = 7, )]
     Movie(Movie),
 
     // You can reuse your Rust type in another entry type if you like. In this
     // example, `HomeMovie` also (de)serializes to/from the `Movie` struct, but
     // is actually a different entry type with different visibility, and can be
     // subjected to different validation rules.
-    #[entry_def(visibility = "private", )]
+    #[entry_type(visibility = "private", )]
     HomeMovie(Movie),
 }
 ```
@@ -96,24 +95,23 @@ Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/la
 
 ```rust
 use hdk::prelude::*;
-use chrono::Date;
 // Import the entry types and the enum defined in the integrity zome.
 use movie_integrity::*;
 
 let movie = Movie {
-  title: "The Good, the Bad, and the Ugly",
+  title: "The Good, the Bad, and the Ugly".to_string(),
   director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
-  imdb_id: Some("tt0060196"),
-  release_date: Timestamp::from(Date::Utc("1966-12-23")),
+  imdb_id: Some("tt0060196".to_string()),
+  release_date: Timestamp(-95_472_000_000_000), // 1966-12-23
   box_office_revenue: 389_000_000,
 };
 
-let create_action_hash: ActionHash = create_entry(
+let create_action_hash = create_entry(
     // The value you pass to `create_entry` needs a lot of traits to tell
     // Holochain which entry type from which integrity zome you're trying to
     // create. The `hdk_entry_defs` macro will have set this up for you, so all
     // you need to do is wrap your movie in the corresponding enum variant.
-    &EntryTypes::Movie(movie.clone()),
+    &EntryTypes::Movie(movie),
 )?;
 ```
 
@@ -149,20 +147,20 @@ Update an entry creation action by calling [`hdk::prelude::update_entry`](https:
 
 ```rust
 use hdk::prelude::*;
-use chrono::Date;
 use movie_integrity::*;
 
 let movie2 = Movie {
-  title: "The Good, the Bad, and the Ugly",
+  title: "The Good, the Bad, and the Ugly".to_string(),
   director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
-  imdb_id: Some("tt0060196"),
-  release_date: Timestamp::from(Date::Utc("1966-12-23")),
+  imdb_id: Some("tt0060196".to_string()),
+  release_date: Timestamp(-95_472_000_000_000),
+  // Corrected from 389_000_000
   box_office_revenue: 400_000_000,
 };
 
-let update_action_hash: ActionHash = update_entry(
+let update_action_hash = update_entry(
     create_action_hash,
-    &EntryTypes::Movie(movie2.clone()),
+    &EntryTypes::Movie(movie2),
 )?;
 ```
 
@@ -231,7 +229,7 @@ Delete an entry creation action by calling [`hdk::prelude::delete_entry`](https:
 ```rust
 use hdk::prelude::*;
 
-let delete_action_hash: ActionHash = delete_entry(
+let delete_action_hash = delete_entry(
     create_action_hash,
 )?;
 ```
@@ -274,22 +272,23 @@ You can use any of these identifiers as a field in your entry types to model a m
 
 ## Retrieve an entry
 
-### By record only
+### As a single record
 
-Get a record by calling [`hdk::prelude::get`](https://docs.rs/hdk/latest/hdk/prelude/fn.get.html) with the hash of its entry creation action. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>.
+Get a record by calling [`hdk::prelude::get`](https://docs.rs/hdk/latest/hdk/prelude/fn.get.html) with the hash of either its entry creation action. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>.
 
-You can also pass an entry hash to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
+You can also pass an _entry hash_ to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
 
 ```rust
 use hdk::prelude::*;
 use movie_integrity::*;
 
-let maybe_record: Option<Record> = get(
+let maybe_record = get(
     action_hash,
-    // Get the data and metadata directly from the DHT. You can also specify
-    // `GetOptions::content()`, which only accesses the DHT if the data at the
-    // supplied hash doesn't already exist locally.
-    GetOptions::latest()
+    // Get the data and metadata directly from the DHT, falling back to local
+    // storage if it can't access peers.
+    // You can also specify `GetOptions::local()`, which only accesses the local
+    // storage.
+    GetOptions::network()
 )?;
 
 match maybe_record {
@@ -302,7 +301,7 @@ match maybe_record {
         // `Record` type, but in this simple example we'll skip that and assume
         // that the action hash does reference an action with entry data
         // attached to it.
-        let maybe_movie: Option<Movie> = record.entry().to_app_option();
+        let maybe_movie = record.entry().to_app_option()?;
 
         match maybe_movie {
             Some(movie) => debug!(
@@ -316,7 +315,7 @@ match maybe_record {
         }
     }
     None => debug!("Movie record not found"),
-}
+};
 ```
 
 ### All data, actions, and links at an address
@@ -329,14 +328,14 @@ To get a record and all the updates, deletes, and outbound links associated with
 use hdk::prelude::*;
 use movie_integrity::*;
 
-let maybe_details: Option<Details> = get_details(
+let maybe_details = get_details(
     action_hash,
-    GetOptions::latest()
+    GetOptions::network()
 )?;
 
 match maybe_details {
     Some(Details::Record(record_details)) => {
-        let maybe_movie: Option<Movie> = record.entry().to_app_option();
+        let maybe_movie: Option<Movie> = record_details.record.entry().to_app_option()?;
         match maybe_movie {
             Some(movie) => debug!(
                 "Movie record {}, created on {}, was updated by {} agents and deleted by {} agents",
@@ -349,7 +348,7 @@ match maybe_details {
         }
     }
     _ => debug!("Movie record not found"),
-}
+};
 ```
 
 #### Entries
@@ -362,24 +361,22 @@ use movie_integrity::*;
 
 let maybe_details: Option<Details> = get_details(
     entry_hash,
-    GetOptions::latest()
+    GetOptions::network()
 )?;
 
 match maybe_details {
     Some(Details::Entry(entry_details)) => {
-        let maybe_movie: Option<Movie> = entry_details.entry
+        let maybe_movie = entry_details.entry
             .as_app_entry()
-            .clone()
-            .try_into()
-            .ok();
+            .map(|b| Movie::try_from(b.into_sb()))
+            .transpose()?;
         match maybe_movie {
             Some(movie) => debug!(
-                "Movie {} was written by {} agents, updated by {} agents, and deleted by {} agents. Its DHT status is currently {}.",
+                "Movie {} was written by {} agents, updated by {} agents, and deleted by {} agents.",
                 movie.title,
                 entry_details.actions.len(),
                 entry_details.updates.len(),
-                entry_details.deletes.len(),
-                entry_details.entry_dht_status
+                entry_details.deletes.len()
             ),
             None => debug!("Movie entry couldn't be retrieved"),
         }

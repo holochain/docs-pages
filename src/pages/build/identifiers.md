@@ -54,8 +54,8 @@ Any CRUD host function that records an action on an agent's source chain, such a
 If you have a variable that contains a [`hdk::prelude::Record`](https://docs.rs/hdk/latest/hdk/prelude/struct.Record.html), you can get its hash using the [`action_address`](https://docs.rs/hdk/latest/hdk/prelude/struct.Record.html#method.action_address) method or the [`as_hash` method on its `signed_action` property](https://docs.rs/hdk/latest/hdk/prelude/struct.SignedHashed.html#method.as_hash):
 
 ```rust
-let action_hash_from_record = record.action_address();
-let action_hash_from_signed_action = record.signed_action.as_hash();
+let action_hash_from_record = record.action_address().to_owned();
+let action_hash_from_signed_action = record.signed_action.as_hash().to_owned();
 assert_eq!(action_hash_from_record, action_hash_from_signed_action);
 ```
 
@@ -64,11 +64,11 @@ If you have a variable that contains a [`hdk::prelude::Action`](https://docs.rs/
 ```rust
 use hdi::hash::*;
 
-let action_hash_from_action = hash_action(action);
+let action_hash_from_action = hash_action(action)?;
 assert_eq!(action_hash_from_signed_action, action_hash_from_action);
 ```
 
-(But it's worth pointing out that if you have an action in a variable, it's probably because you just retrieved it by hash, which means you probably already know the hash.)
+(But it's worth pointing out that if you have an action in a variable, it's probably because you just retrieved it by hash, which means you already know the hash.)
 
 To get the hash of an entry creation action from an action that deletes or updates it, match on the [`Action::Update`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html#variant.Update) or [`Action::Delete`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html#variant.Delete) action variants and access the appropriate field:
 
@@ -76,11 +76,11 @@ To get the hash of an entry creation action from an action that deletes or updat
 use holochain_integrity_types::action::*;
 
 if let Action::Update(action_data) = action {
-  let replaced_action_hash = action_data.original_action_address;
-  // Do some things with the original action.
+    let replaced_action_hash = action_data.original_action_address;
+    // Do some things with the original action.
 } else if let Action::Delete(action_data) = action {
-  let deleted_action_hash = action_data.deletes_address;
-  // Do some things with the deleted action.
+    let deleted_action_hash = action_data.deletes_address;
+    // Do some things with the deleted action.
 }
 ```
 
@@ -92,45 +92,42 @@ To get the hash of an entry, first construct an instance of the entry type that 
 use hdk::hash::*;
 use movie_integrity::*;
 
-let director_entry_hash = EntryHash::from_raw_36(vec![/* Sergio Leone's hash */]);
 let movie = Movie {
   title: "The Good, the Bad, and the Ugly",
-  director_entry_hash: director_entry_hash,
+  director_entry_hash: EntryHash::from_raw_36(vec![/* hash of Sergio Leone entry */]),
   imdb_id: Some("tt0060196"),
   release_date: Timestamp::from(Date::Utc("1966-12-23")),
   box_office_revenue: 389_000_000,
 };
-let movie_entry_hash = hash_entry(movie);
+let movie_entry_hash = hash_entry(movie)?;
 ```
 
 To get the hash of an entry from the action that created it, call the action's [`entry_hash`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html#method.entry_hash) method. It returns an optional value, because not all actions have associated entries.
 
 ```rust
-let entry_hash = action.entry_hash()?;
+let maybe_entry_hash = action.entry_hash();
 ```
 
 If you know that your action is an entry creation action, you can get the entry hash from its `entry_hash` field:
 
 ```rust
 let entry_creation_action: EntryCreationAction = action.into()?;
-let entry_hash = action.entry_hash;
+let entry_hash = entry_creation_action.entry_hash;
 ```
 
-To get the hash of an entry from a record, you can either get it from the record itself or the contained action:
+To get the hash of an entry from a record, you can get it from the contained action:
 
 ```rust
-let entry_hash_from_record = record.entry().as_option()?.hash();
-let entry_hash_from_action = record.action().entry_hash()?
-assert_equal!(entry_hash_from_record, entry_hash_from_action);
+let entry_hash_from_action = record.action().entry_hash()?;
 ```
 
 Finally, to get the hash of an entry from an action that updates or deletes it, match the action to the appropriate variant and access the corresponding field:
 
 ```rust
 if let Action::Update(action_data) = action {
-  let replaced_entry_hash = action_data.original_entry_address;
+    let replaced_entry_hash = action_data.original_entry_address;
 } else if let Action::Delete(action_data) = action {
-  let deleted_entry_hash = action_data.deletes_entry_address;
+    let deleted_entry_hash = action_data.deletes_entry_address;
 }
 ```
 
@@ -163,7 +160,9 @@ To construct an external hash from 32 raw bytes, first you need to enable the `h
 [dependencies]
 hdk = { workspace = true }
 serde = { workspace = true }
-+ holo_hash = { workspace = true, features = ["hashing"] }
++ # Replace the following version number with whatever your project is
++ # currently using -- search your root `Cargo.lock` for "holo_hash" to find it.
++ holo_hash = { version = "=0.4.0", features = ["hashing"] }
 ...
 ```
 
@@ -195,10 +194,12 @@ use hdi::prelude::*;
 
 #[hdk_entry_helper]
 pub struct MovieLoan {
-  movie_hash: EntryHash,
-  lent_to: AgentPubKey,
-  loan_duration: i64,
+    movie_hash: EntryHash,
+    lent_to: AgentPubKey,
+    loan_duration_seconds: i64,
 }
+
+// Remember to create a variant in your `EntryTypes` enum for this new type!
 ```
 
 To reference an address in your links, pass it directly to the `create_link` function:
@@ -207,11 +208,11 @@ To reference an address in your links, pass it directly to the `create_link` fun
 use hdk::prelude::*;
 
 let movie_to_loan_action_hash = create_link(
-  movie_hash,
-  movie_loan_hash,
-  LinkTypes::MovieToLoan,
-  None
-);
+    movie_hash,
+    movie_loan_hash,
+    LinkTypes::MovieToLoan,
+    ()
+)?;
 ```
 
 Read more about [entries](/build/entries/) and [links](/build/links-paths-and-anchors/).

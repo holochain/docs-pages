@@ -35,15 +35,16 @@ use hdi::prelude::*;
 // Generate a `link_types` function that returns a list of definitions.
 #[hdk_link_types]
 enum LinkTypes {
-  DirectorToMovie,
-  GenreToMovie,
-  IpfsMoviePoster,
-  MovieReview,
-  // Note: the following link types will become useful when we talk about
-  // paths and anchors later.
-  MovieByFirstLetterAnchor,
-  MovieByFirstLetter,
-  // other types...
+    DirectorToMovie,
+    GenreToMovie,
+    IpfsMoviePoster,
+    MovieReview,
+    MovieToLoan,
+    // Note: the following link types will become useful when we talk about
+    // paths and anchors later.
+    MovieByFirstLetterAnchor,
+    MovieByFirstLetter,
+    // other types...
 }
 ```
 
@@ -62,12 +63,12 @@ let director_entry_hash = EntryHash::from_raw_36(vec![ /* bytes of the hash of t
 let movie_entry_hash = EntryHash::from_raw_36(vec![ /* bytes of the hash of The Good, The Bad, and The Ugly entry */ ]);
 
 let create_link_action_hash = create_link(
-  director_entry_hash,
-  movie_entry_hash,
-  LinkTypes::DirectorToMovie,
-  // Cache a bit of the target entry in this link's tag, as a search index.
-  vec!["year:1966".as_bytes()].into()
-);
+    director_entry_hash,
+    movie_entry_hash,
+    LinkTypes::DirectorToMovie,
+    // Cache a bit of the target entry in this link's tag, as a search index.
+    vec!["year:1966".as_bytes()].into()
+)?;
 ```
 
 Links can't be updated; they can only be created or deleted. Multiple links with the same base, target, type, and tag can be created, and they'll be considered separate links for retrieval and deletion purposes.
@@ -80,7 +81,7 @@ Delete a link by calling [`hdk::prelude::delete_link`](https://docs.rs/hdk/lates
 use hdk::prelude::*;
 
 let delete_link_action_hash = delete_link(
-  create_link_action_hash
+    create_link_action_hash
 );
 ```
 
@@ -88,7 +89,7 @@ A link is considered ["dead"](/build/working-with-data/#deleted-dead-data) (dele
 
 ## Retrieve links
 
-Get all the _live_ (undeleted) links attached to a hash with the [`hdk::prelude::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) function.
+Get all the _live_ (undeleted) links attached to a hash with the [`hdk::prelude::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) function. The input is complicated, so use [`hdk::link::builder::GetLinksInputBuilder`](https://docs.rs/hdk/latest/hdk/link/builder/struct.GetLinksInputBuilder.html) to build it.
 
 ```rust
 use hdk::prelude::*;
@@ -96,39 +97,39 @@ use movie_integrity::*;
 
 let director_entry_hash = EntryHash::from_raw_36(vec![/* hash of Sergio Leone's entry */]);
 let movies_by_director = get_links(
-  director_entry_hash,
-  LinkTypes::DirectorToMovie,
-  None
+    GetLinksInputBuilder::try_new(director_entry_hash, LinkTypes::DirectorToMovie)?
+        .get_options(GetStrategy::Network)
+        .build()
 )?;
 let movie_entry_hashes = movies_by_director
-  .iter()
-  .map(|link| link.target.into_entry_hash()?);
+    .iter()
+    .filter_map(|link| link.target.into_entry_hash())
+    .collect::<Vec<_>>();
 ```
 
-If you want to filter the returned links by tag, pass some bytes as the third parameter. You'll get back a vector of links whose tag starts with those bytes.
+If you want to filter the returned links by tag, pass some bytes to the input builder's `tag_prefix` method. You'll get back a vector of links whose tag starts with those bytes.
 
 ```rust
-use hdk::prelude::*;
-use movie_integrity::*;
-
 let movies_in_1960s_by_director = get_links(
-  director_entry_hash,
-  LinkTypes::DirectorToMovie,
-  Some(vec!["year:196".as_bytes()].into())
-);
+    GetLinksInputBuilder::try_new(director_entry_hash, LinkTypes::DirectorToMovie)?
+        .get_options(GetStrategy::Network)
+        ..tag_prefix("year:196".as_bytes().to_owned().into())
+        .build()
+)?;
 ```
 
-To get all live _and deleted_ links, along with any deletion actions, use [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html). This function has the same options as `get_links`.
+To get all live _and deleted_ links, along with any deletion actions, use [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html).
 
 ```rust
 use hdk::prelude::*;
 use movie_integrity::*;
 
 let movies_plus_deleted = get_link_details(
-  director_entry_hash,
-  LinkTypes::DirectorToMovie,
-  None
-);
+    director_entry_hash,
+    LinkTypes::DirectorToMovie,
+    None,
+    GetOptions::network()
+)?;
 ```
 
 ### Count links
@@ -139,14 +140,17 @@ If all you need is a _count_ of matching links, use [`hdk::prelude::count_links`
 use hdk::prelude::*;
 use movie_integrity::*;
 
-let my_current_id = agent_info()?.agent_latest_pubkey;
+let my_id = agent_info()?.agent_initial_pubkey;
 let today = sys_time()?;
 let number_of_reviews_written_by_me_in_last_month = count_links(
-  LinkQuery::new(movie_entry_hash, LinkTypes::MovieReview)
-    .after(Some(today - 1000 * 1000 * 60 * 60 * 24 * 30))
-    .before(Some(today))
-    .author(my_current_id)
-);
+    LinkQuery::new(
+        movie_entry_hash,
+        LinkTypes::MovieReview.try_into_filter()?
+    )
+    .after(Timestamp(today.as_micros() - 1000 * 1000 * 60 * 60 * 24 * 30))
+    .before(today)
+    .author(my_id)
+)?;
 ```
 
 !!! info Links are counted locally
@@ -191,17 +195,17 @@ use movie_integrity::*;
 let path_to_movies_starting_with_g = Path::from("movies_by_first_letter.g")
   // A path requires a link type that you've defined in the integrity zome.
   // Here, we're using the `MovieByFirstLetterAnchor` type that we created.
-  .typed(LinkTypes::MovieByFirstLetterAnchor);
+  .typed(LinkTypes::MovieByFirstLetterAnchor)?;
 
 // Make sure it exists before attaching links to it -- if it already exists,
 // ensure() will have no effect.
 path_to_movies_starting_with_g.ensure()?;
 
 let create_link_hash = create_link(
-  path_to_movies_starting_with_g.path_entry_hash()?,
-  movie_entry_hash,
-  LinkTypes::MovieByFirstLetter,
-  ()
+    path_to_movies_starting_with_g.path_entry_hash()?,
+    movie_entry_hash,
+    LinkTypes::MovieByFirstLetter,
+    ()
 )?;
 ```
 
@@ -213,10 +217,10 @@ use movie_integrity::*;
 
 let path_to_movies_starting_with_g = Path::from("movies_by_first_letter.g");
 let links_to_movies_starting_with_g = get_links(
-  // A path doesn't need to have a type in order to compute its hash.
-  path_to_movies_starting_with_g.path_entry_hash()?,
-  LinkTypes::MovieByFirstLetter,
-  None
+let links_to_movies_starting_with_g = get_links(
+    // A path doesn't need to have a type in order to compute its hash.
+    GetLinksBuilder::try_new(path_to_movies_starting_with_g.path_entry_hash()?, LinkTypes::MovieByFirstLetter)?
+)?;
 )?;
 ```
 
@@ -227,15 +231,24 @@ use hdk::hash_path::path::*;
 use movie_integrity::*;
 
 let parent_path = Path::from("movies_by_first_letter")
-  .typed(LinkTypes::MovieByFirstLetterAnchor);
+    .typed(LinkTypes::MovieByFirstLetterAnchor)?;
 let all_first_letter_paths = parent_path.children_paths()?;
 // Do something with the children. Note: this would be expensive to do in
-// practice, because each iteration is a separate DHT query.
+// practice, because each child needs a separate DHT query.
 let links_to_all_movies = all_first_letter_paths
-  .iter()
-  .map(|path| get_links(path.path_entry_hash()?, LinkTypes::MovieByFirstLetter, None)?)
-  .flatten()
-  .collect();
+    .iter()
+    .map(|path| get_links(
+        GetLinksInputBuilder::try_new(
+            path.path_entry_hash()?,
+            LinkTypes::MovieByFirstLetter
+        )?
+        .build()
+    ))
+    // Fail on the first failure.
+    .collect::<Result<Vec<_>, _>>()?
+    .into_iter()
+    .flatten()
+    .collect();
 ```
 
 ## Community path libraries
