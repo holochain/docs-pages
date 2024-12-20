@@ -31,7 +31,7 @@ First, let's use the scaffolding tool to generate the basic folders and files fo
 To start, run the following command in your terminal:
 
 ```shell
-nix run github:/holochain/holonix?ref=0.4#hc-scaffold -- web-app
+nix run "github:/holochain/holonix?ref=0.4#hc-scaffold" -- web-app
 ```
 
 !!! info Backing out of a mistake

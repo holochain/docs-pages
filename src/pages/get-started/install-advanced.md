@@ -24,7 +24,7 @@ If you want to learn more about how this setup works and how to create it manual
 The flake-based one-liner to get you an ad-hoc Holonix shell (that is, not using a local flake file) looks like this:
 
 ```shell
-nix develop github:holochain/holonix?ref=main-0.4
+nix develop "github:holochain/holonix?ref=main-0.4"
 ```
 
 #### Specifying a certain release
@@ -32,7 +32,7 @@ nix develop github:holochain/holonix?ref=main-0.4
 The above one-liner will give you the latest **recommended** version of Holochain from the 0.4 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.3 development shell, run:
 
 ```shell
-nix develop github:holochain/holonix?ref=main-0.3
+nix develop "github:holochain/holonix?ref=main-0.3"
 ```
 
 The options you should know about are:
