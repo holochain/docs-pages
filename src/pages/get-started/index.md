@@ -67,7 +67,7 @@ This command downloads the setup script and runs it, installing the Nix package 
 In a new terminal session type:
 
 ```shell
-nix run --refresh -j0 -v github:holochain/holonix?ref=main-0.4#hc-scaffold -- --version
+nix run --refresh -j0 -v "github:holochain/holonix?ref=main-0.4#hc-scaffold" -- --version
 ```
 
 Look out for binaries being copied from `holochain-ci.cachix.org`:
