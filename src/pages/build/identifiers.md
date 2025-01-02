@@ -93,11 +93,11 @@ use hdk::hash::*;
 use movie_integrity::*;
 
 let movie = Movie {
-  title: "The Good, the Bad, and the Ugly",
-  director_entry_hash: EntryHash::from_raw_36(vec![/* hash of Sergio Leone entry */]),
-  imdb_id: Some("tt0060196"),
-  release_date: Timestamp::from(Date::Utc("1966-12-23")),
-  box_office_revenue: 389_000_000,
+    title: "The Good, the Bad, and the Ugly",
+    director_entry_hash: EntryHash::from_raw_36(vec![/* hash of Sergio Leone entry */]),
+    imdb_id: Some("tt0060196"),
+    release_date: Timestamp::from(Date::Utc("1966-12-23")),
+    box_office_revenue: 389_000_000,
 };
 let movie_entry_hash = hash_entry(movie)?;
 ```

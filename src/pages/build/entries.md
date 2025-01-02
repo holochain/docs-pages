@@ -33,11 +33,11 @@ pub struct Director(pub String);
 
 #[hdk_entry_helper]
 pub struct Movie {
-  pub title: String,
-  pub director_hash: EntryHash,
-  pub imdb_id: Option<String>,
-  pub release_date: Timestamp,
-  pub box_office_revenue: u128,
+    pub title: String,
+    pub director_hash: EntryHash,
+    pub imdb_id: Option<String>,
+    pub release_date: Timestamp,
+    pub box_office_revenue: u128,
 }
 ```
 
@@ -52,9 +52,9 @@ use hdi::prelude::*;
 // This macro is required by hdk_entry_defs.
 #[unit_enum(UnitEntryTypes)]
 enum EntryTypes {
-  Director(Director),
-  Movie(Movie),
-  // other types...
+    Director(Director),
+    Movie(Movie),
+    // other types...
 }
 ```
 
@@ -99,11 +99,11 @@ use hdk::prelude::*;
 use movie_integrity::*;
 
 let movie = Movie {
-  title: "The Good, the Bad, and the Ugly".to_string(),
-  director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
-  imdb_id: Some("tt0060196".to_string()),
-  release_date: Timestamp(-95_472_000_000_000), // 1966-12-23
-  box_office_revenue: 389_000_000,
+    title: "The Good, the Bad, and the Ugly".to_string(),
+    director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
+    imdb_id: Some("tt0060196".to_string()),
+    release_date: Timestamp(-95_472_000_000_000), // 1966-12-23
+    box_office_revenue: 389_000_000,
 };
 
 let create_action_hash = create_entry(
@@ -150,12 +150,12 @@ use hdk::prelude::*;
 use movie_integrity::*;
 
 let movie2 = Movie {
-  title: "The Good, the Bad, and the Ugly".to_string(),
-  director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
-  imdb_id: Some("tt0060196".to_string()),
-  release_date: Timestamp(-95_472_000_000_000),
-  // Corrected from 389_000_000
-  box_office_revenue: 400_000_000,
+    title: "The Good, the Bad, and the Ugly".to_string(),
+    director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
+    imdb_id: Some("tt0060196".to_string()),
+    release_date: Timestamp(-95_472_000_000_000),
+    // Corrected from 389_000_000
+    box_office_revenue: 400_000_000,
 };
 
 let update_action_hash = update_entry(

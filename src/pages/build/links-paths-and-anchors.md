@@ -193,9 +193,9 @@ use movie_integrity::*;
 // This will create a two-level path that looks like:
 //    "movies_by_first_letter" → "g"
 let path_to_movies_starting_with_g = Path::from("movies_by_first_letter.g")
-  // A path requires a link type that you've defined in the integrity zome.
-  // Here, we're using the `MovieByFirstLetterAnchor` type that we created.
-  .typed(LinkTypes::MovieByFirstLetterAnchor)?;
+    // A path requires a link type that you've defined in the integrity zome.
+    // Here, we're using the `MovieByFirstLetterAnchor` type that we created.
+    .typed(LinkTypes::MovieByFirstLetterAnchor)?;
 
 // Make sure it exists before attaching links to it -- if it already exists,
 // ensure() will have no effect.
