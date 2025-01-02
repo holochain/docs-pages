@@ -97,12 +97,16 @@ Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/la
 use hdk::prelude::*;
 // Import the entry types and the enum defined in the integrity zome.
 use movie_integrity::*;
+use chrono::DateTime;
 
 let movie = Movie {
     title: "The Good, the Bad, and the Ugly".to_string(),
     director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
     imdb_id: Some("tt0060196".to_string()),
-    release_date: Timestamp(-95_472_000_000_000), // 1966-12-23
+    release_date: Timestamp::from(
+        DateTime::parse_from_rfc3339("1966-12-23")?
+            .to_utc()
+    ),
     box_office_revenue: 389_000_000,
 };
 
@@ -148,12 +152,16 @@ Update an entry creation action by calling [`hdk::prelude::update_entry`](https:
 ```rust
 use hdk::prelude::*;
 use movie_integrity::*;
+use chrono::DateTime;
 
 let movie2 = Movie {
     title: "The Good, the Bad, and the Ugly".to_string(),
     director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
     imdb_id: Some("tt0060196".to_string()),
-    release_date: Timestamp(-95_472_000_000_000),
+    release_date: Timestamp::from(
+        DateTime::parse_from_rfc3339("1966-12-23")?
+            .to_utc()
+    ),
     // Corrected from 389_000_000
     box_office_revenue: 400_000_000,
 };
