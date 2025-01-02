@@ -113,7 +113,7 @@ If you want to filter the returned links by tag, pass some bytes to the input bu
 let movies_in_1960s_by_director = get_links(
     GetLinksInputBuilder::try_new(director_entry_hash, LinkTypes::DirectorToMovie)?
         .get_options(GetStrategy::Network)
-        ..tag_prefix("year:196".as_bytes().to_owned().into())
+        .tag_prefix("year:196".as_bytes().to_owned().into())
         .build()
 )?;
 ```
@@ -217,10 +217,11 @@ use movie_integrity::*;
 
 let path_to_movies_starting_with_g = Path::from("movies_by_first_letter.g");
 let links_to_movies_starting_with_g = get_links(
-let links_to_movies_starting_with_g = get_links(
     // A path doesn't need to have a type in order to compute its hash.
-    GetLinksBuilder::try_new(path_to_movies_starting_with_g.path_entry_hash()?, LinkTypes::MovieByFirstLetter)?
-)?;
+    GetLinksInputBuilder::try_new(
+        path_to_movies_starting_with_g.path_entry_hash()?,
+        LinkTypes::MovieByFirstLetter
+    )?
 )?;
 ```
 
