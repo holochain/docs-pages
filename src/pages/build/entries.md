@@ -15,9 +15,13 @@ An entry is always paired with an **entry creation action** that tells you who a
 
 The pairing of an entry and the action that created it is called a **record**, which is the basic unit of data in a Holochain application.
 
+## Scaffold an entry type and CRUD API
+
+The Holochain dev tool command `hc scaffold entry-type <entry_type>` generates the code for a simple entry type and a CRUD API. It presents an interface that lets you define a struct and its fields, then asks you to choose whether to implement update and delete functions for it along with the default create and read functions.
+
 ## Define an entry type
 
-Each entry has a **type**, which your application code uses to make sense of the entry's bytes. Our [HDI library](https://docs.rs/hdi/latest/hdi/) gives you macros to automatically define, serialize, and deserialize entry types to and from any Rust struct or enum that [`serde`](https://docs.rs/serde/latest/serde/) can handle.
+Each entry has a **type**. This lets your application make sense of what would otherwise be a blob of arbitrary bytes. Our [HDI library](https://docs.rs/hdi/latest/hdi/) gives you macros to automatically define, serialize, and deserialize typed entries to and from any Rust struct or enum that [`serde`](https://docs.rs/serde/latest/serde/) can handle.
 
 Entry types are defined in an [**integrity zome**](/resources/glossary/#integrity-zome). To define an [`EntryType`](https://docs.rs/hdi/latest/hdi/prelude/enum.EntryType.html), use the [`hdi::prelude::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_helper.html) macro on your Rust type:
 
@@ -25,12 +29,15 @@ Entry types are defined in an [**integrity zome**](/resources/glossary/#integrit
 use hdi::prelude::*;
 
 #[hdk_entry_helper]
+pub struct Director(pub String);
+
+#[hdk_entry_helper]
 pub struct Movie {
-  title: String,
-  director: String,
-  imdb_id: Option<String>,
-  release_date: Timestamp,
-  box_office_revenue: u128,
+    pub title: String,
+    pub director_hash: EntryHash,
+    pub imdb_id: Option<String>,
+    pub release_date: Timestamp,
+    pub box_office_revenue: u128,
 }
 ```
 
@@ -42,13 +49,18 @@ In order to dispatch validation to the proper integrity zome, Holochain needs to
 use hdi::prelude::*;
 
 #[hdk_entry_defs]
+// This macro is required by hdk_entry_defs.
+#[unit_enum(UnitEntryTypes)]
 enum EntryTypes {
-  Movie(Movie),
-  // other types...
+    Director(Director),
+    Movie(Movie),
+    // other types...
 }
 ```
 
-### Configuring an entry type
+This also gives you an enum that you can use later when you're storing app data. Under the hood, an entry type consists of two bytes --- an integrity zome index and an entry def index. These are required whenever you want to write an entry. Instead of having to remember those values every time you store something, your coordinator zome can just import and use this enum, which already knows how to convert each entry type to the right IDs.
+
+### Configure an entry type
 
 Each variant in the enum should hold the Rust type that corresponds to it, and is implicitly marked with an `entry_def` proc macro which, if you specify it explicitly, lets you configure the given entry type further:
 
@@ -59,47 +71,51 @@ Each variant in the enum should hold the Rust type that corresponds to it, and i
 use hdi::prelude::*;
 
 #[hdk_entry_defs]
+#[unit_enum(UnitEntryTypes)]
 enum EntryTypes {
-    #[entry_def(required_validations = 7, )]
+    Director(Director),
+
+    #[entry_type(required_validations = 7, )]
     Movie(Movie),
 
     // You can reuse your Rust type in another entry type if you like. In this
     // example, `HomeMovie` also (de)serializes to/from the `Movie` struct, but
     // is actually a different entry type with different visibility, and can be
     // subjected to different validation rules.
-    #[entry_def(visibility = "private", )]
+    #[entry_type(visibility = "private", )]
     HomeMovie(Movie),
 }
 ```
-
-This also gives you an enum that you can use later when you're storing app data. This is important because, under the hood, an entry type consists of two bytes -- an integrity zome index and an entry def index. These are required whenever you want to write an entry. Instead of having to remember those values every time you store something, your coordinator zome can just import and use this enum, which already knows how to convert each entry type to the right IDs.
 
 ## Create an entry
 
 Most of the time you'll want to define your create, read, update, and delete (CRUD) functions in a [**coordinator zome**](/resources/glossary/#coordinator-zome) rather than the integrity zome that defines it. This is because a coordinator zome is easier to update in the wild than an integrity zome.
 
-Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/prelude/fn.create_entry.html). If you used `hdk_entry_helper` and `hdk_entry_defs` macro in your integrity zome (see [Define an entry type](#define-an-entry-type)), you can use the entry types enum you defined, and the entry will be serialized and have the correct integrity zome and entry type indexes added to it.
+Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html). If you used `hdk_entry_helper` and `hdk_entry_defs` macro in your integrity zome (see [Define an entry type](#define-an-entry-type)), you can use the entry types enum you defined, and the entry will be serialized and have the correct integrity zome and entry type indexes added to it.
 
 ```rust
 use hdk::prelude::*;
-use chrono::Date;
 // Import the entry types and the enum defined in the integrity zome.
 use movie_integrity::*;
+use chrono::DateTime;
 
 let movie = Movie {
-  title: "The Good, the Bad, and the Ugly",
-  director: "Sergio Leone"
-  imdb_id: Some("tt0060196"),
-  release_date: Timestamp::from(Date::Utc("1966-12-23")),
-  box_office_revenue: 389_000_000,
+    title: "The Good, the Bad, and the Ugly".to_string(),
+    director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
+    imdb_id: Some("tt0060196".to_string()),
+    release_date: Timestamp::from(
+        DateTime::parse_from_rfc3339("1966-12-23")?
+            .to_utc()
+    ),
+    box_office_revenue: 389_000_000,
 };
 
-let create_action_hash: ActionHash = create_entry(
+let create_action_hash = create_entry(
     // The value you pass to `create_entry` needs a lot of traits to tell
     // Holochain which entry type from which integrity zome you're trying to
     // create. The `hdk_entry_defs` macro will have set this up for you, so all
     // you need to do is wrap your movie in the corresponding enum variant.
-    &EntryTypes::Movie(movie.clone()),
+    &EntryTypes::Movie(movie),
 )?;
 ```
 
@@ -135,20 +151,24 @@ Update an entry creation action by calling [`hdk::prelude::update_entry`](https:
 
 ```rust
 use hdk::prelude::*;
-use chrono::Date;
 use movie_integrity::*;
+use chrono::DateTime;
 
 let movie2 = Movie {
-  title: "The Good, the Bad, and the Ugly",
-  director: "Sergio Leone"
-  imdb_id: Some("tt0060196"),
-  release_date: Timestamp::from(Date::Utc("1966-12-23")),
-  box_office_revenue: 400_000_000,
+    title: "The Good, the Bad, and the Ugly".to_string(),
+    director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
+    imdb_id: Some("tt0060196".to_string()),
+    release_date: Timestamp::from(
+        DateTime::parse_from_rfc3339("1966-12-23")?
+            .to_utc()
+    ),
+    // Corrected from 389_000_000
+    box_office_revenue: 400_000_000,
 };
 
-let update_action_hash: ActionHash = update_entry(
+let update_action_hash = update_entry(
     create_action_hash,
-    &EntryTypes::Movie(movie2.clone()),
+    &EntryTypes::Movie(movie2),
 )?;
 ```
 
@@ -217,12 +237,12 @@ Delete an entry creation action by calling [`hdk::prelude::delete_entry`](https:
 ```rust
 use hdk::prelude::*;
 
-let delete_action_hash: ActionHash = delete_entry(
+let delete_action_hash = delete_entry(
     create_action_hash,
 )?;
 ```
 
-As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) is authored, which attaches to the entry creation action and marks it as 'dead'. An entry itself is only considered dead when all entry creation actions that created it are marked dead, and it can become live again in the future if a _new_ entry creation action writes it. Dead data can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see below).
+As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) is authored, which attaches to the entry creation action and marks it as deleted. An entry itself is only considered deleted when _all_ entry creation actions that created it are marked deleted, and it can become live again in the future if a _new_ entry creation action writes it. Deleted data can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see below).
 
 In the future we plan to include a 'purge' functionality. This will give agents permission to actually erase an entry from their DHT store, but not its associated entry creation action.
 
@@ -260,22 +280,23 @@ You can use any of these identifiers as a field in your entry types to model a m
 
 ## Retrieve an entry
 
-### By record only
+### As a single record
 
-Get a record by calling [`hdk::prelude::get`](https://docs.rs/hdk/latest/hdk/prelude/fn.get.html) with the hash of its entry creation action. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>.
+Get a record by calling [`hdk::prelude::get`](https://docs.rs/hdk/latest/hdk/prelude/fn.get.html) with the hash of either its entry creation action. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>.
 
-You can also pass an entry hash to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
+You can also pass an _entry hash_ to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
 
 ```rust
 use hdk::prelude::*;
 use movie_integrity::*;
 
-let maybe_record: Option<Record> = get(
+let maybe_record = get(
     action_hash,
-    // Get the data and metadata directly from the DHT. You can also specify
-    // `GetOptions::content()`, which only accesses the DHT if the data at the
-    // supplied hash doesn't already exist locally.
-    GetOptions::latest()
+    // Get the data and metadata directly from the DHT, falling back to local
+    // storage if it can't access peers.
+    // You can also specify `GetOptions::local()`, which only accesses the local
+    // storage.
+    GetOptions::network()
 )?;
 
 match maybe_record {
@@ -288,7 +309,7 @@ match maybe_record {
         // `Record` type, but in this simple example we'll skip that and assume
         // that the action hash does reference an action with entry data
         // attached to it.
-        let maybe_movie: Option<Movie> = record.entry().to_app_option();
+        let maybe_movie = record.entry().to_app_option()?;
 
         match maybe_movie {
             Some(movie) => debug!(
@@ -302,7 +323,7 @@ match maybe_record {
         }
     }
     None => debug!("Movie record not found"),
-}
+};
 ```
 
 ### All data, actions, and links at an address
@@ -315,14 +336,14 @@ To get a record and all the updates, deletes, and outbound links associated with
 use hdk::prelude::*;
 use movie_integrity::*;
 
-let maybe_details: Option<Details> = get_details(
+let maybe_details = get_details(
     action_hash,
-    GetOptions::latest()
+    GetOptions::network()
 )?;
 
 match maybe_details {
     Some(Details::Record(record_details)) => {
-        let maybe_movie: Option<Movie> = record.entry().to_app_option();
+        let maybe_movie: Option<Movie> = record_details.record.entry().to_app_option()?;
         match maybe_movie {
             Some(movie) => debug!(
                 "Movie record {}, created on {}, was updated by {} agents and deleted by {} agents",
@@ -335,7 +356,7 @@ match maybe_details {
         }
     }
     _ => debug!("Movie record not found"),
-}
+};
 ```
 
 #### Entries
@@ -348,24 +369,22 @@ use movie_integrity::*;
 
 let maybe_details: Option<Details> = get_details(
     entry_hash,
-    GetOptions::latest()
+    GetOptions::network()
 )?;
 
 match maybe_details {
     Some(Details::Entry(entry_details)) => {
-        let maybe_movie: Option<Movie> = entry_details.entry
+        let maybe_movie = entry_details.entry
             .as_app_entry()
-            .clone()
-            .try_into()
-            .ok();
+            .map(|b| Movie::try_from(b.into_sb()))
+            .transpose()?;
         match maybe_movie {
             Some(movie) => debug!(
-                "Movie {} was written by {} agents, updated by {} agents, and deleted by {} agents. Its DHT status is currently {}.",
+                "Movie {} was written by {} agents, updated by {} agents, and deleted by {} agents.",
                 movie.title,
                 entry_details.actions.len(),
                 entry_details.updates.len(),
-                entry_details.deletes.len(),
-                entry_details.entry_dht_status
+                entry_details.deletes.len()
             ),
             None => debug!("Movie entry couldn't be retrieved"),
         }
@@ -374,13 +393,9 @@ match maybe_details {
 }
 ```
 
-## Scaffolding an entry type and CRUD API
-
-The Holochain dev tool command `hc scaffold entry-type <entry_type>` generates the code for a simple entry type and a CRUD API. It presents an interface that lets you define a struct and its fields, then asks you to choose whether to implement update and delete functions for it along with the default create and read functions.
-
 ## Community CRUD libraries
 
-If the scaffolder doesn't support your desired functionality, or is too low-level, there are some community-maintained libraries that offer opinionated and high-level ways to work with entries. Some of them also offer permissions management.
+There are some community-maintained libraries that offer opinionated and high-level ways to work with entries. Some of them also offer permissions management.
 
 * [rust-hc-crud-caps](https://github.com/spartan-holochain-counsel/rust-hc-crud-caps)
 * [hdk_crud](https://github.com/lightningrodlabs/hdk_crud)
@@ -388,14 +403,16 @@ If the scaffolder doesn't support your desired functionality, or is too low-leve
 
 ## Reference
 
-* [hdi::prelude::hdk_entry_helper](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html)
-* [hdi::prelude::hdk_entry_defs](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_defs.html)
-* [hdi::prelude::entry_def](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html)
-* [hdk::prelude::create_entry](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html)
-* [hdk::prelude::update_entry](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html)
-* [hdi::prelude::delete_entry](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html)
+* [`hdi::prelude::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html)
+* [`hdi::prelude::hdk_entry_defs`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_defs.html)
+* [`hdi::prelude::entry_def`](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html)
+* [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html)
+* [`hdk::prelude::update_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html)
+* [`hdi::prelude::delete_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html)
 
 ## Further reading
 
 * [Core Concepts: CRUD actions](/concepts/6_crud_actions/)
+* [Build Guide: Identifiers](/build/identifiers/)
+* [Build Guide: Links, Paths, and Anchors](/build/links-paths-and-anchors/)
 * [CRDT.tech](https://crdt.tech), a resource for learning about conflict-free replicated data types

@@ -50,7 +50,9 @@ export default function(eleventyConfig) {
         pre.className += ' hljs-container';
         const code = pre.querySelector('code');
         const maybeLanguage = code.className.match(/(?<=\blanguage-)[A-Za-z0-9_-]+/);
-        const blockText = he.decode(code.textContent);
+        let blockText = he.decode(code.textContent);
+        // Erase cspell directives from sample code.
+        blockText = blockText.replace(/(#|\/\/|\/\*)\s+(cspell|spell-?checker):\s*[a-z-]+(\s+\*\/)?/gmi, "");
         if (maybeLanguage) {
           code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
         } else {
