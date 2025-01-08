@@ -824,7 +824,7 @@ A process of reducing the processing and storage load of individual [nodes](#nod
 1. A message emitted by a [cell](#cell), meant for a local [client](#client) to receive and act upon.
 2. A message sent by one cell to another (usually remote) cell in the same [network](#network).
 
-Signals are "fire and forget"; they are not persisted to any [source chain](#source-chain) or the [DHT](#dht) and will be lost and not retried if they don't reach the intended recipient(s).
+Signals are "fire and forget"; they are not persisted to any [source chain](#source-chain) or the [DHT](#distributed-hash-table-dht) and will be lost and not retried if they don't reach the intended recipient(s).
 
 #### Source chain
 
