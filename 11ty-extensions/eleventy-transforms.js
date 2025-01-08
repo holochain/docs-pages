@@ -3,7 +3,7 @@
 // just call the function.
 import postHtmlSetup from "posthtml";
 const postHtml = postHtmlSetup();
-import htmlMin from "html-minifier";
+import htmlMin from "html-minifier-terser";
 import { noopener } from "posthtml-noopener";
 import dom from "fauxdom";
 import he from "he";

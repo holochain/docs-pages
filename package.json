@@ -57,7 +57,7 @@
     "highlight.js": "^11.9.0",
     "highlightjs-code-diff": "^1.0.0",
     "highlightjs-svelte": "^1.0.6",
-    "html-minifier": "^4.0.0",
+    "html-minifier-terser": "^7.2.0",
     "html-to-text": "^8.2.1",
     "json5": "^2.2.3",
     "lunr": "^2.3.9",
