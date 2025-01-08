@@ -112,3 +112,7 @@ dist
 _site/
 client-side-compiled/
 styles-compiled/
+
+# A place to put a local scaffolded DNA so you can test code for the build guide
+# without having to have two projects/folderss open in your editor.
+code_test/
