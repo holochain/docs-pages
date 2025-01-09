@@ -2,18 +2,18 @@
 title: Application Structure
 ---
 
-::: topic-list
+!!! topic-list
 ### In this section {data-no-toc}
 
 * Application Structure (this page)
     * [Zomes] --- integrity vs coordinator, how to structure and compile
     * [DNAs] --- what they're used for, how to specify and bundle
     * [hApps] --- headless vs UI-based, how to bundle and distribute
-:::
+!!!
 
-::: intro
+!!! intro
 There are a few basic units of composability and packaging you'll need to know about when you're structuring your hApp. Each has different purposes, so it matters how you break up your code.
-:::
+!!!
 
 ## Zomes, DNAs, and hApps
 
@@ -21,7 +21,7 @@ There are a few basic units of composability and packaging you'll need to know a
 
 The smallest unit in a hApp is called a chromosome or **zome**. It's the actual binary code that runs in Holochain's [WebAssembly](https://webassembly.org/) VM.
 
-::: info Why WebAssembly?
+!!! info Why WebAssembly?
 
 We chose WebAssembly because:
 
@@ -29,7 +29,7 @@ We chose WebAssembly because:
 * It's small and fast --- it can get compiled to machine code for near-native speed.
 * Holochain is written in Rust, and Rust has an excellent WebAssembly engine called [Wasmer](https://wasmer.io/) that works on all the major operating systems.
 
-:::
+!!!
 
 A zome has access to Holochain's host API and also exposes functions of its own. Some of these functions are **required callbacks** and some of them you invent yourself to create your back end's API.
 
@@ -50,11 +50,11 @@ Multiple zomes are bundled into a **DNA**. When two or more participants install
 
 Because each DNA has its own peer network and data store, you can use the DNA concept to come up with creative approaches to privacy, separation of responsibilities, or data retention.
 
-::: info Why not coordinator zomes?
+!!! info Why not coordinator zomes?
 
 Coordinator zomes are bundled with a DNA, but they don't contribute to its uniqueness. This lets you hot-swap coordinators as you fix bugs and add features, without causing the DNA to **fork** a new network. The only things that should cause a fork are changes to integrity code --- the 'rules of the game' for the participants.
 
-:::
+!!!
 
 ### hApp
 
@@ -72,7 +72,7 @@ The hApp can specify a few provisioning strategies for its DNAs:
 
 A hApp can optionally include a web-based UI that [supporting Holochain runtimes](TODO: link) can serve to the user.
 
-::: info A hApp always runs locally
+!!! info A hApp always runs locally
 
 The big difference with peer-to-peer stacks like Holochain is that **all the code** --- both the back end and the front end --- **runs on the devices of the participants themselves**.
 
@@ -80,7 +80,7 @@ That means that a DNA doesn't exist as some piece of code that runs 'out there s
 
 That doesn't mean there can't be bots or system-level services that do automated tasks. It just means that those functions have to be handled by one of the peers, which doesn't have to be a human-driven machine.
 
-:::
+!!!
 
 ## Further reading
 
