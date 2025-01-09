@@ -14,7 +14,7 @@ title: Application Structure
 :::
 
 ::: intro
-There are a few basic units of composability and packaging you'll need to know about when you're structuring your hApp. Each has different purposes, and the way you break up your code makes a difference to how it runs in terms of network access and reuse.
+There are a few basic units of composability and packaging you'll need to know about when you're structuring your hApp. Each has different purposes, and the way you break up your code makes a difference to how it works in terms of access, privacy, participant responsibilities, and code reuse.
 :::
 
 ## Zomes, DNAs, and hApps
