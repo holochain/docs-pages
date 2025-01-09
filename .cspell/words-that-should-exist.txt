@@ -4,6 +4,7 @@ affordances
 automations
 birthdate
 chrono
+composability
 counterparties
 counterparties'
 counterparty
