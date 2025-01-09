@@ -2,7 +2,7 @@
 title: Application Structure
 ---
 
-!!! topic-list
+::: topic-list
 ### In this section {data-no-toc}
 
 * Application Structure (this page)
@@ -11,11 +11,11 @@ title: Application Structure
     * [DNAs] --- what they're used for, how to specify and bundle
     * [hApps] --- headless vs UI-based, how to bundle and distribute
 -->
-!!!
+:::
 
-!!! intro
+::: intro
 There are a few basic units of composability and packaging you'll need to know about when you're structuring your hApp. Each has different purposes, and the way you break up your code makes a difference to how it runs in terms of network access and reuse.
-!!!
+:::
 
 ## Zomes, DNAs, and hApps
 
