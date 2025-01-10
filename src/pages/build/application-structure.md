@@ -7,10 +7,8 @@ title: Application Structure
 
 * Application Structure (this page)
     * [Zomes](/build/zomes/) --- integrity vs coordinator, how to structure and compile
-<!--
-    * [DNAs] --- what they're used for, how to specify and bundle
-    * [hApps] --- headless vs UI-based, how to bundle and distribute
--->
+    * DNAs (coming soon) --- what they're used for, how to specify and bundle
+    * hApps (coming soon) --- headless vs UI-based, how to bundle and distribute
 :::
 
 ::: intro
