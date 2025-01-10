@@ -21,7 +21,7 @@ There are a few basic units of composability and packaging you'll need to know a
 
 ### Zomes
 
-The smallest unit in a hApp is called a chromosome or **zome**. It's the actual binary code that runs in Holochain's [WebAssembly](https://webassembly.org/) VM.
+The smallest unit in a hApp is called a **zome** (a play on DNA chromosomes) It's the actual binary code that runs in Holochain's [WebAssembly](https://webassembly.org/) VM.
 
 !!! info Why WebAssembly?
 
@@ -30,6 +30,7 @@ We chose WebAssembly because:
 * A [number of languages](https://github.com/appcypher/awesome-wasm-langs) can already be compiled to WebAssembly, which we hope will mean Holochain can support many languages on the back end in the future (currently we only supply a back-end SDK for Rust.)
 * It's small and fast --- it can get compiled to machine code for near-native speed.
 * Holochain is written in Rust, and Rust has an excellent WebAssembly engine called [Wasmer](https://wasmer.io/) that works on all the major operating systems.
+* It provides a secure sandbox to run untrusted code within.
 
 !!!
 
@@ -48,7 +49,7 @@ If you mean for your zomes to be reused by other projects, you can share them vi
 
 ### DNAs
 
-Multiple zomes are bundled into a **DNA**. When two or more participants install and run a DNA, an isolated peer-to-peer network is created among them to interact and store shared data.
+One or more zomes are bundled into a **DNA**. When two or more participants install and run a DNA, an isolated peer-to-peer network is created among them to interact and store shared data.
 
 **A DNA, and the network created for it, is uniquely defined by its integrity zomes, plus any modifiers.** The hash of the integrity zomes plus modifiers is called the **DNA hash**, and is the unique identifier for the network.
 
@@ -58,21 +59,18 @@ Coordinator zomes are bundled with a DNA, but they don't contribute to its uniqu
 
 !!!
 
-Because each DNA has its own peer network and data store, you can use the DNA concept to come up with creative approaches to privacy and access, separation of responsibilities, or data retention.
+Because each DNA has its own isolated peer network and data store, you can use the DNA concept to come up with creative approaches to privacy and access, separation of responsibilities, or data retention.
 
 ### hApp
 
 Multiple DNAs come together in a **hApp** (Holochain app). Each DNA fills a named **role** in the hApp, and can be seen as a [microservice](https://en.wikipedia.org/wiki/Microservices).
 
-Each peer generates its own public/private key pair when they install a hApp, and this becomes their **agent ID** which identifies and authenticates them as a participant in all the networks created for all the DNAs in the hApp. When a DNA is activated, it's bound to this key pair and becomes a DNA instance or **cell**.
+Each peer generates its own public/private key pair when they install a hApp. Their public key acts as their **agent ID** which identifies them as a participant in all the networks created for all the DNAs in the hApp. When a DNA is activated, it's bound to this key pair and becomes a DNA instance or **cell**.
 
 The hApp can specify a few provisioning strategies for its DNAs:
 
 * A cell can be instantiated at app installation time.
-* A cell can be prepared but left uninstantiated until it's needed later.
-* If an existing cell that matches a given DNA hash exists, it can be reused.
 * A new cell can be **cloned** from an existing DNA at any time _after the hApp is installed_, with an optional limit on the number of clones.
-* A DNA can be installed but never instantiated into a cell --- instead it serves only as a **stem cell**, a template for cloning.
 
 A hApp can optionally include a web-based UI that supporting Holochain runtimes <!-- TODO: link --> can serve to the user.
 
