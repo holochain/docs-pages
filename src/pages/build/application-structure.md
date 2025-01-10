@@ -6,8 +6,8 @@ title: Application Structure
 ### In this section {data-no-toc}
 
 * Application Structure (this page)
+    * [Zomes](/build/zomes/) --- integrity vs coordinator, how to structure and compile
 <!--
-    * [Zomes] --- integrity vs coordinator, how to structure and compile
     * [DNAs] --- what they're used for, how to specify and bundle
     * [hApps] --- headless vs UI-based, how to bundle and distribute
 -->
@@ -43,6 +43,8 @@ There are two kinds of zome:
 Zomes are usually created as pairs --- an integrity zome that defines a portion of your schema and a coordinator zome that defines <abbr title="create, read, update, delete">CRUD</abbr> functions for that schema. You don't have to do it this way though; coordinator zomes don't need an integrity zome if they don't manipulate data, or they can depend on multiple integrity zomes, or multiple coordinators can depend on the same integrity zome.
 
 If you mean for your zomes to be reused by other projects, you can share them via a public Git repository or [crates.io](https://crates.io) (tag your crates with `#holochain` so others can find them).
+
+[Read more on the Zomes page](/build/zomes/).
 
 ### DNAs
 
