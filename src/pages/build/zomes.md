@@ -3,12 +3,12 @@ title: "Zomes"
 ---
 
 ::: intro
-A **zome** (short for chromosome) is a module of executable code within a [**DNA**](/glossary/#dna). It's the smallest unit of modularity in a Holochain application.
+A **zome** (short for chromosome) is a module of executable code within a [**DNA**](/resources/glossary/#dna). It's the smallest unit of modularity in a Holochain application.
 :::
 
 ## How a zome is structured
 
-A zome is just a [WebAssembly module](https://webassembly.github.io/spec/core/syntax/modules.html) that exposes public functions. The **conductor** (the Holochain runtime) knows about these functions and calls them at different points in the application's lifetime. Some functions have special names and are called [lifecycle callbacks](/build/lifecycle-events-and-callbacks/), and you can also define arbitrarily named functions of your own to serve as your zome's API.
+A zome is just a [WebAssembly module](https://webassembly.github.io/spec/core/syntax/modules.html) that exposes public functions. The **conductor** (the Holochain runtime) knows about these functions and calls them at different points in the application's lifetime. Some functions have special names and are called **lifecycle callbacks**<!-- TODO uncomment when lifecycle callbacks PR is merged [lifecycle callbacks](/build/lifecycle-events-and-callbacks/)-->, and you can also define arbitrarily named functions of your own to serve as your zome's API.
 
 For Rust developers, we've created an SDK called the [Holochain Development Kit (HDK)](https://crates.io/crates/hdk/). It lets you define functions, exchange data with the host (the Holochain VM), and access all of the host's functionality.
 
@@ -20,7 +20,7 @@ An **integrity zome** defines a portion of your application's data model or sche
 
 !!! info Keep your integrity zomes small
 
-While you can define arbitrary public zome functions in your integrity zome, in practice it makes fixing bugs and adding features difficult, because every code change to an integrity zome [modifies the hash of the DNA](/build/application-structure/#dnas) and causes a fork of the database. So it's better for maintainability if the integrity zome _only_ contains your data model and the necessary callbacks that inform Holochain about that model.
+While you can define arbitrary public zome functions in your integrity zome, in practice it makes fixing bugs and adding features difficult, because every code change to an integrity zome [modifies the hash of the DNA](/build/application-structure/#dna) and causes a fork of the database. So it's better for maintainability if the integrity zome _only_ contains your data model and the necessary callbacks that inform Holochain about that model.
 
 Because these callbacks only need a small portion of Holochain's functionality, you don't need the entire `hdk` crate to write an integrity zome. Use the smaller [`hdi`](https://crates.io/crates/hdi) crate instead.
 
@@ -139,6 +139,6 @@ pub fn check_age_for_18a_movie(age: u32) -> ExternResult<()> {
 ## Further reading
 
 * [Build Guide: Lifecycle Events and Callbacks](/build/lifecycle-events-and-callbacks/)
-* [Build Guide: Zome Functions](/build/zome-functions/)
+<!-- TODO: uncomment after zome functions PR is merged * [Build Guide: Zome Functions](/build/zome-functions/)-->
 * [WebAssembly](https://webassembly.org/)
 * [serde](https://serde.rs/)
