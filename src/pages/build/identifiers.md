@@ -226,7 +226,7 @@ Read more about [entries](/build/entries/) and [links](/build/links-paths-and-an
 There are a few important things to know about action hashes:
 
 * You can't know an action's hash until you've written the action, because the action contains the current system time at the moment of writing.
-* When you write an action, you can specify "relaxed chain top ordering". We won't go into the details here, <!-- TODO: fill this in when I write about zome call lifecycles -->but when you use it, the action hash may change after the function completes.
+* When you write an action, you can specify "relaxed chain top ordering". We won't go into the details here (see [the section in the Zome Functions page](/build/zome-functions/#relaxed-chain-top-ordering),but when you use it, the action hash may change after the function completes.
 * A function that writes actions is _atomic_, which means that all writes fail or succeed together.
 
 Because of these three things, it's unsafe to depend on the value or even existence of an action hash within the same function that writes it. Here are some 'safe usage' notes:

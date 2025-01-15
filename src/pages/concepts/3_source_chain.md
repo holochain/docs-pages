@@ -122,7 +122,7 @@ Holochain's answer is simple --- _somebody will notice_. More on that in the nex
 * Data is stored in the source chain as records, which consist of actions and sometimes entries.
 * Data can be linked together.
 * Every entry and link has a type, validated by a function that checks its integrity in the context of its place in the source chain.
-* The first four entries are called genesis entries, and are special system types that contain the DNA hash, the agent's membrane proof, their public key, and an init-complete marker.
+* The first four records on a source chain are called genesis records, and are special system types that contain the DNA hash, the agent's membrane proof, their public key, and an init-complete marker.
 * Entries are just binary data, and MessagePack is a good way to give them structure.
 * The source chain and all of its data is tamper-evident; validators can detect third-party attempts to modify it.
 
