@@ -4,6 +4,7 @@ affordances
 automations
 birthdate
 chrono
+composability
 counterparties
 counterparties'
 counterparty
@@ -29,4 +30,5 @@ todo
 todos
 unforgeable
 uninstallation
+uninstantiated
 unvalidated
