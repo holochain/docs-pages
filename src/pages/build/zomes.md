@@ -32,9 +32,48 @@ Your integrity zome tells Holochain about the types of [entries](/build/entries/
 
 Finally, your integrity zome defines [validation callbacks](/build/lifecycle-events-and-callbacks/#define-a-validate-callback) that check for correctness of data and actions. Holochain runs this on an agent's own device when they attempt to author data, and on other peers' devices when they're asked to store and serve data authored by others.
 
+#### Create an integrity zome
+
+**The easy way to create an integrity zome** is to [scaffold a new hApp](/get-started/3-forum-app-tutorial/). The scaffolding tool will generate all the project files, including scripts to test and build distributable packages, and it can also scaffold boilerplate code for all your app's required callbacks and data types.
+
+If you want to start from scratch, first make sure you have Rust, Cargo, and the `wasm32-unknown-unknown` Rust toolchain installed on your computer. Then create a library crate:
+
+```bash
+cargo new my_integrity_zome --lib
+```
+
+Then add some necessary dependencies to your new `Cargo.toml` file:
+
+```diff:toml
+ [dependencies]
++hdi = "=0.5.0-rc.1"
++serde = "1.0"
+```
+
+At the very minimum, make sure your code exposes a [`validate` callback](/build/lifecycle-events-and-callbacks/#define-a-validate-callback) and [defines some entry types](/build/entries/#define-an-entry-type).
+
+Compile your zome using `cargo`:
+
+```bash
+cargo build --release --target wasm32-unknown-unknown
+```
+
 ### Coordinator
 
 Coordinator zomes hold your back-end logic --- the functions that read and write data or communicate with peers. In addition to some optional, specially named [lifecycle callbacks](/build/lifecycle-events-and-callbacks/#coordinator-zomes), you can also write your own **zome functions** that serve as your zome's API.
+
+#### Create a coordinator zome
+
+Again, **the easiest way to create a coordinator zome** is to let the scaffolding tool do it for you. But if you want to do it from scratch, it's the same as an integrity zome, with two exceptions. Your `Cargo.toml`'s dependencies should be modified like this:
+
+```diff:toml
+ [dependencies]
+-hdi = "=0.5.0-rc.1"
++hdk = "=0.4.0-rc.1"
+ serde = "1.0"
+```
+
+And there aren't any required callbacks to define in your code.
 
 ## Define a function
 
