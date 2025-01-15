@@ -43,13 +43,13 @@ pub struct Movie {
 
 This implements a host of [`TryFrom` conversions](https://docs.rs/hdi/latest/src/hdi/entry.rs.html#120-209) that your type is expected to implement, along with serialization and deserialization functions.
 
-In order to dispatch validation to the proper integrity zome, Holochain needs to know about all the entry types that your integrity zome defines. This is done by implementing a callback in your zome called `entry_defs`, but it's easier to use the [`hdi::prelude::hdk_entry_defs`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_defs.html) macro on an enum of all the entry types:
+In order to dispatch validation to the proper integrity zome, Holochain needs to know about all the entry types that your integrity zome defines. This is done by implementing a callback in your zome called `entry_defs`, but it's easier to use the [`hdi::prelude::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_types.html) macro on an enum of all the entry types:
 
 ```rust
 use hdi::prelude::*;
 
-#[hdk_entry_defs]
-// This macro is required by hdk_entry_defs.
+#[hdk_entry_types]
+// This macro is required by hdk_entry_types.
 #[unit_enum(UnitEntryTypes)]
 enum EntryTypes {
     Director(Director),
@@ -70,7 +70,7 @@ Each variant in the enum should hold the Rust type that corresponds to it, and i
 ```rust
 use hdi::prelude::*;
 
-#[hdk_entry_defs]
+#[hdk_entry_types]
 #[unit_enum(UnitEntryTypes)]
 enum EntryTypes {
     Director(Director),
@@ -91,7 +91,7 @@ enum EntryTypes {
 
 Most of the time you'll want to define your create, read, update, and delete (CRUD) functions in a [**coordinator zome**](/resources/glossary/#coordinator-zome) rather than the integrity zome that defines it. This is because a coordinator zome is easier to update in the wild than an integrity zome.
 
-Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html). If you used `hdk_entry_helper` and `hdk_entry_defs` macro in your integrity zome (see [Define an entry type](#define-an-entry-type)), you can use the entry types enum you defined, and the entry will be serialized and have the correct integrity zome and entry type indexes added to it.
+Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html). If you used `hdk_entry_helper` and `hdk_entry_types` macro in your integrity zome (see [Define an entry type](#define-an-entry-type)), you can use the entry types enum you defined, and the entry will be serialized and have the correct integrity zome and entry type indexes added to it.
 
 ```rust
 use hdk::prelude::*;
@@ -113,7 +113,7 @@ let movie = Movie {
 let create_action_hash = create_entry(
     // The value you pass to `create_entry` needs a lot of traits to tell
     // Holochain which entry type from which integrity zome you're trying to
-    // create. The `hdk_entry_defs` macro will have set this up for you, so all
+    // create. The `hdk_entry_types` macro will have set this up for you, so all
     // you need to do is wrap your movie in the corresponding enum variant.
     &EntryTypes::Movie(movie),
 )?;
@@ -463,7 +463,7 @@ There are some community-maintained libraries that offer opinionated and high-le
 ## Reference
 
 * [`hdi::prelude::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html)
-* [`hdi::prelude::hdk_entry_defs`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_defs.html)
+* [`hdi::prelude::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_types.html)
 * [`hdi::prelude::entry_def`](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html)
 * [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html)
 * [`hdk::prelude::update_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html)
