@@ -139,31 +139,6 @@ pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
 }
 ```
 
-### Define a `post_commit` callback
-
-After a zome function call completes, any actions that it created are validated, then written to the cell's source chain if all actions pass validation. While the function is running, nothing has been stored even if [CRUD](/build/working-with-data/#adding-and-modifying-data) function calls return `Ok`. (Read more about the [atomic, transactional nature](/build/zome-functions/#atomic-transactional-commits) of writes in a zome function call.)
-
-If you need to do any follow-up after a successful write beyond returning the function's return value to the caller, it's safer to do this in a lifecycle callback called `post_commit`, which is called after Holochain's [call-zome workflow](/build/zome-functions/#zome-function-call-lifecycle) successfully writes its actions to the source chain. (Function calls that don't write data won't trigger this event.)
-
-`post_commit` must take a single argument of type <code>Vec&lt;<a href="https://docs.rs/hdk/latest/hdk/prelude/type.SignedActionHashed.html">SignedActionHashed</a>&gt;</code>, which contains all the actions the function call wrote, and it must return an empty `ExternResult<()>`. This callback must not write any data, but it may call other zome functions in the same cell or any other local or remote cell, and it may
-
-Here's an example that uses `post_commit` to tell the original author of a `Movie` entry that someone has edited it. It uses the integrity zome examples from [Entries](/build/entries/).
-
-```rust
-use movie_integrity::{EntryTypes, Movie};
-use hdk::*;
-
-struct UpdateMovieInput {
-    original_hash: ActionHash,
-    data: Movie,
-}
-
-#[hdk_extern]
-pub fn update_movie(input: UpdateMovieInput) -> ExternResult<ActionHash> {
-
-}
-```
-
 ### Define a `recv_remote_signal` callback
 
 <!-- TODO: move this to the signals page after it's written -->
@@ -216,6 +191,93 @@ pub fn recv_remote_signal(payload: SignalType) -> ExternResult<()> {
         // Pass the heartbeat along to my UI so it can update the other
         // peer's online status.
         SignalType::Heartbeat(peer_pubkey) => emit_signal(payload)
+    }
+}
+```
+
+### Define a `post_commit` callback
+
+After a zome function call completes, any actions that it created are validated, then written to the cell's source chain if all actions pass validation. While the function is running, nothing has been stored even if [CRUD](/build/working-with-data/#adding-and-modifying-data) function calls return `Ok`. (Read more about the [atomic, transactional nature](/build/zome-functions/#atomic-transactional-commits) of writes in a zome function call.) That means that any follow-up you do within the same function, like pinging other peers, might point to data that doesn't exist if the function fails at a later step.
+
+If you need to do any follow-up, it's safer to do this in a lifecycle callback called `post_commit`, which is called after Holochain's [call-zome workflow](/build/zome-functions/#zome-function-call-lifecycle) successfully writes its actions to the source chain. (Function calls that don't write data won't trigger this event.)
+
+`post_commit` must take a single argument of type <code>Vec&lt;<a href="https://docs.rs/hdk/latest/hdk/prelude/type.SignedActionHashed.html">SignedActionHashed</a>&gt;</code>, which contains all the actions the function call wrote, and it must return an empty `ExternResult<()>`. This callback must not write any data, but it may call other zome functions in the same cell or any other local or remote cell, and it may send local or remote signals.
+
+Here's an example that uses `post_commit` to tell someone a movie loan has been created for them. It uses the integrity zome examples from [Identifiers](/build/identifiers/#in-dht-data).
+
+```rust
+use movie_integrity::{EntryTypes, Movie, UnitEntryTypes};
+use hdk::*;
+
+enum RemoteSignalType {
+    MovieLoanHasBeenCreatedForYou(ActionHash),
+}
+
+#[hdk_extern]
+pub fn post_commit(actions: Vec<SignedActionHashed>) -> ExternResult<()> {
+    for action in actions.iter() {
+        // Only handle cases where an entry is being created.
+        if let Action::Create(create) = action.action() {
+            let movie_loan = get_movie_loan(action.action_address())?;
+            send_remote_signal(
+                RemoteSignalType::MovieLoanHasBeenCreatedForYou(action.action_address()),
+                vec![movie_loan.lent_to]
+            );
+        }
+    }
+}
+
+enum LocalSignalType {
+    NewMovieLoan(MovieLoan),
+}
+
+#[hdk_extern]
+pub fn recv_remote_signal(payload: RemoteSignalType) -> ExternResult<()> {
+    if let MovieLoanHasBeenCreatedForYou(action_hash) = payload {
+        let movie_loan = get_movie_loan(action_hash)?;
+        // Send the new movie loan data to the borrower's UI!
+        emit_signal(LocalSignalType::NewMovieLoan(movie_loan))?;
+    }
+}
+
+fn get_movie_loan(action_hash: ActionHash) -> ExternResult<MovieLoan> {
+    let maybe_record = get(
+        action_hash,
+        GetOptions::network()
+    )?;
+
+    if let Some(record) = maybe_record {
+        if let Some(movie_loan) = record.entry().to_app_option()? {
+            Ok(movie_loan)
+        } else {
+            Err(wasm_error!("Entry wasn't a movie loan"))
+        }
+    } else {
+        Err(wasm_error!("Couldn't retrieve movie loan"))
+    }
+}
+
+struct UpdateMovieInput {
+    original_hash: ActionHash,
+    data: Movie,
+}
+
+#[hdk_extern]
+pub fn update_movie(input: UpdateMovieInput) -> ExternResult<ActionHash> {
+    let maybe_original_record = get(
+        input.original_hash,
+        GetOptions::network()
+    )?;
+    match maybe_original_record {
+        // We don't need to know the contents of the original; we just need
+        // to know it exists before trying to update it.
+        Some(_) => {
+            update_entry(
+                input.original_hash,
+                &EntryTypes::Movie(input.data)
+            )?
+        }
+        None => Err(wasm_error!("Original movie record not found")),
     }
 }
 ```
