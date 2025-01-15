@@ -73,6 +73,21 @@ let create_link_action_hash = create_link(
 
 Links can't be updated; they can only be created or deleted. Multiple links with the same base, target, type, and tag can be created, and they'll be considered separate links for retrieval and deletion purposes.
 
+### Creating a link, under the hood
+
+When a zome function calls `create_link`, Holochain does the following:
+
+1. Build an action called [`CreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.CreateLink.html) that includes:
+    * the author's public key,
+    * a timestamp,
+    * the action's sequence in the source chain and the previous action's hash, and
+    * the link type, base, target, and tag.
+    <!-- * a calculated weight value for rate limiting -->
+2. Write the action to the scratch space.
+3. Return the `ActionHash` of the pending action to the calling zome function.
+
+At this point, the action hasn't been persisted to the source chain. Read the [zome function call lifecycle](/build/zome-functions/#zome-function-call-lifecycle) section to find out more about persistence.
+
 ## Delete a link
 
 Delete a link by calling [`hdk::prelude::delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html) with the create-link action's hash.
@@ -86,6 +101,21 @@ let delete_link_action_hash = delete_link(
 ```
 
 A link is considered ["dead"](/build/working-with-data/#deleted-dead-data) (deleted but retrievable if asked for explicitly) once its creation action has at least one delete-link action associated with it. As with entries, dead links can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) or [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html) (see next section).
+
+### Deleting a link, under the hood
+
+When a zome function calls `delete_link`, Holochain does the following:
+
+1. Build an action called [`DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.DeleteLink.html) that includes:
+    * the author's public key,
+    * a timestamp,
+    * the action's sequence in the source chain and the previous action's hash, and
+    * the link type, base, target, and tag.
+    <!-- * a calculated weight value for rate limiting -->
+2. Write the action to the scratch space.
+3. Return the `ActionHash` of the pending action to the calling zome function.
+
+At this point, the action hasn't been persisted to the source chain. Read the [zome function call lifecycle](/build/zome-functions/#zome-function-call-lifecycle) section to find out more about persistence.
 
 ## Retrieve links
 
