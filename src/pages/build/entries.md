@@ -119,35 +119,58 @@ let create_action_hash = create_entry(
 )?;
 ```
 
+### Create with relaxed chain top ordering
+
+If your entry doesn't have any dependencies on other data, you can use [relaxed chain top ordering](/build/zome-functions/#relaxed-chain-top-ordering) to prevent possible transaction rollbacks (we'll let that page explain when this could happen and how to design around it).
+
+To use this feature, you'll need to use the more low-level [`create`](https://docs.rs/hdk/latest/hdk/entry/fn.create.html) host function, which requires you to build a more complex input. This example batches updates to director entries, which don't have reference other data including each other, so they're a good candidate for relaxed ordering.
+
+```rust
+use movie_integrity::{Director, EntryTypes};
+use hdk::prelude::*;
+
+let directors = vec![/* construct a vector of `Director` structs here */];
+for director in directors.iter() {
+    // To specify chain top ordering other than the default Strict, we
+    // need to use the `create` host function which requires a bit more
+    // setup.
+    let entry = EntryTypes::Director(director);
+    let ScopedEntryDefIndex {
+        zome_index,
+        zome_type: entry_def_index,
+    } = (&entry).try_into()?;
+    let visibility = EntryVisibility::from(&entry);
+    let create_input = CreateInput::new(
+        EntryDefLocation::app(zome_index, entry_def_index),
+        visibility,
+        entry.try_into()?,
+        ChainTopOrdering::Relaxed,
+    );
+    create(create_input))?;
+}
+```
+
 ### Create under the hood
 
-When the client calls a zome function that calls `create_entry`, Holochain does the following:
+When a zome function calls `create`, Holochain does the following:
 
-1. Prepare a **scratch space** for making an atomic set of changes to the source chain for the agent's cell.
-2. Build an entry creation action called [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Create.html) that includes:
+1. Build an entry creation action called [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Create.html) that includes:
     * the author's public key,
     * a timestamp,
     * the action's sequence in the source chain and the previous action's hash,
     * the entry type (integrity zome index and entry type index), and
     * the hash of the serialized entry data.
     <!-- * a calculated weight value for rate limiting -->
-3. Write the `Create` action and the serialized entry data to the scratch space.
-4. Return the `ActionHash` of the `Create` action to the calling zome function. (At this point, the action hasn't been persisted to the source chain.)
-5. Wait for the zome function to complete.
-6. Convert the action to DHT operations.
-7. Run the validation callback for all DHT operations.
-    * If successful, continue.
-    * If unsuccessful, return the validation error to the client instead of the zome function's return value.
-8. Compare the scratch space against the actual state of the source chain.
-    * If the source chain has diverged from the scratch space, and the write specified strict chain top ordering, the scratch space is discarded and a `HeadMoved` error is returned to the caller.
-    * If the source chain has diverged and the write specified relaxed chain top ordering, the data in the scratch space is 'rebased' on top of the new source chain state as it's being written.
-    * If the source chain has not diverged, the data in the scratch space is written to the source chain state.
-9. Return the zome function's return value to the client.
-10. In the background, publish all newly created DHT operations to their respective authority agents.
+2. Write the `Create` action and the serialized entry data to the scratch space.
+3. Return the `ActionHash` of the pending `Create` action to the calling zome function.
+
+At this point, the action hasn't been persisted to the source chain. Read the [zome function call lifecycle](/build/zome-functions/#zome-function-call-lifecycle) section to find out more about persistence.
 
 ## Update an entry
 
 Update an entry creation action by calling [`hdk::prelude::update_entry`](https://docs.rs/hdk/latest/hdk/prelude/fn.update_entry.html) with the old action hash and the new entry data:
+
+<!-- FIXME: this won't compile as written; write something that gets the old movie and its action hash from somewhere. -->
 
 ```rust
 use hdk::prelude::*;
@@ -174,28 +197,57 @@ let update_action_hash = update_entry(
 
 An [`Update` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Update.html) operates on an entry creation action (either a `Create` or an `Update`), not just an entry by itself. It also doesn't remove the original data from the DHT; instead, it gets attached to both the original entry and its entry creation action. As an entry creation action itself, it references the hash of the new entry so it can be retrieved from the DHT.
 
+### Update with relaxed chain top ordering
+
+If you want to use relaxed chain top ordering, use the low-level [`update`](https://docs.rs/hdk/latest/hdk/entry/fn.update.html) instead:
+
+```rust
+use hdk::prelude::*;
+use movie_integrity::*;
+use chrono::DateTime;
+
+// A simple struct to keep a mapping to an old director action hash to new
+// entry content.
+struct OldToNewDirector {
+    old_action_hash: ActionHash,
+    new_entry: Director,
+}
+
+let old_to_new_directors = vec![
+    /* construct a vector of old director action hashes and updated content */
+];
+
+for director in old_to_new_directors.iter() {
+    // To specify chain top ordering other than the default Strict, we
+    // need to use the `create` host function which requires a bit more
+    // setup.
+    let entry = EntryTypes::Director(&director.new_entry);
+    let ScopedEntryDefIndex {
+        zome_index,
+        zome_type: entry_def_index,
+    } = (&entry).try_into()?;
+    let visibility = EntryVisibility::from(&entry);
+    let update_input: UpdateInput = {
+        original_action_address: &director.old_action_hash,
+        entry: entry.try_into()?,
+        chain_top_ordering: ChainTopOrdering::Relaxed,
+    };
+    update(update_input)?;
+}
+```
+
 ### Update under the hood
 
-Calling `update_entry` does the following:
+When a zome function calls `create`, Holochain does the following:
 
-1. Prepare a **scratch space** for making an atomic set of changes to the source chain for the agent's cell.
-2. Build an `Update` action that contains everything in a `Create` action, plus:
+1. Build an entry creation action called `Update` that contains everything in a `Create` action, plus:
     * the hash of the original action and
     * the hash of the original action's serialized entry data.
-    (Note that the entry type is automatically retrieved from the original action.)
-3. Write an `Update` action to the scratch space.
-4. Return the `ActionHash` of the `Update` action to the calling zome function. (At this point, the action hasn't been persisted to the source chain.)
-5. Wait for the zome function to complete.
-6. Convert the action to DHT operations.
-7. Run the validation callback for all DHT operations.
-    * If successful, continue.
-    * If unsuccessful, return the validation error to the client instead of the zome function's return value.
-8. Compare the scratch space against the actual state of the source chain.
-    * If the source chain has diverged from the scratch space, and the write specified strict chain top ordering, the scratch space is discarded and a `HeadMoved` error is returned to the caller.
-    * If the source chain has diverged and the write specified relaxed chain top ordering, the data in the scratch space is 'rebased' on top of the new source chain state as it's being written.
-    * If the source chain has not diverged, the data in the scratch space is written to the source chain state.
-9. Return the zome function's return value to the client.
-10. In the background, publish all newly created DHT operations to their respective authority agents.
+    (Note that the entry type and visibility are automatically retrieved from the original action.)
+2. Write the `Update` action and the serialized entry data to the scratch space.
+3. Return the `ActionHash` of the pending `Update` action to the calling zome function.
+
+As with `Create`, the action hasn't been persisted to the source chain yet. Read the [zome function call lifecycle](/build/zome-functions/#zome-function-call-lifecycle) section to find out more about persistence.
 
 ### Update patterns
 
@@ -248,24 +300,31 @@ In the future we plan to include a 'purge' functionality. This will give agents 
 
 Remember that, even once purge is implemented, it is impossible to force another person to delete data once they have seen it. Be deliberate about choosing what data becomes public in your app.
 
+### Delete with relaxed chain top ordering
+
+To delete with relaxed chain top ordering, use the low-level [`delete`](https://docs.rs/hdk/latest/hdk/entry/fn.delete.html) instead.
+
+```rust
+use hdk::prelude::*;
+
+let actions_to_delete: Vec<ActionHash> = vec![/* construct vector here */];
+for action in actions_to_delete.iter() {
+    let delete_input: DeleteInput = {
+        deletes_action_hash: action,
+        chain_top_ordering: ChainTopOrdering::Relaxed,
+    }
+    delete(delete_input)?;
+}
+```
+
 ### Delete under the hood
 
 Calling `delete_entry` does the following:
 
-1. Prepare a **scratch space** for making an atomic set of changes to the source chain for the agent's cell.
-2. Write a `Delete` action to the scratch space.
-3. Return the `ActionHash` of the `Delete` action to the calling zome function. (At this point, the action hasn't been persisted to the source chain.)
-4. Wait for the zome function to complete.
-5. Convert the action to DHT operations.
-6. Run the validation callback for all DHT operations.
-    * If successful, continue.
-    * If unsuccessful, return the validation error to the client instead of the zome function's return value.
-7. Compare the scratch space against the actual state of the source chain.
-    * If the source chain has diverged from the scratch space, and the write specified strict chain top ordering, the scratch space is discarded and a `HeadMoved` error is returned to the caller.
-    * If the source chain has diverged and the write specified relaxed chain top ordering, the data in the scratch space is 'rebased' on top of the new source chain state as it's being written.
-    * If the source chain has not diverged, the data in the scratch space is written to the source chain state.
-8. Return the zome function's return value to the client.
-9. In the background, publish all newly created DHT operations to their respective authority agents.
+1. Write a `Delete` action to the scratch space.
+2. Return the pending `ActionHash` of the `Delete` action to the calling zome function.
+
+As with `Create` and `Delete`, the action hasn't been persisted to the source chain yet. Read the [zome function call lifecycle](/build/zome-functions/#zome-function-call-lifecycle) section to find out more about persistence.
 
 ## Identifiers on the DHT
 
