@@ -48,7 +48,7 @@ You don't need to define this callback by hand; you can let the `hdk_entry_types
 
 Holochain assumes that every participant in a network is able to self-validate all the data they create before storing it in their [source chain](/concepts/3_source_chain/) and publishing it to the [DHT](/concepts/4_dht/). But at **genesis** time, when their cell has just been instantiated but they haven't connected to other peers, they may not be able to fully validate their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store) if their validity depends on shared data. So Holochain skips full self-validation for these records, only validating the basic structure of their [actions](/build/working-with-data/#entries-actions-and-records-primary-data).
 
-This creates a risk to the new participant; they may mistakenly publish malformed data and be rejected from the network. You can define a `genesis_self_check` function that checks the _content_ of genesis records before they're published. This function is limited --- it naturally doesn't have access to DHT data. But it can be a useful guard against a [membrane proof](/glossary/#membrane-proof) that the participant typed or pasted incorrectly, for example.
+This creates a risk to the new participant; they may mistakenly publish malformed data and be rejected from the network. You can define a `genesis_self_check` function that checks the _content_ of genesis records before they're published. This function is limited --- it naturally doesn't have access to DHT data. But it can be a useful guard against a [membrane proof](/resources/glossary/#membrane-proof) that the participant typed or pasted incorrectly, for example.
 
 `genesis_self_check` must take a single argument of type [`GenesisSelfCheckData`](https://docs.rs/hdi/latest/hdi/prelude/type.GenesisSelfCheckData.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
 
@@ -120,7 +120,7 @@ But the users are also the infrastructure, so this can create "hot spots" where 
 
 !!!
 
-This `init` callback also does something useful: it grants all other peers in the network permission to send messages to a participant's [remote signal receiver callback](#recv-remote-signal-callback).
+This `init` callback also does something useful: it grants all other peers in the network permission to send messages to a participant's [remote signal receiver callback](#define-a-recv-remote-signal-callback).
 
 ```rust
 use hdk::prelude::*;
