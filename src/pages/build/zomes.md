@@ -2,6 +2,14 @@
 title: "Zomes"
 ---
 
+::: topic-list
+### In this section {data-no-toc}
+
+* Zomes (this page)
+    * [Lifecycle Events and Callbacks](/build/lifecycle-events-and-callbacks/) --- writing functions that respond to events in a hApp's lifecycle
+    * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
+:::
+
 ::: intro
 A **zome** (short for chromosome) is a module of executable code within a [**DNA**](/resources/glossary/#dna). It's the smallest unit of modularity in a Holochain application.
 :::

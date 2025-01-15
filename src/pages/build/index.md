@@ -15,6 +15,8 @@ This Build Guide organizes everything you need to know about developing Holochai
 ::: topic-list
 * [Overview](/build/application-structure/) --- an overview of Holochain's modularity and composability units
     * [Zomes](/build/zomes/) --- integrity vs coordinator, how to structure and compile
+        * [Lifecycle Events and Callbacks](/build/lifecycle-events-and-callbacks/) --- writing functions that respond to events in a hApp's lifecycle
+        * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
 :::
 
 ## Working with data
