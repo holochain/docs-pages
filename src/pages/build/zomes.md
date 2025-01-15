@@ -50,7 +50,7 @@ Then add some necessary dependencies to your new `Cargo.toml` file:
 +serde = "1.0"
 ```
 
-At the very minimum, make sure your code exposes a [`validate` callback](/build/lifecycle-events-and-callbacks/#define-a-validate-callback) and [defines some entry types](/build/entries/#define-an-entry-type).
+At the very minimum, make sure your code exposes a `validate` callback <!-- TODO: uncomment once lifecycle events PR is merged [`validate` callback](/build/lifecycle-events-and-callbacks/#define-a-validate-callback)--> and [defines some entry types](/build/entries/#define-an-entry-type).
 
 Compile your zome using `cargo`:
 
@@ -60,7 +60,7 @@ cargo build --release --target wasm32-unknown-unknown
 
 ### Coordinator
 
-Coordinator zomes hold your back-end logic --- the functions that read and write data or communicate with peers. In addition to some optional, specially named [lifecycle callbacks](/build/lifecycle-events-and-callbacks/#coordinator-zomes), you can also write your own **zome functions** that serve as your zome's API.
+Coordinator zomes hold your back-end logic --- the functions that read and write data or communicate with peers. In addition to some optional, specially named lifecycle callbacks <!-- TODO: uncomment once lifecycle events PR is merged [lifecycle callbacks](/build/lifecycle-events-and-callbacks/#coordinator-zomes)-->, you can also write your own **zome functions** that serve as your zome's API.
 
 #### Create a coordinator zome
 
@@ -138,7 +138,7 @@ pub fn check_age_for_18a_movie(age: u32) -> ExternResult<()> {
 
 ## Further reading
 
-* [Build Guide: Lifecycle Events and Callbacks](/build/lifecycle-events-and-callbacks/)
+<!-- TODO: uncomment after lifecycle events PR is merged * [Build Guide: Lifecycle Events and Callbacks](/build/lifecycle-events-and-callbacks/)-->
 <!-- TODO: uncomment after zome functions PR is merged * [Build Guide: Zome Functions](/build/zome-functions/)-->
 * [WebAssembly](https://webassembly.org/)
 * [serde](https://serde.rs/)
