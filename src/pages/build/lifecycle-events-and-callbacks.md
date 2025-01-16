@@ -241,13 +241,11 @@ pub fn recv_remote_signal(payload: RemoteSignalType) -> ExternResult<()> {
 }
 
 fn get_movie_loan(action_hash: ActionHash) -> ExternResult<MovieLoan> {
-    let maybe_record = get(
+    if let Some(record) = get(
         action_hash,
         GetOptions::network()
-    )?;
-
-    if let Some(record) = maybe_record {
-        if let Some(movie_loan) = record.entry().to_app_option()? {
+    )? {
+        if let Some(movie_loan) = record.entry().to_app_option<MovieLoan>()? {
             Ok(movie_loan)
         } else {
             Err(wasm_error!("Entry wasn't a movie loan"))
@@ -269,8 +267,10 @@ pub fn update_movie(input: UpdateMovieInput) -> ExternResult<ActionHash> {
         GetOptions::network()
     )?;
     match maybe_original_record {
-        // We don't need to know the contents of the original; we just need
-        // to know it exists before trying to update it.
+        // We don't need to know the contents of the original; we just need to
+        // know it exists before trying to update it.
+        // A more robust app would at least check that the original was of the
+        // correct type.
         Some(_) => {
             update_entry(
                 input.original_hash,
