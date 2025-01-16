@@ -10,6 +10,18 @@ This guide is under construction. Expect more content to be rapidly published in
 This Build Guide organizes everything you need to know about developing Holochain applications into individual topics. Each topic page stands alone as a comprehensive guide to using a given feature or implementing a given functionality. There are lots of code examples which make it clear how to do something yet are generic enough to be universally useful. These examples may not cover every single use case, though, so we'll point you to the reference documentation often.
 :::
 
+## Holochain: a very brief overview
+
+Holochain is a framework for building **peer-to-peer applications**, in which every participant runs the application code on their own device and connects directly to other participants (called their **peers**) to exchange data.
+
+Holochain's first basic concept is the **agent**, which represents a human or automated participant in a peer-to-peer network. An agent identifies themselves with a self-generated public/private key pair, called their **agent ID**.
+
+Holochain's second basic concept is the **DNA**, which is a chunk of application back-end code. When you write a Holochain application (which we call a **hApp**), you're writing code that runs sandboxed in a Holochain runtime (called a **conductor**) and responds to function calls from Holochain itself or from external processes such as a UI, system service, or other DNA on the same device, or another peer on the same network.
+
+When an agent ID is bound to a **DNA**, the live DNA instance is called a **cell** and forms a network with other cells running the same DNA. This network is separate from all other networks formed by other DNAs.
+
+Now that you've got some basic concepts and the terms we use for them, it's time to dive into application development.
+
 ## Application structure
 
 ::: topic-list
