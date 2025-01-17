@@ -99,6 +99,8 @@ pub fn say_hello(name: String) -> ExternResult<String> {
 You can handle most errors in a function with the `?` short-circuit operator; the HDK does a good job of converting most of its own error types into `ExternResult<T>` and providing the zome name and the line number where the failure happened.
 
 ```rust
+use hdk::prelude::*;
+
 #[hdk_extern]
 pub fn get_any_record(hash: AnyDhtHash) -> ExternResult<Option<Record>> {
     // Short-circuit any error that `get` might return.
