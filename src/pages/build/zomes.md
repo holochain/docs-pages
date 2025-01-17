@@ -32,11 +32,7 @@ When you're writing an integrity zome, use the smaller [`hdi`](https://crates.io
 
 Your integrity zome tells Holochain about the types of [entries](/build/entries/) and [links](/build/links-paths-and-anchors/) it defines with macros called [`hdk_entry_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_types.html) and [`hdk_link_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_link_types.html) added to enums of all the entry and link types. These create callbacks that are run at DNA install time. Read more in [Define an entry type](/build/entries/#define-an-entry-type) and [Define a link type](/build/links-paths-and-anchors/#define-a-link-type).
 
-<<<<<<< HEAD
-Finally, your integrity zome defines validation callbacks <!-- TODO: uncomment once lifecycle events PR is merged [validation callbacks](/build/lifecycle-events-and-callbacks/#define-a-validate-callback)--> that check for correctness of data and actions. Holochain runs this on an agent's own device when they attempt to author data, and on other agents' devices when they're asked to store and serve data authored by others.
-=======
-Finally, your integrity zome defines validation callbacks <!-- TODO: uncomment once lifecycle events PR is merged [validation callbacks](/build/lifecycle-events-and-callbacks/#define-a-validate-callback)--> that check for correctness of data and actions. Holochain runs this on an agent's own device when they attempt to author data, and when they're asked to store and serve data authored by others.
->>>>>>> c46eb9e39f57fd825d53e9a98970a63bf6b7749d
+Finally, your integrity zome defines validation callbacks <!-- TODO: uncomment once lifecycle events PR is merged [validation callbacks](/build/lifecycle-events-and-callbacks/#define-a-validate-callback)--> that check for correctness of data and actions. Holochain runs this on an agent's own device when they try to author data, and when they're asked to store and serve data authored by others.
 
 #### Create an integrity zome
 
