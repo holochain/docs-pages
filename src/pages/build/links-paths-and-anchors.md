@@ -222,6 +222,7 @@ let links_to_movies_starting_with_g = get_links(
         path_to_movies_starting_with_g.path_entry_hash()?,
         LinkTypes::MovieByFirstLetter
     )?
+    .build()
 )?;
 ```
 
