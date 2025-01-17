@@ -11,6 +11,7 @@ builtins
 Brisebois
 Burmeister
 Cachix
+cdylib
 CRDT
 d'Aoust
 fixt
