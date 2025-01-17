@@ -19,7 +19,7 @@ There are a few basic units of composability and packaging you'll need to know a
 
 ### Zome
 
-The smallest unit in a hApp is called a **zome** (a play on DNA chromosomes) It's the actual binary code that runs in Holochain's [WebAssembly](https://webassembly.org/) virtual machine.
+The smallest unit in a hApp is called a **zome** (a play on DNA chromosomes) It's the actual binary code that runs in Holochain's [WebAssembly](https://webassembly.org/) sandbox.
 
 !!! info Why WebAssembly?
 
@@ -47,7 +47,7 @@ If you mean for your zomes to be reused by other projects, you can share them vi
 
 ### DNA
 
-One or more zomes are bundled into a **DNA**. When two or more participants install and run a DNA, an isolated peer-to-peer network is created among them to interact and store shared data.
+One or more zomes are bundled into a **DNA**, including at least one integrity zome. When two or more participants install and run a DNA, a new peer-to-peer network is created among them to interact and store shared data.
 
 **A DNA, and the network created for it, is uniquely defined by its integrity zomes, plus any modifiers.** The hash of the integrity zomes plus modifiers is called the **DNA hash**, and is the unique identifier for the network.
 

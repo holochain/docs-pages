@@ -10,7 +10,7 @@ A **zome** (short for chromosome) is a module of executable code within a [**DNA
 
 A zome is just a [WebAssembly module](https://webassembly.github.io/spec/core/syntax/modules.html) that exposes public functions. The **conductor** (the Holochain runtime) knows about these functions and calls them at different points in the application's lifetime. Some functions have special names and are called **lifecycle callbacks**<!-- TODO uncomment when lifecycle callbacks PR is merged [lifecycle callbacks](/build/lifecycle-events-and-callbacks/)-->, and you can also define arbitrarily named functions of your own to serve as your zome's API.
 
-For Rust developers, we've created an SDK called the [Holochain Development Kit (HDK)](https://crates.io/crates/hdk/). It lets you define functions, exchange data with the host (the Holochain VM), and access all of the host's functionality.
+For Rust developers, we've created an SDK called the [Holochain Development Kit (HDK)](https://crates.io/crates/hdk/). It lets you define functions, exchange data with the host (the Holochain runtime), and access all of the host's functionality.
 
 ## The two types of zomes
 
@@ -30,13 +30,13 @@ Because these callbacks only need a small portion of Holochain's functionality, 
 
 Your integrity zome tells Holochain about the types of [entries](/build/entries/) and [links](/build/links-paths-and-anchors/) it defines with macros called [`hdk_entry_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_types.html) and [`hdk_link_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_link_types.html) added to enums of all the entry and link types. These create lifecycle callbacks that are run at DNA install time and give Holochain the info it needs. Read more in [Define an entry type](/build/entries/#define-an-entry-type) and [Define a link type](/build/links-paths-and-anchors/#define-a-link-type).
 
-Finally, your integrity zome defines validation callbacks <!-- TODO: uncomment once lifecycle events PR is merged [validation callbacks](/build/lifecycle-events-and-callbacks/#define-a-validate-callback)--> that check for correctness of data and actions. Holochain runs this on an agent's own device when they attempt to author data, and on other peers' devices when they're asked to store and serve data authored by others.
+Finally, your integrity zome defines validation callbacks <!-- TODO: uncomment once lifecycle events PR is merged [validation callbacks](/build/lifecycle-events-and-callbacks/#define-a-validate-callback)--> that check for correctness of data and actions. Holochain runs this on an agent's own device when they attempt to author data, and when they're asked to store and serve data authored by others.
 
 #### Create an integrity zome
 
 **The easy way to create an integrity zome** is to [scaffold a new hApp](/get-started/3-forum-app-tutorial/). The scaffolding tool will generate all the project files, including scripts to test and build distributable packages, and it can also scaffold boilerplate code for all your app's required callbacks and data types.
 
-If you want to start from scratch, first make sure you have Rust, Cargo, and the `wasm32-unknown-unknown` Rust toolchain installed on your computer. Then create a library crate:
+If you want to start from scratch without the scaffolding, first make sure you have Rust, Cargo, and the `wasm32-unknown-unknown` Rust toolchain installed on your computer. Then create a library crate:
 
 ```bash
 cargo new my_integrity_zome --lib
