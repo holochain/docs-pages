@@ -1,5 +1,5 @@
 {
-  links: [
+  children: [
     { title: "Get Started", url: "/get-started/", class:"" },
     { title: "Learn", url: "/concepts/1_the_basics/", class:"" },
     { title: "Build", url: "/build", class:"" },
