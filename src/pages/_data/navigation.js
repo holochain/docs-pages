@@ -17,31 +17,37 @@ const footerLinks = loadJson5("./navigation/footerLinks.json5");
 const mainNav = loadJson5("./navigation/mainNav.json5");
 const headerNav = loadJson5("./navigation/headerNav.json5");
 
-function findTopLinkRecordFor(url) {
-  return mainNav.links.find((l) => {
-    if (l.url === url) { return true; }
+function findTopLinkRecordFor(nav, url) {
+  function urlInNodeOrChildren(item) {
+    if (item.url === url) { return true; }
+    return item.hasChildren && item.children.some(urlInNodeOrChildren);
+  };
 
-    return l?.children?.some((cl) => cl.url === url);
-  });
+  return urlInNodeOrChildren(nav);
+}
+
+// Iteratively add the `hasChildren` property to a nav item.
+function mapNavChildren(item) {
+  return {
+    ...item,
+    children: item.children && item.children.length > 0 && item.children.map(mapNavChildren),
+    hasChildren: item.children && item.children.length > 0,
+  };
 }
 
 const mainNavObj = {
-  ...mainNav,
-  links: mainNav.links.map((l) => ({
-    ...l,
-    hasChildren: (l.children && l.children.length > 0)
-  })),
+  ...mapNavChildren(mainNav),
   getActiveParentLink(pageUrlRendering) {
-    return findTopLinkRecordFor(pageUrlRendering);
-  }
+    return findTopLinkRecordFor(this, pageUrlRendering);
+  },
 };
 
 const headerNavObj = {
-  ...headerNav,
+  ...mapNavChildren(headerNav),
   getActiveParentLink(pageUrlRendering) {
-    return findTopLinkRecordFor(pageUrlRendering);
-  }
- };
+    return findTopLinkRecordFor(this, pageUrlRendering);
+  },
+};
 
 export default {
   footerNav: {
