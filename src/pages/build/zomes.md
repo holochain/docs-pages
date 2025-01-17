@@ -12,7 +12,9 @@ A zome is just a [WebAssembly module](https://webassembly.github.io/spec/core/sy
 
 ## How a zome is written
 
-For Rust developers, we've created an SDK called the [Holochain Development Kit (HDK)](https://crates.io/crates/hdk/). It lets you define functions, exchange data with the **host** (the Holochain conductor), and access all of the host's functionality.
+We're focusing on Rust as a language for writing zomes, mainly because Holochain is written in Rust, so types can be shared between the host and zomes.
+
+A Rust-based zome is a library crate that's compiled to the WebAssembly build target. We've created an SDK called the [Holochain Development Kit (HDK)](https://crates.io/crates/hdk/), which lets you define functions, exchange data with the **host** (the Holochain conductor), and access all of the host's functionality.
 
 ## The two types of zomes
 
@@ -22,9 +24,7 @@ An **integrity zome** defines a portion of your application's data model. This i
 
 !!! info Keep your integrity zomes small
 
-When you're writing an integrity zome, use the smaller [`hdi`](https://crates.io/crates/hdi) crate instead of `hdk`, because it's a subset of the HDK's functionality that contains everything an integrity zome needs. There's a lot of functionality in `hdk` that can't be used in an integrity zome's callbacks, and we recommend against putting anything in your integrity zome other than things that define your data model.
-
-`hdi` is also more stable than `hdk`, receiving fewer features less often, which is important because every change to an integrity zome [changes the DNA hash](/build/application-structure/#dna), creating a new empty network and database.
+When you're writing an integrity zome, use the smaller [`hdi`](https://crates.io/crates/hdi) crate instead of `hdk`, because it's a subset of the HDK's functionality that contains everything an integrity zome needs. There's a lot of functionality in `hdk` that can't be used in an integrity zome's callbacks, and we recommend against putting anything in your integrity zome other than your data model. `hdi` is also more stable than `hdk`. Both of these things matter because every change to an integrity zome, including dependency updates, [changes the DNA hash](/build/application-structure/#dna), creating a new empty network and database.
 
 !!!
 
@@ -32,7 +32,11 @@ When you're writing an integrity zome, use the smaller [`hdi`](https://crates.io
 
 Your integrity zome tells Holochain about the types of [entries](/build/entries/) and [links](/build/links-paths-and-anchors/) it defines with macros called [`hdk_entry_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_types.html) and [`hdk_link_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_link_types.html) added to enums of all the entry and link types. These create callbacks that are run at DNA install time. Read more in [Define an entry type](/build/entries/#define-an-entry-type) and [Define a link type](/build/links-paths-and-anchors/#define-a-link-type).
 
+<<<<<<< HEAD
 Finally, your integrity zome defines validation callbacks <!-- TODO: uncomment once lifecycle events PR is merged [validation callbacks](/build/lifecycle-events-and-callbacks/#define-a-validate-callback)--> that check for correctness of data and actions. Holochain runs this on an agent's own device when they attempt to author data, and on other agents' devices when they're asked to store and serve data authored by others.
+=======
+Finally, your integrity zome defines validation callbacks <!-- TODO: uncomment once lifecycle events PR is merged [validation callbacks](/build/lifecycle-events-and-callbacks/#define-a-validate-callback)--> that check for correctness of data and actions. Holochain runs this on an agent's own device when they attempt to author data, and when they're asked to store and serve data authored by others.
+>>>>>>> c46eb9e39f57fd825d53e9a98970a63bf6b7749d
 
 #### Create an integrity zome
 
