@@ -3,10 +3,10 @@ title: "Zome Functions"
 ---
 
 ::: intro
-Besides [lifecycle hooks](/build/callbacks-and-lifecycle-hooks), a zome defines public functions that acts as its API. These functions can read and write data, manage permissions, send signals, and call functions in other cells in the same Holochain instance or to remote peers in the same network.
+Besides special [callbacks](/build/callbacks-and-lifecycle-hooks), a zome defines public functions that acts as its API. These functions can read and write data, manage permissions, send signals, and call functions in other cells in the same Holochain instance or to remote peers in the same network.
 :::
 
-As we touched on in the [Zomes page](/build/zomes/#how-a-zome-is-structured), a zome is just a WebAssembly module with some public functions. These functions have access to Holochain's host API. Some of them are [lifecycle hooks](/build/callbacks-and-lifecycle-hooks/), and others are functions you create yourself to serve as your zome's API. This second kind of function is what we'll talk about in this page.
+As we touched on in the [Zomes page](/build/zomes/#how-a-zome-is-structured), a zome is just a WebAssembly module with some public functions. These functions have access to Holochain's host API. Some of them are [callbacks](/build/callbacks-and-lifecycle-hooks/) with special purposes, and others are functions you create yourself to serve as your zome's API. This second kind of function is what we'll talk about in this page.
 
 Holochain sandboxes your zome, acting as an intermediary between it and the user's storage and UI at the local level, and between it and other peers at the network level.
 
