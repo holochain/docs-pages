@@ -86,7 +86,7 @@ Callbacks are the same, except that they must also use the proper input and outp
 Here's a very simple zome function that takes a name and returns a greeting:
 
 ```rust
-use hdk::prelude::{hdk_extern, ExternResult};
+use hdk::prelude::*;
 
 #[hdk_extern]
 pub fn say_hello(name: String) -> ExternResult<String> {
@@ -96,33 +96,26 @@ pub fn say_hello(name: String) -> ExternResult<String> {
 
 ### Handling errors
 
-You can handle most errors in a function with the `?` short-circuit operator; the HDK does a good job of converting `Result:Err` into `ExternResult<T>` and providing the zome name and the line number where the failure happened.
+You can handle most errors in a function with the `?` short-circuit operator; the HDK does a good job of converting most of its own error types into `ExternResult<T>` and providing the zome name and the line number where the failure happened.
 
 ```rust
-use hdk::prelude::{hdk_extern, ExternResult};
-
-struct Foo {
-    bar: i32;
-    baz: String;
-}
-
 #[hdk_extern]
-pub fn try_to_deserialize_foo_and_get_baz(bytes: Vec<u8>) -> ExternResult<String> {
-    // Short-circuit any deserialization error.
-    let deserialized: Foo = bytes.try_into()?;
-    Ok(deserialized.baz)
+pub fn get_any_record(hash: AnyDhtHash) -> ExternResult<Option<Record>> {
+    // Short-circuit any error that `get` might return.
+    let maybe_record = get(hash, GetOptions::network())?;
+    Ok(maybe_record)
 }
 ```
 
 You can also explicitly return an error with the [`wasm_error`](https://docs.rs/hdi/latest/hdi/prelude/macro.wasm_error.html) macro:
 
 ```rust
-use hdk::prelude::{hdk_extern, ExternResult, wasm_error};
+use hdk::prelude::*;
 
 #[hdk_extern]
 pub fn check_age_for_18a_movie(age: u32) -> ExternResult<()> {
     if age >= 18 {
-        Ok(())
+        return Ok(());
     }
     Err(wasm_error!("You are too young to watch this movie."))
 }

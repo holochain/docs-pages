@@ -36,10 +36,10 @@ A zome has access to Holochain via the **host API** and also exposes functions o
 
 There are two kinds of zome:
 
-* An **integrity zome** defines a set of data types --- your application's schema --- and validation rules for operations that create, update, or delete data of those types.
-* A **coordinator zome** defines a set of functions for interacting with data and peers.
+* An **integrity zome** defines a set of data types --- your application's schema --- and validation rules for operations that create, update, or delete data of those types; in other words, your data model.
+* A **coordinator zome** defines a set of functions for interacting with data, peers, and other coordinator zomes.
 
-Zomes are usually created as pairs --- an integrity zome that defines a data model and a coordinator zome that defines functions for interacting with this model and with other agents. You don't have to do it this way though; coordinator zomes don't need an integrity zome if they don't manipulate data, or they can depend on multiple integrity zomes, or multiple coordinators can depend on the same integrity zome.
+Zomes are usually created as pairs --- an integrity zome that defines a data model and a coordinator zome that defines functions for operating on this model. You don't have to do it this way though; coordinator zomes don't need an integrity zome if they don't manipulate data, or they can depend on multiple integrity zomes, or multiple coordinators can depend on the same integrity zome.
 
 If you mean for your zomes to be reused by other projects, you can share them via a public Git repository or [crates.io](https://crates.io) (tag your crates with `#holochain` so others can find them).
 
