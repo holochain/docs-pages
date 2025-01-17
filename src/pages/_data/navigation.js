@@ -23,31 +23,25 @@ function findTopLinkRecordFor(nav, url) {
     return item.hasChildren && item.children.some(urlInNodeOrChildren);
   };
 
-  return urlInNodeOrChildren(nav);
+  return nav.children.find(urlInNodeOrChildren);
 }
 
-// Iteratively add the `hasChildren` property to a nav item.
+// Iteratively add the `hasChildren` property and `getActiveParentLink` method
+// to a nav node.
 function mapNavChildren(item) {
   return {
     ...item,
     children: item.children && item.children.length > 0 && item.children.map(mapNavChildren),
     hasChildren: item.children && item.children.length > 0,
+    getActiveParentLink(pageUrlRendering) {
+      return findTopLinkRecordFor(this, pageUrlRendering);
+    },
   };
 }
 
-const mainNavObj = {
-  ...mapNavChildren(mainNav),
-  getActiveParentLink(pageUrlRendering) {
-    return findTopLinkRecordFor(this, pageUrlRendering);
-  },
-};
+const mainNavObj = mapNavChildren(mainNav);
 
-const headerNavObj = {
-  ...mapNavChildren(headerNav),
-  getActiveParentLink(pageUrlRendering) {
-    return findTopLinkRecordFor(this, pageUrlRendering);
-  },
-};
+const headerNavObj = mapNavChildren(headerNav);
 
 export default {
   footerNav: {
