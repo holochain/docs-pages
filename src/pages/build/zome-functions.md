@@ -3,10 +3,10 @@ title: "Zome Functions"
 ---
 
 ::: intro
-Besides [lifecycle callbacks](/build/lifecycle-events-and-callbacks), a zome defines public functions that acts as its API. These functions can read and write data, manage permissions, send signals, and call functions in other cells in the same Holochain instance or to remote peers in the same network.
+Besides [lifecycle hooks](/build/callbacks-and-lifecycle-hooks), a zome defines public functions that acts as its API. These functions can read and write data, manage permissions, send signals, and call functions in other cells in the same Holochain instance or to remote peers in the same network.
 :::
 
-As we touched on in the [Zomes page](/build/zomes/#how-a-zome-is-structured), a zome is just a WebAssembly module with some public functions. These functions have access to Holochain's host API. Some of them are [lifecycle callbacks](/build/lifecycle-events-and-callbacks/), and others are functions you create yourself to serve as your zome's API. This second kind of function is what we'll talk about in this page.
+As we touched on in the [Zomes page](/build/zomes/#how-a-zome-is-structured), a zome is just a WebAssembly module with some public functions. These functions have access to Holochain's host API. Some of them are [lifecycle hooks](/build/callbacks-and-lifecycle-hooks/), and others are functions you create yourself to serve as your zome's API. This second kind of function is what we'll talk about in this page.
 
 Holochain sandboxes your zome, acting as an intermediary between it and the user's storage and UI at the local level, and between it and other peers at the network level.
 
@@ -33,7 +33,7 @@ A zome function call's writes are _atomic_ and _transactional_; that is, **all t
 
 Zome function calls, and their transactions, can also run in parallel. A zome call transaction has one big difference from traditional database transactions: if one transaction begins, then another transaction begins and commits before the first transaction finishes, **the first transaction will roll back** and return a 'chain head moved' error to the caller.
 
-The possibility of a rollback means that any follow-up tasks with written data should happen in a [`post_commit` callback](/build/lifecycle-events-and-callbacks/#define-a-post-commit-callback).
+The possibility of a rollback means that any follow-up tasks with written data should happen in a [`post_commit` callback](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback).
 
 ### Relaxed chain top ordering
 
@@ -80,7 +80,7 @@ Here's how the **call-zome workflow** handles a zome function call:
         * If at least one wasn't, return a 'chain head moved' error to the caller.
 8. Write the new actions to the source chain and store their corresponding DHT operations in the local DHT store.
 9. Trigger the **publish** workflow in a separate thread, which will try to share the DHT operations with network peers.
-10. Trigger the **post-commit** workflow in a separate thread, which will look for a [`post_commit` callback](/build/lifecycle-events-and-callbacks/#define-a-post-commit-callback) in the same zome as the called function, and pass the new actions to it.
+10. Trigger the **post-commit** workflow in a separate thread, which will look for a [`post_commit` callback](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) in the same zome as the called function, and pass the new actions to it.
 11. Return the zome function's return value to the caller.
 
 ## References
@@ -93,5 +93,5 @@ Here's how the **call-zome workflow** handles a zome function call:
 
 * [Core Concepts: Application Architecture](/concepts/2_application_architecture/)
 * [Build Guide: Zomes](/build/zomes/)
-* [Build Guide: Lifecycle Events and Callbacks](/build/lifecycle-events-and-callbacks/)
+* [Build Guide: Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/)
 * [Build Guide: Entries: Create with relaxed chain top ordering](/build/entries/#create-with-relaxed-chain-top-ordering)

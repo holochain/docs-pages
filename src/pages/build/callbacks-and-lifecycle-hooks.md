@@ -1,16 +1,16 @@
 ---
-title: "Lifecycle Events and Callbacks"
+title: "Callbacks and Lifecycle Hooks"
 ---
 
 ::: intro
-A [cell](/concepts/2_application_architecture/#cell) can respond to various events in the life of a hApp by defining specially named **lifecycle callbacks**. This lets back-end code define and validate data, perform initialization tasks, respond to [remote signals](/concepts/9_signals), and follow up after successful writes.
+A [cell](/concepts/2_application_architecture/#cell) can respond to various events in the life of a hApp by defining specially named **callbacks**, including **lifecycle hooks**. These functions may define and validate data, perform initialization tasks, respond to [remote signals](/concepts/9_signals), or follow up after successful writes.
 :::
 
-All of the lifecycle callbacks must follow the [pattern for public functions](/build/zomes/#define-a-function) on the Zomes page. They must also have the specific input argument and return value types described below.
+All of the callbacks must follow the [pattern for public functions](/build/zomes/#define-a-function) we introduced on the Zomes page. They must also have the specific input argument and return value types we describe below.
 
 ## Integrity zomes
 
-Your [integrity zome](/build/zomes/#integrity) must define two callbacks, `validate` and `entry_defs`, and it may define an optional callback, `genesis_self_check`. All of these functions **cannot have side effects**; any attempt to write data will fail. They also cannot access data that changes over time or across participants, such as the cell's [agent ID](/build/identifiers/#agent) or a collection of [links](/build/links-paths-and-anchors/) in the [DHT](/concepts/4_dht).
+Your [integrity zome](/build/zomes/#integrity) may define three callbacks, `validate`, `entry_defs`, and `genesis_self_check`. All of these functions **cannot have side effects**; any attempt to write data will fail. They also cannot access data that changes over time or across agents, such as the current cell's [agent ID](/build/identifiers/#agent) or a collection of [links](/build/links-paths-and-anchors/) in the [DHT](/concepts/4_dht).
 
 
 ### Define a `validate` callback
@@ -19,36 +19,40 @@ In order to validate your data you'll need to define a `validate` callback. It m
 
 The `validate` callback is called at two times:
 
-1. On an agent's device, when they try to author an [action](/build/working-with-data/#entries-actions-and-records-primary-data), and
-2. On a peer's device, when they receive a [DHT operation](/concepts/4_dht/#a-cloud-of-witnesses) to store and serve as part of the shared database.
+1. When an agent tries to author an [action](/build/working-with-data/#entries-actions-and-records-primary-data), and
+2. When an agent receives a [DHT operation](/concepts/4_dht/#a-cloud-of-witnesses) to store and serve as part of the shared database.
 
 The nature of validation is out of scope for this page (we'll write a page on it soon), but here's a very basic example of a validation callback that approves everything: <!-- TODO: remove this example when the validation page is written -->
 
 ```rust
+use hdi::prelude::*;
+
 #[hdk_extern]
 pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
-    Ok(Valid)
+    Ok(ValidateCallbackResult::Valid)
 }
 ```
 
 And here's an example of one that rejects everything. You'll note that the outer result is `Ok`; you should generally reserve `Err` for unexpected failures such as inability to deserialize data. However, Holochain will treat both `Ok(Invalid)` and `Err` as invalid operations that should be rejected.
 
 ```rust
+use hdi::prelude::*;
+
 #[hdk_extern]
 pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
-    Ok(Invalid("I reject everything"))
+    Ok(ValidateCallbackResult::Invalid("I reject everything"))
 }
 ```
 
 ### Define an `entry_defs` callback
 
-You don't need to define this callback by hand; you can let the `hdk_entry_types` macro do it for you. Read the [Define an entry type section](/build/entries/#define-an-entry-type) to find out how.
+You don't need to write this callback by hand; you can let the `hdk_entry_types` macro do it for you. Read the [Define an entry type section](/build/entries/#define-an-entry-type) to find out how.
 
 ### Define a `genesis_self_check` callback
 
-Holochain assumes that every participant in a network is able to self-validate all the data they create before storing it in their [source chain](/concepts/3_source_chain/) and publishing it to the [DHT](/concepts/4_dht/). But at **genesis** time, when their cell has just been instantiated but they haven't connected to other peers, they may not be able to fully validate their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store) if their validity depends on shared data. So Holochain skips full self-validation for these records, only validating the basic structure of their [actions](/build/working-with-data/#entries-actions-and-records-primary-data).
+Holochain assumes that every agent is able to self-validate all the data they create before storing it in their [source chain](/concepts/3_source_chain/) and publishing it to the [DHT](/concepts/4_dht/). But at **genesis** time, when their cell has just been instantiated but they haven't connected to other peers, they may not be able to fully validate their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store) if their validity depends on shared data. So Holochain skips full self-validation for these records, only validating the basic structure of their [actions](/build/working-with-data/#entries-actions-and-records-primary-data).
 
-This creates a risk to the new participant; they may mistakenly publish malformed data and be rejected from the network. You can define a `genesis_self_check` function that checks the _content_ of genesis records before they're published. This function is limited --- it naturally doesn't have access to DHT data. But it can be a useful guard against a [membrane proof](/resources/glossary/#membrane-proof) that the participant typed or pasted incorrectly, for example.
+This creates a risk to the new agent; they may mistakenly publish malformed data and be rejected from the network. You can define a `genesis_self_check` function that checks the _content_ of genesis records before they're published. This function is limited --- it naturally doesn't have access to DHT data. But it can be a useful guard against a [membrane proof](/resources/glossary/#membrane-proof) that the participant typed or pasted incorrectly, for example.
 
 `genesis_self_check` must take a single argument of type [`GenesisSelfCheckData`](https://docs.rs/hdi/latest/hdi/prelude/type.GenesisSelfCheckData.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
 
@@ -71,7 +75,7 @@ pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCa
 
 ## Coordinator zomes
 
-A [coordinator zome](/build/zomes/#coordinator) may define some optional lifecycle callbacks: `init`, `post_commit`, and `recv_remote_signal`.
+A [coordinator zome](/build/zomes/#coordinator) may define some lifecycle hooks: `init`, `post_commit`, and `recv_remote_signal`.
 
 ### Define an `init` callback
 
@@ -79,7 +83,7 @@ If you want to run setup tasks when the cell is being initialized, define a call
 
 !!! info `init` isn't called immediately on cell instantiation
 
-This callback is called 'lazily'; that is, it's not called _immediately_ after the cell has been instantiated. Instead, Holochain waits until the first zome function call is made, then calls `init` before calling the zome function.
+This callback is called 'lazily'; that is, it's not called immediately after the cell has been instantiated. Instead, Holochain waits until the first zome function call is made, then calls `init` before calling the zome function.
 
 This gives a participant's Holochain runtime a little bit of time to connect to other peers, which makes various things you might want to do in `init` more likely to succeed if they depend on data in the DHT.
 
@@ -91,7 +95,7 @@ Once `init` runs successfully for all coordinator zomes in a DNA, Holochain writ
 
 `init` must take an empty `()` input argument and return an [`InitCallbackResult`](https://docs.rs/hdk/latest/hdk/prelude/enum.InitCallbackResult.html) wrapped in an `ExternResult`. All zomes' `init` callbacks in a DNA must return a success result in order for cell initialization to succeed; otherwise any data written in these callbacks, along with the `InitZomesComplete` action, will be rolled back. _If any zome's init callback returns an `InitCallbackResult::Fail`, initialization will fail._ Otherwise, if any init callback returns an `InitCallbackResult::UnresolvedDependencies`, initialization will be retried at the next zome call attempt.
 
-Here's an `init` callback that [links](/build/links-paths-and-anchors/) the [agent's ID](/build/identifiers/#agent) to the [DNA hash](/build/identifiers/#dna) as a sort of "I'm here" note. (It assumes that you've written an integrity zome called `foo_integrity` that defines one type of link called `ParticipantRegistration`.)
+Here's an `init` callback that [links](/build/links-paths-and-anchors/) the [agent's ID](/build/identifiers/#agent) to the [DNA hash](/build/identifiers/#dna) as a sort of "I'm here" note. (It assumes that you've written an integrity zome called `foo_integrity` that [defines one type of link](/build/links-paths-and-anchors/#define-a-link-type) called `ParticipantRegistration`.)
 
 ```rust
 use foo_integrity::LinkTypes;
@@ -199,7 +203,7 @@ pub fn recv_remote_signal(payload: SignalType) -> ExternResult<()> {
 
 After a zome function call completes, any actions that it created are validated, then written to the cell's source chain if all actions pass validation. While the function is running, nothing has been stored even if [CRUD](/build/working-with-data/#adding-and-modifying-data) function calls return `Ok`. (Read more about the [atomic, transactional nature](/build/zome-functions/#atomic-transactional-commits) of writes in a zome function call.) That means that any follow-up you do within the same function, like pinging other peers, might point to data that doesn't exist if the function fails at a later step.
 
-If you need to do any follow-up, it's safer to do this in a lifecycle callback called `post_commit`, which is called after Holochain's [call-zome workflow](/build/zome-functions/#zome-function-call-lifecycle) successfully writes its actions to the source chain. (Function calls that don't write data won't trigger this event.)
+If you need to do any follow-up, it's safer to do this in a lifecycle hook called `post_commit`, which is called after Holochain's [call-zome workflow](/build/zome-functions/#zome-function-call-lifecycle) successfully writes its actions to the source chain. (Function calls that don't write data won't trigger this event.)
 
 `post_commit` must take a single argument of type <code>Vec&lt;<a href="https://docs.rs/hdk/latest/hdk/prelude/type.SignedActionHashed.html">SignedActionHashed</a>&gt;</code>, which contains all the actions the function call wrote, and it must return an empty `ExternResult<()>`. This callback must not write any data, but it may call other zome functions in the same cell or any other local or remote cell, and it may send local or remote signals.
 

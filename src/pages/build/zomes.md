@@ -6,7 +6,7 @@ title: "Zomes"
 ### In this section {data-no-toc}
 
 * Zomes (this page)
-    * [Lifecycle Events and Callbacks](/build/lifecycle-events-and-callbacks/) --- writing functions that respond to events in a hApp's lifecycle
+    * [Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/) --- writing functions that respond to events in a hApp's lifecycle
     * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
 :::
 
@@ -16,7 +16,7 @@ A **zome** (short for chromosome) is a module of executable code within a [**DNA
 
 ## How a zome is structured
 
-A zome is just a [WebAssembly module](https://webassembly.github.io/spec/core/syntax/modules.html) that exposes public functions. The **conductor** (the Holochain runtime) calls these functions at different points in the application's lifetime. Some functions have special names and serve as [**callbacks**](/build/lifecycle-events-and-callbacks/) that are called by the Holochain system. Others are ones you define yourself, and they become your zome's API that external processes such as a UI can call.
+A zome is just a [WebAssembly module](https://webassembly.github.io/spec/core/syntax/modules.html) that exposes public functions. The **conductor** (the Holochain runtime) calls these functions at different points in the application's lifetime. Some functions have special names and serve as [**callbacks**](/build/callbacks-and-lifecycle-hooks/) that are called by the Holochain system. Others are ones you define yourself, and they become your zome's API that external processes such as a UI can call.
 
 ## How a zome is written
 
@@ -40,7 +40,7 @@ When you're writing an integrity zome, use the smaller [`hdi`](https://crates.io
 
 Your integrity zome tells Holochain about the types of [entries](/build/entries/) and [links](/build/links-paths-and-anchors/) it defines with macros called [`hdk_entry_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_types.html) and [`hdk_link_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_link_types.html) added to enums of all the entry and link types. These create callbacks that are run at DNA install time. Read more in [Define an entry type](/build/entries/#define-an-entry-type) and [Define a link type](/build/links-paths-and-anchors/#define-a-link-type).
 
-Finally, your integrity zome defines [**validation callbacks**](/build/lifecycle-events-and-callbacks/#define-a-validate-callback) that check for correctness of data and actions. Holochain runs this on an agent's own device when they try to author data, and when they're asked to store and serve data authored by others.
+Finally, your integrity zome defines [**validation callbacks**](/build/callbacks-and-lifecycle-hooks/#define-a-validate-callback) that check for correctness of data and actions. Holochain runs this on an agent's own device when they try to author data, and when they're asked to store and serve data authored by others.
 
 #### Create an integrity zome
 
@@ -60,7 +60,7 @@ Then add some necessary dependencies to your new `Cargo.toml` file:
 +serde = "1.0"
 ```
 
-Now you can write a [`validate` callback](/build/lifecycle-events-and-callbacks/#define-a-validate-callback) and [define some entry types](/build/entries/#define-an-entry-type).
+Now you can write a [`validate` callback](/build/callbacks-and-lifecycle-hooks/#define-a-validate-callback) and [define some entry types](/build/entries/#define-an-entry-type).
 
 When you've written some code, compile your zome using `cargo`:
 
@@ -70,7 +70,7 @@ cargo build --release --target wasm32-unknown-unknown
 
 ### Coordinator
 
-Coordinator zomes hold your back-end logic --- the functions that read and write data or communicate with peers. In addition to some optional lifecycle callbacks [lifecycle callbacks](/build/lifecycle-events-and-callbacks/#coordinator-zomes), you'll also write your own **zome functions** that serve as your zome's API.
+Coordinator zomes hold your back-end logic --- the functions that read and write data or communicate with peers. In addition to some optional lifecycle hooks [lifecycle hooks](/build/callbacks-and-lifecycle-hooks/#coordinator-zomes), you'll also write your own **zome functions** that serve as your zome's API.
 
 #### Create a coordinator zome
 
@@ -143,7 +143,7 @@ pub fn check_age_for_18a_movie(age: u32) -> ExternResult<()> {
 
 ## Further reading
 
-* [Build Guide: Lifecycle Events and Callbacks](/build/lifecycle-events-and-callbacks/)
+* [Build Guide: Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/)
 * [Build Guide: Zome Functions](/build/zome-functions/)
 * [WebAssembly](https://webassembly.org/)
 * [serde](https://serde.rs/)
