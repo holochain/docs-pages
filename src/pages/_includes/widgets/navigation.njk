@@ -25,7 +25,7 @@
     <li id="mobile-search">
       <a href="/search" title="Search the site">{{ mdiSearch() }}</a>
     </li>
-    {% for topLink in mainNavData.links %}
+    {% for topLink in mainNavData.children %}
       {% set isCurrentParent = topLink.url == activeParent.url %}
       <li {% if isCurrentParent %} data-is-current-parent="true" {% endif %}
         {% if topLink.url == page.url %} aria-current="page" {% endif %} >
@@ -51,7 +51,7 @@
 {% set activeParent = headerNavData.getActiveParentLink(page.url) %}
 <nav id="header-nav">
   <ul>
-    {% for link in headerNavData.links %}
+    {% for link in headerNavData.children %}
       <li {% if link.url == activeParent.url %} data-is-current-parent="true" {% endif %} >
         <a href="{{ link.url }}">{{ link.title }}</a>
       </li>

@@ -1,5 +1,5 @@
 {
-  links: [
+  children: [
     { title: "Get Started", url: "/get-started/", children: [
         { title: "1. Install Holochain Development Environment", url: "/get-started/#2-installing-holochain-development-environment" },
         { title: "2. Hello World", url: "/get-started/2-hello-world/" },
