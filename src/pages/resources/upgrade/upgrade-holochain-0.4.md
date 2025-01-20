@@ -145,8 +145,20 @@ The biggest change for 0.4 is that some features are marked `unstable` and aren'
 
 **If your DNA needs to call a host function that depends on an unstable feature**, you'll need to do two things:
 
-1. Build a custom Holochain binary with both the specific feature you need (see the list above) and `unstable-functions` enabled.
-2. Enable the `unstable-functions` flag for the `hdi` and `hdk` dependencies in your zomes' `Cargo.toml` (see the section after the next).
+1. [Build a custom Holochain binary](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) with both the specific feature you need (see the list above) and `unstable-functions` enabled.
+2. Enable the `unstable-functions` flag for the `hdi` and `hdk` dependencies in your zomes' `Cargo.toml` files:
+
+    ```diff:toml
+     [dependencies]
+    -hdi = { workspace = true }
+    +hdi = { workspace = true, features = ["unstable-functions"] }
+    ```
+
+    ```diff:toml
+     [dependencies]
+    -hdk = { workspace = true }
+    +hdk = { workspace = true, features = ["unstable-functions"] }
+    ```
 
 Note that you'll need to make sure your users are running your custom conductor binary. If you compile your zomes without `unstable-functions` enabled for `hdi` or `hdk`, users with the flag enabled in Holochain will still be able to use your hApp, but if you compile your zomes _with_ `unstable-functions`, users with the flag(s) disabled won't be able to use your hApp.
 
