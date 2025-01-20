@@ -226,14 +226,14 @@ Read more about [entries](/build/entries/) and [links](/build/links-paths-and-an
 There are a few important things to know about action hashes:
 
 * You can't know an action's hash until you've written the action, because the action contains the current system time at the moment of writing.
-* When you write an action, you can specify "relaxed chain top ordering". We won't go into the details here (see [the section in the Zome Functions page](/build/zome-functions/#relaxed-chain-top-ordering),but when you use it, the action hash may change after the function completes.
+* When you write an action, you can specify "relaxed chain top ordering". We won't go into the details here (see [the section in the Zome Functions page](/build/zome-functions/#relaxed-chain-top-ordering), but when you use it, the action hash may change after the function completes.
 * A function that writes actions is _atomic_, which means that all writes fail or succeed together.
 
 Because of these three things, it's unsafe to depend on the value or even existence of an action hash within the same function that writes it. Here are some 'safe usage' notes:
 
 * You may safely use the hash of an action you've just written as data in another action in the same function (e.g., in a link or an entry that contains the hash in a field), as long as you're not using relaxed chain top ordering.
 * The same is also true of action hashes in your function's return value.
-* Don't communicate the action hash with the front end, another cell, or another peer on the network via a remote function call or [signal](/concepts/9_signals/) _from within the same function that writes it_, in case the write fails. Instead, do your communicating in a follow-up step. The easiest way to do this is by implementing [a callback called `post_commit`](https://docs.rs/hdk/latest/hdk/#internal-callbacks) which receives a vector of all the actions that the function wrote.
+* Don't communicate the action hash with the front end, another cell, or another peer on the network via a remote function call or [signal](/concepts/9_signals/) _from within the same function that writes it_, in case the write fails. Instead, do your communicating in a follow-up step. The easiest way to do this is by [implementing a callback called `post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) which receives a vector of all the actions that the function wrote.
 
 <!-- TODO: write about the front end -->
 
