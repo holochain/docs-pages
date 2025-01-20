@@ -40,7 +40,7 @@ use hdi::prelude::*;
 
 #[hdk_extern]
 pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
-    Ok(ValidateCallbackResult::Invalid("I reject everything"))
+    Ok(ValidateCallbackResult::Invalid("I reject everything".into()))
 }
 ```
 
@@ -59,17 +59,17 @@ This creates a risk to the new agent; they may mistakenly publish malformed data
 Here's an example that checks that the membrane proof exists and is the right length: <!-- TODO: move this to the validation page too -->
 
 ```rust
-use hdi::prelude::{GenesisSelfCheckData, hdk_extern, ValidateCallbackResult};
+use hdi::prelude::*;
 
 #[hdk_extern]
 pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCallbackResult> {
     if let Some(membrane_proof) = data.membrane_proof {
         if membrane_proof.bytes().len() == 32 {
-            Ok(Valid)
+            return Ok(ValidateCallbackResult::Valid);
         }
-        Ok(Invalid("Membrane proof is not the right length. Please check it and enter it again."))
+        return Ok(ValidateCallbackResult::Invalid("Membrane proof is not the right length. Please check it and enter it again.".into()));
     }
-    Ok(Invalid("This network needs a membrane proof to join."))
+    Ok(ValidateCallbackResult::Invalid("This network needs a membrane proof to join.".into()))
 }
 ```
 
@@ -95,24 +95,50 @@ Once `init` runs successfully for all coordinator zomes in a DNA, Holochain writ
 
 `init` must take an empty `()` input argument and return an [`InitCallbackResult`](https://docs.rs/hdk/latest/hdk/prelude/enum.InitCallbackResult.html) wrapped in an `ExternResult`. All zomes' `init` callbacks in a DNA must return a success result in order for cell initialization to succeed; otherwise any data written in these callbacks, along with the `InitZomesComplete` action, will be rolled back. _If any zome's init callback returns an `InitCallbackResult::Fail`, initialization will fail._ Otherwise, if any init callback returns an `InitCallbackResult::UnresolvedDependencies`, initialization will be retried at the next zome call attempt.
 
-Here's an `init` callback that [links](/build/links-paths-and-anchors/) the [agent's ID](/build/identifiers/#agent) to the [DNA hash](/build/identifiers/#dna) as a sort of "I'm here" note. (It assumes that you've written an integrity zome called `foo_integrity` that [defines one type of link](/build/links-paths-and-anchors/#define-a-link-type) called `ParticipantRegistration`.)
+Here's an `init` callback that [links](/build/links-paths-and-anchors/) the [agent's ID](/build/identifiers/#agent) to the [DNA hash](/build/identifiers/#dna) as a sort of "I'm here" note. (It depends on a couple things being defined in your integrity zome; we'll show the integrity zome after this sample for completeness.)
 
 ```rust
-use foo_integrity::LinkTypes;
+use foo_integrity::{get_participant_registration_anchor, LinkTypes};
 use hdk::prelude::*;
 
 #[hdk_extern]
 pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
-    let DnaInfoV2 { hash: dna_hash } = dna_info()?;
-    let AgentInfo { agent_latest_pubkey: my_pubkey } = agent_info()?;
+    let participant_registration_anchor_hash = get_participant_registration_anchor_hash()?;
+    let AgentInfo { agent_latest_pubkey: my_pubkey, ..} = agent_info()?;
     create_link(
-        dna_hash,
+        participant_registration_anchor_hash,
         my_pubkey,
         LinkTypes::ParticipantRegistration,
         ()
     )?;
 
     Ok(InitCallbackResult::Pass)
+}
+```
+
+Here's the integrity zome code needed to make this work:
+
+```rust
+use hdi::prelude::*
+
+#[hdk_link_types]
+pub enum LinkTypes {
+    ParticipantRegistration,
+}
+
+// This is a very simple implementation of the Anchor pattern, which you can
+// read about in https://developer.holochain.org/build/links-paths-and-anchors/
+// You don't need to tell Holochain about it with the `hdk_entry_types` macro,
+// because it never gets stored -- we only use it to calculate a hash.
+#[hdk_entry_helper]
+pub struct Anchor(pub Vec<u8>);
+
+pub fn get_participant_registration_anchor_hash() -> ExternResult<EntryHash> {
+    hash_entry(Anchor(
+        "_participants_"
+            .as_bytes()
+            .to_owned()
+    ))
 }
 ```
 
@@ -157,10 +183,22 @@ This zome function and remote signal receiver callback implement a "heartbeat" t
 use foo_integrity::LinkTypes;
 use hdk::prelude::*;
 
-// We're using this type for both remote signals to other peers and local
-// signals to the UI.
-enum SignalType {
+// We're creating this type for both remote signals to other peers and local
+// signals to the UI. It's a good idea to define your signal type as an enum,
+// in case you want to add new message types later.
+#[derive(Serialize, Deserialize, Debug)]
+enum Signal {
     Heartbeat(AgentPubKey),
+}
+
+#[hdk_extern]
+pub fn recv_remote_signal(payload: Signal) -> ExternResult<()> {
+    if let Signal::Heartbeat(agent_id) = payload {
+        // Pass the heartbeat along to my UI so it can update the other
+        // peer's online status.
+        return emit_signal(Signal::Heartbeat(agent_id));
+    }
+    Ok(())
 }
 
 // My UI calls this function at regular intervals to let other participants
@@ -168,34 +206,27 @@ enum SignalType {
 #[hdk_extern]
 pub fn heartbeat(_: ()) -> ExternResult<()> {
     // Get all the registered participants from the DNA hash.
-    let DnaInfoV2 { hash: dna_hash } = dna_info()?;
+    let participant_registration_anchor_hash = get_participant_registration_anchor_hash()?;
     let other_participants_keys = get_links(
         GetLinksInputBuilder::try_new(
-            dna_hash,
+            participant_registration_anchor_hash,
             LinkTypes::ParticipantRegistration
         )?
             .get_options(GetStrategy::Network)
             .build()
     )?
-        .filter_map(|l| l.target.into_agent_pub_key());
+        .iter()
+        .filter_map(|l| l.target.clone().into_agent_pub_key())
+        .collect();
 
     // Now send a heartbeat message to each of them.
     // Holochain will send them in parallel and won't return an error for any
     // failure.
-    let AgentInfo { agent_latest_pubkey: my_pubkey } = agent_info()?;
+    let AgentInfo { agent_latest_pubkey: my_pubkey, .. } = agent_info()?;
     send_remote_signal(
-        SignalType::Heartbeat(my_pubkey),
+        Signal::Heartbeat(my_pubkey),
         other_participants_keys
     )
-}
-
-#[hdk_extern]
-pub fn recv_remote_signal(payload: SignalType) -> ExternResult<()> {
-    match payload {
-        // Pass the heartbeat along to my UI so it can update the other
-        // peer's online status.
-        SignalType::Heartbeat(peer_pubkey) => emit_signal(payload)
-    }
 }
 ```
 
@@ -210,10 +241,11 @@ If you need to do any follow-up, it's safer to do this in a lifecycle hook calle
 Here's an example that uses `post_commit` to tell someone a movie loan has been created for them. It uses the integrity zome examples from [Identifiers](/build/identifiers/#in-dht-data).
 
 ```rust
-use movie_integrity::{EntryTypes, Movie, UnitEntryTypes};
-use hdk::*;
+use movie_integrity::{EntryTypes, Movie, MovieLoan, UnitEntryTypes};
+use hdk::prelude::*;
 
-enum RemoteSignalType {
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub enum RemoteSignal {
     MovieLoanHasBeenCreatedForYou(ActionHash),
 }
 
@@ -221,27 +253,30 @@ enum RemoteSignalType {
 pub fn post_commit(actions: Vec<SignedActionHashed>) -> ExternResult<()> {
     for action in actions.iter() {
         // Only handle cases where an entry is being created.
-        if let Action::Create(create) = action.action() {
-            let movie_loan = get_movie_loan(action.action_address())?;
-            send_remote_signal(
-                RemoteSignalType::MovieLoanHasBeenCreatedForYou(action.action_address()),
+        if let Action::Create(_) = action.action() {
+            let movie_loan = get_movie_loan(action.action_address().clone())?;
+            return send_remote_signal(
+                RemoteSignal::MovieLoanHasBeenCreatedForYou(action.action_address().clone()),
                 vec![movie_loan.lent_to]
             );
         }
     }
+    Ok(())
 }
 
-enum LocalSignalType {
+#[derive(Serialize, Deserialize, Debug)]
+enum LocalSignal {
     NewMovieLoan(MovieLoan),
 }
 
 #[hdk_extern]
-pub fn recv_remote_signal(payload: RemoteSignalType) -> ExternResult<()> {
-    if let MovieLoanHasBeenCreatedForYou(action_hash) = payload {
+pub fn recv_remote_signal(payload: RemoteSignal) -> ExternResult<()> {
+    if let RemoteSignal::MovieLoanHasBeenCreatedForYou(action_hash) = payload {
         let movie_loan = get_movie_loan(action_hash)?;
         // Send the new movie loan data to the borrower's UI!
-        emit_signal(LocalSignalType::NewMovieLoan(movie_loan))?;
+        emit_signal(LocalSignal::NewMovieLoan(movie_loan))?;
     }
+    Ok(())
 }
 
 fn get_movie_loan(action_hash: ActionHash) -> ExternResult<MovieLoan> {
@@ -249,25 +284,28 @@ fn get_movie_loan(action_hash: ActionHash) -> ExternResult<MovieLoan> {
         action_hash,
         GetOptions::network()
     )? {
-        if let Some(movie_loan) = record.entry().to_app_option<MovieLoan>()? {
-            Ok(movie_loan)
+        let maybe_movie_loan: Option<MovieLoan> = record.entry()
+            .to_app_option()
+            .map_err(|e| wasm_error!("Couldn't deserialize entry into movie loan: {}", e))?;
+        if let Some(movie_loan) = maybe_movie_loan {
+            return Ok(movie_loan);
         } else {
-            Err(wasm_error!("Entry wasn't a movie loan"))
+            return Err(wasm_error!("Couldn't retrieve movie loan entry"));
         }
-    } else {
-        Err(wasm_error!("Couldn't retrieve movie loan"))
     }
+    Err(wasm_error!("Couldn't retrieve movie loan"))
 }
 
-struct UpdateMovieInput {
-    original_hash: ActionHash,
-    data: Movie,
+#[derive(Serialize, Deserialize, Debug)]
+pub struct UpdateMovieInput {
+    pub original_hash: ActionHash,
+    pub data: Movie,
 }
 
 #[hdk_extern]
 pub fn update_movie(input: UpdateMovieInput) -> ExternResult<ActionHash> {
     let maybe_original_record = get(
-        input.original_hash,
+        input.original_hash.clone(),
         GetOptions::network()
     )?;
     match maybe_original_record {
@@ -276,10 +314,10 @@ pub fn update_movie(input: UpdateMovieInput) -> ExternResult<ActionHash> {
         // A more robust app would at least check that the original was of the
         // correct type.
         Some(_) => {
-            update_entry(
-                input.original_hash,
+            return update_entry(
+                input.original_hash.clone(),
                 &EntryTypes::Movie(input.data)
-            )?
+            );
         }
         None => Err(wasm_error!("Original movie record not found")),
     }

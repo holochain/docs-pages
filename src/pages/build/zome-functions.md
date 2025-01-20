@@ -17,7 +17,7 @@ A zome function is a public function that's tagged with the [`hdk_extern`](https
 Here's a simple example of a zome function that takes a name and returns a greeting:
 
 ```rust
-use hdk::prelude::{hdk_extern, ExternResult};
+use hdk::prelude::*;
 
 #[hdk_extern]
 pub fn say_hello(name: String) -> ExternResult<String> {
