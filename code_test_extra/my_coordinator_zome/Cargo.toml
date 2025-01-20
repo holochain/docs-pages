@@ -1,8 +1,0 @@
-[package]
-name = "my_coordinator_zome"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-hdk = "=0.4.0-rc.1"
-serde = "1.0"
