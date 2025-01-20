@@ -46,7 +46,7 @@ pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
 
 ### Define an `entry_defs` callback
 
-You don't need to write this callback by hand; you can let the `hdk_entry_types` macro do it for you. Read the [Define an entry type section](/build/entries/#define-an-entry-type) to find out how.
+You don't need to write this callback by hand; you can let the `hdk_entry_types` macro do it for you. Read the [Define an entry type section under Entries](/build/entries/#define-an-entry-type) to find out how.
 
 ### Define a `genesis_self_check` callback
 
@@ -87,7 +87,7 @@ This callback is called 'lazily'; that is, it's not called immediately after the
 
 This gives a participant's Holochain runtime a little bit of time to connect to other peers, which makes various things you might want to do in `init` more likely to succeed if they depend on data in the DHT.
 
-You can force `init` to run eagerly by calling it as if it were a normal zome function. _Note that you can only do this in Holochain 0.5 and newer._
+You can force `init` to run eagerly by calling it as if it were a normal zome function. Note that it might fail with `UnresolvedDependencies` if it needs dependencies from the DHT. _You can only do this in Holochain 0.5 and newer._
 
 !!!
 
@@ -116,7 +116,7 @@ pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
 }
 ```
 
-Here's the integrity zome code needed to make this work:
+Here's the `foo_integrity` zome code needed to make this work:
 
 ```rust
 use hdi::prelude::*
@@ -144,13 +144,13 @@ pub fn get_participant_registration_anchor_hash() -> ExternResult<EntryHash> {
 
 !!! info Why link the agent key to a well-known hash?
 
-Because there's no single source of truth in a Holochain network, it's impossible to get the full list of peers who have joined it. The above pattern is an easy way for newcomers to register themselves as active participants so others can find them.
+Because there's no single source of truth in a Holochain network, it's impossible to get the full list of agents who have joined it. The above pattern is an easy way for newcomers to register themselves as active participants so others can find them.
 
-But the users are also the infrastructure, so this can create "hot spots" where a set of peers --- the ones responsible for storing the base address for all those links --- carry an outsized burden compared to other peers. Read the [anchors and paths section under Links, Paths, and Anchors](/build/links-paths-and-anchors/#anchors-and-paths) for more info.
+But if there are a lot of agents in the network, this can create "hot spots" where one set of agents --- the ones responsible for storing the base address for all those links --- carry an outsized burden compared to other agents. Read the [anchors and paths section under Links, Paths, and Anchors](/build/links-paths-and-anchors/#anchors-and-paths) for more info.
 
 !!!
 
-This `init` callback also does something useful: it grants all other peers in the network permission to send messages to a participant's [remote signal receiver callback](#define-a-recv-remote-signal-callback).
+This `init` callback also does something useful: it grants all peers in the network permission to send messages to an agent's [remote signal receiver callback](#define-a-recv-remote-signal-callback).
 
 ```rust
 use hdk::prelude::*;
@@ -173,19 +173,18 @@ pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
 
 <!-- TODO: move this to the signals page after it's written -->
 
-Peers in a network can send messages to each other via [remote signals](/concepts/9_signals/#remote-signals). In order to handle these signals, your coordinator zome needs to define a `recv_remote_signal` callback. Remote signals get routed from the emitting coordinator zome on Alice's machine to the same one on Bob's machine, so there's no need for a coordinator to handle message types it doesn't know about.
+Agents in a network can send messages to each other via [remote signals](/concepts/9_signals/#remote-signals). In order to handle these signals, your coordinator zome needs to define a `recv_remote_signal` callback. Remote signals get routed from the emitting coordinator zome on the sender's machine to the same one on the receiver's machine, so there's no need for a coordinator to handle message types it doesn't know about.
 
 `recv_remote_signal` takes a single argument of any type you like --- if your coordinator zome deals with multiple message types, consider creating an enum for all of them. It must return an empty `ExternResult<()>`, as this callback is not called as a result of direct interaction from the local agent and has nowhere to pass a return value.
 
-This zome function and remote signal receiver callback implement a "heartbeat" to let all network participants know who's currently online. It assumes that you'll combine the two `init` callback examples in the previous section, which set up the necessary links and permissions to make this work.
+This zome function and remote signal receiver callback implement a "heartbeat" to let everyone keep track of who's currently online. It assumes that you'll combine the two `init` callback examples in the previous section, which set up the necessary links and permissions to make this work.
 
 ```rust
 use foo_integrity::LinkTypes;
 use hdk::prelude::*;
 
 // We're creating this type for both remote signals to other peers and local
-// signals to the UI. It's a good idea to define your signal type as an enum,
-// in case you want to add new message types later.
+// signals to the UI.
 #[derive(Serialize, Deserialize, Debug)]
 enum Signal {
     Heartbeat(AgentPubKey),
@@ -232,11 +231,11 @@ pub fn heartbeat(_: ()) -> ExternResult<()> {
 
 ### Define a `post_commit` callback
 
-After a zome function call completes, any actions that it created are validated, then written to the cell's source chain if all actions pass validation. While the function is running, nothing has been stored even if [CRUD](/build/working-with-data/#adding-and-modifying-data) function calls return `Ok`. (Read more about the [atomic, transactional nature](/build/zome-functions/#atomic-transactional-commits) of writes in a zome function call.) That means that any follow-up you do within the same function, like pinging other peers, might point to data that doesn't exist if the function fails at a later step.
+After a zome function call completes, any actions that it created are validated, then written to the cell's source chain if all actions pass validation. While the function is running, nothing has been stored yet, even if [CRUD](/build/working-with-data/#adding-and-modifying-data) function calls return `Ok` with the [hash of the newly written action](/build/identifiers/#the-unpredictability-of-action-hashes). (Read more about the [atomic, transactional nature](/build/zome-functions/#atomic-transactional-commits) of writes in a zome function call.) That means that any follow-up you do within the same function, like pinging other peers, might point to data that doesn't exist if the function fails at a later step.
 
 If you need to do any follow-up, it's safer to do this in a lifecycle hook called `post_commit`, which is called after Holochain's [call-zome workflow](/build/zome-functions/#zome-function-call-lifecycle) successfully writes its actions to the source chain. (Function calls that don't write data won't trigger this event.)
 
-`post_commit` must take a single argument of type <code>Vec&lt;<a href="https://docs.rs/hdk/latest/hdk/prelude/type.SignedActionHashed.html">SignedActionHashed</a>&gt;</code>, which contains all the actions the function call wrote, and it must return an empty `ExternResult<()>`. This callback must not write any data, but it may call other zome functions in the same cell or any other local or remote cell, and it may send local or remote signals.
+`post_commit` must take a single argument of type <code>Vec&lt;<a href="https://docs.rs/hdk/latest/hdk/prelude/type.SignedActionHashed.html">SignedActionHashed</a>&gt;</code>, which contains all the actions the function call wrote, and it must return an empty `ExternResult<()>`. This callback **must not write any data**, but it may call other zome functions in the same cell or any other local or remote cell, and it may send local or remote signals.
 
 Here's an example that uses `post_commit` to tell someone a movie loan has been created for them. It uses the integrity zome examples from [Identifiers](/build/identifiers/#in-dht-data).
 
