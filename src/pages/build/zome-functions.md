@@ -92,6 +92,7 @@ Here's how the **call-zome workflow** handles a zome function call:
 ## Further reading
 
 * [Core Concepts: Application Architecture](/concepts/2_application_architecture/)
+* [Core Concepts: Calls and Capabilities](/concepts/8_calls_capabilities/)
 * [Build Guide: Zomes](/build/zomes/)
 * [Build Guide: Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/)
 * [Build Guide: Entries: Create with relaxed chain top ordering](/build/entries/#create-with-relaxed-chain-top-ordering)
