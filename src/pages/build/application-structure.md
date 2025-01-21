@@ -10,7 +10,7 @@ title: Application Structure
         * [Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/) --- writing functions that respond to events in a hApp's lifecycle
         * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
     * [DNAs](/build/dnas/) --- what they're used for, how to specify and bundle
-    * hApps (coming soon) --- headless vs UI-based, how to bundle and distribute
+    * [hApps](/build/happs/) --- headless vs UI-based, how to bundle and distribute
 :::
 
 ::: intro
@@ -87,6 +87,8 @@ That means that a DNA doesn't exist as some piece of code that runs 'out there s
 There can still be bots or system-level services that do automated tasks. Those functions just have to be handled by one of the agents, and that agent doesn't have to be a human.
 
 !!!
+
+[Read more on the hApps page](/build/happs/).
 
 ## Further reading
 
