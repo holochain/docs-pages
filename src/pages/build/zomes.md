@@ -96,6 +96,10 @@ Again, **the easiest way to create a coordinator zome** is to let the scaffoldin
 +my_integrity_zome = { path = "../my_integrity_zome" }
 ```
 
+!!! info Consider using a Cargo workspace
+As your codebase grows, it might be useful to maintain all your mutual and external dependencies in one place. Consider putting all of the zomes in a DNA into one [workspace](https://doc.rust-lang.org/cargo/reference/workspaces.html). For an example, scaffold a basic hApp with one integrity/coordinator zome pair and take a look at the hApp's root `Cargo.toml` file.
+!!!
+
 ## Define a function
 
 You expose a callback or zome function to the host by making it a `pub fn` and adding a macro called [`hdk_extern`](https://docs.rs/hdk/latest/hdk/prelude/attr.hdk_extern.html). This handles the task of passing data back and forth between the host and the zome, which is complicated and involves pointers to shared memory.
