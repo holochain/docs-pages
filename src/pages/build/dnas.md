@@ -1,5 +1,5 @@
 ---
-title: "DNA"
+title: "DNAs"
 ---
 
 ::: intro
@@ -68,7 +68,7 @@ coordinator:
             * `bundled`: Expect the file to be part of this [bundle](#bundle-a-dna). The value is a path relative to the manifest file.
             * `path`: Get the file from the local filesystem. The value is a filesystem path.
             * `url`: Get the file from the web. The value is a URL, of course.
-* `coordinator`: Contains all the coordinator bits for the DNA, which do not change the DNA hash and can be modified after the DNA is installed and being used in a [cell](/concepts/2_app_architecture/#cell).
+* `coordinator`: Contains all the coordinator bits for the DNA, which do not change the DNA hash and can be modified after the DNA is installed and being used in a [cell](/concepts/2_application_architecture/#cell).
     * `zomes`: Currently the only field in `coordinator`. A list of coordinator zomes. Each item in the list is the same as in `integrity.zomes` above, except that the following field is added:
         * `dependencies`: The integrity zomes that this coordinator zome depends on. Note that you can leave this field out if there's only one integrity zome (it'll be automatically treated as a dependency). For each dependency in the list, there's one field:
             * `name`: A string matching the `name` field of the integrity zome the coordinator zome depends on.
@@ -120,6 +120,6 @@ Now that you've created a bare DNA, it's time to [fill it with zomes](/build/zom
 
 ## Further reading
 
-* [Get Started: Installing Holochain Development Environment](/get/started/#2-installing-holochain-development-environment)
+* [Get Started: Installing Holochain Development Environment](/get-started/#2-installing-holochain-development-environment)
 * [Core Concepts: Application Architecture](/concepts/2_application_architecture/)
 * [Build Guide: Zomes](/build/zomes/)
