@@ -29,6 +29,8 @@ Now that you've got some basic concepts and the terms we use for them, it's time
     * [Zomes](/build/zomes/) --- integrity vs coordinator, how to structure and compile
         * [Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/) --- writing functions that respond to events in a hApp's lifecycle
         * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
+    * [DNAs](/build/dnas/) --- what they're used for, how to specify and bundle
+    * hApps (coming soon) --- headless vs UI-based, how to bundle and distribute
 :::
 
 ## Working with data
