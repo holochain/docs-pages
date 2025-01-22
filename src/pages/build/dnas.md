@@ -110,6 +110,101 @@ When your coordinator zome depends on an integrity zome, it doesn't know what th
 
 !!!
 
+## Single vs multiple DNAs
+
+When do you decide whether a hApp should have more than one DNA? Whenever it makes sense to have multiple separate networks or databases within the hApp. These are the most common use cases:
+
+* **Dividing responsibilities.** For instance, a video sharing hApp may have one group of peers who are willing to index video metadata and offer search services and another group of peers who are willing to host and serve videos, along with people who just want to watch them. This DNA could have `search` and `storage` DNAs, along with a main DNA that allows video watchers to look up peers that are offering services and query them.
+* **Creating privileged spaces.** A chat hApp may have both public and private rooms, all [cloned](/resources/glossary/#cloning) from a single `chat_room` DNA. This is a special case, as they all use just one base DNA, but they change just one [integrity modifier](#dna-manifest-structure-at-a-glance) such as the network seed to create new DNAs.
+* **Discarding or archiving data.** Because no data is ever deleted in a cell or the network it belongs to, a lot of old data can accumulate. Creating clones of a single storage-heavy DNA, bounded by topic or time period, allows agents to participate in only the networks that contain the information they need. As agents leave networks, unwanted data naturally disappears.
+
+### Call from one cell to another
+
+Agents can make **remote calls** within a single DNA's network with the [`call_remote`](https://docs.rs/hdk/latest/hdk/p2p/fn.call_remote.html) host function, and they can make **bridge calls** to other cells in the same hApp instance on their own device with the [`call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html) host function.
+
+Here's an example using both of these functions to implement the dividing-responsibilities pattern described above. It assumes a hApp with two DNAs -- a main one and another one called `search`, which people enable if they want to become a search provider. We won't show the `search` DNA's code here; just imagine it has a coordinator zome called `search` with a function called `do_search_query`.
+
+```rust
+use hdk::prelude::*;
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct SearchQuery {
+    pub terms: String,
+    pub keywords: Vec<String>,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct SearchInput {
+    pub query: SearchQuery,
+    // An agent must ask a specific peer for search results.
+    // A full app would also contain code for finding out what agents are
+    // offering search services.
+    pub peer: AgentPubKey,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct SearchResult {
+    pub title: String,
+    pub description: String,
+    pub video_hash: EntryHash,
+}
+
+// Video watcher agents use this function to query a search service provider
+// agent.
+#[hdk_extern]
+pub fn search(input: SearchInput) -> ExternResult<Vec<SearchResult>> {
+    let response = call_remote(
+        input.peer,
+        // The function is in the same zome.
+        zome_info()?.name,
+        "handle_search_query".into(),
+        // No capability secret is required to call this function.
+        // This assumes that, somewhere else in the code, there's a way for
+        // agents who want to become search providers to assign an
+        // unrestricted capability grant to the `handle_search_query`
+        // function.
+        None,
+        input.query,
+    )?;
+    match response {
+        ZomeCallResponse::Ok(data) => data
+            .decode()
+            .map_err(|e| wasm_error!("Couldn't deserialize response into search results: {}", e)),
+        ZomeCallResponse::Unauthorized(_, _, _, _, agent) => Err(wasm_error!("The remote peer {} rejected your search query", agent)),
+        ZomeCallResponse::NetworkError(message) => Err(wasm_error!(message)),
+        _ => Err(wasm_error!("An unknown error just happened"))
+    }
+}
+
+// Search provider agents use this function to access their `search` cell,
+// which is responsible for indexing and querying video metadata.
+#[hdk_extern]
+pub fn handle_search_query(query: SearchQuery) -> ExternResult<Vec<SearchResult>> {
+    let response = call(
+        CallTargetCell::OtherRole("search".into()),
+        "search",
+        "do_search_query".into(),
+        // Agents don't need a cap secret to call other cells in their own
+        // hApp instance.
+        None,
+        query,
+    )?;
+    match response {
+        ZomeCallResponse::Ok(data) => data
+            .decode()
+            .map_err(|e| wasm_error!("Couldn't deserialize response into search results: {}", e)),
+        _ => Err(wasm_error!("An unknown error just happened"))
+    }
+}
+```
+
+Note that **bridging between different cells only happens within one agent's hApp instance**, and **remote calls only happens between two agents in one DNA's network**. For two agents, Alice and Bob, Alice can do this:
+
+| ↓ want to call →   | Alice `main`  | Alice `search` | Bob `main`    | Bob `search`  |
+| ------------------ | :-----------: | :------------: | :-----------: | :-----------: |
+| Alice `main`       | `call`        | `call`         | `call_remote` | ⛔            |
+| Alice `search`     | `call`        | `call`         | ⛔            | `call_remote` |
+
 ## Next steps
 
 Now that you've created a bare DNA, it's time to [fill it with zomes](/build/zomes/), [define some data types](/build/working-with-data), and write some [callbacks](/build/callbacks-and-lifecycle-hooks/) and an [API](/build/zome-functions/).
