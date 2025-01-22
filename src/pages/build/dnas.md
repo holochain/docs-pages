@@ -28,7 +28,7 @@ You'll be prompted to enter a name and [**network seed**](#network-seed). After 
 
 ## Specify a DNA manifest
 
-A DNA manifest is written in [YAML](https://yaml.org/). It contains details about the DNA, the above integrity modifiers, and a list of coordinator zomes for interacting with the DNA.
+A DNA manifest is written in [YAML](https://yaml.org/). It contains metadata about the DNA, a section for **integrity modifiers**, and a list of coordinator zomes for interacting with the DNA.
 
 If you want to write your own manifest file, name it `dna.yaml` and give it the following structure. This example assumes that all of your zomes are in a folder called `zomes/`. Afterwards we'll explain what the fields mean.
 
