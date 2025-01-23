@@ -152,3 +152,14 @@ If you want to package a hApp as a standalone binary, along with the Holochain c
 
 * If you would like to use Electron and **only need to support Windows, macOS, and Linux**, the [`holochain/kangaroo-electron`](https://github.com/holochain/kangaroo-electron/) repo gives you a template to get started. Read the repo's readme for instructions.
 * If you **also need to support Android** along with the desktop OSes, darksoil studio's [p2p Shipyard](https://darksoil.studio/p2p-shipyard/) tool packages your web hApp into cross-platform binaries. (Note that p2p Shipyard is currently 'source-available' and they're raising funds to open-source it and cover development costs.)
+
+## Reference
+
+* [`holochain_types::app::AppManifestCurrent`](https://docs.rs/holochain_types/latest/holochain_types/app/struct.AppManifestCurrent.html), the underlying type that the hApp manifest gets parsed into. It has a lot of good documentation on the manifest format.
+* [`holochain_types::app:WebAppManifestCurrent`](https://docs.rs/holochain_types/latest/holochain_types/web_app/struct.WebAppManifestCurrent.html), for the web app manifest format.
+
+## Further reading
+
+* [Core Concepts: Application Architecture](/concepts/2_application_architecture/)
+* [Build Guide: DNAs](/build/dnas/)
+* [Build Guide: Zomes](/build/zomes/)
