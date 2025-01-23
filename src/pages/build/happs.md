@@ -64,7 +64,7 @@ roles:
       origin_time: null
       quantum_time: null
     installed_hash: null
-    # The maximum number of clones, which is UINT32_MAX
+    # The maximum number of clones, which is u32::MAX
     clone_limit: 4_294_967_295
 allow_deferred_memproofs: false
 ```
