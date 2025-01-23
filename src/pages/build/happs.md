@@ -8,7 +8,7 @@ A **hApp** (short for 'Holochain application') is a package for distributing a f
 
 ## hApps: delivering a full package of functionality
 
-As we described in [Application Structure](/build/application/structure/#happ), a hApp is like a collection of microservices, each microservice's role being filled by a DNA. A DNA may or may not be able to run independent from other DNAs, but a hApp should be able to be installed on a user's computer and give them a fully working experience.
+As we described in [Application Structure](/build/application-structure/#happ), a hApp is like a collection of microservices, each microservice's role being filled by a DNA. A DNA may or may not be able to run independent from other DNAs, but a hApp should be able to be installed on a user's computer and give them a fully working experience.
 
 ## Create a hApp
 
@@ -85,7 +85,7 @@ allow_deferred_memproofs: false
         Which creates a cell from the DNA immediately on hApp activation.
     * `dna`: The DNA that fills the role.
         * Location: The place to find the DNA bundle. The three options are:
-            * `bundled`: Expect the file to be part of this [bundle](#bundle-a-happ). The value is a path relative to the manifest file.
+            * `bundled`: Expect the file to be part of this [bundle](#package-a-h-app-for-distribution). The value is a path relative to the manifest file.
             * `path`: Get the file from the local filesystem. The value is a filesystem path.
             * `url`: Get the file from the web. The value is a URL, of course.
         * `modifiers`: Optional [integrity modifiers](/build/dnas/#integrity-modifiers) that change the DNA hash at install time.
