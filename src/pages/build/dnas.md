@@ -57,7 +57,7 @@ coordinator:
 ### DNA manifest structure at a glance
 
 * `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher) or [Moss](https://theweave.social/moss/).
-* `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**.
+* `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**. {#integrity-modifiers}
     * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It acts like a network-wide passcode. {#network-seed}
     * `properties`: Arbitrary, application-specific constants. The integrity code can access this, deserialize it, and change its runtime behavior. Think of it as configuration for the DNA.
     * `origin_time`: The earliest possible timestamp for any data; serves as a basis for coordinating network communication. Pick a date that's guaranteed to be slightly earlier than you expect that the app will start to get used. The scaffolding tool and `hc dna init` will both pick the date you created the DNA.
