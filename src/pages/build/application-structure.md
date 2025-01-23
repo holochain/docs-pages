@@ -65,7 +65,7 @@ Because each DNA has its own separate peer network and data store, you can use t
 
 [Read more on the DNAs page](/build/dnas/).
 
-### hApp
+### hApp {#happ}
 
 One or more DNAs come together in a **hApp** (Holochain app). Each DNA fills a named **role** in the hApp, and you can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices).
 
