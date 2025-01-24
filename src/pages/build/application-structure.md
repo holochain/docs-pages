@@ -7,8 +7,10 @@ title: Application Structure
 
 * Application Structure (this page)
     * [Zomes](/build/zomes/) --- integrity vs coordinator, how to structure and compile
-    * DNAs (coming soon) --- what they're used for, how to specify and bundle
-    * hApps (coming soon) --- headless vs UI-based, how to bundle and distribute
+        * [Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/) --- writing functions that respond to events in a hApp's lifecycle
+        * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
+    * [DNAs](/build/dnas/) --- what they're used for, how to specify and bundle
+    * [hApps](/build/happs/) --- headless vs UI-based, how to bundle and distribute
 :::
 
 ::: intro
@@ -61,7 +63,9 @@ This means you can hot-swap coordinators as you fix bugs and add features, witho
 
 Because each DNA has its own separate peer network and data store, you can use the DNA concept to come up with creative approaches to [privacy](https://dialnet.unirioja.es/servlet/articulo?codigo=8036267) and access, separation of responsibilities, or data retention.
 
-### hApp
+[Read more on the DNAs page](/build/dnas/).
+
+### hApp {#happ}
 
 One or more DNAs come together in a **hApp** (Holochain app). Each DNA fills a named **role** in the hApp, and you can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices).
 
@@ -83,6 +87,8 @@ That means that a DNA doesn't exist as some piece of code that runs 'out there s
 There can still be bots or system-level services that do automated tasks. Those functions just have to be handled by one of the agents, and that agent doesn't have to be a human.
 
 !!!
+
+[Read more on the hApps page](/build/happs/).
 
 ## Further reading
 

@@ -17,6 +17,7 @@ ified
 interoperating
 lifecycle
 lifecycles
+passcode
 permissioned
 permissivity
 redistributable
@@ -25,6 +26,7 @@ runtimes
 sandboxed
 sandboxing
 scaffolder
+snapshotted
 spacebar
 todo
 todos
