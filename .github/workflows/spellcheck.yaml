@@ -22,7 +22,6 @@ jobs:
 
   ci_pass:
     if: ${{ always() }}
-    name: "All Jobs Pass"
     runs-on: "ubuntu-latest"
     needs:
       - spellcheck
