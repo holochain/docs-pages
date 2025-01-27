@@ -10,7 +10,7 @@ A piece of data that represents a [record](#record) on an [agent's](#agent) [sou
 
 #### Address
 
-1. [DHT address](#dht-address), synonymous with [base](#base)
+1. [DHT address](#dht-address), synonymous with [basis address](#basis-address)
 2. [Transport address](#transport-address)
 
 #### Addressable content
@@ -36,7 +36,7 @@ Records of all the [source chain](#source-chain) [actions](#action) that an agen
 
 #### Agent activity operation
 
-A [DHT operation](#dht-operation) produced by the author of a [source chain](#source-chain) [record](#record), notifying the [validation authorities](#validation-authority) for the author's [agent ID entry](#agent-id-entry) that they've published something. The [base](#base) of an agent activity operation is the agent ID of the operation's [author](#author), which means that the author's [neighbors](#neighbor), as [peers](#peer) whose [agent addresses](#agent-address) are [near](#nearness) to theirs, are the [validation authorities](#validation-authority) for their agent activity data.
+A [DHT operation](#dht-operation) produced by the author of a [source chain](#source-chain) [record](#record), notifying the [validation authorities](#validation-authority) for the author's [agent ID entry](#agent-id-entry) that they've published something. The [basis address](#basis-address) of an agent activity operation is the agent ID of the operation's [author](#author), which means that the author's [neighbors](#neighbor), as [peers](#peer) whose [agent addresses](#agent-address) are [near](#nearness) to theirs, are the [validation authorities](#validation-authority) for their agent activity data.
 
 #### Agent-centric
 
@@ -56,7 +56,7 @@ The entry associated with the third of the four [genesis records](#genesis-recor
 
 #### Anchor
 
-A Holochain application design pattern in which an easily discoverable [base](#base) is designated as a location to store a large number of [links](#link). The base's [address](#address) is typically calculated from a short string, whose value is either hard-coded into the application's code, discovered via link traversal, or entered via the UI. [Entries](#entry) and [agent IDs](#agent-id) can also serve as anchor bases.
+A Holochain application design pattern in which an easily discoverable [base](#link-base) is designated as a location to store a large number of [links](#link). The base's [address](#address) is typically calculated from a short string, whose value is either hard-coded into the application's code, discovered via link traversal, or entered via the UI. [Entries](#entry) and [agent IDs](#agent-id) can also serve as anchor bases.
 
 #### Append-only
 
@@ -93,7 +93,7 @@ A [capability grant](#capability-grant) that allows anyone possessing the [sourc
 
 When we're talking about Holochain, synonymous with one or more [DNAs](#dna) for a [hApp](#holochain-application-h-app)---that is, code that contains the base-level persistence and validation logic.
 
-#### Base
+#### Basis address
 
 The [DHT address](#dht-address) to which an [operation](#dht-operation) applies. [Validation authorities](#validation-authority) who claim responsibility for this address receive, validate, and apply operations that produce [data](#dht-data) and [metadata](#metadata) attached to this base, which is then made available to [agents](#agent) who request it. This base consequently serves as a locator that allows an agent to know which authorities to request the data from, as each base maps to a DHT address, which is handled by a number of authorities who publish their coverage of the base via their [storage arc](#storage-arc), and whose [agent addresses](#agent-address) can be mapped to their [transport addresses](#transport-address) via a [peer table](#peer-table) lookup.
 
@@ -331,11 +331,11 @@ The unique ID of a piece of [record data](#record-data) ([entry](#entry), [actio
 
 #### DHT data
 
-A piece of data that lives in the [DHT](#distributed-hash-table-dht). DHT data is assigned to a [neighborhood](#neighborhood) of [validation authorities](#validation-authority) based on the base [address](#address) of the [DHT operation](#dht-operation) that expresses its creation, and is [deduplicated](#deduplication). All DHT data is either [record data](#record-data) with an address of its own, or [metadata](#metadata) attached to a piece of record data. DHT data is created when [agents](#agent) [author](#author) [source chain](#source-chain) [actions](#action), which then produce [operations](#dht-operation) that are sent to the respective validation authorities for the operations' [bases](#base). Those authorities then apply the operations to their own DHT [shard](#sharding) after validating them.
+A piece of data that lives in the [DHT](#distributed-hash-table-dht). DHT data is assigned to a [neighborhood](#neighborhood) of [validation authorities](#validation-authority) based on the base [address](#address) of the [DHT operation](#dht-operation) that expresses its creation, and is [deduplicated](#deduplication). All DHT data is either [record data](#record-data) with an address of its own, or [metadata](#metadata) attached to a piece of record data. DHT data is created when [agents](#agent) [author](#author) [source chain](#source-chain) [actions](#action), which then produce [operations](#dht-operation) that are sent to the respective validation authorities for the operations' [basis addresses](#basis-address). Those authorities then apply the operations to their own DHT [shard](#sharding) after validating them.
 
 #### DHT operation
 
-A unit of [gossip](#gossip) that communicates a request to a [validation authority](#validation-authority) to transform the data they hold in some way. Each DHT operation has a [base](#base) [address](#address) and gets sent to the authorities that claim responsibility for that address by advertising that their [storage arcs](#storage-arc) include the address. For each type of [record](#record)/[action](#action), an [author](#author) produces one or more DHT operations. For example, a [create-entry action](#create-entry-action) for a [public entry](#public-entry) produces three DHT operations:
+A unit of [gossip](#gossip) that communicates a request to a [validation authority](#validation-authority) to transform the data they hold in some way. Each DHT operation has a [basis address](#basis-address) and gets sent to the authorities that claim responsibility for that address by advertising that their [storage arcs](#storage-arc) include the address. For each type of [record](#record)/[action](#action), an [author](#author) produces one or more DHT operations. For example, a [create-entry action](#create-entry-action) for a [public entry](#public-entry) produces three DHT operations:
 
 * One to publish the [action](#action), whose base is the action's hash,
 * One to publish the entry itself, whose base is the entry's hash, and
@@ -464,7 +464,7 @@ A file that specifies the DNAs comprising a [hApp bundle](#h-app-bundle).
 
 #### Hash
 
-A unique 'fingerprint' for a piece of data, calculated by running the data through a cryptographic hashing function. A hash can serve as a unique identifier for that data (such as with [addresses](#address) of [DHT data](#dht-data)) and makes it easy to verify the integrity of the data after it's been retrieved. In a Holochain DHT, the hash of an [entry](#entry) also serves as its [base](#base), allowing an agent to calculate which [authorities](#validation-authority) to request the entry from.
+A unique 'fingerprint' for a piece of data, calculated by running the data through a cryptographic hashing function. A hash can serve as a unique identifier for that data (such as with [addresses](#address) of [DHT data](#dht-data)) and makes it easy to verify the integrity of the data after it's been retrieved. In a Holochain DHT, the hash of an [entry](#entry) also serves as its [basis address](#basis-address), allowing an agent to calculate which [authorities](#validation-authority) to request the entry from.
 
 #### Hash chain
 
@@ -608,7 +608,7 @@ A [record](#record) written to an agent's [source chain](#source-chain) that pro
 
 #### Metadata
 
-Supplementary data attached to a [base](#base) in a [DHT](#distributed-hash-table-dht). Metadata can be one of:
+Supplementary data attached to a [basis address](#basis-address) in a [DHT](#distributed-hash-table-dht). Metadata can be one of:
 
 * [links](#link),
 * [CRUD](#crud-action) status of [record data](#record-data) that exists at the base,
@@ -760,7 +760,7 @@ The data structure that holds an [action](#action) in an [agent's](#agent) [sour
 
 #### Record data
 
-Any piece of [address](#address)able data that can (though doesn't need to) be published to the [DHT](#distributed-hash-table-dht). Record data consists of anything contained in a [record](#record) --- that is, an [action](#action) or an [entry](#entry), which are stored by separate [validation authorities](#validation-authority) on the DHT. Each [base](#base) in a DHT may only have one piece of record data associated with it. This is in contrast to [metadata](#metadata), of which there can be many attached to a base.
+Any piece of [address](#address)able data that can (though doesn't need to) be published to the [DHT](#distributed-hash-table-dht). Record data consists of anything contained in a [record](#record) --- that is, an [action](#action) or an [entry](#entry), which are stored by separate [validation authorities](#validation-authority) on the DHT. Each [basis address](#basis-address) in a DHT may only have one piece of record data associated with it. This is in contrast to [metadata](#metadata), of which there can be many attached to a basis address.
 
 #### Recurring schedule
 
@@ -832,7 +832,7 @@ A [hash chain](#hash-chain) of [records](#record) committed by an [agent](#agent
 
 #### State transition
 
-A modification of application state. In Holochain, all state transitions are initially created as [records](#record) in an [agent's](#agent) [source chain](#source-chain) that represent the [actions](#action) of [creating, updating, and deleting](#create-read-update-delete-crud) data and metadata, as well as of system-level actions such as [capability grants](#capability-grant). A state transition further yields one or more [operations](#dht-operation) that are then [published](#publish) to the [DHT](#distributed-hash-table-dht), that is, they are sent to the appropriate [validation authorities](#validation-authority), who then apply those operations to their own DHT [shard](#sharding), which causes a state transition for the [base](#base) to which the operation applies.
+A modification of application state. In Holochain, all state transitions are initially created as [records](#record) in an [agent's](#agent) [source chain](#source-chain) that represent the [actions](#action) of [creating, updating, and deleting](#create-read-update-delete-crud) data and metadata, as well as of system-level actions such as [capability grants](#capability-grant). A state transition further yields one or more [operations](#dht-operation) that are then [published](#publish) to the [DHT](#distributed-hash-table-dht), that is, they are sent to the appropriate [validation authorities](#validation-authority), who then apply those operations to their own DHT [shard](#sharding), which causes a state transition for the [basis address](#basis-address) to which the operation applies.
 
 #### Subconscious
 
