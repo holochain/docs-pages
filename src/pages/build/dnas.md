@@ -221,7 +221,7 @@ pub fn handle_search_query(query: SearchQuery) -> ExternResult<Vec<SearchResult>
 }
 ```
 
-Note that **bridging between different cells only happens within one agent's hApp instance**, and **remote calls only happens between two agents in one DNA's network**. For two agents, Alice and Bob, Alice can do this:
+Note that **bridging between different cells only happens within one agent's hApp instance**, and **remote calls only happen between two agents in one DNA's network**. For two agents, Alice and Bob, Alice can do this:
 
 | ↓ wants to call → | Alice `main`  | Alice `search` | Bob `main`    | Bob `search`  |
 | ----------------- | :-----------: | :------------: | :-----------: | :-----------: |
