@@ -81,10 +81,27 @@ coordinator:
 
 ## Bundle a DNA
 
-To roll a DNA manifest and all its zomes into a **DNA bundle**, use the `hc` command on a folder that contains a `dna.yaml` file:
+DNAs are distributed in a `.dna` file that contains the manifest and all the compiled zomes.
+
+If you've used the scaffolding tool to create your DNA in a hApp, you can build all the DNAs at once with the npm script that was scaffolded for you. In your project's root folder, in the dev shell, type:
 
 ```bash
-hc dna pack my_dna/
+npm run build:happ
+```
+
+To roll a single DNA manifest and all its zomes into a DNA bundle, first compile all of the zomes:
+
+```bash
+npm run build:zomes
+```
+
+Then go to the `workdir` folder of the DNA you want to bundle, and use the `hc dna pack` command:
+
+```bash
+cd dnas/movies/workdir
+```
+```bash
+hc dna pack
 ```
 
 This will create a file in the same folder as the `dna.yaml`, called `<name>.dna`, where `<name>` comes from the `name` field at the top of the manifest.
