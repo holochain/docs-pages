@@ -16,15 +16,21 @@ The contents of a DNA are specified with a **manifest file**.
 
 ## Create a DNA
 
-If you use the [scaffolding tool](/get-started/3-forum-app-tutorial/), it'll scaffold a working directory for every DNA you scaffold.
-
-You can also use the `hc` command in the [Holonix dev shell](/get-started/#2-installing-holochain-development-environment) to create a bare working directory:
+If you use the scaffolding tool, it'll scaffold a working directory for every DNA you scaffold. In the root folder of a hApp project that you've scaffolded<!--TODO link this to the create a hApp section in the hApps page -->, type:
 
 ```bash
-hc dna init movies
+hc scaffold dna movies
 ```
 
-You'll be prompted to enter a name and [**network seed**](#network-seed). After that it'll create a folder called `movies` that contains a basic `dna.yaml` file with your responses to the prompts.
+This will create a folder called `dnas/movies`, with these contents:
+
+* `workdir/`: The place for your manifest; it's also where your built and bundled DNA will appear.
+    * `dna.yaml`: The manifest for your DNA (see the next section).
+* `zomes/`: The place where all your zomes should go.
+    * `integrity/`: The place where your [integrity zomes](/build/zomes/#integrity) should go.
+    * `coordinator/`: The place where your [coordinator zomes](/build/zomes/#coordinator) should go.
+
+It'll also add the new DNA to `workdir/happ.yaml`.
 
 ## Specify a DNA manifest
 
