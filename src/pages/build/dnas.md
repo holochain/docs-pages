@@ -62,7 +62,7 @@ coordinator:
 
 ### DNA manifest structure at a glance
 
-* `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher) or [Moss](https://theweave.social/moss/).
+* `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher).
 * `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**.
     * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It acts like a network-wide passcode. {#network-seed}
     * `properties`: Arbitrary, application-specific constants. The integrity code can access this, deserialize it, and change its runtime behavior. Think of it as configuration for the DNA.
