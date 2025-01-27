@@ -48,6 +48,11 @@ This example deserializes a JWT and checks that the author's public key is the s
 ```rust
 use hdi::prelude::*;
 
+#[derive(Serialize, Deserialize)]
+pub struct MembraneProofJwtPayload {
+    pub sub: AgentPubKeyB64,
+}
+
 #[hdk_extern]
 pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCallbackResult> {
     if let Some(membrane_proof) = data.membrane_proof {
