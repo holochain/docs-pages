@@ -50,28 +50,7 @@ You don't need to write this callback by hand; you can let the `hdk_entry_types`
 
 ### Define a `genesis_self_check` callback
 
-Holochain assumes that every agent is able to self-validate all the data they create before storing it in their [source chain](/concepts/3_source_chain/) and publishing it to the [DHT](/concepts/4_dht/). But at **genesis** time, when their cell has just been instantiated but they haven't connected to other peers, they may not be able to fully validate their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store) if their validity depends on shared data. So Holochain skips full self-validation for these records, only validating the basic structure of their [actions](/build/working-with-data/#entries-actions-and-records-primary-data).
-
-This creates a risk to the new agent; they may mistakenly publish malformed data and be rejected from the network. You can define a `genesis_self_check` function that checks the _content_ of genesis records before they're published. This function is limited --- it naturally doesn't have access to DHT data. But it can be a useful guard against a [membrane proof](/resources/glossary/#membrane-proof) that the participant typed or pasted incorrectly, for example.
-
-`genesis_self_check` must take a single argument of type [`GenesisSelfCheckData`](https://docs.rs/hdi/latest/hdi/prelude/type.GenesisSelfCheckData.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
-
-Here's an example that checks that the membrane proof exists and is the right length: <!-- TODO: move this to the validation page too -->
-
-```rust
-use hdi::prelude::*;
-
-#[hdk_extern]
-pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCallbackResult> {
-    if let Some(membrane_proof) = data.membrane_proof {
-        if membrane_proof.bytes().len() == 32 {
-            return Ok(ValidateCallbackResult::Valid);
-        }
-        return Ok(ValidateCallbackResult::Invalid("Membrane proof is not the right length. Please check it and enter it again.".into()));
-    }
-    Ok(ValidateCallbackResult::Invalid("This network needs a membrane proof to join.".into()))
-}
-```
+There's a moment in a cell's life, after it's been instantiated but before it's connected to its network, where it's published data that it can't fully validate. This data is their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store). However, a `genesis_self_check` callback can guard against basic errors that would get an agent banned from a network. Read the [Genesis self-check](/build/genesis-self-check) page for more info.
 
 ## Coordinator zomes
 
