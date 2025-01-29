@@ -79,6 +79,8 @@ coordinator:
         * `dependencies`: The integrity zomes that this coordinator zome depends on. Note that you can leave this field out if there's only one integrity zome (it'll be automatically treated as a dependency). For each dependency in the list, there's one field:
             * `name`: A string matching the `name` field of the integrity zome the coordinator zome depends on.
 
+            Note that currently [a coordinator zome can only depend on one integrity zome](#multiple-deps-warning).
+
 ## Bundle a DNA
 
 DNAs are distributed in a `.dna` file that contains the manifest and all the compiled zomes.
@@ -123,14 +125,13 @@ use movies_integrity::{EntryTypes, LinkTypes, Movie, Director};
 
 !!! info Why do I need to specify the dependency twice?
 
-It's probably clear to you why you'd need to specify an integrity zome as a Cargo dependency. But why would you need to duplicate that relationship in your DNA manifest?
+It's probably clear to you why you'd need to specify an integrity zome as a Cargo dependency --- so your coordinator code can work with the types that the integrity zome defines. But why would you need to duplicate that relationship in your DNA manifest?
 
-When you write an entry, its type is stored in the [entry creation action](/build/entries/#entries-and-actions) as a tuple of `(integrity_zome_index, entry_type_index)`, which are just numbers rather than human-readable identifiers. The integrity zomes are indexed by the order they appear in the manifest file, and an integrity zome's entry types are indexed by the order they appear in [an enum with the `#[hdk_entry_types]` macro](/build/entries/#define-an-entry-type).
+When you construct an entry or link, Holochain needs to know the numeric ID of the integrity zome that should validate it. (It's a numeric ID so that it's nice and small.) But because your coordinator and integrity zome can be reused in another DNA with a different manifest structure, you can't know the integrity zome's ID at compile time.
 
-When your coordinator zome depends on an integrity zome, it doesn't know what that zome's index in the DNA is, so it addresses the zome by its own internal zero-based indexing. Holochain needs to map this to the proper zome index, so it expects your DNA manifest file to tell it about the integrity zome it depends on.
+So Holochain manages the dependency mapping for you, allowing you to write code without thinking about zome IDs at all. But at the DNA level, you need to tell Holochain what integrity zome it needs, so it knows how to satisfy the dependency.
 
-<!-- TODO: ditto re: writing about that nested enum thing -->
-
+**Note that there's currently a couple bugs in this dependency mapping.** If your DNA has more than one integrity zome, its coordinator zomes should have **one dependency at most** and should **always list that dependency explicitly** in the DNA manifest.<!--TODO: update this once https://github.com/holochain/holochain/issues/4660 is resolved --> {#multiple-deps-warning}
 !!!
 
 ## Single vs multiple DNAs
