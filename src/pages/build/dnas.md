@@ -129,7 +129,7 @@ It's probably clear to you why you'd need to specify an integrity zome as a Carg
 
 When you construct an entry or link, Holochain needs to know the numeric ID of the integrity zome that should validate it. (It's a numeric ID so that it's nice and small.) But because your coordinator and integrity zome can be reused in another DNA with a different manifest structure, you can't know the integrity zome's ID at compile time.
 
-So Holochain manages the dependency mapping for you, allowing you to write code without thinking about zome IDs at all. But at the DNA level, you need to tell Holochain what integrity zome it needs, so it knows how to satisfy the dependency.
+So Holochain manages the dependency mapping for you, allowing you to write code without thinking about zome IDs at all. But at the DNA level, you need to tell Holochain what integrity zome the coordinator needs, so it knows how to satisfy the dependency.
 
 **Note that there's currently a couple bugs in this dependency mapping.** If your DNA has more than one integrity zome, its coordinator zomes should have **one dependency at most** and should **always list that dependency explicitly** in the DNA manifest.<!--TODO: update this once https://github.com/holochain/holochain/issues/4660 is resolved --> {#multiple-deps-warning}
 !!!
