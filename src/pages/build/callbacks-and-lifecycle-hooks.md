@@ -15,7 +15,7 @@ Your [integrity zome](/build/zomes/#integrity) may define callbacks, `validate` 
 
 ### Define a `validate` callback
 
-In order to validate your data you'll need to define a `validate` callback. It must take a single argument of type [`Op`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
+In order to validate DHT data, you'll need to define a `validate` callback. It must take a single argument of type [`Op`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
 
 The `validate` callback is called at two times:
 
@@ -46,7 +46,7 @@ pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
 
 ### Define a `genesis_self_check` callback
 
-Holochain assumes that every agent is able to self-validate all the data they create before storing it in their [source chain](/concepts/3_source_chain/) and publishing it to the [DHT](/concepts/4_dht/). But at **genesis** time, when their cell has just been instantiated but they haven't connected to other peers, they may not be able to fully validate their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store) if their validity depends on shared data. So Holochain skips full self-validation for these records, only validating the basic structure of their [actions](/build/working-with-data/#entries-actions-and-records-primary-data).
+Holochain assumes that every agent is able to self-validate all the data they create before storing it on their [source chain](/concepts/3_source_chain/) and publishing it to the [DHT](/concepts/4_dht/). But at **genesis** time, when their cell has just been instantiated but they haven't connected to other peers, they may not be able to fully validate their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store) if their validity depends on shared data. So Holochain skips full self-validation for these records, only validating the basic structure of their [actions](/build/working-with-data/#entries-actions-and-records-primary-data).
 
 This creates a risk to the new agent; they may mistakenly publish malformed data and be rejected from the network. You can define a `genesis_self_check` function that checks the _content_ of genesis records before they're published. This function is limited --- it naturally doesn't have access to DHT data. But it can be a useful guard against a [membrane proof](/resources/glossary/#membrane-proof) that the participant typed or pasted incorrectly, for example.
 
@@ -89,7 +89,7 @@ You can force `init` to run eagerly by calling it as if it were a normal zome fu
 
 Once `init` runs successfully for all coordinator zomes in a DNA, Holochain writes an [`InitZomesComplete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.InitZomesComplete.html). That ensures that this callback isn't called again.
 
-`init` must take an empty `()` input argument and return an [`InitCallbackResult`](https://docs.rs/hdk/latest/hdk/prelude/enum.InitCallbackResult.html) wrapped in an `ExternResult`. All zomes' `init` callbacks in a DNA must return a success result in order for cell initialization to succeed; otherwise any data written in these callbacks, along with the `InitZomesComplete` action, will be rolled back. _If any zome's init callback returns an `InitCallbackResult::Fail`, initialization will fail._ Otherwise, if any init callback returns an `InitCallbackResult::UnresolvedDependencies`, initialization will be retried at the next zome call attempt.
+`init` takes no arguments and must return an [`InitCallbackResult`](https://docs.rs/hdk/latest/hdk/prelude/enum.InitCallbackResult.html) wrapped in an `ExternResult`. All zomes' `init` callbacks in a DNA must return a success result in order for cell initialization to succeed; otherwise any data written in these callbacks, along with the `InitZomesComplete` action, will be rolled back. _If any zome's init callback returns an `InitCallbackResult::Fail`, initialization will fail._ Otherwise, if any init callback returns an `InitCallbackResult::UnresolvedDependencies`, initialization will be retried at the next zome call attempt.
 
 Here's an `init` callback that [links](/build/links-paths-and-anchors/) the [agent's ID](/build/identifiers/#agent) to the [DNA hash](/build/identifiers/#dna) as a sort of "I'm here" note. (It depends on a couple things being defined in your integrity zome; we'll show the integrity zome after this sample for completeness.)
 
@@ -98,7 +98,7 @@ use foo_integrity::{get_participant_registration_anchor, LinkTypes};
 use hdk::prelude::*;
 
 #[hdk_extern]
-pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
+pub fn init() -> ExternResult<InitCallbackResult> {
     let participant_registration_anchor_hash = get_participant_registration_anchor_hash()?;
     let AgentInfo { agent_latest_pubkey: my_pubkey, ..} = agent_info()?;
     create_link(
@@ -182,6 +182,7 @@ use hdk::prelude::*;
 // We're creating this type for both remote signals to other peers and local
 // signals to the UI.
 #[derive(Serialize, Deserialize, Debug)]
+#[serde(tag = "type")]
 enum Signal {
     Heartbeat(AgentPubKey),
 }
@@ -191,7 +192,7 @@ pub fn recv_remote_signal(payload: Signal) -> ExternResult<()> {
     if let Signal::Heartbeat(agent_id) = payload {
         // Pass the heartbeat along to my UI so it can update the other
         // peer's online status.
-        return emit_signal(Signal::Heartbeat(agent_id));
+        emit_signal(Signal::Heartbeat(agent_id))?;
     }
     Ok(())
 }
