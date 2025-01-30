@@ -21,8 +21,8 @@ Currently Holochain can inform agents about invalid data when asked. In the futu
 
 There are two callbacks that implement validation logic:
 
-* `genesis_self_check` 'prevalidates' an agent's [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store) before trying to connect to peers in the network. This function can't access the network's data, so it can't fully validate genesis data that depends on DHT data, but it can do simple things like check for structure.
 * `validate` is the core of the zome's validation logic. It receives a **DHT operation** and returns a success/failure/indeterminate result.
+* [`genesis_self_check`](/build/genesis-self-check-callback/) 'prevalidates' an agent's [**membrane proof**](/concepts/3_source_chain/#source-chain-your-own-data-store) before trying to connect to peers in the network.
 
 ## DHT operations
 
@@ -70,4 +70,4 @@ Here are all the DHT operations produced for all the actions:
 
 ### Choosing who should validate what
 
-In practice, it's usually okay to extract the action and entry data from an operation, and have all authorities validate that data. However, if your validation logic is highly complex and computationally costly, it can sometimes be useful to choose different validation tasks for the different DHT operations produced by an action. For instance, a `RegisterAgentActivity` authority generally doesn't need to validate entry data.
+In practice, it's usually okay to access the action and entry data from an operation, and have all authorities validate that data. However, if your validation logic is highly complex and computationally costly, it can sometimes be useful to choose different validation tasks for the different DHT operations produced by an action. For instance, a `RegisterAgentActivity` authority may not need to validate entry data; it could just focus on the action in the context of the entire source chain.
