@@ -39,7 +39,7 @@
           { title: "Links, Paths, and Anchors", url: "/build/links-paths-and-anchors/" },
         ]},
         { title: "Validation", url: "/build/validation/", children: [
-          { title: "Genesis Self-Check", url: "/build/genesis-self-check/" },
+          { title: "Genesis Self-Check Callback", url: "/build/genesis-self-check-callback/" },
         ]},
       ]
     },

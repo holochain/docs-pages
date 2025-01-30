@@ -50,7 +50,7 @@ You don't need to write this callback by hand; you can let the `hdk_entry_types`
 
 ### Define a `genesis_self_check` callback
 
-There's a moment in a cell's life, after it's been instantiated but before it's connected to its network, where it's published data that it can't fully validate. This data is their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store). However, a `genesis_self_check` callback can guard against basic errors that would get an agent banned from a network. Read the [Genesis self-check](/build/genesis-self-check) page for more info.
+There's a moment in a cell's life, after it's been instantiated but before it's connected to its network, where it's published data that it can't fully validate. This data is their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store). However, a `genesis_self_check` callback can guard against basic errors that would get an agent banned from a network. Read the [Genesis Self-Check Callback](/build/genesis-self-check-callback/) page for more info.
 
 ## Coordinator zomes
 

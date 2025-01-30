@@ -46,5 +46,5 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 
 ::: topic-list
 * [Overview](/build/validation/) --- The purpose of validation in a hApp, abilities, requirements and constraints, determinism
-    * [Genesis Self-Check](/build/genesis-self-check/) --- Purpose and use cases
-    * [Validation Callback](/build/validation-callback/) --- Writing validation routines for various needs
+    * [Genesis Self-Check Callback](/build/genesis-self-check-callback/) --- Purpose and use cases
+    * [Validate Callback](/build/validate-callback/) --- Writing validation routines for various needs
