@@ -205,7 +205,7 @@ pub fn heartbeat(_: ()) -> ExternResult<()> {
 ```
 
 !!! info Remote signals and privileges
-If you grant unrestricted access to your remote signal callback like in the [previous example](init-grant-unrestricted-access-to-recv-remote-signal), take care that it does as little as possible, to avoid people abusing it. Permissions and privileges are another topic which we'll talk about soon.<!-- TODO: link when the capabilities page is written -->
+If you grant unrestricted access to your remote signal callback like in the [previous example](#init-grant-unrestricted-access-to-recv-remote-signal), take care that it does as little as possible, to avoid people abusing it. Permissions and privileges are another topic which we'll talk about soon.<!-- TODO: link when the capabilities page is written -->
 !!!
 
 ### Define a `post_commit` callback
