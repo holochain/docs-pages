@@ -198,9 +198,9 @@ use hdi::prelude::*;
 
 #[hdk_entry_helper]
 pub struct MovieLoan {
-    movie_hash: EntryHash,
-    lent_to: AgentPubKey,
-    loan_duration_seconds: i64,
+    pub movie_hash: EntryHash,
+    pub lent_to: AgentPubKey,
+    pub loan_duration_seconds: i64,
 }
 
 // Remember to create a variant in your `EntryTypes` enum for this new type!

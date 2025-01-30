@@ -17,31 +17,31 @@ const footerLinks = loadJson5("./navigation/footerLinks.json5");
 const mainNav = loadJson5("./navigation/mainNav.json5");
 const headerNav = loadJson5("./navigation/headerNav.json5");
 
-function findTopLinkRecordFor(url) {
-  return mainNav.links.find((l) => {
-    if (l.url === url) { return true; }
+function findTopLinkRecordFor(nav, url) {
+  function urlInNodeOrChildren(item) {
+    if (item.url === url) { return true; }
+    return item.hasChildren && item.children.some(urlInNodeOrChildren);
+  };
 
-    return l?.children?.some((cl) => cl.url === url);
-  });
+  return nav.children.find(urlInNodeOrChildren);
 }
 
-const mainNavObj = {
-  ...mainNav,
-  links: mainNav.links.map((l) => ({
-    ...l,
-    hasChildren: (l.children && l.children.length > 0)
-  })),
-  getActiveParentLink(pageUrlRendering) {
-    return findTopLinkRecordFor(pageUrlRendering);
-  }
-};
+// Iteratively add the `hasChildren` property and `getActiveParentLink` method
+// to a nav node.
+function mapNavChildren(item) {
+  return {
+    ...item,
+    children: item.children && item.children.length > 0 && item.children.map(mapNavChildren),
+    hasChildren: item.children && item.children.length > 0,
+    getActiveParentLink(pageUrlRendering) {
+      return findTopLinkRecordFor(this, pageUrlRendering);
+    },
+  };
+}
 
-const headerNavObj = {
-  ...headerNav,
-  getActiveParentLink(pageUrlRendering) {
-    return findTopLinkRecordFor(pageUrlRendering);
-  }
- };
+const mainNavObj = mapNavChildren(mainNav);
+
+const headerNavObj = mapNavChildren(headerNav);
 
 export default {
   footerNav: {

@@ -52,9 +52,17 @@ If you want to create a zome without the scaffolding tool, first make sure you h
 cargo new my_integrity_zome --lib
 ```
 
-Then add some necessary dependencies to your new `Cargo.toml` file:
+Then add some necessary bits to your new `Cargo.toml` file:
 
 ```diff:toml
+[package]
+name = "my_integrity_zome"
+version = "0.1.0"
+edition = "2021"
+
++[lib]
++crate-type = ["cdylib"]
+
  [dependencies]
 +hdi = "=0.5.0-rc.1"
 +serde = "1.0"
@@ -68,19 +76,24 @@ When you've written some code, compile your zome using `cargo`:
 cargo build --release --target wasm32-unknown-unknown
 ```
 
+Your zome will be in `target/wasm32-unknown-unknown/release/my_integrity_zome.wasm`.
+
 ### Coordinator
 
 Coordinator zomes hold your back-end logic --- the functions that read and write data or communicate with peers. In addition to some optional lifecycle hooks [lifecycle hooks](/build/callbacks-and-lifecycle-hooks/#coordinator-zomes), you'll also write your own **zome functions** that serve as your zome's API.
 
 #### Create a coordinator zome
 
-Again, **the easiest way to create a coordinator zome** is to let the scaffolding tool do it for you. But if you want to do it yourself, it's the same as an integrity zome, with one exception. Your `Cargo.toml`'s dependencies should be modified like this:
+Again, **the easiest way to create a coordinator zome** is to let the scaffolding tool do it for you. But if you want to do it yourself, it's the same as an integrity zome, with one exception. Use the above additions to the integrity zome's `Cargo.toml` as a template, but change the dependencies like this:
 
 ```diff:toml
  [dependencies]
 -hdi = "=0.5.0-rc.1"
 +hdk = "=0.4.0-rc.1"
  serde = "1.0"
++# If you want to work with the types you defined in your integrity zome,
++# specify a dependency on it here.
++my_integrity_zome = { path = "../my_integrity_zome" }
 ```
 
 ## Define a function

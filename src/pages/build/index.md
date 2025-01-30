@@ -3,7 +3,7 @@ title: Holochain Build Guide
 ---
 
 !!! note In progress
-This guide is under construction. Expect more content to be rapidly published in the second half of 2024.
+This guide is under construction. Expect more content to be rapidly published in the first half of 2025.
 !!!
 
 ::: intro
