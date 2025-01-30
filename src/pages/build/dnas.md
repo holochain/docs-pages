@@ -6,7 +6,7 @@ title: "DNAs"
 A **DNA** is a bundle of one or more [**zomes**](/build/zomes/), along with optional **DNA modifiers**. Together, the zomes and DNA modifiers define the executable code and settings for a single **peer-to-peer network**.
 :::
 
-## DNAs: the 'rules of the game' for a network
+## DNAs: the 'rules of the game' for a network {#dnas-the-rules-of-the-game-for-a-network}
 
 Holochain supports multiple, separate peer-to-peer networks, each with its own membership and shared [graph database](/build/working-with-data/). Each network is backed by its own DNA, whose executable code and settings create the 'rules of the game' for the network.
 
@@ -59,7 +59,7 @@ coordinator:
 * `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher) or [Moss](https://theweave.social/moss/).
 * `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**. {#integrity-modifiers}
     * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It acts like a network-wide passcode. {#network-seed}
-    * `properties`: Arbitrary, application-specific constants. The integrity code can access this, deserialize it, and change its runtime behavior. Think of it as configuration for the DNA.
+    * `properties`: Arbitrary, application-specific constants. The integrity code can access this, deserialize it, and change its runtime behavior. Think of it as configuration for the DNA. {#properties}
     * `origin_time`: The earliest possible timestamp for any data; serves as a basis for coordinating network communication. Pick a date that's guaranteed to be slightly earlier than you expect that the app will start to get used. The scaffolding tool and `hc dna init` will both pick the date you created the DNA.
     * `zomes`: A list of all the integrity zomes in the DNA.
         * `name`: A unique name for the zome, to be used for dependencies.
