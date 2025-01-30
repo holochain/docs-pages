@@ -94,7 +94,7 @@ Once `init` runs successfully for all coordinator zomes in a DNA, Holochain writ
 Here's an `init` callback that [links](/build/links-paths-and-anchors/) the [agent's ID](/build/identifiers/#agent) to the [DNA hash](/build/identifiers/#dna) as a sort of "I'm here" note. (It depends on a couple things being defined in your integrity zome; we'll show the integrity zome after this sample for completeness.)
 
 ```rust
-use foo_integrity::{get_participant_registration_anchor, LinkTypes};
+use foo_integrity::{get_participant_registration_anchor_hash, LinkTypes};
 use hdk::prelude::*;
 
 #[hdk_extern]
@@ -112,29 +112,18 @@ pub fn init() -> ExternResult<InitCallbackResult> {
 }
 ```
 
-Here's the `foo_integrity` zome code needed to make this work:
+Here's the `foo_integrity` zome code needed to make this work. It uses something called 'paths', which we [talk about elsewhere](/build/links-paths-and-anchors/#anchors-and-paths).
 
 ```rust
-use hdi::prelude::*
+use hdi::prelude::*;
 
 #[hdk_link_types]
 pub enum LinkTypes {
     ParticipantRegistration,
 }
 
-// This is a very simple implementation of the Anchor pattern, which you can
-// read about in https://developer.holochain.org/build/links-paths-and-anchors/
-// You don't need to tell Holochain about it with the `hdk_entry_types` macro,
-// because it never gets stored -- we only use it to calculate a hash.
-#[hdk_entry_helper]
-pub struct Anchor(pub Vec<u8>);
-
 pub fn get_participant_registration_anchor_hash() -> ExternResult<EntryHash> {
-    hash_entry(Anchor(
-        "_participants_"
-            .as_bytes()
-            .to_owned()
-    ))
+    Path(vec!["_participants_".into()]).path_entry_hash()
 }
 ```
 
