@@ -71,7 +71,7 @@ pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCa
 
 ## Coordinator zomes
 
-A [coordinator zome](/build/zomes/#coordinator) may define some lifecycle hooks: `init`, `post_commit`, and `recv_remote_signal`.
+A [coordinator zome](/build/zomes/#coordinator) may define some callbacks: `init`, `post_commit`, and `recv_remote_signal`.
 
 ### Define an `init` callback
 
@@ -158,7 +158,7 @@ pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
 
 <!-- TODO: move this to the signals page after it's written -->
 
-Agents in a network can send messages to each other via [remote signals](/concepts/9_signals/#remote-signals). In order to handle these signals, your coordinator zome needs to define a `recv_remote_signal` callback. Remote signals get routed from the emitting coordinator zome on the sender's machine to the same one on the receiver's machine, so there's no need for a coordinator to handle message types it doesn't know about.
+Agents in a network can send messages to each other via [remote signals](/concepts/9_signals/#remote-signals). In order to handle these signals, your coordinator zome needs to define a `recv_remote_signal` callback. Remote signals get routed from the emitting coordinator zome on the sender's machine to one of the same name on the receiver's machine.
 
 `recv_remote_signal` takes a single argument of any type you like --- if your coordinator zome deals with multiple message types, consider creating an enum for all of them. It must return an empty `ExternResult<()>`, as this callback is not called as a result of direct interaction from the local agent and has nowhere to pass a return value.
 
