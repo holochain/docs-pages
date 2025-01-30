@@ -10,7 +10,7 @@ All of the callbacks must follow the [pattern for public functions](/build/zomes
 
 ## Integrity zomes
 
-Your [integrity zome](/build/zomes/#integrity) may define three callbacks, `validate`, `entry_defs`, and `genesis_self_check`. All of these functions **cannot have side effects**; any attempt to write data will fail. They also cannot access data that changes over time or across agents, such as the current cell's [agent ID](/build/identifiers/#agent) or a collection of [links](/build/links-paths-and-anchors/) in the [DHT](/concepts/4_dht).
+Your [integrity zome](/build/zomes/#integrity) may define callbacks, `validate` and `genesis_self_check`. These functions **cannot have side effects**; any attempt to write data will fail. They also cannot access data that changes over time or across agents, such as the current cell's [agent ID](/build/identifiers/#agent) or a collection of [links](/build/links-paths-and-anchors/) in the [DHT](/concepts/4_dht).
 
 
 ### Define a `validate` callback
@@ -43,10 +43,6 @@ pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
     Ok(ValidateCallbackResult::Invalid("I reject everything".into()))
 }
 ```
-
-### Define an `entry_defs` callback
-
-You don't need to write this callback by hand; you can let the `hdk_entry_types` macro do it for you. Read the [Define an entry type section under Entries](/build/entries/#define-an-entry-type) to find out how.
 
 ### Define a `genesis_self_check` callback
 
