@@ -115,7 +115,7 @@ pub fn init() -> ExternResult<InitCallbackResult> {
 Here's the `foo_integrity` zome code needed to make this work:
 
 ```rust
-use hdi::prelude::*
+use hdi::prelude::*;
 
 #[hdk_link_types]
 pub enum LinkTypes {
