@@ -237,6 +237,8 @@ If you need to do any follow-up, it's safer to do this in a lifecycle hook calle
 
 `post_commit` must take a single argument of type <code>Vec&lt;<a href="https://docs.rs/hdk/latest/hdk/prelude/type.SignedActionHashed.html">SignedActionHashed</a>&gt;</code>, which contains all the actions the function call wrote, and it must return an empty `ExternResult<()>`. This callback **must not write any data**, but it may call other zome functions in the same cell or any other local or remote cell, and it may send local or remote signals.
 
+`post_commit` also can't return an error. There should be no return type, and it should handle all errors it receives from other functions. It also must be tagged with `#[hdk_extern(infallible)]`.
+
 Here's an example that uses `post_commit` to tell someone a movie loan has been created for them. It uses the integrity zome examples from [Identifiers](/build/identifiers/#in-dht-data).
 
 ```rust
@@ -248,19 +250,19 @@ pub enum RemoteSignal {
     MovieLoanHasBeenCreatedForYou(ActionHash),
 }
 
-#[hdk_extern]
-pub fn post_commit(actions: Vec<SignedActionHashed>) -> ExternResult<()> {
+#[hdk_extern(infallible)]
+pub fn post_commit(actions: Vec<SignedActionHashed>) {
     for action in actions.iter() {
         // Only handle cases where an entry is being created.
         if let Action::Create(_) = action.action() {
-            let movie_loan = get_movie_loan(action.action_address().clone())?;
-            return send_remote_signal(
-                RemoteSignal::MovieLoanHasBeenCreatedForYou(action.action_address().clone()),
-                vec![movie_loan.lent_to]
-            );
+            if let Ok(movie_loan) = get_movie_loan(action.action_address().clone()) {
+                send_remote_signal(
+                    RemoteSignal::MovieLoanHasBeenCreatedForYou(action.action_address().clone()),
+                    vec![movie_loan.lent_to]
+                ).ok(); // suppress warning about unhandled `Result`
+            }
         }
     }
-    Ok(())
 }
 
 #[derive(Serialize, Deserialize, Debug)]
