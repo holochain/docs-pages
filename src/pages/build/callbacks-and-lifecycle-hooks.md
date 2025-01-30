@@ -129,9 +129,9 @@ pub fn get_participant_registration_anchor_hash() -> ExternResult<EntryHash> {
 
 !!! info Why link the agent key to a well-known hash?
 
-Because there's no single source of truth in a Holochain network, it's impossible to get the full list of agents who have joined it. The above pattern is an easy way for newcomers to register themselves as active participants so others can find them.
+There's no such thing as a 'users table' in a Holochain DHT. The above pattern is an easy way for newcomers to register themselves as active participants so others can find them.
 
-But if there are a lot of agents in the network, this can create "hot spots" where one set of agents --- the ones responsible for storing the base address for all those links --- carry an outsized burden compared to other agents. Read the [anchors and paths section under Links, Paths, and Anchors](/build/links-paths-and-anchors/#anchors-and-paths) for more info.
+Note that this can create "hot spots" where some agents have a heavier data storage and network traffic burden than others. Read the [anchors and paths section under Links, Paths, and Anchors](/build/links-paths-and-anchors/#anchors-and-paths) for more info.
 
 !!!
 
