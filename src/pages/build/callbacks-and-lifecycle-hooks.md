@@ -33,17 +33,6 @@ pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
 }
 ```
 
-And here's an example of one that rejects everything. You'll note that the outer result is `Ok`; you should generally reserve `Err` for unexpected failures such as inability to deserialize data. However, Holochain will treat both `Ok(Invalid)` and `Err` as invalid operations that should be rejected.
-
-```rust
-use hdi::prelude::*;
-
-#[hdk_extern]
-pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
-    Ok(ValidateCallbackResult::Invalid("I reject everything".into()))
-}
-```
-
 ### Define a `genesis_self_check` callback
 
 Holochain assumes that every agent is able to self-validate all the data they create before storing it on their [source chain](/concepts/3_source_chain/) and publishing it to the [DHT](/concepts/4_dht/). But at **genesis** time, when their cell has just been instantiated but they haven't connected to other peers, they may not be able to fully validate their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store) if their validity depends on shared data. So Holochain skips full self-validation for these records, only validating the basic structure of their [actions](/build/working-with-data/#entries-actions-and-records-primary-data).
