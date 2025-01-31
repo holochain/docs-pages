@@ -27,6 +27,8 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 ::: topic-list
 * [Overview](/build/application-structure/) --- an overview of Holochain's modularity and composability units
     * [Zomes](/build/zomes/) --- integrity vs coordinator, how to structure and compile
+        * [Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/) --- writing functions that respond to events in a hApp's lifecycle
+        * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
 :::
 
 ## Working with data

@@ -25,6 +25,7 @@ runtimes
 sandboxed
 sandboxing
 scaffolder
+snapshotted
 spacebar
 todo
 todos
