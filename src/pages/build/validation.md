@@ -2,6 +2,15 @@
 title: "Validation"
 ---
 
+::: topic-list
+### In this section {data-no-toc}
+
+* Validation (this page)
+    * [`genesis_self_check` Callback](/build/genesis-self-check-callback/) --- writing a function to control access to a network
+    * [`validate` Callback](/build/validate-callback/) --- basic callback, examples using stub functions
+    * [DHT operations](/build/dht-operations/) --- further details on the underlying data structure used in DHT replication and validation
+:::
+
 ::: intro
 Validation gives shape to your [DNA](/build/dnas/)'s data model. It defines the 'rules of the game' for a network --- who can create, modify, or delete data, and what that data should and shouldn't look like. It's also the basis for Holochain's peer-auditing security model.
 :::
