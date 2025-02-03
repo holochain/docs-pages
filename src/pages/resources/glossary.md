@@ -429,14 +429,21 @@ To create alternate versions of one's history in an app by basing two [source ch
 
 In Holochain terms, synonymous with [graphical user interface](#graphical-user-interface-gui) or, more generally, [client](#client).
 
+#### Genesis
+
+The time period in the lifecycle of a [cell](#cell) in which [genesis records](#genesis-records) are being written. This happens before the cell has access to its [DNA](#dna)'s network and [DHT](#distributed-hash-table-dht) data. A [genesis self-check callback](#genesis-self-check-callback) can be written to pre-validate the [membrane proof](#membrane-proof) during this period.
+
 #### Genesis records
 
 The four records at the beginning of an [agent's](#agent) [source chain](#source-chain), consisting of:
 
-1. The [DNA hash](#dna-hash), which shows that the agent has seen the network's rules and agrees to abide by them,
-2. The [membrane proof](#membrane-proof), which the agent presents as a claim that they should be allowed to join the [DHT](#distributed-hash-table-dht),
-3. The [agent ID](#agent-id), which advertises the agent's [public key](#public-key-cryptography),
-4. The [init complete action](#init-complete-action), which tells the conductor that all the DNA's [init callbacks](#init-callback) have completed successfully and the source chain is ready to have [app entries](#app-entry) written to it.
+1. The [DNA hash](#dna-hash), which shows that the agent has seen the network's rules and agrees to abide by them
+2. The [membrane proof](#membrane-proof), which the agent presents as a claim that they should be allowed to join the [DHT](#distributed-hash-table-dht)
+3. The [agent ID](#agent-id), which advertises the agent's [public key](#public-key-cryptography)
+
+#### Genesis self-check callback
+
+A callback that pre-validates an agent's [membrane proof](#membrane-proof) during [genesis](#genesis) time. This callback can't access the network but it can guard against basic data entry errors.
 
 #### Global consensus
 
