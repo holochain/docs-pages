@@ -35,11 +35,11 @@ pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
 
 ### Define a `genesis_self_check` callback
 
-If your network needs to control who can and can't join it, you can write your DNA to require a [**membrane proof**](/resources/glossary/#membrane-proof), a small chunk of bytes that the app receives from the user at installation time and then stores on the source chain. You can then write validation rules for this record just like any other record.
+If your network needs to control who can and can't join it, you can write your DNA to require a [**membrane proof**](/resources/glossary/#membrane-proof), a small chunk of bytes that the app receives from the user at installation time and stores on the source chain. You can then write validation rules for this record just like any other record.
 
 There's one challenge with this: validation requires access to the network (a membrane proof may reference DHT data that contains a list of public keys authorized to grant access to newcomers, for instance), but the membrane proof is written at [**genesis**](/resources/glossary/#genesis-records) time when the cell doesn't have network access yet. So Holochain can't do the usual self-validation before publishing it.
 
-This means the agent could accidentally type or paste a malformed membrane proof and be rejected from the network. To guard against this, you can define a `genesis_self_check` function that runs at genesis time and checks the content of the membrane proof before it's written.
+This means someone could accidentally type or paste a malformed membrane proof and be rejected from the network. To guard against this, you can define a `genesis_self_check` function that runs at genesis time and checks the content of the membrane proof before it's written.
 
 `genesis_self_check` must take a single argument of type [`GenesisSelfCheckData`](https://docs.rs/hdi/latest/hdi/prelude/type.GenesisSelfCheckData.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
 
