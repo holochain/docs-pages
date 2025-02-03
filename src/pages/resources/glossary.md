@@ -436,7 +436,6 @@ The four records at the beginning of an [agent's](#agent) [source chain](#source
 1. The [DNA hash](#dna-hash), which shows that the agent has seen the network's rules and agrees to abide by them,
 2. The [membrane proof](#membrane-proof), which the agent presents as a claim that they should be allowed to join the [DHT](#distributed-hash-table-dht),
 3. The [agent ID](#agent-id), which advertises the agent's [public key](#public-key-cryptography),
-4. The [init complete action](#init-complete-action), which tells the conductor that all the DNA's [init callbacks](#init-callback) have completed successfully and the source chain is ready to have [app entries](#app-entry) written to it.
 
 #### Global consensus
 
