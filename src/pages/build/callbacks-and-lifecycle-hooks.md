@@ -35,9 +35,11 @@ pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
 
 ### Define a `genesis_self_check` callback
 
-Holochain assumes that every agent is able to self-validate all the data they create before storing it on their [source chain](/concepts/3_source_chain/) and publishing it to the [DHT](/concepts/4_dht/). But at **genesis** time, when their cell has just been instantiated but they haven't connected to other peers, they may not be able to fully validate their [**genesis records**](/concepts/3_source_chain/#source-chain-your-own-data-store) if their validity depends on shared data. So Holochain skips full self-validation for these records, only validating the basic structure of their [actions](/build/working-with-data/#entries-actions-and-records-primary-data).
+If your network needs to control who can and can't join it, you can write your DNA to require a [**membrane proof**](/resources/glossary/#membrane-proof), a small chunk of bytes that the app receives from the user at installation time and then stores on the source chain. You can then write validation rules for this record just like any other record.
 
-This creates a risk to the new agent; they may mistakenly publish malformed data and be rejected from the network. You can define a `genesis_self_check` function that checks the _content_ of genesis records before they're published. This function is limited --- it naturally doesn't have access to DHT data. But it can be a useful guard against a [membrane proof](/resources/glossary/#membrane-proof) that the participant typed or pasted incorrectly, for example.
+There's one challenge with this: validation requires access to the network (a membrane proof may reference DHT data that contains a list of public keys authorized to grant access to newcomers, for instance), but the membrane proof is written at [**genesis**](/resources/glossary/#genesis-records) time when the cell doesn't have network access yet. So Holochain can't do the usual self-validation before publishing it.
+
+This means the agent could accidentally type or paste a malformed membrane proof and be rejected from the network. To guard against this, you can define a `genesis_self_check` function that runs at genesis time and checks the content of the membrane proof before it's written.
 
 `genesis_self_check` must take a single argument of type [`GenesisSelfCheckData`](https://docs.rs/hdi/latest/hdi/prelude/type.GenesisSelfCheckData.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
 
