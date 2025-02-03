@@ -30,53 +30,49 @@ Currently Holochain can inform agents about invalid data when asked. In the futu
 
 There are two callbacks that implement validation logic:
 
-* `validate` is the core of the zome's validation logic. It receives a **DHT operation** and returns a success/failure/indeterminate result.
-* [`genesis_self_check`](/build/genesis-self-check-callback/) 'prevalidates' an agent's [**membrane proof**](/concepts/3_source_chain/#source-chain-your-own-data-store) before trying to connect to peers in the network.
+* `validate` is the core of the zome's validation logic. It receives a [**DHT operation**](/build/dht-operations/) and returns a success/failure/indeterminate result.
+* [`genesis_self_check`](/build/genesis-self-check-callback/) 'pre-validates' an agent's [**membrane proof**](/concepts/3_source_chain/#source-chain-your-own-data-store) before trying to connect to peers in the network.
 
-## DHT operations
+## Design considerations
 
-A DHT operation is what an agent receives when they're being asked to store and serve a piece of data. It's a request for an agent to transform [their slice of the DHT](/concepts/4_dht/#finding-peers-and-data-in-a-distributed-database) into a new state. That's why it's used in the `validate` callback: if an agent is going to change their state at someone else's request, they need to know that the new state is correct.
+Validation is a broad topic, so we won't go into detail here. There are a few basic things to keep in mind though:
 
-An [action](/build/working-with-data/#entries-actions-and-records-primary-data) on an agent's [source chain](/concepts/3_source_chain/) yields multiple DHT operations, each of which goes to an [**authority**](/resources/glossary/#validation-authority) for that operation's [**basis address**](/resources/glossary/#basis-address) (a DHT address that the authority is responsible for).
+* The structure of the `Op` type that a `validate` callback receives is complex and deeply nested, and it's best to let the [scaffolding tool](/get-started/3-forum-app-tutorial/) generate the callback for you. It generates stub functions that let you think in terms of [actions](/build/working-with-data/#entries-actions-and-records-primary-data) rather than operations, which is more natural and good enough for most needs. [Read all about DHT operations](/build/dht-operations/) if you want deep detail.
+* While an entry or link can be thought of as 'things', the actions that create, update, or delete them are verbs. Validating a whole action lets you not just check the content and structure of your things, but also enforce write privileges and even throttle an agent's frequency of writes by looking at the action's place in their source chain.
+* Validation rules should **always yield the same true/false outcome** for a given operation regardless of who is validating them and when. In fact Holochain prevents your validation callbacks from calling any host functions that introduce sources of non-determinism. Read more about the [available host functions](#available-host-functions).
+* Data may have dependencies that affect validation outcomes, but those dependencies must be [addressable](/build/identifiers/), they must be retrievable from the same DHT, and their addresses must be constructable from data in the operation being validated. (Note that because an action references the action preceding it on an agent's source chain, this is a dependency you don't need to build into your data.) If dependencies can't be retrieved at validation time, the `validate` callback terminates early with an [indeterminate result](/build/validate-callback/#validation-outcomes), which will cause Holochain to try again later.
 
-Here are all the DHT operations produced for all the actions:
+### Things you don't need to worry about
 
-* All actions
-    * [`RegisterAgentActivity`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterAgentActivity)
-        * Basis address: author's public key
-        * Contents: action (and optionally entry, if applicable)
-        * Effect: Store the action. Because one agent's actions will all go to the same set of authorities, their job is to check for [source chain forks](/resources/glossary/#fork-source-chain), which is a system-level rule that you don't have to implement.
-    * [`StoreRecord`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreRecord)
-        * Basis address: action hash
-        * Contents: action (and optionally entry, if applicable)
-        * Effect: Store the action, along with any entry data.
-* [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Create)
-    * [`StoreEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreEntry)
-        * Basis address: entry hash
-        * Contents: entry and action that wrote it
-        * Effect: Store the entry, if an identical entry hasn't been created yet, and add the action to the the list of actions associated with its creation. An entry can be created by multiple authors, and each creation action paired with its entry [can be treated as an independent piece of data](/build/entries/#entries-and-actions). **This operation isn't produced for private entries.**
-* [`Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Update)
-    * `StoreEntry` (see above)
-    * [`RegisterUpdate`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterUpdate)
-        * Basis addresses: entry and action hashes of the _old_ entry being updated
-        * Contents: action and entry
-        * Effect: Mark an entry creation action as being replaced by a new one, pointing the the entry and action that replace it. **An entry and its creation action can have multiple actions updating them.**
-* [`Delete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Delete)
-    * [`RegisterDelete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterDelete)
-        * Basis addresses: entry and action hashes of the entry being deleted
-        * Contents: action
-        * Effect: Mark an entry creation action as deleted, without removing the actual data. Because an entry can be created by multiple creation actions, the entry itself isn't marked as deleted until a `RegisterDelete` has been integrated for _all_ of its creation actions.
-* [`CreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.CreateLink)
-    * [`RegisterCreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterCreateLink)
-        * Basis address: link's [base address](/build/links-paths-and-anchors/#define-a-link-type)
-        * Contents: action
-        * Effect: Add a link to the list of links pointing from the base to other locations
-* [`DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.DeleteLink)
-    * [`RegisterDeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterCreateLink)
-        * Basis addresses: old link's [base address](/build/links-paths-and-anchors/#define-a-link-type) and action hash
-        * Contents: action
-        * Effect: Mark a link as deleted, without removing the actual data.
+* For dependency trees that might get complex and costly to retrieve, you can use **inductive validation** rather than having to retrieve and validate all the dependencies. <!-- TODO: link to section on validate callback page when this gets fixed: https://github.com/holochain/holochain/issues/4669 -->
+* Action timestamps, sequence indices, and authorship are automatically checked for consistency against the previous action in the author's source chain.
+* Data is checked against Holochain's maximum size (4 MB for entries, 1 KB for link tags).
+* The entry type of `Update` actions is checked against the data they replace.
+* The scaffolding tool generates a sensible default `validate` callback that does these things for you:
+    * Tries to deserialize an entry into the correct Rust type, and returns a validation failure if it fails.
+    * Checks that the original entry for an `Update` or `Delete` action exists and is a valid entry creation action.
+    * Checks that the original entry for an `Update` contains the same entry type.
+    * Checks that the original entry for a `Delete` comes from the same integrity zome.
+    * Checks that the [action that registers the agent's public key](/concepts/3_source_chain/#agent-id-action) is directly preceded by an [`AgentValidationPkg`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.AgentValidationPkg) action.
+    * Checks that [most-recent update links](/get-started/3-forum-app-tutorial/#scaffold-most-recent-update-link) and [collection links](/build/links-paths-and-anchors/#scaffold-a-simple-collection-anchor) point to valid entry creation records.
+    * Tries to fetch data dependencies from the DHT and make sure they're the right type.
 
-### Choosing who should validate what
+## Available host functions
 
-In practice, it's usually okay to access the action and entry data from an operation, and have all authorities validate that data. However, if your validation logic is highly complex and computationally costly, it can sometimes be useful to choose different validation tasks for the different DHT operations produced by an action. For instance, a `RegisterAgentActivity` authority may not need to validate entry data; it could just focus on the action in the context of the entire source chain.
+As mentioned, any host functions that introduce non-determinism can't be called from `genesis_self_check` or `validate` --- Holochain will return an error. That includes functions that create data or check the current time or agent info, of course, but it also includes certain functions that retrieve DHT or source chain data. That's because this data can change over time.
+
+These functions are available to both `validate` and `genesis_self_check`:
+
+* [`dna_info`](https://docs.rs/hdi/latest/hdi/info/fn.dna_info.html)
+* [`zome_info`](https://docs.rs/hdi/latest/hdi/info/fn.zome_info.html)
+* [`ed25519` functions](https://docs.rs/hdi/latest/hdi/ed25519/index.html)
+* [`x_salsa20_poly1305` functions](https://docs.rs/hdi/latest/hdi/x_salsa20_poly1305/index.html)
+
+`validate` can also call these deterministic DHT retrieval functions:
+
+* [`must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html) tries to get an action from the DHT. (It's not guaranteed that the action will be valid.)
+* [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html) tries to get a contiguous section of a source chain, starting from a given record and walking backwards to another spot (either the beginning of the chain, a number of records, or one of a number of given hashes).
+* [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html) tries to get an entry from the DHT. (As with `must_get_action`, it's not guaranteed that the entry will be valid.)
+* [`must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html) tries to get a record, and will fail if the record is marked invalid by any validators, even if it can be found.
+
+All of these functions cause a `validate` callback to terminate early with <code>ValidateCallbackResult::UnresolvedDependencies([UnresolvedDependencies](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.UnresolvedDependencies.html))</code>.
