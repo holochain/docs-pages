@@ -54,7 +54,7 @@ The user's actions are stored in the source chain as **records**, which consist 
 
 It's most helpful to think of an action as just that --- the _act of changing application state_. So instead of thinking of a source chain record as "a chat message", for instance, you could think of it as recording "the act of adding a chat message to your feed". So while it's useful for noun-like things like messages and images, it is also well-suited to things like real-time document edits, game moves, and transactions. You'll learn about all the different action types in the section on [CRUD](../6_crud_actions/) --- actions like 'create link' and 'delete entry'.
 
-This journal starts with three special system records, followed optionally by some app data, and one final system record:
+This journal starts with three special system records called **genesis records**, followed optionally by some app data, and one final system record:
 
 ![](/assets/img/concepts/3.3-genesis-records-1-and-2.png){.sz60p} {.center}
 
@@ -63,8 +63,8 @@ This journal starts with three special system records, followed optionally by so
 1. The **DNA hash**. Because the DNA's executable code constitutes the 'rules of the game' for a network of participants, this record claims that your Holochain runtime has seen and is abiding by those rules.
 2. The agent's **membrane proof**. When a cell tries to join a network, it shares this entry with the existing peers, who check it and determine whether the cell should be allowed to join them. Examples: an invite code, an employee ID signed by the HR department, or a proof of paid subscription fees.
 3. The **agent ID**. This contains your public key as your digital identity. The signatures on all subsequent records must match this public key in order to be valid.
-4. Zero or more records containing application data that was written during the init process --- that is, by the `init` [lifecycle callback](../11_lifecycle_events) of any coordinator zomes that define one.
-4. The **init complete** action. This is a record meant for internal use, simply helping the conductor remind itself that it's completely activated the cell by running all the coordinator zomes' `init` callbacks.
+4. Zero or more records containing application data that was written during the init process --- that is, by the `init` [lifecycle hook](../11_lifecycle_events) of any coordinator zomes that define one.
+5. The **init complete** action. This is a record meant for internal use, simply helping the conductor remind itself that it's completely activated the cell by running all the coordinator zomes' `init` callbacks.
 
 After this come the records that record the user's actions. These include:
 
@@ -122,7 +122,7 @@ Holochain's answer is simple --- _somebody will notice_. More on that in the nex
 * Data is stored in the source chain as records, which consist of actions and sometimes entries.
 * Data can be linked together.
 * Every entry and link has a type, validated by a function that checks its integrity in the context of its place in the source chain.
-* The first four entries are called genesis entries, and are special system types that contain the DNA hash, the agent's membrane proof, their public key, and an init-complete marker.
+* The first four records on a source chain are called genesis records, and are special system types that contain the DNA hash, the agent's membrane proof, their public key, and an init-complete marker.
 * Entries are just binary data, and MessagePack is a good way to give them structure.
 * The source chain and all of its data is tamper-evident; validators can detect third-party attempts to modify it.
 
