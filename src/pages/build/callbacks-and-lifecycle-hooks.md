@@ -22,27 +22,7 @@ The `validate` callback is called at two times:
 1. When an agent tries to author an [action](/build/working-with-data/#entries-actions-and-records-primary-data), and
 2. When an agent receives a [DHT operation](/concepts/4_dht/#a-cloud-of-witnesses) to store and serve as part of the shared database.
 
-The nature of validation is out of scope for this page (we'll write a page on it soon), but here's a very basic example of a validation callback that approves everything: <!-- TODO: remove this example when the validation page is written -->
-
-```rust
-use hdi::prelude::*;
-
-#[hdk_extern]
-pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
-    Ok(ValidateCallbackResult::Valid)
-}
-```
-
-And here's an example of one that rejects everything. You'll note that the outer result is `Ok`; you should generally reserve `Err` for unexpected failures such as inability to deserialize data. However, Holochain will treat both `Ok(Invalid)` and `Err` as invalid operations that should be rejected.
-
-```rust
-use hdi::prelude::*;
-
-#[hdk_extern]
-pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
-    Ok(ValidateCallbackResult::Invalid("I reject everything".into()))
-}
-```
+The nature of validation is [a topic of its own](/build/validation/). Read the [`validate` callback page](/build/validate-callback/) to see examples.
 
 ### Define an `entry_defs` callback
 
