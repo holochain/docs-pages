@@ -26,7 +26,11 @@
     },
     { title: "Build", url: "/build/", children: [
         { title: "Application Structure", url: "/build/application-structure/", children: [
-          { title: "Zomes", url: "/build/zomes/" },
+          { title: "Zomes", url: "/build/zomes/", children: [
+            { title: "Lifecycle Events and Callbacks", url: "/build/callbacks-and-lifecycle-hooks/" },
+            { title: "Zome Functions", url: "/build/zome-functions/" },
+          ] },
+          { title: "DNAs", url: "/build/dnas/" },
         ]},
         { title: "Working with Data", url: "/build/working-with-data/", children: [
           { title: "Identifiers", url: "/build/identifiers/" },

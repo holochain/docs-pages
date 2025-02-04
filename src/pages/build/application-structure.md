@@ -7,7 +7,9 @@ title: Application Structure
 
 * Application Structure (this page)
     * [Zomes](/build/zomes/) --- integrity vs coordinator, how to structure and compile
-    * DNAs (coming soon) --- what they're used for, how to specify and bundle
+        * [Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/) --- writing functions that respond to events in a hApp's lifecycle
+        * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
+    * [DNAs](/build/dnas/) --- what they're used for, how to specify and bundle
     * hApps (coming soon) --- headless vs UI-based, how to bundle and distribute
 :::
 
@@ -60,6 +62,8 @@ This means you can hot-swap coordinators as you fix bugs and add features, witho
 !!!
 
 Because each DNA has its own separate peer network and data store, you can use the DNA concept to come up with creative approaches to [privacy](https://dialnet.unirioja.es/servlet/articulo?codigo=8036267) and access, separation of responsibilities, or data retention.
+
+[Read more on the DNAs page](/build/dnas/).
 
 ### hApp
 
