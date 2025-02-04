@@ -10,8 +10,7 @@ All of the callbacks must follow the [pattern for public functions](/build/zomes
 
 ## Integrity zomes
 
-Your [integrity zome](/build/zomes/#integrity) may define callbacks, `validate` and `genesis_self_check`. These functions **cannot have side effects**; any attempt to write data will fail. They also cannot access data that changes over time or across agents, such as the current cell's [agent ID](/build/identifiers/#agent) or a collection of [links](/build/links-paths-and-anchors/) in the [DHT](/concepts/4_dht).
-
+Your [integrity zome](/build/zomes/#integrity) may define two callbacks, `validate` and `genesis_self_check`. These functions **cannot have side effects**; any attempt to write data will fail. They also cannot access data that changes over time or across agents, such as the current cell's [agent ID](/build/identifiers/#agent) or a collection of [links](/build/links-paths-and-anchors/) in the [DHT](/concepts/4_dht).
 
 ### Define a `validate` callback
 
@@ -32,6 +31,7 @@ pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
     Ok(ValidateCallbackResult::Valid)
 }
 ```
+
 
 ### Define a `genesis_self_check` callback
 
