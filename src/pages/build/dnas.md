@@ -16,19 +16,25 @@ The contents of a DNA are specified with a **manifest file**.
 
 ## Create a DNA
 
-If you use the [scaffolding tool](/get-started/3-forum-app-tutorial/), it'll scaffold a working directory for every DNA you scaffold.
-
-You can also use the `hc` command in the [Holonix dev shell](/get-started/#2-installing-holochain-development-environment) to create a bare working directory:
+If you use the scaffolding tool, it'll scaffold a working directory for every DNA you scaffold. In the root folder of a [hApp project that you've scaffolded](/build/happs/#create-a-happ), type:
 
 ```bash
-hc dna init movies
+hc scaffold dna movies
 ```
 
-You'll be prompted to enter a name and [**network seed**](#network-seed). After that it'll create a folder called `movies` that contains a basic `dna.yaml` file with your responses to the prompts.
+This will create a folder called `dnas/movies`, with these contents:
+
+* `workdir/`: The place for your manifest; it's also where your built and bundled DNA will appear.
+    * `dna.yaml`: The manifest for your DNA (see the next section).
+* `zomes/`: The place where all your zomes should go.
+    * `integrity/`: The place where your [integrity zomes](/build/zomes/#integrity) should go.
+    * `coordinator/`: The place where your [coordinator zomes](/build/zomes/#coordinator) should go.
+
+It'll also add the new DNA to `workdir/happ.yaml`.
 
 ## Specify a DNA manifest
 
-A DNA manifest is written in [YAML](https://yaml.org/). It contains details about the DNA, the above integrity modifiers, and a list of coordinator zomes for interacting with the DNA.
+A DNA manifest is written in [YAML](https://yaml.org/). It contains metadata about the DNA, a section for **integrity modifiers**, and a list of coordinator zomes for interacting with the DNA.
 
 If you want to write your own manifest file, name it `dna.yaml` and give it the following structure. This example assumes that all of your zomes are in a folder called `zomes/`. Afterwards we'll explain what the fields mean.
 
@@ -56,10 +62,10 @@ coordinator:
 
 ### DNA manifest structure at a glance
 
-* `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher) or [Moss](https://theweave.social/moss/).
+* `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher).
 * `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**. {#integrity-modifiers}
     * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It acts like a network-wide passcode. {#network-seed}
-    * `properties`: Arbitrary, application-specific constants. The integrity code can access this, deserialize it, and change its runtime behavior. Think of it as configuration for the DNA.
+    * `properties`: Arbitrary, application-specific constants. The zome code can read this at runtime. Think of it as configuration for the DNA.
     * `origin_time`: The earliest possible timestamp for any data; serves as a basis for coordinating network communication. Pick a date that's guaranteed to be slightly earlier than you expect that the app will start to get used. The scaffolding tool and `hc dna init` will both pick the date you created the DNA.
     * `zomes`: A list of all the integrity zomes in the DNA.
         * `name`: A unique name for the zome, to be used for dependencies.
@@ -73,12 +79,31 @@ coordinator:
         * `dependencies`: The integrity zomes that this coordinator zome depends on. Note that you can leave this field out if there's only one integrity zome (it'll be automatically treated as a dependency). For each dependency in the list, there's one field:
             * `name`: A string matching the `name` field of the integrity zome the coordinator zome depends on.
 
+            Note that currently [a coordinator zome can only depend on one integrity zome](#multiple-deps-warning).
+
 ## Bundle a DNA
 
-To roll a DNA manifest and all its zomes into a **DNA bundle**, use the `hc` command on a folder that contains a `dna.yaml` file:
+DNAs are distributed in a `.dna` file that contains the manifest and all the compiled zomes.
+
+If you've used the scaffolding tool to create your DNA in a hApp, you can build all the DNAs at once with the npm script that was scaffolded for you. In your project's root folder, in the dev shell, type:
 
 ```bash
-hc dna pack my_dna/
+npm run build:happ
+```
+
+To roll a single DNA manifest and all its zomes into a DNA bundle, first compile all of the zomes:
+
+```bash
+npm run build:zomes
+```
+
+Then go to the `workdir` folder of the DNA you want to bundle, and use the `hc dna pack` command:
+
+```bash
+cd dnas/movies/workdir
+```
+```bash
+hc dna pack
 ```
 
 This will create a file in the same folder as the `dna.yaml`, called `<name>.dna`, where `<name>` comes from the `name` field at the top of the manifest.
@@ -100,14 +125,13 @@ use movies_integrity::{EntryTypes, LinkTypes, Movie, Director};
 
 !!! info Why do I need to specify the dependency twice?
 
-It's probably clear to you why you'd need to specify an integrity zome as a Cargo dependency. But why would you need to duplicate that relationship in your DNA manifest?
+It's probably clear to you why you'd need to specify an integrity zome as a Cargo dependency --- so your coordinator code can work with the types that the integrity zome defines. But why would you need to duplicate that relationship in your DNA manifest?
 
-When you write an entry, its type is stored in the [entry creation action](/build/entries/#entries-and-actions) as a tuple of `(integrity_zome_index, entry_type_index)`, which are just numbers rather than human-readable identifiers. The integrity zomes are indexed by the order they appear in the manifest file, and an integrity zome's entry types are indexed by the order they appear in [an enum with the `#[hdk_entry_types]` macro](/build/entries/#define-an-entry-type).
+When you construct an entry or link, Holochain needs to know the numeric ID of the integrity zome that should validate it. (It's a numeric ID so that it's nice and small.) But because your coordinator and integrity zome can be reused in another DNA with a different manifest structure, you can't know the integrity zome's ID at compile time.
 
-When your coordinator zome depends on an integrity zome, it doesn't know what that zome's index in the DNA is, so it addresses the zome by its own internal zero-based indexing. Holochain needs to map this to the proper zome index, so it expects your DNA manifest file to tell it about the integrity zome it depends on.
+So Holochain manages the dependency mapping for you, allowing you to write code without thinking about zome IDs at all. But at the DNA level, you need to tell Holochain what integrity zome the coordinator needs, so it knows how to satisfy the dependency.
 
-<!-- TODO: ditto re: writing about that nested enum thing -->
-
+**Note that there's currently a couple bugs in this dependency mapping.** If your DNA has more than one integrity zome, its coordinator zomes should have **one dependency at most** and should **always list that dependency explicitly** in the DNA manifest.<!--TODO: update this once https://github.com/holochain/holochain/issues/4660 is resolved --> {#multiple-deps-warning}
 !!!
 
 ## Single vs multiple DNAs
@@ -116,7 +140,7 @@ When do you decide whether a hApp should have more than one DNA? Whenever it mak
 
 * **Dividing responsibilities.** For instance, a video sharing hApp may have one group of peers who are willing to index video metadata and offer search services and another group of peers who are willing to host and serve videos, along with people who just want to watch them. This DNA could have `search` and `storage` DNAs, along with a main DNA that allows video watchers to look up peers that are offering services and query them.
 * **Creating privileged spaces.** A chat hApp may have both public and private rooms, all [cloned](/resources/glossary/#cloning) from a single `chat_room` DNA. This is a special case, as they all use just one base DNA, but they change just one [integrity modifier](#dna-manifest-structure-at-a-glance) such as the network seed to create new DNAs.
-* **Discarding or archiving data.** Because no data is ever deleted in a cell or the network it belongs to, a lot of old data can accumulate. Creating clones of a single storage-heavy DNA, bounded by topic or time period, allows agents to participate in only the networks that contain the information they need. As agents leave networks, unwanted data naturally disappears.
+* **Discarding or archiving data.** Because no data is ever deleted in a cell or the network it belongs to, a lot of old data can accumulate. Creating clones of a single storage-heavy DNA, bounded by topic or time period, allows agents to participate in only the networks that contain the information they need. As agents leave networks, unwanted data naturally disappears from their machines.
 
 ### Call from one cell to another
 
@@ -198,12 +222,12 @@ pub fn handle_search_query(query: SearchQuery) -> ExternResult<Vec<SearchResult>
 }
 ```
 
-Note that **bridging between different cells only happens within one agent's hApp instance**, and **remote calls only happens between two agents in one DNA's network**. For two agents, Alice and Bob, Alice can do this:
+Note that **bridging between different cells only happens within one agent's hApp instance**, and **remote calls only happen between two agents in one DNA's network**. For two agents, Alice and Bob, Alice can do this:
 
-| ↓ want to call →   | Alice `main`  | Alice `search` | Bob `main`    | Bob `search`  |
-| ------------------ | :-----------: | :------------: | :-----------: | :-----------: |
-| Alice `main`       | `call`        | `call`         | `call_remote` | ⛔            |
-| Alice `search`     | `call`        | `call`         | ⛔            | `call_remote` |
+| ↓ wants to call → | Alice `main`  | Alice `search` | Bob `main`    | Bob `search`  |
+| ----------------- | :-----------: | :------------: | :-----------: | :-----------: |
+| Alice `main`      | `call`        | `call`         | `call_remote` | ⛔            |
+| Alice `search`    | `call`        | `call`         | ⛔            | `call_remote` |
 
 ## Next steps
 

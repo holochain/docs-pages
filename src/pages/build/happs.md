@@ -10,7 +10,7 @@ A **hApp** (short for 'Holochain application') is a package for distributing a f
 
 As we described in [Application Structure](/build/application-structure/#happ), a hApp is like a collection of microservices, each microservice's role being filled by a DNA. A DNA may or may not be able to run independent from other DNAs, but a hApp should be able to be installed on a user's computer and give them a fully working experience.
 
-## Create a hApp
+## Create a hApp {#create-a-happ}
 
 The [scaffolding tool](/get-started/3-forum-app-tutorial/) is the easiest way to build out a full hApp with multiple DNAs and an optional GUI. Once you've [got the Holochain dev shell working](/get-started/), open a terminal and enter this command:
 
