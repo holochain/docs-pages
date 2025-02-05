@@ -9,13 +9,8 @@ title: Application Structure
     * [Zomes](/build/zomes/) --- integrity vs coordinator, how to structure and compile
         * [Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/) --- writing functions that respond to events in a hApp's lifecycle
         * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
-<<<<<<< HEAD
     * [DNAs](/build/dnas/) --- what they're used for, how to specify and bundle
     * [hApps](/build/happs/) --- headless vs UI-based, how to bundle and distribute
-=======
-    * DNAs (coming soon) --- what they're used for, how to specify and bundle
-    * hApps (coming soon) --- headless vs UI-based, how to bundle and distribute
->>>>>>> origin/main
 :::
 
 ::: intro

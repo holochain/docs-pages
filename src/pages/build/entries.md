@@ -123,11 +123,7 @@ let create_action_hash = create_entry(
 
 If your entry doesn't have any dependencies on other data, you can use [relaxed chain top ordering](/build/zome-functions/#relaxed-chain-top-ordering) to prevent possible transaction rollbacks (we'll let that page explain when this could happen and how to design around it).
 
-<<<<<<< HEAD
-To use this feature, you'll need to use the more low-level [`create`](https://docs.rs/hdk/latest/hdk/entry/fn.create.html) host function, which requires you to build a more complex input. This example batches updates to director entries, which don't have reference other data including each other, so they're a good candidate for relaxed ordering.
-=======
 To use this feature, you'll need to use the more low-level [`create`](https://docs.rs/hdk/latest/hdk/entry/fn.create.html) host function, which requires you to build a more complex input. This example batches updates to director entries, which don't have to reference other data including each other, so they're a good candidate for relaxed ordering.
->>>>>>> origin/main
 
 ```rust
 use movie_integrity::{Director, EntryTypes};
