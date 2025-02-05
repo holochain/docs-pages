@@ -6,7 +6,7 @@ title: "DNAs"
 A **DNA** is a bundle of one or more [**zomes**](/build/zomes/), along with optional **DNA modifiers**. Together, the zomes and DNA modifiers define the executable code and settings for a single **peer-to-peer network**.
 :::
 
-## DNAs: the 'rules of the game' for a network
+## DNAs: the 'rules of the game' for a network {#dnas-the-rules-of-the-game-for-a-network}
 
 Holochain supports multiple, separate peer-to-peer networks, each with its own membership and shared [graph database](/build/working-with-data/). Each network is backed by its own DNA, whose executable code and settings create the 'rules of the game' for the network.
 
