@@ -229,6 +229,27 @@ Note that **bridging between different cells only happens within one agent's hAp
 | Alice `main`      | `call`        | `call`         | `call_remote` | ⛔            |
 | Alice `search`    | `call`        | `call`         | ⛔            | `call_remote` |
 
+## Use DNA properties
+
+The `properties` field in your DNA is just arbitrary bytes, but it's meant to be written and deserialized as YAML. Any of your zomes can access it, which is why it's considered modifier --- it can change the way validation functions<!--TODO: link when validation PR is merged --> operate.
+
+You can deserialize your DNA modifiers automatically by using the [`dna_properties` macro](https://docs.rs/hdk_derive/latest/hdk_derive/attr.dna_properties.html) on a type definition, which will give your type a method called `try_from_dna_properties`.
+
+This example shows a helper function that only permits one agent to write data. (We call the pattern of giving one agent special privileges via DNA properties the 'progenitor' pattern.) This function could be used in a validation callback to enforce this restriction.
+
+```rust
+use hdi::prelude::*;
+
+#[dna_properties]
+struct DnaProperties {
+    progenitor: AgentPubKeyB64,
+}
+
+fn is_allowed_to_write_data(author: AgentPubKey) -> ExternResult<bool> {
+    Ok(author == DnaProperties::try_from_dna_properties()?.progenitor.try_into()?)
+}
+```
+
 ## Next steps
 
 Now that you've created a bare DNA, it's time to [fill it with zomes](/build/zomes/), [define some data types](/build/working-with-data), and write some [callbacks](/build/callbacks-and-lifecycle-hooks/) and an [API](/build/zome-functions/).
