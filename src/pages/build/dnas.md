@@ -65,7 +65,7 @@ coordinator:
 * `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher).
 * `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**.
     * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It acts like a network-wide passcode. {#network-seed}
-    * `properties`: Arbitrary, application-specific constants. The zome code can read this at runtime. Think of it as configuration for the DNA.
+    * `properties`: Arbitrary, application-specific constants. The zome code can [read this at runtime](#use-dna-properties). Think of it as [configuration or environment variables](https://12factor.net/config) for your zomes.
     * `origin_time`: The earliest possible timestamp for any data; serves as a basis for coordinating network communication. Pick a date that's guaranteed to be slightly earlier than you expect that the app will start to get used. The scaffolding tool and `hc dna init` will both pick the date you created the DNA.
     * `zomes`: A list of all the integrity zomes in the DNA.
         * `name`: A unique name for the zome, to be used for dependencies.
