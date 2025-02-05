@@ -37,6 +37,9 @@
           { title: "Entries", url: "/build/entries/" },
           { title: "Links, Paths, and Anchors", url: "/build/links-paths-and-anchors/" },
         ]},
+        { title: "Connecting a Front End", url: "/build/connecting-a-front-end/", children: [
+
+        ]},
       ]
     },
     { title: "Resources", url: "/resources/", children: [
