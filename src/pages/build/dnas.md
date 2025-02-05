@@ -65,7 +65,7 @@ coordinator:
 * `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher).
 * `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**.
     * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It acts like a network-wide passcode. {#network-seed}
-    * `properties`: Arbitrary, application-specific constants. The zome code can [read this at runtime](#use-dna-properties). Think of it as [configuration or environment variables](https://12factor.net/config) for your zomes.
+    * `properties`: Arbitrary, application-specific constants. The zome code can [read this at runtime](#use-dna-properties). Think of it as configuration for your DNA.
     * `origin_time`: The earliest possible timestamp for any data; serves as a basis for coordinating network communication. Pick a date that's guaranteed to be slightly earlier than you expect that the app will start to get used. The scaffolding tool and `hc dna init` will both pick the date you created the DNA.
     * `zomes`: A list of all the integrity zomes in the DNA.
         * `name`: A unique name for the zome, to be used for dependencies.
@@ -231,22 +231,25 @@ Note that **bridging between different cells only happens within one agent's hAp
 
 ## Use DNA properties
 
-The `properties` field in your DNA is just arbitrary bytes, but it's meant to be written and deserialized as YAML. Any of your zomes can access it, which is why it's considered modifier --- it can change the way validation functions<!--TODO: link when validation PR is merged --> operate.
+The `properties` field in your DNA is just arbitrary bytes, but it's meant to be written and deserialized as YAML. Any of your zomes can access it. Because it's a DNA modifier, it [changes the DNA hash](#dnas-the-rules-of-the-game-for-a-network), which results in a new network. The reason for this is that you can use the properties in your validation callbacks<!-- TODO: link when validation PR is merged -->, configuring how they work for different networks. You can only modify DNA properties before an app is installed or when a cell is cloned --- not while the cell is running.
 
 You can deserialize your DNA modifiers automatically by using the [`dna_properties` macro](https://docs.rs/hdk_derive/latest/hdk_derive/attr.dna_properties.html) on a type definition, which will give your type a method called `try_from_dna_properties`.
 
-This example shows a helper function that only permits one agent to write data. (We call the pattern of giving one agent special privileges via DNA properties the 'progenitor' pattern.) This function could be used in a validation callback to enforce this restriction.
+This example shows a helper function that only permits one agent to write data. This function could be used in a validation callback to enforce this restriction.
 
 ```rust
 use hdi::prelude::*;
 
 #[dna_properties]
 struct DnaProperties {
-    progenitor: AgentPubKeyB64,
+    // The only agent that's allowed to write data to this DHT.
+    // Configurable per network.
+    writer: AgentPubKey,
 }
 
 fn is_allowed_to_write_data(author: AgentPubKey) -> ExternResult<bool> {
-    Ok(author == DnaProperties::try_from_dna_properties()?.progenitor.try_into()?)
+    let dna_props = DnaProperties::try_from_dna_properties()?;
+    Ok(author == dna_props.writer)
 }
 ```
 
