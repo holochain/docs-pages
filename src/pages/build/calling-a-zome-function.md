@@ -47,54 +47,62 @@ The client handles errors (both `ExternResult::Err(_)` errors from the zome func
 
 Coordinator zomes can't call each other's functions directly; instead they do it via the [`hdk::prelude::call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html) host function.
 
-This example calls a function `foo` in another zome called `bar` _in the same cell_:
+This example calls a function `get_movies_by_director` in another zome called `movies` _in the same cell_:
 
 ```rust
 use hdk::prelude::*;
 // It's useful to put zome function input and output types in a separate crate
 // from the zome itself, so they can be imported by zomes that call them.
-use bar_types::*;
+use movies_types::*;
 
-let foo_input: FooInput {
-    age: 57,
-    height: 173,
-}
-let response = call(
-    // This indicates that `bar` is in the same cell.
-    CallTargetCell::Local,
-    "bar",
-    "foo",
-    // This is a capability secret -- we'll explain why it's not needed.
-    None,
-    foo_input;
-)?
-match response {
-    // Do something with the return value.
-    Ok(output) => {
-        let foo_output: FooOutput = output.try_into()?;
-        debug!("Got a response; it said {}", foo_output.greeting);
+fn get_movies_by_sergio_leone() -> ExternResult<Vec<Movie>> {
+    let input: GetMovieByDirectorInput = {
+        director_hash: [/* bytes of Sergio Leone director entry's hash */]
+    };
+    let response = call(
+        // This indicates that `bar` is in the same cell.
+        CallTargetCell::Local,
+        "movies",
+        "get_movies_by_director",
+        // This is a capability secret -- we'll explain why it's not needed.
+        None,
+        input;
+    )?;
+    match response {
+        ZomeCallResponse::Ok(output) => output
+            .try_into()
+            .map_err(|e| wasm_error!(e.to_string()))?,
+        _ => Err(wasm_error!("Something bad happened")),
     }
-    _ => error!("Something bad happened"),
 }
 ```
 
-This example calls that same function _if it's in a different cell_ whose role name is `qux`:
+This example calls that same function _if it's in a different cell_ whose role name is `movies`:
 
 ```rust
 use hdk::prelude::*;
-use bar_types::*;
+use movies_types::*;
 
-// Construct foo_input here.
-let response = call(
-    // This indicates that `bar` is in another cell.
-    CallTargetCell::OtherRole("qux"),
-    "bar",
-    "foo",
-    // This is a capability secret -- we'll explain why it's not needed.
-    None,
-    foo_input;
-)?
-// Do something with response.
+fn get_movies_by_sergio_leone_from_movies_cell() -> ExternResult<Vec<Movie>> {
+    let input: GetMovieByDirectorInput = {
+        director_hash: [/* bytes of Sergio Leone director entry's hash */]
+    };
+    let response = call(
+        // Address the cell by its role name.
+        // You can also address it by its cell ID.
+        CallTargetCell::OtherRole("movies"),
+        "movies",
+        "get_movies_by_director",
+        None,
+        input;
+    )?;
+    match response {
+        ZomeCallResponse::Ok(output) => output
+            .try_into()
+            .map_err(|e| wasm_error!(e.to_string()))?,
+        _ => Err(wasm_error!("Something bad happened")),
+    }
+}
 ```
 
 These cases don't need to worry about capability security either, because they're covered by a special grant called the [**author grant**](/concepts/8_calls_capabilities/#author-grant). It permits calls made by any caller with the same public key as the callee cell's owner.
@@ -107,29 +115,41 @@ If two agents have cells running the same DNA --- that is, they're part of the s
 Holochain allows agents to add and remove coordinator zomes from a DNA. This permits upgrading and customization. But it also means that the zomes and functions that you _think_ are on the other end might not actually be there.
 !!!
 
-This example calls a function _in the same coordinator zome_ (or at least one with the same name) in a remote agent's cell. It assumes that the remote agent has granted access to their `foo` function with an [**unrestricted grant**](/concepts/8_calls_capabilities/#unrestricted), which doesn't require a capability secret.
+This example calls a function _in the same coordinator zome_ (or at least one with the same name) in a remote agent's cell. It assumes that the remote agent has granted access to their `get_movies_by_director` function with an [**unrestricted grant**](/concepts/8_calls_capabilities/#unrestricted), which doesn't require a capability secret.
 
 ```rust
 use hdk::prelude::*;
 
-let foo_input: FooInput {
-    age: 57,
-    height: 173,
-}
-let bob_public_key: AgentPubKey = vec![/* bytes of remote agent's key */];
-let response = call_remote(
-    bob_public_key,
-    // Get this zome's name from the host.
-    zome_info()?.name,
-    "foo",
-    // No capability secret needed for unrestricted functions.
-    None,
-    foo_input,
-);
-match response {
-    Ok(_) => debug!("it worked"),
-    Unauthorized(_, _, _, _, _) => debug!("I wasn't allowed to call this function on Bob's device"),
-    _ => "Something unexpected happened",
+fn get_movies_by_sergio_leone_remote() -> ExternResult<Vec<Movie>> {
+    let input: GetMovieByDirectorInput = {
+        director_hash: [/* bytes of Sergio Leone director entry's hash */]
+    };
+    let bob_public_key: AgentPubKey = vec![/* bytes of remote agent's key */];
+    let response = call_remote(
+        bob_public_key,
+        // Get this zome's name from the host.
+        zome_info()?.name,
+        "foo",
+        // No capability secret needed for unrestricted functions.
+        None,
+        foo_input,
+    );
+    let response = call(
+        // Address the cell by its role name.
+        // You can also address it by its cell ID.
+        CallTargetCell::OtherRole("movies"),
+        "movies",
+        "get_movies_by_director",
+        None,
+        input;
+    )?;
+    match response {
+        ZomeCallResponse::Ok(output) => output
+            .try_into()
+            .map_err(|e| wasm_error!(e.to_string()))?,
+        ZomeCallResponse::Unauthorized(_, _, _, _, _) => Err(wasm_error!("I wasn't allowed to call this function on Bob's device")),
+        _ => Err(wasm_error!("Something bad happened")),
+    }
 }
 ```
 
