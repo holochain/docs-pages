@@ -132,3 +132,15 @@ match response {
     _ => "Something unexpected happened",
 }
 ```
+
+## Reference
+
+* [`AppWebsocket.prototype.callZome`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.callzome.md)
+* [`CallZomeRequest`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.callzomerequest.md)
+* [`hdk::p2p::call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html)
+* [`holochain_zome_types::call::CallTargetCell`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/call/enum.CallTargetCell.html)* [`holochain_zome_types::zome_io::ZomeCallResponse`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/zome_io/enum.ZomeCallResponse.html)
+* [`hdk::info::zome_info`](https://docs.rs/hdk/latest/hdk/info/fn.zome_info.html)
+
+## Further reading
+
+* [Core Concepts: Calls and Capabilities](/concepts/8_calls_capabilities)
