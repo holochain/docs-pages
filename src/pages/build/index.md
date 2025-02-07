@@ -46,3 +46,4 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 
 ::: topic-list
 * [Overview](/build/connecting-a-front-end/) --- general concepts, available libraries
+:::
