@@ -49,3 +49,6 @@ Zome functions can send out signals, either locally to front ends or remotely to
 
 ## Further reading
 
+* [Core Concepts: Application Architecture](/concepts/2_application_architecture/)
+* [Core Concepts: Calls and Capabilities](/concepts/8_calls_capabilities/)
+* [Core Concepts: Signals](/concepts/9_signals/)
