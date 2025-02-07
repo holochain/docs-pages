@@ -32,7 +32,7 @@ import { AppWebsocket, HolochainError } from '@holochain/client';
 {
     let client = AppWebsocket | undefined;
 
-    async function connect() {
+    async function getHolochainClient() {
         if (client === undefined) {
             client = await AppWebsocket.connect();
             console.log("Connected to Holochain! hApp ID is ${client.installedAppId}");
@@ -41,7 +41,7 @@ import { AppWebsocket, HolochainError } from '@holochain/client';
     }
 }
 
-connect().catch((error: HolochainError) => console.error(`Connection failure, name ${error.name}, message ${error.message}`));
+getHolochainClient().catch((error: HolochainError) => console.error(`Connection failure, name ${error.name}, message ${error.message}`));
 ```
 
 You'll notice that you don't have to pass a connection URI to the client. That's because, at time of writing, all Holochain runtimes that serve a web-based UI will inject a constant into the page that contains the URI, and the client will look for that value. So the scaffolding tool expects you'll be distributing your hApp with one of these runtimes. Check out the [`AppWebsocket.connect` documentation](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.connect.md) if you're building a front end that runs separately from a Holochain runtime.
