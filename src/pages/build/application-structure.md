@@ -65,7 +65,7 @@ Because each DNA has its own separate peer network and data store, you can use t
 
 [Read more on the DNAs page](/build/dnas/).
 
-### hApp
+### hApp {#happ}
 
 One or more DNAs come together in a **hApp** (Holochain app). Each DNA fills a named **role** in the hApp, and you can think of it like a [microservice](https://en.wikipedia.org/wiki/Microservices).
 
@@ -78,7 +78,7 @@ The hApp can specify two provisioning strategies for its DNAs:
 
 A hApp can optionally include a web-based UI that supporting Holochain runtimes <!-- TODO: link --> can serve to the user.
 
-!!! info A hApp always runs locally
+!!! info A hApp always runs locally {#local}
 
 The big difference with peer-to-peer stacks like Holochain is that **all the code** --- both the back end and the front end --- **runs on the devices of the participants themselves**.
 
