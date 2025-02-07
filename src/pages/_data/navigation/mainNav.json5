@@ -39,6 +39,7 @@
         ]},
         { title: "Connecting Everything Together", url: "/build/connecting-everything-together/", children: [
           { title: "Connecting a Front End", url: "/build/connecting-a-front-end/" },
+          { title: "Calling a Zome Function", url: "/build/calling-a-zome-function" },
         ]},
       ]
     },

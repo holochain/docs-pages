@@ -18,7 +18,7 @@ Your hApp back end's public interface consists of all the [**zome functions**](/
 The back end can also send out [**signals**](/concepts/9_signals/)<!--TODO: change this to build guide link when signals is written--> that can be received either by UIs or remote peers.
 :::
 
-## What processes can connect to a hApp?
+## What processes can connect to a hApp? {#what-processes-can-connect-to-a-happ}
 
 It's worth mentioning again that **all the components of a hApp backend [run on the devices of the individual agents](/build/application-structure/#local)** as cells representing those agents' autonomy --- their capacity to write their own data to their own source chains.
 
