@@ -29,17 +29,17 @@ But for now, we're going to give you a simple TypeScript example, inspired by th
 ```typescript
 import { AppWebsocket, HolochainError } from '@holochain/client';
 
-{
-    let client = AppWebsocket | undefined;
+const getHolochainClient = (() => {
+    let client: AppWebsocket | undefined;
 
-    async function getHolochainClient() {
+    return async () => {
         if (client === undefined) {
             client = await AppWebsocket.connect();
             console.log("Connected to Holochain! hApp ID is ${client.installedAppId}");
         }
         return client;
-    }
-}
+    };
+})();
 
 getHolochainClient().catch((error: HolochainError) => console.error(`Connection failure, name ${error.name}, message ${error.message}`));
 ```
