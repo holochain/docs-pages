@@ -42,7 +42,11 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating relationships between data
 :::
 
-## Connecting a front end
+## Connecting everything together
 
 ::: topic-list
-* [Overview](/build/connecting-a-front-end/) --- general concepts, available libraries
+* [Overview](/build/connecting-everything-together/) --- zome calls, capabilities, and signals
+* [Connecting a front end](/build/connecting-a-front-end/) --- establishing a WebSocket connection from JavaScript
+* Calling a zome function (coming soon) --- examples for front ends, cell-to-cell, and agent-to-agent
+* Capabilities (coming soon) --- how to manage access to a cell's zome functions
+* Working with signals (coming soon) --- receiving notifications from cells
