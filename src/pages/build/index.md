@@ -41,3 +41,12 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Entries](/build/entries/) --- defining, creating, reading, updating, and deleting data
 * [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating relationships between data
 :::
+
+## Connecting everything together
+
+::: topic-list
+* [Overview](/build/connecting-the-parts/) --- zome calls, capabilities, and signals
+* [Front end](/build/connecting-a-front-end/) --- establishing a WebSocket connection from JavaScript
+* Calling a zome function (coming soon) --- examples for front ends, cell-to-cell, and agent-to-agent
+* Capabilities (coming soon) --- how to manage access to a cell's zome functions
+* Working with signals (coming soon) --- receiving notifications from cells

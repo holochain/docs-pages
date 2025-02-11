@@ -85,7 +85,7 @@ allow_deferred_memproofs: false
         Which creates a cell from the DNA immediately on hApp activation.
     * `dna`: The DNA that fills the role.
         * Location: The place to find the DNA bundle. The three options are:
-            * `bundled`: Expect the file to be part of this [bundle](#package-a-h-app-for-distribution). The value is a path relative to the manifest file.
+            * `bundled`: Expect the file to be part of this [bundle](#package-a-happ-for-distribution). The value is a path relative to the manifest file.
             * `path`: Get the file from the local filesystem. The value is a filesystem path.
             * `url`: Get the file from the web. The value is a URL, of course.
         * `modifiers`: Optional [integrity modifiers](/build/dnas/#integrity-modifiers) that change the DNA hash at install time.
@@ -124,7 +124,7 @@ happ_manifest:
 * `ui`: The location of the UI zip file. You can use `bundled`, `path`, or `url`, just like you can with DNAs.
 * `happ-manifest`: The location of the hApp back end.
 
-## Package a hApp for distribution
+## Package a hApp for distribution {#package-a-happ-for-distribution}
 
 The first step to distributing your hApp is to bundle it into a `.happ` file, then bundle that file and a GUI into a `.webhapp` file. After that, you can go on to packaging it as a standalone binary or distributing it for runtimes that support multiple hApps.
 

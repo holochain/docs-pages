@@ -78,7 +78,7 @@ The hApp can specify two provisioning strategies for its DNAs:
 
 A hApp can optionally include a web-based UI that supporting Holochain runtimes <!-- TODO: link --> can serve to the user.
 
-!!! info A hApp always runs locally
+!!! info A hApp always runs locally {#local}
 
 The big difference with peer-to-peer stacks like Holochain is that **all the code** --- both the back end and the front end --- **runs on the devices of the participants themselves**.
 
