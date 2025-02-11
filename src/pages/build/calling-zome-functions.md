@@ -60,7 +60,8 @@ fn get_movies_by_sergio_leone() -> ExternResult<Vec<Movie>> {
         CallTargetCell::Local,
         "movies",
         "get_movies_for_director".into(),
-        // This is a capability secret -- we'll explain why it's not needed.
+        // This is a capability secret -- we'll explain later why it's not
+        // needed.
         None,
         EntryHash::from_raw_36(vec![/* bytes of Sergio Leone director entry's hash */]),
     )?;
@@ -105,7 +106,7 @@ These cases don't need to worry about capability security either, because they'r
 If two agents have cells running the same DNA --- that is, they're part of the same network --- they can call each other's zome functions _in the same DNA_ using [`hdk::prelude::call_remote`](https://docs.rs/hdk/latest/hdk/p2p/fn.call_remote.html).
 
 !!! info A remote cell might not be running the same coordinator zomes
-Holochain allows agents to add and remove coordinator zomes from a DNA. This permits upgrading and customization. But it also means that the zomes and functions that you _think_ are on the other end might not actually be there.
+Holochain allows agents to add and remove coordinator zomes from their cells. This permits upgrading and customization. But it also means that the zomes and functions that you _think_ are on the other end might not actually be there.
 !!!
 
 This example calls a function _in the same coordinator zome_ (or at least one with the same name) in a remote agent's cell. It assumes that the remote agent has granted access to their `get_movies_by_director` function with an [**unrestricted grant**](/concepts/8_calls_capabilities/#unrestricted), which doesn't require a capability secret.
