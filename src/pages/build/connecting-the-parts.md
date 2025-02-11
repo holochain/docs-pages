@@ -1,12 +1,12 @@
 ---
-title: "Connecting Everything Together"
+title: "Connecting the Parts"
 ---
 
 ::: topic-list
 ### In this section {data-no-toc}
 
-* Connecting everything together (this page)
-    * [Connecting a front end](/build/connecting-a-front-end/) --- establishing a WebSocket connection from JavaScript
+* Connecting the parts (this page)
+    * [Front end](/build/connecting-a-front-end/) --- establishing a WebSocket connection from JavaScript
     * Calling a zome function (coming soon) --- examples for front ends, cell-to-cell, and agent-to-agent
     * Capabilities (coming soon) --- how to manage access to a cell's zome functions
     * Working with signals (coming soon) --- receiving notifications from cells
