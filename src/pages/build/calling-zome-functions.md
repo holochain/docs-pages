@@ -1,5 +1,5 @@
 ---
-title: "Calling a zome function"
+title: "Calling Zome Functions"
 ---
 
 ::: intro
