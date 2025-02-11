@@ -2,6 +2,8 @@
 affordance
 affordances
 automations
+backlink
+backlinks
 birthdate
 chrono
 composability
