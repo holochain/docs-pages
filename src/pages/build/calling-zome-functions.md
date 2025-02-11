@@ -3,7 +3,7 @@ title: "Calling Zome Functions"
 ---
 
 ::: intro
-You can call a zome function from [various local and remote processes](/build/connecting-everything-together/#what-processes-can-connect-to-a-happ) and secure them with capability tokens, letting you implement secure interop easily.
+You can call a zome function from [various local and remote processes](/build/connecting-the-parts/#what-processes-can-connect-to-a-happ) and secure them with capability tokens, letting you implement secure interop easily.
 :::
 
 ## Call a zome function from a front end
