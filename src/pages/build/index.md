@@ -30,7 +30,7 @@ Now that you've got some basic concepts and the terms we use for them, it's time
         * [Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/) --- writing functions that respond to events in a hApp's lifecycle
         * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
     * [DNAs](/build/dnas/) --- what they're used for, how to specify and bundle
-    * hApps (coming soon) --- headless vs UI-based, how to bundle and distribute
+    * [hApps](/build/happs/) --- headless vs UI-based, how to bundle and distribute
 :::
 
 ## Working with data
@@ -45,8 +45,8 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 ## Connecting everything together
 
 ::: topic-list
-* [Overview](/build/connecting-everything-together/) --- zome calls, capabilities, and signals
-* [Connecting a front end](/build/connecting-a-front-end/) --- establishing a WebSocket connection from JavaScript
+* [Overview](/build/connecting-the-parts/) --- zome calls, capabilities, and signals
+* [Front end](/build/connecting-a-front-end/) --- establishing a WebSocket connection from JavaScript
 * Calling a zome function (coming soon) --- examples for front ends, cell-to-cell, and agent-to-agent
 * Capabilities (coming soon) --- how to manage access to a cell's zome functions
 * Working with signals (coming soon) --- receiving notifications from cells

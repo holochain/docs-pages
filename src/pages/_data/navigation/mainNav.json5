@@ -29,16 +29,17 @@
           { title: "Zomes", url: "/build/zomes/", children: [
             { title: "Lifecycle Events and Callbacks", url: "/build/callbacks-and-lifecycle-hooks/" },
             { title: "Zome Functions", url: "/build/zome-functions/" },
-          ] },
+          ]},
           { title: "DNAs", url: "/build/dnas/" },
+          { title: "hApps", url: "/build/happs/" },
         ]},
         { title: "Working with Data", url: "/build/working-with-data/", children: [
           { title: "Identifiers", url: "/build/identifiers/" },
           { title: "Entries", url: "/build/entries/" },
           { title: "Links, Paths, and Anchors", url: "/build/links-paths-and-anchors/" },
         ]},
-        { title: "Connecting Everything Together", url: "/build/connecting-everything-together/", children: [
-          { title: "Connecting a Front End", url: "/build/connecting-a-front-end/" },
+        { title: "Connecting the Parts", url: "/build/connecting-the-parts/", children: [
+          { title: "Front End", url: "/build/connecting-a-front-end/" },
         ]},
       ]
     },

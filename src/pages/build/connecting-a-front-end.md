@@ -12,11 +12,19 @@ The most important thing to remember about a hApp is that it runs in the Holocha
 
 This interface is **only exposed to processes on the local device**, not to external network adapters. This helps prevent unauthorized agents from accessing the hApp. It also means the front end must be distributed with the hApp and a Holochain runtime.
 
-Some Holochain runtimes bundle the conductor and a front end host that serves your HTML/JavaScript-based runtimes. Take a look at the [Packaging and Distribution](/get-started/4-packaging-and-distribution/) page from the Get Started guide for the choices. For this build guide, we'll be using `hc-launch`, a runtime used for testing your hApp, which comes with the Holonix dev environment.
+Some Holochain runtimes bundle the conductor and a front end host that serves your HTML/JavaScript-based runtimes. Take a look at the [Packaging and Distribution](/get-started/4-packaging-and-distribution/) page from the Get Started guide for the choices.
+
+The Holonix dev environment comes with a runtime called `hc-launch`, which starts Holochain, installs your hApp, and displays a UI for you. The scaffolding tool generates an NPM script that compiles and bundles your back end into a [`.happ` file](/build/happs/#package-a-happ-for-distribution) and starts two instances of the hApp with `hc-launch`. In the root of your project folder, enter:
+
+```bash
+npm run start
+```
+
+(If you're using a different package manager, change this command to suit.)
 
 ## Front-end libraries
 
-Holochain provides client libraries for [JavaScript](https://github.com/holochain/holochain-client-js) and [Rust](https://github.com/holochain/holochain-client-rust). The scaffolding tool generates JavaScript-based UIs that are meant to be served as a single-page app, so we'll focus on JavaScript for this documentation --- or more specifically TypeScript, because that's what the client library is written in.
+Holochain provides front-end client libraries for [JavaScript](https://github.com/holochain/holochain-client-js) and [Rust](https://github.com/holochain/holochain-client-rust). The scaffolding tool generates JavaScript-based UIs that are meant to be served as a single-page app, so we'll focus on JavaScript for this documentation --- or more specifically TypeScript, because that's what the client library is written in.
 
 ## Connect to a hApp with the JavaScript client
 
@@ -29,17 +37,17 @@ But for now, we're going to give you a simple TypeScript example, inspired by th
 ```typescript
 import { AppWebsocket, HolochainError } from '@holochain/client';
 
-{
-    let client = AppWebsocket | undefined;
+const getHolochainClient = (() => {
+    let client: AppWebsocket | undefined;
 
-    async function getHolochainClient() {
+    return async () => {
         if (client === undefined) {
             client = await AppWebsocket.connect();
             console.log("Connected to Holochain! hApp ID is ${client.installedAppId}");
         }
         return client;
-    }
-}
+    };
+})();
 
 getHolochainClient().catch((error: HolochainError) => console.error(`Connection failure, name ${error.name}, message ${error.message}`));
 ```
