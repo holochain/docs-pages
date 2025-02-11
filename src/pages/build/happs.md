@@ -85,7 +85,7 @@ allow_deferred_memproofs: false
         Which creates a cell from the DNA immediately on hApp activation.
     * `dna`: The DNA that fills the role.
         * Location: The place to find the DNA bundle. The three options are:
-            * `bundled`: Expect the file to be part of this [bundle](#package-a-h-app-for-distribution). The value is a path relative to the manifest file.
+            * `bundled`: Expect the file to be part of this [bundle](#package-a-happ-for-distribution). The value is a path relative to the manifest file.
             * `path`: Get the file from the local filesystem. The value is a filesystem path.
             * `url`: Get the file from the web. The value is a URL, of course.
         * `modifiers`: Optional [integrity modifiers](/build/dnas/#integrity-modifiers) that change the DNA hash at install time.
