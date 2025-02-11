@@ -485,7 +485,7 @@ Which CRUD functions should be scaffolded (SPACE to select/unselect, ENTER to co
 
 Then press <kbd>Enter</kbd>.
 
-At this point you should see:
+At this point you should see: {#scaffold-most-recent-update-link}
 
 ::: output-block
 ```text

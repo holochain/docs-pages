@@ -38,6 +38,9 @@
           { title: "Entries", url: "/build/entries/" },
           { title: "Links, Paths, and Anchors", url: "/build/links-paths-and-anchors/" },
         ]},
+        { title: "Validation", url: "/build/validation/", children: [
+          { title: "Genesis Self-Check Callback", url: "/build/genesis-self-check-callback/" },
+        ]},
       ]
     },
     { title: "Resources", url: "/resources/", children: [

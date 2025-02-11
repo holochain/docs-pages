@@ -41,3 +41,10 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Entries](/build/entries/) --- defining, creating, reading, updating, and deleting data
 * [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating relationships between data
 :::
+
+## Validation
+
+::: topic-list
+* [Overview](/build/validation/) --- The purpose of validation in a hApp, abilities, requirements and constraints, determinism
+    * [Genesis Self-Check Callback](/build/genesis-self-check-callback/) --- Purpose and use cases
+    * [Validate Callback](/build/validate-callback/) --- Writing validation routines for various needs
