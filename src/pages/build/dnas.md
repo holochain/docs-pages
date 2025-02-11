@@ -16,7 +16,7 @@ The contents of a DNA are specified with a **manifest file**.
 
 ## Create a DNA
 
-If you use the scaffolding tool, it'll scaffold a working directory for every DNA you scaffold. In the root folder of a hApp project that you've scaffolded<!--TODO link this to the create a hApp section in the hApps page -->, type:
+If you use the scaffolding tool, it'll scaffold a working directory for every DNA you scaffold. In the root folder of a [hApp project that you've scaffolded](/build/happs/#create-a-happ), type:
 
 ```bash
 hc scaffold dna movies
@@ -63,7 +63,7 @@ coordinator:
 ### DNA manifest structure at a glance
 
 * `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher).
-* `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**.
+* `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**. {#integrity-modifiers}
     * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It acts like a network-wide passcode. {#network-seed}
     * `properties`: Arbitrary, application-specific constants. The zome code can [read this at runtime](#use-dna-properties). Think of it as configuration for your DNA.
     * `origin_time`: The earliest possible timestamp for any data; serves as a basis for coordinating network communication. Pick a date that's guaranteed to be slightly earlier than you expect that the app will start to get used. The scaffolding tool and `hc dna init` will both pick the date you created the DNA.
