@@ -10,7 +10,7 @@ A **hApp** (short for 'Holochain application') is a package for distributing a f
 
 As we described in [Application Structure](/build/application-structure/#happ), a hApp is like a collection of microservices, each microservice's role being filled by a DNA. A DNA may or may not be able to run independent from other DNAs, but a hApp should be able to be installed on a user's computer and give them a fully working experience.
 
-## Create a hApp
+## Create a hApp {#create-a-happ}
 
 The [scaffolding tool](/get-started/3-forum-app-tutorial/) is the easiest way to build out a full hApp with multiple DNAs and an optional GUI. Once you've [got the Holochain dev shell working](/get-started/), open a terminal and enter this command:
 
@@ -142,9 +142,9 @@ The next step, if you have a GUI, is to package the `.happ` file into a `.webhap
 hc web-app pack movies_webhapp/
 ```
 
-### Distributing or Holochain runtimes that support `.hApp` bundles
+### Distributing for Holochain runtimes that support `.hApp` bundles
 
-Your hApp is now ready to be distributed to people who run [Holochain Launcher](https://github.com/holochain/launcher). If you turn on developer mode in the launcher's settings, you can upload the bundle to the hApp store. You can also offer it on the web for download and manual installation.
+Your hApp is now ready to be distributed to people who run [Holochain Launcher](https://github.com/holochain/launcher). If you turn on developer mode in the launcher's settings, you can upload the bundle to the devHub and publish it on the hApp store. You can also offer it on the web for download and manual installation.
 
 ### As a standalone binary
 

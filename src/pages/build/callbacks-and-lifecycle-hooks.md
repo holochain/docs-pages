@@ -12,7 +12,6 @@ All of the callbacks must follow the [pattern for public functions](/build/zomes
 
 Your [integrity zome](/build/zomes/#integrity) may define two callbacks, `validate` and `genesis_self_check`. These functions **cannot have side effects**; any attempt to write data will fail. They also cannot access data that changes over time or across agents, such as the current cell's [agent ID](/build/identifiers/#agent) or a collection of [links](/build/links-paths-and-anchors/) in the [DHT](/concepts/4_dht).
 
-
 ### Define a `validate` callback
 
 In order to validate DHT data, you'll need to define a `validate` callback. It must take a single argument of type [`Op`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
@@ -23,6 +22,7 @@ The `validate` callback is called at two times:
 2. When an agent receives a [DHT operation](/concepts/4_dht/#a-cloud-of-witnesses) to store and serve as part of the shared database.
 
 The nature of validation is [a topic of its own](/build/validation/). Read the [`validate` callback page](/build/validate-callback/) to see examples.
+
 
 ### Define a `genesis_self_check` callback
 
