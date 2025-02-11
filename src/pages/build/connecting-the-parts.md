@@ -13,7 +13,7 @@ title: "Connecting the Parts"
 :::
 
 ::: intro
-Your hApp back end's public interface consists of all the [**zome functions**](/build/zome-functions/) of all the [**cells**](/concepts/2_application_architecture/#cell) instantiated from all the [**DNAs**](/build/dnas/) that fill the hApp's [**roles**](/build/application-structure/#happ). It's accessible to locally running processes and to network peers, and is secured by a form of **capability-based security**<!--TODO: link to that page when it's written. -->, adapted for peer-to-peer applications.
+Your hApp back end's public interface consists of all the [**zome functions**](/build/zome-functions/) of all the [**cells**](/concepts/2_application_architecture/#cell) instantiated from all the [**DNAs**](/build/dnas/) that fill the hApp's [**roles**](/build/application-structure/#happ). It is accessible to locally running processes and to network peers, and is secured by a form of **capability-based security**<!--TODO: link to that page when it's written. -->, adapted for peer-to-peer applications.
 
 The back end can also send out [**signals**](/concepts/9_signals/)<!--TODO: change this to build guide link when signals is written--> that can be received either by UIs or remote peers.
 :::
