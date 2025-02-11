@@ -43,7 +43,7 @@ pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCa
 }
 ```
 
-This more complex example deserializes a JWT, checks that its [`sub` (subject) field](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.2) matches the agent's public key, and checks that its [`iss` (issuer) field](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.1) matches an authorized key hard-coded into the DNA's [`properties` block](/build/dnas/#properties). {#jwt-membrane-proof}
+This more complex example deserializes a JWT, checks that its [`sub` (subject) field](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.2) matches the agent's public key, and checks that its [`iss` (issuer) field](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.1) matches an authorized key hard-coded into the DNA's [`properties` block](/build/dnas/#use-dna-properties). {#jwt-membrane-proof}
 
 ```rust
 use hdi::prelude::*;
