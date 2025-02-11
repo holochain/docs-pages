@@ -16,11 +16,11 @@ This example gets all the movies by a given director, then logs their titles to 
 import { decodeHashFromBase64, EntryHash } from '@holochain/client';
 
 class Movie {
-    title: string,
-    director_hash: EntryHash,
-    imdb_id: string | null,
-    release_date: Date,
-    box_office_revenue: Number,
+    title: string;
+    director_hash: EntryHash;
+    imdb_id: string | null;
+    release_date: Date;
+    box_office_revenue: Number;
 }
 
 async function logMoviesBySergioLeone() {
