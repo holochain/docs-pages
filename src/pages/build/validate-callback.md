@@ -62,12 +62,13 @@ This example checks that a movie is within [sensible bounds](https://en.wikipedi
 
 ```rust
 use hdi::prelude::*;
-use chrono::*;
 
 pub fn validate_create_movie(
     _action: EntryCreationAction,
     movie: Movie,
 ) -> ExternResult<ValidateCallbackResult> {
+    // Note that converting a `&str` to a `Timestamp` requires you to list
+    // `kitsune_p2p_timestamp` as a dependency in your `Cargo.toml`.
     if movie.release_date < "1888-10-14".try_into().unwrap() {
         return Ok(ValidateCallbackResult::Invalid("The movie's release date is earlier than the oldest known film.".into()));
     }
@@ -121,8 +122,8 @@ This callback gets the original entry and its creation action too. This example 
 use hdi::prelude::*;
 
 pub fn validate_delete_director(
-    action: Delete,
-    original_action: EntryCreationAction,
+    _action: Delete,
+    _original_action: EntryCreationAction,
     _original_director: Director,
 ) -> ExternResult<ValidateCallbackResult> {
     Ok(ValidateCallbackResult::Invalid(
@@ -161,7 +162,7 @@ use hdi::prelude::*;
 use base64::prelude::*;
 
 pub fn validate_agent_joining(
-    agent_pub_key: AgentPubKey,
+    _agent_pub_key: AgentPubKey,
     membrane_proof: &Option<MembraneProof>
 ) -> ExternResult<ValidateCallbackResult> {
     let membrane_proof: Option<Vec<u8>> = membrane_proof
