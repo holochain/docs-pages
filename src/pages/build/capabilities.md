@@ -40,50 +40,14 @@ use hdk::prelude::*;
 
 #[hdk_extern]
 pub fn init() -> ExternResult<InitCallbackResult> {
-    let mut fns = BTreeSet::new();
-    fns.insert((zome_info()?.name, "recv_remote_signal".into()));
+    let mut functions = BTreeSet::new();
+    functions.insert((zome_info()?.name, "recv_remote_signal".into()));
     create_cap_grant(CapGrantEntry {
         tag: "".into(),
         access: CapAccess::Unrestricted,
-        functions: GrantedFunctions::Listed(fns),
+        functions: GrantedFunctions::Listed(functions),
     })?;
     Ok(InitCallbackResult::Pass)
-}
-
-#[hdk_extern]
-pub fn handle_delegate_author_request() -> ExternResult<()> {
-    Ok(())
-    // We'll cover this in the next sections.
-}
-```
-
----
-
-imagines a `handle_delegate_author_request` function that allows an agent to request to call an agent's CRUD functions, and gives all peers access to it so they can make that request:
-
-```rust
-use hdk::prelude::*;
-
-#[hdk_extern]
-pub fn init() -> ExternResult<InitCallbackResult> {
-    let mut fns = BTreeSet::new();
-    fns.insert((zome_info()?.name, "handle_delegate_author_request".into()));
-    // The remote signal handler will get used in examples further down, so
-    // let's grant unrestricted access to it as well.
-    fns.insert((zome_info()?.name, "recv_remote_signal".into()));
-    create_cap_grant(CapGrantEntry {
-        tag: "".into(),
-        access: CapAccess::Unrestricted,
-        functions: GrantedFunctions::Listed(fns),
-    })?;
-
-    Ok(InitCallbackResult::Pass)
-}
-
-#[hdk_extern]
-pub fn handle_delegate_author_request() -> ExternResult<()> {
-    Ok(())
-    // We'll cover this in the next sections.
 }
 ```
 
@@ -97,16 +61,16 @@ This example creates a capability grant for some zome functions that create, upd
 use hdk::prelude::*;
 
 #[hdk_extern]
-pub fn approve_delegate_author_request(reason: String) -> ExternResult<()> {
+pub fn approve_delegate_author_request(reason: String) -> ExternResult<CapSecret> {
     // Use this host call to generate a sufficiently random secret.
     let secret = generate_cap_secret()?;
 
     // Create the list of functions to grant access to.
     let mut functions = BTreeSet::new();
-    fns.insert((zome_info()?.name, "create_movie".into()));
-    fns.insert((zome_info()?.name, "update_movie".into()));
-    fns.insert((zome_info()?.name, "delete_movie".into()));
-    fns.insert((zome_info()?.name, "create_director".into()));
+    functions.insert((zome_info()?.name, "create_movie".into()));
+    functions.insert((zome_info()?.name, "update_movie".into()));
+    functions.insert((zome_info()?.name, "delete_movie".into()));
+    functions.insert((zome_info()?.name, "create_director".into()));
 
     // Now write the cap grant.
     let cap_grant = CapGrantEntry {
@@ -114,109 +78,12 @@ pub fn approve_delegate_author_request(reason: String) -> ExternResult<()> {
         // This makes it possible to audit and revoke itlater.
         tag: format!("delegate_author_reason_{}", reason).into(),
         access: CapAccess::Transferable { secret },
-        functions,
+        functions: GrantedFunctions::Listed(functions),
     };
     create_cap_grant(cap_grant)?;
 
     // Return the secret so the grantor can send it to the requestor.
     Ok(secret)
-}
-```
-
----
-
-This example fleshes out the `handle_delegate_author_request` function, allowing any agent to request the right to call the functions that create, update, and delete the `Movie` and `Director` data types we defined in [Entries](/build/entries/).
-
-Note that, if this function were to automatically grant privileges to anyone who asked, it wouldn't be any more secure than an unrestricted grant. So instead it's a two-part process:
-
-1. The function sends a **signal**<!--TODO: link--> to the UI, saying that someone's requesting access
-2. The agent manually approve the request by calling a zome function called `approve_delegate_author_request`. This function sends a **remote signal** to the requestor, telling them they've been approved.
-
-On the requestor's end, this remote signal gets turned into a [`CapClaim`](https://docs.rs/hdk/latest/hdk/prelude/struct.CapClaim.html) entry and stored on the source chain.
-
-Some of these example functions use the [`call_info`](https://docs.rs/hdk/latest/hdk/info/fn.call_info.html) host function to find out who's calling a given zome function.
-
-```rust
-use hdk::prelude::*;
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct DelegateAuthorRequest {
-    requestor_pub_key: AgentPubKey,
-    reason: String,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(tag = "type", content = "value", rename_all = "snake_case")]
-enum Signal {
-    DelegateAuthorRequest(DelegateAuthorRequest),
-    DelegateAuthorApproval {
-        secret: CapSecret,
-    },
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct RequestDelegateAuthorPrivilegeInput {
-    author_to_request: AgentPubKey,
-    reason: String,
-}
-
-// This is the zome function the requestor calls, giving the agent ID of the
-// author they wish to request delegate authoring privileges from.
-#[hdk_extern]
-pub fn request_delegate_author_privilege(input: RequestDelegateAuthorPrivilegeInput) -> ExternResult<()> {
-    return call_remote(
-        input.author_to_request,
-        zome_info()?.name,
-        "handle_delegate_author_request".into(),
-        None,
-        input.reason,
-    )?;
-}
-
-#[hdk_extern]
-pub fn handle_delegate_author_request(reason: String) -> ExternResult<()> {
-    let call_info = call_info()?;
-    // Pass off control to the UI so a human can approve the request.
-    return emit_signal(Signal::DelegateAuthorRequest(DelegateAuthorRequest {
-        requestor_pub_key: call_info.provenance,
-        reason,
-    }))?;
-}
-
-// Once a human approves the request, their UI calls this function.
-#[hdk_extern]
-pub fn approve_delegate_author_request(input: DelegateAuthorRequest) -> ExternResult<()> {
-    // Use this host call to generate a sufficiently random secret.
-    let secret = generate_cap_secret()?;
-
-    // Create the list of functions to grant access to.
-    let mut functions = BTreeSet::new();
-    fns.insert((zome_info()?.name, "create_movie".into()));
-    fns.insert((zome_info()?.name, "update_movie".into()));
-    fns.insert((zome_info()?.name, "delete_movie".into()));
-    fns.insert((zome_info()?.name, "create_director".into()));
-
-    // Now write the cap grant.
-    let cap_grant = CapGrantEntry {
-        // Keep a memo of who requested the privilege and why.
-        // This makes it possible to audit and revoke the grant later.
-        tag: format!("delegate_author_agent_{}_reason_{}", input.requestor_pub_key, input.reason).into(),
-        access: CapAccess::Transferable { secret },
-        functions,
-    };
-    create_cap_grant(cap_grant)?;
-
-    // When this succeeds, send the secret to the requestor.
-    send_remote_signal(
-        Signal::DelegateAuthorApproval { secret }
-    )?;
-}
-
-// On the receiving end, handle the signal by storing the capability secret.
-// We'll flesh this out in a later section.
-#[hdk_extern]
-pub fn recv_remote_signal(signal: Signal) -> ExternResult<()> {
-    Ok(())
 }
 ```
 
@@ -234,18 +101,18 @@ pub struct DelegateAuthorRequest {
 }
 
 #[hdk_extern]
-pub fn approve_delegate_author_request(input: DelegateAuthorRequest) -> ExternResult<()> {
+pub fn approve_delegate_author_request(input: DelegateAuthorRequest) -> ExternResult<CapSecret> {
     let secret = generate_cap_secret()?;
 
     // Create the list of agents to give access to.
-    let assignees = BTreeSet::new();
-    assignees.insert(input.requestor);
+    let mut assignees = BTreeSet::new();
+    assignees.insert(input.requestor.clone());
 
     let mut functions = BTreeSet::new();
-    fns.insert((zome_info()?.name, "create_movie".into()));
-    fns.insert((zome_info()?.name, "update_movie".into()));
-    fns.insert((zome_info()?.name, "delete_movie".into()));
-    fns.insert((zome_info()?.name, "create_director".into()));
+    functions.insert((zome_info()?.name, "create_movie".into()));
+    functions.insert((zome_info()?.name, "update_movie".into()));
+    functions.insert((zome_info()?.name, "delete_movie".into()));
+    functions.insert((zome_info()?.name, "create_director".into()));
 
     let cap_grant = CapGrantEntry {
         tag: format!("delegate_author_agent_{}_reason_{}", input.requestor, input.reason).into(),
@@ -253,17 +120,18 @@ pub fn approve_delegate_author_request(input: DelegateAuthorRequest) -> ExternRe
             secret,
             assignees,
         },
-        functions,
+        functions: GrantedFunctions::Listed(functions),
     };
     create_cap_grant(cap_grant)?;
 
     Ok(secret)
 }
+
 ```
 
 ## Store a capability secret
 
-Once the requestor has gotten a capability secret, they need to store it as a [`CapClaim`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapClaim.html) entry with the [`create_cap_claim`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_claim.html) host function so they can use it later when they need to access the functions they've been granted access to.
+Once the requestor has gotten a capability secret, they need to store it as a [`CapClaim`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapClaim.html) entry with the [`create_cap_claim`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_claim.html) host function so they can use it later when they want to call the functions they've been granted access to.
 
 ```rust
 use hdk::prelude::*;
@@ -275,7 +143,7 @@ pub struct DelegateAuthorApproval {
 }
 
 #[hdk_extern]
-pub fn store_delegate_author_approval(input: DelegateAuthorApproval) -> ExternResult<()> {
+pub fn store_delegate_author_approval(input: DelegateAuthorApproval) -> ExternResult<ActionHash> {
     let cap_claim = CapClaimEntry {
         // When the agent wants to use this capability, they'll want
         // to be able to query their source chain for it by tag.
@@ -283,7 +151,7 @@ pub fn store_delegate_author_approval(input: DelegateAuthorApproval) -> ExternRe
         grantor: input.grantor,
         secret: input.secret,
     };
-    create_cap_claim(cap_claim)?;
+    create_cap_claim(cap_claim)
 }
 ```
 
@@ -296,56 +164,246 @@ use hdk::prelude::*;
 use movies_integrity::*;
 
 #[derive(Serialize, Deserialize, Debug)]
-struct CreateMovieDelegateInput {
+pub struct CreateMovieDelegateInput {
     movie: Movie,
     author_to_delegate_to: AgentPubKey,
 }
 
 #[hdk_extern]
+use hdk::prelude::*;
+use movies_integrity::*;
+
+#[hdk_extern]
+pub fn init() -> ExternResult<InitCallbackResult> {
+    let mut functions = BTreeSet::new();
+    // On cell startup, Bob opens up unrestricted access to his
+    // `handle_delegate_author_request` function so Alice can ask him for
+    // authoring privileges.
+    functions.insert((zome_info()?.name, "handle_delegate_author_request".into()));
+    // Alice also opens up unrestricted access to her remote signal handler
+    // callback, which will receive an approval message from Bob.
+    functions.insert((zome_info()?.name, "recv_remote_signal".into()));
+    create_cap_grant(CapGrantEntry {
+        tag: "".into(),
+        access: CapAccess::Unrestricted,
+        functions: GrantedFunctions::Listed(functions),
+    })?;
+
+    Ok(InitCallbackResult::Pass)
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct RequestDelegateAuthorPrivilegeInput {
+    author_to_request: AgentPubKey,
+    reason: String,
+}
+
+// First Alice's UI calls this function, passing Bob's public key and the
+// reason she wants him to grant her authoring privileges.
+#[hdk_extern]
+pub fn request_delegate_author_privilege(input: RequestDelegateAuthorPrivilegeInput) -> ExternResult<()> {
+    // Alice calls Bob's request handler.
+    let response = call_remote(
+        input.author_to_request,
+        zome_info()?.name,
+        "handle_delegate_author_request".into(),
+        None,
+        input.reason,
+    )?;
+    match response {
+        ZomeCallResponse::Ok(_) => Ok(()),
+        _ => Err(wasm_error!("Something unexpected happened")),
+    }
+}
+
+// This gets used in both the local signal sent to Bob's UI and the input of
+// the approval function that his UI calls.
+#[derive(Serialize, Deserialize, Debug)]
+pub struct DelegateAuthorRequest {
+    requestor: AgentPubKey,
+    reason: String,
+}
+
+// On Bob's side, this function receives the request from Alice and notifies
+// his UI.
+#[hdk_extern]
+pub fn handle_delegate_author_request(reason: String) -> ExternResult<()> {
+    let call_info = call_info()?;
+    emit_signal(Signal::DelegateAuthorRequest(DelegateAuthorRequest {
+        requestor: call_info.provenance,
+        reason,
+    }))?;
+    Ok(())
+}
+
+// When Bob approves the request, his UI calls this function to generate the
+// capability grant and send the secret to Alice.
+#[hdk_extern]
+pub fn approve_delegate_author_request(input: DelegateAuthorRequest) -> ExternResult<()> {
+    // Use the host's crypto functions to generate a sufficiently random
+    // secret.
+    let secret = generate_cap_secret()?;
+
+    // Create the list of agents to give access to, containing Alice's key.
+    let mut assignees = BTreeSet::new();
+    assignees.insert(input.requestor.clone());
+
+    let mut functions = BTreeSet::new();
+    functions.insert((zome_info()?.name, "create_movie".into()));
+    functions.insert((zome_info()?.name, "update_movie".into()));
+    functions.insert((zome_info()?.name, "delete_movie".into()));
+    functions.insert((zome_info()?.name, "create_director".into()));
+
+    let cap_grant = CapGrantEntry {
+        tag: format!("delegate_author_agent_{}_reason_{}", input.requestor, input.reason).into(),
+        // Bob's granting an assigned capability for higher security.
+        access: CapAccess::Assigned {
+            secret,
+            assignees,
+        },
+        functions: GrantedFunctions::Listed(functions),
+    };
+    create_cap_grant(cap_grant)?;
+
+    // Rather than returning the secret to Bob's UI so he can send it to her
+    // out-of-band, we'll send it to her directly. Take a look at the
+    // `post_commit` callback to see this happening.
+    Ok(())
+    // In a more robust app, we'd
+    // want to check for failed delivery and set up a retry handler.
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(tag = "type", content = "value", rename_all = "snake_case")]
+pub enum RemoteSignal {
+    // This signal gets sent to Alice when Bob has approved her request.
+    DelegateAuthorApproval {
+        secret: CapSecret,
+    },
+}
+
+// After Bob has successfully stored the capability grant, this callback sends
+// Alice the secret.
+#[hdk_extern(infallible)]
+pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
+    for action in committed_actions {
+        // `post_commit` doesn't receive the entry data, just the actions.
+        if let Some((entry_hash, EntryType::CapGrant)) = action.action().entry_data() {
+            // After checking that this is an action that stores a cap grant, we
+            // retrieve the grant entry from our local store.
+            // We can't use the `?` operator to handle errors from `get`,
+            // because this callback is infallible.
+            let maybe_record_result = get(entry_hash.clone(), GetOptions::local());
+            if let Ok(Some(record)) = maybe_record_result {
+                let entry = record
+                    .entry()
+                    .as_option()
+                    .unwrap();
+
+                // Extract the secret details from the grant.
+                if let Entry::CapGrant(CapGrantEntry { access, .. }) = entry {
+                    // Don't bother checking for the right tag; just send the secret
+                    // to all the assignees for any assigned cap grant.
+                    // A more complex app with many different grant types might need
+                    // to handle them all differently.
+                    if let CapAccess::Assigned { secret, assignees } = access {
+                        let _ = send_remote_signal(
+                            RemoteSignal::DelegateAuthorApproval { secret: secret.clone() },
+                            assignees.iter().cloned().collect()
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Alice's remote signal handler receives Bob's approval, stores it, and
+// notifies her of Bob's approval.
+pub fn recv_remote_signal(signal: RemoteSignal) -> ExternResult<()> {
+    match signal {
+        RemoteSignal::DelegateAuthorApproval { secret } => {
+            // Find out who sent the signal -- this will be Bob.
+            let grantor = call_info()?.provenance;
+            let cap_claim = CapClaimEntry {
+                // When Alice wants to use this capability, she'll want
+                // to be able to query her source chain for it by tag and
+                // Bob's public key.
+                tag: format!("delegate_author"),
+                grantor,
+                secret,
+            };
+            create_cap_claim(cap_claim)?;
+        }
+        _ => {}
+    };
+    Ok(())
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct CreateMovieDelegateInput {
+    movie: Movie,
+    author_to_delegate_to: AgentPubKey,
+}
+
+// Finally, when Alice wants to ghost-write for Bob, she calls this function.
+// It's unmodified from the previous example.
 pub fn create_movie_delegate(input: CreateMovieDelegateInput) -> ExternResult<ActionHash> {
     let CreateMovieDelegateInput { movie, author_to_delegate_to } = input;
 
     // Search the source chain for a capability claim of the right type and
     // author.
-    let maybe_matching_claim = query(ChainQueryFilter.new()
-            // Capability claims are stored as entries.
-            .action_type(ActionType::Create)
-            .entry_type(EntryType::CapClaim)
-            .include_entries(true)
-        )?
-        .iter()
+    let filter = ChainQueryFilter::new()
+        // Capability claims are stored as entries.
+        .action_type(ActionType::Create)
+        .entry_type(EntryType::CapClaim)
+        .include_entries(true);
+    let maybe_matching_claim = query(filter)?
+        .into_iter()
         .find_map(|r| {
-            // It's safe to unwrap and cast here because we only asked for
-            // records that create cap claim entries.
-            let Entry::CapClaim(claim) = r.entry().into_option().unwrap();
-            if claim.tag == "delegate_author"
-                && claim.grantor == author_to_delegate_to {
-                // We've found the right claim!
-                return Some(claim);
-            } else {
-                return None;
+            // It's safe to unwrap here because we only asked for records that
+            // create cap claim entries.
+            if let Entry::CapClaim(claim) = r.entry().as_option().unwrap() {
+                if claim.tag == "delegate_author"
+                    && claim.grantor == author_to_delegate_to {
+                    // We've found the right claim!
+                    return Some(claim.clone());
+                } else {
+                    return None;
+                }
             }
+            None
         });
 
     match maybe_matching_claim {
         Some(claim) => {
             // Use the claim in the remote zome call.
             let response = call_remote(
-                claim.grantor,
+                claim.grantor.clone(),
                 zome_info()?.name,
-                fn_name: "create_movie".into(),
-                cap_secret: claim.secret,
-                payload: movie,
+                "create_movie".into(),
+                Some(claim.secret),
+                movie,
             )?;
 
             match response {
-                Ok(data) => Ok(data.decode()),
-                Unauthorized(_, _, _, _, _) => Err(wasm_error!("Agent {} won't let us create a movie through them", claim.grantor)),
+                ZomeCallResponse::Ok(data) => data.decode().map_err(|e| wasm_error!("Couldn't deserialize response from remote agent: {}", e)),
+                ZomeCallResponse::Unauthorized(_, _, _, _, _) => Err(wasm_error!("Agent {} won't let us create a movie through them", claim.grantor)),
                 _ => Err(wasm_error!("Something unexpected happened")),
             }
         }
-        None => Err(wasm_error!("Couldn't find delegate author capability for {}", author_to_delegate_to)),
+        _ => Err(wasm_error!("Couldn't find delegate author capability for {}", author_to_delegate_to)),
     }
+}
+
+// Alice's `create_movie_delegate` function calls this function in Bob's cell,
+// which saves the movie data she wrote into his source chain and signs it
+// with his key. To the rest of the DHT, it looks like Bob authored it, which
+// is why we're being so careful about function access privileges!
+#[hdk_extern]
+pub fn create_movie(input: Movie) -> ExternResult<ActionHash> {
+    // This function is implemented by the scaffolding tool; we won't show its
+    // contents here.
 }
 ```
 
@@ -382,12 +440,11 @@ pub struct RequestDelegateAuthorPrivilegeInput {
     reason: String,
 }
 
-// First Alice's UI calls this function, passing an input struct containing
-// Bob's public key and the reason she wants him to grant her authoring
-// privileges.
+// First Alice's UI calls this function, passing Bob's public key and the
+// reason she wants him to grant her authoring privileges.
 #[hdk_extern]
 pub fn request_delegate_author_privilege(input: RequestDelegateAuthorPrivilegeInput) -> ExternResult<()> {
-    // Alice calls Bob's request handler, passing the reason for her request.
+    // Alice calls Bob's request handler.
     return call_remote(
         input.author_to_request,
         zome_info()?.name,
@@ -398,7 +455,7 @@ pub fn request_delegate_author_privilege(input: RequestDelegateAuthorPrivilegeIn
 }
 
 // This gets used in both the local signal sent to Bob's UI and the input of
-// the approval function his UI calls.
+// the approval function that his UI calls.
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DelegateAuthorRequest {
     requestor: AgentPubKey,
