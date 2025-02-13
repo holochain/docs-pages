@@ -132,9 +132,13 @@ use foo_integrity::LinkTypes;
 use hdk::prelude::*;
 
 // We're creating this type for both remote signals to other peers and local
-// signals to the UI.
+// signals to the UI. Your app might have different kinds of signals for each,
+// so you're free to define separate types for local vs remote.
+// We recommend making your signal type an enum, so your hApp can define
+// different kinds of signals.
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(tag = "type")]
+// It's helpful to match the way Holochain serializes its own enums.
+#[serde(tag = "type", content = "value", rename_all = "snake_case")]
 enum Signal {
     Heartbeat(AgentPubKey),
 }
@@ -199,7 +203,8 @@ use movie_integrity::{EntryTypes, Movie, MovieLoan, UnitEntryTypes};
 use hdk::prelude::*;
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
-pub enum RemoteSignal {
+#[serde(tag = "type", content = "value", rename_all = "snake_case")]
+pub enum Signal {
     MovieLoanHasBeenCreatedForYou(ActionHash),
 }
 
@@ -210,7 +215,7 @@ pub fn post_commit(actions: Vec<SignedActionHashed>) {
         if let Action::Create(_) = action.action() {
             if let Ok(movie_loan) = get_movie_loan(action.action_address().clone()) {
                 send_remote_signal(
-                    RemoteSignal::MovieLoanHasBeenCreatedForYou(action.action_address().clone()),
+                    Signal::MovieLoanHasBeenCreatedForYou(action.action_address().clone()),
                     vec![movie_loan.lent_to]
                 ).ok(); // suppress warning about unhandled `Result`
             }
@@ -218,17 +223,12 @@ pub fn post_commit(actions: Vec<SignedActionHashed>) {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-enum LocalSignal {
-    NewMovieLoan(MovieLoan),
-}
-
 #[hdk_extern]
-pub fn recv_remote_signal(payload: RemoteSignal) -> ExternResult<()> {
-    if let RemoteSignal::MovieLoanHasBeenCreatedForYou(action_hash) = payload {
+pub fn recv_remote_signal(payload: Signal) -> ExternResult<()> {
+    if let Signal::MovieLoanHasBeenCreatedForYou(action_hash) = payload {
         let movie_loan = get_movie_loan(action_hash)?;
         // Send the new movie loan data to the borrower's UI!
-        emit_signal(LocalSignal::NewMovieLoan(movie_loan))?;
+        emit_signal(Signal::MovieLoanHasBeenCreatedForYou(movie_loan))?;
     }
     Ok(())
 }

@@ -38,9 +38,12 @@
           { title: "Entries", url: "/build/entries/" },
           { title: "Links, Paths, and Anchors", url: "/build/links-paths-and-anchors/" },
         ]},
+        { title: "Connecting the Parts", url: "/build/connecting-the-parts/", children: [
+          { title: "Front End", url: "/build/connecting-a-front-end/" },
+        ]},
         { title: "Validation", url: "/build/validation/", children: [
           { title: "Genesis Self-Check Callback", url: "/build/genesis-self-check-callback/" },
-        ]},
+        ]}
       ]
     },
     { title: "Resources", url: "/resources/", children: [
