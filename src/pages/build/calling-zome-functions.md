@@ -26,13 +26,14 @@ interface Movie {
 async function getMoviesForDirector(directorHash: EntryHash): Array<Movie> {
     // Use the `getHolochainClient` function from /build/connecting-a-front-end/
     const client = await getHolochainClient();
-    return await client.callZome({
+    let movies: Array<Movie> = await client.callZome({
         role_name: "movies",
         zome_name: "movies",
         fn_name: "get_movies_for_director",
         // This should match the input payload struct for the zome function.
         payload: directorHash,
     });
+    return movies;
 }
 ```
 
