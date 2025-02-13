@@ -23,7 +23,7 @@ interface Movie {
     box_office_revenue: Number;
 }
 
-async function getMoviesForDirector(directorHash: EntryHash): Array<Movie> {
+async function getMoviesForDirector(directorHash: EntryHash): Promise<Array<Movie>> {
     // Use the `getHolochainClient` function from /build/connecting-a-front-end/
     const client = await getHolochainClient();
     let movies: Array<Movie> = await client.callZome({
@@ -46,7 +46,16 @@ Coordinator zomes call each other's functions via the [`hdk::prelude::call`](htt
 This example calls a function `get_movies_for_director` in another zome called `movies` _in the same cell_:
 
 ```rust
-fn get_movies_for_director_from_movies_zome(director_hash: EntryHash) -> ExternResult<Vec<Movie>> {
+use hdk::prelude::*;
+// When you want to share a set of entry type structs among multiple
+// coordinator zomes, such as with the following zome that wants to
+// deserialize the other zome function's return types, consider moving the
+// Rust type definitions into a separate crates to be used by both the
+// integrity zome and the coordinator zomes.
+use movies_types::*;
+
+#[hdk_extern]
+pub fn get_movies_for_director_from_movies_zome(director_hash: EntryHash) -> ExternResult<Vec<Movie>> {
     let response = call(
         // This indicates that `bar` is in the same cell.
         CallTargetCell::Local,
@@ -73,7 +82,8 @@ This example calls that same function in a zome called `movies` _in a different 
 use hdk::prelude::*;
 use movies_types::*;
 
-fn get_movies_for_director_from_movies_cell(director_hash: EntryHash) -> ExternResult<Vec<Movie>> {
+#[hdk_extern]
+pub fn get_movies_for_director_from_movies_cell(director_hash: EntryHash) -> ExternResult<Vec<Movie>> {
     let response = call(
         // Address the cell by its role name from the hApp manifest.
         // You can also address it by its cell ID using
@@ -109,7 +119,15 @@ This example calls a function _in the same coordinator zome_ (or at least one wi
 use hdk::prelude::*;
 use movies_types::*;
 
-fn get_movies_for_director_remote(director_hash: EntryHash, remote_agent: AgentPubKey) -> ExternResult<Vec<Movie>> {
+#[derive(Serialize, Deserialize, Debug)]
+pub struct GetMoviesForDirectorRemoteInput {
+    pub director_hash: EntryHash,
+    pub remote_agent: AgentPubKey,
+}
+
+#[hdk_extern]
+pub fn get_movies_for_director_remote(input: GetMoviesForDirectorRemoteInput) -> ExternResult<Vec<Movie>> {
+    let GetMoviesForDirectorRemoteInput { director_hash, remote_agent} = input;
     let response = call_remote(
         remote_agent,
         // Get this zome's name from the host.
@@ -130,7 +148,7 @@ fn get_movies_for_director_remote(director_hash: EntryHash, remote_agent: AgentP
 ```
 
 !!! info All agents have access to the same DHT data
-Because every agent in a network has the same view of the network's shared DHT data (assuming all agents are synced with each other), `call_remote` isn't useful for calling functions that get data from the DHT. Instead, it should be used for requesting data that another agent can access but you can't, such as asking them for [private entries](/build/entries/#private-entry-type) from their source chain or for data from a DHT that they can access but you can't.
+Because every agent in a network has the same view of the network's shared DHT data (assuming all agents are synced with each other), `call_remote` isn't useful for calling functions that get data from the DHT. Instead, it should be used for requesting data that another agent can access but you can't, such as asking them for [private entries](/build/entries/#private-entry-type) from their source chain or for data from a DHT that they can access but you can't. In the example above, imagine that the caller doesn't have a `movies` cell running but the callee does.
 !!!
 
 ## Reference
