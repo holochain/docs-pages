@@ -75,7 +75,7 @@ pub fn approve_delegate_author_request(reason: String) -> ExternResult<CapSecret
     // Now write the cap grant.
     let cap_grant = CapGrantEntry {
         // Keep a memo of why we're creating this capability grant.
-        // This makes it possible to audit and revoke itlater.
+        // This makes it possible to audit and revoke it later.
         tag: format!("delegate_author_reason_{}", reason).into(),
         access: CapAccess::Transferable { secret },
         functions: GrantedFunctions::Listed(functions),
