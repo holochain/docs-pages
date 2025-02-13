@@ -53,3 +53,8 @@ WebRTC
 webview
 webviews
 workdir
+# Some annoying bits of a hash in a code sample
+Evxr
+OIGW
+Jagd
+Slmaip

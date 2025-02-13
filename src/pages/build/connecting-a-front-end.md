@@ -26,7 +26,7 @@ npm run start
 
 Holochain provides front-end client libraries for [JavaScript](https://github.com/holochain/holochain-client-js) and [Rust](https://github.com/holochain/holochain-client-rust). The scaffolding tool generates JavaScript-based UIs that are meant to be served as a single-page app, so we'll focus on JavaScript for this documentation --- or more specifically TypeScript, because that's what the client library is written in.
 
-## Connect to a hApp with the JavaScript client
+## Connect to a hApp with the JavaScript client {#connect-to-a-happ-with-the-javascript-client}
 
 You connect to the application API with the client's [`AppWebsocket.connect`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.connect.md) method, which returns a <code>Promise&lt;[AppWebsocket](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.md)&gt;</code>.
 
