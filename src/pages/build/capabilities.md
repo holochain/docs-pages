@@ -426,3 +426,23 @@ pub fn create_movie(input: Movie) -> ExternResult<ActionHash> {
     // contents here.
 }
 ```
+
+## Reference
+
+* [`holochain_integrity_types::capability::CapAccess`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.CapAccess.html)
+* [`holochain_integrity_types::capability::CapGrantEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapGrantEntry.html)
+* [`hdk::capability::create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html)
+* [`holochain_integrity_types::capability::CapClaim`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapClaim.html)
+* [`hdk::capability::create_cap_claim`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_claim.html)
+* [`hdk::chain::query`](https://docs.rs/hdk/latest/hdk/chain/fn.query.html)
+* [`holochain_integrity_types::entry::Entry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/entry/enum.Entry.html) (`CapClaim` and `CapGrant` variants)
+* [`hdk::p2p::call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html)
+* [`hdk::p2p::call_remote`](https://docs.rs/hdk/latest/hdk/p2p/fn.call_remote.html)
+* [`hdk::p2p::emit_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.emit_signal.html)
+* [`hdk::p2p::send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html)
+
+## Further reading
+
+* [Core Concepts: Calls and Capabilities](/concepts/8_calls_capabilities/)
+* Build Guide: Callbacks and Lifecycle Hooks: [`init`](/build/callbacks-and-lifecycle-hooks/#define-an-init-callback), [`recv_remote_signal`](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), and [`post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) callbacks
+*
