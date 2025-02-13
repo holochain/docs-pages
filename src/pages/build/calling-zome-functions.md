@@ -37,7 +37,7 @@ async function getMoviesForDirector(directorHash: EntryHash): Array<Movie> {
 }
 ```
 
-The client handles errors (both `ExternResult::Err(_)` errors from the zome function and other errors from Holochain itself) and deserializes the MessagePack return value for you. It also takes care of capability security<!--TODO: link when written --> for you.
+The client handles errors (both `ExternResult::Err(_)` errors from yor zome function and other errors from Holochain itself), turning them into promise rejections, and deserializes the MessagePack return value into JavaScript objects for you on success. It also takes care of the details of [capability security](/build/connecting-the-parts/#securing-zome-functions-against-unauthorized-access) for you, so you don't have to provide any credentials for the zome call.
 
 ## Call a zome function from another zome in the same hApp
 
@@ -93,7 +93,7 @@ fn get_movies_for_director_from_movies_cell(director_hash: EntryHash) -> ExternR
 }
 ```
 
-These cases don't need to worry about capability security either, because they're covered by a special grant called the [**author grant**](/concepts/8_calls_capabilities/#author-grant). It permits calls made by any caller with the same public key as the callee cell's owner.
+Just as with front ends hosted by a supporting Holochain runtime, calls made within one agent's hApp instance don't need to supplying the right capability credentials, because under the hood Holochain applies a special capability called the [**author grant**](/concepts/8_calls_capabilities/#author-grant). The author grant automatically gives a caller access to any function if the agent ID of the callee cell matches the agent ID of the calling cell.
 
 ## Call a zome function from another agent in the network
 
