@@ -10,12 +10,12 @@ You can call a zome function from [various local and remote processes](/build/co
 
 To call a zome function, use [`AppWebsocket.prototype.callZome`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.callzome.md). It takes a [`CallZomeRequest`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.callzomerequest.md) and an optional timeout.
 
-This example gets all the movies by a given director, then logs their titles to the console. You'll need the [`getHolochainClient` example](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client) from the Connecting to a Front End page.
+This example gets all the movies by a given director, then logs their titles to the console. You'll need the [`getHolochainClient` example from the Connecting to a Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
 
 ```typescript
 import { decodeHashFromBase64, EntryHash } from '@holochain/client';
 
-class Movie {
+interface Movie {
     title: string;
     director_hash: EntryHash;
     imdb_id: string | null;
@@ -23,47 +23,49 @@ class Movie {
     box_office_revenue: Number;
 }
 
-async function logMoviesBySergioLeone() {
+async function getMoviesForDirector(directorHash: EntryHash): Promise<Array<Movie>> {
     // Use the `getHolochainClient` function from /build/connecting-a-front-end/
     const client = await getHolochainClient();
-    const movies: Array<Movie> = await client.callZome({
+    let movies: Array<Movie> = await client.callZome({
         role_name: "movies",
         zome_name: "movies",
         fn_name: "get_movies_for_director",
         // This should match the input payload struct for the zome function.
-        // The client serializes and deserializes hashes as 39-byte
-        // `Uint8Array`s.
-        // If your client ever needs to work with hashes as strings, the
-        // helper functions `decodeHashFromBase64` and `encodeHashToBase64`
-        // will do the conversions for you.
-        payload: decodeHashFromBase64(" -- base64-encoded Sergio Leone hash -- ")
+        payload: directorHash,
     });
-    console.log("Got movies");
-    for (let movie in movies) {
-        console.log(movie.title);
-    }
+    return movies;
 }
 ```
 
-The client handles errors (both `ExternResult::Err(_)` errors from the zome function and other errors from Holochain itself) and deserializes the MessagePack return value for you. It also takes care of capability security<!--TODO: link when written --> for you.
+The client handles errors (both `ExternResult::Err(_)` errors from yor zome function and other errors from Holochain itself), turning them into promise rejections, and deserializes the MessagePack return value into JavaScript objects for you on success. It also takes care of the details of [capability security](/build/connecting-the-parts/#securing-zome-functions-against-unauthorized-access) for you, so you don't have to provide any credentials for the zome call.
 
 ## Call a zome function from another zome in the same hApp
 
-Coordinator zomes can't call each other's functions directly; instead they do it via the [`hdk::prelude::call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html) host function.
+Coordinator zomes call each other's functions via the [`hdk::prelude::call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html) host function. It works for any coordinator zome in a hApp, whether in the same cell or another cell.
 
-This example calls a function `get_movies_by_director` in another zome called `movies` _in the same cell_:
+This example calls a function `get_movies_for_director` in another zome called `movies` _in the same cell_:
 
 ```rust
-fn get_movies_by_sergio_leone() -> ExternResult<Vec<Movie>> {
+use hdk::prelude::*;
+// When you want to share a set of entry type structs among multiple
+// coordinator zomes, such as with the following zome that wants to
+// deserialize the other zome function's return types, consider moving the
+// Rust type definitions into a separate crates to be used by both the
+// integrity zome and the coordinator zomes.
+use movies_types::*;
+
+#[hdk_extern]
+pub fn get_movies_for_director_from_movies_zome(director_hash: EntryHash) -> ExternResult<Vec<Movie>> {
     let response = call(
         // This indicates that `bar` is in the same cell.
         CallTargetCell::Local,
+        // Call a coordinator zome by its name defined in the DNA manifest.
         "movies",
         "get_movies_for_director".into(),
         // This is a capability secret -- we'll explain later why it's not
         // needed.
         None,
-        EntryHash::from_raw_36(vec![/* bytes of Sergio Leone director entry's hash */]),
+        director_hash,
     )?;
     match response {
         ZomeCallResponse::Ok(output) => output
@@ -74,21 +76,23 @@ fn get_movies_by_sergio_leone() -> ExternResult<Vec<Movie>> {
 }
 ```
 
-This example calls that same function _if it's in a different cell_ whose role name is `movies`:
+This example calls that same function in a zome called `movies` _in a different cell_ whose role name is also `movies`:
 
 ```rust
 use hdk::prelude::*;
 use movies_types::*;
 
-fn get_movies_by_sergio_leone_from_movies_cell() -> ExternResult<Vec<Movie>> {
+#[hdk_extern]
+pub fn get_movies_for_director_from_movies_cell(director_hash: EntryHash) -> ExternResult<Vec<Movie>> {
     let response = call(
-        // Address the cell by its role name.
-        // You can also address it by its cell ID.
+        // Address the cell by its role name from the hApp manifest.
+        // You can also address it by its cell ID using
+        // `CallTargetCell::OtherCell(CellId)`.
         CallTargetCell::OtherRole("movies".into()),
         "movies",
         "get_movies_for_director".into(),
         None,
-        EntryHash::from_raw_36(vec![/* bytes of Sergio Leone director entry's hash */]),
+        director_hash,
     )?;
     match response {
         ZomeCallResponse::Ok(output) => output
@@ -99,7 +103,7 @@ fn get_movies_by_sergio_leone_from_movies_cell() -> ExternResult<Vec<Movie>> {
 }
 ```
 
-These cases don't need to worry about capability security either, because they're covered by a special grant called the [**author grant**](/concepts/8_calls_capabilities/#author-grant). It permits calls made by any caller with the same public key as the callee cell's owner.
+Just as with front ends hosted by a supporting Holochain runtime, calls made within one agent's hApp instance don't need to supplying the right capability credentials, because under the hood Holochain applies a special capability called the [**author grant**](/concepts/8_calls_capabilities/#author-grant). The author grant automatically gives a caller access to any function if the agent ID of the callee cell matches the agent ID of the calling cell.
 
 ## Call a zome function from another agent in the network
 
@@ -109,32 +113,43 @@ If two agents have cells running the same DNA --- that is, they're part of the s
 Holochain allows agents to add and remove coordinator zomes from their cells. This permits upgrading and customization. But it also means that the zomes and functions that you _think_ are on the other end might not actually be there.
 !!!
 
-This example calls a function _in the same coordinator zome_ (or at least one with the same name) in a remote agent's cell. It assumes that the remote agent has granted access to their `get_movies_by_director` function with an [**unrestricted grant**](/concepts/8_calls_capabilities/#unrestricted), which doesn't require a capability secret.
+This example calls a function _in the same coordinator zome_ (or at least one with the same name) in a remote agent's cell. It assumes that the remote agent has granted access to their `get_movies_by_director_from_movies_cell` function with an [**unrestricted grant**](/concepts/8_calls_capabilities/#unrestricted), which doesn't require a capability secret.
 
 ```rust
 use hdk::prelude::*;
 use movies_types::*;
 
-fn get_movies_by_sergio_leone_remote() -> ExternResult<Vec<Movie>> {
-    let bob_public_key = AgentPubKey::from_raw_36(vec![/* bytes of remote agent's key */]);
+#[derive(Serialize, Deserialize, Debug)]
+pub struct GetMoviesForDirectorRemoteInput {
+    pub director_hash: EntryHash,
+    pub remote_agent: AgentPubKey,
+}
+
+#[hdk_extern]
+pub fn get_movies_for_director_remote(input: GetMoviesForDirectorRemoteInput) -> ExternResult<Vec<Movie>> {
+    let GetMoviesForDirectorRemoteInput { director_hash, remote_agent} = input;
     let response = call_remote(
-        bob_public_key,
+        remote_agent,
         // Get this zome's name from the host.
         zome_info()?.name,
-        "foo".into(),
+        "get_movies_by_director_from_movies_cell".into(),
         // No capability secret needed for unrestricted functions.
         None,
-        EntryHash::from_raw_36(vec![/* bytes of Sergio Leone director entry's hash */]),
+        director_hash,
     )?;
     match response {
         ZomeCallResponse::Ok(output) => output
             .decode()
             .map_err(|e| wasm_error!(e.to_string()))?,
-        ZomeCallResponse::Unauthorized(_, _, _, _, _) => Err(wasm_error!("I wasn't allowed to call this function on Bob's device")),
+        ZomeCallResponse::Unauthorized(_, _, _, _, _) => Err(wasm_error!("I wasn't allowed to call this function on remote device")),
         _ => Err(wasm_error!("Something bad happened")),
     }
 }
 ```
+
+!!! info All agents have access to the same DHT data
+Because every agent in a network has the same view of the network's shared DHT data (assuming all agents are synced with each other), `call_remote` isn't useful for calling functions that get data from the DHT. Instead, it should be used for requesting data that another agent can access but you can't, such as asking them for [private entries](/build/entries/#private-entry-type) from their source chain or for data from a DHT that they can access but you can't. In the example above, imagine that the caller doesn't have a `movies` cell running but the callee does.
+!!!
 
 ## Reference
 
