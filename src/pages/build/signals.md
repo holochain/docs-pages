@@ -97,15 +97,9 @@ getHolochainClient().then(client => {
 });
 ```
 
-## Remote signals <!-- TODO: remove redundant info from /build/callbacks-and-lifecycle-hooks/>
+## Remote signals
 
-Agents can also send remote signals to each other using the [`send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html) host function and a [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback). This callback is just a plain zome function, which means an agent needs to set up some sort of capability grant<!--TODO: link to capabilities page --> for it, so other agents can call it.
-
-`send_remote_signal` works differently from a usual remote call, in that it's 'send-and-forget' --- it won't return an error if anything fails.
-
-!!! info Remote signals are routed to a coordinator zome of the same name
-While you can remote-call any coordinator zome's functions, `send_remote_signal` always routes the call to a coordinator zome of the same name as the caller. Because [the remote agent might map a different coordinator zome to that name, or no zome at all](/build/calling-zome-functions/#remote-call-unknown-routing), this function might be handled in unexpected ways on the receiver's end.
-!!!
+Agents can also send remote signals to each other using the [`send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html) host function and a [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), which takes a single argument of any type and returns `ExternResult<()>`.
 
 This example rewrites and expands the `heartbeat` function above to use remote signals.
 
@@ -116,7 +110,7 @@ use hdk::prelude::*;
 pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
     let mut fns = BTreeSet::new();
     // Open up access for the remote signal handler callback to everyone on
-    // the network.
+    // the network -- see the note after this example.
     fns.insert((zome_info()?.name, "recv_remote_signal".into()));
     create_cap_grant(CapGrantEntry {
         tag: "".into(),
@@ -156,6 +150,35 @@ pub fn send_heartbeat(receivers: Vec<AgentPubKey>) -> ExternResult<()> {
 }
 ```
 
+!!! info Remote signal handlers are just zome functions
+`send_remote_signal` is sugar for a [remote call](/build/calling-zome-functions/#call-a-zome-function-from-another-agent-in-the-network) to a zome function named  `recv_remote_signal` with no capability secret<!-- TODO: link to capabilities page -->. It works differently from a usual remote call, though, in that it's 'send-and-forget' --- it won't return an error if anything fails. In practice, these two are equivalent:
+
+```rust
+use hdk::prelude::*;
+
+fn send_remote_hello(hello: String, agent: AgentPubKey) -> ExternResult<()> {
+    send_remote_signal(hello, agent)
+}
+
+fn send_remote_hello_via_remote_call(hello: String, agent: AgentPubKey) -> ExternResult<()> {
+    // Throw away the return value of `recv_remote_signal`, which shouldn't
+    // contain anything meaningful anyway.
+    let _ = call_remote(
+        agent,
+        zome_info()?.name,
+        "recv_remote_signal",
+        None,
+        hello
+    )?;
+    Ok(())
+}
+```
+
+This means an agent needs to set up an [`Unrestricted` capability grant](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.CapAccess.html#variant.Unrestricted)<!--TODO: link to capabilities page --> for it, so other agents can call it. Take care that this function does as little as possible, to avoid people abusing it. Permissions and privileges are another topic which we'll talk about soon.<!-- TODO: delete this sentence -->
+
+It also means that `send_remote_signal` always routes the call to a coordinator zome of the same name as the caller. Because [the remote agent might map that name to a different coordinator zome, or no zome at all](/build/calling-zome-functions/#remote-call-unknown-routing), this function might be handled in unexpected ways on the receiver's end.
+!!!
+
 ## Reference
 
 * [`hdk::p2p::emit_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.emit_signal.html)
@@ -165,5 +188,4 @@ pub fn send_heartbeat(receivers: Vec<AgentPubKey>) -> ExternResult<()> {
 ## Further reading
 
 * [Core Concepts: Signals](/concepts/9_signals/)
-* [Build Guide: Callbacks and Lifecycle Hooks: `recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback)<!-- TODO: remove this -->
 <!-- TODO: reference capabilities page -->
