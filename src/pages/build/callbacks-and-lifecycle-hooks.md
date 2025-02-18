@@ -126,24 +126,7 @@ Note that this can create "hot spots" where some agents have a heavier data stor
 
 !!!
 
-This `init` callback also does something useful: it grants all peers in the network permission to send messages to an agent's [remote signal receiver callback](#define-a-recv-remote-signal-callback). (Note that this can create a risk of spamming.) {#init-grant-unrestricted-access-to-recv-remote-signal}
-
-```rust
-use hdk::prelude::*;
-
-#[hdk_extern]
-pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
-    let mut fns = BTreeSet::new();
-    fns.insert((zome_info()?.name, "recv_remote_signal".into()));
-    create_cap_grant(CapGrantEntry {
-        tag: "".into(),
-        access: CapAccess::Unrestricted,
-        functions: GrantedFunctions::Listed(fns),
-    })?;
-
-    Ok(InitCallbackResult::Pass)
-}
-```
+The `init` callback is often used to set up initial **capabilities**<!-- TODO: link-->, or access privileges to zome functions. You can see an example on the [Signals page](/build/signals/#remote-signals)
 
 ### Define a `recv_remote_signal` callback
 

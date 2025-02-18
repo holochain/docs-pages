@@ -1,3 +1,169 @@
 ---
 title: "Signals"
 ---
+
+::: intro
+**Signals** are messages emitted by coordinator zomes, either locally to a front end or remotely to another agent cell in a DNA's network. They help you automate processes in your application and make it dynamic and responsive.
+:::
+
+## Local signals
+
+**Local signals** are sent to [front ends](/build/connecting-a-front-end/) listening on the agent's local machine.
+
+### Emit a signal
+
+Your coordinator zome emits a signal with the [`emit_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.emit_signal.html) host function. You can call this function from a regular [zome function](/build/zome-functions/) or the [`init`](/build/callbacks-and-lifecycle-hooks/#define-an-init-callback), [`recv_remote_signal`](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), or [`post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) callbacks.
+
+```rust
+use hdk::prelude::*;
+
+// Because you'll probably end up defining multiple local signal message
+// types, it's best to define your local signal as an enum of messages.
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(tag = "type")]
+pub enum LocalSignal {
+    Initializing,
+    Heartbeat(AgentPubKey),
+    ActionWritten(ActionHash),
+}
+
+#[hdk_extern]
+pub fn init() -> ExternResult<InitCallbackResult> {
+    // Emit a signal saying that this cell is starting up.
+    emit_signal(LocalSignal::Initializing)?;
+    Ok(InitCallbackResult::Pass)
+}
+
+// This function might be called by another agent in the network to show
+// they're still online, in which case the local UI will want to be notified.
+#[hdk_extern]
+pub fn heartbeat() -> ExternResult<()> {
+    // Find out who called our heartbeat function.
+    let caller = call_info()?.provenance;
+    // Tell the UI that the caller is still online.
+    emit_signal(LocalSignal::Heartbeat(caller))?;
+    Ok(())
+}
+
+#[hdk_extern(infallible)]
+pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
+    // Tell the UI about every action that any function in this zome has
+    // written.
+    for action in committed_actions {
+        let _ = emit_signal(LocalSignal::ActionWritten(action.action_address()));
+    }
+}
+```
+
+### Listen for a signal
+
+The UI subscribes to signals with the [`AppWebsocket.prototype.on`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.on.md) method. The signal handler should expect signals from any coordinator zome in any cell in the agent's hApp instance, and can discriminate between them by cell ID and zome name.
+
+```typescript
+import type { Signal, AppSignal, AgentPubKey } from "@holochain/client";
+import { SignalType, encodeHashToBase64 } from "@holochain/client";
+
+// Duplicate your zome's signal types in the UI.
+type MyZomeSignal =
+      { type: "initializing" }
+    | { type: "heartbeat"; content: AgentPubKey }
+    | { type: "action_written"; content: ActionHash };
+
+// Use the connection establishment function from
+// https://developer.holochain.org/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client
+getHolochainClient().then(client => {
+    // Subscribe to signals.
+    client.on("signal", (signal: Signal) => {
+        // There's currently only one useful signal type to listen for -- an
+        // app signal.
+        if (!(SignalType.App in signal)) return;
+        const appSignal = signal[SignalType.App];
+
+        // For now, let's just assume this is a simple hApp with only one DNA
+        // (hence one cell), and all we need to discriminate by is the zome
+        // name.
+        if (appSignal.zome_name != "my_zome") return;
+        switch (appSignal.payload.type) {
+            case "initializing":
+                console.log("my_zome is initializing");
+                break;
+            case "heartbeat":
+                console.log(`agent ${encodeHashToBase64(appSignal.payload.content)} is still online`);
+                break;
+            case "action_written":
+                console.log(`action hash ${encodeHashToBase64(appSignal.payload.content)} written`);
+        }
+    });
+});
+```
+
+## Remote signals <!-- TODO: remove redundant info from /build/callbacks-and-lifecycle-hooks/>
+
+Agents can also send remote signals to each other using the [`send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html) host function and a [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback). This callback is just a plain zome function, which means an agent needs to set up some sort of capability grant<!--TODO: link to capabilities page --> for it, so other agents can call it.
+
+`send_remote_signal` works differently from a usual remote call, in that it's 'send-and-forget' --- it won't return an error if anything fails.
+
+!!! info Remote signals are routed to a coordinator zome of the same name
+While you can remote-call any coordinator zome's functions, `send_remote_signal` always routes the call to a coordinator zome of the same name as the caller. Because [the remote agent might map a different coordinator zome to that name, or no zome at all](/build/calling-zome-functions/#remote-call-unknown-routing), this function might be handled in unexpected ways on the receiver's end.
+!!!
+
+This example rewrites and expands the `heartbeat` function above to use remote signals.
+
+```rust
+use hdk::prelude::*;
+
+#[hdk_extern]
+pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
+    let mut fns = BTreeSet::new();
+    // Open up access for the remote signal handler callback to everyone on
+    // the network.
+    fns.insert((zome_info()?.name, "recv_remote_signal".into()));
+    create_cap_grant(CapGrantEntry {
+        tag: "".into(),
+        access: CapAccess::Unrestricted,
+        functions: GrantedFunctions::Listed(fns),
+    })?;
+    Ok(InitCallbackResult::Pass)
+}
+
+// Again, it's good practice to define your remote signal type as an enum so
+// you can add more message types later.
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(tag = "type")]
+enum RemoteSignal {
+    Heartbeat,
+}
+
+#[hdk_extern]
+pub fn recv_remote_signal(payload: Signal) -> ExternResult<()> {
+    if let Signal::Heartbeat = payload {
+        // Pass the heartbeat along to my UI so it can update my peer's
+        // online status.
+        let caller = call_info()?.provenance;
+        emit_signal(LocalSignal::Heartbeat(caller))?;
+    }
+    Ok(())
+}
+
+// The UI calls this function at regular intervals, for all the peers that the
+// agent wants to stay connected to.
+#[hdk_extern]
+pub fn send_heartbeat(receivers: Vec<AgentPubKey>) -> ExternResult<()> {
+    send_remote_signal(
+        RemoteSignal::Heartbeat,
+        agents: receivers
+    )
+}
+```
+
+## Reference
+
+* [`hdk::p2p::emit_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.emit_signal.html)
+* [`@holochain/client.AppWebsocket.prototype.on`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.on.md)
+* [`hdk::p2p::send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html)
+
+## Further reading
+
+* [Core Concepts: Signals](/concepts/9_signals/)
+* [Build Guide: Callbacks and Lifecycle Hooks: `recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback)<!-- TODO: remove this -->
+<!-- TODO: reference capabilities page -->
