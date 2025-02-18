@@ -130,8 +130,6 @@ The `init` callback is often used to set up initial **capabilities**<!-- TODO: l
 
 ### Define a `recv_remote_signal` callback
 
-<!-- TODO: move this to the signals page after it's written -->
-
 Agents in a network can send messages to each other via [remote signals](/concepts/9_signals/#remote-signals). In order to handle these signals, your coordinator zome needs to define a `recv_remote_signal` callback. Remote signals get routed from the emitting coordinator zome on the sender's machine to a coordinator with the same name on the receiver's machine.
 
 `recv_remote_signal` takes a single argument of any type you like. It must return an empty `ExternResult<()>`, as this callback is not called as a result of direct interaction from the local agent and has nowhere to pass a return value.
