@@ -14,7 +14,7 @@ title: "Signals"
 
 Your coordinator zome emits a signal with the [`emit_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.emit_signal.html) host function. You can call this function from a regular [zome function](/build/zome-functions/) or the [`init`](/build/callbacks-and-lifecycle-hooks/#define-an-init-callback), [`recv_remote_signal`](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), or [`post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) callbacks.
 
-This example notifies the agent's local UI of any actions that their cell has written to their source chain, which is useful for building reactive front-end data stores, especially when some actions may be written by [remote calls](/build/calling-zome-functions/#call-a-zome-function-from-another-agent-in-the-network) rather than direct user action. ([Read about the `post_commit` callback](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) to learn more about hooking into successful writes.)
+This example notifies the agent's local UI of any actions that their cell has written to their source chain, which is useful for building reactive front-end data stores, especially when some actions may be written by [remote calls](/build/calling-zome-functions/#call-a-zome-function-from-another-agent-in-the-network) rather than direct user action. You can see this pattern in any scaffolded hApp, in the file `dnas/<dna>/zomes/coordinator/<zome>/src/lib.rs`. ([Read about the `post_commit` callback](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) to learn more about hooking into successful writes.)
 
 ```rust
 use hdk::prelude::*;
@@ -37,7 +37,7 @@ pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
 }
 ```
 
-This example sets up a 'heartbeat' feature, where peers can periodically ping each other to let them know they're still online.
+This example shows a 'heartbeat' feature, where peers can periodically ping each other to let them know they're still online.
 
 ```rust
 use hdk::prelude::*;
@@ -69,7 +69,7 @@ pub fn send_heartbeat(receivers: Vec<AgentPubKey>) -> ExternResult<()> {
         call_remote(
             agent,
             zome_info()?.name,
-            "receive_heartbeat",
+            "receive_heartbeat".into(),
             None,
             (),
         )?;
@@ -97,8 +97,8 @@ import { SignalType, encodeHashToBase64 } from "@holochain/client";
 
 // Duplicate your zome's signal types in the UI.
 type MyZomeSignal =
-    | { type: "heartbeat"; content: AgentPubKey }
-    | { type: "action_written"; content: ActionHash };
+    | { type: "heartbeat"; value: AgentPubKey }
+    | { type: "action_written"; value: ActionHash };
 
 // Use the connection establishment function from
 // https://developer.holochain.org/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client
@@ -114,12 +114,14 @@ getHolochainClient().then(client => {
         // (hence one cell), and all we need to discriminate by is the zome
         // name.
         if (appSignal.zome_name != "my_zome") return;
+
+        const payload: MyZomeSignal = appSignal.payload;
         switch (appSignal.payload.type) {
             case "heartbeat":
-                console.log(`agent ${encodeHashToBase64(appSignal.payload.content)} is still online`);
+                console.log(`agent ${encodeHashToBase64(payload.value)} is still online`);
                 break;
             case "action_written":
-                console.log(`action hash ${encodeHashToBase64(appSignal.payload.content)} written`);
+                console.log(`action hash ${encodeHashToBase64(payload.value)} written`);
         }
     });
 });
@@ -162,12 +164,11 @@ pub fn send_heartbeat(receivers: Vec<AgentPubKey>) -> ExternResult<()> {
     // remote agents at once.
     send_remote_signal(
         RemoteSignal::Heartbeat,
-        agents: receivers
     )
 }
 
 #[hdk_extern]
-pub fn recv_remote_signal(payload: Signal) -> ExternResult<()> {
+pub fn recv_remote_signal(payload: RemoteSignal) -> ExternResult<()> {
     if let RemoteSignal::Heartbeat = payload {
         let caller = call_info()?.provenance;
         emit_signal(LocalSignal::Heartbeat(caller))?;
@@ -181,7 +182,7 @@ pub fn recv_remote_signal(payload: Signal) -> ExternResult<()> {
 
 ```rust
 fn send_heartbeat(agent: AgentPubKey) -> ExternResult<()> {
-    send_remote_signal(RemoteSignal::Heartbeat, agent)
+    send_remote_signal(RemoteSignal::Heartbeat, vec![agent])
 }
 
 fn send_heartbeat_via_remote_call(agent: AgentPubKey) -> ExternResult<()> {
@@ -190,7 +191,7 @@ fn send_heartbeat_via_remote_call(agent: AgentPubKey) -> ExternResult<()> {
     let _ = call_remote(
         agent,
         zome_info()?.name,
-        "recv_remote_signal",
+        "recv_remote_signal".into(),
         None,
         RemoteSignal::Heartbeat
     )?;
