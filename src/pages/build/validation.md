@@ -8,7 +8,7 @@ title: "Validation"
 * Validation (this page)
     * [`genesis_self_check` Callback](/build/genesis-self-check-callback/) --- writing a function to control access to a network
     * [`validate` Callback](/build/validate-callback/) --- basic callback, examples using stub functions
-    * [DHT operations](/build/dht-operations/) --- further details on the underlying data structure used in DHT replication and validation
+    * [DHT operations](/build/dht-operations/) --- advanced details on the underlying data structure used in DHT replication and validation
 :::
 
 ::: intro

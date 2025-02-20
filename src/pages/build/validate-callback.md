@@ -16,7 +16,7 @@ Validating an op can have one of three outcomes: {#validation-outcomes}
 2. `ValidateCallbackResult::Invalid(String)` carries information about the validation failure for debugging.
 3. <code>ValidateCallbackResult::UnresolvedDependencies([UnresolvedDependencies](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.UnresolvedDependencies.html))</code> means that validation couldn't finish because the required dependencies couldn't be fetched from the DHT.
 
-Outcomes 1 and 2 are definitive and the op won't be validated again. Outcome 3, which happens automatically when a call any of the [`must_get_*` functions](https://docs.rs/hdi/latest/hdi/entry/index.html#functions) yields no data, asks Holochain to try running the op through validation later in the hope that it can retrieve the required dependencies. (It'll give up retrying after some time.)
+Outcomes 1 and 2 are definitive and the op won't be validated again. Outcome 3, which happens automatically when a call to any of the [`must_get_*` functions](https://docs.rs/hdi/latest/hdi/entry/index.html#functions) yields no data, instructs Holochain to try running the op through validation later in the hope that it can retrieve the required dependencies. (It'll give up retrying after some time, and will resume next time Holochain restarts.)
 
 The simplest `validate` callback approves everything:
 
@@ -40,15 +40,15 @@ pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
 }
 ```
 
-There is something worth noting here though. We return an `Ok` even though validation failed. That's because **`Err` should be reserved for true failures** such as the ones returned by host functions.
+Useless as it is, there is something worth noting here. We return an `Ok` even though validation failed. That's because **`Err` should be reserved for true failures** such as the ones returned by host functions.
 
 ## Create boilerplate code with the scaffolding tool
 
-Even after flattening, there are a lot of variants of an op, which makes for a lot of match arms in your `validate` callback. And a lot of the arms do similar but slightly different things. It's a great idea to let the scaffolding tool generate the callback for you. We won't paste a sample here --- you can scaffold an integrity zome and a few entry and link types and see what it looks like.
+DHT operations are an advanced concept so we won't cover them here. (You can read about them on the [DHT operations](/build/dht-operations/) page if you need a deeper understanding for designing highly secure or performant validation.) Instead, it's more useful to think of validating an [**action**](/build/working-with-data/#entries-actions-and-records-primary-data).
 
-Instead, it's best to fill in the stub functions that the scaffold tool creates for you. You get a well-structured `validate` callback, a `genesis_self_check` callback, along with stubs to validate actions that manipulate all the entry and link types. These stubs are called by `validate` in the right places. Filling in these stub functions is the simplest way to write validation code.
+Fortunately, the scaffolding tool generates `validate` and [`genesis_self_check`](/build/genesis-self-check/) callbacks that call out to stub functions that you can fill in with your own validation logic.
 
-Here are some useful examples that show you how to use the stub functions, imagining you scaffolded the `Director` and `Movie` entry types from the [Entries page](/build/entries/#define-an-entry-type) along with a collection for all `Director` entries.
+Here are some useful examples that show you how to use the stub functions, imagining you've scaffolded the `Director` and `Movie` entry types from the [Entries](/build/entries/#define-an-entry-type) and the `MovieLoan` entry type from the [Identifiers](/build/identifiers/) page, along with a [global collection](/build/links-paths-and-anchors/#scaffold-a-simple-collection-anchor) for all `Director` entries.
 
 ### Stub functions for entries
 
@@ -76,7 +76,7 @@ pub fn validate_create_movie(
 }
 ```
 
-This example checks that a director entry for a movie exists.
+This example checks that a director entry referenced by a movie exists.
 
 ```rust
 use hdi::prelude::*;
@@ -89,26 +89,28 @@ pub fn validate_create_movie(
     // `UnresolvedDependencies` outcome for you.
     let director_entry =  must_get_entry(movie.director_hash)?;
     // Try to turn it into an entry of the right type.
-    let _director = crate::Director::try_from(director_entry)?;
+    let _ = crate::Director::try_from(director_entry) else {
+        return Ok(ValidateCallbackResult::Invalid("Referenced entry was not actually a Director entry"));
+    };
     Ok(ValidateCallbackResult::Valid)
 }
 ```
 
 #### `validate_update_<entry>`
 
-This callback gets the original entry and its creation action along with the update. You can use it to compare differences between the two entries, or you can use it to enforce write permissions, such as only allowing the original author to update an entry:
+This function receives the original entry and its creation action along with the update. You can use it to compare differences between the two entries, or you can use it to enforce write permissions, such as only allowing the original author to update a record:
 
 ```rust
 use hdi::prelude::*;
 
-pub fn validate_update_movie(
+pub fn validate_update_movie_loan(
     action: Update,
-    _movie: Movie,
+    _movie_loan: MovieLoan,
     original_action: EntryCreationAction,
-    _original_movie: Movie,
+    _original_movie_loan: MovieLoan,
 ) -> ExternResult<ValidateCallbackResult> {
     if action.author != original_action.author().clone() {
-        return Ok(ValidateCallbackResult::Invalid("Agents can only update their own Movie entries.".to_string()));
+        return Ok(ValidateCallbackResult::Invalid("Agents can only update their own MovieLoan records.".to_string()));
     }
     Ok(ValidateCallbackResult::Valid)
 }
@@ -116,7 +118,7 @@ pub fn validate_update_movie(
 
 #### `validate_delete_<entry>`
 
-This callback gets the original entry and its creation action too. This example prevents `Director` entries from being deleted:
+Like the previous function, this function receives the original entry and its creation action. This example prevents `Director` entries from being deleted:
 
 ```rust
 use hdi::prelude::*;
@@ -132,18 +134,18 @@ pub fn validate_delete_director(
 }
 ```
 
-And this example once again only allows people to delete their own entries:
+And this example once again only allows people to delete movie loans they created:
 
 ```rust
 use hdi::prelude::*;
 
-pub fn validate_delete_movie(
+pub fn validate_delete_movie_loan(
     action: Delete,
     original_action: EntryCreationAction,
-    _original_movie: Movie,
+    _original_movie_loan: MovieLoan,
 ) -> ExternResult<ValidateCallbackResult> {
     if action.author != original_action.author().clone() {
-        return Ok(ValidateCallbackResult::Invalid("Agents can only delete their own Movie entries.".to_string()));
+        return Ok(ValidateCallbackResult::Invalid("Agents can only delete their own MovieLoan records.".to_string()));
     }
     Ok(ValidateCallbackResult::Valid)
 }
@@ -169,9 +171,10 @@ pub fn validate_agent_joining(
         .to_owned()
         .map(|b| b.bytes().clone());
     validate_invite_code_format(membrane_proof.clone())?;
-    let invite_code_action_hash = decode_invite_code(membrane_proof.unwrap())?;
-    // Make sure the action exists; we don't care about the contents of the
-    // record.
+    let Ok(invite_code_action_hash) = decode_invite_code(membrane_proof.unwrap()) else {
+        return Ok(ValidateCallbackResult::Invalid("Couldn't decode membrane proof into invite code hash"));
+    }
+
     must_get_valid_record(invite_code_action_hash)?;
     // There are more checks we ought to do here, like make sure it's an
     // entry creation action of a type called `invite`.
@@ -185,11 +188,9 @@ pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCa
 
 fn decode_invite_code(invite_code: Vec<u8>) -> ExternResult<ActionHash> {
     // Try to convert the invite code from bytes to an action hash.
-    let invite_code = BASE64_STANDARD.decode(invite_code)
-        .map_err(|e| wasm_error!(e.to_string()))?;
-    let invite_code = std::str::from_utf8(&invite_code)
-        .map_err(|e| wasm_error!(e.to_string()))?;
-    let invite_code_action_hash = ActionHashB64::from_b64_str(invite_code)
+    let invite_code_action_hash = BASE64_STANDARD.decode(invite_code)
+        .and_then(|c| std::str::from_utf8(&c))
+        .and_then(|c| ActionHashB64::from_b64_str(c))
         .map_err(|e| wasm_error!(e.to_string()))?;
     Ok(invite_code_action_hash.into())
 }
@@ -197,7 +198,9 @@ fn decode_invite_code(invite_code: Vec<u8>) -> ExternResult<ActionHash> {
 fn validate_invite_code_format(invite_code: Option<Vec<u8>>) -> ExternResult<ValidateCallbackResult> {
     match invite_code {
         Some(invite_code) => {
-            decode_invite_code(invite_code)?;
+            let Ok(_) = decode_invite_code(invite_code) else {
+                return Ok(ValidateCallbackResult::Invalid("Couldn't decode membrane proof into invite code hash"));
+            }
             Ok(ValidateCallbackResult::Valid)
         }
         None => Ok(ValidateCallbackResult::Invalid("Please supply an invite code.".into()))

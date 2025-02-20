@@ -26,11 +26,11 @@ The nature of validation is [a topic of its own](/build/validation/). Read the [
 
 ### Define a `genesis_self_check` callback
 
-There's a moment in a cell's life, after it's been instantiated but before it's connected to its network, where it's published data that it can't fully validate. This data is their [**membrane proof**](/concepts/3_source_chain/#source-chain-your-own-data-store), an optional chunk of data that can serve as a joining code for the network. You can write validation rules for it just like any other record, allowing existing agents to reject newcomers with invalid credentials.
+As part of its initialization, a cell goes through **genesis**. This creates initial data to announce the new agent on the network and present a [**membrane proof**](/concepts/3_source_chain/#source-chain-your-own-data-store), an agent-specific joining credential.
 
-This record can't be validated, however, because it's written to the source chain before the agent joins the network, and the `validate` callback can only be run after they've joined.
+Agents rely on self-validation to protect them from publishing invalid data that gets them marked as malicious. The membrane proof record can't be self-validated, though, because it's written before the agent joins the network, and the `validate` callback can only be run after they've joined.
 
-However, if you write a `genesis_self_check` callback, it can guard against some basic user entry errors that would get an honest agent banned from a network. Read the [Genesis Self-Check Callback](/build/genesis-self-check-callback/) page for more info.
+If you write a `genesis_self_check` callback, it can guard against some basic user entry errors. Read the [Genesis Self-Check Callback](/build/genesis-self-check-callback/) page for more info.
 
 ## Coordinator zomes
 
