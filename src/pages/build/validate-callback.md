@@ -46,7 +46,7 @@ Useless as it is, there is something worth noting here. We return an `Ok` even t
 
 DHT operations are an advanced concept so we won't cover them here. (You can read about them on the [DHT operations](/build/dht-operations/) page if you need a deeper understanding for designing highly secure or performant validation.) Instead, it's more useful to think of validating an [**action**](/build/working-with-data/#entries-actions-and-records-primary-data).
 
-Fortunately, the scaffolding tool generates `validate` and [`genesis_self_check`](/build/genesis-self-check/) callbacks that call out to stub functions that you can fill in with your own validation logic.
+Fortunately, the scaffolding tool generates `validate` and [`genesis_self_check`](/build/genesis-self-check-callback/) callbacks that call out to stub functions that you can fill in with your own validation logic.
 
 Here are some useful examples that show you how to use the stub functions, imagining you've scaffolded the `Director` and `Movie` entry types from the [Entries](/build/entries/#define-an-entry-type) and the `MovieLoan` entry type from the [Identifiers](/build/identifiers/) page, along with a [global collection](/build/links-paths-and-anchors/#scaffold-a-simple-collection-anchor) for all `Director` entries.
 
@@ -155,7 +155,7 @@ You can find other stub functions in that file for links that point to the most 
 
 ### `validate_agent_joining`
 
-Use this function to validate the [**membrane proof**](/build/genesis-self-check-callback/#membrane-proof-a-per-agent-joining-code-for-a-network). Note that this is different from `genesis_self_check`, in that it's called from the `validate` function so it can access DHT data.
+Use this function to validate the [**membrane proof**](/build/genesis-self-check-callback/#membrane-proof-a-joining-code-for-a-network). Note that this is different from `genesis_self_check`, in that it's called from the `validate` function so it can access DHT data.
 
 This example implements a simple invite code for a network that people can invite their friends to join. All that's required is the presence of an 'invite' action on the DHT, whose hash becomes the invite code. (It's not a very secure pattern; please don't duplicate this in high-security hApps.) As a bonus, it shows a good pattern where the code for basic pre-validation is shared with `genesis_self_check`.
 
