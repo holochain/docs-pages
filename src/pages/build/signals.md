@@ -126,10 +126,10 @@ pub fn recv_remote_signal(payload: RemoteSignal) -> ExternResult<()> {
 ```
 
 !!! info Remote signal handlers are just zome functions
-`send_remote_signal` is sugar for a [remote call](/build/calling-zome-functions/#call-a-zome-function-from-another-agent-in-the-network) to a zome function named  `recv_remote_signal` with no capability secret<!-- TODO: link to capabilities page -->. It works differently from a usual remote call, though, in that it's 'send-and-forget' --- it won't return an error if anything fails. In practice, these two are equivalent:
+`send_remote_signal` is sugar for a [remote call](/build/calling-zome-functions/#call-a-zome-function-from-another-agent-in-the-network) to a zome function named  `recv_remote_signal` with no capability secret<!-- TODO: link to capabilities page -->. It works differently from a usual remote call, though, in that it's 'send-and-forget' --- it doesn't block execution waiting for a response, and it doesn't return an error if anything fails. Other than that, the following two are roughly equivalent.
 
 ```rust
-fn send_heartbeat(agent: AgentPubKey) -> ExternResult<()> {
+fn send_heartbeat_via_remote_signal(agent: AgentPubKey) -> ExternResult<()> {
     send_remote_signal(RemoteSignal::Heartbeat, vec![agent])
 }
 
