@@ -3,7 +3,7 @@ title: "Querying Source Chains"
 ---
 
 ::: intro
-An agent can **query their source chain** for a history of the [records](/build/working-with-data/#entries-actions-and-records-primary-data) they've written, including [**link**](/build/links/) and public and private [**entry**](/build/entries/) data, which includes **capability grants and claims**<!--TODO: link to capabilities -->. They can also query the public portion of another agent's source chain in a [**zome function**](/build/zome-functions/) or [**`validate` callback**](/build/callbacks-and-lifecycle-hooks/#define-a-validate-callback).
+An agent can **query their source chain** for a history of the [records](/build/working-with-data/#entries-actions-and-records-primary-data) they've written, including [**link**](/build/links-paths-and-anchors/) and public and private [**entry**](/build/entries/) data, which includes **capability grants and claims**<!--TODO: link to capabilities -->. They can also query the public portion of another agent's source chain in a [**zome function**](/build/zome-functions/) or [**`validate` callback**](/build/callbacks-and-lifecycle-hooks/#define-a-validate-callback).
 :::
 
 An agent's source chain is their record of local state changes. It's a multi-purpose data structure, and can be interpreted in different ways, including as:
@@ -211,7 +211,7 @@ pub fn validate_update_movie(
 * [`holochain_zome_types::query::ChainQueryFilterRange`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ChainQueryFilterRange.html)
 * [`holochain_integrity_types::action::EntryType`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.EntryType.html)
 * [`holochain_integrity_types::action::ActionType`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionType.html)
-* [`hdk::chain::query`]([`query`](https://docs.rs/hdk/latest/hdk/chain/fn.query.html))
+* [`hdk::chain::query`](https://docs.rs/hdk/latest/hdk/chain/fn.query.html)
 * [`holochain_integrity_types::record::Record`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)
 * [`hdk::chain::get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html)
 * [`holochain_zome_types::query::ChainStatus`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ChainStatus.html)
