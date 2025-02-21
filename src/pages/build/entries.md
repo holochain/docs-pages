@@ -119,6 +119,8 @@ let create_action_hash = create_entry(
 )?;
 ```
 
+Note that we're not validating the data before we write it. That's because we write data within a [zome function](/build/zome-functions/) or [callback](/build/callbacks-and-lifecycle-hooks/), and Holochain passes the data through your [`validate` callback](/build/validate-callback/) before storing it. Any validation error is returned to the caller of the function.
+
 ### Create with relaxed chain top ordering
 
 If your entry doesn't have any dependencies on other data, you can use [relaxed chain top ordering](/build/zome-functions/#relaxed-chain-top-ordering) to prevent possible transaction rollbacks (we'll let that page explain when this could happen and how to design around it).
