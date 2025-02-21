@@ -3,12 +3,12 @@ title: "Capabilities"
 ---
 
 ::: intro
-Access to zome functions is secured by a variant of **capability-based security** that adds the ability to restrict access to a given set of callers, identified and authenticated by their public/private key pair.
+Access to zome functions is secured by **capability-based security**. Holochain extends this concept by adding the ability to restrict access to a given set of callers.
 :::
 
 ## Capability-based security, updated for agent-centric applications
 
-Traditional [capability-based security](https://en.wikipedia.org/wiki/Capability-based_security) works on a simple concept: the owner of a resource grants access to other processes by giving out a handle to the resource rather than direct access to it. (Usually in a client/server system, the handle is an authorization secret such as an [OAuth2 token](https://auth0.com/intro-to-iam/what-is-oauth-2).) Thus they can control the way the resource is used without needing to deal with access control lists or other access control methods. When the owner no longer wants the process to access the resource, they destroy the handle.
+Traditional [capability-based security](https://en.wikipedia.org/wiki/Capability-based_security) works on a simple concept: the owner of a resource grants access to other processes by giving out a handle to the resource rather than direct access to it. (Usually in a client/server system, the handle is an authorization secret such as an [OAuth2 token](https://auth0.com/intro-to-iam/what-is-oauth-2).) Thus they can control the way the resource is used without needing to deal with access control lists or other access control methods. When the owner no longer wants the process to access the resource, they invalidate the handle.
 
 Holochain extends this concept for zome calls, first by requiring that the payload of every call be signed by a private key. Let's take a look at the [`CapAccess` enum](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.CapAccess.html) which defines the kinds of **capability grant** you can use in your hApp:
 
@@ -31,9 +31,9 @@ A cell's zome functions aren't accessible to anyone except the author until the 
 
 ### Unrestricted
 
-In a hApp where agents can call each other's zome functions, <!--TODO: expand this to other cells on agent's device when `UseExisting` provisioning strategy is implemented-->it's usually necessary to create an unrestricted grant for at least one zome function that allows an agent to ask another agent for more capabilities.
+A hApp might want certain zome functions on an agent's device to be accessible to any caller without a secret. This sort of grant often gets set up in the [`init` callback](/build/callbacks-and-lifecycle-hooks/#define-an-init-callback) so it's ready to go when agents need it.
 
-This sort of grant often gets set up in the [`init` callback](/build/callbacks-and-lifecycle-hooks/#define-an-init-callback) so it's ready to go when agents need it. This example grants unrestricted access to the [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback) when the cell is initialized:
+The classic example is the [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), which needs an unrestricted capability in order for the corresponding [`send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html) host function to succeed. This often happens when the cell is initialized:
 
 ```rust
 use hdk::prelude::*;
@@ -43,7 +43,7 @@ pub fn init() -> ExternResult<InitCallbackResult> {
     let mut functions = BTreeSet::new();
     functions.insert((zome_info()?.name, "recv_remote_signal".into()));
     create_cap_grant(CapGrantEntry {
-        tag: "".into(),
+        tag: "remote_signals".into(),
         access: CapAccess::Unrestricted,
         functions: GrantedFunctions::Listed(functions),
     })?;
@@ -51,9 +51,31 @@ pub fn init() -> ExternResult<InitCallbackResult> {
 }
 ```
 
+Another use case is the [division of responsibilities pattern](/build/dnas/#dividing-responsibilities), in which an agent assumes special responsibilities based on their access to resources outside the DHT. Rather than doing the work in the `init` callback, this example implements a special function which opens up access to a zome function called [`handle_search_query`, defined on the previously linked page](/build/dnas/#call-from-one-cell-to-another). This function would be called from the UI, possibly in response to a checkbox labelled "I want to become a search provider".
+
+```rust
+use hdk::prelude::*;
+
+#[hdk_extern]
+pub fn become_search_provider() -> ExternResult<()> {
+    let mut functions = BTreeSet::new();
+    functions.insert((zome_info()?.name, "handle_search_query".into()));
+    create_cap_grant(CapGrantEntry {
+        tag: "search_provider".into(),
+        access: CapAccess::Unrestricted,
+        functions: GrantedFunctions::Listed(functions),
+    })?;
+    // The agent would probably also want to advertise their services somehow,
+    // possibly by linking from a `search_providers` anchor to their agent ID.
+    // See https://developer.holochain.org/build/links-paths-and-anchors/ for
+    // more info.
+    Ok(())
+}
+```
+
 ### Transferrable
 
-Sometimes it doesn't matter who's calling a zome function, as long as they can supply the right secret. This is useful when there's an open number of bots, system services, or other agents that should be authorized to call the function.
+Sometimes you want to selectively grant access to a function but don't want to restrict the number of agents that can exercise the capability. This is useful when a person has multiple devices (and hence multiple agent IDs), or when there's a bot or background process whose signing key at call time is rotated on an unknown schedule.
 
 This example creates a capability grant for some zome functions that create, update, or delete the [`Movie` and `Director` entries defined in the Entries page](/build/entries/).
 
@@ -220,7 +242,13 @@ pub fn create_movie_delegate(input: CreateMovieDelegateInput) -> ExternResult<Ac
 
 ## Putting it all together
 
-There are a lot of parts involved in creating a functional capability system. Let's take a look at an example that builds on the previous examples to create a system that allows agents to request the ability to ["ghost write"](https://en.wikipedia.org/wiki/Ghostwriter) `Movie` and `Director` entries on behalf of other agents, who can then review and approve the request. This example has a lot of comments to explain what happens at each step; Alice is the ghost writer and Bob is the agent Alice wants to write for.
+There are a lot of parts involved in creating a functional capability system. You need to define a security model for your DNA's functions, then set up a system to generate and communicate capabilities.
+
+Let's take a look at a somewhat complex example. It builds on the previous examples to create a system that lets an agent request the ability to ["ghost write"](https://en.wikipedia.org/wiki/Ghostwriter) `Movie` and `Director` entries on behalf of another agent, and to let that other agent review and approve requests and send the generated capability to the requestor.
+
+This system uses remote calls and signals to to handle the request/review/approval process, but you could do it other ways --- all that's needed is a way to generate a capability grant (optionally including the public keys of the agents who may exercise it) and a channel to communicate the secret.
+
+This example has a lot of comments to explain what happens at each step. In the comments, Alice is the hopeful ghost writer and Bob is the agent Alice wants to write for.
 
 ```rust
 use hdk::prelude::*;
@@ -334,7 +362,8 @@ pub fn approve_delegate_author_request(input: DelegateAuthorRequest) -> ExternRe
     // out-of-band, let's send it to her directly. In a more robust app, we'd
     // want to check for failed delivery and set up a retry handler.
     send_remote_signal(
-        RemoteSignal::DelegateAuthorApproval { secret }
+        RemoteSignal::DelegateAuthorApproval { secret },
+        vec![requestor]
     )?;
     Ok(())
 }
