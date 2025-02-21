@@ -37,56 +37,6 @@ pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
 }
 ```
 
-This example shows a 'heartbeat' feature, where peers can periodically ping each other to let them know they're still online.
-
-```rust
-use hdk::prelude::*;
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(tag = "type", content = "value", rename_all = "snake_case")]
-pub enum LocalSignal {
-    Heartbeat(AgentPubKey),
-}
-
-#[hdk_extern]
-pub fn init() -> ExternResult<InitCallbackResult> {
-    // Let all agents send heartbeat messages to each other.
-    let mut fns = BTreeSet::new();
-    fns.insert((zome_info()?.name, "receive_heartbeat".into()));
-    create_cap_grant(CapGrantEntry {
-        tag: "heartbeat".into(),
-        access: CapAccess::Unrestricted,
-        functions: GrantedFunctions::Listed(fns),
-    })?;
-    Ok(InitCallbackResult::Pass)
-}
-
-// An agent's UI calls this function periodically to let others know they're
-// online.
-#[hdk_extern]
-pub fn send_heartbeat(receivers: Vec<AgentPubKey>) -> ExternResult<()> {
-    for agent in receivers {
-        call_remote(
-            agent,
-            zome_info()?.name,
-            "receive_heartbeat".into(),
-            None,
-            (),
-        )?;
-    }
-    Ok(())
-}
-
-#[hdk_extern]
-pub fn receive_heartbeat() -> ExternResult<()> {
-    // Find out who called our heartbeat function.
-    let caller = call_info()?.provenance;
-    // Tell the UI that the caller is still online.
-    emit_signal(LocalSignal::Heartbeat(caller))?;
-    Ok(())
-}
-```
-
 ### Listen for a signal
 
 The UI subscribes to signals with the [`AppWebsocket.prototype.on`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.on.md) method. The signal handler should expect signals from any coordinator zome in any cell in the agent's hApp instance, and can discriminate between them by cell ID and zome name.
@@ -97,7 +47,6 @@ import { SignalType, encodeHashToBase64 } from "@holochain/client";
 
 // Duplicate your zome's signal types in the UI.
 type MyZomeSignal =
-    | { type: "heartbeat"; value: AgentPubKey }
     | { type: "action_written"; value: ActionHash };
 
 // Use the connection establishment function from
@@ -117,9 +66,6 @@ getHolochainClient().then(client => {
 
         const payload: MyZomeSignal = appSignal.payload;
         switch (appSignal.payload.type) {
-            case "heartbeat":
-                console.log(`agent ${encodeHashToBase64(payload.value)} is still online`);
-                break;
             case "action_written":
                 console.log(`action hash ${encodeHashToBase64(payload.value)} written`);
         }
@@ -131,7 +77,7 @@ getHolochainClient().then(client => {
 
 Agents can also send remote signals to each other using the [`send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html) host function and a [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), which takes a single argument of any type and returns `ExternResult<()>`.
 
-This example rewrites and expands the `heartbeat` function above to use remote signals.
+This example implements a 'heartbeat' feature, where peers can periodically ping each other to let them know they're still online.
 
 ```rust
 use hdk::prelude::*;
@@ -171,6 +117,8 @@ pub fn send_heartbeat(receivers: Vec<AgentPubKey>) -> ExternResult<()> {
 pub fn recv_remote_signal(payload: RemoteSignal) -> ExternResult<()> {
     if let RemoteSignal::Heartbeat = payload {
         let caller = call_info()?.provenance;
+        // On the receiving end we forward the remote signal to the front end
+        // by emitting a local signal.
         emit_signal(LocalSignal::Heartbeat(caller))?;
     }
     Ok(())
