@@ -89,10 +89,10 @@ pub fn validate_create_movie(
     // `UnresolvedDependencies` outcome for you.
     let director_entry =  must_get_entry(movie.director_hash)?;
     // Try to turn it into an entry of the right type.
-    let _ = crate::Director::try_from(director_entry) else {
-        return Ok(ValidateCallbackResult::Invalid("Referenced entry was not actually a Director entry"));
-    };
-    Ok(ValidateCallbackResult::Valid)
+    match crate::Director::try_from(director_entry) {
+        Ok(_) => Ok(ValidateCallbackResult::Valid),
+        Err(_) => Ok(ValidateCallbackResult::Invalid("Referenced entry was not actually a Director entry".into())),
+    }
 }
 ```
 
@@ -172,8 +172,8 @@ pub fn validate_agent_joining(
         .map(|b| b.bytes().clone());
     validate_invite_code_format(membrane_proof.clone())?;
     let Ok(invite_code_action_hash) = decode_invite_code(membrane_proof.unwrap()) else {
-        return Ok(ValidateCallbackResult::Invalid("Couldn't decode membrane proof into invite code hash"));
-    }
+        return Ok(ValidateCallbackResult::Invalid("Couldn't decode membrane proof into invite code hash".into()));
+    };
 
     must_get_valid_record(invite_code_action_hash)?;
     // There are more checks we ought to do here, like make sure it's an
@@ -183,27 +183,36 @@ pub fn validate_agent_joining(
 
 #[hdk_extern]
 pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCallbackResult> {
-    validate_invite_code_format(data.membrane_proof.map(|b| b.bytes().to_owned()))
-}
+    let Some(membrane_proof) = data.membrane_proof else {
+        return Ok(ValidateCallbackResult::Invalid("This network needs a membrane proof to join.".into()));
+    };
 
-fn decode_invite_code(invite_code: Vec<u8>) -> ExternResult<ActionHash> {
-    // Try to convert the invite code from bytes to an action hash.
-    let invite_code_action_hash = BASE64_STANDARD.decode(invite_code)
-        .and_then(|c| std::str::from_utf8(&c))
-        .and_then(|c| ActionHashB64::from_b64_str(c))
-        .map_err(|e| wasm_error!(e.to_string()))?;
-    Ok(invite_code_action_hash.into())
-}
+    // Accept a string, because this is something a user can paste into a form
+    // field.
+    let maybe_signature: Result<Signature, _> = std::str::from_utf8(membrane_proof.bytes())
+            .map_err(|_| "Couldn't parse membrane proof into string")
+        // Expect it to be Base64-encoded; convert it into raw bytes.
+        .and_then(|s| BASE64_STANDARD.decode(s)
+            .map_err(|_| "Couldn't Base64-decode membrane proof"))
+        .and_then(|b| b.try_into()
+            .map_err(|_| "Couldn't deserialize membrane proof into signature"));
 
-fn validate_invite_code_format(invite_code: Option<Vec<u8>>) -> ExternResult<ValidateCallbackResult> {
-    match invite_code {
-        Some(invite_code) => {
-            let Ok(_) = decode_invite_code(invite_code) else {
-                return Ok(ValidateCallbackResult::Invalid("Couldn't decode membrane proof into invite code hash"));
+    match maybe_signature {
+        Err(e) => Ok(ValidateCallbackResult::Invalid(format!("Couldn't decode membrane proof into joining certificate because '{}'", e).into())),
+        Ok(signature) => {
+            // Check the certificate against the signing authority.
+            let dna_props = DnaProperties::try_from_dna_properties()?;
+            let cert_is_valid = verify_signature(
+                dna_props.authorized_joining_certificate_issuer,
+                signature,
+                data.agent_key
+            )?;
+            if cert_is_valid {
+                return Ok(ValidateCallbackResult::Valid);
+            } else {
+                return Ok(ValidateCallbackResult::Invalid("Joining certificate wasn't valid. Please try entering it again or asking the certificate issuer for a new one.".into()));
             }
-            Ok(ValidateCallbackResult::Valid)
         }
-        None => Ok(ValidateCallbackResult::Invalid("Please supply an invite code.".into()))
     }
 }
 ```
