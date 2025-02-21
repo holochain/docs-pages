@@ -35,7 +35,7 @@ Here are all the DHT operations produced for all the actions, along with their c
         * Effect: Append the action to a replica of the author's source chain.
     * [`StoreRecord`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreRecord)
         * Basis address: action hash
-        * Contents: action (and optionally entry, if applicable) <!--TODO: Sysvalidation? -->
+        * Contents: action (and optionally entry, if applicable) <!--TODO: system validation? -->
         * Effect: Store the action, along with any entry data.
 * [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Create)
     * [`StoreEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreEntry)
@@ -47,20 +47,20 @@ Here are all the DHT operations produced for all the actions, along with their c
     * `StoreEntry` (see above)
     * [`RegisterUpdate`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterUpdate)
         * Basis addresses: entry and action hashes of the _old_ entry being updated
-        * Contents: action and entry <!--TODO: Sysvalidation? -->
+        * Contents: action and entry <!--TODO: system validation? -->
         * Effect: Mark an entry creation action as being replaced by a new one, pointing the the entry and action that replace it. **An entry and its creation action can have multiple actions updating them.**
 * [`Delete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Delete)
     * [`RegisterDelete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterDelete)
         * Basis addresses: entry and action hashes of the entry being deleted
-        * Contents: action <!--TODO: Sysvalidation? -->
+        * Contents: action <!--TODO: system validation? -->
         * Effect: Mark an entry creation action as deleted, without removing the actual data. Because an entry can be created by multiple creation actions, the entry itself isn't marked as deleted until a `RegisterDelete` has been integrated for _all_ of its creation actions.
 * [`CreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.CreateLink)
     * [`RegisterCreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterCreateLink)
         * Basis address: link's [base address](/build/links-paths-and-anchors/#define-a-link-type)
-        * Contents: action <!--TODO: Sysvalidation? -->
+        * Contents: action <!--TODO: system validation? -->
         * Effect: Add a link to the list of links pointing from the base to other locations
 * [`DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.DeleteLink)
     * [`RegisterDeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterCreateLink)
         * Basis addresses: old link's [base address](/build/links-paths-and-anchors/#define-a-link-type) and action hash
-        * Contents: action <!--TODO: Sysvalidation? -->
+        * Contents: action <!--TODO: system validation? -->
         * Effect: Mark a link as deleted, without removing the actual data.
