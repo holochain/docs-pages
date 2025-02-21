@@ -221,6 +221,19 @@ let movie_to_loan_action_hash = create_link(
 
 Read more about [entries](/build/entries/) and [links](/build/links-paths-and-anchors/).
 
+### In the front end
+
+The [JavaScript client](https://github.com/holochain/holochain-client-js/) defines an identifier as a [`HoloHash`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.holohash.md), with aliases for each identifier type that take their names from the Rust types. Underneath, however, they're all just aliases of [`Uint8Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array).
+
+When this becomes hard to work with, such as when you need to receive an identifier as user input, we recommend using the client's `decodeHashFromBase64` and `encodeHashToBase64` functions, which convert between `Uint8Array` and a [URL-encoded Base64 string](https://datatracker.ietf.org/doc/html/rfc4648#section-5).
+
+```typescript
+import type { EntryHash } from "@holochain/client";
+import { decodeHashFromBase64 } from "@holochain/client";
+
+const sergioLeoneEntryHash: EntryHash = decodeHashFromBase64("uhCEkINI4cBkNicMiyEvxrUXKy71OIGWXqXJagdCunS2SlmaipQ1j");
+```
+
 ## The unpredictability of action hashes
 
 There are a few important things to know about action hashes:
@@ -234,8 +247,6 @@ Because of these three things, it's unsafe to depend on the value or even existe
 * You may safely use the hash of an action you've just written as data in another action in the same function (e.g., in a link or an entry that contains the hash in a field), as long as you're not using relaxed chain top ordering.
 * The same is also true of action hashes in your function's return value.
 * Don't communicate the action hash with the front end, another cell, or another peer on the network via a remote function call or [signal](/concepts/9_signals/) _from within the same function that writes it_, in case the write fails. Instead, do your communicating in a follow-up step. The easiest way to do this is by [implementing a callback called `post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) which receives a vector of all the actions that the function wrote.
-
-<!-- TODO: write about the front end -->
 
 ## Reference
 
