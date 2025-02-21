@@ -9,6 +9,7 @@ title: Working With Data
     * [Identifiers](/build/identifiers/) --- understanding and using addresses of different types
     * [Entries](/build/entries/) --- creating, reading, updating, and deleting
     * [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating and deleting
+    * [Querying Source Chains](/build/querying-source-chains/) --- getting data from an agent's history
 :::
 
 ::: intro
