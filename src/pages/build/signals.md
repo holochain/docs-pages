@@ -41,6 +41,8 @@ pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
 
 The UI subscribes to signals with the [`AppWebsocket.prototype.on`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.on.md) method. The signal handler should expect signals from any coordinator zome in any cell in the agent's hApp instance, and can discriminate between them by cell ID and zome name.
 
+<!-- FIXME(0.5): does SignalType still exist? -->
+
 ```typescript
 import type { Signal, AppSignal, AgentPubKey } from "@holochain/client";
 import { SignalType, encodeHashToBase64 } from "@holochain/client";
