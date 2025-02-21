@@ -54,7 +54,7 @@ pub fn init() -> ExternResult<InitCallbackResult> {
     let mut fns = BTreeSet::new();
     fns.insert((zome_info()?.name, "receive_heartbeat".into()));
     create_cap_grant(CapGrantEntry {
-        tag: "".into(),
+        tag: "heartbeat".into(),
         access: CapAccess::Unrestricted,
         functions: GrantedFunctions::Listed(fns),
     })?;
@@ -143,7 +143,7 @@ pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
     // the network -- see the note after this example.
     fns.insert((zome_info()?.name, "recv_remote_signal".into()));
     create_cap_grant(CapGrantEntry {
-        tag: "".into(),
+        tag: "remote signals".into(),
         access: CapAccess::Unrestricted,
         functions: GrantedFunctions::Listed(fns),
     })?;
