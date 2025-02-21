@@ -126,93 +126,15 @@ Note that this can create "hot spots" where some agents have a heavier data stor
 
 !!!
 
-This `init` callback also does something useful: it grants all peers in the network permission to send messages to an agent's [remote signal receiver callback](#define-a-recv-remote-signal-callback). (Note that this can create a risk of spamming.) {#init-grant-unrestricted-access-to-recv-remote-signal}
-
-```rust
-use hdk::prelude::*;
-
-#[hdk_extern]
-pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
-    let mut fns = BTreeSet::new();
-    fns.insert((zome_info()?.name, "recv_remote_signal".into()));
-    create_cap_grant(CapGrantEntry {
-        tag: "".into(),
-        access: CapAccess::Unrestricted,
-        functions: GrantedFunctions::Listed(fns),
-    })?;
-
-    Ok(InitCallbackResult::Pass)
-}
-```
+The `init` callback is often used to set up initial **capabilities**<!-- TODO: link-->, or access privileges to zome functions. You can see an example on the [Signals page](/build/signals/#remote-signals)
 
 ### Define a `recv_remote_signal` callback
 
-<!-- TODO: move this to the signals page after it's written -->
-
 Agents in a network can send messages to each other via [remote signals](/concepts/9_signals/#remote-signals). In order to handle these signals, your coordinator zome needs to define a `recv_remote_signal` callback. Remote signals get routed from the emitting coordinator zome on the sender's machine to a coordinator with the same name on the receiver's machine.
 
-`recv_remote_signal` takes a single argument of any type you like --- if your coordinator zome deals with multiple message types, consider creating an enum for all of them. It must return an empty `ExternResult<()>`, as this callback is not called as a result of direct interaction from the local agent and has nowhere to pass a return value.
+`recv_remote_signal` takes a single argument of any type you like. It must return an empty `ExternResult<()>`, as this callback is not called as a result of direct interaction from the local agent and has nowhere to pass a return value.
 
-This zome function and remote signal receiver callback implement a "heartbeat" to let everyone keep track of who's currently online. It assumes that you'll combine the two `init` callback examples in the previous section, which set up the necessary links and permissions to make this work.
-
-```rust
-use foo_integrity::LinkTypes;
-use hdk::prelude::*;
-
-// We're creating this type for both remote signals to other peers and local
-// signals to the UI. Your app might have different kinds of signals for each,
-// so you're free to define separate types for local vs remote.
-// We recommend making your signal type an enum, so your hApp can define
-// different kinds of signals.
-#[derive(Serialize, Deserialize, Debug)]
-// It's helpful to match the way Holochain serializes its own enums.
-#[serde(tag = "type", content = "value", rename_all = "snake_case")]
-enum Signal {
-    Heartbeat(AgentPubKey),
-}
-
-#[hdk_extern]
-pub fn recv_remote_signal(payload: Signal) -> ExternResult<()> {
-    if let Signal::Heartbeat(agent_id) = payload {
-        // Pass the heartbeat along to my UI so it can update the other
-        // peer's online status.
-        emit_signal(Signal::Heartbeat(agent_id))?;
-    }
-    Ok(())
-}
-
-// My UI calls this function at regular intervals to let other participants
-// know I'm online.
-#[hdk_extern]
-pub fn heartbeat(_: ()) -> ExternResult<()> {
-    // Get all the registered participants from the DNA hash.
-    let participant_registration_anchor_hash = get_participant_registration_anchor_hash()?;
-    let other_participants_keys = get_links(
-        GetLinksInputBuilder::try_new(
-            participant_registration_anchor_hash,
-            LinkTypes::ParticipantRegistration
-        )?
-            .get_options(GetStrategy::Network)
-            .build()
-    )?
-        .iter()
-        .filter_map(|l| l.target.clone().into_agent_pub_key())
-        .collect();
-
-    // Now send a heartbeat message to each of them.
-    // Holochain will send them in parallel and won't return an error for any
-    // failure.
-    let AgentInfo { agent_latest_pubkey: my_pubkey, .. } = agent_info()?;
-    send_remote_signal(
-        Signal::Heartbeat(my_pubkey),
-        other_participants_keys
-    )
-}
-```
-
-!!! info Remote signals and privileges
-If you grant unrestricted access to your remote signal callback like in the [previous example](#init-grant-unrestricted-access-to-recv-remote-signal), take care that it does as little as possible, to avoid people abusing it. Permissions and privileges are another topic which we'll talk about soon.<!-- TODO: link when the capabilities page is written -->
-!!!
+See the [Signals](/build/signals/#remote-signals) page for an example implementation.
 
 ### Define a `post_commit` callback
 
@@ -321,3 +243,4 @@ pub fn update_movie(input: UpdateMovieInput) -> ExternResult<ActionHash> {
 * [Core Concepts: Lifecycle Events](/concepts/11_lifecycle_events/)
 * [Core Concepts: Signals](/concepts/9_signals/)
 * [Build Guide: Identifiers](/build/identifiers/)
+* [Build Guide: Signals](/build/signals/)
