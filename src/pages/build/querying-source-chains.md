@@ -105,7 +105,7 @@ pub fn get_all_movies_authored_by_other_agent(agent: AgentPubKey) -> ExternResul
         .iter()
         .map(|a| {
             let maybe_record = get(a.1, GetOptions::network())?;
-            // Because some records may be unretrievable if no agent is
+            // Because some records may be irretrievable if no agent is
             // currently serving them, remember the action hash so we can try
             // retrieving them later.
             Ok((a.1, maybe_record))
@@ -141,7 +141,7 @@ pub fn check_status_of_peer_source_chain(agent: AgentPubKey) -> ExternResult<Cha
 * `Empty`: No source chain activity found for the agent.
 * <code>Valid(<a href="https://docs.rs/hdk/latest/hdk/prelude/struct.ChainHead.html">ChainHead</a>)</code>: The source chain is valid, with its newest action's sequence index and hash given.
 * <code>Forked(<a href="https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.ChainFork.html">ChainFork</a>)</code>: The source chain has been [forked](/resources/glossary/#fork-source-chain), with the sequence index and conflicting action hashes of the fork point given.
-* <code>Inalid(<a href="https://docs.rs/hdk/latest/hdk/prelude/struct.ChainHead.html">ChainHead</a>)</code>: An invalid record was found at the given sequence index and action hash.
+* <code>Invalid(<a href="https://docs.rs/hdk/latest/hdk/prelude/struct.ChainHead.html">ChainHead</a>)</code>: An invalid record was found at the given sequence index and action hash.
 
 ## Query another agent's source chain for validation
 
