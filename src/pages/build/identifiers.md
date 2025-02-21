@@ -200,7 +200,7 @@ use hdi::prelude::*;
 pub struct MovieLoan {
     pub movie_hash: EntryHash,
     pub lent_to: AgentPubKey,
-    pub loan_duration_seconds: i64,
+    pub loan_duration_seconds: u64,
 }
 
 // Remember to create a variant in your `EntryTypes` enum for this new type!
