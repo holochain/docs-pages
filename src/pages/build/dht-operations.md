@@ -13,17 +13,21 @@ An agent receives **DHT operations**, which are requests for them to transform [
 
 ## What is a DHT operation?
 
-When an agent writes an action, its data gets added to the shared database by being transformed into DHT operations which are sent to various peers in the network. Each operation represents a request to add the action data in a
+When an agent writes an [action](/build/working-with-data/#entries-actions-and-records-primary-data), its data gets added to the shared database by being transformed into multiple DHT operations which the author sends to various [**authorities**](/resources/glossary/#validation-authority) --- agents in the network who have taken responsibility to validate, store, and serve all data that belongs to a range of [**basis addresses**](/resources/glossary/#basis-address). Each operation represents a request to add the action data to the primary content or metadata stored at that address.
 
 ## Choosing who should validate what
 
-In practice, it's usually okay to have all groups of authorities validate all the data in an action. Every DHT operation contains, or at least points to, all of the data in an action. However, if your validation logic is computationally costly, you may want to choose different validation tasks for different operations, because _DHT agents don't choose what types of operation they validate_. They simply assume authority for a range of basis addresses, and are expected to process whatever operations they receive for addresses in that range, so it's good to be respectful of their compute resources.
+All the DHT operations for an action get stored at different basis addresses, and you're free to write different validation logic for each of them.
 
-As an example, you may choose to split up validation between `StoreRecord` and `StoreEntry` operations for a given entry creation action; the former could check the agent's write privileges while the latter could check the structure of the entry data or the existence of the data it references.
+Writing good validation code means considering what effect an operation has on the DHT, and how it impacts those who end up validating it. DHT agents don't choose what types of operation they validate --- they simply [assume authority for a range of basis addresses](/concepts/4_dht/), and are expected to process whatever operations they receive.
+
+It's usually okay to let the scaffolding tool decide how to break up the work. It contains sensible defaults that balances network integrity with performance. However, if your validation logic is computationally costly, or if you have higher security needs, you may want to write different validation logic for different operations.
+
+As an example, you may choose to reduce compute demands by splitting up validation between `StoreRecord` and `StoreEntry` operations for a given entry creation action; the former could check the agent's write privileges while the latter could check the structure of the entry data or the existence of the data it references.
+
+Or you may choose to increase data integrity by having authorities treat every operation the same and execute all the logic necessary to validate the action.
 
 ## How actions translate to DHT operations
-
-An [action](/build/working-with-data/#entries-actions-and-records-primary-data) on an agent's [source chain](/concepts/3_source_chain/) yields multiple DHT operations, each of which goes to an [**authority**](/resources/glossary/#validation-authority) for that operation's [**basis address**](/resources/glossary/#basis-address) (a DHT address that the authority is responsible for).
 
 Here are all the DHT operations produced for all the actions, along with their contents and the effect of applying them after validation.
 
