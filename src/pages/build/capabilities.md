@@ -30,7 +30,7 @@ A cell's zome functions aren't accessible to anyone except the author until the 
 
 A hApp might want certain zome functions on an agent's device to be accessible to any caller without a secret. This sort of grant often gets set up in the [`init` callback](/build/callbacks-and-lifecycle-hooks/#define-an-init-callback) so it's ready to go when agents need it.
 
-The classic example is the [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), which needs an unrestricted capability in order for the corresponding [`send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html) host function to succeed. This often happens when the cell is initialized:
+The classic example is the [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), which needs an unrestricted capability in order for the corresponding [`send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html) host function to succeed.
 
 ```rust
 use hdk::prelude::*;
