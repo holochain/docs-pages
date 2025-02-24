@@ -115,7 +115,7 @@ pub fn approve_delegate_author_request(input: DelegateAuthorRequest) -> ExternRe
     functions.insert((zome_info()?.name, "create_director".into()));
 
     let cap_grant = CapGrantEntry {
-        tag: format!("delegate_author_agent_{}_reason_{}", input.requestor, input.reason).into(),
+        tag: format!("delegate_author_reason_{}", input.reason).into(),
         access: CapAccess::Assigned {
             secret,
             assignees,
