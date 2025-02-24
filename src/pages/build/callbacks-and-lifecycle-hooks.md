@@ -21,44 +21,16 @@ The `validate` callback is called at two times:
 1. When an agent tries to author an [action](/build/working-with-data/#entries-actions-and-records-primary-data), and
 2. When an agent receives a [DHT operation](/concepts/4_dht/#a-cloud-of-witnesses) to store and serve as part of the shared database.
 
-The nature of validation is out of scope for this page (we'll write a page on it soon), but here's a very basic example of a validation callback that approves everything: <!-- TODO: remove this example when the validation page is written -->
-
-```rust
-use hdi::prelude::*;
-
-#[hdk_extern]
-pub fn validate(_: Op) -> ExternResult<ValidateCallbackResult> {
-    Ok(ValidateCallbackResult::Valid)
-}
-```
+The nature of validation is [a topic of its own](/build/validation/). Read the [`validate` callback page](/build/validate-callback/) to see examples.
 
 
 ### Define a `genesis_self_check` callback
 
-If your network needs to control who can and can't join it, you can write your DNA to require a [**membrane proof**](/resources/glossary/#membrane-proof), a small chunk of bytes that the app receives from the user at installation time and stores on the source chain. You can then write validation rules for this record just like any other record.
+As part of its initialization, a cell goes through **genesis**. This creates initial data to announce the new agent on the network and present a [**membrane proof**](/concepts/3_source_chain/#source-chain-your-own-data-store), an agent-specific joining credential.
 
-There's one challenge with this: validation requires access to the network (a membrane proof may reference DHT data that contains a list of public keys authorized to grant access to newcomers, for instance), but the membrane proof is written at [**genesis**](/resources/glossary/#genesis-records) time when the cell doesn't have network access yet. So Holochain can't do the usual self-validation before publishing it.
+Agents rely on self-validation to protect them from publishing invalid data that gets them marked as malicious. The membrane proof record can't be self-validated, though, because it's written before the agent joins the network, and the `validate` callback can only be run after they've joined.
 
-This means someone could accidentally type or paste a malformed membrane proof and be rejected from the network. To guard against this, you can define a `genesis_self_check` function that runs at genesis time and checks the content of the membrane proof before it's written.
-
-`genesis_self_check` must take a single argument of type [`GenesisSelfCheckData`](https://docs.rs/hdi/latest/hdi/prelude/type.GenesisSelfCheckData.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
-
-Here's an example that checks that the membrane proof exists and is the right length: <!-- TODO: move this to the validation page too -->
-
-```rust
-use hdi::prelude::*;
-
-#[hdk_extern]
-pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCallbackResult> {
-    if let Some(membrane_proof) = data.membrane_proof {
-        if membrane_proof.bytes().len() == 32 {
-            return Ok(ValidateCallbackResult::Valid);
-        }
-        return Ok(ValidateCallbackResult::Invalid("Membrane proof is not the right length. Please check it and enter it again.".into()));
-    }
-    Ok(ValidateCallbackResult::Invalid("This network needs a membrane proof to join.".into()))
-}
-```
+If you write a `genesis_self_check` callback, it can guard against some basic user entry errors. Read the [Genesis Self-Check Callback](/build/genesis-self-check-callback/) page for more info.
 
 ## Coordinator zomes
 

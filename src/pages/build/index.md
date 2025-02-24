@@ -42,7 +42,7 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating relationships between data
 :::
 
-## Connecting everything together
+## Connecting the parts
 
 ::: topic-list
 * [Overview](/build/connecting-the-parts/) --- zome calls, capabilities, and signals
@@ -50,3 +50,10 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Calling zome functions](/build/calling-zome-functions/) --- examples for front ends, cell-to-cell, and agent-to-agent
 * Capabilities (coming soon) --- how to manage access to a cell's zome functions
 * Working with signals (coming soon) --- receiving notifications from cells
+
+## Validation
+
+::: topic-list
+* [Overview](/build/validation/) --- The purpose of validation in a hApp, abilities, requirements and constraints, determinism
+    * [Genesis Self-Check Callback](/build/genesis-self-check-callback/) --- Purpose and use cases
+    * [Validate Callback](/build/validate-callback/) --- Writing validation routines for various needs
