@@ -95,7 +95,7 @@ When we're talking about Holochain, synonymous with one or more [DNAs](#dna) for
 
 #### Basis address
 
-The [DHT address](#dht-address) to which an [operation](#dht-operation) applies. [Validation authorities](#validation-authority) who claim responsibility for this address receive, validate, and apply operations that produce [data](#dht-data) and [metadata](#metadata) attached to this base, which is then made available to [agents](#agent) who request it. This base consequently serves as a locator that allows an agent to know which authorities to request the data from, as each base maps to a DHT address, which is handled by a number of authorities who publish their coverage of the base via their [storage arc](#storage-arc), and whose [agent addresses](#agent-address) can be mapped to their [transport addresses](#transport-address) via a [peer table](#peer-table) lookup.
+The [DHT address](#dht-address) to which an [operation](#dht-operation) applies. [Validation authorities](#validation-authority) who claim responsibility for this address receive, validate, and apply operations that produce [data](#dht-data) and [metadata](#metadata) attached to this address, which is then made available to [agents](#agent) who request it. This address consequently serves as a locator that allows an agent to know which authorities to request the data from, because it is claimed by a number of authorities who publish their coverage of the address via their [storage arc](#storage-arc), and whose [agent addresses](#agent-address) can be mapped to their [transport addresses](#transport-address) via a [peer table](#peer-table) lookup.
 
 #### Blockchain
 
