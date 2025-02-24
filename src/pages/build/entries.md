@@ -103,10 +103,8 @@ let movie = Movie {
     title: "The Good, the Bad, and the Ugly".to_string(),
     director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
     imdb_id: Some("tt0060196".to_string()),
-    release_date: Timestamp::from(
-        DateTime::parse_from_rfc3339("1966-12-23")?
-            .to_utc()
-    ),
+    // 23 December 1966
+    release_date: Timestamp(-95472000_000_000),
     box_office_revenue: 389_000_000,
 };
 
@@ -183,10 +181,8 @@ let movie2 = Movie {
     title: "The Good, the Bad, and the Ugly".to_string(),
     director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
     imdb_id: Some("tt0060196".to_string()),
-    release_date: Timestamp::from(
-        DateTime::parse_from_rfc3339("1966-12-23")?
-            .to_utc()
-    ),
+    // 23 December 1966
+    release_date: Timestamp(-95472000_000_000),
     // Corrected from 389_000_000
     box_office_revenue: 400_000_000,
 };

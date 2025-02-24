@@ -97,10 +97,8 @@ let movie = Movie {
     title: "The Good, the Bad, and the Ugly",
     director_entry_hash: EntryHash::from_raw_36(vec![/* hash of Sergio Leone entry */]),
     imdb_id: Some("tt0060196"),
-    release_date: Timestamp::from(
-        DateTime::parse_from_rfc3339("1966-12-23")?
-            .to_utc()
-    ),
+    // 23 December 1966
+    release_date: Timestamp(-95472000_000_000),
     box_office_revenue: 389_000_000,
 };
 let movie_entry_hash = hash_entry(movie)?;

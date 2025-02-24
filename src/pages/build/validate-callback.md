@@ -63,13 +63,14 @@ This example checks that a movie is within [sensible bounds](https://en.wikipedi
 ```rust
 use hdi::prelude::*;
 
+// 14 October 1888
+const EARLIEST_MOVIE_TIMESTAMP: Timestamp = Timestamp(-2562883200_000_000);
+
 pub fn validate_create_movie(
     _action: EntryCreationAction,
     movie: Movie,
 ) -> ExternResult<ValidateCallbackResult> {
-    // Note that converting a `&str` to a `Timestamp` requires you to list
-    // `kitsune_p2p_timestamp` as a dependency in your `Cargo.toml`.
-    if movie.release_date < "1888-10-14".try_into().unwrap() {
+    if movie.release_date < EARLIEST_MOVIE_TIMESTAMP {
         return Ok(ValidateCallbackResult::Invalid("The movie's release date is earlier than the oldest known film.".into()));
     }
     Ok(ValidateCallbackResult::Valid)
