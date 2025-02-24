@@ -51,28 +51,6 @@ pub fn init() -> ExternResult<InitCallbackResult> {
 }
 ```
 
-Another use case is the [division of responsibilities pattern](/build/dnas/#dividing-responsibilities), in which an agent assumes special responsibilities based on their access to resources outside the DHT. Rather than doing the work in the `init` callback, this example implements a special function which opens up access to a zome function called [`handle_search_query`, defined on the previously linked page](/build/dnas/#call-from-one-cell-to-another). This function would be called from the UI, possibly in response to a checkbox labelled "I want to become a search provider".
-
-```rust
-use hdk::prelude::*;
-
-#[hdk_extern]
-pub fn become_search_provider() -> ExternResult<()> {
-    let mut functions = BTreeSet::new();
-    functions.insert((zome_info()?.name, "handle_search_query".into()));
-    create_cap_grant(CapGrantEntry {
-        tag: "search_provider".into(),
-        access: CapAccess::Unrestricted,
-        functions: GrantedFunctions::Listed(functions),
-    })?;
-    // The agent would probably also want to advertise their services somehow,
-    // possibly by linking from a `search_providers` anchor to their agent ID.
-    // See https://developer.holochain.org/build/links-paths-and-anchors/ for
-    // more info.
-    Ok(())
-}
-```
-
 ### Transferrable
 
 Sometimes you want to selectively grant access to a function but don't want to restrict the number of agents that can exercise the capability. This is useful when a person has multiple devices (and hence multiple agent IDs), or when there's a bot or background process whose signing key at call time is rotated on an unknown schedule.
