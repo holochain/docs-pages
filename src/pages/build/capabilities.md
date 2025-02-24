@@ -16,17 +16,14 @@ Holochain extends this concept for zome calls, first by requiring that the paylo
 * `CapAccess::Transferable`: any caller who possesses the secret can access the function(s). This is identical to traditional capability-based security.
 * `CapAccess::Assigned`: a caller must possess the secret _and_ sign the call with a known key.
 
-There's a fourth kind of capability, called the **author grant**, which covers any call made by a caller with the same key as the cell's agent ID --- that is, _the agent who owns the cell_. It's essentially a combination of unrestricted (in terms of what functions can be called) plus assigned (in terms of who may call those functions).
-
-All zome-to-zome calls within a cell and cell-to-cell calls within an agent's hApp instance are covered by the author grant. UIs are also covered by the author grant if they're hosted by one of the [well-known Holochain runtimes](/build/happs/#package-a-happ-for-distribution).
+If the caller has the same key pair as the agent that owns the cell being called --- that is, another cell in the same hApp or a UI bundled with the hApp --- they can call any function without an explicit capability grant.
 
 ## Create a capability grant
 
 An agent generates a capability by storing a [`CapGrantEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapGrantEntry.html) system entry on their source chain using the [`create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html) host function.
 
 !!! Capabilities have to be created in every cell
-
-A cell's zome functions aren't accessible to anyone except the author until the agent creates capability grants for them. Capabilities only cover one cell in a hApp.
+A cell's zome functions aren't accessible to anyone except the author until the agent creates capability grants for them. Capabilities _only cover one cell_ in a hApp.
 !!!
 
 ### Unrestricted
