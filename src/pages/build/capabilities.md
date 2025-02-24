@@ -22,7 +22,7 @@ If the caller has the same key pair as the agent that owns the cell being called
 
 An agent generates a capability by storing a [`CapGrantEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapGrantEntry.html) system entry on their source chain using the [`create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html) host function.
 
-!!! Capabilities have to be created in every cell
+!!! info Capabilities have to be created in every cell
 A cell's zome functions aren't accessible to anyone except the author until the agent creates capability grants for them. Capabilities _only cover one cell_ in a hApp.
 !!!
 
