@@ -15,9 +15,7 @@ title: "Validation"
 Validation gives shape to your [DNA](/build/dnas/)'s data model. It defines the 'rules of the game' for a network --- who can create, modify, or delete data, and what that data should and shouldn't look like. It's also the basis for Holochain's peer-auditing security model.
 :::
 
-You implement your validation logic in your application's [integrity zomes](/build/zomes/#integrity). While [entry and link types](/build/working-with-data/) enumerate the kinds of data the integrity zome defines, the data is just bytes until your validation logic gives it some shape and purpose.
-
-A DNA uses validation logic in two ways:
+You implement your validation logic in your application's [integrity zomes](/build/zomes/#integrity). A DNA uses validation logic in two ways:
 
 1. By an author of data, to protect them from publishing invalid data, and
 2. By an agent that's received data to store and serve, to equip them to detect invalid data and take action against the author.
