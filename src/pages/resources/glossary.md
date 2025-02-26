@@ -435,7 +435,7 @@ The time period in the lifecycle of a [cell](#cell) in which [genesis records](#
 
 #### Genesis records
 
-The four records at the beginning of an [agent's](#agent) [source chain](#source-chain), consisting of:
+The three records at the beginning of an [agent's](#agent) [source chain](#source-chain), consisting of:
 
 1. The [DNA hash](#dna-hash), which shows that the agent has seen the network's rules and agrees to abide by them
 2. The [membrane proof](#membrane-proof), which the agent presents as a claim that they should be allowed to join the [DHT](#distributed-hash-table-dht)
