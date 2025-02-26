@@ -12,7 +12,7 @@ title: "Signals"
 
 ### Emit a signal
 
-Your coordinator zome emits a signal with the [`emit_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.emit_signal.html) host function. You can call this function from a regular [zome function](/build/zome-functions/) or the [`init`](/build/callbacks-and-lifecycle-hooks/#define-an-init-callback), [`recv_remote_signal`](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), or [`post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) callbacks.
+Your coordinator zome emits a signal with the [`emit_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.emit_signal.html) host function. It takes any serializable input and you can call this function from a regular [zome function](/build/zome-functions/) or the [`init`](/build/callbacks-and-lifecycle-hooks/#define-an-init-callback), [`recv_remote_signal`](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), or [`post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) callbacks.
 
 This example notifies the agent's local UI of any actions that their cell has written to their source chain, which is useful for building reactive front-end data stores, especially when some actions may be written by [remote calls](/build/calling-zome-functions/#call-a-zome-function-from-another-agent-in-the-network) rather than direct user action. You can see this pattern in any scaffolded hApp, in the file `dnas/<dna>/zomes/coordinator/<zome>/src/lib.rs`. ([Read about the `post_commit` callback](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) to learn more about hooking into successful writes.)
 
