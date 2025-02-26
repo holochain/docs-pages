@@ -43,7 +43,7 @@ pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
 
 ### Listen for a signal
 
-The UI subscribes to signals with the [`AppWebsocket.prototype.on`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.on.md) method. The signal handler should expect signals from any coordinator zome in any cell in the agent's hApp instance, and can discriminate between them by cell ID and zome name.
+Holochain emits local signals over active app WebSocket connections, and a client should provide a way to receive these signals. For instance, with the TypeScript client, you can subscribe to signals with the [`AppWebsocket.prototype.on`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.on.md) method. The signal handler should expect signals from _any coordinator zome in any cell_ in the agent's hApp instance, and should discriminate between them by cell ID and zome name.
 
 <!-- FIXME(0.5): does SignalType still exist? -->
 
