@@ -158,62 +158,78 @@ You can find other stub functions in that file for links that point to the most 
 
 Use this function to validate the [**membrane proof**](/build/genesis-self-check-callback/#membrane-proof-a-joining-code-for-a-network). Note that this is different from `genesis_self_check`, in that it's called from the `validate` function so it can access DHT data.
 
-This example implements a simple invite code for a network that people can invite their friends to join. All that's required is the presence of an 'invite' action on the DHT, whose hash becomes the invite code. (It's not a very secure pattern; please don't duplicate this in high-security hApps.) As a bonus, it shows a good pattern where the code for basic pre-validation is shared with `genesis_self_check`.
+This example implements a simple invite code for a network that people can invite their friends to join. All that's required is the presence of an 'invite' action on the DHT, whose hash becomes the invite code. Some of the code for basic pre-validation is shared with `genesis_self_check`.
 
 ```rust
 use hdi::prelude::*;
-use base64::prelude::*;
+
+#[hdk_entry_helper]
+pub struct Invitation(AgentPubKey);
+
+#[derive(Serialize, Deserialize)]
+#[serde(tag = "type")]
+#[hdk_entry_types]
+#[unit_enum(UnitEntryTypes)]
+pub enum EntryTypes {
+    Invitation(Invitation),
+}
 
 pub fn validate_agent_joining(
-    _agent_pub_key: AgentPubKey,
+    agent_pub_key: AgentPubKey,
     membrane_proof: &Option<MembraneProof>
 ) -> ExternResult<ValidateCallbackResult> {
     let membrane_proof: Option<Vec<u8>> = membrane_proof
         .to_owned()
         .map(|b| b.bytes().clone());
+
+    // Check that the invite code is an action hash _and_ get the action hash
+    // so that we can retrieve the invitation.
     validate_invite_code_format(membrane_proof.clone())?;
     let Ok(invite_code_action_hash) = decode_invite_code(membrane_proof.unwrap()) else {
         return Ok(ValidateCallbackResult::Invalid("Couldn't decode membrane proof into invite code hash".into()));
     };
 
-    must_get_valid_record(invite_code_action_hash)?;
-    // There are more checks we ought to do here, like make sure it's an
-    // entry creation action of a type called `invite`.
-    Ok(ValidateCallbackResult::Valid)
+    // Try to get the invitation.
+    let record = must_get_valid_record(invite_code_action_hash)?;
+    match Invitation::try_from(record) {
+        Ok(invite_code) => {
+            if invite_code.0 == agent_pub_key {
+                return Ok(ValidateCallbackResult::Valid);
+            } else {
+                return Ok(ValidateCallbackResult::Invalid("Invitation doesn't match your agent key".into()));
+            }
+        }
+        _ => Ok(ValidateCallbackResult::Invalid("The referenced hash wasn't an invitation".into())),
+    }
 }
 
 #[hdk_extern]
 pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCallbackResult> {
-    let Some(membrane_proof) = data.membrane_proof else {
-        return Ok(ValidateCallbackResult::Invalid("This network needs a membrane proof to join.".into()));
-    };
+    // Only check that the invite code is an action hash.
+    validate_invite_code_format(data.membrane_proof.map(|b| b.bytes().clone()))
+}
 
-    // Accept a string, because this is something a user can paste into a form
-    // field.
-    let maybe_signature: Result<Signature, _> = std::str::from_utf8(membrane_proof.bytes())
-            .map_err(|_| "Couldn't parse membrane proof into string")
-        // Expect it to be Base64-encoded; convert it into raw bytes.
-        .and_then(|s| BASE64_STANDARD.decode(s)
-            .map_err(|_| "Couldn't Base64-decode membrane proof"))
-        .and_then(|b| b.try_into()
-            .map_err(|_| "Couldn't deserialize membrane proof into signature"));
+fn decode_invite_code(invite_code: Vec<u8>) -> ExternResult<ActionHash> {
+    // Try to convert the invite code from bytes to an action hash.
+    let invite_code_action_hash = BASE64_STANDARD.decode(invite_code)
+        .map_err(|e| wasm_error!(e.to_string()))
+        .and_then(|c| String::from_utf8(c)
+            .map_err(|e| wasm_error!(e.to_string())))
+        .and_then(|c| ActionHashB64::from_b64_str(&c)
+            .map_err(|e| wasm_error!(e.to_string())))
+        .map_err(|e| wasm_error!(e.to_string()))?;
+    Ok(invite_code_action_hash.into())
+}
 
-    match maybe_signature {
-        Err(e) => Ok(ValidateCallbackResult::Invalid(format!("Couldn't decode membrane proof into joining certificate because '{}'", e).into())),
-        Ok(signature) => {
-            // Check the certificate against the signing authority.
-            let dna_props = DnaProperties::try_from_dna_properties()?;
-            let cert_is_valid = verify_signature(
-                dna_props.authorized_joining_certificate_issuer,
-                signature,
-                data.agent_key
-            )?;
-            if cert_is_valid {
-                return Ok(ValidateCallbackResult::Valid);
-            } else {
-                return Ok(ValidateCallbackResult::Invalid("Joining certificate wasn't valid. Please try entering it again or asking the certificate issuer for a new one.".into()));
+fn validate_invite_code_format(invite_code: Option<Vec<u8>>) -> ExternResult<ValidateCallbackResult> {
+    match invite_code {
+        Some(invite_code) => {
+            match decode_invite_code(invite_code) {
+                Ok(_) => Ok(ValidateCallbackResult::Valid),
+                _ => Ok(ValidateCallbackResult::Invalid("Couldn't decode membrane proof into invite code hash".into())),
             }
         }
+        None => Ok(ValidateCallbackResult::Invalid("Please supply an invite code.".into()))
     }
 }
 ```
