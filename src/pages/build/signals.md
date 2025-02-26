@@ -82,7 +82,7 @@ getHolochainClient().then(client => {
 
 Agents can also send remote signals to each other using the [`send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html) host function and a [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), which takes a single argument of any type and returns `ExternResult<()>`.
 
-This example implements a 'heartbeat' feature, where peers can periodically ping each other to let them know they're still online.
+This example implements a 'heartbeat' feature, where agents can periodically ping a small number of friends to let them know they're still online.
 
 ```rust
 use hdk::prelude::*;
@@ -155,6 +155,8 @@ fn send_heartbeat_via_remote_call(agent: AgentPubKey) -> ExternResult<()> {
 This means an agent needs to set up an [`Unrestricted` capability grant](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.CapAccess.html#variant.Unrestricted)<!--TODO: link to capabilities page --> for it, so other agents can call it. Take care that this function does as little as possible, to avoid people abusing it. Permissions and privileges are another topic which we'll talk about soon.<!-- TODO: delete this sentence -->
 
 It also means that `send_remote_signal` always routes the call to a coordinator zome of the same name as the caller. Because [the remote agent might map that name to a different coordinator zome, or no zome at all](/build/calling-zome-functions/#remote-call-unknown-routing), this function might be handled in unexpected ways on the receiver's end.
+
+Finally, remote signals open up connections to peers, so they should be used sparingly. The above heartbeat example would be very costly if everyone in a large network were sending heartbeats to each other.
 !!!
 
 ## Reference
