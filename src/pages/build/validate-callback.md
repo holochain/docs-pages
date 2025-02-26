@@ -158,7 +158,7 @@ You can find other stub functions in that file for links that point to the most 
 
 Use this function to validate the [**membrane proof**](/build/genesis-self-check-callback/#membrane-proof-a-joining-code-for-a-network). Note that this is different from `genesis_self_check`, in that it's called from the `validate` function so it can access DHT data.
 
-This example implements a simple invite code for a network that people can invite their friends to join. All that's required is the presence of an 'invite' action on the DHT, whose hash becomes the invite code. (It's not a very secure pattern; please don't duplicate this in high-security hApps.) As a bonus, it shows a good pattern where the code for basic pre-validation is shared with `genesis_self_check`.
+This example implements a simple invite code for a network that people can invite their friends to join. All that's required is the presence of an 'invite' action on the DHT, whose hash becomes the invite code. (It's not a very secure pattern; please don't duplicate this in high-security hApps.) Some of the business logic is shared with `genesis_self_check`.
 
 ```rust
 use hdi::prelude::*;
