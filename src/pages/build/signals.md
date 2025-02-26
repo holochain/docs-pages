@@ -60,8 +60,7 @@ type MyZomeSignal =
 getHolochainClient().then(client => {
     // Subscribe to signals.
     client.on("signal", (signal: Signal) => {
-        // There's currently only one useful signal type to listen for -- an
-        // app signal.
+        // Signals coming from a coordinator zome are of the `App` type.
         if (!(SignalType.App in signal)) return;
         const appSignal = signal[SignalType.App];
 
