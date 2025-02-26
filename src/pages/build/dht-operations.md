@@ -31,6 +31,10 @@ Or you may choose to increase data integrity by having authorities treat every o
 
 Here are all the DHT operations produced for all the actions, along with their contents and the effect of applying them after validation.
 
+!!! info This behavior is under review
+While the following info describes the way Holochain should work [as formally specified](https://www.holochain.org/documents/holochain-white-paper-2.0.pdf), it's currently being audited for fidelity to that spec. In the meantime, you may see behavior that differs slightly.
+!!!
+
 * All actions
     * [`RegisterAgentActivity`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterAgentActivity)
         * Basis address: author's public key
