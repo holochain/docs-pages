@@ -88,7 +88,7 @@ pub fn validate_create_movie(
 ) -> ExternResult<ValidateCallbackResult> {
     // Just call the function, and Holochain will handle the
     // `UnresolvedDependencies` outcome for you.
-    let director_entry =  must_get_entry(movie.director_hash)?;
+    let director_entry = must_get_entry(movie.director_hash)?;
     // Try to turn it into an entry of the right type.
     match crate::Director::try_from(director_entry) {
         Ok(_) => Ok(ValidateCallbackResult::Valid),
