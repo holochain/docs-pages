@@ -15,7 +15,7 @@ An agent receives **DHT operations**, which are requests for them to transform [
 
 When an agent writes an [action](/build/working-with-data/#entries-actions-and-records-primary-data), its data gets added to the shared database by being transformed into multiple DHT operations which the author sends to various [**authorities**](/resources/glossary/#validation-authority) --- agents in the network who have taken responsibility to validate, store, and serve all data that belongs to a range of [**basis addresses**](/resources/glossary/#basis-address). Each operation represents a request to add the action data to the primary content or metadata stored at that address.
 
-## Choosing who should validate what
+## Choosing validation tasks for operations
 
 All the DHT operations for an action get stored at different basis addresses, and you're free to write different validation logic for each of them.
 
