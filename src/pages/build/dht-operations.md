@@ -4,7 +4,6 @@ title: "DHT operations"
 
 ::: intro
 An agent receives **DHT operations**, which are requests for them to transform [their slice of the DHT](/concepts/4_dht/#finding-peers-and-data-in-a-distributed-database) in some way. A DHT operation must be validated before it's applied. For this reason it's the input parameter to the [`validate` callback](/build/validate-callback/).
-
 :::
 
 !!! info Validating actions instead of DHT operations
