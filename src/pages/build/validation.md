@@ -38,6 +38,7 @@ There are two callbacks that implement validation logic:
 Validation is a broad topic, so we won't go into detail here. There are a few basic things to keep in mind though:
 
 * The structure of the [`Op`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html) type that a `validate` callback receives is complex and deeply nested, and it's best to let the [scaffolding tool](/get-started/3-forum-app-tutorial/) generate the callback for you. It generates stub functions that let you think in terms of [actions](/build/working-with-data/#entries-actions-and-records-primary-data) rather than operations, which is more natural and good enough for most needs. [Read all about DHT operations](/build/dht-operations/) if you want deep detail.
+* [Entry](/build/entries/) data, [link tags](/build/links-paths-and-anchors/#link-tag), and membrane proofs are just blobs; they need to be parsed in order to check that they have the correct structure. (The HDK makes it easy to [deserialize an entry blob into a Rust type](#deserialize-entry) though.)
 * While an entry or link can be thought of as 'things', the actions that create, update, or delete them are verbs. Validating a whole action lets you not just check the content and structure of your things, but also enforce write privileges and even throttle an agent's frequency of writes by looking at the action's place in their source chain.
 * Validation rules should **always yield the same true/false outcome** for a given operation regardless of who is validating them and when. Don't use any source of non-determinism, such as instantiating and comparing two `std::time::Instant`s. In fact Holochain prevents your validation callbacks from calling any non-deterministic host functions. Read more about the [available host functions](#available-host-functions).
 * Data may have dependencies that affect validation outcomes, but those dependencies must be [addressable](/build/identifiers/), they must be retrievable from the same DHT, and their addresses must be known. If a dependency can't be retrieved at validation time, the `validate` callback terminates early with an [indeterminate result](/build/validate-callback/#validation-outcomes), which will cause Holochain to try again later. (Note that an action already has a dependency on the action preceding it on an agent's source chain.)
@@ -53,7 +54,7 @@ Validation is a broad topic, so we won't go into detail here. There are a few ba
 * Data is checked against Holochain's maximum size (4 MB for entries, 1 KB for link tags).
 * The entry type of `Update` actions is checked against the data they replace.
 * The scaffolding tool generates a sensible default `validate` callback that does these things for you:
-    * Tries to deserialize an entry into the correct Rust type, and returns a validation failure if it fails.
+    * Tries to deserialize an entry into the correct Rust type, and returns a validation failure if it fails. {#deserialize-entry}
     * Checks that the original entry for an `Update` or `Delete` action exists and is a valid entry creation action.
     * Checks that the original entry for an `Update` contains the same entry type.
     * Checks that the original entry for a `Delete` comes from the same integrity zome.
