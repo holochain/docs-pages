@@ -6,6 +6,10 @@ title: "Signals"
 **Signals** are messages emitted by coordinator zomes, either locally to a front end or remotely to another agent cell in a DNA's network. They help you automate processes in your application and make it dynamic and responsive.
 :::
 
+## Send-and-forget messages, locally and across the network
+
+There are two kinds of signals: [local](#local-signals) and [remote](#remote-signals). They are both **send-and-forget**; when you call the host function that sends the signal, they don't wait for confirmation from the receiver, and they don't store messages until the receiver is available.
+
 ## Local signals
 
 **Local signals** are sent to [front ends](/build/connecting-a-front-end/) listening on the agent's local machine.
