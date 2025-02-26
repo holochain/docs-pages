@@ -3,18 +3,16 @@ title: "Capabilities"
 ---
 
 ::: intro
-Access to zome functions is secured by **capability-based security**. Holochain extends this concept by adding the ability to restrict access to a given set of callers.
+Access to zome functions is secured by **capability-based security**, allowing agents to grant and revoke access to specific external agents (local front ends and remote peers) for specific coordinator zome functions. Your app implements this functionality by writing **capability grant, delete, and claim actions** to the agent's source chain.
 :::
 
 ## Capability-based security, updated for agent-centric applications
 
-Traditional [capability-based security](https://en.wikipedia.org/wiki/Capability-based_security) works on a simple concept: the owner of a resource grants access to other processes by giving out a handle to the resource rather than direct access to it. (Usually in a client/server system, the handle is an authorization secret such as an [OAuth2 token](https://auth0.com/intro-to-iam/what-is-oauth-2).) Thus they can control the way the resource is used without needing to deal with access control lists or other access control methods. When the owner no longer wants the process to access the resource, they invalidate the handle.
+Holochain secures zome function calls by creating and deleting `CapGrantEntry` records on an agent's source chain. These are then compared against the public key of a function caller (every function call must be signed by a private key). There are three levels of access to choose from; let's take a look at the [`CapAccess` enum](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.CapAccess.html) which defines the kinds of **capability grant** you can use in your hApp:
 
-Holochain extends this concept for zome calls, first by requiring that the payload of every call be signed by a private key. Let's take a look at the [`CapAccess` enum](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.CapAccess.html) which defines the kinds of **capability grant** you can use in your hApp:
-
-* `CapAccess::Unrestricted`: any signing key can access the function(s) covered by the capability.
-* `CapAccess::Transferable`: any caller who possesses the secret can access the function(s). This is identical to traditional capability-based security.
-* `CapAccess::Assigned`: a caller must possess the secret _and_ sign the call with a known key.
+* `CapAccess::Unrestricted`: any caller can access the function(s) covered by the capability.
+* `CapAccess::Transferable`: any caller who possesses the secret can access the function(s). This gives moderate security; it's impossible to control who the possessor of a secret shares it with.
+* `CapAccess::Assigned`: a caller must possess the secret _and_ sign the call with an authorized key. If you've used capability systems before, this is the closest to a true capability.
 
 If the caller has the same key pair as the agent that owns the cell being called --- that is, another cell in the same hApp or a UI bundled with the hApp --- they can call any function without an explicit capability grant.
 
@@ -23,14 +21,14 @@ If the caller has the same key pair as the agent that owns the cell being called
 An agent generates a capability by storing a [`CapGrantEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapGrantEntry.html) system entry on their source chain using the [`create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html) host function.
 
 !!! info Capabilities have to be created in every cell
-A cell's zome functions aren't accessible to anyone except the author until the agent creates capability grants for them. Capabilities _only cover one cell_ in a hApp.
+A cell's zome functions aren't accessible to anyone except the author until the agent creates capability grants for them. A capability _only cover one cell_ in a hApp.
 !!!
 
 ### Unrestricted
 
-A hApp might want certain zome functions on an agent's device to be accessible to any caller without a secret. This sort of grant often gets set up in the [`init` callback](/build/callbacks-and-lifecycle-hooks/#define-an-init-callback) so it's ready to go when agents need it.
+A hApp might want certain zome functions on an agent's device to be accessible to any caller without a secret. You can create an **unrestricted grant** for this.
 
-The classic example is the [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), which needs an unrestricted capability in order for the corresponding [`send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html) host function to succeed.
+The classic example is the [`recv_remote_signal` callback](/build/callbacks-and-lifecycle-hooks/#define-a-recv-remote-signal-callback), which needs an unrestricted grant in order for the corresponding [`send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html) host function to succeed. Here, we're setting it up in the `init` callback so it's ready to go on cell startup.
 
 ```rust
 use hdk::prelude::*;
@@ -50,7 +48,7 @@ pub fn init() -> ExternResult<InitCallbackResult> {
 
 ### Transferrable
 
-Sometimes you want to selectively grant access to a function but don't want to restrict the number of agents that can exercise the capability. This is useful when a person has multiple devices (and hence multiple agent IDs), or when there's a bot or background process whose signing key at call time is rotated on an unknown schedule.
+A **transferrable grant** requires that a caller supply a secret in order to exercise it. The secret can be leaked by anyone the grantor gives it to, and should be considered minimal security.
 
 This example creates a capability grant for some zome functions that create, update, or delete the [`Movie` and `Director` entries defined in the Entries page](/build/entries/).
 
@@ -86,7 +84,7 @@ pub fn approve_delegate_author_request(reason: String) -> ExternResult<CapSecret
 
 ### Assigned
 
-If you're concerned about capability secrets being leaked, you can bind a secret to one or more public keys. The zome call's provenance must match one of these public keys, and the payload signature must be valid for the provenance. This function rewrites `approve_delegate_author_request` to create an assigned grant.
+An **assigned grant** lets you bind a capability to one or more authorized public keys, which prevents unauthorized use if the secret gets leaked. This function rewrites `approve_delegate_author_request` to create an assigned grant.
 
 ```rust
 use hdk::prelude::*;
@@ -127,7 +125,7 @@ pub fn approve_delegate_author_request(input: DelegateAuthorRequest) -> ExternRe
 
 ## Store a capability claim
 
-Once an has gotten a capability secret from a grantor, they need to store it as a [`CapClaim`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapClaim.html) entry with the [`create_cap_claim`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_claim.html) host function so they can use it later when they want to call the functions they've been granted access to.
+Once an agent has gotten a capability secret from a grantor, they need to store it as a [`CapClaim`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapClaim.html) entry with the [`create_cap_claim`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_claim.html) host function so they can use it later when they want to call the functions they've been granted access to.
 
 ```rust
 use hdk::prelude::*;
@@ -151,9 +149,9 @@ pub fn store_delegate_author_approval(input: DelegateAuthorApproval) -> ExternRe
 }
 ```
 
-## Use a capability secret
+## Use a capability
 
-To exercise a capability they've been granted, the agent needs to retrieve the claim from their source chain using the [`query`](https://docs.rs/hdk/latest/hdk/chain/fn.query.html) host function and supply the secret along with the zome call.
+To exercise a capability they've been granted, an agent needs to retrieve the claim from their source chain using the [`query`](https://docs.rs/hdk/latest/hdk/chain/fn.query.html) host function and supply the secret along with the zome call.
 
 ```rust
 use hdk::prelude::*;
