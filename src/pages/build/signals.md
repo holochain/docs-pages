@@ -47,7 +47,7 @@ The UI subscribes to signals with the [`AppWebsocket.prototype.on`](https://gith
 import type { Signal, AppSignal, AgentPubKey } from "@holochain/client";
 import { SignalType, encodeHashToBase64 } from "@holochain/client";
 
-// Duplicate your zome's signal types in the UI.
+// Represent your zome's signal types in the UI.
 type MyZomeSignal =
     | { type: "action_written"; value: ActionHash };
 
