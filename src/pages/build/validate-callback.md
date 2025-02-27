@@ -240,15 +240,7 @@ fn validate_invite_code_format(invite_code: Option<Vec<u8>>) -> ExternResult<Val
 }
 ```
 
-!!! info This requires the agent key to be known before joining the network
-An existing agent needs to know the public key of the agent they're inviting, which means the invitee already needs to know their own public key. However, on hApp installation Holochain asks for a membrane proof _before_ generating a public key. That means this pattern can only be used:
-
-* when a cell is being cloned in a a running hApp (because the public key is already known),
-* when a hApp bundle has the [`allow_deferred_memproofs` flag](/build/happs/#allow-deferred-memproofs) set, which generates a key pair but keeps the hApp in an incompletely installed state until [the UI supplies membrane proofs](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.providememproofs.md), or
-* when a [public key has been pre-generated](https://github.com/holochain/holochain-client-js/blob/main/docs/client.adminwebsocket.generateagentpubkey.md) and is [supplied at app installation](https://github.com/holochain/holochain-client-js/blob/main/docs/client.installapprequest.md) time (this is only possible if you're building your own Holochain runtime).
-
-This is an advanced topic that we'll write about soon.
-!!!
+<!-- TODO: when deferred memproofs info is written, mention that the above pattern needs it. See commit 5ca238acce48a98419adaa205d4f930a86123c60 for sample text. -->
 
 ## Reference
 
