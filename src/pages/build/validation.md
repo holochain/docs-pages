@@ -29,7 +29,7 @@ Currently Holochain can inform agents about invalid data when asked. In the futu
 There are two callbacks that implement validation logic:
 
 * [`validate`](/build/validate-callback/) is the core of the zome's validation logic. It receives a [**DHT operation**](/resources/glossary/#dht-operation), which is a request to transform the data at an address, and returns a success/failure/indeterminate result.
-* [`genesis_self_check`](/build/genesis-self-check-callback/) 'pre-validates' an agent's [**membrane proof**](/concepts/3_source_chain/#source-chain-your-own-data-store) before trying to connect to peers in the network.
+* [`genesis_self_check`](/build/genesis-self-check-callback/) 'pre-validates' an agent's own [**membrane proof**](/concepts/3_source_chain/#source-chain-your-own-data-store) before trying to connect to peers in the network.
 
 ## Design considerations
 
