@@ -20,7 +20,7 @@ You implement your validation logic in your application's [integrity zomes](/bui
 1. By an author of data, to protect them from publishing invalid data, and
 2. By an agent that's received data to store and serve, to equip them to detect invalid data and take action against the author.
 
-Because every peer has the DNA's validation logic on their own machine and is expected to check the data they author before they publish it, it can be assumed that invalid data is (almost) always an intentionally malicious act.
+Because every peer has the DNA's validation logic on their own machine and is expected to check the data they author before they publish it, invalid data is treated as an intentionally malicious act.
 
 !!! info
 Currently Holochain can inform agents about invalid data when asked. In the future it'll also take automatic defensive action by putting a malicious author into an agent's network block list when they see evidence of invalid data.
