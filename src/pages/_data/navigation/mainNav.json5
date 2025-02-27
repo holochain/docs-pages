@@ -42,6 +42,7 @@
           { title: "Front End", url: "/build/connecting-a-front-end/" },
           { title: "Calling Zome Functions", url: "/build/calling-zome-functions" },
           { title: "Capabilities", url: "/build/capabilities" },
+          { title: "Signals", url: "/build/signals/" },
         ]},
       ]
     },
