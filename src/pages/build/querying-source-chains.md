@@ -147,7 +147,7 @@ pub fn check_status_of_peer_source_chain(agent: AgentPubKey) -> ExternResult<Cha
 
 Validation imposes an extra constraint on source chain queries. A source chain can grow over time, including branching or forking. That means a source chain, when retrieved by agent public key alone, is a non-deterministic source of data, which you can't use in validation<!-- TODO: link to validation page -->. Instead, you can use [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html), whose [filter struct](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) and return value remove non-determinism.
 
-`must_get_agent_activity` only allows you to select a contiguous, bounded slice of a source chain, and doesn't return any information about the validity of the actions in that slice or the chain as a whole.
+`must_get_agent_activity` only allows you to select a contiguous, bounded slice of a source chain, and doesn't return any information about the validity of the actions in that slice or the chain as a whole. It needs to get the entire slice from an authority, so it's best to use it only when validating a `RegisterAgentActivity` operation<!-- TODO: link to DHT ops page -->, where the validating authority already has that data.
 
 <!-- TODO: move this to validation page or must_get_* page -->
 
