@@ -9,13 +9,13 @@ title: "Connecting the Parts"
     * [Front end](/build/connecting-a-front-end/) --- establishing a WebSocket connection from JavaScript
     * [Calling zome functions](/build/calling-zome-functions) --- examples for front ends, cell-to-cell, and agent-to-agent
     * Capabilities (coming soon) --- how to manage access to a cell's zome functions
-    * Working with signals (coming soon) --- receiving notifications from cells
+    * [Signals](/build/signals/) --- receiving notifications from cells
 :::
 
 ::: intro
 Your hApp back end's public interface consists of all the [**zome functions**](/build/zome-functions/) of all the [**cells**](/concepts/2_application_architecture/#cell) instantiated from all the [**DNAs**](/build/dnas/) that fill the hApp's [**roles**](/build/application-structure/#happ). It is accessible to locally running processes and to network peers, and is secured by a form of **capability-based security**<!--TODO: link to that page when it's written. -->, adapted for peer-to-peer applications.
 
-The back end can also send out [**signals**](/concepts/9_signals/)<!--TODO: change this to build guide link when signals is written--> that can be received either by UIs or remote peers.
+The back end can also send out [**signals**](/build/signals/) that can be received either by UIs or remote peers.
 :::
 
 ## What processes can connect to a hApp? {#what-processes-can-connect-to-a-happ}
@@ -45,7 +45,7 @@ This is a complex topic, so we're going to write a separate page about it soon.<
 
 ## Sending signals for reactive, event-based programming
 
-Zome functions can send out signals, either locally to front ends or remotely to other agents in the same network. This lets you write programs that react to activity rather than having to poll a function for updates. We'll write more about this soon as well!<!--TODO: link when ready-->
+Zome functions can [send out signals](/build/signals/), either locally to front ends or remotely to other agents in the same network. This lets you write programs that react to activity rather than having to poll a function for updates.
 
 ## Further reading
 
