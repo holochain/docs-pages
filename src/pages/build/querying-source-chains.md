@@ -80,72 +80,9 @@ pub fn get_all_movies_i_authored() -> Vec<Record> {
 }
 ```
 
-## Query another agent's source chain
-
-An agent can query another agent's source chain with the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html) host function.
-
-`get_agent_activity` returns [`AgentActivity`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.AgentActivity.html), a struct with rich info on the agent's source chain status, but it _only returns the action hashes_ of matching records; it's the job of the caller to turn them into records.
-
-```rust
-use hdk::prelude::*;
-
-#[hdk_extern]
-pub fn get_all_movies_authored_by_other_agent(agent: AgentPubKey) -> ExternResult<Vec<(u32, Option<Record>)>> {
-    let activity = get_agent_activity(
-        agent,
-        ChainQueryFilter::new()
-            .entry_type(EntryType::App(UnitEntryTypes::Movie.into()))
-            .include_entries(true),
-        ActivityRequest::Full
-    )?;
-
-    // Now try to retrieve the records for all of the action hashes, turning
-    // the whole result into an Err if any record retrieval returns an Err.
-    let chain_with_entries = activity.valid_activity
-        .iter()
-        .map(|a| {
-            let maybe_record = get(a.1, GetOptions::network())?;
-            // Because some records may be irretrievable if no agent is
-            // currently serving them, remember the action hash so we can try
-            // retrieving them later.
-            Ok((a.1, maybe_record))
-        })
-        .collect();
-    Ok(chain_with_entries)
-}
-```
-
-### Get source chain status summary
-
-`get_agent_activity` is for more than just querying an agent's source chain. It also returns the _status of the agent's source chain_, which includes evidence of [source chain forks](/resources/glossary/#fork-source-chain) and invalid actions.
-
-To quickly check the status without retrieving the source chain's action hashes, pass `ActivityRequest::Status` to `get_agent_activity` and look at the `status` field of the return value:
-
-```rust
-use hdk::prelude::*;
-
-#[hdk_extern]
-pub fn check_status_of_peer_source_chain(agent: AgentPubKey) -> ExternResult<ChainStatus> {
-    let activity_summary = get_agent_activity(
-        agent,
-        ChainQueryFilter::new()
-            .sequence_range(ChainQueryFilterRange::Unbounded),
-        ActivityRequest.Status
-    )?;
-    Ok(activity_summary.status)
-}
-```
-
-[This status can be one of](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ChainStatus.html):
-
-* `Empty`: No source chain activity found for the agent.
-* <code>Valid(<a href="https://docs.rs/hdk/latest/hdk/prelude/struct.ChainHead.html">ChainHead</a>)</code>: The source chain is valid, with its newest action's sequence index and hash given.
-* <code>Forked(<a href="https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.ChainFork.html">ChainFork</a>)</code>: The source chain has been [forked](/resources/glossary/#fork-source-chain), with the sequence index and conflicting action hashes of the fork point given.
-* <code>Invalid(<a href="https://docs.rs/hdk/latest/hdk/prelude/struct.ChainHead.html">ChainHead</a>)</code>: An invalid record was found at the given sequence index and action hash.
-
 ## Query another agent's source chain for validation
 
-Validation imposes an extra constraint on source chain queries. A source chain can grow over time, including branching or forking. That means a source chain, when retrieved by agent public key alone, is a non-deterministic source of data, which you can't use in validation<!-- TODO: link to validation page -->. Instead, you can use [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html), whose [filter struct](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) and return value remove non-determinism.
+When validating an agent's activity, you can query their existing source chain records with [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html). Validation logic must be deterministic, so this function's [filter struct](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) and return value remove non-determinism.
 
 `must_get_agent_activity` only allows you to select a contiguous, bounded slice of a source chain, and doesn't return any information about the validity of the actions in that slice or the chain as a whole. It needs to get the entire slice from an authority, so it's best to use it only when validating a `RegisterAgentActivity` operation<!-- TODO: link to DHT ops page -->, where the validating authority already has that data.
 
