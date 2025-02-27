@@ -124,6 +124,7 @@ pub fn recv_remote_signal(payload: RemoteSignal) -> ExternResult<()> {
         let caller = call_info()?.provenance;
         // On the receiving end we forward the remote signal to the front end
         // by emitting a local signal.
+        // On the receiving end, we forward the remote signal to the front end by emitting a local signal.
         emit_signal(LocalSignal::Heartbeat(caller))?;
     }
     Ok(())
