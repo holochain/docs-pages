@@ -19,7 +19,7 @@ Whether an agent is querying their own source chain or another agent's, you buil
 
 * <code>sequence_range: <a href="https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ChainQueryFilterRange.html">ChainQueryFilterRange</a></code>: A start and end point on the source chain, either:
     * `Unbounded`: the beginning and current tip of the chain
-    * `ActionSeqRange(u32, u32)`: start and end sequence indices, inclusive.
+    * `ActionSeqRange(u32, u32)`: start and end sequence indices, inclusive, zero-based.
     * `ActionHashRange(ActionHash, ActionHash)`: start and end action hashes, inclusive.
     * `ActionHashTerminated(ActionHash, u32)`: an action hash plus the _n_th actions preceding it.
 * <code>entry_type: Option&lt;Vec&lt;<a href="https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.EntryType.html">EntryType</a>&gt;&gt;</code>: Only select the given entry types, which can include both system and app entry types.
