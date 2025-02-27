@@ -109,7 +109,7 @@ Just as with front ends hosted by a supporting Holochain runtime, calls made wit
 
 If two agents have cells running the same DNA --- that is, they're part of the same network --- they can call each other's zome functions _in the same DNA_ using [`hdk::prelude::call_remote`](https://docs.rs/hdk/latest/hdk/p2p/fn.call_remote.html).
 
-!!! info A remote cell might not be running the same coordinator zomes
+!!! info A remote cell might not be running the same coordinator zomes {#remote-call-unknown-routing}
 Holochain allows agents to add and remove coordinator zomes from their cells. This permits upgrading and customization. But it also means that the zomes and functions that you _think_ are on the other end might not actually be there.
 !!!
 
