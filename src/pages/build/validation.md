@@ -47,7 +47,7 @@ Validation is a broad topic, so we won't go into detail here. There are a few ba
 
 ### Things you don't need to worry about
 
-* For dependency trees that might get complex and costly to retrieve, you can use **inductive validation** rather than having to retrieve and validate all the dependencies. <!-- TODO: link to section on validate callback page when this gets fixed: https://github.com/holochain/holochain/issues/4669 -->
+* For dependency trees that might get complex and costly to retrieve, you can use [**inductive validation**](/build/validate-callback/#inductive-validation) rather than having to retrieve and validate all the dependencies.
 * Action timestamps, sequence indices, and authorship are automatically checked for consistency against the previous action in the author's source chain.
 * Data is checked against Holochain's maximum size (4 MB for entries, 1 KB for link tags).
 * The entry type of `Update` actions is checked against the data they replace.
@@ -76,6 +76,6 @@ These functions are available to both `validate` and `genesis_self_check`:
 * [`must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html) tries to get an action from the DHT. (It's not guaranteed that the action will be valid.)
 * [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html) tries to get a contiguous section of a source chain, starting from a given record and walking backwards to another spot (either the beginning of the chain, a number of records, or one of a number of given hashes).
 * [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html) tries to get an entry from the DHT. (As with `must_get_action`, it's not guaranteed that the entry will be valid.)
-* [`must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html) tries to get a record, and will fail if the record is marked invalid by any validators, even if it can be found.
+* [`must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html) tries to get a record, and will fail if the record is marked invalid by any validators, even if it can be found. This makes [inductive validation](/build/validate-callback/#inductive-validation) possible.
 
 All of these functions cause a `validate` callback to terminate early with <code>ValidateCallbackResult::UnresolvedDependencies([UnresolvedDependencies](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.UnresolvedDependencies.html))</code>.

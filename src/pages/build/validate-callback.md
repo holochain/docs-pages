@@ -160,6 +160,12 @@ Use this function to validate the [**membrane proof**](/build/genesis-self-check
 
 This example implements a simple invite code for a network that people can invite their friends to join. All that's required is the presence of an 'invite' action on the DHT, whose hash becomes the invite code. Some of the logic is shared with `genesis_self_check`.
 
+!!! info Inductive validation {#inductive-validation}
+This example uses a host function called [`must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html) to do what we call **inductive validation**. This technique speeds up validation of data with large dependency trees by recognizing that dependencies will already have been validated, and any dependencies of those dependencies will also have been subjected to the same logic by their validators, and so on.
+
+In small networks, this is perfectly secure, as the dependencies will have been validated by the same agent. As networks grow, it depends on the percentage of honest validators, although it'd take a [large number of dishonest peers](https://blog.holochain.org/satoshi-nakamoto-and-the-fate-of-our-planet-2/#consensus-an-irrelevant-starting-point) to threaten the safety of this technique.
+!!!
+
 ```rust
 use hdi::prelude::*;
 
@@ -243,8 +249,6 @@ An existing agent needs to know the public key of the agent they're inviting, wh
 
 This is an advanced topic that we'll write about soon.
 !!!
-
-<!-- TODO: Write about inductive validation when it's not broken https://github.com/holochain/holochain/issues/4669 -->
 
 ## Reference
 
