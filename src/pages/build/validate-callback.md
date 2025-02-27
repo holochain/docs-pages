@@ -58,7 +58,7 @@ These functions can be found in the file `dnas/<dna>/zomes/integrity/<zome>/src/
 
 In this function you can write rules for the contents of your entries and their dependencies. You can also write rules for the actions that write them, which means you can create rules for write privileges. (Note that it's called for both kinds of [`EntryCreationAction`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.EntryCreationAction.html) --- `Create` and `Update`.)
 
-This example checks that a movie is within [sensible bounds](https://en.wikipedia.org/wiki/Roundhay_Garden_Scene).
+This example checks that a movie's release date is within sensible bounds.
 
 ```rust
 use hdi::prelude::*;
