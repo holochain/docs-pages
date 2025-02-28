@@ -42,7 +42,7 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating relationships between data
 :::
 
-## Connecting everything together
+## Connecting the parts
 
 ::: topic-list
 * [Overview](/build/connecting-the-parts/) --- zome calls, capabilities, and signals
