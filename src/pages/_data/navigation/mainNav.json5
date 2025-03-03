@@ -45,6 +45,9 @@
           { title: "Capabilities", url: "/build/capabilities" },
           { title: "Signals", url: "/build/signals/" },
         ]},
+        { title: "Validation", url: "/build/validation/", children: [
+          { title: "Genesis Self-Check Callback", url: "/build/genesis-self-check-callback/" },
+        ]}
       ]
     },
     { title: "Resources", url: "/resources/", children: [

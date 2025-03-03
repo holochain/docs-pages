@@ -91,7 +91,7 @@ enum EntryTypes {
 
 Most of the time you'll want to define your create, read, update, and delete (CRUD) functions in a [**coordinator zome**](/resources/glossary/#coordinator-zome) rather than the integrity zome that defines it. This is because a coordinator zome is easier to update in the wild than an integrity zome.
 
-Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html). If you used `hdk_entry_helper` and `hdk_entry_types` macro in your integrity zome (see [Define an entry type](#define-an-entry-type)), you can use the entry types enum you defined, and the entry will be serialized and have the correct integrity zome and entry type indexes added to it.
+Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html). If you used the `hdk_entry_helper` and `hdk_entry_types` macros in your integrity zome (see [Define an entry type](#define-an-entry-type)), you can use the entry types enum you defined, and the entry will be serialized and have the correct integrity zome and entry type indexes added to it.
 
 ```rust
 use hdk::prelude::*;
@@ -103,10 +103,8 @@ let movie = Movie {
     title: "The Good, the Bad, and the Ugly".to_string(),
     director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
     imdb_id: Some("tt0060196".to_string()),
-    release_date: Timestamp::from(
-        DateTime::parse_from_rfc3339("1966-12-23")?
-            .to_utc()
-    ),
+    // 23 December 1966
+    release_date: Timestamp(-95472000_000_000),
     box_office_revenue: 389_000_000,
 };
 
@@ -118,6 +116,8 @@ let create_action_hash = create_entry(
     &EntryTypes::Movie(movie),
 )?;
 ```
+
+Note that we're not validating the data before we write it. That's because we write data within a [zome function](/build/zome-functions/) or [callback](/build/callbacks-and-lifecycle-hooks/), and Holochain passes the data through your [`validate` callback](/build/validate-callback/) before storing it. Any validation error is returned to the caller of the function.
 
 ### Create with relaxed chain top ordering
 
@@ -181,10 +181,8 @@ let movie2 = Movie {
     title: "The Good, the Bad, and the Ugly".to_string(),
     director_hash: EntryHash::from_raw_36(vec![ /* hash of 'Sergio Leone' entry */ ]),
     imdb_id: Some("tt0060196".to_string()),
-    release_date: Timestamp::from(
-        DateTime::parse_from_rfc3339("1966-12-23")?
-            .to_utc()
-    ),
+    // 23 December 1966
+    release_date: Timestamp(-95472000_000_000),
     // Corrected from 389_000_000
     box_office_revenue: 400_000_000,
 };

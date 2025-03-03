@@ -69,7 +69,7 @@ Here's how the **call-zome workflow** handles a zome function call:
     3. The HDK passes the deserialized payload to the zome function. The function runs, calling the host API as needed. **Any functions that attempt to read from or write to the cell's source chain operate on the snapshot, not the source chain's current state.**
     4. The function returns a return value, and the HDK serializes it and passes it back to the call-zome workflow.
 5. If there are no new writes in the scratch space, return the zome function's return value to the caller.
-6. Generate [DHT operations](https://docs.rs/hdi/latest/hdi/prelude/enum.Op.html) from each action and dispatch them to the appropriate validation callbacks in the DNA's [integrity zome](/build/application-structure/#zome)(s).
+6. Generate [DHT operations](https://docs.rs/hdi/latest/hdi/prelude/enum.Op.html) from each action and dispatch them to the appropriate validation callbacks in the DNA's [integrity zome](/build/application-structure/#zome)(s). {#validate-dht-operations}
     * If the action is a [CRUD action](/build/working-with-data/#crud-metadata-graph) for application data, only the validation callback for the integrity zome that defined the data type is called.
     * If the action is a system action, or a CRUD action for a system entry type, the validation callbacks in all integrity zomes in the DNA are called.
 
