@@ -40,6 +40,7 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Identifiers](/build/identifiers) --- working with hashes and other unique IDs
 * [Entries](/build/entries/) --- defining, creating, reading, updating, and deleting data
 * [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating relationships between data
+* [Querying Source Chains](/build/querying-source-chains/) --- getting data from an agent's history
 :::
 
 ## Connecting everything together
