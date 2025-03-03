@@ -40,6 +40,7 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Identifiers](/build/identifiers) --- working with hashes and other unique IDs
 * [Entries](/build/entries/) --- defining, creating, reading, updating, and deleting data
 * [Links, Paths, and Anchors](/build/links-paths-and-anchors/) --- creating relationships between data
+* [Querying Source Chains](/build/querying-source-chains/) --- getting data from an agent's history
 :::
 
 ## Connecting the parts
@@ -48,7 +49,7 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Overview](/build/connecting-the-parts/) --- zome calls, capabilities, and signals
 * [Front end](/build/connecting-a-front-end/) --- establishing a WebSocket connection from JavaScript
 * [Calling zome functions](/build/calling-zome-functions/) --- examples for front ends, cell-to-cell, and agent-to-agent
-* Capabilities (coming soon) --- how to manage access to a cell's zome functions
+* [Capabilities](/build/capabilities/) --- how to manage access to a cell's zome functions
 * [Signals](/build/signals) --- receiving notifications from cells
 
 ## Validation
