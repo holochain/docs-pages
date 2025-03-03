@@ -49,5 +49,5 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Overview](/build/connecting-the-parts/) --- zome calls, capabilities, and signals
 * [Front end](/build/connecting-a-front-end/) --- establishing a WebSocket connection from JavaScript
 * [Calling zome functions](/build/calling-zome-functions/) --- examples for front ends, cell-to-cell, and agent-to-agent
-* Capabilities (coming soon) --- how to manage access to a cell's zome functions
+* [Capabilities](/build/capabilities/) --- how to manage access to a cell's zome functions
 * [Signals](/build/signals) --- receiving notifications from cells
