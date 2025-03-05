@@ -34,7 +34,7 @@ It'll also add the new DNA to `workdir/happ.yaml`.
 
 ## Specify a DNA manifest
 
-A DNA manifest is written in [YAML](https://yaml.org/). It contains metadata about the DNA, a section for **integrity modifiers**, and a list of coordinator zomes for interacting with the DNA.
+A DNA manifest is written in [YAML](https://yaml.org/). It contains metadata about the DNA, a section for **integrity** code and modifiers, and a list of [**coordinator zomes**](/build/zomes/#coordinator).
 
 If you want to write your own manifest file, name it `dna.yaml` and give it the following structure. This example assumes that all of your zomes are in a folder called `zomes/`. Afterwards we'll explain what the fields mean.
 
@@ -63,7 +63,7 @@ coordinator:
 ### DNA manifest structure at a glance
 
 * `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher).
-* `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**. {#integrity-modifiers}
+* `integrity`: Contains all the integrity code and modifiers for the DNA, the things that **change the DNA hash**. {#integrity-section}
     * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It acts like a network-wide passcode. {#network-seed}
     * `properties`: Arbitrary, application-specific constants. The zome code can [read this at runtime](#use-dna-properties). Think of it as configuration for your DNA.
     * `origin_time`: The earliest possible timestamp for any data; serves as a basis for coordinating network communication. Pick a date that's guaranteed to be slightly earlier than you expect that the app will start to get used. The scaffolding tool and `hc dna init` will both pick the date you created the DNA.
@@ -134,7 +134,7 @@ So Holochain manages the dependency mapping for you, allowing you to write code 
 **Note that there's currently a couple bugs in this dependency mapping.** If your DNA has more than one integrity zome, its coordinator zomes should have **one dependency at most** and should **always list that dependency explicitly** in the DNA manifest.<!--TODO: update this once https://github.com/holochain/holochain/issues/4660 is resolved --> {#multiple-deps-warning}
 !!!
 
-## Single vs multiple DNAs
+## Single vs multiple DNAs {#single-vs-multiple-dnas}
 
 When do you decide whether a hApp should have more than one DNA? Whenever it makes sense to have multiple separate networks or databases within the hApp. These are the most common use cases:
 
