@@ -25,7 +25,7 @@ Every link has a type that you define in an integrity zome, just like [an entry]
 * A **type**
 * An optional **tag** that can hold a small amount of arbitrary bytes, up to 1 kb
 
-You can use the tag as link 'content' to further qualify the link, provide a summary of data about the target to save on DHT queries, or build a starts-with search index. But unlike an entry's content, the HDK doesn't provide a macro that automatically deserializes the link tag's content into a Rust type.
+You can use the tag as link 'content' to further qualify the link, provide a summary of data about the target to save on DHT queries, or build a starts-with search index. But unlike an entry's content, the HDK doesn't provide a macro that automatically deserializes the link tag's content into a Rust type. {#link-tag}
 
 [Just as with entries](/build/entries/#define-an-entry-type), Holochain needs to know about your link types in order to dispatch validation to the right integrity zome. You can do this by implementing a `link_types` callback function, and the easiest way to do this is to add the [`hdi::prelude::hdk_link_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_link_types.html) macro to an enum that defines all your link types:
 
