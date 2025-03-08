@@ -31,6 +31,7 @@ Now that you've got some basic concepts and the terms we use for them, it's time
         * [Zome Functions](/build/zome-functions/) --- writing your hApp's back-end API
     * [DNAs](/build/dnas/) --- what they're used for, how to specify and bundle
     * [hApps](/build/happs/) --- headless vs UI-based, how to bundle and distribute
+    * [Cloning](/build/cloning/) --- working with clones of a DNA
 :::
 
 ## Working with data
