@@ -36,7 +36,11 @@ While you can specify an **origin time** (the earliest valid timestamp for any D
 
 If you want to clone a DNA from the client side, use the [`AppWebsocket.prototype.createCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.createclonecell.md).
 
-This example shows two functions: one that creates or joins a private chat room from a DNA whose role in the hApp manifest is named `chat`. It uses the `getHolochainClient` helper we [created in the Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
+This example shows a function that creates or joins a private chat room from a DNA whose role in the hApp manifest is named `chat`. It uses the `getHolochainClient` helper we [created in the Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
+
+!!! info
+All these examples use the [`createHolochainClient` helper from the Connecting a Front End page](/build/connecting-a-front-end/##connect-to-a-happ-with-the-javascript-client).
+!!!
 
 ```typescript
 import type { NetworkSeed, ClonedCell } from "@holochain/client";
@@ -113,16 +117,15 @@ pub fn create_or_join_private_chat_room(input: CreateOrJoinPrivateChatRoomInput)
 ```
 
 !!! info The `create_clone_cell` host function requires the DNA hash and agent ID
-Unlike the JS client's `createCloneCell` API method, the HDK's `create_clone_cell` host function can't refer to an existing DNA by its role name. Instead, you have to specify the DNA hash and agent ID of an existing cell. <!-- TODO: change this if holochain/holochain#4762 gets addressed --> Because it's impossible to get the DNA hash of another role in the hApp using the HDK, you need to either hard-code it in the coordinator zome (which is not recommended because it leads to [tight coupling](https://en.wikipedia.org/wiki/Coupling_%28computer_programming%29#Disadvantages_of_tight_coupling)) or pass it in from the client. Here's some sample code to get a DNA hash from a role name and pass it to the zome function we just defined:
+Unlike the JS client's `createCloneCell` API method, the HDK's `create_clone_cell` host function can't refer to an existing DNA by its role name. Instead, you have to specify the DNA hash and agent ID of an existing cell. <!-- TODO: change this if holochain/holochain#4762 gets addressed --> Because it's impossible to get the DNA hash of another role in the hApp using the HDK, you need to either hard-code it in the coordinator zome (which is not recommended because it leads to [tight coupling](https://en.wikipedia.org/wiki/Coupling_%28computer_programming%29#Disadvantages_of_tight_coupling)) or pass it in from the client. Here's a sample client-side function to get a DNA hash from a role name and pass it to the zome function we just defined:
 
 ```typescript
-import { AppWebsocket, CellType } from "@holochain/client";
+import { CellType } from "@holochain/client";
 
 async function createOrJoinPrivateChatRoom_zomeSide(name: String, network_seed?: NetworkSeed): Promise<ClonedCell> {
     let client = await getHolochainClient();
     let appInfo = await client.appInfo();
-    // The first cell filling a role comes from the 'prototype' (unmodified)
-    // DNA.
+    // The first cell filling a role uses the 'prototype' (unmodified) DNA.
     let chat_cell = appInfo.cell_info?.["chat"]?.[0];
     if (typeof chat_cell == 'undefined') {
         throw new Error("Couldn't find a cell with the role name 'chat'.");
@@ -156,7 +159,7 @@ async function createOrJoinPrivateChatRoom_zomeSide(name: String, network_seed?:
 To get all the clones of a given DNA, use [`AppWebsocket.prototype.appInfo`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appclient.appinfo.md) and take a look at the return value's `cell_info` property, which is an object that maps roles to the cells belonging to those roles.
 
 ```typescript
-import { AppWebsocket, ClonedCell } from "@holochain/client";
+import { ClonedCell } from "@holochain/client";
 
 async function getPrivateChatCells(): Promise<Array<ClonedCell>> {
     let client = await getHolochainClient();
@@ -178,42 +181,58 @@ To use a clone cell, you can address it either by its new DNA hash or its **clon
 
 ### In the client {#call-clone-from-client}
 
-This example posts a message to a given chat. It assumes that the DNA with the `chat` role has a `chat` zome with a function called `post_message` that accepts a string and returns the message hash.
+This example posts a message to a given chat. It assumes that any DNAs cloned from the `chat` role have a `chat` zome with a function called `post_message` that accepts a string and returns the message hash.
 
 ```typescript
-import { AppWebsocket, CellId, RoleName, ActionHash } from "@holochain/client";
+import { ActionHash } from "@holochain/client";
 
-async function postMessage(chatId: CellId | RoleName, message: String): Promise<ActionHash> {
+async function postMessageByCloneIndex(index: Number, message: String): Promise<ActionHash> {
     let client = await getHolochainClient();
-    // Check whether we've been passed a role name / clone ID (which is a
-    // string) or a cell ID (which is an array). Use this to construct the
-    // right payload for callZome.
-    let chatIdProperty = typeof chatId === "string"
-        ? { role_name: chatId, }
-        : { cell_id: chatId, };
-    let callZomePayload = {
-        ...chatIdProperty,
+    return await client.callZome({
+        // A clone's role name is a concatenation of its parent's role name
+        // and its clone index.
+        role_name: `chat.${index}`,
         zome_name: "chat",
         fn_name: "post_message",
         payload: message,
-    }
-    return await client.callZome(callZomePayload);
+    });
+}
+
+async function postMessageByDnaHash(dnaHash: DnaHash, message: String): Promise<ActionHash> {
+    let client = await getHolochainClient();
+    return await client.callZome({
+        // No need to require a full CellId to be passed; we know the agent
+        // ID will be the same for the whole app.
+        cell_id: [dnaHash, client.cachedAppInfo.agent_pub_key],
+        zome_name: "chat",
+        fn_name: "post_message",
+        payload: message,
+    });
 }
 ```
 <!-- TODO: update this if holochain/holochain#4772 is accepted and done -->
 
 ### In a coordinator zome {#call-clone-from-coordinator}
 
-The HDK's [`call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html) host function takes roughly the same arguments. This example sends a regular status message to a given chat, perhaps triggered by a client that runs on a schedule.
+The HDK's [`call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html) host function takes roughly the same arguments. This example sends a recurring status message to a given chat, perhaps triggered by a client that runs on a schedule.
 
 ```rust
 use hdk::prelude::*;
 
 #[hdk_extern]
-pub fn status_message(chatId: CallTargetCell) -> ExternResult<ActionHash> {
+pub fn send_status_message_to_chat_by_clone_index(index: u32) -> ExternResult<ActionHash> {
+    send_status_message(CallTargetCell::OtherRole(format!("chat.{}", index)))
+}
+
+#[hdk_extern]
+pub fn send_status_message_to_chat_by_dna_hash(dna_hash: DnaHash) -> ExternResult<ActionHash> {
+    send_status_message(CallTargetCell::OtherCell(CellId::new(dna_hash, agent_info()?.agent_latest_pubkey)))
+}
+
+fn send_status_message(target: CallTargetCell) -> ExternResult<ActionHash> {
     let message = format!("The time is {} and I'm still running", sys_time()?);
     let response = call(
-        chatId,
+        target,
         "chat",
         "post_message".into(),
         None,
@@ -228,7 +247,7 @@ pub fn status_message(chatId: CallTargetCell) -> ExternResult<ActionHash> {
 
 ## Disable a clone cell
 
-When an agent no longer wants to be part of a network, you can disable the clone. The cell remains in the database but stops responding to zome calls and peer-to-peer network traffic. The hApp can't delete clone cells (to prevent malicious or malformed zomes or front ends from deleting data), but a Holochain runtime will clean up data when a hApp is uninstalled.
+When an agent no longer wants to be part of a network, they can disable the clone. The cell remains in the database but stops responding to zome calls and peer-to-peer network traffic. The hApp can't delete clone cells (to prevent malicious or malformed zomes or front ends from deleting data), but Holochain will clean up data when a hApp is uninstalled.
 
 ### In the client {#disable-clone-from-client}
 
@@ -242,8 +261,6 @@ import { DnaHash } from "@holochain/client";
 async function pauseChatByCloneIndex(index: Number): Promise<void> {
     let client = await getHolochainClient();
     return client.disableCloneCell({
-        // A clone role name is just a role ID with the clone index appended
-        // to it. The values are joined by a dot.
         clone_cell_id: `chat.${index}`
     });
 }
@@ -278,7 +295,8 @@ pub fn pause_chat_by_dna_hash(dna_hash: DnaHash) -> ExternResult<()> {
         clone_cell_id: CloneCellId::DnaHash((dna_hash)),
     };
     disable_clone_cell(input)
-}```
+}
+```
 
 ## Reference
 
