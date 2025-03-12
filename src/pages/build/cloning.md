@@ -39,7 +39,7 @@ If you want to clone a DNA from the client side, use the [`AppWebsocket.prototyp
 This example shows a function that creates or joins a private chat room from a DNA whose role in the hApp manifest is named `chat`. It uses the `getHolochainClient` helper we [created in the Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
 
 !!! info
-All these examples use the [`createHolochainClient` helper from the Connecting a Front End page](/build/connecting-a-front-end/##connect-to-a-happ-with-the-javascript-client).
+All these examples use the [`createHolochainClient` helper from the Connecting a Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
 !!!
 
 ```typescript
