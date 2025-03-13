@@ -28,7 +28,7 @@ The DNA properties are constants that your integrity and coordinator zomes [can 
 
 You can specify DNA properties without specifying a network seed, but be aware that this doesn't guarantee a unique network space. If you're cloning in order to both modify DNA behavior _and_ create a 'private' network space, specify a unique network seed along with the DNA properties.
 
-### Origin time
+### Origin time <!-- TODO: remove when O.5 lands -->
 
 While you can specify an **origin time** (the earliest valid timestamp for any DHT data), in practice this isn't necessary. Holochain will just use the origin time from the original DNA.
 
