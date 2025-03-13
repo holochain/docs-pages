@@ -8,7 +8,7 @@ title: "Cloning"
 
 ## Creating independent networks with the same rules
 
-As we described in [DNAs](/build/dnas/), every DNA has an independent network, keyed by the hash of all the [integrity zomes](/build/zomes/#integrity) and [DNA modifiers. Cloning allows you to change an existing DNA slightly, so that it executes the same  but enjoys a separate membership of peers and [DHT database](/concepts/4_dht/).
+As we described in [DNAs](/build/dnas/), every DNA has an independent network, keyed by the hash of all the [integrity zomes](/build/zomes/#integrity) and [DNA modifiers](/build/dnas/#integrity-section). Cloning allows you to change an existing DNA slightly, so that it executes the same  but enjoys a separate membership of peers and [DHT database](/concepts/4_dht/).
 
 An agent creates a clone by choosing an existing DNA in a hApp, then specifying at least one new [DNA modifier](/build/dnas/#integrity-section). Then they have to share the modifier(s) with all other peers who want to join the network, and those peers specify the exact same modifiers in order to create an identical clone with an identical DNA hash.
 
