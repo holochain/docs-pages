@@ -10,7 +10,7 @@ title: "Cloning"
 
 As we described in [DNAs](/build/dnas/), every DNA has its own network, keyed by the hash of all its [integrity zomes](/build/zomes/#integrity) and [DNA modifiers](/build/dnas/#integrity-section). Cloning allows you to change an existing DNA slightly, so that it executes the same integrity code but enjoys a separate [DHT database](/concepts/4_dht/) and membership from the original.
 
-An agent creates a clone by choosing an existing DNA in a hApp, then specifying at least one new [DNA modifier](/build/dnas/#integrity-section). Then they have to share the modifier(s) with all other peers who want to join the network, and those peers specify the exact same modifiers in order to create an identical clone with an identical DNA hash.
+An agent creates a clone by choosing an existing DNA in a hApp, then calling a create-clone function from either the app API or the HDK, specifying at least one new [DNA modifier](/build/dnas/#integrity-section) to change its DHA hash. Then they have to share the modifier(s) with all other peers who want to join the network, so those peers can specify the exact same modifiers in order to create an identical clone with an identical DNA hash.
 
 !!! info Creating vs joining a clone network
 From the perspective of using the functions we talk about in the rest of this page, there's really no meaningful difference between _creating_ a network and _joining_ it. Agents 'become the network' together, simply by instantiating a cell from a DNA, discovering other agent cells with the same DNA hash, and beginning to communicate with each other.
