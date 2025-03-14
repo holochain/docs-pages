@@ -250,7 +250,7 @@ fn send_status_message(target: CallTargetCell) -> ExternResult<ActionHash> {
 
 ## Disable a clone cell
 
-When an agent no longer wants to be part of a network, they can disable the clone. The cell remains in the database but stops responding to zome calls and peer-to-peer network traffic. The hApp can't delete clone cells (to prevent malicious or malformed zomes or front ends from deleting data), but Holochain will clean up data when a hApp is uninstalled.
+When an agent no longer wants to be part of a network, they can disable the clone. The cell remains in the database but stops responding to zome calls and peer-to-peer network traffic. The front end can't delete clone cells (to prevent malicious front ends from deleting data), but Holochain will clean up its data when the hApp is uninstalled. (You can also [use the HDK to delete a clone cell](#delete-a-clone-cell).)
 
 ### In the client {#disable-clone-from-client}
 
@@ -298,6 +298,30 @@ pub fn pause_chat_by_dna_hash(dna_hash: DnaHash) -> ExternResult<()> {
         clone_cell_id: CloneCellId::DnaHash(dna_hash),
     };
     disable_clone_cell(input)
+}
+```
+
+## Delete a clone cell
+
+While Holochain automatically deletes cell data when a hApp is uninstalled, you can also use the HDK to explicitly delete a clone with the [`delete_clone_cell`](https://docs.rs/hdk/latest/hdk/clone/fn.delete_clone_cell.html) host function. The signature is identical to `disable_clone_cell`.
+
+```rust
+use hdk::prelude::*;
+
+pub fn delete_chat_by_clone_index(index: u32) -> ExternResult<()> {
+    let clone_role_name = format!("chat.{}", index);
+    let input = DeleteCloneCellInput {
+        clone_cell_id: CloneCellId::CloneId(CloneId(clone_role_name)),
+    };
+    delete_clone_cell(input)
+}
+
+#[hdk_extern]
+pub fn delete_chat_by_dna_hash(dna_hash: DnaHash) -> ExternResult<()> {
+    let input = DeleteCloneCellInput {
+        clone_cell_id: CloneCellId::DnaHash(dna_hash),
+    };
+    delete_clone_cell(input)
 }
 ```
 
