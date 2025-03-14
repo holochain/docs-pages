@@ -26,7 +26,9 @@ When all you want to do is create a new network space, simply specify a new **ne
 
 The DNA properties are constants that your integrity and coordinator zomes [can access](/build/dnas/#use-dna-properties) to change their behavior. Because they can be used in validation logic, they affect the 'meaning' of your integrity code, which is why they affect the DNA hash (a network is defined by its validation logic).
 
-You can specify DNA properties without specifying a network seed, but be aware that this doesn't guarantee a unique network space. If you're cloning in order to both modify DNA behavior _and_ create a 'private' network space, specify a unique network seed along with the DNA properties.
+!!! info Network clashes
+You can specify DNA properties without specifying a network seed, but be aware that any others who have happened to create a clone with the same properties will find you and your data in their network space, and you will find them and their data in yours. This is intended behavior, but it might not be desired behavior --- if you're cloning in order to both modify DNA behavior _and_ create a new network space without any existing members or data, specify a random network seed along with the DNA properties.
+!!!
 
 ### Origin time <!-- TODO: remove when O.5 lands -->
 
