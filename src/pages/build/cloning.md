@@ -36,7 +36,7 @@ While you can specify an **origin time** (the earliest valid timestamp for any D
 
 If you want to clone a DNA from the client side, use the [`AppWebsocket.prototype.createCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.createclonecell.md).
 
-This example shows a function that creates or joins a private chat room from a DNA whose role in the hApp manifest is named `chat`. It uses the `getHolochainClient` helper we [created in the Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
+This example shows a function that creates or joins a chat room from a DNA whose role in the hApp manifest is named `chat`. It uses the `getHolochainClient` helper we [created in the Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
 
 !!! info
 All these examples use the [`createHolochainClient` helper from the Connecting a Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
@@ -46,7 +46,7 @@ All these examples use the [`createHolochainClient` helper from the Connecting a
 import type { NetworkSeed, ClonedCell } from "@holochain/client";
 import { AppWebsocket } from "@holochain/client";
 
-async function createOrJoinPrivateChatRoom(
+async function createOrJoinChat(
     // A human-readable name. We can use this in the UI.
     // When we create the clone, we pass it to Holochain.
     // It's local to the agent and doesn't affect anything functional, so
@@ -88,14 +88,14 @@ This back-end example behaves the same as the front-end example in the previous 
 use hdk::prelude::*;
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct CreateOrJoinPrivateChatRoomInput {
+pub struct CreateOrJoinChatInput {
     pub name: String,
     pub network_seed: Option<NetworkSeed>,
     pub chat_dna_hash: DnaHash,
 }
 
 #[hdk_extern]
-pub fn create_or_join_private_chat_room(input: CreateOrJoinPrivateChatRoomInput) -> ExternResult<ClonedCell> {
+pub fn create_or_join_chat(input: CreateOrJoinChatInput) -> ExternResult<ClonedCell> {
     let network_seed_bytes = input.network_seed
         .map(|s| s.as_bytes().to_vec())
         .unwrap_or(random_bytes(32)?.into_vec());
@@ -123,7 +123,7 @@ Unlike the JS client's `createCloneCell` API method, the HDK's `create_clone_cel
 ```typescript
 import { CellType } from "@holochain/client";
 
-async function createOrJoinPrivateChatRoom_zomeSide(name: String, network_seed?: NetworkSeed): Promise<ClonedCell> {
+async function createOrJoinChat_zomeSide(name: String, network_seed?: NetworkSeed): Promise<ClonedCell> {
     let client = await getHolochainClient();
     let appInfo = await client.appInfo();
     // The first cell filling a role uses the 'prototype' (unmodified) DNA.
@@ -144,7 +144,7 @@ async function createOrJoinPrivateChatRoom_zomeSide(name: String, network_seed?:
     return await client.callZome({
         role_name: "chat_lobby",
         zome_name: "chat_lobby",
-        fn_name: "create_or_join_private_chat_room",
+        fn_name: "create_or_join_chat",
         payload: {
             name,
             network_seed,
@@ -162,12 +162,12 @@ To get all the clones of a given DNA, use [`AppWebsocket.prototype.appInfo`](htt
 ```typescript
 import { ClonedCell } from "@holochain/client";
 
-async function getPrivateChatCells(): Promise<Array<ClonedCell>> {
+async function getChatCells(): Promise<Array<ClonedCell>> {
     let client = await getHolochainClient();
     let appInfo = await client.appInfo();
     let chats = appInfo.cell_info["chat"];
     if (typeof chats == "undefined") {
-        throw new Error("The chat role isn't defined in this hApp.");
+        throw new Error("The 'chat' role isn't defined in this hApp.");
     }
 
     return chats
