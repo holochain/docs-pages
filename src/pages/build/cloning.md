@@ -20,7 +20,7 @@ Here are the three DNA modifiers and how to use them:
 
 ### Network seed
 
-When all you want to do is create a new network space, simply specify a new **network seed**. It's an arbitrary string that serves no purpose but to change the DNA hash. You can think of it like a passcode to the network.
+When all you want to do is create a new network space, simply specify a new **network seed**. It's an arbitrary string that serves no purpose but to change the DNA hash and create a separate network from the original DNA.
 
 ### DNA properties
 
