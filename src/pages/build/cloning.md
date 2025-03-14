@@ -8,7 +8,7 @@ title: "Cloning"
 
 ## Creating independent networks with the same rules
 
-As we described in [DNAs](/build/dnas/), every DNA has an independent network, keyed by the hash of all the [integrity zomes](/build/zomes/#integrity) and [DNA modifiers](/build/dnas/#integrity-section). Cloning allows you to change an existing DNA slightly, so that it executes the same  but enjoys a separate membership of peers and [DHT database](/concepts/4_dht/).
+As we described in [DNAs](/build/dnas/), every DNA has its own network, keyed by the hash of all its [integrity zomes](/build/zomes/#integrity) and [DNA modifiers](/build/dnas/#integrity-section). Cloning allows you to change an existing DNA slightly, so that it executes the same integrity code but enjoys a separate [DHT database](/concepts/4_dht/) and membership from the original.
 
 An agent creates a clone by choosing an existing DNA in a hApp, then specifying at least one new [DNA modifier](/build/dnas/#integrity-section). Then they have to share the modifier(s) with all other peers who want to join the network, and those peers specify the exact same modifiers in order to create an identical clone with an identical DNA hash.
 
@@ -53,13 +53,14 @@ async function createOrJoinPrivateChatRoom(
     // different agents can give the same chat room clone a different name
     // and still be able to access the room.
     name: string,
+    // If a network seed is supplied, it means we're joining an existing chat
+    // and have been given the network seed by the chat's creator.
     network_seed?: NetworkSeed
 ): Promise<ClonedCell> {
     if (typeof network_seed == "undefined") {
-        // The person who creates a chat room should come up with a unique
-        // network seed. This won't prevent unauthorized access if existing
-        // members share it with others, but it will prevent accidental
-        // clashes.
+        // If no network seed is passed to the function, it means we're
+        // creating a new chat. Generate a unique, random network seed to
+        // ensure that the network is independent from any others.
         network_seed = crypto.randomUUID();
     }
 
