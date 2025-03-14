@@ -3,14 +3,14 @@ title: "Cloning"
 ---
 
 ::: intro
-**Cloning** an existing [DNA](/build/dnas) creates a new DNA with its own independent network and instantiates a new cell from this DNA. You can optionally change the [DNA properties](/build/dnas/#use-dna-properties) when you clone.
+**Cloning** creates a new cell that belongs to a different network from the original cell. You can use this to create many network spaces that share the same back-end code.
 :::
 
 ## Creating independent networks with the same rules
 
-As we described in [DNAs](/build/dnas/), every DNA has its own network, keyed by the hash of all its [integrity zomes](/build/zomes/#integrity) and [DNA modifiers](/build/dnas/#integrity-section). Cloning allows you to change an existing DNA slightly, so that it executes the same integrity code but enjoys a separate [DHT database](/concepts/4_dht/) and membership from the original.
+As we described in [DNAs](/build/dnas/), a DNA is a template for creating the ground rules for a network of peers with its own membership and database. The network is keyed by the hash of all its [integrity zomes](/build/zomes/#integrity) and [DNA modifiers](/build/dnas/#integrity-section). Cloning copies an existing DNA template and changes it slightly, so that cells created from the clone execute the same integrity code but form a new network.
 
-An agent creates a clone by choosing an existing DNA in a hApp, then calling a create-clone function from either the app API or the HDK, specifying at least one new [DNA modifier](/build/dnas/#integrity-section) to change its DHA hash. Then they have to share the modifier(s) with all other peers who want to join the network, so those peers can specify the exact same modifiers in order to create an identical clone with an identical DNA hash.
+An agent creates a clone by choosing a DNA in a hApp by role name or DNA hash, then calling a create-clone-cell function from either the app API or the HDK, specifying at least one new [DNA modifier](/build/dnas/#integrity-section) to change the DNA's hash. Then they must share the modifier(s) with all other peers who want to join the network, so those peers can specify the exact same modifiers in order to create an identical clone cell with an identical DNA hash.
 
 !!! info Creating vs joining a clone network
 From the perspective of using the functions we talk about in the rest of this page, there's really no meaningful difference between _creating_ a network and _joining_ it. Agents 'become the network' together, simply by instantiating a cell from a DNA, discovering other agent cells with the same DNA hash, and beginning to communicate with each other.
@@ -20,14 +20,14 @@ Here are the three DNA modifiers and how to use them:
 
 ### Network seed
 
-When all you want to do is create a new network space, simply specify a new **network seed**. It's an arbitrary string that serves no purpose but to change the DNA hash and create a separate network from the original DNA.
+When all you want to do is create a new network space, simply specify a new **network seed**. It's an arbitrary string that serves no purpose but to change the DNA hash.
 
 ### DNA properties
 
-The DNA properties are constants that your integrity and coordinator zomes [can access](/build/dnas/#use-dna-properties) to change their behavior. Because they can be used in validation logic, they affect the 'meaning' of your integrity code, which is why they affect the DNA hash (a network is defined by its validation logic).
+The DNA properties are constants that your integrity and coordinator zomes [can access](/build/dnas/#use-dna-properties) to change their behavior. Because they can be accessed and used in validation logic, they may affect the 'meaning' of your integrity code, which is why they are hashed into the DNA hash.
 
 !!! info Network clashes
-You can specify DNA properties without specifying a network seed, but be aware that any others who have happened to create a clone with the same properties will find you and your data in their network space, and you will find them and their data in yours. This is intended behavior, but it might not be desired behavior --- if you're cloning in order to both modify DNA behavior _and_ create a new network space without any existing members or data, specify a random network seed along with the DNA properties.
+You can specify DNA properties without specifying a network seed, but be aware that you will find yourself in the same network as any others who have happened to create a clone with the same properties. This is intended behavior, but it might not be desired behavior --- if you're cloning in order to both modify DNA behavior _and_ create a new network space without any existing members or data, specify a random network seed along with the DNA properties.
 !!!
 
 ### Origin time <!-- TODO: remove when O.5 lands -->
@@ -36,9 +36,9 @@ While you can specify an **origin time** (the earliest valid timestamp for any D
 
 ## Clone a DNA from a client
 
-If you want to clone a DNA from the client side, use the [`AppWebsocket.prototype.createCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.createclonecell.md).
+If you want to create a clone from the client side, use the [`AppWebsocket.prototype.createCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.createclonecell.md).
 
-This example shows a function that creates or joins a chat room from a DNA whose role in the hApp manifest is named `chat`. It uses the `getHolochainClient` helper we [created in the Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
+This example shows a function that creates or joins a chat room using a DNA whose role in the hApp manifest is named `chat`. It uses the `getHolochainClient` helper we [created in the Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
 
 !!! info
 All these examples use the [`createHolochainClient` helper from the Connecting a Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
@@ -72,12 +72,14 @@ async function createOrJoinChat(
         name,
         role_name: "chat",
     });
+    // Return the info about the new clone cell, so that the network seed can
+    // be shared with others.
 }
 ```
 
 ## Clone a DNA from a coordinator zome
 
-You can also clone a DNA from within your back end with the [`create_clone_cell`](https://docs.rs/hdk/latest/hdk/clone/fn.create_clone_cell.html) host function. You need to enable the `properties` feature in your zome's `Cargo.toml` file:
+You can also create a clone from within your back end with the [`create_clone_cell`](https://docs.rs/hdk/latest/hdk/clone/fn.create_clone_cell.html) host function. You need to enable the `properties` feature in your zome's `Cargo.toml` file:
 
 ```toml
 [dependencies]
@@ -120,7 +122,7 @@ pub fn create_or_join_chat(input: CreateOrJoinChatInput) -> ExternResult<ClonedC
 ```
 
 !!! info The `create_clone_cell` host function requires the DNA hash and agent ID
-Unlike the JS client's `createCloneCell` API method, the HDK's `create_clone_cell` host function can't refer to an existing DNA by its role name. Instead, you have to specify the DNA hash and agent ID of an existing cell. <!-- TODO: change this if holochain/holochain#4762 gets addressed --> Because it's impossible to get the DNA hash of another role in the hApp using the HDK, you need to either hard-code it in the coordinator zome (which is not recommended because it leads to [tight coupling](https://en.wikipedia.org/wiki/Coupling_%28computer_programming%29#Disadvantages_of_tight_coupling)) or pass it in from the client. Here's a sample client-side function to get a DNA hash from a role name and pass it to the zome function we just defined:
+Unlike the JS client's `createCloneCell` API method, the HDK's `create_clone_cell` host function can't refer to a DNA by its role name. Instead, you have to specify the DNA hash and agent ID of an existing cell. <!-- TODO: change this if holochain/holochain#4762 gets addressed --> Because it's impossible to get the DNA hash of another role in the hApp using the HDK, you need to either hard-code it in the coordinator zome (which is not recommended because it leads to [tight coupling](https://en.wikipedia.org/wiki/Coupling_%28computer_programming%29#Disadvantages_of_tight_coupling)) or pass it in from the client. Here's a sample client-side function to get a DNA hash from a role name and pass it to the zome function we just defined:
 
 ```typescript
 import { CellType, type NetworkSeed, type ClonedCell } from "@holochain/client";
@@ -158,12 +160,12 @@ async function createOrJoinChat_zomeSide(name: string, network_seed?: NetworkSee
 !!!
 
 !!! info Clone limit
-Remember that your DNA manifest can specify a [clone limit](/build/happs/#clone-limit). Any attempts to make more clones than the limit will fail. This value is per-agent: if the clone limit for a role is `3` and Alice creates clones with network seeds `X`, `Y`, and `Z` while Bob creates clones with network seeds `W` and `X`, Alice won't be able to join Bob's network `W` because she's already reached her personal limit.
+Remember that your hApp manifest can specify a [clone limit](/build/happs/#clone-limit) for a given role. Any attempts to make more clones than the limit will fail. This value is per-agent: if the clone limit for a role is `3` and Alice creates clones with network seeds `X`, `Y`, and `Z` while Bob creates clones with network seeds `W` and `X`, Alice won't be able to join Bob's network `W` because she's already reached her personal limit.
 !!!
 
 ## Get all the clones of a role
 
-To get all the clones of a given DNA, use [`AppWebsocket.prototype.appInfo`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appclient.appinfo.md) and take a look at the return value's `cell_info` property, which is an object that maps roles to the cells belonging to those roles.
+To get all the clones of a given role, use [`AppWebsocket.prototype.appInfo`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appclient.appinfo.md) and take a look at the return value's `cell_info` property, which is an object that maps roles to the cells belonging to those roles.
 
 ```typescript
 import { CellType, type ClonedCell } from "@holochain/client";
@@ -390,6 +392,9 @@ pub fn delete_chat_by_dna_hash(dna_hash: DnaHash) -> ExternResult<()> {
 * [`hdk::p2p::call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html)
 * [`AppWebsocket.prototype.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.disableclonecell.md)
 * [`hdk::clone::disable_clone_cell`](https://docs.rs/hdk/latest/hdk/clone/fn.disable_clone_cell.html)
+* [`AppWebsocket.prototype.enableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.enableclonecell.md)
+* [`hdk::clone::enable_clone_cell`](https://docs.rs/hdk/latest/hdk/clone/fn.enable_clone_cell.html)
+* [`hdk::clone::delete_clone_cell`](https://docs.rs/hdk/latest/hdk/clone/fn.delete_clone_cell.html)
 
 ## Further reading
 
