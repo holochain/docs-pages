@@ -20,7 +20,7 @@ Here are the three DNA modifiers and how to use them:
 
 ### Network seed
 
-When all you want to do is create a new network space, simply specify a new **network seed**. It's an arbitrary vector of bytes that serves no purpose but to change the DNA hash. You can think of it like a passcode to the network.
+When all you want to do is create a new network space, simply specify a new **network seed**. It's an arbitrary string that serves no purpose but to change the DNA hash. You can think of it like a passcode to the network.
 
 ### DNA properties
 
@@ -66,7 +66,7 @@ async function createOrJoinChat(
 
     let client = await getHolochainClient();
     return await client.createCloneCell({
-        modifiers: { network_seed, },
+        modifiers: { network_seed },
         name,
         role_name: "chat",
     });
@@ -121,14 +121,14 @@ pub fn create_or_join_chat(input: CreateOrJoinChatInput) -> ExternResult<ClonedC
 Unlike the JS client's `createCloneCell` API method, the HDK's `create_clone_cell` host function can't refer to an existing DNA by its role name. Instead, you have to specify the DNA hash and agent ID of an existing cell. <!-- TODO: change this if holochain/holochain#4762 gets addressed --> Because it's impossible to get the DNA hash of another role in the hApp using the HDK, you need to either hard-code it in the coordinator zome (which is not recommended because it leads to [tight coupling](https://en.wikipedia.org/wiki/Coupling_%28computer_programming%29#Disadvantages_of_tight_coupling)) or pass it in from the client. Here's a sample client-side function to get a DNA hash from a role name and pass it to the zome function we just defined:
 
 ```typescript
-import { CellType } from "@holochain/client";
+import { CellType, type NetworkSeed, type ClonedCell } from "@holochain/client";
 
-async function createOrJoinChat_zomeSide(name: String, network_seed?: NetworkSeed): Promise<ClonedCell> {
+async function createOrJoinChat_zomeSide(name: string, network_seed?: NetworkSeed): Promise<ClonedCell> {
     let client = await getHolochainClient();
     let appInfo = await client.appInfo();
     // The first cell filling a role uses the 'prototype' (unmodified) DNA.
     let chat_cell = appInfo.cell_info?.["chat"]?.[0];
-    if (typeof chat_cell == 'undefined') {
+    if (!chat_cell) {
         throw new Error("Couldn't find a cell with the role name 'chat'.");
     }
     // The cell info type has one property, keyed by the cell type. Right now
@@ -160,7 +160,7 @@ async function createOrJoinChat_zomeSide(name: String, network_seed?: NetworkSee
 To get all the clones of a given DNA, use [`AppWebsocket.prototype.appInfo`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appclient.appinfo.md) and take a look at the return value's `cell_info` property, which is an object that maps roles to the cells belonging to those roles.
 
 ```typescript
-import { ClonedCell } from "@holochain/client";
+import { CellType, type ClonedCell } from "@holochain/client";
 
 async function getChatCells(): Promise<Array<ClonedCell>> {
     let client = await getHolochainClient();
@@ -185,7 +185,7 @@ To use a clone cell, you can address it either by its new DNA hash or its **clon
 This example posts a message to a given chat. It assumes that any DNAs cloned from the `chat` role have a `chat` zome with a function called `post_message` that accepts a string and returns the message hash.
 
 ```typescript
-import { ActionHash } from "@holochain/client";
+import { ActionHash, DnaHash } from "@holochain/client";
 
 async function postMessageByCloneIndex(index: Number, message: String): Promise<ActionHash> {
     let client = await getHolochainClient();
@@ -293,7 +293,7 @@ pub fn pause_chat_by_clone_index(index: u32) -> ExternResult<()> {
 #[hdk_extern]
 pub fn pause_chat_by_dna_hash(dna_hash: DnaHash) -> ExternResult<()> {
     let input = DisableCloneCellInput {
-        clone_cell_id: CloneCellId::DnaHash((dna_hash)),
+        clone_cell_id: CloneCellId::DnaHash(dna_hash),
     };
     disable_clone_cell(input)
 }
