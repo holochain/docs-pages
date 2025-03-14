@@ -258,7 +258,7 @@ When an agent no longer wants to be part of a network, they can disable the clon
 
 ### In the client {#disable-clone-from-client}
 
-Use the [`AppWebsocket.prototype.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.disableclonecell.md) method to disable a cell from a front end.
+Use the [`AppWebsocket.prototype.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.disableclonecell.md) method to disable the cell from a front end.
 
 <!--TODO: The signature of disableCloneCell breaks in 0.5 -->
 
@@ -305,9 +305,61 @@ pub fn pause_chat_by_dna_hash(dna_hash: DnaHash) -> ExternResult<()> {
 }
 ```
 
+## Re-enable a clone cell
+
+If you've previously disabled a clone cell, you can re-enable it to access its functions and start participating in the network again. The input type of these functions is the same as for enabling a clone cell, and they return information about the cloned cell just like when you created it.
+
+### In the client {#enable-clone-from-client}
+
+Use the [`AppWebsocket.prototype.enableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.enableclonecell.md) method to enable a clone cell from a front end.
+
+
+```typescript
+import { DnaHash } from "@holochain/client";
+
+async function restoreChatByCloneIndex(index: Number): Promise<ClonedCell> {
+    let client = await getHolochainClient();
+    return client.enableCloneCell({
+        clone_cell_id: `chat.${index}`
+    });
+}
+
+async function restoreChatByDnaHash(dnaHash: DnaHash): Promise<ClonedCell> {
+    let client = await getHolochainClient();
+    return client.enableCloneCell({
+        clone_cell_id: dnaHash,
+    });
+}
+```
+
+### In a coordinator zome {#enable-clone-from-coordinator}
+
+Use the [`enable_clone_cell`](https://docs.rs/hdk/latest/hdk/clone/fn.enable_clone_cell.html) host function to enable a cell from a coordinator zome within the same hApp.
+
+```rust
+use hdk::prelude::*;
+
+#[hdk_extern]
+pub fn restore_chat_by_clone_index(index: u32) -> ExternResult<ClonedCell> {
+    let clone_role_name = format!("chat.{}", index);
+    let input = EnableCloneCellInput {
+        clone_cell_id: CloneCellId::CloneId(CloneId(clone_role_name)),
+    };
+    enable_clone_cell(input)
+}
+
+#[hdk_extern]
+pub fn restore_chat_by_dna_hash(dna_hash: DnaHash) -> ExternResult<ClonedCell> {
+    let input = EnableCloneCellInput {
+        clone_cell_id: CloneCellId::DnaHash(dna_hash),
+    };
+    enable_clone_cell(input)
+}
+```
+
 ## Delete a clone cell
 
-While Holochain automatically deletes cell data when a hApp is uninstalled, you can also use the HDK to explicitly delete a clone with the [`delete_clone_cell`](https://docs.rs/hdk/latest/hdk/clone/fn.delete_clone_cell.html) host function. The signature is identical to `disable_clone_cell`.
+While Holochain automatically deletes cell data when a hApp is uninstalled, you can also use the HDK to explicitly delete a clone with the [`delete_clone_cell`](https://docs.rs/hdk/latest/hdk/clone/fn.delete_clone_cell.html) host function. Again, the input is identical to `disable_clone_cell` and `enable_clone_cell`.
 
 ```rust
 use hdk::prelude::*;
