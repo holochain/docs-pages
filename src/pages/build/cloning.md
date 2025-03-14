@@ -157,6 +157,10 @@ async function createOrJoinChat_zomeSide(name: string, network_seed?: NetworkSee
 ```
 !!!
 
+!!! info Clone limit
+Remember that your DNA manifest can specify a [clone limit](/build/happs/#clone-limit). Any attempts to make more clones than the limit will fail. This value is per-agent: if the clone limit for a role is `3` and Alice creates clones with network seeds `X`, `Y`, and `Z` while Bob creates clones with network seeds `W` and `X`, Alice won't be able to join Bob's network `W` because she's already reached her personal limit.
+!!!
+
 ## Get all the clones of a role
 
 To get all the clones of a given DNA, use [`AppWebsocket.prototype.appInfo`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appclient.appinfo.md) and take a look at the return value's `cell_info` property, which is an object that maps roles to the cells belonging to those roles.
