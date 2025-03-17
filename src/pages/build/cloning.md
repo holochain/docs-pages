@@ -32,13 +32,13 @@ You can specify DNA properties without specifying a network seed, but be aware t
 
 ### Origin time <!-- TODO: remove when O.5 lands -->
 
-While you can specify an **origin time** (the earliest valid timestamp for any DHT data), in practice this isn't necessary. Holochain will just use the origin time from the original DNA.
+While you can specify an **origin time** (the earliest valid timestamp for any DHT data), in practice this isn't necessary or useful (and it will be removed in Holochain 0.5). Holochain will just use the origin time from the original DNA.
 
 ## Clone a DNA from a client
 
-If you want to create a clone from the client side, use the [`AppWebsocket.prototype.createCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.createclonecell.md).
+If you want to create a clone from the client side, use the [`AppWebsocket.prototype.createCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.createclonecell.md) host function.
 
-This example shows a function that creates or joins a chat room using a DNA whose role in the hApp manifest is named `chat`. It uses the `getHolochainClient` helper we [created in the Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
+This example shows a function that creates or joins a chat room using a DNA whose role in the hApp manifest is named `chat`.
 
 !!! info
 All these examples use the [`createHolochainClient` helper from the Connecting a Front End page](/build/connecting-a-front-end/#connect-to-a-happ-with-the-javascript-client).
