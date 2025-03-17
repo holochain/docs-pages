@@ -143,7 +143,7 @@ When do you decide whether a hApp should have more than one DNA? Whenever it mak
 * **Discarding or archiving data.** Because no data is ever deleted in a cell or the network it belongs to, a lot of old data can accumulate. Creating clones of a single storage-heavy DNA, bounded by topic or time period, allows agents to participate in only the networks that contain the information they need. As agents leave networks, unwanted data naturally disappears from their machines.
 
 !!! Using the network seed for private spaces
-A network seed with high entropy could be used as a passcode for joining a network, allowing you to create a moderately private space. It shouldn't be considered a truly secret space though, as data isn't encrypted at rest and anyone with access to the network seed or the resulting modified DNA hash will be able to join the network and access its data and membership.
+A network seed with high entropy could be used as a passcode for joining a network, allowing you to create a moderately private space. It shouldn't be considered a truly secret space though, as anyone with access to the network seed or the resulting modified DNA hash will be able to join the network and access its data and membership.
 
 Privacy is a broad topic outside the scope of this guide. If you'd like to go deeper, read the paper [_Exploring Co-Design Considerations for Embedding Privacy in Holochain Apps_](https://dialnet.unirioja.es/servlet/articulo?codigo=8036267).
 !!!

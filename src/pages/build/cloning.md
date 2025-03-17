@@ -59,7 +59,7 @@ async function createOrJoinChat(
     // and have been given the network seed by the chat's creator.
     network_seed?: NetworkSeed
 ): Promise<ClonedCell> {
-    if (typeof network_seed == "undefined") {
+    if (!network_seed) {
         // If no network seed is passed to the function, it means we're
         // creating a new chat. Generate a unique, random network seed to
         // ensure that the network is independent from any others.
