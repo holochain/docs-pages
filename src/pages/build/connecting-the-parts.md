@@ -8,12 +8,12 @@ title: "Connecting the Parts"
 * Connecting the parts (this page)
     * [Front end](/build/connecting-a-front-end/) --- establishing a WebSocket connection from JavaScript
     * [Calling zome functions](/build/calling-zome-functions) --- examples for front ends, cell-to-cell, and agent-to-agent
-    * Capabilities (coming soon) --- how to manage access to a cell's zome functions
+    * [Capabilities](/build/capabilities/) --- how to manage access to a cell's zome functions
     * [Signals](/build/signals/) --- receiving notifications from cells
 :::
 
 ::: intro
-Your hApp back end's public interface consists of all the [**zome functions**](/build/zome-functions/) of all the [**cells**](/concepts/2_application_architecture/#cell) instantiated from all the [**DNAs**](/build/dnas/) that fill the hApp's [**roles**](/build/application-structure/#happ). It is accessible to locally running processes and to network peers, and is secured by a form of **capability-based security**<!--TODO: link to that page when it's written. -->, adapted for peer-to-peer applications.
+Your hApp back end's public interface consists of all the [**zome functions**](/build/zome-functions/) of all the [**cells**](/concepts/2_application_architecture/#cell) instantiated from all the [**DNAs**](/build/dnas/) that fill the hApp's [**roles**](/build/application-structure/#happ). It is accessible to locally running processes and to network peers, and is secured by a form of [**capability-based security**](/build/capabilities/), adapted for peer-to-peer applications.
 
 The back end can also send out [**signals**](/build/signals/) that can be received either by UIs or remote peers.
 :::
@@ -41,7 +41,7 @@ An agent naturally doesn't want any remote peer calling any of their zome functi
 
 Capability-based security, in short, says that you should never give out direct access to a resource such as a file or network connection. Instead you mediate access to that resource and give out 'handles' that represent a set of privileges. Holochain expands on this idea by adding the ability to restrict resource access to a certain group of agents, represented by their private keys.
 
-This is a complex topic, so we're going to write a separate page about it soon.<!-- TODO: link when ready -->
+[Read more about Holochain's capability security system.](/build/capabilities/)
 
 ## Sending signals for reactive, event-based programming
 

@@ -12,6 +12,7 @@ Holo's
 Holochain
 Holochain's
 Holonix
+kitsune
 Lightningrod
 memproof
 memproofs

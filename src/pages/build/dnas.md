@@ -237,7 +237,7 @@ Note that **bridging between different cells only happens within one agent's hAp
 
 ## Use DNA properties
 
-The `properties` field in your DNA is just arbitrary bytes, but it's meant to be written and deserialized as YAML. Any of your zomes can access it. Because it's a DNA modifier, it [changes the DNA hash](#dnas-the-rules-of-the-game-for-a-network), which results in a new network. The reason for this is that you can use the properties in your validation callbacks<!-- TODO: link when validation PR is merged -->, configuring how they work for different networks. You can only modify DNA properties before an app is installed or when a cell is cloned --- not while the cell is running.
+The `properties` field in your DNA is just arbitrary bytes, but it's meant to be written and deserialized as YAML. Any of your zomes can access it. Because it's a DNA modifier, it [changes the DNA hash](#dnas-the-rules-of-the-game-for-a-network), which results in a new network. The reason for this is that you can use the properties in your [validation callbacks](/build/validation/), configuring how they work for different networks. You can only modify DNA properties before an app is installed or when a cell is cloned --- not while the cell is running.
 
 You can deserialize your DNA modifiers automatically by using the [`dna_properties` macro](https://docs.rs/hdk_derive/latest/hdk_derive/attr.dna_properties.html) on a type definition, which will give your type a method called `try_from_dna_properties`.
 

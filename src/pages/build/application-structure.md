@@ -77,7 +77,7 @@ The hApp can specify two provisioning strategies for its DNAs:
 * A cell can be instantiated at app installation time.
 * A new cell can be **cloned** from an existing DNA at any time _after the hApp is installed_, with an optional limit on the number of clones.
 
-A hApp can optionally include a web-based UI that supporting Holochain runtimes <!-- TODO: link --> can serve to the user.
+A hApp can optionally include a web-based UI that [supporting Holochain runtimes](/get-started/4-packaging-and-distribution/#runtimes) can serve to the user.
 
 !!! info A hApp always runs locally {#local}
 
