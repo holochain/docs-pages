@@ -5,6 +5,8 @@ dnas
 DPKI
 hApp
 hApps
+# Apparently abbrevs don't get a pass if they're possessive.
+HDK's
 Holo
 Holo's
 Holochain

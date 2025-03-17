@@ -32,6 +32,7 @@
           ]},
           { title: "DNAs", url: "/build/dnas/" },
           { title: "hApps", url: "/build/happs/" },
+          { title: "Cloning", url: "/build/cloning/" },
         ]},
         { title: "Working with Data", url: "/build/working-with-data/", children: [
           { title: "Identifiers", url: "/build/identifiers/" },
