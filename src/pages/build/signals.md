@@ -132,7 +132,7 @@ pub fn recv_remote_signal(payload: RemoteSignal) -> ExternResult<()> {
 ```
 
 !!! info Remote signal handlers are just zome functions
-`send_remote_signal` is sugar for a [remote call](/build/calling-zome-functions/#call-a-zome-function-from-another-agent-in-the-network) to a zome function named  `recv_remote_signal`. This target function exists by convention and must be given an `Unrestricted` capability grant for this to work. <!-- TODO: link to capabilities page -->. The only difference from a regular remote call is that `send_remote_signal` doesn't block execution waiting for a response, and it doesn't return an error if anything fails. Other than that, the following two are roughly equivalent.
+`send_remote_signal` is sugar for a [remote call](/build/calling-zome-functions/#call-a-zome-function-from-another-agent-in-the-network) to a zome function named  `recv_remote_signal`. This target function exists by convention and must be [given an `Unrestricted` capability grant](/build/capabilities/#unrestricted) for this to work. The only difference from a regular remote call is that `send_remote_signal` doesn't block execution waiting for a response, and it doesn't return an error if anything fails. Other than that, the following two are roughly equivalent.
 
 ```rust
 fn send_heartbeat_via_remote_signal(agent: AgentPubKey) -> ExternResult<()> {
@@ -153,7 +153,7 @@ fn send_heartbeat_via_remote_call(agent: AgentPubKey) -> ExternResult<()> {
 }
 ```
 
-Take care that `recv_remote_signal` does as little as possible, to avoid people abusing it. Permissions and privileges are another topic which we'll talk about soon.<!-- TODO: delete this sentence and link to capabilities page -->
+Take care that `recv_remote_signal` does as little as possible, to avoid people abusing it.
 
 It also means that `send_remote_signal` always routes the call to a coordinator zome of the same name as the caller. Because [the remote agent might map that name to a different coordinator zome, or no zome at all](/build/calling-zome-functions/#remote-call-unknown-routing), this function might be handled in unexpected ways on the receiver's end.
 
@@ -169,4 +169,4 @@ Finally, remote signals open up connections to peers, so they should be used spa
 ## Further reading
 
 * [Core Concepts: Signals](/concepts/9_signals/)
-<!-- TODO: reference capabilities page -->
+* [Build Guide: Capabilities](/build/capabilities/)
