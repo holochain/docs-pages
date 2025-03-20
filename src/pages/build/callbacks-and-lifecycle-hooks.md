@@ -170,34 +170,7 @@ fn get_movie_loan_offer(action_hash: ActionHash) -> ExternResult<MovieLoanOffer>
             return Err(wasm_error!("Couldn't retrieve movie loan offer entry"));
         }
     }
-    Err(wasm_error!("Couldn't retrieve movie loan"))
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct UpdateMovieInput {
-    pub original_hash: ActionHash,
-    pub data: Movie,
-}
-
-#[hdk_extern]
-pub fn update_movie(input: UpdateMovieInput) -> ExternResult<ActionHash> {
-    let maybe_original_record = get(
-        input.original_hash.clone(),
-        GetOptions::network()
-    )?;
-    match maybe_original_record {
-        // We don't need to know the contents of the original; we just need to
-        // know it exists before trying to update it.
-        // A more robust app would at least check that the original was of the
-        // correct type.
-        Some(_) => {
-            return update_entry(
-                input.original_hash.clone(),
-                &EntryTypes::Movie(input.data)
-            );
-        }
-        None => Err(wasm_error!("Original movie record not found")),
-    }
+    Err(wasm_error!("Couldn't retrieve movie loan offer"))
 }
 ```
 
