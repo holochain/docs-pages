@@ -82,7 +82,7 @@ pub fn get_all_movies_i_authored() -> Vec<Record> {
 
 ## Query another agent's source chain for validation
 
-There's another source chain querying function called `must_get_agent_activity`, which is used in validation to check whether a contiguous region of a source chain is valid. You can find examples of this function on the [Validation](/build/validation/#must-get-agent-activity) page.
+There's another source chain querying function called `must_get_agent_activity`, which is used in validation to check whether a contiguous region of a source chain is valid. You can find examples of this function on the [Validation](/build/must-get-host-functions/#must-get-agent-activity) page.
 
 ## Reference
 

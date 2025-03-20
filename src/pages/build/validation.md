@@ -79,4 +79,4 @@ These functions are available to both `validate` and `genesis_self_check`:
 * [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html)
 * [`must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html)
 
-You can read about them on the [`validate` callback](/build/validate-callback/#retrieving-dht-data-deterministically) page.
+You can read about them on the [`must_get_*` Host Functions](/build/must_get_host_functions/) page.
