@@ -161,7 +161,7 @@ Use this function to validate the [**membrane proof**](/build/genesis-self-check
 This example implements a simple invite code for a network that people can invite their friends to join. All that's required is the presence of an 'invite' action on the DHT, whose hash becomes the invite code. Some of the logic is shared with `genesis_self_check`.
 
 !!! info Inductive validation {#inductive-validation}
-This example uses a host function called [`must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html) to do what we call **inductive validation**. This technique speeds up validation of data with large dependency trees by recognizing that dependencies will already have been validated, and any dependencies of those dependencies will also have been subjected to the same logic by their validators, and so on.
+This example uses a host function called [`must_get_valid_record`](/build/must-get-host-functions/#must-get-valid-record) to do what we call **inductive validation**. This technique speeds up validation of data with large dependency trees by recognizing that dependencies will already have been validated, and any dependencies of those dependencies will also have been subjected to the same logic by their validators, and so on.
 
 In small networks, this is perfectly secure, as the dependencies will have been validated by the same agent. As networks grow, it depends on the percentage of honest validators, although it'd take a [large number of dishonest peers](https://blog.holochain.org/satoshi-nakamoto-and-the-fate-of-our-planet-2/#consensus-an-irrelevant-starting-point) to threaten the safety of this technique.
 !!!
@@ -249,10 +249,12 @@ fn validate_invite_code_format(invite_code: Option<Vec<u8>>) -> ExternResult<Val
 * [`holochain_integrity_types::genesis::GenesisSelfCheckData`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/genesis/type.GenesisSelfCheckData.html)
 * [`holochain_integrity_types::validate::ValidateCallbackResult`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.ValidateCallbackResult.html)
 * [HDI docs: data validation](https://docs.rs/hdi/latest/hdi/#data-validation)
-* [`must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html)
-* [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html)
-* [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html)
-* [`must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html)
+* [`hdi::entry::must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html)
+* [`hdi::chain::must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html)
+* [`hdi::entry::must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html)
+* [`hdi::entry::must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html)
+* [`hdi::flat_op::FlatOp`](https://docs.rs/hdi/latest/hdi/flat_op/enum.FlatOp.html)
+* [`hdi::flat_op::OpActivity`](https://docs.rs/hdi/latest/hdi/flat_op/enum.OpActivity.html)
 
 ## Further reading
 
