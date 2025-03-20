@@ -3,16 +3,20 @@ title: "must_get_* Host Functions"
 ---
 
 ::: intro
-Successful [validation](/build/validation) depends on yielding the same deterministic true/false result for any given DHT operation, no matter who validates it and when. To safely get DHT dependencies in validation, you must use the **`must_get_*`** host functions. Any other DHT retrieval functions, such as `get_links` or `get_details`, can give varying values depending on the current state of the metadata at an address.
+Successful [validation](/build/validation) depends on yielding the same deterministic true/false result for a given DHT operation, no matter who validates it and when. To safely get DHT dependencies in validation, you must use the **`must_get_*`** host functions. Any other DHT retrieval functions, such as `get_links` or `get_details`, can give varying values depending on the current state of the metadata at an address and aren't available to validation callbacks.
 :::
 
-The `must_get_*` host functions can only retrieve addressable content, not data whose state can change over time such as a vector of links. They return only the requested data and ignore any metadata that may change the state of that data, such as links, updates, and deletes.
+The `must_get_*` host functions can only retrieve addressable content, not data whose state can change over time such as a vector of links. They return only the requested data and ignore any metadata that may change its state, such as links, updates, and deletes.
 
-If a `must_get_*` function can't retrieve the data, it isn't considered a validation failure. Instead, it causes validation to terminate early with <code>ValidateCallbackResult::UnresolvedDependencies([UnresolvedDependencies](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.UnresolvedDependencies.html))</code>, which signals to the conductor that validation should be retried in the hope that the data will be available later.
+If a `must_get_*` function can't retrieve the data, it isn't considered a validation failure. Instead, it causes validation to terminate early with [`ValidateCallbackResult::UnresolvedDependencies`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.ValidateCallbackResult.html#variant.UnresolvedDependencies), which signals to the conductor that validation should be retried in the hope that the data will be available later.
 
 ## `must_get_action` and `must_get_entry`
 
-To get a single entry, use [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html). To get a single action, use [`must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html). Neither of these functions verify that the retrieved data is valid. If you need this assurance, use an action hash as as a dependency's identifier and use [`must_get_valid_record`](#must-get-valid-record).
+To get a single entry, use [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html). To get a single action, use [`must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html).
+
+!!! info Results aren't guaranteed to be valid
+Neither of these functions verify that the retrieved data is valid. If you need this assurance, use an action hash as as a dependency's identifier and retrieve it with [`must_get_valid_record`](#must-get-valid-record).
+!!!
 
 This example validates a [movie loan acceptance](/build/identifiers/#in-dht-data), making sure that it's valid against the original loan offer.
 
@@ -53,13 +57,11 @@ pub fn validate_create_movie_loan_acceptance(
 
 ## `must_get_agent_activity`
 
-When validating an agent's activity, you can query their existing source chain records with [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html). Validation logic must be deterministic, so this function's [filter struct](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) and return value remove non-determinism.
+You can query an agent's existing source chain records with [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html). This function's [filter struct](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) and return value remove non-determinism --- it only lets you select a contiguous, bounded slice of a source chain, and doesn't return any information about the validity of the actions in that slice or the chain as a whole. It retrieves the entire slice from a single authority, so it's best to use it only when validating a [`RegisterAgentActivity` operation](/build/dht-operations/#register-agent-activity), because the validating authority will already have that data locally.
 
-`must_get_agent_activity` only allows you to select a contiguous, bounded slice of a source chain, and doesn't return any information about the validity of the actions in that slice or the chain as a whole. It needs to get the entire slice from an authority, so it's best to use it only when validating a [`RegisterAgentActivity` operation](/build/dht-operations/#register-agent-activity), where the validating authority already has that data.
+This host function lets you enforce rules based on an agent's history, such as limiting their rate of posts based on timestamp or ensuring they have sufficient account balance to make a transaction. You can specify a range of actions, starting at a given chain point and working backwards, and it'll give you a vector of [`RegisterAgentActivity` operations](/build/dht-operations/#register-agent-activity), inclusive of the start and end points.
 
-This host function lets you enforce rules based on their history, such as limiting their rate of posts based on timestamp or ensuring they have sufficient account balance to make a transaction. You can specify a range of actions, starting at a given chain point and working backwards, and it'll give you a vector of [`RegisterAgentActivity` operations](/build/dht-operations/#register-agent-activity), inclusive of the start and end points.
-
-This example creates a custom helper function, only run when a `RegisterAgentActivity` operation is being validated. It makes sure an agent may only create or edit a movie ten times in a minute, to prevent spamming. <!-- TODO: rewrite this if https://github.com/holochain/holochain/issues/4754 is accepted -->
+This example creates a custom helper function to run when a `RegisterAgentActivity` operation is being validated. It makes sure an agent may only create or edit ten movie entries per minute, to prevent spamming. <!-- TODO: rewrite this if https://github.com/holochain/holochain/issues/4754 is accepted -->
 
 ```rust
 use hdi::prelude::*;
@@ -100,7 +102,6 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
         ChainFilter::new(prev_action_hash.clone())
     )?;
 
-
     // The result is a vector of `RegisterAgentActivity`` DHT ops.
     // Let's convert it into a count of the movie creation actions written in
     // the last minute.
@@ -127,23 +128,19 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
 }
 ```
 
-!!! Timestamps are self-reported
-An agent running a compromised conductor can self-report any timestamp they like, even future times, in an action, making it possible to cheat the above simple spam protection.
+!!! info Timestamps are self-reported
+An agent running a compromised conductor can self-report any timestamp they like in an action, even future times, making it possible to cheat this basic spam protection.
 !!!
 
 !!! info Querying the source chain can be expensive!
-When querying an agent's source chain, you're causing the validator to pull in a long list of dependencies, possibly from another validator. It's best if you only do this when you're validating a `RegisterAgentActivity`, because then the entire source chain is available to the validator locally and doesn't require any network traffic.
-
-Try also to design your validation so that the corresponding entries don't have to be retrieved for a `must_get_agent_activity` result set. Even if the source chain is local, the entries are likely to not be, and every `must_get_entry` call may mean another network request.
-
-If you must retrieve entries, design your data structures to enable as much pre-filtering and as few entry retrievals as possible.
+Try to design your validation so that validators don't have to retrieve the corresponding entries for a `must_get_agent_activity` result set. Even if the source chain is local, the entries are likely to not be, and every `must_get_entry` call may mean another network request. If you must retrieve entries, design your data structures to enable as much pre-filtering and as few entry retrievals as possible.
 !!!
 
 ## `must_get_valid_record`
 
 [`must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html) tries to get a record, and will fail with `ValidateCallbackResult::UnresolvedDependencies` if the record is marked invalid by any validators, even if it can be found. This makes [inductive validation](/build/validate-callback/#inductive-validation) possible.
 
-Anywhere you use `must_get_action`, you can also use `must_get_valid_record`, with the added benefit that you get the action and entry data at the same time (if the action is an [entry creation action](/build/entries/#entries-and-actions)):
+Anywhere you use `must_get_action`, you can also use `must_get_valid_record`, with the added benefit that you get the action and entry data at the same time if the action is an [entry creation action](/build/entries/#entries-and-actions):
 
 ```rust
 use hdi::prelude::*;
@@ -172,5 +169,5 @@ fn check_that_action_exists_and_is_valid_and_has_valid_public_app_entry(action_h
 !!! info This may not catch all validation failures
 `must_get_valid_record` checks for validation success or failure on the [`StoreRecord` DHT operation](/build/dht-operations/#store-record). Validation code for other DHT operations produced from the same action may have executed and failed.
 
-In the future, we intend to introduce 'warrants', a feature which will allow validators to communicate failures to each other for related data. Until then, if any of your validation code uses `must_get_valid_record` to retrieve a dependency, we recommend that the dependency's validation code for the `StoreRecord` operation cover all possible validity checks.
+In the future, we intend to introduce 'warrants', a feature which will allow validators to communicate failures to each other for related data. Until then, if any of your validation code uses `must_get_valid_record` to retrieve a dependency, we recommend that the dependency's validation code for the `StoreRecord` operation cover all possible checks.
 !!!
