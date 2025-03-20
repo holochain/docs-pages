@@ -48,6 +48,7 @@
         ]},
         { title: "Validation", url: "/build/validation/", children: [
           { title: "Genesis Self-Check Callback", url: "/build/genesis-self-check-callback/" },
+          { title: "Validate Callback", url: "/build/validate-callback/" },
         ]}
       ]
     },
