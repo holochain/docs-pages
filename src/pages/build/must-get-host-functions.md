@@ -171,3 +171,17 @@ fn check_that_action_exists_and_is_valid_and_has_valid_public_app_entry(action_h
 
 In the future, we intend to introduce 'warrants', a feature which will allow validators to communicate failures to each other for related data. Until then, if any of your validation code uses `must_get_valid_record` to retrieve a dependency, we recommend that the dependency's validation code for the `StoreRecord` operation cover all possible checks.
 !!!
+
+## Reference
+
+* [HDI docs: data validation](https://docs.rs/hdi/latest/hdi/#data-validation)
+* [`hdi::entry::must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html)
+* [`hdi::chain::must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html)
+* [`hdi::entry::must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html)
+* [`hdi::entry::must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html)
+
+## Further reading
+
+* [Build Guide: Validation](/build/validation/)
+* [Build Guide: `validate` Callback](/build/validate-callback/)
+* [Core Concepts: Validation](/concepts/7_validation/)
