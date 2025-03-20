@@ -118,27 +118,28 @@ If you need to do any follow-up, it's safer to do this in a lifecycle hook calle
 
 `post_commit` also can't return an error. There should be no return type, and it should handle all errors it receives from other functions. It also must be tagged with `#[hdk_extern(infallible)]`.
 
-Here's an example that uses `post_commit` to tell someone a movie loan has been created for them. It uses the integrity zome examples from [Identifiers](/build/identifiers/#in-dht-data).
+Here's an example that uses `post_commit` to tell someone a movie loan offer has been created for them. It uses the integrity zome examples from [Identifiers](/build/identifiers/#in-dht-data).
 
 ```rust
-use movie_integrity::{EntryTypes, Movie, MovieLoan, UnitEntryTypes};
+use movie_integrity::{EntryTypes, Movie, MovieLoanOffer, UnitEntryTypes};
 use hdk::prelude::*;
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(tag = "type", content = "value", rename_all = "snake_case")]
 pub enum Signal {
-    MovieLoanHasBeenCreatedForYou(ActionHash),
+    MovieLoanOfferHasBeenCreatedForYou(ActionHash),
+    MovieLoanOfferDetails(MovieLoanOffer),
 }
 
 #[hdk_extern(infallible)]
-pub fn post_commit(actions: Vec<SignedActionHashed>) {
-    for action in actions.iter() {
+pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
+    for action in committed_actions {
         // Only handle cases where an entry is being created.
         if let Action::Create(_) = action.action() {
-            if let Ok(movie_loan) = get_movie_loan(action.action_address().clone()) {
+            if let Ok(movie_loan_offer) = get_movie_loan_offer(action.action_address().clone()) {
                 send_remote_signal(
-                    Signal::MovieLoanHasBeenCreatedForYou(action.action_address().clone()),
-                    vec![movie_loan.lent_to]
+                    Signal::MovieLoanOfferHasBeenCreatedForYou(action.action_address().clone()),
+                    vec![movie_loan_offer.offer_to]
                 ).ok(); // suppress warning about unhandled `Result`
             }
         }
@@ -147,26 +148,26 @@ pub fn post_commit(actions: Vec<SignedActionHashed>) {
 
 #[hdk_extern]
 pub fn recv_remote_signal(payload: Signal) -> ExternResult<()> {
-    if let Signal::MovieLoanHasBeenCreatedForYou(action_hash) = payload {
-        let movie_loan = get_movie_loan(action_hash)?;
-        // Send the new movie loan data to the borrower's UI!
-        emit_signal(Signal::MovieLoanHasBeenCreatedForYou(movie_loan))?;
+    if let Signal::MovieLoanOfferHasBeenCreatedForYou(action_hash) = payload {
+        let movie_loan_offer = get_movie_loan_offer(action_hash)?;
+        // Send the new movie loan offer data to the borrower's UI!
+        emit_signal(Signal::MovieLoanOfferDetails(movie_loan_offer))?;
     }
     Ok(())
 }
 
-fn get_movie_loan(action_hash: ActionHash) -> ExternResult<MovieLoan> {
+fn get_movie_loan_offer(action_hash: ActionHash) -> ExternResult<MovieLoanOffer> {
     if let Some(record) = get(
         action_hash,
         GetOptions::network()
     )? {
-        let maybe_movie_loan: Option<MovieLoan> = record.entry()
+        let maybe_movie_loan_offer: Option<MovieLoanOffer> = record.entry()
             .to_app_option()
-            .map_err(|e| wasm_error!("Couldn't deserialize entry into movie loan: {}", e))?;
-        if let Some(movie_loan) = maybe_movie_loan {
-            return Ok(movie_loan);
+            .map_err(|e| wasm_error!("Couldn't deserialize entry into movie loan offer: {}", e))?;
+        if let Some(movie_loan_offer) = maybe_movie_loan_offer {
+            return Ok(movie_loan_offer);
         } else {
-            return Err(wasm_error!("Couldn't retrieve movie loan entry"));
+            return Err(wasm_error!("Couldn't retrieve movie loan offer entry"));
         }
     }
     Err(wasm_error!("Couldn't retrieve movie loan"))

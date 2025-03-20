@@ -189,30 +189,40 @@ let dna_hash = dna_info()?.hash;
 
 ### In DHT data
 
-To reference an address in your entry data, define a field in your entry that can hold the right kind of address. The HDK will take care of serialization and deserialization for you. The following entry type has two fields that take different kinds of address.
+To reference an address in your entry data, define a field in your entry that can hold the right kind of address. The HDK will take care of serialization and deserialization for you. The following entry types have fields that reference other DHT data.
 
 ```rust
 use hdi::prelude::*;
 
 #[hdk_entry_helper]
-pub struct MovieLoan {
+pub struct MovieLoanOffer {
+    // This hash is meant to reference a `Movie` entry.
     pub movie_hash: EntryHash,
-    pub lent_to: AgentPubKey,
+    pub offer_to: AgentPubKey,
     pub loan_duration_seconds: u64,
+    pub offer_expires_seconds: u64,
+}
+
+#[hdk_entry_helper]
+pub struct MovieLoanAcceptance {
+    // This hash is meant to reference a `MovieLoanOffer` creation action.
+    // See https://developer.holochain.org/build/entries/#entries-and-actions
+    pub offer_hash: ActionHash,
 }
 
 // Remember to create a variant in your `EntryTypes` enum for this new type!
+// See https://developer.holochain.org/build/entries/#entry-types-enum
 ```
 
-To reference an address in your links, pass it directly to the `create_link` function:
+To reference an address in your links, pass it directly to the [`create_link` function](/build/links-paths-and-anchors/#create-a-link) as a link base or target:
 
 ```rust
 use hdk::prelude::*;
 
-let movie_to_loan_action_hash = create_link(
+let movie_to_loan_offer_action_hash = create_link(
     movie_hash,
-    movie_loan_hash,
-    LinkTypes::MovieToLoan,
+    movie_loan_offer_hash,
+    LinkTypes::MovieToMovieLoanOffer,
     ()
 )?;
 ```

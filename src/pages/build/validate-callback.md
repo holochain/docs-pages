@@ -48,7 +48,7 @@ DHT operations are an advanced concept so we won't cover them here. (You can rea
 
 Fortunately, the scaffolding tool generates `validate` and [`genesis_self_check`](/build/genesis-self-check-callback/) callbacks that call out to stub functions that you can fill in with your own validation logic.
 
-Here are some useful examples that show you how to use the stub functions, imagining you've scaffolded the `Director` and `Movie` entry types from the [Entries](/build/entries/#define-an-entry-type) and the `MovieLoan` entry type from the [Identifiers](/build/identifiers/) page, along with a [global collection](/build/links-paths-and-anchors/#scaffold-a-simple-collection-anchor) for all `Director` entries.
+Here are some useful examples that show you how to use the stub functions, imagining you've scaffolded the `Director` and `Movie` entry types from the [Entries](/build/entries/#define-an-entry-type) and the `MovieLoanOffer` entry type from the [Identifiers](/build/identifiers/) page, along with a [global collection](/build/links-paths-and-anchors/#scaffold-a-simple-collection-anchor) for all `Director` entries.
 
 ### Stub functions for entries
 
@@ -104,14 +104,14 @@ This function receives the original entry and its creation action along with the
 ```rust
 use hdi::prelude::*;
 
-pub fn validate_update_movie_loan(
+pub fn validate_update_movie_loan_offer(
     action: Update,
-    _movie_loan: MovieLoan,
+    _movie_loan_offer: MovieLoanOffer,
     original_action: EntryCreationAction,
-    _original_movie_loan: MovieLoan,
+    _original_movie_loan_offer: MovieLoanOffer,
 ) -> ExternResult<ValidateCallbackResult> {
     if action.author != original_action.author().clone() {
-        return Ok(ValidateCallbackResult::Invalid("Agents can only update their own MovieLoan records.".to_string()));
+        return Ok(ValidateCallbackResult::Invalid("Agents can only update their own MovieLoanOffer records.".to_string()));
     }
     Ok(ValidateCallbackResult::Valid)
 }
@@ -135,18 +135,18 @@ pub fn validate_delete_director(
 }
 ```
 
-And this example once again only allows people to delete movie loans they created:
+And this example once again only allows people to delete movie loan offers they created:
 
 ```rust
 use hdi::prelude::*;
 
-pub fn validate_delete_movie_loan(
+pub fn validate_delete_movie_loan_offer(
     action: Delete,
     original_action: EntryCreationAction,
-    _original_movie_loan: MovieLoan,
+    _original_movie_loan_offer: MovieLoanOffer,
 ) -> ExternResult<ValidateCallbackResult> {
     if action.author != original_action.author().clone() {
-        return Ok(ValidateCallbackResult::Invalid("Agents can only delete their own MovieLoan records.".to_string()));
+        return Ok(ValidateCallbackResult::Invalid("Agents can only delete their own MovieLoanOffer records.".to_string()));
     }
     Ok(ValidateCallbackResult::Valid)
 }
