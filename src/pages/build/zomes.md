@@ -24,6 +24,14 @@ We're focusing on Rust as a language for writing zomes, mainly because Holochain
 
 A Rust-based zome is a library crate that's compiled to the WebAssembly build target. We've created an SDK called the [Holochain Development Kit (HDK)](https://crates.io/crates/hdk/), which lets you define functions, exchange data with the **host** (the Holochain conductor), and access all of the host's functionality.
 
+!!! Make sure your dependencies compile to WASM
+If you're using third-party crates in your zome, make sure they can be compiled to WebAssembly and don't use any special host APIs. Usually a project will document this. If you're in doubt, here are a few guidelines:
+
+* Any crate that uses features of the host OS, like the system clock, random number generators, filesystem, POSIX, iostreams, or networking, can't be compiled to WASM.
+* Any crate that uses multithreading or async/await can't be compiled to WebAssembly.
+* Crates that use the [WebAssembly JavaScript API](https://developer.mozilla.org/en-US/docs/WebAssembly/Guides/Using_the_JavaScript_API) or the [WebAssembly System Interface (WASI)](https://wasi.dev/) won't work with Holochain, as it doesn't expose either of these APIs to zomes.
+!!!
+
 ## The two types of zomes
 
 ### Integrity
