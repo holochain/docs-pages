@@ -39,7 +39,7 @@ enum LinkTypes {
     GenreToMovie,
     IpfsMoviePoster,
     MovieReview,
-    MovieToLoan,
+    MovieToMovieLoanOffer,
     // Note: the following link types will become useful when we talk about
     // paths and anchors later.
     MovieByFirstLetterAnchor,
