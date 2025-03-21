@@ -39,12 +39,12 @@
           { title: "Links, Paths, and Anchors", url: "/build/links-paths-and-anchors/" },
           { title: "Querying Source Chains", url: "/build/querying-source-chains/" },
         ]},
-        { title: "Using the Host API", url: "/build/using-the-host-api", children: [
+        { title: "Using the Host API", url: "/build/using-the-host-api/", children: [
         ]},
         { title: "Connecting the Parts", url: "/build/connecting-the-parts/", children: [
           { title: "Front End", url: "/build/connecting-a-front-end/" },
-          { title: "Calling Zome Functions", url: "/build/calling-zome-functions" },
-          { title: "Capabilities", url: "/build/capabilities" },
+          { title: "Calling Zome Functions", url: "/build/calling-zome-functions/" },
+          { title: "Capabilities", url: "/build/capabilities/" },
           { title: "Signals", url: "/build/signals/" },
         ]},
         { title: "Validation", url: "/build/validation/", children: [
