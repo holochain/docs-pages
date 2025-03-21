@@ -7,7 +7,7 @@ title: "Using the Host API"
 
 * Using the Host API (this page)
     * hApp introspection (coming soon) --- finding out info about the DNA, zome, and agent
-    * Cryptography functions (coming soon) --- key generation, signatures, hashing, random numbers, and encryption
+    * [Cryptography functions](/build/cryptography-functions/) --- key generation, signatures, hashing, random numbers, and encryption
     * Miscellaneous host functions (coming soon) --- system time and logging
 :::
 
