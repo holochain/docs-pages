@@ -9,6 +9,7 @@ title: "Validation"
     * [`genesis_self_check` Callback](/build/genesis-self-check-callback/) --- writing a function to control access to a network
     * [`validate` Callback](/build/validate-callback/) --- basic callback, examples using stub functions
     * [DHT operations](/build/dht-operations/) --- advanced details on the underlying data structure used in DHT replication and validation
+    * [`must_get_*` Host Functions](/build/must-get-host-functions/) --- Deterministically retrieving DHT data for use in validation
 :::
 
 ::: intro
@@ -73,9 +74,9 @@ These functions are available to both `validate` and `genesis_self_check`:
 
 `validate` can also call these deterministic DHT retrieval functions:
 
-* [`must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html) tries to get an action from the DHT. (It's not guaranteed that the action will be valid.)
-* [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html) tries to get a contiguous section of a source chain, starting from a given record and walking backwards to another spot (either the beginning of the chain, a number of records, or one of a number of given hashes).
-* [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html) tries to get an entry from the DHT. (As with `must_get_action`, it's not guaranteed that the entry will be valid.)
-* [`must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html) tries to get a record, and will fail if the record is marked invalid by any validators, even if it can be found. This makes [inductive validation](/build/validate-callback/#inductive-validation) possible.
+* [`must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html)
+* [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html).
+* [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html)
+* [`must_get_valid_record`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_valid_record.html)
 
-All of these functions cause a `validate` callback to terminate early with <code>ValidateCallbackResult::UnresolvedDependencies([UnresolvedDependencies](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.UnresolvedDependencies.html))</code>.
+You can read about them on the [`must_get_*` Host Functions](/build/must-get-host-functions/) page.
