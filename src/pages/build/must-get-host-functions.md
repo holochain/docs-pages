@@ -109,12 +109,15 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
     let movie_entry_def = &EntryType::App(UnitEntryTypes::Movie.try_into()?);
     let movies_written_within_window = result
         .iter()
-        // First we extract the actions from the ops...
-        .map(|o| o.action.hashed.content.clone())
-        // Then we select only the ones that write a movie entry.
-        // (This naturally filters out anything that isn't an entry creation
-        // action, because only they have entry types.)
-        .filter(|a| a.entry_type() == Some(movie_entry_def))
+        // Extract the actions from the ops, then select only the ones that
+        // write a movie entry. (This naturally filters out anything that
+        // isn't an entry creation action, because only they have entry
+        // types.)
+        .filter_map(|o| if o.action.hashed.content.entry_type() == Some(movie_entry_def) {
+            Some(o.action.hashed.content.clone())
+        } else {
+            None
+        })
         // Next, only take the ones within the spam window.
         .take_while(|a| a.timestamp() >= take_until_timestamp)
         // Finally, count the matching actions.
