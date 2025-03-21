@@ -21,6 +21,8 @@ imdb
 IMDB
 identicon
 identicons
+iostream
+iostreams
 IPFS
 Kleppmann
 libasound
@@ -33,6 +35,7 @@ multihash
 NixOS
 nixpkgs
 pkgs
+POSIX
 pubkey
 QUIC
 rustc
@@ -47,6 +50,8 @@ Tauri
 Ulhaq
 Wahlstrom
 wamr
+WASI
+WASM
 Wasmer
 wasmer
 WebRTC
