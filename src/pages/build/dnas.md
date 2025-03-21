@@ -34,7 +34,7 @@ It'll also add the new DNA to `workdir/happ.yaml`.
 
 ## Specify a DNA manifest
 
-A DNA manifest is written in [YAML](https://yaml.org/). It contains metadata about the DNA, a section for **integrity modifiers**, and a list of coordinator zomes for interacting with the DNA.
+A DNA manifest is written in [YAML](https://yaml.org/). It contains metadata about the DNA, a section for **integrity** code and modifiers, and a list of [**coordinator zomes**](/build/zomes/#coordinator).
 
 If you want to write your own manifest file, name it `dna.yaml` and give it the following structure. This example assumes that all of your zomes are in a folder called `zomes/`. Afterwards we'll explain what the fields mean.
 
@@ -63,8 +63,8 @@ coordinator:
 ### DNA manifest structure at a glance
 
 * `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher).
-* `integrity`: Contains all the integrity modifiers for the DNA, the things that **change the DNA hash**. {#integrity-modifiers}
-    * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It acts like a network-wide passcode. {#network-seed}
+* `integrity`: Contains all the integrity code and modifiers for the DNA, the things that **change the DNA hash**. {#integrity-section}
+    * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It's useful for creating partitioned networks that share the same back-end code. {#network-seed}
     * `properties`: Arbitrary, application-specific constants. The zome code can [read this at runtime](#use-dna-properties). Think of it as configuration for your DNA.
     * `origin_time`: The earliest possible timestamp for any data; serves as a basis for coordinating network communication. Pick a date that's guaranteed to be slightly earlier than you expect that the app will start to get used. The scaffolding tool and `hc dna init` will both pick the date you created the DNA.
     * `zomes`: A list of all the integrity zomes in the DNA.
@@ -134,13 +134,19 @@ So Holochain manages the dependency mapping for you, allowing you to write code 
 **Note that there's currently a couple bugs in this dependency mapping.** If your DNA has more than one integrity zome, its coordinator zomes should have **one dependency at most** and should **always list that dependency explicitly** in the DNA manifest.<!--TODO: update this once https://github.com/holochain/holochain/issues/4660 is resolved --> {#multiple-deps-warning}
 !!!
 
-## Single vs multiple DNAs
+## Single vs multiple DNAs {#single-vs-multiple-dnas}
 
 When do you decide whether a hApp should have more than one DNA? Whenever it makes sense to have multiple separate networks or databases within the hApp. These are the most common use cases:
 
 * **Dividing responsibilities.** For instance, a video sharing hApp may have one group of peers who are willing to index video metadata and offer search services and another group of peers who are willing to host and serve videos, along with people who just want to watch them. This DNA could have `search` and `storage` DNAs, along with a main DNA that allows video watchers to look up peers that are offering services and query them.
 * **Creating privileged spaces.** A chat hApp may have both public and private rooms, all [cloned](/resources/glossary/#cloning) from a single `chat_room` DNA. This is a special case, as they all use just one base DNA, but they change just one [integrity modifier](#dna-manifest-structure-at-a-glance) such as the network seed to create new DNAs.
 * **Discarding or archiving data.** Because no data is ever deleted in a cell or the network it belongs to, a lot of old data can accumulate. Creating clones of a single storage-heavy DNA, bounded by topic or time period, allows agents to participate in only the networks that contain the information they need. As agents leave networks, unwanted data naturally disappears from their machines.
+
+!!! Using the network seed for private spaces
+A network seed with high entropy could be used as a passcode for joining a network, allowing you to create a moderately private space. It shouldn't be considered a truly secret space though, as anyone with access to the network seed or the resulting modified DNA hash will be able to join the network and access its data and membership.
+
+Privacy is a broad topic outside the scope of this guide. If you'd like to go deeper, read the paper [_Exploring Co-Design Considerations for Embedding Privacy in Holochain Apps_](https://dialnet.unirioja.es/servlet/articulo?codigo=8036267).
+!!!
 
 ### Call from one cell to another
 
