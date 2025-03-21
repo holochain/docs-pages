@@ -44,6 +44,14 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Querying Source Chains](/build/querying-source-chains/) --- getting data from an agent's history
 :::
 
+## Using the host API
+
+::: topic-list
+* [Overview](/build/using-the-host-api/) --- accessing host features from a zome
+* hApp introspection (coming soon) --- finding out info about the DNA, zome, and agent
+* Cryptography functions (coming soon) --- key generation, signatures, hashing, random numbers, and encryption
+* Miscellaneous host functions (coming soon) --- system time and logging
+
 ## Connecting the parts
 
 ::: topic-list
