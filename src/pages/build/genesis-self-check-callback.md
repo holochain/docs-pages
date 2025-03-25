@@ -43,7 +43,7 @@ pub fn genesis_self_check(data: GenesisSelfCheckData) -> ExternResult<ValidateCa
 }
 ```
 
-This more complex example deserializes an Ed25519 signature and checks that it matches the agent's public key and the public key of an agent with the authority to admit members, which is taken from the DNA's [`properties` block](/build/dnas/#use-dna-properties).
+This more complex example deserializes an Ed25519 signature and checks that it matches the agent's public key and the public key of an agent with the authority to admit members, which is taken from the DNA's [`properties` block](/build/dnas/#use-dna-properties). {#joining-certificate}
 
 ```rust
 use hdi::prelude::*;

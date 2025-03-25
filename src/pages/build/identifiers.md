@@ -44,7 +44,7 @@ Here's an overview of the five types above, plus two composite types:
 Because Holochain's graph DHT is all about connecting hashes to other hashes, here's how you get hashes.
 
 !!! info Hashing functions aren't built in
-To keep compiled zomes small, there are no hashing functions built into the HDI or HDK. Most of the time, you'll get the hash you need from a property in a data structure or the return value of a host function. In the rare cases when you need to compute a hash, use the [host functions in the `hdi::hash` module](https://docs.rs/hdi/latest/hdi/hash/index.html#functions). There are functions for hashing actions, entries, and arbitrary vectors of bytes.
+To keep compiled zomes small, there are no hashing functions built into the HDI or HDK. Most of the time, you'll get the hash you need from a property in a data structure or the return value of a host function. In the rare cases when you need to compute a hash, use the [host functions in the `hdi::hash` module](/build/cryptography-functions/#hash-data). There are functions for hashing actions, entries, and arbitrary vectors of bytes.
 !!!
 
 ### Action
