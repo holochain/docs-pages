@@ -6,7 +6,7 @@ title: "Cryptography functions"
 Holochain exposes key generation, signing, and best-practice encryption algorithms for you to use in your hApps.
 :::
 
-Because there's no central authority to act as a root of trustworthiness in a peer-to-peer network, most decentralized applications rely on cryptography to prove identity, verify data integrity, and keep data secret. On top of its base cryptographic primitives (key pairs for identity, signed and hashed [source chains](/concepts/2_source_chain/) and [DHT operations](/build/dht-operations/)) Holochain also provides a cryptography API for your zomes.
+Because there's no central authority to act as a root of trustworthiness in a peer-to-peer network, most decentralized applications rely on cryptography to prove identity, verify data integrity, and keep data secret. On top of its base cryptographic primitives (key pairs for identity, signed and hashed [source chains](/concepts/3_source_chain/) and [DHT operations](/build/dht-operations/)) Holochain also provides a cryptography API for your zomes.
 
 ## Hash data
 
@@ -250,7 +250,7 @@ pub fn decrypt_direct_message(input: DecryptDirectMessageInput) -> ExternResult<
 }
 ```
 
-### Encrypt and decrypt a message for multiple recipients using secretbox
+### Sending encrypted messages among multiple parties using secretbox
 
 Sending encrypted messages to one or more recipients involves a few more steps:
 
@@ -259,7 +259,7 @@ Sending encrypted messages to one or more recipients involves a few more steps:
 3. The sender sends the nonce and the encrypted message to recipients; this can be done over an insecure channel.
 4. The recipients pass the message, the nonce, and the encryption key to the decryption function [`x_salsa20_poly1305_decrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_decrypt.html), which corresponds to libsodium's `crypto_secretbox_open_easy` function.
 
-Holochain gives you tools to encrypt the encryption key using [box encryption](#encrypt-and-authenticate-a-message-for-a-single-recipient-using-box) so it can be shared over an insecure channel, using[`x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html) and [`x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html).
+Holochain gives you tools to encrypt the encryption key using [box encryption](#sending-encrypted-messages-between-two-parties-using-box) so it can be shared over an insecure channel, using[`x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html) and [`x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html).
 
 This example implements a secure chat channel using secretbox. It's long, but by the time you get to the end of it, you'll have seen every one of the above host functions in use.
 
