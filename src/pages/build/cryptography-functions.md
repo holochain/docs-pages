@@ -118,7 +118,7 @@ pub struct ManyHashes {
 fn hash_hello_in_many_ways() -> ExternResult<ManyHashes> {
     let hello_bytes = "hello".as_bytes().to_vec();
     ManyHashes {
-        keccak256: hash_keccac256(hello_bytes.clone())?,
+        keccak256: hash_keccak256(hello_bytes.clone())?,
         sha3_256: hash_sha3(hello_bytes.clone())?,
         sha2_256: hash_sha256(hello_bytes.clone())?,
         sha2_512: hash_sha512(hello_bytes.clone())?,
@@ -381,7 +381,7 @@ If you're familiar with the box and secretbox algorithms, you'll know that good,
     * [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html)
     * [`hdk::hash::hash_action`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html)
     * [`hdk::hash::hash_blake2b`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html)
-    * [`hdk::hash::hash_keccac256`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_keccac256.html)
+    * [`hdk::hash::hash_keccak256`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_keccak256.html)
     * [`hdk::hash::hash_sha3`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_sha3.html)
     * [`hdk::hash::hash_sha256`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_sha256.html)
     * [`hdk::hash::hash_sha512`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_sha512.html)

@@ -14,6 +14,7 @@ Cachix
 cdylib
 CRDT
 d'Aoust
+ECDH
 fixt
 gnused
 Hellerstein
@@ -24,12 +25,16 @@ identicons
 iostream
 iostreams
 IPFS
+keccak
+keypair
 Kleppmann
 libasound
 libatk
 libcups
 libgtk
 libnss
+libsodium
+libsodium's
 Multihash
 multihash
 NixOS
@@ -41,6 +46,7 @@ QUIC
 rustc
 rustflags
 rustup
+secretbox
 setgid
 setuid
 struct
