@@ -45,7 +45,7 @@ This implements a host of [`TryFrom` conversions](https://docs.rs/hdi/latest/src
 
 In order to dispatch validation to the proper integrity zome, Holochain needs to know about all the entry types that your integrity zome defines. This is done by implementing a callback in your zome called `entry_defs`, but it's easier to use the [`hdi::prelude::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_types.html) macro on an enum of all the entry types:
 
-```rust
+```rust {#entry-types-enum}
 use hdi::prelude::*;
 
 #[hdk_entry_types]

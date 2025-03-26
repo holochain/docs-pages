@@ -35,12 +35,12 @@ While the following info describes the way Holochain should work [as formally sp
 !!!
 
 * All actions
-    * [`RegisterAgentActivity`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterAgentActivity)
+    * [`RegisterAgentActivity`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterAgentActivity) {#register-agent-activity}
         * Basis address: author's public key
         * Contents: action
         * System validation: Check for non-monotonic sequence indices and timestamps in adjacent actions, and detect [source chain forks](/resources/glossary/#fork-source-chain).
         * Effect: Append the action to a replica of the author's source chain.
-    * [`StoreRecord`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreRecord)
+    * [`StoreRecord`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreRecord) {#store-record}
         * Basis address: action hash
         * Contents: action (and optionally entry, if applicable) <!--TODO: system validation? -->
         * Effect: Store the action, along with any entry data.
