@@ -76,7 +76,7 @@ You can also Blake2b hash any data you like, with any hash length up to 64 bytes
 use hdk::prelude::*;
 
 #[hdk_extern]
-fn hash_hello_16_bit() -> ExternResult<Vec<u8>> {
+pub fn hash_hello_16_bit() -> ExternResult<Vec<u8>> {
     hash_blake2b("hello".as_bytes().to_vec(), 2)
 }
 ```
@@ -98,12 +98,12 @@ pub struct ManyHashes {
 #[hdk_extern]
 fn hash_hello_in_many_ways() -> ExternResult<ManyHashes> {
     let hello_bytes = "hello".as_bytes().to_vec();
-    ManyHashes {
+    Ok(ManyHashes {
         keccak256: hash_keccak256(hello_bytes.clone())?,
         sha3_256: hash_sha3(hello_bytes.clone())?,
         sha2_256: hash_sha256(hello_bytes.clone())?,
         sha2_512: hash_sha512(hello_bytes.clone())?,
-    }
+    })
 }
 ```
 
