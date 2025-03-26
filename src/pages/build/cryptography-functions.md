@@ -338,9 +338,6 @@ pub fn join_secure_chat_channel(input: JoinSecureChatChannelInput) -> ExternResu
 // can start sending messages.
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct
-
-#[derive(Serialize, Deserialize, Debug)]
 pub struct EncryptChatMessageInput {
     pub message: Vec<u8>,
     pub chat_channel_secret_ref: XSalsa20Poly1305KeyRef,
