@@ -49,7 +49,7 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 ::: topic-list
 * [Overview](/build/using-the-host-api/) --- accessing host features from a zome
 * hApp introspection (coming soon) --- finding out info about the DNA, zome, and agent
-* * [Cryptography functions](/build/cryptography-functions/) --- key generation, signatures, hashing, random numbers, and encryption
+* [Cryptography functions](/build/cryptography-functions/) --- key generation, signatures, hashing, and encryption
 * Miscellaneous host functions (coming soon) --- system time and logging
 
 ## Connecting the parts
@@ -66,5 +66,6 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 
 ::: topic-list
 * [Overview](/build/validation/) --- The purpose of validation in a hApp, abilities, requirements and constraints, determinism
-    * [Genesis Self-Check Callback](/build/genesis-self-check-callback/) --- Purpose and use cases
-    * [Validate Callback](/build/validate-callback/) --- Writing validation routines for various needs
+* [Genesis Self-Check Callback](/build/genesis-self-check-callback/) --- Purpose and use cases
+* [Validate Callback](/build/validate-callback/) --- Writing validation routines for various needs
+* [`must_get_*` Host Functions](/build/must-get-host-functions/) --- Deterministically retrieving DHT data for use in validation
