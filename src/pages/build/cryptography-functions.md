@@ -130,7 +130,7 @@ fn hash_hello_in_many_ways() -> ExternResult<ManyHashes> {
 
 ### With an agent key
 
-To sign data with an agent's private key, pass the data and the key to to the [`sign`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign.html) or [`sign_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_raw.html). `sign_raw` signs a `Vec<u8>` while `sign` accepts anything that can be serialized.
+To sign data with an agent's private key, pass the data and the key to to the [`sign`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign.html) or [`sign_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_raw.html) function. `sign_raw` signs a `Vec<u8>` while `sign` accepts anything that can be serialized.
 
 This example lets an administrator of a network create a joining certificate for new members (see the [joining certificate example on the `genesis_self_check` callback page](/build/genesis-self-check-callback/#joining-certificate) for details).
 
@@ -145,7 +145,7 @@ pub fn create_joining_certificate(invitee: AgentPubKey) -> ExternResult<String> 
     let dna_props = DnaProperties::try_from_dna_properties()?;
     let administrator = dna_props.authorized_joining_certificate_issuer;
     let my_pub_key = agent_info()?.agent_latest_pubkey;
-    if (administrator != my_pub_key) {
+    if administrator != my_pub_key {
         // Because these entries aren't recorded to a source chain, we can't
         // check for validity in the `validate` callback. Instead, we do some
         // soft validation in this function, to prevent random members from
@@ -176,7 +176,7 @@ pub fn sign_data_ephemeral(data: Vec<u8>) -> ExternResult<(AgentPubKey, Signatur
     let signed_payload = sign_ephemeral_raw(vec!(data))?;
     // The output signatures are indexed in the same order as the input
     // payloads.
-    Ok((signed_payload.key, signed_payload.signatures[0]))
+    Ok((signed_payload.key, signed_payload.signatures[0].clone()))
 }
 ```
 
@@ -186,7 +186,7 @@ If you have the public key, you can verify a signature against its payload with 
 
 ## Encrypt data
 
-You can encrypt and decrypt data with the [box](https://doc.libsodium.org/public-key_cryptography/sealed_box) and [secretbox](https://doc.libsodium.org/public-key_cryptography/authenticated_encryption) algorithms from [libsodium](https://doc.libsodium.org/). We've selected these because they're robust, well-tested, best-practice algorithms that are fairly easy to use properly. This saves you having to implement your own cryptography scheme.
+You can encrypt and decrypt data with the [box](https://doc.libsodium.org/public-key_cryptography/sealed_boxes) and [secretbox](https://doc.libsodium.org/public-key_cryptography/authenticated_encryption) algorithms from [libsodium](https://doc.libsodium.org/). We've selected these because they're robust, well-tested, best-practice algorithms that are fairly easy to use properly. This saves you having to implement your own cryptography scheme.
 
 We won't go into the details of which scheme is best to use for which application; instead, we encourage you to read some advice on how to use libsodium. [This article](https://paragonie.com/blog/2017/06/libsodium-quick-reference-quick-comparison-similar-functions-and-which-one-use) is a good starting point.
 
@@ -208,7 +208,7 @@ This example implements secure direct messaging using the above functions.
 use hdk::prelude::*;
 
 #[hdk_extern]
-pub fn create_secure_direct_message_channel() -> ExternResult<XSalsa20Poly1305KeyRef> {
+pub fn create_secure_direct_message_channel() -> ExternResult<X25519PubKey> {
     // This creates a key pair, stores it in Holochain's key store, and
     // returns the public component as a reference. The caller should store
     // it and use it to encrypt and decrypt messages.
@@ -224,7 +224,7 @@ pub struct EncryptDirectMessageInput {
 
 #[hdk_extern]
 pub fn encrypt_direct_message(input: EncryptDirectMessageInput) -> ExternResult<XSalsa20Poly1305EncryptedData> {
-    let { my_public_key, recipient_public_key, message } = input;
+    let EncryptDirectMessageInput { my_public_key, recipient_public_key, message } = input;
     x_25519_x_salsa20_poly1305_encrypt(
         my_public_key,
         recipient_public_key,
@@ -241,12 +241,13 @@ pub struct DecryptDirectMessageInput {
 
 #[hdk_extern]
 pub fn decrypt_direct_message(input: DecryptDirectMessageInput) -> ExternResult<Vec<u8>> {
-    let { my_public_key, recipient_public_key, message } = input;
+    let DecryptDirectMessageInput { my_public_key, sender_public_key, message } = input;
     x_25519_x_salsa20_poly1305_decrypt(
         my_public_key,
         sender_public_key,
         message
-    ).into()
+    )?
+    .ok_or(wasm_error!("Authentication failed, unable to decrypt"))
 }
 ```
 
@@ -380,7 +381,7 @@ If you're familiar with the box and secretbox algorithms, you'll know that good,
 * Hashing
     * [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html)
     * [`hdk::hash::hash_action`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html)
-    * [`hdk::hash::hash_blake2b`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html)
+    * [`hdk::hash::hash_blake2b`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_blake2b.html)
     * [`hdk::hash::hash_keccak256`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_keccak256.html)
     * [`hdk::hash::hash_sha3`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_sha3.html)
     * [`hdk::hash::hash_sha256`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_sha256.html)
