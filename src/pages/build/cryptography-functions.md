@@ -174,22 +174,22 @@ We won't go into the details of which scheme is best to use for which applicatio
 Holochain keeps all secret material in its own key store so you don't have to keep it safe yourself. We also recommend that, instead of using their agent IDs, all participants generate extra keys specifically for encryption using the [`create_x25519_keypair`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.create_x25519_keypair.html) host function [for better security](https://doc.libsodium.org/quickstart#how-can-i-sign-and-encrypt-using-the-same-key-pair), which corresponds to libsodium's `crypto_box_keypair` function.
 
 !!! info These algorithms are not quantum-resistant
-While these algorithms represent some of the best in terms of problem-free secure encryption, they aren't quantum-resistant, because they use elliptic curve cryptography. We recommend not storing any encrypted data on the DHT if you're concerned about data being harvested and later decrypted with a quantum computer.
+Because they use elliptic curve cryptography, these algorithms (like almost all cryptography systems in use today) could be compromised in the future by a quantum computer. If this is a concern to you, avoid storing encrypted data permanently in a source chain or DHT.
 !!!
 
-In the following examples, we'll show you how to establish secure channels using the two algorithms, but we won't show you how to create groups or send messages --- we'll leave that up to you. (You could use [the chat examples from the Cloning page](/build/cloning/), for example.)
+In the following examples, we'll show you how to establish secure channels using the two algorithms, but we won't show you how to create groups or send messages --- we'll leave that up to you. (You could use [the chat examples from the Cloning page](/build/cloning/), for example.) Note that **encryption is a complex topic** and the following examples represent a very basic scheme that doesn't provide the guarantees of a modern scheme such as the [Signal protocol](https://signal.org/docs/).
 
 ### Sending encrypted messages between two parties using box
 
-Sending encrypted messages between two parties is straightforward and doesn't require you to generate and share an encryption key --- instead, the two participants generate a new key pair to use specifically for encryption, share the public component with each other, and use [ECDH](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman) to generate a shared secret non-interactively. Messages are encrypted and decrypted using the [`x_25519_x_salsa20_poly1305_encrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_25519_x_salsa20_poly1305_encrypt.html) and [`x_25519_x_salsa20_poly1305_decrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_25519_x_salsa20_poly1305_decrypt.html) host functions, which correspond to libsodium's `crypto_box_easy` and `crypto_box_open_easy` functions.
+Sending encrypted messages between two parties is the more straightforward of the two because it doesn't require you to generate and share an encryption key --- instead, the two participants generate a new key pair to use specifically for encryption, share the public component with each other, and use [ECDH](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman) to generate a shared secret non-interactively. Messages are encrypted and decrypted using the [`x_25519_x_salsa20_poly1305_encrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_25519_x_salsa20_poly1305_encrypt.html) and [`x_25519_x_salsa20_poly1305_decrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_25519_x_salsa20_poly1305_decrypt.html) host functions, which correspond to libsodium's `crypto_box_easy` and `crypto_box_open_easy` functions.
 
-This example implements secure direct messaging using the above functions.
+This example creates a key pair and encrypts/decrypts messages between two parties.
 
 ```rust
 use hdk::prelude::*;
 
 #[hdk_extern]
-pub fn create_secure_direct_message_channel() -> ExternResult<XSalsa20Poly1305KeyRef> {
+pub fn create_direct_message_keypair() -> ExternResult<XSalsa20Poly1305KeyRef> {
     // This creates a key pair, stores it in Holochain's key store, and
     // returns the public component as a reference. The caller should store
     // it and use it to encrypt and decrypt messages.
@@ -242,13 +242,13 @@ Sending encrypted messages to one or more recipients involves a few more steps:
 
 Holochain gives you tools to encrypt the encryption key using [box encryption](#sending-encrypted-messages-between-two-parties-using-box) so it can be shared over an insecure channel, using[`x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html) and [`x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html).
 
-This example implements a secure chat channel using secretbox. It's long, but by the time you get to the end of it, you'll have seen every one of the above host functions in use.
+This example creates a multi-party channel and encrypts/decrypts messages using secretbox. It's long, but by the time you get to the end of it, you'll have seen every one of the above host functions in use.
 
 ```rust
 use hdk::prelude::*;
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct CreateSecureChatChannelOutput {
+pub struct CreateGroupChannelOutput {
     pub secret_ref: XSalsa20Poly1305KeyRef,
     pub my_public_key: X25519PubKey,
 }
@@ -256,7 +256,7 @@ pub struct CreateSecureChatChannelOutput {
 // First we create a way to generate and distribute the shared secret.
 
 #[hdk_extern]
-pub fn create_secure_chat_channel(name: String) -> ExternResult<XSalsa20Poly1305KeyRef> {
+pub fn create_group_channel(name: String) -> ExternResult<XSalsa20Poly1305KeyRef> {
     // Store the shared secret using a reference that the caller should use
     // later to encrypt and decrypt messages or add people to the chat.
     let secret_ref = format!("secure_chat_{}", name).as_bytes();
@@ -264,7 +264,7 @@ pub fn create_secure_chat_channel(name: String) -> ExternResult<XSalsa20Poly1305
     // need to create our own encryption key pair.
     let my_public_key = create_x25519_keypair()?;
     x_salsa20_poly1305_shared_secret_create_random(Some(secret_ref))?;
-    Ok(CreateSecureChatChannelOutput {
+    Ok(CreateGroupChannelOutput {
         // This gets stored by the caller so we can refer to it later.
         secret_ref,
         // This gets stored by the caller and sent to anyone who wants to
@@ -274,7 +274,7 @@ pub fn create_secure_chat_channel(name: String) -> ExternResult<XSalsa20Poly1305
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct AddAgentToSecureChatChannelInput {
+pub struct AddAgentToGroupChannelInput {
     pub secret_ref: XSalsa20Poly1305KeyRef,
     // This is the public key of the chat channel creator, generated in the
     // function above.
@@ -283,7 +283,7 @@ pub struct AddAgentToSecureChatChannelInput {
 }
 
 #[hdk_extern]
-pub fn add_agent_to_secure_chat_channel(input: AddAgentToSecureChatChannelInput) -> ExternResult<XSalsa20Poly1305EncryptedData> {
+pub fn add_agent_to_group_channel(input: AddAgentToGroupChannelInput) -> ExternResult<XSalsa20Poly1305EncryptedData> {
     let { secret_ref, my_public_key, joiner_public_key } = input;
     // Encrypt the shared secret with the new agent's specially generated key,
     // then send it back to the caller.
@@ -295,7 +295,7 @@ pub fn add_agent_to_secure_chat_channel(input: AddAgentToSecureChatChannelInput)
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct JoinSecureChatChannelInput {
+pub struct JoinGroupChannelInput {
     pub name: String,
     pub creator_public_key: X25519PubKey,
     // This is the public key of the agent joining the channel.
@@ -304,7 +304,7 @@ pub struct JoinSecureChatChannelInput {
 }
 
 #[hdk_extern]
-pub fn join_secure_chat_channel(input: JoinSecureChatChannelInput) -> ExternResult<XSalsa20Poly1305KeyRef> {
+pub fn join_group_channel(input: JoinGroupChannelInput) -> ExternResult<XSalsa20Poly1305KeyRef> {
     let { name, creator_public_key, my_public_key, encrypted_secret } = input;
     let secret_ref = format!("secure_chat_{}", name).as_bytes();
     x_salsa20_poly1305_shared_secret_ingest(
@@ -319,13 +319,13 @@ pub fn join_secure_chat_channel(input: JoinSecureChatChannelInput) -> ExternResu
 // can start sending messages.
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct EncryptChatMessageInput {
+pub struct EncryptGroupMessageInput {
     pub message: Vec<u8>,
     pub chat_channel_secret_ref: XSalsa20Poly1305KeyRef,
 }
 
 #[hdk_extern]
-pub fn encrypt_chat_message(input: EncryptChatMessageInput) -> ExternResult<XSalsa20Poly1305EncryptedData> {
+pub fn encrypt_group_message(input: EncryptGroupMessageInput) -> ExternResult<XSalsa20Poly1305EncryptedData> {
     let { message, chat_channel_secret_ref } = input;
     x_salsa_poly1305_encrypt(
         chat_channel_secret_ref,
@@ -334,13 +334,13 @@ pub fn encrypt_chat_message(input: EncryptChatMessageInput) -> ExternResult<XSal
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct DecryptChatMessageInput {
+pub struct DecryptGroupMessageInput {
     pub message: XSalsa20Poly1305EncryptedData,
     pub chat_channel_secret_ref: XSalsa20Poly1305KeyRef,
 }
 
 #[hdk_extern]
-pub fn decrypt_chat_message(input: DecryptChatMessageInput) -> ExternResult<Vec<u8>> {
+pub fn decrypt_group_message(input: DecryptGroupMessageInput) -> ExternResult<Vec<u8>> {
     let { message, chat_channel_secret_ref } = input;
     x_salsa_poly1305_decrypt(
         chat_channel_secret_ref,
