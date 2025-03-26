@@ -68,6 +68,8 @@ fn get_linked_hashes_for_tag(tag: String, link_type: (ZomeIndex, LinkType)) -> E
 Usually you have an entry hash and want to retrieve the entry data. When would you have data and want to have it?
 
 Entries don't need to be written to the DHT in order to serve as a [base or target for links](/build/links-paths-and-anchors/#define-a-link-type). As long as the entry can be reconstructed by anyone who wants to store or retrieve links on its basis address, such as the tag in this example, its hash can also be reconstructed and used in `create_link` or `get_links`. This saves some storage and validation overhead for everyone.
+
+Or you may have written an entry using `create` or `update` and want to use its hash in a subsequent write (such as a link) --- rather than retrieving the new written action by its hash to get its entry hash, you can just hash the entry itself.
 !!!
 
 Although it's uncommon to have action data without a hash, you can also hash an action with [`hash_action`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html):
