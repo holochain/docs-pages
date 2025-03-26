@@ -31,37 +31,18 @@ serde = { workspace = true }
 
 Holochain's native hashing scheme is Blake2b-256.
 
-To hash an entry, use the [`hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html) host function. This example implements a basic tagging taxonomy:
+To hash an entry, use the [`hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html) host function. This example shows a basic tagging taxonomy in use:
 
 ```rust
-use hdi::prelude::*;
+use hdk::prelude::*;
 
 #[hdk_entry_helper]
 pub struct Tag(String);
 
-#[hdk_entry_types]
-#[unit_enum(UnitEntryTypes)]
-enum EntryTypes {
-    Tag(Tag),
-}
-```
-
-```rust
-use hdk::prelude::*;
-use hashtags_integrity::*;
-
-fn get_linked_hashes_for_tag(tag: String, link_type: (ZomeIndex, LinkType)) -> ExternResult<EntryHash> {
-    let tag_hash = hash_entry(Hashtag(tag).into())?;
-    get_links(GetLinksInput {
-        base_address: tag_hash,
-        link_type: LinkTypeFilter::Types(vec!((link_type.0, vec!(link_type.1)))),
-        GetOptions::default(),
-        none,
-        none,
-        none,
-        none
-    })
-}
+let tag = Tag("action/adventure");
+let tag_hash = hash_entry(tag);
+// Now we can use the tag's hash to create a link from it to a movie, or to
+// get all action/adventure movies.
 ```
 
 !!! info Why would you hash an entry?
@@ -77,16 +58,14 @@ Although it's uncommon to have action data without a hash, you can also hash an 
 ```rust
 use hdk::prelude::*;
 
-fn calculate_imaginary_first_genesis_hash_for_myself(timestamp: Timestamp) -> ExternResult<ActionHash> {
-    // The action we're about to construct doesn't necessarily exist...
-    let imaginary_action = Action::Dna(Dna {
-        author: agent_info()?.agent_latest_pubkey,
-        timestamp,
-        hash: dna_info()?.hash,
-    });
-    // ... But if it did, this is what its hash would be:
-    hash_action(imaginary_action)
-}
+// The action we're about to construct doesn't necessarily exist...
+let imaginary_action = Action::Dna(Dna {
+    author: agent_info()?.agent_latest_pubkey,
+    timestamp,
+    hash: dna_info()?.hash,
+});
+// ... But if it did, this is what its hash would be:
+let imaginary_action_hash = hash_action(imaginary_action)?;
 ```
 
 ### Hash arbitrary data
