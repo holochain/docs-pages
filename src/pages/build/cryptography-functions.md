@@ -75,10 +75,7 @@ You can also Blake2b hash any data you like, with any hash length up to 64 bytes
 ```rust
 use hdk::prelude::*;
 
-#[hdk_extern]
-pub fn hash_hello_16_bit() -> ExternResult<Vec<u8>> {
-    hash_blake2b("hello".as_bytes().to_vec(), 2)
-}
+let hello_hash_16_bit = hash_blake2b("hello".as_bytes().to_vec(), 2)?;
 ```
 
 There are [other hashing algorithms](https://docs.rs/hdk/latest/hdk/hash/index.html) available:
@@ -86,25 +83,11 @@ There are [other hashing algorithms](https://docs.rs/hdk/latest/hdk/hash/index.h
 ```rust
 use hdk::prelude::*;
 
-#[derive(Serialize, Deserialize)]
-pub struct ManyHashes {
-    // Used by Ethereum and other EVM blockchains.
-    keccak256: Vec<u8>,
-    sha3_256: Vec<u8>,
-    sha2_256: Vec<u8>,
-    sha2_512: Vec<u8>,
-}
-
-#[hdk_extern]
-fn hash_hello_in_many_ways() -> ExternResult<ManyHashes> {
-    let hello_bytes = "hello".as_bytes().to_vec();
-    Ok(ManyHashes {
-        keccak256: hash_keccak256(hello_bytes.clone())?,
-        sha3_256: hash_sha3(hello_bytes.clone())?,
-        sha2_256: hash_sha256(hello_bytes.clone())?,
-        sha2_512: hash_sha512(hello_bytes.clone())?,
-    })
-}
+let hello_bytes = "hello".as_bytes().to_vec();
+let hello_hash_keccak256 = hash_keccak256(hello_bytes.clone())?;
+let hello_hash_sha3_256 = hash_sha3(hello_bytes.clone())?;
+let hello_hash_sha2_256 = hash_sha256(hello_bytes.clone())?;
+let hello_hash_sha2_512 = hash_sha512(hello_bytes.clone())?;
 ```
 
 ## Sign data
@@ -157,6 +140,7 @@ pub fn sign_data_ephemeral(data: Vec<u8>) -> ExternResult<(AgentPubKey, Signatur
     let signed_payload = sign_ephemeral_raw(vec!(data))?;
     // The output signatures are indexed in the same order as the input
     // payloads.
+    // Send back the public key so the receiver can verify the signature.
     Ok((signed_payload.key, signed_payload.signatures[0]))
 }
 ```
