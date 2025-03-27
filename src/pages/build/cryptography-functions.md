@@ -39,7 +39,7 @@ use hdk::prelude::*;
 #[hdk_entry_helper]
 pub struct Tag(String);
 
-let tag = Tag("action/adventure");
+let tag = Tag("action/adventure".into());
 let tag_hash = hash_entry(tag);
 // Now we can use the tag's hash to create a link from it to a movie, or to
 // get all action/adventure movies.
@@ -61,7 +61,7 @@ use hdk::prelude::*;
 // The action we're about to construct doesn't necessarily exist...
 let imaginary_action = Action::Dna(Dna {
     author: agent_info()?.agent_latest_pubkey,
-    timestamp,
+    timestamp: Timestamp(1743025465_000_000),
     hash: dna_info()?.hash,
 });
 // ... But if it did, this is what its hash would be:
@@ -124,9 +124,9 @@ use movies_integrity::*;
 pub fn create_joining_certificate(invitee: AgentPubKey) -> ExternResult<String> {
     // The `DnaProperties` struct comes from the example we linked to above.
     let dna_props = DnaProperties::try_from_dna_properties()?;
-    let administrator = dna_props.authorized_joining_certificate_issuer;
+    let administrator: AgentPubKey = dna_props.authorized_joining_certificate_issuer.into();
     let my_pub_key = agent_info()?.agent_latest_pubkey;
-    if (administrator != my_pub_key) {
+    if administrator != my_pub_key {
         // Because these entries aren't recorded to a source chain, we can't
         // check for validity in the `validate` callback. Instead, we do some
         // soft validation in this function, to prevent random members from
@@ -135,7 +135,7 @@ pub fn create_joining_certificate(invitee: AgentPubKey) -> ExternResult<String> 
     }
 
     let signature = sign(my_pub_key, invitee)?;
-    let signature_b64 = BASE64_STANDARD::encode(signature.into());
+    let signature_b64 = BASE64_STANDARD.encode(signature);
     Ok(signature_b64)
 }
 ```

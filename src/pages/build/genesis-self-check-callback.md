@@ -47,7 +47,7 @@ This more complex example deserializes an Ed25519 signature and checks that it m
 
 ```rust
 use hdi::prelude::*;
-use base64::prelude::*;
+use base64::*;
 
 // A type for deserializing the DNA properties that this integrity zome needs.
 // This struct lets a network creator specify who gets to create joining
