@@ -46,7 +46,7 @@ let tag_hash = hash_entry(tag);
 ```
 
 !!! info Why would you hash an entry?
-Usually you have an entry hash and want to retrieve the entry data. When would you have data and want to have it?
+Usually you have an entry hash and want to retrieve the entry data. When would you have data and want to hash it?
 
 Entries don't need to be written to the DHT in order to serve as a [base or target for links](/build/links-paths-and-anchors/#define-a-link-type). As long as the entry can be reconstructed by anyone who wants to store or retrieve links on its basis address, such as the tag in this example, its hash can also be reconstructed and used in `create_link` or `get_links`. This saves some storage and validation overhead for everyone.
 
