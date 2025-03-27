@@ -229,9 +229,9 @@ pub fn decrypt_message(input: DecryptMessageInput) -> ExternResult<String> {
 Sending encrypted messages to one or more recipients involves a few more steps:
 
 1. The sender generates an encryption key and shares it with the recipients over a secure channel with the [`x_salsa20_poly1305_shared_secret_create_random`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_create_random.html) host function.
-2. The sender passes the encryption key, the message, and a nonce to the encryption function [`x_salsa20_poly1305_encrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_encrypt.html), which corresponds to libsodium's `crypto_secretbox_easy` function.
-3. The sender sends the nonce and the encrypted message to recipients; this can be done over an insecure channel.
-4. The recipients pass the message, the nonce, and the encryption key to the decryption function [`x_salsa20_poly1305_decrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_decrypt.html), which corresponds to libsodium's `crypto_secretbox_open_easy` function.
+2. The sender passes the encryption key and the message to the encryption function [`x_salsa20_poly1305_encrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_encrypt.html), which corresponds to libsodium's `crypto_secretbox_easy` function.
+3. The sender sends the encrypted message to recipients; this can be done over an insecure channel.
+4. The recipients pass the message and the encryption key to the decryption function [`x_salsa20_poly1305_decrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_decrypt.html), which corresponds to libsodium's `crypto_secretbox_open_easy` function.
 
 Holochain gives you tools to encrypt the encryption key using [box encryption](#sending-encrypted-messages-between-two-parties-using-box) so it can be shared over an insecure channel, using[`x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html) and [`x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html).
 
