@@ -48,9 +48,8 @@ let tag_hash = hash_entry(tag);
 !!! info Why would you hash an entry?
 Usually you have an entry hash and want to retrieve the entry data. When would you have data and want to hash it?
 
-Entries don't need to be written to the DHT in order to serve as a [base or target for links](/build/links-paths-and-anchors/#define-a-link-type). As long as the entry can be reconstructed by anyone who wants to store or retrieve links on its basis address, such as the tag in this example, its hash can also be reconstructed and used in `create_link` or `get_links`, even if there's no entry data at the address. This saves some storage and validation overhead for everyone.
-
-Or you may have just written an entry using `create` or `update` and want to use its hash in the same function call --- rather than retrieving the new written action by its hash to get the entry hash it contains, you can just hash the entry.
+* To create a reproducible DHT address as a link base (such as the `"action/adventure"` tag) without needing to ensure that an entry exists at the address, which can create extra DHT data to process. (It's valid to attach a link to an address with no data.)
+* To use an entry hash from a previous write in a subsequent write within the same function call, rather than retrieving the entry creation action by its hash to get the entry hash it contains.
 !!!
 
 Although it's uncommon to have action data without a hash, you can also hash an action with [`hash_action`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html):
