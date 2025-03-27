@@ -48,9 +48,9 @@ let tag_hash = hash_entry(tag);
 !!! info Why would you hash an entry?
 Usually you have an entry hash and want to retrieve the entry data. When would you have data and want to hash it?
 
-Entries don't need to be written to the DHT in order to serve as a [base or target for links](/build/links-paths-and-anchors/#define-a-link-type). As long as the entry can be reconstructed by anyone who wants to store or retrieve links on its basis address, such as the tag in this example, its hash can also be reconstructed and used in `create_link` or `get_links`. This saves some storage and validation overhead for everyone.
+Entries don't need to be written to the DHT in order to serve as a [base or target for links](/build/links-paths-and-anchors/#define-a-link-type). As long as the entry can be reconstructed by anyone who wants to store or retrieve links on its basis address, such as the tag in this example, its hash can also be reconstructed and used in `create_link` or `get_links`, even if there's no entry data at the address. This saves some storage and validation overhead for everyone.
 
-Or you may have written an entry using `create` or `update` and want to use its hash in a subsequent write (such as a link) --- rather than retrieving the new written action by its hash to get its entry hash, you can just hash the entry itself.
+Or you may have just written an entry using `create` or `update` and want to use its hash in the same function call --- rather than retrieving the new written action by its hash to get the entry hash it contains, you can just hash the entry.
 !!!
 
 Although it's uncommon to have action data without a hash, you can also hash an action with [`hash_action`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html):
@@ -94,7 +94,7 @@ let hello_hash_sha2_512 = hash_sha512(hello_bytes.clone())?;
 
 ### With an agent key
 
-To sign data with an agent's private key, pass the data and the key to to the [`sign`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign.html) or [`sign_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_raw.html) function. `sign_raw` signs a `Vec<u8>` while `sign` accepts anything that can be serialized.
+To sign data with an agent's private key, pass the data and the key to to the [`sign`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign.html) or [`sign_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_raw.html) host functions. `sign_raw` signs a `Vec<u8>` while `sign` accepts anything that can be serialized.
 
 This example lets an administrator of a network create a joining certificate for new members (see the [joining certificate example on the `genesis_self_check` callback page](/build/genesis-self-check-callback/#joining-certificate) for details).
 
@@ -124,12 +124,12 @@ pub fn create_joining_certificate(invitee: AgentPubKey) -> ExternResult<String> 
 ```
 
 !!! info Signing only works with key pairs in the keystore
-Private keys are stored in Holochain's keystore and looked up by their public counterpart. If you pass an unknown public key, it'll return an error.
+Private keys are stored in Holochain's keystore and looked up by their public counterpart. If you pass a public key for a private key that isn't in the keystore, it'll return an error.
 !!!
 
 ### With an ephemeral key
 
-If you're building a complex authentication or encryption scheme that needs [ephemeral keys](https://www.reference.com/science-technology/role-ephemeral-key-secure-communications), you can use [`sign_ephemeral`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_ephemeral.html) or [`sign_ephemeral_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_ephemeral_raw.html). The host generates a key pair, signs the payloads with it, and discards the private component, returning the public key to the caller.
+If you're building a complex authentication or encryption scheme that needs [ephemeral keys](https://www.reference.com/science-technology/role-ephemeral-key-secure-communications), you can use [`sign_ephemeral`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_ephemeral.html) or [`sign_ephemeral_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_ephemeral_raw.html). The host generates a key pair, signs the payloads with it, and discards the private component, returning the public key to the calling zome function.
 
 ```rust
 use hdk::prelude::*;
@@ -155,17 +155,17 @@ You can encrypt and decrypt data with the [box](https://doc.libsodium.org/public
 
 We won't go into the details of which scheme is best to use for which application; instead, we encourage you to read some advice on how to use libsodium. [This article](https://paragonie.com/blog/2017/06/libsodium-quick-reference-quick-comparison-similar-functions-and-which-one-use) is a good starting point.
 
-Holochain keeps all secret material in its own key store so you don't have to keep it safe yourself. We also recommend that, instead of using their agent IDs, all participants generate extra keys specifically for encryption using the [`create_x25519_keypair`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.create_x25519_keypair.html) host function [for better security](https://doc.libsodium.org/quickstart#how-can-i-sign-and-encrypt-using-the-same-key-pair), which corresponds to libsodium's `crypto_box_keypair` function.
+Holochain keeps all secret material in its own key store so you don't have to keep it safe yourself. We also recommend that, instead of using their agent IDs, all participants generate extra keys specifically for encryption using the [`create_x25519_keypair`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.create_x25519_keypair.html) host function [for better security](https://doc.libsodium.org/quickstart#how-can-i-sign-and-encrypt-using-the-same-key-pair). This function corresponds to libsodium's `crypto_box_keypair` function.
 
-!!! info These algorithms are not quantum-resistant
-Because they use elliptic curve cryptography, these algorithms (like almost all cryptography systems in use today) could be compromised in the future by a quantum computer. If this is a concern to you, avoid storing encrypted data permanently in a source chain or DHT.
+!!! info Encryption is a complex topic
+The following examples represent a very basic usage of Holochain's encryption functions to set up secure channels and encrypt/decrypt messages with them. A lot of important parts are left out, and a complete, secure system needs to consider both user experience and best-practice cryptography schemes. The host functions that Holochain provides are merely building blocks.
+
+Also, because they use elliptic curve cryptography, these algorithms (like almost all cryptography systems in use today) could be compromised in the future by a quantum computer. If this is a concern to you, avoid storing encrypted data permanently in a source chain or DHT.
 !!!
-
-In the following examples, we'll show you how to establish secure channels using the two algorithms, but we won't show you how to use them in a robust system such as secure chat. **Encryption is a complex topic** and the following examples represent a very basic usage of Holochain's encryption functions. A robust system would consider the use case and select a design that fits it.
 
 ### Sending encrypted messages between two parties using box
 
-Sending encrypted messages between two parties is the more straightforward of the two because it doesn't require you to generate and share an encryption key --- instead, the two participants generate a new key pair to use specifically for encryption, share the public component with each other, and use [ECDH](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman) to generate a shared secret non-interactively. Messages are encrypted and decrypted using the [`x_25519_x_salsa20_poly1305_encrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_25519_x_salsa20_poly1305_encrypt.html) and [`x_25519_x_salsa20_poly1305_decrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_25519_x_salsa20_poly1305_decrypt.html) host functions, which correspond to libsodium's `crypto_box_easy` and `crypto_box_open_easy` functions.
+Box encryption is the more straightforward of the two because it doesn't require you to generate and share an encryption key --- instead, the two participants generate a new key pair to use specifically for encryption, share the public component with each other, and use [Elliptic Curve Diffie-Hellman (ECDH)](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman) to generate a shared secret non-interactively. Messages are encrypted and decrypted using the [`x_25519_x_salsa20_poly1305_encrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_25519_x_salsa20_poly1305_encrypt.html) and [`x_25519_x_salsa20_poly1305_decrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_25519_x_salsa20_poly1305_decrypt.html) host functions, which correspond to libsodium's `crypto_box_easy` and `crypto_box_open_easy` functions.
 
 This example receives the public key of a message recipient, creates a key pair for encryption, and encrypts a message for the recipient.
 
@@ -228,14 +228,14 @@ pub fn decrypt_message(input: DecryptMessageInput) -> ExternResult<String> {
 
 Sending encrypted messages to one or more recipients involves a few more steps:
 
-1. The sender generates an encryption key and shares it with the recipients over a secure channel with the [`x_salsa20_poly1305_shared_secret_create_random`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_create_random.html) host function.
+1. The sender generates a symmetric encryption key and shares it with the recipients over a secure channel with the [`x_salsa20_poly1305_shared_secret_create_random`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_create_random.html) host function.
 2. The sender passes the encryption key and the message to the encryption function [`x_salsa20_poly1305_encrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_encrypt.html), which corresponds to libsodium's `crypto_secretbox_easy` function.
 3. The sender sends the encrypted message to recipients; this can be done over an insecure channel.
 4. The recipients pass the message and the encryption key to the decryption function [`x_salsa20_poly1305_decrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_decrypt.html), which corresponds to libsodium's `crypto_secretbox_open_easy` function.
 
-Holochain gives you tools to encrypt the encryption key using [box encryption](#sending-encrypted-messages-between-two-parties-using-box) so it can be shared over an insecure channel, using[`x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html) and [`x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html).
+For step 1, Holochain gives you tools to encrypt the encryption key using [box encryption](#sending-encrypted-messages-between-two-parties-using-box) so it can be shared over an insecure channel, using[`x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html) and [`x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html).
 
-This example encrypts a message for multiple recipients.
+This example generates an encryption key and encrypts a message for multiple recipients, preparing the key for delivery over an insecure channel at the same time.
 
 ```rust
 use hdk::prelude::*;
@@ -257,8 +257,8 @@ pub struct EncryptedGroupMessage {
 pub fn encrypt_group_message(input: EncryptGroupMessageInput) -> ExternResult<EncryptedGroupMessage> {
     // First we need to create an encryption key.
     let secret_ref = x_salsa20_poly1305_shared_secret_create_random(None)?;
-    // Because we encrypt the encryption key for each recipient using the box
-    // algorithm, we need a public key of our own.
+    // Because we use the box algorithm to encrypt the encryption key for
+    // each recipient, we need a public key of our own.
     let my_pub_key = create_x25519_keypair()?;
     // Now encrypt the secret for each recipient.
     let secrets = input.recipients
@@ -279,8 +279,9 @@ pub fn encrypt_group_message(input: EncryptGroupMessageInput) -> ExternResult<En
         input.message.as_bytes().to_vec().into()
     )?;
 
-    // The caller will have to distribute the message to each recipient,
-    // along with their individually encrypted copy of the shared secret.
+    // Return the message and the shared key (individually encrypted to each
+    // recipient) to the caller, who will have to distribute the right copy
+    // of the key to the right recipient.
     Ok(EncryptedGroupMessage {
         message: encrypted_message,
         sender: my_pub_key,
@@ -304,8 +305,8 @@ pub struct DecryptGroupMessageInput {
 
 #[hdk_extern]
 pub fn decrypt_group_message(input: DecryptGroupMessageInput) -> ExternResult<String> {
-    // Decrypt the shared secret encrypted to my public key, which only I can
-    // do with my private key.
+    // Decrypt the shared secret encrypted with my public key, which only I
+    // can do.
     let secret_ref = x_salsa20_poly1305_shared_secret_ingest(
         input.my_pub_key,
         input.sender,
