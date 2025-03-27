@@ -18,31 +18,31 @@ use hdi::prelude::*;
 fn look_at_dna_info() -> ExternResult<()> {
     let DnaInfoV2 {
         // The human-readable name of the DNA, taken from the DNA manifest.
-        name,
+        name: _,
         // The hash of the DNA and its modifiers as defined *in this cell*.
         // This may include modifiers applied in the app manifest or at
         // instantiation time (either overridden when installing the app or
         // when creating a clone).
-        hash,
+        hash: _,
         // The modifiers as defined in this cell.
         modifiers,
         // All the zomes in this cell's DNA.
-        zome_names,
+        zome_names: _,
     } = dna_info()?;
 
     let DnaModifiers {
         // A value used to create a new DNA while keeping its other modifiers
         // and its code intact; see
         // https://developer.holochain.org/guide/cloning/
-        network_seed,
+        network_seed: _,
         // Constants which can affect runtime behavior of this cell.
         // They're usually specified as YAML and deserialized into a struct
         // in your zome.
-        properties,
+        properties: _,
         // The earliest valid timestamp for data in the network.
-        origin_time,
+        origin_time: _,
         // A value used for tuning gossip, not useful for app development.
-        quantum_time,
+        quantum_time: _,
     } = modifiers;
 
     Ok(())
@@ -66,7 +66,7 @@ pub struct DnaProperties {
 pub fn validate_age(age: u32) -> ExternResult<ValidateCallbackResult> {
     let DnaProperties { minimum_age } = DnaProperties::try_from_dna_properties()?;
     if age < minimum_age {
-        return Ok(ValidateCallbackResult::Invalid("Age {} is below the maximum of {}", age, minimum_age));
+        return Ok(ValidateCallbackResult::Invalid(format!("Age {} is below the minimum of {}", age, minimum_age)));
     }
     Ok(ValidateCallbackResult::Valid)
 }
@@ -82,23 +82,23 @@ use hdi::prelude::*;
 fn look_at_zome_info() -> ExternResult<()> {
     let ZomeInfo {
         // A human-readable name from the DNA manifest.
-        name,
+        name: _,
         // The index of the zome as it appears in the DNA manifest.
-        id,
+        id: _,
         // The DNA properties -- this value is the same across all zomes in
         // the DNA.
-        properties,
+        properties: _,
         // A tuple struct containing a vector of all the entry types defined
         // by this zome; it'll only be populated for integrity zomes.
-        entry_defs,
+        entry_defs: _,
         // A list of all the functions exposed by this zome, including both
         // zome functions and callbacks/hooks.
-        extern_fns,
+        extern_fns: _,
         // All of the entry and link types that are in scope for this zome.
         // This only applies to coordinator zomes, and is determined by the
         // zome's `dependencies` field in the DNA manifest.
-        zome_types,
-    } = zome_info();
+        zome_types: _,
+    } = zome_info()?;
     Ok(())
 }
 ```
@@ -117,21 +117,26 @@ fn look_at_agent_info() -> ExternResult<()> {
         // The public key, or agent ID, that the agent was initially using
         // when they instantiated this cell.
         agent_initial_pubkey,
-        // The agent's current ID. This should be identical to
-        // `agent_initial_pubkey`, and is reserved for future functionality
-        // involving key revocation and rotation.
+        // The agent's current ID.
         agent_latest_pubkey,
         chain_head,
     } = agent_info()?;
+
+    // The agent's initial and latest public keys should be identical.
+    // `agent_latest_pubkey` is reserved for future functionality involving key
+    // revocation and rotation.
+    assert_eq!(agent_initial_pubkey, agent_latest_pubkey, "initial and latest should be the same");
+
     // You can get info about the agent's current chain state at any time in
     // the function call. Note that this will advance to the most recently
     // written action if you call `agent_info` after writing something to your
     // source chain.
     let (
-        latest_action_hash,
-        latest_action_sequence_index,
-        latest_action_timestamp
+        _latest_action_hash,
+        _latest_action_sequence_index,
+        _latest_action_timestamp,
     ) = chain_head;
+
     Ok(())
 }
 ```
@@ -161,7 +166,10 @@ pub fn foo() -> ExternResult<()> {
         // chain. Unlike AgentInfo.chain_head, this doesn't change as you
         // try to write data in this function.
         as_at,
-        cap_grant,
+        // The capability grant that matches the claim used to call this
+        // function. See https://developer.holochain.org/build/capabilities/
+        // for more info.
+        cap_grant: _,
     } = call_info()?;
 
     // If this function is being called from another function in any cell in
@@ -185,8 +193,7 @@ pub fn foo() -> ExternResult<()> {
         ()
     )?;
     // Now, after writing to the chain, if we call agent_info again, the
-    // chain head in scratch space shouldn't match the persisted chain
-    // head.
+    // chain head in scratch space shouldn't match the persisted chain head.
     assert_ne!(call_info()?.as_at, agent_info()?.chain_head, "we've written something now and the scratch space and persisted source chain are out of sync");
 
     Ok(())
