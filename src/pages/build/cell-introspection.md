@@ -51,7 +51,7 @@ fn look_at_dna_info() -> ExternResult<()> {
 
 ### Get and deserialize DNA properties
 
-If all you want are the DNA properties, deserialized into a Rust type, you can use the [`#[dna_properties]`](https://docs.rs/hdk/latest/hdk/prelude/attr.dna_properties.html) macro on the type definition. Behind the scenes, it calls `dna_info` and tries to deserialize the `properties` field from YAML.
+If all you want are the DNA properties, deserialized into a Rust type, you can use the [`#[dna_properties]`](https://docs.rs/hdk/latest/hdk/prelude/attr.dna_properties.html) macro on the type definition. It creates a `try_from_dna_properties()` method that calls `dna_info` and tries to deserialize the `properties` field from YAML.
 
 This example implements a validation helper that checks that a given age value is within the bounds set in the DNA properties.
 
