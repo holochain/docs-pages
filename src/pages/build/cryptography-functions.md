@@ -183,7 +183,7 @@ fn encrypt_message(
     // we need to specify which one the recipient expects us to use.
     my_pub_key: X25519PubKey,
     recipient_pub_key: X25519PubKey
-) -> ExternResult<()> {
+) -> ExternResult<XSalsa20Poly1305EncryptedData> {
     x_25519_x_salsa20_poly1305_encrypt(
         // This public key must correspond to a private key stored in our own
         // key store.
@@ -194,7 +194,7 @@ fn encrypt_message(
 }
 
 fn decrypt_message(
-    encrypted_message: XSalsa20Poly1305EncryptedData
+    encrypted_message: XSalsa20Poly1305EncryptedData,
     // As with encryption, we may have created any number of key pairs, so we
     // need to know which one the sender used when they encrypted the message
     // for us.
@@ -294,7 +294,7 @@ fn output_shared_key_for_recipient(
 }
 
 fn accept_shared_key_from_sender(
-    encrypted_shared_key: XSalsa20Poly1305EncryptedData
+    encrypted_shared_key: XSalsa20Poly1305EncryptedData,
     my_pub_key: X25519PubKey,
     sender_pub_key: X25519PubKey,
 ) -> ExternResult<XSalsa20Poly1305KeyRef> {
