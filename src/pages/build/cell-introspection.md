@@ -188,9 +188,10 @@ pub fn foo() -> ExternResult<()> {
         LinkTypes::DirectorToMovies,
         ()
     )?;
-    // Now, after writing to the chain, if we call agent_info again, the
-    // chain head in scratch space shouldn't match the persisted chain head.
-    assert_ne!(call_info()?.as_at, agent_info()?.chain_head, "we've written something now and the scratch space and persisted source chain are out of sync");
+    // Now, after writing to the chain, if we call `call_info` and
+    // `agent_info` again, the chain head in scratch space shouldn't match
+    // the persisted chain head.
+    assert_ne!(call_info()?.as_at, agent_info()?.chain_head, "we've written something now and the scratch space and persisted source chain should be out of sync");
 
     Ok(())
 }
