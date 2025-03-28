@@ -197,10 +197,6 @@ pub fn foo() -> ExternResult<()> {
 }
 ```
 
-!!! Be careful about tight coupling
-These introspection functions give you the power to look outside of itself into its context. This carries the risk of writing code that's tightly coupled to its context, which makes for less reusable code. Consider writing your code using [inversion of control](https://en.wikipedia.org/wiki/Inversion_of_control) patterns to reduce coupling.
-!!!
-
 ## Reference
 
 * [`hdi::info::dna_info`](https://docs.rs/hdi/latest/hdi/info/fn.dna_info.html)
