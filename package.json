@@ -5,7 +5,7 @@
   "main": "index.cjs",
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "directories": {
     "doc": "docs"
