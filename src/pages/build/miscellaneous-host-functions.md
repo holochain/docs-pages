@@ -8,7 +8,7 @@ This page contains all the host API functions that don't fit into other categori
 
 ## Get the system time
 
-You can get the agent's current system time with the [`sys_time`](https://docs.rs/hdk/latest/hdk/time/fn.sys_time.html) host function, which takes no arguments and returns a result containing a [`Timestamp`](https://docs.rs/kitsune_p2p_timestamp/latest/kitsune_p2p_timestamp/struct.Timestamp.html).<!-- TODO: change to the right package when kitsune_p2p_timestamp is retired in 0.5 -->
+You can get the agent's current system time with the [`sys_time`](https://docs.rs/hdk/latest/hdk/time/fn.sys_time.html) host function, which takes no arguments and returns a result containing a [`Timestamp`](https://docs.rs/kitsune_p2p_timestamp/latest/kitsune_p2p_timestamp/struct.Timestamp.html).<!-- TODO: change to the right package when kitsune_p2p_timestamp is retired in 0.5 --> _**Note**: This function is only available to coordinator zomes._
 
 ```rust
 use hdk::prelude::*;
@@ -18,7 +18,7 @@ let now = sys_time().unwrap();
 
 ## Generate some random bytes
 
-To generate some random bytes using the system's random number generator, use the [`random_bytes`](https://docs.rs/hdk/latest/hdk/random/fn.random_bytes.html) host function, It takes the number of bytes you want and returns a result containing the bytes, wrapped in a [`Bytes`](https://docs.rs/hdk/latest/hdk/prelude/type.Bytes.html) struct.
+To generate some random bytes using the system's random number generator, use the [`random_bytes`](https://docs.rs/hdk/latest/hdk/random/fn.random_bytes.html) host function, It takes the number of bytes you want and returns a result containing the bytes, wrapped in a [`Bytes`](https://docs.rs/hdk/latest/hdk/prelude/type.Bytes.html) struct. _**Note**: This function is only available to coordinator zomes._
 
 ```rust
 use hdk::prelude::*;
@@ -46,7 +46,7 @@ If you need performant, reproducible randomness for use in statistical analysis,
 You can emit log messages from your zomes using Rust's [`tracing`](https://docs.rs/tracing/latest/tracing/) crate. The HDK includes a tracing subscriber that forwards all your tracing calls to the host. This subscriber is active in any public function marked with the `#[hdk_extern]` macro.
 
 ```rust
-use hdk::prelude::*;
+use hdi::prelude::*;
 use tracing::*;
 
 #[hdk_extern]
