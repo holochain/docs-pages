@@ -34,9 +34,9 @@ let reasonably_random_unique_id: Vec<u8> = random_bytes(32)
 ```
 
 !!! info The quality of the randomness depends on the host operating system
-Holochain just uses whatever random number generator the host operating system provides. These can reasonably be assumed to be random enough for most purposes in most operating systems. They can't be assumed to be 'secure', though, because they end up in WASM memory, and this host function isn't performant or reproducible if you need to do statistical analysis.
+Holochain just uses whatever random number generator the host operating system provides. These can reasonably be assumed to be random enough for most purposes in most operating systems. Their output can't be assumed to be 'secret', though, because it ends up in WASM memory. This host function also isn't performant or reproducible if you need to do statistical analysis.
 
-If you need secure, cryptographic-strength random bytes that aren't exposed insecurely in memory, consider using `x_salsa20_poly1305_shared_secret_create_random`<!-- TODO: link to crypto page -->, which stores the bytes in Holochain's secure key store.
+If you need secure, cryptographic-strength random bytes that aren't exposed insecurely in memory, it's likely that you're trying to do encryption. We suggest you use `x_salsa20_poly1305_shared_secret_create_random`<!-- TODO: link to crypto page -->, which stores the bytes in Holochain's secure key store.
 
 If you need performant, reproducible randomness for use in statistical analysis, use the value of `random_bytes` as a seed for a pseudorandom number generator that's suited to your use case (take a look at [seedable random number generators](https://rust-random.github.io/book/guide-seeding.html) in Rust's `rand` crate).
 !!!
@@ -47,7 +47,6 @@ You can emit log messages from your zomes using Rust's [`tracing`](https://docs.
 
 ```rust
 use hdi::prelude::*;
-use tracing::*;
 
 #[hdk_extern]
 pub fn foo() -> ExternResult<()> {
