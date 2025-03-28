@@ -19,7 +19,7 @@ fn look_at_dna_info() -> ExternResult<()> {
     let DnaInfoV2 {
         // The human-readable name of the DNA, taken from the DNA manifest.
         name: _,
-        // The hash of the DNA and its modifiers as defined *in this cell*.
+        // The hash of the DNA's integrity zomes and its modifiers as defined *in this cell*.
         // This may include modifiers applied in the app manifest or at
         // instantiation time (either overridden when installing the app or
         // when creating a clone).
