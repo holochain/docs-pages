@@ -107,25 +107,21 @@ fn look_at_zome_info() -> ExternResult<()> {
 
 To get information about the agent bound to the current cell, use the [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) host function. It takes no arguments and returns a result containing an [`AgentInfo`](https://docs.rs/hdk/latest/hdk/prelude/struct.AgentInfo.html) struct. _**Note**: This function is only available to coordinator zomes._
 
-<!-- TODO: talk about initial vs latest if DeepKey ever becomes real -->
+<!-- TODO: fix this if the interface changes -->
 
 ```rust
 use hdk::prelude::*;
 
 fn look_at_agent_info() -> ExternResult<()> {
     let AgentInfo {
-        // The public key, or agent ID, that the agent was initially using
-        // when they instantiated this cell.
-        agent_initial_pubkey,
-        // The agent's current ID.
-        agent_latest_pubkey,
+        // The public key of this agent.
+        agent_initial_pubkey: _,
+        // Also the public key of this agent (a redundant field that we plan
+        // to remove).
+        agent_latest_pubkey: _,
         chain_head,
     } = agent_info()?;
 
-    // The agent's initial and latest public keys should be identical.
-    // `agent_latest_pubkey` is reserved for future functionality involving key
-    // revocation and rotation.
-    assert_eq!(agent_initial_pubkey, agent_latest_pubkey, "initial and latest should be the same");
 
     // You can get info about the agent's current chain state at any time in
     // the function call. Note that this will advance to the most recently
