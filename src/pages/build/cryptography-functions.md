@@ -270,9 +270,13 @@ fn decrypt_message(
 
 You'll notice in the above code that the zome never sees the shared key --- it stays in Holochain's key store all the time. So how do you share it with others?
 
-Holochain gives you tools to encrypt the encryption key using [box encryption](#sending-encrypted-messages-without-a-shared-key-using-box) so it can be shared over an insecure channel, using[`x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html) and [`x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html).
+Holochain gives you tools to encrypt and export the encryption key using [box encryption](#sending-encrypted-messages-without-a-shared-key-using-box) so it can be shared over an insecure channel, using[`x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html) and [`x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html).
 
 This example shows how to output a box-encrypted symmetric key for a given recipient, then decrypt it on the receiving end. (Remember that box encryption requires both the sender and receiver to know each other's public key.)
+
+!!! Keep the symmetric key safe!
+While a zome in the recipient's cell could theoretically decrypt the symmetric key using `x_25519_x_salsa20_poly1305_decrypt`, this is extremely risky. **Always use `x_salsa20_poly1305_shared_secret_ingest` instead.** WASM memory is [not a safe place for secrets](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/), and we've done [a lot of security-hardening work on our key store](https://leastauthority.com/blog/audits/audit-of-holochain-lair-keystore/) to make it the best place for secrets to be kept.
+!!!
 
 ```rust
 use hdk::prelude::*;
@@ -344,5 +348,6 @@ If you're familiar with the box and secretbox algorithms, you'll know that good,
 
 ## Further reading
 
+* [libsodium: Quick Start](https://doc.libsodium.org/quickstart)
 * [libsodium: Public-key Cryptography: Authenticated Encryption](https://doc.libsodium.org/public-key_cryptography/authenticated_encryption)
 * [libsodium: Secret-key Cryptography: Authenticated Encryption](https://doc.libsodium.org/secret-key_cryptography/secretbox)
