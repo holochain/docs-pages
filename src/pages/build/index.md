@@ -48,7 +48,7 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 
 ::: topic-list
 * [Overview](/build/using-the-host-api/) --- accessing host features from a zome
-* hApp introspection (coming soon) --- finding out info about the DNA, zome, and agent
+* [Cell Introspection](/build/cell-introspection/) --- finding out info about the DNA, zome, agent, and calling context
 * [Cryptography functions](/build/cryptography-functions/) --- key generation, signatures, hashing, and encryption
 * Miscellaneous host functions (coming soon) --- system time and logging
 
