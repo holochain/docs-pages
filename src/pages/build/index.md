@@ -49,7 +49,7 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 ::: topic-list
 * [Overview](/build/using-the-host-api/) --- accessing host features from a zome
 * [Cell Introspection](/build/cell-introspection/) --- finding out info about the DNA, zome, agent, and calling context
-* Cryptography functions (coming soon) --- key generation, signatures, hashing, random numbers, and encryption
+* [Cryptography functions](/build/cryptography-functions/) --- key generation, signatures, hashing, and encryption
 * Miscellaneous host functions (coming soon) --- system time and logging
 
 ## Connecting the parts
