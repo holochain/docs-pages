@@ -61,7 +61,7 @@ pub fn foo() -> ExternResult<()> {
 To set the logging level appropriate to your needs, set the `WASM_LOG` environment variable just like you'd set the `RUST_LOG` environment variable. The host re-emits the messages to its own tracing subscriber (typically this means outputting them to stdout).
 
 ```bash
-WASM_LOG=info hc-spin workdir/my-app.happ
+WASM_LOG=info hc-spin workdir/my-app.webhapp
 ```
 
 When the `foo` zome function is called, you'll see:
