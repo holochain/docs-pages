@@ -43,6 +43,7 @@
         { title: "Using the Host API", url: "/build/using-the-host-api/", children: [
           { title: "Cell Introspection", url: "/build/cell-introspection/" },
           { title: "Cryptography Functions", url: "/build/cryptography-functions/" },
+          { title: "Miscellaneous Host Functions", url: "/build/miscellaneous-host-functions/" },
         ]},
         { title: "Connecting the Parts", url: "/build/connecting-the-parts/", children: [
           { title: "Front End", url: "/build/connecting-a-front-end/" },
