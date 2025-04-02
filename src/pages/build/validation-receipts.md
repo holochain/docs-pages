@@ -8,21 +8,7 @@ An agent can get a sense of the DHT availability of their data by asking their c
 
 As described in the [DHT operations](/build/dht-operations/) page, each action that an agent authors is turned into a set of DHT operations that are sent to other agents around the network for validation. If an operation is found to be valid, it'll transform the state of the DHT at the operation's [**basis address**](/resources/glossary/#basis-address). At this point, the validator will also send back a validation receipt to the author.
 
-!!! info Only the author gets validation receipts
-Only the agent who authored an action and published the DHT operations produced from it will get the validation receipts.
-!!!
-
 These validation receipts helps the author's conductor keep track of how fully their data has 'saturated' into the DHT --- that is, how many other agents know about it and can serve it up to anyone who asks for it. The purpose is to help the conductor decide whether it needs to try publishing it to more peers --- it'll keep trying until it collects the number of receipts specified in the [`required_validations` argument](/build/entries/#required-validations) passed to the `entry_type` macro (default is 5).
-
-## Things to keep in mind with validation receipts
-
-A DHT is an [**eventually consistent**](https://en.wikipedia.org/wiki/Eventual_consistency) database, which means that not every agent has the exact same up-to-date view of the shared data. This has some important consequences:
-
-* Writing data isn't a "did or didn't happen" event. A state change lives on a gradient from "it didn't happen" to "everybody has seen and integrated it".
-* This state changes over time; agents will keep on trying to publish their authored operations until they receive the number of receipts they expected.
-* An author may not receive validation receipts in a timely manner if network conditions are poor.
-* An operation may currently be enjoying better DHT saturation than its author is aware of, due to it being gossiped in its [neighborhood](/concepts/4_dht/#finding-peers-and-data-in-a-distributed-database).
-* People are accustomed to centralized data stores in which everyone sees the same state at roughly the same time; it's helpful to translate the concept of eventual consistency into a user experience that people can easily understand.
 
 ## Get validation receipts
 
@@ -63,7 +49,7 @@ fn check_validation_status(action_hash: ActionHash) -> ExternResult<ValidationSt
 }
 ```
 
-This example calculates a 'saturation score' for a given action; this could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions. {#saturation-score}
+This example imagines a 'saturation score' for authored data; this could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions. {#saturation-score}
 
 ```rust
 use hdk::prelude::*;
@@ -93,6 +79,17 @@ pub fn calculate_saturation_score(action_hash: ActionHash) -> ExternResult<f32> 
     Ok(total_receipts_collected as f32 / number_of_expected_receipts as f32)
 }
 ```
+
+## Things to keep in mind with validation receipts
+
+A DHT is an [**eventually consistent**](https://en.wikipedia.org/wiki/Eventual_consistency) database, which means that not every agent has the exact same up-to-date view of the shared data. This has some important consequences:
+
+* Writing to the DHT isn't a "did or didn't happen" event. A state change lives on a gradient from "it didn't happen" to "everybody has seen and integrated it".
+* This state changes over time; agents will keep on trying to publish their authored operations until they receive the number of receipts they expected.
+* An author may not receive validation receipts in a timely manner if network conditions are poor, even if the validators they published to have completed their work.
+* Only the conductor hosting the agent who authored an action will get the validation receipts. That means that only the authoring cell, and other cells with the same DNA on the same conductor, will be able to access them with `get_validation_receipts`.
+* An operation may currently be enjoying better DHT saturation than its author is aware of, because the first validators will start gossiping it to others in their [neighborhoods](/concepts/4_dht/#finding-peers-and-data-in-a-distributed-database) after they've integrated it.
+* Because people are accustomed to centralized data stores in which everyone sees the same state at roughly the same time, we recommend that you design user experiences that expose the concept of eventual consistency in ways that people can easily understand. We suggest one idea in the [saturation score example](#saturation-score) above.
 
 ## Reference
 
