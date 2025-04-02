@@ -33,12 +33,8 @@ let reasonably_random_unique_id: Vec<u8> = random_bytes(32)
     .into_vec();
 ```
 
-!!! info The quality of the randomness depends on the host operating system
-Holochain just uses whatever random number generator the host operating system provides. These can reasonably be assumed to be random enough for most purposes in most operating systems. Their output can't be assumed to be 'secret', though, because it ends up in WASM memory. This host function also isn't performant or reproducible if you need to do statistical analysis.
-
-If you need secure, cryptographic-strength random bytes that aren't exposed insecurely in memory, it's likely that you're trying to do encryption. We suggest you use `x_salsa20_poly1305_shared_secret_create_random`<!-- TODO: link to crypto page -->, which stores the bytes in Holochain's secure key store.
-
-If you need performant, reproducible randomness for use in statistical analysis, use the value of `random_bytes` as a seed for a pseudorandom number generator that's suited to your use case (take a look at [seedable random number generators](https://rust-random.github.io/book/guide-seeding.html) in Rust's `rand` crate).
+!!! info `random_bytes` uses the host operating system's random number generator
+Holochain just uses whatever random number generator the host operating system provides. The bytes are open in memory as they're passed to the caller, and they're not provably random or repeatable/seedable. Read the [`random_bytes` Rust documentation](https://docs.rs/hdk/latest/hdk/random/fn.random_bytes.html) to help you decide if this function is appropriate for your use case.
 !!!
 
 ## Log things in your zomes
