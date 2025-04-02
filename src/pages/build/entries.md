@@ -87,6 +87,10 @@ enum EntryTypes {
 }
 ```
 
+!!! info Getting the entry type definition
+If you want to retrieve the details of an entry type definition, such as for use in the ['saturation score' example from the Validation Receipts page](/build/validation-receipts/#saturation-score), use the <!--TODO: link this -->`zome_info` host function.
+!!!
+
 ## Create an entry
 
 Most of the time you'll want to define your create, read, update, and delete (CRUD) functions in a [**coordinator zome**](/resources/glossary/#coordinator-zome) rather than the integrity zome that defines it. This is because a coordinator zome is easier to update in the wild than an integrity zome.

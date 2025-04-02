@@ -46,12 +46,15 @@ fn check_validation_status(action_hash: ActionHash) -> ExternResult<ValidationSt
             ValidationStatus::Valid,
             |acc, status| match status {
                 ValidationStatus::Valid => acc,
-                // Rejected is worse than abandoned.
+                // Validation can be abandoned if dependencies can't be fetched.
                 ValidationStatus::Abandoned =>
+                    // Rejected is worse than abandoned.
+                    // But it also should never happen if the agent is self-
+                    // validating their DHT ops before publishing them (except
+                    // in the case of an invalid membrane proof -- see
+                    // https://developer.holochain.org/build/genesis-self-check-callback/#the-need-for-basic-pre-validation )
                     if acc == ValidationStatus::Rejected { acc }
                     else { status },
-                // This should never happen, because actions are self-
-                // validated before they're published.
                 ValidationStatus::Rejected => status,
             }
         );
@@ -60,7 +63,7 @@ fn check_validation_status(action_hash: ActionHash) -> ExternResult<ValidationSt
 }
 ```
 
-This example calculates a saturation score for a given action; this could be used by the front end to indicate how likely it is that a user's changes will be seen by their peers if they turn off their computer.
+This example calculates a 'saturation score' for a given action; this could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions. {#saturation-score}
 
 ```rust
 use hdk::prelude::*;
@@ -73,7 +76,9 @@ pub fn calculate_saturation_score(action_hash: ActionHash) -> ExternResult<f32> 
     // divided by the number of receipts we expected to have.
     // First we need to know how many we expect to have.
     // This is the default number of required receipts for a given action.
-    // You may want to change this to reflect the entry type you're checking on.
+    // For app entries, the default can be changed and can be gotten with
+    // the `dna_info` host function; see
+    // https://developer.holochain.org/build/entries/#required_validations
     let full_saturation_receipt_count = 5;
     // The number of ops varies by the action; the receipt set will have one
     // element per op type for the action type, even if there are no receipts
