@@ -124,3 +124,8 @@ npm install
 ### Change 2
 
 ## Subtle changes
+
+The following changes don't break Holochain's APIs or require updates to your code, but they may require you to reassess whether your hApp will work as expected:
+
+* Thing 1
+* Thing 2
