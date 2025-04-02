@@ -80,7 +80,7 @@ pub fn calculate_saturation_score(action_hash: ActionHash) -> ExternResult<f32> 
 }
 ```
 
-## Things to keep in mind with validation receipts
+## Cautions and design guidelines
 
 A DHT is an [**eventually consistent**](https://en.wikipedia.org/wiki/Eventual_consistency) database, which means that not every agent has the exact same up-to-date view of the shared data. This has some important consequences:
 
