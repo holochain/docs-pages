@@ -8,7 +8,7 @@ title: "Using the Host API"
 * Using the Host API (this page)
     * [Cell Introspection](/build/cell-introspection/) --- finding out info about the DNA, zome, agent, and calling context
     * [Cryptography functions](/build/cryptography-functions/) --- key generation, signatures, hashing, and encryption
-    * Miscellaneous host functions (coming soon) --- system time and logging
+    * [Miscellaneous host functions](/build/miscellaneous-host-functions/) --- system time, logging, randomness
 :::
 
 ::: intro
