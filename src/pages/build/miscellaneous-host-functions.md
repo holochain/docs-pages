@@ -13,24 +13,28 @@ You can get the agent's current system time with the [`sys_time`](https://docs.r
 ```rust
 use hdk::prelude::*;
 
-let now = sys_time().unwrap();
+fn get_time() -> ExternResult<Timestamp> {
+    sys_time()
+}
 ```
 
 ## Generate some random bytes
 
-To generate some random bytes using the system's random number generator, use the [`random_bytes`](https://docs.rs/hdk/latest/hdk/random/fn.random_bytes.html) host function, It takes the number of bytes you want and returns a result containing the bytes, wrapped in a [`Bytes`](https://docs.rs/hdk/latest/hdk/prelude/type.Bytes.html) struct. _**Note**: This function is only available to coordinator zomes._
+To generate some random bytes, use the [`random_bytes`](https://docs.rs/hdk/latest/hdk/random/fn.random_bytes.html) host function, It takes the number of bytes you want and returns a result containing the bytes, wrapped in a [`Bytes`](https://docs.rs/hdk/latest/hdk/prelude/type.Bytes.html) struct. _**Note**: This function is only available to coordinator zomes._
 
 ```rust
 use hdk::prelude::*;
 
-let number_between_0_and_255: u8 = random_bytes(1)
-    .unwrap()
-    .into_vec()
-    [0];
+fn roll_die(sides: u8) -> ExternResult<u8> {
+    match sides {
+        0 => Err(wasm_error!("Can't roll a die with zero sides")),
+        _ => Ok(random_bytes(1)?[0] % sides + 1),
+    }
+}
 
-let reasonably_random_unique_id: Vec<u8> = random_bytes(32)
-    .unwrap()
-    .into_vec();
+fn reasonably_random_unique_id() -> ExternResult<Vec<u8>> {
+    Ok(random_bytes(32)?.into_vec())
+}
 ```
 
 !!! info `random_bytes` uses the host operating system's random number generator
