@@ -6,8 +6,8 @@ title: "Using the Host API"
 ### In this section {data-no-toc}
 
 * Using the Host API (this page)
-    * hApp introspection (coming soon) --- finding out info about the DNA, zome, and agent
-    * Cryptography functions (coming soon) --- key generation, signatures, hashing, random numbers, and encryption
+    * [Cell Introspection](/build/cell-introspection/) --- finding out info about the DNA, zome, agent, and calling context
+    * [Cryptography functions](/build/cryptography-functions/) --- key generation, signatures, hashing, and encryption
     * [Miscellaneous host functions](/build/miscellaneous-host-functions/) --- system time, logging, randomness
 :::
 
