@@ -89,7 +89,7 @@ A DHT is an [**eventually consistent**](https://en.wikipedia.org/wiki/Eventual_c
 * An author may not receive validation receipts in a timely manner if network conditions are poor, even if the validators they published to have completed their work.
 * Only the conductor hosting the agent who authored an action will get the validation receipts. That means that only the authoring cell, and other cells with the same DNA on the same conductor, will be able to access them with `get_validation_receipts`.
 * An operation may currently be enjoying better DHT saturation than its author is aware of, because the first validators will start gossiping it to others in their [neighborhoods](/concepts/4_dht/#finding-peers-and-data-in-a-distributed-database) after they've integrated it.
-* Because people are accustomed to centralized data stores in which everyone sees the same state at roughly the same time, we recommend that you design user experiences that expose the concept of eventual consistency in ways that people can easily understand. The [saturation score example](#publish-progress-score) above might be a useful start.
+* Because people are accustomed to centralized data stores in which everyone sees the same state at roughly the same time, we recommend that you design user experiences that expose the concept of eventual consistency in ways that people can easily understand. The [publish progress score example](#publish-progress-score) above might be a useful start.
 
 ## Reference
 
