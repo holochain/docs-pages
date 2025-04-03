@@ -3,7 +3,7 @@ title: "Validation Receipts"
 ---
 
 ::: intro
-An agent can get a sense of the DHT availability of their data by asking their conductor for the **validation receipts** it's collected. These receipts are created by the peers that the agent has sent their [**DHT operations**](/build/dht-operations/) to as an acknowledgement of valid data.
+An agent can get a sense of the DHT availability of their data by asking their conductor for the **validation receipts** it's collected. These receipts are created by the peers that the agent has sent their [**DHT operations**](/build/dht-operations/) to as a confirmation that they have validated the data.
 :::
 
 As described in the [DHT operations](/build/dht-operations/) page, each action that an agent authors is turned into a set of DHT operations that are sent to other agents around the network for validation. If an operation is found to be valid, it'll transform the state of the DHT at the operation's [**basis address**](/resources/glossary/#basis-address). At this point, the validator will also send back a validation receipt to the author.
