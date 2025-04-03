@@ -53,7 +53,7 @@ fn check_validation_status(action_hash: ActionHash) -> ExternResult<ValidationSt
 }
 ```
 
-This example imagines a 'publish progress score' for authored data; this could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions. {#publish-progress-score}
+This example imagines a 'publish progress score' for authored data; this could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions. This can be used to help users who are accustomed to centralized databases understand the  [**eventually consistent**](https://en.wikipedia.org/wiki/Eventual_consistency) nature of the DHT more easily. {#publish-progress-score}
 
 ```rust
 use hdk::prelude::*;
@@ -84,13 +84,9 @@ pub fn calculate_publish_progress_score(action_hash: ActionHash) -> ExternResult
 }
 ```
 
-## Design considerations
-
-A DHT is an [**eventually consistent**](https://en.wikipedia.org/wiki/Eventual_consistency) database, which means that not every agent has the exact same up-to-date view of the shared data. This has some important consequences:
-
-* Only the conductor hosting the agent who authored an action will get the validation receipts. That means that only the authoring cell, and other cells with the same DNA on the same conductor, will be able to access them with `get_validation_receipts`.
-* Writing to the DHT isn't a "did or didn't happen" event. A state change lives on a gradient from "only the author knows about it" to "everybody knows about it".
-* Because people are accustomed to centralized data stores in which everyone sees the same state at roughly the same time, we recommend that you design user experiences that expose the concept of eventual consistency in ways that people can easily understand. The [publish progress score example](#publish-progress-score) above might be a useful start.
+!!! Validation receipts are only available in the author's conductor
+Only the conductor hosting the agent who authored an action will get the validation receipts. That means that only the authoring cell, _and other cells with the same DNA on the same conductor_, will be able to access them with `get_validation_receipts`.
+!!!
 
 ## Reference
 
