@@ -53,7 +53,30 @@ fn check_validation_status(action_hash: ActionHash) -> ExternResult<ValidationSt
 }
 ```
 
-This example imagines a 'publish progress score' for authored data; this could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions. This can be used to help users who are accustomed to centralized databases understand the  [**eventually consistent**](https://en.wikipedia.org/wiki/Eventual_consistency) nature of the DHT more easily. {#publish-progress-score}
+This example gives a simple yes/no answer to whether an action's operations have been published to the DHT in a sufficient amount.
+
+This function could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions.
+
+```rust
+use hdk::prelude::*;
+
+#[hdk_extern]
+pub fn has_action_been_fully_published(action_hash: ActionHash) -> ExternResult<bool> {
+    let validation_receipt_sets = get_validation_receipts(GetValidationReceiptsInput { action_hash })?;
+    let is_fully_published = validation_receipt_sets
+        .iter()
+        .all(|set_for_op| set_for_op.receipts_complete);
+    Ok(is_fully_published)
+}
+```
+
+But publishing isn't an all-or-nothing event; it happens over time. Here's an example that gives more nuanced feedback on publishing progress.
+
+!!! info How many validation receipts is enough?
+By default, every DHT operation produced by an action must collect five validation receipts before the author considers publishing to be complete. For application entry creation actions, you can override this by setting the [`required_validations`](/build/entries/#required_validations) field on the entry type.
+!!!
+
+<!-- TODO/FIXME: currently this function will give inaccurate results. Fix this if https://github.com/holochain/holochain/issues/4861 gets resolved -->
 
 ```rust
 use hdk::prelude::*;
@@ -62,24 +85,31 @@ use hdk::prelude::*;
 pub fn calculate_publish_progress_score(action_hash: ActionHash) -> ExternResult<f32> {
     let validation_receipt_set = get_validation_receipts(GetValidationReceiptsInput { action_hash })?;
 
-    // Now calculate the score, which will be the number of receipts we have
-    // divided by the number of receipts we expected to have.
-    // First we need to know how many we expect to have.
-    // This is the default number of required receipts for a given action.
-    // For app entries, the default can be changed and can be gotten with
-    // the `dna_info` host function; see
-    // https://developer.holochain.org/build/entries/#required_validations
+    // First figure out how many receipts we need to collect.
+
+    // The default expectation is five receipts per op. Note that, if this is
+    // an app entry creation action and you've set `required_validations` to
+    // something other than 5 for the entry type, this will give an
+    // inaccurate score.
     let expected_op_receipt_count = 5;
-    // The number of ops varies by the action; the receipt set will have one
-    // element per op type for the action type, even if there are no receipts
-    // collected for a given op type.
+
+    // The number of ops varies by the action; the return value of
+    // `get_validation_receipts` set will have one element per op type for
+    // the action type, even if there are no receipts collected for the given
+    // op type.
     let number_of_ops_for_this_action = validation_receipt_set.len();
+
+    // The number of total receipts we expect is the number of expected
+    // receipts per op multiplied by the number of ops.
     let number_of_expected_receipts = expected_op_receipt_count * number_of_ops_for_this_action;
 
+    // Find out how many receipts we've collected across all ops.
     let total_receipts_collected = validation_receipt_set
         .iter()
         .fold(0, |acc, set_for_op| acc + set_for_op.receipts.len());
 
+    // Calculate the score, which will be the number of receipts we've
+    // collected divided by the number of receipts we expect to have.
     Ok(total_receipts_collected as f32 / number_of_expected_receipts as f32)
 }
 ```
