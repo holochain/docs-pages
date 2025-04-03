@@ -56,6 +56,7 @@
           { title: "Validate Callback", url: "/build/validate-callback/" },
           { title: "must_get_* Host Functions", url: "/build/must-get-host-functions/" },
         ]},
+        { title: "Testing", url: "/build/testing-with-tryorama/", children: []},
       ]
     },
     { title: "Resources", url: "/resources/", children: [
