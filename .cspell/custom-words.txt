@@ -48,6 +48,7 @@ rustc
 rustflags
 rustup
 secretbox
+seedable
 setgid
 setuid
 struct
