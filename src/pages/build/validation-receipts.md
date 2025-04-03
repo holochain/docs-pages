@@ -3,12 +3,16 @@ title: "Validation Receipts"
 ---
 
 ::: intro
-An agent can get a sense of the DHT availability of their data by asking their conductor for the **validation receipts** it's collected. These receipts are created by the peers that the agent has sent their [**DHT operations**](/build/dht-operations/) to as a confirmation that they have validated the data.
+An agent can get a rough sense of the DHT availability of their data by checking how many **validation receipts** it's collected. These receipts are created by the peers that the agent has sent their [**DHT operations**](/build/dht-operations/) to as a confirmation that they have validated the data and are now serving it.
 :::
 
-As described in the [DHT operations](/build/dht-operations/) page, each action that an agent authors is turned into a set of DHT operations that are sent to other agents around the network for validation. If an operation is found to be valid, it'll transform the state of the DHT at the operation's [**basis address**](/resources/glossary/#basis-address). At this point, the validator will also send back a validation receipt to the author.
+As described in the [DHT operations](/build/dht-operations/) page, each action that an agent authors is turned into a set of DHT operations that are **published** to other agents in the network for validation. If an operation is found to be valid, it'll transform the state of the DHT at the operation's [**basis address**](/resources/glossary/#basis-address). At this point, the validator will also send back a validation receipt to the author.
 
 These validation receipts helps the author's conductor keep track of how fully their data has 'saturated' into the DHT --- that is, how many other agents know about it and can serve it up to anyone who asks for it. The purpose is to help the conductor decide whether it needs to try publishing it to more peers --- it'll keep trying until it collects the number of receipts specified in the [`required_validations` argument](/build/entries/#required-validations) passed to the `entry_type` macro (default is 5).
+
+!!! info Validation receipts are only delivered for publish attempts
+An author only receives validation receipts from the agents that they _published_ their DHT operations to. Agents may receive an operation from another agent via **gossip**, but they won't won't send a validation receipt to the original author in this case. This means the operation might currently be enjoying better saturation than the author is aware of.
+!!!
 
 ## Get validation receipts
 
@@ -80,15 +84,12 @@ pub fn calculate_publish_progress_score(action_hash: ActionHash) -> ExternResult
 }
 ```
 
-## Cautions and design guidelines
+## Design considerations
 
 A DHT is an [**eventually consistent**](https://en.wikipedia.org/wiki/Eventual_consistency) database, which means that not every agent has the exact same up-to-date view of the shared data. This has some important consequences:
 
-* Writing to the DHT isn't a "did or didn't happen" event. A state change lives on a gradient from "it didn't happen" to "everybody has seen and integrated it".
-* This state changes over time; agents will keep on trying to publish their authored operations until they receive the number of receipts they expected.
-* An author may not receive validation receipts in a timely manner if network conditions are poor, even if the validators they published to have completed their work.
 * Only the conductor hosting the agent who authored an action will get the validation receipts. That means that only the authoring cell, and other cells with the same DNA on the same conductor, will be able to access them with `get_validation_receipts`.
-* An operation may currently be enjoying better DHT saturation than its author is aware of, because the first validators will start gossiping it to others in their [neighborhoods](/concepts/4_dht/#finding-peers-and-data-in-a-distributed-database) after they've integrated it.
+* Writing to the DHT isn't a "did or didn't happen" event. A state change lives on a gradient from "only the author knows about it" to "everybody knows about it".
 * Because people are accustomed to centralized data stores in which everyone sees the same state at roughly the same time, we recommend that you design user experiences that expose the concept of eventual consistency in ways that people can easily understand. The [publish progress score example](#publish-progress-score) above might be a useful start.
 
 ## Reference
