@@ -88,7 +88,7 @@ enum EntryTypes {
 ```
 
 !!! info Getting the entry type definition
-If you want to retrieve the details of an entry type definition, such as for use in the ['saturation score' example from the Validation Receipts page](/build/validation-receipts/#saturation-score), use the <!--TODO: link this -->`zome_info` host function.
+If you want to retrieve the details of an entry type definition, such as for use in the ['saturation score' example from the Validation Receipts page](/build/validation-receipts/#publish-progress-score), use the <!--TODO: link this -->`zome_info` host function.
 !!!
 
 ## Create an entry

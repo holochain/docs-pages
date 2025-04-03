@@ -49,13 +49,13 @@ fn check_validation_status(action_hash: ActionHash) -> ExternResult<ValidationSt
 }
 ```
 
-This example imagines a 'saturation score' for authored data; this could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions. {#saturation-score}
+This example imagines a 'publish progress score' for authored data; this could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions. {#publish-progress-score}
 
 ```rust
 use hdk::prelude::*;
 
 #[hdk_extern]
-pub fn calculate_saturation_score(action_hash: ActionHash) -> ExternResult<f32> {
+pub fn calculate_publish_progress_score(action_hash: ActionHash) -> ExternResult<f32> {
     let validation_receipt_set = get_validation_receipts(GetValidationReceiptsInput { action_hash })?;
 
     // Now calculate the score, which will be the number of receipts we have
@@ -65,12 +65,12 @@ pub fn calculate_saturation_score(action_hash: ActionHash) -> ExternResult<f32> 
     // For app entries, the default can be changed and can be gotten with
     // the `dna_info` host function; see
     // https://developer.holochain.org/build/entries/#required_validations
-    let full_saturation_receipt_count = 5;
+    let expected_op_receipt_count = 5;
     // The number of ops varies by the action; the receipt set will have one
     // element per op type for the action type, even if there are no receipts
     // collected for a given op type.
     let number_of_ops_for_this_action = validation_receipt_set.len();
-    let number_of_expected_receipts = full_saturation_receipt_count * number_of_ops_for_this_action;
+    let number_of_expected_receipts = expected_op_receipt_count * number_of_ops_for_this_action;
 
     let total_receipts_collected = validation_receipt_set
         .iter()
@@ -89,7 +89,7 @@ A DHT is an [**eventually consistent**](https://en.wikipedia.org/wiki/Eventual_c
 * An author may not receive validation receipts in a timely manner if network conditions are poor, even if the validators they published to have completed their work.
 * Only the conductor hosting the agent who authored an action will get the validation receipts. That means that only the authoring cell, and other cells with the same DNA on the same conductor, will be able to access them with `get_validation_receipts`.
 * An operation may currently be enjoying better DHT saturation than its author is aware of, because the first validators will start gossiping it to others in their [neighborhoods](/concepts/4_dht/#finding-peers-and-data-in-a-distributed-database) after they've integrated it.
-* Because people are accustomed to centralized data stores in which everyone sees the same state at roughly the same time, we recommend that you design user experiences that expose the concept of eventual consistency in ways that people can easily understand. The [saturation score example](#saturation-score) above might be a useful start.
+* Because people are accustomed to centralized data stores in which everyone sees the same state at roughly the same time, we recommend that you design user experiences that expose the concept of eventual consistency in ways that people can easily understand. The [saturation score example](#publish-progress-score) above might be a useful start.
 
 ## Reference
 
