@@ -70,11 +70,11 @@ pub fn has_action_been_fully_published(action_hash: ActionHash) -> ExternResult<
 }
 ```
 
-But publishing isn't an all-or-nothing event; it happens over time. Here's an example that gives more nuanced feedback on publishing progress.
-
 !!! info How many validation receipts is enough?
 By default, every DHT operation produced by an action must collect five validation receipts before the author considers publishing to be complete. For application entry creation actions, you can override this by setting the [`required_validations`](/build/entries/#required_validations) field on the entry type.
 !!!
+
+But publishing isn't an all-or-nothing event; it happens over time. Here's an example that gives more nuanced feedback on publishing progress.
 
 <!-- TODO/FIXME: currently this function will give inaccurate results. Fix this if https://github.com/holochain/holochain/issues/4861 gets resolved -->
 
