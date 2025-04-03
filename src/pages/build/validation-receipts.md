@@ -104,5 +104,3 @@ A DHT is an [**eventually consistent**](https://en.wikipedia.org/wiki/Eventual_c
 * [Build Guide: DHT Operations](/build/dht-operations/)
 * [Core Concepts: DHT](/concepts/4_dht/)
 * [Core Concepts: Validation](/concepts/7_validation/)
-* [Wikipedia: Eventual Consistency](https://en.wikipedia.org/wiki/Eventual_consistency)
-* [Local-first software: You own your data, in spite of the cloud](https://www.inkandswitch.com/local-first/), a case study by Ink & Switch that looks at the user experience of distributed software
