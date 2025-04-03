@@ -3,10 +3,10 @@ title: "Validation Receipts"
 ---
 
 ::: intro
-An agent can get a rough sense of the DHT availability of their data by checking how many **validation receipts** it's collected. These receipts are created by the peers that the agent has sent their [**DHT operations**](/build/dht-operations/) to as a confirmation that they have validated the data and are now serving it.
+An agent can get a rough sense of the DHT availability of their data by checking how many **validation receipts** it's collected. These receipts are created by the peers that the agent has **published** their [**DHT operations**](/build/dht-operations/) to as a confirmation that they have validated the data and are now serving it.
 :::
 
-As described in the [DHT operations](/build/dht-operations/) page, each action that an agent authors is turned into a set of DHT operations that are **published** to other agents in the network for validation. If an operation is found to be valid, it'll transform the state of the DHT at the operation's [**basis address**](/resources/glossary/#basis-address). At this point, the validator will also send back a validation receipt to the author.
+As described in the [DHT operations](/build/dht-operations/) page, each action that an agent authors is turned into a set of DHT operations that are published to other agents in the network for validation. If an operation is found to be valid, it'll transform the state of the DHT at the operation's [**basis address**](/resources/glossary/#basis-address). At this point, the validator will also send back a validation receipt to the author.
 
 These validation receipts helps the author's conductor keep track of how fully their data has 'saturated' into the DHT --- that is, how many other agents know about it and can serve it up to anyone who asks for it. The purpose is to help the conductor decide whether it needs to try publishing it to more peers --- it'll keep trying until it collects the number of receipts specified in the [`required_validations` argument](/build/entries/#required-validations) passed to the `entry_type` macro (default is 5).
 
