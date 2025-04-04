@@ -72,3 +72,10 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Validate Callback](/build/validate-callback/) --- Writing validation routines for various needs
 * [`must_get_*` Host Functions](/build/must-get-host-functions/) --- Deterministically retrieving DHT data for use in validation
 * [DHT operations](/build/dht-operations/) --- advanced details on the underlying data structure used in DHT replication and validation
+:::
+
+## Testing
+
+::: topic-list
+* [Testing with Tryorama](/build/testing-with-tryorama/) --- Writing scenario tests for your hApp
+:::
