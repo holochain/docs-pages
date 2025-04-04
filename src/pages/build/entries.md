@@ -65,7 +65,7 @@ This also gives you an enum that you can use later when you're storing app data.
 Each variant in the enum should hold the Rust type that corresponds to it, and is implicitly marked with an `entry_def` proc macro which, if you specify it explicitly, lets you configure the given entry type further:
 
 * An entry type can be configured as **private**, which means that it's never published to the DHT, but exists only on the author's source chain. To do this, use the `visibility = "private"` argument. {#private-entry-type}
-* A public entry type can be configured to expect a certain number of **required validations**, which is the number of [validation receipts](/resources/glossary/#validation-receipt) that an author tries to collect from authorities before they consider their entry published on the DHT. To do this, use the `required_validations = <num>` argument.
+* A public entry type can be configured to expect a certain number of **required validations**, which is the number of [validation receipts](/resources/glossary/#validation-receipt) that an author tries to collect from authorities before they consider their entry published on the DHT. To do this, use the `required_validations = <num>` argument. {#required-validations}
 
 ```rust
 use hdi::prelude::*;
