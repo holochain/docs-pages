@@ -20,41 +20,6 @@ An author only receives validation receipts from the validating agents that they
 
 To get validation receipts for an action that an agent has authored, use the [`get_validation_receipts`](https://docs.rs/hdk/latest/hdk/validation_receipt/fn.get_validation_receipts.html) host function. It takes an input consisting of the action hash and returns a result containing a vector of [`ValidationReceiptSet`](https://docs.rs/hdk/latest/hdk/prelude/struct.ValidationReceiptSet.html) values. Each of these items corresponds to one of the operations produced from the action and gives the receipts collected so far for that operation.
 
-This example checks to see if any validator has abandoned or rejected an operation for an action:
-
-```rust
-use hdk::prelude::*;
-
-fn check_validation_status(action_hash: ActionHash) -> ExternResult<ValidationStatus> {
-    let validation_receipt_set = get_validation_receipts(GetValidationReceiptsInput { action_hash })?;
-
-    let worst_status = validation_receipt_set
-        .iter()
-        .flat_map(
-            |set| set.receipts.iter()
-                .map(|receipt| receipt.validation_status)
-        )
-        .fold(
-            ValidationStatus::Valid,
-            |acc, status| match status {
-                ValidationStatus::Valid => acc,
-                // Validation can be abandoned if dependencies can't be fetched.
-                ValidationStatus::Abandoned =>
-                    // Rejected is worse than abandoned.
-                    // But it also should never happen if the agent is self-
-                    // validating their DHT ops before publishing them (except
-                    // in the case of an invalid membrane proof -- see
-                    // https://developer.holochain.org/build/genesis-self-check-callback/#the-need-for-basic-pre-validation )
-                    if acc == ValidationStatus::Rejected { acc }
-                    else { status },
-                ValidationStatus::Rejected => status,
-            }
-        );
-
-    Ok(worst_status)
-}
-```
-
 This example gives a simple yes/no answer to whether an action's operations have been published to the DHT in a sufficient amount.
 
 This function could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions.
