@@ -3,17 +3,17 @@ title: "Validation Receipts"
 ---
 
 ::: intro
-An agent can get a rough sense of the DHT availability of their data by checking how many **validation receipts** it's collected. These receipts are created by the peers that the agent has **published** their [**DHT operations**](/build/dht-operations/) to as a confirmation that they have received, validated, and stored the data and have started to serve it.
+An agent can get a rough sense of the 'DHT health' of their recently created data by checking how many **validation receipts** it's collected. These receipts are created by the peers that the agent has sent their [**DHT operations**](/build/dht-operations/) to as a confirmation that they have received, validated, and stored the data and have started to serve it.
 :::
 
-As described in the [DHT operations](/build/dht-operations/) page, each action that an agent authors is turned into a set of DHT operations that are published to other agents in the network for validation. If an operation is found to be valid, it'll transform the state of the DHT at the operation's [**basis address**](/resources/glossary/#basis-address). At this point, the validator will also send back a validation receipt to the author.
+As described in the [DHT operations](/build/dht-operations/) page, each action that an agent authors is turned into a set of DHT operations that are sent to other agents in the network for validation. If an operation is found to be valid, it'll be integrated into the DHT store at the operation's [**basis address**](/resources/glossary/#basis-address). At this point, the validator will also send back a validation receipt to the author.
 
-These validation receipts help the author's conductor keep initial track of how many other agents have validated and stored their data. The purpose is to help the conductor decide whether it needs to try sending it to more validators --- it'll keep trying until it collects enough receipts.
+These validation receipts help the author's conductor keep track of how many other agents have validated and stored their data. The purpose is to help the conductor decide whether it needs to try sending it to more validators --- it'll keep trying until it collects enough receipts.
 
-By default, an action must collect five validation receipts for each of its DHT operations before the author considers publishing to be complete. For application entry creation actions, you can override this by setting the [`required_validations`](/build/entries/#required-validations) field on the entry type.
+By default, an action must collect five validation receipts for each of its DHT operations before the author considers this process to be complete. For application entry creation actions, you can override this by setting the [`required_validations`](/build/entries/#required-validations) field on the entry type.
 
 !!! info Validation receipts might not reflect current DHT conditions
-An author only receives validation receipts from the validating agents that they _published_ their DHT operations to. Other agents may receive and validation an operation from these original validators via **gossip**, but they won't won't send a validation receipt to the original author in this case. <!-- TODO: this behavior will change in 0.5 -->This means the operation might currently be enjoying better saturation than the author is aware of. The original validators might also have stopped participating in the network. So it's best to treat validation receipts as a **very rough measure of the DHT availability of authored data in the first few minutes after publishing**.
+An author only receives validation receipts from the validating agents that they sent their DHT operations to. Other agents may receive an operation from these original validators via **gossip**, but they won't send a validation receipt to the original author. <!-- TODO: this behavior will change in 0.5 -->The original validators might also have stopped participating in the network. This means that, at any given time, the data might have better or worse DHT health than the author believes. So it's best to treat validation receipts as a **very rough measure of the DHT availability of data in the first short while after authoring**. The length of this time frame depends on the author's ability to reach validators.
 !!!
 
 ## Get validation receipts
@@ -51,9 +51,7 @@ fn check_validation_status(action_hash: ActionHash) -> ExternResult<ValidationSt
 }
 ```
 
-This example gives a simple yes/no answer to whether an action's operations have been published to the DHT in a sufficient amount.
-
-This function could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions.
+This example gives a simple yes/no answer to whether an action has been sufficiently received by the DHT. It could be used by the front end to warn a user that their peers might not yet be able to see their most recent database contributions.
 
 ```rust
 use hdk::prelude::*;
@@ -68,7 +66,7 @@ pub fn has_action_been_fully_published(action_hash: ActionHash) -> ExternResult<
 }
 ```
 
-But publishing isn't an all-or-nothing event; it happens over time. Here's an example that gives more nuanced feedback on publishing progress.
+But having the DHT receive your data isn't an all-or-nothing event; it happens over time. Here's an example that gives more nuanced feedback on progress.
 
 <!-- TODO/FIXME: currently this function will give inaccurate results. Fix this if https://github.com/holochain/holochain/issues/4861 gets resolved -->
 
