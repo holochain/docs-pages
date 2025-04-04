@@ -3,15 +3,17 @@ title: "Validation Receipts"
 ---
 
 ::: intro
-An agent can get a rough sense of the DHT availability of their data by checking how many **validation receipts** it's collected. These receipts are created by the peers that the agent has **published** their [**DHT operations**](/build/dht-operations/) to as a confirmation that they have validated the data and are now serving it.
+An agent can get a rough sense of the DHT availability of their data by checking how many **validation receipts** it's collected. These receipts are created by the peers that the agent has **published** their [**DHT operations**](/build/dht-operations/) to as a confirmation that they have received, validated, and stored the data and have started to serve it.
 :::
 
 As described in the [DHT operations](/build/dht-operations/) page, each action that an agent authors is turned into a set of DHT operations that are published to other agents in the network for validation. If an operation is found to be valid, it'll transform the state of the DHT at the operation's [**basis address**](/resources/glossary/#basis-address). At this point, the validator will also send back a validation receipt to the author.
 
-These validation receipts helps the author's conductor keep track of how fully their data has been published to the DHT --- that is, how many other agents they have published to and can serve it up to anyone who asks for it. The purpose is to help the conductor decide whether it needs to try publishing it to more peers --- it'll keep trying until it collects the number of receipts specified in the [`required_validations` argument](/build/entries/#required-validations) passed to the `entry_type` macro (default is 5).
+These validation receipts helps the author's conductor keep initial track of how many other agents have validated and stored their data. The purpose is to help the conductor decide whether it needs to try sending it to more validators --- it'll keep trying until it collects enough receipts.
 
-!!! info Validation receipts are only delivered for publish attempts
-An author only receives validation receipts from the agents that they _published_ their DHT operations to. Agents may receive an operation from another agent via **gossip**, but they won't won't send a validation receipt to the original author in this case. This means the operation might currently be enjoying better saturation than the author is aware of.
+By default, an action must collect five validation receipts for each of its DHT operations before the author considers publishing to be complete. For application entry creation actions, you can override this by setting the [`required_validations`](/build/entries/#required-validations) field on the entry type.
+
+!!! info Validation receipts might not reflect current DHT conditions
+An author only receives validation receipts from the validating agents that they _published_ their DHT operations to. Other agents may receive and validation an operation from these original validators via **gossip**, but they won't won't send a validation receipt to the original author in this case. This means the operation might currently be enjoying better saturation than the author is aware of. The original validators might also have stopped participating in the network. So it's best to treat validation receipts as a **very rough measure of the DHT availability of authored data in the first few minutes after publishing**.
 !!!
 
 ## Get validation receipts
@@ -69,10 +71,6 @@ pub fn has_action_been_fully_published(action_hash: ActionHash) -> ExternResult<
     Ok(is_fully_published)
 }
 ```
-
-!!! info How many validation receipts is enough?
-By default, every DHT operation produced by an action must collect five validation receipts before the author considers publishing to be complete. For application entry creation actions, you can override this by setting the [`required_validations`](/build/entries/#required-validations) field on the entry type.
-!!!
 
 But publishing isn't an all-or-nothing event; it happens over time. Here's an example that gives more nuanced feedback on publishing progress.
 
