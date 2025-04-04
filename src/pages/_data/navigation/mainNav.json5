@@ -39,6 +39,7 @@
           { title: "Entries", url: "/build/entries/" },
           { title: "Links, Paths, and Anchors", url: "/build/links-paths-and-anchors/" },
           { title: "Querying Source Chains", url: "/build/querying-source-chains/" },
+          { title: "Validation Receipts", url: "/build/validation-receipts/" },
         ]},
         { title: "Using the Host API", url: "/build/using-the-host-api/", children: [
           { title: "Cell Introspection", url: "/build/cell-introspection/" },
