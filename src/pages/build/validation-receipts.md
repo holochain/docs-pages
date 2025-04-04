@@ -8,7 +8,7 @@ An agent can get a rough sense of the DHT availability of their data by checking
 
 As described in the [DHT operations](/build/dht-operations/) page, each action that an agent authors is turned into a set of DHT operations that are published to other agents in the network for validation. If an operation is found to be valid, it'll transform the state of the DHT at the operation's [**basis address**](/resources/glossary/#basis-address). At this point, the validator will also send back a validation receipt to the author.
 
-These validation receipts helps the author's conductor keep initial track of how many other agents have validated and stored their data. The purpose is to help the conductor decide whether it needs to try sending it to more validators --- it'll keep trying until it collects enough receipts.
+These validation receipts help the author's conductor keep initial track of how many other agents have validated and stored their data. The purpose is to help the conductor decide whether it needs to try sending it to more validators --- it'll keep trying until it collects enough receipts.
 
 By default, an action must collect five validation receipts for each of its DHT operations before the author considers publishing to be complete. For application entry creation actions, you can override this by setting the [`required_validations`](/build/entries/#required-validations) field on the entry type.
 
