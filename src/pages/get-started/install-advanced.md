@@ -23,11 +23,15 @@ If you want to learn more about how this setup works and how to create it manual
 
 The flake-based one-liner to get you an ad-hoc Holonix shell (that is, not using a local flake file) looks like this:
 
+<!-- TODO(upgrade): change following version number -->
+
 ```shell
 nix develop "github:holochain/holonix?ref=main-0.4"
 ```
 
 #### Specifying a certain release
+
+<!-- TODO(upgrade): change following version numbers -->
 
 The above one-liner will give you the latest **recommended** version of Holochain from the 0.4 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.3 development shell, run:
 
@@ -62,6 +66,8 @@ hn-introspect
 ```
 
 This command displays versioning information about Holochain's main components. The output looks like this:
+
+<!-- TODO(upgrade): change following version numbers -->
 
 ::: output-block
 ```text

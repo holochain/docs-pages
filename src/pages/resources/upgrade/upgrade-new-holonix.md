@@ -19,6 +19,8 @@ mv flake.lock flake.lock.backup
 
 Then create a new flake file:
 
+<!-- TODO(upgrade): change following version number -->
+
 ```bash
 nix flake init -t github:holochain/holonix?ref=main-0.4
 ```

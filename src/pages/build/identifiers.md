@@ -157,6 +157,8 @@ An external reference is just any 32-byte identifier. Holochain doesn't care if 
 
 To construct an external hash from 32 raw bytes, first you need to enable the `hashing` feature in the `holo_hash` crate. In your zome's `Cargo.toml` add this line:
 
+<!-- TODO(upgrade): change following version numbers -->
+
 ```diff
 ...
 [dependencies]

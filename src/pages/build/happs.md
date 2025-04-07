@@ -14,6 +14,8 @@ As we described in [Application Structure](/build/application-structure/#happ), 
 
 The [scaffolding tool](/get-started/3-forum-app-tutorial/) is the easiest way to build out a full hApp with multiple DNAs and an optional GUI. Once you've [got the Holochain dev shell working](/get-started/), open a terminal and enter this command:
 
+<!-- TODO(upgrade): change following version numbers -->
+
 ```bash
 nix run "github:/holochain/holonix?ref=main-0.4#hc-scaffold" -- web-app movies_happ
 ```

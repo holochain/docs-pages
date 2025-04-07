@@ -15,7 +15,9 @@ To reduce the weight of your compiled zomes, Holochain exposes hashing functions
 !!! info You can also build native hashing into your zomes
 If you want to be able to hash data without calling out to the host, you can build hashing into your zome crate. List the `holo_hash` crate explicitly in your zome's `Cargo.toml` file, and turn on the `hashing` feature:
 
-```diff
+<!-- TODO(upgrade): change following version numbers -->
+
+```diff:toml
 ...
 [dependencies]
 hdk = { workspace = true }

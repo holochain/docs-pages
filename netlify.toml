@@ -139,6 +139,7 @@
 # Every time there's a new breaking release that achieves 'recommended' status,
 # update this temporary redirect. /resources/upgrade/latest/ isn't in the site nav,
 # but it is a handy URL we can hand out without needing to look up what the proper URL is.
+# TODO(upgrade): change following version number
 [[redirects]]
     from = "/resources/upgrade/latest/"
     to = "/resources/upgrade/upgrade-holochain-0.4/"

@@ -62,6 +62,8 @@ cargo new my_integrity_zome --lib
 
 Then add some necessary bits to your new `Cargo.toml` file:
 
+<!-- TODO(upgrade): change following version numbers -->
+
 ```diff:toml
 [package]
 name = "my_integrity_zome"
@@ -93,6 +95,8 @@ Coordinator zomes hold your back-end logic --- the functions that read and write
 #### Create a coordinator zome
 
 Again, **the easiest way to create a coordinator zome** is to let the scaffolding tool do it for you. But if you want to do it yourself, it's the same as an integrity zome, with one exception. Use the above additions to the integrity zome's `Cargo.toml` as a template, but change the dependencies like this:
+
+<!-- TODO(upgrade): change following version numbers -->
 
 ```diff:toml
  [dependencies]
