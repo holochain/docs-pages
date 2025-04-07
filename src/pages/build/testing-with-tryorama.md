@@ -100,7 +100,7 @@ test("create two agents", async () => {
             },
             options: {
                 // Specify DNA properties for the `movies` cell.
-                rolesSettings = {
+                rolesSettings: {
                     movies: {
                         modifiers: {
                             properties: {
