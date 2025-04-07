@@ -74,7 +74,7 @@ edition = "2021"
 +crate-type = ["cdylib"]
 
  [dependencies]
-+hdi = "=0.5.0-rc.1"
++hdi = "=0.6.0"
 +serde = "1.0"
 ```
 
@@ -100,8 +100,8 @@ Again, **the easiest way to create a coordinator zome** is to let the scaffoldin
 
 ```diff:toml
  [dependencies]
--hdi = "=0.5.0-rc.1"
-+hdk = "=0.4.0-rc.1"
+-hdi = "=0.6.0"
++hdk = "=0.5.0"
  serde = "1.0"
 +# If you want to work with the types you defined in your integrity zome,
 +# specify a dependency on it here.

@@ -17,7 +17,7 @@ The [scaffolding tool](/get-started/3-forum-app-tutorial/) is the easiest way to
 <!-- TODO(upgrade): change following version numbers -->
 
 ```bash
-nix run "github:/holochain/holonix?ref=main-0.4#hc-scaffold" -- web-app movies_happ
+nix run "github:/holochain/holonix?ref=main-0.5#hc-scaffold" -- web-app movies_happ
 ```
 
 The tool will guide you through every step, from creating a bare working folder to creating individual [data types and CRUD functions](/build/working-with-data/).

@@ -142,5 +142,5 @@
 # TODO(upgrade): change following version number
 [[redirects]]
     from = "/resources/upgrade/latest/"
-    to = "/resources/upgrade/upgrade-holochain-0.4/"
+    to = "/resources/upgrade/upgrade-holochain-0.5/"
     status = 302

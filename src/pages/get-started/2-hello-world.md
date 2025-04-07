@@ -18,7 +18,7 @@ When getting started, seeing a simple but fully-functional app can be very helpf
 <!-- TODO(upgrade): change following version number -->
 
 ```shell
-nix run "github:holochain/holonix?ref=main-0.4#hc-scaffold" -- example hello-world
+nix run "github:holochain/holonix?ref=main-0.5#hc-scaffold" -- example hello-world
 ```
 
 The scaffolding tool will ask you one question --- what JavaScript package manager you'd like to use in your project. If in doubt, just choose `npm`.
