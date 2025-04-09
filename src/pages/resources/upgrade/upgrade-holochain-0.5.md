@@ -226,7 +226,7 @@ Features related to DNA lineage are now hidden behind an `unstable-migration` fe
  # ...
 ```
 
-The `GetCompatibleCells` endpoint in the admin API is also unavailable.
+The `GetCompatibleCells` endpoint in the admin API is also hidden behind this flag.
 
 If you want to use these features, [build a custom Holochain binary](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) with `unstable-migration` enabled.
 
