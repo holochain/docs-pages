@@ -10,16 +10,28 @@ The biggest change in Holochain 0.5 is kitsune2, a new wire protocol implementat
 
 ## Quick instructions
 
-To upgrade your hApp written for Holochain 0.4, follow these steps:
+To upgrade your hApp written for Holochain 0.5, follow these steps:
 
-1. Update your `flake.nix` to use the 0.4 version of Holochain by changing the version number in the line `holonix.url = "github:holochain/holonix?ref=main-0.4"` from 0.4 to 0.5. This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lockfile at this point, to ensure you benefit from the cache we provide:
+1. Update your `flake.nix` to use the 0.5 version of Holochain by changing the version number in the line `holonix.url = "github:holochain/holonix?ref=main-0.4"` from 0.4 to 0.5. This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lockfile at this point, to ensure you benefit from the cache we provide:
 
     ```shell
     nix flake update && nix develop
     ```
-2. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
-3. Follow the [breaking change update instructions](#update-your-application-code) below to get your code working again.
-4. Try running your tests:
+
+    You'll also need to add the new local services package; look for the block in `flake.nix` that starts with `packages =`: {#add-bootstrap-srv-to-flake}
+
+    ```diff
+         packages = (with pkgs; [
+           nodejs_20
+           binaryen
+           inputs'.playground.packages.hc-playground
+    +      bootstrap-srv
+         ]);
+    ```
+2. <!-- TODO(0.5): add instructions to change package.json to use new local services; waiting on upstream changes in `hc-launch` and `hc-spin` --> {#update-package-json-to-use-k2}
+3. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
+4. Follow the [breaking change update instructions](#update-your-application-code) below to get your code working again.
+5. Try running your tests:
 
     ```shell
     npm test
@@ -30,7 +42,7 @@ To upgrade your hApp written for Holochain 0.4, follow these steps:
     ```shell
     npm start
     ```
-5. Be aware of some changes that won't break your app but may affect its runtime behavior. Read the [guide at the bottom](#subtle-changes).
+6. Be aware of some changes that won't break your app but may affect its runtime behavior. Read the [guide at the bottom](#subtle-changes).
 
 ## Update your package dependencies
 
@@ -119,13 +131,172 @@ npm install
 
 ## Update your application code
 
-### Change 1
+### Enums in the conductor APIs are serialized differently
 
-### Change 2
+The admin and app APIs have changed their serialization of enum variants with values: the value is now in its own field, and enum variant names have been normalized to snake_case. For instance, if you subscribe to signals in a JavaScript-based front end, a [signal payload](https://github.com/holochain/holochain-client-js/blob/main/docs/client.signal.md) may have previously looked like this:
+
+```json
+{
+    "App": {
+        "cell_id": ["hC0kKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", "hCAkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw"],
+        "zome_name": "movies",
+        "payload": "hey it's a signal"
+    }
+}
+```
+
+but would now look like this:
+
+```json
+{
+    "type": "app",
+    "value": {
+        "cell_id": ["hC0kKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", "hCAkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw"], // cspell:disable-line
+        "zome_name": "movies",
+        "payload": "hey it's a signal"
+    }
+}
+```
+
+This change happens in many places; we recommend that you run the TypeScript compiler against your UI and tests and look for errors. In the Holonix dev shell, run:
+
+```bash
+node_modules/typescript/bin/tsc -p ui/tsconfig.json
+```
+```bash
+node_modules/typescript/bin/tsc -p tests/tsconfig.json
+```
+
+and look for messages that look similar to `error TS2322: Type X is not assignable to type Y`.
+
+### `origin_time` and `quantum_time` are removed
+
+With the new kitsune2 wire protocol, `origin_time` and `quantum_time` are no longer used. You may find these optional fields anywhere [integrity modifiers](/build/dnas/) are used:
+
+* In `dna.yaml` manifests, the scaffolding tool will automatically add an `origin_time` field. Remove it, and check for any use of the `quantum_time` field too:
+
+    ```diff:yaml
+     manifest_version: '1'
+     name: movies
+     integrity:
+       network_seed: null
+       properties:
+         foo: bar
+         baz: 123
+    -  origin_time: 1735841273312901
+    -  quantum_time: 1000000
+     # ...
+    ```
+* You can no longer pass these fields as DNA modifiers when you a install a hApp via the admin API or clone a cell via the app API. For example:
+
+    ```diff:typescript
+     let clonedCell = await client.createCloneCell({
+         modifiers: {
+             network_seed: "my_network_seed",
+    -        origin_time: 1735841273312901,
+    -        quantum_time: 1000000
+         },
+         name,
+         role_name: "chat",
+     });
+    ```
+
+### `AgentInfo::agent_latest_pubkey` behind feature flag
+
+When you call [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) from a coordinator zome, the `agent_latest_pubkey` field in the [return value](https://docs.rs/hdk/latest/hdk/prelude/struct.AgentInfo.html) is now gone (unless you [build a custom Holochain binary](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) with the `unstable-dkpi` feature flag enabled). Anywhere you use this field, use `agent_initial_pubkey` instead:
+
+```diff:rust
+ use hdk::prelude::*;
+
+ fn get_my_agent_id() -> ExternResult<AgentPubKey> {
+-    Ok(agent_info()?.agent_latest_pubkey)
++    Ok(agent_info()?.agent_initial_pubkey)
+ }
+```
+
+### DNA lineage behind feature flag
+
+Features related to DNA lineage are now hidden behind an `unstable-migration` feature flag. If you don't plan to use this, remove the `lineage` line from your `dna.yaml` file:
+
+```diff:yaml
+ # ...
+-lineage:
+-  - "hC0kKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE" # cspell:disable-line
+-  - "hCAkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw" # cspell:disable-line
+ # ...
+```
+
+The `GetCompatibleCells` endpoint in the admin API is also unavailable.
+
+If you want to use these features, [build a custom Holochain binary](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) with `unstable-migration` enabled.
+
+### `AppBundleSource::Bundle` removed
+
+**Note: This only applies if you're building a runtime or using Tryorama's [`Conductor.prototype.installApp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.installapp.md) method.** The `Bundle` option (deprecated in 0.4.2) is now removed from [`AppBundleSource`](https://docs.rs/holochain_types/0.5.0-rc.1/holochain_types/app/enum.AppBundleSource.html). If you need to pass bundle bytes to the admin API's `InstallApp` endpoint, use [`AppBundleSource::Bytes`](https://docs.rs/holochain_types/0.5.0-rc.1/holochain_types/app/enum.AppBundleSource.html#variant.Bytes) (introduced in 0.4.2) and pass the bytes of an entire hApp bundle file instead.<!-- FIXME: replace version numbers in URLs -->
+
+### `hc run-local-services` replaced with `kitsune2-bootstrap-srv`
+
+<!-- FIXME: fill in details -->
+
+The old bootstrap and signalling server have been combined into one binary called `kitsune2-bootstrap-srv`, which is provided in the Holonix dev environment for any new scaffolded hApps. To update an existing hApp, [edit its `flake.nix` file to include the binary](#add-bootstrap-srv-to-flake) and optionally [update its `package.json` file to use it](#update-package-json-to-use-k2) if you use the Tauri-based launcher. Locally running hApp instances using `hc-spin` and `hc-launch` will now use the new binary.
+
+### `disableCloneCell`, `enableCloneCell`, and `deleteCloneCell` signatures changed
+
+The object that you pass to the JS client's [`AppWebsocket.prototype.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main-0.4/docs/client.appwebsocket.disableclonecell.md), [`AppWebsocket.prototype.enableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main-0.4/docs/client.appwebsocket.enableclonecell.md), and [`AdminWebsocket.prototype.deleteCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.adminwebsocket.deleteclonecell.md) methods has changed; now you need to explicitly specify whether the identifier is a clone ID or DNA hash using the [new enum serialization format](#enums-in-the-conductor-ap-is-are-serialized-differently).
+
+```diff:typescript
+ let cellClonedByRoleName = client.createCloneCell({
+-    clone_cell_id: "chat.1"
++    clone_cell_id: {
++        type: "clone_id",
++        value: "chat.1"
++   }
+ });
+ let dnaHash = decodeHashFromBase64("hC0kKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE"); // cspell:disable-line
+ let cellClonedByDnaHash = client.createCloneCell({
+-    clone_cell_id: dnaHash
++    clone_cell_id: {
++        type: "dna_hash",
++        value: dnaHash
++    }
+ });
+```
+
+### Timestamps moved to `holochain_timestamp`
+
+The `Timestamp` type used all over the HDK and in scaffolded entry types has been moved to a new crate called [`holochain_timestamp`](https://docs.rs/holochain_timestamp/latest/holochain_timestamp/index.html). This type has historically been made available transitively through `hdi::prelude` and `hdk::prelude`, so you shouldn't need to make any code changes unless you reference the `kitsune_p2p_timestamp` crate explicitly in any of your `Cargo.toml` files or code:
+
+```diff:toml
+ # ...
+ [dependencies]
+-kitsune_p2p_timestamp = "0.4.2"
++holochain_timestamp = "0.5.0"
+```
+
+```diff:rust
+-use kitsune_p2p_timestamp::Timestamp;
++use holochain_timestamp::Timestamp;
+
+ fn get_time() -> ExternResult<Timestamp> {
+     sys_time()
+ }
+```
+
+### App API's `NetworkInfo` removed
+
+The `NetworkInfo` endpoint of the app API has been removed, which means the `AppWebsocket.prototype.networkInfo` method has also been removed. You can get some network info from the `DumpNetworkMetrics` and `DumpNetworkStats` endpoints, which are [now exposed on the app API](#dump-network-on-app-api).
+
+### Networking section of conductor config changed
+
+**Note: This only applies if you're using persistent conductor configs** The `network` section of `conductor-config.yaml` files has changed. We recommend that you generate a new conductor config using `hc sandbox`, then compare it against your existing conductor config to see what changes need to be made. You can find available config keys in the [`NetworkConfig` documentation](https://docs.rs/holochain_conductor_api/0.5.0-rc.1/holochain_conductor_api/config/conductor/struct.NetworkConfig.html).<!-- FIXME: get actual final release version into the URI -->
+
+### Admin API's `AgentInfo` return value changed
+
+**Note: This is an advanced feature that you'll probably only encounter if you're trying to get diagnostic data.** The return value of the [`AgentInfo`](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html#variant.AgentInfo) endpoint in the admin API --- specifically, the [`AgentInfoInner`](https://docs.rs/kitsune_p2p_types/0.4.2/kitsune_p2p_types/agent_info/struct.AgentInfoInner.html) struct. Currently it outputs a vector of JSON-serialized [`kitsune2_api::AgentInfoSigned`](https://docs.rs/kitsune2_api/latest/kitsune2_api/struct.AgentInfoSigned.html) values.
 
 ## Subtle changes
 
 The following changes don't break Holochain's APIs or require updates to your code, but they may require you to reassess whether your hApp will work as expected:
 
-* Thing 1
-* Thing 2
+* Your front end can now call the `init` callback in any cell as if it were a regular zome function. This will in turn trigger the init process, which runs all coordinator zomes' `init` functions in the order the zomes appear in the DNA manifest. The `init` callback in the zome you targeted _won't_ be run a second time.
+* The admin API's [`DumpNetworkMetrics`](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html#variant.DumpNetworkMetrics) and [`DumpNetworkStats`](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html#variant.DumpNetworkStats) are now available on the app API as well, which means that a UI written for any web-based launcher can now access them via the JavaScript client's [`AppWebsocket.prototype.dumpNetworkMetrics`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.dumpnetworkmetrics.md) and [`AppWebsocket.prototype.dumpNetworkStats`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.dumpnetworkStats.md) methods. The output of these endpoints has changed as a result of the new network layer. {#dump-network-on-app-api}
