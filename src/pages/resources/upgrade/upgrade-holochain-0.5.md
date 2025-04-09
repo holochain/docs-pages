@@ -28,7 +28,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     +      bootstrap-srv
          ]);
     ```
-2. stub <!-- TODO(0.5): add instructions to change package.json to use new local services; waiting on upstream changes in `hc-launch` and `hc-spin` --> {#update-package-json-to-use-k2}
+2. stub -- fill this in with package.json upgrade notes<!-- TODO(0.5): add instructions to change package.json to use new local services; waiting on upstream changes in `hc-launch` and `hc-spin` --> {#update-package-json-to-use-k2}
 3. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
 4. Follow the [breaking change update instructions](#update-your-application-code) below to get your code working again.
 5. Try running your tests:
