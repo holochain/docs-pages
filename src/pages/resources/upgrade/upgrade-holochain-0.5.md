@@ -28,7 +28,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     +      bootstrap-srv
          ]);
     ```
-2. <!-- TODO(0.5): add instructions to change package.json to use new local services; waiting on upstream changes in `hc-launch` and `hc-spin` --> stub{#update-package-json-to-use-k2}
+2. stub <!-- TODO(0.5): add instructions to change package.json to use new local services; waiting on upstream changes in `hc-launch` and `hc-spin` --> {#update-package-json-to-use-k2}
 3. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
 4. Follow the [breaking change update instructions](#update-your-application-code) below to get your code working again.
 5. Try running your tests:
@@ -203,7 +203,7 @@ With the new kitsune2 wire protocol, `origin_time` and `quantum_time` are no lon
 
 ### `AgentInfo::agent_latest_pubkey` behind feature flag
 
-When you call [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) from a coordinator zome, the `agent_latest_pubkey` field in the [return value](https://docs.rs/hdk/latest/hdk/prelude/struct.AgentInfo.html) is now gone (unless you [build a custom Holochain binary](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) with the `unstable-dkpi` feature flag enabled). Anywhere you use this field, use `agent_initial_pubkey` instead:
+When you call [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) from a coordinator zome, the `agent_latest_pubkey` field in the [return value](https://docs.rs/hdk/latest/hdk/prelude/struct.AgentInfo.html) is now gone (unless you [build a custom Holochain binary](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) with the `unstable-dpki` feature flag enabled). Anywhere you use this field, use `agent_initial_pubkey` instead:
 
 ```diff:rust
  use hdk::prelude::*;
