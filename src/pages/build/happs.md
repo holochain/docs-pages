@@ -50,8 +50,6 @@ roles:
     modifiers:
       network_seed: null
       properties: null
-      origin_time: null
-      quantum_time: null
     installed_hash: null
     clone_limit: 0
 - name: lending
@@ -63,8 +61,6 @@ roles:
     modifiers:
       network_seed: null
       properties: null
-      origin_time: null
-      quantum_time: null
     installed_hash: null
     # The maximum number of clones, which is u32::MAX
     clone_limit: 4_294_967_295
