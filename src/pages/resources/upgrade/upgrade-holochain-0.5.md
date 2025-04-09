@@ -138,7 +138,7 @@ The admin and app APIs have changed their serialization of enum variants with va
 ```json
 {
     "App": {
-        "cell_id": ["hC0kKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", "hCAkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw"],
+        "cell_id": ["hC0kKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", "hCAkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw"], // cspell:disable-line
         "zome_name": "movies",
         "payload": "hey it's a signal"
     }
