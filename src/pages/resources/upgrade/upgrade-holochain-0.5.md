@@ -89,7 +89,6 @@ Edit your project's root `package.json` file to update the developer tools:
 
 ```diff:json
    "devDependencies": {
-     "@holochain-playground/cli": "^0.300.1",
 -    "@holochain/hc-spin": "^0.400.1",
 +    "@holochain/hc-spin": "^0.500.0",
      // more dependencies
