@@ -15,7 +15,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
 1. Update your `flake.nix` to use the 0.5 version of Holochain by changing the version number in the line `holonix.url = "github:holochain/holonix?ref=main-0.4"` from 0.4 to 0.5. This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lockfile at this point, to ensure you benefit from the cache we provide:
 
     ```shell
-    nix flake update && nix develop
+    nix flake update && git add flake.nix && nix develop
     ```
 
     You'll also need to add the new local services package; look for the block in `flake.nix` that starts with `packages =`: {#add-bootstrap-srv-to-flake}
