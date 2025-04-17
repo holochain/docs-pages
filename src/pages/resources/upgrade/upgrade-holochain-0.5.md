@@ -235,7 +235,7 @@ With the new kitsune2 wire protocol, `origin_time` and `quantum_time` are no lon
 
 ### `AgentInfo::agent_latest_pubkey` behind feature flag
 
-When you call [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) from a coordinator zome, the `agent_latest_pubkey` field in the [return value](https://docs.rs/hdk/latest/hdk/prelude/struct.AgentInfo.html) is now gone (unless you [build a custom Holochain binary](https://github.com/holochain/holonix?tab=readme-ov-file#customized-holochain-build) with the `unstable-dpki` feature flag enabled). Anywhere you use this field, use `agent_initial_pubkey` instead:
+When you call [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) from a coordinator zome, the `agent_latest_pubkey` field in the [return value](https://docs.rs/hdk/latest/hdk/prelude/struct.AgentInfo.html) is now hidden behind the `unstable-dpki` feature flag and scheduled to be [removed in 0.6](https://github.com/holochain/holochain/pull/4901). Anywhere you use this field, use `agent_initial_pubkey` instead:
 
 ```diff:rust
  use hdk::prelude::*;
