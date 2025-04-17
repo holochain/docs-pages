@@ -12,21 +12,54 @@ The biggest change in Holochain 0.5 is kitsune2, a new wire protocol implementat
 
 To upgrade your hApp written for Holochain 0.5, follow these steps:
 
-1. Update your `flake.nix` to use the 0.5 version of Holochain by changing the version number in the line `holonix.url = "github:holochain/holonix?ref=main-0.4"` from 0.4 to 0.5. This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lockfile at this point, to ensure you benefit from the cache we provide:
+1. Update your `flake.nix` to use the 0.5 version of Holochain. This involves changing some version numbers and adding a new package that contains the updated local bootstrap and signal server: {#update-nix-flake}
+
+    ```diff
+     {
+       description = "Flake for Holochain app development";
+
+       inputs = {
+    -    holonix.url = "github:holochain/holonix?ref=main-0.4";
+    +    holonix.url = "github:holochain/holonix?ref=main-0.5";
+
+         nixpkgs.follows = "holonix/nixpkgs";
+         flake-parts.follows = "holonix/flake-parts";
+
+    -    playground.url = "github:darksoil-studio/holochain-playground?ref=main-0.4";
+    +    playground.url = "github:darksoil-studio/holochain-playground?ref=main-0.5";
+
+       };
+
+       outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+         systems = builtins.attrNames inputs.holonix.devShells;
+         perSystem = { inputs', pkgs, ... }: {
+           formatter = pkgs.nixpkgs-fmt;
+
+           devShells.default = pkgs.mkShell {
+             inputsFrom = [ inputs'.holonix.devShells.default ];
+
+             packages = (with pkgs; [
+               nodejs_20
+               binaryen
+               inputs'.playground.packages.hc-playground
+    +          bootstrap-srv
+
+
+             ]);
+
+             shellHook = ''
+             export PS1='\[\033[1;34m\][holonix:\w]\$\[\033[0m\] '
+             '';
+           };
+         };
+       };
+     }
+    ```
+
+    This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lockfile at this point, to ensure you benefit from the cache we provide:
 
     ```shell
     nix flake update && git add flake.nix && nix develop
-    ```
-
-    You'll also need to add the new local services package; look for the block in `flake.nix` that starts with `packages =`: {#add-bootstrap-srv-to-flake}
-
-    ```diff
-         packages = (with pkgs; [
-           nodejs_20
-           binaryen
-           inputs'.playground.packages.hc-playground
-    +      bootstrap-srv
-         ]);
     ```
 2. stub -- fill this in with package.json upgrade notes<!-- TODO(0.5): add instructions to change package.json to use new local services; waiting on upstream changes in `hc-launch` and `hc-spin` --> {#update-package-json-to-use-k2}
 3. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
@@ -238,7 +271,7 @@ If you want to use these features, [build a custom Holochain binary](https://git
 
 <!-- FIXME: fill in details -->
 
-The old bootstrap and signalling server have been combined into one binary called `kitsune2-bootstrap-srv`, which is provided in the Holonix dev environment for any new scaffolded hApps. To update an existing hApp, [edit its `flake.nix` file to include the binary](#add-bootstrap-srv-to-flake) and optionally [update its `package.json` file to use it](#update-package-json-to-use-k2) if you use the Tauri-based launcher. Locally running hApp instances using `hc-spin` and `hc-launch` will now use the new binary.
+The old bootstrap and signalling server have been combined into one binary called `kitsune2-bootstrap-srv`, which is provided in the Holonix dev environment for any new scaffolded hApps. To update an existing hApp, [edit its `flake.nix` file to include the binary](#update-nix-flake) and optionally [update its `package.json` file to use it](#update-package-json-to-use-k2) if you use the Tauri-based launcher. Locally running hApp instances using `hc-spin` and `hc-launch` will now use the new binary.
 
 ### `disableCloneCell`, `enableCloneCell`, and `deleteCloneCell` signatures changed
 
