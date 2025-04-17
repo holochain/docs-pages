@@ -54,7 +54,7 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  [workspace.dependencies]
 -hdi = "=0.5.2"
 -hdk = "=0.4.2"
-+hdi = "=0.6.0" # Pick a later version of these libraries if you prefer.
++hdi = "=0.6.0" # Pick a later patch version of these libraries if you prefer.
 +hdk = "=0.5.0"
  serde = "1.0"
 ```
@@ -90,7 +90,7 @@ Edit your project's root `package.json` file to update the developer tools:
 ```diff:json
    "devDependencies": {
      "@holochain-playground/cli": "^0.300.1",
--    "@holochain/hc-spin": "0.400.1",
+-    "@holochain/hc-spin": "^0.400.1",
 +    "@holochain/hc-spin": "^0.500.0",
      // more dependencies
    },
@@ -161,10 +161,10 @@ but would now look like this:
 This change happens in many places; we recommend that you run the TypeScript compiler against your UI and tests and look for errors. In the Holonix dev shell, run:
 
 ```bash
-node_modules/typescript/bin/tsc -p ui/tsconfig.json
+npx tsc -p ui/tsconfig.json
 ```
 ```bash
-node_modules/typescript/bin/tsc -p tests/tsconfig.json
+npx tsc -p tests/tsconfig.json
 ```
 
 and look for messages that look similar to `error TS2322: Type X is not assignable to type Y`.
@@ -173,7 +173,7 @@ and look for messages that look similar to `error TS2322: Type X is not assignab
 
 With the new kitsune2 wire protocol, `origin_time` and `quantum_time` are no longer used. You may find these optional fields anywhere [integrity modifiers](/build/dnas/) are used:
 
-* In `dna.yaml` manifests, the scaffolding tool will automatically add an `origin_time` field. Remove it, and check for any use of the `quantum_time` field too:
+* In `dna.yaml` manifests, the scaffolding tool in its previous version will have automatically add an `origin_time` field. Remove it, and check for any use of the `quantum_time` field too:
 
     ```diff:yaml
      manifest_version: '1'
@@ -238,7 +238,7 @@ If you want to use these features, [build a custom Holochain binary](https://git
 
 <!-- FIXME: fill in details -->
 
-The old bootstrap and signalling server have been combined into one binary called `kitsune2-bootstrap-srv`, which is provided in the Holonix dev environment for any new scaffolded hApps. To update an existing hApp, [edit its `flake.nix` file to include the binary](#add-bootstrap-srv-to-flake) and optionally [update its `package.json` file to use it](#update-package-json-to-use-k2) if you use the Tauri-based launcher. Locally running hApp instances using `hc-spin` and `hc-launch` will now use the new binary.
+The old bootstrap and signal server have been combined into one binary called `kitsune2-bootstrap-srv`, which is provided in the Holonix dev environment for any new scaffolded hApps. To update an existing hApp, [edit its `flake.nix` file to include the binary](#add-bootstrap-srv-to-flake) and optionally [update its `package.json` file to use it](#update-package-json-to-use-k2) if you use the Tauri-based launcher. Locally running hApp instances using `hc-spin` and `hc-launch` will now use the new binary.
 
 ### `disableCloneCell`, `enableCloneCell`, and `deleteCloneCell` signatures changed
 
@@ -284,7 +284,7 @@ The `Timestamp` type used all over the HDK and in scaffolded entry types has bee
 
 ### App API's `NetworkInfo` removed
 
-The `NetworkInfo` endpoint of the app API has been removed, which means the `AppWebsocket.prototype.networkInfo` method has also been removed. You can get some network info from the `DumpNetworkMetrics` and `DumpNetworkStats` endpoints, which are [now exposed on the app API](#dump-network-on-app-api).
+The `NetworkInfo` endpoint of the app API has been removed, which means the `AppWebsocket.networkInfo` method has also been removed. You can get some network info from the `DumpNetworkMetrics` and `DumpNetworkStats` endpoints, which are [now exposed on the app API](#dump-network-on-app-api).
 
 ### Networking section of conductor config changed
 
