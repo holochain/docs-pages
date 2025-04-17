@@ -89,7 +89,6 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
 -hdk = "=0.4.2"
 +hdi = "=0.6.0" # Pick a later version of these libraries if you prefer.
 +hdk = "=0.5.0"
- serde = "1.0"
 ```
 
 The latest version numbers of these libraries can be found on crates.io: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
