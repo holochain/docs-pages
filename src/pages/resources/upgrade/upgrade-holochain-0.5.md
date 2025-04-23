@@ -12,7 +12,7 @@ The biggest change in Holochain 0.5 is kitsune2, a new wire protocol implementat
 
 To upgrade your hApp written for Holochain 0.5, follow these steps:
 
-1. Update your `flake.nix` to use the 0.5 version of Holochain. This involves changing some version numbers and adding a new package that contains the updated local bootstrap and signal server: {#update-nix-flake}
+1. Update your `flake.nix` to use the 0.5 version of Holochain. This involves changing a version number and removing a package that's now provided in an upstream Nix file. (Depending on the age of your project, you might need to make extra changes to make it look like the one below. Or, if you haven't made any customizations to the scaffolded `flake.nix`, you can follow the [Holonix upgrade guide](/resources/upgrade/upgrade-new-holonix) which will get you a new boilerplate file.) {#update-nix-flake}
 
     ```diff
      {
@@ -21,35 +21,29 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
        inputs = {
     -    holonix.url = "github:holochain/holonix?ref=main-0.4";
     +    holonix.url = "github:holochain/holonix?ref=main-0.5";
-
          nixpkgs.follows = "holonix/nixpkgs";
          flake-parts.follows = "holonix/flake-parts";
-
     -    playground.url = "github:darksoil-studio/holochain-playground?ref=main-0.4";
-    +    playground.url = "github:darksoil-studio/holochain-playground?ref=main-0.5";
-
        };
 
        outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
          systems = builtins.attrNames inputs.holonix.devShells;
-         perSystem = { inputs', pkgs, ... }: {
+         perSystem = { inputs', pkgs, system, ... }: {
            formatter = pkgs.nixpkgs-fmt;
 
            devShells.default = pkgs.mkShell {
              inputsFrom = [ inputs'.holonix.devShells.default ];
 
-             packages = (with pkgs; [
-               nodejs_20
-               binaryen
-               inputs'.playground.packages.hc-playground
-    +          bootstrap-srv
-
-
-             ]);
+             packages = (with pkgs; [ nodejs_20 binaryen ]);
 
              shellHook = ''
-             export PS1='\[\033[1;34m\][holonix:\w]\$\[\033[0m\] '
+               export PS1='\[\033[1;34m\][holonix:\w]\$\[\033[0m\] '
              '';
+           };
+
+           packages.app = inputs.scaffolding.lib.wrapCustomTemplate {
+             inherit pkgs system;
+             customTemplatePath = ./template;
            };
          };
        };
