@@ -55,7 +55,45 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     ```shell
     nix flake update && git add flake.nix && nix develop
     ```
-2. stub -- fill this in with package.json upgrade notes<!-- TODO(0.5): add instructions to change package.json to use new local services; waiting on upstream changes in `hc-launch` and `hc-spin` --> {#update-package-json-to-use-k2}
+2. Update your root `package.json` file with the new package versions, along with a change to accommodate Playground being bundled with Holonix and the local network services being [supplied by a new binary](#hc-run-local-services-replaced-with-kitsune2-bootstrap-srv): {#update-package-json}
+
+    ```diff:json
+     {
+         "name": "movies-dev",
+         "private": true,
+         "workspaces": [
+             "ui",
+             "tests"
+         ],
+         "scripts": {
+             "start": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) SIGNAL_PORT=$(get-port) npm run network",
+             "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\" \"hc playground\"",
+             "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
+             "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/movies5.happ",
+             "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) SIGNAL_PORT=$(get-port) npm run network:tauri",
+    -        "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"holochain-playground\"",
+    +        "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"hc playground\"",
+    -        "launch:tauri": "concurrently \"hc run-local-services --bootstrap-port $BOOTSTRAP_PORT --signal-port $SIGNAL_PORT\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/movies5.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$SIGNAL_PORT\"\"",
+    +        "launch:tauri": "concurrently \"kitsune2-bootstrap-srv --listen \"127.0.0.1:$BOOTSTRAP_PORT\"\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/movies5.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$SIGNAL_PORT\"\"",
+             "package": "npm run build:happ && npm run package --workspace ui && hc web-app pack workdir --recursive",
+             "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
+             "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
+         },
+         "devDependencies": {
+    -        "@holochain-playground/cli": "^0.300.0-rc.0",
+    -        "@holochain/hc-spin": "^0.400.1",
+    +        "@holochain/hc-spin": "^0.500.0",
+             "concurrently": "^6.5.1",
+             "get-port-cli": "^3.0.0"
+         },
+         "engines": {
+             "node": ">=16.0.0"
+         },
+         "hcScaffold": {
+             "template": "svelte" // This might be different for your app
+         }
+     }
+    ```
 3. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
 4. Follow the [breaking change update instructions](#update-your-application-code) below to get your code working again.
 5. Try running your tests:
@@ -261,7 +299,7 @@ If you want to use these features, [build a custom Holochain binary](https://git
 
 ### `hc run-local-services` replaced with `kitsune2-bootstrap-srv`
 
-The old bootstrap and signal server have been combined into one binary called `kitsune2-bootstrap-srv`, which is provided in the Holonix dev environment for any new scaffolded hApps. To update an existing hApp, [edit its `flake.nix` file to include the binary](#update-nix-flake) and optionally [update its `package.json` file to use it](#update-package-json-to-use-k2) if you use the Tauri-based launcher. Locally running hApp instances using `hc-spin` and `hc-launch` will now use the new binary.
+The old bootstrap and signal server have been combined into one binary called `kitsune2-bootstrap-srv`, which is provided in the Holonix dev environment for any new scaffolded hApps. To update an existing hApp, [edit its `flake.nix` file to include the binary](#update-nix-flake) and optionally [update its `package.json` file to use it](#update-package-json) if you use the Tauri-based launcher. Locally running hApp instances using `hc-spin` and `hc-launch` will now use the new binary.
 
 ### `disableCloneCell`, `enableCloneCell`, and `deleteCloneCell` signatures changed
 
