@@ -140,19 +140,7 @@ This will update your `Cargo.lock` with the latest versions of all libraries tha
 
 ### JavaScript
 
-#### Command-line tools
-
 If you've created your hApp using our scaffolding tool, you should be able to follow these instructions. If you've created your own project folder layout, adapt these instructions to fit.
-
-Edit your project's root `package.json` file to update the developer tools:
-
-```diff:json
-   "devDependencies": {
--    "@holochain/hc-spin": "^0.400.1",
-+    "@holochain/hc-spin": "^0.500.0",
-     // more dependencies
-   },
-```
 
 #### Tryorama tests
 
