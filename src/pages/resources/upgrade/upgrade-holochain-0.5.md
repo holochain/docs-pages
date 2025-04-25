@@ -65,7 +65,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
              "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\" \"hc playground\"",
              "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
              "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/movies5.happ",
-             "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) SIGNAL_PORT=$(get-port) npm run network:tauri",
+             "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network:tauri",
     -        "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"holochain-playground\"",
     +        "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"hc playground\"",
     -        "launch:tauri": "concurrently \"hc run-local-services --bootstrap-port $BOOTSTRAP_PORT --signal-port $SIGNAL_PORT\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/movies5.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$SIGNAL_PORT\"\"",
