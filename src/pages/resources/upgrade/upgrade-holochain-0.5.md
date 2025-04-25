@@ -215,6 +215,14 @@ npx tsc -p tests/tsconfig.json
 
 and look for messages that look similar to `error TS2322: Type X is not assignable to type Y`.
 
+This won't catch all errors; you may discover some at runtime. Look for usage of the following types and functions in particular:
+
+* [`CapAccess`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.capaccess.md) and [`GrantedFunctions`](https://github.com/holochain/holochain-client-js/blob/main-0.4/docs/client.grantedfunctions.md) in a capability grant
+* [`CellInfo`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.cellinfo.md)
+* [`AppWebsocket.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.disableclonecell.md) and [`AppWebsocket.enableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.enableclonecell.md), which now take a new [`CloneCellId`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.clonecellid.md) type for their `clone_id` argument
+* [`Signal`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.signal.md)
+
+
 ### `origin_time` and `quantum_time` are removed
 
 With the new kitsune2 wire protocol, `origin_time` and `quantum_time` are no longer used. You may find these optional fields anywhere [integrity modifiers](/build/dnas/) are used:
