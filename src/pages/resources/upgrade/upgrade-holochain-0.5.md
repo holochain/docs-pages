@@ -340,7 +340,7 @@ The `NetworkInfo` endpoint of the app API has been removed, which means the `App
 
 ### Networking section of conductor config changed
 
-**Note: This only applies if you're using persistent conductor configs.** The `network` section of `conductor-config.yaml` files has changed. We recommend that you generate a new conductor config using `hc sandbox`, then compare it against your existing conductor config to see what changes need to be made. You can find available config keys in the [`NetworkConfig` documentation](https://docs.rs/holochain_conductor_api/0.5.0-rc.1/holochain_conductor_api/config/conductor/struct.NetworkConfig.html).<!-- FIXME: get actual final release version into the URI - -->
+**Note: This only applies if you're using persistent conductor configs.** The `network` section of `conductor-config.yaml` files has changed. We recommend that you generate a new conductor config using `hc sandbox`, then compare it against your existing conductor config to see what changes need to be made. You can find available config keys in the [`NetworkConfig` documentation](https://docs.rs/holochain_conductor_api/0.5.0/holochain_conductor_api/config/conductor/struct.NetworkConfig.html).<!-- FIXME: get actual final release version into the URI - -->
 
 ### Admin API's `AgentInfo` return value changed
 
