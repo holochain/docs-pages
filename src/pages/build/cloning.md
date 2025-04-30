@@ -270,20 +270,14 @@ import { DnaHash } from "@holochain/client";
 async function pauseChatByCloneIndex(index: Number): Promise<void> {
     let client = await getHolochainClient();
     return client.disableCloneCell({
-        clone_cell_id: {
-            type: "clone_id",
-            value: `chat.${index}`,
-        }
+        clone_cell_id: `chat.${index}`
     });
 }
 
 async function pauseChatByDnaHash(dnaHash: DnaHash): Promise<void> {
     let client = await getHolochainClient();
     return client.disableCloneCell({
-        clone_cell_id: {
-            type: "dna_hash",
-            value: dnaHash,
-        }
+        clone_cell_id: dnaHash,
     });
 }
 ```
@@ -328,20 +322,14 @@ import { DnaHash } from "@holochain/client";
 async function restoreChatByCloneIndex(index: Number): Promise<ClonedCell> {
     let client = await getHolochainClient();
     return client.enableCloneCell({
-        clone_cell_id: {
-            type: "clone_id",
-            value: `chat.${index}`,
-        }
+        clone_cell_id: `chat.${index}`
     });
 }
 
 async function restoreChatByDnaHash(dnaHash: DnaHash): Promise<ClonedCell> {
     let client = await getHolochainClient();
     return client.enableCloneCell({
-        clone_cell_id: {
-            type: "dna_hash",
-            value: dnaHash,
-        }
+        clone_cell_id: dnaHash,
     });
 }
 ```

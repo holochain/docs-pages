@@ -10,6 +10,8 @@ Holochain lets you get details about parts of the cell and its current state ---
 
 To get details about the DNA that a function is executing in, use the [`dna_info`](https://docs.rs/hdk/latest/hdk/prelude/fn.dna_info.html) host function, which is available to both coordinator and integrity zomes. It takes no inputs and gives back a result containing a [`DnaInfoV2`](https://docs.rs/hdk/latest/hdk/prelude/struct.DnaInfoV2.html) struct. See the [DNAs page](/build/dnas/) for more info on the values in this struct.
 
+<!--TODO: remove origin_time and quantum_time with 0.5 -->
+
 ```rust
 use hdi::prelude::*;
 
@@ -37,6 +39,10 @@ fn look_at_dna_info() -> ExternResult<()> {
         // They're usually specified as YAML and deserialized into a struct
         // in your zome.
         properties: _,
+        // The earliest valid timestamp for data in the network.
+        origin_time: _,
+        // A value used for tuning gossip, not useful for app development.
+        quantum_time: _,
     } = modifiers;
 
     Ok(())

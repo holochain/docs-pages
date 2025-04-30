@@ -46,6 +46,7 @@ integrity:
   properties:
     foo: bar
     baz: 123
+  origin_time: 1735841273312901
   zomes:
   - name: movies_integrity
     hash: null
@@ -65,6 +66,7 @@ coordinator:
 * `integrity`: Contains all the integrity code and modifiers for the DNA, the things that **change the DNA hash**. {#integrity-section}
     * `network_seed`: A string that serves only to change the DNA hash without affecting behavior. It's useful for creating partitioned networks that share the same back-end code. {#network-seed}
     * `properties`: Arbitrary, application-specific constants. The zome code can [read this at runtime](#use-dna-properties). Think of it as configuration for your DNA.
+    * `origin_time`: The earliest possible timestamp for any data; serves as a basis for coordinating network communication. Pick a date that's guaranteed to be slightly earlier than you expect that the app will start to get used. The scaffolding tool and `hc dna init` will both pick the date you created the DNA.
     * `zomes`: A list of all the integrity zomes in the DNA.
         * `name`: A unique name for the zome, to be used for dependencies.
         * `hash`: Optional. If the hash of the zome at the specified location doesn't match this value, installation will fail.
