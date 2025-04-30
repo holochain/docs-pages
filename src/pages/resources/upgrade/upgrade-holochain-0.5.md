@@ -77,7 +77,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
          "devDependencies": {
     -        "@holochain-playground/cli": "^0.300.0-rc.0",
     -        "@holochain/hc-spin": "^0.400.1",
-    +        "@holochain/hc-spin": "^0.500.0",
+    +        "@holochain/hc-spin": "^0.500.1",
              "concurrently": "^6.5.1",
              "get-port-cli": "^3.0.0"
          },
@@ -114,8 +114,8 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  [workspace.dependencies]
 -hdi = "=0.5.2"
 -hdk = "=0.4.2"
-+hdi = "=0.6.0" # Pick a later patch version of these libraries if you prefer.
-+hdk = "=0.5.0"
++hdi = "=0.6.1" # Pick a later patch version of these libraries if you prefer.
++hdk = "=0.5.1"
 ```
 
 The latest version numbers of these libraries can be found on crates.io: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
@@ -322,7 +322,7 @@ The `Timestamp` type used all over the HDK and in scaffolded entry types has bee
  # ...
  [dependencies]
 -kitsune_p2p_timestamp = "0.4.2"
-+holochain_timestamp = "0.5.0"
++holochain_timestamp = "0.5.1"
 ```
 
 ```diff:rust
