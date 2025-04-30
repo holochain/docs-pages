@@ -70,3 +70,4 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 * [Genesis Self-Check Callback](/build/genesis-self-check-callback/) --- Purpose and use cases
 * [Validate Callback](/build/validate-callback/) --- Writing validation routines for various needs
 * [`must_get_*` Host Functions](/build/must-get-host-functions/) --- Deterministically retrieving DHT data for use in validation
+* [DHT operations](/build/dht-operations/) --- advanced details on the underlying data structure used in DHT replication and validation
