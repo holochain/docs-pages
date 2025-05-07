@@ -56,6 +56,7 @@
           { title: "Genesis Self-Check Callback", url: "/build/genesis-self-check-callback/" },
           { title: "Validate Callback", url: "/build/validate-callback/" },
           { title: "must_get_* Host Functions", url: "/build/must-get-host-functions/" },
+          { title: "DHT Operations", url: "/build/dht-operations/" },
         ]},
       ]
     },
