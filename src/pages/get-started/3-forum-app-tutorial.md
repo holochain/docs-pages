@@ -319,9 +319,10 @@ holochain --version
 
 You should see something like:
 
+<!-- TODO(upgrade): change this version number -->
 ::: output-block
 ```text
-holochain 0.x.x
+holochain 0.5.x
 ```
 
 If you were to type `exit` and try the same command, you'd probably get some sort of 'command not found' error!

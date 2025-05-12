@@ -84,9 +84,10 @@ It proves that the package cache is configured correctly.
 
 At the end of the output, Holochain's scaffolding tool should print its version string, which will be something like this:
 
+<!-- TODO(upgrade): update this version number -->
 ::: output-block
 ```text
-holochain_scaffolding_cli 0.5000.?
+holochain_scaffolding_cli 0.500.?
 ```
 :::
 
