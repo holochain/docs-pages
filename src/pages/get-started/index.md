@@ -87,7 +87,7 @@ At the end of the output, Holochain's scaffolding tool should print its version 
 <!-- TODO(upgrade): update this version number -->
 ::: output-block
 ```text
-holochain_scaffolding_cli 0.500.?
+holochain_scaffolding_cli 0.500.0
 ```
 :::
 

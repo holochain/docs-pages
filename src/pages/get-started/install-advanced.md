@@ -73,19 +73,21 @@ This command displays versioning information about Holochain's main components. 
 
 ::: output-block
 ```text
-hc-scaffold            : holochain_scaffolding_cli 0.500.0-dev.7 (2ad6018)
-hc-launch              : holochain_cli_launch 0.500.0-dev.1 (holochain 0.5.0-dev.21) (3c255c2)
+hc-scaffold            : holochain_scaffolding_cli 0.500.0 (54ec9b8)
+hc-launch              : holochain_cli_launch 0.500.0 (holochain 0.5.1) (ef3b8fa)
 Lair keystore          : lair_keystore 0.6.1 (23cd5d1)
-Holochain              : kitsune2_bootstrap_srv 0.1.1 (d6d371c)
-Holochain              : holochain 0.5.0-rc.0 (d6d371c)
+Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.1.8 (203e2d3)
+Holochain CLI          : holochain_cli 0.5.2 (641de81)
+Holochain terminal     : hcterm 0.5.2 (641de81)
+Holochain              : holochain 0.5.2 (641de81)
 
 Holochain build info: {
   "git_info": null,
-  "cargo_pkg_version": "0.5.0-rc.0",
-  "hdk_version_req": "0.5.0-rc.0",
-  "hdi_version_req": "0.6.0-rc.0",
+  "cargo_pkg_version": "0.5.2",
+  "hdk_version_req": "0.5.2",
+  "hdi_version_req": "0.6.2",
   "lair_keystore_version_req": "0.6.1",
-  "timestamp": "2025-04-04T18:24:03.806220366Z",
+  "timestamp": "2025-05-08T17:13:06.176728556Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",
