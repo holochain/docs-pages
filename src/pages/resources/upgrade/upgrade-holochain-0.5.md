@@ -117,8 +117,8 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  [workspace.dependencies]
 -hdi = "=0.5.2"
 -hdk = "=0.4.2"
-+hdi = "=0.6.1" # Pick a later patch version of these libraries if you prefer.
-+hdk = "=0.5.1"
++hdi = "=0.6.2" # Pick a later patch version of these libraries if you prefer.
++hdk = "=0.5.2"
 ```
 
 The latest version numbers of these libraries can be found on crates.io: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
@@ -155,7 +155,7 @@ Edit your project's `tests/package.json` file:
 -    "@holochain/client": "^0.18.1",
 -    "@holochain/tryorama": "^0.17.1",
 +    "@holochain/client": "^0.19.0",
-+    "@holochain/tryorama": "^0.18.0",
++    "@holochain/tryorama": "^0.18.1",
      // more dependencies
    },
 ```
@@ -325,7 +325,7 @@ The `Timestamp` type used all over the HDK and in scaffolded entry types has bee
  # ...
  [dependencies]
 -kitsune_p2p_timestamp = "0.4.2"
-+holochain_timestamp = "0.5.1"
++holochain_timestamp = "0.5.2"
 ```
 
 ```diff:rust
@@ -343,7 +343,7 @@ The `NetworkInfo` endpoint of the app API has been removed, which means the `App
 
 ### Networking section of conductor config changed
 
-**Note: This only applies if you're using persistent conductor configs.** The `network` section of `conductor-config.yaml` files has changed. We recommend that you generate a new conductor config using `hc sandbox`, then compare it against your existing conductor config to see what changes need to be made. You can find available config keys in the [`NetworkConfig` documentation](https://docs.rs/holochain_conductor_api/0.5.0/holochain_conductor_api/config/conductor/struct.NetworkConfig.html).<!-- FIXME: get actual final release version into the URI - -->
+**Note: This only applies if you're using persistent conductor configs.** The `network` section of `conductor-config.yaml` files has changed. We recommend that you generate a new conductor config using `hc sandbox`, then compare it against your existing conductor config to see what changes need to be made. You can find available config keys in the [`NetworkConfig` documentation](https://docs.rs/holochain_conductor_api/0.5.2/holochain_conductor_api/config/conductor/struct.NetworkConfig.html).<!-- FIXME: get actual final release version into the URI - -->
 
 ### Admin API's `AgentInfo` return value changed
 
