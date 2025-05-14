@@ -215,6 +215,19 @@ This won't catch all errors; you may discover some at runtime. Look for usage of
 * [`AppWebsocket.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.disableclonecell.md) and [`AppWebsocket.enableCloneCell`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.enableclonecell.md), which now take a new [`CloneCellId`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.clonecellid.md) type for their `clone_id` argument
 * [`Signal`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.signal.md)
 
+### `AppWebsocket::callZome` can no longer accept a `null` cap secret
+
+The `cap_secret` field in the `request` argument of [`AppWebsocket::callZome`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.callzome.md) can no longer be `null` --- instead it must either be omitted (you don't need it at all if your UI is hosted by an [officially supported Holochain runtime](/get-started/4-packaging-and-distribution/)) or explicitly given.
+
+```diff:typescript
+ const results = await client.value.callZome({
+     role_name: "my_dna",
+     zome_name: "my_zome",
+     fn_name: "foo",
+     payload: null,
+-    cap_secret: null,
+ });
+```
 
 ### `origin_time` and `quantum_time` are removed
 
