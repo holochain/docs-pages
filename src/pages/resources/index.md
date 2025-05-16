@@ -1,20 +1,5 @@
 ---
 title: Holochain Programming Resources
-tocData:
-  - text: HDK and HDI
-    href: hdk-and-hdi
-  - text: Conductor APIs
-    href: conductor-apis
-  - text: Conductor clients
-    href: conductor-clients
-  - text: Conductor configuration
-    href: conductor-configuration
-  - text: Binaries
-    href: binaries
-  - text: Example applications
-    href: example-applications
-  - text: Tutorials and training
-    href: tutorials-and-training
 ---
 
 ## Upgrade guides
