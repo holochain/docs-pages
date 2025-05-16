@@ -6,6 +6,7 @@ dpki
 DPKI
 hApp
 hApps
+hcterm
 # Apparently abbrevs don't get a pass if they're possessive.
 HDK's
 Holo
