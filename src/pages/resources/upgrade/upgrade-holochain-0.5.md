@@ -117,8 +117,8 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  [workspace.dependencies]
 -hdi = "=0.5.2"
 -hdk = "=0.4.2"
-+hdi = "=0.6.1" # Pick a later patch version of these libraries if you prefer.
-+hdk = "=0.5.1"
++hdi = "=0.6.2" # Pick a later patch version of these libraries if you prefer.
++hdk = "=0.5.2"
 ```
 
 The latest version numbers of these libraries can be found on crates.io: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
@@ -155,7 +155,7 @@ Edit your project's `tests/package.json` file:
 -    "@holochain/client": "^0.18.1",
 -    "@holochain/tryorama": "^0.17.1",
 +    "@holochain/client": "^0.19.0",
-+    "@holochain/tryorama": "^0.18.0",
++    "@holochain/tryorama": "^0.18.1",
      // more dependencies
    },
 ```
@@ -182,29 +182,17 @@ npm install
 
 ### Enums in the conductor APIs are serialized differently
 
-The admin and app APIs have changed their serialization of enum variants with values: the value is now in its own field, and enum variant names have been normalized to snake_case. For instance, if you subscribe to signals in a JavaScript-based front end, a [signal payload](https://github.com/holochain/holochain-client-js/blob/main/docs/client.signal.md) may have previously looked like this:
+The admin and app APIs have changed their serialization of enum variants with values: the variant name and value are now in `type` and `value` fields, and variant names have been normalized to snake_case. For instance, if you subscribe to signals in a JavaScript-based front end, you would change your signal handler like this:
 
-```json
-{
-    "App": {
-        "cell_id": ["hC0kKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", "hCAkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw"], // cspell:disable-line
-        "zome_name": "movies",
-        "payload": "hey it's a signal"
-    }
-}
-```
-
-but would now look like this:
-
-```json
-{
-    "type": "app",
-    "value": {
-        "cell_id": ["hC0kKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", "hCAkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw"], // cspell:disable-line
-        "zome_name": "movies",
-        "payload": "hey it's a signal"
-    }
-}
+```diff:typescript
+ client.on("signal", (sig: Signal) => {
+-    if (SignalType.App in sig) {
+-        const signal = sig[SignalType.App];
++    if (sig.type == SignalType.App) {
++        const signal = sig.value;
+         // ... Handle the app signal
+     }
+ });
 ```
 
 This change happens in many places; we recommend that you run the TypeScript compiler against your UI and tests and look for errors. In the Holonix dev shell, run:
@@ -220,11 +208,26 @@ and look for messages that look similar to `error TS2322: Type X is not assignab
 
 This won't catch all errors; you may discover some at runtime. Look for usage of the following types and functions in particular:
 
-* [`CapAccess`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.capaccess.md) and [`GrantedFunctions`](https://github.com/holochain/holochain-client-js/blob/main-0.4/docs/client.grantedfunctions.md) in a capability grant
-* [`CellInfo`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.cellinfo.md)
-* [`AppWebsocket.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.disableclonecell.md) and [`AppWebsocket.enableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.enableclonecell.md), which now take a new [`CloneCellId`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.clonecellid.md) type for their `clone_id` argument
-* [`Signal`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.signal.md)
+* [`CapAccess`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.capaccess.md) and [`GrantedFunctions`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.grantedfunctions.md) in a capability grant
+* [`CellInfo`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.cellinfo.md)
+* [`AdminWebsocket.installApp`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.adminwebsocket.installapp.md), where the [bundle source](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appbundlesource.md) is an enum
+* [`AppWebsocket.appInfo`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.appinfo.md), whose [return type](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appinfo.md) has many enums nested in it
+* [`AppWebsocket.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.disableclonecell.md) and [`AppWebsocket.enableCloneCell`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.enableclonecell.md), which now take a new [`CloneCellId`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.clonecellid.md) type for their `clone_id` argument
+* [`Signal`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.signal.md)
 
+### `AppWebsocket::callZome` can no longer accept a `null` cap secret
+
+The `cap_secret` field in the `request` argument of [`AppWebsocket::callZome`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.callzome.md) can no longer be `null` --- instead it must either be omitted (you don't need it at all if your UI is hosted by an [officially supported Holochain runtime](/get-started/4-packaging-and-distribution/)) or explicitly given.
+
+```diff:typescript
+ const results = await client.value.callZome({
+     role_name: "my_dna",
+     zome_name: "my_zome",
+     fn_name: "foo",
+     payload: null,
+-    cap_secret: null,
+ });
+```
 
 ### `origin_time` and `quantum_time` are removed
 
@@ -289,7 +292,15 @@ If you want to use these features, [build a custom Holochain binary](https://git
 
 ### `AppBundleSource::Bundle` removed
 
-**Note: This only applies if you're building a runtime or using Tryorama's [`Conductor.prototype.installApp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.installapp.md) method.** The `Bundle` option (deprecated in 0.4.2) is now removed from [`AppBundleSource`](https://docs.rs/holochain_types/0.5.0-rc.1/holochain_types/app/enum.AppBundleSource.html). If you need to pass bundle bytes to the admin API's `InstallApp` endpoint, use [`AppBundleSource::Bytes`](https://docs.rs/holochain_types/0.5.0-rc.1/holochain_types/app/enum.AppBundleSource.html#variant.Bytes) (introduced in 0.4.2) and pass the bytes of an entire hApp bundle file instead.<!-- FIXME: replace version numbers in URLs -->
+**Note: This information is only relevant if you're building a runtime or using Tryorama's [`Conductor.prototype.installApp`](https://github.com/holochain/tryorama/blob/v0.18.1/docs/tryorama.conductor.installapp.md) method, either directly or through a helper like `scenario.addPlayersWithApps`.** The `Bundle` option (deprecated in 0.4.2) is now removed from [`AppBundleSource`](https://docs.rs/holochain_types/0.5.2/holochain_types/app/enum.AppBundleSource.html). If you need to pass bundle bytes to the admin API's `InstallApp` endpoint, use [`AppBundleSource::Bytes`](https://docs.rs/holochain_types/0.5.2/holochain_types/app/enum.AppBundleSource.html#variant.Bytes) (introduced in 0.4.2) and pass the bytes of an entire hApp bundle file instead.
+
+Note that, as a conductor API endpoint, `InstallApp` is also affected by [the enum serialization change](#enums-in-the-conductor-ap-is-are-serialized-differently):
+
+```diff:typescript
+-const appSource = { appBundleSource: { path: "./workdir/my_app.happ" } };
++const appSource = { appBundleSource: { type: "path", value: "./workdir/my_app.happ" } };
+ const [alice, bob] = await scenario.addPlayersWithApps([appSource, appSource]);
+```
 
 ### `hc run-local-services` replaced with `kitsune2-bootstrap-srv`
 
@@ -325,7 +336,7 @@ The `Timestamp` type used all over the HDK and in scaffolded entry types has bee
  # ...
  [dependencies]
 -kitsune_p2p_timestamp = "0.4.2"
-+holochain_timestamp = "0.5.1"
++holochain_timestamp = "0.5.2"
 ```
 
 ```diff:rust
@@ -343,7 +354,7 @@ The `NetworkInfo` endpoint of the app API has been removed, which means the `App
 
 ### Networking section of conductor config changed
 
-**Note: This only applies if you're using persistent conductor configs.** The `network` section of `conductor-config.yaml` files has changed. We recommend that you generate a new conductor config using `hc sandbox`, then compare it against your existing conductor config to see what changes need to be made. You can find available config keys in the [`NetworkConfig` documentation](https://docs.rs/holochain_conductor_api/0.5.0/holochain_conductor_api/config/conductor/struct.NetworkConfig.html).<!-- FIXME: get actual final release version into the URI - -->
+**Note: This only applies if you're using persistent conductor configs.** The `network` section of `conductor-config.yaml` files has changed. We recommend that you generate a new conductor config using `hc sandbox`, then compare it against your existing conductor config to see what changes need to be made. You can find available config keys in the [`NetworkConfig` documentation](https://docs.rs/holochain_conductor_api/0.5.2/holochain_conductor_api/config/conductor/struct.NetworkConfig.html).
 
 ### Admin API's `AgentInfo` return value changed
 
