@@ -23,7 +23,6 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
          nixpkgs.follows = "holonix/nixpkgs";
          flake-parts.follows = "holonix/flake-parts";
     -    playground.url = "github:darksoil-studio/holochain-playground?ref=main-0.4";
-    +    playground.url = "github:darksoil-studio/holochain-playground?ref=main-0.5";
        };
        outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
          systems = builtins.attrNames inputs.holonix.devShells;
@@ -34,7 +33,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
              packages = (with pkgs; [
                nodejs_20
                binaryen
-               inputs'.playground.packages.hc-playground
+    -          inputs'.playground.packages.hc-playground
              ]);
              shellHook = ''
                export PS1='\[\033[1;34m\][holonix:\w]\$\[\033[0m\] '
@@ -45,10 +44,14 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
      }
     ```
 
+    Don't worry if you don't have the `hc-playground` lines in your flake. This was added after the first release of 0.4,
+    so you can safely ignore it if you don't have it. It is now included in Holonix by default, so it will be available
+    when you next open a Nix shell.
+
     This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lockfile at this point, to ensure you benefit from the cache we provide:
 
     ```shell
-    nix flake update && git add flake.nix && nix develop
+    nix flake update && git add flake.* && nix develop
     ```
 2. Update your root `package.json` file with the new package versions, along with a change to accommodate Playground being bundled with Holonix and the local network services being [supplied by a new binary](#hc-run-local-services-replaced-with-kitsune2-bootstrap-srv): {#update-package-json}
 
@@ -77,7 +80,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
          "devDependencies": {
     -        "@holochain-playground/cli": "^0.300.0-rc.0",
     -        "@holochain/hc-spin": "^0.400.1",
-    +        "@holochain/hc-spin": "^0.500.0",
+    +        "@holochain/hc-spin": "^0.500.1",
              "concurrently": "^6.5.1",
              "get-port-cli": "^3.0.0"
          },
@@ -114,8 +117,8 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  [workspace.dependencies]
 -hdi = "=0.5.2"
 -hdk = "=0.4.2"
-+hdi = "=0.6.0" # Pick a later patch version of these libraries if you prefer.
-+hdk = "=0.5.0"
++hdi = "=0.6.1" # Pick a later patch version of these libraries if you prefer.
++hdk = "=0.5.1"
 ```
 
 The latest version numbers of these libraries can be found on crates.io: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
@@ -322,7 +325,7 @@ The `Timestamp` type used all over the HDK and in scaffolded entry types has bee
  # ...
  [dependencies]
 -kitsune_p2p_timestamp = "0.4.2"
-+holochain_timestamp = "0.5.0"
++holochain_timestamp = "0.5.1"
 ```
 
 ```diff:rust
