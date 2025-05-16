@@ -166,7 +166,7 @@ hdk = { workspace = true }
 serde = { workspace = true }
 + # Replace the following version number with whatever your project is
 + # currently using -- search your root `Cargo.lock` for "holo_hash" to find it.
-+ holo_hash = { version = "=0.5.2", features = ["hashing"] }
++ holo_hash = { workspace = true, features = ["hashing"] }
 ...
 ```
 
