@@ -109,11 +109,11 @@ A sample output of this command looks like this (JSON formatted using `jq` i.e. 
 ```json
 {
   "git_info": null,
-  "cargo_pkg_version": "0.5.0-rc.0",
-  "hdk_version_req": "0.5.0-rc.0",
-  "hdi_version_req": "0.6.0-rc.0",
+  "cargo_pkg_version": "0.5.2",
+  "hdk_version_req": "0.5.2",
+  "hdi_version_req": "0.6.2",
   "lair_keystore_version_req": "0.6.1",
-  "timestamp": "2025-04-04T18:24:03.806220366Z",
+  "timestamp": "2025-05-08T17:13:06.176728556Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",
