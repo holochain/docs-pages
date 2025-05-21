@@ -4,8 +4,6 @@ hide:
   - toc
 ---
 
-<!-- FIXME(0.5): check all the version numbers and commit hashes against final release before publishing -->
-
 ::: intro
 This guide assumes that you've already followed the [quick installation guide](/get-started/) and want to learn more about the development environment.
 :::
