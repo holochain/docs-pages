@@ -159,14 +159,16 @@ To construct an external hash from 32 raw bytes, first you need to enable the `h
 
 <!-- TODO(upgrade): change following version numbers -->
 
+!!! info Look in your root `Cargo.lock` for exact version number
+`holo_hash` is a dependency brought in by other crates such as `hdi` and `hdk`. To find the right version number to use below, search your root `Cargo.lock` file for `name = "holo_hash"`.
+!!!
+
 ```diff
 ...
 [dependencies]
 hdk = { workspace = true }
 serde = { workspace = true }
-+ # Replace the following version number with whatever your project is
-+ # currently using -- search your root `Cargo.lock` for "holo_hash" to find it.
-+ holo_hash = { workspace = true, features = ["hashing"] }
++ holo_hash = { version = "0.5.2", features = ["hashing"] }
 ...
 ```
 
