@@ -12,7 +12,11 @@ The biggest change in Holochain 0.5 is kitsune2, a new wire protocol implementat
 
 To upgrade your hApp written for Holochain 0.5, follow these steps:
 
-1. Update your `flake.nix` to use the 0.5 version of Holochain. This involves changing the version numbers of two packages. (Depending on the age of your project, you might also need to make extra changes to make it look like the one below.) {#update-nix-flake}
+1. Update your `flake.nix` to use the 0.5 version of Holochain. This involves changing the version numbers of two packages. {#update-nix-flake}
+
+    !!! info Your `flake.nix` might look different
+    Depending on the age of your project, **you might need to make extra changes** to make it look like the one below. If you're upgrading a project that was created for Holochain 0.3 or earlier, use the 'Copy' button on the diff below and replace the contents of your `flake.nix` with the copied text.
+    !!!
 
     ```diff
      {
