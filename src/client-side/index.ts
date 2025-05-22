@@ -102,7 +102,6 @@ function openModalIFrame(url:string) {
   const template = document.querySelector<HTMLTemplateElement>('#modal-iframe-template');
 
   const frag =  template?.content.cloneNode(true) as DocumentFragment;
-  console.log(frag)
   if (frag) {
     const div = frag.querySelector(".modal-iframe");
     const iframe = frag.querySelector<HTMLIFrameElement>(".modal-iframe iframe");
@@ -127,7 +126,6 @@ if (inPageToc) {
   const tocLinks = inPageToc.querySelectorAll("li > a");
 
   const setCurrentSection = (sectionId: string) => {
-    console.log("Setting current section to", sectionId);
     tocLinks.forEach((link) => {
       link.classList.toggle("current", link.getAttribute("href") === `#${sectionId}`);
     });
@@ -145,7 +143,6 @@ if (inPageToc) {
   tocLinks.forEach((link) => {
     const linkId = link.getAttribute("href")?.replace("#", "");
     const htag = document.querySelector(`[id="${linkId}"]`);
-    console.log(htag, link);
     if (htag) {
       observer.observe(htag);
     } else {
