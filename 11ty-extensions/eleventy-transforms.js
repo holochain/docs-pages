@@ -54,7 +54,62 @@ export default function(eleventyConfig) {
         // Erase cspell directives from sample code.
         blockText = blockText.replace(/(#|\/\/|\/\*)\s+(cspell|spell-?checker):\s*[a-z-]+(\s+\*\/)?/gmi, "");
         if (maybeLanguage) {
-          code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
+          if (maybeLanguage[0].substring(0, 5) == 'diff:') {
+            // This is a diff, and we want to show it differently --
+            // add tabs that let you switch between diff and final version.
+
+            // First, make a copy of the code block.
+            const preForAppliedDiff = pre.cloneNode(true);
+            const codeForAppliedDiff = preForAppliedDiff.querySelector('code');
+
+            // Then find its target language. We don't check whether there's a
+            // match because we already know there is.
+            const languageForAppliedDiff = codeForAppliedDiff.className.match(/(?<=\blanguage-diff:)[A-Za-z0-9_-]+/)[0];
+
+            // Change the language class name of the new code block so it's
+            // not a diff anymore.
+            codeForAppliedDiff.className = codeForAppliedDiff.className.replace(`language-diff:`, `language-`);
+
+            // Apply the diff.
+            const diffAppliedCode = blockText
+              .split(/\r?\n/)
+              .reduce(
+                (acc, line) => {
+                  if ([" ", "+"].includes(line.substring(0, 1))) {
+                    acc = `${acc ? acc + "\n" : acc}${line.substring(1)}`;
+                  }
+                  return acc;
+                },
+                ""
+              );
+
+            // Replace the raw code with the highlighted, diff-applied code.
+            codeForAppliedDiff.innerHTML = hljs.highlight(diffAppliedCode, {language: languageForAppliedDiff}).value;
+            codeForAppliedDiff.className += ' hljs';
+
+            // And highlight the original diff using diff+language highlighting.
+            code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
+            code.className += ' hljs';
+
+            // Now that we've got both of them, put them in a container that
+            // lets us tab between the two of them.
+            pre.classList.add("diff-diff");
+            preForAppliedDiff.classList.add("diff-final");
+            const tabContainer = document.createElement('div');
+            tabContainer.className = "diff-container";
+            tabContainer.innerHTML = `
+              <div class="diff-tab-strip">
+                <button class="diff-show-diff" title="Show code with highlighted deletions and addition">Diff</button><button class="diff-show-final" title="Show ready-to-copy code with changes applied">Final</button>
+              </div>
+              <div class="diff-tab diff-tab-diff">${pre.outerHTML}</div>
+              <div class="diff-tab diff-tab-final">${preForAppliedDiff.outerHTML}</div>
+            `;
+
+            // Now replace the original code block with the diff+applied version.
+            pre.replaceWith(tabContainer);
+          } else {
+            code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
+          }
         } else {
           code.innerHTML = hljs.highlightAuto(blockText).value;
         }

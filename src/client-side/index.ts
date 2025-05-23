@@ -2,25 +2,7 @@ function copyCodeBlockClickHandler(e: Event) {
   const button = e.target as HTMLButtonElement;
   const codeEl = button.parentElement?.querySelector("code");
   if (!codeEl) { return; }
-  let codeToCopy = "";
-  if (codeEl.className.match(/\blanguage-diff/)) {
-    // If we've got a diff, only copy the unchanged or added lines;
-    // skip the deleted lines.
-    codeToCopy = codeEl.innerText
-      .split(/\r?\n/)
-      .reduce(
-        (acc, line) => {
-          if ([" ", "+"].includes(line.substring(0, 1))) {
-            acc = `${acc}\n${line.substring(1)}`;
-          }
-          return acc;
-        },
-        ""
-      );
-  } else if (codeEl.innerText) {
-    codeToCopy = codeEl.innerText;
-  }
-  navigator.clipboard.writeText(codeToCopy);
+  navigator.clipboard.writeText(codeEl.innerText);
 }
 
 function addCopyButtonsToCodeSections() {
