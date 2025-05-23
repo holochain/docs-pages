@@ -11,7 +11,7 @@ function copyCodeBlockClickHandler(e: Event) {
       .reduce(
         (acc, line) => {
           if ([" ", "+"].includes(line.substring(0, 1))) {
-            acc += line.substring(1);
+            acc = `${acc}\n${line.substring(1)}`;
           }
           return acc;
         },
