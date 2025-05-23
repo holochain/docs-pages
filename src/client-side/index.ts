@@ -32,6 +32,23 @@ function addCopyButtonsToCodeSections() {
 
 addCopyButtonsToCodeSections();
 
+function setupDiffTabsClickHandler() {
+  const diffContainers = document.querySelectorAll('.diff-container');
+  diffContainers.forEach((container: Element) => {
+    // Show diff by default.
+    container.dataset.selected = 'diff';
+    // Set up handlers to toggle between them.
+    container.querySelector('.diff-show-diff')?.addEventListener('click', () => {
+      container.dataset.selected = 'diff';
+    });
+    container.querySelector('.diff-show-final')?.addEventListener('click', () => {
+      container.dataset.selected = 'final';
+    });
+  });
+}
+
+setupDiffTabsClickHandler();
+
 /**
  * Sets up the hamburger menu to show/hide the navigation
  */
