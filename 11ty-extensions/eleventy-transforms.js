@@ -49,7 +49,7 @@ export default function(eleventyConfig) {
       preBlocks.forEach((pre) => {
         pre.className += ' hljs-container';
         const code = pre.querySelector('code');
-        const maybeLanguage = code.className.match(/(?<=\blanguage-)[A-Za-z0-9_-]+/);
+        const maybeLanguage = code.className.match(/(?<=\blanguage-)[\:A-Za-z0-9_-]+/);
         let blockText = he.decode(code.textContent);
         // Erase cspell directives from sample code.
         blockText = blockText.replace(/(#|\/\/|\/\*)\s+(cspell|spell-?checker):\s*[a-z-]+(\s+\*\/)?/gmi, "");
