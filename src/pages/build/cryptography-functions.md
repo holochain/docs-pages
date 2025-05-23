@@ -74,36 +74,6 @@ let hello_hash_sha2_256 = hash_sha256(hello_bytes.clone())?;
 let hello_hash_sha2_512 = hash_sha512(hello_bytes.clone())?;
 ```
 
-### Hash content natively
-
-If you want to be able to hash data without calling out to the host, you can build native hashing into your zome crate. List the `holo_hash` crate explicitly in your zome's `Cargo.toml` file, and turn on the `hashing` feature.
-
-Because `holo_hash` is a dependency brought in by other crates such as `hdi` and `hdk`, you'll need to find the right version number to use. Search your root `Cargo.lock` file for `name = "holo_hash"`.
-
-<!-- TODO(upgrade): change following version numbers -->
-
-```diff:toml
-...
-[dependencies]
-hdk = { workspace = true }
-serde = { workspace = true }
-+ holo_hash = { version = "0.5.2", features = ["hashing"] }
-...
-```
-
-Then you can use the `to_hash` or `into_hashed` methods on any hashable content (entries and actions):
-
-```rust
-use hdk::prelude::*;
-use holo_hash::hash_ext::*;
-
-#[hdk_entry_helper]
-pub struct Tag(String);
-
-let tag_entry: Entry = Tag("action/adventure".into()).try_into()?;
-let tag_hash = tag_entry.to_hash();
-```
-
 ## Sign data
 
 ### With an agent key
