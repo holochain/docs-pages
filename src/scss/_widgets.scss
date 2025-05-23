@@ -51,6 +51,23 @@ code.language-shell {
   }
 }
 
+.hljs-addition, .hljs-deletion {
+  color: unset;
+  border-radius: 0.25em;
+  border: 1px solid;
+}
+
+.hljs-addition {
+  /* This is copied from the foreground colour of additions for the hljs theme we're using. */
+  border-color: #50a14f;
+  background-color: rgba(#50a14f, 0.1);
+}
+
+.hljs-deletion {
+  border-color: #e45649;
+  background-color: rgba(#e45649, 0.1);
+}
+
 /* Inline input and output */
 code, kbd {
 	padding: .1em .35em;
