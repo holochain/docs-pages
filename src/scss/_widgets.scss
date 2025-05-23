@@ -35,6 +35,10 @@ pre.hljs-container, code {
   background-color: rgba($cl-gray, 50%);
 }
 
+.diff-container pre.hljs-container {
+  margin: 0;
+}
+
 code.hljs {
   /* Override highlight.js' default background colour, so we can control it here.
   It's too light to work well on white. */
@@ -48,6 +52,52 @@ code.language-shell {
     FIXME: If we ever change the code highlighting theme, this will look odd. */
     color: #50a14f;
     content: '$ ';
+  }
+}
+
+.hljs-addition, .hljs-deletion {
+  color: unset;
+  border-radius: 0.25em;
+  border: 1px solid;
+}
+
+.hljs-addition {
+  /* This is copied from the foreground colour of additions for the hljs theme we're using. */
+  border-color: #50a14f;
+  background-color: rgba(#50a14f, 0.1);
+}
+
+.hljs-deletion {
+  border-color: #e45649;
+  background-color: rgba(#e45649, 0.1);
+}
+
+.diff-tab-strip {
+  margin-left: 0.5em;
+}
+
+.diff-show-diff, .diff-show-final {
+  border-radius: 0.25em 0.25em 0 0;
+  font: inherit;
+  border: darken($cl-gray, 10%) solid 1px;
+  background: lighten($cl-gray, 10%);
+  border-bottom: none;
+  padding: 0 0.5em;
+  cursor: pointer;
+}
+
+.diff-tab {
+  display: none;
+}
+
+.diff-container {
+  &[data-selected=diff] .diff-show-diff, &[data-selected=final] .diff-show-final {
+    border-color: darken($cl-other-green, 30%);
+    background: lighten($cl-other-green, 10%);
+  }
+
+  &[data-selected=diff] .diff-tab-diff, &[data-selected=final] .diff-tab-final {
+    display: block;
   }
 }
 
