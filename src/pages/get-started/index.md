@@ -66,8 +66,10 @@ This command downloads the setup script and runs it, installing the Nix package 
 
 In a new terminal session type:
 
+<!-- TODO(upgrade): change following version number -->
+
 ```shell
-nix run --refresh -j0 -v "github:holochain/holonix?ref=main-0.4#hc-scaffold" -- --version
+nix run --refresh -j0 -v "github:holochain/holonix?ref=main-0.5#hc-scaffold" -- --version
 ```
 
 Look out for binaries being copied from `holochain-ci.cachix.org`:
@@ -82,9 +84,10 @@ It proves that the package cache is configured correctly.
 
 At the end of the output, Holochain's scaffolding tool should print its version string, which will be something like this:
 
+<!-- TODO(upgrade): update this version number -->
 ::: output-block
 ```text
-holochain_scaffolding_cli 0.4000.?
+holochain_scaffolding_cli 0.500.0
 ```
 :::
 
