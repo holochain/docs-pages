@@ -1,7 +1,26 @@
 function copyCodeBlockClickHandler(e: Event) {
   const button = e.target as HTMLButtonElement;
   const codeEl = button.parentElement?.querySelector("code");
-  navigator.clipboard.writeText(codeEl?.innerText || "")
+  if (!codeEl) { return; }
+  let codeToCopy = "";
+  if (codeEl.className.match(/\blanguage-diff/)) {
+    // If we've got a diff, only copy the unchanged or added lines;
+    // skip the deleted lines.
+    codeToCopy = codeEl.innerText
+      .split(/\r?\n/)
+      .reduce(
+        (acc, line) => {
+          if ([" ", "+"].includes(line.substring(0, 1))) {
+            acc = `${acc}\n${line.substring(1)}`;
+          }
+          return acc;
+        },
+        ""
+      );
+  } else if (codeEl.innerText) {
+    codeToCopy = codeEl.innerText;
+  }
+  navigator.clipboard.writeText(codeToCopy);
 }
 
 function addCopyButtonsToCodeSections() {
@@ -83,7 +102,6 @@ function openModalIFrame(url:string) {
   const template = document.querySelector<HTMLTemplateElement>('#modal-iframe-template');
 
   const frag =  template?.content.cloneNode(true) as DocumentFragment;
-  console.log(frag)
   if (frag) {
     const div = frag.querySelector(".modal-iframe");
     const iframe = frag.querySelector<HTMLIFrameElement>(".modal-iframe iframe");
@@ -108,7 +126,6 @@ if (inPageToc) {
   const tocLinks = inPageToc.querySelectorAll("li > a");
 
   const setCurrentSection = (sectionId: string) => {
-    console.log("Setting current section to", sectionId);
     tocLinks.forEach((link) => {
       link.classList.toggle("current", link.getAttribute("href") === `#${sectionId}`);
     });
@@ -126,7 +143,6 @@ if (inPageToc) {
   tocLinks.forEach((link) => {
     const linkId = link.getAttribute("href")?.replace("#", "");
     const htag = document.querySelector(`[id="${linkId}"]`);
-    console.log(htag, link);
     if (htag) {
       observer.observe(htag);
     } else {
