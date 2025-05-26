@@ -13,6 +13,7 @@ counterparty
 counterparty's
 filesystem
 filesystems
+hashable
 howto
 howtos
 ified

@@ -14,8 +14,10 @@ As we described in [Application Structure](/build/application-structure/#happ), 
 
 The [scaffolding tool](/get-started/3-forum-app-tutorial/) is the easiest way to build out a full hApp with multiple DNAs and an optional GUI. Once you've [got the Holochain dev shell working](/get-started/), open a terminal and enter this command:
 
+<!-- TODO(upgrade): change following version numbers -->
+
 ```bash
-nix run "github:/holochain/holonix?ref=main-0.4#hc-scaffold" -- web-app movies_happ
+nix run "github:/holochain/holonix?ref=main-0.5#hc-scaffold" -- web-app movies_happ
 ```
 
 The tool will guide you through every step, from creating a bare working folder to creating individual [data types and CRUD functions](/build/working-with-data/).
@@ -48,8 +50,6 @@ roles:
     modifiers:
       network_seed: null
       properties: null
-      origin_time: null
-      quantum_time: null
     installed_hash: null
     clone_limit: 0
 - name: lending
@@ -61,8 +61,6 @@ roles:
     modifiers:
       network_seed: null
       properties: null
-      origin_time: null
-      quantum_time: null
     installed_hash: null
     # The maximum number of clones, which is u32::MAX
     clone_limit: 4_294_967_295
