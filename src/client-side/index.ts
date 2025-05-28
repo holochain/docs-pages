@@ -2,25 +2,7 @@ function copyCodeBlockClickHandler(e: Event) {
   const button = e.target as HTMLButtonElement;
   const codeEl = button.parentElement?.querySelector("code");
   if (!codeEl) { return; }
-  let codeToCopy = "";
-  if (codeEl.className.match(/\blanguage-diff/)) {
-    // If we've got a diff, only copy the unchanged or added lines;
-    // skip the deleted lines.
-    codeToCopy = codeEl.innerText
-      .split(/\r?\n/)
-      .reduce(
-        (acc, line) => {
-          if ([" ", "+"].includes(line.substring(0, 1))) {
-            acc = `${acc}\n${line.substring(1)}`;
-          }
-          return acc;
-        },
-        ""
-      );
-  } else if (codeEl.innerText) {
-    codeToCopy = codeEl.innerText;
-  }
-  navigator.clipboard.writeText(codeToCopy);
+  navigator.clipboard.writeText(codeEl.innerText);
 }
 
 function addCopyButtonsToCodeSections() {
@@ -49,6 +31,23 @@ function addCopyButtonsToCodeSections() {
 }
 
 addCopyButtonsToCodeSections();
+
+function setupDiffTabsClickHandler() {
+  const diffContainers = document.querySelectorAll('.diff-container');
+  diffContainers.forEach((container: Element) => {
+    // Show diff by default.
+    container.dataset.selected = 'diff';
+    // Set up handlers to toggle between them.
+    container.querySelector('.diff-show-diff')?.addEventListener('click', () => {
+      container.dataset.selected = 'diff';
+    });
+    container.querySelector('.diff-show-final')?.addEventListener('click', () => {
+      container.dataset.selected = 'final';
+    });
+  });
+}
+
+setupDiffTabsClickHandler();
 
 /**
  * Sets up the hamburger menu to show/hide the navigation
