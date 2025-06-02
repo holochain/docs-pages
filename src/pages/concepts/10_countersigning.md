@@ -2,9 +2,11 @@
 title: "Countersigning: Reaching Agreement Between Peers"
 ---
 
-::: intro
-Although there's no global consensus in a Holochain application, it's sometimes useful for two or more parties to record shared agreements. Countersigning allows them to coordinate the writing of a single entry across all their source chains.
-:::
+!!! info Unstable feature
+
+!!! info Unstable feature
+This feature is considered unstable and is disabled by default in Holochain 0.4 and newer. It may be removed or changed in future versions of Holochain. If you want to enable it, read [the advice on the 0.4 upgrade guide](Unstable features removed by default).
+!!!
 
 ::: orientation
 ### What you'll learn
