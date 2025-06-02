@@ -62,6 +62,10 @@ Every time a function in a coordinator zome successfully commits one or more act
 
 **Where**: coordinator zomes
 
+!!! info Unstable feature
+This feature is considered unstable and is disabled by default in Holochain 0.4 and newer. It may be removed in future versions of Holochain. If you want to enable it, read [the advice on the 0.4 upgrade guide](Unstable features removed by default).
+!!!
+
 A function in a coordinator zome can schedule another function for later or repeated execution by passing the name and zome of the function to be scheduled. The schedule can either be:
 
 You can't pass any arguments to a function when you schedule it. Instead, it has to make decisions about how to execute based on external state --- such as the source chain, DHT, or DNA properties. This may be a surprise, but it's meant to defend against [confused deputy](https://en.wikipedia.org/wiki/Confused_deputy_problem) situations --- that is, situations in which a remote caller tricks the cell into giving away special privileges by allowing a zome function to directly pass maliciously crafted input parameters to the scheduled function.
