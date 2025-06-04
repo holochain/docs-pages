@@ -184,7 +184,7 @@ To see information about open connections to peers, you can run:
 hc sandbox --force-admin-ports <port> call --origin <origin> dump-network-stats | jq
 ```
 
-The output is JSON, and might look something like this when formatted by [`jq`](https://jqlang.org/), a command-line JSON processor:
+The output is JSON, and might look something like this when formatted by [`jq`](https://jqlang.org/), a command-line JSON processor, for formatting:
 
 ::: output-block
 {
