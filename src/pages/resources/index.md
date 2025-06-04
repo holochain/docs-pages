@@ -21,6 +21,10 @@ tocData:
 
 If you're upgrading your hApp to a newer version of Holochain, we have some [upgrade guides](/resources/upgrade/) to make your work easier.
 
+## Howtos
+
+* [Debugging a running Holochain conductor](/resources/debugging/)
+
 ## HDK and HDI
 
 When you write a Holochain application, the part that lives in Holochain is called a [DNA](/concepts/2_application_architecture/#layers-of-the-application-stack). It runs as a guest in a WebAssembly sandbox and talks to the host, or Holochain conductor, through the host API. It's also expected to implement callbacks that the conductor needs to call at certain times. The HDK and HDI Rust crates make it easy for you write guest code that interfaces with the conductor --- the HDK for your DNA's [coordinator zomes](/resources/glossary/#coordinator-zome) and the HDI for [integrity zomes](/resources/glossary/#integrity-zome).
