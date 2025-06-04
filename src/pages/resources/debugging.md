@@ -48,9 +48,9 @@ You'll only get tracing messages from your zome if they have a log level more se
 
 1. First you'll need to make sure to have the `hc` CLI installed at a version that is compatible with the Holochain version that you want to inspect. An easy way to do that is to head into a [holonix](https://github.com/holochain/holonix#holonix) shell if you have an existing hApp project using nix. Otherwise you can install it via cargo:
 
-```bash
-cargo install holochain_cli --version <holochain version>
-```
+    ```bash
+    cargo install holochain_cli --version <holochain version>
+    ```
 
 2. Next, in order to be able to connect to a running conductor, you will need to figure out the admin port of the conductor as well as the HTTP origins from which calls to the admin interface are allowed.
 
