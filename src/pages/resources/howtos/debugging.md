@@ -40,7 +40,7 @@ or in kangaroo:
 
 Launcher and Kangaroo default both `RUST_LOG` and `WASM_LOG` to `warn` but add some sensible defaults to reduce noise; you can see the defaults [here in the kangaroo-electron codebase](https://github.com/holochain/kangaroo-electron/blob/89ff7ba9721785c0e4f196707016418aaccadad1/src/main/holochainManager.ts#L102-L111).
 
-The standalone `holochain` conductor binary doesn't set a default log level.
+The standalone `holochain` conductor binary and the `hc` dev tool don't set a default log level.
 
 ### Understanding the logs
 
