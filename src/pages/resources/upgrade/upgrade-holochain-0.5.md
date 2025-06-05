@@ -365,7 +365,7 @@ The `NetworkInfo` endpoint of the app API has been removed, which means the `App
 
 ## Production apps: new network infrastructure servers
 
-With the change to Kitsune2 Holo is retiring their public bootstrap and signal servers. For testing, we're offering public servers you can use. **We request and recommend that you maintain your own bootstrap and signal servers**, as these servers are low-volume and have no uptime guarantees.
+With the change to Kitsune2 Holo is retiring their public bootstrap and signal servers. For testing, we're offering public servers you can use. **We request and recommend that you maintain your own bootstrap and signal servers**<!-- TODO: document this https://github.com/holochain/docs-pages/issues/573 -->, as these servers are low-volume and have no uptime guarantees.
 
 If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangaroo-electron), you'll need to add to your `kangaroo.config.ts` file:
 
