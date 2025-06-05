@@ -74,11 +74,11 @@ When the `foo` zome function is called, you'll see:
 ```
 :::
 
-For more information on debugging a hApp, read the [debugging howto](/resources/debugging/).
+For more information on debugging a hApp, read the [debugging howto](/resources/howtos/debugging/).
 
 ## Further reading
 
-* [Resources: Debugging a Running Holochain Conductor](/resources/debugging/)
+* [Resources: Debugging a Running Holochain Conductor](/resources/howtos/debugging/)
 
 ## Reference
 

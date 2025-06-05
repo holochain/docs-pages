@@ -23,7 +23,7 @@ If you're upgrading your hApp to a newer version of Holochain, we have some [upg
 
 ## Howtos
 
-* [Debugging a running Holochain conductor](/resources/debugging/)
+* [Debugging a running Holochain conductor](/resources/howtos/debugging/)
 
 ## HDK and HDI
 
