@@ -22,6 +22,8 @@ If you run Holochain indirectly via Launcher or kangaroo, you can set its log le
 
 You can check out the [docs of the tracing-subscriber crate](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html#example-syntax) as a reference for the syntax that the `RUST_LOG` variable expects, including how to filter by target or crate.
 
+There is one useful target: [`NETAUDIT`](https://docs.rs/holochain/latest/holochain/docs/tracing/index.html#netaudit-target) reports network-related messages across various crates from the transport implementation (tx5) through the protocol implementation (kitsune2) to Holochain itself.
+
 ### Getting log messages from zomes
 
 You can also listen to [log messages emitted from your zomes](/build/miscellaneous-host-functions/#log-things-in-your-zomes) with the `WASM_LOG` environment variable. This value defaults to `debug`. For example:
