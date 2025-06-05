@@ -57,9 +57,9 @@ You'll only get tracing messages from your zome if they have a log level more se
     * For **Launcher, Kangaroo, or `holochain`**:
         1. Locate the conductor config file (typically going by the filename `conductor-config.yaml`).
 
-            ::: info For Launcher or kangaroo
+            !!! info For Launcher or kangaroo
             If you're running Holochain in Launcher or a binary packaged with kangaroo, you can navigate to the logs folder via **Help" > "Open Logs**, then navigate one level up and from there navigate to `./data/conductor/conductor-config.yaml` (Kangaroo) or `./holochain/[version number]/conductor-config.yaml`.
-            :::
+            !!!
 
         2. If you open the conductor config file, you should see a section that looks something like this:
 
@@ -126,7 +126,7 @@ This should print out an array of info on all the apps installed in the conducto
 
 ::: output-block
 ```
-hc-sandbox: List apps: [AppInfo { installed_app_id: "my_forum_app", cell_info: {"my_forum_app": [Provisioned(ProvisionedCell { cell_id: CellId(DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa), AgentPubKey(uhCAkgpe-FEfP31bomRWqvpybHRgy2Ikx4uaTzi6CcgZLLs6dNz5P)), dna_modifiers: DnaModifiers { network_seed: "", properties: null }, name: "my_forum_app" })]}, status: Running, agent_pub_key: AgentPubKey(uhCAkgpe-FEfP31bomRWqvpybHRgy2Ikx4uaTzi6CcgZLLs6dNz5P), manifest: V1(AppManifestV1 { name: "my_forum_app", description: None, roles: [AppRoleManifest { name: "my_forum_app", provisioning: Some(Create { deferred: false }), dna: AppRoleDnaManifest { location: Some(Bundled("../dnas/my_forum_app/workdir/my_forum_app.dna")), modifiers: DnaModifiersOpt { network_seed: None, properties: None }, installed_hash: Some(HoloHashB64(DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa))), clone_limit: 0 } }], allow_deferred_memproofs: false }), installed_at: Timestamp(2025-06-04T21:52:36.493227Z) }]
+hc-sandbox: List apps: [AppInfo { installed_app_id: "my_forum_app", cell_info: {"my_forum_app": [Provisioned(ProvisionedCell { cell_id: CellId(DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa), AgentPubKey(uhCAkgpe-FEfP31bomRWqvpybHRgy2Ikx4uaTzi6CcgZLLs6dNz5P)), dna_modifiers: DnaModifiers { network_seed: "", properties: null }, name: "my_forum_app" })]}, status: Running, agent_pub_key: AgentPubKey(uhCAkgpe-FEfP31bomRWqvpybHRgy2Ikx4uaTzi6CcgZLLs6dNz5P), manifest: V1(AppManifestV1 { name: "my_forum_app", description: None, roles: [AppRoleManifest { name: "my_forum_app", provisioning: Some(Create { deferred: false }), dna: AppRoleDnaManifest { location: Some(Bundled("../dnas/my_forum_app/workdir/my_forum_app.dna")), modifiers: DnaModifiersOpt { network_seed: None, properties: None }, installed_hash: Some(HoloHashB64(DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa))), clone_limit: 0 } }], allow_deferred_memproofs: false }), installed_at: Timestamp(2025-06-04T21:52:36.493227Z) }] //cspell:disable-line
 ```
 :::
 
@@ -142,29 +142,29 @@ You'll see display-formatted output similar to this. For each local DNA, you'll 
 
 ::: output-block
 ```
-hc-sandbox: This DNA DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa) is J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8
+hc-sandbox: This DNA DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa) is J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8 //cspell:disable-line
 signed at 2025-06-04 22:01:22.812 UTC
 expires at 2025-06-04 22:21:22.812 UTC in 18mins
 space: J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8
 agent: GDRikARwx5XvQlBY0YzWMhv6tI-OeLSYtI1WzZRodYM
-URLs: Some(ws://127.0.0.1:43245/77imYOMho71CaohaB-C70ZmQaH9vX-OI4Uq8r7kwpOI)
+URLs: Some(ws://127.0.0.1:43245/77imYOMho71CaohaB-C70ZmQaH9vX-OI4Uq8r7kwpOI) //cspell:disable-line
 
 
-hc-sandbox: This agent AgentPubKey(uhCAk1WPDaSiP-UzPK1peWdq7Id9sR-QqVHUf2nyiRzyxfyPu6HEV) is 1WPDaSiP-UzPK1peWdq7Id9sR-QqVHUf2nyiRzyxfyM
-This DNA DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa) is J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8
+hc-sandbox: This agent AgentPubKey(uhCAk1WPDaSiP-UzPK1peWdq7Id9sR-QqVHUf2nyiRzyxfyPu6HEV) is 1WPDaSiP-UzPK1peWdq7Id9sR-QqVHUf2nyiRzyxfyM //cspell:disable-line
+This DNA DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa) is J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8 //cspell:disable-line
 signed at 2025-06-04 22:00:21.515 UTC
 expires at 2025-06-04 22:20:21.515 UTC in 17mins
-space: J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8
-agent: 1WPDaSiP-UzPK1peWdq7Id9sR-QqVHUf2nyiRzyxfyM
-URLs: Some(ws://127.0.0.1:43245/n4JgBCZ5LgpgcwP2Olx3JdYSZ5vXpDhsWeAXFpcGFRo)
+space: J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8 //cspell:disable-line
+agent: 1WPDaSiP-UzPK1peWdq7Id9sR-QqVHUf2nyiRzyxfyM //cspell:disable-line
+URLs: Some(ws://127.0.0.1:43245/n4JgBCZ5LgpgcwP2Olx3JdYSZ5vXpDhsWeAXFpcGFRo) //cspell:disable-line
 
 
-hc-sandbox: This DNA DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa) is J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8
+hc-sandbox: This DNA DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa) is J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8 //cspell:disable-line
 signed at 2025-06-04 22:01:22.815 UTC
 expires at 2025-06-04 22:21:22.815 UTC in 18mins
-space: J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8
-agent: AY8zn3CjEbghBUJq0iMkrZ9QstZV2Q3epKMw2VypDj8
-URLs: Some(ws://127.0.0.1:43245/DIioYLUcexkOa3ee011q2ZdSBkZ3jl7dCLXL9ascwvQ)
+space: J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8 //cspell:disable-line
+agent: AY8zn3CjEbghBUJq0iMkrZ9QstZV2Q3epKMw2VypDj8 //cspell:disable-line
+URLs: Some(ws://127.0.0.1:43245/DIioYLUcexkOa3ee011q2ZdSBkZ3jl7dCLXL9ascwvQ) //cspell:disable-line
 ```
 :::
 
@@ -187,14 +187,15 @@ hc sandbox --force-admin-ports <port> call --origin <origin> dump-network-stats 
 The output is JSON, and might look something like this when formatted by [`jq`](https://jqlang.org/), a command-line JSON processor, for formatting:
 
 ::: output-block
+```json
 {
   "backend": "BackendLibDataChannel",
   "peer_urls": [
-    "ws://127.0.0.1:44019/KoP1khVW9W3JqdLJl3Y-rvBcVNCyNMvgWTpOwvSQms8"
+    "ws://127.0.0.1:44019/KoP1khVW9W3JqdLJl3Y-rvBcVNCyNMvgWTpOwvSQms8" //cspell:disable-line
   ],
   "connections": [
     {
-      "pub_key": "P8SZdNJA4lbdnPRoTHS2S0mR5Ou-BKeECaGoIm0RTOI",
+      "pub_key": "P8SZdNJA4lbdnPRoTHS2S0mR5Ou-BKeECaGoIm0RTOI", //cspell:disable-line
       "send_message_count": 6112,
       "send_bytes": 952143,
       "recv_message_count": 18488,
@@ -205,6 +206,7 @@ The output is JSON, and might look something like this when formatted by [`jq`](
     // ...
   ]
 }
+```
 :::
 
 Objects in the `connections` array contain information about open connections to other peers where the `pub_key` field refers to a public key by which peers are identified on the signal server (and which is different from the agent public keys from previous examples, which agents use to sign actions on their source chains). The tail of the url in the `peer_urls` array is your own signal server public key.
@@ -224,7 +226,7 @@ The output is JSON, and might look something like this:
 ::: output-block
 ```json
 {
-  "uhC0kf5TlHZBt6UF-DUFi3EUSJojnnEpA_MX57NyFpcCng4ZN5-sh": {
+  "uhC0kf5TlHZBt6UF-DUFi3EUSJojnnEpA_MX57NyFpcCng4ZN5-sh": { //cspell:disable-line
     "fetch_state_summary": {
       "pending_requests": {},
       "peers_on_backoff": {}
@@ -234,7 +236,7 @@ The output is JSON, and might look something like this:
       "accepted_rounds": [],
       "dht_summary": {},
       "peer_meta": {
-        "wss://dev-test-bootstrap2.holochain.org:443/P8SZdNJA4lbdnPRoTHS2S0mR5Ou-BKeECaGoIm0RTOI": {
+        "wss://dev-test-bootstrap2.holochain.org:443/P8SZdNJA4lbdnPRoTHS2S0mR5Ou-BKeECaGoIm0RTOI": { //cspell:disable-line
           "last_gossip_timestamp": 1747330934099198,
           "new_ops_bookmark": 1747328798974814,
           "peer_behavior_errors": 2,
