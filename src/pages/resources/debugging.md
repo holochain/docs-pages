@@ -58,7 +58,7 @@ You'll only get tracing messages from your zome if they have a log level more se
         1. Locate the conductor config file (typically going by the filename `conductor-config.yaml`).
 
             !!! info For Launcher or kangaroo
-            If you're running Holochain in Launcher or a binary packaged with kangaroo, you can navigate to the logs folder via **Help" > "Open Logs**, then navigate one level up and from there navigate to `./data/conductor/conductor-config.yaml` (Kangaroo) or `./holochain/[version number]/conductor-config.yaml`.
+            If you're running Holochain in Launcher or a binary packaged with kangaroo, you can navigate to the logs folder via **Help > Open Logs**, then navigate one level up and from there navigate to `./data/conductor/conductor-config.yaml` (Kangaroo) or `./holochain/[version number]/conductor-config.yaml` (Launcher).
             !!!
 
         2. If you open the conductor config file, you should see a section that looks something like this:
@@ -84,7 +84,7 @@ You'll only get tracing messages from your zome if they have a log level more se
             ```
             :::
 
-    * For **`hc spin` or the scaffolded `npm run start` command:
+    * For **`hc spin` or the scaffolded `npm run start` command**:
 
         1. For the port number, look in your conductor logs for output that looks like this:
 
@@ -209,7 +209,7 @@ The output is JSON, and might look something like this when formatted by [`jq`](
 ```
 :::
 
-Objects in the `connections` array contain information about open connections to other peers where the `pub_key` field refers to a public key by which peers are identified on the signal server (and which is different from the agent public keys from previous examples, which agents use to sign actions on their source chains). The tail of the url in the `peer_urls` array is your own signal server public key.
+Objects in the `connections` array contain information about open connections to other peers where the `pub_key` field refers to a public key by which peers are identified on the signal server (and which is different from the agent public keys from previous examples that agents use to sign actions on their source chains). The tail of the url in the `peer_urls` array is your own signal server public key.
 
 ### Dump network metrics
 
