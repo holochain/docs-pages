@@ -145,7 +145,7 @@ You'll see display-formatted output similar to this. For each local DNA, you'll 
 hc-sandbox: This DNA DnaHash(uhC0kJ7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX_GEHsa) is J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8 //cspell:disable-line
 signed at 2025-06-04 22:01:22.812 UTC
 expires at 2025-06-04 22:21:22.812 UTC in 18mins
-space: J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8
+space: J7wa-02liGff5zmmP9KcczVjan7CZOwOIV0mpXL-cX8 //cspell:disable-line
 agent: GDRikARwx5XvQlBY0YzWMhv6tI-OeLSYtI1WzZRodYM
 URLs: Some(ws://127.0.0.1:43245/77imYOMho71CaohaB-C70ZmQaH9vX-OI4Uq8r7kwpOI) //cspell:disable-line
 
