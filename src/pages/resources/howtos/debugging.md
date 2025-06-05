@@ -27,18 +27,14 @@ You can check out the [docs of the tracing-subscriber crate](https://docs.rs/tra
 You can also listen to [log messages emitted from your zomes](/build/miscellaneous-host-functions/#log-things-in-your-zomes) with the `WASM_LOG` environment variable. This value defaults to `debug`. For example:
 
 ```bash
-RUST_LOG=trace WASM_LOG=trace npm run start
+WASM_LOG=trace npm run start
 ```
 
 or in kangaroo:
 
 ```bash
-./name.of.app.built.with.kangaroo.AppImage --holochain-rust-log "debug" --holochain-wasm-log "debug"
+./name.of.app.built.with.kangaroo.AppImage --holochain-wasm-log "debug"
 ```
-
-!!! info `WASM_LOG` is limited by `RUST_LOG`
-You'll only get tracing messages from your zome if they have a log level more severe than _both_ `RUST_LOG` _and_ `WASM_LOG`.
-!!!
 
 ### Understanding the logs
 
