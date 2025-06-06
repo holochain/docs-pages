@@ -23,23 +23,27 @@ If you want to learn more about how this setup works and how to create it manual
 
 The flake-based one-liner to get you an ad-hoc Holonix shell (that is, not using a local flake file) looks like this:
 
+<!-- TODO(upgrade): change following version number -->
+
 ```shell
-nix develop "github:holochain/holonix?ref=main-0.4"
+nix develop "github:holochain/holonix?ref=main-0.5"
 ```
 
 #### Specifying a certain release
 
-The above one-liner will give you the latest **recommended** version of Holochain from the 0.4 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.3 development shell, run:
+<!-- TODO(upgrade): change following version numbers -->
+
+The above one-liner will give you the latest **recommended** version of Holochain from the 0.5 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.4 development shell, run:
 
 ```shell
-nix develop "github:holochain/holonix?ref=main-0.3"
+nix develop "github:holochain/holonix?ref=main-0.4"
 ```
 
 The options you should know about are:
 
-* `main` or no `ref` parameter: The development version of Holochain, released weekly with no guarantee of stability (currently 0.5)
-* `main-0.4`: The current recommended version of Holochain for everyday development
-* `main-0.3`: The previous version of Holochain, which still receives maintenance releases
+* `main` or no `ref` parameter: The development version of Holochain, released weekly with no guarantee of stability (currently 0.6)
+* `main-0.5`: The current recommended version of Holochain for everyday development
+* `main-0.4`: The previous version of Holochain, which still receives maintenance releases
 
 ### Customizing the Holochain binary
 
@@ -63,24 +67,29 @@ hn-introspect
 
 This command displays versioning information about Holochain's main components. The output looks like this:
 
+<!-- TODO(upgrade): change following version numbers -->
+
 ::: output-block
 ```text
-hc-scaffold     : holochain_scaffolding_cli 0.4000.0 (cda8433)
-hc-launch       : holochain_cli_launch 0.400.0 (holochain 0.4.0) (ca59803)
-Lair keystore   : lair_keystore 0.5.3 (e829375)
-Holochain       : holochain 0.4.0 (f931190)
+hc-scaffold            : holochain_scaffolding_cli 0.500.0 (54ec9b8)
+hc-launch              : holochain_cli_launch 0.500.0 (holochain 0.5.1) (ef3b8fa)
+Lair keystore          : lair_keystore 0.6.1 (23cd5d1)
+Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.1.8 (203e2d3)
+Holochain CLI          : holochain_cli 0.5.2 (641de81)
+Holochain terminal     : hcterm 0.5.2 (641de81)
+Holochain              : holochain 0.5.2 (641de81)
 
 Holochain build info: {
   "git_info": null,
-  "cargo_pkg_version": "0.4.0",
-  "hdk_version_req": "0.4.0",
-  "hdi_version_req": "0.5.0",
-  "lair_keystore_version_req": "0.5.3",
-  "timestamp": "2024-12-18T19:25:03.915833743Z",
+  "cargo_pkg_version": "0.5.2",
+  "hdk_version_req": "0.5.2",
+  "hdi_version_req": "0.6.2",
+  "lair_keystore_version_req": "0.6.1",
+  "timestamp": "2025-05-08T17:13:06.176728556Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",
-  "rustc_version": "rustc 1.80.0 (051478957 2024-07-21)",
+  "rustc_version": "rustc 1.83.0 (90b35a623 2024-11-26)",
   "rustflags": "",
   "profile": "release"
 }
@@ -98,14 +107,15 @@ A sample output of this command looks like this (JSON formatted using `jq` i.e. 
 ```json
 {
   "git_info": null,
-  "cargo_pkg_version": "0.1.3",
-  "hdk_version_req": "0.1.1",
-  "hdi_version_req": "0.2.1",
-  "timestamp": "2023-02-09T13:16:50.812160339Z",
+  "cargo_pkg_version": "0.5.2",
+  "hdk_version_req": "0.5.2",
+  "hdi_version_req": "0.6.2",
+  "lair_keystore_version_req": "0.6.1",
+  "timestamp": "2025-05-08T17:13:06.176728556Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",
-  "rustc_version": "rustc 1.66.1 (90743e729 2023-01-10)",
+  "rustc_version": "rustc 1.83.0 (90b35a623 2024-11-26)",
   "rustflags": "",
   "profile": "release"
 }

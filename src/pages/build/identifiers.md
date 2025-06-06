@@ -155,17 +155,29 @@ let author_id = action.author();
 
 An external reference is just any 32-byte identifier. Holochain doesn't care if it's an IPFS hash, an Ethereum wallet, a very short URL, or the name of your pet cat. But because it comes from outside of a DHT, it's up to your application to decide how to handle it. Typically, an external client such as a UI would supply external references from a source it has access to, such as an HTTP API or a form field.
 
-To construct an external hash from 32 raw bytes, first you need to enable the `hashing` feature in the `holo_hash` crate. In your zome's `Cargo.toml` add this line:
+To construct an external hash from 32 raw bytes, first you need to enable the `hashing` feature in the `holo_hash` crate. In your project's `Cargo.toml` add this line:
 
-```diff
-...
-[dependencies]
-hdk = { workspace = true }
-serde = { workspace = true }
-+ # Replace the following version number with whatever your project is
-+ # currently using -- search your root `Cargo.lock` for "holo_hash" to find it.
-+ holo_hash = { version = "=0.4.0", features = ["hashing"] }
-...
+<!-- TODO(upgrade): change following version numbers -->
+
+!!! info Look in your root `Cargo.lock` for exact version number
+`holo_hash` is a dependency brought in by other crates such as `hdi` and `hdk`. To find the right version number to use below, search your root `Cargo.lock` file for `name = "holo_hash"`.
+!!!
+
+```diff:toml
+ [workspace.dependencies]
+ hdi = "=0.6.2"
+ hdk = "=0.5.2"
++holo_hash = "=0.5.2"
+ serde = "1.0"
+```
+
+Next, add this line to your zome's `Cargo.toml`:
+
+```diff:toml
+ [dependencies]
+ hdi = { workspace = true }
+ serde = { workspace = true }
++holo_hash = { workspace = true, features = ["hashing"] }
 ```
 
 Then you can construct an `ExternalHash`:
