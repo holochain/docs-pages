@@ -26,7 +26,7 @@ The nature of validation is [a topic of its own](/build/validation/). Read the [
 
 ### Define a `genesis_self_check` callback
 
-As part of its initialization, a cell goes through **genesis**. This creates initial data to announce the new agent on the network and present a [**membrane proof**](/build/genesis-self-check/#membrane-proof-a-joining-code-for-a-network), an agent-specific joining credential.
+As part of its initialization, a cell goes through **genesis**. This creates initial data to announce the new agent on the network and present a [**membrane proof**](/build/genesis-self-check-callback/#membrane-proof-a-joining-code-for-a-network), an agent-specific joining credential.
 
 Agents rely on self-validation to protect them from publishing invalid data that gets them marked as malicious. The membrane proof record can't be self-validated, though, because it's written before the agent joins the network, and the `validate` callback can only be run after they've joined.
 

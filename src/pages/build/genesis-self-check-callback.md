@@ -3,7 +3,7 @@ title: "Genesis Self-Check Callback"
 ---
 
 ::: intro
-To enforce access control for a network, a DNA can require a [**membrane proof**](/build/genesis-self-check/#membrane-proof-a-joining-code-for-a-network), which is a piece of data that gets entered by the user and written to their [**source chain**](/concepts/3_source_chain/). The `genesis_self_check` function can guard against user entry error and help prevent them from being accidentally marked as a bad actor.
+To enforce access control for a network, a DNA can require a [**membrane proof**](/concepts/3_source_chain/#membrane-proof), which is a piece of data that gets entered by the user and written to their [**source chain**](/concepts/3_source_chain/). The `genesis_self_check` function can guard against user entry error and help prevent them from being accidentally marked as a bad actor.
 :::
 
 ## Membrane proof: a joining code for a network
