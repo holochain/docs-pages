@@ -179,8 +179,8 @@ async function getChatCells(): Promise<Array<ClonedCell>> {
     }
 
     return chats
-        .filter((cell) => CellType.Cloned in cell)
-        .map((cell) => cell[CellType.Cloned]);
+        .filter((cell) => cell.type == CellType.Cloned)
+        .map((cell) => cell.value);
 }
 ```
 

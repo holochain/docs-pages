@@ -45,8 +45,6 @@ pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
 
 Holochain emits local signals over active app WebSocket connections, and a client should provide a way to receive these signals. For instance, with the TypeScript client, you can subscribe to signals with the [`AppWebsocket.prototype.on`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.on.md) method. The signal handler should expect signals from _any coordinator zome in any cell_ in the agent's hApp instance, and should discriminate between them by cell ID and zome name.
 
-<!-- FIXME(0.5): does SignalType still exist? -->
-
 ```typescript
 import type { Signal, AppSignal, AgentPubKey } from "@holochain/client";
 import { SignalType, encodeHashToBase64 } from "@holochain/client";
@@ -61,8 +59,8 @@ getHolochainClient().then(client => {
     // Subscribe to signals.
     client.on("signal", (signal: Signal) => {
         // Signals coming from a coordinator zome are of the `App` type.
-        if (!(SignalType.App in signal)) return;
-        const appSignal = signal[SignalType.App];
+        if (signal.type != SignalType.App) return;
+        const appSignal = signal.value;
 
         // For now, let's just assume this is a simple hApp with only one DNA
         // (hence one cell), and all we need to discriminate by is the zome
