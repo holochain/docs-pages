@@ -367,7 +367,11 @@ The `NetworkInfo` endpoint of the app API has been removed, which means the `App
 
 With the change to Kitsune2 Holo is retiring their public bootstrap and signal servers. For testing, we're offering public servers you can use. **We request and recommend that you maintain your own bootstrap and signal servers**<!-- TODO: document this https://github.com/holochain/docs-pages/issues/573 -->, as the test servers are rate-limited and have no uptime guarantees. You can find the server binary on [crates.io](https://crates.io/crates/kitsune2_bootstrap_srv) or adapt [this example `Dockerfile`](https://github.com/holochain/kitsune2/blob/main/docker/kitsune2_bootstrap_srv/Dockerfile).
 
-If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangaroo-electron), you'll need to add to your `kangaroo.config.ts` file:
+If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangaroo-electron), you'll need to add your own servers to your `kangaroo.config.ts` file.
+
+!!! info Upgrading your Kangaroo-based project
+Upgrading your project is out of scope for this howto; it involves comparing your project against the code in the `kangaroo-electron` template repo for Holochain 0.5 (currently at [this commit](https://github.com/holochain/kangaroo-electron/tree/89ff7ba9721785c0e4f196707016418aaccadad1)<!-- TODO(upgrade): change this commit as needed -->) and making changes as needed.
+!!!
 
 ```diff:typescript
  import { defineConfig } from './src/main/defineConfig';
@@ -382,11 +386,13 @@ If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangar
    autoUpdates: true,
    systray: true, //cspell:disable-line
    passwordMode: 'password-optional',
-+  // Replace these with your own infrastructure servers for production apps.
-+  bootstrapUrl: 'https://dev-test-bootstrap2.holochain.org/',
-+  signalUrl: 'wss://dev-test-bootstrap2.holochain.org/',
-+  // Use free public WebRTC ICE servers
-+  iceUrls: ['stun:stun.l.google.com:19302', 'stun:stun.cloudflare.com:3478'],
+-  bootstrapUrl: 'https://dev-test-bootstrap2.holochain.org/',
+-  signalUrl: 'wss://dev-test-bootstrap2.holochain.org/',
++  bootstrapUrl: 'https://<my-bootstrap-server-url>/',
++  signalUrl: 'wss://<my-bootstrap-server-url>/',
++  // You may also want to use your own WebRTC ICE services rather than
++  // Google or Cloudflare; if so; change the following line too.
+   iceUrls: ['stun:stun.l.google.com:19302', 'stun:stun.cloudflare.com:3478'],
    bins: {
      holochain: {
        version: '0.5.2',
