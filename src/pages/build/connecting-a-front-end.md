@@ -3,7 +3,7 @@ title: "Connecting a Front End"
 ---
 
 ::: intro
-Front ends connect to a hApp via the **application API** over a local [WebSocket](https://en.wikipedia.org/wiki/WebSocket) interface. They can call [**zome functions**](/build/zome-functions/) and listen to [**signals**](/concepts/9_signals/), and can also do some app management tasks like **cloning**<!--TODO: link --> a cell and getting info about the hApp.
+Front ends connect to a hApp via the **application API** over a local [WebSocket](https://en.wikipedia.org/wiki/WebSocket) interface. They can call [**zome functions**](/build/zome-functions/) and listen to [**signals**](/build/signals/), and can also do some app management tasks like [**cloning**](/build/cloning) a cell and getting info about the hApp.
 :::
 
 ## Where a front end runs

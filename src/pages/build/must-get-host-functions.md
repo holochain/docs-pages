@@ -61,7 +61,7 @@ You can query an agent's existing source chain records with [`must_get_agent_act
 
 This host function lets you enforce rules based on an agent's history, such as limiting their rate of posts based on timestamp or ensuring they have sufficient account balance to make a transaction. You can specify a range of actions, starting at a given chain point and working backwards, and it'll give you a vector of [`RegisterAgentActivity` operations](/build/dht-operations/#register-agent-activity), inclusive of the start and end points.
 
-This example creates a custom helper function to run when a `RegisterAgentActivity` operation is being validated. It makes sure an agent may only create or edit ten movie entries per minute, to prevent spamming. <!-- TODO: rewrite this if https://github.com/holochain/holochain/issues/4754 is accepted -->
+This example creates a custom helper function to run when a `RegisterAgentActivity` operation is being validated. It makes sure an agent may only create or edit ten movie entries per minute, to prevent spamming. <!-- TODO: rewrite this if https://github.com/holochain/holochain/pull/5015 (chain filters until timestamp) is accepted -->
 
 ```rust
 use hdi::prelude::*;

@@ -3,7 +3,7 @@ title: "Querying Source Chains"
 ---
 
 ::: intro
-An agent can **query their source chain** for a history of the [records](/build/working-with-data/#entries-actions-and-records-primary-data) they've written, including [**link**](/build/links-paths-and-anchors/) and public and private [**entry**](/build/entries/) data, which includes **capability grants and claims**<!--TODO: link to capabilities -->. They can also query the public portion of another agent's source chain in a [**zome function**](/build/zome-functions/) or [**`validate` callback**](/build/callbacks-and-lifecycle-hooks/#define-a-validate-callback).
+An agent can **query their source chain** for a history of the [records](/build/working-with-data/#entries-actions-and-records-primary-data) they've written, including [**link**](/build/links-paths-and-anchors/) and public and private [**entry**](/build/entries/) data, which includes [**capability grants and claims**](/build/capabilities/). They can also query the public portion of another agent's source chain in a [**zome function**](/build/zome-functions/) or [**`validate` callback**](/build/callbacks-and-lifecycle-hooks/#define-a-validate-callback).
 :::
 
 An agent's source chain is their record of local state changes. It's a multi-purpose data structure, and can be interpreted in different ways, including as:
@@ -104,4 +104,4 @@ There's another source chain querying function called `must_get_agent_activity`,
 * [Core Concepts: Source Chain](/concepts/3_source_chain/)
 * [Core Concepts: Validation](/concepts/7_validation/)
 * [Build Guide: Working With Data: Entries, actions, and records](/build/working-with-data/#entries-actions-and-records-primary-data)
-<!-- TODO: add validation build guide -->
+* [Build Guide: Validation](/build/validation/)

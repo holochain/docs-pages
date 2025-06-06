@@ -258,8 +258,6 @@ When an agent no longer wants to be part of a network, they can disable the clon
 
 Use the [`AppWebsocket.prototype.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.disableclonecell.md) method to disable the cell from a front end.
 
-<!--TODO: The signature of disableCloneCell breaks in 0.5 -->
-
 ```typescript
 import { DnaHash } from "@holochain/client";
 

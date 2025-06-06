@@ -101,8 +101,6 @@ fn look_at_zome_info() -> ExternResult<()> {
 
 To get information about the agent bound to the current cell, use the [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) host function. It takes no arguments and returns a result containing an [`AgentInfo`](https://docs.rs/hdk/latest/hdk/prelude/struct.AgentInfo.html) struct. _**Note**: This function is only available to coordinator zomes._
 
-<!-- TODO: fix this if the interface changes -->
-
 ```rust
 use hdk::prelude::*;
 
