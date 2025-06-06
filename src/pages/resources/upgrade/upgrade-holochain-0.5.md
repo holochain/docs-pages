@@ -108,6 +108,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     npm start
     ```
 6. Be aware of some changes that won't break your app but may affect its runtime behavior. Read the [guide at the bottom](#subtle-changes).
+7. For production apps, you'll need to specify new signal, bootstrap, and ICE URLs.
 
 ## Update your package dependencies
 
@@ -367,6 +368,65 @@ The `NetworkInfo` endpoint of the app API has been removed, which means the `App
 ### Admin API's `AgentInfo` return value changed
 
 **Note: This is an advanced feature that you'll only encounter if you're building a custom runtime that tries to get diagnostic data.** The return value of the [`AgentInfo`](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html#variant.AgentInfo) endpoint in the admin API has changed. Currently it outputs a vector of JSON-serialized [`kitsune2_api::AgentInfoSigned`](https://docs.rs/kitsune2_api/latest/kitsune2_api/struct.AgentInfoSigned.html) values.
+
+## Production apps: new network infrastructure servers
+
+With the change to Kitsune2 Holo is retiring their public bootstrap and signal servers. For testing, we're offering public servers you can use. **We request and recommend that you maintain your own bootstrap and signal servers**<!-- TODO: document this https://github.com/holochain/docs-pages/issues/573 -->, as the test servers are rate-limited and have no uptime guarantees. You can find the server binary on [crates.io](https://crates.io/crates/kitsune2_bootstrap_srv) or adapt [this example `Dockerfile`](https://github.com/holochain/kitsune2/blob/main/docker/kitsune2_bootstrap_srv/Dockerfile).
+
+If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangaroo-electron), you'll need to add your own servers to your `kangaroo.config.ts` file.
+
+!!! info Upgrading your Kangaroo-based project
+Upgrading your project is out of scope for this howto; it involves comparing your project against the code in the `kangaroo-electron` template repo for Holochain 0.5 (currently at [this commit](https://github.com/holochain/kangaroo-electron/tree/89ff7ba9721785c0e4f196707016418aaccadad1)<!-- TODO(upgrade): change this commit as needed -->) and making changes as needed.
+!!!
+
+```diff:typescript
+ import { defineConfig } from './src/main/defineConfig';
+
+ export default defineConfig({
+   appId: 'org.holochain.kangaroo-electron',
+   productName: 'Holochain Kangaroo Electron',
+   version: '0.1.0',
+   macOSCodeSigning: false,
+   windowsEVCodeSigning: false,
+   fallbackToIndexHtml: true,
+   autoUpdates: true,
+   systray: true, //cspell:disable-line
+   passwordMode: 'password-optional',
+-  bootstrapUrl: 'https://dev-test-bootstrap2.holochain.org/',
+-  signalUrl: 'wss://dev-test-bootstrap2.holochain.org/',
++  bootstrapUrl: 'https://<my-bootstrap-server-url>/',
++  signalUrl: 'wss://<my-bootstrap-server-url>/',
++  // You may also want to use your own WebRTC ICE services rather than
++  // Google or Cloudflare; if so; change the following line too.
+   iceUrls: ['stun:stun.l.google.com:19302', 'stun:stun.cloudflare.com:3478'],
+   bins: {
+     holochain: {
+       version: '0.5.2',
+       sha256: {
+         'x86_64-unknown-linux-gnu':
+           'bbbdb2e52693522eaaaddafd392c9861db19210e02a48e1ff80d1077a296a08e',
+         'x86_64-pc-windows-msvc.exe': //cspell:disable-line
+           'e111298fc3af3cc12bfc7adb742d5f29ced7d19f05267969a23d0b8e0d286d5c',
+         'x86_64-apple-darwin': '8bde56c485154b9ac31aa8a5c7232479503b6015fccf66035228b52680e2daf5',
+         'aarch64-apple-darwin': '3b6da6df698d86e5d66691b0c91c5ff0e308b07a400b7ea733f019ea62021cdd', //cspell:disable-line
+       },
+     },
+     lair: {
+       version: '0.6.1',
+       sha256: {
+         'x86_64-unknown-linux-gnu':
+           'c5d5d912af41f17def1c9d1027abd8eb6ce6f088871f4347ed38e124a93023cc',
+         'x86_64-pc-windows-msvc.exe': //cspell:disable-line
+           'e11a0658c2d5a3c00409ea447241b3f1f3a215d70fa396b8a3ed633226f0a11f',
+         'x86_64-apple-darwin': 'fed0e9c3fc32589031229fb177ef3b3324e0096e742802898976812174bdd12d',
+         'aarch64-apple-darwin': 'dd36c33e495b8046501f0824fbc08f069973cab5ee210275ab9de3af932d79e8', //cspell:disable-line
+       },
+     },
+   },
+ });
+```
+
+(Note: you'll also want to update your holochain and lair binary versions and hashes to the above.)
 
 ## Subtle changes
 
