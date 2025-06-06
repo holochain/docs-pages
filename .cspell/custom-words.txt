@@ -38,6 +38,7 @@ libsodium
 libsodium's
 Multihash
 multihash
+NETAUDIT
 NixOS
 nixpkgs
 pkgs

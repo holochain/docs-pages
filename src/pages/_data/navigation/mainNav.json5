@@ -62,6 +62,9 @@
     },
     { title: "Resources", url: "/resources/", children: [
         { title: "Upgrade Guides", url: "/resources/upgrade/" },
+        { title: "Howtos", url: "/resources/howtos/", children: [
+          { title: "Debugging a Running Holochain Conductor", url: "/resources/howtos/debugging/" },
+        ]},
         { title: "HDK", url: "https://docs.rs/hdk", external: true },
         { title: "HDI", url: "https://docs.rs/hdi", external: true },
         { title: "App API", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
