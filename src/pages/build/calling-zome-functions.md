@@ -113,7 +113,7 @@ If two agents have cells running the same DNA --- that is, they're part of the s
 Holochain allows agents to add and remove coordinator zomes from their cells. This permits upgrading and customization. But it also means that the zomes and functions that you _think_ are on the other end might not actually be there.
 !!!
 
-This example calls a function _in the same coordinator zome_ (or at least one with the same name) in a remote agent's cell. It assumes that the remote agent has granted access to their `get_movies_by_director_from_movies_cell` function with an [**unrestricted grant**](/concepts/8_calls_capabilities/#unrestricted), which doesn't require a capability secret.
+This example calls a function _in the same coordinator zome_ (or at least one with the same name) in a remote agent's cell. It assumes that the remote agent has granted access to their `get_movies_by_director_from_movies_cell` function with an [**unrestricted grant**](/build/capabilities/#unrestricted), which doesn't require a capability secret.
 
 ```rust
 use hdk::prelude::*;

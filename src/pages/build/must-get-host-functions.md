@@ -184,6 +184,5 @@ In the future, we intend to introduce 'warrants', a feature which will allow val
 
 ## Further reading
 
-* [Build Guide: Validation](/build/validation/)
+* [Core Concepts: Validation](/concepts/7_validation/)* [Build Guide: Validation](/build/validation/)
 * [Build Guide: `validate` Callback](/build/validate-callback/)
-* [Core Concepts: Validation](/concepts/7_validation/)

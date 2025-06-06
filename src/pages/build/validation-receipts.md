@@ -118,7 +118,7 @@ Only the conductor hosting the agent who authored an action will get the validat
 
 ## Further reading
 
-* [Build Guide: Validation](/build/validation/)
-* [Build Guide: DHT Operations](/build/dht-operations/)
 * [Core Concepts: DHT](/concepts/4_dht/)
 * [Core Concepts: Validation](/concepts/7_validation/)
+* [Build Guide: Validation](/build/validation/)
+* [Build Guide: DHT Operations](/build/dht-operations/)
