@@ -55,7 +55,7 @@ A zome function call lifecycle begins when an external caller tries to call one 
 * Another cell in the same Holochain instance, or
 * The same cell.
 
-The caller must call the function by cell ID and zome name, and it must supply a valid [**capability claim**](/build/capablities/) in order to call the zome function.
+The caller must call the function by cell ID and zome name, and it must supply a valid [**capability claim**](/build/capabilities/) in order to call the zome function.
 
 Here's how the **call-zome workflow** handles a zome function call:
 
@@ -93,7 +93,7 @@ Here's how the **call-zome workflow** handles a zome function call:
 
 * [Core Concepts: Application Architecture](/concepts/2_application_architecture/)
 * [Core Concepts: Calls and Capabilities](/concepts/8_calls_capabilities/)
-* [Build Guide: Capablities](/build/capablities/)
+* [Build Guide: Capabilities](/build/capabilities/)
 * [Build Guide: Zomes](/build/zomes/)
 * [Build Guide: Lifecycle Events and Callbacks](/build/callbacks-and-lifecycle-hooks/)
 * [Build Guide: Entries: Create with relaxed chain top ordering](/build/entries/#create-with-relaxed-chain-top-ordering)
