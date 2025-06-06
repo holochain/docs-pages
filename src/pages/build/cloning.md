@@ -30,10 +30,6 @@ The DNA properties are constants that your integrity and coordinator zomes [can 
 You can specify DNA properties without specifying a network seed, but be aware that you will find yourself in the same network as any others who have happened to create a clone with the same properties. This is intended behavior, but it might not be desired behavior --- if you're cloning in order to both modify DNA behavior _and_ create a new network space without any existing members or data, specify a random network seed along with the DNA properties.
 !!!
 
-### Origin time <!-- TODO: remove when O.5 lands -->
-
-While you can specify an **origin time** (the earliest valid timestamp for any DHT data), in practice this isn't necessary. Holochain will just use the origin time from the original DNA.
-
 ## Clone a DNA from a client
 
 If you want to create a clone from the client side, use the [`AppWebsocket.prototype.createCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.createclonecell.md).
@@ -110,7 +106,7 @@ pub fn create_or_join_chat(input: CreateOrJoinChatInput) -> ExternResult<ClonedC
     let modifiers = DnaModifiersOpt::none()
         .with_network_seed(network_seed.into());
 
-    let cell_id = CellId::new(input.chat_dna_hash, agent_info()?.agent_latest_pubkey);
+    let cell_id = CellId::new(input.chat_dna_hash, agent_info()?.agent_initial_pubkey);
     let create_clone_cell_input = CreateCloneCellInput {
         cell_id: cell_id,
         modifiers,
@@ -235,7 +231,7 @@ pub fn send_status_message_to_chat_by_clone_index(index: u32) -> ExternResult<Ac
 
 #[hdk_extern]
 pub fn send_status_message_to_chat_by_dna_hash(dna_hash: DnaHash) -> ExternResult<ActionHash> {
-    send_status_message(CallTargetCell::OtherCell(CellId::new(dna_hash, agent_info()?.agent_latest_pubkey)))
+    send_status_message(CallTargetCell::OtherCell(CellId::new(dna_hash, agent_info()?.agent_initial_pubkey)))
 }
 
 fn send_status_message(target: CallTargetCell) -> ExternResult<ActionHash> {

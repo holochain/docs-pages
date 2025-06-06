@@ -63,7 +63,7 @@ use hdk::prelude::*;
 #[hdk_extern]
 pub fn init() -> ExternResult<InitCallbackResult> {
     let participant_registration_anchor_hash = get_participant_registration_anchor_hash()?;
-    let AgentInfo { agent_latest_pubkey: my_pubkey, ..} = agent_info()?;
+    let AgentInfo { agent_initial_pubkey: my_pubkey, ..} = agent_info()?;
     create_link(
         participant_registration_anchor_hash,
         my_pubkey,
@@ -98,7 +98,7 @@ Note that this can create "hot spots" where some agents have a heavier data stor
 
 !!!
 
-The `init` callback is often used to set up initial **capabilities**<!-- TODO: link-->, or access privileges to zome functions. You can see an example on the [Signals page](/build/signals/#remote-signals)
+The `init` callback is often used to set up initial [**capabilities**](/build/capabilities/), or access privileges to zome functions. You can see an example on the [Signals page](/build/signals/#remote-signals)
 
 ### Define a `recv_remote_signal` callback
 

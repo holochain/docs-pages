@@ -110,9 +110,6 @@ fn look_at_agent_info() -> ExternResult<()> {
     let AgentInfo {
         // The public key of this agent.
         agent_initial_pubkey: _,
-        // Also the public key of this agent (a redundant field that we plan
-        // to remove).
-        agent_latest_pubkey: _,
         chain_head,
     } = agent_info()?;
 
@@ -167,7 +164,7 @@ pub fn foo() -> ExternResult<()> {
     // serves bundled back ends and front ends such as Launcher, Moss, or a
     // Kangaroo-bundled executable, the provenance will be the same as the
     // agent bound to this cell.
-    if provenance == agent_info()?.agent_latest_pubkey {
+    if provenance == agent_info()?.agent_initial_pubkey {
         debug!("Call is being made by the owner of this cell");
     }
 
