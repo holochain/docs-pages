@@ -52,3 +52,6 @@ Zome functions can [send out signals](/build/signals/), either locally to front 
 * [Core Concepts: Application Architecture](/concepts/2_application_architecture/)
 * [Core Concepts: Calls and Capabilities](/concepts/8_calls_capabilities/)
 * [Core Concepts: Signals](/concepts/9_signals/)
+* [Build Guide: Calling Zome Functions](/build/calling-zome-functions/)
+* [Build Guide: Capabilities](/build/capabilities/)
+* [Build Guide: Signals](/build/signals/)

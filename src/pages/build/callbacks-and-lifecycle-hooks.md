@@ -3,7 +3,7 @@ title: "Callbacks and Lifecycle Hooks"
 ---
 
 ::: intro
-A [cell](/concepts/2_application_architecture/#cell) can respond to various events in the life of a hApp by defining specially named **callbacks**, including **lifecycle hooks**. These functions may define and validate data, perform initialization tasks, respond to [remote signals](/concepts/9_signals), or follow up after successful writes.
+A [cell](/concepts/2_application_architecture/#cell) can respond to various events in the life of a hApp by defining specially named **callbacks**, including **lifecycle hooks**. These functions may define and validate data, perform initialization tasks, respond to [remote signals](/build/signals/#remote-signals), or follow up after successful writes.
 :::
 
 All of the callbacks must follow the [pattern for public functions](/build/zomes/#define-a-function) we introduced on the Zomes page. They must also have the specific input argument and return value types we describe below.
@@ -19,14 +19,14 @@ In order to validate DHT data, you'll need to define a `validate` callback. It m
 The `validate` callback is called at two times:
 
 1. When an agent tries to author an [action](/build/working-with-data/#entries-actions-and-records-primary-data), and
-2. When an agent receives a [DHT operation](/concepts/4_dht/#a-cloud-of-witnesses) to store and serve as part of the shared database.
+2. When an agent receives a [DHT operation](/build/dht-operations/) to store and serve as part of the shared database.
 
 The nature of validation is [a topic of its own](/build/validation/). Read the [`validate` callback page](/build/validate-callback/) to see examples.
 
 
 ### Define a `genesis_self_check` callback
 
-As part of its initialization, a cell goes through **genesis**. This creates initial data to announce the new agent on the network and present a [**membrane proof**](/concepts/3_source_chain/#source-chain-your-own-data-store), an agent-specific joining credential.
+As part of its initialization, a cell goes through **genesis**. This creates initial data to announce the new agent on the network and present a [**membrane proof**](/build/genesis-self-check-callback/#membrane-proof-a-joining-code-for-a-network), an agent-specific joining credential.
 
 Agents rely on self-validation to protect them from publishing invalid data that gets them marked as malicious. The membrane proof record can't be self-validated, though, because it's written before the agent joins the network, and the `validate` callback can only be run after they've joined.
 
@@ -63,7 +63,7 @@ use hdk::prelude::*;
 #[hdk_extern]
 pub fn init() -> ExternResult<InitCallbackResult> {
     let participant_registration_anchor_hash = get_participant_registration_anchor_hash()?;
-    let AgentInfo { agent_latest_pubkey: my_pubkey, ..} = agent_info()?;
+    let AgentInfo { agent_initial_pubkey: my_pubkey, ..} = agent_info()?;
     create_link(
         participant_registration_anchor_hash,
         my_pubkey,
@@ -98,11 +98,11 @@ Note that this can create "hot spots" where some agents have a heavier data stor
 
 !!!
 
-The `init` callback is often used to set up initial **capabilities**<!-- TODO: link-->, or access privileges to zome functions. You can see an example on the [Signals page](/build/signals/#remote-signals)
+The `init` callback is often used to set up initial [**capabilities**](/build/capabilities/), or access privileges to zome functions. You can see an example on the [Signals page](/build/signals/#remote-signals)
 
 ### Define a `recv_remote_signal` callback
 
-Agents in a network can send messages to each other via [remote signals](/concepts/9_signals/#remote-signals). In order to handle these signals, your coordinator zome needs to define a `recv_remote_signal` callback. Remote signals get routed from the emitting coordinator zome on the sender's machine to a coordinator with the same name on the receiver's machine.
+Agents in a network can send messages to each other via [remote signals](/build/signals/#remote-signals). In order to handle these signals, your coordinator zome needs to define a `recv_remote_signal` callback. Remote signals get routed from the emitting coordinator zome on the sender's machine to a coordinator with the same name on the receiver's machine.
 
 `recv_remote_signal` takes a single argument of any type you like. It must return an empty `ExternResult<()>`, as this callback is not called as a result of direct interaction from the local agent and has nowhere to pass a return value.
 
@@ -188,5 +188,6 @@ fn get_movie_loan_offer(action_hash: ActionHash) -> ExternResult<MovieLoanOffer>
 
 * [Core Concepts: Lifecycle Events](/concepts/11_lifecycle_events/)
 * [Core Concepts: Signals](/concepts/9_signals/)
+* [Build Guide: Capabilities](/build/capabilities/)
 * [Build Guide: Identifiers](/build/identifiers/)
 * [Build Guide: Signals](/build/signals/)

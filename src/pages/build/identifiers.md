@@ -266,7 +266,7 @@ Because of these three things, it's unsafe to depend on the value or even existe
 
 * You may safely use the hash of an action you've just written as data in another action in the same function (e.g., in a link or an entry that contains the hash in a field), as long as you're not using relaxed chain top ordering.
 * The same is also true of action hashes in your function's return value.
-* Don't communicate the action hash with the front end, another cell, or another peer on the network via a remote function call or [signal](/concepts/9_signals/) _from within the same function that writes it_, in case the write fails. Instead, do your communicating in a follow-up step. The easiest way to do this is by [implementing a callback called `post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) which receives a vector of all the actions that the function wrote.
+* Don't communicate the action hash with the front end, another cell, or another peer on the network via a remote function call or [signal](/build/signals/) _from within the same function that writes it_, in case the write fails. Instead, do your communicating in a follow-up step. The easiest way to do this is by [implementing a callback called `post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) which receives a vector of all the actions that the function wrote.
 
 ## Reference
 
