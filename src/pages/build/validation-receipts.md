@@ -13,14 +13,14 @@ These validation receipts help the author's conductor keep track of how many oth
 By default, an action must collect five validation receipts for each of its DHT operations before the author considers this process to be complete. For application entry creation actions, you can override this by setting the [`required_validations`](/build/entries/#required-validations) field on the entry type.
 
 !!! info Validation receipts might not reflect current DHT conditions
-An author only receives validation receipts from the validating agents that they sent their DHT operations to. Other agents may receive an operation from these original validators via **gossip**, but they won't send a validation receipt to the original author. <!-- TODO: this behavior will change in 0.5 -->The original validators might also have stopped participating in the network. This means that, at any given time, the data might have better or worse DHT health than the author believes. So it's best to treat validation receipts as a **very rough measure of the DHT availability of data in the first short while after authoring**. The length of this time frame depends on the author's ability to reach validators.
+An author accumulates validation receipts over time, whereas the validators who signed them may disappear over time or be replaced by others. This means that the number of receipts collected isn't an accurate gauge of the _current_ availability of the action. So it's best to treat them as a very rough measure of the DHT availability of data **in the first short while after authoring**. The length of this time frame depends on the author's ability to reach validators.
 !!!
 
 ## Get validation receipts
 
 To get validation receipts for an action that an agent has authored, use the [`get_validation_receipts`](https://docs.rs/hdk/latest/hdk/validation_receipt/fn.get_validation_receipts.html) host function. It takes an input consisting of the action hash and returns a result containing a vector of [`ValidationReceiptSet`](https://docs.rs/hdk/latest/hdk/prelude/struct.ValidationReceiptSet.html) values. Each of these items corresponds to one of the operations produced from the action and gives the receipts collected so far for that operation.
 
-This example checks to see if any validator has abandoned or rejected an operation for an action:
+This example checks to see if any validator has rejected an operation for an action:
 
 <!-- TODO: fix this when/if Abandoned is implemented -->
 
