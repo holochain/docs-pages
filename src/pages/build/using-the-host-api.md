@@ -25,4 +25,4 @@ Holochain's host API is a small feature set written explicitly for interacting w
 
 A lot of this is covered elsewhere already --- [Working with Data](/build/working-with-data/) and [Validation](/build/validation/) talk about data access functions, and [Connecting the Parts](/build/connecting-the-parts/) talks about interop.
 
-There are a few other functions that don't fall into those categories, so we'll cover them here in three categories: **introspection**, **cryptography**, and **miscellaneous functions**.<!-- TODO: link as they're written -->
+There are a few other functions that don't fall into those categories, so we'll cover them here in three categories: [**cell introspection**](/build/cell-introspection), [**cryptography functions**](/build/cryptography-functions/), and [**miscellaneous functions**](/build/miscellaneous-host-functions/).

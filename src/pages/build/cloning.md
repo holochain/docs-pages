@@ -30,10 +30,6 @@ The DNA properties are constants that your integrity and coordinator zomes [can 
 You can specify DNA properties without specifying a network seed, but be aware that you will find yourself in the same network as any others who have happened to create a clone with the same properties. This is intended behavior, but it might not be desired behavior --- if you're cloning in order to both modify DNA behavior _and_ create a new network space without any existing members or data, specify a random network seed along with the DNA properties.
 !!!
 
-### Origin time <!-- TODO: remove when O.5 lands -->
-
-While you can specify an **origin time** (the earliest valid timestamp for any DHT data), in practice this isn't necessary. Holochain will just use the origin time from the original DNA.
-
 ## Clone a DNA from a client
 
 If you want to create a clone from the client side, use the [`AppWebsocket.prototype.createCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.createclonecell.md).
@@ -110,7 +106,7 @@ pub fn create_or_join_chat(input: CreateOrJoinChatInput) -> ExternResult<ClonedC
     let modifiers = DnaModifiersOpt::none()
         .with_network_seed(network_seed.into());
 
-    let cell_id = CellId::new(input.chat_dna_hash, agent_info()?.agent_latest_pubkey);
+    let cell_id = CellId::new(input.chat_dna_hash, agent_info()?.agent_initial_pubkey);
     let create_clone_cell_input = CreateCloneCellInput {
         cell_id: cell_id,
         modifiers,
@@ -179,8 +175,8 @@ async function getChatCells(): Promise<Array<ClonedCell>> {
     }
 
     return chats
-        .filter((cell) => CellType.Cloned in cell)
-        .map((cell) => cell[CellType.Cloned]);
+        .filter((cell) => cell.type == CellType.Cloned)
+        .map((cell) => cell.value);
 }
 ```
 
@@ -235,7 +231,7 @@ pub fn send_status_message_to_chat_by_clone_index(index: u32) -> ExternResult<Ac
 
 #[hdk_extern]
 pub fn send_status_message_to_chat_by_dna_hash(dna_hash: DnaHash) -> ExternResult<ActionHash> {
-    send_status_message(CallTargetCell::OtherCell(CellId::new(dna_hash, agent_info()?.agent_latest_pubkey)))
+    send_status_message(CallTargetCell::OtherCell(CellId::new(dna_hash, agent_info()?.agent_initial_pubkey)))
 }
 
 fn send_status_message(target: CallTargetCell) -> ExternResult<ActionHash> {
@@ -262,22 +258,26 @@ When an agent no longer wants to be part of a network, they can disable the clon
 
 Use the [`AppWebsocket.prototype.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.disableclonecell.md) method to disable the cell from a front end.
 
-<!--TODO: The signature of disableCloneCell breaks in 0.5 -->
-
 ```typescript
 import { DnaHash } from "@holochain/client";
 
 async function pauseChatByCloneIndex(index: Number): Promise<void> {
     let client = await getHolochainClient();
     return client.disableCloneCell({
-        clone_cell_id: `chat.${index}`
+        clone_cell_id: {
+            type: "clone_id",
+            value: `chat.${index}`,
+        }
     });
 }
 
 async function pauseChatByDnaHash(dnaHash: DnaHash): Promise<void> {
     let client = await getHolochainClient();
     return client.disableCloneCell({
-        clone_cell_id: dnaHash,
+        clone_cell_id: {
+            type: "dna_hash",
+            value: dnaHash,
+        }
     });
 }
 ```
@@ -322,14 +322,20 @@ import { DnaHash } from "@holochain/client";
 async function restoreChatByCloneIndex(index: Number): Promise<ClonedCell> {
     let client = await getHolochainClient();
     return client.enableCloneCell({
-        clone_cell_id: `chat.${index}`
+        clone_cell_id: {
+            type: "clone_id",
+            value: `chat.${index}`,
+        }
     });
 }
 
 async function restoreChatByDnaHash(dnaHash: DnaHash): Promise<ClonedCell> {
     let client = await getHolochainClient();
     return client.enableCloneCell({
-        clone_cell_id: dnaHash,
+        clone_cell_id: {
+            type: "dna_hash",
+            value: dnaHash,
+        }
     });
 }
 ```

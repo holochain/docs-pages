@@ -155,17 +155,29 @@ let author_id = action.author();
 
 An external reference is just any 32-byte identifier. Holochain doesn't care if it's an IPFS hash, an Ethereum wallet, a very short URL, or the name of your pet cat. But because it comes from outside of a DHT, it's up to your application to decide how to handle it. Typically, an external client such as a UI would supply external references from a source it has access to, such as an HTTP API or a form field.
 
-To construct an external hash from 32 raw bytes, first you need to enable the `hashing` feature in the `holo_hash` crate. In your zome's `Cargo.toml` add this line:
+To construct an external hash from 32 raw bytes, first you need to enable the `hashing` feature in the `holo_hash` crate. In your project's `Cargo.toml` add this line:
 
-```diff
-...
-[dependencies]
-hdk = { workspace = true }
-serde = { workspace = true }
-+ # Replace the following version number with whatever your project is
-+ # currently using -- search your root `Cargo.lock` for "holo_hash" to find it.
-+ holo_hash = { version = "=0.4.0", features = ["hashing"] }
-...
+<!-- TODO(upgrade): change following version numbers -->
+
+!!! info Look in your root `Cargo.lock` for exact version number
+`holo_hash` is a dependency brought in by other crates such as `hdi` and `hdk`. To find the right version number to use below, search your root `Cargo.lock` file for `name = "holo_hash"`.
+!!!
+
+```diff:toml
+ [workspace.dependencies]
+ hdi = "=0.6.2"
+ hdk = "=0.5.2"
++holo_hash = "=0.5.2"
+ serde = "1.0"
+```
+
+Next, add this line to your zome's `Cargo.toml`:
+
+```diff:toml
+ [dependencies]
+ hdi = { workspace = true }
+ serde = { workspace = true }
++holo_hash = { workspace = true, features = ["hashing"] }
 ```
 
 Then you can construct an `ExternalHash`:
@@ -254,7 +266,7 @@ Because of these three things, it's unsafe to depend on the value or even existe
 
 * You may safely use the hash of an action you've just written as data in another action in the same function (e.g., in a link or an entry that contains the hash in a field), as long as you're not using relaxed chain top ordering.
 * The same is also true of action hashes in your function's return value.
-* Don't communicate the action hash with the front end, another cell, or another peer on the network via a remote function call or [signal](/concepts/9_signals/) _from within the same function that writes it_, in case the write fails. Instead, do your communicating in a follow-up step. The easiest way to do this is by [implementing a callback called `post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) which receives a vector of all the actions that the function wrote.
+* Don't communicate the action hash with the front end, another cell, or another peer on the network via a remote function call or [signal](/build/signals/) _from within the same function that writes it_, in case the write fails. Instead, do your communicating in a follow-up step. The easiest way to do this is by [implementing a callback called `post_commit`](/build/callbacks-and-lifecycle-hooks/#define-a-post-commit-callback) which receives a vector of all the actions that the function wrote.
 
 ## Reference
 

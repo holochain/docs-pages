@@ -8,7 +8,7 @@ This page contains all the host API functions that don't fit into other categori
 
 ## Get the system time
 
-You can get the agent's current system time with the [`sys_time`](https://docs.rs/hdk/latest/hdk/time/fn.sys_time.html) host function, which takes no arguments and returns a result containing a [`Timestamp`](https://docs.rs/kitsune_p2p_timestamp/latest/kitsune_p2p_timestamp/struct.Timestamp.html).<!-- TODO: change to the right package when kitsune_p2p_timestamp is retired in 0.5 --> _**Note**: This function is only available to coordinator zomes._
+You can get the agent's current system time with the [`sys_time`](https://docs.rs/hdk/latest/hdk/time/fn.sys_time.html) host function, which takes no arguments and returns a result containing a [`Timestamp`](https://docs.rs/holochain_timestamp/latest/holochain_timestamp/struct.Timestamp.html). _**Note**: This function is only available to coordinator zomes._
 
 ```rust
 use hdk::prelude::*;

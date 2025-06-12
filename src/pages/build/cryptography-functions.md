@@ -12,21 +12,6 @@ Because there's no central authority to act as a root of trustworthiness in a pe
 
 To reduce the weight of your compiled zomes, Holochain exposes hashing functions via the host API.
 
-!!! info You can also build native hashing into your zomes
-If you want to be able to hash data without calling out to the host, you can build hashing into your zome crate. List the `holo_hash` crate explicitly in your zome's `Cargo.toml` file, and turn on the `hashing` feature:
-
-```diff
-...
-[dependencies]
-hdk = { workspace = true }
-serde = { workspace = true }
-+ # Replace the following version number with whatever your project is
-+ # currently using -- search your root `Cargo.lock` for "holo_hash" to find it.
-+ holo_hash = { version = "=0.4.0", features = ["hashing"] }
-...
-```
-!!!
-
 ### Hash an action or entry
 
 Holochain's native hashing scheme is Blake2b-256.
@@ -59,7 +44,7 @@ use hdk::prelude::*;
 
 // The action we're about to construct doesn't necessarily exist...
 let imaginary_action = Action::Dna(Dna {
-    author: agent_info()?.agent_latest_pubkey,
+    author: agent_info()?.agent_initial_pubkey,
     timestamp: Timestamp(1743025465_000_000),
     hash: dna_info()?.hash,
 });
@@ -107,7 +92,7 @@ pub fn create_joining_certificate(invitee: AgentPubKey) -> ExternResult<String> 
     // The `DnaProperties` struct comes from the example we linked to above.
     let dna_props = DnaProperties::try_from_dna_properties()?;
     let administrator: AgentPubKey = dna_props.authorized_joining_certificate_issuer.into();
-    let my_pub_key = agent_info()?.agent_latest_pubkey;
+    let my_pub_key = agent_info()?.agent_initial_pubkey;
     if administrator != my_pub_key {
         // Because these entries aren't recorded to a source chain, we can't
         // check for validity in the `validate` callback. Instead, we do some

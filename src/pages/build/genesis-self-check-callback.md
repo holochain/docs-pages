@@ -3,7 +3,7 @@ title: "Genesis Self-Check Callback"
 ---
 
 ::: intro
-To enforce access control for a network, a DNA can require a [**membrane proof**](/concepts/3_source_chain/#source-chain-your-own-data-store), which is a piece of data that gets entered by the user and written to their [**source chain**](/concepts/3_source_chain/). The `genesis_self_check` function can guard against user entry error and help prevent them from being accidentally marked as a bad actor.
+To enforce access control for a network, a DNA can require a [**membrane proof**](/concepts/3_source_chain/#membrane-proof), which is a piece of data that gets entered by the user and written to their [**source chain**](/concepts/3_source_chain/). The `genesis_self_check` function can guard against user entry error and help prevent them from being accidentally marked as a bad actor.
 :::
 
 ## Membrane proof: a joining code for a network
@@ -12,6 +12,7 @@ While a [network seed](/build/dnas/#network-seed) acts like a network-wide passc
 
 A membrane proof can be basic, like an invite code, or it can be something complex like a signature from an agent that has authority to admit members.
 
+<!--TODO(0.6): remove this -->
 !!! info Membership control isn't implemented yet
 This feature is not fully implemented. Currently, validators merely record a validation failure and supply it on request. Our plan is to connect membrane proof validation outcomes to block lists, so agents can reject connection attempts from a peer with an invalid membrane proof.
 !!!

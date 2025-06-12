@@ -66,7 +66,7 @@ But that entry, paired with its respective creation actions into records, can be
 
 ## The graph DHT: Holochain's shared database
 
-Each application creates a shared [**graph database**](https://en.wikipedia.org/wiki/Graph_database), where content is connected together by [**links**](/concepts/5_links_anchors/). The underlying data store for this database is a [distributed hash table](/resources/glossary/#distributed-hash-table-dht) or DHT, which is just a big key/value store. Primary content (entries and actions) is stored and retrieved by its identifier or address (usually its cryptographic hash), so we can call it **addressable content**. Then, the graph is built by attaching **links** and other kinds of **metadata** to those same addresses.
+Each application creates a shared [**graph database**](https://en.wikipedia.org/wiki/Graph_database), where content is connected together by [**links**](/build/links-paths-and-anchors/). The underlying data store for this database is a [distributed hash table](/resources/glossary/#distributed-hash-table-dht) or DHT, which is just a big key/value store. Primary content (entries and actions) is stored and retrieved by its identifier or address (usually its cryptographic hash), so we can call it **addressable content**. Then, the graph is built by attaching **links** and other kinds of **metadata** to those same addresses.
 
 The application's users all share responsibility for storing and validating this database and modifications to it.
 
@@ -93,7 +93,7 @@ When a link's base and target don't exist as addressable content in the database
 
 ### CRUD metadata graph
 
-Holochain has a built-in [**create, read, update, and delete (CRUD)** model](/concepts/6_crud_actions/). Data in the graph database and participants' local state cannot be modified or deleted, so these kinds of mutation are simulated by attaching metadata to existing data. This builds up a graph of the history of a given piece of content.
+Holochain has a built-in [**create, read, update, and delete (CRUD)** model](/build/entries/#entries-and-actions). Data in the graph database and participants' local state cannot be modified or deleted, so these kinds of mutation are simulated by attaching metadata to existing data. This builds up a graph of the history of a given piece of content.
 
 We'll get deeper into this in the [next section](#adding-and-modifying-data) and in the page on [entries](/build/entries/).
 
@@ -183,10 +183,11 @@ The shared DHT and the individual source chains are involved in multiple interre
 
 ## Further reading
 
-* Core Concepts: [Source Chain](/concepts/3_source_chain/)
-* Core Concepts: [DHT](/concepts/4_dht/)
-* Core Concepts: [Links and Anchors](/concepts/5_links_anchors/)
-* Core Concepts: [CRUD actions](/concepts/6_crud_actions/)
-* Wikipedia: [Graph database](https://en.wikipedia.org/wiki/Graph_database)
-* Wikipedia: [Distributed hash table](https://en.wikipedia.org/wiki/Distributed_hash_table)
+* [Core Concepts: Source Chain](/concepts/3_source_chain/)
+* [Core Concepts: DHT](/concepts/4_dht/)
+* [Core Concepts: Links and Anchors](/concepts/5_links_anchors/)
+* [Core Concepts: CRUD actions](/concepts/6_crud_actions/)
+* [Build Guide: Entries](/build/entries/)
+* [Wikipedia: Graph database](https://en.wikipedia.org/wiki/Graph_database)
+* [Wikipedia: Distributed hash table](https://en.wikipedia.org/wiki/Distributed_hash_table)
 * Martin Fowler on [Event Sourcing](https://martinfowler.com/eaaDev/EventSourcing.html), the pattern that both source chains and blockchains use to record state changes.

@@ -14,8 +14,10 @@ As we described in [Application Structure](/build/application-structure/#happ), 
 
 The [scaffolding tool](/get-started/3-forum-app-tutorial/) is the easiest way to build out a full hApp with multiple DNAs and an optional GUI. Once you've [got the Holochain dev shell working](/get-started/), open a terminal and enter this command:
 
+<!-- TODO(upgrade): change following version numbers -->
+
 ```bash
-nix run "github:/holochain/holonix?ref=main-0.4#hc-scaffold" -- web-app movies_happ
+nix run "github:/holochain/holonix?ref=main-0.5#hc-scaffold" -- web-app movies_happ
 ```
 
 The tool will guide you through every step, from creating a bare working folder to creating individual [data types and CRUD functions](/build/working-with-data/).
@@ -48,8 +50,6 @@ roles:
     modifiers:
       network_seed: null
       properties: null
-      origin_time: null
-      quantum_time: null
     installed_hash: null
     clone_limit: 0
 - name: lending
@@ -61,8 +61,6 @@ roles:
     modifiers:
       network_seed: null
       properties: null
-      origin_time: null
-      quantum_time: null
     installed_hash: null
     # The maximum number of clones, which is u32::MAX
     clone_limit: 4_294_967_295
@@ -91,7 +89,7 @@ allow_deferred_memproofs: false
         * `modifiers`: Optional [integrity modifiers](/build/dnas/#integrity-section) that change the DNA hash at install time.
         * `installed_hash`: The expected hash of the DNA at the specified location. If it doesn't match the actual installed hash, hApp installation will fail.
         * `clone_limit`: The number of **clone cells** that can be created from the DNA in this role. {#clone-limit}
-* `allow_deferred_memproofs`: If true, this hApp will be kept in a disabled state until **membrane proofs** are provided for its cells. This is an advanced topic which we'll write about in the future, <!-- TODO: write about deferred memproofs --> and this can be left `false` for most hApps.
+* `allow_deferred_memproofs`: If true, this hApp will be kept in a disabled state until **membrane proofs** are provided for its cells. This is an advanced topic which we'll write about in the future, <!-- TODO: write about deferred memproofs https://github.com/holochain/docs-pages/issues/579 --> and this can be left `false` for most hApps.
 
 ## Create a web hApp
 
