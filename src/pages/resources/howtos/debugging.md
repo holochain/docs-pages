@@ -11,7 +11,7 @@ Under normal development circumstances, such as running Holochain via the `hc sp
 If you run Holochain via `hc spin` or directly via the `holochain` binary, you can set its log levels via the `RUST_LOG` environment variable. For instance, if you're running a hApp via the scaffolded `npm` commands:
 
 ```bash
-RUST_LOG=debug npm run start
+RUST_LOG=info npm run start
 ```
 
 If you run Holochain indirectly via Launcher or kangaroo, you can set its log levels instead by running the binary via the terminal and passing the `--holochain-rust-log` argument. For example:
