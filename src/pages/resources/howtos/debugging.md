@@ -260,7 +260,7 @@ Objects in the `connections` array contain information about open connections to
 
 ### Dump network metrics
 
-To get some information about gossip, you can use the `dump-network-metrics` call for a given DNA:
+To get some information about network state, such as gossip, peer table, and fetch queue, you can use the `dump-network-metrics` call for a given DNA:
 
 ```bash
 hc sandbox --force-admin-ports <port> call --origin <origin> dump-network-metrics <base64-dna-hash> | jq
