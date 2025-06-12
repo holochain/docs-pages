@@ -44,7 +44,42 @@ The standalone `holochain` conductor binary and the `hc` dev tool don't set a de
 
 ### Understanding the logs
 
-[TODO]
+Interpreting Holochain's logs requires some time and practise, and it is easier the more knowledge you have of how
+Holochain works internally. However, they are a primary method for gathering information about the state of a running
+conductor, so spending time looking at them will generally pay off.
+
+There are many "issues" that the Holochain logs chooses to surface because they are useful debugging information, but 
+they don't necessarily mean that Holochain is broken. Some examples follow:
+- `DhtOp has failed app validation outcome=AwaitingDeps`: This log output is common and means that a piece of data is 
+  being held in the validation queue because its dependencies either haven't been found or haven't been validated yet.
+- `Error initiating gossip: Other { ctx: \"tx5 send error\", src: Some(Kind(TimedOut)) }"}`: This is letting you know 
+  that Holochain was unable to initiate data sync with another peer because the network request made to that peer timed 
+  out.
+- `could not send publish ops: tx5 send error (src: timed out)`:  This one is letting you know that data you created 
+  could not be published to one of the peers who are expected to store data that you've created.
+
+On their own, these messages aren't very useful. Context is required, and that can be established by asking questions:
+- Did somebody recently go offline? If so, it'll take some time for Holochain to realize and stop contacting them.
+  Currently, this can take up to 20 minutes, but work is ongoing to reduce that time window.
+- Is your application generally functioning and these error messages are showing up as communication issues with a small
+  number of peers on the network? This may be expected behavior because this is a p2p platform and errors on real 
+  networks are normal. If logs are showing that you have connectivity issues with a given peer over a longer period of 
+  time then that could be a sign of a connectivity issue between you.
+- Are the same ops reporting that they failed to pass validation over an extended period of time? It's possible that it 
+  depends on other ops that aren't yet properly distributed on the network and those won't appear until later when the
+  author comes back online and resumes sharing their content. Or it could point to an issue in Holochain or the app's
+  validation logic.
+
+The key here is understanding that errors happen, and that they are a normal part of the p2p experience. The logs are 
+can help you understand what is happening in your conductor, but they become a more useful signal with context such as
+the same error being reported repeatedly without a good explanation.
+
+The other approach that can be useful, is watching the logs while performing actions in your app. This can help you link
+a problem that Holochain is reporting to a specific action that you performed in your app. For example, clicking a 
+button that you expect to try to retrieve links from the network, or send a remote signal. Checking the logs between
+the timestamp when you make your action and around 60s later can help you understand what Holochain is doing that 
+doesn't match your expectations. The reason to watch for around 60s is that it might take some time for timeouts to be
+reported, that were related to the action you performed.
 
 ## Inspecting conductor state with the `hc sandbox` CLI
 
