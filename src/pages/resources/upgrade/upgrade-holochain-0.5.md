@@ -370,7 +370,7 @@ With the change to Kitsune2, the public bootstrap and signal server API has chan
 If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangaroo-electron), you'll need to add your own servers to your `kangaroo.config.ts` file.
 
 !!! info Upgrading your Kangaroo-based project
-Upgrading your project is out of scope for this howto; it involves comparing your project against the code in the `kangaroo-electron` template repo for Holochain 0.5 (currently at [this commit](https://github.com/holochain/kangaroo-electron/tree/89ff7ba9721785c0e4f196707016418aaccadad1)<!-- TODO(upgrade): change this commit as needed -->) and making changes as needed.
+Upgrading your project is out of scope for this howto; it involves comparing your project against the code in the `kangaroo-electron` template repo for Holochain 0.5 (currently at [this commit](https://github.com/holochain/kangaroo-electron/tree/89ff7ba9721785c0e4f196707016418aaccadad1)<!-- TODO(upgrade): change this commit as needed -->) and making changes as needed. Once you've done this, you can modify your file as shown below.
 !!!
 
 ```diff:typescript
