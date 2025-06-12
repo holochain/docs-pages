@@ -17,7 +17,7 @@ RUST_LOG=info npm run start
 If you run Holochain indirectly via Launcher or kangaroo, you can set its log levels instead by running the binary via the terminal and passing the `--holochain-rust-log` argument. For example:
 
 ```bash
-./name.of.app.built.with.kangaroo.AppImage --holochain-rust-log "debug"
+./name.of.app.built.with.kangaroo.AppImage --holochain-rust-log "info"
 ```
 
 You can check out the [docs of the tracing-subscriber crate](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html#example-syntax) as a reference for the syntax that the `RUST_LOG` variable expects, including how to filter by target or crate.
