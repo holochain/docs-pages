@@ -211,13 +211,27 @@ You can find these values by looking at the previous output or the output from t
 
 ### Dump network stats
 
+!!! Use `jq` for easy JSON reading
+The following API endpoints output JSON, so the examples use a tool called [`jq`](https://jqlang.org/) to pretty-print the output. You can install it via your OS' package manager or add it as a package to your `flake.nix` file:
+
+```diff
+ ...
+         packages = (with pkgs; [
+           nodejs_22
+           binaryen
++          jq
+
+         ]);
+ ...
+!!!
+
 To see information about open connections to peers, you can run:
 
 ```bash
 hc sandbox --force-admin-ports <port> call --origin <origin> dump-network-stats | jq
 ```
 
-The output is JSON, and might look something like this when formatted by [`jq`](https://jqlang.org/), a command-line JSON processor, for formatting:
+The output is JSON, and might look something like this:
 
 ::: output-block
 ```json
