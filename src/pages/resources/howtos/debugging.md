@@ -44,7 +44,7 @@ The standalone `holochain` conductor binary and the `hc` dev tool don't set a de
 
 ### Understanding the logs
 
-Interpreting Holochain's logs requires some time and practise, and it is easier the more knowledge you have of how
+Interpreting Holochain's logs requires some time and practice, and it is easier the more knowledge you have of how
 Holochain works internally. However, they are a primary method for gathering information about the state of a running
 conductor, so spending time looking at them will generally pay off.
 
