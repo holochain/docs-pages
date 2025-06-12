@@ -30,7 +30,7 @@ RUST_LOG=NETAUDIT=debug,info npm run start
 
 ### Getting log messages from zomes
 
-You can also listen to [log messages emitted from your zomes](/build/miscellaneous-host-functions/#log-things-in-your-zomes) with the `WASM_LOG` environment variable. This value defaults to `debug`. For example:
+You can also listen to [log messages emitted from your zomes](/build/miscellaneous-host-functions/#log-things-in-your-zomes) with the `WASM_LOG` environment variable. For example:
 
 ```bash
 WASM_LOG=trace npm run start
@@ -44,7 +44,18 @@ or in kangaroo:
 
 Launcher and Kangaroo default both `RUST_LOG` and `WASM_LOG` to `warn` but add some sensible defaults to reduce noise; you can see the defaults [here in the kangaroo-electron codebase](https://github.com/holochain/kangaroo-electron/blob/89ff7ba9721785c0e4f196707016418aaccadad1/src/main/holochainManager.ts#L102-L111).
 
-The standalone `holochain` conductor binary and the `hc` dev tool don't set a default log level.
+The standalone `holochain` conductor binary and the `hc` dev tool don't set a default WASM log level.
+
+!!! info Setting different log levels
+`WASM_LOG` and `RUST_LOG` don't have to match; for example, you may want to output everything from your zomes but only output warnings and higher from the runtime:
+
+```bash
+WASM_LOG=trace RUST_LOG=warn npm run start
+```
+```bash
+./name.of.app.built.with.kangaroo.AppImage --holochain-wasm-log "trace" --holochain-rust-log "warn"
+```
+!!!
 
 ### Understanding the logs
 
