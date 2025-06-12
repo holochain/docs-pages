@@ -256,7 +256,7 @@ The output is JSON, and might look something like this:
 ```
 :::
 
-Objects in the `connections` array contain information about open connections to other peers where the `pub_key` field refers to a public key by which peers are identified on the signal server (and which is different from the agent public keys from previous examples that agents use to sign actions on their source chains). The tail of the url in the `peer_urls` array is your own signal server public key.
+Objects in the `connections` array contain information about open connections to other peers where the `pub_key` field refers to a public key by which peers are identified on the signal server (and which is different from the agent public keys from previous examples that agents use to sign actions on their source chains). The path of the url in the `peer_urls` array is your own signal server public key.
 
 ### Dump network metrics
 
