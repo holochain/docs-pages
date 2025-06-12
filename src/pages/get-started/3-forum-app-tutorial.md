@@ -994,8 +994,7 @@ At the top of the file, there is a list of scripts that are imported. Following 
 
 Next, edit the markup template in the `<ClientProvider>` section of the file, where the boilerplate content now lives. Remove the Holochain logo at the top, give it a more meaningful title, and --- most importantly --- replace the last two paragraphs with the `<AllPosts/>` component:
 
-:::output-block
-```diff:svelte
+```diff:html
  <ClientProvider>
    <div>
 -    <div>
@@ -1025,29 +1024,6 @@ Next, edit the markup template in the `<ClientProvider>` section of the file, wh
    </div>
  </ClientProvider>
 ```
-:::
-
-Your `<ClientProvider>` block should now look like this:
-
-```svelte
-<ClientProvider>
-  <div>
-    <h1>My Forum hApp</h1>
-    <div>
-      <div class="card">
-        {#if loading}
-          <p>connecting...</p>
-        {:else if error}
-          <p>{error.message}</p>
-        {:else}
-          <p>Client is connected.</p>
-        {/if}
-      </div>
-      <AllPosts/>
-    </div>
-  </div>
-</ClientProvider>
-```
 
 !!! info Svelte component tags
 The `ClientProvider` and `AllPosts` elements are obviously not standard HTML. In Svelte, each component has a correspondingly named custom element that will get replaced by the rendered component's markup wherever it appears in another component's template.
@@ -1067,33 +1043,25 @@ Let's fix that by adding the post creation component to the UI so we can add our
 
 Add this new component to the `<ClientProvider>` block above the component you added:
 
-```diff:svelte
-+    <CreatePost/>
-     <AllPosts/>
+```diff:html
+ <ClientProvider>
+   <div>
+     <h1>My Forum hApp</h1>
+     <div>
+       <div class="card">
+         {#if loading}
+           <p>connecting...</p>
+         {:else if error}
+           <p>{error.message}</p>
+         {:else}
+           <p>Client is connected.</p>
+         {/if}
+       </div>
++      <CreatePost/>
+       <AllPosts/>
+     </div>
    </div>
-```
-
-Now your `<ClientProvider>` block should look like this:
-
-```svelte
-<ClientProvider>
-  <div>
-    <h1>My Forum hApp</h1>
-    <div>
-      <div class="card">
-        {#if loading}
-          <p>connecting...</p>
-        {:else if error}
-          <p>{error.message}</p>
-        {:else}
-          <p>Client is connected.</p>
-        {/if}
-      </div>
-      <CreatePost/>
-      <AllPosts/>
-    </div>
-  </div>
-</ClientProvider>
+ </ClientProvider>
 ```
 
 Save the file and switch to one of the two conductor windows. You should now see a post form.
@@ -1164,7 +1132,7 @@ Near the end of the file, in the template block, add the components' elements to
 
 Here, the comment components need to know what post they're related to. The post hash is the unique ID for the post, and the comment components' elements both expect a `postHash` attribute. This hash is available in the `PostDetail` component as a variable of the same name, so it can be passed to the comment widgets.
 
-```diff:svelte
+```diff:html
    </section>
 +  <CreateComment postHash="{postHash}"></CreateComment>
 +  <CommentsForPost postHash="{postHash}"></CommentsForPost>

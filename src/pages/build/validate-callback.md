@@ -258,6 +258,6 @@ fn validate_invite_code_format(invite_code: Option<Vec<u8>>) -> ExternResult<Val
 
 ## Further reading
 
+* [Core Concepts: Validation](/concepts/7_validation/)
 * [Build Guide: Validation](/build/validation/)
 * [Build Guide: `genesis_self_check` Callback](/build/genesis-self-check-callback)
-* [Core Concepts: Validation](/concepts/7_validation/)

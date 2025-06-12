@@ -6,7 +6,8 @@
     "strict": true,
     "sourceMap": true,
     "outDir": "client-side-compiled",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": ["es6", "dom", "es2016"]
   },
   "include": [
     "src/client-side/**/*.ts"

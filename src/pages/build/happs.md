@@ -89,7 +89,7 @@ allow_deferred_memproofs: false
         * `modifiers`: Optional [integrity modifiers](/build/dnas/#integrity-section) that change the DNA hash at install time.
         * `installed_hash`: The expected hash of the DNA at the specified location. If it doesn't match the actual installed hash, hApp installation will fail.
         * `clone_limit`: The number of **clone cells** that can be created from the DNA in this role. {#clone-limit}
-* `allow_deferred_memproofs`: If true, this hApp will be kept in a disabled state until **membrane proofs** are provided for its cells. This is an advanced topic which we'll write about in the future, <!-- TODO: write about deferred memproofs --> and this can be left `false` for most hApps.
+* `allow_deferred_memproofs`: If true, this hApp will be kept in a disabled state until **membrane proofs** are provided for its cells. This is an advanced topic which we'll write about in the future, <!-- TODO: write about deferred memproofs https://github.com/holochain/docs-pages/issues/579 --> and this can be left `false` for most hApps.
 
 ## Create a web hApp
 

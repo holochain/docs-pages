@@ -45,8 +45,6 @@ pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
 
 Holochain emits local signals over active app WebSocket connections, and a client should provide a way to receive these signals. For instance, with the TypeScript client, you can subscribe to signals with the [`AppWebsocket.prototype.on`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.on.md) method. The signal handler should expect signals from _any coordinator zome in any cell_ in the agent's hApp instance, and should discriminate between them by cell ID and zome name.
 
-<!-- FIXME(0.5): does SignalType still exist? -->
-
 ```typescript
 import type { Signal, AppSignal, AgentPubKey } from "@holochain/client";
 import { SignalType, encodeHashToBase64 } from "@holochain/client";
@@ -61,8 +59,8 @@ getHolochainClient().then(client => {
     // Subscribe to signals.
     client.on("signal", (signal: Signal) => {
         // Signals coming from a coordinator zome are of the `App` type.
-        if (!(SignalType.App in signal)) return;
-        const appSignal = signal[SignalType.App];
+        if (signal.type != SignalType.App) return;
+        const appSignal = signal.value;
 
         // For now, let's just assume this is a simple hApp with only one DNA
         // (hence one cell), and all we need to discriminate by is the zome
@@ -132,7 +130,7 @@ pub fn recv_remote_signal(payload: RemoteSignal) -> ExternResult<()> {
 ```
 
 !!! info Remote signal handlers are just zome functions
-`send_remote_signal` is sugar for a [remote call](/build/calling-zome-functions/#call-a-zome-function-from-another-agent-in-the-network) to a zome function named  `recv_remote_signal`. This target function exists by convention and must be given an `Unrestricted` capability grant for this to work. <!-- TODO: link to capabilities page -->. The only difference from a regular remote call is that `send_remote_signal` doesn't block execution waiting for a response, and it doesn't return an error if anything fails. Other than that, the following two are roughly equivalent.
+`send_remote_signal` is sugar for a [remote call](/build/calling-zome-functions/#call-a-zome-function-from-another-agent-in-the-network) to a zome function named  `recv_remote_signal`. This target function exists by convention and must be given an [`Unrestricted` capability grant](/build/capabilities/#unrestricted) for this to work. The only difference from a regular remote call is that `send_remote_signal` doesn't block execution waiting for a response, and it doesn't return an error if anything fails. Other than that, the following two are roughly equivalent.
 
 ```rust
 fn send_heartbeat_via_remote_signal(agent: AgentPubKey) -> ExternResult<()> {
@@ -153,9 +151,9 @@ fn send_heartbeat_via_remote_call(agent: AgentPubKey) -> ExternResult<()> {
 }
 ```
 
-Take care that `recv_remote_signal` does as little as possible, to avoid people abusing it. Permissions and privileges are another topic which we'll talk about soon.<!-- TODO: delete this sentence and link to capabilities page -->
+Take care that `recv_remote_signal` does as little as possible, to avoid people abusing it. If you want users to be able to restrict incoming signals, use [capability grants](/build/capabilities/) on this function.
 
-It also means that `send_remote_signal` always routes the call to a coordinator zome of the same name as the caller. Because [the remote agent might map that name to a different coordinator zome, or no zome at all](/build/calling-zome-functions/#remote-call-unknown-routing), this function might be handled in unexpected ways on the receiver's end.
+`send_remote_signal` always routes the call to a coordinator zome of the same name as the caller. Because [the remote agent might map that name to a different coordinator zome, or no zome at all](/build/calling-zome-functions/#remote-call-unknown-routing), this function might be handled in unexpected ways on the receiver's end.
 
 Finally, remote signals open up connections to peers, so they should be used sparingly. The above heartbeat example would be very costly if everyone in a large network were sending heartbeats to each other.
 !!!
@@ -168,5 +166,6 @@ Finally, remote signals open up connections to peers, so they should be used spa
 
 ## Further reading
 
+* [Core Concepts: Calls and Capabilities](/concepts/8_calls_capabilities/)
 * [Core Concepts: Signals](/concepts/9_signals/)
-<!-- TODO: reference capabilities page -->
+* [Build Guide: Capabilities](/build/capabilities)

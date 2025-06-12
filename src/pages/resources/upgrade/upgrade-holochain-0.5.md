@@ -218,6 +218,12 @@ This won't catch all errors; you may discover some at runtime. Look for usage of
 * [`AppWebsocket.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.disableclonecell.md) and [`AppWebsocket.enableCloneCell`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.enableclonecell.md), which now take a new [`CloneCellId`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.clonecellid.md) type for their `clone_id` argument
 * [`Signal`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.signal.md)
 
+### `HoloHash` constructors renamed
+
+`HoloHash<T>::from_raw_39` is now called [`HoloHash<T>::try_from_raw_39`](https://docs.rs/holo_hash/0.5.2/holo_hash/struct.HoloHash.html#method.try_from_raw_39), and `HoloHash<T>::from_raw_39_panicky` is now [`HoloHash<T>::from_raw_39`](https://docs.rs/holo_hash/0.5.2/holo_hash/struct.HoloHash.html#method.from_raw_39). Remember to check your code for usage of all the aliases of `HoloHash` -- `ActionHash`, `AgentPubKey`, `AnyDhtHash`, `AnyLinkableHash`, `DnaHash`, `EntryHash`, and `ExternalHash`.
+
+Because the new name of the function that panics is the same as the old name of the function that returns a `Result`, you may need to do a search-and-replace in two stages.
+
 ### `AppWebsocket::callZome` can no longer accept a `null` cap secret
 
 The `cap_secret` field in the `request` argument of [`AppWebsocket::callZome`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.callzome.md) can no longer be `null` --- instead it must either be omitted (you don't need it at all if your UI is hosted by an [officially supported Holochain runtime](/get-started/4-packaging-and-distribution/)) or explicitly given.

@@ -44,7 +44,7 @@ use hdk::prelude::*;
 
 // The action we're about to construct doesn't necessarily exist...
 let imaginary_action = Action::Dna(Dna {
-    author: agent_info()?.agent_latest_pubkey,
+    author: agent_info()?.agent_initial_pubkey,
     timestamp: Timestamp(1743025465_000_000),
     hash: dna_info()?.hash,
 });
@@ -92,7 +92,7 @@ pub fn create_joining_certificate(invitee: AgentPubKey) -> ExternResult<String> 
     // The `DnaProperties` struct comes from the example we linked to above.
     let dna_props = DnaProperties::try_from_dna_properties()?;
     let administrator: AgentPubKey = dna_props.authorized_joining_certificate_issuer.into();
-    let my_pub_key = agent_info()?.agent_latest_pubkey;
+    let my_pub_key = agent_info()?.agent_initial_pubkey;
     if administrator != my_pub_key {
         // Because these entries aren't recorded to a source chain, we can't
         // check for validity in the `validate` callback. Instead, we do some
