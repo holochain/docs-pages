@@ -373,11 +373,7 @@ The `NetworkInfo` endpoint of the app API has been removed, which means the `App
 
 With the change to Kitsune2, the public bootstrap and signal server API has changed. Holo is not hosting public servers like they are for Holochain 0.4. For testing, we're offering public servers you can use. **We request and recommend that you maintain your own bootstrap and signal servers for production hApps**<!-- TODO: document this https://github.com/holochain/docs-pages/issues/573 -->, as the test servers are rate-limited and have no uptime guarantees. You can find the server binary on [crates.io](https://crates.io/crates/kitsune2_bootstrap_srv) or adapt [this example `Dockerfile`](https://github.com/holochain/kitsune2/blob/main/docker/kitsune2_bootstrap_srv/Dockerfile) (see [this example](https://github.com/holochain/network-services/blob/main/dev-test/docker-compose.yaml#L5-L12) for TLS configuration).
 
-If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangaroo-electron), you'll need to add your own servers to your `kangaroo.config.ts` file.
-
-!!! info Upgrading your Kangaroo-based project
-Upgrading your project is out of scope for this howto; it involves comparing your project against the code in the `kangaroo-electron` template repo for Holochain 0.5 (currently at [this commit](https://github.com/holochain/kangaroo-electron/tree/89ff7ba9721785c0e4f196707016418aaccadad1)<!-- TODO(upgrade): change this commit as needed -->) and making changes as needed. Once you've done this, you can modify your file as shown below.
-!!!
+If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangaroo-electron), you'll need to add these servers to your `kangaroo.config.ts` file. The following example shows URLs for the dev test servers and public STUN/ICE servers from Google and Cloudflare, along with new hashes and version numbers for the bundled binaries.
 
 ```diff:typescript
  import { defineConfig } from './src/main/defineConfig';
@@ -390,43 +386,58 @@ Upgrading your project is out of scope for this howto; it involves comparing you
    windowsEVCodeSigning: false,
    fallbackToIndexHtml: true,
    autoUpdates: true,
-   systray: true, //cspell:disable-line
+   systray: true,
    passwordMode: 'password-optional',
--  bootstrapUrl: 'https://dev-test-bootstrap2.holochain.org/',
--  signalUrl: 'wss://dev-test-bootstrap2.holochain.org/',
-+  bootstrapUrl: 'https://<my-bootstrap-server-url>/',
-+  signalUrl: 'wss://<my-bootstrap-server-url>/',
-+  // You may also want to use a different WebRTC ICE service rather than
-+  // Google or Cloudflare; if so; change the following line too.
-   iceUrls: ['stun:stun.l.google.com:19302', 'stun:stun.cloudflare.com:3478'],
-   bins: {
++  // For production hApps, swap the following URLs for your own self-hosted
++  // URLs.
++  bootstrapUrl: 'https://dev-test-bootstrap2.holochain.org/',
++  signalUrl: 'wss://dev-test-bootstrap2.holochain.org/',
++  // You may want to replace these free public STUN server URLs with ones
++  // from your preferred WebRTC provider.
++  iceUrls: ['stun:stun.l.google.com:19302','stun:stun.cloudflare.com:3478'],
+     bins: {
      holochain: {
-       version: '0.5.2',
+-      version: '0.4.1',
++      version: '0.5.2',
        sha256: {
          'x86_64-unknown-linux-gnu':
-           'bbbdb2e52693522eaaaddafd392c9861db19210e02a48e1ff80d1077a296a08e',
-         'x86_64-pc-windows-msvc.exe': //cspell:disable-line
-           'e111298fc3af3cc12bfc7adb742d5f29ced7d19f05267969a23d0b8e0d286d5c',
-         'x86_64-apple-darwin': '8bde56c485154b9ac31aa8a5c7232479503b6015fccf66035228b52680e2daf5',
-         'aarch64-apple-darwin': '3b6da6df698d86e5d66691b0c91c5ff0e308b07a400b7ea733f019ea62021cdd', //cspell:disable-line
+-          'ee713408a31d2e17826b18e2eaea0b3e200b42aa0cc8e3562c899b0b5ebcaa0c',
++          'bbbdb2e52693522eaaaddafd392c9861db19210e02a48e1ff80d1077a296a08e',
+         'x86_64-pc-windows-msvc.exe':
+-          '9aa248f6e500915085ebf3fd093541cbbdad59a994e7f904260cb4ad788bd1e3',
++          'e111298fc3af3cc12bfc7adb742d5f29ced7d19f05267969a23d0b8e0d286d5c',
+-        'x86_64-apple-darwin': '0ce19dfde7db6521cd96e2fef924c62d319d204e7f79bc0379674a7a6122c74f',
++        'x86_64-apple-darwin': '8bde56c485154b9ac31aa8a5c7232479503b6015fccf66035228b52680e2daf5',
+-        'aarch64-apple-darwin': '74dc8d8529a50d24e8338ddd2e9913d6fb34414f6588d11243e6ccb29feda029',
++        'aarch64-apple-darwin': '3b6da6df698d86e5d66691b0c91c5ff0e308b07a400b7ea733f019ea62021cdd',
        },
      },
      lair: {
-       version: '0.6.1',
+      sha256: {
+        'x86_64-unknown-linux-gnu':
+        'x86_64-pc-windows-msvc.exe':
+-      version: '0.5.3',
++      version: '0.6.1',
        sha256: {
          'x86_64-unknown-linux-gnu':
-           'c5d5d912af41f17def1c9d1027abd8eb6ce6f088871f4347ed38e124a93023cc',
-         'x86_64-pc-windows-msvc.exe': //cspell:disable-line
-           'e11a0658c2d5a3c00409ea447241b3f1f3a215d70fa396b8a3ed633226f0a11f',
-         'x86_64-apple-darwin': 'fed0e9c3fc32589031229fb177ef3b3324e0096e742802898976812174bdd12d',
-         'aarch64-apple-darwin': 'dd36c33e495b8046501f0824fbc08f069973cab5ee210275ab9de3af932d79e8', //cspell:disable-line
+-          '96a28b9b37c73ef46d8b5c56b9d799d558fd2fe77b41c577e2bcb37685a46396',
++          'c5d5d912af41f17def1c9d1027abd8eb6ce6f088871f4347ed38e124a93023cc',
+         'x86_64-pc-windows-msvc.exe':
+-          '68b6453a19921072aac04dae52a4e94e725e7482005d2f54f907aec680e078de',
++          'e11a0658c2d5a3c00409ea447241b3f1f3a215d70fa396b8a3ed633226f0a11f',
+-        'x86_64-apple-darwin': 'a53bfb8e501431870b99243cbac24f6103d67f8be094930f174829bb249f34c4',
++        'x86_64-apple-darwin': 'fed0e9c3fc32589031229fb177ef3b3324e0096e742802898976812174bdd12d',
+-        'aarch64-apple-darwin': '6b15d977408847ac977c2e060c7aab84a69e6e90c79390098dd40a6b75256e50',
++        'aarch64-apple-darwin': 'dd36c33e495b8046501f0824fbc08f069973cab5ee210275ab9de3af932d79e8',
        },
      },
    },
  });
 ```
 
-(Note: you'll also want to update your holochain and lair binary versions and hashes to the above.)
+!!! info Upgrading your Kangaroo-based project
+To get your Kangaroo-based hApp working with Holochain 0.5, you'll also need to compare your project's code against the code in the `kangaroo-electron` template repo for Holochain 0.5 (currently at [this commit](https://github.com/holochain/kangaroo-electron/tree/89ff7ba9721785c0e4f196707016418aaccadad1)<!-- TODO(upgrade): change this commit as needed -->), make changes as needed, and follow the guidance above for updating UI and zome code.
+!!!
 
 ## Subtle changes
 
