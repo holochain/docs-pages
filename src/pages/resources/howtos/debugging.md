@@ -79,7 +79,7 @@ Another useful approach is to watch the logs while performing actions in your ap
 
 ## Inspecting conductor state with the `hc sandbox` CLI
 
-1. First you'll need to make sure to have the `hc` CLI installed at a version that is compatible with the Holochain version that you want to inspect. An easy way to do that is to head into a [holonix](https://github.com/holochain/holonix#holonix) shell if you have an existing hApp project using nix. Otherwise you can install it via cargo:
+1. First you'll need to make sure to have the `hc` CLI installed at a version that is compatible with the Holochain version that you want to inspect. An easy way to do that is to head into a [holonix](https://github.com/holochain/holonix#holonix) shell if you have an existing hApp project using Nix. Otherwise you can install it via cargo:
 
     ```bash
     cargo install holochain_cli --version <holochain version>
