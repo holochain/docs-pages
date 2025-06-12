@@ -390,7 +390,7 @@ Upgrading your project is out of scope for this howto; it involves comparing you
 -  signalUrl: 'wss://dev-test-bootstrap2.holochain.org/',
 +  bootstrapUrl: 'https://<my-bootstrap-server-url>/',
 +  signalUrl: 'wss://<my-bootstrap-server-url>/',
-+  // You may also want to use your own WebRTC ICE services rather than
++  // You may also want to use a different WebRTC ICE service rather than
 +  // Google or Cloudflare; if so; change the following line too.
    iceUrls: ['stun:stun.l.google.com:19302', 'stun:stun.cloudflare.com:3478'],
    bins: {
