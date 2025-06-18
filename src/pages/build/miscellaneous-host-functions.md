@@ -74,6 +74,12 @@ When the `foo` zome function is called, you'll see:
 ```
 :::
 
+For more information on debugging a hApp, read the [debugging howto](/resources/howtos/debugging/).
+
+## Further reading
+
+* [Resources: Debugging a Running Holochain Conductor](/resources/howtos/debugging/)
+
 ## Reference
 
 * [`hdk::time::sys_time`](https://docs.rs/hdk/latest/hdk/time/fn.sys_time.html)
