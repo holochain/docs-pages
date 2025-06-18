@@ -1,5 +1,6 @@
 # Words that are neither common nor directly related to Holochain but appear in
 # Dev Portal content
+aarch
 adwaita
 agent-centricity
 Anwaar
@@ -36,6 +37,7 @@ libgtk
 libnss
 libsodium
 libsodium's
+msvc
 Multihash
 multihash
 NETAUDIT
@@ -55,6 +57,7 @@ setuid
 struct
 structs
 subl
+systray
 Tauri
 Ulhaq
 Wahlstrom
