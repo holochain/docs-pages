@@ -66,40 +66,27 @@ To spin up a conductor and create a hApp instance for a single agent, call [`Sce
 * an [`AppWebsocket`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.md) object, which gives you full access to the conductor's app interface (see [Connecting a Front End](/build/connecting-a-front-end/), [Calling a zome function from a front end](/build/calling-zome-functions/#call-a-zome-function-from-a-front-end), [Listen for a signal](/build/signals/#listen-for-a-signal), and [Clone a DNA from a client](/build/cloning/#clone-a-dna-from-a-client)).
 
 ```typescript
-import { expect, test } from "vitest";
-import { runScenario, AppOptions } from "@holochain/tryorama";
+import { assert, expect, test } from "vitest";
+import { runScenario } from "@holochain/tryorama";
 import { AppBundleSource } from "@holochain/client";
 
-test("create two agents", async () => {
+test("create an agent", async () => {
     await runScenario(async scenario => {
-        const playerConfig = {
-            appBundleSource: {
-                type: "path",
-                value: `${process.cwd()}/../workdir/movies.happ`,
-            } as AppBundleSource,
-            options: {
-                // Specify DNA properties for the `movies` cell.
-                rolesSettings: {
-                    movies: {
-                        type: "provisioned",
-                        value: {
-                            modifiers: {
-                                properties: {
-                                    authorized_joining_certificate_issuer: "hCAkKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", // cspell:disable-line
-                                }
-                            }
-                        }
-                    }
-                }
-            } as AppOptions,
+        const appBundleSource: AppBundleSource = {
+            type: "path",
+            value: `${process.cwd()}/../workdir/movies.happ`,
         };
 
-        // Use the same setup for each of them, because we want them to be
-        // part of the same DNA network(s).
-        const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
+        const appOptions = {
+            // Specify a network seed for all cells in the hApp.
+            // You can also specify per-role network seeds and other
+            // DNA modifiers; see the next example.
+            networkSeed: "my_special_network_seed",
+        };
 
+        const alice = await scenario.addPlayerWithApp(appBundleSource, appOptions);
+        assert.ok("hApp successfully installed and instantiated in conductor");
         expect(alice?.conductor).toBeDefined();
-        expect(bob?.conductor).toBeDefined();
     });
 });
 ```
