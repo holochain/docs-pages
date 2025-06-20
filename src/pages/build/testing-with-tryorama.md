@@ -273,6 +273,75 @@ test("Bob can retrieve a director entry", async () => {
 });
 ```
 
+## Listen for a signal
+
+To subscribe to local signals emitted from a cell, you can bind a signal handler to one or more players via the player's `appWs` object.
+
+Because signals are events that arrive outside of the normal control flow of a test scenario, you'll need to wrap the signal handler in a promise and await it.
+
+This examples tests the [heartbeat example from the Signals page](/build/signals/#remote-signals) by getting Alice to send a remote signal to Bob, whose remote signal handler emits a local signal to the waiting test scenario. It binds the handler to an existing agent's signal event.
+
+```typescript
+import { expect, test } from "vitest";
+import { runScenario } from "@holochain/tryorama";
+import { AppBundleSource, AppSignal, Signal, SignalCb, SignalType } from "@holochain/client";
+
+test("Bob's UI can receive a heartbeat signal", async () => {
+    await runScenario(async scenario => {
+        const playerConfig = {
+            appBundleSource: {
+                type: "path",
+                value: `${process.cwd()}/../workdir/my_forum_app.happ`,
+            } as AppBundleSource,
+        };
+        const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
+        await scenario.shareAllAgents();
+
+        let bobSignalHandler: SignalCb | undefined;
+        // Wrap the signal handler in a promise that resolves when the signal
+        // is received and is the right type. We'll await it later so that the
+        // test can complete.
+        const bobReceivedHeartbeat = new Promise<AppSignal>((resolve, reject) => {
+            bobSignalHandler = (signal: Signal) => {
+              if (signal.type == SignalType.App) {
+                resolve(signal.value);
+              }
+            };
+        });
+        bob.appWs.on("signal", bobSignalHandler);
+
+        await alice.appWs.callZome({
+            role_name: "movies",
+            zome_name: "movies",
+            fn_name: "send_heartbeat",
+            // An agent's public key is available in their player object.
+            payload: [bob.agentPubKey],
+        });
+
+        const signal: any = await bobReceivedHeartbeat;
+        expect(signal.value.payload.type).toBe("heartbeat");
+        expect(signal.value.payload.value).toBe(alice.agentPubKey);
+    });
+});
+```
+
+To bind the same signal handler to multiple players at a time, add it to the player config's `options` object as a property called `signalHandler`:
+
+```typescript
+let signalHandler: SignalCb | undefined;
+const receivedHeartbeat = new Promise<Signal>((resolve, reject) => {
+    signalHandler = (signal: Signal) => { resolve(signal); }
+});
+const playerConfig = {
+    appBundleSource: {
+        type: "path",
+        value: `${process.cwd()}/../workdir/my_forum_app.happ`,
+    } as AppBundleSource,
+    options: { signalHandler } as AppOptions,
+};
+const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
+```
+
 ## Simulate disruptions
 
 To simulate an unexpected event such as a hardware or network failure, use a player's [`conductor.shutDown`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.shutdown.md) method. You can start the conductor up again with [`conductor.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startUp.md) method.
