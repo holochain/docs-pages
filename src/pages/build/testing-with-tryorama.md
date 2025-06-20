@@ -24,6 +24,9 @@ A Tryorama test is meant to be run in [Node.js](https://nodejs.org/). If you're 
 cd Holochain/movies
 ```
 ```bash
+nix develop
+```
+```bash
 npm install
 ```
 ```bash
