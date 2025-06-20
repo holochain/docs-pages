@@ -63,25 +63,40 @@ To spin up a conductor and create a hApp instance for a single agent, call [`Sce
 * an [`AppWebsocket`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.md) object, which gives you full access to the conductor's app interface (see [Connecting a Front End](/build/connecting-a-front-end/), [Calling a zome function from a front end](/build/calling-zome-functions/#call-a-zome-function-from-a-front-end), [Listen for a signal](/build/signals/#listen-for-a-signal), and [Clone a DNA from a client](/build/cloning/#clone-a-dna-from-a-client)).
 
 ```typescript
-import { assert, expect, test } from "vitest";
-import { runScenario } from "@holochain/tryorama";
+import { expect, test } from "vitest";
+import { runScenario, AppOptions } from "@holochain/tryorama";
+import { AppBundleSource } from "@holochain/client";
 
-test("create an agent", async () => {
+test("create two agents", async () => {
     await runScenario(async scenario => {
-        const appBundleSource = {
-            path: `${process.cwd()}/../workdir/movies.happ`,
+        const playerConfig = {
+            appBundleSource: {
+                type: "path",
+                value: `${process.cwd()}/../workdir/movies.happ`,
+            } as AppBundleSource,
+            options: {
+                // Specify DNA properties for the `movies` cell.
+                rolesSettings: {
+                    movies: {
+                        type: "provisioned",
+                        value: {
+                            modifiers: {
+                                properties: {
+                                    authorized_joining_certificate_issuer: "hCAkKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", // cspell:disable-line
+                                }
+                            }
+                        }
+                    }
+                }
+            } as AppOptions,
         };
 
-        const appOptions = {
-            // Specify a network seed for all cells in the hApp.
-            // You can also specify per-role network seeds and other
-            // DNA modifiers; see the next example.
-            networkSeed: "my_special_network_seed",
-        };
+        // Use the same setup for each of them, because we want them to be
+        // part of the same DNA network(s).
+        const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
 
-        const alice = await scenario.addPlayerWithApp(appBundleSource, appOptions);
-        assert.ok("hApp successfully installed and instantiated in conductor");
         expect(alice?.conductor).toBeDefined();
+        expect(bob?.conductor).toBeDefined();
     });
 });
 ```
@@ -91,25 +106,30 @@ To create conductors and hApp instances for multiple agents, call [`Scenario.pro
 ```typescript
 import { expect, test } from "vitest";
 import { runScenario } from "@holochain/tryorama";
+import { AppBundleSource, AppOptions } from "@holochain/client";
 
 test("create two agents", async () => {
     await runScenario(async scenario => {
         const playerConfig = {
             appBundleSource: {
-                path: `${process.cwd()}/../workdir/movies.happ`,
-            },
+                type: "path",
+                value: `${process.cwd()}/../workdir/movies.happ`,
+            } as AppBundleSource,
             options: {
                 // Specify DNA properties for the `movies` cell.
                 rolesSettings: {
                     movies: {
-                        modifiers: {
-                            properties: {
-                                authorized_joining_certificate_issuer: "hCAkKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", // cspell:disable-line
+                        type: "provisioned",
+                        value: {
+                            modifiers: {
+                                properties: {
+                                    authorized_joining_certificate_issuer: "hCAkKUej3Mcu+40AjNGcaID2sQA6uAUcc9hmJV9XIdwUJUE", // cspell:disable-line
+                                }
                             }
                         }
                     }
                 }
-            }
+            } as AppOptions,
         };
 
         // Use the same setup for each of them, because we want them to be
@@ -129,14 +149,16 @@ To get Alice and Bob's conductors talking to each other, call [`Scenario.prototy
 ```typescript
 import { assert, test } from "vitest";
 import { runScenario } from "@holochain/tryorama";
+import { AppBundleSource } from "@holochain/client";
 
 test("connect two agents together", async () => {
     await runScenario(async scenario => {
         const playerConfig = {
             appBundleSource: {
-                path: `${process.cwd()}/../workdir/movies.happ`,
-            }
-        }
+                type: "path",
+                value: `${process.cwd()}/../workdir/movies.happ`,
+            } as AppBundleSource,
+        };
 
         const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
 
@@ -154,15 +176,17 @@ To start accessing an app, use the player object's `appWs` property as if you we
 import crypto from "crypto";
 import { expect, test } from "vitest";
 import { Player, Scenario, runScenario } from "@holochain/tryorama";
+import { AppBundleSource } from "@holochain/client";
 
 // All these tests require an agent with an instance of the movies hApp.
 // Create a helper function to do the setup.
 const createPlayerWithMoviesApp = async (scenario: Scenario): Promise<Player> => {
-    const appBundleSource = {
-        path: `${process.cwd()}/../workdir/movies.happ`,
+    const appBundleSource: AppBundleSource = {
+        type: "path",
+        value: `${process.cwd()}/../workdir/movies.happ`,
     };
 
-    const alice = await scenario.addPlayerWithApp(appBundleSource, appOptions);
+    return await scenario.addPlayerWithApp(appBundleSource);
 };
 
 test("call a zome function", async () => {
@@ -186,7 +210,6 @@ test("clone a cell", async () => {
 
         let chatCellInfo = alice.appWs.createCloneCell({
             modifiers: { network_seed: crypto.randomBytes(32).toString("hex") },
-            name,
             role_name: "chat",
         });
 
@@ -200,17 +223,19 @@ test("clone a cell", async () => {
 When you're testing scenarios that involve multiple agents publishing data to the DHT, it's sometimes helpful to pause your test until all agents have seen the data. You can do this with the [`dhtSync`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.dhtsync.md) function, which returns a promise that waits until all players' local states are identical for a DNA.
 
 ```typescript
-import { expect, test } from "vitest";
-import { runScenario } from "@holochain/tryorama";
+import { assert, expect, test } from "vitest";
+import { dhtSync, runScenario } from "@holochain/tryorama";
+import { AppBundleSource, CellType } from "@holochain/client";
 import { decode } from "@msgpack/msgpack";
 
 test("Bob can retrieve a director entry", async () => {
     await runScenario(async scenario => {
         const playerConfig = {
             appBundleSource: {
-                path: `${process.cwd()}/../workdir/movies.happ`,
-            }
-        }
+                type: "path",
+                value: `${process.cwd()}/../workdir/movies.happ`,
+            } as AppBundleSource,
+        };
         const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
         await scenario.shareAllAgents();
 
@@ -224,7 +249,11 @@ test("Bob can retrieve a director entry", async () => {
 
         // Before we test that Bob can successfully retrieve the new entry,
         // we wait for him and Alice to sync their copies of the movies DHT.
-        const moviesDnaHash = await alice.appWs.cachedAppInfo?.cell_info["movies"][0].value.cell_id[0];
+        const moviesCellInfo = await alice.appWs.cachedAppInfo?.cell_info["movies"][0];
+        if (moviesCellInfo.type != CellType.Provisioned && moviesCellInfo.type != CellType.Cloned) {
+            assert.fail("Can't await DHT sync on an inactive cell.");
+        }
+        const moviesDnaHash = moviesCellInfo.value.cell_id[0];
         await dhtSync(
             [alice, bob],
             moviesDnaHash,
@@ -232,7 +261,7 @@ test("Bob can retrieve a director entry", async () => {
         );
 
         // Now finish the test.
-        let director = await bob.appWs.callZome({
+        let director: any = await bob.appWs.callZome({
             role_name: "movies",
             zome_name: "movies",
             fn_name: "get_latest_director",
