@@ -37,7 +37,7 @@ First it'll compile and bundle your hApp, then execute the tests in the `tests/`
 
 ## Writing tests
 
-You write Tryorama tests as if your code were one or more JavaScript clients accessing a conductor. It's best to think about this as [scenario testing](https://en.wikipedia.org/wiki/Scenario_testing), in which you think of a situation in which the functionality of your hApp might be used and write a set of steps that execute that scenario. Tryorama is able to generate multiple agents, each with their own instances of a hApp, so you can create scenarios involving multiple peers in multiple DNA networks.
+You write Tryorama tests as if your code were one or more [JavaScript clients](/build/connecting-a-front-end/) accessing a conductor. It's best to think about this as [scenario testing](https://en.wikipedia.org/wiki/Scenario_testing), in which you think of a situation in which the functionality of your hApp might be used and write a set of steps that execute that scenario. Tryorama is able to generate multiple agents, each with their own instances of a hApp, so you can create scenarios involving multiple peers in multiple DNA networks.
 
 The interface is the same as if you were [writing a web-based UI](/build/connecting-a-front-end/), but in addition to the conductor's application API, your code can also access its **admin API**. We'll give examples of how to do this below.
 
@@ -269,7 +269,7 @@ To subscribe to local signals emitted from a cell, you can bind a signal handler
 
 Because signals are events that arrive outside of the normal control flow of a test scenario, you'll need to wrap the signal handler in a promise and await it.
 
-This examples tests the [heartbeat example from the Signals page](/build/signals/#remote-signals) by getting Alice to send a remote signal to Bob, whose remote signal handler emits a local signal to the waiting test scenario. It binds the handler to an existing agent's signal event.
+This examples tests the [heartbeat example from the Signals page](/build/signals/#remote-signals) by getting Alice to send a remote signal to Bob, whose remote signal handler emits a local signal to the waiting promise.
 
 ```typescript
 import { expect, test } from "vitest";
@@ -315,7 +315,7 @@ test("Bob's UI can receive a heartbeat signal", async () => {
 });
 ```
 
-To bind the same signal handler to multiple players at a time, add it to the player config's `options` object as a property called `signalHandler`:
+To bind one signal handler to multiple players at a time, add it to the player config's `options` object as a property called `signalHandler`:
 
 ```typescript
 let signalHandler: SignalCb | undefined;
