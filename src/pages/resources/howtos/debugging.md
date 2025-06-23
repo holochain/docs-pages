@@ -211,7 +211,7 @@ You can find these values by looking at the previous output or the output from t
 
 ### Dump network stats
 
-!!! Use `jq` for easy JSON reading
+!!! info Use `jq` for easy JSON reading
 The following API endpoints output JSON, so the examples use a tool called [`jq`](https://jqlang.org/) to pretty-print the output. You can install it via your OS' package manager or add it as a package to your `flake.nix` file:
 
 ```diff
