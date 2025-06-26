@@ -120,8 +120,18 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  [workspace.dependencies]
 -hdi = "=0.5.2"
 -hdk = "=0.4.2"
-+hdi = "=0.6.2" # Pick a later patch version of these libraries if you prefer.
-+hdk = "=0.5.2"
++hdi = "=0.6.3" # Pick a later patch version of these libraries if you prefer.
++hdk = "=0.5.3"
++holochain_serialized_bytes = "*"
+```
+
+And update your zomes' `Cargo.toml` files as well:
+
+```diff:toml
+ [dependencies]
+ hdk = { workspace = true }
+ serde = { workspace = true }
++holochain_serialized_bytes = { workspace = true }
 ```
 
 The latest version numbers of these libraries can be found on crates.io: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
