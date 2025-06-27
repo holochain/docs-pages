@@ -38,6 +38,7 @@ libnss
 libsodium
 libsodium's
 msvc
+msgpack
 Multihash
 multihash
 NETAUDIT

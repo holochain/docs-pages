@@ -58,6 +58,7 @@
           { title: "must_get_* Host Functions", url: "/build/must-get-host-functions/" },
           { title: "DHT Operations", url: "/build/dht-operations/" },
         ]},
+        { title: "Testing", url: "/build/testing-with-tryorama/", children: []},
       ]
     },
     { title: "Resources", url: "/resources/", children: [
