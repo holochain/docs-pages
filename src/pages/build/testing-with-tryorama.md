@@ -10,7 +10,7 @@ title: "Testing with Tryorama"
 
 If you've used the scaffolding tool to create a hApp, a Tryorama test package has already been generated for you. You can find it in your project's `tests/` folder.
 
-Alternatively, you can add Tryorama to a JavaScript package by running this command in the package's root:
+Alternatively, you can add Tryorama to a JavaScript package using:
 
 ```bash
 npm install --save-dev @holochain/tryorama
@@ -60,7 +60,7 @@ test("run a scenario", async () => {
 
 ### Create agents and instantiate hApps for them
 
-To spin up a conductor and create a hApp instance for a single agent, call [`Scenario.prototype.addPlayerWithApp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md), passing it an [`AppBundleSource`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appbundlesource.md) which tells the conductor where to find the hApp, and an optional [`AppOptions`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.appoptions.md) object which lets you configure install-time options. The function returns a promise containing a [`Player`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.player.md) object, which is a container for:
+To spin up a conductor and create a hApp instance for a single agent, call [`scenario.addPlayerWithApp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md), passing it an [`AppBundleSource`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appbundlesource.md) which tells the conductor where to find the hApp, and an optional [`AppOptions`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.appoptions.md) object which lets you configure install-time options. The function returns a promise containing a [`Player`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.player.md) object, which is a container for:
 
 * a [`Conductor`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.md) object, which lets you manage the conductor hosting the agent, and
 * an [`AppWebsocket`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.md) object, which gives you full access to the conductor's app interface (see [Connecting a Front End](/build/connecting-a-front-end/), [Calling a zome function from a front end](/build/calling-zome-functions/#call-a-zome-function-from-a-front-end), [Listen for a signal](/build/signals/#listen-for-a-signal), and [Clone a DNA from a client](/build/cloning/#clone-a-dna-from-a-client)).
@@ -91,7 +91,7 @@ test("create an agent", async () => {
 });
 ```
 
-To create conductors and hApp instances for multiple agents, call [`Scenario.prototype.addPlayersWithApps`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerswithapps.md), passing it an array of `AppBundleSource`s. The return value is a promise containing an array of `Player`s, each corresponding to an app bundle source from the input.
+To create conductors and hApp instances for multiple agents, call [`scenario.addPlayersWithApps`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerswithapps.md), passing it an array of `AppBundleSource`s. The return value is a promise containing an array of `Player`s, each corresponding to an app bundle source from the input.
 
 ```typescript
 import { expect, test } from "vitest";
@@ -134,7 +134,7 @@ test("create two agents", async () => {
 
 ## Connect agents to each other
 
-To get Alice and Bob's conductors talking to each other, call [`Scenario.prototype.shareAllAgents`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.shareallagents.md).
+To get Alice and Bob's conductors talking to each other, call [`scenario.shareAllAgents`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.shareallagents.md).
 
 ```typescript
 import { assert, test } from "vitest";
@@ -210,7 +210,7 @@ test("clone a cell", async () => {
 
 ## Wait for DHT syncing
 
-When you're testing scenarios that involve multiple agents publishing data to the DHT, it's sometimes helpful to pause your test until all agents have seen the data. You can do this with the [`dhtSync`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.dhtsync.md) function, which returns a promise that waits until all players' local states are identical for a DNA.
+When you're testing scenarios that involve multiple agents publishing data to the DHT, it's often helpful to pause your test until all agents have seen the data. You can do this with the [`dhtSync`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.dhtsync.md) function, which returns a promise that waits until all players' local states are identical for a DNA.
 
 ```typescript
 import { assert, expect, test } from "vitest";
@@ -293,7 +293,7 @@ test("Bob's UI can receive a heartbeat signal", async () => {
         // test can complete.
         const bobReceivedHeartbeat = new Promise<AppSignal>((resolve, reject) => {
             bobSignalHandler = (signal: Signal) => {
-              if (signal.type == SignalType.App) {
+              if (signal.type === SignalType.App) {
                 resolve(signal.value);
               }
             };
@@ -334,7 +334,7 @@ const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerCo
 
 ## Simulate disruptions
 
-To simulate an unexpected event such as a hardware or network failure, use a player's [`conductor.shutDown`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.shutdown.md) method. You can start the conductor up again with [`conductor.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startUp.md) method.
+To simulate an unexpected event such as a hardware or network failure, use a player's [`conductor.shutDown`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.shutdown.md) method. You can start the conductor up again with the [`conductor.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startUp.md) method.
 
 ```typescript
 
