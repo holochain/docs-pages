@@ -60,31 +60,31 @@ test("run a scenario", async () => {
 
 ### Create agents and instantiate hApps for them
 
-To spin up a conductor and create a hApp instance for a single agent, call [`scenario.addPlayerWithApp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md), passing it an [`AppBundleSource`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appbundlesource.md) which tells the conductor where to find the hApp, and an optional [`AppOptions`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.appoptions.md) object which lets you configure install-time options. The function returns a promise containing a [`Player`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.player.md) object, which is a container for:
+To spin up a conductor and create a hApp instance for a single agent, call [`scenario.addPlayerWithApp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md), passing it an [`AppWithOptions`](https://github.com/holochain/tryorama/blob/main-0.5/docs/tryorama.appwithoptions.md) object which points to the app and configures install-time options. The function returns a promise containing a [`Player`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.player.md) object, which is a container for:
 
 * a [`Conductor`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.md) object, which lets you manage the conductor hosting the agent, and
 * an [`AppWebsocket`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.md) object, which gives you full access to the conductor's app interface (see [Connecting a Front End](/build/connecting-a-front-end/), [Calling a zome function from a front end](/build/calling-zome-functions/#call-a-zome-function-from-a-front-end), [Listen for a signal](/build/signals/#listen-for-a-signal), and [Clone a DNA from a client](/build/cloning/#clone-a-dna-from-a-client)).
 
 ```typescript
 import { assert, expect, test } from "vitest";
-import { runScenario } from "@holochain/tryorama";
-import { AppBundleSource } from "@holochain/client";
+import { runScenario, AppWithOptions } from "@holochain/tryorama";
 
 test("create an agent", async () => {
     await runScenario(async scenario => {
-        const appBundleSource: AppBundleSource = {
-            type: "path",
-            value: `${process.cwd()}/../workdir/movies.happ`,
+        const playerConfig: AppWithOptions = {
+            appBundleSource: {
+                type: "path",
+                value: `${process.cwd()}/../workdir/movies.happ`,
+            },
+            options: {
+              // Specify a network seed for all cells in the hApp.
+              // You can also specify per-role network seeds and other
+              // DNA modifiers; see the next example.
+              networkSeed: "my_special_network_seed",
+            },
         };
 
-        const appOptions = {
-            // Specify a network seed for all cells in the hApp.
-            // You can also specify per-role network seeds and other
-            // DNA modifiers; see the next example.
-            networkSeed: "my_special_network_seed",
-        };
-
-        const alice = await scenario.addPlayerWithApp(appBundleSource, appOptions);
+        const alice = await scenario.addPlayerWithApp(playerConfig);
         assert.ok("hApp successfully installed and instantiated in conductor");
         expect(alice?.conductor).toBeDefined();
     });
@@ -95,16 +95,15 @@ To create conductors and hApp instances for multiple agents, call [`scenario.add
 
 ```typescript
 import { expect, test } from "vitest";
-import { runScenario } from "@holochain/tryorama";
-import { AppBundleSource, AppOptions } from "@holochain/client";
+import { runScenario, AppWithOptions } from "@holochain/tryorama";
 
 test("create two agents", async () => {
     await runScenario(async scenario => {
-        const playerConfig = {
+        const playerConfig: AppWithOptions = {
             appBundleSource: {
                 type: "path",
                 value: `${process.cwd()}/../workdir/movies.happ`,
-            } as AppBundleSource,
+            },
             options: {
                 // Specify DNA properties for the `movies` cell.
                 rolesSettings: {
@@ -119,7 +118,7 @@ test("create two agents", async () => {
                         }
                     }
                 }
-            } as AppOptions,
+            },
         };
 
         // Use the same setup for each of them, because we want them to be
@@ -138,16 +137,15 @@ To get Alice and Bob's conductors talking to each other, call [`scenario.shareAl
 
 ```typescript
 import { assert, test } from "vitest";
-import { runScenario } from "@holochain/tryorama";
-import { AppBundleSource } from "@holochain/client";
+import { runScenario, AppWithOptions } from "@holochain/tryorama";
 
 test("connect two agents together", async () => {
     await runScenario(async scenario => {
-        const playerConfig = {
+        const playerConfig: AppWithOptions = {
             appBundleSource: {
                 type: "path",
                 value: `${process.cwd()}/../workdir/movies.happ`,
-            } as AppBundleSource,
+            },
         };
 
         const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
@@ -165,18 +163,19 @@ To start accessing an app, use the player object's `appWs` property as if you we
 ```typescript
 import crypto from "crypto";
 import { expect, test } from "vitest";
-import { Player, Scenario, runScenario } from "@holochain/tryorama";
-import { AppBundleSource } from "@holochain/client";
+import { AppWithOptions, PlayerApp, Scenario, runScenario } from "@holochain/tryorama";
 
 // All these tests require an agent with an instance of the movies hApp.
 // Create a helper function to do the setup.
-const createPlayerWithMoviesApp = async (scenario: Scenario): Promise<Player> => {
-    const appBundleSource: AppBundleSource = {
-        type: "path",
-        value: `${process.cwd()}/../workdir/movies.happ`,
+const createPlayerWithMoviesApp = async (scenario: Scenario): Promise<PlayerApp> => {
+    const playerConfig: AppWithOptions = {
+        appBundleSource: {
+            type: "path",
+            value: `${process.cwd()}/../workdir/movies.happ`,
+        },
     };
 
-    return await scenario.addPlayerWithApp(appBundleSource);
+    return await scenario.addPlayerWithApp(playerConfig);
 };
 
 test("call a zome function", async () => {
@@ -214,17 +213,17 @@ When you're testing scenarios that involve multiple agents publishing data to th
 
 ```typescript
 import { assert, expect, test } from "vitest";
-import { dhtSync, runScenario } from "@holochain/tryorama";
-import { AppBundleSource, CellType } from "@holochain/client";
+import { AppWithOptions, dhtSync, runScenario } from "@holochain/tryorama";
+import { CellType } from "@holochain/client";
 import { decode } from "@msgpack/msgpack";
 
 test("Bob can retrieve a director entry", async () => {
     await runScenario(async scenario => {
-        const playerConfig = {
+        const playerConfig: AppWithOptions = {
             appBundleSource: {
                 type: "path",
                 value: `${process.cwd()}/../workdir/movies.happ`,
-            } as AppBundleSource,
+            },
         };
         const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
         await scenario.shareAllAgents();
@@ -273,16 +272,16 @@ This examples tests the [heartbeat example from the Signals page](/build/signals
 
 ```typescript
 import { expect, test } from "vitest";
-import { runScenario } from "@holochain/tryorama";
-import { AppBundleSource, AppSignal, Signal, SignalCb, SignalType } from "@holochain/client";
+import { AppWithOptions, runScenario } from "@holochain/tryorama";
+import { AppSignal, Signal, SignalCb, SignalType } from "@holochain/client";
 
 test("Bob's UI can receive a heartbeat signal", async () => {
     await runScenario(async scenario => {
-        const playerConfig = {
+        const playerConfig: AppWithOptions = {
             appBundleSource: {
                 type: "path",
                 value: `${process.cwd()}/../workdir/my_forum_app.happ`,
-            } as AppBundleSource,
+            },
         };
         const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
         await scenario.shareAllAgents();
@@ -322,12 +321,12 @@ let signalHandler: SignalCb | undefined;
 const receivedHeartbeat = new Promise<Signal>((resolve, reject) => {
     signalHandler = (signal: Signal) => { resolve(signal); }
 });
-const playerConfig = {
+const playerConfig: AppWithOptions = {
     appBundleSource: {
         type: "path",
         value: `${process.cwd()}/../workdir/my_forum_app.happ`,
-    } as AppBundleSource,
-    options: { signalHandler } as AppOptions,
+    },
+    options: { signalHandler },
 };
 const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
 ```
@@ -337,14 +336,19 @@ const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerCo
 To simulate an unexpected event such as a hardware or network failure, use a player's [`conductor.shutDown`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.shutdown.md) method. You can start the conductor up again with the [`conductor.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startUp.md) method.
 
 ```typescript
+import { assert, expect, test } from "vitest";
+import { decode } from "@msgpack/msgpack";
+import { AppWithOptions, dhtSync, runScenario } from "@holochain/tryorama";
+import { CellType } from "@holochain/client";
 
 test("Bob can receive a Director entry after coming back online", async () => {
     await runScenario(async scenario => {
-        const playerConfig = {
+        const playerConfig: AppWithOptions = {
             appBundleSource: {
-                path: `${process.cwd()}/../workdir/movies.happ`,
-            }
-        }
+                type: "path",
+                value: `${process.cwd()}/../workdir/movies.happ`,
+            },
+        };
         const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
         await scenario.shareAllAgents();
 
@@ -364,10 +368,14 @@ test("Bob can receive a Director entry after coming back online", async () => {
         assert.ok("Bob is online again");
 
         // Now wait for Alice and Bob to sync up.
-        const moviesDnaHash = await alice.appWs.cachedAppInfo?.cell_info["movies"][0].value.cell_id[0];
+        const moviesCell = await alice.appWs.cachedAppInfo?.cell_info["movies"][0];
+        if (moviesCell.type == CellType.Stem) {
+          return;
+        }
+        const moviesDnaHash = moviesCell.value.cell_id[0];
         await dhtSync([alice, bob], moviesDnaHash);
         // Bob should now be able to get Alice's data.
-        let director = await bob.appWs.callZome({
+        let director: any = await bob.appWs.callZome({
             role_name: "movies",
             zome_name: "movies",
             fn_name: "get_latest_director",
