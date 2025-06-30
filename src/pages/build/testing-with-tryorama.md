@@ -266,7 +266,11 @@ test("Bob's UI can receive a heartbeat signal", async () => {
         const bobReceivedHeartbeat = new Promise<AppSignal>((resolve, reject) => {
             bobSignalHandler = (signal: Signal) => {
               if (signal.type === SignalType.App) {
-                resolve(signal.value);
+                // Check that the signal is a heartbeat signal.
+                const payload: any = signal.value.payload;
+                if (payload.type === "heartbeat") {
+                    resolve(payload.value);
+                }
               }
             };
         });
@@ -280,9 +284,8 @@ test("Bob's UI can receive a heartbeat signal", async () => {
             payload: [bob.agentPubKey],
         });
 
-        const signal: any = await bobReceivedHeartbeat;
-        expect(signal.value.payload.type).toBe("heartbeat");
-        expect(signal.value.payload.value).toBe(alice.agentPubKey);
+        const heartbeat = await bobReceivedHeartbeat;
+        expect(heartbeat).toBe(alice.agentPubKey);
     });
 });
 ```
