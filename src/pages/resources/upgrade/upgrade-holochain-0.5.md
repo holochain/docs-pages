@@ -167,8 +167,8 @@ Edit your project's `tests/package.json` file:
      // some dependencies
 -    "@holochain/client": "^0.18.1",
 -    "@holochain/tryorama": "^0.17.1",
-+    "@holochain/client": "^0.19.0",
-+    "@holochain/tryorama": "^0.18.1",
++    "@holochain/client": "^0.19.1",
++    "@holochain/tryorama": "^0.18.2",
      // more dependencies
    },
 ```
@@ -180,7 +180,7 @@ You'll update the UI package dependencies similarly to the test package. Edit `u
 ```diff:json
    "dependencies": {
 -    "@holochain/client": "^0.18.1",
-+    "@holochain/client": "^0.19.0",
++    "@holochain/client": "^0.19.1",
      // more dependencies
    },
 ```
@@ -355,7 +355,7 @@ The `Timestamp` type used all over the HDK and in scaffolded entry types has bee
  # ...
  [dependencies]
 -kitsune_p2p_timestamp = "0.4.2"
-+holochain_timestamp = "0.5.2"
++holochain_timestamp = "0.5.3"
 ```
 
 ```diff:rust
@@ -408,18 +408,18 @@ If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangar
      bins: {
      holochain: {
 -      version: '0.4.1',
-+      version: '0.5.2',
++      version: '0.5.3',
        sha256: {
          'x86_64-unknown-linux-gnu':
 -          'ee713408a31d2e17826b18e2eaea0b3e200b42aa0cc8e3562c899b0b5ebcaa0c',
-+          'bbbdb2e52693522eaaaddafd392c9861db19210e02a48e1ff80d1077a296a08e',
++          '1165646324ad6ebd60fe8063a91ec4981dd1d7da64375603560fcc6b7ef511f7',
          'x86_64-pc-windows-msvc.exe':
 -          '9aa248f6e500915085ebf3fd093541cbbdad59a994e7f904260cb4ad788bd1e3',
-+          'e111298fc3af3cc12bfc7adb742d5f29ced7d19f05267969a23d0b8e0d286d5c',
++          '143791e1c59dd718c5b60face20792a85b752ac3bba0e58b57469690c4be6a19',
 -        'x86_64-apple-darwin': '0ce19dfde7db6521cd96e2fef924c62d319d204e7f79bc0379674a7a6122c74f',
-+        'x86_64-apple-darwin': '8bde56c485154b9ac31aa8a5c7232479503b6015fccf66035228b52680e2daf5',
++        'x86_64-apple-darwin': '540ef02bcfce6c91379e07df03d51afedc73a1f13df74e0cb9da6be58e147878',
 -        'aarch64-apple-darwin': '74dc8d8529a50d24e8338ddd2e9913d6fb34414f6588d11243e6ccb29feda029',
-+        'aarch64-apple-darwin': '3b6da6df698d86e5d66691b0c91c5ff0e308b07a400b7ea733f019ea62021cdd',
++        'aarch64-apple-darwin': 'a42edb4e8580456c95f8c91ab0699d2b5fd1f73a5df0bdb9e4f20a102de0e988',
        },
      },
      lair: {
@@ -427,18 +427,18 @@ If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangar
         'x86_64-unknown-linux-gnu':
         'x86_64-pc-windows-msvc.exe':
 -      version: '0.5.3',
-+      version: '0.6.1',
++      version: '0.6.2',
        sha256: {
          'x86_64-unknown-linux-gnu':
 -          '96a28b9b37c73ef46d8b5c56b9d799d558fd2fe77b41c577e2bcb37685a46396',
-+          'c5d5d912af41f17def1c9d1027abd8eb6ce6f088871f4347ed38e124a93023cc',
++          '3c9ea3dbfc0853743dad3874856fdcfe391dca1769a6a81fc91b7578c73e92a7',
          'x86_64-pc-windows-msvc.exe':
 -          '68b6453a19921072aac04dae52a4e94e725e7482005d2f54f907aec680e078de',
-+          'e11a0658c2d5a3c00409ea447241b3f1f3a215d70fa396b8a3ed633226f0a11f',
++          '6392ce85e985483d43fa01709bfd518f8f67aed8ddfa5950591b4ed51d226b8e',
 -        'x86_64-apple-darwin': 'a53bfb8e501431870b99243cbac24f6103d67f8be094930f174829bb249f34c4',
-+        'x86_64-apple-darwin': 'fed0e9c3fc32589031229fb177ef3b3324e0096e742802898976812174bdd12d',
++        'x86_64-apple-darwin': '746403e5d1655ecf14d95bccaeef11ad1abfc923e428c2f3d87c683edb6fdcdc',
 -        'aarch64-apple-darwin': '6b15d977408847ac977c2e060c7aab84a69e6e90c79390098dd40a6b75256e50',
-+        'aarch64-apple-darwin': 'dd36c33e495b8046501f0824fbc08f069973cab5ee210275ab9de3af932d79e8',
++        'aarch64-apple-darwin': '05c7270749bb1a5cf61b0eb344a7d7a562da34090d5ea81b4c5b6cf040dd32e8',
        },
      },
    },

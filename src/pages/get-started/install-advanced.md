@@ -71,25 +71,25 @@ This command displays versioning information about Holochain's main components. 
 
 ::: output-block
 ```text
-hc-scaffold            : holochain_scaffolding_cli 0.500.0 (54ec9b8)
-hc-launch              : holochain_cli_launch 0.500.0 (holochain 0.5.1) (ef3b8fa)
-Lair keystore          : lair_keystore 0.6.1 (23cd5d1)
-Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.1.8 (203e2d3)
-Holochain CLI          : holochain_cli 0.5.2 (641de81)
-Holochain terminal     : hcterm 0.5.2 (641de81)
-Holochain              : holochain 0.5.2 (641de81)
+hc-scaffold            : holochain_scaffolding_cli 0.500.1 (85b3385)
+hc-launch              : holochain_cli_launch 0.500.0 (holochain 0.5.3) (ae01674)
+Lair keystore          : lair_keystore 0.6.2 (978e356)
+Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.1.9 (dfc57d4)
+Holochain CLI          : holochain_cli 0.5.3 (8061d5b)
+Holochain terminal     : hcterm 0.5.3 (8061d5b)
+Holochain              : holochain 0.5.3 (8061d5b)
 
 Holochain build info: {
   "git_info": null,
-  "cargo_pkg_version": "0.5.2",
-  "hdk_version_req": "0.5.2",
-  "hdi_version_req": "0.6.2",
-  "lair_keystore_version_req": "0.6.1",
-  "timestamp": "2025-05-08T17:13:06.176728556Z",
+  "cargo_pkg_version": "0.5.3",
+  "hdk_version_req": "0.5.3",
+  "hdi_version_req": "0.6.3",
+  "lair_keystore_version_req": "0.6.2",
+  "timestamp": "2025-06-25T19:35:13.321900074Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",
-  "rustc_version": "rustc 1.83.0 (90b35a623 2024-11-26)",
+  "rustc_version": "rustc 1.85.0 (4d91de4e4 2025-02-17)",
   "rustflags": "",
   "profile": "release"
 }
@@ -107,15 +107,15 @@ A sample output of this command looks like this (JSON formatted using `jq` i.e. 
 ```json
 {
   "git_info": null,
-  "cargo_pkg_version": "0.5.2",
-  "hdk_version_req": "0.5.2",
-  "hdi_version_req": "0.6.2",
-  "lair_keystore_version_req": "0.6.1",
-  "timestamp": "2025-05-08T17:13:06.176728556Z",
+  "cargo_pkg_version": "0.5.3",
+  "hdk_version_req": "0.5.3",
+  "hdi_version_req": "0.6.3",
+  "lair_keystore_version_req": "0.6.2",
+  "timestamp": "2025-06-25T19:35:13.321900074Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",
-  "rustc_version": "rustc 1.83.0 (90b35a623 2024-11-26)",
+  "rustc_version": "rustc 1.85.0 (4d91de4e4 2025-02-17)",
   "rustflags": "",
   "profile": "release"
 }
