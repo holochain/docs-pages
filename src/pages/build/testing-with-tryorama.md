@@ -212,11 +212,10 @@ test("Bob can retrieve a director entry", async () => {
 
         // Before we test that Bob can successfully retrieve the new entry,
         // we wait for him and Alice to sync their copies of the movies DHT.
-        const moviesCellInfo = await alice.appWs.cachedAppInfo?.cell_info["movies"][0];
-        if (moviesCellInfo.type != CellType.Provisioned && moviesCellInfo.type != CellType.Cloned) {
-            assert.fail("Can't await DHT sync on an inactive cell.");
-        }
-        const moviesDnaHash = moviesCellInfo.value.cell_id[0];
+        const moviesDnaHash = alice.cells
+            .find((c) => c.name == "movies")
+            ?.cell_id[0];
+        expect(moviesDnaHash).toBeDefined();
         await dhtSync(
             [alice, bob],
             moviesDnaHash,
@@ -343,11 +342,10 @@ test("Bob can receive a Director entry after coming back online", async () => {
         assert.ok("Bob is online again");
 
         // Now wait for Alice and Bob to sync up.
-        const moviesCell = await alice.appWs.cachedAppInfo?.cell_info["movies"][0];
-        if (moviesCell.type == CellType.Stem) {
-          return;
-        }
-        const moviesDnaHash = moviesCell.value.cell_id[0];
+        const moviesDnaHash = alice.cells
+            .find((c) => c.name == "movies")
+            ?.cell_id[0];
+        expect(moviesDnaHash).toBeDefined();
         await dhtSync([alice, bob], moviesDnaHash);
         // Bob should now be able to get Alice's data.
         let director: any = await bob.appWs.callZome({
