@@ -316,9 +316,22 @@ If you want to use these features, [build a custom Holochain binary](https://git
 Note that, as a conductor API endpoint, `InstallApp` is also affected by [the enum serialization change](#enums-in-the-conductor-ap-is-are-serialized-differently):
 
 ```diff:typescript
--const appSource = { appBundleSource: { path: "./workdir/my_app.happ" } };
-+const appSource = { appBundleSource: { type: "path", value: "./workdir/my_app.happ" } };
- const [alice, bob] = await scenario.addPlayersWithApps([appSource, appSource]);
+-const playerConfig = { appBundleSource: { path: "./workdir/my_app.happ", } };
++const playerConfig: AppWithOptions = { appBundleSource: { type: "path", value: "./workdir/my_app.happ", } };
+ const [alice, bob] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
+```
+
+### `scenario.addPlayerWithApp` input now more closely matches `addPlayersWithApps`
+
+The signature of the [`Scenario.prototype.addPlayerWithApp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md) method now takes an [`AppWithOptions`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.appwithoptions.md) object in the same way that `addPlayersWithApps` takes an array of the same object.
+
+```diff:typescript
+-const appBundleSource: AppBundleSource = { path: "./workdir/my_app.happ" };
++const appBundleSource: AppBundleSource = { type: "path", value: "./workdir/my_app.happ", };
+ const options: AppOptions = { networkSeed: "special_network_seed", };
++const playerConfig: AppWithOptions = { appBundleSource, options, };
+-const alice = scenario.addPlayerWithApp(appBundleSource, options);
++const alice = scenario.addPlayerWithApp(playerConfig);
 ```
 
 ### `hc run-local-services` replaced with `kitsune2-bootstrap-srv`
