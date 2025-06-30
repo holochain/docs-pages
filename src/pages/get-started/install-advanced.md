@@ -96,30 +96,13 @@ Holochain build info: {
 ```
 :::
 
-Another Holochain command that inspects the platform information and outputs the compatible HDK version is
+To get just the JSON build info from above, enter:
 
 ```shell
 holochain --build-info
 ```
 
-A sample output of this command looks like this (JSON formatted using `jq` i.e. `holochain --build-info | jq .`):
-
-```json
-{
-  "git_info": null,
-  "cargo_pkg_version": "0.5.3",
-  "hdk_version_req": "0.5.3",
-  "hdi_version_req": "0.6.3",
-  "lair_keystore_version_req": "0.6.2",
-  "timestamp": "2025-06-25T19:35:13.321900074Z",
-  "hostname": "localhost",
-  "host": "x86_64-unknown-linux-gnu",
-  "target": "x86_64-unknown-linux-gnu",
-  "rustc_version": "rustc 1.85.0 (4d91de4e4 2025-02-17)",
-  "rustflags": "",
-  "profile": "release"
-}
-```
+(Tip: piping the output to [`jq`](https://jqlang.org/), a command-line JSON processor, will format it and make it easier to read.)
 
 ## More info on Nix
 
