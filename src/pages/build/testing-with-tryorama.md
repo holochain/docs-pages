@@ -273,6 +273,7 @@ test("Bob's UI can receive a heartbeat signal", async () => {
               }
             };
         });
+        // Now register the signal handler on the app websocket.
         bob.appWs.on("signal", bobSignalHandler);
 
         await alice.appWs.callZome({
