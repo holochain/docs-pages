@@ -131,31 +131,6 @@ test("create two agents", async () => {
 });
 ```
 
-## Connect agents to each other
-
-To get Alice and Bob's conductors talking to each other, call [`scenario.shareAllAgents`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.shareallagents.md).
-
-```typescript
-import { assert, test } from "vitest";
-import { runScenario, AppWithOptions } from "@holochain/tryorama";
-
-test("connect two agents together", async () => {
-    await runScenario(async scenario => {
-        const playerConfig: AppWithOptions = {
-            appBundleSource: {
-                type: "path",
-                value: `${process.cwd()}/../workdir/movies.happ`,
-            },
-        };
-
-        const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
-
-        await scenario.shareAllAgents();
-        assert.ok("Alice and Bob are now talking to each other");
-    });
-});
-```
-
 ## Access the app interface
 
 To start accessing an app, use the player object's `appWs` property as if you were using the JavaScript client.
@@ -226,7 +201,6 @@ test("Bob can retrieve a director entry", async () => {
             },
         };
         const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
-        await scenario.shareAllAgents();
 
         // Alice creates an entry and publishes it to the DHT.
         let directorHash = await alice.appWs.callZome({
@@ -284,7 +258,6 @@ test("Bob's UI can receive a heartbeat signal", async () => {
             },
         };
         const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
-        await scenario.shareAllAgents();
 
         let bobSignalHandler: SignalCb | undefined;
         // Wrap the signal handler in a promise that resolves when the signal
@@ -350,7 +323,6 @@ test("Bob can receive a Director entry after coming back online", async () => {
             },
         };
         const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerConfig]);
-        await scenario.shareAllAgents();
 
         // Pretend that Bob's computer crashed.
         await bob.conductor.shutDown();
@@ -398,7 +370,6 @@ test("Bob can receive a Director entry after coming back online", async () => {
 * [`@holochain/tryorama` > `Conductor`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.md)
 * [`@holochain/client` > `AppWebsocket`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.md)
 * [`@holochain/tryorama` > `Scenario.prototype.addPlayersWithApps`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerswithapps.md)
-* [`@holochain/tryorama` > `Scenario.prototype.shareAllAgents`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.shareallagents.md)
 * [`@holochain/tryorama` > `dhtSync`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.dhtsync.md)
 * [`@holochain/tryorama` > `Conductor.prototype.shutDown`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.shutdown.md)
 * [`@holochain/tryorama` > `Conductor.prototype.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startUp.md)
