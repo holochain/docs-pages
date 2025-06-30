@@ -1,2 +1,3 @@
 [commit_types]
+# 'Edit' commit type is common in docs; allow it
 edit = { changelog_title = "", omit_from_changelog = true }
