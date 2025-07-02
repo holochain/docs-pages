@@ -103,8 +103,14 @@ pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
 // you can add more message types later.
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(tag = "type", content = "value", rename_all = "snake_case")]
-enum RemoteSignal {
+pub enum RemoteSignal {
     Heartbeat,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(tag = "type", content = "value", rename_all = "snake_case")]
+pub enum LocalSignal {
+    Heartbeat(AgentPubKey),
 }
 
 #[hdk_extern]
@@ -113,6 +119,7 @@ pub fn send_heartbeat(receivers: Vec<AgentPubKey>) -> ExternResult<()> {
     // remote agents at once.
     send_remote_signal(
         RemoteSignal::Heartbeat,
+        receivers
     )
 }
 
@@ -120,8 +127,6 @@ pub fn send_heartbeat(receivers: Vec<AgentPubKey>) -> ExternResult<()> {
 pub fn recv_remote_signal(payload: RemoteSignal) -> ExternResult<()> {
     if let RemoteSignal::Heartbeat = payload {
         let caller = call_info()?.provenance;
-        // On the receiving end we forward the remote signal to the front end
-        // by emitting a local signal.
         // On the receiving end, we forward the remote signal to the front end by emitting a local signal.
         emit_signal(LocalSignal::Heartbeat(caller))?;
     }
