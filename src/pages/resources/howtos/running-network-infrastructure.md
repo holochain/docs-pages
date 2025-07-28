@@ -3,27 +3,26 @@ title: Running Network Infrastructure
 ---
 
 ::: intro
-This howto will walk you through downloading, configuring and running a Docker setup that provides a bootstrap, signal, and relay server for a Holochain application. This server is necessary to help peers discover each other over the public internet, and it also provides a relay fallback for peers who can't create a direct WebRTC connection.
+This howto will walk you through downloading, configuring and running a Docker setup that provides a bootstrap, signal, and relay server for a Holochain application. This server is necessary to help peers discover each other over the public internet and establish a peer-to-peer WebRTC connection, and it also provides a message relay service as a fallback in case a WebRTC session can't be established.
 :::
 
 The [kitsune2 bootstrap server](https://github.com/holochain/kitsune2/tree/main/crates/bootstrap_srv) provides:
 
 * Peer discovery on the public internet
 * WebRTC signalling between peers
-* Optionally, a WebSocket-based fallback relay server for peers who can't establish a direct WebRTC connection
+* Optionally, a WebSocket-based fallback relay server for peers who can't establish a direct WebRTC connection in the signalling step
 
-A hApp that's meant to connect peers on the public internet will most likely need these services in order to operate.
+A hApp that's meant for use on the public internet will need these services in order to operate.
 
 !!! info Public server
-Holochain does provide a public bootstrap and relay server at `https://dev-test-bootstrap2.holochain.org/`, but we recommend against using it for production hApps because it's low-bandwidth and has no guaranteed uptime. However, you're welcome to use it for testing.
+The Holochain Foundation provides a public bootstrap and relay server at `https://dev-test-bootstrap2.holochain.org/` that you're welcome to use for testing. It's not appropriate for production hApps, though, because it's low-bandwidth and has no uptime guarantees.
 !!!
 
 ## Requirements
 
-* A server or cloud instance
-    * TODO: specs?
+* A Linux server or cloud instance
 * Docker with docker-compose v2 installed on the server
-* TLS certificate and key files for your server's domain name stored in the server's filesystem
+* TLS certificate and key files for your server's domain name stored in the server's filesystem in [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) format -- we recommend using Let's Encrypt [certbot](https://certbot.eff.org/).
 
 ## Create a Docker compose file
 
@@ -103,6 +102,14 @@ bootstrap-1  | #kitsune2_bootstrap_srv#listening#[::]:443#
 :::
 
 If you see this, you know your server is running and should be able to respond to requests from Holochain conductors.
+
+!!! info Running a production server
+At this point your bootstrap server is ready for testing, but it probably isn't ready for production use. Operating a secured, highly-available service is outside of the scope of this documentation. Here are things to know:
+
+* A DHT must be served by only one server, and the server's database is in-memory,<!-- TODO: check that fact --> so it can't be made high-availability via redundancy.
+* The Docker compose file above configures the server as an open relay without authentication; we plan to write instructions for configuring authentication once this feature is more fully tested.
+* You'll need to size your server instance for your expected peak level of usage --- it may be helpful to simulate this using a multi-conductor [Tryorama](/build/testing-with-tryorama/) test or real humans.
+!!!
 
 ## Configure your hApp to use your bootstrap server
 
