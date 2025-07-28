@@ -32,7 +32,7 @@ Create a `docker-compose.yaml` file in an appropriate place in your server's fil
 sudo mkdir -p /var/kitsune2-bootstrap
 ```
 ```bash
-sudo cd /var/kitsune2-bootstrap
+cd /var/kitsune2-bootstrap
 ```
 ```bash
 sudo code docker-compose.yaml
@@ -101,7 +101,11 @@ bootstrap-1  | #kitsune2_bootstrap_srv#listening#[::]:443#
 ```
 :::
 
-If you see this, you know your server is running and should be able to respond to requests from Holochain conductors.
+If you see this, you know your server is running and should be able to respond to requests from Holochain conductors. You can now run the container in detached/daemon mode:
+
+```bash
+sudo docker compose up -d
+```
 
 !!! info Running a production server
 At this point your bootstrap server is ready for testing, but it probably isn't ready for production use. Operating a secured, highly-available service is outside of the scope of this documentation. Here are things to know:
@@ -133,7 +137,7 @@ To use your server in testing, and to test that the server is running and access
      "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
      // Replace the hApp bundle name and URLs with your actual values.
 -    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/my_app.happ",
-+    "launch:happ": "hc-spin -n $AGENTS --ui-port --bootstrap-url "https://bootstrap.example.org" --signaling-url "wss://bootstrap.example.org" $UI_PORT workdir/my_app.happ",
++    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT --bootstrap-url \"https://bootstrap.example.org\" --signaling-url \"wss://bootstrap.example.org\" workdir/my_app.happ",
      // If you use the Tauri-based launcher, you can also make the following
      // edits.
 -    "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network:tauri",
