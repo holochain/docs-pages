@@ -79,3 +79,9 @@ Now that you've got some basic concepts and the terms we use for them, it's time
 ::: topic-list
 * [Testing with Tryorama](/build/testing-with-tryorama/) --- Writing scenario tests for your hApp
 :::
+
+## Production
+
+::: topic-list
+* [Operating a hApp](/build/operating-a-happ/) --- Practical considerations for packaging, distributing, and maintaining a hApp
+:::
