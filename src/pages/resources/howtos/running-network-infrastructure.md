@@ -3,19 +3,19 @@ title: Running Network Infrastructure
 ---
 
 ::: intro
-This howto will walk you through downloading, configuring and running a Docker setup that provides a bootstrap, signal, and relay server for a Holochain application. This server is necessary to help peers discover each other and establish a peer-to-peer WebRTC connection, and it also provides a message relay service as a fallback in case a WebRTC session can't be established.
+This howto will walk you through downloading, configuring and running a containerized setup that provides a bootstrap and signal/relay server for a Holochain application. This server is necessary to help peers discover each other and establish a direct peer-to-peer WebRTC connection, and it also provides a message relay service as a fallback in case a direct connection can't be established.
 :::
 
 The [kitsune2 bootstrap server](https://github.com/holochain/kitsune2/tree/main/crates/bootstrap_srv) provides:
 
 * Peer discovery
-* WebRTC signalling between peers
-* Optionally, a WebSocket-based fallback relay server for peers who can't establish a direct WebRTC connection in the signalling step
+* WebSocket-based signalling for WebRTC connection setup between peers
+* Optionally, the same WebSocket protocol can be used as a relay by peers who can't establish a direct connection to each other in the signalling step
 
 Any user-friendly hApp will need these services in order to operate.
 
 !!! info Public server
-The Holochain Foundation provides a public bootstrap and relay server at `https://dev-test-bootstrap2.holochain.org/` that you're welcome to use for testing. It's not appropriate for production hApps, though, because it's low-bandwidth and has no uptime guarantees.
+The Holochain Foundation provides a public bootstrap server at `https://dev-test-bootstrap2.holochain.org/` that you're welcome to use for testing. It's not appropriate for production hApps, though, because it's low-bandwidth and has no uptime guarantees.
 !!!
 
 ## Requirements
