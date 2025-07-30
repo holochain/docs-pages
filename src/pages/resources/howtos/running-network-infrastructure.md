@@ -132,7 +132,8 @@ To use your server in testing, and to test that the server is running and access
      "tests"
    ],
    "scripts": {
-     "start": "AGENTS=${AGENTS:-3} BOOTSTRAP_PORT=$(get-port) npm run network",
+-    "start": "AGENTS=${AGENTS:-3} BOOTSTRAP_PORT=$(get-port) npm run network",
++    "start": "AGENTS=${AGENTS:-3} npm run network",
      "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\" \"hc playground\"",
      "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
      // Replace the hApp bundle name and URLs with your actual values.
