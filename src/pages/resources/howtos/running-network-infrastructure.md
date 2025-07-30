@@ -121,7 +121,7 @@ To use your server in testing, and to test that the server is running and access
 <!-- TODO(upgrade): update the package.json file with any changes, and bump dep version numbers -->
 
 ```diff:json
- ... skipping some lines
+ ...
    "scripts": {
 -    "start": "AGENTS=${AGENTS:-3} BOOTSTRAP_PORT=$(get-port) npm run network",
 +    "start": "AGENTS=${AGENTS:-3} npm run network",
@@ -151,7 +151,7 @@ If you're using [Kangaroo](https://github.com/holochain/kangaroo-electron) to bu
 ```diff:typescript
  import { defineConfig } from './src/main/defineConfig';
  export default defineConfig({
-   // ... skipping some lines ...
+   // ...
    // Use your actual domain name here.
 -  bootstrapUrl: 'https://dev-test-bootstrap2.holochain.org/',
 +  bootstrapUrl: 'https://bootstrap.example.org/',
