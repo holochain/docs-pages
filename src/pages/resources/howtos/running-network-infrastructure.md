@@ -21,7 +21,7 @@ The Holochain Foundation provides a public bootstrap server at `https://dev-test
 ## Requirements
 
 * A Linux server or cloud instance
-* A container management tool that can use [OCI containers](https://opencontainers.org/) and understands docker-compose v2 files (e.g., [Docker](https://www.docker.com/) or [Podman](https://podman.io/))
+* A container management tool that can use [OCI containers](https://opencontainers.org/) and understands docker-compose v2 files (e.g., [Docker](https://www.docker.com/) or [Podman](https://podman.io/)) (our examples will use the `docker` command)
 * TLS certificate and key files for your server's domain name stored in the server's filesystem in [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) format -- we recommend using Let's Encrypt [certbot](https://certbot.eff.org/).
 
 ## Create a Docker compose file
@@ -74,14 +74,14 @@ services:
 ```
 
 !!! info Tuning the bootstrap server's performance
-There are other parameters you can pass to `kitsune2-bootstrap-srv` to configure it and tune its performance. Download the bootstrap server Docker image and run the following command to see them all:
+There are other parameters you can pass to `kitsune2-bootstrap-srv` to configure it and tune its performance. Download the bootstrap server Docker image and run the following command to see them all.
 
 <!-- TODO(upgrade): Update the docker image URL -->
 ```bash
 docker pull ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.11
 ```
 ```bash
-sudo docker run -it ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.11 kitsune2-bootstrap-srv --help
+docker run -it ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.11 kitsune2-bootstrap-srv --help
 ```
 !!!
 
@@ -90,7 +90,7 @@ sudo docker run -it ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.11 kitsune2-bo
 Test the configuration:
 
 ```bash
-sudo docker compose up
+docker compose up
 ```
 
 You should see a lot of log messages, ending with this line:
@@ -104,7 +104,7 @@ bootstrap-1  | #kitsune2_bootstrap_srv#listening#[::]:443#
 If you see this, you know your server is running and should be able to respond to requests from Holochain conductors. You can now run the container in detached/daemon mode:
 
 ```bash
-sudo docker compose up -d
+docker compose up --detach
 ```
 
 !!! info Running a production server
