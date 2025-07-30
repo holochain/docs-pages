@@ -21,7 +21,7 @@ The Holochain Foundation provides a public bootstrap and relay server at `https:
 ## Requirements
 
 * A Linux server or cloud instance
-* Docker with docker-compose v2 installed on the server
+* A container management tool that can use [OCI containers](https://opencontainers.org/) and understands docker-compose v2 files (e.g., [Docker](https://www.docker.com/) or [Podman](https://podman.io/))
 * TLS certificate and key files for your server's domain name stored in the server's filesystem in [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) format -- we recommend using Let's Encrypt [certbot](https://certbot.eff.org/).
 
 ## Create a Docker compose file
