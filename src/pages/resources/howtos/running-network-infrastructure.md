@@ -20,8 +20,7 @@ The Holochain Foundation provides a public bootstrap server at `https://dev-test
 
 ## Requirements
 
-* A Linux server or cloud instance
-* A container management tool that can use [OCI containers](https://opencontainers.org/) and understands docker-compose v2 files (e.g., [Docker](https://www.docker.com/) or [Podman](https://podman.io/)) (our examples will use the `docker` command)
+* A server with a container management tool that can use [OCI containers](https://opencontainers.org/) and understands docker-compose v2 files (e.g., [Docker](https://www.docker.com/) or [Podman](https://podman.io/)) (our examples will use the `docker` command). In our examples we'll be using Linux-specific commands and paths.
 * TLS certificate and key files for your server's domain name stored in the server's filesystem in [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) format -- we recommend using Let's Encrypt [certbot](https://certbot.eff.org/).
 
 ## Create a Docker compose file
