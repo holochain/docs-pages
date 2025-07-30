@@ -55,12 +55,6 @@ services:
       - /etc/letsencrypt/live/bootstrap.example.org/fullchain.pem
       - --tls-key
       - /etc/letsencrypt/live/bootstrap.example.org/privkey.pem
-      # You can change this value to limit relay server bandwidth.
-      - --sbd-limit-ip-kbps
-      - "100000"
-      # You can also specify a burst rate in kilobytes per second.
-      - --sbd-limit-ip-byte-burst
-      - "26000000"
     environment:
       - RUST_LOG=info
     network_mode: host
@@ -73,14 +67,15 @@ services:
 ```
 
 !!! info Tuning the bootstrap server's performance
-There are other parameters you can pass to `kitsune2-bootstrap-srv` to configure it and tune its performance. Download the bootstrap server Docker image and run the following command to see them all.
+You can pass various parameters to `kitsune2-bootstrap-srv` to tune the relay performance. The [`sbd_server` crate documentation](https://docs.rs/sbd-server/latest/sbd_server/struct.Config.html#structfield.limit_clients) shows the data structure; the tuning parameters are `limit_clients` onward. To pass them as arguments to the Docker container, prefix them with `sbd` and convert them to hyphen-case, like this:
 
-<!-- TODO(upgrade): Update the docker image URL -->
-```bash
-docker pull ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.11
-```
-```bash
-docker run -it ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.11 kitsune2-bootstrap-srv --help
+```yaml
+# ...
+    command:
+      - kitsune2-bootstrap-srv
+      - --sbd-limit-clients
+      - 50
+# ...
 ```
 !!!
 
