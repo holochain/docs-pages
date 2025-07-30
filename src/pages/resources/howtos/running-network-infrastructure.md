@@ -127,13 +127,7 @@ To use your server in testing, and to test that the server is running and access
 <!-- TODO(upgrade): update the package.json file with any changes, and bump dep version numbers -->
 
 ```diff:json
- {
-   "name": "my_app-dev",
-   "private": true,
-   "workspaces": [
-     "ui",
-     "tests"
-   ],
+ ... skipping some lines
    "scripts": {
 -    "start": "AGENTS=${AGENTS:-3} BOOTSTRAP_PORT=$(get-port) npm run network",
 +    "start": "AGENTS=${AGENTS:-3} npm run network",
@@ -153,18 +147,7 @@ To use your server in testing, and to test that the server is running and access
      "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
      "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
    },
-   "devDependencies": {
-     "@holochain/hc-spin": "^0.500.0",
-     "concurrently": "^6.5.1",
-     "get-port-cli": "^3.0.0"
-   },
-   "engines": {
-     "node": ">=16.0.0"
-   },
-   "hcScaffold": {
-     "template": "svelte"
-   }
- }
+ ...
 ```
 
 If you're using [Kangaroo](https://github.com/holochain/kangaroo-electron) to build an Electron-based app, open up your project's `kangaroo.config.ts` file, then edit the following lines:
