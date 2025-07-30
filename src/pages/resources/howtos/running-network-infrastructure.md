@@ -108,11 +108,14 @@ docker compose up --detach
 ```
 
 !!! info Running a production server
-At this point your bootstrap server is ready for testing, but it probably isn't ready for production use. Operating a secured, highly-available service is outside of the scope of this documentation. Here are things to know:
+At this point your bootstrap server is ready for testing, but it probably isn't ready for production use. Operating a production server is outside of the scope of this documentation, and will require thinking about things like securing the server, denial-of-service protection, handling container or server failures, monitoring, logging, etc. Here are things to know about the bootstrap server:
 
-* A DHT must be served by only one server, and the server's database is in-memory,<!-- TODO: check that fact --> so it can't be made high-availability via redundancy.
-* The Docker compose file above configures the server as an open relay without authentication; we plan to write instructions for configuring authentication once this feature is more fully tested.
-* You'll need to size your server instance for your expected peak level of usage --- it may be helpful to simulate this using a multi-conductor [Tryorama](/build/testing-with-tryorama/) test or real humans.
+* Even though the server keeps its own state, this state is ephemeral and can safely be disposed of (e.g., in case of a server crash and failover to another instance) with only temporary disruptions to service as peers re-announce themselves to the new server. This disruption will mostly be felt by newcomers and peers using the relay fallback.
+* The state can't be shared among instances of the bootstrap server for load-sharing.
+* One instance can be used as a bootstrap server while another can be used as a signal/relay server to spread the load; the only configuration necessary is to specify different URLs in your conductor configuration (see the next section).
+* The Docker compose file above configures the server as an open relay without authentication; we're still working on making it easy to build authentication appropriate for your hApp.
+* You'll need to size your server instance for your expected peak level of usage --- it may be helpful to simulate this using a multi-conductor [Tryorama](/build/testing-with-tryorama/) test or real humans. Our public test server currently uses a 512mb / 1 CPU virtual instance and serves an average of 50 peers without trouble, and the server binary can theoretically scale to support thousands of concurrent peers with a couple hundred using relayed connections.
+* The server hasn't been tested extensively with Holochain in high-load or failure scenarios.
 !!!
 
 ## Configure your hApp to use your bootstrap server
@@ -171,49 +174,22 @@ If you're using [Kangaroo](https://github.com/holochain/kangaroo-electron) to bu
 ```diff:typescript
  import { defineConfig } from './src/main/defineConfig';
  export default defineConfig({
-   appId: 'org.holochain.kangaroo-electron',
-   productName: 'Holochain Kangaroo Electron',
-   version: '0.1.0',
-   macOSCodeSigning: false,
-   windowsEVCodeSigning: false,
-   fallbackToIndexHtml: true,
-   autoUpdates: true,
-   systray: true,
-   passwordMode: 'password-optional',
+   // ... skipping some lines ...
    // Use your actual domain name here.
 -  bootstrapUrl: 'https://dev-test-bootstrap2.holochain.org/',
 +  bootstrapUrl: 'https://bootstrap.example.org/',
 -  signalUrl: 'wss://dev-test-bootstrap2.holochain.org/',
 +  signalUrl: 'wss://bootstrap.example.org/',
    iceUrls: ['stun:stun.l.google.com:19302','stun:stun.cloudflare.com:3478'],
-     bins: {
-     holochain: {
-       version: '0.5.3',
-       sha256: {
-         'x86_64-unknown-linux-gnu':
-           '1165646324ad6ebd60fe8063a91ec4981dd1d7da64375603560fcc6b7ef511f7',
-         'x86_64-pc-windows-msvc.exe':
-           '143791e1c59dd718c5b60face20792a85b752ac3bba0e58b57469690c4be6a19',
-         'x86_64-apple-darwin': '540ef02bcfce6c91379e07df03d51afedc73a1f13df74e0cb9da6be58e147878',
-         'aarch64-apple-darwin': 'a42edb4e8580456c95f8c91ab0699d2b5fd1f73a5df0bdb9e4f20a102de0e988',
-       },
-     },
-     lair: {
-      sha256: {
-        'x86_64-unknown-linux-gnu':
-        'x86_64-pc-windows-msvc.exe':
-       version: '0.6.2',
-       sha256: {
-         'x86_64-unknown-linux-gnu':
-           '3c9ea3dbfc0853743dad3874856fdcfe391dca1769a6a81fc91b7578c73e92a7',
-         'x86_64-pc-windows-msvc.exe':
-           '6392ce85e985483d43fa01709bfd518f8f67aed8ddfa5950591b4ed51d226b8e',
-         'x86_64-apple-darwin': '746403e5d1655ecf14d95bccaeef11ad1abfc923e428c2f3d87c683edb6fdcdc',
-         'aarch64-apple-darwin': '05c7270749bb1a5cf61b0eb344a7d7a562da34090d5ea81b4c5b6cf040dd32e8',
-       },
-     },
-   },
+   // ...
  });
 ```
 
-<!-- TODO: write about hardening; e.g., requiring authentication -->
+!!! info Hardening your server against unintended use
+We've shown how to configure the server without authentication. In a production scenario, you'll likely want to authenticate incoming connections to the server because:
+
+* Unauthorized requests to the bootstrap endpoint could leak details about what devices are running what hApps, and
+* Unauthorized requests to the signal/relay endpoint allow users of other hApps to freeload on your server's bandwidth.
+
+We plan to discuss authentication options more fully once the server's authentication feature has been fully built and tested.
+!!!
