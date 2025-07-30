@@ -107,8 +107,8 @@ At this point your bootstrap server is ready for testing, but it probably isn't 
 * Even though the server keeps its own state, this state is ephemeral and can safely be disposed of (e.g., in case of a server crash and failover to another instance) with only temporary disruptions to service as peers re-announce themselves to the new server. This disruption will mostly be felt by newcomers and peers using the relay fallback.
 * The state can't be shared among instances of the bootstrap server for load-sharing.
 * One instance can be used as a bootstrap server while another can be used as a signal/relay server to spread the load; the only configuration necessary is to specify different URLs in your conductor configuration (see the next section).
-* The Docker compose file above configures the server as an open relay without authentication; we're still working on making it easy to build authentication appropriate for your hApp.
-* You'll need to size your server instance for your expected peak level of usage --- it may be helpful to simulate this using a multi-conductor [Tryorama](/build/testing-with-tryorama/) test or real humans. Our public test server currently uses a 512mb / 1 CPU virtual instance and serves an average of 50 peers without trouble, and the server binary can theoretically scale to support thousands of concurrent peers with a couple hundred using relayed connections.
+* The Docker compose file above configures the server as an open relay without authentication; we're working on making it easier to [build authentication](https://github.com/holochain/sbd/blob/main/spec-auth.md) appropriate for your hApp.
+* You'll need to size your server instance for your expected peak level of usage --- it may be helpful to simulate this using a multi-conductor [Tryorama](/build/testing-with-tryorama/) test or real humans. Depending on your server specs and bandwidth, the server binary can theoretically scale to support thousands of concurrent peers, with a couple hundred using relayed connections.
 * The server hasn't been tested extensively with Holochain in high-load or failure scenarios.
 !!!
 
@@ -168,5 +168,5 @@ We've shown how to configure the server without authentication. In a production 
 * Unauthorized requests to the bootstrap endpoint could leak details about what devices are running what hApps, and
 * Unauthorized requests to the signal/relay endpoint allow users of other hApps to freeload on your server's bandwidth.
 
-We plan to discuss authentication options more fully once the server's authentication feature has been fully built and tested.
+We plan to discuss [authentication options](https://github.com/holochain/sbd/blob/main/spec-auth.md) in the future.
 !!!
