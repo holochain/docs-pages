@@ -25,16 +25,16 @@ The Holochain Foundation provides a public bootstrap server at `https://dev-test
 
 ## Create a Docker compose file
 
-Create a `docker-compose.yaml` file in an appropriate place in your server's filesystem, then open it for editing. Here we'll be storing the file in `/var/kitsune2-bootstrap` and opening it in Visual Studio Code:
+Create a `docker-compose.yaml` file in an appropriate place in your server's filesystem, then open it for editing. Here we'll be storing the file in `/opt/kitsune2-bootstrap` and editing it in Vim:
 
 ```bash
-sudo mkdir -p /var/kitsune2-bootstrap
+sudo mkdir -p /opt/kitsune2-bootstrap
 ```
 ```bash
-cd /var/kitsune2-bootstrap
+cd /opt/kitsune2-bootstrap
 ```
 ```bash
-sudo code docker-compose.yaml
+sudo vim docker-compose.yaml
 ```
 
 Copy this code into the file, edit the locations of your TLS certificate and key files, and save it.
