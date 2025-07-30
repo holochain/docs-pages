@@ -31,10 +31,12 @@ Create a `docker-compose.yaml` file in an appropriate place in your server's fil
 sudo mkdir -p /opt/kitsune2-bootstrap
 ```
 ```bash
-cd /opt/kitsune2-bootstrap
+sudo touch /opt/kitsune2-bootstrap/docker-compose.yaml
 ```
 ```bash
-sudo vim docker-compose.yaml
+sudo chown $(whoami) /opt/kitsune2-bootstrap/docker-compose.yaml
+```bash
+vim /opt/kitsune2-bootstrap/docker-compose.yaml
 ```
 
 Copy this code into the file, edit the locations of your TLS certificate and key files, and save it.
