@@ -65,7 +65,7 @@ services:
         # Replace this with the path to the TLS certificate files on the host
         # and your desired mount point inside the container, in this format:
         # <host path>:<mount point>
-      - /etc/letsencrypt/:/etc/letsencrypt/
+      - /etc/letsencrypt/:/etc/letsencrypt/:ro
     restart: unless-stopped
 ```
 
