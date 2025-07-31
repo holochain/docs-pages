@@ -9,8 +9,8 @@ This howto will walk you through downloading, configuring, and running a contain
 The [kitsune2 bootstrap server](https://github.com/holochain/kitsune2/tree/main/crates/bootstrap_srv) provides:
 
 * Peer discovery
-* WebSocket-based signalling for WebRTC connection setup between peers
-* Optionally, the same WebSocket protocol can be used as a relay by peers who can't establish a direct connection to each other in the signalling step
+* WebSocket-based signaling for WebRTC connection setup between peers
+* Optionally, the same WebSocket protocol can be used as a relay by peers who can't establish a direct connection to each other in the signaling step
 
 Any user-friendly hApp will need these services in order to operate.
 
