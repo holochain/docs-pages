@@ -119,7 +119,13 @@ At this point your bootstrap server is ready for testing, but it probably isn't 
 
 <!-- TODO: eventually it should be possible to specify the server URLs in the DNA manifest. When that happens, add instructions here. See https://github.com/holochain/holochain/issues/4761 -->
 
-To use your server in testing, and to test that the server is running and accessible, open your project's `package.json` file and edit the following line:
+### Testing
+
+To use your server in testing, and to test that the server is running and accessible, open your project's `package.json` file and edit the following lines.
+
+!!! Use a network seed during testing
+If you use the same server for production and testing, you might end up writing test data to a production DHT. The example below adds a [network seed](/build/cloning/#network-seed) for test runs so that test data ends up in its own DHT.
+!!!
 
 <!-- TODO(upgrade): update the package.json file with any changes, and bump dep version numbers -->
 
@@ -132,20 +138,23 @@ To use your server in testing, and to test that the server is running and access
      "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
      // Replace the hApp bundle name and URLs with your actual values.
 -    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/my_app.happ",
-+    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT --bootstrap-url \"https://bootstrap.example.org\" --signaling-url \"wss://bootstrap.example.org\" workdir/my_app.happ",
++    // Use bootstrap server
++    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT --bootstrap-url \"https://bootstrap.example.org\" --signaling-url \"wss://bootstrap.example.org\" --network-seed \"bootstrap-testing-network-only\" workdir/my_app.happ",
      // If you use the Tauri-based launcher, you can also make the following
      // edits.
 -    "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network:tauri",
 +    "start:tauri": "AGENTS=${AGENTS:-2} npm run network:tauri",
      "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"hc playground\"",
 -    "launch:tauri": "concurrently \"kitsune2-bootstrap-srv --listen \"127.0.0.1:$BOOTSTRAP_PORT\"\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/my_forum_app.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$BOOTSTRAP_PORT\"\"",
-+    "launch:tauri": "echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/my_forum_app.happ --ui-port $UI_PORT network --bootstrap \"https://bootstrap.example.org\" webrtc \"wss://bootstrap.example.org\"",
++    "launch:tauri": "echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/my_forum_app.happ --ui-port $UI_PORT --network-seed \"bootstrap-testing-network-only\" network --bootstrap \"https://bootstrap.example.org\" webrtc \"wss://bootstrap.example.org\"",
      "package": "npm run build:happ && npm run package --workspace ui && hc web-app pack workdir --recursive",
      "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
      "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
    },
  ...
 ```
+
+### Production
 
 If you're using [Kangaroo](https://github.com/holochain/kangaroo-electron) to build an Electron-based app, open up your project's `kangaroo.config.ts` file, then edit the following lines:
 
