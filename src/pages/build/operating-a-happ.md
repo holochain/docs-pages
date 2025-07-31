@@ -13,11 +13,17 @@ Because the users of a hApp are the ones that run the application code, you don'
 * You can create an [Electron](https://www.electronjs.org/)-based binary for Windows, macOS, and Linux using the [Kangaroo repository](https://github.com/holochain/kangaroo-electron) as a starting point. <!-- TODO: link to guide -->
 * You can create a [Tauri](https://tauri.app/)-based binary for Windows, macOS, Linux, and Android using the [p2p Shipyard](https://darksoil.studio/p2p-shipyard/) tool from our friends at [dark soil studio](https://darksoil.studio/). [Read their documentation](https://darksoil.studio/p2p-shipyard/guides/creating-an-app.html) to find out how.
 
-Because a hApp is defined by its DNAs, and those DNAs live on the devices of your users, it's a good idea to use auto-updating because you can't easily update the hApp any other way. Both of the choices above support auto-updating, with two warnings:
+!!! info Be careful with auto-updating
+The auto-updater code in Kangaroo checks your project's GitHub releases page for releases with a version number that's [semver](https://semver.org)-compatible with the one the user currently has installed. It's up to you to make sure that you bump your version numbers in a way that users expect.
 
-!!! info Auto-updating Holochain or the hApp may create network forks
-* If you make changes to any of the integrity code in a DNA, it'll be backed by an entirely new network without access to the old network and its data. This means users who have upgraded may not be able to see users who haven't upgraded yet.
-* If you update the bundled Holochain conductor, its network protocol and local database schema might not be compatible with a previous version, so your users may lose access to their existing data or be unable to communicate with users on older versions of Holochain.
+These things can cause issues with auto-updating:
+
+* Updated coordinator zomes in any DNA will not replace the existing coordinator zomes in-place, which may cause mismatches with updated UIs that tries to call those new zomes' functions. (Users without any installation history for the app will of course get the new coordinator zomes.)
+* Updating integrity zomes in any DNA will cause a new cell to be created, with a new DHT separate from the old one, causing the agent's old source chain and their participation in the old network to be lost.
+* Updating the bundled Holochain version to one with an incompatible database schema will cause the user's authoring history to be lost, unless that Holochain version has a migration path from the old schema to the new one.
+* Updating the bundled Holochain version to one with an incompatible network protocol will prevent users on the new version of the app from communicating with users on the old version.
+
+In all of these cases, we strongly recommend that you bump the leftmost integer of the app's version number, to indicate to the auto-updater that it's an incompatible version from the previous one.
 !!!
 
 ## Keeping a DHT alive
