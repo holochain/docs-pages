@@ -18,6 +18,7 @@ howto
 howtos
 ified
 interoperating
+kbps
 lifecycle
 lifecycles
 passcode

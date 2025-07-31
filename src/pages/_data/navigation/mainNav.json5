@@ -65,6 +65,7 @@
         { title: "Upgrade Guides", url: "/resources/upgrade/" },
         { title: "Howtos", url: "/resources/howtos/", children: [
           { title: "Debugging a Running Holochain Conductor", url: "/resources/howtos/debugging/" },
+          { title: "Running Network Infrastructure", url: "/resources/howtos/running-network-infrastructure/" },
         ]},
         { title: "HDK", url: "https://docs.rs/hdk", external: true },
         { title: "HDI", url: "https://docs.rs/hdi", external: true },

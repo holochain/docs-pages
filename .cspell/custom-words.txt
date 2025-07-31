@@ -13,11 +13,13 @@ Brisebois
 Burmeister
 Cachix
 cdylib
+certbot
 CRDT
 d'Aoust
 Diffie
 ECDH
 fixt
+fullchain
 gnused
 Hellerstein
 imdb
@@ -30,6 +32,7 @@ IPFS
 keccak
 keypair
 Kleppmann
+letsencrypt
 libasound
 libatk
 libcups
@@ -46,6 +49,7 @@ NixOS
 nixpkgs
 pkgs
 POSIX
+privkey
 pubkey
 QUIC
 rustc
