@@ -60,7 +60,8 @@ services:
       - /etc/letsencrypt/live/bootstrap.example.org/privkey.pem
     environment:
       - RUST_LOG=info
-    network_mode: host
+    ports:
+      - "443:443"
     volumes:
         # Replace this with the path to the TLS certificate files on the host
         # and your desired mount point inside the container, in this format:
