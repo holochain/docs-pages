@@ -35,6 +35,7 @@ sudo touch /opt/kitsune2-bootstrap/docker-compose.yaml
 ```
 ```bash
 sudo chown $(whoami) /opt/kitsune2-bootstrap/docker-compose.yaml
+```
 ```bash
 vim /opt/kitsune2-bootstrap/docker-compose.yaml
 ```
