@@ -34,7 +34,7 @@ Our partners at Holo Hosting also offer [Cloud Nodes](https://holo.host/product/
 
 ### Bootstrap/signal server
 
-For a hApp to run smoothly on the public internet, its users need a little bit of centralized infrastructure to discover each other and establish peer-to-peer connections. You'll need to set up and maintain an instance of the Kitsune2 bootstrap/signal server; [read the howto](#) <!-- TODO: link when https://github.com/holochain/docs-pages/pull/594 is merged --> to get set up.
+For a hApp to run smoothly on the public internet, its users need a little bit of centralized infrastructure to discover each other and establish peer-to-peer connections. You'll need to set up and maintain an instance of the Kitsune2 bootstrap/signal server; [read the howto](/resources/howtos/running-network-infrastructure/) to get set up.
 
 ### WebRTC servers
 
