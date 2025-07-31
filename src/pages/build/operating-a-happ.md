@@ -38,7 +38,7 @@ For a hApp to run smoothly on the public internet, its users need a little bit o
 
 ### WebRTC servers
 
-Although Holochain is designed to support multiple transport protocols, currently it only officially supports WebRTC over IP networks. We recommend you find or set up your own WebRTC [STUN](https://en.wikipedia.org/wiki/STUN) and [ICE](https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment) servers. There are a number of free public servers run by various companies; for instance, Holochain defaults to `stun.l.google.com` for both STUN and ICE if you don't specify any.
+Although Holochain is designed to support multiple transport protocols, currently it only officially supports WebRTC over IP networks. We recommend you find or set up your own WebRTC [STUN](https://en.wikipedia.org/wiki/STUN) and [ICE](https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment) servers. There are a number of free public servers run by various companies.
 
 ### Configuring the hApp
 
