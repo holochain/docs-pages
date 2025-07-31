@@ -3,7 +3,7 @@ title: Running Network Infrastructure
 ---
 
 ::: intro
-This howto will walk you through downloading, configuring and running a containerized setup that provides a bootstrap and signal/relay server for a Holochain application. This server is necessary to help peers discover each other and establish a direct peer-to-peer WebRTC connection, and it also provides a message relay service as a fallback in case a direct connection can't be established.
+This howto will walk you through downloading, configuring, and running a containerized setup that provides a bootstrap and signal/relay server for a Holochain application. This server is necessary to help peers discover each other and establish a direct peer-to-peer WebRTC connection, and it also provides a message relay service as a fallback in case a direct connection can't be established.
 :::
 
 The [kitsune2 bootstrap server](https://github.com/holochain/kitsune2/tree/main/crates/bootstrap_srv) provides:
