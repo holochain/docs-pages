@@ -123,7 +123,7 @@ At this point your bootstrap server is ready for testing, but it probably isn't 
 
 To use your server in testing, and to test that the server is running and accessible, open your project's `package.json` file and edit the following lines.
 
-!!! Use a network seed during testing
+!!! info Use a network seed during testing
 If you use the same server for production and testing, you might end up writing test data to a production DHT. The example below adds a [network seed](/build/cloning/#network-seed) for test runs so that test data ends up in its own DHT.
 !!!
 
