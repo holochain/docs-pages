@@ -44,12 +44,12 @@ For a hApp to run smoothly on the public internet, its users need a little bit o
 
 ### WebRTC servers
 
-Although Holochain is designed to support multiple transport protocols, currently it only officially supports WebRTC over IP networks. We recommend you find or set up your own WebRTC [STUN](https://en.wikipedia.org/wiki/STUN) and [ICE](https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment) servers. There are a number of free public servers run by various companies.
+Although Holochain is designed to support multiple transport protocols, currently it only officially supports WebRTC over IP networks. We recommend you find or set up your own WebRTC [STUN](https://en.wikipedia.org/wiki/STUN) servers. There are a number of free public servers run by various companies.
 
 ### Configuring the hApp
 
-Once you've set up your bootstrap/signal server and chosen your STUN and ICE servers, you'll need to configure your hApp to use them. If you're using the Kangaroo template repository, it comes with a [config file](https://github.com/holochain/kangaroo-electron/blob/main/kangaroo.config.ts) with default servers; replace the `bootstrapUrl`, `signalUrl`, and `iceUrls` fields with the correct values. `bootstrapUrl` and `signalUrl` can use the same Kitsune2 server instance because it provides both services; make sure `bootstrapUrl` starts with `https://` and `signalUrl` starts with `wss://`.
+Once you've set up your bootstrap/signal server and chosen your STUN servers, you'll need to configure your hApp to use them. If you're using the Kangaroo template repository, it comes with a [config file](https://github.com/holochain/kangaroo-electron/blob/main/kangaroo.config.ts) with default servers; replace the `bootstrapUrl`, `signalUrl`, and `iceUrls` fields with the correct values. `bootstrapUrl` and `signalUrl` can use the same Kitsune2 server instance because it provides both services; make sure `bootstrapUrl` starts with `https://` and `signalUrl` starts with `wss://`.
 
 !!! info
-All agents in a DNA must use the same bootstrap and signal servers in order to discover each other. However, different agents can use different ICE/STUN servers without trouble.
+All agents in a DNA must use the same bootstrap and signal servers in order to discover each other.
 !!!
