@@ -26,6 +26,10 @@ These things can cause issues with auto-updating:
 In all of these cases, we strongly recommend that you bump the leftmost integer of the app's version number, to indicate to the auto-updater that it's an incompatible version from the previous one.
 !!!
 
+!!! info Code signing certificates
+To make your hApps run on macOS and Windows without showing your users a security warning, you'll need to get a code signing certificate. Read [Apple's documentation](https://developer.apple.com/documentation/security/code-signing-services) for macOS and [this third-party howto](https://melatonin.dev/blog/how-to-code-sign-windows-installers-with-an-ev-cert-on-github-actions/) for Windows. If you're using Kangaroo, you can then [follow the instructions](https://github.com/holochain/kangaroo-electron/?tab=readme-ov-file#code-signing) to get code signing into your GitHub CI pipeline.
+!!!
+
 ## Keeping a DHT alive
 
 A DHT only exists if agents are actively running cells instantiated from that DHT and communicating with each other.
