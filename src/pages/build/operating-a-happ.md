@@ -30,9 +30,9 @@ In all of these cases, we strongly recommend that you bump the leftmost integer 
 
 A DHT only exists if agents are actively running cells instantiated from that DHT and communicating with each other.
 
-If you have enough users, your hApp's DHTs will probably stay alive by themselves. But if you have a small number of users, or if they're only online for a few minutes at a time, the network might suffer from poor connectivity, which your users will experience as inability to join the network, missing data from others, and network latency.
+The more users there are, and the more time they spend using your hApp, the greater the chance they'll be able to keep its DHTs running by themselves. But this is never a sure thing, so a real-world network is likely to suffer from poor round-the-clock availability, which your users will experience as inability to join the network, missing data from others, and network latency.
 
-The solution to this is **always-on nodes**. You can run a few hApp instances on devices you own (or in the cloud), or you can encourage some users to leave their devices turned on with their copy of the hApp running. <!-- TODO: Update this to mention full-arc when sharding is a thing -->
+The solution to this is **always-on nodes**. You can run a few hApp instances on devices you own (or in the cloud), or you can encourage some users to leave their devices turned on with their instance of the hApp running. <!-- TODO: Update this to mention full-arc when sharding is a thing -->
 
 ## Running network infrastructure
 
