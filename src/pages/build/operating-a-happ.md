@@ -34,8 +34,6 @@ If you have enough users, your hApp's DHTs will probably stay alive by themselve
 
 The solution to this is **always-on nodes**. You can run a few hApp instances on devices you own (or in the cloud), or you can encourage some users to leave their devices turned on with their copy of the hApp running. <!-- TODO: Update this to mention full-arc when sharding is a thing -->
 
-Our partners at Holo Hosting also offer [Cloud Nodes](https://holo.host/product/hosting-services/), which are always-on Holochain conductors hosted on a decentralized network of community-owned devices around the world. Click the 'Request a demo' button on [Holo's website](https://holo.host/) to get started.
-
 ## Running network infrastructure
 
 ### Bootstrap/signal server
