@@ -3,7 +3,7 @@ title: Operating a hApp
 ---
 
 ::: intro
-Operating a peer-to-peer app is different from operating a cloud-based app. There's no application server to maintain and no code to deploy, but there are new things you'll have to think about: **distribution/updating**, **DHT aliveness**, and **bootstrapping**.
+Operating a peer-to-peer app is different from operating a cloud-based app. There's no application server to maintain and no code to deploy, but there are new things you'll have to think about: **distribution/updating**, **DHT availability**, and **bootstrapping**.
 :::
 
 ## Distributing a hApp
@@ -11,7 +11,7 @@ Operating a peer-to-peer app is different from operating a cloud-based app. Ther
 Because the users of a hApp are the ones that run the application code, you don't have to deploy any application code in the cloud. But you do have to get a copy of the hApp into your users' hands. There are two well-supported ways to do this, both of which involve bundling your hApp and web-based UI into a binary:
 
 * You can create an [Electron](https://www.electronjs.org/)-based binary for Windows, macOS, and Linux using the [Kangaroo repository](https://github.com/holochain/kangaroo-electron) as a starting point. <!-- TODO: link to guide -->
-* You can create a [Tauri](https://tauri.app/)-based binary for Windows, macOS, Linux, and Android using the [p2p Shipyard](https://darksoil.studio/p2p-shipyard/) tool from our friends at [dark soil studio](https://darksoil.studio/). [Read their documentation](https://darksoil.studio/p2p-shipyard/guides/creating-an-app.html) to find out how.
+* You can create a [Tauri](https://tauri.app/)-based binary for Windows, macOS, Linux, and Android using the [p2p Shipyard](https://darksoil.studio/p2p-shipyard/) tool from our friends at [darksoil studio](https://darksoil.studio/). [Read their documentation](https://darksoil.studio/p2p-shipyard/guides/creating-an-app.html) to find out how.
 
 !!! info Be careful with auto-updating
 The auto-updater code in Kangaroo checks your project's GitHub releases page for releases with a version number that's [semver](https://semver.org)-compatible with the one the user currently has installed. It's up to you to make sure that you bump your version numbers in a way that users expect.
