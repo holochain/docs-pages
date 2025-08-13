@@ -14,16 +14,16 @@ Because the users of a hApp are the ones that run the application code, you don'
 * You can create a [Tauri](https://tauri.app/)-based binary for Windows, macOS, Linux, and Android using the [p2p Shipyard](https://darksoil.studio/p2p-shipyard/) tool from our friends at [darksoil studio](https://darksoil.studio/). [Read their documentation](https://darksoil.studio/p2p-shipyard/guides/creating-an-app.html) to find out how.
 
 !!! info Be careful with auto-updating
-The auto-updater code in Kangaroo checks your project's GitHub releases page for releases with a version number that's [semver](https://semver.org)-compatible with the one the user currently has installed. It's up to you to make sure that you bump your version numbers in a way that users expect.
+The auto-updater code in Kangaroo checks your project's GitHub releases page for releases with a version number that's [semver](https://semver.org)-compatible with the one the user currently has installed. It's up to you to make sure that you bump your version numbers in a way that an auto-update doesn't break anything.
 
-These things can cause issues with auto-updating:
+In particular, the following needs to be considered:
 
-* Updated coordinator zomes in any DNA will not replace the existing coordinator zomes in-place, which may cause mismatches with updated UIs that tries to call those new zomes' functions. (Users without any installation history for the app will of course get the new coordinator zomes.)
-* Updating integrity zomes in any DNA will cause a new cell to be created, with a new DHT separate from the old one, causing the agent's old source chain and their participation in the old network to be lost.
-* Updating the bundled Holochain version to one with an incompatible database schema will cause the user's authoring history to be lost, unless that Holochain version has a migration path from the old schema to the new one.
-* Updating the bundled Holochain version to one with an incompatible network protocol will prevent users on the new version of the app from communicating with users on the old version.
+* Updating/changing the happ file that's bundled with the app will not replace the hApp file for existing users of your app receiving an auto-upate. This means:
+  * You cannot update coordinator zomes.
+  * If you change the hApp file that you bundle with the app, any new users of your app that start from this new version will be using a different hApp than existing users that installed the version via auto-updates.
+* You should only update the bundled Holochain version to semver-compatible Holochain versions to prevent data loss or network forks.
 
-In all of these cases, we strongly recommend that you bump the leftmost integer of the app's version number, to indicate to the auto-updater that it's an incompatible version from the previous one.
+If you want to release an incompatible version of your app that includes changes to the hApp file or bumps to an incompatible Holochain version, you should bump the leftmost integer of the app's version number, to indicate to the auto-updater that it's an incompatible version from the previous one.
 !!!
 
 !!! info Code signing certificates
