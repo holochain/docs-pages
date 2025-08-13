@@ -18,7 +18,7 @@ The auto-updater code in Kangaroo checks your project's GitHub releases page for
 
 In particular, the following needs to be considered:
 
-* Updating/changing the happ file that's bundled with the app will not replace the hApp file for existing users of your app receiving an auto-upate. This means:
+* Updating/changing the happ file that's bundled with the app will not replace the hApp file for existing users of your app receiving an auto-update. This means:
   * You cannot update coordinator zomes.
   * If you change the hApp file that you bundle with the app, any new users of your app that start from this new version will be using a different hApp than existing users that installed the version via auto-updates.
 * You should only update the bundled Holochain version to semver-compatible Holochain versions to prevent data loss or network forks.
