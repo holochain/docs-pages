@@ -14,7 +14,7 @@ title: "Getting an Agent's Status"
 :::
 
 ::: intro
-At certain points in a hApp a user may want to check on a peer's good standing in the network, particularly to find out whether they've broken the rules of a hApp or of Holochain itself. `get_agent_activity` lets you get a summary of an agent's current state, including any outstanding [**warrants**](/glossary/#warrant) attached to them.
+At certain points in a hApp a user may want to check on a peer's good standing in the network, particularly to find out whether they've broken the rules of a hApp or of Holochain itself. `get_agent_activity` lets you get a summary of an agent's current state, including any outstanding [**warrants**](/resources/glossary/#warrant) attached to them.
 :::
 
 ## When do we need to check an agent's state?
@@ -25,7 +25,7 @@ You can do this with the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/c
 
 A warrant is a [DHT operation](/build/dht-operations/) that indicates that some agent has broken a rule, either a base Holochain rule (such as "a chain must not fork") or an app-specific validation rule encoded in a [`validate` callback](/build/validate-callback/).
 
-A warrant is created for _any_ DHT operation that fails app validation, and sent to the [authority](/resources/glossary/#dht-authority) responsible for the warranted author's [agent ID](/build/identifiers/#agent) address. No warrants are created for chain forks, because a warrant is simply a way of informing other agents of an incident on data they might not be an authority on, and agent ID authorities already watch for chain forks.<!-- TODO: change this language if chain fork warrants become a thing -->
+A warrant is created for _any_ DHT operation that fails app validation, and sent to the [authority](/resources/glossary/#validation-authority) responsible for the warranted author's [agent ID](/build/identifiers/#agent) address. No warrants are created for chain forks, because a warrant is simply a way of informing other agents of an incident on data they might not be an authority on, and agent ID authorities already watch for chain forks.<!-- TODO: change this language if chain fork warrants become a thing -->
 
 An agent's state is not deterministic, so it's not something you check in a validation callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when an agent is about to enter into an agreement.
 
@@ -57,7 +57,7 @@ pub fn is_agent_safe_to_interact_with(agent: AgentPubKey) -> ExternResult<bool> 
 ```
 
 !!! info Warrants and chain forks are eventually consistent
-The absence of a warrant or chain fork doesn't necessarily mean an agent is in good standing; it simply means _no evidence of rule-breaking has been discovered yet_ by the authority the calling agent has queried. However, most authorities with good connectivity to their [neighbors](/resources/glossary/#heighbor) will discover invalid data and chain forks and publish warrants within seconds after the data is published.
+The absence of a warrant or chain fork doesn't necessarily mean an agent is in good standing; it simply means _no evidence of rule-breaking has been discovered yet_ by the authority the calling agent has queried. However, most authorities with good connectivity to their [neighbors](/resources/glossary/#neighbor) will discover invalid data and chain forks and publish warrants within seconds after the data is published.
 !!!
 
 ## Check for a published action
@@ -131,7 +131,7 @@ This approach is still vulnerable to various time-based attacks; for instance:
 * A malicious agent claims to have published an action but has withheld it and conflicting actions from publishing until immediately before they send its hash to the receiver. The receiver may mistakenly think enough time has passed for warrants and forks to propagate.
 * A malicious agent crafts a conflicting action but withholds it until after the receiver completes an agreement, causing the proposal action and its subsequent acceptance action to be seen as invalid due to a chain fork.
 
-Vulnerabilities like this are outside of the scope of this document; we recommend you get a third-party security audit for any high-risk hApp involving a multi-party agreement process.
+Vulnerabilities like this are outside the scope of this document; we recommend you get a third-party security audit for any high-risk hApp involving a multi-party agreement process.
 !!!
 
 ## Query an agent's source chain
@@ -143,7 +143,6 @@ An agent's source chain is part of their state, so you can also use `get_agent_a
 * [`hdk::chain::get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html)
 * [`holochain_zome_types::query::ActivityRequest`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ActivityRequest.html)
 * [`holochain_zome_types::query::ChainQueryFilter`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.ChainQueryFilter.html)
-* [`holochain_zome_types::query::ActivityRequest`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ActivityRequest.html)
 * [`holochain_zome_types::query::AgentActivity`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.AgentActivity.html)
 
 ## Further reading
