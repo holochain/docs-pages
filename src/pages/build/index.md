@@ -75,6 +75,7 @@ As you build or update an app using Holochain's quickly-moving ecosystem, you'll
 * [Validate Callback](/build/validate-callback/) --- Writing validation routines for various needs
 * [`must_get_*` Host Functions](/build/must-get-host-functions/) --- Deterministically retrieving DHT data for use in validation
 * [DHT operations](/build/dht-operations/) --- advanced details on the underlying data structure used in DHT replication and validation
+* [Getting an Agent's Status](/build/getting-an-agents-status/) --- checking for invalid actions committed by another agent
 :::
 
 ## Testing
