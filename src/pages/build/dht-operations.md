@@ -2,6 +2,17 @@
 title: "DHT operations"
 ---
 
+::: topic-list
+### In this section {data-no-toc}
+
+* [Validation](/build/validation/)
+    * [`genesis_self_check` Callback](/build/genesis-self-check-callback/) --- writing a function to control access to a network
+    * [`validate` Callback](/build/validate-callback/) --- basic callback, examples using stub functions
+    * [`must_get_*` Host Functions](/build/must-get-host-functions/) --- Deterministically retrieving DHT data for use in validation
+    * DHT operations (this page) --- advanced details on the underlying data structure used in DHT replication and validation
+    * [Getting an Agent's Status](/build/getting-an-agents-status/) --- checking for invalid actions committed by another agent
+:::
+
 ::: intro
 An agent receives **DHT operations**, which are requests for them to transform [their slice of the DHT](/concepts/4_dht/#finding-peers-and-data-in-a-distributed-database) in some way. A DHT operation must be validated before it's applied. For this reason it's the input parameter to the [`validate` callback](/build/validate-callback/).
 :::
