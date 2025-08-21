@@ -82,3 +82,10 @@ While the following info describes the way Holochain should work [as formally sp
         * Basis addresses: old link's [base address](/build/links-paths-and-anchors/#define-a-link-type) and action hash
         * Contents: action <!--TODO: system validation? -->
         * Effect: Mark a link as deleted, without removing the actual data.
+
+## Warrant operations
+
+There's one final DHT operation type, a [`WarrantOp`](https://docs.rs/holochain_types/latest/holochain_types/warrant/struct.WarrantOp.html). Rather than being produced from an action, it gets produced by a validator when they discover an invalid operation. Its basis address is the public key of the author of the operation, which means warrants get collected on the agent ID address and can be [retrieved with `get_agent_activity`](/build/getting-an-agents-status/).
+
+You don't need to write validation code for warrant operations; they're system-only operations.
+
