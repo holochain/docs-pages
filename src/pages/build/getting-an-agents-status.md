@@ -48,11 +48,10 @@ pub fn is_agent_safe_to_interact_with(agent: AgentPubKey) -> ExternResult<bool> 
 
     // The agent is safe if their chain has no forks or invalid data,
     // and no other authorities have produced warrants.
-    if let (ChainStatus::Valid(_), 0) = (agent_state.status, agent_state.warrants.len()) {
-        return Ok(true);
-    }
-
-    Ok(false)
+    Ok(
+        matches!(agent_state.status, ChainStatus::Valid(_))
+        && agent_state.warrants.len() == 0
+    )
 }
 ```
 
