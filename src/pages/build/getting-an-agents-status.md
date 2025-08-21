@@ -46,12 +46,13 @@ pub fn is_agent_safe_to_interact_with(agent: AgentPubKey) -> ExternResult<bool> 
         ActivityRequest::Status,
     )?;
 
-    Ok(
-        // The agent is safe if their chain has no forks or invalid data,
-        // and no other authorities have produced warrants
-        let ChainStatus::Valid(_) = agent_state.status
-        && warrants.len() > 0
-    )
+    // The agent is safe if their chain has no forks or invalid data,
+    // and no other authorities have produced warrants.
+    if let (ChainStatus::Valid(_), 0) = (agent_state.status, agent_state.warrants.len()) {
+        return Ok(true);
+    }
+
+    Ok(false)
 }
 ```
 
@@ -68,6 +69,7 @@ Because the DHT is eventually consistent, it's also a good idea for the other pa
 ```rust
 use hdk::prelude::*;
 
+#[derive(Serialize, Debug)]
 pub enum ProposalStatus {
     /// The proposal hasn't appeared at the agent ID authority yet.
     NotAvailable,
@@ -88,9 +90,9 @@ pub enum ProposalStatus {
 // until the action is seen on the initiator's chain, and then after a
 // suitable interval to allow evidence of bad activity to show up.
 #[hdk_extern]
-pub fn is_proposal_currently_good(initiator: AgentPubKey, proposal_hash: ActionHash) -> ExternResult<PropsalStatus> {
+pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> ExternResult<ProposalStatus> {
     let initiator_state = get_agent_activity(
-        initiator,
+        input.initiator,
         ChainQueryFilter::new()
             // For scarce resources, you'll want to make sure that another
             // conflicting proposal for the same resource hasn't been created
@@ -99,7 +101,7 @@ pub fn is_proposal_currently_good(initiator: AgentPubKey, proposal_hash: ActionH
             // check that it exists on the chain.
             // You can read more about building a chain query filter at
             // https://developer.holochain.org/build/querying-source-chains/#filtering-a-query
-            .sequence_range(ChainQueryFilterRange::ActionHashTerminated(proposal_hash, 0)),
+            .sequence_range(ChainQueryFilterRange::ActionHashTerminated(input.proposal_hash, 0)),
         ActivityRequest::Full,
     )?;
 
@@ -114,10 +116,10 @@ pub fn is_proposal_currently_good(initiator: AgentPubKey, proposal_hash: ActionH
             if initiator_state.warrants.len() > 0 {
                 return Ok(ProposalStatus::Invalid);
             }
-            if initiator_state.valid_actions.len() == 0 {
+            if initiator_state.valid_activity.len() == 0 {
                 return Ok(ProposalStatus::NotAvailable);
             }
-            Ok(ProposalStatus(GoodSoFar))
+            Ok(ProposalStatus::GoodSoFar)
         }
     }
 }
