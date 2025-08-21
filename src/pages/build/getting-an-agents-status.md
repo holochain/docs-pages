@@ -50,7 +50,7 @@ pub fn is_agent_safe_to_interact_with(agent: AgentPubKey) -> ExternResult<bool> 
     // and no other authorities have produced warrants.
     Ok(
         matches!(agent_state.status, ChainStatus::Valid(_))
-        && agent_state.warrants.len() == 0
+        && agent_state.warrants.is_empty()
     )
 }
 ```
@@ -112,10 +112,10 @@ pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> Extern
         ChainStatus::Valid(_) => {
             // AgentState::status doesn't account for warrants.
             // We have to check for them as a separate step.
-            if initiator_state.warrants.len() > 0 {
+            if !initiator_state.warrants.is_empty() {
                 return Ok(ProposalStatus::Invalid);
             }
-            if initiator_state.valid_activity.len() == 0 {
+            if initiator_state.valid_activity.is_empty() {
                 return Ok(ProposalStatus::NotAvailable);
             }
             Ok(ProposalStatus::GoodSoFar)
