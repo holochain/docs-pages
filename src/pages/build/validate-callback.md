@@ -2,6 +2,17 @@
 title: "Validate callback"
 ---
 
+::: topic-list
+### In this section {data-no-toc}
+
+* [Validation](/build/validation/)
+    * [`genesis_self_check` Callback](/build/genesis-self-check-callback/) --- writing a function to control access to a network
+    * `validate` Callback (this page) --- basic callback, examples using stub functions
+    * [`must_get_*` Host Functions](/build/must-get-host-functions/) --- Deterministically retrieving DHT data for use in validation
+    * [DHT operations](/build/dht-operations/) --- advanced details on the underlying data structure used in DHT replication and validation
+    * [Getting an Agent's Status](/build/getting-an-agents-status/) --- checking for invalid actions committed by another agent
+:::
+
 ::: intro
 The `validate` callback implements the core of your data model's logic. It receives **DHT operations**, which contain an [action](/build/working-with-data/#entries-actions-and-records-primary-data) and sometimes an [entry](/build/entries), and checks them for correctness. It can not only validate the correctness of the data itself, but can also check the correctness of the record in the context of the [source chain](/concepts/3_source_chain/) and pull in dependencies from elsewhere in the [DHT](/concepts/4_dht/).
 :::
