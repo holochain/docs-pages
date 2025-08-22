@@ -23,7 +23,7 @@ If your app involves interactions between peers that require a high level of int
 
 You can do this with the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html) host function, which, among other information, lets an agent discover both chain forks and collected **warrants** for another agent.
 
-A warrant is a [DHT operation](/build/dht-operations/) that indicates that some agent has broken a rule, either a base Holochain rule (such as "a chain must not fork") or an app-specific validation rule encoded in a [`validate` callback](/build/validate-callback/).
+A warrant is a [DHT operation](/build/dht-operations/) that indicates that some agent has broken a rule, either a base Holochain rule or an app-specific validation rule encoded in a [`validate` callback](/build/validate-callback/).
 
 A warrant is created for _any_ DHT operation that fails app validation, and sent to the [authority](/resources/glossary/#validation-authority) responsible for the warranted author's [agent ID](/build/identifiers/#agent) address. No warrants are created for chain forks, because a warrant is simply a way of informing other agents of an incident on data they might not be an authority on, and agent ID authorities already watch for chain forks.<!-- TODO: change this language if chain fork warrants become a thing -->
 
