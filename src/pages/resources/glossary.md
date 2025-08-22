@@ -942,7 +942,7 @@ A [DHT operation](#dht-operation) that attests that either:
 1. another DHT operation is invalid and its author has transgressed a [validation rule](#validation-rule), or
 2. (future) an [agent activity operation](#agent-activity-operation) has caused an agent's chain to [fork](#fork-source-chain).
 
-The [basis address](#basis-address) of a warrant is the [agent ID](#agent-id) of the author of the invalid operation; hence it is sent to and collected by the [validation authorities](#validation-authority) responsible for the agent ID basis address.
+The [basis address](#basis-address) of a warrant is the [agent ID](#agent-id) of the author of the invalid operation; hence, it is sent to and collected by the [validation authorities](#validation-authority) responsible for the agent ID basis address.
 
 A warrant can be used by any peer as legitimate grounds for blocking communication with the [agent](#agent) being warranted. The publishing and discovery of warrants is what creates Holochain's [immune system](#immune-system).
 
