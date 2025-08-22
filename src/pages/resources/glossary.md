@@ -933,11 +933,11 @@ See [validation authority](#validation-authority).
 A [signed](#public-key-signature) [DHT operation](#dht-operation) that attests that either:
 
 1. a DHT operation is invalid and its author has transgressed a [validation rule](#validation-rule), or
-2. (future) an [agent activity operation](#agent-activity-operation) has caused an agent's chain to [fork](#fork-source-chain).
+2. (future) an [agent activity operation](#agent-activity-operation) has caused an agent's chain to [fork](#fork-source-chain).<!-- TODO: remove/update this if it becomes true/untrue -->
 
 The [basis address](#basis-address) of a warrant is the [agent ID](#agent-id) of the author of the invalid operation; hence, it is sent to and collected by the [validation authorities](#validation-authority) responsible for the agent ID basis address.
 
-A warrant may be used by any peer as legitimate grounds for blocking communication with the [agent](#agent) being warranted.
+A warrant may be used by any peer as legitimate grounds for blocking communication with the [agent](#agent) being warranted.<!-- TODO: update this if warrants ever become used as grounds for scrubbing invalid data -->
 
 Warrants are not produced for invalid warrants.
 
