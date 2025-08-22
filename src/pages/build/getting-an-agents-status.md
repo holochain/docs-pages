@@ -27,7 +27,7 @@ A warrant is a [DHT operation](/build/dht-operations/) that indicates that some 
 
 A warrant is created for _any_ DHT operation that fails system or app validation, and sent to the [authority](/resources/glossary/#validation-authority) responsible for the warranted author's [agent ID](/build/identifiers/#agent) address. No warrants are created for chain forks, because a warrant is simply a way of informing other agents of an incident on data they might not be an authority on, and agent ID authorities already watch for chain forks.<!-- TODO: change this language if chain fork warrants become a thing -->
 
-An agent's state is not deterministic, so it's not something you check in a validation callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when an agent is about to enter into an agreement.
+An agent's state is not deterministic, so it's not something you check in a validation callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when an agent is about to enter into an agreement. (There's a similar host function, [`must_get_agent_activity`](/build/must-get-host-functions/#must-get-agent-activity), that does let you validate an op using a deterministic slice of a source chain as a dependency.)
 
 ## Get the status of an agent
 
@@ -149,3 +149,4 @@ An agent's source chain is part of their state, so you can also use `get_agent_a
 * [Core Concepts: Source Chain](/concepts/3_source_chain/)
 * [Core Concepts: Validation](/concepts/7_validation/)
 * [Build Guide: DHT Operations: Warrant operations](/build/dht-operations/#warrant-operations)
+* [Build Guide: `must_get` Host Functions: `must_get_agent_activity`](/build/must-get-host-functions/#must-get-agent-activity)
