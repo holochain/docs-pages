@@ -930,13 +930,16 @@ See [validation authority](#validation-authority).
 
 #### Warrant
 
-(Future) A [signed](#public-key-signature) piece of data that attests that either:
+A [signed](#public-key-signature) [DHT operation](#dht-operation) that attests that either:
 
-1. a [DHT operation](#dht-operation) is invalid and its author has transgressed a [validation rule](#validation-rule),
-2. a warrant is invalid, or
-3. an agent should not be communicated with for reasons not easily expressible as a [validation function](#validation-function), such as termination of employment or copyright .
+1. a DHT operation is invalid and its author has transgressed a [validation rule](#validation-rule), or
+2. (future) an [agent activity operation](#agent-activity-operation) has caused an agent's chain to [fork](#fork-source-chain).<!-- TODO: remove/update this if it becomes true/untrue -->
 
-A warrant can be used by any peer as legitimate grounds for blocking communication with the [agent](#agent) being warranted, as well as for deleting one's locally stored copy of any invalid data covered by the warrant, even if one would normally be a [validation authority](#validation-authority) for that data.
+The [basis address](#basis-address) of a warrant is the [agent ID](#agent-id) of the author of the invalid operation; hence, it is sent to and collected by the [validation authorities](#validation-authority) responsible for the agent ID basis address.
+
+A warrant may be used by any peer as legitimate grounds for blocking communication with the [agent](#agent) being warranted.<!-- TODO: update this if warrants ever become used as grounds for scrubbing invalid data -->
+
+Warrants are not produced for invalid warrants.
 
 #### WebAssembly (WASM)
 
