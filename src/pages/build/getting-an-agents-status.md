@@ -25,7 +25,7 @@ You can do this with the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/c
 
 A warrant is a [DHT operation](/build/dht-operations/) that indicates that some agent has broken a rule, either a base Holochain rule or an app-specific validation rule encoded in a [`validate` callback](/build/validate-callback/).
 
-A warrant is created for _any_ DHT operation that fails app validation, and sent to the [authority](/resources/glossary/#validation-authority) responsible for the warranted author's [agent ID](/build/identifiers/#agent) address. No warrants are created for chain forks, because a warrant is simply a way of informing other agents of an incident on data they might not be an authority on, and agent ID authorities already watch for chain forks.<!-- TODO: change this language if chain fork warrants become a thing -->
+A warrant is created for _any_ DHT operation that fails system or app validation, and sent to the [authority](/resources/glossary/#validation-authority) responsible for the warranted author's [agent ID](/build/identifiers/#agent) address. No warrants are created for chain forks, because a warrant is simply a way of informing other agents of an incident on data they might not be an authority on, and agent ID authorities already watch for chain forks.<!-- TODO: change this language if chain fork warrants become a thing -->
 
 An agent's state is not deterministic, so it's not something you check in a validation callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when an agent is about to enter into an agreement.
 
