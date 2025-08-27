@@ -162,13 +162,15 @@ If you've created your hApp using our scaffolding tool, you should be able to fo
 
 Edit your project's `tests/package.json` file:
 
+<!-- TODO(upgrade): bump version numbers here, at least as long as 0.5 is the most recent recommended or maintenance-mode release -->
+
 ```diff:json
    "dependencies": {
      // some dependencies
 -    "@holochain/client": "^0.18.1",
 -    "@holochain/tryorama": "^0.17.1",
-+    "@holochain/client": "^0.19.1",
-+    "@holochain/tryorama": "^0.18.2",
++    "@holochain/client": "^0.19.2",
++    "@holochain/tryorama": "^0.18.3",
      // more dependencies
    },
 ```
@@ -180,7 +182,7 @@ You'll update the UI package dependencies similarly to the test package. Edit `u
 ```diff:json
    "dependencies": {
 -    "@holochain/client": "^0.18.1",
-+    "@holochain/client": "^0.19.1",
++    "@holochain/client": "^0.19.2",
      // more dependencies
    },
 ```
@@ -221,12 +223,14 @@ and look for messages that look similar to `error TS2322: Type X is not assignab
 
 This won't catch all errors; you may discover some at runtime. Look for usage of the following types and functions in particular:
 
-* [`CapAccess`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.capaccess.md) and [`GrantedFunctions`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.grantedfunctions.md) in a capability grant
-* [`CellInfo`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.cellinfo.md)
-* [`AdminWebsocket.installApp`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.adminwebsocket.installapp.md), where the [bundle source](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appbundlesource.md) is an enum
-* [`AppWebsocket.appInfo`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.appinfo.md), whose [return type](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appinfo.md) has many enums nested in it
-* [`AppWebsocket.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.disableclonecell.md) and [`AppWebsocket.enableCloneCell`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.enableclonecell.md), which now take a new [`CloneCellId`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.clonecellid.md) type for their `clone_id` argument
-* [`Signal`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.signal.md)
+<!-- Note: the ref `main-0.5 doesn't need to be part of an update sweep -->
+
+* [`CapAccess`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.capaccess.md) and [`GrantedFunctions`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.grantedfunctions.md) in a capability grant
+* [`CellInfo`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.cellinfo.md)
+* [`AdminWebsocket.installApp`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.adminwebsocket.installapp.md), where the [bundle source](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.appbundlesource.md) is an enum
+* [`AppWebsocket.appInfo`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.appwebsocket.appinfo.md), whose [return type](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.appinfo.md) has many enums nested in it
+* [`AppWebsocket.disableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.appwebsocket.disableclonecell.md) and [`AppWebsocket.enableCloneCell`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.appwebsocket.enableclonecell.md), which now take a new [`CloneCellId`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.clonecellid.md) type for their `clone_id` argument
+* [`Signal`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.signal.md)
 
 ### `HoloHash` constructors renamed
 
@@ -236,7 +240,7 @@ Because the new name of the function that panics is the same as the old name of 
 
 ### `AppWebsocket::callZome` can no longer accept a `null` cap secret
 
-The `cap_secret` field in the `request` argument of [`AppWebsocket::callZome`](https://github.com/holochain/holochain-client-js/blob/v0.19.0/docs/client.appwebsocket.callzome.md) can no longer be `null` --- instead it must either be omitted (you don't need it at all if your UI is hosted by an [officially supported Holochain runtime](/get-started/4-packaging-and-distribution/)) or explicitly given.
+The `cap_secret` field in the `request` argument of [`AppWebsocket::callZome`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.appwebsocket.callzome.md) can no longer be `null` --- instead it must either be omitted (you don't need it at all if your UI is hosted by an [officially supported Holochain runtime](/get-started/4-packaging-and-distribution/)) or explicitly given.
 
 ```diff:typescript
  const results = await client.value.callZome({
