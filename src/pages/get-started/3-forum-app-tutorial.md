@@ -30,6 +30,8 @@ First, let's use the scaffolding tool to generate the basic folders and files fo
 
 To start, run the following command in your terminal:
 
+<!-- TODO(upgrade): change following version number -->
+
 ```shell
 nix run "github:/holochain/holonix?ref=main-0.5#hc-scaffold" -- web-app
 ```
