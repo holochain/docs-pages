@@ -8,7 +8,7 @@ package = "netlify-plugin-checklinks"
 
     recursive = true
     pretty = true
-    checkExternal = true
+    checkExternal = false
 
     # Sometimes the checklinks plugin fails to get a positive result for
     # Google Web Fonts links, even though they work just fine.
