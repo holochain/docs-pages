@@ -46,7 +46,7 @@ Copy this code into the file, edit the locations of your TLS certificate and key
 ```yaml
 services:
   bootstrap:
-    image: ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.11
+    image: ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.16
     command:
       - kitsune2-bootstrap-srv
       - --production

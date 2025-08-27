@@ -459,7 +459,7 @@ If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangar
 ```
 
 !!! info Upgrading your Kangaroo-based project
-To get your Kangaroo-based hApp working with Holochain 0.5, you'll also need to compare your project's code against the code in the `kangaroo-electron` template repo for Holochain 0.5 (currently at [this commit](https://github.com/holochain/kangaroo-electron/tree/89ff7ba9721785c0e4f196707016418aaccadad1)<!-- TODO(upgrade): change this commit as needed -->), make changes as needed, and follow the guidance above for updating UI and zome code.
+To get your Kangaroo-based hApp working with Holochain 0.5, you'll also need to compare your project's code against the code in the `kangaroo-electron` template repo for Holochain 0.5 (currently at [this commit](https://github.com/holochain/kangaroo-electron/commit/7d3208a3161bebb51f6114233dd7386b0815b79d)<!-- TODO(upgrade): change this commit as needed -->), make changes as needed, and follow the guidance above for updating UI and zome code.
 !!!
 
 ## Subtle changes
