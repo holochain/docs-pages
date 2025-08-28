@@ -9,10 +9,27 @@ package = "netlify-plugin-checklinks"
     recursive = true
     pretty = true
     checkExternal = true
+    followSourceMaps = false
 
-    # Sometimes the checklinks plugin fails to get a positive result for
-    # Google Web Fonts links, even though they work just fine.
-    skipPatterns = [ "https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,700;1,400;1,700&display=swap" ]
+    skipPatterns = [
+        # Sometimes the checklinks plugin fails to get a positive result for
+        # Google Web Fonts links, even though they work just fine.
+        "https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,700;1,400;1,700&display=swap",
+        # For some reason the fragment check doesn't work on Matrix community
+        # shortlinks.
+        "https://matrix.to/#/#community:",
+        # Fragment IDs for line numbers on docs.rs are handled by JS, not HTML.
+        "https://docs.rs/*.html#*-*",
+        # Same with GitHub.
+        "https://github.com/*#L*",
+        # Reddit seems to deny access to the plugin.
+        "https://reddit.com/r/holochain/",
+        # For some reason the plugin recognises these filenames as URLs,
+        # but only on one page (page 2 of the getting started guide, in the
+        # table that contains the project structure).
+        "http://lib.rs",
+        "http://README.md"
+    ]
 
 [[headers]]
   for = "/*"
