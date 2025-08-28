@@ -23,7 +23,7 @@ The Holochain dev tool command `hc scaffold entry-type <entry_type>` generates t
 
 Each entry has a **type**. This lets your application make sense of what would otherwise be a blob of arbitrary bytes. Our [HDI library](https://docs.rs/hdi/latest/hdi/) gives you macros to automatically define, serialize, and deserialize typed entries to and from any Rust struct or enum that [`serde`](https://docs.rs/serde/latest/serde/) can handle.
 
-Entry types are defined in an [**integrity zome**](/resources/glossary/#integrity-zome). To define an [`EntryType`](https://docs.rs/hdi/latest/hdi/prelude/enum.EntryType.html), use the [`hdi::prelude::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_helper.html) macro on your Rust type:
+Entry types are defined in an [**integrity zome**](/resources/glossary/#integrity-zome). To define an [`EntryType`](https://docs.rs/hdi/latest/hdi/prelude/enum.EntryType.html), use the [`hdi::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html) macro on your Rust type:
 
 ```rust
 use hdi::prelude::*;
@@ -43,7 +43,7 @@ pub struct Movie {
 
 This implements a host of [`TryFrom` conversions](https://docs.rs/hdi/latest/src/hdi/entry.rs.html#120-209) that your type is expected to implement, along with serialization and deserialization functions.
 
-In order to dispatch validation to the proper integrity zome, Holochain needs to know about all the entry types that your integrity zome defines. This is done by implementing a callback in your zome called `entry_defs`, but it's easier to use the [`hdi::prelude::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_types.html) macro on an enum of all the entry types:
+In order to dispatch validation to the proper integrity zome, Holochain needs to know about all the entry types that your integrity zome defines. This is done by implementing a callback in your zome called `entry_defs`, but it's easier to use the [`hdi::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_types.html) macro on an enum of all the entry types:
 
 ```rust {#entry-types-enum}
 use hdi::prelude::*;
@@ -464,7 +464,7 @@ There are some community-maintained libraries that offer opinionated and high-le
 * [`hdi::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_types.html)
 * [`hdk::entry::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html)
 * [`hdk::entry::update_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html)
-* [`hdi::entry::delete_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html)
+* [`hdk::entry::delete_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html)
 
 ## Further reading
 

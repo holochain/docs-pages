@@ -788,7 +788,7 @@ hc scaffold collection --help
 ## 10. Run your application in dev mode
 
 !!! info Warning for Ubuntu 24.04 and later
-Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions) that cause the following command to fail. Here's a simple fix. In your terminal, run this command:
+Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that cause the following command to fail. Here's a simple fix. In your terminal, run this command:
 
 ```shell
 sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
@@ -918,7 +918,7 @@ Next, there's an `onMount` handler, which is run when the component is first dis
 <ClientProvider>
   <div>
     <div>
-      <a href="https://developer.holochain.org/get-started/" target="_blank">
+      <a href="https://developer.holochain.org/get-started/" target="_blank" rel="noopener noreferrer">
         <img src={logo} class="logo holochain" alt="holochain logo" />
       </a>
     </div>
@@ -998,7 +998,7 @@ Next, edit the markup template in the `<ClientProvider>` section of the file, wh
  <ClientProvider>
    <div>
 -    <div>
--      <a href="https://developer.holochain.org/get-started/" target="_blank">
+-      <a href="https://developer.holochain.org/get-started/" target="_blank" rel="noopener noreferrer">
 -        <img src={logo} class="logo holochain" alt="holochain logo" />
 -      </a>
 -    </div>

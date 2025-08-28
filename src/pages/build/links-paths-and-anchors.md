@@ -27,7 +27,7 @@ Every link has a type that you define in an integrity zome, just like [an entry]
 
 You can use the tag as link 'content' to further qualify the link, provide a summary of data about the target to save on DHT queries, or build a starts-with search index. But unlike an entry's content, the HDK doesn't provide a macro that automatically deserializes the link tag's content into a Rust type. {#link-tag}
 
-[Just as with entries](/build/entries/#define-an-entry-type), Holochain needs to know about your link types in order to dispatch validation to the right integrity zome. You can do this by implementing a `link_types` callback function, and the easiest way to do this is to add the [`hdi::prelude::hdk_link_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_link_types.html) macro to an enum that defines all your link types:
+[Just as with entries](/build/entries/#define-an-entry-type), Holochain needs to know about your link types in order to dispatch validation to the right integrity zome. You can do this by implementing a `link_types` callback function, and the easiest way to do this is to add the [`hdi::hdk_link_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_link_types.html) macro to an enum that defines all your link types:
 
 ```rust
 use hdi::prelude::*;
@@ -295,7 +295,7 @@ let links_to_all_movies = all_first_letter_paths
 * [`hdk::link::delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html)
 * Getting hashes from data
     * [`holochain_integrity_types::record::Record#action_address`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html#method.action_address)
-    * [`holo_hash::prelude::HasHash<T>`](https://docs.rs/holo_hash/latest/holo_hash/trait.HasHash.html)
+    * [`holo_hash::HasHash<T>`](https://docs.rs/holo_hash/latest/holo_hash/trait.HasHash.html)
     * [`holochain_integrity_types::action::Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html) (contains fields with hashes of referenced data in them)
     * [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html)
     * [`hdk::info::agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html)

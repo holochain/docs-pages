@@ -174,7 +174,7 @@ The shared DHT and the individual source chains are involved in multiple interre
 ## Reference
 
 * [`holochain_integrity_types::record::Record`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)
-* [`holochain_integrity_types::action::Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Action.html)
+* [`holochain_integrity_types::action::Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html)
 * [`holochain_integrity_types::action::Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Create.html)
 * [`holochain_integrity_types::action::Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Update.html)
 * [`holochain_integrity_types::action::Delete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html)
