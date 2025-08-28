@@ -788,7 +788,7 @@ hc scaffold collection --help
 ## 10. Run your application in dev mode
 
 !!! info Warning for Ubuntu 24.04 and later
-Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions-15) that cause the following command to fail. Here's a simple fix. In your terminal, run this command:
+Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions) that cause the following command to fail. Here's a simple fix. In your terminal, run this command:
 
 ```shell
 sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
@@ -860,7 +860,7 @@ CommentsForPost.svelte  EditPost.svelte
 
 The next step is to edit the UI files in the text editor or integrated development environment of your choice to add scaffolded components and build a fully featured UI. To integrate all of these generated UI elements, you'll need to add them to `App.svelte` file located in the `ui/src/` folder, or to some other `.svelte` file that eventually gets included in `App.svelte`.
 
-If you don't yet have path commands for opening files in your preferred IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html#5d6e8844). Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs`, etc.) for `code` if you are using a different editor.
+If you don't yet have path commands for opening files in your preferred IDE, there are instructions for [VSCode/VSCodium](https://code.visualstudio.com/docs/setup/mac#_launch-vs-code-from-the-command-line), [Sublime Text](https://www.sublimetext.com/docs/command_line.html#setup) and [WebStorm](https://www.jetbrains.com/help/webstorm/working-with-the-ide-features-from-command-line.html). Going forward in this tutorial, we are going to use the `code` command when we mean for you to open files in your IDE, but you should substitute a different command (ex: `subl`, `vim`, `emacs`, etc.) for `code` if you are using a different editor.
 
 Open the `App.svelte` file with your preferred IDE.
 

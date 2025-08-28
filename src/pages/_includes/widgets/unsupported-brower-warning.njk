@@ -4,7 +4,7 @@
   #browser-warning-container {
     display: none; position: fixed; bottom: 0%; text-align: center; width: 100%; z-index: 100;
   }
-  
+
   #browser-warning-container #browser-warning {
     font-size: 24px; background-color: white; border: 4px solid black; padding: 100px; margin: 0 auto;
   }
@@ -12,7 +12,7 @@
   #browser-warning-container #browser-warning #download-new-browsers{
     display: flex; flex-direction: row; justify-content: center; margin: 20px;
   }
-  
+
   #browser-warning-container #browser-warning #download-new-browsers a {
     height: 100px; width: 100px; margin: 10px 30px;
   }
@@ -21,7 +21,7 @@
 <div id="browser-warning-container">
   <div id="browser-warning">
     <div id="ie-message">
-      It looks like you are using Internet Explorer. While the basic content is available, 
+      It looks like you are using Internet Explorer. While the basic content is available,
       this is no longer a supported browser by the manufacturer, and no attention is being given to having IE work well here.
     </div>
     <br>
@@ -31,8 +31,8 @@
         Click one of the icons below to download.
       </div>
       <div id="download-new-browsers">
-          <a href="https://www.mozilla.org/en-US/firefox/new/" title="Download Firefox">{{ firefoxIcon() }}</a>
-          <a href="https://www.microsoft.com/en-us/edge" title="Download Edge" >{{ edgeIcon() }}</a>
+          <a href="https://www.firefox.com/en-US/?redirect_source=mozilla-org" title="Download Firefox">{{ firefoxIcon() }}</a>
+          <a href="https://www.microsoft.com/en-us/edge?form=MA13FJ" title="Download Edge" >{{ edgeIcon() }}</a>
           <a href="https://www.google.com/chrome/downloads/" title="Download Chrome" >
             <picture>
               <source srcset="/assets/img/google-chrome.webp" type="image/webp">
@@ -50,7 +50,7 @@
         // for now just test for IE
         return isIE = !! window.navigator.userAgent.match(/(MSIE|Trident)/);
     };
-  
+
     if (isUnsupported()) {
       var warningElement = document.getElementById("browser-warning-container");
       if (warningElement) {

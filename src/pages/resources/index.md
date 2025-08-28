@@ -89,7 +89,7 @@ The developer community has created some useful utilities, libraries, and reusab
     * [`file-storage`](https://github.com/holochain-open-dev/file-storage) chunks, stores, and retrieves arbitrary binary data.
 * [Matthew Brisebois](https://github.com/mjbrisebois) has created many [useful back-end and front-end libraries](https://github.com/spartan-holochain-counsel) for building hApps.
     * [`rust-hc-crud-caps`](https://github.com/spartan-holochain-counsel/rust-hc-crud-caps) implements a pattern for tracking updates to a piece of data.
-    * [`hc-cooperative-content`](https://github.com/mjbrisebois/hc-cooperative-content) implements patterns for collaborative content management --- permission and authority management, update/delete processes, etc.
+    * [`hc-cooperative-content`](https://github.com/holochain/hc-cooperative-content) implements patterns for collaborative content management --- permission and authority management, update/delete processes, etc.
     * [`holo-hash-js`](https://github.com/spartan-holochain-counsel/holo-hash-js) is a small JavaScript library for making Holochain data IDs easier to work with on the front end.
     * [`identicons-js`](https://github.com/mjbrisebois/identicons-js) is a JavaScript library that implements our recommended UX pattern of displaying hashes and public keys visually rather than textually.
 * [hREA](https://github.com/h-rea) ([website](https://hrea.io/)) is a toolkit for building economic applications, such as bookkeeping, resource management, supply chain, ERM, cooperative marketplaces.
@@ -99,10 +99,10 @@ The developer community has created some useful utilities, libraries, and reusab
 Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
 
 * [Holochain Foundation sample apps](https://github.com/holochain-apps) contains application written by Holochain team members.
-* [Moss](https://github.com/lightningrodlabs/we) (formerly We) is a groupware container for composing multiple applets into one cohesive experience.
+* [Moss](https://github.com/lightningrodlabs/moss) (formerly We) is a groupware container for composing multiple applets into one cohesive experience.
 * [Snapmail](https://github.com/glassbeadsoftware/snapmail) is a privacy-first intranet mail app that doesn't need an intranet server.
 * [Acorn](https://github.com/lightningrodlabs/acorn) is a unique, visually intuitive project management app based around defining goals first, then figuring out what needs to be done in order to achieve those goals.
-* [Flux](https://github.com/fluxsocial/flux) is a communities app similar to Discord but allows add-ons for new content types such as long-form content and knowledge bases.
+* [Flux](https://github.com/coasys/flux) is a communities app similar to Discord but allows add-ons for new content types such as long-form content and knowledge bases.
 
 ## Tutorials and training
 

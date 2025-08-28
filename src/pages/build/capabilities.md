@@ -18,7 +18,7 @@ If the caller has the same key pair as the agent that owns the cell being called
 
 ## Create a capability grant
 
-An agent generates a capability by storing a [`CapGrantEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapGrantEntry.html) system entry on their source chain using the [`create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html) host function.
+An agent generates a capability by storing a [`ZomeCallCapGrant`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.ZomeCallCapGrant.html) system entry on their source chain using the [`create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html) host function.
 
 !!! info Capabilities have to be created in every cell
 A cell's zome functions aren't accessible to anyone except the author until the agent creates capability grants for them. A capability _only covers one cell_ in a hApp.
@@ -215,7 +215,7 @@ pub fn create_movie_delegate(input: CreateMovieDelegateInput) -> ExternResult<Ac
 ## Reference
 
 * [`holochain_integrity_types::capability::CapAccess`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.CapAccess.html)
-* [`holochain_integrity_types::capability::CapGrantEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapGrantEntry.html)
+* [`holochain_integrity_types::capability::ZomeCallCapGrantZomeCallCapGrant](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.ZomeCallCapGrant.html)
 * [`hdk::capability::create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html)
 * [`holochain_integrity_types::capability::CapClaim`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapClaim.html)
 * [`hdk::capability::create_cap_claim`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_claim.html)
