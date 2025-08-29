@@ -29,7 +29,7 @@ package = "/node_modules/netlify-plugin-checklinks"
     ]
 
     # We still want to check these.
-    skipRegexPatterns = [
+    skipFragmentPatterns = [
         # Fragment IDs for line numbers on docs.rs are handled by JS, not HTML.
         "`^https://docs.rs/.+#\\d+(-\\d+)?$`",
         # Same with GitHub.
