@@ -290,7 +290,7 @@ let links_to_all_movies = all_first_letter_paths
 
 ## Reference
 
-* [`hdi::link::hdk_link_types`](https://docs.rs/hdi/latest/hdi/link/attr.hdk_link_types.html)
+* [`hdi::hdk_link_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_link_types.html)
 * [`hdk::link::create_link`](https://docs.rs/hdk/latest/hdk/link/fn.create_link.html)
 * [`hdk::link::delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html)
 * Getting hashes from data
@@ -304,7 +304,7 @@ let links_to_all_movies = all_first_letter_paths
 * [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html)
 * [`hdk::link::count_links`](https://docs.rs/hdk/latest/hdk/link/fn.count_links.html)
 * [`hdi::hash_path`](https://docs.rs/hdi/latest/hdi/hash_path/index.html)
-* [`hdi::hash_path::anchor`](https://docs.rs/hdi/latest/hdi/hash_path/fn.anchor.html)
+* [`hdi::hash_path::anchor`](https://docs.rs/hdi/latest/hdi/hash_path/anchor/struct.Anchor.html)
 
 ## Further reading
 
