@@ -1,6 +1,6 @@
 # Enable broken link checking in Netlify CI
 [[plugins]]
-package = "netlify-plugin-checklinks"
+package = "/node-modules/netlify-plugin-checklinks"
     [plugins.inputs]
     entryPoints = [
         "*.html",
