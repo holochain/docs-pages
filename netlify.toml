@@ -9,6 +9,7 @@ package = "netlify-plugin-checklinks"
     recursive = true
     pretty = true
     checkExternal = true
+    redirects = "todo"
     followSourceMaps = false
 
     skipPatterns = [
