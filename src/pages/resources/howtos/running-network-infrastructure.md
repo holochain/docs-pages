@@ -46,7 +46,7 @@ Copy this code into the file, edit the locations of your TLS certificate and key
 ```yaml
 services:
   bootstrap:
-    image: ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.11
+    image: ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.16
     command:
       - kitsune2-bootstrap-srv
       - --production
@@ -128,7 +128,7 @@ To use your server in testing, and to test that the server is running and access
 If you use the same server for production and testing, you might end up writing test data to a production DHT. The example below adds a [network seed](/build/cloning/#network-seed) for test runs so that test data ends up in its own DHT.
 !!!
 
-<!-- TODO(upgrade): update the package.json file with any changes, and bump dep version numbers -->
+<!-- TODO(upgrade): update the package.json file with any changes -->
 
 ```diff:json
  ...
@@ -158,8 +158,6 @@ If you use the same server for production and testing, you might end up writing 
 ### Production
 
 If you're using [Kangaroo](https://github.com/holochain/kangaroo-electron) to build an Electron-based app, open up your project's `kangaroo.config.ts` file, then edit the following lines:
-
-<!-- TODO(upgrade): Update Holochain/lair versions and hashes as needed -->
 
 ```diff:typescript
  import { defineConfig } from './src/main/defineConfig';
