@@ -18,11 +18,7 @@ package = "netlify-plugin-checklinks"
         "https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,700;1,400;1,700&display=swap",
         # For some reason the fragment check doesn't work on Matrix community
         # shortlinks.
-        "https://matrix.to/#/#community:",
-        # Fragment IDs for line numbers on docs.rs are handled by JS, not HTML.
-        "https://docs.rs/*.html#*-*",
-        # Same with GitHub.
-        "https://github.com/*#L*",
+        "https://matrix.to/#/#community:nixos.org",
         # Reddit seems to deny access to the plugin.
         "https://reddit.com/r/holochain/",
         # For some reason the plugin recognises these filenames as URLs,
@@ -30,6 +26,14 @@ package = "netlify-plugin-checklinks"
         # table that contains the project structure).
         "http://lib.rs",
         "http://README.md"
+    ]
+
+    # We still want to check these.
+    skipRegexPatterns = [
+        # Fragment IDs for line numbers on docs.rs are handled by JS, not HTML.
+        "`^https://docs.rs/.+#\\d+(-\\d+)?$`",
+        # Same with GitHub.
+        "https://github.com/.+#L\\d+(-\\d+)?$`",
     ]
 
 [[headers]]
