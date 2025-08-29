@@ -259,8 +259,8 @@ Holochain gives you tools to encrypt and export the encryption key using [box en
 
 This example shows how to output a box-encrypted symmetric key for a given recipient, then decrypt it on the receiving end. (Remember that box encryption requires both the sender and receiver to know each other's public key.)
 
-!!! Keep the symmetric key safe!
-While a zome in the recipient's cell could theoretically decrypt the symmetric key using `x_25519_x_salsa20_poly1305_decrypt`, this is extremely risky. **Always use `x_salsa20_poly1305_shared_secret_ingest` instead.** WASM memory is [not a safe place for secrets](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/), and we've done [a lot of security-hardening work on our key store](https://leastauthority.com/blog/audits/audit-of-holochain-lair-keystore/) to make it the best place for secrets to be kept.
+!!! info Keep the symmetric key safe!
+While a zome in the recipient's cell could theoretically decrypt the symmetric key using `x_25519_x_salsa20_poly1305_decrypt`, this is extremely risky. **Always use `x_salsa20_poly1305_shared_secret_ingest` instead.** WASM memory is [not a safe place for secrets](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/), and we've done [a lot of security-hardening work on our key store](https://leastauthority.com/blog/audit-of-holochain-lair-keystore/) to make it the best place for secrets to be kept.
 !!!
 
 ```rust

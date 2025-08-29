@@ -114,7 +114,7 @@ As your codebase grows, it might be useful to maintain all your mutual and exter
 
 ## Define a function
 
-You expose a callback or zome function to the host by making it a `pub fn` and adding a macro called [`hdk_extern`](https://docs.rs/hdk/latest/hdk/prelude/attr.hdk_extern.html). This handles the task of passing data back and forth between the host and the zome, which is complicated and involves pointers to shared memory.
+You expose a callback or zome function to the host by making it a `pub fn` and adding a macro called [`hdk_extern`](https://docs.rs/hdi/latest/hdi/attr.hdk_extern.html). This handles the task of passing data back and forth between the host and the zome, which is complicated and involves pointers to shared memory.
 
 A zome function must have a **single input parameter** of any type and return an [`ExternResult<T>`](https://docs.rs/hdk/latest/hdk/map_extern/type.ExternResult.html), where `T` is also any type. The input parameter's type must be deserializable by [serde](https://serde.rs/), and the wrapped return value's type must be serializable. All of the example functions in this guide follow those constraints.
 

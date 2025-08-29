@@ -41,7 +41,7 @@ The client handles errors (both `ExternResult::Err(_)` errors from yor zome func
 
 ## Call a zome function from another zome in the same hApp
 
-Coordinator zomes call each other's functions via the [`hdk::prelude::call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html) host function. It works for any coordinator zome in a hApp, whether in the same cell or another cell.
+Coordinator zomes call each other's functions via the [`hdk::p2p::call`](https://docs.rs/hdk/latest/hdk/p2p/fn.call.html) host function. It works for any coordinator zome in a hApp, whether in the same cell or another cell.
 
 This example calls a function `get_movies_for_director` in another zome called `movies` _in the same cell_:
 
@@ -107,7 +107,7 @@ Just as with front ends hosted by a supporting Holochain runtime, calls made wit
 
 ## Call a zome function from another agent in the network
 
-If two agents have cells running the same DNA --- that is, they're part of the same network --- they can call each other's zome functions _in the same DNA_ using [`hdk::prelude::call_remote`](https://docs.rs/hdk/latest/hdk/p2p/fn.call_remote.html).
+If two agents have cells running the same DNA --- that is, they're part of the same network --- they can call each other's zome functions _in the same DNA_ using [`hdk::p2p::call_remote`](https://docs.rs/hdk/latest/hdk/p2p/fn.call_remote.html).
 
 !!! info A remote cell might not be running the same coordinator zomes {#remote-call-unknown-routing}
 Holochain allows agents to add and remove coordinator zomes from their cells. This permits upgrading and customization. But it also means that the zomes and functions that you _think_ are on the other end might not actually be there.

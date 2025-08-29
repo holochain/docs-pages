@@ -20,7 +20,7 @@ fn get_time() -> ExternResult<Timestamp> {
 
 ## Generate some random bytes
 
-To generate some random bytes, use the [`random_bytes`](https://docs.rs/hdk/latest/hdk/random/fn.random_bytes.html) host function, It takes the number of bytes you want and returns a result containing the bytes, wrapped in a [`Bytes`](https://docs.rs/hdk/latest/hdk/prelude/type.Bytes.html) struct. _**Note**: This function is only available to coordinator zomes._
+To generate some random bytes, use the [`random_bytes`](https://docs.rs/hdk/latest/hdk/random/fn.random_bytes.html) host function, It takes the number of bytes you want and returns a result containing the bytes, wrapped in a [`Bytes`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/bytes/type.Bytes.html) struct. _**Note**: This function is only available to coordinator zomes._
 
 ```rust
 use hdk::prelude::*;

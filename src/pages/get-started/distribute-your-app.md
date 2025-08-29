@@ -14,12 +14,12 @@ npm run package
 
 The app bundle ending in `.webhapp` will be available in the project root's `workdir` folder. Now you can deploy it to a place where users can download it or directly share it with peers you want to use it with.
 
-To bundle manually and for extended details on Web-hApps, refer to the packaging steps in the [Github repo of the Holochain Launcher](https://github.com/holochain/launcher#packaging-a-web-happ).
+To bundle manually and for extended details on Web-hApps, refer to the packaging steps in the [Github repo of the Holochain Launcher](https://github.com/holochain/launcher?tab=readme-ov-file#developers).
 
 ## Installing the app using the Holochain Launcher
 
 Holochain provides the Holochain Launcher, a graphical user interface, to install, run and administrate hApps. [Download Holochain Launcher](https://github.com/holochain/launcher/releases)
 
-To publicly share your bundled hApp through the Holochain Launcher, follow the [instructions on how to publish it to the DevHub](https://github.com/holochain/launcher#publishing-and-updating-an-app-in-the-devhub) in the README of the Holochain Launcher.
+To publicly share your bundled hApp through the Holochain Launcher, follow the [instructions on how to publish it to the DevHub](https://github.com/holochain/launcher?tab=readme-ov-file#publish-an-app-to-launchers-app-store) in the README of the Holochain Launcher.
 
-Another option is to [install a hApp locally from an app bundle on the file system](https://github.com/holochain/launcher#installing-a-holochain-app-happ). Other users will need to obtain the bundled app file and install it to their Launcher.
+Another option is to distribute the app bundle via a website such as GitHub's releases page for your project. Other users will need to obtain the bundled app file and install it to their Launcher.

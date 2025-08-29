@@ -17,7 +17,7 @@ If you want to learn more about how this setup works and how to create it manual
 
 ### Holonix's usage of Nix's flake feature
 
-[Flakes](https://wiki.nixos.org/wiki/Flakes) is an experimental but well-supported feature of the Nix package manager that makes it easier to manage dependencies consistently. [Enable flakes on your system.](https://wiki.nixos.org/wiki/Flakes#Enable_flakes_temporarily)
+[Flakes](https://wiki.nixos.org/wiki/Flakes) is an experimental but well-supported feature of the Nix package manager that makes it easier to manage dependencies consistently. [Enable flakes on your system.](https://wiki.nixos.org/wiki/Flakes#Enabling_flakes_temporarily)
 
 ### Entering an ad-hoc shell
 
@@ -71,21 +71,21 @@ This command displays versioning information about Holochain's main components. 
 
 ::: output-block
 ```text
-hc-scaffold            : holochain_scaffolding_cli 0.500.1 (85b3385)
+hc-scaffold            : holochain_scaffolding_cli 0.500.2 (d64bcd2)
 hc-launch              : holochain_cli_launch 0.500.0 (holochain 0.5.3) (ae01674)
 Lair keystore          : lair_keystore 0.6.2 (978e356)
-Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.1.9 (dfc57d4)
-Holochain CLI          : holochain_cli 0.5.3 (8061d5b)
-Holochain terminal     : hcterm 0.5.3 (8061d5b)
-Holochain              : holochain 0.5.3 (8061d5b)
+Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.1.14 (1279094)
+Holochain CLI          : holochain_cli 0.5.5 (419b382)
+Holochain terminal     : hcterm 0.5.5 (419b382)
+Holochain              : holochain 0.5.5 (419b382)
 
 Holochain build info: {
   "git_info": null,
-  "cargo_pkg_version": "0.5.3",
-  "hdk_version_req": "0.5.3",
-  "hdi_version_req": "0.6.3",
+  "cargo_pkg_version": "0.5.5",
+  "hdk_version_req": "0.5.5",
+  "hdi_version_req": "0.6.5",
   "lair_keystore_version_req": "0.6.2",
-  "timestamp": "2025-06-25T19:35:13.321900074Z",
+  "timestamp": "2025-08-19T15:18:09.505020774Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",
@@ -108,11 +108,11 @@ holochain --build-info
 
 The main Nix tool used in Holochain development workflows is `nix develop`, a program that overlays a new Bash environment and set of tools on top of your existing shell environment.
 
-The full suite of Nix tooling is broad and deep. There's even a dedicated programming language, called [Nix expressions](https://nixos.org/manual/nix/stable/#functional-package-language). Learn more with the [NixOS Wiki](https://wiki.nixos.org) or the [Pills](https://nixos.org/nixos/nix-pills/) Tutorial. The [NixOS community chat on matrix.to](https://matrix.to/#/#community:nixos.org) is active and helpful.
+The full suite of Nix tooling is broad and deep. There's even a dedicated programming language, called [Nix expressions](https://nix.dev/manual/nix/stable/#functional-package-language). Learn more with the [NixOS Wiki](https://wiki.nixos.org/wiki/Main_Page) or the [Pills](https://nixos.org/nixos/nix-pills/) Tutorial. The [NixOS community chat on matrix.to](https://matrix.to/#/#community:nixos.org) is active and helpful.
 
 ## Fixing the SUID sandbox error in Ubuntu 24.04 and later
 
-Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions-15) that causes `hc spin`, which is used to test applications and their UIs, to fail with a fatal error. If you have a `package.json` that lists `@holochain/hc-spin` as a dev dependency, you may see this error message:
+Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that causes `hc spin`, which is used to test applications and their UIs, to fail with a fatal error. If you have a `package.json` that lists `@holochain/hc-spin` as a dev dependency, you may see this error message:
 
 ::: output-block
 ```
@@ -128,9 +128,9 @@ sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 475
 
 You'll have to do this for every hApp project that uses `@holochain/hc-spin`.
 
-There are other fixes [outlined in the Ubuntu 24.04 release notes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions-15) that can solve the problem; if you'd like to learn more, read through them all and choose the one that feels most appropriate for you.
+There are other fixes [outlined in the Ubuntu 24.04 release notes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that can solve the problem; if you'd like to learn more, read through them all and choose the one that feels most appropriate for you.
 
-### Redistributable applications created with [`holochain-kangaroo-electron`](https://github.com/holochain-apps/holochain-kangaroo-electron) are also affected
+### Redistributable applications created with [`holochain-kangaroo-electron`](https://github.com/holochain/kangaroo-electron) are also affected
 
 Because the template repo `holochain-kangaroo-electron` also bundles Electron's chrome-sandbox in the binary that you'd distribute, your users will see the same error message when they try to run your application if you've used this repo. We're still researching the best solution, but since Ubuntu is recommending it, we recommend applying the first solution in the release notes, which involves creating an AppArmor profile for your app. This profile could then be distributed and installed alongside it. (Note: this won't work with portable application packages that aren't installed as root, such as `AppImage`s.)
 

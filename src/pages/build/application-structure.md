@@ -44,7 +44,7 @@ There are two kinds of zome:
 
 Zomes are usually created as pairs --- an integrity zome that defines a data model and a coordinator zome that defines functions for operating on this model. You don't have to do it this way though; coordinator zomes don't need an integrity zome if they don't manipulate data, or they can depend on multiple integrity zomes, or multiple coordinators can depend on the same integrity zome.
 
-If you mean for your zomes to be reused by other projects, you can share them via a public Git repository or [crates.io](https://crates.io) (tag your crates with `#holochain` so others can find them).
+If you mean for your zomes to be reused by other projects, you can share them via a public Git repository or [crates.io](https://crates.io/) (add the `holochain` keyword so others can find them).
 
 [Read more on the Zomes page](/build/zomes/).
 

@@ -8,7 +8,7 @@ Access to zome functions is secured by **capability-based security**, allowing a
 
 ## Capability-based security, updated for agent-centric applications
 
-Holochain secures zome function calls by creating and deleting `CapGrantEntry` records on an agent's source chain. These are then compared against the public key of a function caller (every function call must be signed by a private key). There are three levels of access to choose from; let's take a look at the [`CapAccess` enum](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.CapAccess.html) which defines the kinds of **capability grant** you can use in your hApp:
+Holochain secures zome function calls by creating and deleting `ZomeCallCapGrant` entries on an agent's source chain. These are then compared against the public key of a function caller (every function call must be signed by a private key). There are three levels of access to choose from; let's take a look at the [`CapAccess` enum](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.CapAccess.html) which defines the kinds of **capability grant** you can use in your hApp:
 
 * `CapAccess::Unrestricted`: any caller can access the function(s) covered by the capability.
 * `CapAccess::Transferable`: any caller who possesses the secret can access the function(s). This gives moderate security; it's impossible to control who the possessor of a secret shares it with.
@@ -18,7 +18,7 @@ If the caller has the same key pair as the agent that owns the cell being called
 
 ## Create a capability grant
 
-An agent generates a capability by storing a [`CapGrantEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapGrantEntry.html) system entry on their source chain using the [`create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html) host function.
+An agent generates a capability by storing a [`ZomeCallCapGrant`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.ZomeCallCapGrant.html) system entry on their source chain using the [`create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html) host function.
 
 !!! info Capabilities have to be created in every cell
 A cell's zome functions aren't accessible to anyone except the author until the agent creates capability grants for them. A capability _only covers one cell_ in a hApp.
@@ -37,7 +37,7 @@ use hdk::prelude::*;
 pub fn init() -> ExternResult<InitCallbackResult> {
     let mut functions = BTreeSet::new();
     functions.insert((zome_info()?.name, "recv_remote_signal".into()));
-    create_cap_grant(CapGrantEntry {
+    create_cap_grant(ZomeCallCapGrant {
         tag: "remote_signals".into(),
         access: CapAccess::Unrestricted,
         functions: GrantedFunctions::Listed(functions),
@@ -68,7 +68,7 @@ pub fn approve_delegate_author_request(reason: String) -> ExternResult<CapSecret
     functions.insert((zome_info()?.name, "create_director".into()));
 
     // Now write the cap grant.
-    let cap_grant = CapGrantEntry {
+    let cap_grant = ZomeCallCapGrant {
         // Keep a memo of why we're creating this capability grant.
         // This makes it possible to audit and revoke it later.
         tag: format!("delegate_author_reason_{}", reason).into(),
@@ -109,7 +109,7 @@ pub fn approve_delegate_author_request(input: DelegateAuthorRequest) -> ExternRe
     functions.insert((zome_info()?.name, "delete_movie".into()));
     functions.insert((zome_info()?.name, "create_director".into()));
 
-    let cap_grant = CapGrantEntry {
+    let cap_grant = ZomeCallCapGrant {
         tag: format!("delegate_author_reason_{}", input.reason).into(),
         access: CapAccess::Assigned {
             secret,
@@ -215,7 +215,7 @@ pub fn create_movie_delegate(input: CreateMovieDelegateInput) -> ExternResult<Ac
 ## Reference
 
 * [`holochain_integrity_types::capability::CapAccess`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.CapAccess.html)
-* [`holochain_integrity_types::capability::CapGrantEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapGrantEntry.html)
+* [`holochain_integrity_types::capability::ZomeCallCapGrant`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.ZomeCallCapGrant.html)
 * [`hdk::capability::create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html)
 * [`holochain_integrity_types::capability::CapClaim`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapClaim.html)
 * [`hdk::capability::create_cap_claim`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_claim.html)

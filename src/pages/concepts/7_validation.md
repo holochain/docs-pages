@@ -306,7 +306,7 @@ Some reasons for ejecting an agent from a network simply shouldn't be encoded in
 !!! learn Learn more
 * [Wikipedia: Deterministic algorithm](https://en.wikipedia.org/wiki/Deterministic_algorithm)
 * [Wikipedia: Pure function](https://en.wikipedia.org/wiki/Pure_function)
-* [Wikipedia: Total function](https://en.wikipedia.org/wiki/Partial_function#Total_function)
+* [Wikipedia: Partial function](https://en.wikipedia.org/wiki/Partial_function) (contains a complementary definition of a total function)
 * [Wikipedia: Monotonicity of entailment](https://en.wikipedia.org/wiki/Monotonicity_of_entailment), a useful principle for writing validation functions that update entries without invalidating old ones
 * [Wikipedia: Byzantine fault](https://en.wikipedia.org/wiki/Byzantine_fault), describing the nature of failures among nodes in a distributed computing system
 !!!

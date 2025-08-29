@@ -48,7 +48,7 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  serde = "1.0"
 ```
 
-The latest version numbers of these libraries can be found on crates.io: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
+The latest version numbers of these libraries can be found on `crates.io`: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
 
 Once you've updated your `Cargo.toml` you need to update your `Cargo.lock` and check whether your project can still build. To do this in one step you can run:
 

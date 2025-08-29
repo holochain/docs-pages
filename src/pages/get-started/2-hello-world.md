@@ -39,7 +39,7 @@ npm install
 ```
 
 !!! info Warning for Ubuntu 24.04 and later
-Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions-15) that cause the following command to fail. Here's a simple fix. In your terminal, run this command:
+Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that cause the following command to fail. Here's a simple fix. In your terminal, run this command:
 
 ```shell
 sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox

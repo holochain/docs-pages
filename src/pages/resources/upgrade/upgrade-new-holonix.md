@@ -25,4 +25,4 @@ Then create a new flake file:
 nix flake init -t github:holochain/holonix?ref=main-0.5
 ```
 
-For most projects, that's all you need! If you have specific needs, such as targeting a specific Holochain version or release series, specifying build flags, or adding more Nix packages, read the [Holonix readme](https://github.com/holochain/holonix/tree/main/README.md).
+For most projects, that's all you need! If you have specific needs, such as targeting a specific Holochain version or release series, specifying build flags, or adding more Nix packages, read the [Holonix readme](https://github.com/holochain/holonix/blob/main/README.md).

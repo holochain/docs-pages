@@ -41,10 +41,10 @@
       links: [
         { title: "Holochain", url: "https://www.holochain.org/", external: true },
         { title: "Holo.host", url: "https://www.holo.host", external: true },
-        { title: "Technical Papers", url: "https://holo.host/whitepapers/ ", external: true },
-        { title: "Roadmap", url: "https://www.holochain.org/roadmap", external: true },
+        { title: "Technical Papers", url: "https://holo.host/resources/whitepapers/ ", external: true },
+        { title: "Roadmap", url: "https://www.holochain.org/roadmap/", external: true },
         { title: "Blog", url: "https://blog.holochain.org/", external: true },
-        { title: "Jobs", url: "https://holochain.org/careers/ ", external: true },
+        { title: "Jobs", url: "https://www.holochain.org/careers/", external: true },
       ]
     },
 
