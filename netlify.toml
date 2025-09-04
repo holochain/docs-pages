@@ -6,6 +6,52 @@ package = "/node_modules/netlify-plugin-checklinks"
         "*.html",
     ]
 
+    recursive = true
+    pretty = true
+    checkExternal = true
+    redirects = "todo"
+    followSourceMaps = false
+    # Wikipedia, forum.ubuntu.com, docs.rs, and blog.holochain.org really don't
+    # like too many concurrent requests from the same client.
+    concurrency = 2
+
+    skipPatterns = [
+        # Sometimes the checklinks plugin fails to get a positive result for
+        # Google Web Fonts links, even though they work just fine.
+        "https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,700;1,400;1,700&display=swap",
+        # For some reason the fragment check doesn't work on Matrix community
+        # shortlinks.
+        "https://matrix.to/#/#community:nixos.org",
+        # Reddit seems to deny access to the plugin.
+        "https://reddit.com/r/holochain/",
+        "https://www.reddit.com/r/holochain/",
+        # For some reason the plugin recognises these filenames as URLs,
+        # but only on one page (page 2 of the getting started guide, in the
+        # table that contains the project structure).
+        "http://lib.rs",
+        "http://README.md",
+        # In spite of us trying to turn off source map checking, it still fails
+        # on broken source maps file: URLs.
+        "file:///",
+    ]
+
+    # We still want to check these.
+    skipFragmentPatterns = [
+        # Fragment IDs for line numbers on docs.rs are handled by JS, not HTML.
+        "`https://docs\\.rs/.+#\\d+(-\\d+)?`",
+        # Same with GitHub.
+        "`https://github\\.com/.+#L\\d+(-\\d+)?`",
+    ]
+
+    todoPatterns = [
+        # Don't know why these don't appear, and maybe they should.
+        "_site/pagefind",
+    ]
+
+    todoServerErrorPatterns = [
+        "https://doc.libsodium.org",
+    ]
+
 [[headers]]
   for = "/*"
   [headers.values]
