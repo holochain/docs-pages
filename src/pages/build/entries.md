@@ -23,7 +23,7 @@ The Holochain dev tool command `hc scaffold entry-type <entry_type>` generates t
 
 Each entry has a **type**. This lets your application make sense of what would otherwise be a blob of arbitrary bytes. Our [HDI library](https://docs.rs/hdi/latest/hdi/) gives you macros to automatically define, serialize, and deserialize typed entries to and from any Rust struct or enum that [`serde`](https://docs.rs/serde/latest/serde/) can handle.
 
-Entry types are defined in an [**integrity zome**](/resources/glossary/#integrity-zome). To define an [`EntryType`](https://docs.rs/hdi/latest/hdi/prelude/enum.EntryType.html), use the [`hdi::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html) macro on your Rust type:
+Entry types are defined in an [**integrity zome**](/resources/glossary/#integrity-zome). To define an [`EntryType`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.EntryType.html), use the [`hdi::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html) macro on your Rust type:
 
 ```rust
 use hdi::prelude::*;

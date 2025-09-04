@@ -14,7 +14,7 @@ Your [integrity zome](/build/zomes/#integrity) may define two callbacks, `valida
 
 ### Define a `validate` callback
 
-In order to validate DHT data, you'll need to define a `validate` callback. It must take a single argument of type [`Op`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
+In order to validate DHT data, you'll need to define a `validate` callback. It must take a single argument of type [`Op`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
 
 The `validate` callback is called at two times:
 

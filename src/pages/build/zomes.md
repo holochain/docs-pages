@@ -146,7 +146,7 @@ pub fn get_any_record(hash: AnyDhtHash) -> ExternResult<Option<Record>> {
 }
 ```
 
-You can also explicitly return an error with the [`wasm_error`](https://docs.rs/hdi/latest/hdi/prelude/macro.wasm_error.html) macro:
+You can also explicitly return an error with the [`wasm_error`](https://docs.rs/holochain_wasmer_common/latest/holochain_wasmer_common/macro.wasm_error.html) macro:
 
 ```rust
 use hdk::prelude::*;
@@ -168,7 +168,7 @@ pub fn check_age_for_18a_movie(age: u32) -> ExternResult<()> {
 * [`hdi::hdk_link_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_link_types.html)
 * [`hdk_derive::hdk_extern`](https://docs.rs/hdk_derive/latest/hdk_derive/attr.hdk_extern.html)
 * [`hdi::map_extern::ExternResult<T>`](https://docs.rs/hdi/latest/hdi/map_extern/type.ExternResult.html)
-* [`wasm_error`](https://docs.rs/hdi/latest/hdi/prelude/macro.wasm_error.html)
+* [`wasm_error`](https://docs.rs/holochain_wasmer_common/latest/holochain_wasmer_common/macro.wasm_error.html)
 
 ## Further reading
 

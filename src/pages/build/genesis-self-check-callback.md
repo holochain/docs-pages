@@ -25,7 +25,7 @@ To reduce the risk, you can define a `genesis_self_check` function that checks t
 
 ## Define a `genesis_self_check` callback
 
-`genesis_self_check` must take a single argument of type [`GenesisSelfCheckData`](https://docs.rs/hdi/latest/hdi/prelude/type.GenesisSelfCheckData.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/hdi/latest/hdi/prelude/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
+`genesis_self_check` must take a single argument of type [`GenesisSelfCheckData`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/genesis/type.GenesisSelfCheckData.html) and return a value of type [`ValidateCallbackResult`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.ValidateCallbackResult.html) wrapped in an `ExternResult`.
 
 Here's an example that checks that the membrane proof exists and is the right length:
 
