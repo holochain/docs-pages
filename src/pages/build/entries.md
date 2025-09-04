@@ -339,7 +339,7 @@ You can use any of these identifiers as a field in your entry types to model a m
 
 ### As a single record
 
-Get a record by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the hash of either its entry creation action. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>.
+Get a record by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the hash of either its entry creation action. The return value is an <code>Option&lt;[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)&gt;</code> wrapped in an `ExternResult`.
 
 You can also pass an _entry hash_ to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
 
@@ -387,7 +387,7 @@ match maybe_record {
 
 #### Records
 
-To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with an _action hash_. You'll receive a <code>Result<[holochain_zome_types::metadata::RecordDetails](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html)></code>.
+To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with an _action hash_. You'll receive an <code>Option&lt;[holochain_zome_types::metadata::Details::Record](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/enum.Details.html)&gt;</code> wrapped in an `ExternResult`; this enum variant contains a [`RecordDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html).
 
 ```rust
 use hdk::prelude::*;
@@ -418,7 +418,7 @@ match maybe_details {
 
 #### Entries
 
-To get an entry and all the deletes and updates that operated on it (or rather, that operated on the entry creation actions that produced it), _as well as_ all its entry creation actions and its current status on the DHT, pass an _entry hash_ to [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html). You'll receive a [`holochain_zome_types::metadata::EntryDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html) struct.
+To get an entry and all the deletes and updates that operated on it (or rather, that operated on the entry creation actions that produced it), _as well as_ all its entry creation actions and its current status on the DHT, pass an _entry hash_ to [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html). You'll receive an <code>Option&lt;[`holochain_zome_types::metadata::Details::Entry`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/enum.Details.html)&gt;</code> wrapped in an `ExternResult`; this enum variant contains an [`EntryDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html).
 
 ```rust
 use hdk::prelude::*;
