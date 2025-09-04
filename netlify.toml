@@ -1,19 +1,10 @@
 # Enable broken link checking in Netlify CI
-# Disabling; should be turned on again with https://github.com/holochain/docs-pages/pull/600
-# [[plugins]]
-# package = "netlify-plugin-checklinks"
-#     [plugins.inputs]
-#     entryPoints = [
-#         "*.html",
-#     ]
-
-#     recursive = true
-#     pretty = true
-#     checkExternal = false
-
-#     # Sometimes the checklinks plugin fails to get a positive result for
-#     # Google Web Fonts links, even though they work just fine.
-#     skipPatterns = [ "https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,700;1,400;1,700&display=swap" ]
+[[plugins]]
+package = "/node_modules/netlify-plugin-checklinks"
+    [plugins.inputs]
+    entryPoints = [
+        "*.html",
+    ]
 
 [[headers]]
   for = "/*"
