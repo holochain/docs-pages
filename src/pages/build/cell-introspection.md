@@ -68,7 +68,7 @@ pub fn validate_age(age: u32) -> ExternResult<ValidateCallbackResult> {
 
 ## Get zome info
 
-To get information about the zome that a function is executing in, use the [`zome_info`](https://docs.rs/hdk/latest/hdk/info/fn.zome_info.html) host function, which is available to both coordinator and integrity zomes. It takes no arguments and returns a result containing a [`ZomeInfo`](https://docs.rs/hdk/latest/hdk/info/fn.zome_info.html) struct.
+To get information about the zome that a function is executing in, use the [`zome_info`](https://docs.rs/hdk/latest/hdk/info/fn.zome_info.html) host function, which is available to both coordinator and integrity zomes. It takes no arguments and returns a result containing a [`ZomeInfo`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/info/struct.ZomeInfo.html) struct.
 
 ```rust
 use hdi::prelude::*;

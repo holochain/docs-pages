@@ -67,7 +67,7 @@ Additionally the following `markdown-it` plugins have been added:
   ```
   renders as
   ```
-  <a href="https://github.com/holochain/launcher" id="my-link" target="_blank" class="a-super-cool-link">Holochain Launcher</a>
+  <a href="https://github.com/holochain/launcher" id="my-link" target="_blank" rel="noopener noreferrer" class="a-super-cool-link">Holochain Launcher</a>
   ```
   There are of course more details. See the docs at [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) for more.
 - [markdown-it-container](https://github.com/markdown-it/markdown-it-container) Plugin for creating block-level custom containers. For example:

@@ -126,7 +126,7 @@ The official Holochain developer documentation is a valuable resource for deepen
 The Holochain community is an excellent source of support, inspiration, and collaboration. Consider engaging with the community to further your learning and development:
 
 * [Holochain GitHub repositories](https://github.com/holochain)
-* [Holochain Discord server](https://discord.com/invite/k55DS5dmPH)
+* [Holochain Discord server](https://discord.com/invite/DE9dtFXjZb)
 
 #### Example applications and tutorials
 

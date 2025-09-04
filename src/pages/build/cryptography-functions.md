@@ -78,7 +78,7 @@ let hello_hash_sha2_512 = hash_sha512(hello_bytes.clone())?;
 
 ### With an agent key
 
-To sign data with an agent's private key, pass the data and the key to to the [`sign`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign.html) or [`sign_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_raw.html) host functions. `sign_raw` signs a `Vec<u8>` while `sign` accepts anything that can be serialized.
+To sign data with an agent's private key, pass the data and the key to the [`sign`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign.html) or [`sign_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_raw.html) host functions. `sign_raw` signs a `Vec<u8>` while `sign` accepts anything that can be serialized.
 
 This example lets an administrator of a network create a joining certificate for new members (see the [joining certificate example on the `genesis_self_check` callback page](/build/genesis-self-check-callback/#joining-certificate) for details).
 
@@ -157,10 +157,7 @@ This example creates a key pair specially for box encryption, then shows how to 
 use hdk::prelude::*;
 
 fn create_key_pair() -> ExternResult<X25519PubKey> {
-    create_x25519_keypair()
-}
-
-fn encrypt_message(
+    create_x25519_keypair()salsa20_poly1305
     // The payload to be encrypted can be any vector of bytes; we've chosen a
     // simple string here.
     message: String,
@@ -186,7 +183,10 @@ fn decrypt_message(
     my_pub_key: X25519PubKey,
     sender_pub_key: X25519PubKey
 ) -> ExternResult<String> {
-    let maybe_message = x_25519_x_salsa20_poly1305_decrypt(
+    let maybe_message = x_25519_x_sal
+}
+
+fn encrypt_message(sa20_poly1305_decrypt(
         // The message may have been encrypted by ourselves or by the other
         // party, and we can still authenticate and decrypt it, but the first
         // argument must correspond to a private key we have in our own key
@@ -255,7 +255,7 @@ fn decrypt_message(
 
 You'll notice in the above code that the zome never sees the shared key --- it stays in Holochain's key store all the time. So how do you share it with others?
 
-Holochain gives you tools to encrypt and export the encryption key using [box encryption](#sending-encrypted-messages-without-a-shared-key-using-box) so it can be shared over an insecure channel, using[`x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html) and [`x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html).
+Holochain gives you tools to encrypt and export the encryption key using [box encryption](#sending-encrypted-messages-without-a-shared-key-using-box) so it can be shared over an insecure channel, using [`x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html) and [`x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html).
 
 This example shows how to output a box-encrypted symmetric key for a given recipient, then decrypt it on the receiving end. (Remember that box encryption requires both the sender and receiver to know each other's public key.)
 
@@ -328,8 +328,6 @@ If you're familiar with the box and secretbox algorithms, you'll know that good,
     * [`hdk::x_salsa20_poly1305::x_salsa20_poly1305_shared_secret_create_random`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_create_random.html)
     * [`hdk::x_salsa20_poly1305::x_salsa20_poly1305_shared_secret_export`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_export.html)
     * [`hdk::x_salsa20_poly1305::x_salsa20_poly1305_shared_secret_ingest`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_shared_secret_ingest.html)
-    * [`hdk::x_salsa20_poly1305::x_salsa20_poly1305_encrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_encrypt.html)
-    * [`hdk::x_salsa20_poly1305::x_salsa20_poly1305_decrypt`](https://docs.rs/hdk/latest/hdk/x_salsa20_poly1305/fn.x_salsa20_poly1305_decrypt.html)
 
 ## Further reading
 

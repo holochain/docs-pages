@@ -236,7 +236,7 @@ for director in old_to_new_directors.iter() {
 
 ### Update under the hood
 
-When a zome function calls `create`, Holochain does the following:
+When a zome function calls `update`, Holochain does the following:
 
 1. Build an entry creation action called `Update` that contains everything in a `Create` action, plus:
     * the hash of the original action and
@@ -461,7 +461,7 @@ There are some community-maintained libraries that offer opinionated and high-le
 ## Reference
 
 * [`hdi::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html)
-* [`hdi::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_types.html)
+* [`hdi::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_types.html)
 * [`hdk::entry::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html)
 * [`hdk::entry::update_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html)
 * [`hdk::entry::delete_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html)

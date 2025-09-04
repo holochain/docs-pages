@@ -174,6 +174,7 @@ let my_id = agent_info()?.agent_initial_pubkey;
 let today = sys_time()?;
 let number_of_reviews_written_by_me_in_last_month = count_links(
     LinkQuery::new(
+        // Assume `movie_entry_hash` as defined in previous snippets.
         movie_entry_hash,
         LinkTypes::MovieReview.try_into_filter()?
     )

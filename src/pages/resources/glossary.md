@@ -824,7 +824,7 @@ The act of directing a [scheduler function](#scheduler-function) to be called la
 
 #### Sharding
 
-A process of reducing the processing and storage load of individual [nodes](#node) in a [distributed system](#distributed-system) by distributing data and/or work among them. Holochain's [DHT](#distributed-hash-table-dht) separates shards into [neighborhoods](#neighborhood) of overlapping [storage arcs](#storage-arc). Each node in a DHT takes responsibility to store a shard of the total public data in the DHT, according to the chosen size of their own storage arc.
+A process of reducing the processing and storage load of individual [nodes](#node) in a [distributed system](#distributed-system) by distributing data and/or work among them. Holochain's [DHT](#distributed-hash-table-dht) organizes responsibility into [neighborhoods](#neighborhood) of overlapping [storage arcs](#storage-arc). Each node in a DHT takes responsibility to store a shard of the total public data in the DHT, according to the chosen size of their own storage arc.
 
 #### Signal
 
