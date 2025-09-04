@@ -25,7 +25,7 @@ A cell can do nothing but respond to external events, so it needs to know what's
 
 **Where**: integrity zomes
 
-When a conductor first installs a DNA, it needs to know about the entry types defined in each of its integrity zomes, so that it can call the correct zome's validation function whenever a coordinator zome commits something. When you define an `entry_defs` callback that returns a list of entry type [definitions](https://docs.rs/hdi/latest/hdi/prelude/struct.EntryDef.html) --- their names, visibility, and so forth.
+When a conductor first installs a DNA, it needs to know about the entry types defined in each of its integrity zomes, so that it can call the correct zome's validation function whenever a coordinator zome commits something. When you define an `entry_defs` callback that returns a list of entry type [definitions](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/entry_def/struct.EntryDef.html) --- their names, visibility, and so forth.
 
 If you're using our Rust-based SDK, there are a bunch of macros that will auto-generate this function for you from a collection of Rust type definitions, so you'll rarely see an actual callback defined in an integrity zome's code. If you use these macros, you'll also get the benefit of automatic deserialization from entry data to the proper Rust type.
 

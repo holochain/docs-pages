@@ -23,7 +23,7 @@ The Holochain dev tool command `hc scaffold entry-type <entry_type>` generates t
 
 Each entry has a **type**. This lets your application make sense of what would otherwise be a blob of arbitrary bytes. Our [HDI library](https://docs.rs/hdi/latest/hdi/) gives you macros to automatically define, serialize, and deserialize typed entries to and from any Rust struct or enum that [`serde`](https://docs.rs/serde/latest/serde/) can handle.
 
-Entry types are defined in an [**integrity zome**](/resources/glossary/#integrity-zome). To define an [`EntryType`](https://docs.rs/hdi/latest/hdi/prelude/enum.EntryType.html), use the [`hdi::prelude::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_helper.html) macro on your Rust type:
+Entry types are defined in an [**integrity zome**](/resources/glossary/#integrity-zome). To define an [`EntryType`](https://docs.rs/hdi/latest/hdi/prelude/enum.EntryType.html), use the [`hdi::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html) macro on your Rust type:
 
 ```rust
 use hdi::prelude::*;
@@ -43,7 +43,7 @@ pub struct Movie {
 
 This implements a host of [`TryFrom` conversions](https://docs.rs/hdi/latest/src/hdi/entry.rs.html#120-209) that your type is expected to implement, along with serialization and deserialization functions.
 
-In order to dispatch validation to the proper integrity zome, Holochain needs to know about all the entry types that your integrity zome defines. This is done by implementing a callback in your zome called `entry_defs`, but it's easier to use the [`hdi::prelude::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_types.html) macro on an enum of all the entry types:
+In order to dispatch validation to the proper integrity zome, Holochain needs to know about all the entry types that your integrity zome defines. This is done by implementing a callback in your zome called `entry_defs`, but it's easier to use the [`hdi::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_types.html) macro on an enum of all the entry types:
 
 ```rust {#entry-types-enum}
 use hdi::prelude::*;
@@ -91,7 +91,7 @@ enum EntryTypes {
 
 Most of the time you'll want to define your create, read, update, and delete (CRUD) functions in a [**coordinator zome**](/resources/glossary/#coordinator-zome) rather than the integrity zome that defines it. This is because a coordinator zome is easier to update in the wild than an integrity zome.
 
-Create an entry by calling [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html). If you used the `hdk_entry_helper` and `hdk_entry_types` macros in your integrity zome (see [Define an entry type](#define-an-entry-type)), you can use the entry types enum you defined, and the entry will be serialized and have the correct integrity zome and entry type indexes added to it.
+Create an entry by calling [`hdk::entry::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html). If you used the `hdk_entry_helper` and `hdk_entry_types` macros in your integrity zome (see [Define an entry type](#define-an-entry-type)), you can use the entry types enum you defined, and the entry will be serialized and have the correct integrity zome and entry type indexes added to it.
 
 ```rust
 use hdk::prelude::*;
@@ -168,7 +168,7 @@ At this point, the action hasn't been persisted to the source chain. Read the [z
 
 ## Update an entry
 
-Update an entry creation action by calling [`hdk::prelude::update_entry`](https://docs.rs/hdk/latest/hdk/prelude/fn.update_entry.html) with the old action hash and the new entry data:
+Update an entry creation action by calling [`hdk::entry::update_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html) with the old action hash and the new entry data:
 
 <!-- FIXME: this won't compile as written; write something that gets the old movie and its action hash from somewhere. -->
 
@@ -249,7 +249,7 @@ As with `Create`, the action hasn't been persisted to the source chain yet. Read
 
 ### Update patterns
 
-Holochain gives you this `update_entry` function, but is somewhat unopinionated about how it's used. While in most cases you'll want to interpret it as applying to the original _record_ (action + entry), there are cases where you might want to interpret it as applying to the original _entry_, because the `Update` action is merely a piece of metadata attached to both, and can be retrieved along with the original data using [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see [below](#all-data-actions-and-links-at-an-address)).
+Holochain gives you this `update_entry` function, but is somewhat unopinionated about how it's used. While in most cases you'll want to interpret it as applying to the original _record_ (action + entry), there are cases where you might want to interpret it as applying to the original _entry_, because the `Update` action is merely a piece of metadata attached to both, and can be retrieved along with the original data using [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) (see [below](#all-data-actions-and-links-at-an-address)).
 
 You can also choose what record updates should be attached to. You can structure them as a 'list', where all updates refer to the `ActionHash` of the original `Create` action.
 
@@ -282,7 +282,7 @@ These are two common patterns:
 
 ## Delete an entry
 
-Delete an entry creation action by calling [`hdk::prelude::delete_entry`](https://docs.rs/hdk/latest/hdk/prelude/fn.delete_entry.html).
+Delete an entry creation action by calling [`hdk::entry::delete_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html).
 
 ```rust
 use hdk::prelude::*;
@@ -292,7 +292,7 @@ let delete_action_hash = delete_entry(
 )?;
 ```
 
-As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) is authored, which attaches to the entry creation action and marks it as deleted. An entry itself is only considered deleted when _all_ entry creation actions that created it are marked deleted, and it can become live again in the future if a _new_ entry creation action writes it. Deleted data can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) (see below).
+As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) is authored, which attaches to the entry creation action and marks it as deleted. An entry itself is only considered deleted when _all_ entry creation actions that created it are marked deleted, and it can become live again in the future if a _new_ entry creation action writes it. Deleted data can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) (see below).
 
 In the future we plan to include a 'purge' functionality. This will give agents permission to actually erase an entry from their DHT store, but not its associated entry creation action.
 
@@ -339,7 +339,7 @@ You can use any of these identifiers as a field in your entry types to model a m
 
 ### As a single record
 
-Get a record by calling [`hdk::prelude::get`](https://docs.rs/hdk/latest/hdk/prelude/fn.get.html) with the hash of either its entry creation action. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>.
+Get a record by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the hash of either its entry creation action. The return value is a <code>Result<[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)></code>.
 
 You can also pass an _entry hash_ to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
 
@@ -387,7 +387,7 @@ match maybe_record {
 
 #### Records
 
-To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) with an _action hash_. You'll receive a <code>Result<[holochain_zome_types::metadata::RecordDetails](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html)></code>.
+To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with an _action hash_. You'll receive a <code>Result<[holochain_zome_types::metadata::RecordDetails](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html)></code>.
 
 ```rust
 use hdk::prelude::*;
@@ -418,7 +418,7 @@ match maybe_details {
 
 #### Entries
 
-To get an entry and all the deletes and updates that operated on it (or rather, that operated on the entry creation actions that produced it), _as well as_ all its entry creation actions and its current status on the DHT, pass an _entry hash_ to [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html). You'll receive a [`holochain_zome_types::metadata::EntryDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html) struct.
+To get an entry and all the deletes and updates that operated on it (or rather, that operated on the entry creation actions that produced it), _as well as_ all its entry creation actions and its current status on the DHT, pass an _entry hash_ to [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html). You'll receive a [`holochain_zome_types::metadata::EntryDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html) struct.
 
 ```rust
 use hdk::prelude::*;
@@ -456,16 +456,15 @@ There are some community-maintained libraries that offer opinionated and high-le
 
 * [rust-hc-crud-caps](https://github.com/spartan-holochain-counsel/rust-hc-crud-caps)
 * [hdk_crud](https://github.com/lightningrodlabs/hdk_crud)
-* [hc-cooperative-content](https://github.com/mjbrisebois/hc-cooperative-content)
+* [hc-cooperative-content](https://github.com/holochain/hc-cooperative-content)
 
 ## Reference
 
-* [`hdi::prelude::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html)
-* [`hdi::prelude::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_types.html)
-* [`hdi::prelude::entry_def`](https://docs.rs/hdi/latest/hdi/prelude/entry_def/index.html)
-* [`hdk::prelude::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html)
-* [`hdk::prelude::update_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html)
-* [`hdi::prelude::delete_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html)
+* [`hdi::hdk_entry_helper`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_helper.html)
+* [`hdi::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_entry_types.html)
+* [`hdk::entry::create_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.create_entry.html)
+* [`hdk::entry::update_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.update_entry.html)
+* [`hdk::entry::delete_entry`](https://docs.rs/hdk/latest/hdk/entry/fn.delete_entry.html)
 
 ## Further reading
 

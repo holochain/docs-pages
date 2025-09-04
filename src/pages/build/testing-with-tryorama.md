@@ -309,7 +309,7 @@ const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerCo
 
 ## Simulate disruptions
 
-To simulate an unexpected event such as a hardware or network failure, use a player's [`conductor.shutDown`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.shutdown.md) method. You can start the conductor up again with the [`conductor.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startUp.md) method.
+To simulate an unexpected event such as a hardware or network failure, use a player's [`conductor.shutDown`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.shutdown.md) method. You can start the conductor up again with the [`conductor.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startup.md) method.
 
 ```typescript
 import { assert, expect, test } from "vitest";
@@ -374,7 +374,7 @@ test("Bob can receive a Director entry after coming back online", async () => {
 * [`@holochain/tryorama` > `Scenario.prototype.addPlayersWithApps`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerswithapps.md)
 * [`@holochain/tryorama` > `dhtSync`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.dhtsync.md)
 * [`@holochain/tryorama` > `Conductor.prototype.shutDown`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.shutdown.md)
-* [`@holochain/tryorama` > `Conductor.prototype.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startUp.md)
+* [`@holochain/tryorama` > `Conductor.prototype.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startup.md)
 
 ## Further reading
 

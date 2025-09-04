@@ -134,7 +134,7 @@ And update your zomes' `Cargo.toml` files as well:
 +holochain_serialized_bytes = { workspace = true }
 ```
 
-The latest version numbers of these libraries can be found on crates.io: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
+The latest version numbers of these libraries can be found on `crates.io`: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
 
 Once you've updated your `Cargo.toml` you need to update your `Cargo.lock` and check whether your project can still build. To do this in one step you can run:
 
@@ -286,7 +286,7 @@ With the new kitsune2 wire protocol, `origin_time` and `quantum_time` are no lon
 
 ### `AgentInfo::agent_latest_pubkey` behind feature flag
 
-When you call [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) from a coordinator zome, the `agent_latest_pubkey` field in the [return value](https://docs.rs/hdk/latest/hdk/prelude/struct.AgentInfo.html) is now hidden behind the `unstable-dpki` feature flag and scheduled to be [removed in 0.6](https://github.com/holochain/holochain/pull/4901). Anywhere you use this field, use `agent_initial_pubkey` instead:
+When you call [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) from a coordinator zome, the `agent_latest_pubkey` field in the [`AgentInfo` return value](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/info/struct.AgentInfo.html) is now hidden behind the `unstable-dpki` feature flag and scheduled to be [removed in 0.6](https://github.com/holochain/holochain/pull/4901). Anywhere you use this field, use `agent_initial_pubkey` instead:
 
 ```diff:rust
  use hdk::prelude::*;
@@ -471,4 +471,4 @@ To get your Kangaroo-based hApp working with Holochain 0.5, you'll also need to 
 The following changes don't break Holochain's APIs or require updates to your code, but they may require you to reassess whether your hApp will work as expected:
 
 * Your front end can now call the `init` callback in any cell as if it were a regular zome function. This will in turn trigger the init process, which runs all coordinator zomes' `init` functions in the order the zomes appear in the DNA manifest. If it succeeds, the `init` callback in the zome you targeted _won't_ be erroneously run a second time in this call or any subsequent calls.
-* The admin API's [`DumpNetworkMetrics`](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html#variant.DumpNetworkMetrics) and [`DumpNetworkStats`](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html#variant.DumpNetworkStats) are now available on the app API as well, which means that a UI written for any web-based launcher can now access them via the JavaScript client's [`AppWebsocket.prototype.dumpNetworkMetrics`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.dumpnetworkmetrics.md) and [`AppWebsocket.prototype.dumpNetworkStats`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.dumpnetworkStats.md) methods. Additionally, `DumpNetworkMetrics` now has an option to include a DHT summary. The output of these endpoints has changed as a result of the new network layer. {#dump-network-on-app-api}
+* The admin API's [`DumpNetworkMetrics`](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html#variant.DumpNetworkMetrics) and [`DumpNetworkStats`](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html#variant.DumpNetworkStats) are now available on the app API as well, which means that a UI written for any web-based launcher can now access them via the JavaScript client's [`AppWebsocket.prototype.dumpNetworkMetrics`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.dumpnetworkmetrics.md) and [`AppWebsocket.prototype.dumpNetworkStats`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.dumpnetworkstats.md) methods. Additionally, `DumpNetworkMetrics` now has an option to include a DHT summary. The output of these endpoints has changed as a result of the new network layer. {#dump-network-on-app-api}

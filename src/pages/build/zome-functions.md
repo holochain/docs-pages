@@ -12,7 +12,7 @@ Holochain sandboxes your zome, acting as an intermediary between it and the user
 
 ## Define a zome function
 
-A zome function is a public function that's tagged with the [`hdk_extern`](https://docs.rs/hdk/latest/hdk/prelude/attr.hdk_extern.html) procedural macro. It must follow the constraints described in the [Define a function section in the Zomes page](/build/zomes/#define-a-function).
+A zome function is a public function that's tagged with the [`hdk_extern`](https://docs.rs/hdi/latest/hdi/attr.hdk_extern.html) procedural macro. It must follow the constraints described in the [Define a function section in the Zomes page](/build/zomes/#define-a-function).
 
 Here's a simple example of a zome function that takes a name and returns a greeting:
 
