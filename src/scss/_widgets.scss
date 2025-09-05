@@ -447,3 +447,18 @@ a.link-tile {
     margin: 1.5em -1.5em;
   }
 }
+
+.responsive-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+}
+
+/* There should be only one child; otherwise I don't think the result would be pretty. */
+.responsive-container > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
