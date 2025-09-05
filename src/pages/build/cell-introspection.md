@@ -8,7 +8,7 @@ Holochain lets you get details about parts of the cell and its current state ---
 
 ## Get DNA info
 
-To get details about the DNA that a function is executing in, use the [`dna_info`](https://docs.rs/hdk/latest/hdk/prelude/fn.dna_info.html) host function, which is available to both coordinator and integrity zomes. It takes no inputs and gives back a result containing a [`DnaInfoV2`](https://docs.rs/hdk/latest/hdk/prelude/struct.DnaInfoV2.html) struct. See the [DNAs page](/build/dnas/) for more info on the values in this struct.
+To get details about the DNA that a function is executing in, use the [`dna_info`](https://docs.rs/hdi/latest/hdi/info/fn.dna_info.html) host function, which is available to both coordinator and integrity zomes. It takes no inputs and gives back a result containing a [`DnaInfoV2`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/info/struct.DnaInfoV2.html) struct. See the [DNAs page](/build/dnas/) for more info on the values in this struct.
 
 ```rust
 use hdi::prelude::*;
@@ -45,7 +45,7 @@ fn look_at_dna_info() -> ExternResult<()> {
 
 ### Get and deserialize DNA properties
 
-If all you want are the DNA properties, deserialized into a Rust type, you can use the [`#[dna_properties]`](https://docs.rs/hdk/latest/hdk/prelude/attr.dna_properties.html) macro on the type definition. It creates a `try_from_dna_properties()` method that calls `dna_info` and tries to deserialize the `properties` field from YAML.
+If all you want are the DNA properties, deserialized into a Rust type, you can use the [`#[dna_properties]`](https://docs.rs/hdk_derive/latest/hdk_derive/attr.dna_properties.html) macro on the type definition. It creates a `try_from_dna_properties()` method that calls `dna_info` and tries to deserialize the `properties` field from YAML.
 
 This example implements a validation helper that checks that a given age value is within the bounds set in the DNA properties.
 
@@ -68,7 +68,7 @@ pub fn validate_age(age: u32) -> ExternResult<ValidateCallbackResult> {
 
 ## Get zome info
 
-To get information about the zome that a function is executing in, use the [`zome_info`](https://docs.rs/hdk/latest/hdk/info/fn.zome_info.html) host function, which is available to both coordinator and integrity zomes. It takes no arguments and returns a result containing a [`ZomeInfo`](https://docs.rs/hdk/latest/hdk/info/fn.zome_info.html) struct.
+To get information about the zome that a function is executing in, use the [`zome_info`](https://docs.rs/hdk/latest/hdk/info/fn.zome_info.html) host function, which is available to both coordinator and integrity zomes. It takes no arguments and returns a result containing a [`ZomeInfo`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/info/struct.ZomeInfo.html) struct.
 
 ```rust
 use hdi::prelude::*;
@@ -99,7 +99,7 @@ fn look_at_zome_info() -> ExternResult<()> {
 
 ## Get agent info
 
-To get information about the agent bound to the current cell, use the [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) host function. It takes no arguments and returns a result containing an [`AgentInfo`](https://docs.rs/hdk/latest/hdk/prelude/struct.AgentInfo.html) struct. _**Note**: This function is only available to coordinator zomes._
+To get information about the agent bound to the current cell, use the [`agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html) host function. It takes no arguments and returns a result containing an [`AgentInfo`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/info/struct.AgentInfo.html) struct. _**Note**: This function is only available to coordinator zomes._
 
 ```rust
 use hdk::prelude::*;
@@ -132,7 +132,7 @@ At the start of every function call that can write data to the source chain, Hol
 
 ## Get info about the call context
 
-To get information about the context of the currently executing call, use the [`call_info`](https://docs.rs/hdk/latest/hdk/info/fn.call_info.html) host function. It takes no arguments and returns a result containing a [`CallInfo`](https://docs.rs/hdk/latest/hdk/prelude/struct.CallInfo.html) struct. _**Note**: This function is only available to coordinator zomes._
+To get information about the context of the currently executing call, use the [`call_info`](https://docs.rs/hdk/latest/hdk/info/fn.call_info.html) host function. It takes no arguments and returns a result containing a [`CallInfo`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/info/struct.CallInfo.html) struct. _**Note**: This function is only available to coordinator zomes._
 
 ```rust
 use hdk::prelude::*;
@@ -191,8 +191,8 @@ pub fn foo() -> ExternResult<()> {
 * [`hdi::info::dna_info`](https://docs.rs/hdi/latest/hdi/info/fn.dna_info.html)
 * [`holochain_integrity_types::info::DnaInfo`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/info/type.DnaInfo.html)
 * [`hdi::info::zome_info`](https://docs.rs/hdi/latest/hdi/info/fn.zome_info.html)
-* [`holochain_integrity_types::info::ZomeInfo`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/info/type.ZomeInfo.html)
+* [`holochain_integrity_types::info::ZomeInfo`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/info/struct.ZomeInfo.html)
 * [`hdk::info::agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html)
-* [`holochain_zome_types::info::AgentInfo`](https://docs.rs/holochain_zome_types/latest/holochain_integrity_types/info/type.AgentInfo.html)
+* [`holochain_zome_types::info::AgentInfo`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/info/struct.AgentInfo.html)
 * [`hdk::info::call_info`](https://docs.rs/hdk/latest/hdk/info/fn.call_info.html)
-* [`holochain_zome_types::info::CallInfo`](https://docs.rs/holochain_zome_types/latest/holochain_integrity_types/info/type.CallInfo.html)
+* [`holochain_zome_types::info::CallInfo`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/info/struct.CallInfo.html)

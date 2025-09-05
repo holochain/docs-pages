@@ -128,7 +128,7 @@ Holochain's answer is simple --- _somebody will notice_. More on that in the nex
 
 !!! learn Learn more
 * [dApp Planning: Crypto Basics](https://medium.com/holochain/dapp-planning-crypto-basics-8bd1073cbe19)
-* [Learn Cryptography: what are hash functions?](https://learncryptography.com/hash-functions/what-are-hash-functions)
+* [Privacy Canada: what are hash functions?](https://privacycanada.net/hash-functions/what-are-hash-functions/)
 * [Wikipedia: Hash chain](https://en.wikipedia.org/wiki/Hash_chain)
 * [Wikipedia: Public key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography)
 * [Wikipedia: Man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)

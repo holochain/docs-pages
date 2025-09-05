@@ -27,7 +27,7 @@ Every link has a type that you define in an integrity zome, just like [an entry]
 
 You can use the tag as link 'content' to further qualify the link, provide a summary of data about the target to save on DHT queries, or build a starts-with search index. But unlike an entry's content, the HDK doesn't provide a macro that automatically deserializes the link tag's content into a Rust type. {#link-tag}
 
-[Just as with entries](/build/entries/#define-an-entry-type), Holochain needs to know about your link types in order to dispatch validation to the right integrity zome. You can do this by implementing a `link_types` callback function, and the easiest way to do this is to add the [`hdi::prelude::hdk_link_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_link_types.html) macro to an enum that defines all your link types:
+[Just as with entries](/build/entries/#define-an-entry-type), Holochain needs to know about your link types in order to dispatch validation to the right integrity zome. You can do this by implementing a `link_types` callback function, and the easiest way to do this is to add the [`hdi::hdk_link_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_link_types.html) macro to an enum that defines all your link types:
 
 ```rust
 use hdi::prelude::*;
@@ -52,7 +52,7 @@ enum LinkTypes {
 
 As with entries, you'll normally want to store your link CRUD code in a [**coordinator zome**](/resources/glossary/#coordinator-zome), not an integrity zome. You can read about why in the page on [entries](/build/entries/#create-an-entry).
 
-Create a link by calling [`hdk::prelude::create_link`](https://docs.rs/hdk/latest/hdk/link/fn.create_link.html). If you used the `hdk_link_types` macro in your integrity zome (see [Define a link type](#define-a-link-type)), you can use the link types enum you defined:
+Create a link by calling [`hdk::link::create_link`](https://docs.rs/hdk/latest/hdk/link/fn.create_link.html). If you used the `hdk_link_types` macro in your integrity zome (see [Define a link type](#define-a-link-type)), you can use the link types enum you defined:
 
 ```rust
 use hdk::prelude::*;
@@ -90,7 +90,7 @@ At this point, the action hasn't been persisted to the source chain. Read the [z
 
 ## Delete a link
 
-Delete a link by calling [`hdk::prelude::delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html) with the create-link action's hash.
+Delete a link by calling [`hdk::link::delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html) with the create-link action's hash.
 
 ```rust
 use hdk::prelude::*;
@@ -100,7 +100,7 @@ let delete_link_action_hash = delete_link(
 );
 ```
 
-A link is considered ["dead"](/build/working-with-data/#deleted-dead-data) (deleted but retrievable if asked for explicitly) once its creation action has at least one delete-link action associated with it. As with entries, dead links can still be retrieved with [`hdk::prelude::get_details`](https://docs.rs/hdk/latest/hdk/prelude/fn.get_details.html) or [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html) (see next section).
+A link is considered ["dead"](/build/working-with-data/#deleted-dead-data) (deleted but retrievable if asked for explicitly) once its creation action has at least one delete-link action associated with it. As with entries, dead links can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) or [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html) (see next section).
 
 ### Deleting a link, under the hood
 
@@ -119,7 +119,7 @@ At this point, the action hasn't been persisted to the source chain. Read the [z
 
 ## Retrieve links
 
-Get all the _live_ (undeleted) links attached to a hash with the [`hdk::prelude::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) function. The input is complicated, so use [`hdk::link::builder::GetLinksInputBuilder`](https://docs.rs/hdk/latest/hdk/link/builder/struct.GetLinksInputBuilder.html) to build it.
+Get all the _live_ (undeleted) links attached to a hash with the [`hdk::link::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) function. The input is complicated, so use [`hdk::link::builder::GetLinksInputBuilder`](https://docs.rs/hdk/latest/hdk/link/builder/struct.GetLinksInputBuilder.html) to build it.
 
 ```rust
 use hdk::prelude::*;
@@ -148,7 +148,7 @@ let movies_in_1960s_by_director = get_links(
 )?;
 ```
 
-To get all live _and deleted_ links, along with any deletion actions, use [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html).
+To get all live _and deleted_ links, along with any deletion actions, use [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html).
 
 ```rust
 use hdk::prelude::*;
@@ -164,7 +164,7 @@ let movies_plus_deleted = get_link_details(
 
 ### Count links
 
-If all you need is a _count_ of matching links, use [`hdk::prelude::count_links`](https://docs.rs/hdk/latest/hdk/prelude/fn.count_links.html). It has a different input with more options for querying (we'll likely update the inputs of `get_links` and `count_links` to match in the future).
+If all you need is a _count_ of matching links, use [`hdk::link::count_links`](https://docs.rs/hdk/latest/hdk/link/fn.count_links.html). It has a different input with more options for querying (we'll likely update the inputs of `get_links` and `count_links` to match in the future).
 
 ```rust
 use hdk::prelude::*;
@@ -174,6 +174,7 @@ let my_id = agent_info()?.agent_initial_pubkey;
 let today = sys_time()?;
 let number_of_reviews_written_by_me_in_last_month = count_links(
     LinkQuery::new(
+        // Assume `movie_entry_hash` as defined in previous snippets.
         movie_entry_hash,
         LinkTypes::MovieReview.try_into_filter()?
     )
@@ -214,10 +215,10 @@ Follow the prompts to choose the entry type, name the link types and anchor, and
 
 When you want to create more complex collections, you'll want to use the paths library directly.
 
-Create a path by constructing a [`hdk::hash_path::path::Path`](https://docs.rs/hdk/latest/hdk/hash_path/path/struct.Path.html) struct, hashing it, and using the hash as a link base. The string of the path is a simple [domain-specific language](https://docs.rs/hdk/latest/hdk/hash_path/path/struct.Path.html#impl-From%3C%26str%3E-for-Path), in which dots denote sections of the path.
+Create a path by constructing a [`hdi::hash_path::path::Path`](https://docs.rs/hdi/latest/hdi/hash_path/path/struct.Path.html) struct, hashing it, and using the hash as a link base. The string of the path is a simple [domain-specific language](https://docs.rs/hdi/latest/hdi/hash_path/path/struct.Path.html#impl-From%3C%26str%3E-for-Path), in which dots denote sections of the path.
 
 ```rust
-use hdk::hash_path::path::*;
+use hdi::hash_path::path::*;
 use movie_integrity::*;
 
 // This will create a two-level path that looks like:
@@ -290,21 +291,21 @@ let links_to_all_movies = all_first_letter_paths
 
 ## Reference
 
-* [`hdi::prelude::hdk_link_types`](https://docs.rs/hdi/latest/hdi/prelude/attr.hdk_link_types.html)
-* [`hdk::prelude::create_link`](https://docs.rs/hdk/latest/hdk/link/fn.create_link.html)
-* [`hdk::prelude::delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html)
+* [`hdi::hdk_link_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_link_types.html)
+* [`hdk::link::create_link`](https://docs.rs/hdk/latest/hdk/link/fn.create_link.html)
+* [`hdk::link::delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html)
 * Getting hashes from data
-    * [`hdk::prelude::Record#action_address`](https://docs.rs/hdk/latest/hdk/prelude/struct.Record.html#method.action_address)
-    * [`hdk::prelude::HasHash<T>`](https://docs.rs/hdk/latest/hdk/prelude/trait.HasHash.html)
-    * [`hdk::prelude::Action`](https://docs.rs/hdk/latest/hdk/prelude/enum.Action.html) (contains fields with hashes of referenced data in them)
+    * [`holochain_integrity_types::record::Record#action_address`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html#method.action_address)
+    * [`holo_hash::HasHash<T>`](https://docs.rs/holo_hash/latest/holo_hash/trait.HasHash.html)
+    * [`holochain_integrity_types::action::Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html) (contains fields with hashes of referenced data in them)
     * [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html)
-    * [`hdk::prelude::agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html)
-    * [`hdk::prelude::dna_info`](https://docs.rs/hdk/latest/hdk/info/fn.dna_info.html)
-* [`hdk::prelude::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html)
-* [`hdk::prelude::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html)
-* [`hdk::prelude::count_links`](https://docs.rs/hdk/latest/hdk/prelude/fn.count_links.html)
-* [`hdk::hash_path`](https://docs.rs/hdk/latest/hdk/hash_path/index.html)
-* [`hdk::prelude::anchor`](https://docs.rs/hdk/latest/hdk/prelude/fn.anchor.html)
+    * [`hdk::info::agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html)
+    * [`hdk::info::dna_info`](https://docs.rs/hdk/latest/hdk/info/fn.dna_info.html)
+* [`hdk::link::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html)
+* [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html)
+* [`hdk::link::count_links`](https://docs.rs/hdk/latest/hdk/link/fn.count_links.html)
+* [`hdi::hash_path`](https://docs.rs/hdi/latest/hdi/hash_path/index.html)
+* [`hdi::hash_path::anchor`](https://docs.rs/hdi/latest/hdi/hash_path/anchor/struct.Anchor.html)
 
 ## Further reading
 

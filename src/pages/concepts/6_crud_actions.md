@@ -85,7 +85,7 @@ Finally, data that's invalid (we'll learn about that in the [next section](../7_
 
 !!! learn Learn more
 * [CRDT.tech](https://crdt.tech/), an informational site about conflict-free replicated data types.
-* [Holochain and Privacy](https://youtu.be/5watvYlDH4A), a brief YouTube video introducing what privacy looks like from a Holochain perspective.
+* [Holochain and Privacy](https://www.youtube.com/watch?v=5watvYlDH4A&feature=youtu.be), a brief YouTube video introducing what privacy looks like from a Holochain perspective.
 * [Exploring Co-Design Considerations for Embedding Privacy in Holochain Apps, A Value Sensitive Design Perspective](https://dialnet.unirioja.es/servlet/articulo?codigo=8036267), Paul d'Aoust, Oliver Burmeister, Alisha Fernando, Anwaar Ulhaq, Kirsten Wahlstrom. A paper that explores the system primitives of Holochain and how they affect user privacy, with recommendations from the disciplines of Privacy by Design and Participatory Design.
 !!!
 

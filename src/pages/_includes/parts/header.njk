@@ -4,7 +4,7 @@
 <header id="page-header">
   <div id="page-header-top">
     <div id="logo-space">
-      <a href="https://holochain.org" id="home-link" target="_blank">
+      <a href="https://www.holochain.org" id="home-link" target="_blank" rel="noopener noreferrer">
       <picture>
         <source srcset="/assets/img/holochain-logo-black-1300.png" media="(min-width: 900px)">
         <img src="/assets/img/holochain-logo-small.png" alt="Holochain.org">
@@ -12,7 +12,7 @@
       </a>
       <a href="/">Developer Portal</a>
     </div>
-    
+
     {{ headerNavList(navigation.headerNav, page) }}
     {{ hamburgerButton() }}
   </div>
@@ -20,8 +20,8 @@
   <div id="page-header-bar">
     <nav id="other-nav">
       <a href="/search" title="Search the site">{{ mdiSearch() }}</a>
-      <a href="https://discord.gg/k55DS5dmPH" target="_blank" title="Holochain on Discord">{{ discordMarkIcon() }}</a>
-      <a href="https://github.com/holochain/holochain" target="_blank" title="Holochain GitHub">{{ githubLogo() }}</a>
+      <a href="https://discord.com/invite/DE9dtFXjZb" target="_blank" rel="noopener noreferrer" title="Holochain on Discord">{{ discordMarkIcon() }}</a>
+      <a href="https://github.com/holochain/holochain" target="_blank" rel="noopener noreferrer" title="Holochain GitHub">{{ githubLogo() }}</a>
     </nav>
   </div>
 </header>
