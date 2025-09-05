@@ -1,4 +1,4 @@
-{% from "widgets/svg-icons.njk" import rocketshipIcon, lightBulbIcon, craneIcon, toolPanelIcon, personReadingIcon %}
+{% from "widgets/svg-icons.njk" import rocketshipIcon, lightBulbIcon, craneIcon, toolPanelIcon, personReadingIcon, lectureIcon %}
 <div id="home-tiles">
     {% linkTile "/get-started/", "home-tile" %}
       {{ rocketshipIcon() }}
@@ -29,6 +29,14 @@
       <div class="text-wrapper">
         <h2>Resources</h2>
         <p>Howtos, references, examples, tools, libraries, and more</p>
+      </div>
+    {% endlinkTile %}
+
+    {% linkTile "/resources/self-paced-developer-training/", "home-tile" %}
+      {{ lectureIcon() }}
+      <div class="text-wrapper">
+        <h2>Self-Paced Training</h2>
+        <p>An online course to get you building Holochain applications</p>
       </div>
     {% endlinkTile %}
 
