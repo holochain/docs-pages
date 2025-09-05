@@ -17,33 +17,6 @@ h1, h2, h3 {
   line-height: 1.2;
 }
 
-@mixin btn-base($color: currentColor, $bg-color: white, $hover-color: white, $hover-bg-color: $cl-brand-green) {
-  padding: 8px 16px;
-  border-radius: 5px;
-  color: $color;
-  background-color: $bg-color;
-  text-decoration: none;
-
-  &:hover {
-    color: $hover-color;
-    background-color: $hover-bg-color;
-  }
-}
-
-// Applicable to an a or button element
-.btn {
-  @include btn-base;
-}
-
-.btn-green-outline {
-  @include btn-base;
-  border: $cl-brand-green solid 1px;
-}
-
-.btn-purple {
-  @include btn-base(white, $cl-brand-purple, $cl-brand-purple, $cl-gray);
-}
-
 a {
   color: $cl-main-text;
 
@@ -70,6 +43,38 @@ a {
 
   .main-area & {
     @include externalLinkIcon($cl-main-text);
+  }
+}
+
+@mixin btn-base($color: currentColor, $bg-color: white, $hover-color: white, $hover-bg-color: $cl-brand-green) {
+  padding: 8px 16px;
+  border-radius: 5px;
+  color: $color;
+  background-color: $bg-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $hover-color;
+    background-color: $hover-bg-color;
+  }
+}
+
+// Applicable to an a or button element
+.btn {
+  @include btn-base;
+}
+
+.btn-green-outline {
+  @include btn-base;
+  border: $cl-brand-green solid 1px;
+}
+
+.btn-purple {
+  @include btn-base(white, $cl-brand-purple, $cl-brand-purple, $cl-gray);
+
+  /* Needs a specificity hack to override the .main-area selector */
+  &.btn-purple {
+    @include externalLinkIcon(white);
   }
 }
 

@@ -49,6 +49,21 @@ Obviously it would be optimal to actually resize the image. But you can tweak th
 ![](/assets/img/concepts/8.1-calls.png){.sz50p}
 ```
 
+## Responsive containers
+For elements with a fixed aspect ratio that can't be calculated automatically by the browser's layout engine, such as YouTube embeds, use this helper (shown here with two ways of specifying a YouTube video with a 16×9 aspect ratio):
+
+```
+%%% responsive 16/9
+<iframe src="https://youtube.com/etc"></iframe>
+%%%
+```
+
+```
+%%% responsive 56.25%
+<iframe src="https://youtube.com/etc"></iframe>
+%%%
+```
+
 ## Table of contents
 An on-page table of contents is generated automatically for every page from all `h2` to `h6` elements that have `id` attributes. If you don't want this to happen, put `tocData: false` in your page's front matter. You can also selectively prevent a header from being included in the table of contents by either suppressing its ID attribute or adding a `data-no-toc` attribute:
 
