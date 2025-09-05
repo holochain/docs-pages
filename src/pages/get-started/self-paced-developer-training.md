@@ -15,8 +15,8 @@ This curriculum was developed over the course of our three Holochain Developer T
 The following resources can help you brush up on your Rust before the course or as you go.
 
 * Chapters 1–11 in the [Rust Book](https://doc.rust-lang.org/book/)
-* [Rustlings exercises](https://github.com/rust-lang/rustlings/) and [Leetcode problems](https://leetcode.com/problemset/all/)
-* [Rust on Exercism](https://exercism.org/tracks/rust)
+* [Rustlings exercises](https://github.com/rust-lang/rustlings/) and [Leetcode problems](https://leetcode.com/problemset/all/)<!-- cspell:disable-line -->
+* [Rust on Exercism](https://exercism.org/tracks/rust)<!-- cspell:disable-line -->
 
 ## Other helpful links
 
@@ -30,7 +30,7 @@ The following resources can help you brush up on your Rust before the course or 
 ## Lesson 1
 
 %%% responsive 16/9
-<iframe src="https://www.youtube.com/embed/aQkU-eNwdw4?enablejsapi=1&amp;rel=0" title="YouTube video" frameborder="0" data-testid="youtube-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<iframe src="https://www.youtube.com/embed/aQkU-eNwdw4?enablejsapi=1&amp;rel=0" title="YouTube video" frameborder="0" data-testid="youtube-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><!-- cspell:disable-line -->
 %%%
 
 * [Slides: Holochain Fundamentals](https://holochain-immersive.github.io/holochain-lesson-1/)
@@ -42,7 +42,7 @@ The following resources can help you brush up on your Rust before the course or 
 ## Lesson 2
 
 %%% responsive 16/9
-<iframe src="https://www.youtube.com/embed/AHoFOORxSm0?enablejsapi=1&amp;rel=0" title="YouTube video" frameborder="0" data-testid="youtube-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<iframe src="https://www.youtube.com/embed/AHoFOORxSm0?enablejsapi=1&amp;rel=0" title="YouTube video" frameborder="0" data-testid="youtube-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><!-- cspell:disable-line -->
 %%%
 
 * [Slides: Basic HDK Functions](https://holochain-immersive.github.io/holochain-lesson-2/)
@@ -54,7 +54,7 @@ The following resources can help you brush up on your Rust before the course or 
 ## Lesson 3
 
 %%% responsive 16/9
-<iframe src="https://www.youtube.com/embed/Gts0HeZlF20?enablejsapi=1&amp;rel=0" title="YouTube video" frameborder="0" data-testid="youtube-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<iframe src="https://www.youtube.com/embed/Gts0HeZlF20?enablejsapi=1&amp;rel=0" title="YouTube video" frameborder="0" data-testid="youtube-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><!-- cspell:disable-line -->
 %%%
 
 * [Slides: Anchors &amp; Paths](https://holochain-immersive.github.io/holochain-lesson-4/)
@@ -67,7 +67,7 @@ The following resources can help you brush up on your Rust before the course or 
 ## Lesson 4
 
 %%% responsive 16/9
-<iframe src="https://www.youtube.com/embed/Uw90g9hrhu0?enablejsapi=1&amp;rel=0" title="YouTube video" frameborder="0" data-testid="youtube-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<iframe src="https://www.youtube.com/embed/Uw90g9hrhu0?enablejsapi=1&amp;rel=0" title="YouTube video" frameborder="0" data-testid="youtube-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><!-- cspell:disable-line -->
 %%%
 
 * [Slides: Validation Rules](https://holochain-immersive.github.io/holochain-lesson-6/)

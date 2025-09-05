@@ -103,7 +103,7 @@ You can try this latter approach with your forum app immediately by downloading 
 
 The steps for publishing an app to the Launcher's app store are documented in the [Github repository of the Holochain Launcher](https://github.com/holochain/launcher?tab=readme-ov-file#developers).
 
-!!!info Launcher uses Electron
+!!! info Launcher uses Electron
 If you're developing an app that's meant to be run within Launcher, it's important to know that Launcher uses Electron, which embeds a fairly recent version of Google's [Blink](https://www.chromium.org/blink/) browser engine. The nice thing about this is that your UI can target a consistent browser, which should shorten development time.
 !!!
 
