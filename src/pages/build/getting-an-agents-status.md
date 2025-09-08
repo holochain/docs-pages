@@ -21,13 +21,27 @@ At certain points in time, a user may want to check on a peer's good standing in
 
 If your app involves interactions between peers that require a high level of integrity, such as exchanging value, entering into a contract, or registering a vote, it's important for agents to be able to check the reputation and history of another agent before interacting with them. (We'll call this sort of interaction an 'agreement' in this document.)
 
-You can do this with the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html) host function, which, among other information, lets an agent discover both chain forks and collected **warrants** for another agent.
+In a network where all agents are [authorities](/resources/glossary/#dht-authority) for the full DHT, all invalid data will eventually be discovered by everyone, and their Holochain conductors will automatically block the bad actor at the network level. This happens through the publishing of [**warrants**](/resources/glossary/#warrant). A warrant is a [DHT operation](/build/dht-operations/) that indicates that some agent has broken a rule, either a base Holochain rule or an app-specific rule encoded in a [`validate` callback](/build/validate-callback/). The warrant contains a proof of the bad action, signed by the validator that discovered it, and it's both published to the malicious author's [agent ID](/resources/glossary/#agent-id) and returned any time someone asks for the bad data.
 
-A warrant is a [DHT operation](/build/dht-operations/) that indicates that some agent has broken a rule, either a base Holochain rule or an app-specific validation rule encoded in a [`validate` callback](/build/validate-callback/).
+<!-- TODO: remove this when chain fork warrants and blocking are stable -->
 
-A warrant is created for _any_ DHT operation that fails system or app validation, and sent to the [authority](/resources/glossary/#validation-authority) responsible for the warranted author's [agent ID](/build/identifiers/#agent) address. No warrants are created for chain forks, because a warrant is simply a way of informing other agents of an incident on data they might not be an authority on, and agent ID authorities already watch for chain forks.<!-- TODO: change this language if chain fork warrants become a thing -->
+!!! info Chain fork warrants aren't available yet {#chain-fork-warrants-future}
+Warrants are only produced for operations that fail app or basic system validation rules. Chain forks will be warranted in the future.
+!!!
 
-An agent's state is not deterministic, so it's not something you check in a validation callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when an agent is about to enter into an agreement. (There's a similar host function, [`must_get_agent_activity`](/build/must-get-host-functions/#must-get-agent-activity), that does let you validate an op using a deterministic slice of a source chain as a dependency.)
+!!! info Blocking isn't operational yet
+Malicious agents currently aren't blocked when a warrant is found; this will be implemented in a future release.
+!!!
+
+However, in a DHT where agents hold [shards](/resources/glossary/#sharding) of the total data set, not everyone will discover all warrants. They can be discovered actively though: if you call `get`, `get_details`, or `get_links` on an address with invalid data stored at it, the authority will return a warrant to you, and your conductor will check the warrant's validity, remember the warrant, and block the bad actor.
+
+But it's still possible to mistakenly build new graph data on top of invalid data. Actions are split into [DHT operations](/build/dht-operations/) and spread around the DHT to different addresses. The author's agent ID and the action hash will both store partial information about a record's validity, as will the entry hash, the link base addresses, or any other addresses that might be relevant to the action.
+
+This is because code path in a [`validate` callback](/build/validate-callback/) for _one_ operation may find invalid data, but the code path for _another_ operation produced from _the same action_ might not. For example, if the `validate` callback for an [`Update` action](/build/dht-operations/#update) checks that the author has permission to update an entry when it's validating the action's [`RegisterUpdate`](/build/dht-operations/#registerupdate) operation but not when it's validating the [`StoreEntry`](/build/dht-operations/#storeentry) operation, then checking the entry hash for a permission violation won't turn up any problems.
+
+So the best place to check for _all_ invalid operations for an agent is at the agent's public key, which is where other validators of the agent's operations will publish warrants to. You can do this with the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html) host function, which, among other information, lets an agent discover both chain forks and collected warrants for another agent.
+
+An agent's state is not deterministic, so it's not something you can check in a `validate` callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when an agent is about to enter into an agreement.
 
 ## Get the status of an agent
 

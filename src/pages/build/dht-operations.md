@@ -56,12 +56,12 @@ While the following info describes the way Holochain should work [as formally sp
         * Contents: action (and optionally entry, if applicable) <!--TODO: system validation? -->
         * Effect: Store the action, along with any entry data.
 * [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Create)
-    * [`StoreEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreEntry)
+    * [`StoreEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreEntry){#storeentry}
         * Basis address: entry hash
         * Contents: entry, and the action that wrote it
         * System validation: Check that the action's entry hash matches the entry hash.
         * Effect: Store the entry, if an identical entry hasn't been created yet, and add the action to the the list of actions associated with its creation. An entry can be created by multiple authors, and each creation action paired with its entry [can be treated as an independent piece of data](/build/entries/#entries-and-actions). **This operation isn't produced for private entries.**
-* [`Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Update)
+* [`Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Update){#update}
     * `StoreEntry` (see above)
     * [`RegisterUpdate`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterUpdate) {#register-update}
         * Basis addresses: entry and action hashes of the _old_ entry being updated
