@@ -79,9 +79,9 @@ The absence of a warrant or chain fork doesn't necessarily mean an agent is in g
 
 ## Check for a published action
 
-When you're dealing with high-risk interactions, it's good practice to start an agreement with some sort of 'proposal' entry, which the initiator commits to their source chain. The other parties can then receive the hash of the proposal's creation action, and use `get_agent_activity` to check that the initiator actually published the entry and that the authorities consider it valid.
+When you're writing an agreement-based program flow, it's good practice to start with some sort of 'proposal' entry, which the initiator commits to their source chain, publishes, and sends to the receiving party. The receiving party can then use `get_agent_activity` to check that validators in the DHT actually received the entry, consider it valid, and haven't seen any conflicting proposals.
 
-Because the DHT is eventually consistent, it's also a good idea for the other parties to wait a short period --- perhaps scaled to the level of risk involved in the agreement --- before calling `get_agent_activity` to allow warrants and conflicting actions (which cause chain forks) to propagate to all authorities.
+Because the DHT is eventually consistent, it's also a good idea for the receiving party to wait a short period --- perhaps scaled to the level of risk involved in the agreement --- to allow validators to gossip possible validation errors or chain forks with each other.
 
 ```rust
 use hdk::prelude::*;
@@ -90,32 +90,31 @@ use hdk::prelude::*;
 pub enum ProposalStatus {
     /// The proposal hasn't appeared at the agent ID authority yet.
     NotAvailable,
-    /// No invalid actions observed yet.
+    /// No invalid or conflicting actions observed yet. A problem may be
+    /// discovered in the future, but hopefully we've waited long enough for
     GoodSoFar,
     /// The proposal may be invalid, either because the agent ID authority
     /// discovered a chain-based error or another op authority discovered
     /// an issue and sent a warrant to the agent ID authority.
-    /// The proposal may also be valid but a prior invalid action has been
-    /// discovered.
+    /// The proposal may also be valid but follow after a prior invalid action.
+    /// Either way, the initiator is a bad actor.
     Invalid,
-    /// A chain fork has been discovered -- either conflicting with the
-    /// proposal action or further in the past.
-    ChainFork,
 }
 
 // To be called by the front end at intervals -- first, in a polling loop
-// until the action is seen on the initiator's chain, and then after a
-// suitable interval to allow evidence of bad activity to show up.
+// until it stops reporting `ProposalStatus::NotAvailable`, and then, if it
+// reports `ProposalStatus::GoodSoFar`, calling it again after a suitable delay
+// to allow authorities to discover and report evidence of bad activity.
 #[hdk_extern]
 pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> ExternResult<ProposalStatus> {
     let initiator_state = get_agent_activity(
         input.initiator,
         ChainQueryFilter::new()
-            // For scarce resources, you'll want to make sure that another
-            // conflicting proposal for the same resource hasn't been created
-            // before or after this proposal. Here, we're assuming the
-            // proposal doesn't deal with a scarce resource and simply
-            // check that it exists on the chain.
+            // Here we're only asking for the proposal record, nothing earlier.
+            // We just want to know it's been published and validated.
+            // Since we're dealing with a 'scarce' resource like an account
+            // balance or the right to vote, we'd also want to check the whole
+            // chain to make sure the resource hasn't already been used up.
             // You can read more about building a chain query filter at
             // https://developer.holochain.org/build/querying-source-chains/#filtering-a-query
             .sequence_range(ChainQueryFilterRange::ActionHashTerminated(input.proposal_hash, 0)),
@@ -123,7 +122,7 @@ pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> Extern
     )?;
 
     match initiator_state.status {
-        ChainStatus::Forked(_) => Ok(ProposalStatus::ChainFork),
+        ChainStatus::Forked(_) => Ok(ProposalStatus::Invalid),
         ChainStatus::Invalid(_) => Ok(ProposalStatus::Invalid),
         // The initiator doesn't appear to have created a source chain.
         ChainStatus::Empty => Ok(ProposalStatus::NotAvailable),
@@ -134,6 +133,8 @@ pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> Extern
                 return Ok(ProposalStatus::Invalid);
             }
             if initiator_state.valid_activity.is_empty() {
+                // The initiator doesn't seem to have published their proposal
+                // to the authority we've contacted yet.
                 return Ok(ProposalStatus::NotAvailable);
             }
             Ok(ProposalStatus::GoodSoFar)
@@ -142,13 +143,13 @@ pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> Extern
 }
 ```
 
-!!! info Time-based attacks
-This approach is still vulnerable to various time-based attacks; for instance:
+!!! info Conflicts over scarce resources
+When you're dealing with a proposal over a 'scarce' resource --- something that can be 'used up' such as a voting privilege, an account balance, or a unique name --- you want to check that nothing conflicts with the agreement being proposed. There are two kinds of conflict:
 
-* A malicious agent claims to have published an action but has withheld it and conflicting actions from publishing until immediately before they send its hash to the receiver. The receiver may mistakenly think enough time has passed for warrants and forks to propagate.
-* A malicious agent crafts a conflicting action but withholds it until after the receiver completes an agreement, causing the proposal action and its subsequent acceptance action to be seen as invalid due to a chain fork.
+* _Prior actions that have already used up the resource_ --- you can deal with this deterministically by writing validation code that walks back through the source chain.
+* _Actions in an alternative timeline_, or **source chain fork** --- there is no perfect protection against this, because a malicious agent may publish an action that forks a chain years down the road. However, if you use the pattern above, you can reasonably hope to detect an attempt to create two forks simultaneously (what blockchain folks call a 'double spend').
 
-Vulnerabilities like this are outside the scope of this document; we recommend you get a third-party security audit for any high-risk hApp involving a multi-party agreement process.
+No distributed system is perfectly secure against conflict; if you're building a hApp with high-risk use cases, we recommend that you get your code audited.
 !!!
 
 ## Query an agent's source chain
