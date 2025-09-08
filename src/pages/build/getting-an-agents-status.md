@@ -14,7 +14,7 @@ title: "Getting an Agent's Status"
 :::
 
 ::: intro
-At certain points in a hApp a user may want to check on a peer's good standing in the network, particularly to find out whether they've broken the rules of a hApp or of Holochain itself. `get_agent_activity` lets you get a summary of an agent's current state, including any outstanding [**warrants**](/resources/glossary/#warrant) attached to them.
+At certain points in time, a user may want to check on a peer's good standing in the network, particularly to find out whether they've broken the rules of a hApp or of Holochain itself. The `get_agent_activity` host function lets you get a summary of an agent's current state, including any [**warrants**](/resources/glossary/#warrant) attached to them.
 :::
 
 ## When do we need to check an agent's state?
