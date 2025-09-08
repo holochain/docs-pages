@@ -33,6 +33,8 @@ package = "/node_modules/netlify-plugin-checklinks"
         # In spite of us trying to turn off source map checking, it still fails
         # on broken source maps file: URLs.
         "file:///",
+        # Leetcode doesn't like our bot.
+        "https://leetcode.com/problemset/",
     ]
 
     # We still want to check these.

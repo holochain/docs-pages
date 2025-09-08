@@ -17,16 +17,16 @@ As Holochain is a project in development, the functions and types used in exampl
 The following resources can help you brush up on your Rust before the course or as you go.
 
 * Chapters 1–11 in the [Rust Book](https://doc.rust-lang.org/book/)
-* [Rustlings exercises](https://github.com/rust-lang/rustlings/) and [Leetcode problems](https://leetcode.com/problemset/all/)<!-- cspell:disable-line -->
+* [Rustlings exercises](https://github.com/rust-lang/rustlings/) and [Leetcode problems](https://leetcode.com/problemset/)<!-- cspell:disable-line -->
 * [Rust on Exercism](https://exercism.org/tracks/rust)<!-- cspell:disable-line -->
 
 ## Other helpful links
 
 * [Holochain Developer Discord](https://discord.com/invite/DE9dtFXjZb)
-* [Glossary](/references/glossary/)
+* [Glossary](/resources/)
 * [Holochain Build Guide](/build/)
-* [Holochain programming references](/references/)
-* [Holochain Core Concepts](/concepts/)
+* [Holochain programming references](/resources/)
+* [Holochain Core Concepts](/concepts/1_the_basics/)
 
 ::: storystep
 ## Lesson 1
