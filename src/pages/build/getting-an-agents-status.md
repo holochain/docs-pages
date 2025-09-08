@@ -101,6 +101,12 @@ pub enum ProposalStatus {
     Invalid,
 }
 
+#[derive(Deserialize, Debug)]
+pub struct IsProposalCurrentlyGoodInput {
+    pub initiator: AgentPubKey,
+    pub proposal_hash: ActionHash,
+}
+
 // To be called by the front end at intervals -- first, in a polling loop
 // until it stops reporting `ProposalStatus::NotAvailable`, and then, if it
 // reports `ProposalStatus::GoodSoFar`, calling it again after a suitable delay
