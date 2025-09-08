@@ -29,7 +29,7 @@ In a network where all agents are [authorities](/resources/glossary/#dht-authori
 Warrants are only produced for operations that fail app or basic system validation rules. Chain forks will be warranted in the future.
 !!!
 
-!!! info Blocking isn't operational yet
+!!! info Blocking isn't operational yet {#blocking-future}
 Malicious agents currently aren't blocked when a warrant is found; this will be implemented in a future release.
 !!!
 
@@ -44,7 +44,7 @@ So the best place to check for _all_ invalid operations for an agent is at the a
 An agent's state is not deterministic, so it's not something you can check in a `validate` callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when an agent is about to enter into an agreement.
 
 !!! Warrants are 'sticky'
-Once an agent receives a warrant from any source, Holochain validates it to make sure it's legitimate. If it is, Holochain stores it permanently and blocks the warranted agent. This isn't true yet of chain forks, which [don't yet produce warrants](#chain-fork-warrants-future).
+Once an agent receives a warrant from any source, Holochain validates it to make sure it's legitimate. If it is, Holochain stores it permanently. (In the future, they'll also [block the warranted agent](#blocking-future)). This isn't true yet of chain forks, which [don't yet produce warrants](#chain-fork-warrants-future).
 !!!
 
 ## Get the status of an agent
