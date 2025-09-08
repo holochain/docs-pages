@@ -84,6 +84,32 @@ const validateDetailsBlock = (params) => {
 
 /* End Details Block code */
 
+/* Start responsive container code */
+
+const renderResponsiveContainer = (tokens, idx) => {
+  if (tokens[idx].nesting === 1) {
+    // Ratio can be specified as a fraction (e.g., "16/9") or a percentage ("56.25%").
+    const ratioMatch = tokens[idx].info.trim().match(/^responsive\s+(?:(\d+)\s*\/\s*(\d+)|(\d+)\s*%)\s*$/);
+    let ratio;
+
+    if (typeof ratioMatch[3] !== "undefined") {
+      ratio = ratioMatch[3];
+    } else {
+      ratio = Number(ratioMatch[2]) / Number(ratioMatch[1]) * 100;
+    }
+
+    if (!ratioMatch) {
+      return "";
+    }
+
+    return `<div class="responsive-container" style="padding-bottom: ${ratio}%">`;
+  } else {
+    return "</div><!-- what the -->";
+  }
+};
+
+/* End responsive container code */
+
 // Set up the Markdown-it parser here.
 
 const mdLib = markdownIt();
@@ -120,5 +146,7 @@ mdLib.use(markdownItContainer, "learn", { marker: "!", render: composeGenericAdm
 mdLib.use(markdownItContainer, "details", { marker: "!", render: composeDetailsBlockRenderFunc() });
 // Create a specialized synonym for details block with a class of "dig-deeper"
 mdLib.use(markdownItContainer, "dig-deeper", { marker: "!", render: composeDetailsBlockRenderFunc("dig-deeper") });
+// Responsive container
+mdLib.use(markdownItContainer, "responsive", { marker: "%", render: renderResponsiveContainer });
 
 export default mdLib;

@@ -103,8 +103,9 @@ You can try this latter approach with your forum app immediately by downloading 
 
 The steps for publishing an app to the Launcher's app store are documented in the [Github repository of the Holochain Launcher](https://github.com/holochain/launcher?tab=readme-ov-file#developers).
 
-!!!info Launcher uses Electron
+!!! info Launcher uses Electron
 If you're developing an app that's meant to be run within Launcher, it's important to know that Launcher uses Electron, which embeds a fairly recent version of Google's [Blink](https://www.chromium.org/blink/) browser engine. The nice thing about this is that your UI can target a consistent browser, which should shorten development time.
+!!!
 
 ## Next steps
 
@@ -118,19 +119,24 @@ Now that you have successfully built a basic forum application using Holochain a
 
 The official Holochain developer documentation is a valuable resource for deepening your understanding of Holochain concepts, techniques, and best practices. Be sure to explore the documentation thoroughly:
 
-* [Holochain Core Concepts](/concepts/1_the_basics/)
-* [Holochain Developer Kit (HDK) reference](https://docs.rs/hdk/latest/hdk)
+[Self-Paced Developer Training →](/get-started/self-paced-developer-training/){.btn-purple}
+
+[Core Concepts →](/concepts/1_the_basics/){.btn-purple}
+
+[Build Guide →](/build/){.btn-purple}
+
+[Holochain Developer Kit (HDK) reference](https://docs.rs/hdk/latest/hdk){.btn-purple}
 
 #### Community resources
 
 The Holochain community is an excellent source of support, inspiration, and collaboration. Consider engaging with the community to further your learning and development:
 
-* [Holochain GitHub repositories](https://github.com/holochain)
-* [Holochain Discord server](https://discord.com/invite/DE9dtFXjZb)
+[Holochain Discord server](https://discord.com/invite/DE9dtFXjZb){.btn-purple}
 
 #### Example applications and tutorials
 
 Studying existing Holochain applications and tutorials can provide valuable insights and inspiration for your projects. Here are some resources to explore:
 
+* [Holochain GitHub repositories](https://github.com/holochain)
 * [Holochain Open Dev](https://github.com/holochain-open-dev)
 * [Holochain Foundation sample apps](https://github.com/holochain-apps)
