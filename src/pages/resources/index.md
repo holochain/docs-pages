@@ -26,14 +26,16 @@ If you're upgrading your hApp to a newer version of Holochain, we have some [upg
 * [**Debugging a Running Holochain Conductor**](/resources/howtos/debugging/) --- tips on enabling and disabling log messages and interpreting what you see
 * [**Running Network Infrastructure**](/resources/howtos/running-network-infrastructure/) --- instructions on using Docker to run a bootstrap and relay server for testing or production
 
-## HDK and HDI
+## Programming references
+
+### HDK and HDI
 
 When you write a Holochain application, the part that lives in Holochain is called a [DNA](/concepts/2_application_architecture/#layers-of-the-application-stack). It runs as a guest in a WebAssembly sandbox and talks to the host, or Holochain conductor, through the host API. It's also expected to implement callbacks that the conductor needs to call at certain times. The HDK and HDI Rust crates make it easy for you write guest code that interfaces with the conductor --- the HDK for your DNA's [coordinator zomes](/resources/glossary/#coordinator-zome) and the HDI for [integrity zomes](/resources/glossary/#integrity-zome).
 
 * **[HDK reference](https://docs.rs/hdk)**
 * **[HDI reference](https://docs.rs/hdi)**
 
-## Conductor APIs {#conductor-apis}
+### Conductor APIs {#conductor-apis}
 
 The conductor exposes two separate RPC APIs over WebSocket interfaces:
 
@@ -45,7 +47,7 @@ For both of these APIs, you make an RPC call sending a MessagePack-serialized re
 * **[Conductor Admin API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html)**
 * **[Conductor App API reference](https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html)**
 
-## Conductor clients
+### Conductor clients
 
 For ergonomic interaction with the two conductor APIs, there are two officially supported client implementations: one in JavaScript and one in Rust. If you intend to develop Holochain apps with a web-based UI, **it is likely that all you'll ever need is the [JavaScript client](https://www.npmjs.com/package/@holochain/client)**.
 
@@ -53,7 +55,7 @@ For ergonomic interaction with the two conductor APIs, there are two officially 
 * **[Conductor Client reference (Rust)](https://docs.rs/holochain_client/latest/holochain_client/)**
 * **[Conductor Client reference (C#)](https://github.com/holochain-open-dev/holochain-client-csharp)** (community-maintained)
 
-## Conductor configuration
+### Conductor configuration
 
 The conductor has a few settings that can (and should) be configured via a YAML config file. We've provided documentation of the internal structures that hold this config; if you can picture how to serialize this to YAML in your mind, you can write a config file! (We promise we'll produce a more readable config file guide soon.)
 
