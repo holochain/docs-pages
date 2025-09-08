@@ -247,7 +247,7 @@ cargo build
 
 ### (Optional) Update other Rust dependencies
 
-Running a Cargo build, like suggested above, will update as few dependencies as it can. This is good for stability because it's just making the changes you asked for. However, sometimes you do need to update other dependencies to resolve build issues. 
+Running a Cargo build, like suggested above, will update as few dependencies as it can. This is good for stability because it's just making the changes you asked for. However, sometimes you do need to update other dependencies to resolve build issues.
 
 This section is marked as optional because it's possible that new dependencies could introduce new issues as well as fixing existing conflicts or problems. To make it possible to roll back this change, it might be a good idea to commit the changes you've made so far to source control. Then you can run:
 
@@ -291,11 +291,11 @@ let action_hash = ActionHash::try_from(base_address).map_err(|_| {
 
 The specific changelog entry for this change can be found [here](https://github.com/holochain/holochain/blob/develop-0.2/CHANGELOG.md#holo_hash-020).
 
-If you have trouble resolving the build issues or the changelog doesn't give you enough information about what has changed, then please reach out on [Discord](https://discord.gg/E3EXyPBj3F) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
+If you have trouble resolving the build issues or the changelog doesn't give you enough information about what has changed, then please reach out on [Discord](https://discord.com/invite/DE9dtFXjZb) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
 
 ### Updating other dependencies
 
-If you depend on other Holochain crates, then you will need to find compatible versions to update to. You can check available versions on `crates.io` by searching for them by name. You can also check the [Holochain changelog](https://github.com/holochain/holochain/blob/develop-0.2/CHANGELOG.md) to see what versions have been released together. Note that we don't release crates unless they have changes, so if you don't see the crate you're looking for in a release, then please check the previous releases for the last time we released it. If you get stuck or have build issues, then please reach out on [Discord](https://discord.gg/E3EXyPBj3F) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
+If you depend on other Holochain crates, then you will need to find compatible versions to update to. You can check available versions on `crates.io` by searching for them by name. You can also check the [Holochain changelog](https://github.com/holochain/holochain/blob/develop-0.2/CHANGELOG.md) to see what versions have been released together. Note that we don't release crates unless they have changes, so if you don't see the crate you're looking for in a release, then please check the previous releases for the last time we released it. If you get stuck or have build issues, then please reach out on [Discord](https://discord.com/invite/DE9dtFXjZb) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
 
 ### Recommended: use `resolver = "2"` in your Cargo workspace
 
@@ -311,4 +311,4 @@ You should check that your project builds, tests are passing, and that anything 
 
 For general project health, you should check if any other dependencies in your project need an update. Please refer to NPM and Cargo documentation for this.
 
-That should be everything; you can now develop against Holochain 0.2! Good luck, and if you need help then please do get in touch on [Discord](https://discord.gg/E3EXyPBj3F) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
+That should be everything; you can now develop against Holochain 0.2! Good luck, and if you need help then please do get in touch on [Discord](https://discord.com/invite/DE9dtFXjZb) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).

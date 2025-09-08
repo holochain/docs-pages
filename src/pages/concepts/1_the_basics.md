@@ -31,7 +31,7 @@ We’re all familiar with the client/server architecture. It’s comfortable, al
 
 ## Current solutions
 
-Cloud hosting platforms offer [horizontal scaling](https://en.wikipedia.org/wiki/Scalability#Horizontal). As your application grows, you add more virtual machines to increase availability. This requires you to maintain a fleet of servers, with all the responsibilities that go along with that.
+Cloud hosting platforms offer [horizontal scaling](https://en.wikipedia.org/wiki/Scalability#Horizontal_or_scale_out). As your application grows, you add more virtual machines to increase availability. This requires you to maintain a fleet of servers, with all the responsibilities that go along with that.
 
 [Serverless computing](https://en.wikipedia.org/wiki/Serverless_computing) liberates you from those details and lets you focus on the core of your application --- just choose the ingredients, link them together with functions, and press play. However, it is just an abstraction; it still runs on rented hardware with recurring costs and central failure points.
 

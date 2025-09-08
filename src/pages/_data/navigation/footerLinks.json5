@@ -27,7 +27,7 @@
     {
       title: "Community",
       links: [
-        { title: "Discord", url: "https://discord.com/invite/k55DS5dmPH", external: true },
+        { title: "Discord", url: "https://discord.com/invite/DE9dtFXjZb", external: true },
         { title: "GitHub", url: "https://github.com/holochain/holochain", external: true },
         { title: "Holochain on Twitter", url: "https://twitter.com/holochain", svgSnippet: "twitterLogo", class:"no-away", external: true },
         { title: "Reddit", url: "https://www.reddit.com/r/holochain/", external: true },
@@ -41,10 +41,10 @@
       links: [
         { title: "Holochain", url: "https://www.holochain.org/", external: true },
         { title: "Holo.host", url: "https://www.holo.host", external: true },
-        { title: "Technical Papers", url: "https://holo.host/whitepapers/ ", external: true },
-        { title: "Roadmap", url: "https://www.holochain.org/roadmap", external: true },
+        { title: "Technical Papers", url: "https://holo.host/resources/whitepapers/ ", external: true },
+        { title: "Roadmap", url: "https://www.holochain.org/roadmap/", external: true },
         { title: "Blog", url: "https://blog.holochain.org/", external: true },
-        { title: "Jobs", url: "https://holochain.org/careers/ ", external: true },
+        { title: "Jobs", url: "https://www.holochain.org/careers/", external: true },
       ]
     },
 
@@ -71,7 +71,7 @@
         links: [
           // { title: "Holochain on Mastodon", url: "", svgSnippet: "mastodonIcon", class:"no-away", external: true },
           { title: "Holochain on Reddit", url: "https://www.reddit.com/r/holochain/", svgSnippet: "redditIcon", class:"no-away", external: true },
-          { title: "Holochain on Discord", url: "https://discord.com/invite/k55DS5dmPH", svgSnippet: "discordMarkIcon", class:"no-away", external: true },
+          { title: "Holochain on Discord", url: "https://discord.com/invite/DE9dtFXjZb", svgSnippet: "discordMarkIcon", class:"no-away", external: true },
           { title: "Holochain on GitHub", url: "https://github.com/holochain", svgSnippet: "githubLogo", class:"no-away", external: true },
           { title: "Holochain on YouTube", url: "https://www.youtube.com/channel/UC9fNJMIQ9mQ4u9oyoVIqtDQ", svgSnippet: "youtubeMarkIcon", class:"no-away", external: true },
           { title: "Holochain on Twitter", url: "https://twitter.com/holochain", svgSnippet: "twitterLogo", class:"no-away", external: true },

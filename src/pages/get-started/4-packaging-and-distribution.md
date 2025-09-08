@@ -89,7 +89,7 @@ To become Moss-compatible, you only need to change a few things about your hApp 
 
 ### p2p Shipyard
 
-Our friends at [darksoil studio](https://darksoil.studio) have created [p2p Shipyard](https://darksoil.studio/p2p-shipyard/), a tool that uses Tauri and Nix to turn your hApp DNAs and UI into a redistributable runtime for Windows, macOS, Linux, and Android. It's currently Source-Available, so you can audit its codebase if you like, and they're running a [retroactive crowdfund campaign to open-source it](https://darksoil.studio/p2p-shipyard/license/license.html).
+Our friends at [darksoil studio](https://darksoil.studio) have created [p2p Shipyard](https://darksoil.studio/p2p-shipyard/), a tool that uses Tauri and Nix to turn your hApp DNAs and UI into a redistributable runtime for Windows, macOS, Linux, and Android. It's currently Source-Available, so you can audit its codebase if you like, and they have a [pricing page](https://darksoil.studio/p2p-shipyard/pricing.html) on their website.
 
 ### Launcher, the multi-app runtime
 
@@ -101,7 +101,7 @@ Holochain's official end-user runtime is the [Holochain Launcher](https://github
 
 You can try this latter approach with your forum app immediately by downloading and running the Launcher! If you install `workdir/my_forum_app.webhapp`, the hApp _and its UI_ will be installed.
 
-The steps for publishing an app to the Launcher's app store are documented in the [Github repository of the Holochain Launcher](https://github.com/holochain/launcher#publish-an-app-to-launchers-app-store).
+The steps for publishing an app to the Launcher's app store are documented in the [Github repository of the Holochain Launcher](https://github.com/holochain/launcher?tab=readme-ov-file#developers).
 
 !!!info Launcher uses Electron
 If you're developing an app that's meant to be run within Launcher, it's important to know that Launcher uses Electron, which embeds a fairly recent version of Google's [Blink](https://www.chromium.org/blink/) browser engine. The nice thing about this is that your UI can target a consistent browser, which should shorten development time.
@@ -126,7 +126,7 @@ The official Holochain developer documentation is a valuable resource for deepen
 The Holochain community is an excellent source of support, inspiration, and collaboration. Consider engaging with the community to further your learning and development:
 
 * [Holochain GitHub repositories](https://github.com/holochain)
-* [Holochain Discord server](https://discord.com/invite/k55DS5dmPH)
+* [Holochain Discord server](https://discord.com/invite/DE9dtFXjZb)
 
 #### Example applications and tutorials
 
