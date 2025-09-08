@@ -49,13 +49,13 @@ Once an agent receives a warrant from any source, Holochain validates it to make
 
 ## Get the status of an agent
 
-To check an agent for chain forks and warrants, call `get_agent_activity` with [`ActivityRequest::Status`](https://docs.rs/hdk/latest/hdk/prelude/enum.ActivityRequest.html#variant.Status) and empty chain query filters. This will tell you whether their state is valid, without returning their whole source chain.
+To check an agent for chain forks and warrants, call `get_agent_activity` with [`ActivityRequest::Status`](https://docs.rs/hdk/latest/hdk/prelude/enum.ActivityRequest.html#variant.Status) and empty chain query filters. This will tell you whether their state is currently valid, without returning their whole source chain.
 
 ```rust
 use hdk::prelude::*;
 
 #[hdk_extern]
-pub fn is_agent_safe_to_interact_with(agent: AgentPubKey) -> ExternResult<bool> {
+pub fn is_agent_currently_safe_to_interact_with(agent: AgentPubKey) -> ExternResult<bool> {
     let agent_state = get_agent_activity(
         agent,
         // We're not interested in the contents of their chain, so we don't
