@@ -43,6 +43,10 @@ So the best place to check for _all_ invalid operations for an agent is at the a
 
 An agent's state is not deterministic, so it's not something you can check in a `validate` callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when an agent is about to enter into an agreement.
 
+!!! Warrants are 'sticky'
+Once an agent receives a warrant from any source, Holochain validates it to make sure it's legitimate. If it is, Holochain stores it permanently and blocks the warranted agent. This isn't true yet of chain forks, which [don't yet produce warrants](#chain-fork-warrants-future).
+!!!
+
 ## Get the status of an agent
 
 To check an agent for chain forks and warrants, call `get_agent_activity` with [`ActivityRequest::Status`](https://docs.rs/hdk/latest/hdk/prelude/enum.ActivityRequest.html#variant.Status) and empty chain query filters. This will tell you whether their state is valid, without returning their whole source chain.
