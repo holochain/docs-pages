@@ -21,13 +21,13 @@ At certain points in time, a user may want to check on a peer's good standing in
 
 If your app involves interactions between peers that require a high level of integrity, such as exchanging value, entering into a contract, or registering a vote, it's important for agents to be able to check the reputation and history of another agent before interacting with them. (We'll call this sort of interaction an 'agreement' in this document.)
 
-In a network where all agents are [authorities](/resources/glossary/#dht-authority) for the full DHT, all invalid data will eventually be discovered by everyone, and their Holochain conductors will automatically block the bad actor at the network level. In a sharded network, discovery of bad actors happens instead through the publishing and discovery of [**warrants**](/resources/glossary/#warrant).
+In a network where all agents are [authorities](/resources/glossary/#dht-authority) for the full DHT, all invalid data will eventually be discovered by everyone, and their Holochain conductors will automatically block the bad actor at the network level. In a [sharded](/resources/glossary/#sharding) network, however, news of bad actors spreads instead through the publishing and discovery of [**warrants**](/resources/glossary/#warrant).
 
-A warrant is a [DHT operation](/build/dht-operations/) that proves that some agent has broken a rule, either a base Holochain rule or an app-specific rule encoded in a [`validate` callback](/build/validate-callback/). The warrant contains details of the proof, signed by the validator that discovered it, and the warrant is both published to the malicious author's [agent ID](/resources/glossary/#agent-id) address and returned any time someone asks for any bad data.
+A warrant is a [DHT operation](/build/dht-operations/) that proves that some agent has broken a rule, either a base Holochain rule or an app-specific rule encoded in a [`validate` callback](/build/validate-callback/). The warrant contains details of the proof, signed by the validator that discovered it, and the warrant is published to the malicious author's [agent ID](/resources/glossary/#agent-id) address.
 
 <!-- TODO: remove this when chain fork warrants and blocking are stable -->
 
-!!! info Chain fork warrants aren't available yet {#chain-fork-warrants-future}
+!!! info Chain fork warrants aren't operational yet {#chain-fork-warrants-future}
 Warrants are only produced for operations that fail app or basic system validation rules. Chain forks will be warranted in the future.
 !!!
 
@@ -35,23 +35,21 @@ Warrants are only produced for operations that fail app or basic system validati
 Malicious agents currently aren't blocked when a warrant is found; this will be implemented in a future release.
 !!!
 
-However, in a DHT where agents hold [shards](/resources/glossary/#sharding) of the total data set, not everyone will discover all warrants. They can be discovered actively though: if you call `get`, `get_details`, or `get_links` on an address with invalid data stored at it, the authority will return a warrant to you, and your conductor will check the warrant's validity, remember the warrant, and block the bad actor.
+Although you can do limited checks for invalid data using the [`get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) host function, it's still possible to miss something invalid, and end up building new data on top of bad data. This is because actions are split into [DHT operations](/build/dht-operations/) and spread around the DHT to different addresses. Depending on which operation a validator receives, they might run a different code path in your [`validate` callback](/build/validate-callback/).
 
-But it's still possible to mistakenly build new graph data on top of invalid data. Actions are split into [DHT operations](/build/dht-operations/) and spread around the DHT to different addresses. The author's agent ID and the action hash will both store partial information about a record's validity, as will the entry hash, the link base addresses, or any other addresses that might be relevant to the action.
+Here's an example: let's say that, in order to optimize performance of your `validate` callback for an [`Update` action](/build/dht-operations/#update) on a certain entry type, the code path for the [`RegisterUpdate`](/build/dht-operations/#register-update) operation checks that the author of the new entry matches the author of the old entry, but the code paths for the [`StoreEntry`](/build/dht-operations/#store-entry) and [`StoreRecord`](/build/dht-operations/#store-record) operations skip this check. In this case, checking the old entry or action hash for invalid updates will expose the same-author validation failure, but checking the new entry or action hash will not.
 
-This is because code path in a [`validate` callback](/build/validate-callback/) for _one_ operation may find invalid data, but the code path for _another_ operation produced from _the same action_ might not. For example, if the `validate` callback for an [`Update` action](/build/dht-operations/#update) checks that the author has permission to update an entry when it's validating the action's [`RegisterUpdate`](/build/dht-operations/#registerupdate) operation but not when it's validating the [`StoreEntry`](/build/dht-operations/#storeentry) operation, then checking the entry hash for a permission violation won't turn up any problems.
+So the best place to check for _all_ invalid operations for an agent is at their public key, which is where all validators of their operations will publish warrants to. You can do this with the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html) host function, which, among other information, lets an agent discover another agent's chain forks, collected warrants, and invalid data.
 
-So the best place to check for _all_ invalid operations for an agent is at the agent's public key, which is where other validators of the agent's operations will publish warrants to. You can do this with the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html) host function, which, among other information, lets an agent discover both chain forks and collected warrants for another agent.
-
-An agent's state is not deterministic, so it's not something you can check in a `validate` callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when an agent is about to enter into an agreement.
+An agent's state is not deterministic, so it's not something you can check in a `validate` callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when you're about to enter into an agreement with that agent.
 
 !!! Warrants are 'sticky'
-Once an agent receives a warrant from any source, Holochain validates it to make sure it's legitimate. If it is, Holochain stores it permanently. (In the future, they'll also [block the warranted agent](#blocking-future)). This isn't true yet of chain forks, which [don't yet produce warrants](#chain-fork-warrants-future).
+Once an agent receives a warrant, their conductor validates it to make sure it's legitimate. If it is, it's stored permanently. (In the future, they'll also [block the warranted agent](#blocking-future)). Currently warrants are only discovered via `get_agent_activity` only, not other `get*` host functions.
 !!!
 
 ## Get the status of an agent
 
-To check an agent for chain forks and warrants, call `get_agent_activity` with [`ActivityRequest::Status`](https://docs.rs/hdk/latest/hdk/prelude/enum.ActivityRequest.html#variant.Status) and empty chain query filters. This will tell you whether their state is currently valid, without returning their whole source chain.
+To check an agent for chain forks and warrants, call `get_agent_activity` with [`ActivityRequest::Status`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ActivityRequest.html#variant.Status) and empty chain query filters. This will tell you whether their state is currently valid, without returning their whole source chain.
 
 ```rust
 use hdk::prelude::*;
@@ -60,14 +58,14 @@ use hdk::prelude::*;
 pub fn is_agent_currently_safe_to_interact_with(agent: AgentPubKey) -> ExternResult<bool> {
     let agent_state = get_agent_activity(
         agent,
-        // We're not interested in the contents of their chain, so we don't
-        // need to specify any chain query filters.
+        // Chain filters are ignored when you use `ActivityRequest::status`, so
+        // just give an empty filter.
         ChainQueryFilter::new(),
         ActivityRequest::Status,
     )?;
 
     // The agent is safe if their chain has no forks or invalid data,
-    // and no other authorities have produced warrants.
+    // and no warrants have been created or discovered.
     Ok(
         matches!(agent_state.status, ChainStatus::Valid(_))
         && agent_state.warrants.is_empty()
@@ -79,11 +77,15 @@ pub fn is_agent_currently_safe_to_interact_with(agent: AgentPubKey) -> ExternRes
 The absence of a warrant or chain fork doesn't necessarily mean an agent is in good standing; it simply means _no evidence of rule-breaking has been discovered yet_ by the authority the calling agent has queried. However, most authorities with good connectivity to their [neighbors](/resources/glossary/#neighbor) will discover invalid data and chain forks and publish warrants within seconds after the data is published.
 !!!
 
-## Check for a published action
+## Check the validity of a published action
 
-When you're writing an agreement-based program flow, it's good practice to start with some sort of 'proposal' entry, which the initiator commits to their source chain, publishes, and sends to the receiving party. The receiving party can then use `get_agent_activity` to check that validators in the DHT actually received the entry, consider it valid, and haven't seen any conflicting proposals.
+As mentioned above, most of the `get*` host functions return only a partial picture of an action's validity, based on the validator's perspective. You can also use `get_agent_activity` with [`ActivityRequest::Full`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ActivityRequest.html#variant.Full) to get a fuller picture of one or more actions' validity as reported by _all_ validators.
 
-Because the DHT is eventually consistent, it's also a good idea for the receiving party to wait a short period --- perhaps scaled to the level of risk involved in the agreement --- to allow validators to gossip possible validation errors or chain forks with each other.
+This is especially important when you're writing an agreement-based program flow. It's good practice to start with some sort of 'proposal' entry, which the initiator commits to their source chain, publishes, and sends to a receiving party. That party can then commit their own 'acceptance' entry, but only after they use `get_agent_activity` to check that validators in the DHT actually received the entry, consider it valid, and haven't seen any proposal entries that conflict with it.
+
+The next example is a zome function that tries to determine whether a 'proposal' action is currently in 'good standing' --- whether it exists and is valid as part of an un-forked source chain. It's meant to be called by the front end at intervals --- first, in a polling loop until it stops reporting `ProposalStatus::NotAvailable`, and then, if it reports `ProposalStatus::GoodSoFar`, calling it again after a suitable delay to allow authorities to discover and report evidence of bad activity.
+
+Because the DHT is eventually consistent, it's a good idea for the checking party to wait a short period --- perhaps scaled to the level of risk involved in the agreement --- to allow validators to gossip possible validation errors or chain forks with each other.
 
 ```rust
 use hdk::prelude::*;
@@ -93,14 +95,14 @@ pub enum ProposalStatus {
     /// The proposal hasn't appeared at the agent ID authority yet.
     NotAvailable,
     /// No invalid or conflicting actions observed yet. A problem may be
-    /// discovered in the future, but hopefully we've waited long enough for
+    /// discovered in the future.
     GoodSoFar,
-    /// The proposal may be invalid, either because the agent ID authority
-    /// discovered a chain-based error or another op authority discovered
-    /// an issue and sent a warrant to the agent ID authority.
+    /// Either the agent ID authority discovered a chain-based error or another
+    /// op authority discovered an issue and sent a warrant to the agent ID
+    /// authority.
     /// The proposal may also be valid but follow after a prior invalid action.
-    /// Either way, the initiator is a bad actor.
-    Invalid,
+    /// Either way, the author is a bad actor.
+    BadActor,
 }
 
 #[derive(Deserialize, Debug)]
@@ -109,40 +111,34 @@ pub struct IsProposalCurrentlyGoodInput {
     pub proposal_hash: ActionHash,
 }
 
-// To be called by the front end at intervals -- first, in a polling loop
-// until it stops reporting `ProposalStatus::NotAvailable`, and then, if it
-// reports `ProposalStatus::GoodSoFar`, calling it again after a suitable delay
-// to allow authorities to discover and report evidence of bad activity.
 #[hdk_extern]
 pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> ExternResult<ProposalStatus> {
     let initiator_state = get_agent_activity(
         input.initiator,
         ChainQueryFilter::new()
-            // Here we're only asking for the proposal record, nothing earlier.
-            // We just want to know it's been published and validated.
-            // Since we're dealing with a 'scarce' resource like an account
-            // balance or the right to vote, we'd also want to check the whole
-            // chain to make sure the resource hasn't already been used up.
-            // You can read more about building a chain query filter at
-            // https://developer.holochain.org/build/querying-source-chains/#filtering-a-query
+            // Retrieve just the proposal; we only need to know it exists and
+            // is valid.
             .sequence_range(ChainQueryFilterRange::ActionHashTerminated(input.proposal_hash, 0)),
         ActivityRequest::Full,
     )?;
 
     match initiator_state.status {
-        ChainStatus::Forked(_) => Ok(ProposalStatus::Invalid),
-        ChainStatus::Invalid(_) => Ok(ProposalStatus::Invalid),
-        // The initiator doesn't appear to have created a source chain.
+        ChainStatus::Forked(_) => Ok(ProposalStatus::BadActor),
+        ChainStatus::Invalid(_) => Ok(ProposalStatus::BadActor),
+        // The author doesn't appear to have created a source chain.
         ChainStatus::Empty => Ok(ProposalStatus::NotAvailable),
         ChainStatus::Valid(_) => {
             // AgentState::status doesn't account for warrants.
             // We have to check for them as a separate step.
             if !initiator_state.warrants.is_empty() {
-                return Ok(ProposalStatus::Invalid);
+                // Although we receive all warrants, even ones that don't apply
+                // to the actions matched by our filter query, we consider even
+                // a single warrant as evidence of a bad actor.
+                return Ok(ProposalStatus::BadActor);
             }
             if initiator_state.valid_activity.is_empty() {
-                // The initiator doesn't seem to have published their proposal
-                // to the authority we've contacted yet.
+                // The author doesn't seem to have published their proposal to
+                // the authority we've contacted yet.
                 return Ok(ProposalStatus::NotAvailable);
             }
             Ok(ProposalStatus::GoodSoFar)
@@ -152,10 +148,10 @@ pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> Extern
 ```
 
 !!! info Conflicts over scarce resources
-When you're dealing with a proposal over a 'scarce' resource --- something that can be 'used up' such as a voting privilege, an account balance, or a unique name --- you want to check that nothing conflicts with the agreement being proposed. There are two kinds of conflict:
+When an action deals with a 'scarce' resource --- something that can be 'used up' such as a voting privilege, an account balance, a unique name, or a publishing rate limit --- you want to check that nothing conflicts with the action. There are two kinds of conflict:
 
-* _Prior actions that have already used up the resource_ --- you can deal with this deterministically by writing validation code that walks back through the source chain.
-* _Actions in an alternative timeline_, or **source chain fork** --- there is no perfect protection against this, because a malicious agent may publish an action that forks a chain years down the road. However, if you use the pattern above, you can reasonably hope to detect an attempt to create two forks simultaneously (what blockchain folks call a 'double spend').
+* _Prior actions that have already used up the resource_ --- you can deal with this deterministically by [writing validation code for the `RegisterAgentActivity` operation](/build/must-get-host-functions/#must-get-agent-activity) that walks back through the source chain looking for conflicts.
+* _Actions in an alternative timeline_, or **source chain fork** --- there is no perfect protection against this, because a malicious agent may publish an action that forks a chain at any time, even years later. However, if you use the pattern above, you can reasonably hope to detect an attempt to create two forks simultaneously (what blockchain folks call a 'double spend').
 
 No distributed system is perfectly secure against conflict; if you're building a hApp with high-risk use cases, we recommend that you get your code audited.
 !!!

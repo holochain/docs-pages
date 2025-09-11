@@ -163,8 +163,13 @@ let movies_plus_deleted = get_links_details(
 )?;
 ```
 
+<<<<<<< HEAD
 !!! info Invalid links
 There is no way to retrieve invalid link creation or deletion actions from a base.
+=======
+!!! info `get_links` and `get_link_details` only return valid data
+These functions will only return links that are valid from the perspective of the agent delivering them; if any aren't valid, they'll be filtered out. Note also that, even for links that are returned, other validators may consider them to be invalid. Read [Getting an Agent's Status](/build/getting-an-agents-status/) for more info.
+>>>>>>> 23455bb03 (fix: rewrite based on matthme's feedback)
 !!!
 
 ### Count links

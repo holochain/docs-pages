@@ -56,7 +56,7 @@ While the following info describes the way Holochain should work [as formally sp
         * Contents: action (and optionally entry, if applicable) <!--TODO: system validation? -->
         * Effect: Store the action, along with any entry data.
 * [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Create)
-    * [`StoreEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreEntry){#storeentry}
+    * [`StoreEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreEntry){#store-entry}
         * Basis address: entry hash
         * Contents: entry, and the action that wrote it
         * System validation: Check that the action's entry hash matches the entry hash.

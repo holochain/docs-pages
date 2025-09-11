@@ -383,6 +383,10 @@ match maybe_record {
 };
 ```
 
+!!! info `get` only returns valid data
+This function will only return entry and action data that's valid from the perspective of the agent delivering it; if it's not valid, they'll return `None` instead. Note also that, even if a record is returned, other validators may consider it to be invalid. Read [Getting an Agent's Status](/build/getting-an-agents-status/) for more info.
+!!!
+
 ### All data, actions, and links at an address
 
 #### Records
