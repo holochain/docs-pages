@@ -32,6 +32,7 @@ sandboxing
 scaffolder
 snapshotted
 spacebar
+Sybils
 todo
 todos
 unforgeable

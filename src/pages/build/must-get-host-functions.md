@@ -171,7 +171,7 @@ fn check_that_action_exists_and_is_valid_and_has_valid_public_app_entry(action_h
 !!! info This may not catch all validation failures
 `must_get_valid_record` checks for validation success or failure on the [`StoreRecord` DHT operation](/build/dht-operations/#store-record). Validation code for other DHT operations produced from the same action may have executed and failed.
 
-In the future, we intend to introduce 'warrants', a feature which will allow validators to communicate failures to each other for related data. Until then, if any of your validation code uses `must_get_valid_record` to retrieve a dependency, we recommend that the dependency's validation code for the `StoreRecord` operation cover all possible checks.
+[**Warrants**](/resources/glossary/#warrant) allow a validator to communicate news of an invalid DHT operation to non-authorities. But because they're not guaranteed to be co-located with the failed op, or even guaranteed to be delivered at all, they can't be used in a validation callback, which must work with a closed, deterministic set of data. If you absolutely need `must_get_valid_record` to fail for _all_ possible validity issues for a dependency, make sure the dependency's validation code for the `StoreRecord` operation covers all possible checks.
 !!!
 
 ## Reference

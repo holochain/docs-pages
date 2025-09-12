@@ -100,7 +100,7 @@ let delete_link_action_hash = delete_link(
 );
 ```
 
-A link is considered ["dead"](/build/working-with-data/#deleted-dead-data) (deleted but retrievable if asked for explicitly) once its creation action has at least one delete-link action associated with it. As with entries, dead links can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) or [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html) (see next section).
+A link is live as long as its creation action is valid and there are no valid delete-link actions associated with it. Otherwise, it's considered ["dead"](/build/working-with-data/#deleted-dead-data). As with entries, dead links can still be retrieved with [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html) (see next section).
 
 ### Deleting a link, under the hood
 
@@ -119,7 +119,7 @@ At this point, the action hasn't been persisted to the source chain. Read the [z
 
 ## Retrieve links
 
-Get all the _live_ (undeleted) links attached to a hash with the [`hdk::link::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) function. The input is complicated, so use [`hdk::link::builder::GetLinksInputBuilder`](https://docs.rs/hdk/latest/hdk/link/builder/struct.GetLinksInputBuilder.html) to build it.
+Get all the live links attached to a hash with the [`hdk::link::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) function. The input is complicated, so use [`hdk::link::builder::GetLinksInputBuilder`](https://docs.rs/hdk/latest/hdk/link/builder/struct.GetLinksInputBuilder.html) to build it.
 
 ```rust
 use hdk::prelude::*;
@@ -148,7 +148,7 @@ let movies_in_1960s_by_director = get_links(
 )?;
 ```
 
-To get all live _and deleted_ links, along with any deletion actions, use [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html).
+To get all live _and deleted_ links (where ), along with any deletion actions, use [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html).
 
 ```rust
 use hdk::prelude::*;
@@ -161,6 +161,10 @@ let movies_plus_deleted = get_link_details(
     GetOptions::network()
 )?;
 ```
+
+!!! info Invalid links
+There is no way to retrieve invalid link creation or deletion actions from a base.
+!!!
 
 ### Count links
 
@@ -185,7 +189,7 @@ let number_of_reviews_written_by_me_in_last_month = count_links(
 ```
 
 !!! info Links are counted locally
-Currently `count_links` retrieves all link hashes from the remote peer, then counts them locally. So it is less network traffic than a `get_links` request, but more network traffic than just sending an integer.
+Currently `count_links` retrieves all links from the remote peer, then counts them locally. As with `get_links`, only live links are included.
 !!!
 
 ## Anchors and paths

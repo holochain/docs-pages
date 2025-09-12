@@ -339,9 +339,9 @@ You can use any of these identifiers as a field in your entry types to model a m
 
 ### As a single record
 
-Get a record by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the hash of either its entry creation action. The return value is an <code>Option&lt;[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)&gt;</code> wrapped in an `ExternResult`.
+Get an entry as a record by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the hash of the entry creation action. The return value is an <code>Option&lt;[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)&gt;</code> wrapped in an `ExternResult`. If the record is invalid or missing, the option will be `None`.
 
-You can also pass an _entry hash_ to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
+You can also pass an _entry hash_ to `get`, and the record returned will contain the _oldest-timestamped, valid, live_ entry creation action that wrote it.
 
 ```rust
 use hdk::prelude::*;
@@ -387,7 +387,11 @@ match maybe_record {
 
 #### Records
 
-To get a record and all the updates, deletes, and outbound links associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with an _action hash_. You'll receive an <code>Option&lt;[holochain_zome_types::metadata::Details::Record](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/enum.Details.html)&gt;</code> wrapped in an `ExternResult`; this enum variant contains a [`RecordDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html).
+To get a record and all the updates and deletes associated with its action, as well as its current validation status, call [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) with an _action hash_. You'll receive an <code>Option&lt;[holochain_zome_types::metadata::Details::Record](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/enum.Details.html)&gt;</code> wrapped in an `ExternResult`; this enum variant contains a [`RecordDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.RecordDetails.html).
+
+!!! info Invalid data or metadata
+The record will be returned even if it's invalid; check the `validation_status` field. Only valid updates and deletes will be returned.
+!!!
 
 ```rust
 use hdk::prelude::*;
@@ -418,7 +422,11 @@ match maybe_details {
 
 #### Entries
 
-To get an entry and all the deletes and updates that operated on it (or rather, that operated on the entry creation actions that produced it), _as well as_ all its entry creation actions and its current status on the DHT, pass an _entry hash_ to [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html). You'll receive an <code>Option&lt;[`holochain_zome_types::metadata::Details::Entry`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/enum.Details.html)&gt;</code> wrapped in an `ExternResult`; this enum variant contains an [`EntryDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html).
+To get an entry and all of its creation actions (both creates and updates), as well as all the valid deletes and updates that operated on it (or rather, that operated on the entry creation actions that produced it), pass an _entry hash_ to [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html). You'll receive an <code>Option&lt;[`holochain_zome_types::metadata::Details::Entry`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/enum.Details.html)&gt;</code> wrapped in an `ExternResult`; this enum variant contains an [`EntryDetails`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html).
+
+!!! info Invalid data or metadata
+The entry will be returned even if all of its creation actions are invalid; check the [`actions`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html#structfield.actions) field for valid creation actions and [`rejected_actions`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html#structfield.rejected_actions) for invalid ones. Only valid deletes and updates will be returned. Note that currently [`entry_dht_status`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/metadata/struct.EntryDetails.html#structfield.entry_dht_status) is only `Live` or `Dead`, which only takes valid creation and deletion actions into account. All other entry DHT status variants are unused.
+!!!
 
 ```rust
 use hdk::prelude::*;

@@ -49,6 +49,7 @@ NixOS
 nixpkgs
 pkgs
 POSIX
+prevalidates
 privkey
 pubkey
 QUIC
