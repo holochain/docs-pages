@@ -7,7 +7,7 @@ An agent receives **DHT operations**, which are requests for them to transform [
 :::
 
 !!! info Validating actions instead of DHT operations
-**This is an advanced topic.** Writing validation rules that checks DHT operations requires understanding Holochain's data model. Until you have a reason to write validation rules at this level of granularity, we recommend letting the [scaffolding tool](/get-started/3-forum-app-tutorial/) generate a `validate` callback for you, which calls out to [stub functions](/build/validate-callback/#create-boilerplate-code-with-the-scaffolding-tool) that validate the _actions_ that create, update, or delete your application's entry and link types, and makes opinionated but sensible choices about which groups of authorities should validate what portions of the op data. The following information is presented for people who have a specific need to further reduce overall validation overhead across the network.
+**This is an advanced topic.** Writing validation rules that check DHT operations requires understanding Holochain's data model. Until you have a reason to write validation rules at this level of granularity, we recommend letting the [scaffolding tool](/get-started/3-forum-app-tutorial/) generate a `validate` callback for you, which calls out to [stub functions](/build/validate-callback/#create-boilerplate-code-with-the-scaffolding-tool) that validate the _actions_ that create, update, or delete your application's entry and link types, and makes opinionated but sensible choices about which groups of authorities should validate what portions of the op data. The following information is presented for people who have a specific need to further reduce overall validation overhead across the network.
 !!!
 
 ## What is a DHT operation?
@@ -38,7 +38,7 @@ While the following info describes the way Holochain should work [as formally sp
     * [`RegisterAgentActivity`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterAgentActivity) {#register-agent-activity}
         * Basis address: author's public key
         * Contents: action
-        * System validation: Check for non-monotonic sequence indices and timestamps in adjacent actions, and detect [source chain forks](/resources/glossary/#fork-source-chain).
+        * System validation: Check for non-monotonic sequence indices and timestamps in the chain of actions, and detect [source chain forks](/resources/glossary/#fork-source-chain).
         * Effect: Append the action to a replica of the author's source chain.
     * [`StoreRecord`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreRecord) {#store-record}
         * Basis address: action hash
@@ -55,7 +55,7 @@ While the following info describes the way Holochain should work [as formally sp
     * [`RegisterUpdate`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterUpdate) {#register-update}
         * Basis addresses: entry and action hashes of the _old_ entry being updated
         * Contents: action and entry <!--TODO: system validation? -->
-        * Effect: Mark an entry creation action as being replaced by a new one, pointing the the entry and action that replace it. **An entry and its creation action can have multiple actions updating them.**
+        * Effect: Mark an entry creation action as being replaced by a new one, pointing to the entry and action that replace it. **An entry and its creation action can have multiple actions updating them.**
 * [`Delete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Delete)
     * [`RegisterDelete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterDelete)
         * Basis addresses: entry and action hashes of the entry being deleted

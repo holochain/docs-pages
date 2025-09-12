@@ -3,9 +3,7 @@ title: "Countersigning: Reaching Agreement Between Peers"
 ---
 
 !!! info Unstable feature
-
-!!! info Unstable feature
-This feature is considered unstable and is disabled by default in Holochain 0.4 and newer. It may be removed or changed in future versions of Holochain. If you want to enable it, read [the advice on the 0.4 upgrade guide](Unstable features removed by default).
+This feature is considered unstable and is disabled by default in Holochain 0.4 and newer. It may be removed or changed in future versions of Holochain. If you want to enable it, read [the advice on the 0.4 upgrade guide](/resources/upgrade/upgrade-holochain-0.4/#unstable-features-removed-by-default).
 !!!
 
 ::: orientation

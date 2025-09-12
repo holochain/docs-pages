@@ -105,7 +105,7 @@ let delete_link_action_hash = delete_link(
 In order to validate a link deletion action, the original link creation action has to be available locally --- otherwise validation will fail with [`UnresolvedDependencies`](/build/validate-callback/#validation-outcomes). If you know that the original link will be available --- for instance, in cases where the agent is deleting a link they created --- you can use `GetOptions::local()`; otherwise, always use `GetOptions::network()`.
 !!!
 
-A link is considered ["dead"](/build/working-with-data/#deleted-dead-data) (deleted but retrievable if asked for explicitly) once its creation action has at least one delete-link action associated with it. As with entries, dead links can still be retrieved with [`hdk::link::get_links_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html) (see next section).
+A link is live as long as its creation action is valid and there are no valid delete-link actions associated with it. Otherwise, it's considered ["dead"](/build/working-with-data/#deleted-dead-data). As with entries, dead links can still be retrieved with [`hdk::link::get_links_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html) (see next section).
 
 ### Deleting a link, under the hood
 
@@ -163,6 +163,10 @@ let movies_plus_deleted = get_links_details(
 )?;
 ```
 
+!!! info Invalid links
+There is no way to retrieve invalid link creation or deletion actions from a base.
+!!!
+
 ### Count links
 
 If all you need is a _count_ of matching links, use [`hdk::link::count_links`](https://docs.rs/hdk/latest/hdk/link/fn.count_links.html). Currently it lacks the ability to specify a get strategy and will always go to the network; we may allow you to configure this in the future.
@@ -186,7 +190,7 @@ let number_of_reviews_written_by_me_in_last_month = count_links(
 ```
 
 !!! info Links are counted locally
-Currently `count_links` retrieves all link hashes from the remote peer, then counts them locally. So it is less network traffic than a `get_links` request, but more network traffic than just sending an integer.
+Currently `count_links` retrieves all links from the remote peer, then counts them locally. As with `get_links`, only live links are included.
 !!!
 
 ## Anchors and paths
