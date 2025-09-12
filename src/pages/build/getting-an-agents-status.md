@@ -44,7 +44,7 @@ So the best place to check for _all_ invalid operations for an agent is at their
 An agent's state is not deterministic, so it's not something you can check in a `validate` callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when you're about to enter into an agreement with that agent.
 
 !!! info Warrants are 'sticky'
-Once an agent receives a warrant, their conductor validates it to make sure it's legitimate. If it is, it's stored permanently. (In the future, they'll also [block the warranted agent](#blocking-future)). Currently warrants are only discovered via `get_agent_activity` only, not other `get*` host functions.
+Once an agent receives a warrant, their conductor validates it to make sure it's legitimate. If it is, it's stored permanently. (In the future, they'll also [block the warranted agent](#blocking-future)). Currently warrants are discovered via `get_agent_activity` only, not other `get*` host functions, although that is set to change in the future as well. <!-- TODO: update these when things change -->
 !!!
 
 ## Get the status of an agent
