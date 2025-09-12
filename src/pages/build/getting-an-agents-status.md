@@ -128,7 +128,7 @@ pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> Extern
         // The author doesn't appear to have created a source chain.
         ChainStatus::Empty => Ok(ProposalStatus::NotAvailable),
         ChainStatus::Valid(_) => {
-            // AgentState::status doesn't account for warrants.
+            // AgentActivity::status doesn't account for warrants.
             // We have to check for them as a separate step.
             if !initiator_state.warrants.is_empty() {
                 // Although we receive all warrants, even ones that don't apply
