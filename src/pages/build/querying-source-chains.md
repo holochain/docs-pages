@@ -94,7 +94,7 @@ In your coordinator zome functions, you can use the [`get_agent_activity`](https
 
 If you want to get the action data, you'll need to perform a DHT query for every action hash you get back. The query filters are applied at the source before the hashes are sent back to you, so you don't have to re-filter the actions once you retrieve them.
 
-Ths example gets the action hashes of all the movie entries authored by an arbitrary agent.
+This example gets the action hashes of all the movie entries authored by an arbitrary agent.
 
 !!! info All DHT requests can fail
 Because a DHT request often goes out to a remote node, it can fail to connect to that node, or they may not have the data you're looking for. It's up to you to build the retry logic that works best for your app. If you have program flow that requires multiple queries, it's often a good practice to define zome functions as single-query functions that return DHT hashes so that the client can retrieve the rest of the data in follow-up zome calls. This way, work isn't wasted if one query fails.
@@ -118,7 +118,7 @@ pub fn get_hashes_of_all_movies_someone_else_authored(agent_id: AgentPubKey) -> 
         ActivityRequest::Full
     )?;
     // The action hash is the second element in each tuple.
-    Ok(activity.valid_activity.into_iter().map(|a| a.1).collect())
+    Ok(activity.valid_activity.into_iter().map(|(_, h)| h).collect())
 }
 ```
 
