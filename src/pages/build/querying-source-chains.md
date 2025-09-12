@@ -15,6 +15,8 @@ An agent's source chain is their record of local state changes. It's a multi-pur
 
 ## Filtering a query
 
+Before we talk about getting data, let's talk about query filters, which apply to a few different sources of data.
+
 Whether an agent is querying their own source chain or another agent's, you build a query with the [`ChainQueryFilter`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.ChainQueryFilter.html) struct, which has a few filter types:
 
 * <code>sequence_range: <a href="https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ChainQueryFilterRange.html">ChainQueryFilterRange</a></code>: A start and end point on the source chain, either:
