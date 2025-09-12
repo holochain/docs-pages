@@ -72,6 +72,7 @@ An agent can query their own source chain with the [`query`](https://docs.rs/hdk
 
 ```rust
 use hdk::prelude::*;
+use movies::prelude::*;
 
 #[hdk_extern]
 pub fn get_all_movies_i_authored() -> Vec<Record> {
