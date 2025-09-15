@@ -92,7 +92,7 @@ In your coordinator zome functions, you can use the [`get_agent_activity`](https
 * It also returns the status of the chain (empty, valid, invalid, or forked) along with any collected warrants, and
 * It returns action hashes but no action or entry data. <!-- TODO: hopefully this behavior will be fixed one day -->
 
-If you want to get the action data, you'll need to perform a DHT query for every action hash you get back. The query filters are applied at the source before the hashes are sent back to you, so you don't have to re-filter the actions once you retrieve them.
+If you want to get the action data, you'll need to perform a DHT query for every action hash you get back. The returned action hashes have been filtered by the query filters that you passed into the call.
 
 This example gets the action hashes of all the movie entries authored by an arbitrary agent.
 
@@ -107,17 +107,18 @@ use hdk::prelude::*;
 use movies::prelude::*;
 
 #[hdk_extern]
-pub fn get_hashes_of_all_movies_someone_else_authored(agent_id: AgentPubKey) -> ExternResult<Vec<ActionHash>> {
+pub fn get_hashes_of_all_movies_authored_by_agent(agent_id: AgentPubKey) -> ExternResult<Vec<ActionHash>> {
     let activity = get_agent_activity(
         agent_id,
         ChainQueryFilter::new()
             .entry_type(EntryType::App(UnitEntryTypes::Movie.into())),
             // get_agent_activity ignores the include_entries filter, because
-            // the agent ID authorities don't store the entry data along with
-            // the actions.
+            // the agent activity authorities don't store the entry data along
+            // with the actions.
         ActivityRequest::Full
     )?;
     // The action hash is the second element in each tuple.
+    // (The first element is the sequence index.)
     Ok(activity.valid_activity.into_iter().map(|(_, h)| h).collect())
 }
 ```
