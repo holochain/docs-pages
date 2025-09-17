@@ -15,6 +15,8 @@ An agent's source chain is their record of local state changes. It's a multi-pur
 
 ## Filtering a query
 
+Before we talk about getting data, let's talk about query filters, which apply to a few different sources of data.
+
 Whether an agent is querying their own source chain or another agent's, you build a query with the [`ChainQueryFilter`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.ChainQueryFilter.html) struct, which has a few filter types:
 
 * <code>sequence_range: <a href="https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ChainQueryFilterRange.html">ChainQueryFilterRange</a></code>: A start and end point on the source chain, either:
@@ -70,6 +72,7 @@ An agent can query their own source chain with the [`query`](https://docs.rs/hdk
 
 ```rust
 use hdk::prelude::*;
+use movies::prelude::*;
 
 #[hdk_extern]
 pub fn get_all_movies_i_authored() -> Vec<Record> {
@@ -80,9 +83,51 @@ pub fn get_all_movies_i_authored() -> Vec<Record> {
 }
 ```
 
-## Query another agent's source chain for validation
+## Query another agent's source chain
 
-There's another source chain querying function called `must_get_agent_activity`, which is used in validation to check whether a contiguous region of a source chain is valid. You can find examples of this function on the [Validation](/build/must-get-host-functions/#must-get-agent-activity) page.
+### In coordinator logic
+
+In your coordinator zome functions, you can use the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html) host function, which works a lot like `query` if you pass [`ActivityRequest::Full`](https://docs.rs/hdk/latest/hdk/prelude/enum.ActivityRequest.html#variant.Full) to it. The main differences are:
+
+* It also returns the status of the chain (empty, valid, invalid, or forked) along with any collected warrants, and
+* It returns action hashes but no action or entry data. <!-- TODO: hopefully this behavior will be fixed one day -->
+
+If you want to get the action data, you'll need to perform a DHT query for every action hash you get back. The returned action hashes have been filtered by the query filters that you passed into the call.
+
+This example gets the action hashes of all the movie entries authored by an arbitrary agent.
+
+!!! info All DHT requests can fail
+Because a DHT request often goes out to a remote node, it can fail to connect to that node, or they may not have the data you're looking for. It's up to you to build the retry logic that works best for your app. If you have program flow that requires multiple queries, it's often a good practice to define zome functions as single-query functions that return DHT hashes so that the client can retrieve the rest of the data in follow-up zome calls. This way, work isn't wasted if one query fails.
+!!!
+
+<!-- TODO: if get_agent_activity is ever changed to return actions rather than hashes, update the following code to use get_entry. And if get_agent_activity ever honours `include_entries` change that too. -->
+
+```rust
+use hdk::prelude::*;
+use movies::prelude::*;
+
+#[hdk_extern]
+pub fn get_hashes_of_all_movies_authored_by_agent(agent_id: AgentPubKey) -> ExternResult<Vec<ActionHash>> {
+    let activity = get_agent_activity(
+        agent_id,
+        ChainQueryFilter::new()
+            .entry_type(EntryType::App(UnitEntryTypes::Movie.into())),
+            // get_agent_activity ignores the include_entries filter, because
+            // the agent activity authorities don't store the entry data along
+            // with the actions.
+        ActivityRequest::Full
+    )?;
+    // The action hash is the second element in each tuple.
+    // (The first element is the sequence index.)
+    Ok(activity.valid_activity.into_iter().map(|(_, h)| h).collect())
+}
+```
+
+<!-- TODO: when https://github.com/holochain/docs-pages/pull/597 is merged, write an admonition that says that get_agent_activity is also used for getting warrants and invalid data etc -->
+
+### During validation
+
+There's another source chain querying function called `must_get_agent_activity`, which is used in validation to check whether a contiguous region of a source chain is valid. But you can also use it in a coordinator zome function to retrieve action data (not just the hashes), as long as you don't need to filter on action or entry type. See the [Validation](/build/must-get-host-functions/#must-get-agent-activity) page for an example.
 
 ## Reference
 
