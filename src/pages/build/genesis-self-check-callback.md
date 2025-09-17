@@ -2,6 +2,17 @@
 title: "Genesis Self-Check Callback"
 ---
 
+::: topic-list
+### In this section {data-no-toc}
+
+* [Validation](/build/validation/)
+    * `genesis_self_check` Callback (this page) --- writing a function to control access to a network
+    * [`validate` Callback](/build/validate-callback/) --- basic callback, examples using stub functions
+    * [`must_get_*` Host Functions](/build/must-get-host-functions/) --- Deterministically retrieving DHT data for use in validation
+    * [DHT operations](/build/dht-operations/) --- advanced details on the underlying data structure used in DHT replication and validation
+    * [Getting an Agent's Status](/build/getting-an-agents-status/) --- checking for invalid actions committed by another agent
+:::
+
 ::: intro
 To enforce access control for a network, a DNA can require a [**membrane proof**](/concepts/3_source_chain/#membrane-proof), which is a piece of data that gets entered by the user and written to their [**source chain**](/concepts/3_source_chain/). The `genesis_self_check` function can guard against user entry error and help prevent them from being accidentally marked as a bad actor.
 :::
