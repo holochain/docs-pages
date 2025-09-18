@@ -124,8 +124,8 @@ A [zome function](#zome-function) call made between [cells](#cell) in one [agent
 The act of packaging:
 
 1. one or more [zomes](#zome) into a [DNA bundle](#dna-bundle),
-2. one or more DNA bundles into a [hApp bundle](#h-app-bundle), or
-3. a hApp bundle and a UI into a [web hApp](#web-h-app).
+2. one or more DNA bundles into a [hApp bundle](#happ-bundle), or
+3. a hApp bundle and a UI into a [web hApp](#web-happ).
 
 #### Byzantine fault tolerance (BFT)
 
@@ -257,7 +257,7 @@ An algorithm that governs the synchronization of data in a [distributed system](
 
 #### Coordinator zome
 
-A [zome](#zome) that defines [zome functions](#zome-function). Arbitrary public zome functions give a DNA [DNA](#dna) its API which mediates interactions between [clients](#client) and a [cell](#cell) instantiated from the DNA, while arbitrary private zome functions can be [scheduled](#scheduling), and special private zome functions with reserved names are called by the [conductor](#conductor) as a consequence of lifecycle events such as [cell initialization](#init-callback) and [source chain commits](#post-commit-callback). Zome functions in a coordinator zome have access to most of the [host API](#holochain-host-api), including the ability to:
+A [zome](#zome) that defines [zome functions](#zome-function). Arbitrary public zome functions give a [DNA](#dna) its API which mediates interactions between [clients](#client) and a [cell](#cell) instantiated from the DNA, while arbitrary private zome functions can be [scheduled](#scheduling), and special private zome functions with reserved names are called by the [conductor](#conductor) as a consequence of lifecycle events such as [cell initialization](#init-callback) and [source chain commits](#post-commit-callback). Zome functions in a coordinator zome have access to most of the [host API](#holochain-host-api), including the ability to:
 
 * write to the [source chain](#source-chain) of the [agent](#agent) running the [cell](#cell) (with the exception of the post-commit callback),
 * read from the [source chain](#source-chain) of the agent running the cell, or from the [DHT](#distributed-hash-table-dht) that the cell belongs to,
@@ -463,13 +463,13 @@ A protocol used by many [peer-to-peer](#peer-to-peer) networks to rapidly propag
 
 In Holochain terms, a [client](#client) that presents a visual way for a user to interact with a [hApp](#holochain-application-happ) running in their [conductor](#conductor). As with any client of a Holochain application, the GUI must possess a [capability](#capability) allowing them to call the hApp's public [zome functions](#zome-function).
 
-#### hApp bundle
+#### hApp bundle {#happ-bundle}
 
-One or more [DNAs](#dna), which together form the [back end](#back-end) for a complete [hApp](#holochain-application-happ). These components are specified in a [hApp manifest](#h-app-manifest) file, and can be packaged together in a zip archive along with the manifest or downloaded separately from the internet. A hApp can also be bundled with a web-based [GUI](#graphical-user-interface-gui) to become a [web hApp](#web-h-app).
+One or more [DNAs](#dna), which together form the [back end](#back-end) for a complete [hApp](#holochain-application-happ). These components are specified in a [hApp manifest](#happ-manifest) file, and can be packaged together in a zip archive along with the manifest or downloaded separately from the internet. A hApp can also be bundled with a web-based [GUI](#graphical-user-interface-gui) to become a [web hApp](#web-happ).
 
-#### hApp manifest
+#### hApp manifest {#happ-manifest}
 
-A file that specifies the DNAs comprising a [hApp bundle](#h-app-bundle).
+A file that specifies the DNAs comprising a [hApp bundle](#happ-bundle).
 
 #### Hash
 
@@ -497,7 +497,7 @@ Holochain's standard Rust-based software development kit (SDK) for [DNA](#dna) d
 
 #### Holochain application (hApp) {#holochain-application-happ}
 
-A collection of [DNAs](#dna) in a [hApp bundle](#h-app-bundle) and optionally a [client](#client) or clients that allow users to interact with those DNAs.
+A collection of [DNAs](#dna) in a [hApp bundle](#happ-bundle) and optionally a [client](#client) or clients that allow users to interact with those DNAs.
 
 #### Holochain Core
 
@@ -945,7 +945,7 @@ A warrant can be used by any peer as legitimate grounds for blocking communicati
 
 A low-level program byte code format that can be run on almost any platform, including the web browser. Holochain expects [zomes](#zome) to be compiled to WebAssembly so the [ribosome](#ribosome) can execute them. See [WebAssembly website](https://webassembly.org/).
 
-#### Web hApp
+#### Web hApp {#web-happ}
 
 A [hApp](#holochain-application-happ) [bundled](#bundling) with a web-based UI.
 

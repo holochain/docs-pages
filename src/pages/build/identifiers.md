@@ -37,7 +37,7 @@ Here's an overview of the five types above, plus the two composite types:
 * `ExternalHash` is the ID of a resource that exists outside the database, such as the hash of an IPFS resource or the public key of an Ethereum wallet. Holochain doesn't care about its value, as long as it's 32 bytes long. There's no content stored at the address; it simply serves as an anchor to attach [links](/build/links-paths-and-anchors/) to.
 * Composite types --- if one of the types above is eligible, it can be converted into one of these two types via the `.into()` method. Functions that take the below types will implicitly convert from the above types.
     * `AnyDhtHash` is the hash of any kind of addressable content (actions, entries, and agent public keys). Any
-    * `AnyLinkableHash` is the hash of anything that can be linked to or from (that is, all of the above, or `AnyDhtHash` + `ExternalHash`).
+    * `AnyLinkableHash` is the hash of anything that can be linked to or from (that is, all of the above, or `AnyDhtHash` or `ExternalHash`).
 
 ## Getting hashes
 

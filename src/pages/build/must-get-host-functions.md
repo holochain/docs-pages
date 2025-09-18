@@ -15,7 +15,7 @@ If a `must_get_*` function can't retrieve the data, it isn't considered a valida
 To get a single entry, use [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html). To get a single action, use [`must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html).
 
 !!! info Results aren't guaranteed to be valid
-Neither of these functions verify that the retrieved data is valid. If you need this assurance, use an action hash as as a dependency's identifier and retrieve it with [`must_get_valid_record`](#must-get-valid-record).
+Neither of these functions verify that the retrieved data is valid. If you need this assurance, use an action hash as a dependency's identifier and retrieve it with [`must_get_valid_record`](#must-get-valid-record).
 !!!
 
 This example validates a [movie loan acceptance](/build/identifiers/#in-dht-data), making sure that it's valid against the original loan offer.
@@ -105,7 +105,7 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
     // The result is a vector of `RegisterAgentActivity`` DHT ops.
     // Let's convert it into a count of the movie creation actions written in
     // the last minute.
-    let take_until_timestamp = action.timestamp().saturating_add(&Duration::new(60, 0));
+    let lower_bound = action.timestamp().saturating_sub(&Duration::new(60, 0));
     let movie_entry_def = &EntryType::App(UnitEntryTypes::Movie.try_into()?);
     let movies_written_within_window = result
         .iter()

@@ -169,7 +169,7 @@ Let's see what happens when a simple 'create entry' record is published to the D
 
 No matter what operation they receive, all three authorities check the signature on it to make sure it hasn't been modified in transit and it belongs to the agent that claims to have authored it. If the signature check fails, the data is rejected.
 
-After this first check, the authorities runs the data through the proper system and app-level **validation rules**, then sign the result and return it to the author as a **validation receipt**.
+After this first check, the authorities run the data through the proper system and app-level **validation rules**, then sign the result and return it to the author as a **validation receipt**.
 
 If validation fails, the validator also generates a **warrant**, which is a signed proof that the author has broken a rule. They then publish this warrant to the agent activity authorities, who keep the warrant on file. Any peer who receives a warrant, either via gossip or by requesting invalid data, validates it against the data that's claimed to be invalid, then blocks network communications with the warranted author. This is what creates Holochain's immune system.
 
