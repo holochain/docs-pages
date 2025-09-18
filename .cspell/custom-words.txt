@@ -51,7 +51,11 @@ NixOS
 nixpkgs
 pkgs
 POSIX
+prevalidate
+prevalidated
 prevalidates
+prevalidating
+prevalidation
 privkey
 pubkey
 QUIC

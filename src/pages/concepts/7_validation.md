@@ -310,7 +310,7 @@ Some reasons for ejecting an agent from a network simply shouldn't be encoded in
 * Validation supports intrinsic data integrity, which upholds the security of a Holochain app.
 * Validation rules can be written for an agent's entry into an application, the shape and content of data, rules for interaction, write permissions, and write throttling.
 * An author validates their own entries before committing them to their source chain or publishing them to the DHT.
-* Peers in the DHT subject all public data to validation before before storing. This validation uses the same rules that the author used at the time of commit.
+* Peers in the DHT subject all public data to validation before storing. This validation uses the same rules that the author used at the time of commit.
 * If all data upon which a validation depends can be retrieved, the result of a validation function is a clear yes/no result. It proves whether the author has hacked their software to produce invalid entries.
 * If some data dependencies can't be retrieved from the DHT, the conductor will fail with an 'unresolved dependencies' error and try again later.
 * If the validity of an operation depends on existing DHT data, a validating agent can generally trust in the existing validation results on those dependencies instead of having to revalidate them.

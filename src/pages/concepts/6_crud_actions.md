@@ -80,7 +80,7 @@ In the future Holochain might introduce 'purge' and 'withdraw' action types, whi
 * All data in the source chain and DHT is immutable once it's written. Nothing is ever deleted.
 * It's useful to be able to modify data, so Holochain offers delete and update actions that simulate mutability by adding status-changing metadata to existing data.
 * Because this may surprise users, developers have a responsibility to inform them of the permanence of data and protect them from negative consequences.
-* In the future we intend to introduce actions that request the actual deletion of data.
+* In the future we may introduce actions that request the actual deletion of data.
 
 
 !!! learn Learn more
