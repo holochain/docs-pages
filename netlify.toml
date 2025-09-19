@@ -48,6 +48,8 @@ package = "/node_modules/netlify-plugin-checklinks"
     todoPatterns = [
         # Don't know why these don't appear, and maybe they should.
         "_site/pagefind",
+        # Suddenly NPM is throwing 403 errors.
+        "`https://(www\\.)?npmjs\\.com`"
     ]
 
     todoServerErrorPatterns = [
