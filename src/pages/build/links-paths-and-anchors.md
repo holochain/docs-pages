@@ -148,7 +148,7 @@ let movies_in_1960s_by_director = get_links(
 )?;
 ```
 
-To get all live _and deleted_ links (where ), along with any deletion actions, use [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html).
+To get all live _and deleted_ links along with any deletion actions, use [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html).
 
 ```rust
 use hdk::prelude::*;

@@ -30,7 +30,7 @@ There are also a couple of composite types, [`AnyDhtHash`](https://docs.rs/holo_
 
 Here's an overview of the five types above, plus the two composite types:
 
-* `DnaHash` is the hash of the DNA bundle (including any DNA modifiers passed in at installation or cloning time), and is the [unique identifier for the DNA's network](/build/working-with-data/#storage-locations-and-privacy).
+* `DnaHash` is the hash of the DNA bundle (including any DNA modifiers passed in at installation or cloning time) and the [unique identifier for the DNA's network](/build/working-with-data/#storage-locations-and-privacy).
 * `AgentPubKey` is the public key of a participant in a network.
 * `ActionHash` is the hash of a structure called an [action](/build/working-with-data/#entries-actions-and-records-primary-data) that records a participant's act of storing or changing private or shared data.
 * `EntryHash` is the hash of an arbitrary blob of bytes called an [entry](/build/entries/), which contains application or system data. (Note: there's a special system entry called [`Agent`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/enum.Entry.html#variant.Agent), which holds the agent's public key; the hash function returns the public key itself, _not_ its hash.)

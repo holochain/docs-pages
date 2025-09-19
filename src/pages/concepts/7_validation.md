@@ -247,7 +247,7 @@ Eventually, everyone knows that Alice is a 'bad actor' who has hacked her app. T
 :::
 
 !!! info What happens when an agent encounters a warrant?
-When an agent receives a warrant, the first step is to check that the warrant is legitimate by trying to fetch and validate the warranted data themselves. If it's valid, they add the warranted agent to their network block list, rejecting all incoming communications from them. If it's invalid, they block the malicious warrant issuer.
+When an agent receives a warrant, the first step is to check that the warrant is legitimate by trying to fetch and validate the warranted data themselves. If it's valid, they add the warranted agent to their network block list, stopping all incoming and outgoing communications with them. If it's invalid, they block the malicious warrant issuer.
 !!!
 
 ## Use cases for validation
@@ -276,7 +276,7 @@ Soft things which normally require human discretion, like content moderation and
 
 ### Hashes, signatures, and chain continuity
 
-At the system level, Holochain checks hashes and author signatures. If either of them don't match the data being valid, the operation is rejected. Agent activity authorities also check that source chain actions are integrated in sequence, and form a non-broken chain with timestamps and sequence indices that don't go backwards.
+At the system level, Holochain checks hashes and author signatures. If either of them don't match the data being validated, the operation is rejected. Agent activity authorities also check that source chain actions are integrated in sequence, and form a non-broken chain with timestamps and sequence indices that don't go backwards.
 
 ### Source chain forks
 
