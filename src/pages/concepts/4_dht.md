@@ -164,12 +164,14 @@ When an agent publishes a source chain record to the network, they don't actuall
 Let's see what happens when a simple 'create entry' record is published to the DHT.
 
 * A **store entry** operation, containing both the entry blob and the create-entry action, goes to the **entry authorities** whose arcs cover the entry hash. When it's integrated, the authorities will hold the entry data at that basis, along with metadata that contains the action.
-* A **store record** operation, containing the action, goes to the **record authorities** whose arcs cover the action's hash. When it's integrated, the authorities will hold the action at that basis address.
-* An **register agent activity** operation, containing the action, goes to the **agent activity authorities**, peers whose arcs cover the author's public key. When it's integrated, the authorities will hold the action along with all prior action.
+* A **store record** operation, containing the entry and the action, goes to the **record authorities** whose arcs cover the action's hash. When it's integrated, the authorities will hold the action at that basis address.
+* A **register agent activity** operation, containing the action, goes to the **agent activity authorities**, peers whose arcs cover the author's public key. When it's integrated, the authorities will add the action to a copy of the author's source chain.
 
 No matter what operation they receive, all three authorities check the signature on it to make sure it hasn't been modified in transit and it belongs to the agent that claims to have authored it. If the signature check fails, the data is rejected.
 
-After this first check, the authorities runs the data through the proper system and app-level **validation rules**, then sign the result and return it to the author as a **validation receipt**. If the result shows that validation failed, it's called a **warrant**. They can use that warrant to justify taking action against the rule-breaker, such as refusing to communicate with them and deleting all their data, and they can also present that warrant to others as a warning and an explanation of why they're not holding the data. This is what creates Holochain's immune system.
+After this first check, the authorities run the data through the proper system and app-level **validation rules**, then sign the result and return it to the author as a **validation receipt**.
+
+If validation fails, the validator also generates a **warrant**, which is a signed proof that the author has broken a rule. They then publish this warrant to the agent activity authorities, who keep the warrant on file. Any peer who receives a warrant, either via gossip or by requesting invalid data, validates it against the data that's claimed to be invalid, then blocks network communications with the warranted author. This is what creates Holochain's immune system.
 
 Using cryptographically random data (public keys and hashes) as addresses has a couple benefits. First, validator selection is impartial, resistant to collusion, and enforced by all honest participants. Second, the data load is also spread fairly evenly around the DHT.
 
@@ -187,8 +189,9 @@ The important thing is that your peers in the DHT _remember what you've publishe
 * Peers in Holochain's DHT validate all data they store, sharing validation results with peers who ask for the data. This speeds things up for everyone and allows rapid, efficient detection of bad actors.
 * Holochain's DHT also detects agents' attempts to modify their source chains.
 * Authority selection for a piece of data is random and enforced by all honest peers.
-* A negative validation result is called a warrant, which attests that an agent has broken the rules.
-* Possessing a warrant lets a peer justify taking action against the subject of the warrant, such as blocking them or deleting stored data they've authored.
+* A negative validation outcome produces a warrant, which attests that an agent has broken the rules.
+* Possessing a warrant lets a peer justify taking action against the subject of the warrant, such as blocking them.
+* Warrants spread around the network, creating an 'immune system' response.
 * A DHT tolerates network disruptions. It can keep operating as two separate networks and subsequently 'heal' when the network is repaired.
 
 !!! learn Learn more

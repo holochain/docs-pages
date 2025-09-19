@@ -15,7 +15,7 @@ If a `must_get_*` function can't retrieve the data, it isn't considered a valida
 To get a single entry, use [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html). To get a single action, use [`must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html).
 
 !!! info Results aren't guaranteed to be valid
-Neither of these functions verify that the retrieved data is valid. If you need this assurance, use an action hash as as a dependency's identifier and retrieve it with [`must_get_valid_record`](#must-get-valid-record).
+Neither of these functions verify that the retrieved data is valid. If you need this assurance, use an action hash as a dependency's identifier and retrieve it with [`must_get_valid_record`](#must-get-valid-record).
 !!!
 
 This example validates a [movie loan acceptance](/build/identifiers/#in-dht-data), making sure that it's valid against the original loan offer.
@@ -105,7 +105,7 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
     // The result is a vector of `RegisterAgentActivity`` DHT ops.
     // Let's convert it into a count of the movie creation actions written in
     // the last minute.
-    let take_until_timestamp = action.timestamp().saturating_add(&Duration::new(60, 0));
+    let lower_bound = action.timestamp().saturating_sub(&Duration::new(60, 0));
     let movie_entry_def = &EntryType::App(UnitEntryTypes::Movie.try_into()?);
     let movies_written_within_window = result
         .iter()
@@ -118,7 +118,7 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
             None
         })
         // Next, only take the ones within the spam window.
-        .take_while(|a| a.timestamp() >= take_until_timestamp)
+        .take_while(|a| a.timestamp() >= lower_bound)
         // Finally, count the matching actions.
         .count();
 
@@ -171,7 +171,7 @@ fn check_that_action_exists_and_is_valid_and_has_valid_public_app_entry(action_h
 !!! info This may not catch all validation failures
 `must_get_valid_record` checks for validation success or failure on the [`StoreRecord` DHT operation](/build/dht-operations/#store-record). Validation code for other DHT operations produced from the same action may have executed and failed.
 
-In the future, we intend to introduce 'warrants', a feature which will allow validators to communicate failures to each other for related data. Until then, if any of your validation code uses `must_get_valid_record` to retrieve a dependency, we recommend that the dependency's validation code for the `StoreRecord` operation cover all possible checks.
+[**Warrants**](/resources/glossary/#warrant) allow a validator to communicate news of an invalid DHT operation to non-authorities. But because they're not guaranteed to be co-located with the failed op, or even guaranteed to be delivered at all, they can't be used in a validation callback, which must work with a closed, deterministic set of data. If you absolutely need `must_get_valid_record` to fail for _all_ possible validity issues for a dependency, make sure the dependency's validation code for the `StoreRecord` operation covers all possible checks.
 !!!
 
 ## Reference

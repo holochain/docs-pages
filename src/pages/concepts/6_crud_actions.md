@@ -73,14 +73,14 @@ Additionally, because data takes up space even when it's no longer live, be judi
 * If an entry might have many small updates to it in a short time, queue them up and write them in one action. Or ignore the built-in update feature and commit updates as diffs instead.
 * For large blobs with frequent but small changes, break the content into 'chunks' that align with natural content boundaries such as paragraphs in text, regions in images, or scenes in videos, then commit these chunks in separate actions. This can help with deduplicating storage for portions of a blob that changes infrequently or appears in many blobs.
 
-Finally, data that's invalid (we'll learn about that in the [next section](../7_validation/)) can be removed by a DHT node that's elected to validate and store it. And in the future Holochain will permit nodes to 'purge' the data they're storing, for reasons other than invalidity, such as in response to right-to-be-forgotten requests, or flagging of immoral content, or simply because the data takes up too much space.
+In the future Holochain might introduce 'purge' and 'withdraw' action types, which allow agents to request that actions and entries be actually removed from the data. This could be used for right-to-be-forgotten requests, or flagging of immoral content, or simply because the data takes up too much space.
 
 ## Key takeaways
 
 * All data in the source chain and DHT is immutable once it's written. Nothing is ever deleted.
 * It's useful to be able to modify data, so Holochain offers delete and update actions that simulate mutability by adding status-changing metadata to existing data.
 * Because this may surprise users, developers have a responsibility to inform them of the permanence of data and protect them from negative consequences.
-* In the future we intend to introduce actions that request the actual deletion of data, as well as automated conflict-resolution features.
+* In the future we may introduce actions that request the actual deletion of data.
 
 
 !!! learn Learn more

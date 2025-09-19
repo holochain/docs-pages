@@ -25,7 +25,7 @@ Data in Holochain takes the shape of a [**record**](https://docs.rs/holochain_in
 * A timestamp
 * The type of action
 * The hash of the previous action in the author's history of state changes, called their [**source chain**](/concepts/3_source_chain/) (note: the first action in their chain doesn't contain this field)
-* The index of the action in the author's source chain, called the **action seq**
+* The index of the action in the author's source chain, called the **sequence index**
 
 Some actions also contain a **weight**, which is a calculation of the cost of storing the action and can be used for spam prevention. (Note: weighting isn't implemented yet.)
 
@@ -37,7 +37,7 @@ It's generally most useful to _think about a **record** (entry plus creation act
 "hello" // entry ID is hCEkhy0q54imKYjEpFdLTncbqAaCEGK3LCE+7HIA0kGIvTw // cspell:disable-line
 ```
 
-But that entry, paired with its respective creation actions into records, can be treated as two pieces of content:
+But that entry, paired with two different creation actions into records, can be treated as two pieces of content:
 
 ```json
 {
@@ -74,7 +74,7 @@ The application's users all share responsibility for storing and validating this
 
 Each [DNA](/concepts/2_application_architecture/#dna) creates a network of peers who participate in storing pieces of that DNA's database, which means that each DNA's database (and the [source chains](#individual-state-histories-as-public-records) that contribute to it) is completely separate from all others. This creates a per-network privacy for shared data. On top of that, entries can either be:
 
-* [**Private**](/build/entries/#configure-an-entry-type), stored encrypted on the author's device in their source chain in an encrypted database and accessible to them only, or
+* [**Private**](/build/entries/#configure-an-entry-type), stored on the author's device in their source chain in an encrypted database and accessible to them only, or
 * **Public**, stored in the graph database and accessible to all participants.
 
 All actions are public.
@@ -112,7 +112,7 @@ Because every action has a reference to both its author and its previous action 
 
 Because data can't be deleted, mutation is simulated by adding metadata that describes changes to existing data's state. The current state of an entry or record is calculated using [simple rules](#default-crud-rules), but you can also access the underlying metadata and implement your own CRUD model.
 
-Every change starts out as an action on someone's source chain. This action is turned into **DHT operations** that get sent to various peers, validated, and integrated into their portions of the database. DHT operations are beyond the scope of this page, so let's focus on the _result_ of integrating these operations.
+Every change starts out as an action on someone's source chain. This action is turned into [**DHT operations**](/build/dht-operations/) that get sent to various peers, validated, and integrated into their portions of the database. DHT operations are beyond the scope of this page, so let's focus on the _result_ of integrating these operations.
 
 !!! info Actions as both content and author history
 In addition to the changes described below, every action:
@@ -150,9 +150,9 @@ _Private entries_ are also manipulated via `Create`, `Update`, and `Delete` acti
 
 The built-in CRUD model is simplistic, collecting all the metadata on an entry or record and producing a final state using these rules:
 
-* Although an **entry** can have multiple creation actions attached to it as metadata, the record returned contains the _oldest-timestamped_ entry creation action _that doesn't have a corresponding delete action_.
+* Although an **entry** can have multiple creation actions attached to it as metadata, the record returned contains the _oldest-timestamped, valid_ entry creation action _that doesn't have a corresponding valid delete action_.
 * There's no built-in logic for **updates**, which means that multiple updates can exist on one entry creation action. This creates a branching update model similar to Git and leaves room for you to create your own conflict resolution mechanisms if you need them. Updates aren't retrieved by default; you must retrieve them by [asking for an address' metadata](/build/entries/#all-data-actions-and-links-at-an-address).
-* A **delete** applies to an entry creation action, not an entry. An entry is considered live until _all_ of its creation actions are deleted, at which point it's fully dead[.](https://www.youtube.com/watch?v=d4ftmOI5NnI&t=42) A dead entry is live once again if a new entry creation action authors it.
+* A **delete** applies to an entry creation action, not an entry. An entry is considered live until _all_ of its valid creation actions are deleted, at which point it's fully dead[.](https://www.youtube.com/watch?v=d4ftmOI5NnI&t=42) A dead entry is live once again if a new, valid entry creation action authors it.
 * Unlike entries, **links** are completely contained in the action, and are always distinct from each other, even if their base, target, type, and tag are identical. There's no link update action, and a link deletion action marks one link creation action as dead.
 
 If these rules don't work for you, you can always [directly access the underlying metadata](/build/entries/#all-data-actions-and-links-at-an-address) and implement your own CRUD model.
