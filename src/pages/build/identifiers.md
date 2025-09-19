@@ -189,7 +189,7 @@ let ipfs_movie_poster_hash = ExternalHash::from_raw_32(vec![/* bytes of external
 
 ### DNA
 
-In every application, there is one global hash that everyone knows, and that's the hash of the DNA itself. You can get it by calling [`hdk::info::dna_info`](https://docs.rs/hdk/latest/hdk/info/fn.dna_info.html).
+In every DNA, there is one global hash that everyone knows, and that's the hash of the DNA itself. You can get it by calling [`hdk::info::dna_info`](https://docs.rs/hdk/latest/hdk/info/fn.dna_info.html).
 
 ```rust
 use hdk::prelude::*;
