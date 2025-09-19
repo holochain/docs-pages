@@ -525,7 +525,7 @@ The act of relying on inductive reasoning within a [validation function](#valida
 
 #### Init callback
 
-A function in a [DNA](#dna) that the [conductor](#conductor) executes when an [agent](#agent) calls a [cell](#cell) for the first time, and after they have joined the DNA's [network](#network). This can be used to set up initial [source chain](#source-chain) [#state](#state-transition), etc.
+A function in a [DNA](#dna) that the [conductor](#conductor) executes when an [agent](#agent) calls a [cell](#cell) for the first time, and after they have joined the DNA's [network](#network). This can be used to set up initial [source chain](#source-chain) [state](#state-transition), etc.
 
 #### Init complete action
 

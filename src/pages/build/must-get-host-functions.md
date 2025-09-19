@@ -118,7 +118,7 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
             None
         })
         // Next, only take the ones within the spam window.
-        .take_while(|a| a.timestamp() >= take_until_timestamp)
+        .take_while(|a| a.timestamp() >= lower_bound)
         // Finally, count the matching actions.
         .count();
 
