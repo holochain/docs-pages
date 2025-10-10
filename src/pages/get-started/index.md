@@ -62,6 +62,10 @@ bash <(curl https://holochain.github.io/holochain/setup.sh)
 
 This command downloads the setup script and runs it, installing the Nix package manager and setting up a package cache for Holochain.
 
+!!! info Only run this script once
+If you run this script a second time, it'll cause problems. [Read the advanced install guide](/get-started/install-advanced/#repairing-a-corrupted-nix-conf-file) for more info.
+!!!
+
 ### 2.4. Verify installation
 
 In a new terminal session type:

@@ -104,6 +104,16 @@ holochain --build-info
 
 (Tip: piping the output to [`jq`](https://jqlang.org/), a command-line JSON processor, will format it and make it easier to read.)
 
+### Repairing a corrupted `nix.conf` file
+
+If you [ran the development environment setup script](/get-started/#2-3-set-up-development-environment) twice, or you've made manual modifications to your `~/.config/nix/nix.conf` file, running the script may corrupt that file. This is a [known issue](https://github.com/holochain/docs-pages/issues/601): the script doesn't check the contents of an existing file.
+
+To repair this, open up `~/.config/nix/nix.conf` in a text editor and look for the field `experimental-features`. It should only appear once, and in order for Holonix to work, it should at least contain these values (it's okay if it contains more):
+
+```toml
+experimental-features = nix-command flakes
+```
+
 ## More info on Nix
 
 The main Nix tool used in Holochain development workflows is `nix develop`, a program that overlays a new Bash environment and set of tools on top of your existing shell environment.
