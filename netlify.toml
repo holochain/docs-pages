@@ -52,6 +52,9 @@ package = "/node_modules/netlify-plugin-checklinks"
 
     todoServerErrorPatterns = [
         "https://doc.libsodium.org",
+        # NPM now blocks bots.
+        # https://github.com/orgs/community/discussions/174098#discussioncomment-14461226
+        "https://www.npmjs.com",
     ]
 
 [[headers]]

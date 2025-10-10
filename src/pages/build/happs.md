@@ -69,7 +69,7 @@ allow_deferred_memproofs: false
 
 #### hApp manifest structure at a glance
 
-* `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher) or [Moss](https://theweave.social/moss/).
+* `name`: A string for humans to read. This might get used in the admin panel of Holochain [conductors](/concepts/2_application_architecture/#conductor) like [Holochain Launcher](https://github.com/holochain/launcher) or [Moss](https://moss.social/).
 * `description`: A long description of the hApp for conductors to display.
 * `roles`: The roles to be filled by DNAs. Think of each role as a microservice that may have multiple instances.
     * `name`: The name the role will be referred to in back-end and front-end code when its DNA's functions are being called
