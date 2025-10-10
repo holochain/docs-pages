@@ -104,6 +104,14 @@ holochain --build-info
 
 (Tip: piping the output to [`jq`](https://jqlang.org/), a command-line JSON processor, will format it and make it easier to read.)
 
+### Reinstalling Holonix
+
+If your installation didn't work or has become unusable, you'll need to do a couple things to get your system back to a clean state for reinstallation. Note that you should only do this if you're not using Nix for anything else.
+
+1. Uninstall Nix by following the [**multi-user instructions** for your OS](https://nix.dev/manual/nix/2.32/installation/uninstall.html#multi-user).
+2. Remove the folder `.config/nix` in your home folder.
+3. [Follow the instructions in the Get Started Guide](/get-started/#2-3-set-up-development-environment).
+
 ### Repairing a corrupted `nix.conf` file
 
 If you [ran the development environment setup script](/get-started/#2-3-set-up-development-environment) twice, or you've made manual modifications to your `~/.config/nix/nix.conf` file, running the script may corrupt that file. This is a [known issue](https://github.com/holochain/docs-pages/issues/601): the script doesn't check the contents of an existing file.
