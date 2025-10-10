@@ -86,10 +86,11 @@ do you want to allow configuration setting 'substituters' to be set to 'https://
 do you want to permanently mark this value as trusted (y/N)?
 ```
 ```text
-do you want to allow configuration setting 'trusted-public-keys' to be set to 'cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= holochain-ci.cachix.org-1:5IUSkZc0aoRS53rfkvH9Kid40NpyjwCMCzwRTXy+QN8=' (y/N)?
+do you want to allow configuration setting 'trusted-public-keys' to be set to 'cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= holochain-ci.cachix.org-1:5IUSkZc0aoRS53rfkvH9Kid40NpyjwCMCzwRTXy+QN8=' (y/N)? // cspell:disable-line
 :::
 
-They add Holochain's server to your computer's list of Nix package caches. Answer <kbd>y</kbd> to both of them -- but check that the key for `holochain-ci.cachix.org-1` is `5IUSkZc0aoRS53rfkvH9Kid40NpyjwCMCzwRTXy+QN8=`.
+<!-- cspell:ignore rfkv Npyjw -->
+They add Holochain's server to your computer's list of Nix package caches. Answer <kbd>y</kbd> to all of them -- but check that the key for `holochain-ci.cachix.org-1` is `5IUSkZc0aoRS53rfkvH9Kid40NpyjwCMCzwRTXy+QN8=`.
 
 Look out for binaries being copied from `holochain-ci.cachix.org`:
 
