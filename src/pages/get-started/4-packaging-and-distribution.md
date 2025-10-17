@@ -57,7 +57,7 @@ In the centralized world, deployment is usually achieved by Continuous Integrati
 From the end-user perspective there are currently three ways to go about this:
 
 1. Download your app as its own standalone desktop executable, as they would any other application for their computer.
-2. Download [Moss, an experimental groupware application](https://theweave.social), create a group of people to work with, and install the app as a 'tool' into their group.
+2. Download [Moss, an experimental groupware application](https://moss.social), create a group of people to work with, and install the app as a 'tool' into their group.
 3. Download Holochain's official Launcher runtime and install the app from its app store or the filesystem.
 
 ### Standalone executable

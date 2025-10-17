@@ -48,6 +48,9 @@ package = "/node_modules/netlify-plugin-checklinks"
     todoPatterns = [
         # Don't know why these don't appear, and maybe they should.
         "_site/pagefind",
+        # NPM now blocks bots.
+        # https://github.com/orgs/community/discussions/174098#discussioncomment-14461226
+        "https://www.npmjs.com",
     ]
 
     todoServerErrorPatterns = [

@@ -62,6 +62,10 @@ bash <(curl https://holochain.github.io/holochain/setup.sh)
 
 This command downloads the setup script and runs it, installing the Nix package manager and setting up a package cache for Holochain.
 
+!!! info Only run this script once
+If you run this script a second time, it'll cause problems. [Read the advanced install guide](/get-started/install-advanced/#repairing-a-corrupted-nix-conf-file) for more info.
+!!!
+
 ### 2.4. Verify installation
 
 In a new terminal session type:
@@ -71,6 +75,22 @@ In a new terminal session type:
 ```shell
 nix run --refresh -j0 -v "github:holochain/holonix?ref=main-0.5#hc-scaffold" -- --version
 ```
+
+You might be asked these questions:
+
+::: output-block
+```text
+do you want to allow configuration setting 'substituters' to be set to 'https://aseipp-nix-cache.freetls.fastly.net https://cache.nixos.org https://holochain-ci.cachix.org' (y/N)?
+```
+```text
+do you want to permanently mark this value as trusted (y/N)?
+```
+```text
+do you want to allow configuration setting 'trusted-public-keys' to be set to 'cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= holochain-ci.cachix.org-1:5IUSkZc0aoRS53rfkvH9Kid40NpyjwCMCzwRTXy+QN8=' (y/N)? // cspell:disable-line
+:::
+
+<!-- cspell:ignore rfkv Npyjw -->
+They add Holochain's server to your computer's list of Nix package caches. Answer <kbd>y</kbd> to all of them -- but check that the key for `holochain-ci.cachix.org-1` is `5IUSkZc0aoRS53rfkvH9Kid40NpyjwCMCzwRTXy+QN8=`.
 
 Look out for binaries being copied from `holochain-ci.cachix.org`:
 

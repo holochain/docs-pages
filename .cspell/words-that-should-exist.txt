@@ -32,6 +32,8 @@ sandboxing
 scaffolder
 snapshotted
 spacebar
+# a Nix word
+substituters
 todo
 todos
 unforgeable
