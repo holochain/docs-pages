@@ -67,7 +67,7 @@ let create_link_action_hash = create_link(
     movie_entry_hash,
     LinkTypes::DirectorToMovie,
     // Cache a bit of the target entry in this link's tag, as a search index.
-    vec!["year:1966".as_bytes()].into()
+    "year:1966"
 )?;
 ```
 
@@ -137,7 +137,7 @@ let movies_by_director = get_links(
 )?;
 let movie_entry_hashes = movies_by_director
     .iter()
-    .filter_map(|link| link.target.into_entry_hash())
+    .filter_map(|link| link.target.clone().into_entry_hash())
     .collect::<Vec<_>>();
 ```
 
@@ -178,7 +178,7 @@ let number_of_reviews_written_by_me_in_last_month = count_links(
         // Assume `movie_entry_hash` as defined in previous snippets.
         movie_entry_hash,
         LinkTypes::MovieReview
-    )
+    )?
     .after(Timestamp(today.as_micros() - 1000 * 1000 * 60 * 60 * 24 * 30))
     .before(today)
     .author(my_id)
@@ -269,7 +269,7 @@ let parent_path = Path::from("movies_by_first_letter")
 let all_first_letter_paths = parent_path.children_paths()?;
 // Do something with the children. Note: this would be expensive to do in
 // practice, because each child needs a separate DHT query.
-let links_to_all_movies = all_first_letter_paths
+let links_to_all_movies: Vec<_> = all_first_letter_paths
     .iter()
     .map(|path| get_links(
         LinkQuery::try_new(

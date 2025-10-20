@@ -14,6 +14,8 @@ To upgrade your hApp written for Holochain 0.6, follow these steps:
 
 1. Update your `flake.nix` to use the 0.6 version of Holochain. This involves changing the version numbers of two packages. {#update-nix-flake}
 
+<!-- TODO: get the right tag name -->
+
     ```diff
      {
        description = "Flake for Holochain app development";
@@ -30,7 +32,8 @@ To upgrade your hApp written for Holochain 0.6, follow these steps:
            devShells.default = pkgs.mkShell {
              inputsFrom = [ inputs'.holonix.devShells.default ];
              packages = (with pkgs; [
-               nodejs_20
+    -          nodejs_20
+    +          nodejs_22
                binaryen
              ]);
              shellHook = ''
@@ -47,7 +50,9 @@ To upgrade your hApp written for Holochain 0.6, follow these steps:
     ```shell
     nix flake update && git add flake.* && nix develop
     ```
-2. Update your root `package.json` file with the new package versions: {#update-package-json}
+2. Update your root `package.json` file with the new package versions, and update the `build:zomes` script to accommodate a change in the way one of the HDK's dependencies needs to be built: {#update-package-json}
+
+<!-- TODO: get the right version numbers -->
 
     ```diff:json
      {
@@ -67,7 +72,8 @@ To upgrade your hApp written for Holochain 0.6, follow these steps:
              "launch:tauri": "concurrently \"kitsune2-bootstrap-srv --listen \"127.0.0.1:$BOOTSTRAP_PORT\"\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/movies5.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$BOOTSTRAP_PORT\"\"",
              "package": "npm run build:happ && npm run package --workspace ui && hc web-app pack workdir --recursive",
              "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
-             "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
+    -        "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
+    +        "build:zomes": "RUSTFLAGS='--cfg getrandom_backend=\"custom\"' cargo build --release --target wasm32-unknown-unknown"
          },
          "devDependencies": {
     -        "@holochain/hc-spin": "^0.500.1",
@@ -103,6 +109,8 @@ To upgrade your hApp written for Holochain 0.6, follow these steps:
 ### Rust
 
 Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` file:
+
+<!-- TODO: Get the right version numbers -->
 
 ```diff:toml
  [workspace.dependencies]
@@ -142,6 +150,8 @@ Edit your project's `tests/package.json` file:
 
 <!-- TODO(upgrade): bump version numbers here, at least as long as 0.5 is the most recent recommended or maintenance-mode release -->
 
+<!-- TODO: get the right version numbers -->
+
 ```diff:json
    "dependencies": {
      // some dependencies
@@ -156,6 +166,8 @@ Edit your project's `tests/package.json` file:
 #### UI
 
 You'll update the UI package dependencies similarly to the test package. Edit `ui/package.json`:
+
+<!-- TODO: get the right version numbers -->
 
 ```diff:json
    "dependencies": {
@@ -183,12 +195,12 @@ npm install
 
 ```diff:rust
  let links_query = LinkQuery::try_new(base_address, LinkTypes::FooToBar)?
-     .tag_prefix(tag_prefix)
-     .after(start_timestamp)
-     .before(end_timestamp)
+     .tag_prefix("abc".into())
+     .after(Timestamp(1000000))
+     .before(Timestamp(2000000))
      .author(author_id);
 
- let links_count = count_links(links_query)?;
+ let links_count = count_links(links_query.clone())?;
 
 -let links = get_links(GetLinksInput {
 -    base_address,
@@ -199,7 +211,7 @@ npm install
 -    before: Some(end_timestamp),
 -    author: Some(author_id),
 -})?;
-+let links = get_links(links_query, GetStrategy::default())?;
++let links = get_links(links_query.clone(), GetStrategy::default())?;
 
  assert_eq!(links_count, links.len());
 
@@ -209,12 +221,12 @@ npm install
 -    Some(tag_prefix),
 -    GetOptions::default()
 -)?;
-+let links_details = get_links_details(links_query, GetStrategy::default())?;
++let links_details = get_links_details(links_query.clone(), GetStrategy::default())?;
 +// Previously there was no way to apply filters to `get_link_details`.
 +// Now the results of this query should match the previous two.
-+let undeleted_links = links_details.into_inner()
-+    .to_iter()
-+    .filter(|_, deletes| deletes.len() == 0)
++let undeleted_links: Vec<_> = links_details.into_inner()
++    .into_iter()
++    .filter(|(_, deletes)| deletes.len() == 0)
 +    .collect();
 +assert_eq!(links_count, undeleted_links.len());
 ```
@@ -250,15 +262,6 @@ The format of the manifest files has changed:
     -    path: ../dnas/forum/workdir/forum.dna
          modifiers: # ...
     ```
-
-## Zome compilation requires a new Rust flag
-
-Due to a change in a dependency, zomes now need to be compiled with a new environment variable. Edit this line in your hApp's root `package.json` file:
-
-```diff:json
--    "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
-+    "build:zomes": "RUSTFLAGS='--cfg getrandom_backend=\"custom\"' cargo build --release --target wasm32-unknown-unknown"
-```
 
 ## Subtle changes
 
