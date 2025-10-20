@@ -1,0 +1,267 @@
+---
+title: Holochain Upgrade 0.5 → 0.6
+---
+
+::: intro
+For existing hApps that are currently using Holochain 0.5, here's the guide to get you upgraded to 0.6.
+
+The biggest change in Holochain 0.6 is that **warrants** are now stable. This doesn't result in any breaking changes, but the response from `get_agent_activity` will now return a reliable list of warrants.
+:::
+
+## Quick instructions
+
+To upgrade your hApp written for Holochain 0.6, follow these steps:
+
+1. Update your `flake.nix` to use the 0.6 version of Holochain. This involves changing the version numbers of two packages. {#update-nix-flake}
+
+    ```diff
+     {
+       description = "Flake for Holochain app development";
+       inputs = {
+    -    holonix.url = "github:holochain/holonix?ref=main-0.5";
+    +    holonix.url = "github:holochain/holonix?ref=main-0.6";
+         nixpkgs.follows = "holonix/nixpkgs";
+         flake-parts.follows = "holonix/flake-parts";
+       };
+       outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+         systems = builtins.attrNames inputs.holonix.devShells;
+         perSystem = { inputs', pkgs, ... }: {
+           formatter = pkgs.nixpkgs-fmt;
+           devShells.default = pkgs.mkShell {
+             inputsFrom = [ inputs'.holonix.devShells.default ];
+             packages = (with pkgs; [
+               nodejs_20
+               binaryen
+             ]);
+             shellHook = ''
+               export PS1='\[\033[1;34m\][holonix:\w]\$\[\033[0m\] '
+             '';
+           };
+         };
+       };
+     }
+    ```
+
+    This will take effect later when you enter a new Nix shell. It's important to update your Nix flake lockfile at this point, to ensure you benefit from the cache we provide:
+
+    ```shell
+    nix flake update && git add flake.* && nix develop
+    ```
+2. Update your root `package.json` file with the new package versions: {#update-package-json}
+
+    ```diff:json
+     {
+         "name": "movies-dev",
+         "private": true,
+         "workspaces": [
+             "ui",
+             "tests"
+         ],
+         "scripts": {
+             "start": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) SIGNAL_PORT=$(get-port) npm run network",
+             "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\" \"hc playground\"",
+             "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
+             "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/movies5.happ",
+             "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network:tauri",
+             "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"hc playground\"",
+             "launch:tauri": "concurrently \"kitsune2-bootstrap-srv --listen \"127.0.0.1:$BOOTSTRAP_PORT\"\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/movies5.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$BOOTSTRAP_PORT\"\"",
+             "package": "npm run build:happ && npm run package --workspace ui && hc web-app pack workdir --recursive",
+             "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
+             "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
+         },
+         "devDependencies": {
+    -        "@holochain/hc-spin": "^0.500.1",
+    +        "@holochain/hc-spin": "^0.600.0",
+             "concurrently": "^6.5.1",
+             "get-port-cli": "^3.0.0"
+         },
+         "engines": {
+             "node": ">=16.0.0"
+         },
+         "hcScaffold": {
+             "template": "svelte" // This might be different for your app
+         }
+     }
+    ```
+3. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
+4. Follow the [breaking change update instructions](#update-your-application-code) below to get your code working again.
+5. Try running your tests:
+
+    ```shell
+    npm test
+    ```
+
+    and starting the application:
+
+    ```shell
+    npm start
+    ```
+6. Be aware of some changes that won't break your app but may affect its runtime behavior. Read the [guide at the bottom](#subtle-changes).
+
+## Update your package dependencies
+
+### Rust
+
+Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` file:
+
+```diff:toml
+ [workspace.dependencies]
+-hdi = "=0.6.3"
+-hdk = "=0.5.3"
++hdi = "=0.6.0" # Pick a later patch version of these libraries if you prefer.
++hdk = "=0.5.0"
+```
+
+The latest version numbers of these libraries can be found on `crates.io`: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
+
+Once you've updated your `Cargo.toml` you need to update your `Cargo.lock` and check whether your project can still build. To do this in one step you can run:
+
+```shell
+cargo build
+```
+
+### (Optional) Update other Rust dependencies
+
+Running a Cargo build, like suggested above, will update as few dependencies as it can. This is good for stability because it's just making the changes you asked for. However, sometimes you do need to update other dependencies to resolve build issues.
+
+This section is marked as optional because it's possible that new dependencies could introduce new issues as well as fixing existing conflicts or problems. To make it possible to roll back this change, it might be a good idea to commit the changes you've made so far to source control. Then you can run:
+
+```shell
+cargo update
+```
+
+This will update your `Cargo.lock` with the latest versions of all libraries that the constraints in your `Cargo.toml` files will allow. Now you should try building your project again to see if that has resolved your issue.
+
+### JavaScript
+
+If you've created your hApp using our scaffolding tool, you should be able to follow these instructions. If you've created your own project folder layout, adapt these instructions to fit.
+
+#### Tryorama tests
+
+Edit your project's `tests/package.json` file:
+
+<!-- TODO(upgrade): bump version numbers here, at least as long as 0.5 is the most recent recommended or maintenance-mode release -->
+
+```diff:json
+   "dependencies": {
+     // some dependencies
+-    "@holochain/client": "^0.19.2",
+-    "@holochain/tryorama": "^0.18.3",
++    "@holochain/client": "^0.20.0",
++    "@holochain/tryorama": "^0.19.0",
+     // more dependencies
+   },
+```
+
+#### UI
+
+You'll update the UI package dependencies similarly to the test package. Edit `ui/package.json`:
+
+```diff:json
+   "dependencies": {
+-    "@holochain/client": "^0.19.2",
++    "@holochain/client": "^0.20.1",
+     // more dependencies
+   },
+```
+
+Then in your project's root folder, run your package manager's update command to update the lockfile and install new package versions for your command-line tools, tests, and UI. Use the command that matches your chosen package manager. For example, if you're using `npm`:
+
+```shell
+npm install
+```
+
+## Update your application code
+
+### `get_link_details` renamed
+
+`get_link_details` has been renamed to [`get_links_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html) to reflect the fact that it operates on a collection of links, not just one link.
+
+### Links querying consolidated
+
+[`get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) and [`get_links_details`] (https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html) now share a similar API with `count_links`, so you can apply the exact same query predicates with ease.
+
+```diff:rust
+ let links_query = LinkQuery::try_new(base_address, LinkTypes::FooToBar)?
+     .tag_prefix(tag_prefix)
+     .after(start_timestamp)
+     .before(end_timestamp)
+     .author(author_id);
+
+ let links_count = count_links(links_query)?;
+
+-let links = get_links(GetLinksInput {
+-    base_address,
+-    link_type: LinkTypes::FooToBar,
+-    get_options: GetOptions::default(),
+-    tag_prefix: Some(tag_prefix),
+-    after: Some(start_timestamp)
+-    before: Some(end_timestamp),
+-    author: Some(author_id),
+-})?;
++let links = get_links(links_query, GetStrategy::default())?;
+
+ assert_eq!(links_count, links.len());
+
+-let links_details = get_link_details(
+-    base_address,
+-    LinkTypes::FooToBar,
+-    Some(tag_prefix),
+-    GetOptions::default()
+-)?;
++let links_details = get_links_details(links_query, GetStrategy::default())?;
++// Previously there was no way to apply filters to `get_link_details`.
++// Now the results of this query should match the previous two.
++let undeleted_links = links_details.into_inner()
++    .to_iter()
++    .filter(|_, deletes| deletes.len() == 0)
++    .collect();
++assert_eq!(links_count, undeleted_links.len());
+```
+
+### `delete_link` requires a `GetOptions` argument
+
+In order to self-validate a `DeleteLink` action, you need to have access to the original link creation action. Zero-arc nodes were previously [failing validation](https://github.com/holochain/holochain/issues/4012) if they didn't have the link creation action in their cache, so the fix is to ensure the cache has what it needs by fetching it from the network. But we wanted to [give app developers the choice](https://github.com/holochain/holochain/pull/4945) to opt out of this behavior, so [`delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html) now requires a `GetOptions` argument:
+
+<!-- TODO: make `delete_link` take a GetStrategy rather than GetOptions https://github.com/holochain/holochain/issues/5362 -->
+
+```diff:rust
+-let action_hash = delete_link(original_link_hash)?;
++let action_hash = delete_link(original_link_hash, GetOptions::default())?;
+```
+
+## Manifest format changed
+
+The format of the manifest files has changed:
+
+* The manifest version is now `'0'` for both hApp and DNA manifests:
+
+    ```diff:yaml
+    -manifest_version: '1'
+    +manifest_version: '0'
+     name: my_forum_app
+     # ...
+    ```
+* In the hApp manifest, the `bundled` field for DNAs has been changed to `path`:
+
+    ```diff:yaml
+       dna:
+    -    bundled: ../dnas/forum/workdir/forum.dna
+    -    path: ../dnas/forum/workdir/forum.dna
+         modifiers: # ...
+    ```
+
+## Zome compilation requires a new Rust flag
+
+Due to a change in a dependency, zomes now need to be compiled with a new environment variable. Edit this line in your hApp's root `package.json` file:
+
+```diff:json
+-    "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
++    "build:zomes": "RUSTFLAGS='--cfg getrandom_backend=\"custom\"' cargo build --release --target wasm32-unknown-unknown"
+```
+
+## Subtle changes
+
+The following changes don't break Holochain's APIs or require updates to your code, but they may require you to reassess whether your hApp will work as expected:
+
+* The Holo WebSDK has been removed from the scaffolding tool, so you won't see any option to add it to your project anymore.

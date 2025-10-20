@@ -65,7 +65,7 @@
     },
     { title: "Resources", url: "/resources/", children: [
         { title: "Compatibility Tables", url: "/resources/compatibility/", children: [
-          { title: "Holochain 0.5", url: "/resources/compatibility/holochain-0.5/" },
+          { title: "Holochain 0.6", url: "/resources/compatibility/holochain-0.6/" },
         ]},
         { title: "Upgrade Guides", url: "/resources/upgrade/" },
         { title: "Howtos", url: "/resources/howtos/", children: [

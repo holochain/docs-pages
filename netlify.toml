@@ -189,10 +189,10 @@ package = "/node_modules/netlify-plugin-checklinks"
 # TODO(upgrade): change following version number
 [[redirects]]
     from = "/resources/upgrade/latest/"
-    to = "/resources/upgrade/upgrade-holochain-0.5/"
+    to = "/resources/upgrade/upgrade-holochain-0.6/"
     status = 302
 
 [[redirects]]
     from = "/resources/compatibility/latest/"
-    to = "/resources/compatibility/holochain-0.5/"
+    to = "/resources/compatibility/holochain-0.6/"
     status = 302
