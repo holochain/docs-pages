@@ -191,7 +191,7 @@ npm install
 
 ### Links querying consolidated
 
-[`get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) and [`get_links_details`] (https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html) now share a similar API with `count_links`, so you can apply the exact same query predicates with ease.
+[`get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) and [`get_links_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html) now share a similar API with `count_links`, so you can apply the exact same query predicates with ease.
 
 ```diff:rust
  let links_query = LinkQuery::try_new(base_address, LinkTypes::FooToBar)?
