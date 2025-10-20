@@ -39,7 +39,7 @@ A DNA manifest is written in [YAML](https://yaml.org/). It contains metadata abo
 If you want to write your own manifest file, name it `dna.yaml` and give it the following structure. This example assumes that all of your zomes are in a folder called `zomes/`. Afterwards we'll explain what the fields mean.
 
 ```yaml
-manifest_version: '1'
+manifest_version: '0'
 name: movies
 integrity:
   network_seed: null
@@ -49,12 +49,12 @@ integrity:
   zomes:
   - name: movies_integrity
     hash: null
-    bundled: 'zomes/movies_integrity/target/wasm32-unknown-unknown/release/movies_integrity.wasm'
+    path: 'zomes/movies_integrity/target/wasm32-unknown-unknown/release/movies_integrity.wasm'
 coordinator:
   zomes:
   - name: movies
     hash: null
-    bundled: 'zomes/movies/target/wasm32-unknown-unknown/release/movies.wasm'
+    path: 'zomes/movies/target/wasm32-unknown-unknown/release/movies.wasm'
     dependencies:
     - name: movies_integrity
 ```
@@ -68,10 +68,7 @@ coordinator:
     * `zomes`: A list of all the integrity zomes in the DNA.
         * `name`: A unique name for the zome, to be used for dependencies.
         * `hash`: Optional. If the hash of the zome at the specified location doesn't match this value, installation will fail.
-        * Location: The place to find the zome's WebAssembly bytecode. The three options are:
-            * `bundled`: Expect the file to be part of this [bundle](#bundle-a-dna). The value is a path relative to the manifest file.
-            * `path`: Get the file from the local filesystem. The value is a filesystem path.
-            * `url`: Get the file from the web. The value is a URL, of course.
+        * `path`: The filesystem location of the zome at package build time; the [packager](#bundle-a-dna) will bundle this file into the package.
 * `coordinator`: Contains all the coordinator bits for the DNA, which do not change the DNA hash and can be modified after the DNA is installed and being used in a [cell](/concepts/2_application_architecture/#cell).
     * `zomes`: Currently the only field in `coordinator`. A list of coordinator zomes. Each item in the list is the same as in `integrity.zomes` above, except that the following field is added:
         * `dependencies`: The integrity zomes that this coordinator zome depends on. Note that you can leave this field out if there's only one integrity zome (it'll be automatically treated as a dependency). For each dependency in the list, there's one field:

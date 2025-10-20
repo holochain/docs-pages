@@ -150,7 +150,7 @@ If you use the same server for production and testing, you might end up writing 
 +    "launch:tauri": "echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/my_forum_app.happ --ui-port $UI_PORT --network-seed \"bootstrap-testing-network-only\" network --bootstrap \"https://bootstrap.example.org\" webrtc \"wss://bootstrap.example.org\"",
      "package": "npm run build:happ && npm run package --workspace ui && hc web-app pack workdir --recursive",
      "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
-     "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
+     "build:zomes": "RUSTFLAGS='--cfg getrandom_backend=\"custom\"' cargo build --release --target wasm32-unknown-unknown"
    },
  ...
 ```
