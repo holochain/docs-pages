@@ -20,6 +20,7 @@ Diffie
 ECDH
 fixt
 fullchain
+getrandom
 gnused
 Hellerstein
 imdb
