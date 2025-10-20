@@ -14,10 +14,10 @@ As we described in [Application Structure](/build/application-structure/#happ), 
 
 The [scaffolding tool](/get-started/3-forum-app-tutorial/) is the easiest way to build out a full hApp with multiple DNAs and an optional GUI. Once you've [got the Holochain dev shell working](/get-started/), open a terminal and enter this command:
 
-<!-- TODO(upgrade): change following version numbers -->
+<!-- TODO(upgrade): change following version number -->
 
 ```bash
-nix run "github:/holochain/holonix?ref=main-0.5#hc-scaffold" -- web-app movies_happ
+nix run "github:/holochain/holonix?ref=main-0.6#hc-scaffold" -- web-app movies_happ
 ```
 
 The tool will guide you through every step, from creating a bare working folder to creating individual [data types and CRUD functions](/build/working-with-data/).
@@ -37,7 +37,7 @@ A hApp manifest is written in [YAML](https://yaml.org/). It contains metadata ab
 If you want to write your own, name it `happ.yaml` and give it the following structure. This example assumes that all of your [bundled DNAs](/build/dnas/#bundle-a-dna) are in a folder called `dnas/`.
 
 ```yaml
-manifest_version: '1'
+manifest_version: '0'
 name: movies_happ
 description: A movie encyclopedia and mutual lending application
 roles:
@@ -46,7 +46,7 @@ roles:
     strategy: create
     deferred: false
   dna:
-    bundled: ./dnas/movies/movies.dna
+    path: ./dnas/movies/movies.dna
     modifiers:
       network_seed: null
       properties: null
@@ -57,7 +57,7 @@ roles:
     strategy: create
     deferred: false
   dna:
-    bundled: ./dnas/lending/lending.dna
+    path: ./dnas/lending/lending.dna
     modifiers:
       network_seed: null
       properties: null
@@ -82,10 +82,7 @@ allow_deferred_memproofs: false
 
         Which creates a cell from the DNA immediately on hApp activation.
     * `dna`: The DNA that fills the role.
-        * Location: The place to find the DNA bundle. The three options are:
-            * `bundled`: Expect the file to be part of this [bundle](#package-a-happ-for-distribution). The value is a path relative to the manifest file.
-            * `path`: Get the file from the local filesystem. The value is a filesystem path.
-            * `url`: Get the file from the web. The value is a URL, of course.
+        * `path`: The filesystem location of the DNA bundle at package build time; the [packager](#package-a-happ-for-distribution) will bundle this file into the package.
         * `modifiers`: Optional [integrity modifiers](/build/dnas/#integrity-section) that change the DNA hash at install time.
         * `installed_hash`: The expected hash of the DNA at the specified location. If it doesn't match the actual installed hash, hApp installation will fail.
         * `clone_limit`: The number of **clone cells** that can be created from the DNA in this role. {#clone-limit}
@@ -108,18 +105,18 @@ It'll prompt you for a name, then create a folder with a `web-happ.yaml`.
 If you want to write your own manifest, name it `web-happ.yaml` and give it the following structure.
 
 ```yaml
-manifest_version: '1'
+manifest_version: '0'
 name: movies_webhapp
 ui:
-  bundled: ./ui/ui.zip
+  path: ./ui/ui.zip
 happ_manifest:
-  bundled: ./happ/movies_happ.happ
+  path: ./happ/movies_happ.happ
 ```
 
 #### Web hApp manifest structure at a glance
 
 * `name`: A human-readable name.
-* `ui`: The location of the UI zip file. You can use `bundled`, `path`, or `url`, just like you can with DNAs.
+* `ui`: The location of the UI zip file.
 * `happ-manifest`: The location of the hApp back end.
 
 ## Package a hApp for distribution {#package-a-happ-for-distribution}
