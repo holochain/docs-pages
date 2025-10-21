@@ -116,10 +116,10 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
 
 ```diff:toml
  [workspace.dependencies]
--hdi = "=0.6.3"
--hdk = "=0.5.3"
-+hdi = "=0.6.0" # Pick a later patch version of these libraries if you prefer.
-+hdk = "=0.5.0"
+-hdi = "=0.6.6"
+-hdk = "=0.5.6"
++hdi = "=0.7.0" # Pick a later patch version of these libraries if you prefer.
++hdk = "=0.6.0"
 ```
 
 The latest version numbers of these libraries can be found on `crates.io`: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
