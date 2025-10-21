@@ -6,6 +6,8 @@ title: Holochain Upgrade 0.5 → 0.6
 For existing hApps that are currently using Holochain 0.5, here's the guide to get you upgraded to 0.6.
 
 The biggest change in Holochain 0.6 is that **warrants** are now stable. This doesn't result in any breaking changes, but the response from `get_agent_activity` will now return a reliable list of warrants.
+
+If your hApp is written for Holochain 0.4, follow the [0.5 upgrade guide](/resources/upgrade/upgrade-holochain-0.5/) first.
 :::
 
 ## Quick instructions
