@@ -10,7 +10,7 @@ The biggest change in Holochain 0.6 is that **warrants** are now stable. This do
 
 ## Quick instructions
 
-To upgrade your hApp written for Holochain 0.6, follow these steps:
+To upgrade your hApp written for Holochain 0.5, follow these steps:
 
 1. Update your `flake.nix` to use the 0.6 version of Holochain. This involves changing the version numbers of two packages. {#update-nix-flake}
 
@@ -259,9 +259,47 @@ The format of the manifest files has changed:
     ```diff:yaml
        dna:
     -    bundled: ../dnas/forum/workdir/forum.dna
-    -    path: ../dnas/forum/workdir/forum.dna
+    +    path: ../dnas/forum/workdir/forum.dna
          modifiers: # ...
     ```
+
+## `AppInfo` response struct has changed
+
+The type of the `status` field in the [`AppInfo` response struct](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appinfo.md) has changed from `AppInfoStatus` to a new [`AppStatus` union](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appstatus.md).
+
+```typescript
+ const appInfo = await client.appInfo();
+ const status = appInfo.status;
+ switch (status.type) {
+-    case "paused":
+-        console.log(`App is paused: ${status.value.reason}`);
+-        break;
+     case "disabled":
+-        console.log(`App is disabled: ${status.value.reason}`);
++        switch (status.value.type) {
++            case "never_started":
++                console.log("App hasn't been started yet");
++                break;
++            case "user":
++                console.log("User disabled the app");
++                break;
++            case "not_started_after_providing_memproofs":
++                console.log("App not started after providing memproofs");
++                break;
++            case "error":
++                console.log(`App disabled because of error: ${status.value.value}`);
++                break;
++        }
+         break;
+     case "awaiting_memproofs":
+         console.log("Need to supply memproofs to enable this app");
+         break;
+-    case "running":
++    case "enabled":
+         console.log("App is running");
+         break;
+ }
+```
 
 ## Subtle changes
 
