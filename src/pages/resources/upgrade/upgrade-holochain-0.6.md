@@ -5,7 +5,7 @@ title: Holochain Upgrade 0.5 → 0.6
 ::: intro
 For existing hApps that are currently using Holochain 0.5, here's the guide to get you upgraded to 0.6.
 
-The biggest change in Holochain 0.6 is that **warrants** are now stable. This doesn't result in any breaking changes, but the response from `get_agent_activity` will now return a reliable list of warrants.
+The biggest change in Holochain 0.6 is that **warrants** are now stable. This doesn't result in any breaking changes, but the response from `get_agent_activity` will now return a list of warrants.
 
 If your hApp is written for Holochain 0.4, follow the [0.5 upgrade guide](/resources/upgrade/upgrade-holochain-0.5/) first.
 :::
@@ -244,11 +244,15 @@ In order to self-validate a `DeleteLink` action, you need to have access to the 
 +let action_hash = delete_link(original_link_hash, GetOptions::default())?;
 ```
 
-## Manifest format changed
+### Most hashing functions have been removed
+
+All hashing functions have been removed from the `hdi` and `hdk` crates except [`hash_action`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html) and [`hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html). If you previously used `hash_blake2b`, `hash_keccak256`, `hash_sha3`, `hash_sha256`, or `hash_sha512` on arbitrary data, you'll need to do this on the client side and pass it to your DNA.
+
+### Manifest format changed
 
 The format of the manifest files has changed:
 
-* The manifest version is now `'0'` for both hApp and DNA manifests:
+* The manifest version is now `'0'` for both hApp and DNA manifests to indicate that it's not yet stabilized:
 
     ```diff:yaml
     -manifest_version: '1'
@@ -256,16 +260,42 @@ The format of the manifest files has changed:
      name: my_forum_app
      # ...
     ```
-* In the hApp manifest, the `bundled` field for DNAs has been changed to `path`:
+* The `bundled` field for DNAs has been renamed to `path`. This affects all manifest types -- DNA, hApp, and web hApp. For example, in a hApp manifest:
 
     ```diff:yaml
-       dna:
-    -    bundled: ../dnas/forum/workdir/forum.dna
-    +    path: ../dnas/forum/workdir/forum.dna
-         modifiers: # ...
+     manifest_version: '0'
+     name: forum
+     integrity:
+       network_seed: null
+       properties: null
+       zomes:
+       - name: posts_integrity
+         hash: null
+    -    bundled: ../../../target/wasm32-unknown-unknown/release/posts_integrity.wasm
+    +    path: ../../../target/wasm32-unknown-unknown/release/posts_integrity.wasm
+         dependencies: null
+     coordinator:
+       zomes:
+       - name: posts
+         hash: null
+    -    bundled: ../../../target/wasm32-unknown-unknown/release/posts.wasm
+    +    path: ../../../target/wasm32-unknown-unknown/release/posts.wasm
+         dependencies:
+         - name: posts_integrity
+    ```
+* In the web hApp manifest, the `happ_manifest` field has been renamed to `happ` because it points to a hApp bundle, not a manifest:
+
+    ```diff:yaml
+     manifest_version: '0'
+     name: my_forum_app
+     ui:
+       path: ../ui/dist.zip
+    -happ:
+    +happ_manifest:
+       path: ./my_forum_app_0.6.happ
     ```
 
-## `AppInfo` response struct has changed
+### `AppInfo` response struct has changed
 
 The type of the `status` field in the [`AppInfo` response struct](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appinfo.md) has changed from `AppInfoStatus` to a new [`AppStatus` union](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appstatus.md).
 
