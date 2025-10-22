@@ -51,6 +51,8 @@ package = "/node_modules/netlify-plugin-checklinks"
         # NPM now blocks bots.
         # https://github.com/orgs/community/discussions/174098#discussioncomment-14461226
         "https://www.npmjs.com",
+        # TODO: remove this before merging this PR
+        "https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html",
     ]
 
     todoServerErrorPatterns = [
