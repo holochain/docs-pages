@@ -52,28 +52,6 @@ let imaginary_action = Action::Dna(Dna {
 let imaginary_action_hash = hash_action(imaginary_action)?;
 ```
 
-### Hash arbitrary data
-
-You can also Blake2b hash any data you like, with any hash length up to 64 bytes, using [`hash_blake2b`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html):
-
-```rust
-use hdk::prelude::*;
-
-let hello_hash_16_bit = hash_blake2b("hello".as_bytes().to_vec(), 2)?;
-```
-
-There are [other hashing algorithms](https://docs.rs/hdk/latest/hdk/hash/index.html) available:
-
-```rust
-use hdk::prelude::*;
-
-let hello_bytes = "hello".as_bytes().to_vec();
-let hello_hash_keccak256 = hash_keccak256(hello_bytes.clone())?;
-let hello_hash_sha3_256 = hash_sha3(hello_bytes.clone())?;
-let hello_hash_sha2_256 = hash_sha256(hello_bytes.clone())?;
-let hello_hash_sha2_512 = hash_sha512(hello_bytes.clone())?;
-```
-
 ## Sign data
 
 ### With an agent key
