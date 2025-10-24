@@ -53,8 +53,9 @@ export default function(eleventyConfig) {
         let blockText = he.decode(code.textContent);
         // Erase cspell directives from sample code.
         blockText = blockText.replace(/(#|\/\/|\/\*)\s+(cspell|spell-?checker):\s*[a-z-]+(\s+\*\/)?/gmi, "");
+
         if (maybeLanguage) {
-          if (maybeLanguage[0].substring(0, 5) == 'diff:') {
+          if (maybeLanguage[0].substring(0, 4) == 'diff') {
             // This is a diff, and we want to show it differently --
             // add tabs that let you switch between diff and final version.
 
@@ -62,34 +63,42 @@ export default function(eleventyConfig) {
             const preForAppliedDiff = pre.cloneNode(true);
             const codeForAppliedDiff = preForAppliedDiff.querySelector('code');
 
-            // Then find its target language. We don't check whether there's a
-            // match because we already know there is.
-            const languageForAppliedDiff = codeForAppliedDiff.className.match(/(?<=\blanguage-diff:)[A-Za-z0-9_-]+/)[0];
-
-            // Change the language class name of the new code block so it's
-            // not a diff anymore.
-            codeForAppliedDiff.className = codeForAppliedDiff.className.replace(`language-diff:`, `language-`);
-
             // Apply the diff.
             const diffAppliedCode = blockText
               .split(/\r?\n/)
               .reduce(
                 (acc, line) => {
                   if ([" ", "+"].includes(line.substring(0, 1))) {
-                    acc = `${acc ? acc + "\n" : acc}${line.substring(1)}`;
+                    return `${acc}${line.substring(1)}\n`;
                   }
                   return acc;
                 },
                 ""
               );
 
-            // Replace the raw code with the highlighted, diff-applied code.
-            codeForAppliedDiff.innerHTML = hljs.highlight(diffAppliedCode, {language: languageForAppliedDiff}).value;
-            codeForAppliedDiff.className += ' hljs';
+            // Then find its target language, if any.
+            const maybeLanguageForAppliedDiff = codeForAppliedDiff.className.match(/(?<=\blanguage-diff:)[A-Za-z0-9_-]+/)?.[0];
+            if (maybeLanguageForAppliedDiff) {
+              // Change the language class name of the new code block so it's
+              // not a diff anymore.
+              codeForAppliedDiff.className = codeForAppliedDiff.className.replace("language-diff:", "language-");
 
-            // And highlight the original diff using diff+language highlighting.
-            code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
-            code.className += ' hljs';
+              // Replace the raw code with the highlighted, diff-applied code.
+              codeForAppliedDiff.innerHTML = hljs.highlight(diffAppliedCode, { language: maybeLanguageForAppliedDiff }).value;
+              // And highlight the original diff using diff+language highlighting.
+              code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
+              code.className += ' hljs';
+            } else {
+              // If it's an unlanguaged diff, just cram the code
+              // into the diff-applied block verbatim without highlighting.
+              codeForAppliedDiff.textContent = diffAppliedCode;
+              // Remove the now non-useful language class.
+              codeForAppliedDiff.className = codeForAppliedDiff.className.replace("language-diff", "");
+              // Highlight the original code as a diff.
+              code.innerHTML = hljs.highlight(blockText, { language: 'diff' }).value;
+            }
+
+            codeForAppliedDiff.className += ' hljs';
 
             // Now that we've got both of them, put them in a container that
             // lets us tab between the two of them.
