@@ -286,8 +286,8 @@ The format of the manifest files has changed:
      name: my_forum_app
      ui:
        path: ../ui/dist.zip
-    -happ:
-    +happ_manifest:
+    -happ_manifest:
+    +happ:
        path: ./my_forum_app_0.6.happ
     ```
 
