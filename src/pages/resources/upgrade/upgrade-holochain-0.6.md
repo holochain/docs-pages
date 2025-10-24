@@ -14,9 +14,7 @@ If your hApp is written for Holochain 0.4, follow the [0.5 upgrade guide](/resou
 
 To upgrade your hApp written for Holochain 0.5, follow these steps:
 
-1. Update your `flake.nix` to use the 0.6 version of Holochain. This involves changing the version numbers of two packages. {#update-nix-flake}
-
-<!-- TODO: get the right tag name -->
+1. Update your `flake.nix` to use the 0.6 version of Holochain. This involves changing the version numbers of two packages. <!-- TODO: get the right tag name for the release --> {#update-nix-flake}
 
     ```diff
      {
@@ -52,9 +50,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     ```shell
     nix flake update && git add flake.* && nix develop
     ```
-2. Update your root `package.json` file with the new package versions, and update the `build:zomes` script to accommodate a change in the way one of the HDK's dependencies needs to be built: {#update-package-json}
-
-<!-- TODO: get the right version numbers -->
+2. Update your root `package.json` file with the new package versions, and update the `build:zomes` script to accommodate a change in the way one of the HDK's dependencies needs to be built: <!-- TODO: get the right version numbers --> {#update-package-json}
 
     ```diff:json
      {
