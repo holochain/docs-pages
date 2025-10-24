@@ -55,7 +55,7 @@ export default function(eleventyConfig) {
         blockText = blockText.replace(/(#|\/\/|\/\*)\s+(cspell|spell-?checker):\s*[a-z-]+(\s+\*\/)?/gmi, "");
 
         if (maybeLanguage) {
-          if (maybeLanguage[0].substring(0, 4) == 'diff') {
+          if (maybeLanguage[0].match(/^diff\b/)) {
             // This is a diff, and we want to show it differently --
             // add tabs that let you switch between diff and final version.
 
