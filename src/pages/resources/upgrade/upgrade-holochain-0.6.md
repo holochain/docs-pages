@@ -213,20 +213,24 @@ npm install
 
  assert_eq!(links_count, links.len());
 
--let links_details = get_link_details(
+-let links_details: Vec<_> = get_link_details(
 -    base_address,
--    LinkTypes::FooToBar,
--    Some(tag_prefix),
+-    LinkTypes::AllPosts,
+-    Some("help".into()),
 -    GetOptions::default()
--)?;
-+let links_details = get_links_details(links_query.clone(), GetStrategy::default())?;
-+// Previously there was no way to apply filters to `get_link_details`.
-+// Now the results of this query should match the previous two.
-+let undeleted_links: Vec<_> = links_details.into_inner()
-+    .into_iter()
-+    .filter(|(_, deletes)| deletes.len() == 0)
-+    .collect();
-+assert_eq!(links_count, undeleted_links.len());
+-)?
+-    .into_inner()
+-    .into_iter()
+-    .filter(|(l, _)|
+-        l.action().timestamp() > Timestamp(1000000)
+-        && l.action().timestamp() < Timestamp(2000000)
+-        && l.action().author().clone() == author_id
+-    )
+-    .collect();
++let links_details = get_links_details(
++    links_query.clone(),
++    GetStrategy::default()
++)?.into_inner();
 ```
 
 ### `delete_link` requires a `GetOptions` argument
