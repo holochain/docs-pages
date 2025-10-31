@@ -359,6 +359,23 @@ The type of the `status` field in the [`AppInfo` response struct](https://github
  }
 ```
 
+### Cap grant functions changed to `HashSet`
+
+The type of [holochain_integrity_types::capability::GrantedFunctions::Listed](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.GrantedFunctions.html#variant.Listed) has changed from a `BTreeSet` to a `HashSet`.
+
+```diff:rust
+-let mut fns = BTreeSet::new();
++let mut fns = HashSet::new();
+ // Open up access for the remote signal handler callback to everyone on
+ // the network -- see the note after this example.
+ fns.insert((zome_info()?.name, "recv_remote_signal".into()));
+ create_cap_grant(ZomeCallCapGrant {
+     tag: "remote signals".into(),
+     access: CapAccess::Unrestricted,
+     functions: GrantedFunctions::Listed(fns),
+ })?;
+```
+
 ### Try running your Tryorama tests and web app
 
 Now that your zome and client code have both been updated, run:
@@ -421,3 +438,4 @@ If you have a Kangaroo-based project, edit the `resources/conductor-config.yaml`
 The following changes don't break Holochain's APIs or require updates to your code, but they may require you to reassess whether your hApp will work as expected:
 
 * The Holo WebSDK has been removed from the scaffolding tool, so you won't see any option to add it to your project anymore.
+* If any of your zomes directly depend on the `rand` crate at version 0.8, you'll need to upgrade to 0.9 because of a change in the way that rand was patched for use in a WASM environment.
