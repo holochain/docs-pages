@@ -87,7 +87,7 @@ use hdk::prelude::*;
 
 #[hdk_extern]
 pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
-    let mut fns = BTreeSet::new();
+    let mut fns = HashSet::new();
     // Open up access for the remote signal handler callback to everyone on
     // the network -- see the note after this example.
     fns.insert((zome_info()?.name, "recv_remote_signal".into()));
