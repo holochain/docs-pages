@@ -120,23 +120,11 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
 
 The latest version numbers of these libraries can be found on `crates.io`: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
 
-Once you've updated your `Cargo.toml` you need to update your `Cargo.lock` and check whether your project can still build. To do this in one step you can run:
-
-```shell
-cargo build
-```
-
-### (Optional) Update other Rust dependencies
-
-Running a Cargo build, like suggested above, will update as few dependencies as it can. This is good for stability because it's just making the changes you asked for. However, sometimes you do need to update other dependencies to resolve build issues.
-
-This section is marked as optional because it's possible that new dependencies could introduce new issues as well as fixing existing conflicts or problems. To make it possible to roll back this change, it might be a good idea to commit the changes you've made so far to source control. Then you can run:
+Once you've updated your `Cargo.toml` you need to update your `Cargo.lock`. This will also update indirect dependencies to the most recent versions that are compatible with the HDK and any dependencies you might have added.
 
 ```shell
 cargo update
 ```
-
-This will update your `Cargo.lock` with the latest versions of all libraries that the constraints in your `Cargo.toml` files will allow. Now you should try building your project again to see if that has resolved your issue.
 
 ### JavaScript
 
@@ -295,6 +283,18 @@ The format of the manifest files has changed:
        path: ./my_forum_app_0.6.happ
     ```
 
+### Try building your zomes
+
+Now run:
+
+```bash
+npm run build_zomes
+```
+
+to see if all your updated dependencies and zome code compile.
+
+Sometimes dependency updates break builds! Cargo updates dependencies to the most recent versions that are _claimed_ to be compatible. However, sometimes package maintainers accidentally introduce a breaking change without labelling it as such. If you encounter build errors, this may be the cause. If this happens, try locking the incompatible dependency to a prior version in your `Cargo.toml` file, running `cargo update` again, and see if that fixes it.
+
 ### `AppInfo` response struct has changed
 
 The type of the `status` field in the [`AppInfo` response struct](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appinfo.md) has changed from `AppInfoStatus` to a new [`AppStatus` union](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appstatus.md).
@@ -331,6 +331,20 @@ The type of the `status` field in the [`AppInfo` response struct](https://github
          console.log("App is running");
          break;
  }
+```
+
+### Try running your Tryorama tests and web app
+
+Now that your zome and client code have both been updated, run:
+
+```bash
+npm run test
+```
+
+and fix any test failures you see. Finally, try your hApp out by running:
+
+```bash
+npm run start
 ```
 
 ## Subtle changes
