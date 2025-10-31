@@ -337,7 +337,7 @@ If any of your zomes directly depend on the `rand` crate at version 0.8, you'll 
 Now run:
 
 ```bash
-npm run build_zomes
+npm run build:zomes
 ```
 
 to see if all your updated dependencies and zome code compile.
