@@ -87,7 +87,6 @@ export default function(eleventyConfig) {
               codeForAppliedDiff.innerHTML = hljs.highlight(diffAppliedCode, { language: maybeLanguageForAppliedDiff }).value;
               // And highlight the original diff using diff+language highlighting.
               code.innerHTML = hljs.highlight(blockText, {language: maybeLanguage[0]}).value;
-              code.className += ' hljs';
             } else {
               // If it's an unlanguaged diff, just cram the code
               // into the diff-applied block verbatim without highlighting.
@@ -98,6 +97,7 @@ export default function(eleventyConfig) {
               code.innerHTML = hljs.highlight(blockText, { language: 'diff' }).value;
             }
 
+            code.className += ' hljs';
             codeForAppliedDiff.className += ' hljs';
 
             // Now that we've got both of them, put them in a container that
