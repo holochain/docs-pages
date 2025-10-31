@@ -54,6 +54,7 @@ POSIX
 privkey
 pubkey
 QUIC
+rlib
 rustc
 rustflags
 rustup
