@@ -54,6 +54,8 @@ package = "/node_modules/netlify-plugin-checklinks"
         "https://ubuntu.com",
         # TODO: remove this before merging this PR
         "https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html",
+        # Sometimes ubuntu.com still times out, even with the concurrency dialed down.
+        "https://ubuntu.com",
     ]
 
     todoServerErrorPatterns = [
