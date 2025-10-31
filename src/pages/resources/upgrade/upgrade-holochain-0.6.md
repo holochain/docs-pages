@@ -234,6 +234,37 @@ In order to self-validate a `DeleteLink` action, the original link creation acti
 
 If you're certain a link creation action is available locally --- for example, when the user is deleting a link they authored --- you can use `GetOptions::local()` instead.
 
+### `ChainFilter` bounds conditions have changed
+
+<!-- TODO: change to correct URLs in this section-->
+
+The `filters` property of [`holochain_integrity_types::chain::ChainFilter`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) has been renamed to [`limit_conditions`](https://docs.rs/holochain_integrity_types/0.6.0-dev.19/holochain_integrity_types/chain/struct.ChainFilter.html#structfield.limit_conditions), a [new enum](https://docs.rs/holochain_integrity_types/0.6.0-dev.19/holochain_integrity_types/chain/enum.LimitConditions.html), to reflect that it's a bound on the earliest action returned, rather than a filter.
+
+It also supports a timestamp using [`UntilTimestamp`](https://docs.rs/holochain_integrity_types/0.6.0-dev.19/holochain_integrity_types/chain/enum.LimitConditions.html#variant.UntilTimestamp) as a bound. `Until` has been renamed to [`UntilHash`](https://docs.rs/holochain_integrity_types/0.6.0-dev.19/holochain_integrity_types/chain/enum.LimitConditions.html#variant.UntilHash) for clarity, and `Both` has been renamed to [`Multiple`](https://docs.rs/holochain_integrity_types/0.6.0-dev.19/holochain_integrity_types/chain/enum.LimitConditions.html#variant.Multiple) and now supports a timestamp too.
+
+```diff:rust
+ // Using ChainFilter's builder interface
+ let result = must_get_agent_activity(
+     agent_id,
+     ChainFilter::new(action.prev_action().clone())
+-        .until(oldest_hash)
++        .until_hash(oldest_hash)
+ )?;
+```
+
+```diff:rust
+ // Constructing a ChainFilter manually
+ let result = must_get_agent_activity(
+     agent_id,
+     ChainFilter {
+         chain_top: action.prev_action().clone(),
+-        filters: ChainFilters::Until(oldest_hash),
++        limit_conditions: LimitConditions::UntilHash(oldest_hash),
+         include_cached_entries: false
+     }
+ )?;
+```
+
 ### Most hashing functions have been removed
 
 All hashing functions have been removed from the `hdi` and `hdk` crates except [`hash_action`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html) and [`hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html). If you've previously used `hash_blake2b`, `hash_keccak256`, `hash_sha3`, `hash_sha256`, or `hash_sha512` on arbitrary data, include a third-party hashing crate in your zome.
