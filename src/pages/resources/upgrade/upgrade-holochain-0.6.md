@@ -223,7 +223,7 @@ npm install
 
 ### `delete_link` requires a `GetOptions` argument
 
-In order to self-validate a `DeleteLink` action, you need to have access to the original link creation action. Zero-arc nodes were previously [failing validation](https://github.com/holochain/holochain/issues/4012) if they didn't have the link creation action in their cache, so the fix is to ensure the cache has what it needs by fetching it from the network. But we wanted to [give app developers the choice](https://github.com/holochain/holochain/pull/4945) to opt out of this behavior, so [`delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html) now requires a `GetOptions` argument:
+In order to self-validate a `DeleteLink` action, the original link creation action needs to be available locally, or validation will fail. As a safeguard, [`delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html) now requires a `GetOptions` argument that defaults to fetching the link creation action from the network.
 
 <!-- TODO: make `delete_link` take a GetStrategy rather than GetOptions https://github.com/holochain/holochain/issues/5362 -->
 
@@ -231,6 +231,8 @@ In order to self-validate a `DeleteLink` action, you need to have access to the 
 -let action_hash = delete_link(original_link_hash)?;
 +let action_hash = delete_link(original_link_hash, GetOptions::default())?;
 ```
+
+If you're certain a link creation action is available locally --- for example, when the user is deleting a link they authored --- you can use `GetOptions::local()` instead.
 
 ### Most hashing functions have been removed
 
