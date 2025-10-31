@@ -309,6 +309,29 @@ The format of the manifest files has changed:
        path: ./my_forum_app_0.6.happ
     ```
 
+### Update any `rand` dependency
+
+If any of your zomes directly depend on the `rand` crate at version 0.8, you'll need to upgrade to 0.9 because of a change in the way that rand was patched for use in a WASM environment. Edit any `Cargo.toml` files that reference this crate:
+
+```diff:toml
+ [package]
+ name = "posts"
+ version = "0.0.1"
+ edition = "2021"
+
+ [lib]
+ crate-type = ["cdylib", "rlib"]
+ name = "posts"
+
+ [dependencies]
+ hdk = { workspace = true }
+ serde = { workspace = true }
+ holochain_serialized_bytes = { workspace = true }
+ posts_integrity = { workspace = true }
+-rand = "0.8"
++rand = "0.9"
+```
+
 ### Try building your zomes
 
 Now run:
@@ -438,4 +461,3 @@ If you have a Kangaroo-based project, edit the `resources/conductor-config.yaml`
 The following changes don't break Holochain's APIs or require updates to your code, but they may require you to reassess whether your hApp will work as expected:
 
 * The Holo WebSDK has been removed from the scaffolding tool, so you won't see any option to add it to your project anymore.
-* If any of your zomes directly depend on the `rand` crate at version 0.8, you'll need to upgrade to 0.9 because of a change in the way that rand was patched for use in a WASM environment.
