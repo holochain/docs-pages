@@ -236,7 +236,7 @@ If you're certain a link creation action is available locally --- for example, w
 
 ### Most hashing functions have been removed
 
-All hashing functions have been removed from the `hdi` and `hdk` crates except [`hash_action`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html) and [`hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html). If you previously used `hash_blake2b`, `hash_keccak256`, `hash_sha3`, `hash_sha256`, or `hash_sha512` on arbitrary data, you'll need to do this on the client side and pass it to your DNA.
+All hashing functions have been removed from the `hdi` and `hdk` crates except [`hash_action`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html) and [`hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html). If you've previously used `hash_blake2b`, `hash_keccak256`, `hash_sha3`, `hash_sha256`, or `hash_sha512` on arbitrary data, include a third-party hashing crate in your zome.
 
 ### Manifest format changed
 
