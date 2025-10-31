@@ -325,7 +325,7 @@ Sometimes dependency updates break builds! Cargo updates dependencies to the mos
 
 The type of the `status` field in the [`AppInfo` response struct](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appinfo.md) has changed from `AppInfoStatus` to a new [`AppStatus` union](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appstatus.md).
 
-```typescript
+```diff:typescript
  const appInfo = await client.appInfo();
  const status = appInfo.status;
  switch (status.type) {
@@ -361,7 +361,7 @@ The type of the `status` field in the [`AppInfo` response struct](https://github
 
 ### Cap grant functions changed to `HashSet`
 
-The type of [holochain_integrity_types::capability::GrantedFunctions::Listed](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.GrantedFunctions.html#variant.Listed) has changed from a `BTreeSet` to a `HashSet`.
+The type of [`holochain_integrity_types::capability::GrantedFunctions::Listed`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.GrantedFunctions.html#variant.Listed) has changed from a `BTreeSet` to a `HashSet`.
 
 ```diff:rust
 -let mut fns = BTreeSet::new();
