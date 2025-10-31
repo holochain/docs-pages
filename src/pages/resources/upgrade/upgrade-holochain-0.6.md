@@ -373,6 +373,49 @@ and fix any test failures you see. Finally, try your hApp out by running:
 npm run start
 ```
 
+### (Optional) Conductor config file changes
+
+There are a few changes to the conductor config file, related to the removal of DPKI and other small changes. This step is only relevant if you're working with hard-coded `conductor-config.yaml` files, such as when you're building executables with the [kangaroo-electron](https://github.com/holochain/kangaroo-electron) template.
+
+If you have a Kangaroo-based project, edit the `resources/conductor-config.yaml` file like this:
+
+```diff:yaml
+ tracing_override: null
+ data_root_path: "<configured-by-developer>"
+-device_seed_lair_tag: null
+-danger_generate_throwaway_device_seed: false
+ keystore:
+   type: lair_server
+   connection_url: "unix:///<configured-by-developer>"
+-dpki:
+-  dna_path: null
+-  network_seed: ""
+-  allow_throwaway_random_dpki_agent_key: false
+-  no_dpki: true
+ admin_interfaces:
+   - driver:
+       type: websocket
+       port: "<configured-by-developer>"
++      danger_bind_addr: null
+       allowed_origins: "<configured-by-developer>"
+ network:
+   type: NetworkConfig
++  base64_auth_material: null
+   bootstrap_url: "https://<configured-by-developer>"
+   signal_url: "wss://<configured-by-developer>"
+   webrtc_config:
+     iceServers:
+       - urls:
+           - "https://<configured-by-developer>"
+   target_arc_factor: 1
++  report: none
+   advanced: null
++request_timeout_s: 60
+ db_sync_strategy: Resilient
+ tuning_params: null
+ tracing_scope: null
+```
+
 ## Subtle changes
 
 The following changes don't break Holochain's APIs or require updates to your code, but they may require you to reassess whether your hApp will work as expected:
