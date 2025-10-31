@@ -273,6 +273,30 @@ The format of the manifest files has changed:
          dependencies:
          - name: posts_integrity
     ```
+* The `dylib` field in DNA manifests has been removed:
+
+    ```diff:yaml
+     manifest_version: '0'
+     name: forum
+     integrity:
+       network_seed: null
+       properties: null
+       zomes:
+       - name: posts_integrity
+         hash: null
+         path: ../../../target/wasm32-unknown-unknown/release/posts_integrity.wasm
+         dependencies: null
+    -    dylib: null
+     coordinator:
+       zomes:
+       - name: posts
+         hash: null
+         path: ../../../target/wasm32-unknown-unknown/release/posts.wasm
+         dependencies:
+         - name: posts_integrity
+    -    dylib: null
+    ```
+
 * In the web hApp manifest, the `happ_manifest` field has been renamed to `happ` because it points to a hApp bundle, not a manifest:
 
     ```diff:yaml
