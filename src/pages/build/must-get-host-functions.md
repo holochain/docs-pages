@@ -98,7 +98,7 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
     let result = must_get_agent_activity(
         action.author().clone(),
         // We don't specify a range here, so it defaults to
-        // `ChainFilters::ToGenesis`.
+        // `LimitConditions::ToGenesis`.
         ChainFilter::new(prev_action_hash.clone())
     )?;
 

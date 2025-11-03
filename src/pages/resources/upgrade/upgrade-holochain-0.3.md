@@ -4,6 +4,8 @@ title: Holochain Upgrade 0.2 → 0.3
 
 ::: intro
 For existing hApps that have been written for Holochain version 0.2, these are steps to upgrade to Holochain version 0.3.
+
+If your hApp is written for Holochain 0.1, follow the [0.2 upgrade guide](/resources/upgrade/upgrade-holochain-0.2/) first.
 :::
 
 ## Steps to update from Holochain version 0.2 to 0.3 in Holonix

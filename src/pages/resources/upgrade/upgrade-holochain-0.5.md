@@ -6,6 +6,8 @@ title: Holochain Upgrade 0.4 → 0.5
 For existing hApps that are currently using Holochain 0.4, here's the guide to get you upgraded to 0.5.
 
 The biggest change in Holochain 0.5 is kitsune2, a new wire protocol implementation promises better gossip performance. Kitsune2 is incompatible with the wire protocols used in Holochain 0.4 and prior, so conductors running 0.5 won't be able to communicate with conductors running earlier releases.
+
+If your hApp is written for Holochain 0.3, follow the [0.4 upgrade guide](/resources/upgrade/upgrade-holochain-0.4/) first.
 :::
 
 ## Quick instructions

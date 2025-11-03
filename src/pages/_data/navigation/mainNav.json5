@@ -64,7 +64,10 @@
       ]
     },
     { title: "Resources", url: "/resources/", children: [
-        { title: "Upgrade Guides", url: "/resources/upgrade/" },
+        { title: "Upgrade Guides", url: "/resources/upgrade/", children: [
+          // TODO(upgrade): the most recent guide should always be in this list
+          { title: "Holochain 0.5 → 0.6", url: "/resources/upgrade/upgrade-holochain-0.6/" },
+        ]},
         { title: "Howtos", url: "/resources/howtos/", children: [
           { title: "Debugging a Running Holochain Conductor", url: "/resources/howtos/debugging/" },
           { title: "Running Network Infrastructure", url: "/resources/howtos/running-network-infrastructure/" },
