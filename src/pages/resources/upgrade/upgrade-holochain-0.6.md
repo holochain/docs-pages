@@ -448,43 +448,43 @@ npm run start
 
 There are a few changes to the conductor config file, related to the removal of DPKI and other small changes. This step is only relevant if you're working with hard-coded `conductor-config.yaml` files, such as when you're building executables with the [kangaroo-electron](https://github.com/holochain/kangaroo-electron) template.
 
-If you have a Kangaroo-based project, edit the `resources/conductor-config.yaml` file like this:
+If you have a Kangaroo-based project, edit the `templates/conductor-config.yaml` file like this:
 
 ```diff:yaml
- tracing_override: null
- data_root_path: "<configured-by-developer>"
--device_seed_lair_tag: null
+ tracing_override: ~
+ data_root_path: "###DEFINED_AT_RUNTIME###"
+-device_seed_lair_tag: ~
 -danger_generate_throwaway_device_seed: false
  keystore:
    type: lair_server
-   connection_url: "unix:///<configured-by-developer>"
+   connection_url: "###DEFINED_AT_RUNTIME###"
 -dpki:
--  dna_path: null
+-  dna_path: ~
 -  network_seed: ""
 -  allow_throwaway_random_dpki_agent_key: false
 -  no_dpki: true
  admin_interfaces:
    - driver:
        type: websocket
-       port: "<configured-by-developer>"
-+      danger_bind_addr: null
-       allowed_origins: "<configured-by-developer>"
+       port: "###DEFINED_AT_RUNTIME###"
++      danger_bind_addr: ~
+       allowed_origins: "###DEFINED_AT_RUNTIME###"
  network:
    type: NetworkConfig
-+  base64_auth_material: null
-   bootstrap_url: "https://<configured-by-developer>"
-   signal_url: "wss://<configured-by-developer>"
++  base64_auth_material: ~
+   bootstrap_url: "###DEFINED_AT_RUNTIME###"
+   signal_url: "###DEFINED_AT_RUNTIME###"
    webrtc_config:
      iceServers:
        - urls:
-           - "https://<configured-by-developer>"
+           - "###DEFINED_AT_RUNTIME###"
    target_arc_factor: 1
 +  report: none
-   advanced: null
+   advanced: ~
 +request_timeout_s: 60
  db_sync_strategy: Resilient
- tuning_params: null
- tracing_scope: null
+ tuning_params: ~
+ tracing_scope: ~
 ```
 
 ## Subtle changes
