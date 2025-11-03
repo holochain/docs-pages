@@ -271,74 +271,80 @@ All hashing functions have been removed from the `hdi` and `hdk` crates except [
 
 ### Manifest format changed
 
-The format of the manifest files has changed:
+The format of the manifest files has changed. For all manifest types, the manifest version is now `0` to indicate that it's not yet stabilized, and the `bundled` field has been renamed to `path`. Some specific manifest types have other changes.
 
-* The manifest version is now `'0'` for both hApp and DNA manifests to indicate that it's not yet stabilized:
+#### DNA manifests
 
-    ```diff:yaml
-    -manifest_version: '1'
-    +manifest_version: '0'
-     name: my_forum_app
-     # ...
-    ```
-* The `bundled` field for DNAs has been renamed to `path`. This affects all manifest types -- DNA, hApp, and web hApp. For example, in a hApp manifest:
+In addition to the above changes, the `dylib` field has been removed:
 
-    ```diff:yaml
-     manifest_version: '0'
-     name: forum
-     integrity:
-       network_seed: null
-       properties: null
-       zomes:
-       - name: posts_integrity
-         hash: null
-    -    bundled: ../../../target/wasm32-unknown-unknown/release/posts_integrity.wasm
-    +    path: ../../../target/wasm32-unknown-unknown/release/posts_integrity.wasm
-         dependencies: null
-     coordinator:
-       zomes:
-       - name: posts
-         hash: null
-    -    bundled: ../../../target/wasm32-unknown-unknown/release/posts.wasm
-    +    path: ../../../target/wasm32-unknown-unknown/release/posts.wasm
-         dependencies:
-         - name: posts_integrity
-    ```
-* The `dylib` field in DNA manifests has been removed:
+```diff:yaml
+-manifest_version: '1'
++manifest_version: '0'
+ name: forum
+ integrity:
+   network_seed: null
+   properties: null
+   zomes:
+   - name: posts_integrity
+     hash: null
+-    bundled: ../../../target/wasm32-unknown-unknown/release/posts_integrity.wasm
++    path: ../../../target/wasm32-unknown-unknown/release/posts_integrity.wasm
+     dependencies: null
+-    dylib: null
+ coordinator:
+   zomes:
+   - name: posts
+     hash: null
+-    bundled: ../../../target/wasm32-unknown-unknown/release/posts.wasm
++    path: ../../../target/wasm32-unknown-unknown/release/posts.wasm
+     dependencies:
+     - name: posts_integrity
+-    dylib: null
+```
 
-    ```diff:yaml
-     manifest_version: '0'
-     name: forum
-     integrity:
-       network_seed: null
-       properties: null
-       zomes:
-       - name: posts_integrity
-         hash: null
-         path: ../../../target/wasm32-unknown-unknown/release/posts_integrity.wasm
-         dependencies: null
-    -    dylib: null
-     coordinator:
-       zomes:
-       - name: posts
-         hash: null
-         path: ../../../target/wasm32-unknown-unknown/release/posts.wasm
-         dependencies:
-         - name: posts_integrity
-    -    dylib: null
-    ```
+#### hApp manifests
 
-* In the web hApp manifest, the `happ_manifest` field has been renamed to `happ` because it points to a hApp bundle, not a manifest:
+There are no changes besides the common manifest changes:
 
-    ```diff:yaml
-     manifest_version: '0'
-     name: my_forum_app
-     ui:
-       path: ../ui/dist.zip
-    -happ_manifest:
-    +happ:
-       path: ./my_forum_app_0.6.happ
-    ```
+```diff:yaml
+-manifest_version: '1'
++manifest_version: '0'
+ name: forum
+ integrity:
+   network_seed: null
+   properties: null
+   zomes:
+   - name: posts_integrity
+     hash: null
+-    bundled: ../../../target/wasm32-unknown-unknown/release/posts_integrity.wasm
++    path: ../../../target/wasm32-unknown-unknown/release/posts_integrity.wasm
+     dependencies: null
+ coordinator:
+   zomes:
+   - name: posts
+     hash: null
+-    bundled: ../../../target/wasm32-unknown-unknown/release/posts.wasm
++    path: ../../../target/wasm32-unknown-unknown/release/posts.wasm
+     dependencies:
+     - name: posts_integrity
+```
+
+#### Web hApp manifests
+
+The `happ_manifest` field has been renamed to `happ` because it points to a hApp bundle, not a manifest:
+
+```diff:yaml
+-manifest_version: '1'
++manifest_version: '0'
+ name: my_forum_app
+ ui:
+-  bundled: ../ui/dist.zip
++  path: ../ui/dist.zip
+-happ_manifest:
++happ:
+-  bundled: ./my_forum_app_0.6.happ
++  path: ./my_forum_app_0.6.happ
+```
 
 ### Update any `rand` dependency
 
