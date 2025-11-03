@@ -420,8 +420,6 @@ The type of [`holochain_integrity_types::capability::GrantedFunctions::Listed`](
 ```diff:rust
 -let mut fns = BTreeSet::new();
 +let mut fns = HashSet::new();
- // Open up access for the remote signal handler callback to everyone on
- // the network -- see the note after this example.
  fns.insert((zome_info()?.name, "recv_remote_signal".into()));
  create_cap_grant(ZomeCallCapGrant {
      tag: "remote signals".into(),
