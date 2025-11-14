@@ -12,7 +12,7 @@ These tables help you keep the dependencies of all your hApp's components up to 
 
 We use [SemVer](https://semver.org/) to indicate component version compatibility. As a general rule:
 
-* **We recommend using the [scaffolding tool](/get/started/3-forum-app-tutorial/) to create an app**, because it'll ensure that all version numbers are in sync.
+* **We recommend using the [scaffolding tool](/get-started/3-forum-app-tutorial/) to create an app**, because it'll ensure that all version numbers are in sync.
 * When we talk about Holochain versions in general, we're referring to the [`holochain` core library](https://crates.io/crates/holochain). Its most significant number is the reference point for the rest of the components' compatibility, and the versions of the conductor binary and [CLI](https://crates.io/crates/holochain_cli) follow it.
 * Compatible [`hdk`](https://crates.io/crates/hdk/), [`holochain_zome_types`](https://crates.io/crates/holochain_zome_types/), [`holochain_integrity_types`](https://crates.io/crates/holochain_integrity_types), and [`holo_hash`](https://crates.io/crates/holo_hash/) library versions share a most significant number with the core library. (These are the dependencies you'll need to update in your zomes, although some of them are transitive dependencies that don't need to be referenced explicitly.)
 * The [`hdi`](https://crates.io/crates/hdi/) library's most significant number is one higher than the core library (e.g., for `holochain` 0.5, compatible `hdi` versions are 0.6.x).
