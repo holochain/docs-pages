@@ -17,6 +17,10 @@ tocData:
     href: tutorials-and-training
 ---
 
+## Compatibility tables
+
+To see what versions of each component are compatible with each other, see the [compatibility tables](/resources/compatibility/).
+
 ## Upgrade guides
 
 If you're upgrading your hApp to a newer version of Holochain, we have some [upgrade guides](/resources/upgrade/) to make your work easier.

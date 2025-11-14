@@ -18,6 +18,13 @@ When an agent ID is bound to a **DNA**, the live DNA instance is called a **cell
 
 Now that you've got some basic concepts and the terms we use for them, it's time to dive into application development.
 
+## Useful resources
+
+As you build or update an app using Holochain's quickly-moving ecosystem, you'll need to keep track of breaking changes. These two resources will help you:
+
+* [Upgrade guides](/resources/upgrade/)
+* [Compatibility table](/resources/compatibility/)
+
 ## Application structure
 
 ::: topic-list
