@@ -112,6 +112,8 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
 
 ## Update your package dependencies
 
+The most recent versions of these dependencies can be found on the [Holochain 0.5 compatibility table](/resources/compatibility/holochain-0.5/).
+
 ### Rust
 
 Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` file:
