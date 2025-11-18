@@ -75,17 +75,17 @@ hc-scaffold            : holochain_scaffolding_cli 0.500.2 (d64bcd2)
 hc-launch              : holochain_cli_launch 0.500.0 (holochain 0.5.3) (ae01674)
 Lair keystore          : lair_keystore 0.6.2 (978e356)
 Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.1.14 (1279094)
-Holochain CLI          : holochain_cli 0.5.5 (419b382)
-Holochain terminal     : hcterm 0.5.5 (419b382)
-Holochain              : holochain 0.5.5 (419b382)
+Holochain CLI          : holochain_cli 0.5.6 (d5f99fb)
+Holochain terminal     : hcterm 0.5.6 (d5f99fb)
+Holochain              : holochain 0.5.6 (d5f99fb)
 
 Holochain build info: {
   "git_info": null,
-  "cargo_pkg_version": "0.5.5",
-  "hdk_version_req": "0.5.5",
-  "hdi_version_req": "0.6.5",
+  "cargo_pkg_version": "0.5.6",
+  "hdk_version_req": "0.5.6",
+  "hdi_version_req": "0.6.6",
   "lair_keystore_version_req": "0.6.2",
-  "timestamp": "2025-08-19T15:18:09.505020774Z",
+  "timestamp": "2025-09-03T19:47:10.256511347Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",
