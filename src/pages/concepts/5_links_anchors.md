@@ -57,13 +57,13 @@ We recommend **anchors** as a useful pattern for creating starting points on the
 
 Anchors are just entries, but they're part of the SDK so you don't have to roll your own implementation. Our implementation also lets you create 'paths', hierarchies of linked anchors, which are great for product categories, filesystems, search indexes, and more.
 
-!!! note Links to (and from) nowhere
+!!! info Links to (and from) nowhere
 Neither the base nor the target of a link need to have any data stored at their address. This means that you can point to data that lives on another content-addressed database, such as IPFS, Secure Scuttlebutt, or a blockchain, and you can use the hash of such external resources as your link base or target, a sort of 'placeholder' for an external reference. It also means that anchors take up very little space, as nobody actually needs to write an anchor entry to their source chain or publish it to the DHT. Instead, you can just calculate the anchor string's hash and store links at that address.
 !!!
 
 ## Case study: a music sharing app
 
-!!! note Links aren't bidirectional
+!!! info Links aren't bidirectional
 Take note of the arrowheads below; you'll see that many are bidirectional. In Holochain, however, a link is unidirectional. This means that, for a bidirectional link, two links must be created in opposite directions to each other.
 !!!
 

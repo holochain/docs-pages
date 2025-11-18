@@ -106,7 +106,7 @@ pub fn calculate_publish_progress_score(action_hash: ActionHash) -> ExternResult
 }
 ```
 
-!!! Validation receipts are only available in the author's conductor
+!!! info Validation receipts are only available in the author's conductor
 Only the conductor hosting the agent who authored an action will get the validation receipts. That means that only the authoring cell, _and other cells with the same DNA on the same conductor_, will be able to access them with `get_validation_receipts`.
 !!!
 

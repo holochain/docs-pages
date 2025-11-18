@@ -22,7 +22,7 @@
 ## Admonitions
   - Do NOT indent contents of Admonitions
   - Admonitions must be closed with `!!!`
-  - You can add a title (Example: ```!!! note Run in `nix-shell https://holochain.love` ```), Otherwise it will use the name of the Admonition.
+  - You can add a title (Example: ```!!! info Run in `nix-shell https://holochain.love` ```), Otherwise it will use the name of the Admonition.
 
 ## Code Fences
   - Include language (i.e.: `bash`) always.

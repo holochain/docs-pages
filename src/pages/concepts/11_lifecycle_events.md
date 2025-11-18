@@ -48,7 +48,7 @@ Shortly after a cell is instantiated and connects to the network, the conductor 
 
 An init callback can return 'pass', 'fail' with an error string, or a list of unresolved dependencies. If one init callback fails, initialization of the entire cell fails and the cell is put into a disabled state.
 
-!!! warn Lazy initialization
+!!! info Lazy initialization
 The init callbacks aren't actually called until the first time something calls a function in any coordinator zome.
 !!!
 

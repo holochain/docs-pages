@@ -51,7 +51,7 @@ A validation rule is simply a callback function in an integrity zome code that t
 
 The entry and link types defined in an integrity zome go hand-in-hand with the validation function defined in that same zome; that is, the validation function should cover all the operations produced by the act of creating, updating, or deleting entries and links of those types.
 
-!!! note Non-determinism in validation functions
+!!! info Non-determinism in validation functions
 Entries and action can be retrieved by hash, as can entire sequences of a source chain. But collections such as links on a base or full agent activity reports can't be retrieved, because they change over time and would lead to non-determinism in validation results. This would cause different validation authorities to give different answers, leading to disagreement on the validity of an operation.
 
 Other sources of non-determinism, such as conductor host API functions that retrieve the time, read the cell owner's own state, generate a random number, or call a zome function in another cell, are disallowed for the same reason.
@@ -190,7 +190,7 @@ The operation is valid, so they store the entry and action in their personal DHT
 They both send a copy of their receipts back to Alice. Later on, they share the operation with their neighbors for resilience.
 :::
 
-!!! note Multiple operations for each action
+!!! info Multiple operations for each action
 You may remember from our [exploration of the DHT](../4_dht/) that the 'store entry' operation is only one of three produced by the action that Alice committed to her chain. The 'store record' and 'register agent activity' operations are validated by other authorities, and the validation function may contain slightly different logic for each of them based on the nature of the operation --- for instance, the 'store record' authority may not care about the number of words in the entry, but may care whether the author has been granted permission to add new words to the DHT. Ultimately, all authorities can retrieve all record data for an operation, along with all source chain data preceding that record, but it may make sense to distribute the work in ways that are appropriate for each operation.
 !!!
 

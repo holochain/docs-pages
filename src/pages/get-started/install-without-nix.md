@@ -8,7 +8,7 @@ hide:
 If you ended up here because you ran into problems with the [Nix based quick installation guide](/get-started/), we would greatly appreciate if you let us know what went wrong by [creating a bug report](https://github.com/holochain/docs-pages/issues/new/choose) so that we can look into it.
 :::
 
-!!! note Unsupported
+!!! info Unsupported
 Holonix is the recommended way to set up your development environment.
 **We don't provide support for installing Holochain without Holonix.**
 !!!
