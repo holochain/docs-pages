@@ -71,7 +71,7 @@ Both of these are GitHub template repos. The Tauri one has detailed instructions
 
 The supported Holochain versions of these repos sometimes lags behind the current recommended version, so you may need to manually update them.
 
-!!! note Code Signing
+!!! info Code Signing
 For macOS and Windows, you'll probably also want to go through the process of registering as a developer so that your application can be "code-signed". This is needed so that users don't get the "unsigned code" warnings when launching the applications on those platforms. Both of the above templates include instructions for CI automation to run the code-signing steps on release once you have acquired the necessary certificates.
 
 * [Code signing instructions for Windows](https://stackoverflow.com/questions/252226/signing-a-windows-exe-file)
@@ -93,7 +93,7 @@ Our friends at [darksoil studio](https://darksoil.studio) have created [p2p Ship
 
 ### Launcher, the multi-app runtime
 
-!!! note Launcher development is on hold
+!!! info Launcher development is on hold
 We're currently pausing development of Holochain Launcher and recommend you build a standalone app instead. We'll continue development once Holochain's scalability improves; the Launcher's App Store relies on a large DHT to distribute hApps.
 !!!
 
