@@ -55,7 +55,7 @@ For both of these APIs, you make an RPC call sending a MessagePack-serialized re
 
 For ergonomic interaction with the two conductor APIs, there are two officially supported client implementations: one in JavaScript and one in Rust. If you intend to develop Holochain apps with a web-based UI, **it is likely that all you'll ever need is the [JavaScript client](https://www.npmjs.com/package/@holochain/client)**.
 
-* **[Conductor Client reference (JavaScript)](https://github.com/holochain/holochain-client-js)**
+* **[Conductor Client reference (JavaScript)](https://github.com/holochain/holochain-client-js/tree/main/docs/client.md)**
 * **[Conductor Client reference (Rust)](https://docs.rs/holochain_client/latest/holochain_client/)**
 * **[Conductor Client reference (C#)](https://github.com/holochain-open-dev/holochain-client-csharp)** (community-maintained)
 

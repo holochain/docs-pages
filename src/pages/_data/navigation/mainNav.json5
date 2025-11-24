@@ -80,8 +80,8 @@
         { title: "HDI", url: "https://docs.rs/hdi", external: true },
         { title: "App API", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
         { title: "Admin API", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
-        { title: "Client (Javascript)", url: "https://github.com/holochain/holochain-client-js", external: true},
-        { title: "Client (Rust)", url: "https://github.com/holochain/holochain-client-rust", external: true},
+        { title: "Client (Javascript)", url: "https://github.com/holochain/holochain-client-js/tree/main/docs/client.md", external: true },
+        { title: "Client (Rust)", url: "https://docs.rs/holochain_client/latest/holochain_client/", external: true },
         { title: "hc dev tool", url: "https://github.com/holochain/holochain/tree/main/crates/hc", external: true },
         { title: "Glossary", url: "/resources/glossary/" },
       ]
