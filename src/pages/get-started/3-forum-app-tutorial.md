@@ -443,7 +443,7 @@ When you see:
 
 ::: output-block
 ```text
-?Add another field to the entry?(y/n)
+? Add another field to the entry?(y/n)
 ```
 :::
 
@@ -641,6 +641,7 @@ Chosen fields:
  content: String, post_hash: ActionHash
 ? Do you want to proceed with the current entry type or restart from the beginning? ›
 ❯ Confirm
+  Modify
   Restart
 ```
 :::
