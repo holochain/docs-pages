@@ -67,7 +67,7 @@ let create_link_action_hash = create_link(
     movie_entry_hash,
     LinkTypes::DirectorToMovie,
     // Cache a bit of the target entry in this link's tag, as a search index.
-    vec!["year:1966".as_bytes()].into()
+    "year:1966"
 )?;
 ```
 
@@ -96,11 +96,16 @@ Delete a link by calling [`hdk::link::delete_link`](https://docs.rs/hdk/latest/h
 use hdk::prelude::*;
 
 let delete_link_action_hash = delete_link(
-    create_link_action_hash
+    create_link_action_hash,
+    GetOptions::network()
 );
 ```
 
-A link is considered ["dead"](/build/working-with-data/#deleted-dead-data) (deleted but retrievable if asked for explicitly) once its creation action has at least one delete-link action associated with it. As with entries, dead links can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) or [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html) (see next section).
+!!! info Specifying a get strategy
+In order to validate a link deletion action, the original link creation action has to be available locally --- otherwise validation will fail with [`UnresolvedDependencies`](/build/validate-callback/#validation-outcomes). If you know that the original link will be available --- for instance, in cases where the agent is deleting a link they created --- you can use `GetOptions::local()`; otherwise, always use `GetOptions::network()`.
+!!!
+
+A link is considered ["dead"](/build/working-with-data/#deleted-dead-data) (deleted but retrievable if asked for explicitly) once its creation action has at least one delete-link action associated with it. As with entries, dead links can still be retrieved with [`hdk::link::get_links_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html) (see next section).
 
 ### Deleting a link, under the hood
 
@@ -119,7 +124,7 @@ At this point, the action hasn't been persisted to the source chain. Read the [z
 
 ## Retrieve links
 
-Get all the _live_ (undeleted) links attached to a hash with the [`hdk::link::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) function. The input is complicated, so use [`hdk::link::builder::GetLinksInputBuilder`](https://docs.rs/hdk/latest/hdk/link/builder/struct.GetLinksInputBuilder.html) to build it.
+Get all the _live_ (undeleted) links attached to a hash with the [`hdk::link::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html) function. The [`LinkQuery`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.LinkQuery.html) input struct has a builder-style interface to make it easier to construct.
 
 ```rust
 use hdk::prelude::*;
@@ -127,13 +132,12 @@ use movie_integrity::*;
 
 let director_entry_hash = EntryHash::from_raw_36(vec![/* hash of Sergio Leone's entry */]);
 let movies_by_director = get_links(
-    GetLinksInputBuilder::try_new(director_entry_hash, LinkTypes::DirectorToMovie)?
-        .get_options(GetStrategy::Network)
-        .build()
+    LinkQuery::try_new(director_entry_hash, LinkTypes::DirectorToMovie)?,
+    GetStrategy::default()
 )?;
 let movie_entry_hashes = movies_by_director
     .iter()
-    .filter_map(|link| link.target.into_entry_hash())
+    .filter_map(|link| link.target.clone().into_entry_hash())
     .collect::<Vec<_>>();
 ```
 
@@ -141,30 +145,27 @@ If you want to filter the returned links by tag, pass some bytes to the input bu
 
 ```rust
 let movies_in_1960s_by_director = get_links(
-    GetLinksInputBuilder::try_new(director_entry_hash, LinkTypes::DirectorToMovie)?
-        .get_options(GetStrategy::Network)
-        .tag_prefix("year:196".as_bytes().to_owned().into())
-        .build()
+    LinkQuery::try_new(director_entry_hash, LinkTypes::DirectorToMovie)?
+        .tag_prefix("year:196".as_bytes().to_owned().into()),
+    GetStrategy::default()
 )?;
 ```
 
-To get all live _and deleted_ links, along with any deletion actions, use [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html).
+To get all live _and deleted_ links, along with any deletion actions, use [`hdk::link::get_links_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html).
 
 ```rust
 use hdk::prelude::*;
 use movie_integrity::*;
 
-let movies_plus_deleted = get_link_details(
-    director_entry_hash,
-    LinkTypes::DirectorToMovie,
-    None,
-    GetOptions::network()
+let movies_plus_deleted = get_links_details(
+    LinkQuery::try_new(director_entry_hash, LinkTypes::DirectorToMovie)?,
+    GetStrategy::default()
 )?;
 ```
 
 ### Count links
 
-If all you need is a _count_ of matching links, use [`hdk::link::count_links`](https://docs.rs/hdk/latest/hdk/link/fn.count_links.html). It has a different input with more options for querying (we'll likely update the inputs of `get_links` and `count_links` to match in the future).
+If all you need is a _count_ of matching links, use [`hdk::link::count_links`](https://docs.rs/hdk/latest/hdk/link/fn.count_links.html). Currently it lacks the ability to specify a get strategy and will always go to the network; we may allow you to configure this in the future.
 
 ```rust
 use hdk::prelude::*;
@@ -173,11 +174,11 @@ use movie_integrity::*;
 let my_id = agent_info()?.agent_initial_pubkey;
 let today = sys_time()?;
 let number_of_reviews_written_by_me_in_last_month = count_links(
-    LinkQuery::new(
+    LinkQuery::try_new(
         // Assume `movie_entry_hash` as defined in previous snippets.
         movie_entry_hash,
-        LinkTypes::MovieReview.try_into_filter()?
-    )
+        LinkTypes::MovieReview
+    )?
     .after(Timestamp(today.as_micros() - 1000 * 1000 * 60 * 60 * 24 * 30))
     .before(today)
     .author(my_id)
@@ -249,11 +250,11 @@ use movie_integrity::*;
 let path_to_movies_starting_with_g = Path::from("movies_by_first_letter.g");
 let links_to_movies_starting_with_g = get_links(
     // A path doesn't need to have a type in order to compute its hash.
-    GetLinksInputBuilder::try_new(
+    LinkQuery::try_new(
         path_to_movies_starting_with_g.path_entry_hash()?,
         LinkTypes::MovieByFirstLetter
-    )?
-    .build()
+    )?,
+    GetStrategy::default()
 )?;
 ```
 
@@ -268,14 +269,14 @@ let parent_path = Path::from("movies_by_first_letter")
 let all_first_letter_paths = parent_path.children_paths()?;
 // Do something with the children. Note: this would be expensive to do in
 // practice, because each child needs a separate DHT query.
-let links_to_all_movies = all_first_letter_paths
+let links_to_all_movies: Vec<_> = all_first_letter_paths
     .iter()
     .map(|path| get_links(
-        GetLinksInputBuilder::try_new(
+        LinkQuery::try_new(
             path.path_entry_hash()?,
             LinkTypes::MovieByFirstLetter
-        )?
-        .build()
+        )?,
+        GetStrategy::default()
     ))
     // Fail on the first failure.
     .collect::<Result<Vec<_>, _>>()?
@@ -302,7 +303,7 @@ let links_to_all_movies = all_first_letter_paths
     * [`hdk::info::agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html)
     * [`hdk::info::dna_info`](https://docs.rs/hdk/latest/hdk/info/fn.dna_info.html)
 * [`hdk::link::get_links`](https://docs.rs/hdk/latest/hdk/link/fn.get_links.html)
-* [`hdk::link::get_link_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_link_details.html)
+* [`hdk::link::get_links_details`](https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html)
 * [`hdk::link::count_links`](https://docs.rs/hdk/latest/hdk/link/fn.count_links.html)
 * [`hdi::hash_path`](https://docs.rs/hdi/latest/hdi/hash_path/index.html)
 * [`hdi::hash_path::anchor`](https://docs.rs/hdi/latest/hdi/hash_path/anchor/struct.Anchor.html)

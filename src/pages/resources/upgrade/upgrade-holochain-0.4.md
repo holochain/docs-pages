@@ -6,6 +6,8 @@ title: Holochain Upgrade 0.3 → 0.4
 For existing hApps that are currently using Holochain 0.3, here's the guide to get you upgraded to 0.4.
 
 NOTE: [Holonix](/get-started/install-advanced/), our developer shell environment, has also been updated. We're not supporting the old Holonix for Holochain 0.4 and beyond, so you'll need to [upgrade to the new Holonix](/resources/upgrade/upgrade-new-holonix/) at the same time if you haven't already!
+
+If your hApp is written for Holochain 0.2, follow the [0.3 upgrade guide](/resources/upgrade/upgrade-holochain-0.3/) first.
 :::
 
 ## Quick instructions

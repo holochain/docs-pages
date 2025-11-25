@@ -43,10 +43,11 @@ vim /opt/kitsune2-bootstrap/docker-compose.yaml
 Copy this code into the file, edit the locations of your TLS certificate and key files, and save it.
 
 <!-- TODO(upgrade): Update the docker image URL -->
+
 ```yaml
 services:
   bootstrap:
-    image: ghcr.io/holochain/kitsune2_bootstrap_srv:v0.2.16
+    image: ghcr.io/holochain/kitsune2_bootstrap_srv:v0.3.2
     command:
       - kitsune2-bootstrap-srv
       - --production
@@ -133,8 +134,8 @@ If you use the same server for production and testing, you might end up writing 
 ```diff:json
  ...
    "scripts": {
--    "start": "AGENTS=${AGENTS:-3} BOOTSTRAP_PORT=$(get-port) npm run network",
-+    "start": "AGENTS=${AGENTS:-3} npm run network",
+-    "start": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network",
++    "start": "AGENTS=${AGENTS:-2} npm run network",
      "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\" \"hc playground\"",
      "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
      // Replace the hApp bundle name and URLs with your actual values.
@@ -146,11 +147,11 @@ If you use the same server for production and testing, you might end up writing 
 -    "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network:tauri",
 +    "start:tauri": "AGENTS=${AGENTS:-2} npm run network:tauri",
      "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"hc playground\"",
--    "launch:tauri": "concurrently \"kitsune2-bootstrap-srv --listen \"127.0.0.1:$BOOTSTRAP_PORT\"\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/my_forum_app.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$BOOTSTRAP_PORT\"\"",
-+    "launch:tauri": "echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/my_forum_app.happ --ui-port $UI_PORT --network-seed \"bootstrap-testing-network-only\" network --bootstrap \"https://bootstrap.example.org\" webrtc \"wss://bootstrap.example.org\"",
+-    "launch:tauri": "concurrently \"kitsune2-bootstrap-srv --listen \"127.0.0.1:$BOOTSTRAP_PORT\"\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/my_app.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$BOOTSTRAP_PORT\"\"",
++    "launch:tauri": "echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/my_app.happ --ui-port $UI_PORT --network-seed \"bootstrap-testing-network-only\" network --bootstrap \"https://bootstrap.example.org\" webrtc \"wss://bootstrap.example.org\"",
      "package": "npm run build:happ && npm run package --workspace ui && hc web-app pack workdir --recursive",
      "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
-     "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
+     "build:zomes": "RUSTFLAGS='--cfg getrandom_backend=\"custom\"' cargo build --release --target wasm32-unknown-unknown"
    },
  ...
 ```

@@ -17,9 +17,11 @@ certbot
 CRDT
 d'Aoust
 Diffie
+dylib
 ECDH
 fixt
 fullchain
+getrandom
 gnused
 Hellerstein
 imdb
@@ -52,6 +54,7 @@ POSIX
 privkey
 pubkey
 QUIC
+rlib
 rustc
 rustflags
 rustup

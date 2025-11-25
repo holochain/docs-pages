@@ -35,7 +35,7 @@ use hdk::prelude::*;
 
 #[hdk_extern]
 pub fn init() -> ExternResult<InitCallbackResult> {
-    let mut functions = BTreeSet::new();
+    let mut functions = HashSet::new();
     functions.insert((zome_info()?.name, "recv_remote_signal".into()));
     create_cap_grant(ZomeCallCapGrant {
         tag: "remote_signals".into(),
@@ -61,7 +61,7 @@ pub fn approve_delegate_author_request(reason: String) -> ExternResult<CapSecret
     let secret = generate_cap_secret()?;
 
     // Create the list of functions to grant access to.
-    let mut functions = BTreeSet::new();
+    let mut functions = HashSet::new();
     functions.insert((zome_info()?.name, "create_movie".into()));
     functions.insert((zome_info()?.name, "update_movie".into()));
     functions.insert((zome_info()?.name, "delete_movie".into()));
@@ -100,10 +100,10 @@ pub fn approve_delegate_author_request(input: DelegateAuthorRequest) -> ExternRe
     let secret = generate_cap_secret()?;
 
     // Create the list of agents to give access to.
-    let mut assignees = BTreeSet::new();
+    let mut assignees = HashSet::new();
     assignees.insert(input.requestor.clone());
 
-    let mut functions = BTreeSet::new();
+    let mut functions = HashSet::new();
     functions.insert((zome_info()?.name, "create_movie".into()));
     functions.insert((zome_info()?.name, "update_movie".into()));
     functions.insert((zome_info()?.name, "delete_movie".into()));

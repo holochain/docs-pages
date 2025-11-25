@@ -65,9 +65,13 @@
     },
     { title: "Resources", url: "/resources/", children: [
         { title: "Compatibility Tables", url: "/resources/compatibility/", children: [
-          { title: "Holochain 0.5", url: "/resources/compatibility/holochain-0.5/" },
+          // TODO(upgrade): the most recent guide should always be in this list
+          { title: "Holochain 0.6", url: "/resources/compatibility/holochain-0.6/" },
         ]},
-        { title: "Upgrade Guides", url: "/resources/upgrade/" },
+        { title: "Upgrade Guides", url: "/resources/upgrade/", children: [
+          // TODO(upgrade): the most recent guide should always be in this list
+          { title: "Holochain 0.5 → 0.6", url: "/resources/upgrade/upgrade-holochain-0.6/" },
+        ]},
         { title: "Howtos", url: "/resources/howtos/", children: [
           { title: "Debugging a Running Holochain Conductor", url: "/resources/howtos/debugging/" },
           { title: "Running Network Infrastructure", url: "/resources/howtos/running-network-infrastructure/" },
@@ -76,8 +80,8 @@
         { title: "HDI", url: "https://docs.rs/hdi", external: true },
         { title: "App API", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AppRequest.html", external: true },
         { title: "Admin API", url: "https://docs.rs/holochain_conductor_api/latest/holochain_conductor_api/enum.AdminRequest.html", external: true },
-        { title: "Client (Javascript)", url: "https://github.com/holochain/holochain-client-js", external: true},
-        { title: "Client (Rust)", url: "https://github.com/holochain/holochain-client-rust", external: true},
+        { title: "Client (Javascript)", url: "https://github.com/holochain/holochain-client-js/tree/main/docs/client.md", external: true },
+        { title: "Client (Rust)", url: "https://docs.rs/holochain_client/latest/holochain_client/", external: true },
         { title: "hc dev tool", url: "https://github.com/holochain/holochain/tree/main/crates/hc", external: true },
         { title: "Glossary", url: "/resources/glossary/" },
       ]

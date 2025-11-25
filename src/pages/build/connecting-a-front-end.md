@@ -24,7 +24,7 @@ npm run start
 
 ## Front-end libraries
 
-Holochain provides front-end client libraries for [JavaScript](https://github.com/holochain/holochain-client-js) and [Rust](https://github.com/holochain/holochain-client-rust). The scaffolding tool generates JavaScript-based UIs that are meant to be served as a single-page app, so we'll focus on JavaScript for this documentation --- or more specifically TypeScript, because that's what the client library is written in.
+Holochain provides front-end client libraries for [JavaScript](https://github.com/holochain/holochain-client-js) and [Rust](https://github.com/holochain/holochain/tree/main/crates/client). The scaffolding tool generates JavaScript-based UIs that are meant to be served as a single-page app, so we'll focus on JavaScript for this documentation --- or more specifically TypeScript, because that's what the client library is written in.
 
 ## Connect to a hApp with the JavaScript client {#connect-to-a-happ-with-the-javascript-client}
 

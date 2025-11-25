@@ -52,6 +52,12 @@ package = "/node_modules/netlify-plugin-checklinks"
         # https://github.com/orgs/community/discussions/174098#discussioncomment-14461226
         "https://www.npmjs.com",
         "https://ubuntu.com",
+        # TODO: remove this before merging this PR
+        "https://docs.rs/hdk/latest/hdk/link/fn.get_links_details.html",
+        # Sometimes ubuntu.com still times out, even with the concurrency dialed down.
+        "https://ubuntu.com",
+        # Suddenly Medium is sending 403 errors to scrapers.
+        "https://medium.com",
     ]
 
     todoServerErrorPatterns = [
@@ -189,10 +195,10 @@ package = "/node_modules/netlify-plugin-checklinks"
 # TODO(upgrade): change following version number
 [[redirects]]
     from = "/resources/upgrade/latest/"
-    to = "/resources/upgrade/upgrade-holochain-0.5/"
+    to = "/resources/upgrade/upgrade-holochain-0.6/"
     status = 302
 
 [[redirects]]
     from = "/resources/compatibility/latest/"
-    to = "/resources/compatibility/holochain-0.5/"
+    to = "/resources/compatibility/holochain-0.6/"
     status = 302
