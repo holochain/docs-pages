@@ -73,7 +73,7 @@ In a new terminal session type:
 <!-- TODO(upgrade): change following version number -->
 
 ```shell
-nix run --refresh -j0 -v "github:holochain/holonix?ref=main-0.5#hc-scaffold" -- --version
+nix run --refresh -j0 -v "github:holochain/holonix?ref=main-0.6#hc-scaffold" -- --version
 ```
 
 You might be asked these questions:
@@ -107,7 +107,7 @@ At the end of the output, Holochain's scaffolding tool should print its version 
 <!-- TODO(upgrade): update this version number -->
 ::: output-block
 ```text
-holochain_scaffolding_cli 0.500.2
+holochain_scaffolding_cli 0.600.0
 ```
 :::
 

@@ -26,7 +26,7 @@ The flake-based one-liner to get you an ad-hoc Holonix shell (that is, not using
 <!-- TODO(upgrade): change following version number -->
 
 ```shell
-nix develop "github:holochain/holonix?ref=main-0.5"
+nix develop "github:holochain/holonix?ref=main-0.6"
 ```
 
 #### Specifying a certain release
@@ -36,7 +36,7 @@ nix develop "github:holochain/holonix?ref=main-0.5"
 The above one-liner will give you the latest **recommended** version of Holochain from the 0.5 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.4 development shell, run:
 
 ```shell
-nix develop "github:holochain/holonix?ref=main-0.4"
+nix develop "github:holochain/holonix?ref=main-0.5"
 ```
 
 The options you should know about are:
@@ -71,25 +71,25 @@ This command displays versioning information about Holochain's main components. 
 
 ::: output-block
 ```text
-hc-scaffold            : holochain_scaffolding_cli 0.500.2 (d64bcd2)
-hc-launch              : holochain_cli_launch 0.500.0 (holochain 0.5.3) (ae01674)
-Lair keystore          : lair_keystore 0.6.2 (978e356)
-Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.1.14 (1279094)
-Holochain CLI          : holochain_cli 0.5.6 (d5f99fb)
-Holochain terminal     : hcterm 0.5.6 (d5f99fb)
-Holochain              : holochain 0.5.6 (d5f99fb)
+hc-scaffold            : holochain_scaffolding_cli 0.600.0 (2d71d47)
+hc-launch              : holochain_cli_launch 0.600.0 (holochain 0.6.0) (b19fe6b)
+Lair keystore          : lair_keystore 0.6.3 (8aa9ab1)
+Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.3.2 (22de6e4)
+Holochain CLI          : holochain_cli 0.6.0 (a6d4e80)
+Holochain terminal     : hcterm 0.6.0 (a6d4e80)
+Holochain              : holochain 0.6.0 (a6d4e80)
 
 Holochain build info: {
   "git_info": null,
-  "cargo_pkg_version": "0.5.6",
-  "hdk_version_req": "0.5.6",
-  "hdi_version_req": "0.6.6",
-  "lair_keystore_version_req": "0.6.2",
-  "timestamp": "2025-09-03T19:47:10.256511347Z",
+  "cargo_pkg_version": "0.6.0",
+  "hdk_version_req": "0.6.0",
+  "hdi_version_req": "0.7.0",
+  "lair_keystore_version_req": "0.6.3",
+  "timestamp": "2025-11-19T15:33:04.246363130Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",
-  "rustc_version": "rustc 1.85.0 (4d91de4e4 2025-02-17)",
+  "rustc_version": "rustc 1.88.0 (6b00bc388 2025-06-23)",
   "rustflags": "",
   "profile": "release"
 }

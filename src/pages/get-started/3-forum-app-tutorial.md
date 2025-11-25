@@ -33,7 +33,7 @@ To start, run the following command in your terminal:
 <!-- TODO(upgrade): change following version number -->
 
 ```shell
-nix run "github:/holochain/holonix?ref=main-0.5#hc-scaffold" -- web-app
+nix run "github:/holochain/holonix?ref=main-0.6#hc-scaffold" -- web-app
 ```
 
 !!! info Backing out of a mistake
@@ -324,7 +324,7 @@ You should see something like:
 <!-- TODO(upgrade): change this version number -->
 ::: output-block
 ```text
-holochain 0.5.6
+holochain 0.6.0
 ```
 
 If you were to type `exit` and try the same command, you'd probably get some sort of 'command not found' error!

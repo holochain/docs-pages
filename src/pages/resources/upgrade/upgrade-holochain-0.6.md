@@ -134,9 +134,7 @@ If you've created your hApp using our scaffolding tool, you should be able to fo
 
 Edit your project's `tests/package.json` file:
 
-<!-- TODO(upgrade): bump version numbers here, at least as long as 0.5 is the most recent recommended or maintenance-mode release -->
-
-<!-- TODO: get the right version numbers -->
+<!-- TODO(upgrade): bump version numbers here, at least as long as 0.6 is the most recent recommended or maintenance-mode release -->
 
 ```diff:json
    "dependencies": {
@@ -153,12 +151,10 @@ Edit your project's `tests/package.json` file:
 
 You'll update the UI package dependencies similarly to the test package. Edit `ui/package.json`:
 
-<!-- TODO: get the right version numbers -->
-
 ```diff:json
    "dependencies": {
 -    "@holochain/client": "^0.19.2",
-+    "@holochain/client": "^0.20.1",
++    "@holochain/client": "^0.20.0",
      // more dependencies
    },
 ```

@@ -12,11 +12,6 @@ While a [network seed](/build/dnas/#network-seed) acts like a network-wide passc
 
 A membrane proof can be basic, like an invite code, or it can be something complex like a signature from an agent that has authority to admit members.
 
-<!--TODO(0.6): remove this -->
-!!! info Membership control isn't implemented yet
-This feature is not fully implemented. Currently, validators merely record a validation failure and supply it on request. Our plan is to connect membrane proof validation outcomes to block lists, so agents can reject connection attempts from a peer with an invalid membrane proof.
-!!!
-
 ## The need for basic pre-validation
 
 Most useful membrane proofs will require access to network data in order to fully validate them. But an agent can't self-validate their own membership proof at genesis time, because they haven't joined the network yet. This creates a minor problem; they may accidentally type or paste their membrane proof wrong, but won't find out until they try to join the network and get blocked by their peers.
