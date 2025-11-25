@@ -286,11 +286,6 @@ If you're familiar with the box and secretbox algorithms, you'll know that good,
 * Hashing
     * [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html)
     * [`hdk::hash::hash_action`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_action.html)
-    * [`hdk::hash::hash_blake2b`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_blake2b.html)
-    * [`hdk::hash::hash_keccak256`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_keccak256.html)
-    * [`hdk::hash::hash_sha3`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_sha3.html)
-    * [`hdk::hash::hash_sha256`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_sha256.html)
-    * [`hdk::hash::hash_sha512`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_sha512.html)
 * Signing
     * [`hdk::ed25519::sign`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign.html)
     * [`hdk::ed25519::sign_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_raw.html)
