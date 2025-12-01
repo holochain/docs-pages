@@ -339,7 +339,7 @@ You can use any of these identifiers as a field in your entry types to model a m
 
 ### As a single record
 
-Get a record by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the hash of either its entry creation action. The return value is an <code>Option&lt;[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)&gt;</code> wrapped in an `ExternResult`.
+Get a record by calling [`hdk::entry::get`](https://docs.rs/hdk/latest/hdk/entry/fn.get.html) with the hash of its entry creation action. The return value is an <code>Option&lt;[holochain_integrity_types::record::Record](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)&gt;</code> wrapped in an `ExternResult`.
 
 You can also pass an _entry hash_ to `get`, and the record returned will contain the _oldest live_ entry creation action that wrote it.
 
@@ -382,6 +382,10 @@ match maybe_record {
     None => debug!("Movie record not found"),
 };
 ```
+
+!!! info `get` only returns valid data
+This function will only return entry and action data that's valid from the perspective of the agent delivering it; if it's not valid, they'll return `None` instead. Note also that, even if a record is returned, other validators may consider it to be invalid. Read [Getting an Agent's Status](/build/getting-an-agents-status/) for more info.
+!!!
 
 ### All data, actions, and links at an address
 

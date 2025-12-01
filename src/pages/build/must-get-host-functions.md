@@ -2,6 +2,17 @@
 title: "must_get_* Host Functions"
 ---
 
+::: topic-list
+### In this section {data-no-toc}
+
+* [Validation](/build/validation/)
+    * [`genesis_self_check` Callback](/build/genesis-self-check-callback/) --- writing a function to control access to a network
+    * [`validate` Callback](/build/validate-callback/) --- basic callback, examples using stub functions
+    * `must_get_*` Host Functions (this page) --- Deterministically retrieving DHT data for use in validation
+    * [DHT operations](/build/dht-operations/) --- advanced details on the underlying data structure used in DHT replication and validation
+    * [Getting an Agent's Status](/build/getting-an-agents-status/) --- checking for invalid actions committed by another agent
+:::
+
 ::: intro
 Successful [validation](/build/validation) depends on yielding the same deterministic true/false result for a given DHT operation, no matter who validates it and when. To safely get DHT dependencies in validation, you must use the **`must_get_*`** host functions. Any other DHT retrieval functions, such as `get_links` or `get_details`, can give varying values depending on the current state of the metadata at an address and aren't available to validation callbacks.
 :::
