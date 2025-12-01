@@ -72,7 +72,6 @@ This command displays versioning information about Holochain's main components. 
 ::: output-block
 ```text
 hc-scaffold            : holochain_scaffolding_cli 0.600.0 (2d71d47)
-hc-launch              : holochain_cli_launch 0.600.0 (holochain 0.6.0) (b19fe6b)
 Lair keystore          : lair_keystore 0.6.3 (8aa9ab1)
 Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.3.2 (22de6e4)
 Holochain CLI          : holochain_cli 0.6.0 (a6d4e80)
@@ -130,7 +129,7 @@ The full suite of Nix tooling is broad and deep. There's even a dedicated progra
 
 ## Fixing the SUID sandbox error in Ubuntu 24.04 and later
 
-Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that causes `hc spin`, which is used to test applications and their UIs, to fail with a fatal error. If you have a `package.json` that lists `@holochain/hc-spin` as a dev dependency, you may see this error message:
+Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that causes `hc-spin`, which is used to test applications and their UIs, to fail with a fatal error. If you try to run `hc-spin` (or `npm run start`/`npm run launch:happ` with a scaffolded hApp, which uses `hc-spin` under the hood), you may see this error message:
 
 ::: output-block
 ```
@@ -144,7 +143,7 @@ You can fix the issue by entering the following command in your project's root d
 sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
 ```
 
-You'll have to do this for every hApp project that uses `@holochain/hc-spin`.
+You'll have to do this for every hApp project that uses `hc-spin`.
 
 There are other fixes [outlined in the Ubuntu 24.04 release notes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that can solve the problem; if you'd like to learn more, read through them all and choose the one that feels most appropriate for you.
 
@@ -154,15 +153,7 @@ Because the template repo `holochain-kangaroo-electron` also bundles Electron's 
 
 ## Opening your hApp's GUI in Ubuntu on WSL2 (Windows Subsystem for Linux) {#opening-your-happs-gui-in-ubuntu-on-wsl2}
 
-There are two dev tools, `hc spin` and `hc launch`, which start your app's back end and open its GUI in [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) webview containers, respectively. Because the Ubuntu OS installed from the Microsoft Store doesn't come with GUI packages by default, you'll need to install just a few in order to get these tools to work.
-
-If you're only using `hc launch`, which uses the Tauri webview, install this package, which resolves a GDK error about cursors:
-
-```shell
-sudo apt install -y adwaita-icon-theme
-```
-
-If you're only using the more modern `hc spin`, which uses the Electron webview, install these missing packages that are needed by the `chrome-sandbox` binary:
+There is one dev tool, `hc spin`, which starts your app's back end and opens its GUI in an [Electron](https://www.electronjs.org/) webview containers. Because the Ubuntu OS installed from the Microsoft Store doesn't come with GUI packages by default, you'll need to install just a few in order to get this tool to work:
 
 ```shell
 sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2t64

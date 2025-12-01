@@ -56,8 +56,5 @@ cargo install --force holochain_cli
 cargo install --force lair_keystore
 ```
 ```shell
-cargo install --force holochain_cli_launch
-```
-```shell
 cargo install --force holochain_scaffolding_cli
 ```

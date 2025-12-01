@@ -142,13 +142,6 @@ If you use the same server for production and testing, you might end up writing 
 -    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/my_app.happ",
 +    // Use bootstrap server
 +    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT --bootstrap-url \"https://bootstrap.example.org\" --signaling-url \"wss://bootstrap.example.org\" --network-seed \"bootstrap-testing-network-only\" workdir/my_app.happ",
-     // If you use the Tauri-based launcher, you can also make the following
-     // edits.
--    "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network:tauri",
-+    "start:tauri": "AGENTS=${AGENTS:-2} npm run network:tauri",
-     "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"hc playground\"",
--    "launch:tauri": "concurrently \"kitsune2-bootstrap-srv --listen \"127.0.0.1:$BOOTSTRAP_PORT\"\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/my_app.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$BOOTSTRAP_PORT\"\"",
-+    "launch:tauri": "echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/my_app.happ --ui-port $UI_PORT --network-seed \"bootstrap-testing-network-only\" network --bootstrap \"https://bootstrap.example.org\" webrtc \"wss://bootstrap.example.org\"",
      "package": "npm run build:happ && npm run package --workspace ui && hc web-app pack workdir --recursive",
      "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
      "build:zomes": "RUSTFLAGS='--cfg getrandom_backend=\"custom\"' cargo build --release --target wasm32-unknown-unknown"

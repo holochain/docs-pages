@@ -50,7 +50,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     ```shell
     nix flake update && git add flake.* && nix develop
     ```
-2. Update your root `package.json` file with the new package versions, and update the `build:zomes` script to accommodate a change in the way one of the HDK's dependencies needs to be built: <!-- TODO: get the right version numbers --> {#update-package-json}
+2. Update your root `package.json` file with the new package versions, remove the deprecated `*:tauri` scripts, and update the `build:zomes` script to accommodate a change in the way one of the HDK's dependencies needs to be built: <!-- TODO: get the right version numbers --> {#update-package-json}
 
     ```diff:json
      {
@@ -65,9 +65,9 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
              "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\" \"hc playground\"",
              "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
              "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/movies5.happ",
-             "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network:tauri",
-             "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"hc playground\"",
-             "launch:tauri": "concurrently \"kitsune2-bootstrap-srv --listen \"127.0.0.1:$BOOTSTRAP_PORT\"\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/movies5.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$BOOTSTRAP_PORT\"\"",
+    -        "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network:tauri",
+    -        "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"hc playground\"",
+    -        "launch:tauri": "concurrently \"kitsune2-bootstrap-srv --listen \"127.0.0.1:$BOOTSTRAP_PORT\"\" \"echo pass | RUST_LOG=warn hc launch --piped -n $AGENTS workdir/movies5.happ --ui-port $UI_PORT network --bootstrap http://127.0.0.1:\"$BOOTSTRAP_PORT\" webrtc ws://127.0.0.1:\"$BOOTSTRAP_PORT\"\"",
              "package": "npm run build:happ && npm run package --workspace ui && hc web-app pack workdir --recursive",
              "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
     -        "build:zomes": "cargo build --release --target wasm32-unknown-unknown"
