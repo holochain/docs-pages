@@ -72,7 +72,6 @@ This command displays versioning information about Holochain's main components. 
 ::: output-block
 ```text
 hc-scaffold            : holochain_scaffolding_cli 0.600.0 (2d71d47)
-hc-launch              : holochain_cli_launch 0.600.0 (holochain 0.6.0) (b19fe6b)
 Lair keystore          : lair_keystore 0.6.3 (8aa9ab1)
 Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.3.2 (22de6e4)
 Holochain CLI          : holochain_cli 0.6.0 (a6d4e80)
@@ -154,15 +153,7 @@ Because the template repo `holochain-kangaroo-electron` also bundles Electron's 
 
 ## Opening your hApp's GUI in Ubuntu on WSL2 (Windows Subsystem for Linux) {#opening-your-happs-gui-in-ubuntu-on-wsl2}
 
-There are two dev tools, `hc spin` and `hc launch`, which start your app's back end and open its GUI in [Electron](https://www.electronjs.org/) or [Tauri](https://tauri.app/) webview containers, respectively. Because the Ubuntu OS installed from the Microsoft Store doesn't come with GUI packages by default, you'll need to install just a few in order to get these tools to work.
-
-If you're only using `hc launch`, which uses the Tauri webview, install this package, which resolves a GDK error about cursors:
-
-```shell
-sudo apt install -y adwaita-icon-theme
-```
-
-If you're only using the more modern `hc spin`, which uses the Electron webview, install these missing packages that are needed by the `chrome-sandbox` binary:
+There is one dev tool, `hc spin`, which starts your app's back end and opens its GUI in an [Electron](https://www.electronjs.org/) webview containers. Because the Ubuntu OS installed from the Microsoft Store doesn't come with GUI packages by default, you'll need to install just a few in order to get this tool to work:
 
 ```shell
 sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2t64

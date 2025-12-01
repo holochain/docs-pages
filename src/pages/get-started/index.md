@@ -42,10 +42,10 @@ For Windows users, please note that the Nix package manager, which is used to in
 
 Holochain is supported in WSL2 via the Ubuntu distribution.
 
-You'll also need to install a few packages if you want to run two dev tools, `hc spin` and `hc launch`, which start your app's back end and open its GUI in Electron or Tauri webviews:
+You'll also need to install a few packages if you want to run a dev tool, `hc spin`, which starts your app's back end and opens its GUI in an Electron webview:
 
 ```shell
-sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2t64 adwaita-icon-theme
+sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-dev libasound2t64
 ```
 
 Read more about these fixes in the [Dev Tools Setup guide](/get-started/install-advanced/#opening-your-happs-gui-in-ubuntu-on-wsl2).

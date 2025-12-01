@@ -14,7 +14,7 @@ This interface is **only exposed to processes on the local device**, not to exte
 
 Some Holochain runtimes bundle the conductor and a front end host that serves your HTML/JavaScript-based runtimes. Take a look at the [Packaging and Distribution](/get-started/4-packaging-and-distribution/) page from the Get Started guide for the choices.
 
-The Holonix dev environment comes with a runtime called `hc-launch`, which starts Holochain, installs your hApp, and displays a UI for you. The scaffolding tool generates an NPM script that compiles and bundles your back end into a [`.happ` file](/build/happs/#package-a-happ-for-distribution) and starts two instances of the hApp with `hc-launch`. In the root of your project folder, enter:
+The Holonix dev environment comes with a runtime called `hc-spin`, which starts a Holochain conductor, installs your hApp into it, and displays a UI for you. The scaffolding tool generates an NPM script that compiles and bundles your back end into a [`.happ` file](/build/happs/#package-a-happ-for-distribution) and starts two instances of the hApp with `hc-spin`. In the root of your project folder, enter:
 
 ```bash
 npm run start
