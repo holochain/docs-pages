@@ -129,7 +129,7 @@ The full suite of Nix tooling is broad and deep. There's even a dedicated progra
 
 ## Fixing the SUID sandbox error in Ubuntu 24.04 and later
 
-Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that causes `hc spin`, which is used to test applications and their UIs, to fail with a fatal error. If you have a `package.json` that lists `@holochain/hc-spin` as a dev dependency, you may see this error message:
+Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that causes `hc-spin`, which is used to test applications and their UIs, to fail with a fatal error. If you try to run `hc-spin` (or `npm run start`/`npm run launch:happ` with a scaffolded hApp, which uses `hc-spin` under the hood), you may see this error message:
 
 ::: output-block
 ```
@@ -143,7 +143,7 @@ You can fix the issue by entering the following command in your project's root d
 sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
 ```
 
-You'll have to do this for every hApp project that uses `@holochain/hc-spin`.
+You'll have to do this for every hApp project that uses `hc-spin`.
 
 There are other fixes [outlined in the Ubuntu 24.04 release notes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that can solve the problem; if you'd like to learn more, read through them all and choose the one that feels most appropriate for you.
 
