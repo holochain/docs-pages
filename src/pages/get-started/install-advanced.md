@@ -121,6 +121,68 @@ To repair this, open up `~/.config/nix/nix.conf` in a text editor and look for t
 experimental-features = nix-command flakes
 ```
 
+### Installing on NixOS
+
+To use Holonix on your NixOS system, you'll need to enable a couple experimental features. We also strongly recommend using our Cachix cache to avoid having to build all the binaries on your system.
+
+Edit `/etc/nixos/configuration.nix`. Near the beginning of the file:
+
+```diff
+ { config, pkgs, ... }:
+
+ {
+   imports =
+     [
+       ./hardware-configuration.nix
+     ];
++  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+ # ...
+```
+
+Now scroll down to the `environment.systemPackages` line and edit:
+
+```diff
+   # ...
+   environment.systemPackages = with pkgs; [
++    cachix
+   ];
+   # ...
+```
+
+Save the file and reload your system:
+
+```bash
+sudo nixos-rebuild switch
+```
+
+Now add the Holochain cache:
+
+```bash
+sudo cachix use holochain-ci
+```
+
+Edit `/etc/nixos/configuration.nix` again:
+
+```diff
+ { config, pkgs, ... }:
+
+ {
+   imports =
+     [
+       ./hardware-configuration.nix
++      ./cachix.nix
+     ];
+   # ...
+```
+
+Save the file and reload your system one more time:
+
+```bash
+sudo nixos-rebuild switch
+```
+
+If you came here from the Quick Start Guide, you can continue on to the [Verify installation](/get-started/#2-4-verify-installation) step now.
+
 ## More info on Nix
 
 The main Nix tool used in Holochain development workflows is `nix develop`, a program that overlays a new Bash environment and set of tools on top of your existing shell environment.
