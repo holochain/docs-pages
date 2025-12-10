@@ -52,6 +52,10 @@ Read more about these fixes in the [Dev Tools Setup guide](/get-started/install-
 
 ### 2.3. Set up development environment
 
+!!! info Don't run this on a NixOS system!
+If you're using NixOS, you don't need this step, and it won't work anyway. Go to the [Installing on NixOS](/get-started/install-advanced/#installing-on-nix-os) section of the advanced installation guide and follow the instructions there instead, then skip down to [2.4. Verify installation](#2-4-verify-installation).
+!!!
+
 Once you've ensured that your system meets the hardware requirements and set up WSL2 on Windows or a dual-boot Linux OS (if applicable), you can proceed with the installation of the Nix package manager and the binary package cache for Holochain.
 
 Open a command-line terminal ([on Linux](https://ubuntu.com/tutorials/command-line-for-beginners#3-opening-a-terminal), [on macOS](https://support.apple.com/en-gb/guide/terminal/pht23b129fed/mac)) and run the following command:
