@@ -123,63 +123,12 @@ experimental-features = nix-command flakes
 
 ### Installing on NixOS
 
-To use Holonix on your NixOS system, you'll need to enable a couple experimental features. We also strongly recommend using our Cachix cache to avoid having to build all the binaries on your system.
+To use Holonix on your NixOS system, you'll need to:
 
-Edit `/etc/nixos/configuration.nix`. Near the beginning of the file:
-
-```diff
- { config, pkgs, ... }:
-
- {
-   imports =
-     [
-       ./hardware-configuration.nix
-     ];
-+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
- # ...
-```
-
-Now scroll down to the `environment.systemPackages` line and edit:
-
-```diff
-   # ...
-   environment.systemPackages = with pkgs; [
-+    cachix
-   ];
-   # ...
-```
-
-Save the file and reload your system:
-
-```bash
-sudo nixos-rebuild switch
-```
-
-Now add the Holochain cache:
-
-```bash
-sudo cachix use holochain-ci
-```
-
-Edit `/etc/nixos/configuration.nix` again:
-
-```diff
- { config, pkgs, ... }:
-
- {
-   imports =
-     [
-       ./hardware-configuration.nix
-+      ./cachix.nix
-     ];
-   # ...
-```
-
-Save the file and reload your system one more time:
-
-```bash
-sudo nixos-rebuild switch
-```
+1. Enable the `nix-command` and `flakes` experimental features.
+2. (Optional but strongly recommended) Add our Cachix server:
+    1. Add `https://holochain-ci.cachix.org` to `nix.settings.substituters`.
+    2. Add `holochain-ci.cachix.org-1:5IUSkZc0aoRS53rfkvH9Kid40NpyjwCMCzwRTXy+QN8=` to `nix.settings.trusted-public-keys`.
 
 If you came here from the Quick Start Guide, you can continue on to the [Verify installation](/get-started/#2-4-verify-installation) step now.
 
