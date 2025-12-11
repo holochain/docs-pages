@@ -163,6 +163,10 @@ let movies_plus_deleted = get_links_details(
 )?;
 ```
 
+!!! info `get_links` and `get_link_details` only return valid data
+These functions will only return links that are valid from the perspective of the agent delivering them; if any aren't valid, they'll be filtered out. Note also that, even for links that are returned, other validators may consider them to be invalid. Read [Getting an Agent's Status](/build/getting-an-agents-status/) for more info.
+!!!
+
 ### Count links
 
 If all you need is a _count_ of matching links, use [`hdk::link::count_links`](https://docs.rs/hdk/latest/hdk/link/fn.count_links.html). Currently it lacks the ability to specify a get strategy and will always go to the network; we may allow you to configure this in the future.
