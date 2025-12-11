@@ -43,7 +43,7 @@
   },
   "homepage": "https://github.com/holochain/docs-pages#readme",
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.0-alpha.1",
+    "@11ty/eleventy": "^3.1.2",
     "@aloskutov/eleventy-plugin-external-links": "^2.1.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.5",
