@@ -95,30 +95,26 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
     let Some(prev_action_hash) = action.prev_action() else {
         unreachable!("This is a Create or Update action, which always has a prev_action_hash");
     };
+
+    // Select all chain operations backwards to 60 seconds before the current
+    // record was written.
+    let take_until_timestamp = action.timestamp().saturating_add(&Duration::new(60, 0));
     let result = must_get_agent_activity(
         action.author().clone(),
-        // We don't specify a range here, so it defaults to
-        // `LimitConditions::ToGenesis`.
         ChainFilter::new(prev_action_hash.clone())
+            .until_timestamp(take_until_timestamp)
     )?;
 
-    // The result is a vector of `RegisterAgentActivity`` DHT ops.
+    // The result is a vector of `RegisterAgentActivity` DHT ops.
     // Let's convert it into a count of the movie creation actions written in
     // the last minute.
-    let take_until_timestamp = action.timestamp().saturating_add(&Duration::new(60, 0));
     let movie_entry_def = &EntryType::App(UnitEntryTypes::Movie.try_into()?);
     let movies_written_within_window = result
         .iter()
         // Select only the actions that write a movie entry (this naturally
         // filters out anything that isn't an entry creation action, because
-        // only they have entry types). Then extract the action data.
-        .filter_map(|o| if o.action.hashed.content.entry_type() == Some(movie_entry_def) {
-            Some(o.action.hashed.content.clone())
-        } else {
-            None
-        })
-        // Next, only take the ones within the spam window.
-        .take_while(|a| a.timestamp() >= take_until_timestamp)
+        // only they have entry types).
+        .filter(|o| o.action.hashed.content.entry_type() == Some(movie_entry_def))
         // Finally, count the matching actions.
         .count();
 
