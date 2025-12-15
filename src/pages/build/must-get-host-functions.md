@@ -98,7 +98,7 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
 
     // Select all chain operations backwards to 60 seconds before the current
     // record was written.
-    let take_until_timestamp = action.timestamp().saturating_add(&Duration::new(60, 0));
+    let take_until_timestamp = action.timestamp().saturating_sub(&Duration::new(60, 0));
     let result = must_get_agent_activity(
         action.author().clone(),
         ChainFilter::new(prev_action_hash.clone())
@@ -169,7 +169,7 @@ fn check_that_action_exists_and_is_valid_and_has_valid_public_app_entry(action_h
 
 This is because of the distributed nature of validation. We know this can be surprising behavior, and we're looking at improving the usability of our state model. In the meantime, if you want strong guarantees from `must_get_valid_record`, put all of your validation code into the path for the `StoreRecord` operation. Depending on your data model, this may force costly network gets, but it'll ensure that `must_get_valid_record` truly represents the validity of the record from all perspectives.
 
-Also keep in mind that, when an agent retrieves any of a malicious actor's data via `get_agent_activity` or `must_get_agent_activity`, they'll also retrieve and remember warrants from all operations for the matching records, then automatically block the author. (In the future, this may also be true for other `get`, `must_get`, and `query` functions.) This means you can shift bad-actor discovery to the moment when an honest agent retrieves invalid data, rather than when they try to build their own data on top of it.
+Also keep in mind that every failed validation produces a [**warrant**](/resources/glossary/#warrant), which is delivered to the [**agent activity**](/resources/glossary/#agent-activity) validators, or the peers responsible for validating the author's source chain. So when an agent retrieves any of a malicious actor's data via `get_agent_activity` or `must_get_agent_activity`, they'll also retrieve and remember warrants from all operations for the matching records, then automatically block the author. (In the future, this may also be true for other `get`, `must_get`, and `query` functions.) This means you can shift bad-actor discovery to the moment when an honest agent retrieves invalid data, rather than when they try to build their own data on top of it.
 !!!
 
 ## Reference
