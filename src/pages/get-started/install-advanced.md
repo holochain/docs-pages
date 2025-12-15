@@ -128,7 +128,7 @@ To use Holonix on your NixOS system, you'll need to:
 1. Enable the `nix-command` and `flakes` experimental features.
 2. (Optional but strongly recommended) Add our Cachix server:
     1. Add `https://holochain-ci.cachix.org` to `nix.settings.substituters`.
-    2. Add `holochain-ci.cachix.org-1:5IUSkZc0aoRS53rfkvH9Kid40NpyjwCMCzwRTXy+QN8=` to `nix.settings.trusted-public-keys`.
+    2. Add `holochain-ci.cachix.org-1:5IUSkZc0aoRS53rfkvH9Kid40NpyjwCMCzwRTXy+QN8=` to `nix.settings.trusted-public-keys`. <!-- cspell:ignore rfkv Npyjw -->
 
 If you came here from the Quick Start Guide, you can continue on to the [Verify installation](/get-started/#2-4-verify-installation) step now.
 
