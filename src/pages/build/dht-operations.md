@@ -52,7 +52,7 @@ While the following info describes the way Holochain should work [as formally sp
         * Effect: Store the entry, if an identical entry hasn't been created yet, and add the action to the the list of actions associated with its creation. An entry can be created by multiple authors, and each creation action paired with its entry [can be treated as an independent piece of data](/build/entries/#entries-and-actions). **This operation isn't produced for private entries.**
 * [`Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Update)
     * `StoreEntry` (see above)
-    * [`RegisterUpdate`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterUpdate)
+    * [`RegisterUpdate`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterUpdate) {#register-update}
         * Basis addresses: entry and action hashes of the _old_ entry being updated
         * Contents: action and entry <!--TODO: system validation? -->
         * Effect: Mark an entry creation action as being replaced by a new one, pointing the the entry and action that replace it. **An entry and its creation action can have multiple actions updating them.**
@@ -67,7 +67,7 @@ While the following info describes the way Holochain should work [as formally sp
         * Contents: action <!--TODO: system validation? -->
         * Effect: Add a link to the list of links pointing from the base to other locations
 * [`DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.DeleteLink)
-    * [`RegisterDeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterCreateLink)
+    * [`RegisterDeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterCreateLink) {#register-delete-link}
         * Basis addresses: old link's [base address](/build/links-paths-and-anchors/#define-a-link-type) and action hash
         * Contents: action <!--TODO: system validation? -->
         * Effect: Mark a link as deleted, without removing the actual data.

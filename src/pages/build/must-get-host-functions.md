@@ -169,9 +169,11 @@ fn check_that_action_exists_and_is_valid_and_has_valid_public_app_entry(action_h
 ```
 
 !!! info This may not catch all validation failures
-`must_get_valid_record` checks for validation success or failure on the [`StoreRecord` DHT operation](/build/dht-operations/#store-record). Validation code for other DHT operations produced from the same action may have executed and failed.
+`must_get_valid_record` checks for validation success or failure on the [`StoreRecord` DHT operation](/build/dht-operations/#store-record). Validation code for other DHT operations produced from the same action (such as [`RegisterUpdate`](/build/dht-operations/#register-update) or [`RegisterDeleteLink`](/build/dht-operations/#register-delete-link)) may have failed, but will not reflect on the record's validity.
 
-In the future, we intend to introduce 'warrants', a feature which will allow validators to communicate failures to each other for related data. Until then, if any of your validation code uses `must_get_valid_record` to retrieve a dependency, we recommend that the dependency's validation code for the `StoreRecord` operation cover all possible checks.
+This is because of the distributed nature of validation. We know this can be surprising behavior, and we're looking at improving the usability of our state model. In the meantime, if you want strong guarantees from `must_get_valid_record`, put all of your validation code into the path for the `StoreRecord` operation. Depending on your data model, this may force costly network gets, but it'll ensure that `must_get_valid_record` truly represents the validity of the record from all perspectives.
+
+Also keep in mind that, when an agent retrieves any of a malicious actor's data via `get_agent_activity` or `must_get_agent_activity`, they'll also retrieve and remember warrants from all operations for the matching records, then automatically block the author. (In the future, this may also be true for other `get`, `must_get`, and `query` functions.) This means you can shift bad-actor discovery to the moment when an honest agent retrieves invalid data, rather than when they try to build their own data on top of it.
 !!!
 
 ## Reference
