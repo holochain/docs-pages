@@ -89,7 +89,7 @@ pub fn get_all_movies_i_authored() -> Vec<Record> {
 
 In your coordinator zome functions, you can use the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html) host function, which works a lot like `query` if you pass [`ActivityRequest::Full`](https://docs.rs/hdk/latest/hdk/prelude/enum.ActivityRequest.html#variant.Full) to it. The main differences are:
 
-* It also returns the status of the chain (empty, valid, invalid, or forked) along with any collected warrants, and
+* It also returns the status of the chain (empty, valid, invalid, or forked) along with any collected [**warrants**](/resources/glossary/#warrant), and
 * It returns action hashes but no action or entry data. <!-- TODO: hopefully this behavior will be fixed one day -->
 
 If you want to get the action data, you'll need to perform a DHT query for every action hash you get back. The returned action hashes have been filtered by the query filters that you passed into the call.

@@ -95,30 +95,26 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
     let Some(prev_action_hash) = action.prev_action() else {
         unreachable!("This is a Create or Update action, which always has a prev_action_hash");
     };
+
+    // Select all chain operations backwards to 60 seconds before the current
+    // record was written.
+    let take_until_timestamp = action.timestamp().saturating_sub(&Duration::new(60, 0));
     let result = must_get_agent_activity(
         action.author().clone(),
-        // We don't specify a range here, so it defaults to
-        // `LimitConditions::ToGenesis`.
         ChainFilter::new(prev_action_hash.clone())
+            .until_timestamp(take_until_timestamp)
     )?;
 
-    // The result is a vector of `RegisterAgentActivity`` DHT ops.
+    // The result is a vector of `RegisterAgentActivity` DHT ops.
     // Let's convert it into a count of the movie creation actions written in
     // the last minute.
-    let take_until_timestamp = action.timestamp().saturating_add(&Duration::new(60, 0));
     let movie_entry_def = &EntryType::App(UnitEntryTypes::Movie.try_into()?);
     let movies_written_within_window = result
         .iter()
         // Select only the actions that write a movie entry (this naturally
         // filters out anything that isn't an entry creation action, because
-        // only they have entry types). Then extract the action data.
-        .filter_map(|o| if o.action.hashed.content.entry_type() == Some(movie_entry_def) {
-            Some(o.action.hashed.content.clone())
-        } else {
-            None
-        })
-        // Next, only take the ones within the spam window.
-        .take_while(|a| a.timestamp() >= take_until_timestamp)
+        // only they have entry types).
+        .filter(|o| o.action.hashed.content.entry_type() == Some(movie_entry_def))
         // Finally, count the matching actions.
         .count();
 
@@ -169,9 +165,11 @@ fn check_that_action_exists_and_is_valid_and_has_valid_public_app_entry(action_h
 ```
 
 !!! info This may not catch all validation failures
-`must_get_valid_record` checks for validation success or failure on the [`StoreRecord` DHT operation](/build/dht-operations/#store-record). Validation code for other DHT operations produced from the same action may have executed and failed.
+`must_get_valid_record` checks for validation success or failure on the [`StoreRecord` DHT operation](/build/dht-operations/#store-record). Validation code for other DHT operations produced from the same action (such as [`RegisterUpdate`](/build/dht-operations/#register-update) or [`RegisterDeleteLink`](/build/dht-operations/#register-delete-link)) may have failed, but will not reflect on the record's validity. <!-- TODO(upgrade): change this when the data model is changed in 0.7 -->
 
-In the future, we intend to introduce 'warrants', a feature which will allow validators to communicate failures to each other for related data. Until then, if any of your validation code uses `must_get_valid_record` to retrieve a dependency, we recommend that the dependency's validation code for the `StoreRecord` operation cover all possible checks.
+This is because of the distributed nature of validation. We know this can be surprising behavior, and we're looking at improving the usability of our state model. In the meantime, if you want strong guarantees from `must_get_valid_record`, put all of your validation code into the path for the `StoreRecord` operation. Depending on your data model, this may force costly network gets, but it'll ensure that `must_get_valid_record` truly represents the validity of the record from all perspectives.
+
+Also keep in mind that every failed validation produces a [**warrant**](/resources/glossary/#warrant), which is delivered to the [**agent activity**](/resources/glossary/#agent-activity) validators, or the peers responsible for validating the author's source chain. So when an agent uses `get_agent_activity` or `must_get_agent_activity`, they'll receive (and remember) any warrants from all operations for the matching records, then automatically block the author. <!-- TODO(upgrade): This may change in a 'soft' way with 0.7 as well --> This means you can shift bad-actor discovery to the moment when an honest agent retrieves invalid data, rather than when they try to build their own data on top of it.
 !!!
 
 ## Reference
