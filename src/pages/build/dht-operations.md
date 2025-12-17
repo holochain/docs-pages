@@ -67,7 +67,7 @@ While the following info describes the way Holochain should work [as formally sp
         * Contents: action <!--TODO: system validation? -->
         * Effect: Add a link to the list of links pointing from the base to other locations
 * [`DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.DeleteLink)
-    * [`RegisterDeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterCreateLink) {#register-delete-link}
+    * [`RegisterDeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterDeleteLink) {#register-delete-link}
         * Basis addresses: old link's [base address](/build/links-paths-and-anchors/#define-a-link-type) and action hash
         * Contents: action <!--TODO: system validation? -->
         * Effect: Mark a link as deleted, without removing the actual data.
