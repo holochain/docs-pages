@@ -58,6 +58,7 @@
           { title: "Validate Callback", url: "/build/validate-callback/" },
           { title: "must_get_* Host Functions", url: "/build/must-get-host-functions/" },
           { title: "DHT Operations", url: "/build/dht-operations/" },
+          { title: "Getting an Agent's Status", url: "/build/getting-an-agents-status/" },
         ]},
         { title: "Testing", url: "/build/testing-with-tryorama/", children: []},
         { title: "Operating a hApp", url: "/build/operating-a-happ/", children: []},

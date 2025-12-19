@@ -10,6 +10,7 @@ title: "Validation"
     * [`validate` Callback](/build/validate-callback/) --- basic callback, examples using stub functions
     * [`must_get_*` Host Functions](/build/must-get-host-functions/) --- Deterministically retrieving DHT data for use in validation
     * [DHT operations](/build/dht-operations/) --- advanced details on the underlying data structure used in DHT replication and validation
+    * [Getting an Agent's Status](/build/getting-an-agents-status/) --- checking for invalid actions committed by another agent
 :::
 
 ::: intro

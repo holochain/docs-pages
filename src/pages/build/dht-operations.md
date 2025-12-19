@@ -2,6 +2,17 @@
 title: "DHT operations"
 ---
 
+::: topic-list
+### In this section {data-no-toc}
+
+* [Validation](/build/validation/)
+    * [`genesis_self_check` Callback](/build/genesis-self-check-callback/) --- writing a function to control access to a network
+    * [`validate` Callback](/build/validate-callback/) --- basic callback, examples using stub functions
+    * [`must_get_*` Host Functions](/build/must-get-host-functions/) --- Deterministically retrieving DHT data for use in validation
+    * DHT operations (this page) --- advanced details on the underlying data structure used in DHT replication and validation
+    * [Getting an Agent's Status](/build/getting-an-agents-status/) --- checking for invalid actions committed by another agent
+:::
+
 ::: intro
 An agent receives **DHT operations**, which are requests for them to transform [their slice of the DHT](/concepts/4_dht/#finding-peers-and-data-in-a-distributed-database) in some way. A DHT operation must be validated before it's applied. For this reason it's the input parameter to the [`validate` callback](/build/validate-callback/).
 :::
@@ -45,12 +56,12 @@ While the following info describes the way Holochain should work [as formally sp
         * Contents: action (and optionally entry, if applicable) <!--TODO: system validation? -->
         * Effect: Store the action, along with any entry data.
 * [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Create)
-    * [`StoreEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreEntry)
+    * [`StoreEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreEntry) {#store-entry}
         * Basis address: entry hash
         * Contents: entry, and the action that wrote it
         * System validation: Check that the action's entry hash matches the entry hash.
-        * Effect: Store the entry, if an identical entry hasn't been created yet, and add the action to the the list of actions associated with its creation. An entry can be created by multiple authors, and each creation action paired with its entry [can be treated as an independent piece of data](/build/entries/#entries-and-actions). **This operation isn't produced for private entries.**
-* [`Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Update)
+        * Effect: Store the entry, if an identical entry hasn't been created yet, and add the action to the list of actions associated with its creation. An entry can be created by multiple authors, and each creation action paired with its entry [can be treated as an independent piece of data](/build/entries/#entries-and-actions). **This operation isn't produced for private entries.**
+* [`Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Update){#update}
     * `StoreEntry` (see above)
     * [`RegisterUpdate`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterUpdate) {#register-update}
         * Basis addresses: entry and action hashes of the _old_ entry being updated
@@ -71,3 +82,10 @@ While the following info describes the way Holochain should work [as formally sp
         * Basis addresses: old link's [base address](/build/links-paths-and-anchors/#define-a-link-type) and action hash
         * Contents: action <!--TODO: system validation? -->
         * Effect: Mark a link as deleted, without removing the actual data.
+
+## Warrant operations
+
+There's one final DHT operation type, a [`WarrantOp`](https://docs.rs/holochain_types/latest/holochain_types/warrant/struct.WarrantOp.html). Rather than being produced from an action, it gets produced by a validator when they discover an invalid operation. Its basis address is the public key of the author of the operation, which means warrants get collected on the agent ID address. Warrants can be [retrieved with `get_agent_activity`](/build/getting-an-agents-status/).
+
+You don't need to write validation code for warrant operations; they're system-only operations.
+

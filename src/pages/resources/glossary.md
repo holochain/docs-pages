@@ -937,9 +937,16 @@ See [validation authority](#validation-authority).
 
 #### Warrant
 
-A [DHT operation](#dht-operation) that attests that another DHT operation (including a warrant) is invalid and its author has transgressed a [validation rule](#validation-rule).
+A [DHT operation](#dht-operation) that attests that either:
 
-A warrant can be used by any peer as legitimate grounds for blocking communication with the [agent](#agent) being warranted. The publishing and discovery of warrants is what creates Holochain's [immune system](#immune-system).
+1. a DHT operation is invalid and its author has transgressed a [validation rule](#validation-rule), or
+2. an operation has caused an agent's chain to [fork](#fork-source-chain).
+
+The [basis address](#basis-address) of a warrant is the [agent ID](#agent-id) of the author of the invalid operation; hence, it is sent to and collected by the [validation authorities](#validation-authority) responsible for the agent ID basis address.
+
+A warrant may be used by any peer as legitimate grounds for blocking communication with the [agent](#agent) being warranted.<!-- TODO: update this if warrants ever become used as grounds for scrubbing invalid data -->
+
+Warrants are not produced for invalid warrants, but the agent that discovers the invalid warrant may block the warranter.
 
 #### WebAssembly (WASM)
 

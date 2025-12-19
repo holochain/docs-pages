@@ -2,6 +2,17 @@
 title: "must_get_* Host Functions"
 ---
 
+::: topic-list
+### In this section {data-no-toc}
+
+* [Validation](/build/validation/)
+    * [`genesis_self_check` Callback](/build/genesis-self-check-callback/) --- writing a function to control access to a network
+    * [`validate` Callback](/build/validate-callback/) --- basic callback, examples using stub functions
+    * `must_get_*` Host Functions (this page) --- Deterministically retrieving DHT data for use in validation
+    * [DHT operations](/build/dht-operations/) --- advanced details on the underlying data structure used in DHT replication and validation
+    * [Getting an Agent's Status](/build/getting-an-agents-status/) --- checking for invalid actions committed by another agent
+:::
+
 ::: intro
 Successful [validation](/build/validation) depends on yielding the same deterministic true/false result for a given DHT operation, no matter who validates it and when. To safely get DHT dependencies in validation, you must use the **`must_get_*`** host functions. Any other DHT retrieval functions, such as `get_links` or `get_details`, can give varying values depending on the current state of the metadata at an address and aren't available to validation callbacks.
 :::
@@ -169,7 +180,7 @@ fn check_that_action_exists_and_is_valid_and_has_valid_public_app_entry(action_h
 
 This is because of the distributed nature of validation. We know this can be surprising behavior, and we're looking at improving the usability of our state model. In the meantime, if you want strong guarantees from `must_get_valid_record`, put all of your validation code into the path for the `StoreRecord` operation. Depending on your data model, this may force costly network gets, but it'll ensure that `must_get_valid_record` truly represents the validity of the record from all perspectives.
 
-Also keep in mind that every failed validation produces a [**warrant**](/resources/glossary/#warrant), which is delivered to the [**agent activity**](/resources/glossary/#agent-activity) validators, or the peers responsible for validating the author's source chain. So when an agent uses `get_agent_activity` or `must_get_agent_activity`, they'll receive (and remember) any warrants from all operations for the matching records, then automatically block the author. <!-- TODO(upgrade): This may change in a 'soft' way with 0.7 as well --> This means you can shift bad-actor discovery to the moment when an honest agent retrieves invalid data, rather than when they try to build their own data on top of it.
+Also keep in mind that every failed validation produces a [**warrant**](/resources/glossary/#warrant), which is delivered to the [**agent activity**](/resources/glossary/#agent-activity) validators, or the peers responsible for validating the author's source chain. So when an agent uses [`get_agent_activity`](/build/getting-an-agents-status) or `must_get_agent_activity`, they'll receive (and remember) any warrants from all operations for the matching records, then automatically block the author. <!-- TODO(upgrade): This may change in a 'soft' way with 0.7 as well --> This means you can shift bad-actor discovery to the moment when an honest agent retrieves invalid data, rather than when they try to build their own data on top of it.
 !!!
 
 ## Reference
