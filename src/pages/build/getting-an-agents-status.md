@@ -25,17 +25,13 @@ In a network where all agents are [authorities](/resources/glossary/#dht-authori
 
 A warrant is a [DHT operation](/build/dht-operations/) that proves that some agent has broken a rule, either a base Holochain rule or an app-specific rule encoded in a [`validate` callback](/build/validate-callback/). The warrant contains details of the proof, signed by the validator that discovered it, and the warrant is published to the malicious author's [agent ID](/resources/glossary/#agent-id) address.
 
-<!-- TODO: remove this when chain fork warrants and blocking are stable -->
+<!-- TODO: remove this when chain fork warrants are stable -->
 
 !!! info Chain fork warrants aren't operational yet {#chain-fork-warrants-future}
 Warrants are only produced for operations that fail app or basic system validation rules. Chain forks will be warranted in the future.
 !!!
 
-!!! info Blocking isn't operational yet {#blocking-future}
-Malicious agents currently aren't blocked when a warrant is found; this will be implemented in a future release.
-!!!
-
-Although most `get*` host functions filter out invalid data or at least flag it as invalid, it's still possible to miss something, and end up building new data on top of bad data. This is because actions are split into [DHT operations](/build/dht-operations/) and spread around the DHT to different addresses. Depending on which operation a validator receives, they might run a different code path in your [`validate` callback](/build/validate-callback/).
+Although most `get*` host functions filter out invalid data or at least indicate that it's invalid, it's still possible to miss something, and end up building new data on top of bad data. This is because actions are split into [DHT operations](/build/dht-operations/) and spread around the DHT to different addresses. Depending on which operation a validator receives, they might run a different code path in your [`validate` callback](/build/validate-callback/).
 
 Here's an example: let's say that, in order to optimize performance of your `validate` callback for an [`Update` action](/build/dht-operations/#update) on a certain entry type, the code path for the [`RegisterUpdate`](/build/dht-operations/#register-update) operation checks that the author of the new entry matches the author of the old entry, but the code paths for the [`StoreEntry`](/build/dht-operations/#store-entry) and [`StoreRecord`](/build/dht-operations/#store-record) operations skip this check. In this case, checking the old entry or action hash for invalid updates will expose the same-author validation failure, but checking the new entry or action hash will not.
 
@@ -44,7 +40,7 @@ So the best place to check for _all_ invalid operations for an agent is at their
 An agent's state is not deterministic, so it's not something you can check in a `validate` callback. Instead, you check for chain forks and warrants in a zome function when you need insight into the integrity of another agent --- like when you're about to enter into an agreement with that agent.
 
 !!! info Warrants are 'sticky'
-Once an agent receives a warrant, their conductor validates it to make sure it's legitimate. If it is, it's stored permanently. (In the future, they'll also [block the warranted agent](#blocking-future)). Currently warrants are discovered via `get_agent_activity` only, not other `get*` host functions, although that is set to change in the future as well. <!-- TODO: update these when things change -->
+Once an agent receives a warrant, their conductor validates it to make sure it's legitimate. If it is, it's stored permanently.
 !!!
 
 ## Get the status of an agent
@@ -158,7 +154,7 @@ No distributed system is perfectly secure against conflict; if you're building a
 
 ## Query an agent's source chain
 
-An agent's source chain is part of their state, so you can also use `get_agent_activity` to retrieve their state. We'll write more about this soon.<!-- TODO: link to /build/querying-source-chains/ when this is written -->
+An agent's source chain is part of their state, so you can also use `get_agent_activity` to [retrieve portions of their source chain](/build/querying-source-chains/#in-coordinator-logic).
 
 ## Reference
 
