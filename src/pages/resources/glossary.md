@@ -6,7 +6,7 @@ As you go through our documentation, you'll probably find some unfamiliar terms,
 
 #### Action
 
-A piece of data that represents a [record](#record) on an [agent's](#agent) [source chain](#source-chain). Everything an [agent](#agent) does in a [Holochain application](#holochain-application-h-app) is expressed as actions, stored on their [source chain](#source-chain) as [records](#record). When the source chain records a piece of data, it's most accurate to say that it's recording the agent's _act_ of creating it. Actions link to the hash of their previous action, which creates a tamper-evident [journal](#journal) or [ledger](#ledger) of all their actions in an application.
+A piece of data that represents a [record](#record) on an [agent's](#agent) [source chain](#source-chain). Everything an [agent](#agent) does in a [Holochain application](#holochain-application-happ) is expressed as actions. When the source chain records a piece of data, it's most accurate to say that it's recording the agent's _act_ of creating it. Actions link to the hash of their previous action, which creates a tamper-evident [journal](#journal) or [ledger](#ledger) of all their actions in an application.
 
 #### Address
 
@@ -44,19 +44,19 @@ Describes any [distributed system](#distributed-system) that puts [agents](#agen
 
 #### Agent address
 
-The address of an [agent ID](#agent-id) entry on a Holochain [DHT](#distributed-hash-table-dht), calculated from the agent's [public key](#public-key-cryptography). It is used in locating an agent's [transport address](#transport-address) for [gossiping](#gossip) and making [remote calls](#remote-call), and in calculating the proper [validation authorities](#validation-authority) to send a [DHT operation](#dht-operation) to or receive a piece of [DHT data](#dht-data) from.
+The address of an [agent ID](#agent-id) entry on a Holochain [DHT](#distributed-hash-table-dht), equivalent to the agent's [public key](#public-key-cryptography). It is used in locating an agent's [transport address](#transport-address) for [gossiping](#gossip) and making [remote calls](#remote-call), and in selecting the proper [validation authorities](#validation-authority) to send a [DHT operation](#dht-operation) to or receive a piece of [DHT data](#dht-data) from.
 
 #### Agent ID
 
-The public key of an [agent](#agent). It serves as their unique ID in a [DHT](#distributed-hash-table-dht).
+The [public key](#public-key-cryptography) of an [agent](#agent). It serves as their unique ID in a [DHT](#distributed-hash-table-dht).
 
 #### Agent ID entry
 
-The entry associated with the third of the four [genesis records](#genesis-records) at the beginning of an [agent's](#agent) [source chain](#source-chain), which contains their [agent ID](#agent-id). The [address](#address) of this entry is also the [agent's address](#agent-address) on the DHT.
+The entry associated with the third of the four [genesis records](#genesis-records) at the beginning of an [agent's](#agent) [source chain](#source-chain), which contains their [agent ID](#agent-id). The [address](#address) of this entry is the same as the contents; that is, the agent ID address and the agent ID entry are the same 32 bytes.
 
 #### Anchor
 
-A Holochain application design pattern in which an easily discoverable [base](#link-base) is designated as a location to store a large number of [links](#link). The base's [address](#address) is typically calculated from a short string, whose value is either hard-coded into the application's code, discovered via link traversal, or entered via the UI. [Entries](#entry) and [agent IDs](#agent-id) can also serve as anchor bases.
+A Holochain application design pattern in which an easily discoverable [base](#link-base) is designated as a location to store [links](#link). The base's [address](#address) is typically calculated from a short string, whose value is either hard-coded into the application's code, discovered via link traversal, or entered via the UI. [Entries](#entry) and [agent IDs](#agent-id) can also serve as anchor bases.
 
 #### Append-only
 
@@ -64,11 +64,11 @@ Any data structure that can only be written to. Once written, that data becomes 
 
 #### App entry
 
-An entity that holds application data. On the DHT, an app entry is created for every [new entry action](#entry-creation-action), and [validation authorities](#validation-authority) who hold the entry also hold the [actions](#action) of all [agents](#agent) who have published that exact same entry as [metadata](#metadata), along with other metadata such as [links](#link). App entries are [deduplicated](#deduplication) but individual agents' writes of those entries are distinguished by their respective actions attached to the entry.
+An entity that holds application data. On the DHT, an app entry is created for every [entry creation action](#entry-creation-action), and [validation authorities](#validation-authority) who hold the entry also hold the [actions](#action) of all [agents](#agent) who have published that exact same entry as [metadata](#metadata), along with other metadata such as [links](#link). App entries are [deduplicated](#deduplication) but individual agents' writes of those entries are distinguished by their respective actions attached to the entry.
 
 #### Application (app)
 
-When we're talking about Holochain, 'app' is synonymous with [hApp](#holochain-application-h-app), a collection of [back end](#back-end) and optionally [front end](#front-end) components that comprise something a Holochain user can interact with.
+When we're talking about Holochain, 'app' is synonymous with [hApp](#holochain-application-happ), a collection of [back-end](#back-end) and optionally [front-end](#front-end) components that comprise something a Holochain user can interact with.
 
 #### Assigned capability grant
 
@@ -76,26 +76,26 @@ A [capability grant](#capability-grant) that only allows specified [agents](#age
 
 #### Atomic commit
 
-The guarantee that all [source chain](#source-chain) [commits](#commit) performed in one [zome function](#zome-function) call will succeed or fail together, similar to a database transaction. Failure can be caused by [validation](#validation-rule) failure for an individual [record](#record) or a hardware I/O failure. It can also be caused by a prior atomic commit finishing and advancing the source chain [state](#state-transition) while the current function call is running, that is, between the time that the conductor created the current function's [workspace](#workspace) and the time that it attempted to persist its own changes to the source chain.
+The guarantee that all [source chain](#source-chain) [commits](#commit) performed in one [zome function](#zome-function) call will succeed or fail together, similar to a database transaction. Failure can be caused by [validation](#validation-rule) failure for an individual [record](#record) or a hardware I/O failure. It can also be caused by a prior atomic commit finishing and advancing the source chain [state](#state-transition) while the current function call is running, that is, between the time that the conductor created the current function call's [scratch space](#scratch-space) and the time that it attempted to persist the call's changes to the source chain.
 
 #### Author
 
 1. The [agent](#agent) who has written and [signed](#public-key-signature) a [record](#record) to their source chain.
 2. The agent who has produced and signed a [DHT operation](#dht-operation) as a consequence of definition 1.
-3. The agent who has produced and signed a [validation receipt](#validation-receipt) as a consequence of validation a DHT operation.
-4. The agent who has produced and signed a [warrant](#warrant) as an attestation of disallowed activity.
+3. The agent who has produced and signed a [validation receipt](#validation-receipt) as a consequence of validating a DHT operation.
+4. The agent who has produced and signed a [warrant](#warrant) as a claim that they have discovered an invalid [DHT operation](#dht-operation).
 
 #### Author grant
 
-A [capability grant](#capability-grant) that allows anyone possessing the [source chain](#source-chain) [author's](#author) private key to call any [zome function](#zome-function) in a [cell](#cell). The only callers that should possess this key are the agent's own [clients](#client) and other [bridged](#bridge-call) cells associated with the same [agent ID](#agent-id) in the same [conductor](#conductor).
+A [capability grant](#capability-grant) that allows anyone possessing the [source chain](#source-chain) [author's](#author) private key to call any [zome function](#zome-function) in a [cell](#cell). The only callers that should possess this key are the agent's own [clients](#client) (when run in the same process as the Holochain conductor) and other [bridged](#bridge-call) cells associated with the same [agent ID](#agent-id) in the same [conductor](#conductor).
 
 #### Back end
 
-When we're talking about Holochain, synonymous with one or more [DNAs](#dna) for a [hApp](#holochain-application-h-app)---that is, code that contains the base-level persistence and validation logic.
+When we're talking about Holochain, synonymous with one or more [DNAs](#dna) for a [hApp](#holochain-application-happ) --- that is, code that contains the base-level persistence and validation logic.
 
 #### Basis address
 
-The [DHT address](#dht-address) to which an [operation](#dht-operation) applies. [Validation authorities](#validation-authority) who claim responsibility for this address receive, validate, and apply operations that produce [data](#dht-data) and [metadata](#metadata) attached to this address, which is then made available to [agents](#agent) who request it. This address consequently serves as a locator that allows an agent to know which authorities to request the data from, because it is claimed by a number of authorities who publish their coverage of the address via their [storage arc](#storage-arc), and whose [agent addresses](#agent-address) can be mapped to their [transport addresses](#transport-address) via a [peer table](#peer-table) lookup.
+The [DHT address](#dht-address) to which an [operation](#dht-operation) applies. [Validation authorities](#validation-authority) who claim responsibility for this address receive, validate, and apply operations that attach [data](#dht-data) and [metadata](#metadata) to this address, which is then made available to [agents](#agent) who request it. This address consequently serves as a locator that allows an agent to know which authorities to request the data from, because it is claimed by a number of authorities who publish their coverage of the address via their [storage arc](#storage-arc), and whose [agent addresses](#agent-address) can be mapped to their [transport addresses](#transport-address) via a [peer table](#peer-table) lookup.
 
 #### Blockchain
 
@@ -113,7 +113,7 @@ The act of joining an application's [DHT](#distributed-hash-table-dht). Bootstra
 
 #### Bootstrap service
 
-A service which keeps track of lists of [transport addresses](#transport-address) for [peers](#peer), segregated by [DNA hash](#dna-hash). When an [agent](#agent) wants to [bootstrap](#bootstrapping) into an [application's](#holochain-application-h-app) [DHT](#distributed-hash-table-dht), they ask the bootstrapping service for a list of existing peers and make individual connections to them over the appropriate [transport implementation](#transport-implementation).
+A service which keeps track of lists of [transport addresses](#transport-address) for [peers](#peer), segregated by [DNA hash](#dna-hash). When an [agent](#agent) wants to [bootstrap](#bootstrapping) into an [application's](#holochain-application-happ) [DHT](#distributed-hash-table-dht), they ask the bootstrapping service for a list of existing peers and make individual connections to them over the appropriate [transport implementation](#transport-implementation).
 
 #### Bridge call
 
@@ -124,8 +124,8 @@ A [zome function](#zome-function) call made between [cells](#cell) in one [agent
 The act of packaging:
 
 1. one or more [zomes](#zome) into a [DNA bundle](#dna-bundle),
-2. one or more DNA bundles into a [hApp bundle](#h-app-bundle), or
-3. a hApp bundle and a UI into a [web hApp](#web-h-app).
+2. one or more DNA bundles into a [hApp bundle](#happ-bundle), or
+3. a hApp bundle and a UI into a [web hApp](#web-happ).
 
 #### Byzantine fault tolerance (BFT)
 
@@ -189,7 +189,7 @@ A highly [centralized](#centralization) [distributed system](#distributed-system
 
 #### Cloning
 
-The act of creating a copy of an existing cell by duplicating it and changing one or more [DNA modifiers](#dna-modifiers) in order to obtain a distinct DNA [hash](#dna-hash) and optionally its behavior via [DNA properties](#dna-properties), thus creating an isolated [network](#network) and [DHT](#distributed-hash-table-dht) for the resulting clone cell. This allows all [agents](#agent) who have created clone cells with the same modifications to enjoy a private shared space using existing rules without creating a DNA from scratch. An example is a message application with channels, where a clone cell represents a channel.
+The act of creating a copy of an existing cell by duplicating it and changing one or more [DNA modifiers](#dna-modifiers), including [DNA properties](#dna-properties) which can be accessed by [integrity](#integrity-zome) and [coordinator](#coordinator-zome) code, in order to obtain a distinct DNA [hash](#dna-hash), thus creating an isolated [network](#network) and [DHT](#distributed-hash-table-dht) for the resulting clone cell. This allows all [agents](#agent) who have created clone cells with the same modifications to enjoy a private shared space using existing rules without creating a DNA from scratch. An example is a message application with channels, where a clone cell represents a channel.
 
 #### Cloud
 
@@ -211,7 +211,7 @@ The service that lives on an [agent's](#agent) device and hosts all of their [ce
 
 The [RPC interface](#rpc-interface) that a [conductor](#conductor) exposes, which allows [clients](#client) to:
 
-* access and manipulate the configuration of [hApps](#holochain-application-h-app), [DNAs](#dna), [agents](#agent), [cells](#cell), client [capability grants](#capability-grant) and RPC interfaces for communicating with individual cells,
+* access and manipulate the configuration of [hApps](#holochain-application-happ), [DNAs](#dna), [agents](#agent), [cells](#cell), client [capability grants](#capability-grant) and RPC interfaces for communicating with individual cells,
 * get diagnostic information, and
 * request that a client be granted a capability for a certain cell.
 
@@ -221,7 +221,7 @@ This API is typically only accessed by application management software such as t
 
 The [RPC interface](#rpc-interface) that a [conductor](#conductor) exposes, which allows [clients](#client) to:
 
-* call the public zome functions of any [cell](#cell) within a given [hApp](#holochain-application-h-app),
+* call the public zome functions of any [cell](#cell) within a given [hApp](#holochain-application-happ),
 * get info on the app itself and the cells within the hApp,
 * [clone](#cloning) cells within the happ, and
 * disable cloned cells.
@@ -245,7 +245,7 @@ A principle that states that all [distributed systems](#distributed-system) are 
 
 #### Consistency as logical monotonicity (CALM) theorem
 
-A principle that states that as long as a function is [logically monotonic](#logical-monotonicity), it can be run on multiple [nodes](#node) in a [distributed system](#distributed-system) and reach strong [eventual consistency](#eventual-consistency) without needing [coordination protocols](#coordination-protocol). Holochain's DHT is CALM, in that every [DHT operation](#dht-operation) is simply accumulated without attempts to reconcile it with other operations. State is then determined by processing the final state of the accumulated operations when data of a certain type is requested.
+A principle that states that as long as a function is [logically monotonic](#logical-monotonicity), it can be run on multiple [nodes](#node) in a [distributed system](#distributed-system) and reach strong [eventual consistency](#eventual-consistency) without needing [coordination protocols](#coordination-protocol) to resolve conflicts. Holochain's DHT is CALM and operates somewhat like a [CRDT](#conflict-free-replicated-data-type-crdt), in that every [DHT operation](#dht-operation) is simply accumulated and integrated into the data at a [basis address](#basis-address), producing a new state from any prior state.
 
 #### Content-addressable storage (CAS)
 
@@ -257,7 +257,7 @@ An algorithm that governs the synchronization of data in a [distributed system](
 
 #### Coordinator zome
 
-A [zome](#zome) that defines [zome functions](#zome-function). Arbitrary public zome functions give a DNA [DNA](#dna) its API which mediates interactions between [clients](#client) and a [cell](#cell) instantiated from the DNA, while arbitrary private zome functions can be [scheduled](#scheduling), and special private zome functions with reserved names are called by the [conductor](#conductor) as a consequence of lifecycle events such as [cell initialization](#init-callback) and [source chain commits](#post-commit-callback). Zome functions in a coordinator zome have access to most of the [host API](#holochain-host-api), including the ability to:
+A [zome](#zome) that defines [zome functions](#zome-function). Arbitrary public zome functions give a [DNA](#dna) its API which mediates interactions between [clients](#client) and a [cell](#cell) instantiated from the DNA, while arbitrary private zome functions can be [scheduled](#scheduling), and special private zome functions with reserved names are called by the [conductor](#conductor) as a consequence of lifecycle events such as [cell initialization](#init-callback) and [source chain commits](#post-commit-callback). Zome functions in a coordinator zome have access to most of the [host API](#holochain-host-api), including the ability to:
 
 * write to the [source chain](#source-chain) of the [agent](#agent) running the [cell](#cell) (with the exception of the post-commit callback),
 * read from the [source chain](#source-chain) of the agent running the cell, or from the [DHT](#distributed-hash-table-dht) that the cell belongs to,
@@ -278,15 +278,15 @@ A simple [coordination protocol](#coordination-protocol) between two or more [ag
 
 #### Create-entry action
 
-An [entry creation action](#entry-creation-action) that causes an [entry](#entry) to be made available to other [DHT](#distributed-hash-table-dht) members (unless the entry is [private](#private-entry), in which case only a record of its creation is published).
+An [entry creation action](#entry-creation-action) that causes an [entry](#entry) to be made available to other [DHT](#distributed-hash-table-dht) members (unless the entry is [private](#private-entry), in which case only a record of its creation is published). See also [update-entry action](#update-entry-action).
 
 #### Create-link action
 
-An [action](#action) that causes a [link](#link) from one piece of [record data](#record-data) to another to be available to other [DHT](#distributed-hash-table-dht) members.
+An [action](#action) that causes a [link](#link) from one [DHT address](#dht-address) to another to be available to other [DHT](#distributed-hash-table-dht) members.
 
 #### Create, read, update, delete (CRUD)
 
-The four main [actions](#action) an application needs to do with data. Even though all data structures in Holochain are [append-only](#append-only), modification and deletion of data can still be simulated by publishing a new action that marks the old data as modified in a [CALM](#consistency-as-logical-monotonicity-calm-theorem) way. [Entry creation actions](#entry-creation-action) create and/or update entries, while [delete-entry actions](#delete-entry-action) remove them. [Links](#link) can also be created and deleted in a similar way.
+The four main [actions](#action) an application needs to do with data. Even though all data structures in Holochain are [append-only](#append-only), modification and deletion of data can still be simulated by publishing a new action that marks the old data as modified in a [CALM](#consistency-as-logical-monotonicity-calm-theorem) way. [Entry creation actions](#entry-creation-action) create and/or update entries, while [delete-entry actions](#delete-entry-action) remove them. [Links](#link) can also be created and deleted (but not updated) in a similar way.
 
 #### CRUD action
 
@@ -307,7 +307,7 @@ The act of removing central points of control. Many [distributed systems](#distr
 
 #### Deduplication
 
-The removal of identical entries in a [CAS](#content-addressable-storage-cas). Most CASes, including Holochain's [DHT](#distributed-hash-table-dht), deduplicate content automatically. Holochain's DHT does, however, disambiguate between individual _writes_ of an [entry](#entry) by storing the [authors'](#author) [actions](#action) alongside it as [metadata](#metadata).
+The removal of identical entries in a [CAS](#content-addressable-storage-cas). Most CASes, including Holochain's [DHT](#distributed-hash-table-dht), deduplicate content automatically. Holochain's DHT does, however, disambiguate between individual _writes_ of an [entry](#entry) by storing the [authors'](#author) [actions](#action) alongside it as [metadata](#metadata) at the entry's [basis address](#basis-address), while also duplicating data by storing an extra copy of the entry alongside the action at the action's base address.
 
 #### DeepKey
 
@@ -315,19 +315,19 @@ The removal of identical entries in a [CAS](#content-addressable-storage-cas). M
 
 #### Delete-entry action
 
-An [action](#action) that causes an [entry creation action](#entry-creation-action) to be marked as [dead](#dead-data). If all such actions that caused an [entry](#entry) to be published are marked as dead, the entry itself will also be marked as dead.
+An [action](#action) that causes an [entry creation action](#entry-creation-action) to be marked as [dead](#dead-data). If all such actions that caused an [entry](#entry) to be created are marked as dead, the entry itself will also be marked as dead.
 
 #### Delete-link action
 
-An [action](#action) that causes a [create-link action](#create-link-action) to be marked as [dead](#dead-data). [Links](#link) with identical [base](#link-base), [target](#link-target), [type](#link-type), and [tag](#link-tag) are not [deduplicated](#deduplication), so deleting a create-link action also deletes the link. However, other create-link actions may contain the same data, so they will still remain.
+An [action](#action) that causes a [create-link action](#create-link-action) to be marked as [dead](#dead-data). [Links](#link) with identical [base](#link-base), [target](#link-target), [type](#link-type), and [tag](#link-tag) are not [deduplicated](#deduplication), so deleting a create-link action only deletes one instance of the link.
 
 #### DevHub
 
-A [hApp](#holochain-application-h-app) that acts as a package manager for other hApps. It is installed by default in the [Launcher](#launcher) and is also integrated into the Launcher's app store.
+A [hApp](#holochain-application-happ) that acts as a package manager for other hApps. It is installed by default in the [Launcher](#launcher) and is also integrated into the Launcher's app store.
 
 #### DHT address
 
-The unique ID of a piece of [record data](#record-data) ([entry](#entry), [action](#action), or [agent](#agent)) on the [DHT](#distributed-hash-table-dht). Every piece of data has an address that is generated directly from its content, usually by a [hash](#hash) function. This makes the DHT a [content-addressable storage](#content-addressable-storage-cas) system.
+A unique key in the [DHT](#distributed-hash-table-dht) at which data or metadata may be stored. The DHT address to which an [operation](#dht-operation) is sent for validation and integration is called its [basis address](#basis-address).
 
 #### DHT data
 
@@ -359,6 +359,8 @@ Any system that involves multiple [nodes](#node) talking to one another over a n
 
 #### DNA
 
+<!-- TODO: If we change the definition to mean only integrity code, change this and all references to it -->
+
 A package of executable code that defines the shared 'rules of the game' for a group of [agents](#agent). A DNA is made up of [zomes](#zome), which define [validation rules](#validation-rule) for data, as well as [zome functions](#zome-function) that allow agents to write to their [source chain](#source-chain), retrieve data from the [DHT](#distributed-hash-table-dht), send [signals](#signal) to a listening [client](#client), or make [remote calls](#remote-call) to another [cell](#cell). Each DNA has its own isolated [network](#network) and [DHT](#distributed-hash-table-dht) shared by all cells using the DNA.
 
 #### DNA bundle
@@ -375,11 +377,11 @@ See [cell](#cell).
 
 #### DNA manifest
 
-A file that specifies the components of a [DNA](#dna), including locations of compiled [zomes](#zome) and metadata such as a name, description, [network seed](#network-seed), [properties](#dna-properties), [origin time](#origin-time), and [quantum time](#quantum-time). This manifest can be used by the [`hc`](#hc) tool to build a [DNA bundle](#dna-bundle).
+A file that specifies the components of a [DNA](#dna), including locations of compiled [zomes](#zome) and metadata such as a name, description, [network seed](#network-seed), and [properties](#dna-properties). This manifest can be used by the [`hc`](#hc) tool to build a [DNA bundle](#dna-bundle).
 
 #### DNA modifiers
 
-All properties of a DNA which affect its hash --- that is, its [integrity zomes](#integrity-zome), [properties](#dna-properties), [network seed](#network-seed), [origin time](#origin-time), and [quantum time](#quantum-time).
+All properties of a DNA which affect its hash --- that is, its [integrity zomes](#integrity-zome), [properties](#dna-properties), and [network seed](#network-seed).
 
 #### DNA properties
 
@@ -387,7 +389,7 @@ Arbitrary data that affects the operation of the [DNA](#dna). A user can specify
 
 #### End-to-end encryption (E2EE)
 
-A channel between two nodes in a public network that allows them to transfer secret messages that cannot be decrypted by eavesdroppers. Holochain's node-to-node [network](#network) communications, including [gossip](#gossip), [publishing](#publish), and [remote calls](#remote-call), use E2EE (currently [QUIC](https://en.wikipedia.org/wiki/QUIC) with TLS encryption).
+A channel between two nodes in a public network that allows them to transfer secret messages that cannot be decrypted by eavesdroppers. Holochain's node-to-node [network](#network) communications, including [gossip](#gossip), [publishing](#publish), and [remote calls](#remote-call), use E2EE (currently WebRTC over TLS).
 
 #### Entry
 
@@ -459,15 +461,15 @@ A protocol used by many [peer-to-peer](#peer-to-peer) networks to rapidly propag
 
 #### Graphical user interface (GUI)
 
-In Holochain terms, a [client](#client) that presents a visual way for a user to interact with a [hApp](#holochain-application-h-app) running in their [conductor](#conductor). As with any client of a Holochain application, the GUI must possess a [capability](#capability) allowing them to call the hApp's public [zome functions](#zome-function).
+In Holochain terms, a [client](#client) that presents a visual way for a user to interact with a [hApp](#holochain-application-happ) running in their [conductor](#conductor). As with any client of a Holochain application, the GUI must possess a [capability](#capability) allowing them to call the hApp's public [zome functions](#zome-function).
 
-#### hApp bundle
+#### hApp bundle {#happ-bundle}
 
-One or more [DNAs](#dna), which together form the [back end](#back-end) for a complete [hApp](#holochain-application-h-app). These components are specified in a [hApp manifest](#h-app-manifest) file, and can be packaged together in a zip archive along with the manifest or downloaded separately from the internet. A hApp can also be bundled with a web-based [GUI](#graphical-user-interface-gui) to become a [web hApp](#web-h-app).
+One or more [DNAs](#dna), which together form the [back end](#back-end) for a complete [hApp](#holochain-application-happ). These components are specified in a [hApp manifest](#happ-manifest) file, and can be packaged together in a zip archive along with the manifest or downloaded separately from the internet. A hApp can also be bundled with a web-based [GUI](#graphical-user-interface-gui) to become a [web hApp](#web-happ).
 
-#### hApp manifest
+#### hApp manifest {#happ-manifest}
 
-A file that specifies the DNAs comprising a [hApp bundle](#h-app-bundle).
+A file that specifies the DNAs comprising a [hApp bundle](#happ-bundle).
 
 #### Hash
 
@@ -479,7 +481,7 @@ An [append-only](#append-only) data structure that can be used as a tamper-evide
 
 #### hc
 
-A command-line tool for [scaffolding](#scaffolding), [bundling](#bundling), testing, and running [hApps](#holochain-application-h-app).
+A command-line tool for [scaffolding](#scaffolding), [bundling](#bundling), testing, and running [hApps](#holochain-application-happ).
 
 #### History
 
@@ -493,9 +495,9 @@ The company funding the development of Holochain and facilitating [hosting servi
 
 Holochain's standard Rust-based software development kit (SDK) for [DNA](#dna) developers. It provides developer-friendly access to the [Holochain host API](#holochain-host-api), as well as macros for defining [entry](#entry) and [link](#link) types, [validation functions](#validation-function), [init callbacks](#init-callback), and other [zome functions](#zome-function).
 
-#### Holochain application (hApp)
+#### Holochain application (hApp) {#holochain-application-happ}
 
-A collection of [DNAs](#dna) in a [hApp bundle](#h-app-bundle) and optionally a [client](#client) or clients that allow users to interact with those DNAs.
+A collection of [DNAs](#dna) in a [hApp bundle](#happ-bundle) and optionally a [client](#client) or clients that allow users to interact with those DNAs.
 
 #### Holochain Core
 
@@ -523,21 +525,26 @@ The act of relying on inductive reasoning within a [validation function](#valida
 
 #### Init callback
 
-A function in a [DNA](#dna) that the [conductor](#conductor) executes when an [agent](#agent) calls a [cell](#cell) for the first time, and after they have joined the DNA's [network](#network). This can be used to set up initial [source chain](#source-chain) [#state](#state-transition), etc.
+A function in a [DNA](#dna) that the [conductor](#conductor) executes when an [agent](#agent) calls a [cell](#cell) for the first time, and after they have joined the DNA's [network](#network). This can be used to set up initial [source chain](#source-chain) [state](#state-transition), etc.
 
 #### Init complete action
 
 An [action](#action) that Holochain automatically writes to an [agent's](#agent) [source chain](#source-chain) to indicate that the [init callbacks](#init-callback) in all of a [DNA's](#dna) [zomes](#zome) have successfully run.
 
+#### Integrate
+
+To apply a [DHT operation](#dht-operation) to the existing [state](#state-transition) at the operation's [basis address](#basis-address), producing a new state at that address. In practice, an address' state is simply an accumulation of [record data](#record-data) and [metadata](#metadata) which may be interpreted arbitrarily at retrieval time, although Holochain's DHT query functions typically apply default interpretations that filter out invalid and deleted data (see [CRUD](#create-read-update-delete-crud)).
+
 #### Integrity zome
 
-A [zome](#zome) that defines a data schema. It does this through three specially named [zome functions](#zome-function):
+A [zome](#zome) that defines a data schema. It does this through four specially named [zome functions](#zome-function):
 
 * one that yields a set of [entry types](#entry-type) that the zome claims to define ([entry types callback](#entry-types-callback)),
 * one that similarly yields a set of [link types](#link-type) ([link types callback](#link-types-callback)), and
 * a [validation function](#validation-function) that receives an [operation](#dht-operation) produced by a [source chain](#source-chain) [action](#action) (either one [authored](#author) by the [agent](#agent) running the function or one received for [DHT](#distributed-hash-table-dht) storage as part of an agent's role as a [validation authority](#validation-authority)) and yields a true, false, or indeterminate answer.
+* a [genesis self-check callback](#genesis-self-check-callback), which prevalidates a [membrane proof](#membrane-proof) before the agent joins the [network](#network).
 
-All integrity zomes are considered [DNA modifiers](#dna-modifiers), as they define the [DNA's](#dna) core set of shared agreements about the nature of data that can be validly produced by any agent in the [network](#network). Although an integrity zome cannot produce data, [coordinator zomes](#coordinator-zome) within the same DNA can produce data whose entry type is defined in one of the DNA's integrity zomes.
+All integrity zomes are considered [DNA modifiers](#dna-modifiers), as they define the [DNA's](#dna) core set of shared agreements about the nature of data that can be validly produced by any agent in the network. Although an integrity zome cannot produce data, [coordinator zomes](#coordinator-zome) within the same DNA can produce data whose entry type is defined in one of the DNA's integrity zomes.
 
 #### Intrinsic data integrity
 
@@ -549,7 +556,7 @@ Synonymous with [ledger](#ledger).
 
 #### Launcher
 
-A desktop application that allows a person to search for, install, and run [hApps](#holochain-application-h-app). The Launcher can be downloaded from its [GitHub repository](https://github.com/holochain/launcher/releases).
+A desktop application that allows a person to search for, install, and run [hApps](#holochain-application-happ). The Launcher can be downloaded from its [GitHub repository](https://github.com/holochain/launcher/releases).
 
 #### Ledger
 
@@ -557,7 +564,7 @@ A history of events or [state transitions](#state-transition). In [distributed l
 
 #### Lightweight consensus
 
-An informal term for a Holochain application pattern in which the ownership of scarce resources are tracked and protected from conflicting ownership claims by establishing a set of trusted nodes as [M-of-N signers](#m-of-n-signing), a majority of whom must witness every [countersigned](#countersigning) transaction involving the resources in order for ownership to be considered valid.
+An informal term for a Holochain application pattern in which the ownership of scarce resources is tracked and protected from conflicting ownership claims by establishing a set of trusted nodes as [M-of-N signers](#m-of-n-signing), a majority of whom must witness every [countersigned](#countersigning) transaction involving the resources, in order for the ownership claim to be considered valid.
 
 #### Link
 
@@ -569,15 +576,15 @@ The [address](#address) that a [link](#link) links from. The base usually points
 
 #### Link tag
 
-An arbitrary piece of data, stored with a [link](#link), that contains arbitrary application-defined information. Among other uses, a link tag can be used in a query filter or store information about the [link target](#link-target) to avoid a second [DHT](#distributed-hash-table-dht) query to retrieve the target's content.
+A piece of data, stored with a [link](#link), that contains arbitrary application-defined information. Among other uses, a link tag can be used in a query filter or store information about the [link target](#link-target) to avoid a second [DHT](#distributed-hash-table-dht) query to retrieve the target's content.
 
 #### Link target
 
-The [address](#address) that a [link](#link) points to. As with the [base](#link-base), a target can point to the address of a piece of [record data](#record-data) on the same DHT, but can also point to something external or left unspecified. The target addresses of links within the same DHT do not automatically have any metadata pointing back to the [base](#link-base), and therefore by default have no knowledge that they're being pointed to.
+The [address](#address) that a [link](#link) points to. As with the [base](#link-base), a target can point to the address of a piece of [record data](#record-data) on the same [DHT](#distributed-hash-table-dht), but can also point to something external or left unspecified. Links are one way; the target addresses of links do not automatically have any metadata pointing back to the [base](#link-base), and therefore have no knowledge that they're being pointed to.
 
 #### Link type
 
-A specification for a [link](#link) defined in an [integrity zome](#integrity-zome) that a [DNA](#dna) should recognize and understand, similar to a foreign reference in a database table schema. DNA developers create their own link types for the data their app needs to store, and can write [validation functions](#validation-function) for [operations](#dht-operation) that [create, update, or delete](#create-read-update-delete-crud) links of those types.
+A specification for a [link](#link) defined in an [integrity zome](#integrity-zome) that a [DNA](#dna) should recognize and understand. DNA developers create their own link types for the data their app needs to store, and can write [validation functions](#validation-function) for [operations](#dht-operation) that [create](#create-link-action) or [delete](#delete-link-action) links of those types.
 
 #### Link types callback
 
@@ -596,22 +603,22 @@ A Holochain application design pattern, in which one [DHT](#distributed-hash-tab
 
 #### Logical monotonicity
 
-The property of a system whereby [monotonicity](#monotonicity) is applied to state changes. Practically this means that state changes are only accumulated, never forgotten, so that the system's final state results from the application of all accumulated state changes. [CALM](#consistency-as-logical-monotonicity-calm-theorem) systems such as Holochain are logically monotonic. Two examples of this in Holochain are:
+The property of a system whereby [monotonicity](#monotonicity) is applied to state changes. (Holochain works this way; see [CRUD](#create-read-update-delete-crud) for details.) [CALM](#consistency-as-logical-monotonicity-calm-theorem) are logically monotonic, and often retain all state changes, so that the system's final state results from the application of all accumulated state changes. Two examples of this in Holochain are:
 
 * An [agent](#agent)'s [source chain](#source-chain) is an event journal that only adds state change operations, never removes them.
 * An application's [DHT](#distributed-hash-table-dht) only adds new data without removing old data, simulating deletions and modifications ([CRUD](#create-read-update-delete-crud)) by recording actions which override the status of, but don't remove, the data they refer to.
 
 #### Membrane
 
-One of two types of permeable boundaries that allow or disallow access:
+An informal term for one of two types of permeable boundaries that allow or disallow access:
 
 1. The layer of protection around an [agent's](#agent) [cell](#cell), secured by [capability-based security](#capability-based-security), that prevents unauthorized access to the cell's [zome functions](#zome-function), [source chain](#source-chain) data, or view of the [DHT](#distributed-hash-table-dht).
 
-2. A special [validation function](#validation-function) in a [DNA](#dna) that checks an agent's [membrane proof](#membrane-proof) and determines their right to become part of the DNA's [network](#network). If a membrane proof is invalid, existing [peers](#peer) in the network will refuse to talk to the agent attempting to join.
+2. Logic in a [validation function](#validation-function) in a [DNA](#dna) that checks an agent's [membrane proof](#membrane-proof) and determines their right to become part of the DNA's [network](#network). If a membrane proof is invalid, existing [peers](#peer) in the network will refuse to talk to the agent attempting to join.
 
 #### Membrane proof
 
-A [record](#record) written to an agent's [source chain](#source-chain) that proves they have permission to join a [DHT](#distributed-hash-table-dht), for example, an invite code or signed authorization from an existing member. The [DNA](#dna) for the DHT has a [validation function](#validation-function) that checks the validity of the membrane proof; if agents validating the membrane proof determine that it's invalid, they can refuse to communicate with the new agent. This is the [immune system's](#immune-system) first line of defense against malicious actors.
+A [record](#record) written to an agent's [source chain](#source-chain) that proves they have permission to join a [DHT](#distributed-hash-table-dht), for example, an invite code or signed authorization from an existing member. The [DNA](#dna) for the DHT should have logic in a [validation function](#validation-function) that checks the validity of the membrane proof; if agents validating the membrane proof determine that it's invalid, they can refuse to communicate with the new agent. This is the [immune system's](#immune-system) first line of defense against malicious actors, particularly in [Sybil attacks](#sybil-attack).
 
 #### Metadata
 
@@ -622,11 +629,11 @@ Supplementary data attached to a [basis address](#basis-address) in a [DHT](#dis
 * [action](#action) headers that indicate who wrote the record data to the base, or
 * [agent activity](#agent-activity) records on an [agent ID entry's](#agent-id-entry) base that show their write history.
 
-Unlike with [record data](#record-data), a base can have many pieces of each kind of metadata attached to it.
+Unlike with [record data](#record-data) or an [entry](#entry), many pieces of each kind of metadata can be attached to a basis address.
 
 #### Microservice
 
-An application architecture pattern that encourages small, single-purpose [back end](#back-end) services. Holochain [DNAs](#dna) can be seen as microservices that combine to form a fully featured [hApp](#holochain-application-h-app).
+An application architecture pattern that encourages small, single-purpose [back end](#back-end) services. Holochain [DNAs](#dna) can be seen as microservices that combine to form a fully featured [hApp](#holochain-application-happ).
 
 #### M-of-N signing
 
@@ -650,29 +657,27 @@ See [neighborhood](#neighborhood).
 
 #### Neighborhood
 
-A range of [DHT addresses](#dht-address) about which a [node](#node) attempts to know everything they ought to know. Neighbors collectively support the [resilience](#resilience) of all [DHT data](#dht-data) whose [address](#dht-address) is within their respective [storage arcs](#storage-arc) by storing and [validating](#validation-rule) it and [gossiping](#gossip) it to all [neighbors](#neighbor) with whom their storage arcs overlap.
-
-<!--- removed because query arcs don't exist yet -- They also have a wider neighborhood of nodes they can talk to to receive authoritative data, defined by their [query arc](#query-arc). -->
+A range of [DHT addresses](#dht-address) covered by the overlapping [storage arcs](#storage-arc) of two or more [validation authorities](#validation-authority). The authorities [gossip](#gossip) their respective views of those addresses with each other by sharing [DHT operations](#dht-operation) whose [basis addresses](#basis-address) fall within the range, with the intention of mutually reaching authoritative [consistency](#consistency) on the [states](#state-transition) of those addresses. Neighbors collectively support the [resilience](#resilience) of all [DHT data](#dht-data).
 
 #### Network
 
-In Holochain terms, a collection of [nodes](#node) [gossiping](#gossip) with each other to form a [validating DHT](#validating-dht), aiding in data storage and retrieval, [validation](#validation-rule), and peer discovery. Each [DNA](#dna) has a separate network.
+In Holochain terms, a collection of [nodes](#node) [gossiping](#gossip) with each other to form a [validating DHT](#validating-dht), aiding in data storage and retrieval, [validation](#validation-rule), and peer discovery. Each [DNA](#dna) has a separate network, keyed by the [hash](#hash) of the [DNA modifiers](#dna-modifiers).
 
 #### Network seed
 
-An optional string, specified in a [DNA bundle](#dna-bundle) file or passed at [cell](#cell) [cloning](#cloning) time, that modifies the [DNA's hash](#dna-hash) without modifying any of its behavior. This can be used to create a unique [network](#network) shared by all [agents](#agent) who use the same network seed. Hence, a network seed is considered a [DNA modifier](#dna-modifiers).
+An optional string, specified in a [DNA bundle](#dna-bundle) file or passed at [hApp](#holochain-application-happ) installation time or [cell](#cell) [cloning](#cloning) time, that modifies the [DNA's hash](#dna-hash) without modifying any of its behavior. This can be used to create a unique [network](#network) shared by all [agents](#agent) who use the same network seed. Hence, a network seed is considered a [DNA modifier](#dna-modifiers).
 
 #### Node
 
-An individual [agent](#agent) in a Holochain [network](#network) who has an [agent address](#agent-address) and can be talked to via [gossip](#gossip).
+An informal term for:
+
+1. An individual device in a [distributed system](#distributed-system)
+1. An individual [cell](#cell) in a Holochain [network](#network).
+2. A [conductor](#conductor) hosting one or more cells.
 
 #### Open/close chain actions
 
 [System actions](#system-action) that track the continuity of an [agent's](#agent) participation across multiple [source chains](#source-chain). A close chain action marks a source chain as closed and points to a new source chain (either in the same or another [DHT](#distributed-hash-table-dht)) that continues the agent's activity, while an open chain action marks a source chain as a continuation of a prior source chain.
-
-#### Origin time
-
-A timestamp deemed to be the 'birthdate' of a [DNA](#dna). It defines the earliest valid timestamp for any data on any [source chain](#source-chain) of any [cell](#cell) in the DNA's [network](#network), and helps make gossip more efficient. Origin time is considered a [DNA modifier](#dna-modifiers).
 
 #### Participant
 
@@ -680,7 +685,7 @@ Synonymous with 'user'. We often prefer the term 'participant' because a Holocha
 
 #### Partition
 
-A situation in which some nodes in a [distributed system](#distributed-system) are temporarily or permanently unable to communicate with each other.
+A situation in which some [nodes](#node) in a [distributed system](#distributed-system) are temporarily or permanently unable to communicate with each other.
 
 #### Path
 
@@ -688,14 +693,14 @@ A specific application of the [anchor](#anchor) pattern in which anchors, in add
 
 #### Peer
 
-Synonymous with [node](#node) or [agent](#agent) in a [peer-to-peer](#peer-to-peer) network; the plural term 'peers' describes agents who belong to the same network.
+Synonymous with [node](#node) or [agent](#agent) in a [peer-to-peer](#peer-to-peer) network; in this site, we use the plural term 'peers' to describe agents who belong to the _same_ network.
 
 #### Peer discovery
 
 The act of finding the transport addresses of peers to communicate with. Initial discovery is done as a part of [bootstrapping](#bootstrapping), and ongoing peer discovery is handled by [DHT](#distributed-hash-table-dht) lookups and [gossip](#gossip). The currently supported peer discovery methods are:
 
 * Contacting a public [bootstrapping service](#bootstrap-service) for an initial list of peers,
-* <abbr title="multicast domain name resolution">mDNS</abbr> on a local network,
+* <abbr title="multicast domain name resolution">mDNS</abbr> on a local network (currently disabled), <!-- TODO: remove once mDNS is supported again -->
 * Injecting a list of known peers directly into the [conductor](#conductor), and
 * Connecting locally to other cells hosted within the same conductor.
 
@@ -705,11 +710,11 @@ A mapping of [agent addresses](#agent-address) to [transport addresses](#transpo
 
 #### Peer-to-peer
 
-Describes any highly [decentralized](#decentralization) [distributed system](#distributed-system) in which [nodes](#node) talk directly to one another without the intermediation of a [server](#client-server) or other type of [central](#centralization) node.
+Describes any highly [decentralized](#decentralization) [distributed system](#distributed-system) in which [nodes](#node) talk directly to one another without the intermediation of a [server](#client-server) or other type of [central](#centralization) node, with the possible exception of network traffic [relay](#relay) or [discovery](#peer-discovery) servers.
 
 #### Playground
 
-A community-contributed UI that visualizes the state of the [cells](#cell) in a [hApp's](#holochain-application-h-app) [network](#network) that are running in a local [conductor](#conductor). It can be used to help a developer understand the working of Holochain's [subconscious](#subconscious) and foundational data structures, as well as troubleshoot a hApp. The Playground is included by default in every hApp [scaffolded](#scaffolding) by Holochain's official scaffolding tool. See [Playground's GitHub organization](https://github.com/holochain-playground).
+A community-contributed UI that visualizes the state of the [cells](#cell) in a [hApp's](#holochain-application-happ) [network](#network) that are running in a local [conductor](#conductor). It can be used to help a developer understand the working of Holochain's [subconscious](#subconscious) and foundational data structures, as well as troubleshoot a hApp. The Playground is included by default in every hApp [scaffolded](#scaffolding) by Holochain's official scaffolding tool. See [Playground's GitHub organization](https://github.com/holochain-playground).
 
 #### Post-commit callback
 
@@ -719,21 +724,17 @@ A private callback defined in a [coordinator zome](#coordinator-zome) that recei
 
 An [entry](#entry) which is stored on an [agent's](#agent) [source chain](#source-chain), but not [published](#publish) to the [DHT](#distributed-hash-table-dht).
 
-#### Proxy relay
-
-A special software service that helps two Holochain nodes behind restrictive firewalls or NATs communicate with each other by mediating network traffic between them.
-
 #### Public entry
 
 An [entry](#entry) whose [type](#entry-type) is marked 'public' and is [published](#publish) to the [DHT](#distributed-hash-table-dht).
 
 #### Public-key cryptography
 
-A cryptographic system that consists of two keys, a public component and a private component. These keys are mathematically related to each other in a way that's easy for the key pair's owner to prove, but nearly impossible for a third-party to reverse-engineer. In Holochain, an [agent's](#agent) public key lives in the [DHT](#distributed-hash-table-dht) and serves as their [ID](#agent-id) while the private key stays on the agent's device. [Peers](#peer) can verify an agent's claim of authorship on [published](#publish) [DHT data](#dht-data) by checking their [signature](#public-key-signature), and can use an agent's public key to encrypt a private message that only the holder of the corresponding private key can decrypt.
+A cryptographic system that consists of two keys, a public component and a private component. These keys are mathematically related to each other in a way that's easy for the key pair's owner to prove, but nearly impossible for a third party to reverse-engineer. In Holochain, an [agent's](#agent) public key lives in the [DHT](#distributed-hash-table-dht) and serves as their [ID](#agent-id) while the private key stays on their device. [Peers](#peer) can verify an agent's claim of authorship on [published](#publish) [DHT data](#dht-data) by checking their [signature](#public-key-signature), and can use an agent's public key to encrypt a private message that only the holder of the corresponding private key can decrypt.
 
 #### Public-key infrastructure (PKI)
 
-A way for agents to share their public keys, prove their authenticity, and revoke old keys if they've been compromised. Most PKIs, such as the global TLS certificate authority system, are centralized. Holochain will provide a [distributed PKI](#distributed-public-key-infrastructure-dpki) system.
+A way for agents to share their public keys, prove their authenticity, and revoke old keys if they've been compromised. Most PKIs, such as the global TLS certificate authority system, are centralized. Holochain is planning to create a [distributed PKI](#distributed-public-key-infrastructure-dpki) system.
 
 #### Public-key signature
 
@@ -745,15 +746,11 @@ See [public-key cryptography](#public-key-cryptography).
 
 #### Publish
 
-To convert a [record](#record) into one or more [DHT operations](#dht-operation) and send them to the respective [validation authorities](#validation-authority) for [validation](#validation-rule), transformation into [record data](#record-data), and storage. This happens after it has passed the author's own copy of the [validation rules](#validation-rule). The validation authorities who are responsible for that entry's [address](#address) receive it, validate it, and if it's valid, store a copy of it and pass a [validation receipt](#validation-receipt) back to the author.
+To convert a [record](#record) into one or more [DHT operations](#dht-operation) and send them to the respective [validation authorities](#validation-authority) for [validation](#validation-rule), transformation into [record data](#record-data), and storage. This happens after it has passed the author's own copy of the [validation rules](#validation-rule). The validation authorities who are responsible for the operations' [basis addresses](#basis-address) validate them, and if they're valid, store a copy of them and pass [validation receipts](#validation-receipt) back to the author. (See also [integrate](#integrate)).
 
 #### Quantized gossip
 
-In Holochain's [DHT](#distributed-hash-table-dht), the practice of synchronizing data held by two [validation authorities](#validation-authority) by first agreeing on a two-dimensional window to compare lists of respectively held [DHT operations](#dht-operation). This window is fitted to one or more cells in a grid, in which the horizontal axis is the DHT's [address space](#address-space) and the vertical axis is the time since the [DNA](#dna)'s [origin time](#origin-time), quantized by the [quantum time](#quantum-time). As every DHT operation has both an address and a timestamp, it can be located on the grid. This technique is used to increase speed and reduce payload size of [gossip](#gossip) rounds.
-
-#### Quantum time
-
-A value specified in the [DNA manifest](#dna-manifest) that defines the smallest time window for which two peers will compare a subset of the data they're each holding during a round of [DHT](#distributed-hash-table-dht) synchronization. The quantum time is a [DNA modifier](#dna-modifiers), and with the [origin time](#origin-time) affects the way in which peers [gossip](#gossip). All peers in a network must agree on the [quantized gossip](#quantized-gossip) parameters they use in order to gossip DHT data successfully with one another.
+In Holochain's [DHT](#distributed-hash-table-dht), the practice of synchronizing data held by two [validation authorities](#validation-authority) by first agreeing on a grid of two-dimensional windows within their shared [neighborhood](#neighborhood) to compare lists of respectively held [DHT operations](#dht-operation). This window is fitted to one or more cells in a grid, in which the horizontal axis is the DHT's [address space](#address-space) and the vertical axis is the time since an agreed-upon epoch start date (currently the UNIX epoch). As every DHT operation has both an address and a timestamp, it can be located on the grid. This technique is used to increase speed and reduce payload size of [gossip](#gossip) rounds.
 
 <!---
 removed because query arcs don't actually exist yet
@@ -773,6 +770,10 @@ Any piece of [address](#address)able data that can (though doesn't need to) be p
 
 A schedule on which a [scheduler function](#scheduler-function) is directed to run. A recurring schedule specifies a time interval, similar to a UNIX cronjob or Windows scheduled task. Unlike an [ephemeral schedule](#ephemeral-schedule), functions running on a recurring schedule survive through [cell](#cell) stops and starts.
 
+#### Relay
+
+A special software service that helps two Holochain nodes behind restrictive firewalls or NATs communicate with each other by mediating network traffic between them.
+
 #### Remote call
 
 A [remote procedure call](#remote-procedure-call-rpc) that one agent's [cell](#cell) makes to [the zome functions](#zome-function) of another agent's cell within a [network](#network). The callee controls remote access to their zome functions via [capability-based security](#capability-based-security).
@@ -788,7 +789,7 @@ A network port that the [conductor](#conductor) exposes, allowing [clients](#cli
 
 #### Required validations
 
-The number of [validation receipts](#validation-receipt) that an instance of a given [entry type](#entry-type) must have in order to be considered accepted by the [validation authorities](#validation-authority) and be 'live' on the [DHT](#distributed-hash-table-dht). On initial [publish](#publish), the author of a record collects these receipts; thereafter, validation authorities gossip these receipts to each other. If the author can't collect the required number of receipts, it will try to republish to more authorities later.
+The number of [validation receipts](#validation-receipt) that each [DHT operation](#dht-operation) produced for an [entry creation action](#entry-creation-action) of a given [entry type](#entry-type) must have in order to be considered accepted by the [validation authorities](#validation-authority) and be 'live' on the [DHT](#distributed-hash-table-dht). Initially, the author of a record collects these receipts from the authorities they [publish](#publish) the operations to. Thereafter, as the operations are gossiped around the DHT, new authorities will also send validation receipts to the author. If the author can't collect the required number of receipts, it will try to republish to more authorities later.
 
 #### Resilience
 
@@ -804,15 +805,15 @@ The programming language currently used to build Holochain Core and [DNAs](#dna)
 
 #### Saturation
 
-The state at which there are enough [peers](#peer) holding a piece of [DHT data](#dht-data) to make sure it's reliably available to anyone who asks for it (see [resilience](#resilience)).
+The state at which there are enough [peers](#peer) holding a piece of [DHT data](#dht-data) to make sure it's reliably available to anyone who asks for it (see [resilience](#resilience)). This is distinct from [required validations](#required-validations), which is simply an initial publishing target.
 
 #### Scaffolding
 
-The act of generating application code from generic templates and app-specific specifications using a tool built for the purpose. Holochain's [scaffolding tool](https://github.com/holochain/scaffolding) can generate [zome](#zome), [test](#tryorama), and [UI](#graphical-user-interface-gui) code.
+The act of generating application code from generic templates and app-specific specifications using a tool built for the purpose. Holochain's [scaffolding tool](https://github.com/holochain/scaffolding) can generate [zome](#zome), [test](#tryorama), and [GUI](#graphical-user-interface-gui) code.
 
 #### Scenario test
 
-An automated test that simulates real-life conditions involving multiple [cells](#cell) in a [network](#network), used to test a [DNA's](#dna) functionality and tolerance of various failure modes. [Tryorama](#tryorama) is used to write scenario tests in JavaScript.
+An automated test that simulates real-life conditions involving multiple [cells](#cell) in a [network](#network), used to test a [DNA's](#dna) functionality and tolerance of various failure modes. [Tryorama](#tryorama) is used to write scenario tests in JavaScript, and [Wind Tunnel](#wind-tunnel) is an orchestrator used to run and measure the performance of scenario tests across multiple [conductors](#conductor).
 
 #### Scheduler function
 
@@ -820,7 +821,11 @@ A private [zome function](#zome-function) (that is, a function which is not expo
 
 #### Scheduling
 
-The act of directing a [scheduler function](#scheduler-function) to be called later, either [ephemerally](#ephemeral-schedule) or on a [recurring schedule](#recurring-schedule).
+The act of directing a [scheduler function](#scheduler-function) to be called later, either [ephemerally](#ephemeral-schedule) or on a [recurring schedule](#recurring-schedule). (Note: this feature is currently disabled.) <!-- TODO: remove once/if scheduling is re-enabled. -->
+
+#### Scratch space
+
+A snapshot of an agent's current cell [state](#state-transition), that is, their [source chain](#source-chain), taken at the start of a [zome function](#zome-function) call. All [commits](#commit) are staged to this space and not written to the source chain until the function completes and validation succeeds for all commits (see [atomic commit](#atomic-commit)).
 
 #### Sharding
 
@@ -835,11 +840,11 @@ Signals are "fire and forget"; they are not persisted to any [source chain](#sou
 
 #### Source chain
 
-A [hash chain](#hash-chain) of [records](#record) committed by an [agent](#agent). Every agent has a separate source chain for each of the [cells](#cell) they're running, which stores all of the [actions](#action) or [state transitions](#state-transition) the cell has made.
+A [hash chain](#hash-chain) of [records](#record) committed by an [agent](#agent). Every agent has a separate source chain for each of the [cells](#cell) they're running, which stores all of the [actions](#action) ([state transitions](#state-transition)) the cell has made.
 
 #### State transition
 
-A modification of application state. In Holochain, all state transitions are initially created as [records](#record) in an [agent's](#agent) [source chain](#source-chain) that represent the [actions](#action) of [creating, updating, and deleting](#create-read-update-delete-crud) data and metadata, as well as of system-level actions such as [capability grants](#capability-grant). A state transition further yields one or more [operations](#dht-operation) that are then [published](#publish) to the [DHT](#distributed-hash-table-dht), that is, they are sent to the appropriate [validation authorities](#validation-authority), who then apply those operations to their own DHT [shard](#sharding), which causes a state transition for the [basis address](#basis-address) to which the operation applies.
+A modification of application state. In Holochain, all state transitions are initially created as [records](#record) in an [agent's](#agent) [source chain](#source-chain) that represent the [actions](#action) of [creating, updating, and deleting](#create-read-update-delete-crud) data and metadata, as well as of system-level actions such as [capability grants](#capability-grant). A state transition further yields one or more [operations](#dht-operation) that are then [published](#publish) to the [DHT](#distributed-hash-table-dht), that is, they are sent to the appropriate [validation authorities](#validation-authority) for the [basis addresses](#basis-address) of the operations, who then [integrate](#integrate) those operations into their own DHT [shard](#sharding).
 
 #### Subconscious
 
@@ -851,10 +856,16 @@ A range of [DHT addresses](#dht-address) for which an [agent](#agent) claims [au
 
 <!--- removed because query arcs don't exist yet -- This storage arc is an agent's closest [neighborhood](#neighborhood) in which they know everything that's going on, as compared to a [query arc](#query-arc) in which they merely know who exists and what range of addresses they claim authority for.-->
 
+#### Sybil attack
+
+An attack on a [distributed system](#distributed-system) in which the attacker creates many false identities in order to gain some advantage. In a Holochain [DHT], Sybils may compromise the [immune system](#immune-system), leading to doubt about whether third-party-validated data is valid. Holochain's recommended protection against this is to use [membrane proofs](#membrane-proof) to make identity creation challenging.
+
 #### System action
 
 Any [action](#action) meant for Holochain's internal use. A system action can be one of:
 
+* One that advertises the [DNA](#dna) the source chain claims to be using,
+* One that submits the agent's [membrane proof](#membrane-proof),
 * [Init complete](#init-complete-action),
 * [Open/close chain](#open-close-chain-actions), or
 * Any action that manipulates a [system entry](#system-entry).
@@ -879,7 +890,7 @@ The underlying network address of an [agent](#agent) in a [network](#network), s
 
 A networking layer that allows [peers](#peer) in the same [network](#network) to [gossip](#gossip) with each other and make [remote calls](#remote-call). Currently Holochain only supports two transport implementations:
 
-* a [QUIC](https://en.wikipedia.org/wiki/QUIC)-based transport implementation for IP networks such as the internet or a <abbr title="local area network">LAN</abbr>, with optional routing through public [proxy relays](#proxy-relay), and
+* A [WebRTC](https://webrtc.org/)-based transport implementation for IP networks such as the internet or a <abbr title="local area network">LAN</abbr>, with optional routing through public [relays](#relay), and
 * A local-only transport implementation that allows cells within one [conductor](#conductor) to communicate directly with each other without touching the network.
 
 #### Trustless
@@ -900,23 +911,15 @@ An [entry creation action](#entry-creation-action) that replaces another entry c
 
 #### Validating DHT
 
-Holochain's [DHT](#distributed-hash-table-dht) design which creates an [immune system](#immune-system) for the network. An [agent](#agent) chooses [validation authorities](#validation-authority) at random to [publish](#publish) or retrieve DHT data, based on peers' [nearness](#nearness) to the [address](#address) of the data being validated and the [storage arcs](#storage-arc) they claim authority for. If an entry fails validation, the validation authority publishes a [warrant](#warrant) against the entry's author.
+Holochain's [DHT](#distributed-hash-table-dht) design which creates an [immune system](#immune-system) for the network. An [agent](#agent) chooses [validation authorities](#validation-authority) at random to [publish](#publish) or retrieve DHT data, based on peers' [nearness](#nearness) to the [address](#address) of the data being validated and the [storage arcs](#storage-arc) they claim authority for. If any data fails validation, the validation authority publishes a [warrant](#warrant) against the entry's author, which is sent to the [agent activity](#agent-activity) authorities for the malicious author's [agent ID](#agent-id).
 
 #### Validation authority
 
 An [agent](#agent) on an application's [validating DHT](#validating-dht), chosen at random to validate a [DHT operation](#dht-operation), based on their [agent address](#agent-address)' [nearness](#nearness) to the base [address](#address) of the operation and their published [storage arc](#storage-arc). After validating, they also store the entry and help maintain its [resilience](#resilience) by gossiping it with their [neighbors](#neighbor) and cooperating to adjust their storage arcs to ensure reliable availability.
 
-#### Validation receipt
-
-A signed piece of data sent by a [validation authority](#validation-authority) to the [author](#author) of an [operation](#dht-operation) indicating whether it was deemed valid or not.
-
-#### Validation rule
-
-Any executable code that checks data for validity. Validation rules can either be [subconscious](#subconscious) or written in a [zome](#zome) as a [validation function](#validation-function).
-
 #### Validation function
 
-A function in an application's [DNA](#dna) that contains the validation rules for a [DHT operation](#dht-operation). This function allows every [agent](#agent) to check the correctness of data they see. If a [validation authority](#validation-authority) is performing validation on an operation and finds that it's invalid, they can generate and share a [warrant](#warrant) proving that the record's author has broken the 'rules of the game'.
+A function in an [integrity zome](#integrity-zome) of an application's [DNA](#dna) that contains validation rules for a [DHT operation](#dht-operation). This function allows every [agent](#agent) to check the correctness of data they see. If a [validation authority](#validation-authority) is performing validation on an operation and finds that it's invalid, they can generate and share a [warrant](#warrant) proving that the record's author has broken the 'rules of the game'.
 
 A validation function has only limited access to the [host API](#holochain-host-api), restricted to deterministic retrieval of [DHT](#distributed-hash-table-dht) data and selected cryptographic functions.
 
@@ -924,35 +927,35 @@ A validation function has only limited access to the [host API](#holochain-host-
 
 A [signed](#public-key-signature) piece of data created by the [validation-authority](#validation-authority) for a [DHT operation](#dht-operation), attesting to its validity according to the [validation rules](#validation-rule) in the app.
 
+#### Validation rule
+
+Any executable code that checks data for validity. Validation rules can either be [subconscious](#subconscious) or written in a [zome](#zome) as a [validation function](#validation-function).
+
 #### Validator
 
 See [validation authority](#validation-authority).
 
 #### Warrant
 
-(Future) A [signed](#public-key-signature) piece of data that attests that either:
+A [DHT operation](#dht-operation) that attests that another DHT operation (including a warrant) is invalid and its author has transgressed a [validation rule](#validation-rule).
 
-1. a [DHT operation](#dht-operation) is invalid and its author has transgressed a [validation rule](#validation-rule),
-2. a warrant is invalid, or
-3. an agent should not be communicated with for reasons not easily expressible as a [validation function](#validation-function), such as termination of employment or copyright .
-
-A warrant can be used by any peer as legitimate grounds for blocking communication with the [agent](#agent) being warranted, as well as for deleting one's locally stored copy of any invalid data covered by the warrant, even if one would normally be a [validation authority](#validation-authority) for that data.
+A warrant can be used by any peer as legitimate grounds for blocking communication with the [agent](#agent) being warranted. The publishing and discovery of warrants is what creates Holochain's [immune system](#immune-system).
 
 #### WebAssembly (WASM)
 
 A low-level program byte code format that can be run on almost any platform, including the web browser. Holochain expects [zomes](#zome) to be compiled to WebAssembly so the [ribosome](#ribosome) can execute them. See [WebAssembly website](https://webassembly.org/).
 
-#### Web hApp
+#### Web hApp {#web-happ}
 
-A [hApp](#holochain-application-h-app) [bundled](#bundling) with a web-based UI.
+A [hApp](#holochain-application-happ) [bundled](#bundling) with a web-based UI.
 
 #### Weight
 
 A value, available as a field in most [action](#action) types, that serves as an estimation of the cost of validating the [operations](#dht-operation) and storing/serving the [data](#dht-data) associated with an action. This value, along with the timestamp of the action and actions preceding it, can be used in a [validation function](#validation-function) to throttle excessive [source chain](#source-chain) writes which could cause overloading of the [network](#network) supporting a [DHT](#distributed-hash-table-dht).
 
-#### Workspace
+#### Wind Tunnel
 
-A snapshot of an agent's current cell [state](#state-transition), that is, their [source chain](#source-chain), taken at the start of a [zome function](#zome-function) call. All [commits](#commit) are staged to this workspace and not written to the source chain until the function completes and validation succeeds for all commits (see [atomic commit](#atomic-commit)).
+A test orchestrator used for running multi-device [scenario tests](#scenario-test). The project can be found on [GitHub](https://github.com/holochain/wind-tunnel).
 
 #### Zome
 
@@ -966,4 +969,4 @@ A function, created by the developer of a [zome](#zome), that allows external co
 * a private [scheduler function](#scheduler-function) with an arbitrary name, defined in a [coordinator zome](#coordinator-zome) and called by the conductor when the scheduled event is triggered, or
 * a public function with an arbitrary name, defined in a coordinator zome, that forms part of a zome's public API available to other remote and local [cells](#cell) or a [client](#client).
 
-An cell can control access to its public zome functions via [capability grants](#capability-grant).
+A cell can control access to its public zome functions via [capability grants](#capability-grant).

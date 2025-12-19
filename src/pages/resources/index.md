@@ -43,7 +43,7 @@ When you write a Holochain application, the part that lives in Holochain is call
 
 The conductor exposes two separate RPC APIs over WebSocket interfaces:
 
-* The **admin API** lets application managers control the conductor to install bundles of DNAs (called [hApps](/resources/glossary/#holochain-application-h-app)), create agent IDs, combine a DNA and an agent ID into a running [cell](/resources/glossary/#cell), and activate application RPC interfaces.
+* The **admin API** lets application managers control the conductor to install bundles of DNAs (called [hApps](/resources/glossary/#holochain-application-happ)), create agent IDs, combine a DNA and an agent ID into a running [cell](/resources/glossary/#cell), and activate application RPC interfaces.
 * The **application API** lets front-ends call a running cell's functions and get information on the [DNA bundle](/resources/glossary/#dna-bundle) that the cell belongs to.
 
 For both of these APIs, you make an RPC call sending a MessagePack-serialized request in a special envelope format to the conductor over WebSocket and listen for a response. The request's envelope must contain a request ID, and the matching response will have the same ID. On the interface that exposes the app API, you can also listen for [**signals**](/resources/glossary/#signal) broadcast by cells. There are [client libraries](#conductor-clients) for JavaScript and Rust that make it easy to handle requests/responses and set up signal listeners.

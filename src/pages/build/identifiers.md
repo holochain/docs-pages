@@ -28,16 +28,16 @@ The four-byte DHT location is calculated from the 32 bytes of the hash and is us
 
 There are also a couple of composite types, [`AnyDhtHash`](https://docs.rs/holo_hash/latest/holo_hash/type.AnyDhtHash.html) and [`AnyLinkableHash`](https://docs.rs/holo_hash/latest/holo_hash/type.AnyLinkableHash.html).
 
-Here's an overview of the five types above, plus two composite types:
+Here's an overview of the five types above, plus the two composite types:
 
-* `DnaHash` is the hash of the DNA bundle (including any DNA modifiers passed in at installation or cloning time), and is the [unique identifier for the network](/build/working-with-data/#storage-locations-and-privacy).
+* `DnaHash` is the hash of the DNA bundle (including any DNA modifiers passed in at installation or cloning time) and the [unique identifier for the DNA's network](/build/working-with-data/#storage-locations-and-privacy).
 * `AgentPubKey` is the public key of a participant in a network.
 * `ActionHash` is the hash of a structure called an [action](/build/working-with-data/#entries-actions-and-records-primary-data) that records a participant's act of storing or changing private or shared data.
 * `EntryHash` is the hash of an arbitrary blob of bytes called an [entry](/build/entries/), which contains application or system data. (Note: there's a special system entry called [`Agent`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/enum.Entry.html#variant.Agent), which holds the agent's public key; the hash function returns the public key itself, _not_ its hash.)
 * `ExternalHash` is the ID of a resource that exists outside the database, such as the hash of an IPFS resource or the public key of an Ethereum wallet. Holochain doesn't care about its value, as long as it's 32 bytes long. There's no content stored at the address; it simply serves as an anchor to attach [links](/build/links-paths-and-anchors/) to.
 * Composite types --- if one of the types above is eligible, it can be converted into one of these two types via the `.into()` method. Functions that take the below types will implicitly convert from the above types.
     * `AnyDhtHash` is the hash of any kind of addressable content (actions, entries, and agent public keys). Any
-    * `AnyLinkableHash` is the hash of anything that can be linked to or from (that is, all of the above).
+    * `AnyLinkableHash` is the hash of anything that can be linked to or from (that is, all of the above, or `AnyDhtHash` or `ExternalHash`).
 
 ## Getting hashes
 
@@ -86,7 +86,7 @@ if let Action::Update(action_data) = action {
 
 ### Entry
 
-To get the hash of an entry, first construct an instance of the entry type that you [defined in the integrity zome](/build/entries/#define-an-entry-type), then pass it through the [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html) function. (You don't actually have to write the entry to a source chain to get the entry hash.)
+To get the hash of an entry, first construct an instance of the entry type that you [defined in the integrity zome](/build/entries/#define-an-entry-type), then pass it through the [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html) function. (You don't actually have to write the entry to a source chain to get its hash.)
 
 ```rust
 use hdk::hash::*;
@@ -189,7 +189,7 @@ let ipfs_movie_poster_hash = ExternalHash::from_raw_32(vec![/* bytes of external
 
 ### DNA
 
-There is one global hash that everyone knows, and that's the hash of the DNA itself. You can get it by calling [`hdk::info::dna_info`](https://docs.rs/hdk/latest/hdk/info/fn.dna_info.html).
+In every DNA, there is one global hash that everyone knows, and that's the hash of the DNA itself. You can get it by calling [`hdk::info::dna_info`](https://docs.rs/hdk/latest/hdk/info/fn.dna_info.html).
 
 ```rust
 use hdk::prelude::*;
@@ -201,7 +201,7 @@ let dna_hash = dna_info()?.hash;
 
 ### In DHT data
 
-To reference an address in your entry data, define a field in your entry that can hold the right kind of address. The HDK will take care of serialization and deserialization for you. The following entry types have fields that reference other DHT data.
+To reference an address in your entry data, define a field in your entry type that can hold the right kind of address. The HDK will take care of serialization and deserialization for you. The following entry types have fields that reference other DHT data.
 
 ```rust
 use hdi::prelude::*;

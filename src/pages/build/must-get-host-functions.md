@@ -15,7 +15,7 @@ If a `must_get_*` function can't retrieve the data, it isn't considered a valida
 To get a single entry, use [`must_get_entry`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_entry.html). To get a single action, use [`must_get_action`](https://docs.rs/hdi/latest/hdi/entry/fn.must_get_action.html).
 
 !!! info Results aren't guaranteed to be valid
-Neither of these functions verify that the retrieved data is valid. If you need this assurance, use an action hash as as a dependency's identifier and retrieve it with [`must_get_valid_record`](#must-get-valid-record).
+Neither of these functions verify that the retrieved data is valid. If you need this assurance, use an action hash as a dependency's identifier and retrieve it with [`must_get_valid_record`](#must-get-valid-record).
 !!!
 
 This example validates a [movie loan acceptance](/build/identifiers/#in-dht-data), making sure that it's valid against the original loan offer.
