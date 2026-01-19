@@ -98,7 +98,7 @@ The developer community has created some useful utilities, libraries, and reusab
     * [`hc-cooperative-content`](https://github.com/holochain/hc-cooperative-content) implements patterns for collaborative content management --- permission and authority management, update/delete processes, etc.
     * [`holo-hash-js`](https://github.com/spartan-holochain-counsel/holo-hash-js) is a small JavaScript library for making Holochain data IDs easier to work with on the front end.
     * [`identicons-js`](https://github.com/mjbrisebois/identicons-js) is a JavaScript library that implements our recommended UX pattern of displaying hashes and public keys visually rather than textually.
-* [hREA](https://github.com/h-rea) ([website](https://hrea.io/)) is a toolkit for building economic applications, such as bookkeeping, resource management, supply chain, ERM, cooperative marketplaces.
+* [hREA](https://github.com/h-rea) is a toolkit for building economic applications, such as bookkeeping, resource management, supply chain, ERM, cooperative marketplaces.
 
 ## Example applications
 
