@@ -30,6 +30,8 @@ identicon
 identicons
 iostream
 iostreams
+iroh
+Iroh
 IPFS
 keccak
 keypair

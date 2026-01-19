@@ -7,6 +7,8 @@ For existing hApps that are currently using Holochain 0.5, here's the guide to g
 
 The biggest change in Holochain 0.6 is that **warrants** are now stable. This doesn't result in any breaking changes, but the response from `get_agent_activity` will now return a list of warrants.
 
+Another notable change is that the default network transport has been changed in Holochain v0.6.1 from tx5 to iroh. An update to the conductor config is required.
+
 If your hApp is written for Holochain 0.4, follow the [0.5 upgrade guide](/resources/upgrade/upgrade-holochain-0.5/) first.
 :::
 
@@ -89,7 +91,8 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     ```
 3. Update your project's package dependencies ([see below](#update-your-package-dependencies)).
 4. Follow the [breaking change update instructions](#update-your-application-code) below to get your code working again.
-5. Try running your tests:
+5. [Add network.relay_url to your conductor config](#conductor-config-file-changes).
+6. Try running your tests:
 
     ```shell
     npm test
@@ -100,7 +103,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     ```shell
     npm start
     ```
-6. Be aware of some changes that won't break your app but may affect its runtime behavior. Read the [guide at the bottom](#subtle-changes).
+7. Be aware of some changes that won't break your app but may affect its runtime behavior. Read the [guide at the bottom](#subtle-changes).
 
 ## Update your package dependencies
 
@@ -444,9 +447,9 @@ and fix any test failures you see. Finally, try your hApp out by running:
 npm run start
 ```
 
-### (Optional) Conductor config file changes
+### Conductor config file changes
 
-There are a few changes to the conductor config file, related to the removal of DPKI and other small changes. This step is only relevant if you're working with hard-coded `conductor-config.yaml` files, such as when you're building executables with the [kangaroo-electron](https://github.com/holochain/kangaroo-electron) template.
+There are a few changes to the conductor config file, related to the removal of DPKI, the addition of the iroh network transport, and other small changes. This step is only relevant if you're working with hard-coded `conductor-config.yaml` files, such as when you're building executables with the [kangaroo-electron](https://github.com/holochain/kangaroo-electron) template.
 
 If you have a Kangaroo-based project, edit the `templates/conductor-config.yaml` file like this:
 
@@ -474,6 +477,7 @@ If you have a Kangaroo-based project, edit the `templates/conductor-config.yaml`
 +  base64_auth_material: ~
    bootstrap_url: "###DEFINED_AT_RUNTIME###"
    signal_url: "###DEFINED_AT_RUNTIME###"
++  relay_url: "###DEFINED_AT_RUNTIME###"
    webrtc_config:
      iceServers:
        - urls:
@@ -486,6 +490,13 @@ If you have a Kangaroo-based project, edit the `templates/conductor-config.yaml`
  tuning_params: ~
  tracing_scope: ~
 ```
+
+Notable changes include:
+
+* **Iroh relay URL**: With the change to the iroh network transport as default in Holochain v0.6.1, a `relay_url` is required to enable communication with other nodes
+* **DPKI removed**: All DPKI-related configuration has been removed
+* **Network configuration**: New fields like `base64_auth_material` and `report` have been added for enhanced network configuration options
+* **Admin interface**: Added `danger_bind_addr` field for more control over admin interface binding
 
 ## Subtle changes
 
