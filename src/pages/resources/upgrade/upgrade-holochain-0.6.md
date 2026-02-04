@@ -491,6 +491,16 @@ If you have a Kangaroo-based project, edit the `templates/conductor-config.yaml`
  tracing_scope: ~
 ```
 
+If you are using a local iroh relay as your `relay_url`, you will additionally need to edit the `templates/conductor-config.yaml` to allow unencrypted relay connections:
+
+```diff:yaml
+ network:
+-  advanced: ~
++  advanced:
++    irohTransport:
++      relayAllowPlainText: true
+```
+
 Notable changes include:
 
 * **Iroh relay URL**: With the change to the iroh network transport as default in Holochain v0.6.1, a `relay_url` is required to enable communication with other nodes
