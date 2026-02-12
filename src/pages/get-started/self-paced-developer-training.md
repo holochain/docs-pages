@@ -3,7 +3,7 @@ title: Self-Paced Developer Training
 ---
 
 ::: intro
-This video curriculum is designed to support developers to design, develop, and deploy Holochain apps. By following along --- and supplementing your learning --- you can gain proficiency in clean, simple, and robust application development. You’ll also learn about best practices for dev environments when building on Holochain. We encourage you to join our [Discord](https://discord.com/invite/DE9dtFXjZb), attend dev office hours (look for the next session date in the Announcements channel), and ask questions to get support from our team and thriving developer community.
+This video curriculum is designed to support developers to design, develop, and deploy Holochain apps. By following along --- and supplementing your learning --- you can gain proficiency in clean, simple, and robust application development. You’ll also learn about best practices for dev environments when building on Holochain. We encourage you to join our [Discord](https://discord.gg/52Y8A7pVxu), attend dev office hours (look for the next session date in the Announcements channel), and ask questions to get support from our team and thriving developer community.
 :::
 
 !!! info A couple notes on the video curriculum
@@ -22,7 +22,7 @@ The following resources can help you brush up on your Rust before the course or 
 
 ## Other helpful links
 
-* [Holochain Developer Discord](https://discord.com/invite/DE9dtFXjZb)
+* [Holochain Developer Discord](https://discord.gg/52Y8A7pVxu)
 * [Glossary](/resources/)
 * [Holochain Build Guide](/build/)
 * [Holochain programming references](/resources/)
