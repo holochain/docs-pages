@@ -215,7 +215,7 @@ This will update your `Cargo.lock` with the latest versions of all libraries tha
 
 You are likely to run into API changes in the HDK and HDI at this point. You can check the [Holochain changelog](https://github.com/holochain/holochain/blob/develop-0.3/CHANGELOG.md) to see what has changed. In some cases there will be guidance for what you need to change.
 
-If you have trouble resolving the build issues or the changelog doesn't give you enough information about what has changed, then please reach out on [Discord](https://discord.com/invite/DE9dtFXjZb) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
+If you have trouble resolving the build issues or the changelog doesn't give you enough information about what has changed, then please reach out on [Discord](https://discord.gg/52Y8A7pVxu) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
 
 Below are some known changes that you might need to address.
 
@@ -287,7 +287,7 @@ The `Local` variant is intended to support a local first app which is willing to
 
 ### Updating other dependencies
 
-If you depend on other Holochain crates, then you will need to find compatible versions to update to. You can check available versions on `crates.io` by searching for them by name. You can also check the [Holochain changelog](https://github.com/holochain/holochain/blob/develop-0.3/CHANGELOG.md) to see what versions have been released together. Note that we don't release crates unless they have changes, so if you don't see the crate you're looking for in a release, then please check the previous releases for the last time we released it. If you get stuck or have build issues, then please reach out on [Discord](https://discord.com/invite/DE9dtFXjZb) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
+If you depend on other Holochain crates, then you will need to find compatible versions to update to. You can check available versions on `crates.io` by searching for them by name. You can also check the [Holochain changelog](https://github.com/holochain/holochain/blob/develop-0.3/CHANGELOG.md) to see what versions have been released together. Note that we don't release crates unless they have changes, so if you don't see the crate you're looking for in a release, then please check the previous releases for the last time we released it. If you get stuck or have build issues, then please reach out on [Discord](https://discord.gg/52Y8A7pVxu) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
 
 ### General advice for upgrading
 
@@ -306,4 +306,4 @@ You should check that your project builds, tests are passing, and that anything 
 
 For general project health, you should check if any other dependencies in your project need an update. Please refer to NPM and Cargo documentation for this.
 
-That should be everything --- you can now develop against Holochain 0.3! Good luck, and once again, if you need help then please do get in touch on [Discord](https://discord.com/invite/DE9dtFXjZb) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
+That should be everything --- you can now develop against Holochain 0.3! Good luck, and once again, if you need help then please do get in touch on [Discord](https://discord.gg/52Y8A7pVxu) or open a [Github issue](https://github.com/holochain/holochain/issues/new/choose).
