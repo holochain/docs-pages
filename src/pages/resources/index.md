@@ -115,7 +115,7 @@ Studying existing Holochain applications and tutorials can provide valuable insi
 While you'll learn a lot looking at the source code from the above GitHub projects, we've also produced some training material as a result of running courses in collaboration with our education partner Mythosthesia.
 
 * [Developer training materials](https://github.com/holochain-immersive) from past courses
-* [Self-paced training course](https://resources.holochain.org/self-paced-training-signup/) in video format
+* [Self-paced training course](/get-started/self-paced-developer-training/) in video format
 
 ## Concepts useful for understanding and building distributed systems
 
