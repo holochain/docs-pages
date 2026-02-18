@@ -60,7 +60,8 @@ Signals are a fairly simple construct right now, and it's likely that your app w
 ## Key takeaways
 
 * Signals allow a cell to communicate with listeners without expecting a response.
-* Signals can be used to share ephemeral status updates without filling the DHT with immutable status data that has to be polled or updates.
+* Signals can be used to share ephemeral status updates without filling the DHT with immutable data.
+* Signals can also be used to send data in real time so the intended recipient doesn't have to poll the DHT.
 * A signal doesn't have guaranteed delivery because there's no way to tell whether it's been received.
 * A signal is simply a message payload consisting of arbitrary bytes.
 * Local signals are emitted over the WebSocket application interface to listening clients, and are most useful when emitted from a function call that wasn't triggered by the listening client.
