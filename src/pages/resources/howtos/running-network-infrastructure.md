@@ -47,7 +47,7 @@ Copy this code into the file, edit the locations of your TLS certificate and key
 ```yaml
 services:
   bootstrap:
-    image: ghcr.io/holochain/kitsune2_bootstrap_srv:v0.3.2
+    image: ghcr.io/holochain/kitsune2_bootstrap_srv:v0.4.0-dev.10
     command:
       - kitsune2-bootstrap-srv
       - --production
@@ -134,10 +134,9 @@ If you use the same server for production and testing, you might end up writing 
 ```diff:json
  ...
    "scripts": {
--    "start": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network",
-+    "start": "AGENTS=${AGENTS:-2} npm run network",
-     "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\" \"hc playground\"",
-     "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
+     "start": "AGENTS=${AGENTS:-2} npm run network",
+     "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\"",
+     "test": "npm run build:zomes && hc app pack workdir --recursive && cargo test",
      // Replace the hApp bundle name and URLs with your actual values.
 -    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/my_app.happ",
 +    // Use bootstrap server

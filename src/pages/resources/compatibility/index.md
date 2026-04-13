@@ -14,6 +14,7 @@ These tables help you keep the dependencies of all your hApp's components up to 
 We use [SemVer](https://semver.org/) to indicate component version compatibility. As a general rule:
 
 * **We recommend using the [scaffolding tool](/get-started/3-forum-app-tutorial/) to create an app**, because it'll ensure that all version numbers are in sync.
+* **As of Holochain 0.6.1, Tryorama and the Playground have been removed from the Holonix developer environment.**
 * To upgrade your hApp, follow the [general instructions](/resources/upgrade/) for your release, and check the corresponding table above for exact version numbers.
 * When we talk about Holochain versions in general, we're referring to the [`holochain` core library](https://github.com/holochain/holochain). Its most significant number is the reference point for the rest of the components' compatibility, and the versions of the conductor binary, [`hc` CLI](https://github.com/holochain/holochain/tree/develop/crates/hc), and [`hcterm` CLI](https://github.com/holochain/holochain/tree/develop/crates/holochain_terminal) follow it.
 * Compatible [`hdk`](https://crates.io/crates/hdk/) library versions share a most significant number with the core library.

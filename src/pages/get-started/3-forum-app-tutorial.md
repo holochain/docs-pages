@@ -89,18 +89,6 @@ This allows you to enter a shell that has all the right tools and libraries for 
 
 Choose `Yes (recommended)` and press <kbd>Enter</kbd>.
 
-Next, choose your favorite package manager for dealing with app commands and JavaScript dependencies. If you don't know what to pick, just pick `npm`.
-
-::: output-block
-```text
-? Choose a package manager: (Use arrow-keys. Return to submit) ›
-  bun
-❯ npm
-  pnpm
-  yarn
-```
-:::
-
 ## 5. Scaffold a DNA
 
 The next step asks you whether you want to scaffold an initial DNA. A DNA is where you will put the code that defines the rules of your application. Simple applications like this one only need one DNA, so say yes:
@@ -324,7 +312,7 @@ You should see something like:
 <!-- TODO(upgrade): change this version number -->
 ::: output-block
 ```text
-holochain 0.6.0
+holochain 0.6.1-rc.7
 ```
 
 If you were to type `exit` and try the same command, you'd probably get some sort of 'command not found' error!
@@ -812,34 +800,18 @@ npm start
 If you are having an issue, make sure that you are still in the nix shell. If not, re-enter `nix develop` first, then type the above command again. And remember that you can always exit nix shell by typing `exit` to get back to your normal shell.
 !!!
 
-When you start the hApp with `npm start`, this launches Holochain in sandbox mode with two agents running that hApp, and opens three windows:
+When you start the hApp with `npm start`, this launches Holochain in sandbox mode with two agents running that hApp, and opens two windows:
 
-1. A web browser window with Holochain Playground, a tool that makes visible the various actions that have taken place in our forum hApp. You should be able to see a couple of agents in a DHT, with mostly empty source chains and, correspondingly, a mostly empty graph.
-2. An application window with one agent (conductor 0) running the forum hApp. This window lets us take actions as that agent (0, or Alice, if you prefer).
-3. Another application window with a second agent (conductor 1) running the forum hApp. This window lets us take actions as the other agent (1, or Bob).
+1. An application window with one agent (conductor 0) running the forum hApp. This window lets us take actions as that agent (0, or Alice, if you prefer).
+2. Another application window with a second agent (conductor 1) running the forum hApp. This window lets us take actions as the other agent (1, or Bob).
 
-![Three windows: two agent UIs and a web browser window with the Holochain Playground](/assets/img/get-started/3-two-uis-and-playground.png)
+![Two agent UI windows showing the default scaffolded Svelte main view](/assets/img/get-started/3-two-uis.png)
 
 These application windows allow us to test multiple agents in a Holochain network interacting with one another. It is all running on our one device, but the two conductors behave very much the same as separate agents on different machines would, minus network lag.
 
 Remember that a **conductor** is a Holochain runtime process executing on your computer. For more details see the [Application Architecture](/concepts/2_application_architecture/) section in the Core Concepts guide.
 
-These three windows together will let us interact with our hApp as we are building it.
-
-The Holochain Playground in particular is helpful because it creates visual representations of the data that has been created and the way it relates to other content. Take a look at it and click one of the two items in the **DHT Cells** window. These are your two agents. When you click one of them, some content gets displayed in the **Source Chain** window. These are the initial actions in that agent's source chain. The arrows point from newer content back to older content.
-
-From oldest to newest, in the newly created source chains, the records are:
-
-1. `DNA`, recording the hash of the DNA to be used to validate all subsequent source chain actions,
-2. `AgentValidationPkg`, providing proof that this participant is allowed to participate in this hApp (see more in [Holochain: How does it work?](https://www.holochain.org/how-does-it-work/)),
-3. A `Create` action which records the author's `AgentID`, which is their public key and serves as their ID in the network and its graph database.
-
-As agents begin writing posts, comments, and links to the DHT, you'll see the following records appear:
-
-4. `InitComplete`, indicating that all coordinator zomes have had a chance to do initial setup (which may include writing actions between action 3 and this action), then
-5. Whatever actions the agent takes after that.
-
-The two application UI windows let you interact with the application and see what is working, what is not working, and how data propagates when we take particular actions.
+The two application UI windows let you interact with the application and see what is working, what is not working, and how data propagates when we take particular actions. They also support hot-reloading, so you can see your UI edits immediately.
 
 At first, each of the UI windows (conductors 0 for Alice and 1 for Bob) include instructions for you to go and examine the scaffolded UI elements by looking at the contents in the folder `ui/src/<dna>/<zome>/`, where `<dna>` and `<zome>` are generic placeholders for your DNA (`forum`) and zome (`post`).
 
@@ -1078,9 +1050,7 @@ Type something into one of the two conductor windows like:
 
 and then press the "Create Post" button.
 
-You'll immediately notice that the `AllPosts` component has changed from saying "No posts found" to showing the newly created post. And if you take a look at the Holochain Playground window, you will see that two new actions have been created. If you click the `App` element that's appeared in Alice's source chain, it will pull up some details in the Entry Contents section, including the title and content of Alice's forum post. Note the hash of that entry (top of the Entry Contents window). Then click on the `Create` action that's pointing toward that `App` entry in the source chain. If you look back at the contents window, you will see that it is now sharing the contents of the action. And if you look down the list a bit, you will see the hash of the entry for the first post.
-
-![The Holochain playground showing a single agent's source chain, containing the actions that create a post, as well as the transformations in the DHT that resulted from these actions](/assets/img/get-started/6-playground-first-post.png)
+You'll immediately notice that the `AllPosts` component has changed from saying "No posts found" to showing the newly created post.
 
 !!! dig-deeper Relationships in a source chain versus relationships in the DHT
 
@@ -1098,17 +1068,9 @@ Let's edit that post. In Alice's UI window, click the edit link adjacent to the 
 
 Now alter the content a bit. Maybe change it from `Hello Bob!` to `Hello World!` and click "Save".
 
-![The UI of one agent, showing a post about to be edited](/assets/img/get-started/7-edit-post.png)
+![The UI of one agent, showing a post about to be edited](/assets/img/get-started/6-edit-post.png)
 
 That should update the post (at least for Alice). Bob's UI will show the updated version the next time it's reloaded.
-
-If you look at the Holochain Playground, you should see that the update was added to Alice's source chain. Specifically, it created:
-
-1. a new `post` entry (with our `Hello, World!` text),
-2. an `Update` action that indicates this entry replaces the original entry, and
-3. a `CreateLink` action that connects the original create action to the update action.
-
-![The Holochain playground, showing the source chain of the agent who edited the post along with new data in the DHT reflecting the edit](/assets/img/get-started/8-playground-after-edits.png)
 
 As explained [previously](#crud-create-read-update-delete), the original forum post already has a 'link' of sorts pointing from its action to the `Update` action, which can be accessed when the original is retrieved. The extra link created by the `CreateLink` action is optional --- it merely speeds up retrieval when an action has been edited many times and has a long chain of update links, by allowing you to jump to the end of the chain. In the screenshot above, the link is highlighted in the DHT pane.
 
@@ -1142,9 +1104,9 @@ Here, the comment components need to know what post they're related to. The post
  {/if}
 ```
 
-Save the file, then go back to the UI windows to see the changes. (You may have to manually reload the UI; right-click anywhere and click 'Reload'.) Try typing in a comment or two, then deleting them. (You may need to refresh the UI windows to see the changes to the content.) Watch the Playground --- see how the authors' source chains and the graph in the DHT change as new information is added. The deleted comments are still there and can be accessed by code in your zomes if needed, but neither the application backend (that is, the functions defined in the coordinator zome) nor the UI have the capacity to show them.
+Save the file, then go back to the UI windows to see the changes. (You may have to manually reload the UI; right-click anywhere and click 'Reload'.) Try typing in a comment or two, then deleting them. (You may need to refresh the UI windows to see the changes to the content.) The deleted comments are still there and can be accessed by code in your zomes if needed, but neither the application backend (that is, the functions defined in the coordinator zome) nor the UI have the capacity to show them.
 
-![One UI window with the comment components added, with the Playground in the background showing a populated DHT](/assets/img/get-started/10-comment-components.png)
+![One UI window with the comment components added](/assets/img/get-started/7-comment-components.png)
 
 ### Next up
 

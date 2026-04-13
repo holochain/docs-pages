@@ -71,24 +71,24 @@ This command displays versioning information about Holochain's main components. 
 
 ::: output-block
 ```text
-hc-scaffold            : holochain_scaffolding_cli 0.600.0 (2d71d47)
+hc-scaffold            : holochain_scaffolding_cli 0.600.3-rc.0 (3329e3c)
 Lair keystore          : lair_keystore 0.6.3 (8aa9ab1)
-Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.3.2 (22de6e4)
-Holochain CLI          : holochain_cli 0.6.0 (a6d4e80)
-Holochain terminal     : hcterm 0.6.0 (a6d4e80)
-Holochain              : holochain 0.6.0 (a6d4e80)
+Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.4.0-dev.10 (e621878)
+Holochain CLI          : holochain_cli 0.6.1-rc.7 (5980aa7)
+Holochain terminal     : hcterm 0.6.1-rc.7 (5980aa7)
+Holochain              : holochain 0.6.1-rc.7 (5980aa7)
 
 Holochain build info: {
   "git_info": null,
-  "cargo_pkg_version": "0.6.0",
-  "hdk_version_req": "0.6.0",
-  "hdi_version_req": "0.7.0",
+  "cargo_pkg_version": "0.6.1-rc.7",
+  "hdk_version_req": "0.6.1-rc.5",
+  "hdi_version_req": "0.7.1-rc.5",
   "lair_keystore_version_req": "0.6.3",
-  "timestamp": "2025-11-19T15:33:04.246363130Z",
+  "timestamp": "2026-04-07T23:04:08.239457145Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",
-  "rustc_version": "rustc 1.88.0 (6b00bc388 2025-06-23)",
+  "rustc_version": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
   "rustflags": "",
   "profile": "release"
 }

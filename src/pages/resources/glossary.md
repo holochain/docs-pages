@@ -714,7 +714,7 @@ Describes any highly [decentralized](#decentralization) [distributed system](#di
 
 #### Playground
 
-A community-contributed UI that visualizes the state of the [cells](#cell) in a [hApp's](#holochain-application-happ) [network](#network) that are running in a local [conductor](#conductor). It can be used to help a developer understand the working of Holochain's [subconscious](#subconscious) and foundational data structures, as well as troubleshoot a hApp. The Playground is included by default in every hApp [scaffolded](#scaffolding) by Holochain's official scaffolding tool. See [Playground's GitHub organization](https://github.com/holochain-playground).
+A community-contributed UI that visualizes the state of the [cells](#cell) in a [hApp's](#holochain-application-happ) [network](#network) that are running in a local [conductor](#conductor). It can be used to help a developer understand the working of Holochain's [subconscious](#subconscious) and foundational data structures, as well as troubleshoot a hApp. See [Playground's GitHub organization](https://github.com/holochain-playground).
 
 #### Post-commit callback
 
