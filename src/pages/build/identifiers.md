@@ -167,7 +167,7 @@ To construct an external hash from 32 raw bytes, first you need to enable the `h
  [workspace.dependencies]
  hdi = "=0.7.0"
  hdk = "=0.6.0"
-+holo_hash = "=0.6.0"
++holo_hash = "=0.6.1-rc.5"
  serde = "1.0"
 ```
 

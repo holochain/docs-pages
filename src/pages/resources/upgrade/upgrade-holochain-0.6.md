@@ -9,6 +9,8 @@ The biggest change in Holochain 0.6 is that **warrants** are now stable. This do
 
 Another notable change is that the default network transport has been changed in Holochain v0.6.1 from tx5 to iroh. An update to the conductor config is required.
 
+Finally, the Holochain Playground app and Tauri launcher have been removed, and the JS-based Tryorama test framework has been replaced with the Rust-based Sweettest framework.
+
 If your hApp is written for Holochain 0.4, follow the [0.5 upgrade guide](/resources/upgrade/upgrade-holochain-0.5/) first.
 :::
 
@@ -52,7 +54,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     ```shell
     nix flake update && git add flake.* && nix develop
     ```
-2. Update your root `package.json` file with the new package versions, remove the deprecated `*:tauri` scripts, and update the `build:zomes` script to accommodate a change in the way one of the HDK's dependencies needs to be built: <!-- TODO: get the right version numbers --> {#update-package-json}
+2. Update your root `package.json` file with the new package versions, remove the deprecated `*:tauri` scripts and `hc playground` command, replace the deprecated JS-based test command with the new Rust-based one, and update the `build:zomes` script to accommodate a change in the way one of the HDK's dependencies needs to be built: <!-- TODO: get the right version numbers --> {#update-package-json}
 
     ```diff:json
      {
@@ -64,8 +66,10 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
          ],
          "scripts": {
              "start": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) SIGNAL_PORT=$(get-port) npm run network",
-             "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\" \"hc playground\"",
-             "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
+    -        "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\" \"hc playground\"",
+    +        "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\"",
+    -        "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
+    +        "test": "npm run build:zomes && hc app pack workdir --recursive && cargo test",
              "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/movies5.happ",
     -        "start:tauri": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network:tauri",
     -        "network:tauri": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:tauri\" \"hc playground\"",
@@ -77,7 +81,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
          },
          "devDependencies": {
     -        "@holochain/hc-spin": "^0.500.1",
-    +        "@holochain/hc-spin": "^0.600.0",
+    +        "@holochain/hc-spin": "^0.600.2-rc.0",
              "concurrently": "^6.5.1",
              "get-port-cli": "^3.0.0"
          },
@@ -135,7 +139,9 @@ If you've created your hApp using our scaffolding tool, you should be able to fo
 
 #### Tryorama tests
 
-Edit your project's `tests/package.json` file:
+Tryorama has been removed from Holochain 0.6.1's Holonix development environment. Instead, tests are scaffolded in your coordinator zome's code alongside the zome functions.
+
+You can still use Tryorama; it's been moved to the community-managed [`holochain/tryorama`](https://github.com/holochain-open-dev/tryorama) GitHub repo. If you want to continue using it, edit your project's `tests/package.json` file, updating the client lib:
 
 <!-- TODO(upgrade): bump version numbers here, at least as long as 0.6 is the most recent recommended or maintenance-mode release -->
 
@@ -145,7 +151,7 @@ Edit your project's `tests/package.json` file:
 -    "@holochain/client": "^0.19.2",
 -    "@holochain/tryorama": "^0.18.3",
 +    "@holochain/client": "^0.20.0",
-+    "@holochain/tryorama": "^0.19.0",
++    "@holochain/tryorama": "^0.19.1",
      // more dependencies
    },
 ```
@@ -157,7 +163,7 @@ You'll update the UI package dependencies similarly to the test package. Edit `u
 ```diff:json
    "dependencies": {
 -    "@holochain/client": "^0.19.2",
-+    "@holochain/client": "^0.20.0",
++    "@holochain/client": "^0.20.4-rc.0",
      // more dependencies
    },
 ```
