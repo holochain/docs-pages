@@ -21,6 +21,7 @@ memproofs
 Mythosthesia
 sharded
 Snapmail
+Sweettest
 Tryorama
 unsharded
 webhapp
