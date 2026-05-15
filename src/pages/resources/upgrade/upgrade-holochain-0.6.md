@@ -54,7 +54,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     ```shell
     nix flake update && git add flake.* && nix develop
     ```
-2. Update your root `package.json` file with the new package versions, remove the deprecated `*:tauri` scripts and `hc playground` command, replace the deprecated JS-based test command with the new Rust-based one, and update the `build:zomes` script to accommodate a change in the way one of the HDK's dependencies needs to be built: <!-- TODO: get the right version numbers --> {#update-package-json}
+2. Update your root `package.json` file with the new package versions, remove the deprecated `*:tauri` scripts and `hc playground` command, replace the deprecated JS-based test command with the new Rust-based one, and update the `build:zomes` script to accommodate a change in the way one of the HDK's dependencies needs to be built: {#update-package-json}
 
     ```diff:json
      {
@@ -81,7 +81,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
          },
          "devDependencies": {
     -        "@holochain/hc-spin": "^0.500.1",
-    +        "@holochain/hc-spin": "^0.600.2-rc.0",
+    +        "@holochain/hc-spin": "^0.601.3",
              "concurrently": "^6.5.1",
              "get-port-cli": "^3.0.0"
          },
@@ -121,8 +121,8 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  [workspace.dependencies]
 -hdi = "=0.6.6"
 -hdk = "=0.5.6"
-+hdi = "=0.7.0" # Pick a later patch version of these libraries if you prefer.
-+hdk = "=0.6.0"
++hdi = "=0.7.1"
++hdk = "=0.6.1"
 ```
 
 The latest version numbers of these libraries can be found on `crates.io`: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
@@ -143,15 +143,13 @@ Tryorama has been removed from Holochain 0.6.1's Holonix development environment
 
 You can still use Tryorama; it's been moved to the community-managed [`holochain/tryorama`](https://github.com/holochain-open-dev/tryorama) GitHub repo. If you want to continue using it, edit your project's `tests/package.json` file, updating the client lib:
 
-<!-- TODO(upgrade): bump version numbers here, at least as long as 0.6 is the most recent recommended or maintenance-mode release -->
-
 ```diff:json
    "dependencies": {
      // some dependencies
 -    "@holochain/client": "^0.19.2",
 -    "@holochain/tryorama": "^0.18.3",
-+    "@holochain/client": "^0.20.0",
-+    "@holochain/tryorama": "^0.19.1",
++    "@holochain/client": "^0.20.5",
++    "@holochain/tryorama": "^0.19.2",
      // more dependencies
    },
 ```
@@ -163,7 +161,7 @@ You'll update the UI package dependencies similarly to the test package. Edit `u
 ```diff:json
    "dependencies": {
 -    "@holochain/client": "^0.19.2",
-+    "@holochain/client": "^0.20.4-rc.0",
++    "@holochain/client": "^0.20.5",
      // more dependencies
    },
 ```
@@ -243,9 +241,9 @@ If you're certain a link creation action is available locally --- for example, w
 
 <!-- TODO: change to correct URLs in this section-->
 
-The `filters` property of [`holochain_integrity_types::chain::ChainFilter`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) has been renamed to [`limit_conditions`](https://docs.rs/holochain_integrity_types/0.6.0-dev.19/holochain_integrity_types/chain/struct.ChainFilter.html#structfield.limit_conditions), a [new enum](https://docs.rs/holochain_integrity_types/0.6.0-dev.19/holochain_integrity_types/chain/enum.LimitConditions.html), to reflect that it's a bound on the earliest action returned, rather than a filter.
+The `filters` property of [`holochain_integrity_types::chain::ChainFilter`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) has been renamed to [`limit_conditions`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html#structfield.limit_conditions), a [new enum](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/enum.LimitConditions.html), to reflect that it's a bound on the earliest action returned, rather than a filter.
 
-It also supports a timestamp using [`UntilTimestamp`](https://docs.rs/holochain_integrity_types/0.6.0-dev.19/holochain_integrity_types/chain/enum.LimitConditions.html#variant.UntilTimestamp) as a bound. `Until` has been renamed to [`UntilHash`](https://docs.rs/holochain_integrity_types/0.6.0-dev.19/holochain_integrity_types/chain/enum.LimitConditions.html#variant.UntilHash) for clarity, and `Both` has been renamed to [`Multiple`](https://docs.rs/holochain_integrity_types/0.6.0-dev.19/holochain_integrity_types/chain/enum.LimitConditions.html#variant.Multiple) and now supports a timestamp too.
+It also supports a timestamp using [`UntilTimestamp`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/enum.LimitConditions.html#variant.UntilTimestamp) as a bound. `Until` has been renamed to [`UntilHash`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/enum.LimitConditions.html#variant.UntilHash) for clarity, and `Both` has been renamed to [`Multiple`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/enum.LimitConditions.html#variant.Multiple) and now supports a timestamp too.
 
 ```diff:rust
  // Using ChainFilter's builder interface
