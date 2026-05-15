@@ -512,6 +512,17 @@ Notable changes include:
 * **Network configuration**: New fields like `base64_auth_material` and `report` have been added for enhanced network configuration options
 * **Admin interface**: Added `danger_bind_addr` field for more control over admin interface binding
 
+### Pin pkcs8 version
+
+There's a dependency conflict with the package `pkcs8` at the moment. In `Cargo.toml` of the coordinator zomes under `dev-dependencies`, the package must be pinned:
+
+```toml
+[dev-dependencies]
+...
+
+pkcs8 = "=0.11.0-rc.11"
+```
+
 ## Subtle changes
 
 The following changes don't break Holochain's APIs or require updates to your code, but they may require you to reassess whether your hApp will work as expected:

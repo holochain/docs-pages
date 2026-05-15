@@ -25,6 +25,9 @@ package = "/node_modules/netlify-plugin-checklinks"
         # Reddit seems to deny access to the plugin.
         "https://reddit.com/r/holochain/",
         "https://www.reddit.com/r/holochain/",
+        # holochain.org blocks automated requests with bot protection.
+        "https://www.holochain.org",
+        "https://holochain.org",
         # For some reason the plugin recognises these filenames as URLs,
         # but only on one page (page 2 of the getting started guide, in the
         # table that contains the project structure).
