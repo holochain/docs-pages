@@ -51,6 +51,7 @@ multihash
 NETAUDIT
 NixOS
 nixpkgs
+pkcs
 pkgs
 POSIX
 prevalidate
