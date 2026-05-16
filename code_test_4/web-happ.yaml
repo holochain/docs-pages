@@ -1,6 +1,0 @@
-manifest_version: '1'
-name: blup
-ui:
-  bundled: ./path/to/my/ui.zip
-happ_manifest:
-  bundled: ./path/to/my/happ-bundle.happ
