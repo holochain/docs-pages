@@ -91,7 +91,7 @@ Private keys are stored in Holochain's keystore and looked up by their public co
 
 ### With an ephemeral key
 
-If you're building a complex authentication or encryption scheme that needs [ephemeral keys](https://www.reference.com/science-technology/role-ephemeral-key-secure-communications), you can use [`sign_ephemeral`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_ephemeral.html) or [`sign_ephemeral_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_ephemeral_raw.html). The host generates a key pair, signs the payloads with it, and discards the private component, returning the public key to the calling zome function.
+If you're building a complex authentication or encryption scheme that needs [ephemeral keys](https://en.wikipedia.org/wiki/Ephemeral_key), you can use [`sign_ephemeral`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_ephemeral.html) or [`sign_ephemeral_raw`](https://docs.rs/hdk/latest/hdk/ed25519/fn.sign_ephemeral_raw.html). The host generates a key pair, signs the payloads with it, and discards the private component, returning the public key to the calling zome function.
 
 ```rust
 use hdk::prelude::*;
