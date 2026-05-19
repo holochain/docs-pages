@@ -91,3 +91,6 @@ Evxr
 OIGW
 Jagd
 Slmaip
+# AppArmor
+userns
+tunables

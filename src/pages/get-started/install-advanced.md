@@ -148,15 +148,32 @@ Ubuntu 24.04 [introduced an AppArmor security policy](https://discourse.ubuntu.c
 ```
 :::
 
-You can fix the issue by entering the following command in your project's root directory:
+Check if your system is configured to require this extra security by running the following command:
 
 ```shell
-sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
+[ "$(cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns 2>/dev/null)" = 1 ] && echo "AppArmor profile needed"
 ```
 
-You'll have to do this for every hApp project that uses `hc-spin`.
+If this prints the "AppArmor profile needed" message, then you'll need to create an AppArmor profile. Create the profile by running the command:
 
-There are other fixes [outlined in the Ubuntu 24.04 release notes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that can solve the problem; if you'd like to learn more, read through them all and choose the one that feels most appropriate for you.
+```shell
+sudo tee /etc/apparmor.d/hc-spin-electron > /dev/null <<'EOF'
+abi <abi/4.0>,
+include <tunables/global>
+
+profile hc-spin-electron /**/node_modules/electron/dist/electron flags=(unconfined) {
+userns,
+}
+EOF
+```
+
+Then load the new profile by running the command:
+
+```shell
+sudo apparmor_parser -r /etc/apparmor.d/hc-spin-electron
+```
+
+You can read more about this in the [Ubuntu 24.04 release notes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15).
 
 ### Redistributable applications created with [`holochain-kangaroo-electron`](https://github.com/holochain/kangaroo-electron) are also affected
 
