@@ -39,13 +39,32 @@ npm install
 ```
 
 !!! info Warning for Ubuntu 24.04 and later
-Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that cause the following command to fail. Here's a simple fix. In your terminal, run this command:
+Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that cause the following command to fail. Check if your system is configured to require this extra security by running the following command:
 
 ```shell
-sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
+[ "$(cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns 2>/dev/null)" = 1 ] && echo "AppArmor profile needed"
 ```
 
-You'll need to do this once (but only once) for every new project you scaffold. You can find out more [here](/get-started/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04-and-later).
+If this prints the "AppArmor profile needed" message, then you'll need to create an AppArmor profile. Create the profile by running the command:
+
+```shell
+sudo tee /etc/apparmor.d/hc-spin-electron > /dev/null <<'EOF'
+abi <abi/4.0>,
+include <tunables/global>
+
+profile hc-spin-electron /**/node_modules/electron/dist/electron flags=(unconfined) {
+userns,
+}
+EOF
+```
+
+Then load the new profile by running the command:
+
+```shell
+sudo apparmor_parser -r /etc/apparmor.d/hc-spin-electron
+```
+
+You'll need to do this once for your system, then other projects you scaffold should just work. You can find out more [here](/get-started/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04-and-later).
 !!!
 
 ```shell
