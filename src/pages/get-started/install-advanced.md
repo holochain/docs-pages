@@ -71,20 +71,20 @@ This command displays versioning information about Holochain's main components. 
 
 ::: output-block
 ```text
-hc-scaffold            : holochain_scaffolding_cli 0.600.3-rc.0 (3329e3c)
+hc-scaffold            : holochain_scaffolding_cli 0.601.1 (c51df16)
 Lair keystore          : lair_keystore 0.6.3 (8aa9ab1)
-Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.4.0-dev.10 (e621878)
-Holochain CLI          : holochain_cli 0.6.1-rc.7 (5980aa7)
-Holochain terminal     : hcterm 0.6.1-rc.7 (5980aa7)
-Holochain              : holochain 0.6.1-rc.7 (5980aa7)
+Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.4.1 (b33fa55)
+Holochain CLI          : holochain_cli 0.6.1 (3bdeacc)
+Holochain terminal     : hcterm 0.6.1 (3bdeacc)
+Holochain              : holochain 0.6.1 (3bdeacc)
 
 Holochain build info: {
   "git_info": null,
-  "cargo_pkg_version": "0.6.1-rc.7",
-  "hdk_version_req": "0.6.1-rc.5",
-  "hdi_version_req": "0.7.1-rc.5",
+  "cargo_pkg_version": "0.6.1",
+  "hdk_version_req": "0.6.1",
+  "hdi_version_req": "0.7.1",
   "lair_keystore_version_req": "0.6.3",
-  "timestamp": "2026-04-07T23:04:08.239457145Z",
+  "timestamp": "2026-05-12T17:21:08.907877386Z",
   "hostname": "localhost",
   "host": "x86_64-unknown-linux-gnu",
   "target": "x86_64-unknown-linux-gnu",

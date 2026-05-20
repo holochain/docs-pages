@@ -312,7 +312,7 @@ You should see something like:
 <!-- TODO(upgrade): change this version number -->
 ::: output-block
 ```text
-holochain 0.6.1-rc.7
+holochain 0.6.1
 ```
 
 If you were to type `exit` and try the same command, you'd probably get some sort of 'command not found' error!
@@ -329,9 +329,9 @@ When that finishes, you should see some text that ends with something like:
 
 ::: output-block
 ```text
-added 371 packages, and audited 374 packages in 1m
+added 324 packages, and audited 326 packages in 1m
 
-37 packages are looking for funding
+77 packages are looking for funding
     run 'npm fund' for details
 found 0 vulnerabilities
 ```
