@@ -165,9 +165,9 @@ To construct an external hash from 32 raw bytes, first you need to enable the `h
 
 ```diff:toml
  [workspace.dependencies]
- hdi = "=0.7.1-rc.5"
- hdk = "=0.6.1-rc.5"
-+holo_hash = "=0.6.1-rc.5"
+ hdi = "=0.7.1"
+ hdk = "=0.6.1"
++holo_hash = "=0.6.1"
  serde = "1.0"
 ```
 
