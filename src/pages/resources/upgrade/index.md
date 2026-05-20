@@ -8,7 +8,7 @@ hide:
 
 Upgrading between versions of Holochain can be a bit tricky! While Holochain is in beta, you can expect breaking changes between minor versions. To make upgrading your hApp easier, we create guides to help you move from one Holochain version to the next.
 
-<!-- TODO(upgrade): add a new guide to this list -->
+<!-- TODO(upgrade): add a new guide to this list for major releases -->
 
 * [Holochain Upgrade 0.5 → 0.6](/resources/upgrade/upgrade-holochain-0.6/)
 * [Holochain Upgrade 0.4 → 0.5](/resources/upgrade/upgrade-holochain-0.5/)

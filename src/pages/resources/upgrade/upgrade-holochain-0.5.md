@@ -166,8 +166,6 @@ If you've created your hApp using our scaffolding tool, you should be able to fo
 
 Edit your project's `tests/package.json` file:
 
-<!-- TODO(upgrade): bump version numbers here, at least as long as 0.5 is the most recent recommended or maintenance-mode release -->
-
 ```diff:json
    "dependencies": {
      // some dependencies
@@ -467,7 +465,7 @@ If you're bundling your hApp with [Kangaroo](https://github.com/holochain/kangar
 ```
 
 !!! info Upgrading your Kangaroo-based project
-To get your Kangaroo-based hApp working with Holochain 0.5, you'll also need to compare your project's code against the code in the `kangaroo-electron` template repo for Holochain 0.5 (currently at [this commit](https://github.com/holochain/kangaroo-electron/commit/7d3208a3161bebb51f6114233dd7386b0815b79d)<!-- TODO(upgrade): change this commit as needed -->), make changes as needed, and follow the guidance above for updating UI and zome code.
+To get your Kangaroo-based hApp working with Holochain 0.5, you'll also need to compare your project's code against the code in the `kangaroo-electron` template repo for Holochain 0.5 (currently at [this commit](https://github.com/holochain/kangaroo-electron/commit/7d3208a3161bebb51f6114233dd7386b0815b79d)), make changes as needed, and follow the guidance above for updating UI and zome code.
 !!!
 
 ## Subtle changes
