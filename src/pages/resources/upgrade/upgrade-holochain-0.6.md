@@ -56,6 +56,8 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
     ```
 2. Update your root `package.json` file with the new package versions, remove the deprecated `*:tauri` scripts and `hc playground` command, replace the deprecated JS-based test command with the new Rust-based one, and update the `build:zomes` script to accommodate a change in the way one of the HDK's dependencies needs to be built: {#update-package-json}
 
+    <!-- TODO(upgrade): Update this version number for new 0.6.x releases -->
+
     ```diff:json
      {
          "name": "movies-dev",
@@ -115,7 +117,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
 
 Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` file:
 
-<!-- TODO: Get the right version numbers -->
+<!-- TODO(upgrade): Update this version number for new 0.6.x releases -->
 
 ```diff:toml
  [workspace.dependencies]
@@ -143,6 +145,8 @@ Tryorama has been removed from Holochain 0.6.1's Holonix development environment
 
 You can still use Tryorama; it's been moved to the community-managed [`holochain/tryorama`](https://github.com/holochain-open-dev/tryorama) GitHub repo. If you want to continue using it, edit your project's `tests/package.json` file, updating the client lib:
 
+<!-- TODO(upgrade): Update these version numbers for new 0.6.x releases -->
+
 ```diff:json
    "dependencies": {
      // some dependencies
@@ -157,6 +161,8 @@ You can still use Tryorama; it's been moved to the community-managed [`holochain
 #### UI
 
 You'll update the UI package dependencies similarly to the test package. Edit `ui/package.json`:
+
+<!-- TODO(upgrade): Update this version number for new 0.6.x releases -->
 
 ```diff:json
    "dependencies": {

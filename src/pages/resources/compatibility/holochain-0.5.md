@@ -8,8 +8,6 @@ Holochain 0.5 is currently in **maintenance** mode. Please [update to Holochain 
 
 For more information on versioning and compatibility, see our [general guidance](/resources/compatibility/#general-guidance).
 
-<!-- TODO(upgrade): bump version numbers for every non-breaking release -->
-
 | Component                                                                                         | Latest compatible version                                                                                          |
 |---------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
 | [`holochain` core library and conductor binary](https://github.com/holochain/holochain)           | [0.5.6](https://crates.io/crates/holochain/0.5.6)                                                                  |
