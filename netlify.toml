@@ -38,6 +38,8 @@ package = "/node_modules/netlify-plugin-checklinks"
         "file:///",
         # Leetcode doesn't like our bot.
         "https://leetcode.com/problemset/",
+        # Neither does HackReactor.
+        "https://hackreactor.com/",
     ]
 
     # We still want to check these.
