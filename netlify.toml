@@ -105,12 +105,12 @@ package = "/node_modules/netlify-plugin-checklinks"
 
 # Removed the "hello world" tutorial because that template was removed from the scaffolding repo.
 [[redirects]]
-    from = "/get-started/2-forum-app-tutorial/"
+    from = "/get-started/3-forum-app-tutorial/"
     to = "/get-started/2-forum-app-tutorial/"
     status = 301
 
 [[redirects]]
-    from = "/get-started/3-packaging-and-distribution/"
+    from = "/get-started/4-packaging-and-distribution/"
     to = "/get-started/3-packaging-and-distribution/"
     status = 301
 
