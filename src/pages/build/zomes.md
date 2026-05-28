@@ -52,7 +52,7 @@ Finally, your integrity zome defines [**validation callbacks**](/build/callbacks
 
 #### Create an integrity zome
 
-**The easy way to create an integrity zome** is to [scaffold a new hApp](/get-started/3-forum-app-tutorial/). The scaffolding tool will generate all the project files, including scripts to test and build distributable packages, and it can also scaffold boilerplate code for all your app's required callbacks and data types.
+**The easy way to create an integrity zome** is to [scaffold a new hApp](/get-started/2-forum-app-tutorial/). The scaffolding tool will generate all the project files, including scripts to test and build distributable packages, and it can also scaffold boilerplate code for all your app's required callbacks and data types.
 
 If you want to create a zome without the scaffolding tool, first make sure you have Rust, Cargo, and the `wasm32-unknown-unknown` Rust build target installed on your computer. Then create a library crate:
 

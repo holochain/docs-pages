@@ -101,6 +101,17 @@ package = "/node_modules/netlify-plugin-checklinks"
     # and I intend to put it under `/resources`.
     status = 302
 
+# Removed the "hello world" tutorial because that template was removed from the scaffolding repo.
+[[redirects]]
+    from = "/get-started/2-forum-app-tutorial/"
+    to = "/get-started/2-forum-app-tutorial/"
+    status = 301
+
+[[redirects]]
+    from = "/get-started/3-packaging-and-distribution/"
+    to = "/get-started/3-packaging-and-distribution/"
+    status = 301
+
 # Some of the core concepts' titles and URLs have changed,
 # but fortunately they map to new core concepts (sometimes roughly, sometimes exactly)
 # so let's redirect them.

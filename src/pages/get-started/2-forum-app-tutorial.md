@@ -2,10 +2,13 @@
 title: "Zero to Built: Creating a Forum App"
 ---
 
-In this tutorial you'll use Holochain's scaffolding tool to generate back-end and UI code for all the data types and collections needed to build a functioning forum app. It assumes that you've already [installed the Holochain development environment](/get-started/#2-installing-holochain-development-environment), set up a folder for working on Holochain applications, and [scaffolded a Hello World application](/get-started/2-hello-world/).
+In this tutorial you'll use Holochain's scaffolding tool to generate back-end and UI code for all the data types and collections needed to build a functioning forum app. It assumes that you've already [installed the Holochain development environment](/get-started/#2-installing-holochain-development-environment).
 
-First, navigate back to the folder where you want to keep your Holochain applications. If you followed our suggestion, you can get back to it by typing:
+For this tutorial, we'll be working in a folder called `~/Holochain`. Create that folder now and move into it:
 
+```shell
+mkdir ~/Holochain
+```
 ```shell
 cd ~/Holochain
 ```
@@ -277,13 +280,56 @@ Now you're ready to start working in your dev environment. Enter the hApp projec
 cd my_forum_app
 ```
 
-Just to get an overview of what's been scaffolded for you, you can check the contents of that `my_forum_app` folder by typing:
+!!! dig-deeper Understanding the layout of a scaffolded project
+
+Let's explore the different files and folders that make up the structure of the bare hApp that you just created.
+
+List the folders and files in our `my_forum_app/` folder by entering:
 
 ```shell
 ls
 ```
 
-It should look like it has set up a [similar set of folders and configuration files](/get-started/2-hello-world/#understanding-the-layout-of-a-scaffolded-project) to those you saw in the "Hello World!" hApp.
+This table includes everything in the `my_forum_app/` folder as well as details of the contents of the `dnas/` subfolder since that makes up the bulk of the "Holochain" part of an application. For certain folders, like `node_modules/`, `target/`, and `ui/`, the table only contains a high-level overview.
+
+| File/folder                           | Purpose                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <pre> ├── my_forum_app/         </pre> | Root folder of the application. All other files and folders will reside here.                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| <pre> ├┬─ dnas/                 </pre> | This folder contains the DNA configuration and source code for the application. DNAs are one of the most important building blocks in Holochain. Simply put, **a DNA is the executable code for the game you are playing with your peers in Holochain.** And here is the twist: in Holochain, **every DNA creates its own peer-to-peer network** for the validation, storage, and serving of content. Every Holochain application contains at least one DNA. In this example hApp, we have just one: `forum`. |
+| <pre> │└┬─ forum/               </pre> | Folder for the `forum` DNA. It contains the source code and other artifacts for the modules of the DNA (zomes) that define the rules and API of this application.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| <pre> │ ├┬─ workdir/            </pre> | A working folder containing a bundle manifest for the DNA, as well as the bundled DNA file once it's been built.                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| <pre> │ │├── dna.yaml           </pre> | DNA manifest file. A YAML file that defines the properties and zomes of the DNA. YAML is a human-readable data serialization language.                                                                                                                                                                                                                                                                                                                                                                              |
+| <pre> │ │└── forum.dna          </pre> | The compiled DNA file, which includes both the integrity and coordinator zomes. This file contains the back-end code needed to participate in a single component of the hApp, and will be bundled into the `.happ` file.                                                                                                                                                                                                                                                                                                                                                                                     |
+| <pre> │ └┬─ zomes/              </pre> | The source code for zomes (short for chromosomes), which are the executable packages in a DNA. Each zome has its own name like `profile` or `chat`. Zomes define the core logic in a DNA, and can be composed together to create more powerful functionality. DNAs in Holochain are always composed out of one or more zomes. This folder contains zomes for the `forum` DNA.                                                                                                                                 |
+| <pre> │  ├┬─ coordinator/       </pre> | This folder contains the coordinator zomes, which are responsible for this DNA's controller layer, such as reading/writing data and handling communication between peers. The public functions defined in these zomes' code become the DNA's API available to the UI and, depending on the needs of your app, to other peers in the same network.                                                                                                                                                           |
+| <pre> │  │└┬─ posts/            </pre> | Folder containing the source code for the package that will become the `posts` coordinator zome binary. Rust packages are called crates, and they have the following structure.                                                                                                                                                                                                                                                                                                                               |
+| <pre> │  │ ├┬─ src/             </pre> | Source code folder for the `posts` crate.                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| <pre> │  │ │└── lib.rs          </pre> | The main source code file for the `posts` crate. In Rust, `lib.rs` is the entry point for a library crate, which is the kind of crate that a zome needs to be written as. If you have nothing else in here, you should have this file.                                                                                                                                                                                                                                                                        |
+| <pre> │  │ └── Cargo.toml       </pre> | The manifest file for the crate that will become the `posts` coordinator zome, containing metadata, dependencies, and build options. This file tells Cargo, Rust's package manager, how to build the crate into a binary.                                                                                                                                                                                                                                                                                     |
+| <pre> │  └┬─ integrity/         </pre> | This folder contains the integrity zomes, which are responsible for the application's model layer, which define data structures and validation rules for application data.                                                                                                                                                                                                                                                                                                                                          |
+| <pre> │   └┬─ posts/            </pre> | Folder containing the `posts_integrity` crate.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <pre> │    ├┬─ src/             </pre> | Source code folder for the `posts_integrity` crate.                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| <pre> │    │└── lib.rs          </pre> | The main source code file for the `posts_integrity` crate.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| <pre> │    └── Cargo.toml       </pre> | The Cargo manifest file for the `posts_integrity` crate.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| <pre> ├── node_modules/         </pre> | A folder containing cached JavaScript packages and dependencies for the user interface, tests, and build scripts.                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| <pre> ├── target/               </pre> | A folder containing the compiled output from the Rust build process.                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <pre> ├── ui/                   </pre> | A folder containing the source code and assets for the web-based user interface of the forum application. This user interface will get distributed along with the application.                                                                                                                                                                                                                                                                                                                            |
+| <pre> ├┬─ workdir/              </pre> | A working folder containing bundle manifest for the whole hApp, as well as the hApp file once it's built.                                                                                                                                                                                                                                                                                                                                                                                                  |
+| <pre> │├── happ.yaml            </pre> | The manifest file for the hApp. It references the DNA files to be included, along with the roles they play in the application. In this case, there's only one DNA file, `forum`.                                                                                                                                                                                                                                                                                                                              |
+| <pre> │├── my_forum_app.happ    </pre> | The compiled hApp bundle, which includes all the DNAs (in this case, just the one).                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| <pre> │├── my_forum_app.webhapp </pre> | The compiled web hApp bundle, which includes the hApp bundle plus the zipped UI.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| <pre> │└── web-happ.yaml        </pre> | The manifest file for the hApp plus the UI. It references the compiled hApp bundle and zipped UI folder to be included.                                                                                                                                                                                                                                                                                                                                                                                             |
+| <pre> ├── Cargo.lock            </pre> | A file generated by Cargo, Rust's package manager, that lists the exact versions of dependencies used in the project.                                                                                                                                                                                                                                                                                                                                                                                               |
+| <pre> ├── Cargo.toml            </pre> | The main configuration file for the Rust project, containing dependencies, build options, and other metadata for all crates.                                                                                                                                                                                                                                                                                                                                                                                        |
+| <pre> ├── flake.lock            </pre> | A file generated by Nix, the package manager we use to distribute the Holochain development tools, that lists the exact versions of dependencies used in the project.                                                                                                                                                                                                                                                                                                                                               |
+| <pre> ├── flake.nix             </pre> | A Nix file that defines the project's build environment and dependencies.                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| <pre> ├── package.json          </pre> | The configuration file for the JavaScript portions of the project, containing dependencies, scripts, and other metadata for the application's user interface and tests, as well certain build tools.                                                                                                                                                                                                                                                                                                           |
+| <pre> ├── package-lock.json     </pre> | A file generated by npm, Node.js package manager, that lists the exact versions of dependencies used by Node.JS.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| <pre> └── README.md             </pre> | A Markdown file containing the documentation and instructions for the application, including how to build, run, and test the project.                                                                                                                                                                                                                                                                                                                                                                               |
+
+These files and folders make up the structure of a Holochain application, with the main logic defined in the zomes (in the `dnas/<dna>/zomes/` folders) and the user interface defined in the `ui/` folder. The manifest files bring all the Holochain and UI assets together, allowing the `hc` tool to bundle them into a single hApp file ready for distribution.
+
+!!!
 
 Now, fire up the nix development shell, which makes all scaffolding tools and the Holochain binaries directly available from the command line, by entering:
 
@@ -779,13 +825,32 @@ hc scaffold collection --help
 ## 10. Run your application in dev mode
 
 !!! info Warning for Ubuntu 24.04 and later
-Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that cause the following command to fail. Here's a simple fix. In your terminal, run this command:
+Ubuntu Linux 24.04 [introduces security policy changes](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#p-99950-unprivileged-user-namespace-restrictions-15) that cause the following command to fail. Check if your system is configured to require this extra security by running the following command:
 
 ```shell
-sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
+[ "$(cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns 2>/dev/null)" = 1 ] && echo "AppArmor profile needed"
 ```
 
-You'll need to do this once (but only once) for every new project you scaffold. You can find out more [here](/get-started/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04-and-later).
+If this prints the "AppArmor profile needed" message, then you'll need to create an AppArmor profile. Create the profile by running the command:
+
+```shell
+sudo tee /etc/apparmor.d/hc-spin-electron > /dev/null <<'EOF'
+abi <abi/4.0>,
+include <tunables/global>
+
+profile hc-spin-electron /**/node_modules/electron/dist/electron flags=(unconfined) {
+userns,
+}
+EOF
+```
+
+Then load the new profile by running the command:
+
+```shell
+sudo apparmor_parser -r /etc/apparmor.d/hc-spin-electron
+```
+
+You'll need to do this once for your system, then other projects you scaffold should just work. You can find out more [here](/get-started/install-advanced/#fixing-the-suid-sandbox-error-in-ubuntu-24-04-and-later).
 !!!
 
 At this stage, we'll incorporate some of the UI components that have been scaffolded by the scaffolding tool into our main application interface. Our aim here is to make all the functionality of our forum application accessible from a single, unified interface. We'll use Svelte to accomplish this, as it is the framework that we have chosen for the UI layer of our application.
@@ -805,7 +870,7 @@ When you start the hApp with `npm start`, this launches Holochain in sandbox mod
 1. An application window with one agent (conductor 0) running the forum hApp. This window lets us take actions as that agent (0, or Alice, if you prefer).
 2. Another application window with a second agent (conductor 1) running the forum hApp. This window lets us take actions as the other agent (1, or Bob).
 
-![Two agent UI windows showing the default scaffolded Svelte main view](/assets/img/get-started/3-two-uis.png)
+![Two agent UI windows showing the default scaffolded Svelte main view](/assets/img/get-started/2-two-uis.png)
 
 These application windows allow us to test multiple agents in a Holochain network interacting with one another. It is all running on our one device, but the two conductors behave very much the same as separate agents on different machines would, minus network lag.
 
@@ -1006,7 +1071,7 @@ The `ClientProvider` and `AllPosts` elements are obviously not standard HTML. In
 
 Save that file and take a look again at the two UI windows. They should both say 'No posts found'.
 
-![A UI showing the AllPosts component, which says 'No posts found'](/assets/img/get-started/4-no-posts-found.png)
+![A UI showing the AllPosts component, which says 'No posts found'](/assets/img/get-started/3-no-posts-found.png)
 
 Let's fix that by adding the post creation component to the UI so we can add our first post. Import the `CreatePost.svelte` component by adding this line in the script section, just below the `AllPosts` component you previously imported:
 
@@ -1041,7 +1106,7 @@ Add this new component to the `<ClientProvider>` block above the component you a
 
 Save the file and switch to one of the two conductor windows. You should now see a post form.
 
-![The UI after adding the CreatePost component](/assets/img/get-started/5-create-post-component.png)
+![The UI after adding the CreatePost component](/assets/img/get-started/4-create-post-component.png)
 
 Type something into one of the two conductor windows like:
 
@@ -1068,7 +1133,7 @@ Let's edit that post. In Alice's UI window, click the edit link adjacent to the 
 
 Now alter the content a bit. Maybe change it from `Hello Bob!` to `Hello World!` and click "Save".
 
-![The UI of one agent, showing a post about to be edited](/assets/img/get-started/6-edit-post.png)
+![The UI of one agent, showing a post about to be edited](/assets/img/get-started/5-edit-post.png)
 
 That should update the post (at least for Alice). Bob's UI will show the updated version the next time it's reloaded.
 
@@ -1106,10 +1171,10 @@ Here, the comment components need to know what post they're related to. The post
 
 Save the file, then go back to the UI windows to see the changes. (You may have to manually reload the UI; right-click anywhere and click 'Reload'.) Try typing in a comment or two, then deleting them. (You may need to refresh the UI windows to see the changes to the content.) The deleted comments are still there and can be accessed by code in your zomes if needed, but neither the application backend (that is, the functions defined in the coordinator zome) nor the UI have the capacity to show them.
 
-![One UI window with the comment components added](/assets/img/get-started/7-comment-components.png)
+![One UI window with the comment components added](/assets/img/get-started/6-comment-components.png)
 
 ### Next up
 
 Now that you've built a hApp, you can learn how to package it for distribution to your users.
 
-[Package your hApp →](/get-started/4-packaging-and-distribution/){.btn-purple}
+[Package your hApp →](/get-started/3-packaging-and-distribution/){.btn-purple}

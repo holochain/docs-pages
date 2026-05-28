@@ -119,6 +119,6 @@ Congratulations! The Holochain development environment is now set up successfull
 
 ### Next up
 
-Now it's time to download, compile, and try an example Holochain application.
+Now it's time to create your own Holochain application.
 
-[Try 'Hello World' →](/get-started/2-hello-world/){.btn-purple}
+[Build a forum hApp →](/get-started/2-forum-app-tutorial/){.btn-purple}
