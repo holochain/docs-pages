@@ -52,11 +52,7 @@ You'll then be prompted to choose a user interface (UI) framework for your front
 ::: output-block
 ```text
 ? Choose UI framework: (Use arrow-keys. Return to submit) ›
-  lit
 ❯ svelte
-  vue
-  react
-  vanilla
   headless (no ui)
 ```
 
