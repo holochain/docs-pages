@@ -163,7 +163,7 @@ pub fn validate_delete_movie_loan_offer(
 }
 ```
 
-You can find other stub functions in that file for links that point to the most recent update (if you [chose that option](/get-started/3-forum-app-tutorial/#scaffold-most-recent-update-link) when you scaffolded the entry type), links that manage collections of entries, and backlinks from entries to entries that depend on them.
+You can find other stub functions in that file for links that point to the most recent update (if you [chose that option](/get-started/2-forum-app-tutorial/#scaffold-most-recent-update-link) when you scaffolded the entry type), links that manage collections of entries, and backlinks from entries to entries that depend on them.
 
 ### `validate_agent_joining`
 

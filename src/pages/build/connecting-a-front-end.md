@@ -12,7 +12,7 @@ The most important thing to remember about a hApp is that it runs in the Holocha
 
 This interface is **only exposed to processes on the local device**, not to external network adapters. This helps prevent unauthorized agents from accessing the hApp. It also means the front end must be distributed with the hApp and a Holochain runtime.
 
-Some Holochain runtimes bundle the conductor and a front end host that serves your HTML/JavaScript-based runtimes. Take a look at the [Packaging and Distribution](/get-started/4-packaging-and-distribution/) page from the Get Started guide for the choices.
+Some Holochain runtimes bundle the conductor and a front end host that serves your HTML/JavaScript-based runtimes. Take a look at the [Packaging and Distribution](/get-started/3-packaging-and-distribution/) page from the Get Started guide for the choices.
 
 Scaffolded hApps come with a runtime called `hc-spin`, which starts a Holochain conductor, installs your hApp into it, and displays a UI for you. The scaffolding tool generates an NPM script that compiles and bundles your back end into a [`.happ` file](/build/happs/#package-a-happ-for-distribution) and starts two instances of the hApp with `hc-spin`. In the root of your project folder, enter:
 

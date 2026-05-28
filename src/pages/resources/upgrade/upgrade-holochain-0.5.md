@@ -242,7 +242,7 @@ Because the new name of the function that panics is the same as the old name of 
 
 ### `AppWebsocket::callZome` can no longer accept a `null` cap secret
 
-The `cap_secret` field in the `request` argument of [`AppWebsocket::callZome`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.appwebsocket.callzome.md) can no longer be `null` --- instead it must either be omitted (you don't need it at all if your UI is hosted by an [officially supported Holochain runtime](/get-started/4-packaging-and-distribution/)) or explicitly given.
+The `cap_secret` field in the `request` argument of [`AppWebsocket::callZome`](https://github.com/holochain/holochain-client-js/blob/main-0.5/docs/client.appwebsocket.callzome.md) can no longer be `null` --- instead it must either be omitted (you don't need it at all if your UI is hosted by an [officially supported Holochain runtime](/get-started/3-packaging-and-distribution/)) or explicitly given.
 
 ```diff:typescript
  const results = await client.value.callZome({

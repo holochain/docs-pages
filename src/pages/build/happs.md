@@ -12,7 +12,7 @@ As we described in [Application Structure](/build/application-structure/#happ), 
 
 ## Create a hApp {#create-a-happ}
 
-The [scaffolding tool](/get-started/3-forum-app-tutorial/) is the easiest way to build out a full hApp with multiple DNAs and an optional GUI. Once you've [got the Holochain dev shell working](/get-started/), open a terminal and enter this command:
+The [scaffolding tool](/get-started/2-forum-app-tutorial/) is the easiest way to build out a full hApp with multiple DNAs and an optional GUI. Once you've [got the Holochain dev shell working](/get-started/), open a terminal and enter this command:
 
 <!-- TODO(upgrade): change following version number -->
 
