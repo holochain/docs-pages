@@ -4,8 +4,12 @@ title: "Testing with Tryorama"
 
 <!-- TODO: write a new guide for Sweettest and deprecate this one (don't remove it because Tryorama is still unofficially supported) -->
 
+!!! note "Tryorama is deprecated"
+As of Holochain 0.6, Tryorama is [no longer an official package](/resources/upgrade/upgrade-holochain-0.6/#tryorama-tests). While it still exists as a community project, we encourage you to switch your tests to Sweettest, a Rust-based test harness for Holochain. We'll update this guide for Sweettest in the future.
+!!!
+
 ::: intro
-[**Tryorama**](https://github.com/holochain/tryorama) is a JavaScript-based library for testing your [hApps](/build/happs/). It lets you write scenarios that direct the conductor to install hApps, provision [cells](/concepts/2_application_architecture/#cell) for single or multiple agents, and call their [coordinator zome](/build/zomes/#coordinator) [functions](/build/zome-functions/).
+[**Tryorama**](https://github.com/holochain-open-dev/tryorama) is a JavaScript-based library for testing your [hApps](/build/happs/). It lets you write scenarios that direct the conductor to install hApps, provision [cells](/concepts/2_application_architecture/#cell) for single or multiple agents, and call their [coordinator zome](/build/zomes/#coordinator) [functions](/build/zome-functions/).
 :::
 
 ## Getting Tryorama
@@ -47,7 +51,7 @@ As you scaffold [entry types](/build/entries/#scaffold-an-entry-type-and-crud-ap
 
 ### Create a scenario
 
-Your scenarios are written as async functions that you pass to Tryorama's [`runScenario`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.runscenario.md) function. These functions should take one argument, a [`Scenario`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.md) object that exposes Tryorama's functionality.
+Your scenarios are written as async functions that you pass to Tryorama's [`runScenario`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.runscenario.md) function. These functions should take one argument, a [`Scenario`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.scenario.md) object that exposes Tryorama's functionality.
 
 ```typescript
 import { assert, test } from "vitest";
@@ -62,9 +66,9 @@ test("run a scenario", async () => {
 
 ### Create agents and instantiate hApps for them
 
-To spin up a conductor and create a hApp instance for a single agent, call [`scenario.addPlayerWithApp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md), passing it an [`AppWithOptions`](https://github.com/holochain/tryorama/blob/main-0.5/docs/tryorama.appwithoptions.md) object which points to the app and configures install-time options. The function returns a promise containing a [`Player`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.player.md) object, which is a container for:
+To spin up a conductor and create a hApp instance for a single agent, call [`scenario.addPlayerWithApp`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md), passing it an [`AppWithOptions`](https://github.com/holochain-open-dev/tryorama/blob/main-0.5/docs/tryorama.appwithoptions.md) object which points to the app and configures install-time options. The function returns a promise containing a [`Player`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.player.md) object, which is a container for:
 
-* a [`Conductor`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.md) object, which lets you manage the conductor hosting the agent, and
+* a [`Conductor`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.conductor.md) object, which lets you manage the conductor hosting the agent, and
 * an [`AppWebsocket`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.md) object, which gives you full access to the conductor's app interface (see [Connecting a Front End](/build/connecting-a-front-end/), [Calling a zome function from a front end](/build/calling-zome-functions/#call-a-zome-function-from-a-front-end), [Listen for a signal](/build/signals/#listen-for-a-signal), and [Clone a DNA from a client](/build/cloning/#clone-a-dna-from-a-client)).
 
 ```typescript
@@ -93,7 +97,7 @@ test("create an agent", async () => {
 });
 ```
 
-To create conductors and hApp instances for multiple agents, call [`scenario.addPlayersWithApps`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerswithapps.md), passing it an array of `AppBundleSource`s. The return value is a promise containing an array of `Player`s, each corresponding to an app bundle source from the input.
+To create conductors and hApp instances for multiple agents, call [`scenario.addPlayersWithApps`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.scenario.addplayerswithapps.md), passing it an array of `AppBundleSource`s. The return value is a promise containing an array of `Player`s, each corresponding to an app bundle source from the input.
 
 ```typescript
 import { expect, test } from "vitest";
@@ -186,7 +190,7 @@ test("clone a cell", async () => {
 
 ## Wait for DHT syncing
 
-When you're testing scenarios that involve multiple agents publishing data to the DHT, it's often helpful to pause your test until all agents have seen the data. You can do this with the [`dhtSync`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.dhtsync.md) function, which returns a promise that waits until all players' local states are identical for a DNA.
+When you're testing scenarios that involve multiple agents publishing data to the DHT, it's often helpful to pause your test until all agents have seen the data. You can do this with the [`dhtSync`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.dhtsync.md) function, which returns a promise that waits until all players' local states are identical for a DNA.
 
 ```typescript
 import { assert, expect, test } from "vitest";
@@ -311,7 +315,7 @@ const [ alice, bob ] = await scenario.addPlayersWithApps([playerConfig, playerCo
 
 ## Simulate disruptions
 
-To simulate an unexpected event such as a hardware or network failure, use a player's [`conductor.shutDown`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.shutdown.md) method. You can start the conductor up again with the [`conductor.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startup.md) method.
+To simulate an unexpected event such as a hardware or network failure, use a player's [`conductor.shutDown`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.conductor.shutdown.md) method. You can start the conductor up again with the [`conductor.startUp`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.conductor.startup.md) method.
 
 ```typescript
 import { assert, expect, test } from "vitest";
@@ -365,19 +369,19 @@ test("Bob can receive a Director entry after coming back online", async () => {
 
 ## Reference
 
-* [`@holochain/tryorama` > `runScenario`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.runscenario.md)
-* [`@holochain/tryorama` > `Scenario`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.md)
-* [`@holochain/tryorama` > `Scenario.prototype.addPlayerWithApp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md)
+* [`@holochain/tryorama` > `runScenario`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.runscenario.md)
+* [`@holochain/tryorama` > `Scenario`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.scenario.md)
+* [`@holochain/tryorama` > `Scenario.prototype.addPlayerWithApp`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md)
 * [`@holochain/client` > `AppBundleSource`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appbundlesource.md)
-* [`@holochain/tryorama` > `AppOptions`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.appoptions.md)
-* [`@holochain/tryorama` > `Player`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.player.md)
-* [`@holochain/tryorama` > `Conductor`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.md)
+* [`@holochain/tryorama` > `AppOptions`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.appoptions.md)
+* [`@holochain/tryorama` > `Player`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.player.md)
+* [`@holochain/tryorama` > `Conductor`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.conductor.md)
 * [`@holochain/client` > `AppWebsocket`](https://github.com/holochain/holochain-client-js/blob/main/docs/client.appwebsocket.md)
-* [`@holochain/tryorama` > `Scenario.prototype.addPlayersWithApps`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerswithapps.md)
-* [`@holochain/tryorama` > `dhtSync`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.dhtsync.md)
-* [`@holochain/tryorama` > `Conductor.prototype.shutDown`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.shutdown.md)
-* [`@holochain/tryorama` > `Conductor.prototype.startUp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.conductor.startup.md)
+* [`@holochain/tryorama` > `Scenario.prototype.addPlayersWithApps`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.scenario.addplayerswithapps.md)
+* [`@holochain/tryorama` > `dhtSync`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.dhtsync.md)
+* [`@holochain/tryorama` > `Conductor.prototype.shutDown`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.conductor.shutdown.md)
+* [`@holochain/tryorama` > `Conductor.prototype.startUp`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.conductor.startup.md)
 
 ## Further reading
 
-* [Tryorama readme](https://github.com/holochain/tryorama/blob/main/README.md)
+* [Tryorama readme](https://github.com/holochain-open-dev/tryorama/blob/main/README.md)

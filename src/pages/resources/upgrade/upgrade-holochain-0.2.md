@@ -146,7 +146,7 @@ this.client = await AppAgentWebsocket.connect(new URL('http://UNUSED'), 'myHapp'
 
 In your project's `tests/package.json` you will find a dependency on `@holochain/tryorama`. This should be using `0.11.x`, which is the version compatible with Holochain 0.1. To work with Holochain 0.2, you need to update to `0.15.x`.
 
-You can always check what versions of Tryorama are available on the [NPM registry](https://www.npmjs.com/package/@holochain/tryorama?activeTab=versions), and you can find out what versions are compatible with a Holochain version by checking the [project's documentation](https://github.com/holochain/tryorama?tab=readme-ov-file#compatibility).
+You can always check what versions of Tryorama are available on the [NPM registry](https://www.npmjs.com/package/@holochain/tryorama?activeTab=versions), and you can find out what versions are compatible with a Holochain version by checking the [project's documentation](https://github.com/holochain-open-dev/tryorama?tab=readme-ov-file#compatibility).
 
 To update Tryorama, you can run:
 
