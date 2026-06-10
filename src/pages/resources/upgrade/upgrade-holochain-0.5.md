@@ -317,7 +317,7 @@ If you want to use these features, [build a custom Holochain binary](https://git
 
 ### `AppBundleSource::Bundle` removed
 
-**Note: This information is only relevant if you're building a runtime or using Tryorama's [`Conductor.prototype.installApp`](https://github.com/holochain/tryorama/blob/v0.18.1/docs/tryorama.conductor.installapp.md) method, either directly or through a helper like `scenario.addPlayersWithApps`.** The `Bundle` option (deprecated in 0.4.2) is now removed from [`AppBundleSource`](https://docs.rs/holochain_types/0.5.2/holochain_types/app/enum.AppBundleSource.html). If you need to pass bundle bytes to the admin API's `InstallApp` endpoint, use [`AppBundleSource::Bytes`](https://docs.rs/holochain_types/0.5.2/holochain_types/app/enum.AppBundleSource.html#variant.Bytes) (introduced in 0.4.2) and pass the bytes of an entire hApp bundle file instead.
+**Note: This information is only relevant if you're building a runtime or using Tryorama's [`Conductor.prototype.installApp`](https://github.com/holochain-open-dev/tryorama/blob/v0.18.1/docs/tryorama.conductor.installapp.md) method, either directly or through a helper like `scenario.addPlayersWithApps`.** The `Bundle` option (deprecated in 0.4.2) is now removed from [`AppBundleSource`](https://docs.rs/holochain_types/0.5.2/holochain_types/app/enum.AppBundleSource.html). If you need to pass bundle bytes to the admin API's `InstallApp` endpoint, use [`AppBundleSource::Bytes`](https://docs.rs/holochain_types/0.5.2/holochain_types/app/enum.AppBundleSource.html#variant.Bytes) (introduced in 0.4.2) and pass the bytes of an entire hApp bundle file instead.
 
 Note that, as a conductor API endpoint, `InstallApp` is also affected by [the enum serialization change](#enums-in-the-conductor-ap-is-are-serialized-differently):
 
@@ -329,7 +329,7 @@ Note that, as a conductor API endpoint, `InstallApp` is also affected by [the en
 
 ### `scenario.addPlayerWithApp` input now more closely matches `addPlayersWithApps`
 
-The signature of the [`Scenario.prototype.addPlayerWithApp`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md) method now takes an [`AppWithOptions`](https://github.com/holochain/tryorama/blob/main/docs/tryorama.appwithoptions.md) object in the same way that `addPlayersWithApps` takes an array of the same object.
+The signature of the [`Scenario.prototype.addPlayerWithApp`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.scenario.addplayerwithapp.md) method now takes an [`AppWithOptions`](https://github.com/holochain-open-dev/tryorama/blob/main/docs/tryorama.appwithoptions.md) object in the same way that `addPlayersWithApps` takes an array of the same object.
 
 ```diff:typescript
 -const appBundleSource: AppBundleSource = { path: "./workdir/my_app.happ" };

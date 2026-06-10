@@ -899,7 +899,7 @@ Describes a [peer-to-peer](#peer-to-peer) [distributed system](#distributed-syst
 
 #### Tryorama
 
-A [scenario testing](#scenario-test) library for Holochain. See [Tryorama GitHub repo](https://github.com/holochain/tryorama).
+A [scenario testing](#scenario-test) library for Holochain. See [Tryorama GitHub repo](https://github.com/holochain-open-dev/tryorama).
 
 #### Unrestricted capability grant
 
