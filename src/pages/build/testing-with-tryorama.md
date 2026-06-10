@@ -2,6 +2,8 @@
 title: "Testing with Tryorama"
 ---
 
+<!-- TODO: write a new guide for Sweettest and deprecate this one (don't remove it because Tryorama is still unofficially supported) -->
+
 ::: intro
 [**Tryorama**](https://github.com/holochain/tryorama) is a JavaScript-based library for testing your [hApps](/build/happs/). It lets you write scenarios that direct the conductor to install hApps, provision [cells](/concepts/2_application_architecture/#cell) for single or multiple agents, and call their [coordinator zome](/build/zomes/#coordinator) [functions](/build/zome-functions/).
 :::
