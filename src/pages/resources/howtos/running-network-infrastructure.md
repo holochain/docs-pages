@@ -3,16 +3,10 @@ title: Running Network Infrastructure
 ---
 
 ::: intro
-This howto will walk you through downloading, configuring, and running a containerized setup that provides a bootstrap and signal/relay server for a Holochain application. This server is necessary to help peers discover each other and establish a direct peer-to-peer WebRTC connection, and it also provides a message relay service as a fallback in case a direct connection can't be established.
+This howto will walk you through downloading, configuring, and running a containerized setup that provides a bootstrap and signal/relay server for a Holochain application. This server is necessary to help peers discover each other and establish a direct peer-to-peer Iroh connection, and it also provides a message relay service as a fallback in case a direct connection can't be established.
 :::
 
-The [kitsune2 bootstrap server](https://github.com/holochain/kitsune2/tree/main/crates/bootstrap_srv) provides:
-
-* Peer discovery
-* WebSocket-based signaling for WebRTC connection setup between peers
-* Optionally, the same WebSocket protocol can be used as a relay by peers who can't establish a direct connection to each other in the signaling step
-
-Any user-friendly hApp will need these services in order to operate.
+The [kitsune2 bootstrap server](https://github.com/holochain/kitsune2/tree/main/crates/bootstrap_srv) provides peer discovery and optional authentication for peers. Any user-friendly hApp will need these services in order to operate.
 
 !!! info Public server
 The Holochain Foundation provides a public bootstrap server at `https://dev-test-bootstrap2.holochain.org/` that you're welcome to use for testing. It's not appropriate for production hApps, though, because it's low-bandwidth and has no uptime guarantees.
@@ -71,19 +65,6 @@ services:
     restart: unless-stopped
 ```
 
-!!! info Tuning the bootstrap server's performance
-You can pass various parameters to `kitsune2-bootstrap-srv` to tune the relay performance. The [`sbd_server` crate documentation](https://docs.rs/sbd-server/latest/sbd_server/struct.Config.html#structfield.limit_clients) shows the data structure; the tuning parameters are `limit_clients` onward. To pass them as arguments to the Docker container, prefix them with `sbd` and convert them to hyphen-case, like this:
-
-```yaml
-# ...
-    command:
-      - kitsune2-bootstrap-srv
-      - --sbd-limit-clients
-      - 50
-# ...
-```
-!!!
-
 ## Run the container
 
 Test the configuration:
@@ -111,15 +92,13 @@ At this point your bootstrap server is ready for testing, but it probably isn't 
 
 * Even though the server keeps its own state, this state is ephemeral and can safely be disposed of (e.g., in case of a server crash and failover to another instance) with only temporary disruptions to service as peers re-announce themselves to the new server. This disruption will mostly be felt by newcomers and peers using the relay fallback.
 * The state can't be shared among instances of the bootstrap server for load-sharing.
-* One instance can be used as a bootstrap server while another can be used as a signal/relay server to spread the load; the only configuration necessary is to specify different URLs in your conductor configuration (see the next section).
+* One instance can be used as a bootstrap server while another can be used as a relay server to spread the load; the only configuration necessary is to specify different URLs in your conductor configuration (see the next section).
 * The Docker compose file above configures the server as an open relay without authentication; we're working on making it easier to [build authentication](https://github.com/holochain/sbd/blob/main/spec-auth.md) appropriate for your hApp.
-* You'll need to size your server instance for your expected peak level of usage --- it may be helpful to simulate this using a multi-conductor [Tryorama](/build/testing-with-tryorama/) test or real humans. Depending on your server specs and bandwidth, the server binary can theoretically scale to support thousands of concurrent peers, with a couple hundred using relayed connections.
+* You'll need to size your server instance for your expected peak level of usage --- it may be helpful to simulate this using a multi-conductor [Tryorama](/build/testing-with-tryorama/) test <!-- TODO: update this to Sweettest --> or real humans. Depending on your server specs and bandwidth, the server binary can theoretically scale to support thousands of concurrent peers, with a couple hundred using relayed connections.
 * The server hasn't been tested extensively with Holochain in high-load or failure scenarios.
 !!!
 
 ## Configure your hApp to use your bootstrap server
-
-<!-- TODO: eventually it should be possible to specify the server URLs in the DNA manifest. When that happens, add instructions here. See https://github.com/holochain/holochain/issues/4761 -->
 
 ### Testing
 
@@ -139,8 +118,8 @@ If you use the same server for production and testing, you might end up writing 
      "test": "npm run build:zomes && hc app pack workdir --recursive && cargo test",
      // Replace the hApp bundle name and URLs with your actual values.
 -    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/my_app.happ",
-+    // Use bootstrap server
-+    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT --bootstrap-url \"https://bootstrap.example.org\" --signaling-url \"wss://bootstrap.example.org\" --network-seed \"bootstrap-testing-network-only\" workdir/my_app.happ",
++    // Use your actual bootstrap server URL here.
++    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT --bootstrap-url \"https://bootstrap.example.org\" --relay-url \"https://bootstrap.example.org\" --network-seed \"bootstrap-testing-network-only\" workdir/my_app.happ",
      "package": "npm run build:happ && npm run package --workspace ui && hc web-app pack workdir --recursive",
      "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
      "build:zomes": "RUSTFLAGS='--cfg getrandom_backend=\"custom\"' cargo build --release --target wasm32-unknown-unknown"
@@ -156,11 +135,12 @@ If you're using [Kangaroo](https://github.com/holochain/kangaroo-electron) to bu
  import { defineConfig } from './src/main/defineConfig';
  export default defineConfig({
    // ...
-   // Use your actual domain name here.
++  // Use your actual bootstrap server URL here.
 -  bootstrapUrl: 'https://dev-test-bootstrap2.holochain.org/',
 +  bootstrapUrl: 'https://bootstrap.example.org/',
--  signalUrl: 'wss://dev-test-bootstrap2.holochain.org/',
-+  signalUrl: 'wss://bootstrap.example.org/',
+   signalUrl: 'wss://dev-test-bootstrap2.holochain.org/',
+-  relayUrl: 'https://iroh-relay-hc.holochain.org',
++  relayUrl: 'https://bootstrap.example.org/',
    iceUrls: ['stun:stun.l.google.com:19302','stun:stun.cloudflare.com:3478'],
    // ...
  });
