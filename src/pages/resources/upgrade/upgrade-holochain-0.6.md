@@ -141,9 +141,9 @@ If you've created your hApp using our scaffolding tool, you should be able to fo
 
 #### Tryorama tests
 
-Tryorama has been removed from Holochain 0.6.1's Holonix development environment. Instead, tests are scaffolded in your coordinator zome's code alongside the zome functions.
+Tryorama has been removed from Holochain 0.6.1's Holonix development environment. Instead, integration tests use Sweettest, our Rust-based test harness. <!--TODO(upgrade): link to docs.rs when https://github.com/holochain/holochain/pull/5825 is merged to a recommended release --> They can be found in `dnas/<dna>/zomes/coordinator/<zome>/tests` and can be run with `cargo test` either at the project level or the zome level folder.
 
-You can still use Tryorama; it's been moved to the community-managed [`holochain/tryorama`](https://github.com/holochain-open-dev/tryorama) GitHub repo. If you want to continue using it, edit your project's `tests/package.json` file, updating the client lib:
+You can still use Tryorama; it's been moved to the community-managed [`holochain/tryorama`](https://github.com/holochain-open-dev/tryorama) GitHub repo. If you want to continue using it, edit your project's `tests/package.json` file, updating the client lib. (The NPM package name is still the same.)
 
 <!-- TODO(upgrade): Update these version numbers for new 0.6.x releases -->
 
@@ -230,6 +230,44 @@ npm install
 +)?.into_inner();
 ```
 
+### `GetOptions`'s fields are private
+
+[`GetOptions`](https://docs.rs/hdk/latest/hdk/prelude/struct.GetOptions.html), used to specify the DHT get strategy, now has private members. To construct a value, use the builder or factory methods instead.
+
+```diff:rust
+ let maybe_record = get(
+     record_hash,
+-    GetOptions { strategy: GetStrategy::Network }
++    // With the factory method
++    GetOptions::network()
+ )?;
+```
+
+or:
+
+```diff:rust
+ let maybe_record = get(
+     record_hash,
+-    GetOptions { strategy: GetStrategy::Network }
++    // With the builder method
++    GetOptions::default().with_strategy(GetStrategy::Network)
+ )?;
+```
+
+`GetOptions` has two new fields that can all be accessed via builder methods:
+
+```rust
+let options = GetOptions::default()
+    // Specify how many peers to try to get from at once.
+    .with_remote_agent_count(16)
+    // Specify the max time to wait.
+    .with_timeout_ms(60000);
+```
+
+If the strategy is `GetStrategy::Network` and the remote agent count is two or more, 'race mode' will be enabled, in which the first peer response will be used. This means that, if the fastest responding peer hasn't integrated the data yet, it'll return an empty response, even if other peers have integrated it.
+
+(Note: `GetOptions` has been moved from `hdk` to `holochain_integrity_types`, but is re-exported in `hdi`, `hdk`, and `holochain_zome_types`. This isn't a breaking change to your code, but you will need to recompile your zomes.)
+
 ### `delete_link` requires a `GetOptions` argument
 
 In order to self-validate a `DeleteLink` action, the original link creation action needs to be available locally, or validation will fail. As a safeguard, [`delete_link`](https://docs.rs/hdk/latest/hdk/link/fn.delete_link.html) now requires a `GetOptions` argument that defaults to fetching the link creation action from the network.
@@ -242,6 +280,10 @@ In order to self-validate a `DeleteLink` action, the original link creation acti
 ```
 
 If you're certain a link creation action is available locally --- for example, when the user is deleting a link they authored --- you can use `GetOptions::local()` instead.
+
+### `TypedPath` and `Anchor` have a `strategy` field
+
+[`TypedPath`](https://docs.rs/hdk/0.6.1/hdk/prelude/struct.TypedPath.html) and [`Anchor`](https://docs.rs/hdk/0.6.1/hdk/prelude/struct.Anchor.html) now have a required `strategy` field that takes a [`GetStrategy`](https://docs.rs/hdk/0.6.1/hdk/prelude/enum.GetStrategy.html) value. This is because they do network gets behind the scenes. Read the [`TypedPath::with_strategy` method documentation](https://docs.rs/hdk/0.6.1/hdk/prelude/struct.Anchor.html#method.with_strategy) for more info.
 
 ### `ChainFilter` bounds conditions have changed
 
@@ -313,12 +355,12 @@ In addition to the above changes, the `dylib` field has been removed:
 
 #### hApp manifests
 
-There are no changes besides the common manifest changes:
+The common manifest changes need to be made to your hApp manifest:
 
 ```diff:yaml
 -manifest_version: '1'
 +manifest_version: '0'
- name: forum
+ name: my_forum_app
  integrity:
    network_seed: null
    properties: null
@@ -337,6 +379,17 @@ There are no changes besides the common manifest changes:
      dependencies:
      - name: posts_integrity
 ```
+
+<!-- TODO(upgrade): once per-app relay server support is added, add `relay_url` and documentation thereupon -->
+Additionally, if you like, you can now set a bootstrap server per hApp. This lets you run your own infrastructure for your community, with authenticated bootstrapping per your privacy/gating needs. (We don't currently offer documentation for writing authentication hooks for the bootstrap service.) <!-- TODO(upgrade): link to docs once they exist --> Use the `bootstrap_url` field in the hApp manifest:
+
+```diff:yaml
+ manifest_version: '0'
+ name: my_forum_app
++bootstrap_url: https://my-forum-app-bootstrap-server.net
+```
+
+Note that all participants in a hApp must use the same bootstrap server<!-- TODO: uncomment this once configurable relay servers is all wired up: but agents may all use different relay servers-->. Read the [Running Network Infrastructure guide](/resources/howtos/running-network-infrastructure/) to find out how to set up servers of your own.
 
 #### Web hApp manifests
 
@@ -428,6 +481,15 @@ The type of the `status` field in the [`AppInfo` response struct](https://github
  }
 ```
 
+### `DnaDefinition` deprecated and renamed to `DnaDef`
+
+This isn't likely to affect you unless you're both accessing the admin API and using explicit type signatures for `DnaDefinition` in your code. The old name still works as an alias, but it'll be removed in a future client release.
+
+```diff:typescript
+-const dnaDef: DnaDefinition = await client.getDnaDefinition(cellId);
++const dnaDef: DnaDef = await client.getDnaDefinition(cellId);
+```
+
 ### Cap grant functions changed to `HashSet`
 
 The type of [`holochain_integrity_types::capability::GrantedFunctions::Listed`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/enum.GrantedFunctions.html#variant.Listed) has changed from a `BTreeSet` to a `HashSet`.
@@ -443,12 +505,18 @@ The type of [`holochain_integrity_types::capability::GrantedFunctions::Listed`](
  })?;
 ```
 
-### Try running your Tryorama tests and web app
+### Try running your tests and web app
 
 Now that your zome and client code have both been updated, run:
 
 ```bash
 npm run test
+```
+
+Or, if you've switched from Tryorama to Sweettest while updating your app, run:
+
+```bash
+cargo test
 ```
 
 and fix any test failures you see. Finally, try your hApp out by running:
@@ -484,14 +552,16 @@ If you have a Kangaroo-based project, edit the `templates/conductor-config.yaml`
        allowed_origins: "###DEFINED_AT_RUNTIME###"
  network:
    type: NetworkConfig
-+  base64_auth_material: ~
++  base64_auth_material_bootstrap: ~
++  base64_auth_material_relay: ~
    bootstrap_url: "###DEFINED_AT_RUNTIME###"
    signal_url: "###DEFINED_AT_RUNTIME###"
 +  relay_url: "###DEFINED_AT_RUNTIME###"
-   webrtc_config:
-     iceServers:
-       - urls:
-           - "###DEFINED_AT_RUNTIME###"
+-  webrtc_config:
+-    iceServers:
+-      - urls:
+-          - "###DEFINED_AT_RUNTIME###"
++  webrtc_config: ~
    target_arc_factor: 1
 +  report: none
    advanced: ~
@@ -511,12 +581,22 @@ If you are using a local iroh relay as your `relay_url`, you will additionally n
 +      relayAllowPlainText: true
 ```
 
-Notable changes include:
+#### (Optional) Concurrency tuning
 
-* **Iroh relay URL**: With the change to the iroh network transport as default in Holochain v0.6.1, a `relay_url` is required to enable communication with other nodes
-* **DPKI removed**: All DPKI-related configuration has been removed
-* **Network configuration**: New fields like `base64_auth_material` and `report` have been added for enhanced network configuration options
-* **Admin interface**: Added `danger_bind_addr` field for more control over admin interface binding
+You can tune some concurrency parameters in the conductor config. We don't recommend doing this unless you know what you're doing.
+
+* You can tune database concurrency with [`db_max_readers`](https://docs.rs/holochain/latest/holochain/conductor/api/conductor/struct.ConductorConfig.html#structfield.db_max_readers), which lets you specify the number of read connections per database.
+* You can tune one aspect of network traffic with [`incoming_request_concurrency_limit`](https://docs.rs/holochain/latest/holochain/conductor/api/conductor/struct.ConductorConfig.html#structfield.incoming_request_concurrency_limit), which lets you specify the max number of authority requests (e.g. `get`, `get_links`) that your node is willing to respond to in parallel.
+
+
+```diff:yaml
+ # ...
+ db_sync_strategy: Resilient
+ tuning_params: ~
+ tracing_scope: ~
++db_max_readers: 32
++incoming_request_concurrency_limit: 29
+```
 
 ### Pin pkcs8 version
 
