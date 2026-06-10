@@ -6,7 +6,7 @@ title: Running Network Infrastructure
 This howto will walk you through downloading, configuring, and running a containerized setup that provides a bootstrap and signal/relay server for a Holochain application. This server is necessary to help peers discover each other and establish a direct peer-to-peer Iroh connection, and it also provides a message relay service as a fallback in case a direct connection can't be established.
 :::
 
-The [kitsune2 bootstrap server](https://github.com/holochain/kitsune2/tree/main/crates/bootstrap_srv) provides peer discovery and optional authentication for peers. Any user-friendly hApp will need these services in order to operate.
+The [kitsune2 bootstrap server](https://github.com/holochain/kitsune2/tree/main/crates/bootstrap_srv) provides peer discovery, relay fallback for peers who can't establish direct connections, and optional authentication for peers. Any user-friendly hApp will need these services in order to operate.
 
 !!! info Public server
 The Holochain Foundation provides a public bootstrap server at `https://dev-test-bootstrap2.holochain.org/` that you're welcome to use for testing. It's not appropriate for production hApps, though, because it's low-bandwidth and has no uptime guarantees.
