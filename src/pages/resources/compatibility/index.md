@@ -6,7 +6,8 @@ These tables help you keep the dependencies of all your hApp's components up to 
 
 <!-- TODO(upgrade): add a new table to this list and move the 'current recommended release' text up -->
 
-* [Holochain 0.6 compatibility table](/resources/compatibility/holochain-0.6/) **(current recommended release)**
+* [Holochain 0.7 compatibility table](/resources/compatibility/holochain-0.7/) **(current recommended release)**
+* [Holochain 0.6 compatibility table](/resources/compatibility/holochain-0.6/)
 * [Holochain 0.5 compatibility table](/resources/compatibility/holochain-0.5/)
 
 ## General guidance
