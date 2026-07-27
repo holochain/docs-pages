@@ -14,6 +14,7 @@ Burmeister
 Cachix
 cdylib
 certbot
+cranelift
 CRDT
 d'Aoust
 Diffie
@@ -63,6 +64,7 @@ privkey
 pubkey
 QUIC
 rlib
+rusqlite
 rustc
 rustflags
 rustup
@@ -70,6 +72,7 @@ secretbox
 seedable
 setgid
 setuid
+shrinkwraprs
 struct
 structs
 subl
@@ -82,6 +85,7 @@ WASI
 WASM
 Wasmer
 wasmer
+wasmi
 WebRTC
 webview
 webviews
