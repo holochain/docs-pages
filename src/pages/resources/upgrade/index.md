@@ -10,6 +10,7 @@ Upgrading between versions of Holochain can be a bit tricky! While Holochain is 
 
 <!-- TODO(upgrade): add a new guide to this list for major releases -->
 
+* [Holochain Upgrade 0.6 → 0.7](/resources/upgrade/upgrade-holochain-0.7/)
 * [Holochain Upgrade 0.5 → 0.6](/resources/upgrade/upgrade-holochain-0.6/)
 * [Holochain Upgrade 0.4 → 0.5](/resources/upgrade/upgrade-holochain-0.5/)
 * [Upgrading to the new Holonix](/resources/upgrade/upgrade-new-holonix/) (all Holochain versions)
