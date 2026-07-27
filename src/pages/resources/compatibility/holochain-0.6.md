@@ -2,10 +2,8 @@
 title: "Holochain 0.6 Compatibility Table"
 ---
 
-<!-- TODO(upgrade): change this to legacy/maintenance (see blurb at the top of the 0.5 compatibility table) this when 0.7 is recommended -->
-
-!!! info Recommended
-Holochain 0.6.1 is currently the **recommended** version for general use.
+!!! info Legacy
+Holochain 0.6 is currently in **maintenance** mode. Please [update to Holochain 0.7](/resources/upgrade/upgrade-holochain-0.7/) and use the [0.7 compatibility table](/resources/compatibility/holochain-0.7/).
 !!!
 
 For more information on versioning and compatibility, see our [general guidance](/resources/compatibility/#general-guidance).
