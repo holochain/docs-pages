@@ -77,7 +77,7 @@ Links can't be updated; they can only be created or deleted. Multiple links with
 
 When a zome function calls `create_link`, Holochain does the following:
 
-1. Build an action called [`CreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.CreateLink.html) that includes:
+1. Build an action called [`CreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.CreateLink) that includes:
     * the author's public key,
     * a timestamp,
     * the action's sequence in the source chain and the previous action's hash, and
@@ -111,11 +111,11 @@ A link is live as long as its creation action is valid and there are no valid de
 
 When a zome function calls `delete_link`, Holochain does the following:
 
-1. Build an action called [`DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.DeleteLink.html) that includes:
+1. Build an action called [`DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.DeleteLink) that includes:
     * the author's public key,
     * a timestamp,
     * the action's sequence in the source chain and the previous action's hash, and
-    * the link type, base, target, and tag.
+    * the link's base address and the hash of the `CreateLink` action being deleted.
     <!-- * a calculated weight value for rate limiting -->
 2. Write the action to the scratch space.
 3. Return the `ActionHash` of the pending action to the calling zome function.
@@ -302,7 +302,7 @@ let links_to_all_movies: Vec<_> = all_first_letter_paths
 * Getting hashes from data
     * [`holochain_integrity_types::record::Record#action_address`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html#method.action_address)
     * [`holo_hash::HasHash<T>`](https://docs.rs/holo_hash/latest/holo_hash/trait.HasHash.html)
-    * [`holochain_integrity_types::action::Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html) (contains fields with hashes of referenced data in them)
+    * [`holochain_integrity_types::action::Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Action.html) (contains fields with hashes of referenced data in them)
     * [`hdk::hash::hash_entry`](https://docs.rs/hdk/latest/hdk/hash/fn.hash_entry.html)
     * [`hdk::info::agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html)
     * [`hdk::info::dna_info`](https://docs.rs/hdk/latest/hdk/info/fn.dna_info.html)

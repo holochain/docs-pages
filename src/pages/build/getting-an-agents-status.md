@@ -33,7 +33,7 @@ Warrants are only produced for operations that fail app or basic system validati
 
 Although most `get*` host functions filter out invalid data or at least indicate that it's invalid, it's still possible to miss something, and end up building new data on top of bad data. This is because actions are split into [DHT operations](/build/dht-operations/) and spread around the DHT to different addresses. Depending on which operation a validator receives, they might run a different code path in your [`validate` callback](/build/validate-callback/).
 
-Here's an example: let's say that, in order to optimize performance of your `validate` callback for an [`Update` action](/build/dht-operations/#update) on a certain entry type, the code path for the [`RegisterUpdate`](/build/dht-operations/#register-update) operation checks that the author of the new entry matches the author of the old entry, but the code paths for the [`StoreEntry`](/build/dht-operations/#store-entry) and [`StoreRecord`](/build/dht-operations/#store-record) operations skip this check. In this case, checking the old entry or action hash for invalid updates will expose the same-author validation failure, but checking the new entry or action hash will not.
+Here's an example: let's say that, in order to optimize performance of your `validate` callback for an [`Update` action](/build/dht-operations/#update) on a certain entry type, the code path for the [`Update`](/build/dht-operations/#op-update) operation checks that the author of the new entry matches the author of the old entry, but the code paths for the [`CreateEntry`](/build/dht-operations/#op-create-entry) and [`CreateRecord`](/build/dht-operations/#op-create-record) operations skip this check. In this case, checking the old entry or action hash for invalid updates will expose the same-author validation failure, but checking the new entry or action hash will not.
 
 So the best place to check for _all_ invalid operations for an agent is at their public key, which is where all validators of their operations will publish warrants to. You can do this with the [`get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html) host function, which, among other information, lets an agent discover another agent's chain forks, collected warrants, and invalid data.
 
@@ -124,7 +124,7 @@ pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> Extern
         // The author doesn't appear to have created a source chain.
         ChainStatus::Empty => Ok(ProposalStatus::NotAvailable),
         ChainStatus::Valid(_) => {
-            // AgentActivity::status doesn't account for warrants.
+            // AgentActivityStatus::status doesn't account for warrants.
             // We have to check for them as a separate step.
             if !initiator_state.warrants.is_empty() {
                 // Although we receive all warrants, even ones that don't apply
@@ -146,7 +146,7 @@ pub fn is_proposal_currently_good(input: IsProposalCurrentlyGoodInput) -> Extern
 !!! info Conflicts over scarce resources
 When an action deals with a 'scarce' resource --- something that can be 'used up' such as a voting privilege, an account balance, a unique name, or a publishing rate limit --- you want to check that nothing conflicts with the action. There are two kinds of conflict:
 
-* _Prior actions that have already used up the resource_ --- you can deal with this deterministically by [writing validation code for the `RegisterAgentActivity` operation](/build/must-get-host-functions/#must-get-agent-activity) that walks back through the source chain looking for conflicts.
+* _Prior actions that have already used up the resource_ --- you can deal with this deterministically by [writing validation code for the `AgentActivity` operation](/build/must-get-host-functions/#must-get-agent-activity) that walks back through the source chain looking for conflicts.
 * _Actions in an alternative timeline_, or **source chain fork** --- there is no perfect protection against this, because a malicious agent may publish an action that forks a chain at any time, even years later. However, if you use the pattern above, you can reasonably hope to detect an attempt to create two forks simultaneously (what blockchain folks call a 'double spend').
 
 No distributed system is perfectly secure against conflict; if you're building a hApp with high-risk use cases, we recommend that you get your code audited.
@@ -161,7 +161,7 @@ An agent's source chain is part of their state, so you can also use `get_agent_a
 * [`hdk::chain::get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html)
 * [`holochain_zome_types::query::ActivityRequest`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ActivityRequest.html)
 * [`holochain_zome_types::query::ChainQueryFilter`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.ChainQueryFilter.html)
-* [`holochain_zome_types::query::AgentActivity`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.AgentActivity.html)
+* [`holochain_zome_types::query::AgentActivityStatus`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.AgentActivityStatus.html)
 
 ## Further reading
 

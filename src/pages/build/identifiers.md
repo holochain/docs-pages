@@ -33,7 +33,7 @@ Here's an overview of the five types above, plus the two composite types:
 * `DnaHash` is the hash of the DNA bundle (including any DNA modifiers passed in at installation or cloning time) and the [unique identifier for the DNA's network](/build/working-with-data/#storage-locations-and-privacy).
 * `AgentPubKey` is the public key of a participant in a network.
 * `ActionHash` is the hash of a structure called an [action](/build/working-with-data/#entries-actions-and-records-primary-data) that records a participant's act of storing or changing private or shared data.
-* `EntryHash` is the hash of an arbitrary blob of bytes called an [entry](/build/entries/), which contains application or system data. (Note: there's a special system entry called [`Agent`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/enum.Entry.html#variant.Agent), which holds the agent's public key; the hash function returns the public key itself, _not_ its hash.)
+* `EntryHash` is the hash of an arbitrary blob of bytes called an [entry](/build/entries/), which contains application or system data. (Note: there's a special system entry called [`Agent`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/entry/enum.Entry.html#variant.Agent), which holds the agent's public key; the hash function returns the public key itself, _not_ its hash.)
 * `ExternalHash` is the ID of a resource that exists outside the database, such as the hash of an IPFS resource or the public key of an Ethereum wallet. Holochain doesn't care about its value, as long as it's 32 bytes long. There's no content stored at the address; it simply serves as an anchor to attach [links](/build/links-paths-and-anchors/) to.
 * Composite types --- if one of the types above is eligible, it can be converted into one of these two types via the `.into()` method. Functions that take the below types will implicitly convert from the above types.
     * `AnyDhtHash` is the hash of any kind of addressable content (actions, entries, and agent public keys). Any
@@ -59,7 +59,7 @@ let action_hash_from_signed_action = record.signed_action.as_hash().to_owned();
 assert_eq!(action_hash_from_record, action_hash_from_signed_action);
 ```
 
-If you have a variable that contains a [`holochain_integrity_types::action::Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html), you need to calculate its hash using the [`hdi::hash::hash_action`](https://docs.rs/hdi/latest/hdi/hash/fn.hash_action.html) host function:
+If you have a variable that contains a [`holochain_integrity_types::action::Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Action.html), you need to calculate its hash using the [`hdi::hash::hash_action`](https://docs.rs/hdi/latest/hdi/hash/fn.hash_action.html) host function:
 
 ```rust
 use hdi::hash::*;
@@ -70,16 +70,16 @@ assert_eq!(action_hash_from_signed_action, action_hash_from_action);
 
 (But it's worth pointing out that if you have an action in a variable, it's probably because you just retrieved it by hash, which means you already know the hash.)
 
-To get the hash of an entry creation action from an action that deletes or updates it, match on the [`Action::Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Update) or [`Action::Delete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Delete) action variants and access the appropriate field:
+To get the hash of an entry creation action from an action that deletes or updates it, match its `data` field on the [`ActionData::Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.Update) or [`ActionData::Delete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.Delete) variants and access the appropriate field:
 
 ```rust
 use holochain_integrity_types::action::*;
 
-if let Action::Update(action_data) = action {
-    let replaced_action_hash = action_data.original_action_address;
+if let ActionData::Update(action_data) = &action.data {
+    let replaced_action_hash = &action_data.original_action_address;
     // Do some things with the original action.
-} else if let Action::Delete(action_data) = action {
-    let deleted_action_hash = action_data.deletes_address;
+} else if let ActionData::Delete(action_data) = &action.data {
+    let deleted_action_hash = &action_data.deletes_address;
     // Do some things with the deleted action.
 }
 ```
@@ -104,17 +104,17 @@ let movie = Movie {
 let movie_entry_hash = hash_entry(movie)?;
 ```
 
-To get the hash of an entry from the action that created it, call the action's [`entry_hash`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#method.entry_hash) method. It returns an optional value, because not all actions have associated entries.
+To get the hash of an entry from the action that created it, call the action's [`entry_hash`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Action.html#method.entry_hash) method. It returns an optional value, because not all actions have associated entries.
 
 ```rust
 let maybe_entry_hash = action.entry_hash();
 ```
 
-If you know that your action is an entry creation action, you can get the entry hash from its `entry_hash` field:
+If you know that your action is an entry creation action, you can narrow it to a [`TypedAction<EntryCreationData>`](https://docs.rs/hdi/latest/hdi/flat_op/struct.TypedAction.html), which has an `entry_hash` method that isn't optional:
 
 ```rust
-let entry_creation_action: EntryCreationAction = action.into()?;
-let entry_hash = entry_creation_action.entry_hash;
+let entry_creation_action = TypedAction::<EntryCreationData>::try_from_action(action)?;
+let entry_hash = entry_creation_action.entry_hash();
 ```
 
 To get the hash of an entry from a record, you can get it from the contained action:
@@ -123,13 +123,13 @@ To get the hash of an entry from a record, you can get it from the contained act
 let entry_hash_from_action = record.action().entry_hash()?;
 ```
 
-Finally, to get the hash of an entry from an action that updates or deletes it, match the action to the appropriate variant and access the corresponding field:
+Finally, to get the hash of an entry from an action that updates or deletes it, match the action's data on the appropriate variant and access the corresponding field:
 
 ```rust
-if let Action::Update(action_data) = action {
-    let replaced_entry_hash = action_data.original_entry_address;
-} else if let Action::Delete(action_data) = action {
-    let deleted_entry_hash = action_data.deletes_entry_address;
+if let ActionData::Update(action_data) = &action.data {
+    let replaced_entry_hash = &action_data.original_entry_address;
+} else if let ActionData::Delete(action_data) = &action.data {
+    let deleted_entry_hash = &action_data.deletes_entry_address;
 }
 ```
 
@@ -145,7 +145,7 @@ use hdk::prelude::*;
 let my_id = agent_info()?.agent_initial_pubkey;
 ```
 
-All actions have their author's ID as a field. You can get this field by calling the action's [`author`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#method.author) method:
+All actions have their author's ID in their header. You can get this field by calling the action's [`author`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Action.html#method.author) method:
 
 ```rust
 let author_id = action.author();
@@ -165,9 +165,9 @@ To construct an external hash from 32 raw bytes, first you need to enable the `h
 
 ```diff:toml
  [workspace.dependencies]
- hdi = "=0.7.1"
- hdk = "=0.6.1"
-+holo_hash = "=0.6.1"
+ hdi = "=0.8.0"
+ hdk = "=0.7.0"
++holo_hash = "=0.7.0"
  serde = "1.0"
 ```
 
@@ -280,12 +280,14 @@ Because of these three things, it's unsafe to depend on the value or even existe
 * [`holo_hash::AnyLinkableHash`](https://docs.rs/holo_hash/latest/holo_hash/type.AnyLinkableHash.html)
 * [`holochain_integrity_types::record::Record`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)
 * [`holochain_integrity_types::record::SignedHashed<T>`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.SignedHashed.html) (e.g., an action in a record)
-* [`holochain_integrity_types::action::Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html)
-* [`holochain_integrity_types::action::Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Update.html) data struct
-* [`holochain_integrity_types::action::Delete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) data struct
+* [`holochain_integrity_types::action::Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Action.html)
+* [`holochain_integrity_types::action::ActionData`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html)
+* [`holochain_integrity_types::action::UpdateData`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.UpdateData.html) data struct
+* [`holochain_integrity_types::action::DeleteData`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.DeleteData.html) data struct
+* [`hdi::flat_op::TypedAction`](https://docs.rs/hdi/latest/hdi/flat_op/struct.TypedAction.html)
 * [`hdk::info::agent_info`](https://docs.rs/hdk/latest/hdk/info/fn.agent_info.html)
-* [`holochain_integrity_types::action::Action#author`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#method.author)
-* [`holo_hash::HoloHash<P>#from_raw_32`](https://docs.rs/holo_hash/latest/src/holo_hash/hash.rs.html#217-219) (must be enabled by `hashing` feature flag)
+* [`holochain_integrity_types::action::Action#author`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Action.html#method.author)
+* [`holo_hash::HoloHash<P>#from_raw_32`](https://docs.rs/holo_hash/latest/src/holo_hash/hash.rs.html#247-249) (must be enabled by `hashing` feature flag)
 * [`hdi::info::dna_info`](https://docs.rs/hdi/latest/hdi/info/fn.dna_info.html)
 
 ## Further reading

@@ -33,7 +33,7 @@ Writing good validation code means considering what effect an operation has on t
 
 It's usually okay to let the scaffolding tool decide how to break up the work. It contains sensible defaults that balances network integrity with performance. However, if your validation logic is computationally costly, or if you have higher security needs, you may want to write different validation logic for different operations.
 
-As an example, you may choose to reduce compute demands by splitting up validation between `StoreRecord` and `StoreEntry` operations for a given entry creation action; the former could check the agent's write privileges while the latter could check the structure of the entry data or the existence of the data it references.
+As an example, you may choose to reduce compute demands by splitting up validation between `CreateRecord` and `CreateEntry` operations for a given entry creation action; the former could check the agent's write privileges while the latter could check the structure of the entry data or the existence of the data it references.
 
 Or you may choose to increase data integrity by having authorities treat every operation the same and execute all the logic necessary to validate the action.
 
@@ -45,42 +45,44 @@ Here are all the DHT operations produced for all the actions, along with their c
 While the following info describes the way Holochain should work [as formally specified](https://www.holochain.org/documents/holochain-white-paper-2.0.pdf), it's currently being audited for fidelity to that spec. In the meantime, you may see behavior that differs slightly.
 !!!
 
+The action names below are the variants of [`ActionData`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html), the payload half of an [`Action`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Action.html); see [Working with data](/build/working-with-data/#entries-actions-and-records-primary-data) for more on that split.
+
 * All actions
-    * [`RegisterAgentActivity`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterAgentActivity) {#register-agent-activity}
+    * [`AgentActivity`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.AgentActivity) {#op-agent-activity}
         * Basis address: author's public key
         * Contents: action
         * System validation: Check for non-monotonic sequence indices and timestamps in the chain of actions, and detect [source chain forks](/resources/glossary/#fork-source-chain).
         * Effect: Append the action to a replica of the author's source chain.
-    * [`StoreRecord`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreRecord) {#store-record}
+    * [`CreateRecord`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.CreateRecord) {#op-create-record}
         * Basis address: action hash
         * Contents: action (and optionally entry, if applicable) <!--TODO: system validation? -->
         * Effect: Store the action, along with any entry data.
-* [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Create)
-    * [`StoreEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.StoreEntry) {#store-entry}
+* [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.Create)
+    * [`CreateEntry`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.CreateEntry) {#op-create-entry}
         * Basis address: entry hash
         * Contents: entry, and the action that wrote it
         * System validation: Check that the action's entry hash matches the entry hash.
         * Effect: Store the entry, if an identical entry hasn't been created yet, and add the action to the list of actions associated with its creation. An entry can be created by multiple authors, and each creation action paired with its entry [can be treated as an independent piece of data](/build/entries/#entries-and-actions). **This operation isn't produced for private entries.**
-* [`Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Update){#update}
-    * `StoreEntry` (see above)
-    * [`RegisterUpdate`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterUpdate) {#register-update}
+* [`Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.Update){#update}
+    * `CreateEntry` (see above)
+    * [`Update`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.Update) {#op-update}
         * Basis addresses: entry and action hashes of the _old_ entry being updated
         * Contents: action and entry <!--TODO: system validation? -->
         * Effect: Mark an entry creation action as being replaced by a new one, pointing to the entry and action that replace it. **An entry and its creation action can have multiple actions updating them.**
-* [`Delete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.Delete)
-    * [`RegisterDelete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterDelete)
+* [`Delete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.Delete)
+    * [`Delete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.Delete) {#op-delete}
         * Basis addresses: entry and action hashes of the entry being deleted
         * Contents: action <!--TODO: system validation? -->
-        * Effect: Mark an entry creation action as deleted, without removing the actual data. Because an entry can be created by multiple creation actions, the entry itself isn't marked as deleted until a `RegisterDelete` has been integrated for _all_ of its creation actions.
-* [`CreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.CreateLink)
-    * [`RegisterCreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterCreateLink)
+        * Effect: Mark an entry creation action as deleted, without removing the actual data. Because an entry can be created by multiple creation actions, the entry itself isn't marked as deleted until a `Delete` operation has been integrated for _all_ of its creation actions.
+* [`CreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.CreateLink)
+    * [`CreateLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.CreateLink) {#op-create-link}
         * Basis address: link's [base address](/build/links-paths-and-anchors/#define-a-link-type)
         * Contents: action <!--TODO: system validation? -->
         * Effect: Add a link to the list of links pointing from the base to other locations
-* [`DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.DeleteLink)
-    * [`RegisterDeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.RegisterDeleteLink) {#register-delete-link}
+* [`DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.DeleteLink)
+    * [`DeleteLink`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html#variant.DeleteLink) {#op-delete-link}
         * Basis addresses: old link's [base address](/build/links-paths-and-anchors/#define-a-link-type) and action hash
-        * Contents: action <!--TODO: system validation? -->
+        * Contents: action, along with the `CreateLink` action it deletes <!--TODO: system validation? -->
         * Effect: Mark a link as deleted, without removing the actual data.
 
 ## Warrant operations
