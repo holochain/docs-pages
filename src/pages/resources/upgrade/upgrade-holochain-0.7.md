@@ -529,7 +529,7 @@ These only apply if you use the Rust `holochain_client` crate, or write Sweettes
 
 ### `dump_network_stats` returns `HolochainTransportStats`
 
-The admin and app websockets used to return different types --- `kitsune2_api::ApiTransportStats` and `kitsune2_api::TransportStats` respectively, with the app response missing blocked message counts. Both now return `HolochainTransportStats`, which also converts Kitsune2 `Space` values into `DnaHash` values so you can use them directly.
+The admin and app WebSocket clients used to return different types --- `kitsune2_api::ApiTransportStats` and `kitsune2_api::TransportStats` respectively, with the app response missing blocked message counts. Both now return `HolochainTransportStats`, which also converts Kitsune2 `Space` values into `DnaHash` values so you can use them directly.
 
 ```diff:rust
 -let stats: kitsune2_api::TransportStats = app_ws.dump_network_stats().await?;
@@ -594,7 +594,7 @@ The same `header`/`data` split applies on the JavaScript side:
 
 ### `dumpNetworkStats` returns `ApiTransportStats`
 
-Both the app and admin websockets now return the same `ApiTransportStats` type, which nests the transport statistics under `transport_stats` and adds `blocked_message_counts`. The `is_webrtc` property on a connection has been renamed to `is_direct`.
+Both the app and admin WebSocket clients now return the same `ApiTransportStats` type, which nests the transport statistics under `transport_stats` and adds `blocked_message_counts`. The `is_webrtc` property on a connection has been renamed to `is_direct`.
 
 ```diff:typescript
 -import { type TransportStats } from "@holochain/client";
