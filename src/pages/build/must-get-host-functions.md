@@ -36,12 +36,12 @@ use hdi::prelude::*;
 use core::time::Duration;
 
 pub fn validate_create_movie_loan_acceptance(
-    action: EntryCreationAction,
+    action: TypedAction<EntryCreationData>,
     movie_loan_acceptance: MovieLoanAcceptance,
 ) -> ExternResult<ValidateCallbackResult> {
     // Get the referenced offer action. We'll need some of the data in there.
     let offer_action = must_get_action(movie_loan_acceptance.offer_hash.clone())?.hashed.content;
-    let correct_offer_action: EntryCreationAction = offer_action
+    let correct_offer_action: TypedAction<EntryCreationData> = offer_action
         .clone()
         .try_into()
         .map_err(|_| wasm_error!("Referenced loan offer must be an entry creation action"))?;
@@ -68,11 +68,11 @@ pub fn validate_create_movie_loan_acceptance(
 
 ## `must_get_agent_activity`
 
-You can query an agent's existing source chain records with [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html). This function's [filter struct](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) and return value remove non-determinism --- it only lets you select a contiguous, bounded slice of a source chain, and doesn't return any information about the validity of the actions in that slice or the chain as a whole. It retrieves the entire slice from a single authority, so it's best to use it only when validating a [`RegisterAgentActivity` operation](/build/dht-operations/#register-agent-activity), because the validating authority will already have that data locally.
+You can query an agent's existing source chain records with [`must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html). This function's [filter struct](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) and return value remove non-determinism --- it only lets you select a contiguous, bounded slice of a source chain, and doesn't return any information about the validity of the actions in that slice or the chain as a whole. It retrieves the entire slice from a single authority, so it's best to use it only when validating an [`AgentActivity` operation](/build/dht-operations/#op-agent-activity), because the validating authority will already have that data locally.
 
-This host function lets you enforce rules based on an agent's history, such as limiting their rate of posts based on timestamp or ensuring they have sufficient account balance to make a transaction. You can specify a range of actions, starting at a given chain point and working backwards, and it'll give you a vector of [`RegisterAgentActivity` operations](/build/dht-operations/#register-agent-activity), inclusive of the start and end points.
+This host function lets you enforce rules based on an agent's history, such as limiting their rate of posts based on timestamp or ensuring they have sufficient account balance to make a transaction. You can specify a range of actions, starting at a given chain point and working backwards, and it'll give you a vector of [`AgentActivity` operations](/build/dht-operations/#op-agent-activity), inclusive of the start and end points.
 
-This example creates a custom helper function to run when a `RegisterAgentActivity` operation is being validated. It makes sure an agent may only create or edit ten movie entries per minute, to prevent spamming. <!-- TODO: rewrite this if https://github.com/holochain/holochain/pull/5015 (chain filters until timestamp) is accepted -->
+This example creates a custom helper function to run when an `AgentActivity` operation is being validated. It makes sure an agent may only create or edit ten movie entries per minute, to prevent spamming. <!-- TODO: rewrite this if https://github.com/holochain/holochain/pull/5015 (chain filters until timestamp) is accepted -->
 
 ```rust
 use hdi::prelude::*;
@@ -83,17 +83,17 @@ use core::time::Duration;
 pub fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
     match op.flattened::<EntryTypes, LinkTypes>()? {
         // Skipping the boilerplate until we reach...
-        FlatOp::RegisterAgentActivity(agent_activity) => match agent_activity {
+        FlatOp::AgentActivity(agent_activity) => match agent_activity {
             OpActivity::CreateAgent { agent, action } => {
                 // Skipping more boilerplate...
             }
             // This is where we call our custom helper function:
             OpActivity::CreateEntry{ app_entry_type: _, action: _ }
-            | OpActivity::UpdateEntry{ original_action_hash: _, original_entry_hash: _, app_entry_type: _, action: _ } => {
-                let Op::RegisterAgentActivity(raa) = op.clone() else {
-                    unreachable!("The op must be a RegisterAgentActivity op");
+            | OpActivity::UpdateEntry{ app_entry_type: _, action: _ } => {
+                let Op::AgentActivity(aa) = op.clone() else {
+                    unreachable!("The op must be an AgentActivity op");
                 };
-                validate_not_spamming_movies(raa.action.hashed.content)
+                validate_not_spamming_movies(aa.action.hashed.content)
             }
             // Back to the boilerplate...
             _ => Ok(ValidateCallbackResult::Valid),
@@ -116,7 +116,7 @@ pub fn validate_not_spamming_movies(action: Action) -> ExternResult<ValidateCall
             .until_timestamp(take_until_timestamp)
     )?;
 
-    // The result is a vector of `RegisterAgentActivity` DHT ops.
+    // The result is a vector of `AgentActivity` DHT ops.
     // Let's convert it into a count of the movie creation actions written in
     // the last minute.
     let movie_entry_def = &EntryType::App(UnitEntryTypes::Movie.try_into()?);
@@ -176,9 +176,9 @@ fn check_that_action_exists_and_is_valid_and_has_valid_public_app_entry(action_h
 ```
 
 !!! info This may not catch all validation failures
-`must_get_valid_record` checks for validation success or failure on the [`StoreRecord` DHT operation](/build/dht-operations/#store-record). Validation code for other DHT operations produced from the same action (such as [`RegisterUpdate`](/build/dht-operations/#register-update) or [`RegisterDeleteLink`](/build/dht-operations/#register-delete-link)) may have failed, but will not reflect on the record's validity. <!-- TODO(upgrade): change this when the data model is changed in 0.7 -->
+`must_get_valid_record` checks for validation success or failure on the [`CreateRecord` DHT operation](/build/dht-operations/#op-create-record). Validation code for other DHT operations produced from the same action (such as [`Update`](/build/dht-operations/#op-update) or [`DeleteLink`](/build/dht-operations/#op-delete-link)) may have failed, but will not reflect on the record's validity. <!-- TODO(upgrade): confirm whether this is still true after the 0.7 data model change -->
 
-This is because of the distributed nature of validation. We know this can be surprising behavior, and we're looking at improving the usability of our state model. In the meantime, if you want strong guarantees from `must_get_valid_record`, put all of your validation code into the path for the `StoreRecord` operation. Depending on your data model, this may force costly network gets, but it'll ensure that `must_get_valid_record` truly represents the validity of the record from all perspectives.
+This is because of the distributed nature of validation. We know this can be surprising behavior, and we're looking at improving the usability of our state model. In the meantime, if you want strong guarantees from `must_get_valid_record`, put all of your validation code into the path for the `CreateRecord` operation. Depending on your data model, this may force costly network gets, but it'll ensure that `must_get_valid_record` truly represents the validity of the record from all perspectives.
 
 Also keep in mind that every failed validation produces a [**warrant**](/resources/glossary/#warrant), which is delivered to the [**agent activity**](/resources/glossary/#agent-activity) validators, or the peers responsible for validating the author's source chain. So when an agent uses [`get_agent_activity`](/build/getting-an-agents-status) or `must_get_agent_activity`, they'll receive (and remember) any warrants from all operations for the matching records, then automatically block the author. <!-- TODO(upgrade): This may change in a 'soft' way with 0.7 as well --> This means you can shift bad-actor discovery to the moment when an honest agent retrieves invalid data, rather than when they try to build their own data on top of it.
 !!!

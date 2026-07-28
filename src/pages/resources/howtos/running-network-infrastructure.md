@@ -3,7 +3,7 @@ title: Running Network Infrastructure
 ---
 
 ::: intro
-This howto will walk you through downloading, configuring, and running a containerized setup that provides a bootstrap and signal/relay server for a Holochain application. This server is necessary to help peers discover each other and establish a direct peer-to-peer Iroh connection, and it also provides a message relay service as a fallback in case a direct connection can't be established.
+This howto will walk you through downloading, configuring, and running a containerized setup that provides a bootstrap and relay server for a Holochain application. This server is necessary to help peers discover each other and establish a direct peer-to-peer Iroh connection, and it also provides a message relay service as a fallback in case a direct connection can't be established.
 :::
 
 The [kitsune2 bootstrap server](https://github.com/holochain/kitsune2/tree/main/crates/bootstrap_srv) provides peer discovery, relay fallback for peers who can't establish direct connections, and optional authentication for peers. Any user-friendly hApp will need these services in order to operate.
@@ -41,7 +41,7 @@ Copy this code into the file, edit the locations of your TLS certificate and key
 ```yaml
 services:
   bootstrap:
-    image: ghcr.io/holochain/kitsune2_bootstrap_srv:v0.4.1
+    image: ghcr.io/holochain/kitsune2_bootstrap_srv:v0.5.0
     command:
       - kitsune2-bootstrap-srv
       - --production
@@ -57,6 +57,11 @@ services:
       - RUST_LOG=info
     ports:
       - "443:443"
+      # In production mode the server also runs a QUIC Address Discovery
+      # listener on UDP port 7842, which lets peers learn their own public
+      # address so they can try for a direct connection. Compose port
+      # mappings are TCP unless you say otherwise, so this one needs `/udp`.
+      - "7842:7842/udp"
     volumes:
         # Replace this with the path to the TLS certificate files on the host
         # and your desired mount point inside the container, in this format:
@@ -94,7 +99,7 @@ At this point your bootstrap server is ready for testing, but it probably isn't 
 * The state can't be shared among instances of the bootstrap server for load-sharing.
 * One instance can be used as a bootstrap server while another can be used as a relay server to spread the load; the only configuration necessary is to specify different URLs in your conductor configuration (see the next section).
 * The Docker compose file above configures the server as an open relay without authentication; we're working on making it easier to [build authentication](https://github.com/holochain/sbd/blob/main/spec-auth.md) appropriate for your hApp.
-* You'll need to size your server instance for your expected peak level of usage --- it may be helpful to simulate this using a multi-conductor [Tryorama](/build/testing-with-tryorama/) test <!-- TODO: update this to Sweettest --> or real humans. Depending on your server specs and bandwidth, the server binary can theoretically scale to support thousands of concurrent peers, with a couple hundred using relayed connections.
+* You'll need to size your server instance for your expected peak level of usage --- it may be helpful to simulate this using a multi-conductor [Sweettest](https://docs.rs/holochain/latest/holochain/sweettest/index.html) test or real humans. Depending on your server specs and bandwidth, the server binary can theoretically scale to support thousands of concurrent peers, with a couple hundred using relayed connections.
 * The server hasn't been tested extensively with Holochain in high-load or failure scenarios.
 !!!
 
@@ -115,7 +120,7 @@ If you use the same server for production and testing, you might end up writing 
    "scripts": {
      "start": "AGENTS=${AGENTS:-2} npm run network",
      "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\"",
-     "test": "npm run build:zomes && hc app pack workdir --recursive && cargo test",
+     "test": "npm run build:happ && cargo test",
      // Replace the hApp bundle name and URLs with your actual values.
 -    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/my_app.happ",
 +    // Use your actual bootstrap server URL here.
@@ -129,28 +134,28 @@ If you use the same server for production and testing, you might end up writing 
 
 ### Production
 
-If you're using [Kangaroo](https://github.com/holochain/kangaroo-electron) to build an Electron-based app, open up your project's `kangaroo.config.ts` file, then edit the following lines:
+If you're using [Kangaroo](https://github.com/holochain/kangaroo-electron) to build an Electron-based app, open up your project's `kangaroo.config.ts` file, then edit the following lines. The same server can serve both roles, as it does in the defaults below.
 
 ```diff:typescript
  import { defineConfig } from './src/main/defineConfig';
  export default defineConfig({
    // ...
-+  // Use your actual bootstrap server URL here.
++  // Use your actual bootstrap and relay server URLs here.
 -  bootstrapUrl: 'https://dev-test-bootstrap2.holochain.org/',
+-  relayUrl: 'https://dev-test-bootstrap2.holochain.org/',
 +  bootstrapUrl: 'https://bootstrap.example.org/',
-   signalUrl: 'wss://dev-test-bootstrap2.holochain.org/',
--  relayUrl: 'https://iroh-relay-hc.holochain.org',
 +  relayUrl: 'https://bootstrap.example.org/',
-   iceUrls: ['stun:stun.l.google.com:19302','stun:stun.cloudflare.com:3478'],
    // ...
  });
 ```
+
+If you're coming from a 0.6 Kangaroo config, note that `signalUrl` and `iceUrls` are gone. They configured the tx5/WebRTC transport, which 0.6 offered alongside iroh; [0.7 removes tx5](/resources/upgrade/upgrade-holochain-0.7/#conductor-config-file-changes), so its configuration is no longer accepted.
 
 !!! info Hardening your server against unintended use
 We've shown how to configure the server without authentication. In a production scenario, you'll likely want to authenticate incoming connections to the server because:
 
 * Unauthorized requests to the bootstrap endpoint could leak details about what devices are running what hApps, and
-* Unauthorized requests to the signal/relay endpoint allow users of other hApps to freeload on your server's bandwidth.
+* Unauthorized requests to the relay endpoint allow users of other hApps to freeload on your server's bandwidth.
 
 We plan to discuss [authentication options](https://github.com/holochain/sbd/blob/main/spec-auth.md) in the future.
 !!!

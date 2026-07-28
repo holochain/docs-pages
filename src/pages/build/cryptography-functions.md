@@ -43,11 +43,19 @@ Although it's uncommon to have action data without a hash, you can also hash an 
 use hdk::prelude::*;
 
 // The action we're about to construct doesn't necessarily exist...
-let imaginary_action = Action::Dna(Dna {
-    author: agent_info()?.agent_initial_pubkey,
-    timestamp: Timestamp(1743025465_000_000),
-    hash: dna_info()?.hash,
-});
+let imaginary_action = Action {
+    header: ActionHeader {
+        author: agent_info()?.agent_initial_pubkey,
+        timestamp: Timestamp(1743025465_000_000),
+        // A `Dna` action is always the first action on a source chain, so it
+        // has no predecessor.
+        action_seq: 0,
+        prev_action: None,
+    },
+    data: ActionData::Dna(DnaData {
+        dna_hash: dna_info()?.hash,
+    }),
+};
 // ... But if it did, this is what its hash would be:
 let imaginary_action_hash = hash_action(imaginary_action)?;
 ```

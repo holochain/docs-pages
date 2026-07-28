@@ -27,4 +27,4 @@ For more information on versioning and compatibility, see our [general guidance]
 | [`hdi` library](https://crates.io/crates/hdi)                                                     | [0.8.0](https://crates.io/crates/hdi/0.8.0)                                                     |
 | [JavaScript client library](https://github.com/holochain/holochain-client-js)                     | [0.21.0](https://www.npmjs.com/package/@holochain/client/v/0.21.0)                              |
 | [Rust client library](https://github.com/holochain/holochain/tree/main/crates/client)             | [0.9.0](https://crates.io/crates/holochain_client/0.9.0)                                        |
-| [`kangaroo-electron` app template repo](https://github.com/holochain/kangaroo-electron)           | [commit `3f795f7`](https://github.com/holochain/kangaroo-electron/commit/3f795f70d05faeb38f5c247b2e4fa4cd35a3ca01) |
+| [`kangaroo-electron` app template repo](https://github.com/holochain/kangaroo-electron)           | [commit `cf5a7f1`](https://github.com/holochain/kangaroo-electron/commit/cf5a7f125157c5e72801f5f2b1278fd535d33c08) |

@@ -50,7 +50,7 @@ You can force `init` to run eagerly by calling it as if it were a normal zome fu
 
 !!!
 
-Once `init` runs successfully for all coordinator zomes in a DNA, Holochain writes an [`InitZomesComplete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.InitZomesComplete.html). That ensures that this callback isn't called again.
+Once `init` runs successfully for all coordinator zomes in a DNA, Holochain writes an [`InitZomesComplete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.InitZomesComplete). That ensures that this callback isn't called again.
 
 `init` takes no arguments and must return an [`InitCallbackResult`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/init/enum.InitCallbackResult.html) wrapped in an `ExternResult`. All zomes' `init` callbacks in a DNA must return a success result in order for cell initialization to succeed; otherwise any data written in these callbacks, along with the `InitZomesComplete` action, will be rolled back. _If any zome's init callback returns an `InitCallbackResult::Fail`, initialization will fail._ Otherwise, if any init callback returns an `InitCallbackResult::UnresolvedDependencies`, initialization will be retried at the next zome call attempt.
 
@@ -114,7 +114,7 @@ After a zome function call completes, any actions that it created are validated,
 
 If you need to do any follow-up, it's safer to do this in a lifecycle hook called `post_commit`, which is called after Holochain's [call-zome workflow](/build/zome-functions/#zome-function-call-lifecycle) successfully writes its actions to the source chain. (Function calls that don't write data won't trigger this event.)
 
-`post_commit` must take a single argument of type <code>Vec&lt;<a href="https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/type.SignedActionHashed.html">SignedActionHashed</a>&gt;</code>, which contains all the actions the function call wrote, and it must return an empty `ExternResult<()>`. This callback **must not write any data**, but it may call other zome functions in the same cell or any other local or remote cell, and it may send local or remote signals.
+`post_commit` must take a single argument of type <code>Vec&lt;<a href="https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/type.SignedActionHashed.html">SignedActionHashed</a>&gt;</code>, which contains all the actions the function call wrote, and it must return an empty `ExternResult<()>`. This callback **must not write any data**, but it may call other zome functions in the same cell or any other local or remote cell, and it may send local or remote signals.
 
 `post_commit` also can't return an error. There should be no return type, and it should handle all errors it receives from other functions. It also must be tagged with `#[hdk_extern(infallible)]`.
 
@@ -135,7 +135,7 @@ pub enum Signal {
 pub fn post_commit(committed_actions: Vec<SignedActionHashed>) {
     for action in committed_actions {
         // Only handle cases where an entry is being created.
-        if let Action::Create(_) = action.action() {
+        if let ActionData::Create(_) = &action.action().data {
             if let Ok(movie_loan_offer) = get_movie_loan_offer(action.action_address().clone()) {
                 send_remote_signal(
                     Signal::MovieLoanOfferHasBeenCreatedForYou(action.action_address().clone()),
@@ -179,7 +179,7 @@ fn get_movie_loan_offer(action_hash: ActionHash) -> ExternResult<MovieLoanOffer>
 * [`holochain_integrity_types::Op`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html)
 * [`holochain_integrity_types::validate::ValidateCallbackResult`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.ValidateCallbackResult.html)
 * [`holochain_integrity_types::genesis::GenesisSelfCheckData`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/genesis/type.GenesisSelfCheckData.html)
-* [`holochain_integrity_types::action::InitZomesComplete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.InitZomesComplete.html)
+* [`holochain_integrity_types::action::ActionData::InitZomesComplete`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.InitZomesComplete)
 * [`holochain_zome_types::init::InitCallbackResult`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/init/enum.InitCallbackResult.html)
 * [`hdk::p2p::send_remote_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.send_remote_signal.html)
 * [`hdk::p2p::emit_signal`](https://docs.rs/hdk/latest/hdk/p2p/fn.emit_signal.html)

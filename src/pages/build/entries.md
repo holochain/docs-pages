@@ -41,7 +41,7 @@ pub struct Movie {
 }
 ```
 
-This implements a host of [`TryFrom` conversions](https://docs.rs/hdi/latest/src/hdi/entry.rs.html#120-209) that your type is expected to implement, along with serialization and deserialization functions.
+This implements a host of [`TryFrom` conversions](https://docs.rs/hdi/latest/src/hdi/entry.rs.html#120-210) that your type is expected to implement, along with serialization and deserialization functions.
 
 In order to dispatch validation to the proper integrity zome, Holochain needs to know about all the entry types that your integrity zome defines. This is done by implementing a callback in your zome called `entry_defs`, but it's easier to use the [`hdi::hdk_entry_types`](https://docs.rs/hdi/latest/hdi/attr.hdk_entry_types.html) macro on an enum of all the entry types:
 
@@ -154,7 +154,7 @@ for director in directors.iter() {
 
 When a zome function calls `create`, Holochain does the following:
 
-1. Build an entry creation action called [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Create.html) that includes:
+1. Build an entry creation action called [`Create`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.Create) that includes:
     * the author's public key,
     * a timestamp,
     * the action's sequence in the source chain and the previous action's hash,
@@ -193,7 +193,7 @@ let update_action_hash = update_entry(
 )?;
 ```
 
-An [`Update` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Update.html) operates on an entry creation action (either a `Create` or an `Update`), not just an entry by itself. It also doesn't remove the original data from the DHT; instead, it gets attached to both the original entry and its entry creation action. As an entry creation action itself, it references the hash of the new entry so it can be retrieved from the DHT.
+An [`Update` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.Update) operates on an entry creation action (either a `Create` or an `Update`), not just an entry by itself. It also doesn't remove the original data from the DHT; instead, it gets attached to both the original entry and its entry creation action. As an entry creation action itself, it references the hash of the new entry so it can be retrieved from the DHT.
 
 ### Update with relaxed chain top ordering
 
@@ -292,7 +292,7 @@ let delete_action_hash = delete_entry(
 )?;
 ```
 
-As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/struct.Delete.html) is authored, which attaches to the entry creation action and marks it as deleted. An entry itself is only considered deleted when _all_ entry creation actions that created it are marked deleted, and it can become live again in the future if a _new_ entry creation action writes it. Deleted data can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) (see below).
+As with an update, this does _not_ actually remove data from the source chain or the DHT. Instead, a [`Delete` action](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.Delete) is authored, which attaches to the entry creation action and marks it as deleted. An entry itself is only considered deleted when _all_ entry creation actions that created it are marked deleted, and it can become live again in the future if a _new_ entry creation action writes it. Deleted data can still be retrieved with [`hdk::entry::get_details`](https://docs.rs/hdk/latest/hdk/entry/fn.get_details.html) (see below).
 
 In the future we plan to include a 'purge' functionality. This will give agents permission to actually erase an entry from their DHT store, but not its associated entry creation action.
 

@@ -139,7 +139,7 @@ There's another source chain querying function called `must_get_agent_activity`,
 * [`holochain_integrity_types::record::Record`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/record/struct.Record.html)
 * [`hdk::chain::get_agent_activity`](https://docs.rs/hdk/latest/hdk/chain/fn.get_agent_activity.html)
 * [`holochain_zome_types::query::ChainStatus`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ChainStatus.html)
-* [`holochain_zome_types::query::AgentActivity`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.AgentActivity.html)
+* [`holochain_zome_types::query::AgentActivityStatus`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/struct.AgentActivityStatus.html)
 * [`holochain_zome_types::query::ActivityRequest`](https://docs.rs/holochain_zome_types/latest/holochain_zome_types/query/enum.ActivityRequest.html)
 * [`hdi::chain::must_get_agent_activity`](https://docs.rs/hdi/latest/hdi/chain/fn.must_get_agent_activity.html)
 * [`holochain_integrity_types::chain::ChainFilter`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html)

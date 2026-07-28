@@ -19,7 +19,7 @@ To enforce access control for a network, a DNA can require a [**membrane proof**
 
 ## Membrane proof: a joining code for a network
 
-While a [network seed](/build/dnas/#network-seed) acts like a network-wide passcode, you might need to enforce more fine-grained membership control. You can do this by writing validation code for the contents of the[`AgentValidationPkg`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.AgentValidationPkg) record. This [**genesis record**](/resources/glossary/#genesis-records) contains data that the user enters on app installation.
+While a [network seed](/build/dnas/#network-seed) acts like a network-wide passcode, you might need to enforce more fine-grained membership control. You can do this by writing validation code for the contents of the[`AgentValidationPkg`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.AgentValidationPkg) record. This [**genesis record**](/resources/glossary/#genesis-records) contains data that the user enters on app installation.
 
 A membrane proof can be basic, like an invite code, or it can be something complex like a signature from an agent that has authority to admit members.
 
@@ -104,7 +104,7 @@ Your `validate` callback also needs to validate a membrane proof in order to act
 
 ## Reference
 
-* [`holochain_integrity_types::action::AgentValidationPkg`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.AgentValidationPkg)
+* [`holochain_integrity_types::action::ActionData::AgentValidationPkg`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.AgentValidationPkg)
 * [`holochain_integrity_types::genesis::GenesisSelfCheckData`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/genesis/type.GenesisSelfCheckData.html)
 * [`holochain_integrity_types::validate::ValidateCallbackResult`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/genesis/type.GenesisSelfCheckData.html)
 * [`holochain_derive::dna_properties`](https://docs.rs/hdk_derive/latest/hdk_derive/attr.dna_properties.html)

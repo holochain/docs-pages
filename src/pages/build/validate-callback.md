@@ -67,7 +67,7 @@ These functions can be found in the file `dnas/<dna>/zomes/integrity/<zome>/src/
 
 #### `validate_create_<entry>`
 
-In this function you can write rules for the contents of your entries and their dependencies. You can also write rules for the actions that write them, which means you can create rules for write privileges. (Note that it's called for both kinds of [`EntryCreationAction`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.EntryCreationAction.html) --- `Create` and `Update`.)
+In this function you can write rules for the contents of your entries and their dependencies. You can also write rules for the actions that write them, which means you can create rules for write privileges. (Note that it's called for both kinds of [`EntryCreationData`](https://docs.rs/hdi/latest/hdi/flat_op/enum.EntryCreationData.html) --- `Create` and `Update`.)
 
 This example checks that a movie's release date is within sensible bounds.
 
@@ -78,7 +78,7 @@ use hdi::prelude::*;
 const EARLIEST_MOVIE_TIMESTAMP: Timestamp = Timestamp(-2562883200_000_000);
 
 pub fn validate_create_movie(
-    _action: EntryCreationAction,
+    _action: TypedAction<EntryCreationData>,
     movie: Movie,
 ) -> ExternResult<ValidateCallbackResult> {
     if movie.release_date < EARLIEST_MOVIE_TIMESTAMP {
@@ -94,7 +94,7 @@ This example checks that a director entry referenced by a movie exists.
 use hdi::prelude::*;
 
 pub fn validate_create_movie(
-    _action: EntryCreationAction,
+    _action: TypedAction<EntryCreationData>,
     movie: Movie,
 ) -> ExternResult<ValidateCallbackResult> {
     // Just call the function, and Holochain will handle the
@@ -116,12 +116,12 @@ This function receives the original entry and its creation action along with the
 use hdi::prelude::*;
 
 pub fn validate_update_movie_loan_offer(
-    action: Update,
+    action: TypedAction<UpdateData>,
     _movie_loan_offer: MovieLoanOffer,
-    original_action: EntryCreationAction,
+    original_action: TypedAction<EntryCreationData>,
     _original_movie_loan_offer: MovieLoanOffer,
 ) -> ExternResult<ValidateCallbackResult> {
-    if action.author != original_action.author().clone() {
+    if action.author() != original_action.author() {
         return Ok(ValidateCallbackResult::Invalid("Agents can only update their own MovieLoanOffer records.".to_string()));
     }
     Ok(ValidateCallbackResult::Valid)
@@ -136,8 +136,8 @@ Like the previous function, this function receives the original entry and its cr
 use hdi::prelude::*;
 
 pub fn validate_delete_director(
-    _action: Delete,
-    _original_action: EntryCreationAction,
+    _action: TypedAction<DeleteData>,
+    _original_action: TypedAction<EntryCreationData>,
     _original_director: Director,
 ) -> ExternResult<ValidateCallbackResult> {
     Ok(ValidateCallbackResult::Invalid(
@@ -152,11 +152,11 @@ And this example once again only allows people to delete movie loan offers they 
 use hdi::prelude::*;
 
 pub fn validate_delete_movie_loan_offer(
-    action: Delete,
-    original_action: EntryCreationAction,
+    action: TypedAction<DeleteData>,
+    original_action: TypedAction<EntryCreationData>,
     _original_movie_loan_offer: MovieLoanOffer,
 ) -> ExternResult<ValidateCallbackResult> {
-    if action.author != original_action.author().clone() {
+    if action.author() != original_action.author() {
         return Ok(ValidateCallbackResult::Invalid("Agents can only delete their own MovieLoanOffer records.".to_string()));
     }
     Ok(ValidateCallbackResult::Valid)
@@ -256,7 +256,7 @@ fn validate_invite_code_format(invite_code: Option<Vec<u8>>) -> ExternResult<Val
 ## Reference
 
 * [`holochain_integrity_types::op::Op`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/op/enum.Op.html)
-* [`holochain_integrity_types::action::AgentValidationPkg`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.AgentValidationPkg)
+* [`holochain_integrity_types::action::ActionData::AgentValidationPkg`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.AgentValidationPkg)
 * [`holochain_integrity_types::genesis::GenesisSelfCheckData`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/genesis/type.GenesisSelfCheckData.html)
 * [`holochain_integrity_types::validate::ValidateCallbackResult`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/validate/enum.ValidateCallbackResult.html)
 * [HDI docs: data validation](https://docs.rs/hdi/latest/hdi/#data-validation)

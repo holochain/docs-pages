@@ -58,7 +58,7 @@ Validation is a broad topic, so we won't go into detail here. There are a few ba
     * Checks that the original entry for an `Update` or `Delete` action exists and is a valid entry creation action.
     * Checks that the original entry for an `Update` contains the same entry type.
     * Checks that the original entry for a `Delete` comes from the same integrity zome.
-    * Checks that the [action that registers the agent's public key](/concepts/3_source_chain/#agent-id-action) is directly preceded by an [`AgentValidationPkg`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.Action.html#variant.AgentValidationPkg) action.
+    * Checks that the [action that registers the agent's public key](/concepts/3_source_chain/#agent-id-action) is directly preceded by an [`AgentValidationPkg`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/action/enum.ActionData.html#variant.AgentValidationPkg) action.
     * Checks that [most-recent update links](/get-started/3-forum-app-tutorial/#scaffold-most-recent-update-link) and [collection links](/build/links-paths-and-anchors/#scaffold-a-simple-collection-anchor) point to valid entry creation records.
     * Tries to fetch data dependencies from the DHT and make sure they're the right type.
 

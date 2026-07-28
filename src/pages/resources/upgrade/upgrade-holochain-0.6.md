@@ -83,7 +83,7 @@ To upgrade your hApp written for Holochain 0.5, follow these steps:
          },
          "devDependencies": {
     -        "@holochain/hc-spin": "^0.500.1",
-    +        "@holochain/hc-spin": "^0.601.3",
+    +        "@holochain/hc-spin": "^0.603.0",
              "concurrently": "^6.5.1",
              "get-port-cli": "^3.0.0"
          },
@@ -123,8 +123,8 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  [workspace.dependencies]
 -hdi = "=0.6.6"
 -hdk = "=0.5.6"
-+hdi = "=0.7.1"
-+hdk = "=0.6.1"
++hdi = "=0.7.3"
++hdk = "=0.6.3"
 ```
 
 The latest version numbers of these libraries can be found on `crates.io`: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
@@ -143,7 +143,7 @@ If you've created your hApp using our scaffolding tool, you should be able to fo
 
 Tryorama has been removed from Holochain 0.6.1's Holonix development environment. Instead, integration tests use Sweettest, our Rust-based test harness. <!--TODO(upgrade): link to docs.rs when https://github.com/holochain/holochain/pull/5825 is merged to a recommended release --> They can be found in `dnas/<dna>/zomes/coordinator/<zome>/tests` and can be run with `cargo test` either at the project level or the zome level folder.
 
-You can still use Tryorama; it's been moved to the community-managed [`holochain/tryorama`](https://github.com/holochain-open-dev/tryorama) GitHub repo. If you want to continue using it, edit your project's `tests/package.json` file, updating the client lib. (The NPM package name is still the same.)
+You can still use Tryorama; it's been moved to the community-managed [`holochain-open-dev/tryorama`](https://github.com/holochain-open-dev/tryorama) GitHub repo. If you want to continue using it, edit your project's `tests/package.json` file, updating the client lib. (The NPM package name is still the same.)
 
 <!-- TODO(upgrade): Update these version numbers for new 0.6.x releases -->
 
@@ -152,7 +152,7 @@ You can still use Tryorama; it's been moved to the community-managed [`holochain
      // some dependencies
 -    "@holochain/client": "^0.19.2",
 -    "@holochain/tryorama": "^0.18.3",
-+    "@holochain/client": "^0.20.5",
++    "@holochain/client": "^0.20.8",
 +    "@holochain/tryorama": "^0.19.2",
      // more dependencies
    },
@@ -167,7 +167,7 @@ You'll update the UI package dependencies similarly to the test package. Edit `u
 ```diff:json
    "dependencies": {
 -    "@holochain/client": "^0.19.2",
-+    "@holochain/client": "^0.20.5",
++    "@holochain/client": "^0.20.8",
      // more dependencies
    },
 ```
@@ -283,15 +283,13 @@ If you're certain a link creation action is available locally --- for example, w
 
 ### `TypedPath` and `Anchor` have a `strategy` field
 
-[`TypedPath`](https://docs.rs/hdk/0.6.1/hdk/prelude/struct.TypedPath.html) and [`Anchor`](https://docs.rs/hdk/0.6.1/hdk/prelude/struct.Anchor.html) now have a required `strategy` field that takes a [`GetStrategy`](https://docs.rs/hdk/0.6.1/hdk/prelude/enum.GetStrategy.html) value. This is because they do network gets behind the scenes. Read the [`TypedPath::with_strategy` method documentation](https://docs.rs/hdk/0.6.1/hdk/prelude/struct.Anchor.html#method.with_strategy) for more info.
+[`TypedPath`](https://docs.rs/hdk/0.6.3/hdk/prelude/struct.TypedPath.html) and [`Anchor`](https://docs.rs/hdk/0.6.3/hdk/prelude/struct.Anchor.html) now have a required `strategy` field that takes a [`GetStrategy`](https://docs.rs/hdk/0.6.3/hdk/prelude/enum.GetStrategy.html) value. This is because they do network gets behind the scenes. Read the [`TypedPath::with_strategy` method documentation](https://docs.rs/hdk/0.6.3/hdk/prelude/struct.Anchor.html#method.with_strategy) for more info.
 
 ### `ChainFilter` bounds conditions have changed
 
-<!-- TODO: change to correct URLs in this section-->
+The `filters` property of [`holochain_integrity_types::chain::ChainFilter`](https://docs.rs/holochain_integrity_types/0.6.3/holochain_integrity_types/chain/struct.ChainFilter.html) has been renamed to [`limit_conditions`](https://docs.rs/holochain_integrity_types/0.6.3/holochain_integrity_types/chain/struct.ChainFilter.html#structfield.limit_conditions), a [new enum](https://docs.rs/holochain_integrity_types/0.6.3/holochain_integrity_types/chain/enum.LimitConditions.html), to reflect that it's a bound on the earliest action returned, rather than a filter.
 
-The `filters` property of [`holochain_integrity_types::chain::ChainFilter`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html) has been renamed to [`limit_conditions`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/struct.ChainFilter.html#structfield.limit_conditions), a [new enum](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/enum.LimitConditions.html), to reflect that it's a bound on the earliest action returned, rather than a filter.
-
-It also supports a timestamp using [`UntilTimestamp`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/enum.LimitConditions.html#variant.UntilTimestamp) as a bound. `Until` has been renamed to [`UntilHash`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/enum.LimitConditions.html#variant.UntilHash) for clarity, and `Both` has been renamed to [`Multiple`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/chain/enum.LimitConditions.html#variant.Multiple) and now supports a timestamp too.
+It also supports a timestamp using [`UntilTimestamp`](https://docs.rs/holochain_integrity_types/0.6.3/holochain_integrity_types/chain/enum.LimitConditions.html#variant.UntilTimestamp) as a bound. `Until` has been renamed to [`UntilHash`](https://docs.rs/holochain_integrity_types/0.6.3/holochain_integrity_types/chain/enum.LimitConditions.html#variant.UntilHash) for clarity, and `Both` has been renamed to [`Multiple`](https://docs.rs/holochain_integrity_types/0.6.3/holochain_integrity_types/chain/enum.LimitConditions.html#variant.Multiple) and now supports a timestamp too.
 
 ```diff:rust
  // Using ChainFilter's builder interface
