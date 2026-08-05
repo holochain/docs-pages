@@ -672,7 +672,6 @@ If you are using a local iroh relay as your `relay_url`, you still need to allow
 
 The following changes may not break your build, but they may require you to reassess whether your hApp will work as expected:
 
-* **Existing installs won't work.** The way zome definitions are serialized has changed, so the `DnaHash` of an otherwise-identical DNA is different in 0.7. Holochain's databases have also been renamed, with no migration path. Existing installs need their data cleared, and agents on 0.7 form a new network separate from the 0.6 one.
 * **Compiled WASM is cached in the database.** Modules are compiled on demand and stored in a table in the WASM database instead of in a `wasm-cache` directory under the data root. The directory is no longer used, and WASM is now loaded when an app is installed or enabled rather than for every installed cell at startup.
 * **App and web-app manifests reject unknown fields.** Stray or misspelled fields left over from earlier manifest schemas are now an error rather than being ignored.
 * **`hc sandbox` no longer offers the `webrtc` network type.** Only `mem` and `quic` remain. If you have scripts that pass `webrtc`, update them.
