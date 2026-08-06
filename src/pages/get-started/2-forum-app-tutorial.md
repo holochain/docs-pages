@@ -55,6 +55,7 @@ You'll then be prompted to choose a user interface (UI) framework for your front
 ❯ svelte
   headless (no ui)
 ```
+:::
 
 ## 3. Choose a name for your app
 
@@ -356,6 +357,7 @@ You should see something like:
 ```text
 holochain 0.6.1
 ```
+:::
 
 If you were to type `exit` and try the same command, you'd probably get some sort of 'command not found' error!
 
