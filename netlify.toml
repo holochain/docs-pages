@@ -40,6 +40,8 @@ package = "/node_modules/netlify-plugin-checklinks"
         "https://leetcode.com/problemset/",
         # Neither does HackReactor.
         "https://hackreactor.com/",
+        # Nor Exercism, which now serves a Cloudflare bot challenge.
+        "https://exercism.org/",
     ]
 
     # We still want to check these.
