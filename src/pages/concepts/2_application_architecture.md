@@ -4,6 +4,7 @@ title: Application Architecture
 
 ::: intro
 Applications built with Holochain are highly **modular**. This makes it easy to share code and [compose](https://en.wikipedia.org/wiki/Composability) smaller pieces together into larger wholes. Each functional part of a Holochain application, called a **DNA**, has its own application logic, isolated peer-to-peer network, and shared database.
+:::
 
 ::: orientation
 ### <i class="fas fa-thunderstorm"></i> What you'll learn

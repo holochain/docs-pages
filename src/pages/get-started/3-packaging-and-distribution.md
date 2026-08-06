@@ -14,11 +14,11 @@ ls workdir
 
 You'll see that the scaffolding tool has generated two manifest files for you:
 
-:::output-block
+::: output-block
 ```text
 happ.yaml  web-happ.yaml
 ```
-::: output-block
+:::
 
 The first step is to package your app:
 
@@ -46,7 +46,7 @@ ls workdir
 ```text
 happ.yaml  my_forum_app.happ  my_forum_app.webhapp  web-happ.yaml
 ```
-::: output-block
+:::
 
 The packed app is now ready for deployment to a Holochain runtime.
 
