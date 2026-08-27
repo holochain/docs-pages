@@ -65,10 +65,11 @@ package = "/node_modules/netlify-plugin-checklinks"
         "https://medium.com",
         # Stack Overflow sends 403s to automated clients.
         "https://stackoverflow.com",
+        # libsodium sometimes gives 403 errors after you hit too many URLs.
+        "https://doc.libsodium.org",
     ]
 
     todoServerErrorPatterns = [
-        "https://doc.libsodium.org",
         # GitHub intermittently serves 502s to automated clients on package pages.
         "https://github.com/holochain/kitsune2/pkgs/container/",
     ]
