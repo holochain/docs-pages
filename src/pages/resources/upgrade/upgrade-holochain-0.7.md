@@ -14,6 +14,10 @@ There are three big changes in Holochain 0.7:
 If your hApp is written for Holochain 0.5, follow the [0.6 upgrade guide](/resources/upgrade/upgrade-holochain-0.6/) first.
 :::
 
+!!! info Try the AI agent skill
+If you're using an AI coding agent, try using our [0.6→0.7 upgrade skill](https://github.com/holochain/ai-tools/tree/main/skills/upgrade-holochain-0.7) to update your hApp automatically.
+!!!
+
 ## Quick instructions
 
 To upgrade your hApp written for Holochain 0.6, follow these steps:
