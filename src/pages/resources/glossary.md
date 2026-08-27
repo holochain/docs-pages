@@ -509,7 +509,7 @@ The set of core functions that the Holochain [conductor](#conductor) makes avail
 
 #### Holo Host
 
-A platform and marketplace where Holochain users offer their spare computing capacity to host [cells](#cell) for web users, functioning as a bridge between Holochain and the traditional web. Read more at [Holo's website](https://holo.host/host/).
+A platform and marketplace where Holochain users offer their spare computing capacity to host [cells](#cell) for web users, functioning as a bridge between Holochain and the traditional web. Read more at [Holo's website](https://holo.host/).
 
 #### Host API
 
