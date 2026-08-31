@@ -67,7 +67,7 @@ To upgrade your hApp written for Holochain 0.6, follow these steps:
     ```diff:json
      {
          "devDependencies": {
-    -        "@holochain/hc-spin": "^0.601.3",
+    -        "@holochain/hc-spin": "^0.603.0",
     +        "@holochain/hc-spin": "^0.700.0",
              "concurrently": "^6.5.1",
              "get-port-cli": "^3.0.0"
@@ -112,6 +112,16 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
 ```
 
 The latest version numbers of these libraries can be found on `crates.io`: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
+
+If your workspace pins `holochain_serialized_bytes` to an explicit version, change it to `0.0.57`:
+
+```diff:toml
+ [workspace.dependencies]
+-holochain_serialized_bytes = "0.0.56"
++holochain_serialized_bytes = "0.0.57"
+```
+
+This one is easy to miss, because it isn't really a 0.7 change: the bump happened in `hdi` 0.7.1, partway through the 0.6 line, so you'll only still be on `0.0.56` if you stayed on an early 0.6 release. It also won't fix itself. Cargo treats `0.0.x` releases as mutually incompatible, and `hdi` depends on `holochain_serialized_bytes` with an exact `=0.0.57` requirement, so a `0.0.56` pin is a version conflict rather than something `cargo update` can resolve. If you'd rather not track this crate's version yourself, `holochain_serialized_bytes = "*"` follows whatever `hdi` pins.
 
 If your coordinator zomes have a `holochain` dev-dependency for Sweettest tests, its feature list needs three changes: the `sqlite-encrypted` feature has been replaced by `encryption`, `wasmer_sys` has been renamed to `wasmer-sys-cranelift`, and `transport-iroh` no longer exists because iroh is now compiled in unconditionally.
 
@@ -164,7 +174,22 @@ Update the client library in `ui/package.json`:
    },
 ```
 
-If you still use Tryorama for your tests rather than Sweettest, it's community-managed at [`holochain-open-dev/tryorama`](https://github.com/holochain-open-dev/tryorama). All the [client library changes](#javascript-client-changes) below apply to Tryorama tests too.
+If you still use Tryorama for your tests rather than Sweettest, it's community-managed at [`holochain-open-dev/tryorama`](https://github.com/holochain-open-dev/tryorama). Its 0.7-compatible release is published under a new NPM package name, so edit your project's `tests/package.json` file to swap the old package for the new one:
+
+<!-- TODO(upgrade): Update these version numbers for new 0.7.x releases -->
+
+```diff:json
+   "dependencies": {
+     // some dependencies
+-    "@holochain/client": "^0.20.5",
+-    "@holochain/tryorama": "^0.19.2",
++    "@holochain/client": "^0.21.0",
++    "@holochain-open-dev/tryorama": "^0.20.0",
+     // more dependencies
+   },
+```
+
+You'll also need to update the import specifier in any test file that imports from `@holochain/tryorama`. All the [client library changes](#javascript-client-changes) below apply to Tryorama tests too.
 
 Then in your project's root folder, run your package manager's install command to update the lockfile and install the new package versions:
 
