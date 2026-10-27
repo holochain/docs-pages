@@ -91,11 +91,11 @@ pub fn init(_: ()) -> ExternResult<InitCallbackResult> {
     // Open up access for the remote signal handler callback to everyone on
     // the network -- see the note after this example.
     fns.insert((zome_info()?.name, "recv_remote_signal".into()));
-    create_cap_grant(ZomeCallCapGrant {
-        tag: "remote signals".into(),
-        access: CapAccess::Unrestricted,
-        functions: GrantedFunctions::Listed(fns),
-    })?;
+    create_cap_grant(CapGrant::new_zome_call_grant(
+        "remote signals".into(),
+        GrantConstraint::Unrestricted,
+        GrantedFunctions::Listed(fns),
+    ))?;
     Ok(InitCallbackResult::Pass)
 }
 

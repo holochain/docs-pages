@@ -11,7 +11,7 @@ There are three big changes in Holochain 0.7:
 * **tx5 and WebRTC have been removed.** Iroh, over QUIC, is now the only network transport. The `signal_url` and `webrtc_config` conductor config fields are gone.
 * **There is no data migration path.** DNA hashes change for otherwise-identical DNAs, and Holochain's databases have been renamed. Existing installs must have their data cleared.
 
-If your hApp is written for Holochain 0.5, follow the [0.6 upgrade guide](/resources/upgrade/upgrade-holochain-0.6/) first.
+If your hApp is written for Holochain 0.5, follow the [0.6 upgrade guide](/resources/upgrade/upgrade-holochain-0.6/) first. If it already runs on 0.7.0, see [upgrading from 0.7.0 to 0.7.1](#upgrading-from-0-7-0-to-0-7-1).
 :::
 
 !!! info Try the AI agent skill
@@ -68,7 +68,7 @@ To upgrade your hApp written for Holochain 0.6, follow these steps:
      {
          "devDependencies": {
     -        "@holochain/hc-spin": "^0.603.0",
-    +        "@holochain/hc-spin": "^0.700.0",
+    +        "@holochain/hc-spin": "^0.700.1",
              "concurrently": "^6.5.1",
              "get-port-cli": "^3.0.0"
          }
@@ -107,8 +107,8 @@ Update the `hdk` and `hdi` version strings in the project's root `Cargo.toml` fi
  [workspace.dependencies]
 -hdi = "=0.7.1"
 -hdk = "=0.6.1"
-+hdi = "=0.8.0"
-+hdk = "=0.7.0"
++hdi = "=0.8.1"
++hdk = "=0.7.1"
 ```
 
 The latest version numbers of these libraries can be found on `crates.io`: [`hdi`](https://crates.io/crates/hdi), [`hdk`](https://crates.io/crates/hdk).
@@ -130,7 +130,7 @@ If your coordinator zomes have a `holochain` dev-dependency for Sweettest tests,
 ```diff:toml
  [workspace.dependencies]
 -holochain = { version = "0.6.1", default-features = false, features = ["sqlite-encrypted", "wasmer_sys", "transport-iroh"] }
-+holochain = { version = "0.7.0", default-features = false, features = ["encryption", "wasmer-sys-cranelift"] }
++holochain = { version = "0.7.1", default-features = false, features = ["encryption", "wasmer-sys-cranelift"] }
 ```
 
 ```diff:toml
@@ -169,7 +169,7 @@ Update the client library in `ui/package.json`:
 ```diff:json
    "dependencies": {
 -    "@holochain/client": "^0.20.5",
-+    "@holochain/client": "^0.21.0",
++    "@holochain/client": "^0.21.1",
      // more dependencies
    },
 ```
@@ -183,8 +183,8 @@ If you still use Tryorama for your tests rather than Sweettest, it's community-m
      // some dependencies
 -    "@holochain/client": "^0.20.5",
 -    "@holochain/tryorama": "^0.19.2",
-+    "@holochain/client": "^0.21.0",
-+    "@holochain-open-dev/tryorama": "^0.20.0",
++    "@holochain/client": "^0.21.1",
++    "@holochain-open-dev/tryorama": "^0.21.0",
      // more dependencies
    },
 ```
@@ -228,7 +228,7 @@ match action {
 }
 ```
 
-In 0.7, an [`Action`](https://docs.rs/hdi/0.8.0/hdi/prelude/struct.Action.html) is a struct with two fields: a `header` holding the fields every action shares, and a `data` enum holding only the fields specific to that action type.
+In 0.7, an [`Action`](https://docs.rs/hdi/0.8.1/hdi/prelude/struct.Action.html) is a struct with two fields: a `header` holding the fields every action shares, and a `data` enum holding only the fields specific to that action type.
 
 ```rust
 // Holochain 0.7
@@ -255,12 +255,13 @@ Use this table to rename types in your zome code. Every `Action` variant follows
 | `OpenChain`, `CloseChain` | `OpenChainData`, `CloseChainData` |
 | `EntryCreationAction` | `TypedAction<EntryCreationData>` |
 | `action.author`, `action.timestamp` | `action.author()`, `action.timestamp()` |
+| `action.signer()` | `action.author()` --- every action is now signed by its author |
 
 The `ActionBuilder` and `ActionBuilderCommon` builders, the `NewEntryAction`/`NewEntryActionRef` enums, and the `rate_limit` module have all been removed.
 
 ### `FlatOp` variants have been renamed
 
-The [`FlatOp`](https://docs.rs/hdi/0.8.0/hdi/flat_op/enum.FlatOp.html) enum you match on in your `validate` callback has been renamed to describe what happened rather than what the DHT does about it. The two link variants have also been folded into a single `Link` variant wrapping an `OpLink`.
+The [`FlatOp`](https://docs.rs/hdi/0.8.1/hdi/flat_op/enum.FlatOp.html) enum you match on in your `validate` callback has been renamed to describe what happened rather than what the DHT does about it. The two link variants have also been folded into a single `Link` variant wrapping an `OpLink`.
 
 | Holochain 0.6 | Holochain 0.7 |
 |---|---|
@@ -274,7 +275,7 @@ The [`FlatOp`](https://docs.rs/hdi/0.8.0/hdi/flat_op/enum.FlatOp.html) enum you 
 
 ### `FlatOp` sub-types carry a `TypedAction`
 
-`OpEntry`, `OpUpdate`, `OpDelete`, `OpRecord`, `OpActivity` and `OpLink` now carry a [`TypedAction<D>`](https://docs.rs/hdi/0.8.0/hdi/flat_op/struct.TypedAction.html) — the action's `ActionHeader` paired with exactly the `ActionData` payload that the variant you matched guarantees — instead of a fully generic `Action`. You no longer have to match again to get at the data you already know is there.
+`OpEntry`, `OpUpdate`, `OpDelete`, `OpRecord`, `OpActivity` and `OpLink` now carry a [`TypedAction<D>`](https://docs.rs/hdi/0.8.1/hdi/flat_op/struct.TypedAction.html) — the action's `ActionHeader` paired with exactly the `ActionData` payload that the variant you matched guarantees — instead of a fully generic `Action`. You no longer have to match again to get at the data you already know is there.
 
 `TypedAction<D>` dereferences to its `data`, so you can read the payload fields straight off the action without writing `.data` --- `action.entry_hash` rather than `action.data.entry_hash`. You still need `.data` when you want to consume a field by value rather than borrow it, because you can't move out of a deref. `action.data.target_address.into_action_hash()` compiles; `action.target_address.into_action_hash()` doesn't.
 
@@ -479,7 +480,7 @@ The scaffolded `signal_action` function matches on the action type, so it needs 
 
 ### `Record::new` takes a `RecordEntry`
 
-[`Record::new`](https://docs.rs/hdi/0.8.0/hdi/prelude/struct.Record.html#method.new) now takes a `RecordEntry` rather than an `Option<Entry>`, so that "there is no entry" and "the entry is hidden from you" are distinguishable.
+[`Record::new`](https://docs.rs/hdi/0.8.1/hdi/prelude/struct.Record.html#method.new) now takes a `RecordEntry` rather than an `Option<Entry>`, so that "there is no entry" and "the entry is hidden from you" are distinguishable.
 
 ```diff:rust
  match details {
@@ -499,7 +500,7 @@ The scaffolded `signal_action` function matches on the action type, so it needs 
 
 ### `get_agent_activity` takes a `GetOptions`
 
-[`get_agent_activity`](https://docs.rs/hdk/0.7.0/hdk/chain/fn.get_agent_activity.html) now takes a fourth argument specifying how to fetch the activity, and its return type has been renamed from `AgentActivity` to `AgentActivityStatus` to resolve a name collision with the unrelated `AgentActivity` op variant.
+[`get_agent_activity`](https://docs.rs/hdk/0.7.1/hdk/chain/fn.get_agent_activity.html) now takes a fourth argument specifying how to fetch the activity, and its return type has been renamed from `AgentActivity` to `AgentActivityStatus` to resolve a name collision with the unrelated `AgentActivity` op variant.
 
 ```diff:rust
 -let activity: AgentActivity = get_agent_activity(
@@ -513,7 +514,7 @@ The scaffolded `signal_action` function matches on the action type, so it needs 
 
 ### `ChainFilter` uses constructors instead of a builder
 
-[`ChainFilter`](https://docs.rs/hdi/0.8.0/hdi/prelude/struct.ChainFilter.html) no longer composes its limit conditions through chained builder methods. Each condition now has its own constructor that takes the chain top, so a filter carries exactly one limit condition.
+[`ChainFilter`](https://docs.rs/hdi/0.8.1/hdi/prelude/struct.ChainFilter.html) no longer composes its limit conditions through chained builder methods. Each condition now has its own constructor that takes the chain top, so a filter carries exactly one limit condition.
 
 ```diff:rust
 -let filter = ChainFilter::new(chain_top).until_hash(oldest_hash);
@@ -529,7 +530,7 @@ The scaffolded `signal_action` function matches on the action type, so it needs 
 
 ### `must_get_agent_activity` has more response variants
 
-[`must_get_agent_activity`](https://docs.rs/hdk/0.7.0/hdk/chain/fn.must_get_agent_activity.html) now walks down the chain from the `chain_top` you give it and excludes any forked actions, and it reports more precisely when it can't give you a deterministic answer. If you match on `MustGetAgentActivityResponse`, handle the new variants:
+[`must_get_agent_activity`](https://docs.rs/hdk/0.7.1/hdk/chain/fn.must_get_agent_activity.html) now walks down the chain from the `chain_top` you give it and excludes any forked actions, and it reports more precisely when it can't give you a deterministic answer. If you match on `MustGetAgentActivityResponse`, handle the new variants:
 
 * `UntilHashMissing` — the `UntilHash` you asked for wasn't found, including when it's on a dropped fork.
 * `UntilHashAfterChainHead` — the `UntilHash` you asked for is later in the chain than `chain_top`.
@@ -541,6 +542,42 @@ A `ChainFilter` with `LimitConditions::Take(0)` is now rejected as invalid input
 ### `block_agent` and `unblock_agent` have been removed
 
 These HDK functions are gone. Blocking is a system-level behavior driven by warrants, not something an application decides. Remove any calls to them.
+
+### Capability grants have been restructured
+
+A capability grant now separates who may use it from what it grants, to make room for capabilities other than zome calls. `ZomeCallCapGrant` is now [`CapGrant`](https://docs.rs/hdi/0.8.1/hdi/prelude/struct.CapGrant.html), its `access` field is now `constraint`, and its `functions` field has moved into a `Capability::ZomeCall(ZomeCallGrant { functions })` value in the new `capability` field. The `CapGrant::new_zome_call_grant` constructor builds that shape for you:
+
+```diff:rust
+-create_cap_grant(ZomeCallCapGrant {
+-    tag: "".into(),
+-    access: CapAccess::Unrestricted,
+-    functions: GrantedFunctions::Listed(functions),
+-})?;
++create_cap_grant(CapGrant::new_zome_call_grant(
++    "".into(),
++    GrantConstraint::Unrestricted,
++    GrantedFunctions::Listed(functions),
++))?;
+```
+
+The related types have been renamed to match:
+
+| Holochain 0.6 | Holochain 0.7 |
+|---|---|
+| `ZomeCallCapGrant` | `CapGrant` |
+| `CapAccess` (`Unrestricted`, `Transferable`, `Assigned`) | `GrantConstraint` |
+| `CapGrant` (`ChainAuthor`, `RemoteAgent`) | `CapAccess` |
+| `DesensitizedZomeCallCapGrant` | `DesensitizedCapGrant` |
+| `CapAccessInfo` | `GrantConstraintInfo` |
+| `Entry::as_cap_grant()` | `Entry::as_cap_access()` |
+
+`CapGrant` and `CapAccess` both still exist but now mean something different, so if you're renaming with find-and-replace, rename `CapAccess` to `GrantConstraint` before you rename `ZomeCallCapGrant` to `CapGrant`.
+
+Remote signals are unaffected: `recv_remote_signal` is still a zome function, so it still needs a zome call grant.
+
+### `Entry::app_fancy` and `Entry::entry_type` have been removed
+
+Convert your value to `SerializedBytes` yourself and pass it to `Entry::app`. To find an entry's type, read it from the action that wrote the entry.
 
 ### Try building your zomes
 
@@ -575,6 +612,18 @@ The admin and app WebSocket clients used to return different types --- `kitsune2
 ```
 
 The corresponding traits for the other types are `ValidationReceiptExt`, `WarrantOpExt` and `ReportEntryFetchedOpsExt`. `holochain_types::prelude` also no longer re-exports `holochain_keystore::AgentPubKeyExt`.
+
+### `GrantZomeCallCapability` takes a zome call grant
+
+The `cap_grant` field of `GrantZomeCallCapabilityPayload` is now a `GrantZomeCallCapabilityGrant { tag, constraint, grant: ZomeCallGrant { functions } }` rather than a whole grant, so it can only ever grant zome calls. See the [capability grant changes](#capability-grants-have-been-restructured) for the type renames.
+
+### `CellDisabled` is now `CellNotRunning`
+
+`ConductorError::CellDisabled` has been replaced by `ConductorError::CellNotRunning(cell_id, reason)`. The reason says whether the app is disabled, awaiting membrane proofs, restoring its source chains or unrecoverable, or whether a clone cell is disabled or the cell hasn't finished starting.
+
+### `RoleSettingsYaml` must be resolved
+
+`From<RoleSettingsYaml> for RoleSettings` has been removed, because membrane proofs and init properties in a role settings file can now be read from base64 strings or files. Call `RoleSettingsYaml::resolve(base_dir)` instead. Existing role settings YAML files still parse.
 
 ## JavaScript client changes {#javascript-client-changes}
 
@@ -641,6 +690,25 @@ Both the app and admin WebSocket clients now return the same `ApiTransportStats`
 
 The `signalingServerUrl` field in `ConnectionServices` is now `relayServerUrl`, reflecting the move to iroh relays.
 
+### `grantZomeCallCapability` takes the new grant shape
+
+If you call `grantZomeCallCapability` directly, the [capability grant changes](#capability-grants-have-been-restructured) apply: `access` is now `constraint`, and `functions` moves under `grant`. `authorizeSigningCredentials` and `grantSigningKey` already use the new shape.
+
+```diff:typescript
+ await adminWs.grantZomeCallCapability({
+   cell_id,
+   cap_grant: {
+     tag: "my-grant",
+-    functions: { type: "listed", value: [[zomeName, fnName]] },
+-    access: { type: "unrestricted" },
++    grant: { functions: { type: "listed", value: [[zomeName, fnName]] } },
++    constraint: { type: "unrestricted" },
+   },
+ });
+```
+
+The TypeScript types follow the same renames as the Rust ones: `ZomeCallCapGrant` is now `CapGrant`, `CapAccess` is now `GrantConstraint`, and `listCapabilityGrants` returns `DesensitizedCapGrant` values with `constraint` and `capability` fields.
+
 ## Conductor config file changes
 
 This step is only relevant if you're working with hard-coded `conductor-config.yaml` files, such as when you're building executables with the [kangaroo-electron](https://github.com/holochain/kangaroo-electron) template.
@@ -706,6 +774,17 @@ The following changes may not break your build, but they may require you to reas
 * **`hc sandbox` no longer offers the `webrtc` network type.** Only `mem` and `quic` remain. If you have scripts that pass `webrtc`, update them.
 * **`get_agent_activity` can return `ChainStatus::Closed`.** This is reported when an agent's source chain head is a `CloseChain` action. It ranks above `Valid` but below `Forked` and `Invalid`.
 * **`StorageInfo` reports different numbers.** `DnaStorageInfo` no longer has `authored_data_size` or `cache_data_size` fields. Source-chain data now lives in the per-DNA DHT database and is counted in `dht_data_size`.
-* **`CapAccess` has been renamed to `CapAccessType`** where it's used as the `CapGrant.cap_access` column discriminant. The data-carrying grant access type used by `ZomeCallCapGrant` keeps the `CapAccess` name.
 * **DNA migration support has been added.** A new `InitProperties` type can be set on `RoleSettings::Provisioned` at install time to seed a freshly migrated chain. The bytes are opaque to the conductor, are never written to the DHT, and can only be read from the `init` callback via the `get_init_properties` host function.
+* **Source chains can be restored from the DHT.** Installing an app with `InstallAppPayload::restore_from_dht: true` skips genesis and rebuilds each cell's chain from the DHT, so an existing agent key can resume authoring on a new node. The app stays in `AppStatus::AwaitingRestore` until every cell is restored, then needs `enable_app` like a normal install. If a validated `ChainIntegrityWarrant` exists against the agent, the app moves to `AppStatus::Unrecoverable` instead and can only be uninstalled.
 * **`ListApps` can filter for apps awaiting membrane proofs**, via the new `AppStatusFilter::AwaitingMemproofs` variant.
+* **`hc dna hash` accepts DNA modifier overrides.** `--network-seed` and `--role-settings` let you compute the DNA hash a role will have after install-time modifiers are applied.
+
+## Upgrading from 0.7.0 to 0.7.1
+
+Holochain 0.7.1 contains breaking changes. If your hApp already runs on 0.7.0, bump the [dependency versions](#update-your-package-dependencies) above, then check the following:
+
+* **Capability grants have changed shape.** Update your code as described in [the capability grant changes](#capability-grants-have-been-restructured). Grants already on a 0.7.0 source chain can't be read by 0.7.1 and must be re-issued.
+* **`Entry::app_fancy`, `Entry::entry_type` and `Action::signer` have been removed.** See [above](#entry-app-fancy-and-entry-entry-type-have-been-removed).
+* **Direct signals need an explicit grant.** A cell only receives direct signals under a `Capability::DirectSignal` grant, even signals from its own agent. Create one with `CapGrant::new_direct_signal_grant` in a zome, or with the new `GrantDirectSignalCapability` call on the app or admin interface, and pass `cap_secret` when sending under a transferable or assigned grant.
+* **Direct signals aren't compatible between 0.7.0 and 0.7.1.** The wire encoding changed (which also fixes payloads over 8 KiB failing), so a 0.7.1 conductor drops direct signals from a 0.7.0 conductor and vice versa. `Signal::AppDirect` also now carries the sender as `from_agent`.
+* **The JavaScript client's `ChainOp` types now match 0.7 serialization.** If you use `getChainOpAction`, `getChainOpEntry` or `getChainOpSignature`, or read `ChainOp`/`OpEntry` values directly, check your code against `@holochain/client` 0.21.1.
