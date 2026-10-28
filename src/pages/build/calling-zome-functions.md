@@ -140,8 +140,8 @@ pub fn get_movies_for_director_remote(input: GetMoviesForDirectorRemoteInput) ->
     match response {
         ZomeCallResponse::Ok(output) => output
             .decode()
-            .map_err(|e| wasm_error!(e.to_string()))?,
-        ZomeCallResponse::Unauthorized(_, _, _, _, _) => Err(wasm_error!("I wasn't allowed to call this function on remote device")),
+            .map_err(|e| wasm_error!(e.to_string())),
+        ZomeCallResponse::Unauthorized(..) => Err(wasm_error!("I wasn't allowed to call this function on remote device")),
         _ => Err(wasm_error!("Something bad happened")),
     }
 }

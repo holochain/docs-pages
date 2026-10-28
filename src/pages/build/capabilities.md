@@ -18,7 +18,7 @@ If the caller has the same key pair as the agent that owns the cell being called
 
 ## Create a capability grant
 
-An agent generates a capability by storing a [`CapGrant`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapGrant.html) system entry on their source chain using the [`create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html) host function.
+An agent generates a capability by storing a [`CapGrant`](https://docs.rs/holochain_integrity_types/latest/holochain_integrity_types/capability/struct.CapGrant.html) system entry on their source chain using the [`create_cap_grant`](https://docs.rs/hdk/latest/hdk/capability/fn.create_cap_grant.html) host function. A grant pairs a `GrantConstraint`, which says who may use it, with the capability it grants. For zome functions, build it with `CapGrant::new_zome_call_grant`, passing a tag, a constraint, and the functions to grant access to.
 
 !!! info Capabilities have to be created in every cell
 A cell's zome functions aren't accessible to anyone except the author until the agent creates capability grants for them. A capability _only covers one cell_ in a hApp.
@@ -203,7 +203,7 @@ pub fn create_movie_delegate(input: CreateMovieDelegateInput) -> ExternResult<Ac
 
             match response {
                 ZomeCallResponse::Ok(data) => data.decode().map_err(|e| wasm_error!("Couldn't deserialize response from remote agent: {}", e)),
-                ZomeCallResponse::Unauthorized(_, _, _, _, _) => Err(wasm_error!("Agent {} won't let us create a movie through them", claim.grantor)),
+                ZomeCallResponse::Unauthorized(..) => Err(wasm_error!("Agent {} won't let us create a movie through them", claim.grantor)),
                 _ => Err(wasm_error!("Something unexpected happened")),
             }
         }
