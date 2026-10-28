@@ -151,7 +151,9 @@ pub fn foo() -> ExternResult<()> {
         // chain. Unlike AgentInfo.chain_head, this doesn't change as you
         // try to write data in this function.
         as_at,
-        // The capability grant that matches the claim used to call this
+        // How the call was authorized: `CapAccess::ChainAuthor` if the
+        // caller is this cell's own agent, or `CapAccess::RemoteAgent` with
+        // the capability grant that matches the claim used to call this
         // function. See https://developer.holochain.org/build/capabilities/
         // for more info.
         cap_grant: _,
