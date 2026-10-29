@@ -45,7 +45,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
     "@aloskutov/eleventy-plugin-external-links": "^2.1.1",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.2",
     "@rollup/plugin-typescript": "^11.1.5",
     "@sindresorhus/slugify": "1.1.2",
     "@types/lunr": "^2.3.4",
