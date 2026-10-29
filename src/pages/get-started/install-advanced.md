@@ -26,24 +26,24 @@ The flake-based one-liner to get you an ad-hoc Holonix shell (that is, not using
 <!-- TODO(upgrade): change following version number -->
 
 ```shell
-nix develop "github:holochain/holonix?ref=main-0.6"
+nix develop "github:holochain/holonix?ref=main-0.7"
 ```
 
 #### Specifying a certain release
 
 <!-- TODO(upgrade): change following version numbers -->
 
-The above one-liner will give you the latest **recommended** version of Holochain from the 0.5 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.4 development shell, run:
+The above one-liner will give you the latest **recommended** version of Holochain from the 0.7 release branch. To get an ad-hoc shell with a specific version of Holochain, change the `ref` parameter. For example, if you want to enter a Holochain 0.6 development shell, run:
 
 ```shell
-nix develop "github:holochain/holonix?ref=main-0.5"
+nix develop "github:holochain/holonix?ref=main-0.6"
 ```
 
 The options you should know about are:
 
-* `main` or no `ref` parameter: The development version of Holochain, released weekly with no guarantee of stability (currently 0.6)
-* `main-0.5`: The current recommended version of Holochain for everyday development
-* `main-0.4`: The previous version of Holochain, which still receives maintenance releases
+* `main` or no `ref` parameter: The development version of Holochain, released weekly with no guarantee of stability (currently 0.8)
+* `main-0.7`: The current recommended version of Holochain for everyday development
+* `main-0.6`: The previous version of Holochain, which still receives maintenance releases
 
 ### Customizing the Holochain binary
 
@@ -71,24 +71,24 @@ This command displays versioning information about Holochain's main components. 
 
 ::: output-block
 ```text
-hc-scaffold            : holochain_scaffolding_cli 0.601.1 (c51df16)
-Lair keystore          : lair_keystore 0.6.3 (8aa9ab1)
-Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.4.1 (b33fa55)
-Holochain CLI          : holochain_cli 0.6.1 (3bdeacc)
-Holochain terminal     : hcterm 0.6.1 (3bdeacc)
-Holochain              : holochain 0.6.1 (3bdeacc)
+hc-scaffold            : holochain_scaffolding_cli 0.700.1 (77d49d1)
+Lair keystore          : lair_keystore 0.7.1 (6807971)
+Kitsune2 bootstrap srv : kitsune2_bootstrap_srv 0.5.2 (bb8fa97)
+Holochain CLI          : holochain_cli 0.7.1 (fdaa678)
+Holochain terminal     : hcterm 0.7.1 (fdaa678)
+Holochain              : holochain 0.7.1 (fdaa678)
 
 Holochain build info: {
   "git_info": null,
-  "cargo_pkg_version": "0.6.1",
-  "hdk_version_req": "0.6.1",
-  "hdi_version_req": "0.7.1",
-  "lair_keystore_version_req": "0.6.3",
-  "timestamp": "2026-05-12T17:21:08.907877386Z",
+  "cargo_pkg_version": "0.7.1",
+  "hdk_version_req": "0.7.1",
+  "hdi_version_req": "0.8.1",
+  "lair_keystore_version_req": "0.7.1",
+  "timestamp": "2026-10-14T19:17:08.676915Z",
   "hostname": "localhost",
-  "host": "x86_64-unknown-linux-gnu",
-  "target": "x86_64-unknown-linux-gnu",
-  "rustc_version": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+  "host": "aarch64-apple-darwin",
+  "target": "aarch64-apple-darwin",
+  "rustc_version": "rustc 1.95.0 (59807616e 2026-04-14)",
   "rustflags": "",
   "profile": "release"
 }
